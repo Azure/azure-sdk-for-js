@@ -52,7 +52,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.QueryFailure
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
   serializer

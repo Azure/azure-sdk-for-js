@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { CustomCertificate, SignalRManagementClient } from "@azure/arm-signalr";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update a custom certificate.
  *
  * @summary Create or update a custom certificate.
- * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/stable/2022-02-01/examples/SignalRCustomCertificates_CreateOrUpdate.json
+ * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/stable/2023-02-01/examples/SignalRCustomCertificates_CreateOrUpdate.json
  */
 async function signalRCustomCertificatesCreateOrUpdate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["SIGNALR_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["SIGNALR_RESOURCE_GROUP"] || "myResourceGroup";
   const resourceName = "mySignalRService";
   const certificateName = "myCert";
   const parameters: CustomCertificate = {
@@ -38,4 +44,8 @@ async function signalRCustomCertificatesCreateOrUpdate() {
   console.log(result);
 }
 
-signalRCustomCertificatesCreateOrUpdate().catch(console.error);
+async function main() {
+  signalRCustomCertificatesCreateOrUpdate();
+}
+
+main().catch(console.error);

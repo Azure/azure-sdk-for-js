@@ -6,14 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { BuildServiceAgentPool } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AppPlatformManagementClient } from "../appPlatformManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   BuildServiceAgentPoolResource,
   BuildServiceAgentPoolListNextOptionalParams,
@@ -66,12 +71,16 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           serviceName,
           buildServiceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -81,16 +90,23 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
     resourceGroupName: string,
     serviceName: string,
     buildServiceName: string,
-    options?: BuildServiceAgentPoolListOptionalParams
+    options?: BuildServiceAgentPoolListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<BuildServiceAgentPoolResource[]> {
-    let result = await this._list(
-      resourceGroupName,
-      serviceName,
-      buildServiceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: BuildServiceAgentPoolListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        serviceName,
+        buildServiceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -100,7 +116,9 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -186,8 +204,8 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
     agentPoolResource: BuildServiceAgentPoolResource,
     options?: BuildServiceAgentPoolUpdatePutOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BuildServiceAgentPoolUpdatePutResponse>,
+    SimplePollerLike<
+      OperationState<BuildServiceAgentPoolUpdatePutResponse>,
       BuildServiceAgentPoolUpdatePutResponse
     >
   > {
@@ -197,7 +215,7 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
     ): Promise<BuildServiceAgentPoolUpdatePutResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -230,9 +248,9 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serviceName,
         buildServiceName,
@@ -240,10 +258,13 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
         agentPoolResource,
         options
       },
-      updatePutOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updatePutOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BuildServiceAgentPoolUpdatePutResponse,
+      OperationState<BuildServiceAgentPoolUpdatePutResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -397,7 +418,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

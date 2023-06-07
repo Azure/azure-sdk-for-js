@@ -6,24 +6,29 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { DomainTopics } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { EventGridManagementClient } from "../eventGridManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DomainTopic,
   DomainTopicsListByDomainNextOptionalParams,
   DomainTopicsListByDomainOptionalParams,
+  DomainTopicsListByDomainResponse,
   DomainTopicsGetOptionalParams,
   DomainTopicsGetResponse,
   DomainTopicsCreateOrUpdateOptionalParams,
   DomainTopicsCreateOrUpdateResponse,
   DomainTopicsDeleteOptionalParams,
-  DomainTopicsListByDomainResponse,
   DomainTopicsListByDomainNextResponse
 } from "../models";
 
@@ -63,11 +68,15 @@ export class DomainTopicsImpl implements DomainTopics {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByDomainPagingPage(
           resourceGroupName,
           domainName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -76,15 +85,18 @@ export class DomainTopicsImpl implements DomainTopics {
   private async *listByDomainPagingPage(
     resourceGroupName: string,
     domainName: string,
-    options?: DomainTopicsListByDomainOptionalParams
+    options?: DomainTopicsListByDomainOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DomainTopic[]> {
-    let result = await this._listByDomain(
-      resourceGroupName,
-      domainName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DomainTopicsListByDomainResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByDomain(resourceGroupName, domainName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByDomainNext(
         resourceGroupName,
@@ -93,7 +105,9 @@ export class DomainTopicsImpl implements DomainTopics {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -143,8 +157,8 @@ export class DomainTopicsImpl implements DomainTopics {
     domainTopicName: string,
     options?: DomainTopicsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DomainTopicsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DomainTopicsCreateOrUpdateResponse>,
       DomainTopicsCreateOrUpdateResponse
     >
   > {
@@ -154,7 +168,7 @@ export class DomainTopicsImpl implements DomainTopics {
     ): Promise<DomainTopicsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -187,13 +201,16 @@ export class DomainTopicsImpl implements DomainTopics {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, domainName, domainTopicName, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, domainName, domainTopicName, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DomainTopicsCreateOrUpdateResponse,
+      OperationState<DomainTopicsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -234,14 +251,14 @@ export class DomainTopicsImpl implements DomainTopics {
     domainName: string,
     domainTopicName: string,
     options?: DomainTopicsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -274,13 +291,13 @@ export class DomainTopicsImpl implements DomainTopics {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, domainName, domainTopicName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, domainName, domainTopicName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -443,7 +460,6 @@ const listByDomainNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

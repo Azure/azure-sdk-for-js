@@ -56,6 +56,9 @@ export type ScheduleAvailabilityRequestUnion =
   | DataBoxScheduleAvailabilityRequest
   | DiskScheduleAvailabilityRequest
   | HeavyScheduleAvailabilityRequest;
+export type GranularCopyLogDetailsUnion =
+  | GranularCopyLogDetails
+  | DataBoxDiskGranularCopyLogDetails;
 
 /** Operation Collection. */
 export interface OperationList {
@@ -130,32 +133,32 @@ export interface JobResourceList {
   nextLink?: string;
 }
 
-/** Cloud error. */
+/** Provides additional information about an http error response. */
 export interface CloudError {
-  /** Cloud error code. */
-  code?: string;
-  /** Cloud error message. */
-  message?: string;
-  /** Cloud error target. */
-  target?: string;
   /**
-   * Cloud error details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: CloudError[];
-  /**
-   * Cloud error additional info.
+   * Gets or sets additional error info.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly additionalInfo?: AdditionalErrorInfo[];
+  /** Error code. */
+  code?: string;
+  /**
+   * Gets or sets details for the error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: CloudError[];
+  /** The error message parsed from the body of the http error response. */
+  message?: string;
+  /** Gets or sets the target of the error. */
+  target?: string;
 }
 
-/** Additional error info. */
+/** This class represents additional info which Resource Providers pass when an error occurs. */
 export interface AdditionalErrorInfo {
-  /** Additional error type. */
-  type?: string;
-  /** Additional error info. */
+  /** Additional information of the type of error. */
   info?: Record<string, unknown>;
+  /** Type of error (e.g. CustomerIntervention, PolicyViolation, SecurityViolation). */
+  type?: string;
 }
 
 /** Job details. */
@@ -191,6 +194,8 @@ export interface JobDetails {
   dataExportDetails?: DataExportDetails[];
   /** Preferences for the order. */
   preferences?: Preferences;
+  /** Optional Reverse Shipping details for order. */
+  reverseShippingDetails?: ReverseShippingDetails;
   /**
    * List of copy log details.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -206,6 +211,11 @@ export interface JobDetails {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly chainOfCustodySasKey?: string;
+  /**
+   * Holds device data erasure details
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deviceErasureDetails?: DeviceErasureDetails;
   /** Details about which key encryption type is being used. */
   keyEncryptionKey?: KeyEncryptionKey;
   /** The expected size of the data, which needs to be transferred in this job, in terabytes. */
@@ -307,6 +317,10 @@ export interface ShippingAddress {
   companyName?: string;
   /** Type of address. */
   addressType?: AddressType;
+  /** Flag to indicate if customer has chosen to skip default address validation */
+  skipAddressValidation?: boolean;
+  /** Tax Identification Number */
+  taxIdentificationNumber?: string;
 }
 
 /** package shipping details */
@@ -432,20 +446,57 @@ export interface Preferences {
   preferredDataCenterRegion?: string[];
   /** Preferences related to the shipment logistics of the sku. */
   transportPreferences?: TransportPreferences;
+  /** Optional Preferences related to the reverse shipment logistics of the sku. */
+  reverseTransportPreferences?: TransportPreferences;
   /** Preferences related to the Encryption. */
   encryptionPreferences?: EncryptionPreferences;
+  /** Preferences related to the Access Tier of storage accounts. */
+  storageAccountAccessTierPreferences?: string[];
 }
 
 /** Preferences related to the shipment logistics of the sku */
 export interface TransportPreferences {
   /** Indicates Shipment Logistics type that the customer preferred. */
   preferredShipmentType: TransportShipmentTypes;
+  /**
+   * Read only property which indicates whether transport preferences has been updated or not after device is prepared.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isUpdated?: boolean;
 }
 
 /** Preferences related to the Encryption. */
 export interface EncryptionPreferences {
   /** Defines secondary layer of software-based encryption enablement. */
   doubleEncryption?: DoubleEncryption;
+  /** Defines Hardware level encryption (Only for disk) */
+  hardwareEncryption?: HardwareEncryption;
+}
+
+/** Reverse Shipping Address and contact details for a job. */
+export interface ReverseShippingDetails {
+  /** Contact Info. */
+  contactDetails?: ContactInfo;
+  /** Shipping address where customer wishes to receive the device. */
+  shippingAddress?: ShippingAddress;
+  /**
+   * A flag to indicate whether Reverse Shipping details are updated or not after device has been prepared.
+   * Read only field
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isUpdated?: boolean;
+}
+
+/** Contact Info. */
+export interface ContactInfo {
+  /** Contact name of the person. */
+  contactName: string;
+  /** Phone number of the contact person. */
+  phone: string;
+  /** Phone extension number of the contact person. */
+  phoneExtension?: string;
+  /** Mobile number of the contact person. */
+  mobile?: string;
 }
 
 /** Details for log generated during copy. */
@@ -456,6 +507,20 @@ export interface CopyLogDetails {
     | "DataBoxCustomerDisk"
     | "DataBoxDisk"
     | "DataBoxHeavy";
+}
+
+/** Device erasure details with erasure completion status and erasureordestructionlog sas key */
+export interface DeviceErasureDetails {
+  /**
+   * Holds the device erasure completion status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deviceErasureStatus?: StageStatus;
+  /**
+   * Shared access key to download cleanup or destruction certificate for device
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly erasureOrDestructionCertificateSasKey?: string;
 }
 
 /** Encryption key containing details about key to encrypt different keys. */
@@ -612,7 +677,11 @@ export interface UserAssignedIdentity {
 /** The Mitigate Job captured from request body for Mitigate API */
 export interface MitigateJobRequest {
   /** Resolution code for the job */
-  customerResolutionCode: CustomerResolutionCode;
+  customerResolutionCode?: CustomerResolutionCode;
+  /** Serial number and the customer resolution code corresponding to each serial number */
+  serialNumberCustomerResolutionMap?: {
+    [propertyName: string]: CustomerResolutionCode;
+  };
 }
 
 /** The request body to provide the delivery package details of job */
@@ -699,6 +768,11 @@ export interface SkuInformation {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly requiredFeature?: string;
+  /**
+   * List of all the Countries in the SKU specific commerce boundary
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly countriesWithinCommerceBoundary?: string[];
 }
 
 /** Map of data location to service location */
@@ -836,6 +910,10 @@ export interface UpdateJobDetails {
   contactDetails?: ContactDetails;
   /** Shipping address of the customer. */
   shippingAddress?: ShippingAddress;
+  /** Reverse Shipping Address and contact details for a job. */
+  reverseShippingDetails?: ReverseShippingDetails;
+  /** Preferences related to the order */
+  preferences?: Preferences;
   /** Key encryption key for the job. */
   keyEncryptionKey?: KeyEncryptionKey;
   /** Return package details of job. */
@@ -1098,6 +1176,12 @@ export interface ArmBaseObject {
   readonly type?: string;
 }
 
+/** Granular Details for log generated during copy. */
+export interface GranularCopyLogDetails {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  copyLogDetailsType: "DataBoxCustomerDisk";
+}
+
 /** Copy progress. */
 export interface CopyProgress {
   /**
@@ -1176,6 +1260,106 @@ export interface CopyProgress {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isEnumerationInProgress?: boolean;
+  /**
+   * Error, if any, in the stage
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: CloudError;
+  /**
+   * Available actions on the job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actions?: CustomerResolutionCode[];
+}
+
+/** Granular Copy progress. */
+export interface GranularCopyProgress {
+  /**
+   * Name of the storage account. This will be empty for data account types other than storage account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly storageAccountName?: string;
+  /**
+   * Transfer type of data
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transferType?: TransferType;
+  /**
+   * Data Account Type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataAccountType?: DataAccountType;
+  /**
+   * Id of the account where the data needs to be uploaded.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accountId?: string;
+  /**
+   * To indicate bytes transferred.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly bytesProcessed?: number;
+  /**
+   * Total amount of data to be processed by the job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalBytesToProcess?: number;
+  /**
+   * Number of files processed
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly filesProcessed?: number;
+  /**
+   * Total files to process
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalFilesToProcess?: number;
+  /**
+   * Number of files not adhering to azure naming conventions which were processed by automatic renaming
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invalidFilesProcessed?: number;
+  /**
+   * Total amount of data not adhering to azure naming conventions which were processed by automatic renaming
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invalidFileBytesUploaded?: number;
+  /**
+   * Number of folders not adhering to azure naming conventions which were processed by automatic renaming
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly renamedContainerCount?: number;
+  /**
+   * Number of files which could not be copied
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly filesErroredOut?: number;
+  /**
+   * To indicate directories errored out in the job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly directoriesErroredOut?: number;
+  /**
+   * To indicate directories renamed
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invalidDirectoriesProcessed?: number;
+  /**
+   * To indicate if enumeration of data is in progress.
+   * Until this is true, the TotalBytesToProcess may not be valid.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isEnumerationInProgress?: boolean;
+  /**
+   * Error, if any, in the stage
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: CloudError;
+  /**
+   * Available actions on the job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actions?: CustomerResolutionCode[];
 }
 
 /** Import disk details */
@@ -1248,6 +1432,16 @@ export interface DataBoxDiskCopyProgress {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: CopyStatus;
+  /**
+   * Error, if any, in the stage
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: CloudError;
+  /**
+   * Available actions on the job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actions?: CustomerResolutionCode[];
 }
 
 /** The secrets related to a databox heavy. */
@@ -1309,7 +1503,7 @@ export interface DataBoxSecret {
 }
 
 /** Customer disk job details. */
-export type DataBoxCustomerDiskJobDetails = JobDetails & {
+export interface DataBoxCustomerDiskJobDetails extends JobDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   jobDetailsType: "DataBoxCustomerDisk";
   /** Contains the map of disk serial number to the disk details for import jobs. */
@@ -1335,10 +1529,10 @@ export type DataBoxCustomerDiskJobDetails = JobDetails & {
   returnToCustomerPackageDetails: PackageCarrierDetails;
   /** Flag to indicate if disk manifest should be backed-up in the Storage Account. */
   enableManifestBackup?: boolean;
-};
+}
 
 /** DataBox Disk Job Details. */
-export type DataBoxDiskJobDetails = JobDetails & {
+export interface DataBoxDiskJobDetails extends JobDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   jobDetailsType: "DataBoxDisk";
   /** User preference on what size disks are needed for the job. The map is from the disk size in TB to the count. Eg. {2,5} means 5 disks of 2 TB size. Key is string but will be checked against an int. */
@@ -1349,16 +1543,26 @@ export type DataBoxDiskJobDetails = JobDetails & {
    */
   readonly copyProgress?: DataBoxDiskCopyProgress[];
   /**
+   * Copy progress per disk.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly granularCopyProgress?: DataBoxDiskGranularCopyProgress[];
+  /**
+   * Copy progress per disk.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly granularCopyLogDetails?: DataBoxDiskGranularCopyLogDetails[];
+  /**
    * Contains the map of disk serial number to the disk size being used for the job. Is returned only after the disks are shipped to the customer.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly disksAndSizeDetails?: { [propertyName: string]: number };
   /** User entered passkey for DataBox Disk job. */
   passkey?: string;
-};
+}
 
 /** Databox Heavy Device Job Details */
-export type DataBoxHeavyJobDetails = JobDetails & {
+export interface DataBoxHeavyJobDetails extends JobDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   jobDetailsType: "DataBoxHeavy";
   /**
@@ -1368,10 +1572,10 @@ export type DataBoxHeavyJobDetails = JobDetails & {
   readonly copyProgress?: CopyProgress[];
   /** Set Device password for unlocking Databox Heavy. Should not be passed for TransferType:ExportFromAzure jobs. If this is not passed, the service will generate password itself. This will not be returned in Get Call. Password Requirements :  Password must be minimum of 12 and maximum of 64 characters. Password must have at least one uppercase alphabet, one number and one special character. Password cannot have the following characters : IilLoO0 Password can have only alphabets, numbers and these characters : @#\-$%^!+=;:_()]+ */
   devicePassword?: string;
-};
+}
 
 /** Databox Job Details */
-export type DataBoxJobDetails = JobDetails & {
+export interface DataBoxJobDetails extends JobDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   jobDetailsType: "DataBox";
   /**
@@ -1381,28 +1585,28 @@ export type DataBoxJobDetails = JobDetails & {
   readonly copyProgress?: CopyProgress[];
   /** Set Device password for unlocking Databox. Should not be passed for TransferType:ExportFromAzure jobs. If this is not passed, the service will generate password itself. This will not be returned in Get Call. Password Requirements :  Password must be minimum of 12 and maximum of 64 characters. Password must have at least one uppercase alphabet, one number and one special character. Password cannot have the following characters : IilLoO0 Password can have only alphabets, numbers and these characters : @#\-$%^!+=;:_()]+ */
   devicePassword?: string;
-};
+}
 
 /** Details of the managed disks. */
-export type ManagedDiskDetails = DataAccountDetails & {
+export interface ManagedDiskDetails extends DataAccountDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataAccountType: "ManagedDisk";
   /** Resource Group Id of the compute disks. */
   resourceGroupId: string;
   /** Resource Id of the storage account that can be used to copy the vhd for staging. */
   stagingStorageAccountId: string;
-};
+}
 
 /** Details for the storage account. */
-export type StorageAccountDetails = DataAccountDetails & {
+export interface StorageAccountDetails extends DataAccountDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataAccountType: "StorageAccount";
   /** Storage Account Resource Id. */
   storageAccountId: string;
-};
+}
 
 /** Copy log details for a storage account of a DataBox job */
-export type DataBoxAccountCopyLogDetails = CopyLogDetails & {
+export interface DataBoxAccountCopyLogDetails extends CopyLogDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   copyLogDetailsType: "DataBox";
   /**
@@ -1420,10 +1624,10 @@ export type DataBoxAccountCopyLogDetails = CopyLogDetails & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly copyVerboseLogLink?: string;
-};
+}
 
 /** Copy Log Details for customer disk */
-export type DataBoxCustomerDiskCopyLogDetails = CopyLogDetails & {
+export interface DataBoxCustomerDiskCopyLogDetails extends CopyLogDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   copyLogDetailsType: "DataBoxCustomerDisk";
   /**
@@ -1441,10 +1645,10 @@ export type DataBoxCustomerDiskCopyLogDetails = CopyLogDetails & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly verboseLogLink?: string;
-};
+}
 
 /** Copy Log Details for a disk */
-export type DataBoxDiskCopyLogDetails = CopyLogDetails & {
+export interface DataBoxDiskCopyLogDetails extends CopyLogDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   copyLogDetailsType: "DataBoxDisk";
   /**
@@ -1462,10 +1666,10 @@ export type DataBoxDiskCopyLogDetails = CopyLogDetails & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly verboseLogLink?: string;
-};
+}
 
 /** Copy log details for a storage account for Databox heavy */
-export type DataBoxHeavyAccountCopyLogDetails = CopyLogDetails & {
+export interface DataBoxHeavyAccountCopyLogDetails extends CopyLogDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   copyLogDetailsType: "DataBoxHeavy";
   /**
@@ -1483,10 +1687,11 @@ export type DataBoxHeavyAccountCopyLogDetails = CopyLogDetails & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly copyVerboseLogLink?: string[];
-};
+}
 
 /** Datacenter instruction for given storage location. */
-export type DatacenterAddressInstructionResponse = DatacenterAddressResponse & {
+export interface DatacenterAddressInstructionResponse
+  extends DatacenterAddressResponse {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   datacenterAddressType: "DatacenterAddressInstruction";
   /**
@@ -1494,10 +1699,11 @@ export type DatacenterAddressInstructionResponse = DatacenterAddressResponse & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly communicationInstruction?: string;
-};
+}
 
 /** Datacenter address for given storage location. */
-export type DatacenterAddressLocationResponse = DatacenterAddressResponse & {
+export interface DatacenterAddressLocationResponse
+  extends DatacenterAddressResponse {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   datacenterAddressType: "DatacenterAddressLocation";
   /**
@@ -1565,10 +1771,10 @@ export type DatacenterAddressLocationResponse = DatacenterAddressResponse & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly additionalShippingInformation?: string;
-};
+}
 
 /** Job Resource. */
-export type JobResource = Resource & {
+export interface JobResource extends Resource {
   /**
    * Name of the object.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1607,6 +1813,16 @@ export type JobResource = Resource & {
    */
   readonly isShippingAddressEditable?: boolean;
   /**
+   * The Editable status for Reverse Shipping Address and Contact Info
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reverseShippingDetailsUpdate?: ReverseShippingDetailsEditStatus;
+  /**
+   * The Editable status for Reverse Transport preferences
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reverseTransportPreferenceUpdate?: ReverseTransportPreferenceEditStatus;
+  /**
    * Is Prepare To Ship Enabled on this job
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -1642,10 +1858,10 @@ export type JobResource = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isCancellableWithoutFee?: boolean;
-};
+}
 
 /** The requirements to validate customer address where the device needs to be shipped. */
-export type ValidateAddress = ValidationInputRequest & {
+export interface ValidateAddress extends ValidationInputRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   validationType: "ValidateAddress";
   /** Shipping address of the customer. */
@@ -1654,18 +1870,20 @@ export type ValidateAddress = ValidationInputRequest & {
   deviceType: SkuName;
   /** Preferences related to the shipment logistics of the sku. */
   transportPreferences?: TransportPreferences;
-};
+}
 
 /** Request to validate create order limit for current subscription. */
-export type CreateOrderLimitForSubscriptionValidationRequest = ValidationInputRequest & {
+export interface CreateOrderLimitForSubscriptionValidationRequest
+  extends ValidationInputRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   validationType: "ValidateCreateOrderLimit";
   /** Device type to be used for the job. */
   deviceType: SkuName;
-};
+}
 
 /** Request to validate export and import data details. */
-export type DataTransferDetailsValidationRequest = ValidationInputRequest & {
+export interface DataTransferDetailsValidationRequest
+  extends ValidationInputRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   validationType: "ValidateDataTransferDetails";
   /** List of DataTransfer details to be used to export data from azure. */
@@ -1676,20 +1894,21 @@ export type DataTransferDetailsValidationRequest = ValidationInputRequest & {
   deviceType: SkuName;
   /** Type of the transfer. */
   transferType: TransferType;
-};
+}
 
 /** Request to validate preference of transport and data center. */
-export type PreferencesValidationRequest = ValidationInputRequest & {
+export interface PreferencesValidationRequest extends ValidationInputRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   validationType: "ValidatePreferences";
   /** Preference of transport and data center. */
   preference?: Preferences;
   /** Device type to be used for the job. */
   deviceType: SkuName;
-};
+}
 
 /** Request to validate sku availability. */
-export type SkuAvailabilityValidationRequest = ValidationInputRequest & {
+export interface SkuAvailabilityValidationRequest
+  extends ValidationInputRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   validationType: "ValidateSkuAvailability";
   /** Device type to be used for the job. */
@@ -1700,16 +1919,17 @@ export type SkuAvailabilityValidationRequest = ValidationInputRequest & {
   country: string;
   /** Location for data transfer. For locations check: https://management.azure.com/subscriptions/SUBSCRIPTIONID/locations?api-version=2018-01-01 */
   location: string;
-};
+}
 
 /** Request to validate subscription permission to create jobs. */
-export type SubscriptionIsAllowedToCreateJobValidationRequest = ValidationInputRequest & {
+export interface SubscriptionIsAllowedToCreateJobValidationRequest
+  extends ValidationInputRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   validationType: "ValidateSubscriptionIsAllowedToCreateJob";
-};
+}
 
 /** The address validation output. */
-export type AddressValidationProperties = ValidationInputResponse & {
+export interface AddressValidationProperties extends ValidationInputResponse {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   validationType: "ValidateAddress";
   /**
@@ -1722,10 +1942,11 @@ export type AddressValidationProperties = ValidationInputResponse & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly alternateAddresses?: ShippingAddress[];
-};
+}
 
 /** Properties of create order limit for subscription validation response. */
-export type CreateOrderLimitForSubscriptionValidationResponseProperties = ValidationInputResponse & {
+export interface CreateOrderLimitForSubscriptionValidationResponseProperties
+  extends ValidationInputResponse {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   validationType: "ValidateCreateOrderLimit";
   /**
@@ -1733,10 +1954,11 @@ export type CreateOrderLimitForSubscriptionValidationResponseProperties = Valida
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: ValidationStatus;
-};
+}
 
 /** Properties of data transfer details validation response. */
-export type DataTransferDetailsValidationResponseProperties = ValidationInputResponse & {
+export interface DataTransferDetailsValidationResponseProperties
+  extends ValidationInputResponse {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   validationType: "ValidateDataTransferDetails";
   /**
@@ -1744,10 +1966,11 @@ export type DataTransferDetailsValidationResponseProperties = ValidationInputRes
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: ValidationStatus;
-};
+}
 
 /** Properties of data center and transport preference validation response. */
-export type PreferencesValidationResponseProperties = ValidationInputResponse & {
+export interface PreferencesValidationResponseProperties
+  extends ValidationInputResponse {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   validationType: "ValidatePreferences";
   /**
@@ -1755,10 +1978,11 @@ export type PreferencesValidationResponseProperties = ValidationInputResponse & 
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: ValidationStatus;
-};
+}
 
 /** Properties of sku availability validation response. */
-export type SkuAvailabilityValidationResponseProperties = ValidationInputResponse & {
+export interface SkuAvailabilityValidationResponseProperties
+  extends ValidationInputResponse {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   validationType: "ValidateSkuAvailability";
   /**
@@ -1766,10 +1990,11 @@ export type SkuAvailabilityValidationResponseProperties = ValidationInputRespons
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: ValidationStatus;
-};
+}
 
 /** Properties of subscription permission to create job validation response. */
-export type SubscriptionIsAllowedToCreateJobValidationResponseProperties = ValidationInputResponse & {
+export interface SubscriptionIsAllowedToCreateJobValidationResponseProperties
+  extends ValidationInputResponse {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   validationType: "ValidateSubscriptionIsAllowedToCreateJob";
   /**
@@ -1777,16 +2002,16 @@ export type SubscriptionIsAllowedToCreateJobValidationResponseProperties = Valid
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: ValidationStatus;
-};
+}
 
 /** It does all pre-job creation validations. */
-export type CreateJobValidations = ValidationRequest & {
+export interface CreateJobValidations extends ValidationRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   validationCategory: "JobCreationValidation";
-};
+}
 
 /** The secrets related to customer disk job. */
-export type CustomerDiskJobSecrets = JobSecrets & {
+export interface CustomerDiskJobSecrets extends JobSecrets {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   jobSecretsType: "DataBoxCustomerDisk";
   /**
@@ -1799,10 +2024,10 @@ export type CustomerDiskJobSecrets = JobSecrets & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly carrierAccountNumber?: string;
-};
+}
 
 /** The secrets related to disk job. */
-export type DataBoxDiskJobSecrets = JobSecrets & {
+export interface DataBoxDiskJobSecrets extends JobSecrets {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   jobSecretsType: "DataBoxDisk";
   /**
@@ -1820,10 +2045,10 @@ export type DataBoxDiskJobSecrets = JobSecrets & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isPasskeyUserDefined?: boolean;
-};
+}
 
 /** The secrets related to a databox heavy job. */
-export type DataBoxHeavyJobSecrets = JobSecrets & {
+export interface DataBoxHeavyJobSecrets extends JobSecrets {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   jobSecretsType: "DataBoxHeavy";
   /**
@@ -1831,38 +2056,68 @@ export type DataBoxHeavyJobSecrets = JobSecrets & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly cabinetPodSecrets?: DataBoxHeavySecret[];
-};
+}
 
 /** The secrets related to a databox job. */
-export type DataboxJobSecrets = JobSecrets & {
+export interface DataboxJobSecrets extends JobSecrets {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   jobSecretsType: "DataBox";
   /** Contains the list of secret objects for a job. */
   podSecrets?: DataBoxSecret[];
-};
+}
 
 /** Request body to get the availability for scheduling data box orders orders. */
-export type DataBoxScheduleAvailabilityRequest = ScheduleAvailabilityRequest & {
+export interface DataBoxScheduleAvailabilityRequest
+  extends ScheduleAvailabilityRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   skuName: "DataBox";
-};
+}
 
 /** Request body to get the availability for scheduling disk orders. */
-export type DiskScheduleAvailabilityRequest = ScheduleAvailabilityRequest & {
+export interface DiskScheduleAvailabilityRequest
+  extends ScheduleAvailabilityRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   skuName: "DataBoxDisk";
   /** The expected size of the data, which needs to be transferred in this job, in terabytes. */
   expectedDataSizeInTeraBytes: number;
-};
+}
 
 /** Request body to get the availability for scheduling heavy orders. */
-export type HeavyScheduleAvailabilityRequest = ScheduleAvailabilityRequest & {
+export interface HeavyScheduleAvailabilityRequest
+  extends ScheduleAvailabilityRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   skuName: "DataBoxHeavy";
-};
+}
+
+/** Granular Copy Log Details for customer disk */
+export interface DataBoxDiskGranularCopyLogDetails
+  extends GranularCopyLogDetails {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  copyLogDetailsType: "DataBoxCustomerDisk";
+  /**
+   * Disk Serial Number.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serialNumber?: string;
+  /**
+   * Account id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accountId?: string;
+  /**
+   * Link for copy error logs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorLogLink?: string;
+  /**
+   * Link for copy verbose logs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly verboseLogLink?: string;
+}
 
 /** DataBox CustomerDisk Copy Progress */
-export type DataBoxCustomerDiskCopyProgress = CopyProgress & {
+export interface DataBoxCustomerDiskCopyProgress extends CopyProgress {
   /**
    * Disk Serial Number.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1873,7 +2128,33 @@ export type DataBoxCustomerDiskCopyProgress = CopyProgress & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly copyStatus?: CopyStatus;
-};
+}
+
+/** DataBox Disk Granular Copy Progress */
+export interface DataBoxDiskGranularCopyProgress extends GranularCopyProgress {
+  /**
+   * Disk Serial Number.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serialNumber?: string;
+  /**
+   * The Status of the copy
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly copyStatus?: CopyStatus;
+}
+
+/** Defines headers for Jobs_delete operation. */
+export interface JobsDeleteHeaders {
+  /** The URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for Jobs_update operation. */
+export interface JobsUpdateHeaders {
+  /** The URI to poll for completion status. */
+  location?: string;
+}
 
 /** Known values of {@link StageName} that the service accepts. */
 export enum KnownStageName {
@@ -1988,56 +2269,124 @@ export type NotificationStageName = string;
 
 /** Known values of {@link DataCenterCode} that the service accepts. */
 export enum KnownDataCenterCode {
+  /** Invalid */
   Invalid = "Invalid",
+  /** BY2 */
   BY2 = "BY2",
+  /** BY1 */
   BY1 = "BY1",
+  /** ORK70 */
   ORK70 = "ORK70",
+  /** AM2 */
   AM2 = "AM2",
+  /** AMS20 */
   AMS20 = "AMS20",
+  /** BY21 */
   BY21 = "BY21",
+  /** BY24 */
   BY24 = "BY24",
+  /** MWH01 */
   MWH01 = "MWH01",
+  /** AMS06 */
   AMS06 = "AMS06",
+  /** SSE90 */
   SSE90 = "SSE90",
+  /** SYD03 */
   SYD03 = "SYD03",
+  /** SYD23 */
   SYD23 = "SYD23",
+  /** CBR20 */
   CBR20 = "CBR20",
+  /** YTO20 */
   YTO20 = "YTO20",
+  /** CWL20 */
   CWL20 = "CWL20",
+  /** LON24 */
   LON24 = "LON24",
+  /** BOM01 */
   BOM01 = "BOM01",
+  /** BL20 */
   BL20 = "BL20",
+  /** BL7 */
   BL7 = "BL7",
+  /** SEL20 */
   SEL20 = "SEL20",
+  /** TYO01 */
   TYO01 = "TYO01",
+  /** BN1 */
   BN1 = "BN1",
+  /** SN5 */
   SN5 = "SN5",
+  /** CYS04 */
   CYS04 = "CYS04",
+  /** TYO22 */
   TYO22 = "TYO22",
+  /** YTO21 */
   YTO21 = "YTO21",
+  /** YQB20 */
   YQB20 = "YQB20",
+  /** FRA22 */
   FRA22 = "FRA22",
+  /** MAA01 */
   MAA01 = "MAA01",
+  /** CPQ02 */
   CPQ02 = "CPQ02",
+  /** CPQ20 */
   CPQ20 = "CPQ20",
+  /** SIN20 */
   SIN20 = "SIN20",
+  /** HKG20 */
   HKG20 = "HKG20",
+  /** SG2 */
   SG2 = "SG2",
+  /** MEL23 */
   MEL23 = "MEL23",
+  /** SEL21 */
   SEL21 = "SEL21",
+  /** OSA20 */
   OSA20 = "OSA20",
+  /** SHA03 */
   SHA03 = "SHA03",
+  /** BJB */
   BJB = "BJB",
+  /** JNB22 */
   JNB22 = "JNB22",
+  /** JNB21 */
   JNB21 = "JNB21",
+  /** MNZ21 */
   MNZ21 = "MNZ21",
+  /** SN8 */
   SN8 = "SN8",
+  /** AUH20 */
   AUH20 = "AUH20",
+  /** ZRH20 */
   ZRH20 = "ZRH20",
+  /** PUS20 */
   PUS20 = "PUS20",
+  /** AdHoc */
   AdHoc = "AdHoc",
+  /** CH1 */
   CH1 = "CH1",
-  DSM05 = "DSM05"
+  /** DSM05 */
+  DSM05 = "DSM05",
+  /** DUB07 */
+  DUB07 = "DUB07",
+  /** PNQ01 */
+  PNQ01 = "PNQ01",
+  /** SVG20 */
+  SVG20 = "SVG20",
+  /** OSA02 */
+  OSA02 = "OSA02",
+  /** OSA22 */
+  OSA22 = "OSA22",
+  /** PAR22 */
+  PAR22 = "PAR22",
+  /** BN7 */
+  BN7 = "BN7",
+  /** SN6 */
+  SN6 = "SN6",
+  /** BJS20 */
+  BJS20 = "BJS20"
 }
 
 /**
@@ -2094,7 +2443,16 @@ export enum KnownDataCenterCode {
  * **PUS20** \
  * **AdHoc** \
  * **CH1** \
- * **DSM05**
+ * **DSM05** \
+ * **DUB07** \
+ * **PNQ01** \
+ * **SVG20** \
+ * **OSA02** \
+ * **OSA22** \
+ * **PAR22** \
+ * **BN7** \
+ * **SN6** \
+ * **BJS20**
  */
 export type DataCenterCode = string;
 
@@ -2134,7 +2492,7 @@ export enum KnownCopyStatus {
   DriveNotDetected = "DriveNotDetected",
   /** Copy failed due to corrupted drive. */
   DriveCorrupted = "DriveCorrupted",
-  /** Copy failed due to modified  or removed metadata files. */
+  /** Copy failed due to modified or removed metadata files. */
   MetadataFilesModifiedOrRemoved = "MetadataFilesModifiedOrRemoved"
 }
 
@@ -2160,11 +2518,21 @@ export enum KnownCopyStatus {
  * **OtherUserError**: Copy failed due to user error. \
  * **DriveNotDetected**: Copy failed due to disk detection error. \
  * **DriveCorrupted**: Copy failed due to corrupted drive. \
- * **MetadataFilesModifiedOrRemoved**: Copy failed due to modified  or removed metadata files.
+ * **MetadataFilesModifiedOrRemoved**: Copy failed due to modified or removed metadata files.
  */
 export type CopyStatus = string;
 /** Defines values for TransferType. */
 export type TransferType = "ImportToAzure" | "ExportFromAzure";
+/** Defines values for ReverseShippingDetailsEditStatus. */
+export type ReverseShippingDetailsEditStatus =
+  | "Enabled"
+  | "Disabled"
+  | "NotSupported";
+/** Defines values for ReverseTransportPreferenceEditStatus. */
+export type ReverseTransportPreferenceEditStatus =
+  | "Enabled"
+  | "Disabled"
+  | "NotSupported";
 /** Defines values for StageStatus. */
 export type StageStatus =
   | "None"
@@ -2178,7 +2546,8 @@ export type StageStatus =
   | "SucceededWithWarnings"
   | "WaitingForCustomerActionForKek"
   | "WaitingForCustomerActionForCleanUp"
-  | "CustomerActionPerformedForCleanUp";
+  | "CustomerActionPerformedForCleanUp"
+  | "CustomerActionPerformed";
 /** Defines values for AddressType. */
 export type AddressType = "None" | "Residential" | "Commercial";
 /** Defines values for DataAccountType. */
@@ -2199,10 +2568,17 @@ export type ClassDiscriminator =
 export type TransportShipmentTypes = "CustomerManaged" | "MicrosoftManaged";
 /** Defines values for DoubleEncryption. */
 export type DoubleEncryption = "Enabled" | "Disabled";
+/** Defines values for HardwareEncryption. */
+export type HardwareEncryption = "Enabled" | "Disabled";
 /** Defines values for KekType. */
 export type KekType = "MicrosoftManaged" | "CustomerManaged";
 /** Defines values for CustomerResolutionCode. */
-export type CustomerResolutionCode = "None" | "MoveToCleanUpDevice" | "Resume";
+export type CustomerResolutionCode =
+  | "None"
+  | "MoveToCleanUpDevice"
+  | "Resume"
+  | "Restart"
+  | "ReachOutToOperation";
 /** Defines values for DatacenterAddressType. */
 export type DatacenterAddressType =
   | "DatacenterAddressLocation"
@@ -2348,20 +2724,14 @@ export type JobsListCredentialsResponse = UnencryptedCredentialsList;
 
 /** Optional parameters. */
 export interface JobsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** $skipToken is supported on Get list of jobs, which provides the next page in the list of jobs. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type JobsListNextResponse = JobResourceList;
 
 /** Optional parameters. */
 export interface JobsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** $skipToken is supported on Get list of jobs, which provides the next page in the list of jobs. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type JobsListByResourceGroupNextResponse = JobResourceList;

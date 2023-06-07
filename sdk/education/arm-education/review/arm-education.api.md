@@ -61,6 +61,9 @@ export interface ErrorResponseBody {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface GrantDetails extends Resource {
     readonly allocatedBudget?: Amount;
     readonly effectiveDate?: Date;
@@ -93,7 +96,6 @@ export type GrantsGetResponse = GrantDetails;
 
 // @public
 export interface GrantsListAllNextOptionalParams extends coreClient.OperationOptions {
-    includeAllocatedBudget?: boolean;
 }
 
 // @public
@@ -109,7 +111,6 @@ export type GrantsListAllResponse = GrantListResponse;
 
 // @public
 export interface GrantsListNextOptionalParams extends coreClient.OperationOptions {
-    includeAllocatedBudget?: boolean;
 }
 
 // @public
@@ -173,7 +174,6 @@ export type JoinRequestsGetResponse = JoinRequestDetails;
 
 // @public
 export interface JoinRequestsListNextOptionalParams extends coreClient.OperationOptions {
-    includeDenied?: boolean;
 }
 
 // @public
@@ -311,8 +311,6 @@ export type LabsGetResponse = LabDetails;
 
 // @public
 export interface LabsListAllNextOptionalParams extends coreClient.OperationOptions {
-    includeBudget?: boolean;
-    includeDeleted?: boolean;
 }
 
 // @public
@@ -329,7 +327,6 @@ export type LabsListAllResponse = LabListResult;
 
 // @public
 export interface LabsListNextOptionalParams extends coreClient.OperationOptions {
-    includeBudget?: boolean;
 }
 
 // @public
@@ -504,7 +501,6 @@ export type StudentsGetResponse = StudentDetails;
 
 // @public
 export interface StudentsListNextOptionalParams extends coreClient.OperationOptions {
-    includeDeleted?: boolean;
 }
 
 // @public

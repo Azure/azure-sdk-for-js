@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.1 (Unreleased)
+## 2.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,27 @@
 
 ### Other Changes
 
+## 2.1.0 (2022-12-16)
+    
+**Features**
+
+  - Added Interface AzureKeyVaultProperties
+  - Added Interface AzureResource
+  - Added Interface ConfluentBootstrapServer
+  - Added Interface ConfluentSchemaRegistry
+  - Added Interface KeyVaultSecretReferenceSecretInfo
+  - Added Interface KeyVaultSecretUriSecretInfo
+  - Added Interface LinkerResource
+  - Added Interface ProxyResource
+  - Added Interface SecretAuthInfo
+  - Added Interface ServicePrincipalCertificateAuthInfo
+  - Added Interface ServicePrincipalSecretAuthInfo
+  - Added Interface SystemAssignedIdentityAuthInfo
+  - Added Interface UserAssignedIdentityAuthInfo
+  - Added Interface ValueSecretInfo
+  - Added function getContinuationToken
+    
+    
 ## 2.0.0 (2022-05-16)
     
 **Features**

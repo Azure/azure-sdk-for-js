@@ -6,10 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { AppendBlob } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { StorageClientContext } from "../storageClientContext";
+import { StorageClient } from "../storageClient";
 import {
   AppendBlobCreateOptionalParams,
   AppendBlobCreateResponse,
@@ -21,15 +23,15 @@ import {
   AppendBlobSealResponse
 } from "../models";
 
-/** Class representing a AppendBlob. */
-export class AppendBlob {
-  private readonly client: StorageClientContext;
+/** Class containing AppendBlob operations. */
+export class AppendBlobImpl implements AppendBlob {
+  private readonly client: StorageClient;
 
   /**
    * Initialize a new instance of the class AppendBlob class.
    * @param client Reference to the service client
    */
-  constructor(client: StorageClientContext) {
+  constructor(client: StorageClient) {
     this.client = client;
   }
 
@@ -42,14 +44,10 @@ export class AppendBlob {
     contentLength: number,
     options?: AppendBlobCreateOptionalParams
   ): Promise<AppendBlobCreateResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      contentLength,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { contentLength, options },
       createOperationSpec
-    ) as Promise<AppendBlobCreateResponse>;
+    );
   }
 
   /**
@@ -62,18 +60,13 @@ export class AppendBlob {
    */
   appendBlock(
     contentLength: number,
-    body: coreHttp.HttpRequestBody,
+    body: coreRestPipeline.RequestBodyType,
     options?: AppendBlobAppendBlockOptionalParams
   ): Promise<AppendBlobAppendBlockResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      contentLength,
-      body,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { contentLength, body, options },
       appendBlockOperationSpec
-    ) as Promise<AppendBlobAppendBlockResponse>;
+    );
   }
 
   /**
@@ -90,15 +83,10 @@ export class AppendBlob {
     contentLength: number,
     options?: AppendBlobAppendBlockFromUrlOptionalParams
   ): Promise<AppendBlobAppendBlockFromUrlResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      sourceUrl,
-      contentLength,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { sourceUrl, contentLength, options },
       appendBlockFromUrlOperationSpec
-    ) as Promise<AppendBlobAppendBlockFromUrlResponse>;
+    );
   }
 
   /**
@@ -109,20 +97,13 @@ export class AppendBlob {
   seal(
     options?: AppendBlobSealOptionalParams
   ): Promise<AppendBlobSealResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      sealOperationSpec
-    ) as Promise<AppendBlobSealResponse>;
+    return this.client.sendOperationRequest({ options }, sealOperationSpec);
   }
 }
 // Operation Specifications
-const xmlSerializer = new coreHttp.Serializer(Mappers, /* isXml */ true);
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const xmlSerializer = coreClient.createSerializer(Mappers, /* isXml */ true);
 
-const createOperationSpec: coreHttp.OperationSpec = {
+const createOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "PUT",
   responses: {
@@ -167,7 +148,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const appendBlockOperationSpec: coreHttp.OperationSpec = {
+const appendBlockOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "PUT",
   responses: {
@@ -203,10 +184,12 @@ const appendBlockOperationSpec: coreHttp.OperationSpec = {
     Parameters.maxSize,
     Parameters.appendPosition
   ],
+  isXML: true,
+  contentType: "application/xml; charset=utf-8",
   mediaType: "binary",
-  serializer
+  serializer: xmlSerializer
 };
-const appendBlockFromUrlOperationSpec: coreHttp.OperationSpec = {
+const appendBlockFromUrlOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "PUT",
   responses: {
@@ -251,7 +234,7 @@ const appendBlockFromUrlOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const sealOperationSpec: coreHttp.OperationSpec = {
+const sealOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "PUT",
   responses: {

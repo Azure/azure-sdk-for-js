@@ -25,7 +25,10 @@ import {
   GitHubOAuthCallbackOptionalParams,
   GitHubOAuthCallbackResponse,
   ListGitHubOAuthOptionalParams,
-  ListGitHubOAuthResponse
+  ListGitHubOAuthResponse,
+  ArtifactGenerationProperties,
+  GeneratePreviewArtifactsOptionalParams,
+  GeneratePreviewArtifactsResponse
 } from "./models";
 
 export class DeveloperHubServiceClient extends coreClient.ServiceClient {
@@ -60,22 +63,19 @@ export class DeveloperHubServiceClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-devhub/1.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-devhub/1.0.0-beta.3`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
-    if (!options.credentialScopes) {
-      options.credentialScopes = ["https://management.azure.com/.default"];
-    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
+      endpoint:
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
@@ -101,7 +101,9 @@ export class DeveloperHubServiceClient extends coreClient.ServiceClient {
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
-          scopes: `${optionsWithDefaults.credentialScopes}`,
+          scopes:
+            optionsWithDefaults.credentialScopes ??
+            `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
               coreClient.authorizeRequestOnClaimChallenge
@@ -114,7 +116,7 @@ export class DeveloperHubServiceClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-04-01-preview";
+    this.apiVersion = options.apiVersion || "2022-10-11-preview";
     this.operations = new OperationsImpl(this);
     this.workflowOperations = new WorkflowOperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
@@ -197,6 +199,23 @@ export class DeveloperHubServiceClient extends coreClient.ServiceClient {
     );
   }
 
+  /**
+   * Generate preview dockerfile and manifests.
+   * @param location The name of Azure region.
+   * @param parameters Properties used for generating artifacts such as Dockerfiles and manifests.
+   * @param options The options parameters.
+   */
+  generatePreviewArtifacts(
+    location: string,
+    parameters: ArtifactGenerationProperties,
+    options?: GeneratePreviewArtifactsOptionalParams
+  ): Promise<GeneratePreviewArtifactsResponse> {
+    return this.sendOperationRequest(
+      { location, parameters, options },
+      generatePreviewArtifactsOperationSpec
+    );
+  }
+
   operations: Operations;
   workflowOperations: WorkflowOperations;
 }
@@ -266,5 +285,30 @@ const listGitHubOAuthOperationSpec: coreClient.OperationSpec = {
     Parameters.location
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const generatePreviewArtifactsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.DevHub/locations/{location}/generatePreviewArtifacts",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "String" } } }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };

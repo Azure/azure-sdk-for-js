@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   StaticSiteARMResource,
   StaticSitesListOptionalParams,
@@ -16,15 +16,22 @@ import {
   StaticSitesListStaticSiteUsersOptionalParams,
   StaticSiteBuildARMResource,
   StaticSitesGetStaticSiteBuildsOptionalParams,
+  DatabaseConnection,
+  StaticSitesGetBuildDatabaseConnectionsOptionalParams,
   StaticSiteFunctionOverviewARMResource,
   StaticSitesListStaticSiteBuildFunctionsOptionalParams,
+  StaticSitesGetBuildDatabaseConnectionsWithDetailsOptionalParams,
   StaticSiteUserProvidedFunctionAppARMResource,
   StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildOptionalParams,
+  StaticSiteBasicAuthPropertiesARMResource,
+  StaticSitesListBasicAuthOptionalParams,
   StaticSiteCustomDomainOverviewARMResource,
   StaticSitesListStaticSiteCustomDomainsOptionalParams,
+  StaticSitesGetDatabaseConnectionsOptionalParams,
   StaticSitesListStaticSiteFunctionsOptionalParams,
   RemotePrivateEndpointConnectionARMResource,
   StaticSitesGetPrivateEndpointConnectionListOptionalParams,
+  StaticSitesGetDatabaseConnectionsWithDetailsOptionalParams,
   StaticSitesGetUserProvidedFunctionAppsForStaticSiteOptionalParams,
   StaticSiteLinkedBackendARMResource,
   StaticSitesGetLinkedBackendsOptionalParams,
@@ -51,6 +58,16 @@ import {
   StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsResponse,
   StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsOptionalParams,
   StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsResponse,
+  StaticSitesGetBuildDatabaseConnectionOptionalParams,
+  StaticSitesGetBuildDatabaseConnectionResponse,
+  StaticSitesCreateOrUpdateBuildDatabaseConnectionOptionalParams,
+  StaticSitesCreateOrUpdateBuildDatabaseConnectionResponse,
+  StaticSitesDeleteBuildDatabaseConnectionOptionalParams,
+  DatabaseConnectionPatchRequest,
+  StaticSitesUpdateBuildDatabaseConnectionOptionalParams,
+  StaticSitesUpdateBuildDatabaseConnectionResponse,
+  StaticSitesGetBuildDatabaseConnectionWithDetailsOptionalParams,
+  StaticSitesGetBuildDatabaseConnectionWithDetailsResponse,
   StaticSitesListStaticSiteBuildAppSettingsOptionalParams,
   StaticSitesListStaticSiteBuildAppSettingsResponse,
   StaticSitesListStaticSiteBuildFunctionAppSettingsOptionalParams,
@@ -64,6 +81,11 @@ import {
   StaticSitesCreateZipDeploymentForStaticSiteBuildOptionalParams,
   StaticSitesCreateOrUpdateStaticSiteAppSettingsOptionalParams,
   StaticSitesCreateOrUpdateStaticSiteAppSettingsResponse,
+  BasicAuthName,
+  StaticSitesGetBasicAuthOptionalParams,
+  StaticSitesGetBasicAuthResponse,
+  StaticSitesCreateOrUpdateBasicAuthOptionalParams,
+  StaticSitesCreateOrUpdateBasicAuthResponse,
   StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsOptionalParams,
   StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsResponse,
   StaticSiteUserInvitationRequestResource,
@@ -76,6 +98,15 @@ import {
   StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse,
   StaticSitesDeleteStaticSiteCustomDomainOptionalParams,
   StaticSitesValidateCustomDomainCanBeAddedToStaticSiteOptionalParams,
+  StaticSitesGetDatabaseConnectionOptionalParams,
+  StaticSitesGetDatabaseConnectionResponse,
+  StaticSitesCreateOrUpdateDatabaseConnectionOptionalParams,
+  StaticSitesCreateOrUpdateDatabaseConnectionResponse,
+  StaticSitesDeleteDatabaseConnectionOptionalParams,
+  StaticSitesUpdateDatabaseConnectionOptionalParams,
+  StaticSitesUpdateDatabaseConnectionResponse,
+  StaticSitesGetDatabaseConnectionWithDetailsOptionalParams,
+  StaticSitesGetDatabaseConnectionWithDetailsResponse,
   StaticSitesDetachStaticSiteOptionalParams,
   StaticSitesListStaticSiteAppSettingsOptionalParams,
   StaticSitesListStaticSiteAppSettingsResponse,
@@ -160,6 +191,19 @@ export interface StaticSites {
     options?: StaticSitesGetStaticSiteBuildsOptionalParams
   ): PagedAsyncIterableIterator<StaticSiteBuildARMResource>;
   /**
+   * Returns overviews of database connections for a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier.
+   * @param options The options parameters.
+   */
+  listBuildDatabaseConnections(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    options?: StaticSitesGetBuildDatabaseConnectionsOptionalParams
+  ): PagedAsyncIterableIterator<DatabaseConnection>;
+  /**
    * Description for Gets the functions of a particular static site build.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -172,6 +216,19 @@ export interface StaticSites {
     environmentName: string,
     options?: StaticSitesListStaticSiteBuildFunctionsOptionalParams
   ): PagedAsyncIterableIterator<StaticSiteFunctionOverviewARMResource>;
+  /**
+   * Returns details of database connections for a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier.
+   * @param options The options parameters.
+   */
+  listBuildDatabaseConnectionsWithDetails(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    options?: StaticSitesGetBuildDatabaseConnectionsWithDetailsOptionalParams
+  ): PagedAsyncIterableIterator<DatabaseConnection>;
   /**
    * Description for Gets the details of the user provided function apps registered with a static site
    * build
@@ -187,6 +244,17 @@ export interface StaticSites {
     options?: StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildOptionalParams
   ): PagedAsyncIterableIterator<StaticSiteUserProvidedFunctionAppARMResource>;
   /**
+   * Description for Gets the basic auth properties for a static site as a collection.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param options The options parameters.
+   */
+  listBasicAuth(
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesListBasicAuthOptionalParams
+  ): PagedAsyncIterableIterator<StaticSiteBasicAuthPropertiesARMResource>;
+  /**
    * Description for Gets all static site custom domains for a particular static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site resource to search in.
@@ -197,6 +265,17 @@ export interface StaticSites {
     name: string,
     options?: StaticSitesListStaticSiteCustomDomainsOptionalParams
   ): PagedAsyncIterableIterator<StaticSiteCustomDomainOverviewARMResource>;
+  /**
+   * Returns overviews of database connections for a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param options The options parameters.
+   */
+  listDatabaseConnections(
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesGetDatabaseConnectionsOptionalParams
+  ): PagedAsyncIterableIterator<DatabaseConnection>;
   /**
    * Description for Gets the functions of a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -219,6 +298,17 @@ export interface StaticSites {
     name: string,
     options?: StaticSitesGetPrivateEndpointConnectionListOptionalParams
   ): PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
+  /**
+   * Returns details of database connections for a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param options The options parameters.
+   */
+  listDatabaseConnectionsWithDetails(
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesGetDatabaseConnectionsWithDetailsOptionalParams
+  ): PagedAsyncIterableIterator<DatabaseConnection>;
   /**
    * Description for Gets the details of the user provided function apps registered with a static site
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -291,8 +381,8 @@ export interface StaticSites {
     staticSiteEnvelope: StaticSiteARMResource,
     options?: StaticSitesCreateOrUpdateStaticSiteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<StaticSitesCreateOrUpdateStaticSiteResponse>,
+    SimplePollerLike<
+      OperationState<StaticSitesCreateOrUpdateStaticSiteResponse>,
       StaticSitesCreateOrUpdateStaticSiteResponse
     >
   >;
@@ -320,7 +410,7 @@ export interface StaticSites {
     resourceGroupName: string,
     name: string,
     options?: StaticSitesDeleteStaticSiteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Description for Deletes a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -403,7 +493,7 @@ export interface StaticSites {
     name: string,
     environmentName: string,
     options?: StaticSitesDeleteStaticSiteBuildOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Description for Deletes a static site build.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -449,6 +539,87 @@ export interface StaticSites {
   ): Promise<
     StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsResponse
   >;
+  /**
+   * Returns overview of a database connection for a static site build by name
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier.
+   * @param databaseConnectionName Name of the database connection.
+   * @param options The options parameters.
+   */
+  getBuildDatabaseConnection(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    databaseConnectionName: string,
+    options?: StaticSitesGetBuildDatabaseConnectionOptionalParams
+  ): Promise<StaticSitesGetBuildDatabaseConnectionResponse>;
+  /**
+   * Description for Create or update a database connection for a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier.
+   * @param databaseConnectionName Name of the database connection.
+   * @param databaseConnectionRequestEnvelope A JSON representation of the database connection request
+   *                                          properties
+   * @param options The options parameters.
+   */
+  createOrUpdateBuildDatabaseConnection(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    databaseConnectionName: string,
+    databaseConnectionRequestEnvelope: DatabaseConnection,
+    options?: StaticSitesCreateOrUpdateBuildDatabaseConnectionOptionalParams
+  ): Promise<StaticSitesCreateOrUpdateBuildDatabaseConnectionResponse>;
+  /**
+   * Delete a database connection for a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier.
+   * @param databaseConnectionName Name of the database connection.
+   * @param options The options parameters.
+   */
+  deleteBuildDatabaseConnection(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    databaseConnectionName: string,
+    options?: StaticSitesDeleteBuildDatabaseConnectionOptionalParams
+  ): Promise<void>;
+  /**
+   * Description for Create or update a database connection for a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier.
+   * @param databaseConnectionName Name of the database connection.
+   * @param databaseConnectionRequestEnvelope A JSON representation of the database connection request
+   *                                          properties
+   * @param options The options parameters.
+   */
+  updateBuildDatabaseConnection(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    databaseConnectionName: string,
+    databaseConnectionRequestEnvelope: DatabaseConnectionPatchRequest,
+    options?: StaticSitesUpdateBuildDatabaseConnectionOptionalParams
+  ): Promise<StaticSitesUpdateBuildDatabaseConnectionResponse>;
+  /**
+   * Returns details of a database connection for a static site build by name
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param environmentName The stage site identifier.
+   * @param databaseConnectionName Name of the database connection.
+   * @param options The options parameters.
+   */
+  getBuildDatabaseConnectionWithDetails(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    databaseConnectionName: string,
+    options?: StaticSitesGetBuildDatabaseConnectionWithDetailsOptionalParams
+  ): Promise<StaticSitesGetBuildDatabaseConnectionWithDetailsResponse>;
   /**
    * Description for Gets the application settings of a static site build.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -509,8 +680,8 @@ export interface StaticSites {
     staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource,
     options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildResponse
       >,
       StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildResponse
@@ -566,7 +737,7 @@ export interface StaticSites {
     environmentName: string,
     staticSiteZipDeploymentEnvelope: StaticSiteZipDeploymentARMResource,
     options?: StaticSitesCreateZipDeploymentForStaticSiteBuildOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Description for Deploys zipped content to a specific environment of a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -596,6 +767,34 @@ export interface StaticSites {
     appSettings: StringDictionary,
     options?: StaticSitesCreateOrUpdateStaticSiteAppSettingsOptionalParams
   ): Promise<StaticSitesCreateOrUpdateStaticSiteAppSettingsResponse>;
+  /**
+   * Description for Gets the basic auth properties for a static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param basicAuthName name of the basic auth entry.
+   * @param options The options parameters.
+   */
+  getBasicAuth(
+    resourceGroupName: string,
+    name: string,
+    basicAuthName: BasicAuthName,
+    options?: StaticSitesGetBasicAuthOptionalParams
+  ): Promise<StaticSitesGetBasicAuthResponse>;
+  /**
+   * Description for Adds or updates basic auth for a static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param basicAuthName name of the basic auth entry.
+   * @param basicAuthEnvelope A JSON representation of the basic auth properties.
+   * @param options The options parameters.
+   */
+  createOrUpdateBasicAuth(
+    resourceGroupName: string,
+    name: string,
+    basicAuthName: BasicAuthName,
+    basicAuthEnvelope: StaticSiteBasicAuthPropertiesARMResource,
+    options?: StaticSitesCreateOrUpdateBasicAuthOptionalParams
+  ): Promise<StaticSitesCreateOrUpdateBasicAuthResponse>;
   /**
    * Description for Creates or updates the function app settings of a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -652,10 +851,8 @@ export interface StaticSites {
     staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource,
     options?: StaticSitesCreateOrUpdateStaticSiteCustomDomainOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse
-      >,
+    SimplePollerLike<
+      OperationState<StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse>,
       StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse
     >
   >;
@@ -688,7 +885,7 @@ export interface StaticSites {
     name: string,
     domainName: string,
     options?: StaticSitesDeleteStaticSiteCustomDomainOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Description for Deletes a custom domain.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -717,7 +914,7 @@ export interface StaticSites {
     domainName: string,
     staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource,
     options?: StaticSitesValidateCustomDomainCanBeAddedToStaticSiteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Description for Validates a particular custom domain can be added to a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -735,6 +932,77 @@ export interface StaticSites {
     options?: StaticSitesValidateCustomDomainCanBeAddedToStaticSiteOptionalParams
   ): Promise<void>;
   /**
+   * Returns overview of a database connection for a static site by name
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param databaseConnectionName Name of the database connection.
+   * @param options The options parameters.
+   */
+  getDatabaseConnection(
+    resourceGroupName: string,
+    name: string,
+    databaseConnectionName: string,
+    options?: StaticSitesGetDatabaseConnectionOptionalParams
+  ): Promise<StaticSitesGetDatabaseConnectionResponse>;
+  /**
+   * Description for Create or update a database connection for a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param databaseConnectionName Name of the database connection.
+   * @param databaseConnectionRequestEnvelope A JSON representation of the database connection request
+   *                                          properties
+   * @param options The options parameters.
+   */
+  createOrUpdateDatabaseConnection(
+    resourceGroupName: string,
+    name: string,
+    databaseConnectionName: string,
+    databaseConnectionRequestEnvelope: DatabaseConnection,
+    options?: StaticSitesCreateOrUpdateDatabaseConnectionOptionalParams
+  ): Promise<StaticSitesCreateOrUpdateDatabaseConnectionResponse>;
+  /**
+   * Delete a database connection for a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param databaseConnectionName Name of the database connection.
+   * @param options The options parameters.
+   */
+  deleteDatabaseConnection(
+    resourceGroupName: string,
+    name: string,
+    databaseConnectionName: string,
+    options?: StaticSitesDeleteDatabaseConnectionOptionalParams
+  ): Promise<void>;
+  /**
+   * Description for Create or update a database connection for a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param databaseConnectionName Name of the database connection.
+   * @param databaseConnectionRequestEnvelope A JSON representation of the database connection request
+   *                                          properties
+   * @param options The options parameters.
+   */
+  updateDatabaseConnection(
+    resourceGroupName: string,
+    name: string,
+    databaseConnectionName: string,
+    databaseConnectionRequestEnvelope: DatabaseConnectionPatchRequest,
+    options?: StaticSitesUpdateDatabaseConnectionOptionalParams
+  ): Promise<StaticSitesUpdateDatabaseConnectionResponse>;
+  /**
+   * Returns details of a database connection for a static site by name
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site
+   * @param databaseConnectionName Name of the database connection.
+   * @param options The options parameters.
+   */
+  getDatabaseConnectionWithDetails(
+    resourceGroupName: string,
+    name: string,
+    databaseConnectionName: string,
+    options?: StaticSitesGetDatabaseConnectionWithDetailsOptionalParams
+  ): Promise<StaticSitesGetDatabaseConnectionWithDetailsResponse>;
+  /**
    * Description for Detaches a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site to detach.
@@ -744,7 +1012,7 @@ export interface StaticSites {
     resourceGroupName: string,
     name: string,
     options?: StaticSitesDetachStaticSiteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Description for Detaches a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -828,8 +1096,8 @@ export interface StaticSites {
     privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource,
     options?: StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         StaticSitesApproveOrRejectPrivateEndpointConnectionResponse
       >,
       StaticSitesApproveOrRejectPrivateEndpointConnectionResponse
@@ -863,8 +1131,8 @@ export interface StaticSites {
     privateEndpointConnectionName: string,
     options?: StaticSitesDeletePrivateEndpointConnectionOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<StaticSitesDeletePrivateEndpointConnectionResponse>,
+    SimplePollerLike<
+      OperationState<StaticSitesDeletePrivateEndpointConnectionResponse>,
       StaticSitesDeletePrivateEndpointConnectionResponse
     >
   >;
@@ -934,8 +1202,8 @@ export interface StaticSites {
     staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource,
     options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteResponse
       >,
       StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteResponse
@@ -983,7 +1251,7 @@ export interface StaticSites {
     name: string,
     staticSiteZipDeploymentEnvelope: StaticSiteZipDeploymentARMResource,
     options?: StaticSitesCreateZipDeploymentForStaticSiteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Description for Deploys zipped content to a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -1013,7 +1281,7 @@ export interface StaticSites {
     linkedBackendName: string,
     staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
     options?: StaticSitesValidateBackendOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Validates that a backend can be linked to a static site
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -1047,7 +1315,7 @@ export interface StaticSites {
     linkedBackendName: string,
     staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
     options?: StaticSitesValidateBackendForBuildOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Validates that a backend can be linked to a static site build
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -1095,8 +1363,8 @@ export interface StaticSites {
     staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
     options?: StaticSitesLinkBackendOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<StaticSitesLinkBackendResponse>,
+    SimplePollerLike<
+      OperationState<StaticSitesLinkBackendResponse>,
       StaticSitesLinkBackendResponse
     >
   >;
@@ -1162,8 +1430,8 @@ export interface StaticSites {
     staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
     options?: StaticSitesLinkBackendToBuildOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<StaticSitesLinkBackendToBuildResponse>,
+    SimplePollerLike<
+      OperationState<StaticSitesLinkBackendToBuildResponse>,
       StaticSitesLinkBackendToBuildResponse
     >
   >;

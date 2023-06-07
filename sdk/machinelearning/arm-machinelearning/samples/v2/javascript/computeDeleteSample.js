@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Deletes specified Machine Learning compute.
  *
  * @summary Deletes specified Machine Learning compute.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/Compute/delete.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Compute/delete.json
  */
 async function deleteCompute() {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";

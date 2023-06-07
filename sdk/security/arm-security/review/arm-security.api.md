@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type AadConnectivityState = string;
@@ -114,7 +114,7 @@ export interface AdaptiveNetworkHardeningEnforceRequest {
 
 // @public
 export interface AdaptiveNetworkHardenings {
-    beginEnforce(resourceGroupName: string, resourceNamespace: string, resourceType: string, resourceName: string, adaptiveNetworkHardeningResourceName: string, body: AdaptiveNetworkHardeningEnforceRequest, options?: AdaptiveNetworkHardeningsEnforceOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginEnforce(resourceGroupName: string, resourceNamespace: string, resourceType: string, resourceName: string, adaptiveNetworkHardeningResourceName: string, body: AdaptiveNetworkHardeningEnforceRequest, options?: AdaptiveNetworkHardeningsEnforceOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginEnforceAndWait(resourceGroupName: string, resourceNamespace: string, resourceType: string, resourceName: string, adaptiveNetworkHardeningResourceName: string, body: AdaptiveNetworkHardeningEnforceRequest, options?: AdaptiveNetworkHardeningsEnforceOptionalParams): Promise<void>;
     get(resourceGroupName: string, resourceNamespace: string, resourceType: string, resourceName: string, adaptiveNetworkHardeningResourceName: string, options?: AdaptiveNetworkHardeningsGetOptionalParams): Promise<AdaptiveNetworkHardeningsGetResponse>;
     listByExtendedResource(resourceGroupName: string, resourceNamespace: string, resourceType: string, resourceName: string, options?: AdaptiveNetworkHardeningsListByExtendedResourceOptionalParams): PagedAsyncIterableIterator<AdaptiveNetworkHardening>;
@@ -254,7 +254,7 @@ export interface AlertPropertiesSupportingEvidence {
 
 // @public
 export interface Alerts {
-    beginSimulate(ascLocation: string, alertSimulatorRequestBody: AlertSimulatorRequestBody, options?: AlertsSimulateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginSimulate(ascLocation: string, alertSimulatorRequestBody: AlertSimulatorRequestBody, options?: AlertsSimulateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginSimulateAndWait(ascLocation: string, alertSimulatorRequestBody: AlertSimulatorRequestBody, options?: AlertsSimulateOptionalParams): Promise<void>;
     getResourceGroupLevel(resourceGroupName: string, ascLocation: string, alertName: string, options?: AlertsGetResourceGroupLevelOptionalParams): Promise<AlertsGetResourceGroupLevelResponse>;
     getSubscriptionLevel(ascLocation: string, alertName: string, options?: AlertsGetSubscriptionLevelOptionalParams): Promise<AlertsGetSubscriptionLevelResponse>;
@@ -410,7 +410,6 @@ export interface AlertsSuppressionRulesList {
 
 // @public
 export interface AlertsSuppressionRulesListNextOptionalParams extends coreClient.OperationOptions {
-    alertType?: string;
 }
 
 // @public
@@ -548,6 +547,68 @@ export interface AmqpC2DRejectedMessagesNotInAllowedRange extends TimeWindowCust
 // @public
 export interface AmqpD2CMessagesNotInAllowedRange extends TimeWindowCustomAlertRule {
     ruleType: "AmqpD2CMessagesNotInAllowedRange";
+}
+
+// @public
+export interface APICollection {
+    get(resourceGroupName: string, serviceName: string, apiCollectionId: string, options?: APICollectionGetOptionalParams): Promise<APICollectionGetResponse>;
+    list(resourceGroupName: string, serviceName: string, options?: APICollectionListOptionalParams): PagedAsyncIterableIterator<ApiCollectionResponse>;
+}
+
+// @public
+export interface APICollectionGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type APICollectionGetResponse = ApiCollectionResponse;
+
+// @public
+export interface APICollectionListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type APICollectionListNextResponse = ApiCollectionResponseList;
+
+// @public
+export interface APICollectionListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type APICollectionListResponse = ApiCollectionResponseList;
+
+// @public
+export interface APICollectionOffboarding {
+    delete(resourceGroupName: string, serviceName: string, apiCollectionId: string, options?: APICollectionOffboardingDeleteOptionalParams): Promise<void>;
+}
+
+// @public
+export interface APICollectionOffboardingDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface APICollectionOnboarding {
+    create(resourceGroupName: string, serviceName: string, apiCollectionId: string, options?: APICollectionOnboardingCreateOptionalParams): Promise<APICollectionOnboardingCreateResponse>;
+}
+
+// @public
+export interface APICollectionOnboardingCreateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type APICollectionOnboardingCreateResponse = ApiCollectionResponse;
+
+// @public
+export interface ApiCollectionResponse extends Resource {
+    additionalData?: {
+        [propertyName: string]: string;
+    };
+    displayName?: string;
+}
+
+// @public
+export interface ApiCollectionResponseList {
+    readonly nextLink?: string;
+    readonly value?: ApiCollectionResponse[];
 }
 
 // @public
@@ -995,9 +1056,11 @@ export interface AwsCredsAuthenticationDetailsProperties extends AuthenticationD
 }
 
 // @public
-export interface AWSEnvironmentData extends EnvironmentData {
+export interface AwsEnvironmentData extends EnvironmentData {
+    readonly accountName?: string;
     environmentType: "AwsAccount";
     organizationalData?: AwsOrganizationalDataUnion;
+    regions?: string[];
 }
 
 // @public
@@ -1113,11 +1176,14 @@ export type CloudName = string;
 // @public
 export interface CloudOffering {
     readonly description?: string;
-    offeringType: "CspmMonitorAws" | "DefenderForContainersAws" | "DefenderForServersAws" | "DefenderForDatabasesAws" | "InformationProtectionAws" | "CspmMonitorGcp" | "DefenderForServersGcp" | "DefenderForDatabasesGcp" | "DefenderForContainersGcp" | "CspmMonitorGithub" | "CspmMonitorAzureDevOps";
+    offeringType: "CspmMonitorAws" | "DefenderForContainersAws" | "DefenderForServersAws" | "DefenderForDatabasesAws" | "InformationProtectionAws" | "CspmMonitorGcp" | "DefenderForServersGcp" | "DefenderForDatabasesGcp" | "DefenderForContainersGcp" | "CspmMonitorGithub" | "CspmMonitorAzureDevOps" | "DefenderCspmAws" | "DefenderCspmGcp" | "DefenderForDevOpsGithub" | "DefenderForDevOpsAzureDevOps" | "CspmMonitorGitLab" | "DefenderForDevOpsGitLab";
 }
 
 // @public (undocumented)
-export type CloudOfferingUnion = CloudOffering | CspmMonitorAwsOffering | DefenderForContainersAwsOffering | DefenderForServersAwsOffering | DefenderFoDatabasesAwsOffering | InformationProtectionAwsOffering | CspmMonitorGcpOffering | DefenderForServersGcpOffering | DefenderForDatabasesGcpOffering | DefenderForContainersGcpOffering | CspmMonitorGithubOffering | CspmMonitorAzureDevOpsOffering;
+export type CloudOfferingUnion = CloudOffering | CspmMonitorAwsOffering | DefenderForContainersAwsOffering | DefenderForServersAwsOffering | DefenderFoDatabasesAwsOffering | InformationProtectionAwsOffering | CspmMonitorGcpOffering | DefenderForServersGcpOffering | DefenderForDatabasesGcpOffering | DefenderForContainersGcpOffering | CspmMonitorGithubOffering | CspmMonitorAzureDevOpsOffering | DefenderCspmAwsOffering | DefenderCspmGcpOffering | DefenderForDevOpsGithubOffering | DefenderForDevOpsAzureDevOpsOffering | CspmMonitorGitLabOffering | DefenderForDevOpsGitLabOffering;
+
+// @public
+export type Code = string;
 
 // @public
 export interface Compliance extends Resource {
@@ -1357,6 +1423,11 @@ export interface CspmMonitorGithubOffering extends CloudOffering {
 }
 
 // @public
+export interface CspmMonitorGitLabOffering extends CloudOffering {
+    offeringType: "CspmMonitorGitLab";
+}
+
+// @public
 export interface CustomAlertRule {
     readonly description?: string;
     readonly displayName?: string;
@@ -1544,23 +1615,76 @@ export interface DataExportSettings extends Setting {
 export type DataSource = string;
 
 // @public
+export interface DefenderCspmAwsOffering extends CloudOffering {
+    databasesDspm?: DefenderCspmAwsOfferingDatabasesDspm;
+    dataSensitivityDiscovery?: DefenderCspmAwsOfferingDataSensitivityDiscovery;
+    offeringType: "DefenderCspmAws";
+    vmScanners?: DefenderCspmAwsOfferingVmScanners;
+}
+
+// @public
+export interface DefenderCspmAwsOfferingDatabasesDspm {
+    cloudRoleArn?: string;
+    enabled?: boolean;
+}
+
+// @public
+export interface DefenderCspmAwsOfferingDataSensitivityDiscovery {
+    cloudRoleArn?: string;
+    enabled?: boolean;
+}
+
+// @public
+export interface DefenderCspmAwsOfferingVmScanners {
+    configuration?: DefenderCspmAwsOfferingVmScannersConfiguration;
+    enabled?: boolean;
+}
+
+// @public
+export interface DefenderCspmAwsOfferingVmScannersConfiguration {
+    cloudRoleArn?: string;
+    exclusionTags?: {
+        [propertyName: string]: string;
+    };
+    scanningMode?: ScanningMode;
+}
+
+// @public
+export interface DefenderCspmGcpOffering extends CloudOffering {
+    offeringType: "DefenderCspmGcp";
+}
+
+// @public
 export interface DefenderFoDatabasesAwsOffering extends CloudOffering {
     arcAutoProvisioning?: DefenderFoDatabasesAwsOfferingArcAutoProvisioning;
+    databasesDspm?: DefenderFoDatabasesAwsOfferingDatabasesDspm;
     offeringType: "DefenderForDatabasesAws";
+    rds?: DefenderFoDatabasesAwsOfferingRds;
 }
 
 // @public
 export interface DefenderFoDatabasesAwsOfferingArcAutoProvisioning {
     cloudRoleArn?: string;
+    configuration?: DefenderFoDatabasesAwsOfferingArcAutoProvisioningConfiguration;
     enabled?: boolean;
-    servicePrincipalSecretMetadata?: DefenderFoDatabasesAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata;
 }
 
 // @public
-export interface DefenderFoDatabasesAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata {
-    expiryDate?: Date;
-    parameterNameInStore?: string;
-    parameterStoreRegion?: string;
+export interface DefenderFoDatabasesAwsOfferingArcAutoProvisioningConfiguration {
+    privateLinkScope?: string;
+    proxy?: string;
+}
+
+// @public
+export interface DefenderFoDatabasesAwsOfferingDatabasesDspm {
+    cloudRoleArn?: string;
+    enabled?: boolean;
+}
+
+// @public
+export interface DefenderFoDatabasesAwsOfferingRds {
+    cloudRoleArn?: string;
+    enabled?: boolean;
 }
 
 // @public
@@ -1645,14 +1769,29 @@ export interface DefenderForDatabasesGcpOfferingArcAutoProvisioning {
 
 // @public
 export interface DefenderForDatabasesGcpOfferingArcAutoProvisioningConfiguration {
-    agentOnboardingServiceAccountNumericId?: string;
-    clientId?: string;
+    privateLinkScope?: string;
+    proxy?: string;
 }
 
 // @public
 export interface DefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning {
     serviceAccountEmailAddress?: string;
     workloadIdentityProviderId?: string;
+}
+
+// @public
+export interface DefenderForDevOpsAzureDevOpsOffering extends CloudOffering {
+    offeringType: "DefenderForDevOpsAzureDevOps";
+}
+
+// @public
+export interface DefenderForDevOpsGithubOffering extends CloudOffering {
+    offeringType: "DefenderForDevOpsGithub";
+}
+
+// @public
+export interface DefenderForDevOpsGitLabOffering extends CloudOffering {
+    offeringType: "DefenderForDevOpsGitLab";
 }
 
 // @public
@@ -1669,15 +1808,14 @@ export interface DefenderForServersAwsOffering extends CloudOffering {
 // @public
 export interface DefenderForServersAwsOfferingArcAutoProvisioning {
     cloudRoleArn?: string;
+    configuration?: DefenderForServersAwsOfferingArcAutoProvisioningConfiguration;
     enabled?: boolean;
-    servicePrincipalSecretMetadata?: DefenderForServersAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata;
 }
 
 // @public
-export interface DefenderForServersAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata {
-    expiryDate?: string;
-    parameterNameInStore?: string;
-    parameterStoreRegion?: string;
+export interface DefenderForServersAwsOfferingArcAutoProvisioningConfiguration {
+    privateLinkScope?: string;
+    proxy?: string;
 }
 
 // @public
@@ -1716,7 +1854,9 @@ export interface DefenderForServersAwsOfferingVmScanners {
 // @public
 export interface DefenderForServersAwsOfferingVmScannersConfiguration {
     cloudRoleArn?: string;
-    exclusionTags?: Record<string, unknown>;
+    exclusionTags?: {
+        [propertyName: string]: string;
+    };
     scanningMode?: ScanningMode;
 }
 
@@ -1728,6 +1868,7 @@ export interface DefenderForServersGcpOffering extends CloudOffering {
     offeringType: "DefenderForServersGcp";
     subPlan?: DefenderForServersGcpOfferingSubPlan;
     vaAutoProvisioning?: DefenderForServersGcpOfferingVaAutoProvisioning;
+    vmScanners?: DefenderForServersGcpOfferingVmScanners;
 }
 
 // @public
@@ -1738,8 +1879,8 @@ export interface DefenderForServersGcpOfferingArcAutoProvisioning {
 
 // @public
 export interface DefenderForServersGcpOfferingArcAutoProvisioningConfiguration {
-    agentOnboardingServiceAccountNumericId?: string;
-    clientId?: string;
+    privateLinkScope?: string;
+    proxy?: string;
 }
 
 // @public
@@ -1768,6 +1909,20 @@ export interface DefenderForServersGcpOfferingVaAutoProvisioning {
 // @public
 export interface DefenderForServersGcpOfferingVaAutoProvisioningConfiguration {
     type?: Type;
+}
+
+// @public
+export interface DefenderForServersGcpOfferingVmScanners {
+    configuration?: DefenderForServersGcpOfferingVmScannersConfiguration;
+    enabled?: boolean;
+}
+
+// @public
+export interface DefenderForServersGcpOfferingVmScannersConfiguration {
+    exclusionTags?: {
+        [propertyName: string]: string;
+    };
+    scanningMode?: ScanningMode;
 }
 
 // @public
@@ -1912,11 +2067,20 @@ export type EnforcementSupport = string;
 
 // @public
 export interface EnvironmentData {
-    environmentType: "AwsAccount" | "GcpProject" | "GithubScope" | "AzureDevOpsScope";
+    environmentType: "AwsAccount" | "GcpProject" | "GithubScope" | "AzureDevOpsScope" | "GitlabScope";
 }
 
 // @public (undocumented)
-export type EnvironmentDataUnion = EnvironmentData | AWSEnvironmentData | GcpProjectEnvironmentData | GithubScopeEnvironmentData | AzureDevOpsScopeEnvironmentData;
+export type EnvironmentDataUnion = EnvironmentData | AwsEnvironmentData | GcpProjectEnvironmentData | GithubScopeEnvironmentData | AzureDevOpsScopeEnvironmentData | GitlabScopeEnvironmentData;
+
+// @public
+export interface EnvironmentDetails {
+    environmentHierarchyId?: string;
+    nativeResourceId?: string;
+    organizationalHierarchyId?: string;
+    subscriptionId?: string;
+    tenantId?: string;
+}
 
 // @public
 export type EnvironmentType = string;
@@ -1925,6 +2089,34 @@ export type EnvironmentType = string;
 export interface ErrorAdditionalInfo {
     readonly info?: Record<string, unknown>;
     readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorDetailAutoGenerated {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetailAutoGenerated[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
+export interface ErrorResponseAutoGenerated {
+    error?: ErrorDetailAutoGenerated;
 }
 
 // @public
@@ -1942,11 +2134,6 @@ export interface ExecuteGovernanceRuleParams {
 }
 
 // @public
-export interface ExecuteRuleStatus {
-    readonly operationId?: string;
-}
-
-// @public
 export type ExpandControlsEnum = string;
 
 // @public
@@ -1954,6 +2141,16 @@ export type ExpandEnum = string;
 
 // @public
 export type ExportData = string;
+
+// @public
+export interface Extension {
+    additionalExtensionProperties?: {
+        [propertyName: string]: any;
+    };
+    isEnabled: IsEnabled;
+    name: string;
+    readonly operationStatus?: OperationStatus;
+}
 
 // @public
 export interface ExternalSecuritySolution extends Resource, ExternalSecuritySolutionKindAutoGenerated, Location_2 {
@@ -2071,6 +2268,7 @@ export interface GcpOrganizationalDataMember extends GcpOrganizationalData {
 export interface GcpOrganizationalDataOrganization extends GcpOrganizationalData {
     excludedProjectNumbers?: string[];
     organizationMembershipType: "Organization";
+    readonly organizationName?: string;
     serviceAccountEmailAddress?: string;
     workloadIdentityProviderId?: string;
 }
@@ -2081,6 +2279,7 @@ export type GcpOrganizationalDataUnion = GcpOrganizationalData | GcpOrganization
 // @public
 export interface GcpProjectDetails {
     projectId?: string;
+    readonly projectName?: string;
     projectNumber?: string;
     readonly workloadIdentityPoolId?: string;
 }
@@ -2093,8 +2292,16 @@ export interface GcpProjectEnvironmentData extends EnvironmentData {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface GithubScopeEnvironmentData extends EnvironmentData {
     environmentType: "GithubScope";
+}
+
+// @public
+export interface GitlabScopeEnvironmentData extends EnvironmentData {
+    environmentType: "GitlabScope";
 }
 
 // @public
@@ -2171,14 +2378,18 @@ export interface GovernanceRule extends Resource {
     conditionSets?: Record<string, unknown>[];
     description?: string;
     displayName?: string;
+    excludedScopes?: string[];
     governanceEmailNotification?: GovernanceRuleEmailNotification;
+    includeMemberScopes?: boolean;
     isDisabled?: boolean;
     isGracePeriod?: boolean;
+    metadata?: GovernanceRuleMetadata;
     ownerSource?: GovernanceRuleOwnerSource;
     remediationTimeframe?: string;
     rulePriority?: number;
     ruleType?: GovernanceRuleType;
     sourceResourceType?: GovernanceRuleSourceResourceType;
+    readonly tenantId?: string;
 }
 
 // @public
@@ -2197,22 +2408,11 @@ export interface GovernanceRuleList {
 }
 
 // @public
-export interface GovernanceRuleListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GovernanceRuleListNextResponse = GovernanceRuleList;
-
-// @public
-export interface GovernanceRuleListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GovernanceRuleListResponse = GovernanceRuleList;
-
-// @public
-export interface GovernanceRuleOperations {
-    list(options?: GovernanceRuleListOptionalParams): PagedAsyncIterableIterator<GovernanceRule>;
+export interface GovernanceRuleMetadata {
+    readonly createdBy?: string;
+    readonly createdOn?: Date;
+    readonly updatedBy?: string;
+    readonly updatedOn?: Date;
 }
 
 // @public
@@ -2226,13 +2426,14 @@ export type GovernanceRuleOwnerSourceType = string;
 
 // @public
 export interface GovernanceRules {
-    beginRuleIdExecuteSingleSecurityConnector(resourceGroupName: string, securityConnectorName: string, ruleId: string, options?: GovernanceRulesRuleIdExecuteSingleSecurityConnectorOptionalParams): Promise<PollerLike<PollOperationState<GovernanceRulesRuleIdExecuteSingleSecurityConnectorResponse>, GovernanceRulesRuleIdExecuteSingleSecurityConnectorResponse>>;
-    beginRuleIdExecuteSingleSecurityConnectorAndWait(resourceGroupName: string, securityConnectorName: string, ruleId: string, options?: GovernanceRulesRuleIdExecuteSingleSecurityConnectorOptionalParams): Promise<GovernanceRulesRuleIdExecuteSingleSecurityConnectorResponse>;
-    beginRuleIdExecuteSingleSubscription(ruleId: string, options?: GovernanceRulesRuleIdExecuteSingleSubscriptionOptionalParams): Promise<PollerLike<PollOperationState<GovernanceRulesRuleIdExecuteSingleSubscriptionResponse>, GovernanceRulesRuleIdExecuteSingleSubscriptionResponse>>;
-    beginRuleIdExecuteSingleSubscriptionAndWait(ruleId: string, options?: GovernanceRulesRuleIdExecuteSingleSubscriptionOptionalParams): Promise<GovernanceRulesRuleIdExecuteSingleSubscriptionResponse>;
-    createOrUpdate(ruleId: string, governanceRule: GovernanceRule, options?: GovernanceRulesCreateOrUpdateOptionalParams): Promise<GovernanceRulesCreateOrUpdateResponse>;
-    delete(ruleId: string, options?: GovernanceRulesDeleteOptionalParams): Promise<void>;
-    get(ruleId: string, options?: GovernanceRulesGetOptionalParams): Promise<GovernanceRulesGetResponse>;
+    beginDelete(scope: string, ruleId: string, options?: GovernanceRulesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(scope: string, ruleId: string, options?: GovernanceRulesDeleteOptionalParams): Promise<void>;
+    beginExecute(scope: string, ruleId: string, options?: GovernanceRulesExecuteOptionalParams): Promise<SimplePollerLike<OperationState<GovernanceRulesExecuteResponse>, GovernanceRulesExecuteResponse>>;
+    beginExecuteAndWait(scope: string, ruleId: string, options?: GovernanceRulesExecuteOptionalParams): Promise<GovernanceRulesExecuteResponse>;
+    createOrUpdate(scope: string, ruleId: string, governanceRule: GovernanceRule, options?: GovernanceRulesCreateOrUpdateOptionalParams): Promise<GovernanceRulesCreateOrUpdateResponse>;
+    get(scope: string, ruleId: string, options?: GovernanceRulesGetOptionalParams): Promise<GovernanceRulesGetResponse>;
+    list(scope: string, options?: GovernanceRulesListOptionalParams): PagedAsyncIterableIterator<GovernanceRule>;
+    operationResults(scope: string, ruleId: string, operationId: string, options?: GovernanceRulesOperationResultsOptionalParams): Promise<GovernanceRulesOperationResultsResponse>;
 }
 
 // @public
@@ -2243,8 +2444,30 @@ export interface GovernanceRulesCreateOrUpdateOptionalParams extends coreClient.
 export type GovernanceRulesCreateOrUpdateResponse = GovernanceRule;
 
 // @public
-export interface GovernanceRulesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface GovernanceRulesDeleteHeaders {
+    location?: string;
 }
+
+// @public
+export interface GovernanceRulesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface GovernanceRulesExecuteHeaders {
+    location?: string;
+}
+
+// @public
+export interface GovernanceRulesExecuteOptionalParams extends coreClient.OperationOptions {
+    executeGovernanceRuleParams?: ExecuteGovernanceRuleParams;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GovernanceRulesExecuteResponse = GovernanceRulesExecuteHeaders;
 
 // @public
 export interface GovernanceRulesGetOptionalParams extends coreClient.OperationOptions {
@@ -2254,40 +2477,90 @@ export interface GovernanceRulesGetOptionalParams extends coreClient.OperationOp
 export type GovernanceRulesGetResponse = GovernanceRule;
 
 // @public
+export interface GovernanceRulesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GovernanceRulesListNextResponse = GovernanceRuleList;
+
+// @public
+export interface GovernanceRulesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GovernanceRulesListResponse = GovernanceRuleList;
+
+// @public
+export interface GovernanceRulesOperationResultsHeaders {
+    location?: string;
+}
+
+// @public
+export interface GovernanceRulesOperationResultsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GovernanceRulesOperationResultsResponse = OperationResultAutoGenerated;
+
+// @public
 export type GovernanceRuleSourceResourceType = string;
 
 // @public
-export interface GovernanceRulesRuleIdExecuteSingleSecurityConnectorHeaders {
-    location?: string;
-}
-
-// @public
-export interface GovernanceRulesRuleIdExecuteSingleSecurityConnectorOptionalParams extends coreClient.OperationOptions {
-    executeGovernanceRuleParams?: ExecuteGovernanceRuleParams;
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type GovernanceRulesRuleIdExecuteSingleSecurityConnectorResponse = GovernanceRulesRuleIdExecuteSingleSecurityConnectorHeaders;
-
-// @public
-export interface GovernanceRulesRuleIdExecuteSingleSubscriptionHeaders {
-    location?: string;
-}
-
-// @public
-export interface GovernanceRulesRuleIdExecuteSingleSubscriptionOptionalParams extends coreClient.OperationOptions {
-    executeGovernanceRuleParams?: ExecuteGovernanceRuleParams;
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type GovernanceRulesRuleIdExecuteSingleSubscriptionResponse = GovernanceRulesRuleIdExecuteSingleSubscriptionHeaders;
-
-// @public
 export type GovernanceRuleType = string;
+
+// @public
+export interface HealthDataClassification {
+    component?: string;
+    scenario?: string;
+    scope?: ScopeName;
+}
+
+// @public
+export interface HealthReport extends Resource {
+    affectedDefendersPlans?: string[];
+    environmentDetails?: EnvironmentDetails;
+    healthDataClassification?: HealthDataClassification;
+    issues?: Issue[];
+    resourceDetails?: ResourceDetailsAutoGenerated;
+    status?: StatusAutoGenerated;
+}
+
+// @public
+export interface HealthReportGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HealthReportGetResponse = HealthReport;
+
+// @public
+export interface HealthReportOperations {
+    get(resourceId: string, healthReportName: string, options?: HealthReportGetOptionalParams): Promise<HealthReportGetResponse>;
+}
+
+// @public
+export interface HealthReports {
+    list(scope: string, options?: HealthReportsListOptionalParams): PagedAsyncIterableIterator<HealthReport>;
+}
+
+// @public
+export interface HealthReportsList {
+    readonly nextLink?: string;
+    readonly value?: HealthReport[];
+}
+
+// @public
+export interface HealthReportsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HealthReportsListNextResponse = HealthReportsList;
+
+// @public
+export interface HealthReportsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HealthReportsListResponse = HealthReportsList;
 
 // @public
 export interface HttpC2DMessagesNotInAllowedRange extends TimeWindowCustomAlertRule {
@@ -2315,6 +2588,13 @@ export interface HybridComputeSettingsProperties {
     region?: string;
     resourceGroupName?: string;
     servicePrincipal?: ServicePrincipalProperties;
+}
+
+// @public
+export interface Identity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type?: "SystemAssigned";
 }
 
 // @public
@@ -2629,7 +2909,6 @@ export type IotSecuritySolutionGetResponse = IoTSecuritySolutionModel;
 
 // @public
 export interface IotSecuritySolutionListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -2645,7 +2924,6 @@ export type IotSecuritySolutionListByResourceGroupResponse = IoTSecuritySolution
 
 // @public
 export interface IotSecuritySolutionListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -2696,7 +2974,6 @@ export type IotSecuritySolutionsAnalyticsAggregatedAlertGetResponse = IoTSecurit
 
 // @public
 export interface IotSecuritySolutionsAnalyticsAggregatedAlertListNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -2725,7 +3002,6 @@ export type IotSecuritySolutionsAnalyticsRecommendationGetResponse = IoTSecurity
 
 // @public
 export interface IotSecuritySolutionsAnalyticsRecommendationListNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -2757,6 +3033,22 @@ export interface IoTSeverityMetrics {
     high?: number;
     low?: number;
     medium?: number;
+}
+
+// @public
+export type IsEnabled = string;
+
+// @public
+export interface Issue {
+    issueAdditionalData?: {
+        [propertyName: string]: string;
+    };
+    issueDescription?: string;
+    issueKey: string;
+    issueName?: string;
+    remediationScript?: string;
+    remediationSteps?: string;
+    securityValues?: string[];
 }
 
 // @public
@@ -2994,6 +3286,7 @@ export enum KnownAlertStatus {
 // @public
 export enum KnownApplicationConditionOperator {
     Contains = "Contains",
+    Equals = "Equals",
     In = "In"
 }
 
@@ -3073,7 +3366,14 @@ export enum KnownCloudName {
     Azure = "Azure",
     AzureDevOps = "AzureDevOps",
     GCP = "GCP",
-    Github = "Github"
+    Github = "Github",
+    GitLab = "GitLab"
+}
+
+// @public
+export enum KnownCode {
+    Failed = "Failed",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -3144,7 +3444,8 @@ export enum KnownEnvironmentType {
     AwsAccount = "AwsAccount",
     AzureDevOpsScope = "AzureDevOpsScope",
     GcpProject = "GcpProject",
-    GithubScope = "GithubScope"
+    GithubScope = "GithubScope",
+    GitlabScope = "GitlabScope"
 }
 
 // @public
@@ -3259,6 +3560,12 @@ export enum KnownIntent {
 }
 
 // @public
+export enum KnownIsEnabled {
+    False = "False",
+    True = "True"
+}
+
+// @public
 export enum KnownKind {
     Bundles = "Bundles"
 }
@@ -3276,13 +3583,26 @@ export enum KnownOfferingType {
     CspmMonitorAzureDevOps = "CspmMonitorAzureDevOps",
     CspmMonitorGcp = "CspmMonitorGcp",
     CspmMonitorGithub = "CspmMonitorGithub",
+    CspmMonitorGitLab = "CspmMonitorGitLab",
+    DefenderCspmAws = "DefenderCspmAws",
+    DefenderCspmGcp = "DefenderCspmGcp",
     DefenderForContainersAws = "DefenderForContainersAws",
     DefenderForContainersGcp = "DefenderForContainersGcp",
     DefenderForDatabasesAws = "DefenderForDatabasesAws",
     DefenderForDatabasesGcp = "DefenderForDatabasesGcp",
+    DefenderForDevOpsAzureDevOps = "DefenderForDevOpsAzureDevOps",
+    DefenderForDevOpsGithub = "DefenderForDevOpsGithub",
+    DefenderForDevOpsGitLab = "DefenderForDevOpsGitLab",
     DefenderForServersAws = "DefenderForServersAws",
     DefenderForServersGcp = "DefenderForServersGcp",
     InformationProtectionAws = "InformationProtectionAws"
+}
+
+// @public
+export enum KnownOperationResult {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -3455,6 +3775,14 @@ export enum KnownScanTriggerType {
 }
 
 // @public
+export enum KnownScopeName {
+    Clusters = "Clusters",
+    Connectors = "Connectors",
+    Unknown = "Unknown",
+    VirtualMachines = "VirtualMachines"
+}
+
+// @public
 export enum KnownSecurityFamily {
     Ngfw = "Ngfw",
     SaasWaf = "SaasWaf",
@@ -3535,6 +3863,13 @@ export enum KnownState {
 export enum KnownStatus {
     Initiated = "Initiated",
     Revoked = "Revoked"
+}
+
+// @public
+export enum KnownStatusName {
+    Healthy = "Healthy",
+    NotApplicable = "NotApplicable",
+    NotHealthy = "NotHealthy"
 }
 
 // @public
@@ -3890,6 +4225,14 @@ export interface OperationList {
 }
 
 // @public
+export type OperationResult = string;
+
+// @public
+export interface OperationResultAutoGenerated {
+    readonly status?: OperationResult;
+}
+
+// @public
 export interface Operations {
     list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 }
@@ -3907,6 +4250,12 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 
 // @public
 export type OperationsListResponse = OperationList;
+
+// @public
+export interface OperationStatus {
+    code?: Code;
+    message?: string;
+}
 
 // @public
 export type Operator = string;
@@ -3935,6 +4284,8 @@ export type PermissionProperty = string;
 // @public
 export interface Pricing extends Resource {
     readonly deprecated?: boolean;
+    readonly enablementTime?: Date;
+    extensions?: Extension[];
     readonly freeTrialRemainingTime?: string;
     pricingTier?: PricingTier;
     readonly replacedBy?: string[];
@@ -4081,7 +4432,6 @@ export type RegulatoryComplianceAssessmentsGetResponse = RegulatoryComplianceAss
 
 // @public
 export interface RegulatoryComplianceAssessmentsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -4125,7 +4475,6 @@ export type RegulatoryComplianceControlsGetResponse = RegulatoryComplianceContro
 
 // @public
 export interface RegulatoryComplianceControlsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -4170,7 +4519,6 @@ export type RegulatoryComplianceStandardsGetResponse = RegulatoryComplianceStand
 
 // @public
 export interface RegulatoryComplianceStandardsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -4211,6 +4559,13 @@ export interface Resource {
 // @public
 export interface ResourceDetails {
     source: "Azure" | "OnPremise" | "OnPremiseSql";
+}
+
+// @public
+export interface ResourceDetailsAutoGenerated {
+    readonly connectorId?: string;
+    readonly id?: string;
+    source?: Source;
 }
 
 // @public (undocumented)
@@ -4297,6 +4652,7 @@ export interface ScanProperties {
     endTime?: Date;
     highSeverityFailedRulesCount?: number;
     isBaselineApplied?: boolean;
+    lastScanTime?: Date;
     lowSeverityFailedRulesCount?: number;
     mediumSeverityFailedRulesCount?: number;
     server?: string;
@@ -4346,6 +4702,9 @@ export interface ScopeElement {
     [property: string]: any;
     field?: string;
 }
+
+// @public
+export type ScopeName = string;
 
 // @public
 export interface SecureScoreControlDefinitionItem extends Resource {
@@ -4435,7 +4794,6 @@ export interface SecureScoreControlScore {
 
 // @public
 export interface SecureScoreControlsListBySecureScoreNextOptionalParams extends coreClient.OperationOptions {
-    expand?: ExpandControlsEnum;
 }
 
 // @public
@@ -4451,7 +4809,6 @@ export type SecureScoreControlsListBySecureScoreResponse = SecureScoreControlLis
 
 // @public
 export interface SecureScoreControlsListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: ExpandControlsEnum;
 }
 
 // @public
@@ -4680,6 +5037,12 @@ export class SecurityCenter extends coreClient.ServiceClient {
     // (undocumented)
     allowedConnections: AllowedConnections;
     // (undocumented)
+    aPICollection: APICollection;
+    // (undocumented)
+    aPICollectionOffboarding: APICollectionOffboarding;
+    // (undocumented)
+    aPICollectionOnboarding: APICollectionOnboarding;
+    // (undocumented)
     applicationOperations: ApplicationOperations;
     // (undocumented)
     applications: Applications;
@@ -4710,9 +5073,11 @@ export class SecurityCenter extends coreClient.ServiceClient {
     // (undocumented)
     governanceAssignments: GovernanceAssignments;
     // (undocumented)
-    governanceRuleOperations: GovernanceRuleOperations;
-    // (undocumented)
     governanceRules: GovernanceRules;
+    // (undocumented)
+    healthReportOperations: HealthReportOperations;
+    // (undocumented)
+    healthReports: HealthReports;
     // (undocumented)
     informationProtectionPolicies: InformationProtectionPolicies;
     // (undocumented)
@@ -4752,15 +5117,11 @@ export class SecurityCenter extends coreClient.ServiceClient {
     // (undocumented)
     securityConnectorApplications: SecurityConnectorApplications;
     // (undocumented)
-    securityConnectorGovernanceRule: SecurityConnectorGovernanceRule;
-    // (undocumented)
-    securityConnectorGovernanceRules: SecurityConnectorGovernanceRules;
-    // (undocumented)
-    securityConnectorGovernanceRulesExecuteStatus: SecurityConnectorGovernanceRulesExecuteStatus;
-    // (undocumented)
     securityConnectors: SecurityConnectors;
     // (undocumented)
     securityContacts: SecurityContacts;
+    // (undocumented)
+    securityOperators: SecurityOperators;
     // (undocumented)
     securitySolutions: SecuritySolutions;
     // (undocumented)
@@ -4779,8 +5140,6 @@ export class SecurityCenter extends coreClient.ServiceClient {
     sqlVulnerabilityAssessmentScans: SqlVulnerabilityAssessmentScans;
     // (undocumented)
     subAssessments: SubAssessments;
-    // (undocumented)
-    subscriptionGovernanceRulesExecuteStatus: SubscriptionGovernanceRulesExecuteStatus;
     // (undocumented)
     subscriptionId: string;
     // (undocumented)
@@ -4850,70 +5209,6 @@ export interface SecurityConnectorApplicationsListOptionalParams extends coreCli
 
 // @public
 export type SecurityConnectorApplicationsListResponse = ApplicationsList;
-
-// @public
-export interface SecurityConnectorGovernanceRule {
-    list(resourceGroupName: string, securityConnectorName: string, options?: SecurityConnectorGovernanceRuleListOptionalParams): PagedAsyncIterableIterator<GovernanceRule>;
-}
-
-// @public
-export interface SecurityConnectorGovernanceRuleListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SecurityConnectorGovernanceRuleListNextResponse = GovernanceRuleList;
-
-// @public
-export interface SecurityConnectorGovernanceRuleListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SecurityConnectorGovernanceRuleListResponse = GovernanceRuleList;
-
-// @public
-export interface SecurityConnectorGovernanceRules {
-    createOrUpdate(resourceGroupName: string, securityConnectorName: string, ruleId: string, governanceRule: GovernanceRule, options?: SecurityConnectorGovernanceRulesCreateOrUpdateOptionalParams): Promise<SecurityConnectorGovernanceRulesCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, securityConnectorName: string, ruleId: string, options?: SecurityConnectorGovernanceRulesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, securityConnectorName: string, ruleId: string, options?: SecurityConnectorGovernanceRulesGetOptionalParams): Promise<SecurityConnectorGovernanceRulesGetResponse>;
-}
-
-// @public
-export interface SecurityConnectorGovernanceRulesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SecurityConnectorGovernanceRulesCreateOrUpdateResponse = GovernanceRule;
-
-// @public
-export interface SecurityConnectorGovernanceRulesDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface SecurityConnectorGovernanceRulesExecuteStatus {
-    beginGet(resourceGroupName: string, securityConnectorName: string, ruleId: string, operationId: string, options?: SecurityConnectorGovernanceRulesExecuteStatusGetOptionalParams): Promise<PollerLike<PollOperationState<SecurityConnectorGovernanceRulesExecuteStatusGetResponse>, SecurityConnectorGovernanceRulesExecuteStatusGetResponse>>;
-    beginGetAndWait(resourceGroupName: string, securityConnectorName: string, ruleId: string, operationId: string, options?: SecurityConnectorGovernanceRulesExecuteStatusGetOptionalParams): Promise<SecurityConnectorGovernanceRulesExecuteStatusGetResponse>;
-}
-
-// @public
-export interface SecurityConnectorGovernanceRulesExecuteStatusGetHeaders {
-    location?: string;
-}
-
-// @public
-export interface SecurityConnectorGovernanceRulesExecuteStatusGetOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type SecurityConnectorGovernanceRulesExecuteStatusGetResponse = ExecuteRuleStatus;
-
-// @public
-export interface SecurityConnectorGovernanceRulesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SecurityConnectorGovernanceRulesGetResponse = GovernanceRule;
 
 // @public
 export interface SecurityConnectors {
@@ -5052,6 +5347,49 @@ export type SecurityContactsListResponse = SecurityContactList;
 
 // @public
 export type SecurityFamily = string;
+
+// @public
+export interface SecurityOperator extends Resource {
+    identity?: Identity;
+}
+
+// @public
+export interface SecurityOperatorList {
+    value: SecurityOperator[];
+}
+
+// @public
+export interface SecurityOperators {
+    createOrUpdate(pricingName: string, securityOperatorName: string, options?: SecurityOperatorsCreateOrUpdateOptionalParams): Promise<SecurityOperatorsCreateOrUpdateResponse>;
+    delete(pricingName: string, securityOperatorName: string, options?: SecurityOperatorsDeleteOptionalParams): Promise<void>;
+    get(pricingName: string, securityOperatorName: string, options?: SecurityOperatorsGetOptionalParams): Promise<SecurityOperatorsGetResponse>;
+    list(pricingName: string, options?: SecurityOperatorsListOptionalParams): Promise<SecurityOperatorsListResponse>;
+}
+
+// @public
+export interface SecurityOperatorsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityOperatorsCreateOrUpdateResponse = SecurityOperator;
+
+// @public
+export interface SecurityOperatorsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SecurityOperatorsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityOperatorsGetResponse = SecurityOperator;
+
+// @public
+export interface SecurityOperatorsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityOperatorsListResponse = SecurityOperatorList;
 
 // @public (undocumented)
 export interface SecuritySolution extends Resource, Location_2 {
@@ -5219,7 +5557,7 @@ export type ServerVulnerabilityAssessmentListByExtendedResourceResponse = Server
 
 // @public
 export interface ServerVulnerabilityAssessmentOperations {
-    beginDelete(resourceGroupName: string, resourceNamespace: string, resourceType: string, resourceName: string, options?: ServerVulnerabilityAssessmentDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, resourceNamespace: string, resourceType: string, resourceName: string, options?: ServerVulnerabilityAssessmentDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, resourceNamespace: string, resourceType: string, resourceName: string, options?: ServerVulnerabilityAssessmentDeleteOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, resourceNamespace: string, resourceType: string, resourceName: string, options?: ServerVulnerabilityAssessmentCreateOrUpdateOptionalParams): Promise<ServerVulnerabilityAssessmentCreateOrUpdateResponse>;
     get(resourceGroupName: string, resourceNamespace: string, resourceType: string, resourceName: string, options?: ServerVulnerabilityAssessmentGetOptionalParams): Promise<ServerVulnerabilityAssessmentGetResponse>;
@@ -5481,6 +5819,16 @@ export type State = string;
 export type Status = string;
 
 // @public
+export interface StatusAutoGenerated {
+    code?: StatusName;
+    readonly firstEvaluationDate?: Date;
+    readonly statusChangeDate?: Date;
+}
+
+// @public
+export type StatusName = string;
+
+// @public
 export type StatusReason = string;
 
 // @public
@@ -5538,26 +5886,6 @@ export type SubAssessmentStatusCode = string;
 
 // @public
 export type SubPlan = string;
-
-// @public
-export interface SubscriptionGovernanceRulesExecuteStatus {
-    beginGet(ruleId: string, operationId: string, options?: SubscriptionGovernanceRulesExecuteStatusGetOptionalParams): Promise<PollerLike<PollOperationState<SubscriptionGovernanceRulesExecuteStatusGetResponse>, SubscriptionGovernanceRulesExecuteStatusGetResponse>>;
-    beginGetAndWait(ruleId: string, operationId: string, options?: SubscriptionGovernanceRulesExecuteStatusGetOptionalParams): Promise<SubscriptionGovernanceRulesExecuteStatusGetResponse>;
-}
-
-// @public
-export interface SubscriptionGovernanceRulesExecuteStatusGetHeaders {
-    location?: string;
-}
-
-// @public
-export interface SubscriptionGovernanceRulesExecuteStatusGetOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type SubscriptionGovernanceRulesExecuteStatusGetResponse = ExecuteRuleStatus;
 
 // @public
 export type SupportedCloudEnum = string;
@@ -5621,7 +5949,6 @@ export type TasksGetSubscriptionLevelTaskResponse = SecurityTask;
 
 // @public
 export interface TasksListByHomeRegionNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -5637,7 +5964,6 @@ export type TasksListByHomeRegionResponse = SecurityTaskList;
 
 // @public
 export interface TasksListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -5653,7 +5979,6 @@ export type TasksListByResourceGroupResponse = SecurityTaskList;
 
 // @public
 export interface TasksListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public

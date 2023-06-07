@@ -1,0 +1,32 @@
+{
+  "name": "@azure-samples/arm-loadtesting-js",
+  "private": true,
+  "version": "1.0.0",
+  "description": " client library samples for JavaScript",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/loadtesting/arm-loadtesting"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtesting/arm-loadtesting",
+  "dependencies": {
+    "@azure/arm-loadtesting": "latest",
+    "dotenv": "latest",
+    "@azure/identity": "^2.0.1"
+  }
+}

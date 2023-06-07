@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { Portal } = require("@azure/arm-portal");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create the tenant configuration. If configuration already exists - update it. User has to be a Tenant Admin for this operation.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/portal/resource-manager/Microsoft.Portal/preview/2020-09-01-preview/examples/TenantConfiguration/CreateOrUpdateTenantConfiguration.json
  */
 async function createOrUpdateTenantConfiguration() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["PORTAL_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const configurationName = "default";
   const tenantConfiguration = {
     enforcePrivateMarkdownStorage: true,
@@ -29,4 +31,8 @@ async function createOrUpdateTenantConfiguration() {
   console.log(result);
 }
 
-createOrUpdateTenantConfiguration().catch(console.error);
+async function main() {
+  createOrUpdateTenantConfiguration();
+}
+
+main().catch(console.error);

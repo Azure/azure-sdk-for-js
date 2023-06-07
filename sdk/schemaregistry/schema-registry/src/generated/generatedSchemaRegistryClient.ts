@@ -7,14 +7,13 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import { SchemaGroupsOperationsImpl, SchemaImpl } from "./operations";
-import { SchemaGroupsOperations, Schema } from "./operationsInterfaces";
+import { SchemaImpl } from "./operations";
+import { Schema } from "./operationsInterfaces";
 import { GeneratedSchemaRegistryClientOptionalParams } from "./models";
 
 export class GeneratedSchemaRegistryClient extends coreClient.ServiceClient {
@@ -43,7 +42,7 @@ export class GeneratedSchemaRegistryClient extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-schema-registry/1.2.1`;
+    const packageDetails = `azsdk-js-schema-registry/1.3.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -58,35 +57,11 @@ export class GeneratedSchemaRegistryClient extends coreClient.ServiceClient {
       baseUri: options.endpoint ?? options.baseUri ?? "https://{endpoint}"
     };
     super(optionsWithDefaults);
-
-    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
-        (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
-      );
-      if (!bearerTokenAuthenticationPolicyFound) {
-        this.pipeline.removePolicy({
-          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-        });
-        this.pipeline.addPolicy(
-          coreRestPipeline.bearerTokenAuthenticationPolicy({
-            scopes: `${optionsWithDefaults.baseUri}/.default`,
-            challengeCallbacks: {
-              authorizeRequestOnChallenge:
-                coreClient.authorizeRequestOnClaimChallenge
-            }
-          })
-        );
-      }
-    }
     // Parameter assignments
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2021-10";
-    this.schemaGroupsOperations = new SchemaGroupsOperationsImpl(this);
+    this.apiVersion = options.apiVersion || "2022-10";
     this.schema = new SchemaImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -119,6 +94,5 @@ export class GeneratedSchemaRegistryClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  schemaGroupsOperations: SchemaGroupsOperations;
   schema: Schema;
 }

@@ -3,7 +3,7 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
+import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
 import { Recorder, delay, env, isLiveMode } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
 import { Context } from "mocha";

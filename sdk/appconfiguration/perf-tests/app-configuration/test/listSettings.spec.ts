@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { generateUuid } from "@azure/core-http";
+import { v4 as generateUuid } from "uuid";
 import { PerfOptionDictionary, executeParallel } from "@azure/test-utils-perf";
 import { AppConfigTest } from "./appConfigBase.spec";
 
@@ -43,8 +43,9 @@ export class ListSettingsTest extends AppConfigTest<ListTestOptions> {
     for await (const response of this.client
       .listConfigurationSettings({ keyFilter: ListSettingsTest.prefix + "*" })
       .byPage()) {
-      // eslint-disable-next-line no-empty
+      // eslint-disable-next-line  @typescript-eslint/no-unused-vars
       for (const _ of response.items) {
+        /* empty */
       }
     }
   }

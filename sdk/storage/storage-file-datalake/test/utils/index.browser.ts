@@ -1,24 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
 
 import { DataLakeServiceClient } from "../../src";
-import { AnonymousCredential } from "../../src/credentials/AnonymousCredential";
-import { newPipeline } from "../../src/Pipeline";
-import { SimpleTokenCredential } from "./testutils.common";
+import { newPipeline, AnonymousCredential } from "@azure/storage-blob";
+import { configureStorageClient, SimpleTokenCredential } from "./testutils.common";
+import { env, Recorder } from "@azure-tools/test-recorder";
 
 export * from "./testutils.common";
 
-export function getGenericCredential(accountType: string): AnonymousCredential {
-  const _accountType = accountType; // bypass compiling error
-  accountType = _accountType;
+export function getGenericCredential(): AnonymousCredential {
   return new AnonymousCredential();
 }
 
 export function getTokenCredential(): TokenCredential {
   const accountTokenEnvVar = `DFS_ACCOUNT_TOKEN`;
-  const accountToken = (self as any).__env__[accountTokenEnvVar];
+  const accountToken = env[accountTokenEnvVar];
 
   if (!accountToken || accountToken === "") {
     throw new Error(`${accountTokenEnvVar} environment variables not specified.`);
@@ -28,16 +26,17 @@ export function getTokenCredential(): TokenCredential {
 }
 
 export function getGenericDataLakeServiceClient(
+  recorder: Recorder,
   accountType: string,
   accountNameSuffix: string = ""
 ): DataLakeServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
 
-  const accountName = (self as any).__env__[accountNameEnvVar];
+  const accountName = env[accountNameEnvVar];
 
   let accountSAS: string | undefined;
-  accountSAS = (self as any).__env__[accountSASEnvVar];
+  accountSAS = env[accountSASEnvVar];
 
   if (!accountName || !accountSAS || accountName === "" || accountSAS === "") {
     throw new Error(
@@ -45,47 +44,43 @@ export function getGenericDataLakeServiceClient(
     );
   }
 
-  if (accountSAS) {
-    accountSAS = accountSAS.startsWith("?") ? accountSAS : `?${accountSAS}`;
-  }
+  accountSAS = accountSAS.startsWith("?") ? accountSAS : `?${accountSAS}`;
 
-  const credentials = getGenericCredential(accountType);
-  const pipeline = newPipeline(credentials, {
-    // Enable logger when debugging
-    // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
-  });
+  const credentials = getGenericCredential();
+  const pipeline = newPipeline(credentials);
   const dfsPrimaryURL = `https://${accountName}${accountNameSuffix}.dfs.core.windows.net${accountSAS}`;
-  return new DataLakeServiceClient(dfsPrimaryURL, pipeline);
+  const client = new DataLakeServiceClient(dfsPrimaryURL, pipeline);
+  configureStorageClient(recorder, client);
+  return client;
 }
 
-export function getTokenDataLakeServiceClient(): DataLakeServiceClient {
+export function getTokenDataLakeServiceClient(recorder: Recorder): DataLakeServiceClient {
   const accountNameEnvVar = `DFS_ACCOUNT_NAME`;
-  const accountName = (self as any).__env__[accountNameEnvVar];
+  const accountName = env[accountNameEnvVar];
 
-  if (!accountName || accountName === "") {
+  if (!accountName) {
     throw new Error(`${accountNameEnvVar} environment variables not specified.`);
   }
 
   const credentials = getTokenCredential();
-  const pipeline = newPipeline(credentials, {
-    // Enable logger when debugging
-    // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
-  });
+  const pipeline = newPipeline(credentials);
   const dfsPrimaryURL = `https://${accountName}.dfs.core.windows.net/`;
-  return new DataLakeServiceClient(dfsPrimaryURL, pipeline);
+  const client = new DataLakeServiceClient(dfsPrimaryURL, pipeline);
+  configureStorageClient(recorder, client);
+  return client;
 }
 
-export function getDataLakeServiceClient(): DataLakeServiceClient {
-  return getGenericDataLakeServiceClient("DFS_");
+export function getDataLakeServiceClient(recorder: Recorder): DataLakeServiceClient {
+  return getGenericDataLakeServiceClient(recorder, "DFS_");
 }
 
-export function getAlternateDataLakeServiceClient(): DataLakeServiceClient {
-  return getGenericDataLakeServiceClient("SECONDARY_", "-secondary");
+export function getAlternateDataLakeServiceClient(recorder: Recorder): DataLakeServiceClient {
+  return getGenericDataLakeServiceClient(recorder, "SECONDARY_", "-secondary");
 }
 
 export function getEncryptionScope(): string {
   const encryptionScopeEnvVar = "ENCRYPTION_SCOPE";
-  const encryptionScope = (self as any).__env__[encryptionScopeEnvVar];
+  const encryptionScope = env[encryptionScopeEnvVar];
 
   if (!encryptionScope) {
     throw new Error(`${encryptionScopeEnvVar} environment variables not specified.`);
@@ -158,15 +153,14 @@ export function getBrowserFile(name: string, size: number): File {
     uint8Arr[j] = Math.floor(Math.random() * 256);
   }
 
-  // IE11 & Edge doesn't support create File using var file = new File([binary], name);
-  // We leverage Blob() to mock a File
-
-  const file = new Blob([uint8Arr]) as any;
-  file.name = name;
-  return file;
+  return new File([uint8Arr], name);
 }
 
 export function getSASConnectionStringFromEnvironment(): string {
-  const env = (self as any).__env__;
-  return `BlobEndpoint=https://${env.DFS_ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${env.DFS_ACCOUNT_NAME}.queue.core.windows.net/;FileEndpoint=https://${env.DFS_ACCOUNT_NAME}.file.core.windows.net/;TableEndpoint=https://${env.DFS_ACCOUNT_NAME}.table.core.windows.net/;SharedAccessSignature=${env.DFS_ACCOUNT_SAS}`;
+  let sasToken: string = env.DFS_ACCOUNT_SAS ?? "";
+  // connection string SAS doesn't have the prefix
+  if (sasToken && sasToken.startsWith("?")) {
+    sasToken = sasToken.slice(1);
+  }
+  return `BlobEndpoint=https://${env.DFS_ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${env.DFS_ACCOUNT_NAME}.queue.core.windows.net/;FileEndpoint=https://${env.DFS_ACCOUNT_NAME}.file.core.windows.net/;TableEndpoint=https://${env.DFS_ACCOUNT_NAME}.table.core.windows.net/;SharedAccessSignature=${sasToken}`;
 }

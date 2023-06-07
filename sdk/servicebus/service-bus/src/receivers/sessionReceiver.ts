@@ -133,6 +133,8 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     private _context: ConnectionContext,
     public entityPath: string,
     public receiveMode: "peekLock" | "receiveAndDelete",
+    private _skipParsingBodyAsJson: boolean,
+    private _skipConvertingDate: boolean,
     private _retryOptions: RetryOptions = {}
   ) {
     throwErrorIfConnectionClosed(_context);
@@ -322,6 +324,8 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       associatedLinkName: this._messageSession.name,
       requestName: "peekMessages",
       timeoutInMs: this._retryOptions?.timeoutInMs,
+      skipParsingBodyAsJson: this._skipParsingBodyAsJson,
+      skipConvertingDate: this._skipConvertingDate,
     };
     const peekOperationPromise = async (): Promise<ServiceBusReceivedMessage[]> => {
       if (options.fromSequenceNumber !== undefined) {
@@ -385,6 +389,8 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
           associatedLinkName: this._messageSession.name,
           requestName: "receiveDeferredMessages",
           timeoutInMs: this._retryOptions.timeoutInMs,
+          skipParsingBodyAsJson: this._skipParsingBodyAsJson,
+          skipConvertingDate: this._skipConvertingDate,
         });
       return deferredMessages;
     };
@@ -461,7 +467,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
           "SessionReceiver.process",
           options ?? {},
           () => handlers.processMessage(message),
-          toProcessingSpanOptions(message, this, this._context.config)
+          toProcessingSpanOptions(message, this, this._context.config, "process")
         );
       },
       processError,

@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AzureFileVolume {
@@ -67,6 +67,11 @@ export interface CloudErrorBody {
 }
 
 // @public
+export interface ConfidentialComputeProperties {
+    ccePolicy?: string;
+}
+
+// @public
 export interface Container {
     command?: string[];
     environmentVariables?: EnvironmentVariable[];
@@ -77,6 +82,7 @@ export interface Container {
     ports?: ContainerPort[];
     readinessProbe?: ContainerProbe;
     resources: ResourceRequirements;
+    securityContext?: SecurityContextDefinition;
     volumeMounts?: VolumeMount[];
 }
 
@@ -141,17 +147,23 @@ export interface ContainerGroupListResult {
 export type ContainerGroupNetworkProtocol = string;
 
 // @public
+export type ContainerGroupPriority = string;
+
+// @public
 export interface ContainerGroupProperties {
+    confidentialComputeProperties?: ConfidentialComputeProperties;
     containers: Container[];
     diagnostics?: ContainerGroupDiagnostics;
     dnsConfig?: DnsConfiguration;
     encryptionProperties?: EncryptionProperties;
+    extensions?: DeploymentExtensionSpec[];
     identity?: ContainerGroupIdentity;
     imageRegistryCredentials?: ImageRegistryCredential[];
     initContainers?: InitContainerDefinition[];
     readonly instanceView?: ContainerGroupPropertiesInstanceView;
     ipAddress?: IpAddress;
     osType: OperatingSystemTypes;
+    priority?: ContainerGroupPriority;
     readonly provisioningState?: string;
     restartPolicy?: ContainerGroupRestartPolicy;
     sku?: ContainerGroupSku;
@@ -170,13 +182,13 @@ export type ContainerGroupRestartPolicy = string;
 
 // @public
 export interface ContainerGroups {
-    beginCreateOrUpdate(resourceGroupName: string, containerGroupName: string, containerGroup: ContainerGroup, options?: ContainerGroupsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ContainerGroupsCreateOrUpdateResponse>, ContainerGroupsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, containerGroupName: string, containerGroup: ContainerGroup, options?: ContainerGroupsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ContainerGroupsCreateOrUpdateResponse>, ContainerGroupsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, containerGroupName: string, containerGroup: ContainerGroup, options?: ContainerGroupsCreateOrUpdateOptionalParams): Promise<ContainerGroupsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsDeleteOptionalParams): Promise<PollerLike<PollOperationState<ContainerGroupsDeleteResponse>, ContainerGroupsDeleteResponse>>;
+    beginDelete(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ContainerGroupsDeleteResponse>, ContainerGroupsDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsDeleteOptionalParams): Promise<ContainerGroupsDeleteResponse>;
-    beginRestart(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsRestartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRestart(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsRestartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRestartAndWait(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsRestartOptionalParams): Promise<void>;
-    beginStart(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsStartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStart(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStartAndWait(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsStartOptionalParams): Promise<void>;
     get(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsGetOptionalParams): Promise<ContainerGroupsGetResponse>;
     getOutboundNetworkDependenciesEndpoints(resourceGroupName: string, containerGroupName: string, options?: ContainerGroupsGetOutboundNetworkDependenciesEndpointsOptionalParams): Promise<ContainerGroupsGetOutboundNetworkDependenciesEndpointsResponse>;
@@ -387,6 +399,15 @@ export interface ContainerState {
 }
 
 // @public
+export interface DeploymentExtensionSpec {
+    extensionType?: string;
+    name: string;
+    protectedSettings?: Record<string, unknown>;
+    settings?: Record<string, unknown>;
+    version?: string;
+}
+
+// @public
 export interface DnsConfiguration {
     nameServers: string[];
     options?: string;
@@ -398,6 +419,7 @@ export type DnsNameLabelReusePolicy = string;
 
 // @public
 export interface EncryptionProperties {
+    identity?: string;
     keyName: string;
     keyVersion: string;
     vaultBaseUrl: string;
@@ -420,6 +442,9 @@ interface Event_2 {
     readonly type?: string;
 }
 export { Event_2 as Event }
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface GitRepoVolume {
@@ -459,6 +484,7 @@ export interface InitContainerDefinition {
     image?: string;
     readonly instanceView?: InitContainerPropertiesDefinitionInstanceView;
     name: string;
+    securityContext?: SecurityContextDefinition;
     volumeMounts?: VolumeMount[];
 }
 
@@ -493,6 +519,12 @@ export enum KnownContainerGroupNetworkProtocol {
 }
 
 // @public
+export enum KnownContainerGroupPriority {
+    Regular = "Regular",
+    Spot = "Spot"
+}
+
+// @public
 export enum KnownContainerGroupRestartPolicy {
     Always = "Always",
     Never = "Never",
@@ -501,6 +533,7 @@ export enum KnownContainerGroupRestartPolicy {
 
 // @public
 export enum KnownContainerGroupSku {
+    Confidential = "Confidential",
     Dedicated = "Dedicated",
     Standard = "Standard"
 }
@@ -702,8 +735,24 @@ export interface ResourceRequirements {
 export type Scheme = string;
 
 // @public
+export interface SecurityContextCapabilitiesDefinition {
+    add?: string[];
+    drop?: string[];
+}
+
+// @public
+export interface SecurityContextDefinition {
+    allowPrivilegeEscalation?: boolean;
+    capabilities?: SecurityContextCapabilitiesDefinition;
+    privileged?: boolean;
+    runAsGroup?: number;
+    runAsUser?: number;
+    seccompProfile?: string;
+}
+
+// @public
 export interface SubnetServiceAssociationLink {
-    beginDelete(resourceGroupName: string, virtualNetworkName: string, subnetName: string, options?: SubnetServiceAssociationLinkDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, virtualNetworkName: string, subnetName: string, options?: SubnetServiceAssociationLinkDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, virtualNetworkName: string, subnetName: string, options?: SubnetServiceAssociationLinkDeleteOptionalParams): Promise<void>;
 }
 

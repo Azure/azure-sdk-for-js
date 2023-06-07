@@ -7,10 +7,10 @@ describe("Synapse Managed Private Endpoints", () => {
   let recorder: Recorder;
   let client: SparkClient;
 
-  beforeEach(function() {
-    recorder = createRecorder(this);
+  beforeEach(async function() {
+    recorder = await createRecorder(this);
     const spark_pool_name = "testsparkpool";
-    client = createClient(spark_pool_name);
+    client = createClient(spark_pool_name, recorder.configureClientOptions({}));
   });
 
   afterEach(async () => {

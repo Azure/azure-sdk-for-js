@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { DynatraceObservability } from "@azure/arm-dynatrace";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the user account credentials for a Monitor
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2021-09-01/examples/Monitors_GetAccountCredentials_MaximumSet_Gen.json
  */
 async function monitorsGetAccountCredentialsMaximumSetGen() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["DYNATRACE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["DYNATRACE_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const credential = new DefaultAzureCredential();
   const client = new DynatraceObservability(credential, subscriptionId);
@@ -29,8 +35,6 @@ async function monitorsGetAccountCredentialsMaximumSetGen() {
   );
   console.log(result);
 }
-
-monitorsGetAccountCredentialsMaximumSetGen().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets the user account credentials for a Monitor
@@ -39,8 +43,11 @@ monitorsGetAccountCredentialsMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2021-09-01/examples/Monitors_GetAccountCredentials_MinimumSet_Gen.json
  */
 async function monitorsGetAccountCredentialsMinimumSetGen() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["DYNATRACE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["DYNATRACE_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const credential = new DefaultAzureCredential();
   const client = new DynatraceObservability(credential, subscriptionId);
@@ -51,4 +58,9 @@ async function monitorsGetAccountCredentialsMinimumSetGen() {
   console.log(result);
 }
 
-monitorsGetAccountCredentialsMinimumSetGen().catch(console.error);
+async function main() {
+  monitorsGetAccountCredentialsMaximumSetGen();
+  monitorsGetAccountCredentialsMinimumSetGen();
+}
+
+main().catch(console.error);

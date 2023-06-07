@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { URLBuilder } from "@azure/core-http";
+
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import {
   ContainerItem,
@@ -8,13 +8,12 @@ import {
   PublicAccessType as ContainerPublicAccessType,
 } from "@azure/storage-blob";
 
-import { AclFailedEntry, CpkInfo, PathGetPropertiesResponse } from "./generated/src/models";
+import { AclFailedEntry, CpkInfo } from "./generated/src/models";
 import {
   AccessControlChangeError,
   FileSystemItem,
   Metadata,
   PathAccessControlItem,
-  PathGetAccessControlResponse,
   PathPermissions,
   PublicAccessType,
   RemovePathAccessControlItem,
@@ -40,22 +39,7 @@ import { base64encode } from "./utils/utils.common";
  * @param url -
  */
 export function toBlobEndpointUrl(url: string): string {
-  const urlParsed = URLBuilder.parse(url);
-
-  let host = urlParsed.getHost();
-  if (host === undefined) {
-    throw RangeError(`toBlobEndpointUrl() parameter url ${url} doesn't include valid host.`);
-  }
-
-  for (const mapping of ToBlobEndpointHostMappings) {
-    if (host.includes(mapping[0])) {
-      host = host.replace(mapping[0], mapping[1]);
-      break;
-    }
-  }
-
-  urlParsed.setHost(host);
-  return urlParsed.toString();
+  return mapHostUrl(url, ToBlobEndpointHostMappings, "toBlobEndpointUrl");
 }
 
 /**
@@ -73,22 +57,37 @@ export function toBlobEndpointUrl(url: string): string {
  * @param url -
  */
 export function toDfsEndpointUrl(url: string): string {
-  const urlParsed = URLBuilder.parse(url);
+  return mapHostUrl(url, ToDfsEndpointHostMappings, "toDfsEndpointUrl");
+}
 
-  let host = urlParsed.getHost();
-  if (host === undefined) {
-    throw RangeError(`toDfsEndpointUrl() parameter url ${url} doesn't include valid host.`);
+function mapHostUrl(url: string, hostMappings: string[][], callerMethodName: string): string {
+  let urlParsed: URL;
+  try {
+    urlParsed = new URL(url);
+  } catch (e) {
+    // invalid urls are returned unmodified
+    return url;
   }
 
-  for (const mapping of ToDfsEndpointHostMappings) {
+  let host = urlParsed.hostname;
+  if (host === undefined) {
+    throw RangeError(`${callerMethodName}() parameter url ${url} doesn't include valid host.`);
+  }
+
+  for (const mapping of hostMappings) {
     if (host.includes(mapping[0])) {
       host = host.replace(mapping[0], mapping[1]);
       break;
     }
   }
-
-  urlParsed.setHost(host);
-  return urlParsed.toString();
+  urlParsed.hostname = host;
+  const result = urlParsed.toString();
+  // don't add a trailing slash if one wasn't already present
+  if (!url.endsWith("/") && result.endsWith("/")) {
+    return result.slice(0, -1);
+  } else {
+    return result;
+  }
 }
 
 function toFileSystemAsyncIterableIterator(
@@ -200,17 +199,6 @@ export function toProperties(metadata?: Metadata): string | undefined {
   }
 
   return properties.join(",");
-}
-
-export function toPathGetAccessControlResponse(
-  response: PathGetPropertiesResponse
-): PathGetAccessControlResponse {
-  return {
-    ...response,
-    _response: response._response,
-    permissions: toPermissions(response.permissions),
-    acl: toAcl(response.acl),
-  };
 }
 
 export function toRolePermissions(permissionsString: string): RolePermissions {

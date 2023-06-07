@@ -282,7 +282,9 @@ export interface ErrorDefinition {
 
 /** Known values of {@link ResourceNameStatus} that the service accepts. */
 export enum KnownResourceNameStatus {
+  /** Allowed */
   Allowed = "Allowed",
+  /** Reserved */
   Reserved = "Reserved"
 }
 

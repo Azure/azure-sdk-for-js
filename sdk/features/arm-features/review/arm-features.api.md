@@ -130,30 +130,23 @@ export interface FeaturesUnregisterOptionalParams extends coreClient.OperationOp
 export type FeaturesUnregisterResponse = FeatureResult;
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export enum KnownSubscriptionFeatureRegistrationApprovalType {
-    // (undocumented)
     ApprovalRequired = "ApprovalRequired",
-    // (undocumented)
     AutoApproval = "AutoApproval",
-    // (undocumented)
     NotSpecified = "NotSpecified"
 }
 
 // @public
 export enum KnownSubscriptionFeatureRegistrationState {
-    // (undocumented)
     NotRegistered = "NotRegistered",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Registered = "Registered",
-    // (undocumented)
     Registering = "Registering",
-    // (undocumented)
     Unregistered = "Unregistered",
-    // (undocumented)
     Unregistering = "Unregistering"
 }
 
@@ -198,9 +191,10 @@ export interface ProxyResource {
 }
 
 // @public
-export type SubscriptionFeatureRegistration = ProxyResource & {
+export interface SubscriptionFeatureRegistration extends ProxyResource {
+    // (undocumented)
     properties?: SubscriptionFeatureRegistrationProperties;
-};
+}
 
 // @public
 export type SubscriptionFeatureRegistrationApprovalType = string;

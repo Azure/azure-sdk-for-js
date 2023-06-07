@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   RoleAssignment,
@@ -21,16 +20,12 @@ import {
   RoleAssignmentsCreateResponse,
   RoleAssignmentsDeleteOptionalParams,
   RoleAssignmentsDeleteResponse,
-  RoleAssignmentsValidateOptionalParams,
-  RoleAssignmentsValidateResponse,
   RoleAssignmentsGetByIdOptionalParams,
   RoleAssignmentsGetByIdResponse,
   RoleAssignmentsCreateByIdOptionalParams,
   RoleAssignmentsCreateByIdResponse,
   RoleAssignmentsDeleteByIdOptionalParams,
-  RoleAssignmentsDeleteByIdResponse,
-  RoleAssignmentsValidateByIdOptionalParams,
-  RoleAssignmentsValidateByIdResponse
+  RoleAssignmentsDeleteByIdResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -125,22 +120,6 @@ export interface RoleAssignments {
     options?: RoleAssignmentsDeleteOptionalParams
   ): Promise<RoleAssignmentsDeleteResponse>;
   /**
-   * Validate a role assignment create or update operation by scope and name.
-   * @param scope The scope of the operation or resource. Valid scopes are: subscription (format:
-   *              '/subscriptions/{subscriptionId}'), resource group (format:
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
-   * @param roleAssignmentName The name of the role assignment. It can be any valid GUID.
-   * @param parameters Parameters for the role assignment.
-   * @param options The options parameters.
-   */
-  validate(
-    scope: string,
-    roleAssignmentName: string,
-    parameters: RoleAssignmentCreateParameters,
-    options?: RoleAssignmentsValidateOptionalParams
-  ): Promise<RoleAssignmentsValidateResponse>;
-  /**
    * Get a role assignment by ID.
    * @param roleAssignmentId The fully qualified ID of the role assignment including scope, resource
    *                         name, and resource type. Format:
@@ -178,18 +157,4 @@ export interface RoleAssignments {
     roleAssignmentId: string,
     options?: RoleAssignmentsDeleteByIdOptionalParams
   ): Promise<RoleAssignmentsDeleteByIdResponse>;
-  /**
-   * Validate a role assignment create or update operation by ID.
-   * @param roleAssignmentId The fully qualified ID of the role assignment including scope, resource
-   *                         name, and resource type. Format:
-   *                         /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}. Example:
-   *                         /subscriptions/<SUB_ID>/resourcegroups/<RESOURCE_GROUP>/providers/Microsoft.Authorization/roleAssignments/<ROLE_ASSIGNMENT_NAME>
-   * @param parameters Parameters for the role assignment.
-   * @param options The options parameters.
-   */
-  validateById(
-    roleAssignmentId: string,
-    parameters: RoleAssignmentCreateParameters,
-    options?: RoleAssignmentsValidateByIdOptionalParams
-  ): Promise<RoleAssignmentsValidateByIdResponse>;
 }

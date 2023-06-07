@@ -39,6 +39,10 @@ describe("parseNotificationDetails", () => {
     );
     assert.equal(parsedXML.state, "Completed");
     assert.equal(parsedXML.notificationId, "{Your message id}");
+    assert.equal(
+      parsedXML.notificationBody,
+      `<?xml version="1.0" encoding="utf-16"?><toast><visual><binding template="ToastText01"><text id="1">Hello from a .NET App!</text></binding></visual></toast>`
+    );
     assert.isUndefined(parsedXML.admOutcomeCounts);
     assert.isUndefined(parsedXML.apnsOutcomeCounts);
     assert.isUndefined(parsedXML.baiduOutcomeCounts);

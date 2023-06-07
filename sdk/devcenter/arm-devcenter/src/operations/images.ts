@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Images } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,9 +17,9 @@ import {
   Image,
   ImagesListByDevCenterNextOptionalParams,
   ImagesListByDevCenterOptionalParams,
+  ImagesListByDevCenterResponse,
   ImagesListByGalleryNextOptionalParams,
   ImagesListByGalleryOptionalParams,
-  ImagesListByDevCenterResponse,
   ImagesListByGalleryResponse,
   ImagesGetOptionalParams,
   ImagesGetResponse,
@@ -41,7 +42,7 @@ export class ImagesImpl implements Images {
 
   /**
    * Lists images for a devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -62,11 +63,15 @@ export class ImagesImpl implements Images {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByDevCenterPagingPage(
           resourceGroupName,
           devCenterName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -75,15 +80,22 @@ export class ImagesImpl implements Images {
   private async *listByDevCenterPagingPage(
     resourceGroupName: string,
     devCenterName: string,
-    options?: ImagesListByDevCenterOptionalParams
+    options?: ImagesListByDevCenterOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Image[]> {
-    let result = await this._listByDevCenter(
-      resourceGroupName,
-      devCenterName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ImagesListByDevCenterResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByDevCenter(
+        resourceGroupName,
+        devCenterName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByDevCenterNext(
         resourceGroupName,
@@ -92,7 +104,9 @@ export class ImagesImpl implements Images {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -112,7 +126,7 @@ export class ImagesImpl implements Images {
 
   /**
    * Lists images for a gallery.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param galleryName The name of the gallery.
    * @param options The options parameters.
@@ -136,12 +150,16 @@ export class ImagesImpl implements Images {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByGalleryPagingPage(
           resourceGroupName,
           devCenterName,
           galleryName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -151,16 +169,23 @@ export class ImagesImpl implements Images {
     resourceGroupName: string,
     devCenterName: string,
     galleryName: string,
-    options?: ImagesListByGalleryOptionalParams
+    options?: ImagesListByGalleryOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Image[]> {
-    let result = await this._listByGallery(
-      resourceGroupName,
-      devCenterName,
-      galleryName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ImagesListByGalleryResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByGallery(
+        resourceGroupName,
+        devCenterName,
+        galleryName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByGalleryNext(
         resourceGroupName,
@@ -170,7 +195,9 @@ export class ImagesImpl implements Images {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -192,7 +219,7 @@ export class ImagesImpl implements Images {
 
   /**
    * Lists images for a devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -209,7 +236,7 @@ export class ImagesImpl implements Images {
 
   /**
    * Lists images for a gallery.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param galleryName The name of the gallery.
    * @param options The options parameters.
@@ -228,7 +255,7 @@ export class ImagesImpl implements Images {
 
   /**
    * Gets a gallery image.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param galleryName The name of the gallery.
    * @param imageName The name of the image.
@@ -249,7 +276,7 @@ export class ImagesImpl implements Images {
 
   /**
    * ListByDevCenterNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param nextLink The nextLink from the previous successful call to the ListByDevCenter method.
    * @param options The options parameters.
@@ -268,7 +295,7 @@ export class ImagesImpl implements Images {
 
   /**
    * ListByGalleryNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param galleryName The name of the gallery.
    * @param nextLink The nextLink from the previous successful call to the ListByGallery method.
@@ -370,7 +397,6 @@ const listByDevCenterNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -392,7 +418,6 @@ const listByGalleryNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

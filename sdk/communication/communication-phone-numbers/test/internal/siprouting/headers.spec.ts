@@ -27,7 +27,8 @@ describe("SipRoutingClient - headers", function () {
 
   it("calls the spy", async function () {
     const spy = sinon.spy(getTrunksHttpClient, "sendRequest");
-    await client.getTrunks();
+    const iter = await client.listTrunks();
+    await iter.next();
     sinon.assert.calledOnce(spy);
 
     request = spy.getCall(0).args[0];
@@ -67,7 +68,8 @@ describe("SipRoutingClient - headers", function () {
     });
 
     const spy = sinon.spy(getTrunksHttpClient, "sendRequest");
-    await client.getTrunks();
+    const iter = await client.listTrunks();
+    await iter.next();
     sinon.assert.calledOnce(spy);
 
     request = spy.getCall(0).args[0];
@@ -86,7 +88,8 @@ describe("SipRoutingClient - headers", function () {
     });
 
     const spy = sinon.spy(getTrunksHttpClient, "sendRequest");
-    await client.getTrunks();
+    const iter = await client.listTrunks();
+    await iter.next();
     sinon.assert.calledOnce(spy);
 
     request = spy.getCall(0).args[0];
@@ -103,7 +106,8 @@ describe("SipRoutingClient - headers", function () {
     });
 
     const spy = sinon.spy(getTrunksHttpClient, "sendRequest");
-    await client.getTrunks();
+    const iter = await client.listTrunks();
+    await iter.next();
     sinon.assert.calledOnce(spy);
 
     request = spy.getCall(0).args[0];

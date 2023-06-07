@@ -4,9 +4,12 @@ import { DatabaseAccount, ResourceResponse } from "../../../src";
 import { masterKey } from "../common/_fakeTestSecrets";
 import { GlobalEndpointManager } from "../../../src";
 import { OperationType, ResourceType } from "../../../src";
+import * as fakeTimers from "@sinonjs/fake-timers";
 
 import assert from "assert";
+import { getEmptyCosmosDiagnostics } from "../../../src/CosmosDiagnostics";
 
+const locationUnavailabilityExpiratationTime = 6 * 60 * 1000;
 const headers = {
   "access-control-allow-credentials": "true",
   "access-control-allow-origin": "",
@@ -41,25 +44,27 @@ const databaseAccountBody: any = {
 
 describe("GlobalEndpointManager", function () {
   describe("#resolveServiceEndpoint", function () {
-    it("should resolve the correct endpoint", async function () {
-      const gem = new GlobalEndpointManager(
-        {
-          endpoint: "https://test.documents.azure.com:443/",
-          key: masterKey,
-          connectionPolicy: {
-            enableEndpointDiscovery: true,
-            preferredLocations: ["East US 2", "West US 2"],
-          },
+    let gem = new GlobalEndpointManager(
+      {
+        endpoint: "https://test.documents.azure.com:443/",
+        key: masterKey,
+        connectionPolicy: {
+          enableEndpointDiscovery: true,
+          preferredLocations: ["East US 2", "West US 2"],
         },
-        async () => {
-          const response: ResourceResponse<DatabaseAccount> = new ResourceResponse(
-            new DatabaseAccount(databaseAccountBody, headers),
-            headers,
-            200
-          );
-          return response;
-        }
-      );
+      },
+      async () => {
+        const response: ResourceResponse<DatabaseAccount> = new ResourceResponse(
+          new DatabaseAccount(databaseAccountBody, headers),
+          headers,
+          200,
+          getEmptyCosmosDiagnostics()
+        );
+        return response;
+      }
+    );
+
+    it("should resolve the correct endpoint", async function () {
       // We don't block on init for database account calls
       assert.equal(
         await gem.resolveServiceEndpoint(ResourceType.none, OperationType.Read),
@@ -71,8 +76,9 @@ describe("GlobalEndpointManager", function () {
         "https://test-eastus2.documents.azure.com:443/"
       );
     });
+
     it("should allow you to pass a normalized preferred location", async function () {
-      const gem = new GlobalEndpointManager(
+      gem = new GlobalEndpointManager(
         {
           endpoint: "https://test.documents.azure.com:443/",
           key: masterKey,
@@ -85,7 +91,8 @@ describe("GlobalEndpointManager", function () {
           const response: ResourceResponse<DatabaseAccount> = new ResourceResponse(
             new DatabaseAccount(databaseAccountBody, headers),
             headers,
-            200
+            200,
+            getEmptyCosmosDiagnostics()
           );
           return response;
         }
@@ -95,6 +102,86 @@ describe("GlobalEndpointManager", function () {
         await gem.resolveServiceEndpoint(ResourceType.item, OperationType.Read),
         "https://test-eastus2.documents.azure.com:443/"
       );
+    });
+
+    it("should resolve to endpoint when call made after server unavailability time", async function () {
+      const clock: fakeTimers.InstalledClock = fakeTimers.install();
+
+      gem = new GlobalEndpointManager(
+        {
+          endpoint: "https://test.documents.azure.com:443/",
+          key: masterKey,
+          connectionPolicy: {
+            enableEndpointDiscovery: true,
+          },
+        },
+        async () => {
+          const response: ResourceResponse<DatabaseAccount> = new ResourceResponse(
+            new DatabaseAccount(databaseAccountBody, headers),
+            headers,
+            200,
+            getEmptyCosmosDiagnostics()
+          );
+          return response;
+        }
+      );
+      await gem.refreshEndpointList();
+      await gem.markCurrentLocationUnavailableForRead(
+        "https://test-westus2.documents.azure.com:443/"
+      );
+      assert.equal(await gem.getReadEndpoint(), "https://test-eastus2.documents.azure.com:443/");
+      clock.tick(locationUnavailabilityExpiratationTime);
+      await gem.refreshEndpointList();
+      assert.equal(await gem.getReadEndpoint(), "https://test-westus2.documents.azure.com:443/");
+      clock.uninstall();
+    });
+  });
+
+  describe("#markCurrentLocationUnavailable", function () {
+    const gem = new GlobalEndpointManager(
+      {
+        endpoint: "https://test.documents.azure.com:443/",
+        key: masterKey,
+        connectionPolicy: {
+          enableEndpointDiscovery: true,
+          preferredLocations: ["East US 2", "West US 2"],
+        },
+      },
+      async () => {
+        const response: ResourceResponse<DatabaseAccount> = new ResourceResponse(
+          new DatabaseAccount(databaseAccountBody, headers),
+          headers,
+          200,
+          getEmptyCosmosDiagnostics()
+        );
+        return response;
+      }
+    );
+
+    beforeEach(async () => {
+      await gem.refreshEndpointList();
+    });
+
+    it("should mark the current location unavailable for read", async function () {
+      // We don't block on init for database account calls
+      await gem.markCurrentLocationUnavailableForRead(
+        "https://test-eastus2.documents.azure.com:443/"
+      );
+      /* As we have marked current location unavailable for read,
+        next read should go to the next location or default endpoint
+      */
+      assert.equal(await gem.getReadEndpoint(), "https://test-westus2.documents.azure.com:443/");
+    });
+    it("should mark the current location unavailable for write", async function () {
+      // We don't block on init for database account calls
+      await gem.markCurrentLocationUnavailableForWrite(
+        "https://test-westus2.documents.azure.com:443/"
+      );
+
+      /* As we have marked current location unavailable for write,
+        next write should go to the next location or default endpoint
+      */
+      assert.equal(await gem.getWriteEndpoint(), "https://test.documents.azure.com:443/");
     });
   });
 });

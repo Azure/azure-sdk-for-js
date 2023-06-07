@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { CognitiveServicesManagementClient } = require("@azure/arm-cognitiveservices");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Update the state of specified commitmentPlans associated with the Cognitive Services account.
  *
  * @summary Update the state of specified commitmentPlans associated with the Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-03-01/examples/PutCommitmentPlan.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-12-01/examples/PutCommitmentPlan.json
  */
 async function putCommitmentPlan() {
-  const subscriptionId = "subscriptionId";
-  const resourceGroupName = "resourceGroupName";
+  const subscriptionId = process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] || "subscriptionId";
+  const resourceGroupName = process.env["COGNITIVESERVICES_RESOURCE_GROUP"] || "resourceGroupName";
   const accountName = "accountName";
   const commitmentPlanName = "commitmentPlanName";
   const commitmentPlan = {
@@ -41,4 +42,8 @@ async function putCommitmentPlan() {
   console.log(result);
 }
 
-putCommitmentPlan().catch(console.error);
+async function main() {
+  putCommitmentPlan();
+}
+
+main().catch(console.error);

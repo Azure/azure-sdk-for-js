@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { RedisManagementClient } from "@azure/arm-rediscache";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets all Redis caches in the specified subscription.
@@ -18,7 +21,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCacheList.json
  */
 async function redisCacheList() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
   const client = new RedisManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +31,8 @@ async function redisCacheList() {
   console.log(resArray);
 }
 
-redisCacheList().catch(console.error);
+async function main() {
+  redisCacheList();
+}
+
+main().catch(console.error);

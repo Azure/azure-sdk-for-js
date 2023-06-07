@@ -29,8 +29,7 @@ async function updatesTagsOfAnImage() {
       properties: {
         hyperVGeneration: "V1",
         sourceVirtualMachine: {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
         },
       },
       tags: { department: "HR" },

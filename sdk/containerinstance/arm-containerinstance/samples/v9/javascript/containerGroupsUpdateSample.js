@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { ContainerInstanceManagementClient } = require("@azure/arm-containerinstance");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Updates container group tags with specified values.
  *
  * @summary Updates container group tags with specified values.
- * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/examples/ContainerGroupsUpdate.json
+ * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2023-05-01/examples/ContainerGroupsUpdate.json
  */
 async function containerGroupsUpdate() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "demoResource";
+  const subscriptionId = process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demoResource";
   const containerGroupName = "demo1";
   const resource = {
     tags: { tag1key: "tag1Value", tag2key: "tag2Value" },
@@ -34,4 +35,8 @@ async function containerGroupsUpdate() {
   console.log(result);
 }
 
-containerGroupsUpdate().catch(console.error);
+async function main() {
+  containerGroupsUpdate();
+}
+
+main().catch(console.error);

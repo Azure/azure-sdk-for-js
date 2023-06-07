@@ -24,9 +24,13 @@ import {
   OperationInput,
   BulkOptions,
   decorateBatchOperation,
+  splitBatchBasedOnBodySize,
+  BulkOperationResponse,
 } from "../../utils/batch";
 import { hashV1PartitionKey } from "../../utils/hashing/v1";
 import { hashV2PartitionKey } from "../../utils/hashing/v2";
+import { CosmosDiagnosticContext } from "../../CosmosDiagnosticsContext";
+import { readAndRecordPartitionKeyDefinition } from "../ClientUtils";
 
 /**
  * @hidden
@@ -90,8 +94,11 @@ export class Items {
     const path = getPathFromLink(this.container.url, ResourceType.item);
     const id = getIdFromLink(this.container.url);
 
-    const fetchFunction: FetchFunctionCallback = (innerOptions: FeedOptions) => {
-      return this.clientContext.queryFeed({
+    const fetchFunction: FetchFunctionCallback = async (
+      innerOptions: FeedOptions,
+      diagnosticContext: CosmosDiagnosticContext
+    ) => {
+      const response = await this.clientContext.queryFeed({
         path,
         resourceType: ResourceType.item,
         resourceId: id,
@@ -100,6 +107,8 @@ export class Items {
         options: innerOptions,
         partitionKey: options.partitionKey,
       });
+      diagnosticContext.mergeDiagnostics(response.diagnostics);
+      return response;
     };
 
     return new QueryIterator(
@@ -107,6 +116,7 @@ export class Items {
       query,
       options,
       fetchFunction,
+      new CosmosDiagnosticContext(),
       this.container.url,
       ResourceType.item
     );
@@ -265,7 +275,9 @@ export class Items {
       body.id = uuid();
     }
 
-    const { resource: partitionKeyDefinition } = await this.container.readPartitionKeyDefinition();
+    const { diagnosticContext, partitionKeyDefinition } = await readAndRecordPartitionKeyDefinition(
+      this.container
+    );
     const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
 
     const err = {};
@@ -283,6 +295,7 @@ export class Items {
       resourceId: id,
       options,
       partitionKey,
+      diagnosticContext,
     });
 
     const ref = new Item(
@@ -296,7 +309,8 @@ export class Items {
       response.headers,
       response.code,
       response.substatus,
-      ref
+      ref,
+      response.diagnostics
     );
   }
 
@@ -331,7 +345,9 @@ export class Items {
     body: T,
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
-    const { resource: partitionKeyDefinition } = await this.container.readPartitionKeyDefinition();
+    const { diagnosticContext, partitionKeyDefinition } = await readAndRecordPartitionKeyDefinition(
+      this.container
+    );
     const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
 
     // Generate random document id if the id is missing in the payload and
@@ -355,6 +371,7 @@ export class Items {
       resourceId: id,
       options,
       partitionKey,
+      diagnosticContext,
     });
 
     const ref = new Item(
@@ -368,7 +385,8 @@ export class Items {
       response.headers,
       response.code,
       response.substatus,
-      ref
+      ref,
+      response.diagnostics
     );
   }
 
@@ -404,11 +422,13 @@ export class Items {
     operations: OperationInput[],
     bulkOptions?: BulkOptions,
     options?: RequestOptions
-  ): Promise<OperationResponse[]> {
+  ): Promise<BulkOperationResponse> {
     const { resources: partitionKeyRanges } = await this.container
       .readPartitionKeyRanges()
       .fetchAll();
-    const { resource: definition } = await this.container.getPartitionKeyDefinition();
+    const { diagnosticContext, partitionKeyDefinition } = await readAndRecordPartitionKeyDefinition(
+      this.container
+    );
     const batches: Batch[] = partitionKeyRanges.map((keyRange: PartitionKeyRange) => {
       return {
         min: keyRange.minInclusive,
@@ -419,10 +439,10 @@ export class Items {
       };
     });
     operations
-      .map((operation) => decorateOperation(operation, definition, options))
+      .map((operation) => decorateOperation(operation, partitionKeyDefinition, options))
       .forEach((operation: Operation, index: number) => {
-        const partitionProp = definition.paths[0].replace("/", "");
-        const isV2 = definition.version && definition.version === 2;
+        const partitionProp = partitionKeyDefinition.paths[0].replace("/", "");
+        const isV2 = partitionKeyDefinition.version && partitionKeyDefinition.version === 2;
         const toHashKey = getPartitionKeyToHash(operation, partitionProp);
         const hashed = isV2 ? hashV2PartitionKey(toHashKey) : hashV1PartitionKey(toHashKey);
         const batchForKey = batches.find((batch: Batch) => {
@@ -438,6 +458,7 @@ export class Items {
     await Promise.all(
       batches
         .filter((batch: Batch) => batch.operations.length)
+        .flatMap((batch: Batch) => splitBatchBasedOnBodySize(batch))
         .map(async (batch: Batch) => {
           if (batch.operations.length > 100) {
             throw new Error("Cannot run bulk request with more than 100 operations per partition");
@@ -451,6 +472,7 @@ export class Items {
               bulkOptions,
               options,
             });
+            diagnosticContext.mergeDiagnostics(response.diagnostics);
             response.result.forEach((operationResponse: OperationResponse, index: number) => {
               orderedResponses[batch.indexes[index]] = operationResponse;
             });
@@ -467,7 +489,9 @@ export class Items {
           }
         })
     );
-    return orderedResponses;
+    const response: any = orderedResponses;
+    response.diagnostics = diagnosticContext.getDiagnostics();
+    return response;
   }
 
   /**
@@ -501,7 +525,7 @@ export class Items {
     operations: OperationInput[],
     partitionKey: string = "[{}]",
     options?: RequestOptions
-  ): Promise<Response<any>> {
+  ): Promise<Response<OperationResponse[]>> {
     operations.map((operation) => decorateBatchOperation(operation, options));
 
     const path = getPathFromLink(this.container.url, ResourceType.item);
@@ -510,7 +534,7 @@ export class Items {
       throw new Error("Cannot run batch request with more than 100 operations per partition");
     }
     try {
-      const response = await this.clientContext.batch({
+      const response: Response<OperationResponse[]> = await this.clientContext.batch({
         body: operations,
         partitionKey,
         path,

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AutomanageClient } = require("@azure/arm-automanage");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get list of configuration profile assignments under a given subscription
@@ -18,7 +19,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/listConfigurationProfileAssignmentsBySubscription.json
  */
 async function listConfigurationProfileAssignmentsBySubscription() {
-  const subscriptionId = "mySubscriptionId";
+  const subscriptionId = process.env["AUTOMANAGE_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const credential = new DefaultAzureCredential();
   const client = new AutomanageClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +29,8 @@ async function listConfigurationProfileAssignmentsBySubscription() {
   console.log(resArray);
 }
 
-listConfigurationProfileAssignmentsBySubscription().catch(console.error);
+async function main() {
+  listConfigurationProfileAssignmentsBySubscription();
+}
+
+main().catch(console.error);

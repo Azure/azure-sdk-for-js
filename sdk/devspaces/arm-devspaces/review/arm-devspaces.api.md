@@ -29,15 +29,15 @@ export interface ContainerHostMappingsGetContainerHostMappingOptionalParams exte
 export type ContainerHostMappingsGetContainerHostMappingResponse = ContainerHostMapping;
 
 // @public (undocumented)
-export type Controller = TrackedResource & {
-    sku: Sku;
-    readonly provisioningState?: ProvisioningState;
-    readonly hostSuffix?: string;
+export interface Controller extends TrackedResource {
     readonly dataPlaneFqdn?: string;
+    readonly hostSuffix?: string;
+    readonly provisioningState?: ProvisioningState;
+    sku: Sku;
     readonly targetContainerHostApiServerFqdn?: string;
-    targetContainerHostResourceId: string;
     targetContainerHostCredentialsBase64: string;
-};
+    targetContainerHostResourceId: string;
+}
 
 // @public (undocumented)
 export interface ControllerConnectionDetails {
@@ -177,40 +177,34 @@ export interface ErrorDetails {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownSkuName {
-    // (undocumented)
     S1 = "S1"
 }
 
 // @public
 export enum KnownSkuTier {
-    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
-export type KubernetesConnectionDetails = OrchestratorSpecificConnectionDetails & {
+export interface KubernetesConnectionDetails extends OrchestratorSpecificConnectionDetails {
     instanceType: "Kubernetes";
     kubeConfig?: string;
-};
+}
 
 // @public
 export interface ListConnectionDetailsParameters {
@@ -288,12 +282,12 @@ export type SkuName = string;
 export type SkuTier = string;
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location?: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location?: string;
-};
+}
 
 // (No @packageDocumentation comment for this package)
 

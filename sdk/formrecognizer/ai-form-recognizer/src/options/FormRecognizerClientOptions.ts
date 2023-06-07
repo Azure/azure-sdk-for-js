@@ -7,7 +7,7 @@ import { CommonClientOptions } from "@azure/core-client";
  * Valid values of the Form Recognizer service REST API version.
  */
 export type FormRecognizerApiVersion =
-  typeof FormRecognizerApiVersion[keyof typeof FormRecognizerApiVersion];
+  (typeof FormRecognizerApiVersion)[keyof typeof FormRecognizerApiVersion];
 
 /**
  * Supported and common values of FormRecognizerApiVersion.
@@ -20,16 +20,29 @@ export const FormRecognizerApiVersion = {
    * If using a beta package version, this will be identical to the latest preview version. Otherwise, it will be
    * identical to the latest stable version.
    */
-  Latest: "2022-08-31",
-  // TODO (GA): Add a `Stable` version selector that picks the latest GA version, even in beta packages, and an exact
-  // version entry for the GA version.
+  Latest: "2023-02-28-preview",
+
+  /**
+   * The newest stable version of the service known to be supported by the package. This will be a Generally Available
+   * (GA) version, even if the package version is a beta.
+   */
   Stable: "2022-08-31",
+
+  /**
+   * Form Recognizer API version 2022-08-31 (GA).
+   */
+  "2022-08-31": "2022-08-31",
+
+  /**
+   * Form Recognizer API version 2023-02-28-preview.
+   */
+  "2023-02-28-preview": "2023-02-28-preview",
 } as const;
 
 /**
  * Valid string index types supported by the Form Recognizer service and SDK clients.
  */
-export type StringIndexType = typeof StringIndexType[keyof typeof StringIndexType];
+export type StringIndexType = (typeof StringIndexType)[keyof typeof StringIndexType];
 
 /**
  * Supported values of StringIndexType.
@@ -53,7 +66,7 @@ export const StringIndexType = {
  */
 export const DEFAULT_GENERATED_CLIENT_OPTIONS = {
   stringIndexType: StringIndexType.Utf16CodeUnit,
-  apiVersion: FormRecognizerApiVersion.Stable,
+  apiVersion: FormRecognizerApiVersion.Latest,
 } as const;
 
 /**

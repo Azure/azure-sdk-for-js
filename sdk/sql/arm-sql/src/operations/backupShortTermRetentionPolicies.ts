@@ -6,18 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { BackupShortTermRetentionPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   BackupShortTermRetentionPolicy,
   BackupShortTermRetentionPoliciesListByDatabaseNextOptionalParams,
   BackupShortTermRetentionPoliciesListByDatabaseOptionalParams,
+  BackupShortTermRetentionPoliciesListByDatabaseResponse,
   ShortTermRetentionPolicyName,
   BackupShortTermRetentionPoliciesGetOptionalParams,
   BackupShortTermRetentionPoliciesGetResponse,
@@ -25,7 +31,6 @@ import {
   BackupShortTermRetentionPoliciesCreateOrUpdateResponse,
   BackupShortTermRetentionPoliciesUpdateOptionalParams,
   BackupShortTermRetentionPoliciesUpdateResponse,
-  BackupShortTermRetentionPoliciesListByDatabaseResponse,
   BackupShortTermRetentionPoliciesListByDatabaseNextResponse
 } from "../models";
 
@@ -70,12 +75,16 @@ export class BackupShortTermRetentionPoliciesImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByDatabasePagingPage(
           resourceGroupName,
           serverName,
           databaseName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -85,16 +94,23 @@ export class BackupShortTermRetentionPoliciesImpl
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: BackupShortTermRetentionPoliciesListByDatabaseOptionalParams
+    options?: BackupShortTermRetentionPoliciesListByDatabaseOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<BackupShortTermRetentionPolicy[]> {
-    let result = await this._listByDatabase(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: BackupShortTermRetentionPoliciesListByDatabaseResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByDatabase(
+        resourceGroupName,
+        serverName,
+        databaseName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByDatabaseNext(
         resourceGroupName,
@@ -104,7 +120,9 @@ export class BackupShortTermRetentionPoliciesImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -164,10 +182,8 @@ export class BackupShortTermRetentionPoliciesImpl
     parameters: BackupShortTermRetentionPolicy,
     options?: BackupShortTermRetentionPoliciesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        BackupShortTermRetentionPoliciesCreateOrUpdateResponse
-      >,
+    SimplePollerLike<
+      OperationState<BackupShortTermRetentionPoliciesCreateOrUpdateResponse>,
       BackupShortTermRetentionPoliciesCreateOrUpdateResponse
     >
   > {
@@ -177,7 +193,7 @@ export class BackupShortTermRetentionPoliciesImpl
     ): Promise<BackupShortTermRetentionPoliciesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -210,9 +226,9 @@ export class BackupShortTermRetentionPoliciesImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serverName,
         databaseName,
@@ -220,10 +236,13 @@ export class BackupShortTermRetentionPoliciesImpl
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BackupShortTermRetentionPoliciesCreateOrUpdateResponse,
+      OperationState<BackupShortTermRetentionPoliciesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -277,8 +296,8 @@ export class BackupShortTermRetentionPoliciesImpl
     parameters: BackupShortTermRetentionPolicy,
     options?: BackupShortTermRetentionPoliciesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BackupShortTermRetentionPoliciesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BackupShortTermRetentionPoliciesUpdateResponse>,
       BackupShortTermRetentionPoliciesUpdateResponse
     >
   > {
@@ -288,7 +307,7 @@ export class BackupShortTermRetentionPoliciesImpl
     ): Promise<BackupShortTermRetentionPoliciesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -321,9 +340,9 @@ export class BackupShortTermRetentionPoliciesImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serverName,
         databaseName,
@@ -331,10 +350,13 @@ export class BackupShortTermRetentionPoliciesImpl
         parameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      BackupShortTermRetentionPoliciesUpdateResponse,
+      OperationState<BackupShortTermRetentionPoliciesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -425,7 +447,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -456,8 +478,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters76,
-  queryParameters: [Parameters.apiVersion3],
+  requestBody: Parameters.parameters62,
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -466,7 +488,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.databaseName,
     Parameters.policyName3
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -489,8 +511,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters76,
-  queryParameters: [Parameters.apiVersion3],
+  requestBody: Parameters.parameters62,
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -499,7 +521,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.databaseName,
     Parameters.policyName3
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -513,7 +535,7 @@ const listByDatabaseOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -533,7 +555,6 @@ const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

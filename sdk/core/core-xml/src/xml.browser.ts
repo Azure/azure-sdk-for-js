@@ -17,10 +17,14 @@ if (!document || !DOMParser || !Node || !XMLSerializer) {
 // according to the spec.  There are no HTML/XSS security concerns on the usage of
 // parseFromString() here.
 let ttPolicy: Pick<TrustedTypePolicy, "createHTML"> | undefined;
-if (typeof self.trustedTypes !== "undefined") {
-  ttPolicy = self.trustedTypes.createPolicy("@azure/core-xml#xml.browser", {
-    createHTML: (s) => s,
-  });
+try {
+  if (typeof self.trustedTypes !== "undefined") {
+    ttPolicy = self.trustedTypes.createPolicy("@azure/core-xml#xml.browser", {
+      createHTML: (s: string) => s,
+    });
+  }
+} catch (e: any) {
+  console.warn('Could not create trusted types policy "@azure/core-xml#xml.browser"');
 }
 
 const doc = document.implementation.createDocument(null, null, null);
@@ -129,9 +133,18 @@ function domToObject(node: Node, options: Required<XmlOptions>): any {
   if (!onlyChildTextValue) {
     for (let i = 0; i < childNodeCount; i++) {
       const child = node.childNodes[i];
-      // Ignore leading/trailing whitespace nodes
-      if (child.nodeType !== Node.TEXT_NODE) {
+
+      // Check if CData
+      if (child?.nodeType === Node.CDATA_SECTION_NODE) {
+        // Already in the CDATA
+        result = child.textContent;
+      } else if (child?.firstChild?.nodeType === Node.CDATA_SECTION_NODE) {
+        // Look if child is CDATA
+        result[child.nodeName] = child.textContent;
+      } else if (child.nodeType !== Node.TEXT_NODE) {
+        // Ignore leading/trailing whitespace nodes
         const childObject: any = domToObject(child, options);
+
         if (!result[child.nodeName]) {
           result[child.nodeName] = childObject;
         } else if (Array.isArray(result[child.nodeName])) {

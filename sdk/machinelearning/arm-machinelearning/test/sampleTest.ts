@@ -28,16 +28,16 @@ const recorderOptions: RecorderStartOptions = {
 describe("My test", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function(this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderOptions);
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await recorder.stop();
   });
 
-  it("sample test", async function () {
+  it("sample test", async function() {
     console.log("Hi, I'm a test!");
   });
 });

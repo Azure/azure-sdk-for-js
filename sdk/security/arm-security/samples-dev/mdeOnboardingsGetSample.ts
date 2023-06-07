@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to The default configuration or data needed to onboard the machine to MDE
@@ -18,13 +21,17 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2021-10-01-preview/examples/MdeOnboardings/GetMdeOnboardings_example.json
  */
 async function theDefaultConfigurationOrDataNeededToOnboardTheMachineToMde() {
-  const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] ||
+    "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.mdeOnboardings.get();
   console.log(result);
 }
 
-theDefaultConfigurationOrDataNeededToOnboardTheMachineToMde().catch(
-  console.error
-);
+async function main() {
+  theDefaultConfigurationOrDataNeededToOnboardTheMachineToMde();
+}
+
+main().catch(console.error);

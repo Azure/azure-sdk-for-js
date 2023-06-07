@@ -59,10 +59,10 @@ const executeOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.VirtualNetworkSubnetUsageResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

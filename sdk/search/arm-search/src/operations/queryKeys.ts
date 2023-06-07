@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { QueryKeys } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,9 +17,9 @@ import {
   QueryKey,
   QueryKeysListBySearchServiceNextOptionalParams,
   QueryKeysListBySearchServiceOptionalParams,
+  QueryKeysListBySearchServiceResponse,
   QueryKeysCreateOptionalParams,
   QueryKeysCreateResponse,
-  QueryKeysListBySearchServiceResponse,
   QueryKeysDeleteOptionalParams,
   QueryKeysListBySearchServiceNextResponse
 } from "../models";
@@ -61,11 +62,15 @@ export class QueryKeysImpl implements QueryKeys {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listBySearchServicePagingPage(
           resourceGroupName,
           searchServiceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -74,15 +79,22 @@ export class QueryKeysImpl implements QueryKeys {
   private async *listBySearchServicePagingPage(
     resourceGroupName: string,
     searchServiceName: string,
-    options?: QueryKeysListBySearchServiceOptionalParams
+    options?: QueryKeysListBySearchServiceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<QueryKey[]> {
-    let result = await this._listBySearchService(
-      resourceGroupName,
-      searchServiceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: QueryKeysListBySearchServiceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySearchService(
+        resourceGroupName,
+        searchServiceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySearchServiceNext(
         resourceGroupName,
@@ -91,7 +103,9 @@ export class QueryKeysImpl implements QueryKeys {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -275,7 +289,6 @@ const listBySearchServiceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

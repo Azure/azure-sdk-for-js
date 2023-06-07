@@ -6,14 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { AdaptiveNetworkHardenings } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityCenter } from "../securityCenter";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   AdaptiveNetworkHardening,
   AdaptiveNetworkHardeningsListByExtendedResourceNextOptionalParams,
@@ -70,13 +75,17 @@ export class AdaptiveNetworkHardeningsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByExtendedResourcePagingPage(
           resourceGroupName,
           resourceNamespace,
           resourceType,
           resourceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -87,17 +96,24 @@ export class AdaptiveNetworkHardeningsImpl
     resourceNamespace: string,
     resourceType: string,
     resourceName: string,
-    options?: AdaptiveNetworkHardeningsListByExtendedResourceOptionalParams
+    options?: AdaptiveNetworkHardeningsListByExtendedResourceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AdaptiveNetworkHardening[]> {
-    let result = await this._listByExtendedResource(
-      resourceGroupName,
-      resourceNamespace,
-      resourceType,
-      resourceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AdaptiveNetworkHardeningsListByExtendedResourceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByExtendedResource(
+        resourceGroupName,
+        resourceNamespace,
+        resourceType,
+        resourceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByExtendedResourceNext(
         resourceGroupName,
@@ -108,7 +124,9 @@ export class AdaptiveNetworkHardeningsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -208,14 +226,14 @@ export class AdaptiveNetworkHardeningsImpl
     adaptiveNetworkHardeningResourceName: string,
     body: AdaptiveNetworkHardeningEnforceRequest,
     options?: AdaptiveNetworkHardeningsEnforceOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -248,9 +266,9 @@ export class AdaptiveNetworkHardeningsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         resourceNamespace,
         resourceType,
@@ -259,10 +277,10 @@ export class AdaptiveNetworkHardeningsImpl
         body,
         options
       },
-      enforceOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: enforceOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -424,7 +442,6 @@ const listByExtendedResourceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion10],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

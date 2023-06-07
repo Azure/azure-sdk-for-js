@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Retrieves all the file shares in a file server.
  *
  * @summary Retrieves all the file shares in a file server.
- * x-ms-original-file: specification/storSimple1200Series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/FileSharesListByFileServer.json
+ * x-ms-original-file: specification/storsimple1200series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/FileSharesListByFileServer.json
  */
 async function fileSharesListByFileServer() {
   const subscriptionId = "9eb689cd-7243-43b4-b6f6-5c65cb296641";

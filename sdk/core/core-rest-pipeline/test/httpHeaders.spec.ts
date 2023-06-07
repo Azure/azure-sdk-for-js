@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { createHttpHeaders } from "../src/httpHeaders.js";
+import { createHttpHeaders } from "../src/httpHeaders";
 
 describe("HttpHeaders", () => {
   it("toJSON() should use normalized header names", () => {

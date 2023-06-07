@@ -6,24 +6,29 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { RouteFilterRules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   RouteFilterRule,
   RouteFilterRulesListByRouteFilterNextOptionalParams,
   RouteFilterRulesListByRouteFilterOptionalParams,
+  RouteFilterRulesListByRouteFilterResponse,
   RouteFilterRulesDeleteOptionalParams,
   RouteFilterRulesGetOptionalParams,
   RouteFilterRulesGetResponse,
   RouteFilterRulesCreateOrUpdateOptionalParams,
   RouteFilterRulesCreateOrUpdateResponse,
-  RouteFilterRulesListByRouteFilterResponse,
   RouteFilterRulesListByRouteFilterNextResponse
 } from "../models";
 
@@ -63,11 +68,15 @@ export class RouteFilterRulesImpl implements RouteFilterRules {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByRouteFilterPagingPage(
           resourceGroupName,
           routeFilterName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -76,15 +85,22 @@ export class RouteFilterRulesImpl implements RouteFilterRules {
   private async *listByRouteFilterPagingPage(
     resourceGroupName: string,
     routeFilterName: string,
-    options?: RouteFilterRulesListByRouteFilterOptionalParams
+    options?: RouteFilterRulesListByRouteFilterOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<RouteFilterRule[]> {
-    let result = await this._listByRouteFilter(
-      resourceGroupName,
-      routeFilterName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RouteFilterRulesListByRouteFilterResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByRouteFilter(
+        resourceGroupName,
+        routeFilterName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByRouteFilterNext(
         resourceGroupName,
@@ -93,7 +109,9 @@ export class RouteFilterRulesImpl implements RouteFilterRules {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -123,14 +141,14 @@ export class RouteFilterRulesImpl implements RouteFilterRules {
     routeFilterName: string,
     ruleName: string,
     options?: RouteFilterRulesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -163,15 +181,15 @@ export class RouteFilterRulesImpl implements RouteFilterRules {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, routeFilterName, ruleName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, routeFilterName, ruleName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -234,8 +252,8 @@ export class RouteFilterRulesImpl implements RouteFilterRules {
     routeFilterRuleParameters: RouteFilterRule,
     options?: RouteFilterRulesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<RouteFilterRulesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<RouteFilterRulesCreateOrUpdateResponse>,
       RouteFilterRulesCreateOrUpdateResponse
     >
   > {
@@ -245,7 +263,7 @@ export class RouteFilterRulesImpl implements RouteFilterRules {
     ): Promise<RouteFilterRulesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -278,21 +296,24 @@ export class RouteFilterRulesImpl implements RouteFilterRules {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         routeFilterName,
         ruleName,
         routeFilterRuleParameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      RouteFilterRulesCreateOrUpdateResponse,
+      OperationState<RouteFilterRulesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -477,7 +498,6 @@ const listByRouteFilterNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

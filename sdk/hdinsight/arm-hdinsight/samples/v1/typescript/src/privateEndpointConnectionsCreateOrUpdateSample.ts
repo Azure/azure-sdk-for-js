@@ -13,6 +13,9 @@ import {
   HDInsightManagementClient
 } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Approve or reject a private endpoint connection manually.
@@ -21,8 +24,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/ApprovePrivateEndpointConnection.json
  */
 async function approveAPrivateEndpointConnectionManually() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cluster1";
   const privateEndpointConnectionName =
     "testprivateep.b3bf5fed-9b12-4560-b7d0-2abe1bba07e2";
@@ -44,4 +47,8 @@ async function approveAPrivateEndpointConnectionManually() {
   console.log(result);
 }
 
-approveAPrivateEndpointConnectionManually().catch(console.error);
+async function main() {
+  approveAPrivateEndpointConnectionManually();
+}
+
+main().catch(console.error);

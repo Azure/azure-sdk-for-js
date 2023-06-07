@@ -646,6 +646,9 @@ export interface GetCallbackUrlParameters {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export type HashingAlgorithm = string;
 
 // @public
@@ -715,8 +718,6 @@ export type IntegrationAccountAgreementsListContentCallbackUrlResponse = Workflo
 
 // @public
 export interface IntegrationAccountAgreementsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -848,7 +849,6 @@ export type IntegrationAccountCertificatesGetResponse = IntegrationAccountCertif
 
 // @public
 export interface IntegrationAccountCertificatesListNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -932,8 +932,6 @@ export type IntegrationAccountMapsListContentCallbackUrlResponse = WorkflowTrigg
 
 // @public
 export interface IntegrationAccountMapsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -1004,8 +1002,6 @@ export type IntegrationAccountPartnersListContentCallbackUrlResponse = WorkflowT
 
 // @public
 export interface IntegrationAccountPartnersListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -1095,8 +1091,6 @@ export type IntegrationAccountSchemasListContentCallbackUrlResponse = WorkflowTr
 
 // @public
 export interface IntegrationAccountSchemasListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -1168,8 +1162,6 @@ export type IntegrationAccountSessionsGetResponse = IntegrationAccountSession;
 
 // @public
 export interface IntegrationAccountSessionsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -1201,7 +1193,6 @@ export type IntegrationAccountSkuName = string;
 
 // @public
 export interface IntegrationAccountsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -1217,7 +1208,6 @@ export type IntegrationAccountsListByResourceGroupResponse = IntegrationAccountL
 
 // @public
 export interface IntegrationAccountsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -1544,7 +1534,6 @@ export type IntegrationServiceEnvironmentSkusListResponse = IntegrationServiceEn
 
 // @public
 export interface IntegrationServiceEnvironmentsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -1560,7 +1549,6 @@ export type IntegrationServiceEnvironmentsListByResourceGroupResponse = Integrat
 
 // @public
 export interface IntegrationServiceEnvironmentsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -2807,8 +2795,6 @@ export type WorkflowRunActionsListExpressionTracesResponse = ExpressionTraces;
 
 // @public
 export interface WorkflowRunActionsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -2866,8 +2852,6 @@ export type WorkflowRunsGetResponse = WorkflowRun;
 
 // @public
 export interface WorkflowRunsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -2957,8 +2941,6 @@ export type WorkflowsGetResponse = Workflow;
 
 // @public
 export interface WorkflowsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -2975,8 +2957,6 @@ export type WorkflowsListByResourceGroupResponse = WorkflowListResult;
 
 // @public
 export interface WorkflowsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -3084,8 +3064,6 @@ export type WorkflowTriggerHistoriesGetResponse = WorkflowTriggerHistory;
 
 // @public
 export interface WorkflowTriggerHistoriesListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -3201,8 +3179,6 @@ export type WorkflowTriggersListCallbackUrlResponse = WorkflowTriggerCallbackUrl
 
 // @public
 export interface WorkflowTriggersListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -3268,7 +3244,6 @@ export type WorkflowVersionsGetResponse = WorkflowVersion;
 
 // @public
 export interface WorkflowVersionsListNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public

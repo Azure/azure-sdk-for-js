@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ConsumptionManagementClient } = require("@azure/arm-consumption");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists the reservations summaries for daily or monthly grain.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationSummariesDailyWithReservationId.json
  */
 async function reservationSummariesDailyWithReservationId() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const reservationOrderId = "00000000-0000-0000-0000-000000000000";
   const reservationId = "00000000-0000-0000-0000-000000000000";
   const grain = "daily";
@@ -40,8 +42,6 @@ async function reservationSummariesDailyWithReservationId() {
   console.log(resArray);
 }
 
-reservationSummariesDailyWithReservationId().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the reservations summaries for daily or monthly grain.
  *
@@ -49,7 +49,8 @@ reservationSummariesDailyWithReservationId().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationSummariesMonthlyWithReservationId.json
  */
 async function reservationSummariesMonthlyWithReservationId() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const reservationOrderId = "00000000-0000-0000-0000-000000000000";
   const reservationId = "00000000-0000-0000-0000-000000000000";
   const grain = "monthly";
@@ -66,4 +67,9 @@ async function reservationSummariesMonthlyWithReservationId() {
   console.log(resArray);
 }
 
-reservationSummariesMonthlyWithReservationId().catch(console.error);
+async function main() {
+  reservationSummariesDailyWithReservationId();
+  reservationSummariesMonthlyWithReservationId();
+}
+
+main().catch(console.error);

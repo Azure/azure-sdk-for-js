@@ -40,7 +40,8 @@ import {
   RegenerateEndpointKeysRequest as RegenerateEndpointKeysRequestMapper,
   PartialMinimalTrackedResourceWithSku as PartialMinimalTrackedResourceWithSkuMapper,
   OnlineDeployment as OnlineDeploymentMapper,
-  DeploymentLogsRequest as DeploymentLogsRequestMapper
+  DeploymentLogsRequest as DeploymentLogsRequestMapper,
+  Schedule as ScheduleMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -70,7 +71,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-05-01",
+    defaultValue: "2022-10-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -724,4 +725,19 @@ export const body19: OperationParameter = {
 export const body20: OperationParameter = {
   parameterPath: "body",
   mapper: DeploymentLogsRequestMapper
+};
+
+export const listViewType1: OperationQueryParameter = {
+  parameterPath: ["options", "listViewType"],
+  mapper: {
+    serializedName: "listViewType",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body21: OperationParameter = {
+  parameterPath: "body",
+  mapper: ScheduleMapper
 };

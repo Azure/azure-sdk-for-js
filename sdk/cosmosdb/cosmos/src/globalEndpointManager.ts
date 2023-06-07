@@ -3,7 +3,8 @@
 import { OperationType, ResourceType, isReadRequest } from "./common";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { Location, DatabaseAccount } from "./documents";
-import { RequestOptions } from "./index";
+import { MetadataLookUpType, RequestContext, RequestOptions } from "./index";
+import { Constants } from "./common/constants";
 import { ResourceResponse } from "./request";
 
 /**
@@ -27,6 +28,8 @@ export class GlobalEndpointManager {
   private preferredLocations: string[];
   private writeableLocations: Location[] = [];
   private readableLocations: Location[] = [];
+  private unavailableReadableLocations: Location[] = [];
+  private unavailableWriteableLocations: Location[] = [];
 
   /**
    * @param options - The document client instance.
@@ -71,6 +74,8 @@ export class GlobalEndpointManager {
     const location = this.readableLocations.find((loc) => loc.databaseAccountEndpoint === endpoint);
     if (location) {
       location.unavailable = true;
+      location.lastUnavailabilityTimestampInMs = Date.now();
+      this.unavailableReadableLocations.push(location);
     }
   }
 
@@ -81,6 +86,8 @@ export class GlobalEndpointManager {
     );
     if (location) {
       location.unavailable = true;
+      location.lastUnavailabilityTimestampInMs = Date.now();
+      this.unavailableWriteableLocations.push(location);
     }
   }
 
@@ -102,7 +109,8 @@ export class GlobalEndpointManager {
 
   public async resolveServiceEndpoint(
     resourceType: ResourceType,
-    operationType: OperationType
+    operationType: OperationType,
+    requestContext?: RequestContext
   ): Promise<string> {
     // If endpoint discovery is disabled, always use the user provided endpoint
     if (!this.options.connectionPolicy.enableEndpointDiscovery) {
@@ -115,11 +123,17 @@ export class GlobalEndpointManager {
     }
 
     if (this.readableLocations.length === 0 || this.writeableLocations.length === 0) {
-      const { resource: databaseAccount } = await this.readDatabaseAccount({
+      const { resource: databaseAccount, diagnostics } = await this.readDatabaseAccount({
         urlConnection: this.defaultEndpoint,
       });
       this.writeableLocations = databaseAccount.writableLocations;
       this.readableLocations = databaseAccount.readableLocations;
+      if (requestContext !== undefined) {
+        requestContext.diagnosticContext.recordMetaDataLookup(
+          diagnostics,
+          MetadataLookUpType.DatabaseAccountLookUp
+        );
+      }
     }
 
     const locations = isReadRequest(operationType)
@@ -147,23 +161,27 @@ export class GlobalEndpointManager {
         return loc.unavailable !== true;
       });
     }
-
-    return location ? location.databaseAccountEndpoint : this.defaultEndpoint;
+    location = location ? location : { name: "", databaseAccountEndpoint: this.defaultEndpoint };
+    if (requestContext !== undefined) {
+      requestContext.diagnosticContext.recordEndpointContactEvent(location);
+    }
+    return location.databaseAccountEndpoint;
   }
 
   /**
-   * Refreshes the endpoint list by retrieving the writable and readable locations
-   *  from the geo-replicated database account and then updating the locations cache.
-   *   We skip the refreshing if enableEndpointDiscovery is set to False
+   * Refreshes the endpoint list by clearning stale unavailability and then
+   *  retrieving the writable and readable locations from the geo-replicated database account
+   *  and then updating the locations cache.
+   *  We skip the refreshing if enableEndpointDiscovery is set to False
    */
   public async refreshEndpointList(): Promise<void> {
     if (!this.isRefreshing && this.enableEndpointDiscovery) {
       this.isRefreshing = true;
       const databaseAccount = await this.getDatabaseAccountFromAnyEndpoint();
       if (databaseAccount) {
+        this.refreshStaleUnavailableLocations();
         this.refreshEndpoints(databaseAccount);
       }
-
       this.isRefreshing = false;
     }
   }
@@ -175,12 +193,62 @@ export class GlobalEndpointManager {
         this.writeableLocations.push(location);
       }
     }
-    for (const location of databaseAccount.writableLocations) {
+    for (const location of databaseAccount.readableLocations) {
       const existingLocation = this.readableLocations.find((loc) => loc.name === location.name);
       if (!existingLocation) {
         this.readableLocations.push(location);
       }
     }
+  }
+
+  private refreshStaleUnavailableLocations(): void {
+    const now = Date.now();
+    this.updateLocation(now, this.unavailableReadableLocations, this.readableLocations);
+    this.unavailableReadableLocations = this.cleanUnavailableLocationList(
+      now,
+      this.unavailableReadableLocations
+    );
+
+    this.updateLocation(now, this.unavailableWriteableLocations, this.writeableLocations);
+    this.unavailableWriteableLocations = this.cleanUnavailableLocationList(
+      now,
+      this.unavailableWriteableLocations
+    );
+  }
+
+  /**
+   * update the locationUnavailability to undefined if the location is available again
+   * @param now - current time
+   * @param unavailableLocations - list of unavailable locations
+   * @param allLocations - list of all locations
+   */
+  private updateLocation(
+    now: number,
+    unavailableLocations: Location[],
+    allLocations: Location[]
+  ): void {
+    for (const location of unavailableLocations) {
+      const unavaialableLocation = allLocations.find((loc) => loc.name === location.name);
+      if (
+        unavaialableLocation &&
+        now - unavaialableLocation.lastUnavailabilityTimestampInMs >
+          Constants.LocationUnavailableExpirationTimeInMs
+      ) {
+        unavaialableLocation.unavailable = false;
+      }
+    }
+  }
+
+  private cleanUnavailableLocationList(now: number, unavailableLocations: Location[]): Location[] {
+    return unavailableLocations.filter((loc) => {
+      if (
+        loc &&
+        now - loc.lastUnavailabilityTimestampInMs >= Constants.LocationUnavailableExpirationTimeInMs
+      ) {
+        return false;
+      }
+      return true;
+    });
   }
 
   /**

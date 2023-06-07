@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
+import { CosmosDiagnosticContext } from "../../CosmosDiagnosticsContext";
 import {
   createStoredProcedureUri,
   getIdFromLink,
@@ -11,6 +12,7 @@ import {
 import { PartitionKey } from "../../documents/PartitionKey";
 import { undefinedPartitionKey } from "../../extractPartitionKey";
 import { RequestOptions, ResourceResponse } from "../../request";
+import { readAndRecordPartitionKeyDefinition } from "../ClientUtils";
 import { Container } from "../Container";
 import { StoredProcedureDefinition } from "./StoredProcedureDefinition";
 import { StoredProcedureResponse } from "./StoredProcedureResponse";
@@ -51,7 +53,13 @@ export class StoredProcedure {
       resourceId: id,
       options,
     });
-    return new StoredProcedureResponse(response.result, response.headers, response.code, this);
+    return new StoredProcedureResponse(
+      response.result,
+      response.headers,
+      response.code,
+      this,
+      response.diagnostics
+    );
   }
 
   /**
@@ -81,7 +89,13 @@ export class StoredProcedure {
       resourceId: id,
       options,
     });
-    return new StoredProcedureResponse(response.result, response.headers, response.code, this);
+    return new StoredProcedureResponse(
+      response.result,
+      response.headers,
+      response.code,
+      this,
+      response.diagnostics
+    );
   }
 
   /**
@@ -97,7 +111,13 @@ export class StoredProcedure {
       resourceId: id,
       options,
     });
-    return new StoredProcedureResponse(response.result, response.headers, response.code, this);
+    return new StoredProcedureResponse(
+      response.result,
+      response.headers,
+      response.code,
+      this,
+      response.diagnostics
+    );
   }
 
   /**
@@ -115,17 +135,24 @@ export class StoredProcedure {
     params?: any[],
     options?: RequestOptions
   ): Promise<ResourceResponse<T>> {
+    let diagnosticContext: CosmosDiagnosticContext;
     if (partitionKey === undefined) {
-      const { resource: partitionKeyDefinition } =
-        await this.container.readPartitionKeyDefinition();
-      partitionKey = undefinedPartitionKey(partitionKeyDefinition);
+      const partitionKeyResponse = await readAndRecordPartitionKeyDefinition(this.container);
+      diagnosticContext = partitionKeyResponse.diagnosticContext;
+      partitionKey = undefinedPartitionKey(partitionKeyResponse.partitionKeyDefinition);
     }
     const response = await this.clientContext.execute<T>({
       sprocLink: this.url,
       params,
       options,
       partitionKey,
+      diagnosticContext,
     });
-    return new ResourceResponse<T>(response.result, response.headers, response.code);
+    return new ResourceResponse<T>(
+      response.result,
+      response.headers,
+      response.code,
+      response.diagnostics
+    );
   }
 }

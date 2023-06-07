@@ -44,7 +44,7 @@ async function putWebService() {
       exampleRequest: {
         globalParameters: {},
         inputs: {
-          input1: [["age"], ["workclass"], ["fnlwgt"], ["education"], ["education-num"]],
+          input1: [],
         },
       },
       exposeSampleData: true,
@@ -104,8 +104,8 @@ async function putWebService() {
           node1: {
             assetId: "asset1",
             parameters: {
-              rScript: { certificateThumbprint: "", value: "The R Script" },
-              rVersion: { certificateThumbprint: "", value: "CRAN R 3.1.0" },
+              rScript: { certificateThumbprint: "" },
+              rVersion: { certificateThumbprint: "" },
             },
           },
           node2: {
@@ -113,16 +113,13 @@ async function putWebService() {
             parameters: {
               accountKey: {
                 certificateThumbprint: "TheThumbprint",
-                value: "Encrypted Key",
               },
-              accountName: { certificateThumbprint: "", value: "accountName" },
+              accountName: { certificateThumbprint: "" },
               pleaseSpecifyAuthenticationType: {
                 certificateThumbprint: "",
-                value: "Account",
               },
               pleaseSpecifyDataSource: {
                 certificateThumbprint: "",
-                value: "AzureBlobStorage",
               },
             },
           },

@@ -17,19 +17,25 @@ import {
 export interface ReplicationEligibilityResultsOperations {
   /**
    * Validates whether a given VM can be protected or not in which case returns list of errors.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param virtualMachineName Virtual Machine name.
    * @param options The options parameters.
    */
   list(
+    resourceGroupName: string,
     virtualMachineName: string,
     options?: ReplicationEligibilityResultsListOptionalParams
   ): Promise<ReplicationEligibilityResultsListResponse>;
   /**
    * Validates whether a given VM can be protected or not in which case returns list of errors.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param virtualMachineName Virtual Machine name.
    * @param options The options parameters.
    */
   get(
+    resourceGroupName: string,
     virtualMachineName: string,
     options?: ReplicationEligibilityResultsGetOptionalParams
   ): Promise<ReplicationEligibilityResultsGetResponse>;

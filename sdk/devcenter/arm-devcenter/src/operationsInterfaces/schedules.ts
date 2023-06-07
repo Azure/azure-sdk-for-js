@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Schedule,
   SchedulesListByPoolOptionalParams,
@@ -17,6 +17,7 @@ import {
   SchedulesCreateOrUpdateResponse,
   ScheduleUpdate,
   SchedulesUpdateOptionalParams,
+  SchedulesUpdateResponse,
   SchedulesDeleteOptionalParams
 } from "../models";
 
@@ -25,7 +26,7 @@ import {
 export interface Schedules {
   /**
    * Lists schedules for a pool
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param options The options parameters.
@@ -38,7 +39,7 @@ export interface Schedules {
   ): PagedAsyncIterableIterator<Schedule>;
   /**
    * Gets a schedule resource.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param scheduleName The name of the schedule that uniquely identifies it.
@@ -53,7 +54,7 @@ export interface Schedules {
   ): Promise<SchedulesGetResponse>;
   /**
    * Creates or updates a Schedule.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param scheduleName The name of the schedule that uniquely identifies it.
@@ -68,14 +69,14 @@ export interface Schedules {
     body: Schedule,
     options?: SchedulesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SchedulesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SchedulesCreateOrUpdateResponse>,
       SchedulesCreateOrUpdateResponse
     >
   >;
   /**
    * Creates or updates a Schedule.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param scheduleName The name of the schedule that uniquely identifies it.
@@ -92,7 +93,7 @@ export interface Schedules {
   ): Promise<SchedulesCreateOrUpdateResponse>;
   /**
    * Partially updates a Scheduled.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param scheduleName The name of the schedule that uniquely identifies it.
@@ -106,10 +107,15 @@ export interface Schedules {
     scheduleName: string,
     body: ScheduleUpdate,
     options?: SchedulesUpdateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<SchedulesUpdateResponse>,
+      SchedulesUpdateResponse
+    >
+  >;
   /**
    * Partially updates a Scheduled.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param scheduleName The name of the schedule that uniquely identifies it.
@@ -123,10 +129,10 @@ export interface Schedules {
     scheduleName: string,
     body: ScheduleUpdate,
     options?: SchedulesUpdateOptionalParams
-  ): Promise<void>;
+  ): Promise<SchedulesUpdateResponse>;
   /**
    * Deletes a Scheduled.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param scheduleName The name of the schedule that uniquely identifies it.
@@ -138,10 +144,10 @@ export interface Schedules {
     poolName: string,
     scheduleName: string,
     options?: SchedulesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Scheduled.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param scheduleName The name of the schedule that uniquely identifies it.

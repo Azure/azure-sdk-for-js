@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type ActionType = string;
@@ -46,14 +46,14 @@ export interface Backend {
 export type BackendEnabledState = string;
 
 // @public
-export type BackendPool = SubResource & {
-    name?: string;
-    readonly type?: string;
+export interface BackendPool extends SubResource {
     backends?: Backend[];
-    loadBalancingSettings?: SubResource;
     healthProbeSettings?: SubResource;
+    loadBalancingSettings?: SubResource;
+    name?: string;
     readonly resourceState?: FrontDoorResourceState;
-};
+    readonly type?: string;
+}
 
 // @public
 export interface BackendPoolListResult {
@@ -62,9 +62,9 @@ export interface BackendPoolListResult {
 }
 
 // @public
-export type BackendPoolProperties = BackendPoolUpdateParameters & {
+export interface BackendPoolProperties extends BackendPoolUpdateParameters {
     readonly resourceState?: FrontDoorResourceState;
-};
+}
 
 // @public
 export interface BackendPoolsSettings {
@@ -138,6 +138,17 @@ export interface CustomRuleList {
 }
 
 // @public
+export interface DefaultErrorResponse {
+    error?: DefaultErrorResponseError;
+}
+
+// @public
+export interface DefaultErrorResponseError {
+    readonly code?: string;
+    readonly message?: string;
+}
+
+// @public
 export type DynamicCompressionEnabled = string;
 
 // @public
@@ -148,7 +159,7 @@ export interface Endpoint {
 
 // @public
 export interface Endpoints {
-    beginPurgeContent(resourceGroupName: string, frontDoorName: string, contentFilePaths: PurgeParameters, options?: EndpointsPurgeContentOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginPurgeContent(resourceGroupName: string, frontDoorName: string, contentFilePaths: PurgeParameters, options?: EndpointsPurgeContentOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginPurgeContentAndWait(resourceGroupName: string, frontDoorName: string, contentFilePaths: PurgeParameters, options?: EndpointsPurgeContentOptionalParams): Promise<void>;
 }
 
@@ -195,15 +206,15 @@ export interface ErrorResponse {
 }
 
 // @public
-export type Experiment = Resource & {
+export interface Experiment extends Resource {
     description?: string;
+    enabledState?: State;
     endpointA?: Endpoint;
     endpointB?: Endpoint;
-    enabledState?: State;
     readonly resourceState?: NetworkExperimentResourceState;
-    readonly status?: string;
     readonly scriptFileUri?: string;
-};
+    readonly status?: string;
+}
 
 // @public
 export interface ExperimentList {
@@ -213,11 +224,11 @@ export interface ExperimentList {
 
 // @public
 export interface Experiments {
-    beginCreateOrUpdate(resourceGroupName: string, profileName: string, experimentName: string, parameters: Experiment, options?: ExperimentsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ExperimentsCreateOrUpdateResponse>, ExperimentsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, profileName: string, experimentName: string, parameters: Experiment, options?: ExperimentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ExperimentsCreateOrUpdateResponse>, ExperimentsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, profileName: string, experimentName: string, parameters: Experiment, options?: ExperimentsCreateOrUpdateOptionalParams): Promise<ExperimentsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, profileName: string, experimentName: string, options?: ExperimentsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, profileName: string, experimentName: string, options?: ExperimentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, profileName: string, experimentName: string, options?: ExperimentsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, profileName: string, experimentName: string, parameters: ExperimentUpdateModel, options?: ExperimentsUpdateOptionalParams): Promise<PollerLike<PollOperationState<ExperimentsUpdateResponse>, ExperimentsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, profileName: string, experimentName: string, parameters: ExperimentUpdateModel, options?: ExperimentsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ExperimentsUpdateResponse>, ExperimentsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, profileName: string, experimentName: string, parameters: ExperimentUpdateModel, options?: ExperimentsUpdateOptionalParams): Promise<ExperimentsUpdateResponse>;
     get(resourceGroupName: string, profileName: string, experimentName: string, options?: ExperimentsGetOptionalParams): Promise<ExperimentsGetResponse>;
     listByProfile(resourceGroupName: string, profileName: string, options?: ExperimentsListByProfileOptionalParams): PagedAsyncIterableIterator<Experiment>;
@@ -278,30 +289,33 @@ export interface ExperimentUpdateModel {
 }
 
 // @public
-export type ForwardingConfiguration = RouteConfiguration & {
-    odataType: "#Microsoft.Azure.FrontDoor.Models.FrontdoorForwardingConfiguration";
+export interface ForwardingConfiguration extends RouteConfiguration {
+    backendPool?: SubResource;
+    cacheConfiguration?: CacheConfiguration;
     customForwardingPath?: string;
     forwardingProtocol?: FrontDoorForwardingProtocol;
-    cacheConfiguration?: CacheConfiguration;
-    backendPool?: SubResource;
-};
+    odataType: "#Microsoft.Azure.FrontDoor.Models.FrontdoorForwardingConfiguration";
+}
 
 // @public
-export type FrontDoor = Resource & {
-    friendlyName?: string;
-    routingRules?: RoutingRule[];
-    loadBalancingSettings?: LoadBalancingSettingsModel[];
-    healthProbeSettings?: HealthProbeSettingsModel[];
+export interface FrontDoor extends Resource {
     backendPools?: BackendPool[];
-    frontendEndpoints?: FrontendEndpoint[];
     backendPoolsSettings?: BackendPoolsSettings;
-    enabledState?: FrontDoorEnabledState;
-    readonly resourceState?: FrontDoorResourceState;
-    readonly provisioningState?: string;
     readonly cname?: string;
+    enabledState?: FrontDoorEnabledState;
+    readonly extendedProperties?: {
+        [propertyName: string]: string;
+    };
+    friendlyName?: string;
     readonly frontdoorId?: string;
+    frontendEndpoints?: FrontendEndpoint[];
+    healthProbeSettings?: HealthProbeSettingsModel[];
+    loadBalancingSettings?: LoadBalancingSettingsModel[];
+    readonly provisioningState?: string;
+    readonly resourceState?: FrontDoorResourceState;
+    routingRules?: RoutingRule[];
     readonly rulesEngines?: RulesEngine[];
-};
+}
 
 // @public
 export type FrontDoorCertificateSource = string;
@@ -388,13 +402,16 @@ export interface FrontDoorNameAvailabilityWithSubscriptionCheckOptionalParams ex
 export type FrontDoorNameAvailabilityWithSubscriptionCheckResponse = CheckNameAvailabilityOutput;
 
 // @public
-export type FrontDoorProperties = FrontDoorUpdateParameters & {
-    readonly resourceState?: FrontDoorResourceState;
-    readonly provisioningState?: string;
+export interface FrontDoorProperties extends FrontDoorUpdateParameters {
     readonly cname?: string;
+    readonly extendedProperties?: {
+        [propertyName: string]: string;
+    };
     readonly frontdoorId?: string;
+    readonly provisioningState?: string;
+    readonly resourceState?: FrontDoorResourceState;
     readonly rulesEngines?: RulesEngine[];
-};
+}
 
 // @public
 export type FrontDoorProtocol = string;
@@ -413,9 +430,9 @@ export type FrontDoorResourceState = string;
 
 // @public
 export interface FrontDoors {
-    beginCreateOrUpdate(resourceGroupName: string, frontDoorName: string, frontDoorParameters: FrontDoor, options?: FrontDoorsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<FrontDoorsCreateOrUpdateResponse>, FrontDoorsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, frontDoorName: string, frontDoorParameters: FrontDoor, options?: FrontDoorsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FrontDoorsCreateOrUpdateResponse>, FrontDoorsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, frontDoorName: string, frontDoorParameters: FrontDoor, options?: FrontDoorsCreateOrUpdateOptionalParams): Promise<FrontDoorsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, frontDoorName: string, options?: FrontDoorsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, frontDoorName: string, options?: FrontDoorsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, frontDoorName: string, options?: FrontDoorsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, frontDoorName: string, options?: FrontDoorsGetOptionalParams): Promise<FrontDoorsGetResponse>;
     list(options?: FrontDoorsListOptionalParams): PagedAsyncIterableIterator<FrontDoor>;
@@ -496,18 +513,18 @@ export interface FrontDoorUpdateParameters {
 }
 
 // @public
-export type FrontendEndpoint = SubResource & {
-    name?: string;
-    readonly type?: string;
-    hostName?: string;
-    sessionAffinityEnabledState?: SessionAffinityEnabledState;
-    sessionAffinityTtlSeconds?: number;
-    webApplicationFirewallPolicyLink?: FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink;
-    readonly resourceState?: FrontDoorResourceState;
+export interface FrontendEndpoint extends SubResource {
+    readonly customHttpsConfiguration?: CustomHttpsConfiguration;
     readonly customHttpsProvisioningState?: CustomHttpsProvisioningState;
     readonly customHttpsProvisioningSubstate?: CustomHttpsProvisioningSubstate;
-    readonly customHttpsConfiguration?: CustomHttpsConfiguration;
-};
+    hostName?: string;
+    name?: string;
+    readonly resourceState?: FrontDoorResourceState;
+    sessionAffinityEnabledState?: SessionAffinityEnabledState;
+    sessionAffinityTtlSeconds?: number;
+    readonly type?: string;
+    webApplicationFirewallPolicyLink?: FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink;
+}
 
 // @public
 export interface FrontendEndpointLink {
@@ -515,18 +532,18 @@ export interface FrontendEndpointLink {
 }
 
 // @public
-export type FrontendEndpointProperties = FrontendEndpointUpdateParameters & {
-    readonly resourceState?: FrontDoorResourceState;
+export interface FrontendEndpointProperties extends FrontendEndpointUpdateParameters {
+    readonly customHttpsConfiguration?: CustomHttpsConfiguration;
     readonly customHttpsProvisioningState?: CustomHttpsProvisioningState;
     readonly customHttpsProvisioningSubstate?: CustomHttpsProvisioningSubstate;
-    readonly customHttpsConfiguration?: CustomHttpsConfiguration;
-};
+    readonly resourceState?: FrontDoorResourceState;
+}
 
 // @public
 export interface FrontendEndpoints {
-    beginDisableHttps(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, options?: FrontendEndpointsDisableHttpsOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDisableHttps(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, options?: FrontendEndpointsDisableHttpsOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDisableHttpsAndWait(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, options?: FrontendEndpointsDisableHttpsOptionalParams): Promise<void>;
-    beginEnableHttps(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, customHttpsConfiguration: CustomHttpsConfiguration, options?: FrontendEndpointsEnableHttpsOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginEnableHttps(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, customHttpsConfiguration: CustomHttpsConfiguration, options?: FrontendEndpointsEnableHttpsOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginEnableHttpsAndWait(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, customHttpsConfiguration: CustomHttpsConfiguration, options?: FrontendEndpointsEnableHttpsOptionalParams): Promise<void>;
     get(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, options?: FrontendEndpointsGetOptionalParams): Promise<FrontendEndpointsGetResponse>;
     listByFrontDoor(resourceGroupName: string, frontDoorName: string, options?: FrontendEndpointsListByFrontDoorOptionalParams): PagedAsyncIterableIterator<FrontendEndpoint>;
@@ -585,6 +602,9 @@ export interface FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLin
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface HeaderAction {
     headerActionType: HeaderActionType;
     headerName: string;
@@ -604,21 +624,21 @@ export interface HealthProbeSettingsListResult {
 }
 
 // @public
-export type HealthProbeSettingsModel = SubResource & {
+export interface HealthProbeSettingsModel extends SubResource {
+    enabledState?: HealthProbeEnabled;
+    healthProbeMethod?: FrontDoorHealthProbeMethod;
+    intervalInSeconds?: number;
     name?: string;
-    readonly type?: string;
     path?: string;
     protocol?: FrontDoorProtocol;
-    intervalInSeconds?: number;
-    healthProbeMethod?: FrontDoorHealthProbeMethod;
-    enabledState?: HealthProbeEnabled;
     readonly resourceState?: FrontDoorResourceState;
-};
+    readonly type?: string;
+}
 
 // @public
-export type HealthProbeSettingsProperties = HealthProbeSettingsUpdateParameters & {
+export interface HealthProbeSettingsProperties extends HealthProbeSettingsUpdateParameters {
     readonly resourceState?: FrontDoorResourceState;
-};
+}
 
 // @public
 export interface HealthProbeSettingsUpdateParameters {
@@ -636,583 +656,395 @@ export interface KeyVaultCertificateSourceParametersVault {
 
 // @public
 export enum KnownActionType {
-    // (undocumented)
     Allow = "Allow",
-    // (undocumented)
+    AnomalyScoring = "AnomalyScoring",
     Block = "Block",
-    // (undocumented)
     Log = "Log",
-    // (undocumented)
     Redirect = "Redirect"
 }
 
 // @public
 export enum KnownAggregationInterval {
-    // (undocumented)
     Daily = "Daily",
-    // (undocumented)
     Hourly = "Hourly"
 }
 
 // @public
 export enum KnownAvailability {
-    // (undocumented)
     Available = "Available",
-    // (undocumented)
     Unavailable = "Unavailable"
 }
 
 // @public
 export enum KnownBackendEnabledState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownCustomHttpsProvisioningState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Disabling = "Disabling",
-    // (undocumented)
     Enabled = "Enabled",
-    // (undocumented)
     Enabling = "Enabling",
-    // (undocumented)
     Failed = "Failed"
 }
 
 // @public
 export enum KnownCustomHttpsProvisioningSubstate {
-    // (undocumented)
     CertificateDeleted = "CertificateDeleted",
-    // (undocumented)
     CertificateDeployed = "CertificateDeployed",
-    // (undocumented)
     DeletingCertificate = "DeletingCertificate",
-    // (undocumented)
     DeployingCertificate = "DeployingCertificate",
-    // (undocumented)
     DomainControlValidationRequestApproved = "DomainControlValidationRequestApproved",
-    // (undocumented)
     DomainControlValidationRequestRejected = "DomainControlValidationRequestRejected",
-    // (undocumented)
     DomainControlValidationRequestTimedOut = "DomainControlValidationRequestTimedOut",
-    // (undocumented)
     IssuingCertificate = "IssuingCertificate",
-    // (undocumented)
     PendingDomainControlValidationREquestApproval = "PendingDomainControlValidationREquestApproval",
-    // (undocumented)
     SubmittingDomainControlValidationRequest = "SubmittingDomainControlValidationRequest"
 }
 
 // @public
 export enum KnownCustomRuleEnabledState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownDynamicCompressionEnabled {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownEndpointType {
-    // (undocumented)
     AFD = "AFD",
-    // (undocumented)
     ATM = "ATM",
-    // (undocumented)
     AzureRegion = "AzureRegion",
-    // (undocumented)
     CDN = "CDN"
 }
 
 // @public
 export enum KnownEnforceCertificateNameCheckEnabledState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownFrontDoorCertificateSource {
-    // (undocumented)
     AzureKeyVault = "AzureKeyVault",
-    // (undocumented)
     FrontDoor = "FrontDoor"
 }
 
 // @public
 export enum KnownFrontDoorCertificateType {
-    // (undocumented)
     Dedicated = "Dedicated"
 }
 
 // @public
 export enum KnownFrontDoorEnabledState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownFrontDoorForwardingProtocol {
-    // (undocumented)
     HttpOnly = "HttpOnly",
-    // (undocumented)
     HttpsOnly = "HttpsOnly",
-    // (undocumented)
     MatchRequest = "MatchRequest"
 }
 
 // @public
 export enum KnownFrontDoorHealthProbeMethod {
-    // (undocumented)
     GET = "GET",
-    // (undocumented)
     Head = "HEAD"
 }
 
 // @public
 export enum KnownFrontDoorProtocol {
-    // (undocumented)
     Http = "Http",
-    // (undocumented)
     Https = "Https"
 }
 
 // @public
 export enum KnownFrontDoorQuery {
-    // (undocumented)
     StripAll = "StripAll",
-    // (undocumented)
     StripAllExcept = "StripAllExcept",
-    // (undocumented)
     StripNone = "StripNone",
-    // (undocumented)
     StripOnly = "StripOnly"
 }
 
 // @public
 export enum KnownFrontDoorRedirectProtocol {
-    // (undocumented)
     HttpOnly = "HttpOnly",
-    // (undocumented)
     HttpsOnly = "HttpsOnly",
-    // (undocumented)
     MatchRequest = "MatchRequest"
 }
 
 // @public
 export enum KnownFrontDoorRedirectType {
-    // (undocumented)
     Found = "Found",
-    // (undocumented)
     Moved = "Moved",
-    // (undocumented)
     PermanentRedirect = "PermanentRedirect",
-    // (undocumented)
     TemporaryRedirect = "TemporaryRedirect"
 }
 
 // @public
 export enum KnownFrontDoorResourceState {
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Disabling = "Disabling",
-    // (undocumented)
     Enabled = "Enabled",
-    // (undocumented)
-    Enabling = "Enabling"
+    Enabling = "Enabling",
+    Migrated = "Migrated",
+    Migrating = "Migrating"
 }
 
 // @public
 export enum KnownFrontDoorTlsProtocolType {
-    // (undocumented)
     ServerNameIndication = "ServerNameIndication"
 }
 
 // @public
 export enum KnownHeaderActionType {
-    // (undocumented)
     Append = "Append",
-    // (undocumented)
     Delete = "Delete",
-    // (undocumented)
     Overwrite = "Overwrite"
 }
 
 // @public
 export enum KnownHealthProbeEnabled {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownLatencyScorecardAggregationInterval {
-    // (undocumented)
     Daily = "Daily",
-    // (undocumented)
     Monthly = "Monthly",
-    // (undocumented)
     Weekly = "Weekly"
 }
 
 // @public
 export enum KnownManagedRuleEnabledState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownManagedRuleExclusionMatchVariable {
-    // (undocumented)
     QueryStringArgNames = "QueryStringArgNames",
-    // (undocumented)
     RequestBodyJsonArgNames = "RequestBodyJsonArgNames",
-    // (undocumented)
     RequestBodyPostArgNames = "RequestBodyPostArgNames",
-    // (undocumented)
     RequestCookieNames = "RequestCookieNames",
-    // (undocumented)
     RequestHeaderNames = "RequestHeaderNames"
 }
 
 // @public
 export enum KnownManagedRuleExclusionSelectorMatchOperator {
-    // (undocumented)
     Contains = "Contains",
-    // (undocumented)
     EndsWith = "EndsWith",
-    // (undocumented)
     Equals = "Equals",
-    // (undocumented)
     EqualsAny = "EqualsAny",
-    // (undocumented)
     StartsWith = "StartsWith"
 }
 
 // @public
 export enum KnownManagedRuleSetActionType {
-    // (undocumented)
     Block = "Block",
-    // (undocumented)
     Log = "Log",
-    // (undocumented)
     Redirect = "Redirect"
 }
 
 // @public
 export enum KnownMatchProcessingBehavior {
-    // (undocumented)
     Continue = "Continue",
-    // (undocumented)
     Stop = "Stop"
 }
 
 // @public
 export enum KnownMatchVariable {
-    // (undocumented)
     Cookies = "Cookies",
-    // (undocumented)
     PostArgs = "PostArgs",
-    // (undocumented)
     QueryString = "QueryString",
-    // (undocumented)
     RemoteAddr = "RemoteAddr",
-    // (undocumented)
     RequestBody = "RequestBody",
-    // (undocumented)
     RequestHeader = "RequestHeader",
-    // (undocumented)
     RequestMethod = "RequestMethod",
-    // (undocumented)
     RequestUri = "RequestUri",
-    // (undocumented)
     SocketAddr = "SocketAddr"
 }
 
 // @public
 export enum KnownMinimumTLSVersion {
-    // (undocumented)
     One0 = "1.0",
-    // (undocumented)
     One2 = "1.2"
 }
 
 // @public
 export enum KnownNetworkExperimentResourceState {
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Disabling = "Disabling",
-    // (undocumented)
     Enabled = "Enabled",
-    // (undocumented)
     Enabling = "Enabling"
 }
 
 // @public
 export enum KnownNetworkOperationStatus {
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     InProgress = "InProgress",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownOperator {
-    // (undocumented)
     Any = "Any",
-    // (undocumented)
     BeginsWith = "BeginsWith",
-    // (undocumented)
     Contains = "Contains",
-    // (undocumented)
     EndsWith = "EndsWith",
-    // (undocumented)
     Equal = "Equal",
-    // (undocumented)
     GeoMatch = "GeoMatch",
-    // (undocumented)
     GreaterThan = "GreaterThan",
-    // (undocumented)
     GreaterThanOrEqual = "GreaterThanOrEqual",
-    // (undocumented)
     IPMatch = "IPMatch",
-    // (undocumented)
     LessThan = "LessThan",
-    // (undocumented)
     LessThanOrEqual = "LessThanOrEqual",
-    // (undocumented)
     RegEx = "RegEx"
 }
 
 // @public
 export enum KnownPolicyEnabledState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownPolicyMode {
-    // (undocumented)
     Detection = "Detection",
-    // (undocumented)
     Prevention = "Prevention"
 }
 
 // @public
 export enum KnownPolicyRequestBodyCheck {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownPolicyResourceState {
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Disabling = "Disabling",
-    // (undocumented)
     Enabled = "Enabled",
-    // (undocumented)
     Enabling = "Enabling"
 }
 
 // @public
 export enum KnownPrivateEndpointStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected",
-    // (undocumented)
     Timeout = "Timeout"
 }
 
 // @public
 export enum KnownRoutingRuleEnabledState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownRulesEngineMatchVariable {
-    // (undocumented)
     IsMobile = "IsMobile",
-    // (undocumented)
     PostArgs = "PostArgs",
-    // (undocumented)
     QueryString = "QueryString",
-    // (undocumented)
     RemoteAddr = "RemoteAddr",
-    // (undocumented)
     RequestBody = "RequestBody",
-    // (undocumented)
     RequestFilename = "RequestFilename",
-    // (undocumented)
     RequestFilenameExtension = "RequestFilenameExtension",
-    // (undocumented)
     RequestHeader = "RequestHeader",
-    // (undocumented)
     RequestMethod = "RequestMethod",
-    // (undocumented)
     RequestPath = "RequestPath",
-    // (undocumented)
     RequestScheme = "RequestScheme",
-    // (undocumented)
     RequestUri = "RequestUri"
 }
 
 // @public
 export enum KnownRulesEngineOperator {
-    // (undocumented)
     Any = "Any",
-    // (undocumented)
     BeginsWith = "BeginsWith",
-    // (undocumented)
     Contains = "Contains",
-    // (undocumented)
     EndsWith = "EndsWith",
-    // (undocumented)
     Equal = "Equal",
-    // (undocumented)
     GeoMatch = "GeoMatch",
-    // (undocumented)
     GreaterThan = "GreaterThan",
-    // (undocumented)
     GreaterThanOrEqual = "GreaterThanOrEqual",
-    // (undocumented)
     IPMatch = "IPMatch",
-    // (undocumented)
     LessThan = "LessThan",
-    // (undocumented)
     LessThanOrEqual = "LessThanOrEqual"
 }
 
 // @public
 export enum KnownRuleType {
-    // (undocumented)
     MatchRule = "MatchRule",
-    // (undocumented)
     RateLimitRule = "RateLimitRule"
 }
 
 // @public
 export enum KnownSessionAffinityEnabledState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownSkuName {
-    // (undocumented)
     ClassicAzureFrontDoor = "Classic_AzureFrontDoor",
-    // (undocumented)
     PremiumAzureFrontDoor = "Premium_AzureFrontDoor",
-    // (undocumented)
     StandardAzureFrontDoor = "Standard_AzureFrontDoor"
 }
 
 // @public
 export enum KnownState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownTimeseriesAggregationInterval {
-    // (undocumented)
     Daily = "Daily",
-    // (undocumented)
     Hourly = "Hourly"
 }
 
 // @public
 export enum KnownTimeseriesType {
-    // (undocumented)
     LatencyP50 = "LatencyP50",
-    // (undocumented)
     LatencyP75 = "LatencyP75",
-    // (undocumented)
     LatencyP95 = "LatencyP95",
-    // (undocumented)
     MeasurementCounts = "MeasurementCounts"
 }
 
 // @public
 export enum KnownTransform {
-    // (undocumented)
     Lowercase = "Lowercase",
-    // (undocumented)
     RemoveNulls = "RemoveNulls",
-    // (undocumented)
     Trim = "Trim",
-    // (undocumented)
     Uppercase = "Uppercase",
-    // (undocumented)
     UrlDecode = "UrlDecode",
-    // (undocumented)
     UrlEncode = "UrlEncode"
 }
 
 // @public
 export enum KnownTransformType {
-    // (undocumented)
     Lowercase = "Lowercase",
-    // (undocumented)
     RemoveNulls = "RemoveNulls",
-    // (undocumented)
     Trim = "Trim",
-    // (undocumented)
     Uppercase = "Uppercase",
-    // (undocumented)
     UrlDecode = "UrlDecode",
-    // (undocumented)
     UrlEncode = "UrlEncode"
 }
 
@@ -1231,17 +1063,17 @@ export interface LatencyMetric {
 }
 
 // @public
-export type LatencyScorecard = Resource & {
-    readonly idPropertiesId?: string;
-    readonly namePropertiesName?: string;
+export interface LatencyScorecard extends Resource {
+    readonly country?: string;
     readonly description?: string;
+    readonly endDateTimeUTC?: Date;
     readonly endpointA?: string;
     readonly endpointB?: string;
-    readonly startDateTimeUTC?: Date;
-    readonly endDateTimeUTC?: Date;
-    readonly country?: string;
+    readonly idPropertiesId?: string;
     latencyMetrics?: LatencyMetric[];
-};
+    readonly namePropertiesName?: string;
+    readonly startDateTimeUTC?: Date;
+}
 
 // @public
 export type LatencyScorecardAggregationInterval = string;
@@ -1253,19 +1085,19 @@ export interface LoadBalancingSettingsListResult {
 }
 
 // @public
-export type LoadBalancingSettingsModel = SubResource & {
+export interface LoadBalancingSettingsModel extends SubResource {
+    additionalLatencyMilliseconds?: number;
     name?: string;
-    readonly type?: string;
+    readonly resourceState?: FrontDoorResourceState;
     sampleSize?: number;
     successfulSamplesRequired?: number;
-    additionalLatencyMilliseconds?: number;
-    readonly resourceState?: FrontDoorResourceState;
-};
+    readonly type?: string;
+}
 
 // @public
-export type LoadBalancingSettingsProperties = LoadBalancingSettingsUpdateParameters & {
+export interface LoadBalancingSettingsProperties extends LoadBalancingSettingsUpdateParameters {
     readonly resourceState?: FrontDoorResourceState;
-};
+}
 
 // @public
 export interface LoadBalancingSettingsUpdateParameters {
@@ -1333,13 +1165,13 @@ export interface ManagedRuleSet {
 export type ManagedRuleSetActionType = string;
 
 // @public
-export type ManagedRuleSetDefinition = Resource & {
+export interface ManagedRuleSetDefinition extends Resource {
     readonly provisioningState?: string;
+    readonly ruleGroups?: ManagedRuleGroupDefinition[];
     readonly ruleSetId?: string;
     readonly ruleSetType?: string;
     readonly ruleSetVersion?: string;
-    readonly ruleGroups?: ManagedRuleGroupDefinition[];
-};
+}
 
 // @public
 export interface ManagedRuleSetDefinitionList {
@@ -1392,11 +1224,11 @@ export type MinimumTLSVersion = string;
 
 // @public
 export interface NetworkExperimentProfiles {
-    beginCreateOrUpdate(profileName: string, resourceGroupName: string, parameters: Profile, options?: NetworkExperimentProfilesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<NetworkExperimentProfilesCreateOrUpdateResponse>, NetworkExperimentProfilesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(profileName: string, resourceGroupName: string, parameters: Profile, options?: NetworkExperimentProfilesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NetworkExperimentProfilesCreateOrUpdateResponse>, NetworkExperimentProfilesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(profileName: string, resourceGroupName: string, parameters: Profile, options?: NetworkExperimentProfilesCreateOrUpdateOptionalParams): Promise<NetworkExperimentProfilesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, profileName: string, options?: NetworkExperimentProfilesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, profileName: string, options?: NetworkExperimentProfilesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, profileName: string, options?: NetworkExperimentProfilesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, profileName: string, parameters: ProfileUpdateModel, options?: NetworkExperimentProfilesUpdateOptionalParams): Promise<PollerLike<PollOperationState<NetworkExperimentProfilesUpdateResponse>, NetworkExperimentProfilesUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, profileName: string, parameters: ProfileUpdateModel, options?: NetworkExperimentProfilesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NetworkExperimentProfilesUpdateResponse>, NetworkExperimentProfilesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, profileName: string, parameters: ProfileUpdateModel, options?: NetworkExperimentProfilesUpdateOptionalParams): Promise<NetworkExperimentProfilesUpdateResponse>;
     get(resourceGroupName: string, profileName: string, options?: NetworkExperimentProfilesGetOptionalParams): Promise<NetworkExperimentProfilesGetResponse>;
     list(options?: NetworkExperimentProfilesListOptionalParams): PagedAsyncIterableIterator<Profile>;
@@ -1473,12 +1305,15 @@ export type Operator = string;
 
 // @public
 export interface Policies {
-    beginCreateOrUpdate(resourceGroupName: string, policyName: string, parameters: WebApplicationFirewallPolicy, options?: PoliciesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<PoliciesCreateOrUpdateResponse>, PoliciesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, policyName: string, parameters: WebApplicationFirewallPolicy, options?: PoliciesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PoliciesCreateOrUpdateResponse>, PoliciesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, policyName: string, parameters: WebApplicationFirewallPolicy, options?: PoliciesCreateOrUpdateOptionalParams): Promise<PoliciesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, policyName: string, options?: PoliciesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, policyName: string, options?: PoliciesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, policyName: string, options?: PoliciesDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, policyName: string, parameters: TagsObject, options?: PoliciesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PoliciesUpdateResponse>, PoliciesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, policyName: string, parameters: TagsObject, options?: PoliciesUpdateOptionalParams): Promise<PoliciesUpdateResponse>;
     get(resourceGroupName: string, policyName: string, options?: PoliciesGetOptionalParams): Promise<PoliciesGetResponse>;
     list(resourceGroupName: string, options?: PoliciesListOptionalParams): PagedAsyncIterableIterator<WebApplicationFirewallPolicy>;
+    listBySubscription(options?: PoliciesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<WebApplicationFirewallPolicy>;
 }
 
 // @public
@@ -1504,6 +1339,20 @@ export interface PoliciesGetOptionalParams extends coreClient.OperationOptions {
 export type PoliciesGetResponse = WebApplicationFirewallPolicy;
 
 // @public
+export interface PoliciesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PoliciesListBySubscriptionNextResponse = WebApplicationFirewallPolicyList;
+
+// @public
+export interface PoliciesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PoliciesListBySubscriptionResponse = WebApplicationFirewallPolicyList;
+
+// @public
 export interface PoliciesListNextOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -1516,6 +1365,15 @@ export interface PoliciesListOptionalParams extends coreClient.OperationOptions 
 
 // @public
 export type PoliciesListResponse = WebApplicationFirewallPolicyList;
+
+// @public
+export interface PoliciesUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PoliciesUpdateResponse = WebApplicationFirewallPolicy;
 
 // @public
 export type PolicyEnabledState = string;
@@ -1540,12 +1398,12 @@ export interface PolicySettings {
 }
 
 // @public
-export type PreconfiguredEndpoint = Resource & {
+export interface PreconfiguredEndpoint extends Resource {
+    backend?: string;
     description?: string;
     endpoint?: string;
     endpointType?: EndpointType;
-    backend?: string;
-};
+}
 
 // @public
 export interface PreconfiguredEndpointList {
@@ -1576,11 +1434,11 @@ export type PreconfiguredEndpointsListResponse = PreconfiguredEndpointList;
 export type PrivateEndpointStatus = string;
 
 // @public
-export type Profile = Resource & {
+export interface Profile extends Resource {
+    enabledState?: State;
     etag?: string;
     readonly resourceState?: NetworkExperimentResourceState;
-    enabledState?: State;
-};
+}
 
 // @public
 export interface ProfileList {
@@ -1602,15 +1460,15 @@ export interface PurgeParameters {
 }
 
 // @public
-export type RedirectConfiguration = RouteConfiguration & {
-    odataType: "#Microsoft.Azure.FrontDoor.Models.FrontdoorRedirectConfiguration";
-    redirectType?: FrontDoorRedirectType;
-    redirectProtocol?: FrontDoorRedirectProtocol;
+export interface RedirectConfiguration extends RouteConfiguration {
+    customFragment?: string;
     customHost?: string;
     customPath?: string;
-    customFragment?: string;
     customQueryString?: string;
-};
+    odataType: "#Microsoft.Azure.FrontDoor.Models.FrontdoorRedirectConfiguration";
+    redirectProtocol?: FrontDoorRedirectProtocol;
+    redirectType?: FrontDoorRedirectType;
+}
 
 // @public
 export interface Reports {
@@ -1659,18 +1517,18 @@ export interface RouteConfiguration {
 export type RouteConfigurationUnion = RouteConfiguration | ForwardingConfiguration | RedirectConfiguration;
 
 // @public
-export type RoutingRule = SubResource & {
-    name?: string;
-    readonly type?: string;
-    frontendEndpoints?: SubResource[];
+export interface RoutingRule extends SubResource {
     acceptedProtocols?: FrontDoorProtocol[];
-    patternsToMatch?: string[];
     enabledState?: RoutingRuleEnabledState;
+    frontendEndpoints?: SubResource[];
+    name?: string;
+    patternsToMatch?: string[];
+    readonly resourceState?: FrontDoorResourceState;
     routeConfiguration?: RouteConfigurationUnion;
     rulesEngine?: SubResource;
+    readonly type?: string;
     webApplicationFirewallPolicyLink?: RoutingRuleUpdateParametersWebApplicationFirewallPolicyLink;
-    readonly resourceState?: FrontDoorResourceState;
-};
+}
 
 // @public
 export type RoutingRuleEnabledState = string;
@@ -1687,9 +1545,9 @@ export interface RoutingRuleListResult {
 }
 
 // @public
-export type RoutingRuleProperties = RoutingRuleUpdateParameters & {
+export interface RoutingRuleProperties extends RoutingRuleUpdateParameters {
     readonly resourceState?: FrontDoorResourceState;
-};
+}
 
 // @public
 export interface RoutingRuleUpdateParameters {
@@ -1746,9 +1604,9 @@ export type RulesEngineMatchVariable = string;
 export type RulesEngineOperator = string;
 
 // @public
-export type RulesEngineProperties = RulesEngineUpdateParameters & {
+export interface RulesEngineProperties extends RulesEngineUpdateParameters {
     readonly resourceState?: FrontDoorResourceState;
-};
+}
 
 // @public
 export interface RulesEngineRule {
@@ -1761,9 +1619,9 @@ export interface RulesEngineRule {
 
 // @public
 export interface RulesEngines {
-    beginCreateOrUpdate(resourceGroupName: string, frontDoorName: string, rulesEngineName: string, rulesEngineParameters: RulesEngine, options?: RulesEnginesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<RulesEnginesCreateOrUpdateResponse>, RulesEnginesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, frontDoorName: string, rulesEngineName: string, rulesEngineParameters: RulesEngine, options?: RulesEnginesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<RulesEnginesCreateOrUpdateResponse>, RulesEnginesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, frontDoorName: string, rulesEngineName: string, rulesEngineParameters: RulesEngine, options?: RulesEnginesCreateOrUpdateOptionalParams): Promise<RulesEnginesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, frontDoorName: string, rulesEngineName: string, options?: RulesEnginesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, frontDoorName: string, rulesEngineName: string, options?: RulesEnginesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, frontDoorName: string, rulesEngineName: string, options?: RulesEnginesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, frontDoorName: string, rulesEngineName: string, options?: RulesEnginesGetOptionalParams): Promise<RulesEnginesGetResponse>;
     listByFrontDoor(resourceGroupName: string, frontDoorName: string, options?: RulesEnginesListByFrontDoorOptionalParams): PagedAsyncIterableIterator<RulesEngine>;
@@ -1845,15 +1703,15 @@ export interface TagsObject {
 }
 
 // @public
-export type Timeseries = Resource & {
+export interface Timeseries extends Resource {
+    aggregationInterval?: AggregationInterval;
+    country?: string;
+    endDateTimeUTC?: string;
     endpoint?: string;
     startDateTimeUTC?: string;
-    endDateTimeUTC?: string;
-    aggregationInterval?: AggregationInterval;
-    timeseriesType?: TimeseriesType;
-    country?: string;
     timeseriesData?: TimeseriesDataPoint[];
-};
+    timeseriesType?: TimeseriesType;
+}
 
 // @public
 export type TimeseriesAggregationInterval = string;
@@ -1886,18 +1744,18 @@ export interface ValidateCustomDomainOutput {
 }
 
 // @public
-export type WebApplicationFirewallPolicy = Resource & {
-    etag?: string;
-    sku?: Sku;
-    policySettings?: PolicySettings;
+export interface WebApplicationFirewallPolicy extends Resource {
     customRules?: CustomRuleList;
-    managedRules?: ManagedRuleSetList;
+    etag?: string;
     readonly frontendEndpointLinks?: FrontendEndpointLink[];
-    readonly routingRuleLinks?: RoutingRuleLink[];
-    readonly securityPolicyLinks?: SecurityPolicyLink[];
+    managedRules?: ManagedRuleSetList;
+    policySettings?: PolicySettings;
     readonly provisioningState?: string;
     readonly resourceState?: PolicyResourceState;
-};
+    readonly routingRuleLinks?: RoutingRuleLink[];
+    readonly securityPolicyLinks?: SecurityPolicyLink[];
+    sku?: Sku;
+}
 
 // @public
 export interface WebApplicationFirewallPolicyList {

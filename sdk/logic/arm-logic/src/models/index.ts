@@ -4365,24 +4365,14 @@ export interface WorkflowsValidateByLocationOptionalParams
 
 /** Optional parameters. */
 export interface WorkflowsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of items to be included in the result. */
-  top?: number;
-  /** The filter to apply on the operation. Options for filters include: State, Trigger, and ReferencedResourceId. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type WorkflowsListBySubscriptionNextResponse = WorkflowListResult;
 
 /** Optional parameters. */
 export interface WorkflowsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of items to be included in the result. */
-  top?: number;
-  /** The filter to apply on the operation. Options for filters include: State, Trigger, and ReferencedResourceId. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type WorkflowsListByResourceGroupNextResponse = WorkflowListResult;
@@ -4406,10 +4396,7 @@ export type WorkflowVersionsGetResponse = WorkflowVersion;
 
 /** Optional parameters. */
 export interface WorkflowVersionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of items to be included in the result. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type WorkflowVersionsListNextResponse = WorkflowVersionListResult;
@@ -4461,12 +4448,7 @@ export type WorkflowTriggersListCallbackUrlResponse = WorkflowTriggerCallbackUrl
 
 /** Optional parameters. */
 export interface WorkflowTriggersListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of items to be included in the result. */
-  top?: number;
-  /** The filter to apply on the operation. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type WorkflowTriggersListNextResponse = WorkflowTriggerListResult;
@@ -4506,12 +4488,7 @@ export interface WorkflowTriggerHistoriesResubmitOptionalParams
 
 /** Optional parameters. */
 export interface WorkflowTriggerHistoriesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of items to be included in the result. */
-  top?: number;
-  /** The filter to apply on the operation. Options for filters include: Status, StartTime, and ClientTrackingId. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type WorkflowTriggerHistoriesListNextResponse = WorkflowTriggerHistoryListResult;
@@ -4541,12 +4518,7 @@ export interface WorkflowRunsCancelOptionalParams
 
 /** Optional parameters. */
 export interface WorkflowRunsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of items to be included in the result. */
-  top?: number;
-  /** The filter to apply on the operation. Options for filters include: Status, StartTime, and ClientTrackingId. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type WorkflowRunsListNextResponse = WorkflowRunListResult;
@@ -4579,12 +4551,7 @@ export type WorkflowRunActionsListExpressionTracesResponse = ExpressionTraces;
 
 /** Optional parameters. */
 export interface WorkflowRunActionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of items to be included in the result. */
-  top?: number;
-  /** The filter to apply on the operation. Options for filters include: Status. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type WorkflowRunActionsListNextResponse = WorkflowRunActionListResult;
@@ -4745,20 +4712,14 @@ export type IntegrationAccountsRegenerateAccessKeyResponse = IntegrationAccount;
 
 /** Optional parameters. */
 export interface IntegrationAccountsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of items to be included in the result. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type IntegrationAccountsListBySubscriptionNextResponse = IntegrationAccountListResult;
 
 /** Optional parameters. */
 export interface IntegrationAccountsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of items to be included in the result. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type IntegrationAccountsListByResourceGroupNextResponse = IntegrationAccountListResult;
@@ -4859,12 +4820,7 @@ export type IntegrationAccountSchemasListContentCallbackUrlResponse = WorkflowTr
 
 /** Optional parameters. */
 export interface IntegrationAccountSchemasListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of items to be included in the result. */
-  top?: number;
-  /** The filter to apply on the operation. Options for filters include: SchemaType. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type IntegrationAccountSchemasListNextResponse = IntegrationAccountSchemaListResult;
@@ -4908,12 +4864,7 @@ export type IntegrationAccountMapsListContentCallbackUrlResponse = WorkflowTrigg
 
 /** Optional parameters. */
 export interface IntegrationAccountMapsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of items to be included in the result. */
-  top?: number;
-  /** The filter to apply on the operation. Options for filters include: MapType. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type IntegrationAccountMapsListNextResponse = IntegrationAccountMapListResult;
@@ -4957,12 +4908,7 @@ export type IntegrationAccountPartnersListContentCallbackUrlResponse = WorkflowT
 
 /** Optional parameters. */
 export interface IntegrationAccountPartnersListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of items to be included in the result. */
-  top?: number;
-  /** The filter to apply on the operation. Options for filters include: PartnerType. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type IntegrationAccountPartnersListNextResponse = IntegrationAccountPartnerListResult;
@@ -5006,12 +4952,7 @@ export type IntegrationAccountAgreementsListContentCallbackUrlResponse = Workflo
 
 /** Optional parameters. */
 export interface IntegrationAccountAgreementsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of items to be included in the result. */
-  top?: number;
-  /** The filter to apply on the operation. Options for filters include: AgreementType. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type IntegrationAccountAgreementsListNextResponse = IntegrationAccountAgreementListResult;
@@ -5046,10 +4987,7 @@ export interface IntegrationAccountCertificatesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface IntegrationAccountCertificatesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of items to be included in the result. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type IntegrationAccountCertificatesListNextResponse = IntegrationAccountCertificateListResult;
@@ -5086,12 +5024,7 @@ export interface IntegrationAccountSessionsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface IntegrationAccountSessionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of items to be included in the result. */
-  top?: number;
-  /** The filter to apply on the operation. Options for filters include: ChangedTime. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type IntegrationAccountSessionsListNextResponse = IntegrationAccountSessionListResult;
@@ -5157,20 +5090,14 @@ export interface IntegrationServiceEnvironmentsRestartOptionalParams
 
 /** Optional parameters. */
 export interface IntegrationServiceEnvironmentsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of items to be included in the result. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type IntegrationServiceEnvironmentsListBySubscriptionNextResponse = IntegrationServiceEnvironmentListResult;
 
 /** Optional parameters. */
 export interface IntegrationServiceEnvironmentsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of items to be included in the result. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type IntegrationServiceEnvironmentsListByResourceGroupNextResponse = IntegrationServiceEnvironmentListResult;

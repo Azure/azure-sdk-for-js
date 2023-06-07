@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { PartitionKeyRangeId } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -68,7 +68,10 @@ export class PartitionKeyRangeIdImpl implements PartitionKeyRangeId {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMetricsPagingPage(
           resourceGroupName,
           accountName,
@@ -76,7 +79,8 @@ export class PartitionKeyRangeIdImpl implements PartitionKeyRangeId {
           collectionRid,
           partitionKeyRangeId,
           filter,
-          options
+          options,
+          settings
         );
       }
     };
@@ -89,9 +93,11 @@ export class PartitionKeyRangeIdImpl implements PartitionKeyRangeId {
     collectionRid: string,
     partitionKeyRangeId: string,
     filter: string,
-    options?: PartitionKeyRangeIdListMetricsOptionalParams
+    options?: PartitionKeyRangeIdListMetricsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<PartitionMetric[]> {
-    let result = await this._listMetrics(
+    let result: PartitionKeyRangeIdListMetricsResponse;
+    result = await this._listMetrics(
       resourceGroupName,
       accountName,
       databaseRid,

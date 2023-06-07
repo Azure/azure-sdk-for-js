@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   MongoDBDatabaseGetResults,
   MongoDBResourcesListMongoDBDatabasesOptionalParams,
@@ -23,6 +23,7 @@ import {
   MongoDBResourcesCreateUpdateMongoDBDatabaseOptionalParams,
   MongoDBResourcesCreateUpdateMongoDBDatabaseResponse,
   MongoDBResourcesDeleteMongoDBDatabaseOptionalParams,
+  MongoDBResourcesDeleteMongoDBDatabaseResponse,
   MongoDBResourcesGetMongoDBDatabaseThroughputOptionalParams,
   MongoDBResourcesGetMongoDBDatabaseThroughputResponse,
   ThroughputSettingsUpdateParameters,
@@ -32,25 +33,13 @@ import {
   MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse,
   MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputOptionalParams,
   MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse,
-  RetrieveThroughputParameters,
-  MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams,
-  MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse,
-  RedistributeThroughputParameters,
-  MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams,
-  MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse,
-  MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams,
-  MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse,
-  MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams,
-  MongoDBResourcesMongoDBContainerRedistributeThroughputResponse,
   MongoDBResourcesGetMongoDBCollectionOptionalParams,
   MongoDBResourcesGetMongoDBCollectionResponse,
   MongoDBCollectionCreateUpdateParameters,
   MongoDBResourcesCreateUpdateMongoDBCollectionOptionalParams,
   MongoDBResourcesCreateUpdateMongoDBCollectionResponse,
   MongoDBResourcesDeleteMongoDBCollectionOptionalParams,
-  MergeParameters,
-  MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams,
-  MongoDBResourcesListMongoDBCollectionPartitionMergeResponse,
+  MongoDBResourcesDeleteMongoDBCollectionResponse,
   MongoDBResourcesGetMongoDBCollectionThroughputOptionalParams,
   MongoDBResourcesGetMongoDBCollectionThroughputResponse,
   MongoDBResourcesUpdateMongoDBCollectionThroughputOptionalParams,
@@ -155,8 +144,8 @@ export interface MongoDBResources {
     createUpdateMongoDBDatabaseParameters: MongoDBDatabaseCreateUpdateParameters,
     options?: MongoDBResourcesCreateUpdateMongoDBDatabaseOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MongoDBResourcesCreateUpdateMongoDBDatabaseResponse>,
+    SimplePollerLike<
+      OperationState<MongoDBResourcesCreateUpdateMongoDBDatabaseResponse>,
       MongoDBResourcesCreateUpdateMongoDBDatabaseResponse
     >
   >;
@@ -188,7 +177,12 @@ export interface MongoDBResources {
     accountName: string,
     databaseName: string,
     options?: MongoDBResourcesDeleteMongoDBDatabaseOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MongoDBResourcesDeleteMongoDBDatabaseResponse>,
+      MongoDBResourcesDeleteMongoDBDatabaseResponse
+    >
+  >;
   /**
    * Deletes an existing Azure Cosmos DB MongoDB database.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -201,7 +195,7 @@ export interface MongoDBResources {
     accountName: string,
     databaseName: string,
     options?: MongoDBResourcesDeleteMongoDBDatabaseOptionalParams
-  ): Promise<void>;
+  ): Promise<MongoDBResourcesDeleteMongoDBDatabaseResponse>;
   /**
    * Gets the RUs per second of the MongoDB database under an existing Azure Cosmos DB database account
    * with the provided name.
@@ -232,10 +226,8 @@ export interface MongoDBResources {
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
     options?: MongoDBResourcesUpdateMongoDBDatabaseThroughputOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        MongoDBResourcesUpdateMongoDBDatabaseThroughputResponse
-      >,
+    SimplePollerLike<
+      OperationState<MongoDBResourcesUpdateMongoDBDatabaseThroughputResponse>,
       MongoDBResourcesUpdateMongoDBDatabaseThroughputResponse
     >
   >;
@@ -268,10 +260,8 @@ export interface MongoDBResources {
     databaseName: string,
     options?: MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse
-      >,
+    SimplePollerLike<
+      OperationState<MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse>,
       MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse
     >
   >;
@@ -301,8 +291,8 @@ export interface MongoDBResources {
     databaseName: string,
     options?: MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse
       >,
       MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse
@@ -321,174 +311,6 @@ export interface MongoDBResources {
     databaseName: string,
     options?: MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputOptionalParams
   ): Promise<MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse>;
-  /**
-   * Retrieve throughput distribution for an Azure Cosmos DB MongoDB database
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param retrieveThroughputParameters The parameters to provide for retrieving throughput distribution
-   *                                     for the current MongoDB database.
-   * @param options The options parameters.
-   */
-  beginMongoDBDatabaseRetrieveThroughputDistribution(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    retrieveThroughputParameters: RetrieveThroughputParameters,
-    options?: MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<
-        MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse
-      >,
-      MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse
-    >
-  >;
-  /**
-   * Retrieve throughput distribution for an Azure Cosmos DB MongoDB database
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param retrieveThroughputParameters The parameters to provide for retrieving throughput distribution
-   *                                     for the current MongoDB database.
-   * @param options The options parameters.
-   */
-  beginMongoDBDatabaseRetrieveThroughputDistributionAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    retrieveThroughputParameters: RetrieveThroughputParameters,
-    options?: MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams
-  ): Promise<
-    MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse
-  >;
-  /**
-   * Redistribute throughput for an Azure Cosmos DB MongoDB database
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param redistributeThroughputParameters The parameters to provide for redistributing throughput for
-   *                                         the current MongoDB database.
-   * @param options The options parameters.
-   */
-  beginMongoDBDatabaseRedistributeThroughput(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    redistributeThroughputParameters: RedistributeThroughputParameters,
-    options?: MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<
-        MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse
-      >,
-      MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse
-    >
-  >;
-  /**
-   * Redistribute throughput for an Azure Cosmos DB MongoDB database
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param redistributeThroughputParameters The parameters to provide for redistributing throughput for
-   *                                         the current MongoDB database.
-   * @param options The options parameters.
-   */
-  beginMongoDBDatabaseRedistributeThroughputAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    redistributeThroughputParameters: RedistributeThroughputParameters,
-    options?: MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams
-  ): Promise<MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse>;
-  /**
-   * Retrieve throughput distribution for an Azure Cosmos DB MongoDB container
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param collectionName Cosmos DB collection name.
-   * @param retrieveThroughputParameters The parameters to provide for retrieving throughput distribution
-   *                                     for the current MongoDB container.
-   * @param options The options parameters.
-   */
-  beginMongoDBContainerRetrieveThroughputDistribution(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    collectionName: string,
-    retrieveThroughputParameters: RetrieveThroughputParameters,
-    options?: MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<
-        MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse
-      >,
-      MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse
-    >
-  >;
-  /**
-   * Retrieve throughput distribution for an Azure Cosmos DB MongoDB container
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param collectionName Cosmos DB collection name.
-   * @param retrieveThroughputParameters The parameters to provide for retrieving throughput distribution
-   *                                     for the current MongoDB container.
-   * @param options The options parameters.
-   */
-  beginMongoDBContainerRetrieveThroughputDistributionAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    collectionName: string,
-    retrieveThroughputParameters: RetrieveThroughputParameters,
-    options?: MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams
-  ): Promise<
-    MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse
-  >;
-  /**
-   * Redistribute throughput for an Azure Cosmos DB MongoDB container
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param collectionName Cosmos DB collection name.
-   * @param redistributeThroughputParameters The parameters to provide for redistributing throughput for
-   *                                         the current MongoDB container.
-   * @param options The options parameters.
-   */
-  beginMongoDBContainerRedistributeThroughput(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    collectionName: string,
-    redistributeThroughputParameters: RedistributeThroughputParameters,
-    options?: MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<
-        MongoDBResourcesMongoDBContainerRedistributeThroughputResponse
-      >,
-      MongoDBResourcesMongoDBContainerRedistributeThroughputResponse
-    >
-  >;
-  /**
-   * Redistribute throughput for an Azure Cosmos DB MongoDB container
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param collectionName Cosmos DB collection name.
-   * @param redistributeThroughputParameters The parameters to provide for redistributing throughput for
-   *                                         the current MongoDB container.
-   * @param options The options parameters.
-   */
-  beginMongoDBContainerRedistributeThroughputAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    collectionName: string,
-    redistributeThroughputParameters: RedistributeThroughputParameters,
-    options?: MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams
-  ): Promise<MongoDBResourcesMongoDBContainerRedistributeThroughputResponse>;
   /**
    * Gets the MongoDB collection under an existing Azure Cosmos DB database account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -522,8 +344,8 @@ export interface MongoDBResources {
     createUpdateMongoDBCollectionParameters: MongoDBCollectionCreateUpdateParameters,
     options?: MongoDBResourcesCreateUpdateMongoDBCollectionOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MongoDBResourcesCreateUpdateMongoDBCollectionResponse>,
+    SimplePollerLike<
+      OperationState<MongoDBResourcesCreateUpdateMongoDBCollectionResponse>,
       MongoDBResourcesCreateUpdateMongoDBCollectionResponse
     >
   >;
@@ -559,7 +381,12 @@ export interface MongoDBResources {
     databaseName: string,
     collectionName: string,
     options?: MongoDBResourcesDeleteMongoDBCollectionOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MongoDBResourcesDeleteMongoDBCollectionResponse>,
+      MongoDBResourcesDeleteMongoDBCollectionResponse
+    >
+  >;
   /**
    * Deletes an existing Azure Cosmos DB MongoDB Collection.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -574,48 +401,7 @@ export interface MongoDBResources {
     databaseName: string,
     collectionName: string,
     options?: MongoDBResourcesDeleteMongoDBCollectionOptionalParams
-  ): Promise<void>;
-  /**
-   * Merges the partitions of a MongoDB Collection
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param collectionName Cosmos DB collection name.
-   * @param mergeParameters The parameters for the merge operation.
-   * @param options The options parameters.
-   */
-  beginListMongoDBCollectionPartitionMerge(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    collectionName: string,
-    mergeParameters: MergeParameters,
-    options?: MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<
-        MongoDBResourcesListMongoDBCollectionPartitionMergeResponse
-      >,
-      MongoDBResourcesListMongoDBCollectionPartitionMergeResponse
-    >
-  >;
-  /**
-   * Merges the partitions of a MongoDB Collection
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param databaseName Cosmos DB database name.
-   * @param collectionName Cosmos DB collection name.
-   * @param mergeParameters The parameters for the merge operation.
-   * @param options The options parameters.
-   */
-  beginListMongoDBCollectionPartitionMergeAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    collectionName: string,
-    mergeParameters: MergeParameters,
-    options?: MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams
-  ): Promise<MongoDBResourcesListMongoDBCollectionPartitionMergeResponse>;
+  ): Promise<MongoDBResourcesDeleteMongoDBCollectionResponse>;
   /**
    * Gets the RUs per second of the MongoDB collection under an existing Azure Cosmos DB database account
    * with the provided name.
@@ -650,10 +436,8 @@ export interface MongoDBResources {
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
     options?: MongoDBResourcesUpdateMongoDBCollectionThroughputOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        MongoDBResourcesUpdateMongoDBCollectionThroughputResponse
-      >,
+    SimplePollerLike<
+      OperationState<MongoDBResourcesUpdateMongoDBCollectionThroughputResponse>,
       MongoDBResourcesUpdateMongoDBCollectionThroughputResponse
     >
   >;
@@ -690,8 +474,8 @@ export interface MongoDBResources {
     collectionName: string,
     options?: MongoDBResourcesMigrateMongoDBCollectionToAutoscaleOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse
       >,
       MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse
@@ -727,8 +511,8 @@ export interface MongoDBResources {
     collectionName: string,
     options?: MongoDBResourcesMigrateMongoDBCollectionToManualThroughputOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse
       >,
       MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse
@@ -780,10 +564,8 @@ export interface MongoDBResources {
     createUpdateMongoRoleDefinitionParameters: MongoRoleDefinitionCreateUpdateParameters,
     options?: MongoDBResourcesCreateUpdateMongoRoleDefinitionOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse
-      >,
+    SimplePollerLike<
+      OperationState<MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse>,
       MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse
     >
   >;
@@ -815,7 +597,7 @@ export interface MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     options?: MongoDBResourcesDeleteMongoRoleDefinitionOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing Azure Cosmos DB Mongo Role Definition.
    * @param mongoRoleDefinitionId The ID for the Role Definition {dbName.roleName}.
@@ -858,10 +640,8 @@ export interface MongoDBResources {
     createUpdateMongoUserDefinitionParameters: MongoUserDefinitionCreateUpdateParameters,
     options?: MongoDBResourcesCreateUpdateMongoUserDefinitionOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        MongoDBResourcesCreateUpdateMongoUserDefinitionResponse
-      >,
+    SimplePollerLike<
+      OperationState<MongoDBResourcesCreateUpdateMongoUserDefinitionResponse>,
       MongoDBResourcesCreateUpdateMongoUserDefinitionResponse
     >
   >;
@@ -893,7 +673,7 @@ export interface MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     options?: MongoDBResourcesDeleteMongoUserDefinitionOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing Azure Cosmos DB Mongo User Definition.
    * @param mongoUserDefinitionId The ID for the User Definition {dbName.userName}.
@@ -924,8 +704,8 @@ export interface MongoDBResources {
     location: ContinuousBackupRestoreLocation,
     options?: MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         MongoDBResourcesRetrieveContinuousBackupInformationResponse
       >,
       MongoDBResourcesRetrieveContinuousBackupInformationResponse

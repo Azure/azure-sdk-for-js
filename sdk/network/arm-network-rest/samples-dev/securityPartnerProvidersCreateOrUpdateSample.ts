@@ -30,8 +30,7 @@ async function createSecurityPartnerProvider() {
       properties: {
         securityProviderName: "ZScaler",
         virtualHub: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1",
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1",
         },
       },
       tags: { key1: "value1" },

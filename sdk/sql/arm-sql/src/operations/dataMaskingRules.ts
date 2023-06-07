@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { DataMaskingRules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,9 +15,9 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   DataMaskingRule,
   DataMaskingRulesListByDatabaseOptionalParams,
+  DataMaskingRulesListByDatabaseResponse,
   DataMaskingRulesCreateOrUpdateOptionalParams,
-  DataMaskingRulesCreateOrUpdateResponse,
-  DataMaskingRulesListByDatabaseResponse
+  DataMaskingRulesCreateOrUpdateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -60,12 +60,16 @@ export class DataMaskingRulesImpl implements DataMaskingRules {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByDatabasePagingPage(
           resourceGroupName,
           serverName,
           databaseName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -75,9 +79,11 @@ export class DataMaskingRulesImpl implements DataMaskingRules {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DataMaskingRulesListByDatabaseOptionalParams
+    options?: DataMaskingRulesListByDatabaseOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<DataMaskingRule[]> {
-    let result = await this._listByDatabase(
+    let result: DataMaskingRulesListByDatabaseResponse;
+    result = await this._listByDatabase(
       resourceGroupName,
       serverName,
       databaseName,
@@ -179,7 +185,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.dataMaskingPolicyName,
     Parameters.dataMaskingRuleName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

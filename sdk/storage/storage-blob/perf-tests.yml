@@ -1,0 +1,57 @@
+Service: storage-blob
+
+Project: sdk/storage/perf-tests/storage-blob
+
+PrimaryPackage: '@azure/storage-blob'
+
+PackageVersions:
+- '@azure/storage-blob': 12.12.0
+  '@azure/core-auth': 1.4.0
+  '@azure/core-http': 2.3.1
+  '@azure/core-lro': 2.4.0
+  '@azure/core-paging': 1.4.0
+  '@azure/core-rest-pipeline': 1.10.0
+  '@azure/core-tracing': 1.0.1
+  '@azure/core-util': 1.1.1
+  '@azure/abort-controller': 1.1.0
+  '@azure/logger': 1.0.3
+- '@azure/storage-blob': source
+  '@azure/core-auth': source
+  '@azure/core-http': source
+  '@azure/core-lro': source
+  '@azure/core-paging': source
+  '@azure/core-rest-pipeline': source
+  '@azure/core-tracing': source
+  '@azure/core-util': source
+  '@azure/abort-controller': source
+  '@azure/logger': source
+
+Tests:
+- Test: download
+  Class: StorageBlobDownloadTest
+  Arguments:
+  # TODO: Remove before merging
+  - --size 1 --warmup 0 --duration 1
+  - --size 10240 --parallel 64
+  - --size 10485760 --parallel 32
+  - --size 1073741824 --parallel 1 --warmup 60 --duration 60
+  - --size 1073741824 --parallel 8 --warmup 60 --duration 60
+
+- Test: upload
+  Class: StorageBlobUploadTest
+  Arguments:
+  # TODO: Remove before merging
+  - --size 1 --warmup 0 --duration 1
+  - --size 10240 --parallel 64
+  - --size 10485760 --parallel 32
+  - --size 1073741824 --parallel 1 --warmup 60 --duration 60
+  - --size 1073741824 --parallel 8 --warmup 60 --duration 60
+
+- Test: list-blobs
+  Class: StorageBlobListTest
+  Arguments:
+  # TODO: Remove before merging
+  - --count 1 --warmup 0 --duration 1
+  - --count 5 --parallel 64
+  - --count 500 --parallel 32
+  - --count 50000 --parallel 32 --warmup 60 --duration 60

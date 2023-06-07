@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { CustomLocationsManagementClient } = require("@azure/arm-extendedlocation");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates or updates a Custom Location in the specified Subscription and Resource Group
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/preview/2021-08-31-preview/examples/CustomLocationsCreate_Update.json
  */
 async function createOrUpdateCustomLocation() {
-  const subscriptionId = "11111111-2222-3333-4444-555555555555";
-  const resourceGroupName = "testresourcegroup";
+  const subscriptionId =
+    process.env["EXTENDEDLOCATION_SUBSCRIPTION_ID"] || "11111111-2222-3333-4444-555555555555";
+  const resourceGroupName = process.env["EXTENDEDLOCATION_RESOURCE_GROUP"] || "testresourcegroup";
   const resourceName = "customLocation01";
   const parameters = {
     authentication: { type: "KubeConfig", value: "<base64 KubeConfig>" },
@@ -43,4 +45,8 @@ async function createOrUpdateCustomLocation() {
   console.log(result);
 }
 
-createOrUpdateCustomLocation().catch(console.error);
+async function main() {
+  createOrUpdateCustomLocation();
+}
+
+main().catch(console.error);

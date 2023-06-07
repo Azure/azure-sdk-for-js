@@ -32,13 +32,11 @@ async function expressRouteCircuitConnectionCreate() {
         addressPrefix: "10.0.0.0/29",
         authorizationKey: "946a1918-b7a2-4917-b43c-8c4cdaee006a",
         expressRouteCircuitPeering: {
-          id:
-            "/subscriptions/subid1/resourceGroups/dedharcktinit/providers/Microsoft.Network/expressRouteCircuits/dedharcktlocal/peerings/AzurePrivatePeering",
+          id: "/subscriptions/subid1/resourceGroups/dedharcktinit/providers/Microsoft.Network/expressRouteCircuits/dedharcktlocal/peerings/AzurePrivatePeering",
         },
         ipv6CircuitConnectionConfig: { addressPrefix: "aa:bb::/125" },
         peerExpressRouteCircuitPeering: {
-          id:
-            "/subscriptions/subid2/resourceGroups/dedharcktpeer/providers/Microsoft.Network/expressRouteCircuits/dedharcktremote/peerings/AzurePrivatePeering",
+          id: "/subscriptions/subid2/resourceGroups/dedharcktpeer/providers/Microsoft.Network/expressRouteCircuits/dedharcktremote/peerings/AzurePrivatePeering",
         },
       },
     },

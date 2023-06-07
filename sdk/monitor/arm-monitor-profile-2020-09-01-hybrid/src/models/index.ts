@@ -230,7 +230,7 @@ export interface OperationDisplay {
 }
 
 /** The diagnostic setting resource. */
-export type DiagnosticSettingsResource = ProxyOnlyResource & {
+export interface DiagnosticSettingsResource extends ProxyOnlyResource {
   /** The resource ID of the storage account to which you would like to send Diagnostic Logs. */
   storageAccountId?: string;
   /** The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility. */
@@ -247,20 +247,25 @@ export type DiagnosticSettingsResource = ProxyOnlyResource & {
   workspaceId?: string;
   /** A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: <normalized service identity>_<normalized category name>. Possible values are: Dedicated and null (null is default.) */
   logAnalyticsDestinationType?: string;
-};
+}
 
 /** The diagnostic settings category resource. */
-export type DiagnosticSettingsCategoryResource = ProxyOnlyResource & {
+export interface DiagnosticSettingsCategoryResource extends ProxyOnlyResource {
   /** The type of the diagnostic settings category. */
   categoryType?: CategoryType;
-};
+}
 
 /** Known values of {@link MetricClass} that the service accepts. */
 export enum KnownMetricClass {
+  /** Availability */
   Availability = "Availability",
+  /** Transactions */
   Transactions = "Transactions",
+  /** Errors */
   Errors = "Errors",
+  /** Latency */
   Latency = "Latency",
+  /** Saturation */
   Saturation = "Saturation"
 }
 
@@ -279,18 +284,31 @@ export type MetricClass = string;
 
 /** Known values of {@link MetricUnit} that the service accepts. */
 export enum KnownMetricUnit {
+  /** Count */
   Count = "Count",
+  /** Bytes */
   Bytes = "Bytes",
+  /** Seconds */
   Seconds = "Seconds",
+  /** CountPerSecond */
   CountPerSecond = "CountPerSecond",
+  /** BytesPerSecond */
   BytesPerSecond = "BytesPerSecond",
+  /** Percent */
   Percent = "Percent",
+  /** MilliSeconds */
   MilliSeconds = "MilliSeconds",
+  /** ByteSeconds */
   ByteSeconds = "ByteSeconds",
+  /** Unspecified */
   Unspecified = "Unspecified",
+  /** Cores */
   Cores = "Cores",
+  /** MilliCores */
   MilliCores = "MilliCores",
+  /** NanoCores */
   NanoCores = "NanoCores",
+  /** BitsPerSecond */
   BitsPerSecond = "BitsPerSecond"
 }
 

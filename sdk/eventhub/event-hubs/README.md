@@ -65,7 +65,7 @@ In addition to what is described there, this library also needs additional polyf
 
 If you are using Webpack v5, you can install the following dev dependencies
 
-- `npm install --save-dev buffer os-browserify path-browserify process`
+- `npm install --save-dev os-browserify path-browserify`
 
 then add the following into your webpack.config.js
 
@@ -101,7 +101,7 @@ then add the following into your webpack.config.js
 
 If you are using Rollup bundler, install the following dev dependencies
 
-- `npm install --save-dev buffer process @rollup/plugin-commonjs @rollup/plugin-inject @rollup/plugin-node-resolve`
+- `npm install --save-dev @rollup/plugin-commonjs @rollup/plugin-inject @rollup/plugin-node-resolve`
 
 Then include the following in your rollup.config.js
 
@@ -138,6 +138,10 @@ export default {
 ```
 
 Please consult the documentation of your favorite bundler for more information on using polyfills.
+
+### React Native Support
+
+Similar to browsers, React Native does not support some JavaScript API used by this SDK library so you need to provide polyfills for them.  Please see the [Messaging React Native sample with Expo](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/frameworks/react-native-expo/ts/messaging/README.md) for more details.
 
 ### Authenticate the client
 

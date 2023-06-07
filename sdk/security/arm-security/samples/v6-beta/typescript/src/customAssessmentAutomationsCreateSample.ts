@@ -13,6 +13,9 @@ import {
   SecurityCenter
 } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates a custom assessment automation for the provided subscription. Please note that providing an existing custom assessment automation will replace the existing record.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2021-07-01-preview/examples/CustomAssessmentAutomations/customAssessmentAutomationCreate_example.json
  */
 async function createACustomAssessmentAutomation() {
-  const subscriptionId = "e5d1b86c-3051-44d5-8802-aa65d45a279b";
-  const resourceGroupName = "TestResourceGroup";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] ||
+    "e5d1b86c-3051-44d5-8802-aa65d45a279b";
+  const resourceGroupName =
+    process.env["SECURITY_RESOURCE_GROUP"] || "TestResourceGroup";
   const customAssessmentAutomationName = "MyCustomAssessmentAutomation";
   const customAssessmentAutomationBody: CustomAssessmentAutomationRequest = {
     description: "Data should be encrypted",
@@ -43,4 +49,8 @@ async function createACustomAssessmentAutomation() {
   console.log(result);
 }
 
-createACustomAssessmentAutomation().catch(console.error);
+async function main() {
+  createACustomAssessmentAutomation();
+}
+
+main().catch(console.error);

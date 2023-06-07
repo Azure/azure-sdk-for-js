@@ -9,10 +9,10 @@ import {
   ProxySettings,
   RequestBodyType,
   TransferProgressEvent,
-} from "./interfaces.js";
-import { createHttpHeaders } from "./httpHeaders.js";
+} from "./interfaces";
+import { createHttpHeaders } from "./httpHeaders";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { generateUuid } from "./util/uuid.js";
+import { randomUUID } from "@azure/core-util";
 import { OperationTracingOptions } from "@azure/core-tracing";
 
 /**
@@ -146,7 +146,7 @@ class PipelineRequestImpl implements PipelineRequest {
     this.tracingOptions = options.tracingOptions;
     this.onUploadProgress = options.onUploadProgress;
     this.onDownloadProgress = options.onDownloadProgress;
-    this.requestId = options.requestId || generateUuid();
+    this.requestId = options.requestId || randomUUID();
     this.allowInsecureConnection = options.allowInsecureConnection ?? false;
     this.enableBrowserStreams = options.enableBrowserStreams ?? false;
   }

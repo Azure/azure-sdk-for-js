@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { Workspaces } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,8 +17,8 @@ import { LroImpl } from "../lroImpl";
 import {
   Workspace,
   WorkspacesListOptionalParams,
-  WorkspacesListByResourceGroupOptionalParams,
   WorkspacesListResponse,
+  WorkspacesListByResourceGroupOptionalParams,
   WorkspacesListByResourceGroupResponse,
   WorkspacesCreateOrUpdateOptionalParams,
   WorkspacesCreateOrUpdateResponse,
@@ -58,16 +58,21 @@ export class WorkspacesImpl implements Workspaces {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: WorkspacesListOptionalParams
+    options?: WorkspacesListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Workspace[]> {
-    let result = await this._list(options);
+    let result: WorkspacesListResponse;
+    result = await this._list(options);
     yield result.value || [];
   }
 
@@ -96,17 +101,26 @@ export class WorkspacesImpl implements Workspaces {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: WorkspacesListByResourceGroupOptionalParams
+    options?: WorkspacesListByResourceGroupOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Workspace[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
+    let result: WorkspacesListByResourceGroupResponse;
+    result = await this._listByResourceGroup(resourceGroupName, options);
     yield result.value || [];
   }
 

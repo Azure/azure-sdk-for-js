@@ -291,9 +291,6 @@ export type AssetsListContainerSasResponse = AssetContainerSas;
 
 // @public
 export interface AssetsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -376,7 +373,7 @@ export type AttributeFilter = string;
 interface Audio_2 extends Codec {
     bitrate?: number;
     channels?: number;
-    odataType: "#Microsoft.Media.Audio" | "#Microsoft.Media.AacAudio";
+    odataType: "#Microsoft.Media.Audio" | "#Microsoft.Media.AacAudio" | "#Microsoft.Media.DDAudio";
     samplingRate?: number;
 }
 export { Audio_2 as Audio }
@@ -424,7 +421,7 @@ export interface AudioTrackDescriptor extends TrackDescriptor {
 export type AudioTrackDescriptorUnion = AudioTrackDescriptor | SelectAudioTrackByAttribute | SelectAudioTrackById;
 
 // @public (undocumented)
-export type AudioUnion = Audio_2 | AacAudio;
+export type AudioUnion = Audio_2 | AacAudio | DDAudio;
 
 // @public (undocumented)
 export class AzureMediaServices extends coreClient.ServiceClient {
@@ -531,7 +528,7 @@ export type ClipTimeUnion = ClipTime | AbsoluteClipTime | UtcClipTime;
 // @public
 export interface Codec {
     label?: string;
-    odataType: "#Microsoft.Media.Audio" | "#Microsoft.Media.AacAudio" | "#Microsoft.Media.Video" | "#Microsoft.Media.H265Video" | "#Microsoft.Media.CopyVideo" | "#Microsoft.Media.Image" | "#Microsoft.Media.CopyAudio" | "#Microsoft.Media.H264Video" | "#Microsoft.Media.JpgImage" | "#Microsoft.Media.PngImage";
+    odataType: "#Microsoft.Media.Audio" | "#Microsoft.Media.AacAudio" | "#Microsoft.Media.DDAudio" | "#Microsoft.Media.Video" | "#Microsoft.Media.H265Video" | "#Microsoft.Media.CopyVideo" | "#Microsoft.Media.Image" | "#Microsoft.Media.CopyAudio" | "#Microsoft.Media.H264Video" | "#Microsoft.Media.JpgImage" | "#Microsoft.Media.PngImage";
 }
 
 // @public (undocumented)
@@ -595,9 +592,6 @@ export type ContentKeyPoliciesGetResponse = ContentKeyPolicy;
 
 // @public
 export interface ContentKeyPoliciesListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -861,6 +855,11 @@ export interface DashSettings {
 }
 
 // @public
+export interface DDAudio extends Audio_2 {
+    odataType: "#Microsoft.Media.DDAudio";
+}
+
+// @public
 export type DefaultAction = string;
 
 // @public
@@ -969,9 +968,18 @@ export interface FaceDetectorPreset extends Preset {
 export type FaceRedactorMode = string;
 
 // @public
+export interface Fade {
+    duration: string;
+    fadeColor: string;
+    start?: string;
+}
+
+// @public
 export interface Filters {
     crop?: Rectangle;
     deinterlace?: Deinterlace;
+    fadeIn?: Fade;
+    fadeOut?: Fade;
     overlays?: OverlayUnion[];
     rotation?: Rotation;
 }
@@ -1017,6 +1025,9 @@ export interface FromAllInputFile extends InputDefinition {
 export interface FromEachInputFile extends InputDefinition {
     odataType: "#Microsoft.Media.FromEachInputFile";
 }
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export type H264Complexity = string;
@@ -1291,8 +1302,6 @@ export type JobsGetResponse = Job;
 
 // @public
 export interface JobsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
 }
 
 // @public
@@ -1504,6 +1513,7 @@ export enum KnownEncoderNamedPreset {
     ContentAwareEncoding = "ContentAwareEncoding",
     ContentAwareEncodingExperimental = "ContentAwareEncodingExperimental",
     CopyAllBitrateNonInterleaved = "CopyAllBitrateNonInterleaved",
+    DDGoodQualityAudio = "DDGoodQualityAudio",
     H264MultipleBitrate1080P = "H264MultipleBitrate1080p",
     H264MultipleBitrate720P = "H264MultipleBitrate720p",
     H264MultipleBitrateSD = "H264MultipleBitrateSD",
@@ -1607,6 +1617,7 @@ export enum KnownInterleaveOutput {
 
 // @public
 export enum KnownJobErrorCategory {
+    Account = "Account",
     Configuration = "Configuration",
     Content = "Content",
     Download = "Download",
@@ -1621,6 +1632,7 @@ export enum KnownJobErrorCode {
     ContentUnsupported = "ContentUnsupported",
     DownloadNotAccessible = "DownloadNotAccessible",
     DownloadTransientError = "DownloadTransientError",
+    IdentityUnsupported = "IdentityUnsupported",
     ServiceError = "ServiceError",
     ServiceTransientError = "ServiceTransientError",
     UploadNotAccessible = "UploadNotAccessible",
@@ -2723,6 +2735,9 @@ export interface ServiceSpecification {
 // @public
 export interface StandardEncoderPreset extends Preset {
     codecs: CodecUnion[];
+    experimentalOptions?: {
+        [propertyName: string]: string;
+    };
     filters?: Filters;
     formats: FormatUnion[];
     odataType: "#Microsoft.Media.StandardEncoderPreset";
@@ -2973,9 +2988,6 @@ export type StreamingLocatorsListContentKeysResponse = ListContentKeysResponse;
 
 // @public
 export interface StreamingLocatorsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -3033,9 +3045,6 @@ export type StreamingPoliciesGetResponse = StreamingPolicy;
 
 // @public
 export interface StreamingPoliciesListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    top?: number;
 }
 
 // @public
@@ -3321,8 +3330,6 @@ export type TransformsGetResponse = Transform;
 
 // @public
 export interface TransformsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
 }
 
 // @public

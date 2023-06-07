@@ -12,6 +12,7 @@
 import {
   AnalyzeBatchAction,
   AzureKeyCredential,
+  KnownHealthcareDocumentType,
   KnownFhirVersion,
   TextAnalysisClient,
 } from "@azure/ai-language-text";
@@ -38,6 +39,7 @@ export async function main() {
     {
       kind: "Healthcare",
       fhirVersion: KnownFhirVersion["4.0.1"],
+      documentType: KnownHealthcareDocumentType.DischargeSummary,
     },
   ];
   const poller = await client.beginAnalyzeBatch(actions, documents, "en");
@@ -87,6 +89,7 @@ export async function main() {
           }
         }
       }
+
       if (result.fhirBundle) {
         console.log(`FHIR object: ${JSON.stringify(result.fhirBundle, undefined, 2)}`);
       }

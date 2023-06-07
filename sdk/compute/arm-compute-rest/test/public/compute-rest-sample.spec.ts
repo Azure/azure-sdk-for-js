@@ -101,12 +101,13 @@ describe("Compute test", () => {
         addressPrefixes: ["10.0.0.0/16"],
       },
     };
-    const virtualNetworks_create_info = await network_client.virtualNetworks.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      network_name,
-      parameter,
-      testPollingOptionsForNetwork
-    );
+    const virtualNetworks_create_info =
+      await network_client.virtualNetworks.beginCreateOrUpdateAndWait(
+        resourceGroupName,
+        network_name,
+        parameter,
+        testPollingOptionsForNetwork
+      );
     console.log(virtualNetworks_create_info);
     const subnet_parameter: Subnet = {
       addressPrefix: "10.0.0.0/24",

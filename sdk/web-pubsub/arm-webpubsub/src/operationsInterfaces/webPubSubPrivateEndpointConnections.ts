@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PrivateEndpointConnection,
   WebPubSubPrivateEndpointConnectionsListOptionalParams,
@@ -76,7 +76,7 @@ export interface WebPubSubPrivateEndpointConnections {
     resourceGroupName: string,
     resourceName: string,
     options?: WebPubSubPrivateEndpointConnectionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the specified private endpoint connection
    * @param privateEndpointConnectionName The name of the private endpoint connection

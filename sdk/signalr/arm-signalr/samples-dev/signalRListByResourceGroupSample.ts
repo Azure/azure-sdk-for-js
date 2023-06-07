@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { SignalRManagementClient } from "@azure/arm-signalr";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Handles requests to list all resources in a resource group.
  *
  * @summary Handles requests to list all resources in a resource group.
- * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/stable/2022-02-01/examples/SignalR_ListByResourceGroup.json
+ * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/stable/2023-02-01/examples/SignalR_ListByResourceGroup.json
  */
 async function signalRListByResourceGroup() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["SIGNALR_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["SIGNALR_RESOURCE_GROUP"] || "myResourceGroup";
   const credential = new DefaultAzureCredential();
   const client = new SignalRManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -31,4 +37,8 @@ async function signalRListByResourceGroup() {
   console.log(resArray);
 }
 
-signalRListByResourceGroup().catch(console.error);
+async function main() {
+  signalRListByResourceGroup();
+}
+
+main().catch(console.error);

@@ -5,6 +5,7 @@ import {
   createDocumentCollectionUri,
   getIdFromLink,
   getPathFromLink,
+  HTTPMethod,
   isResourceValid,
   ResourceType,
 } from "../../common";
@@ -23,6 +24,8 @@ import { PartitionKeyRange } from "./PartitionKeyRange";
 import { Offer, OfferDefinition } from "../Offer";
 import { OfferResponse } from "../Offer/OfferResponse";
 import { Resource } from "../Resource";
+import { getEmptyCosmosDiagnostics } from "../../CosmosDiagnostics";
+import { CosmosDiagnosticContext } from "../../CosmosDiagnosticsContext";
 
 /**
  * Operations for reading, replacing, or deleting a specific, existing container by id.
@@ -132,7 +135,13 @@ export class Container {
       options,
     });
     this.clientContext.partitionKeyDefinitionCache[this.url] = response.result.partitionKey;
-    return new ContainerResponse(response.result, response.headers, response.code, this);
+    return new ContainerResponse(
+      response.result,
+      response.headers,
+      response.code,
+      this,
+      response.diagnostics
+    );
   }
 
   /** Replace the container's definition */
@@ -155,7 +164,13 @@ export class Container {
       resourceId: id,
       options,
     });
-    return new ContainerResponse(response.result, response.headers, response.code, this);
+    return new ContainerResponse(
+      response.result,
+      response.headers,
+      response.code,
+      this,
+      response.diagnostics
+    );
   }
 
   /** Delete the container */
@@ -169,7 +184,13 @@ export class Container {
       resourceId: id,
       options,
     });
-    return new ContainerResponse(response.result, response.headers, response.code, this);
+    return new ContainerResponse(
+      response.result,
+      response.headers,
+      response.code,
+      this,
+      response.diagnostics
+    );
   }
 
   /**
@@ -191,15 +212,17 @@ export class Container {
       return new ResourceResponse<PartitionKeyDefinition>(
         this.clientContext.partitionKeyDefinitionCache[this.url],
         {},
-        0
+        0,
+        getEmptyCosmosDiagnostics()
       );
     }
 
-    const { headers, statusCode } = await this.read();
+    const { headers, statusCode, diagnostics } = await this.read();
     return new ResourceResponse<PartitionKeyDefinition>(
       this.clientContext.partitionKeyDefinitionCache[this.url],
       headers,
-      statusCode
+      statusCode,
+      diagnostics
     );
   }
 
@@ -221,7 +244,13 @@ export class Container {
     const offer = response.result[0]
       ? new Offer(this.database.client, response.result[0].id, this.clientContext)
       : undefined;
-    return new OfferResponse(response.result[0], response.headers, response.code, offer);
+    return new OfferResponse(
+      response.result[0],
+      response.headers,
+      response.code,
+      response.diagnostics,
+      offer
+    );
   }
 
   public async getQueryPlan(
@@ -238,6 +267,39 @@ export class Container {
 
   public readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange> {
     feedOptions = feedOptions || {};
-    return this.clientContext.queryPartitionKeyRanges(this.url, undefined, feedOptions);
+    return this.clientContext.queryPartitionKeyRanges(
+      this.url,
+      new CosmosDiagnosticContext(),
+      undefined,
+      feedOptions
+    );
+  }
+
+  /**
+   * Delete all documents belong to the container for the provided partition key value
+   * @param partitionKey - The partition key value of the items to be deleted
+   */
+  public async deleteAllItemsForPartitionKey(
+    partitionKey: PartitionKey,
+    options?: RequestOptions
+  ): Promise<ContainerResponse> {
+    let path = getPathFromLink(this.url);
+    const id = getIdFromLink(this.url);
+    path = path + "/operations/partitionkeydelete";
+    const response = await this.clientContext.delete<ContainerDefinition>({
+      path,
+      resourceType: ResourceType.container,
+      resourceId: id,
+      options,
+      partitionKey: partitionKey,
+      method: HTTPMethod.post,
+    });
+    return new ContainerResponse(
+      response.result,
+      response.headers,
+      response.code,
+      this,
+      response.diagnostics
+    );
   }
 }

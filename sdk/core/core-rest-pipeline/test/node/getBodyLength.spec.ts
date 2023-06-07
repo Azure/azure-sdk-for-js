@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { getBodyLength } from "../../src/nodeHttpClient.js";
+import { getBodyLength } from "../../src/nodeHttpClient";
 
 describe("Get Body Length", function () {
   it("Gets the length of the ASCII string correctly", function () {

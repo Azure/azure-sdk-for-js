@@ -29,8 +29,7 @@ async function virtualHubRouteTableV2Put() {
     body: {
       properties: {
         hubVirtualNetworkConnection: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1/hubVirtualNetworkConnections/hubVnetConn1",
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1/hubVirtualNetworkConnections/hubVnetConn1",
         },
         peerAsn: 20000,
         peerIp: "192.168.1.5",

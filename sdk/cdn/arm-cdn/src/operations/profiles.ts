@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Profiles } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,13 +19,14 @@ import {
   Profile,
   ProfilesListNextOptionalParams,
   ProfilesListOptionalParams,
+  ProfilesListResponse,
   ProfilesListByResourceGroupNextOptionalParams,
   ProfilesListByResourceGroupOptionalParams,
+  ProfilesListByResourceGroupResponse,
   ResourceUsage,
   ProfilesListResourceUsageNextOptionalParams,
   ProfilesListResourceUsageOptionalParams,
-  ProfilesListResponse,
-  ProfilesListByResourceGroupResponse,
+  ProfilesListResourceUsageResponse,
   ProfilesGetOptionalParams,
   ProfilesGetResponse,
   ProfilesCreateOptionalParams,
@@ -37,7 +39,6 @@ import {
   ProfilesGenerateSsoUriResponse,
   ProfilesListSupportedOptimizationTypesOptionalParams,
   ProfilesListSupportedOptimizationTypesResponse,
-  ProfilesListResourceUsageResponse,
   ProfilesListNextResponse,
   ProfilesListByResourceGroupNextResponse,
   ProfilesListResourceUsageNextResponse
@@ -72,22 +73,34 @@ export class ProfilesImpl implements Profiles {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: ProfilesListOptionalParams
+    options?: ProfilesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Profile[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ProfilesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -117,19 +130,33 @@ export class ProfilesImpl implements Profiles {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: ProfilesListByResourceGroupOptionalParams
+    options?: ProfilesListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Profile[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ProfilesListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -137,7 +164,9 @@ export class ProfilesImpl implements Profiles {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -178,11 +207,15 @@ export class ProfilesImpl implements Profiles {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listResourceUsagePagingPage(
           resourceGroupName,
           profileName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -191,15 +224,22 @@ export class ProfilesImpl implements Profiles {
   private async *listResourceUsagePagingPage(
     resourceGroupName: string,
     profileName: string,
-    options?: ProfilesListResourceUsageOptionalParams
+    options?: ProfilesListResourceUsageOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ResourceUsage[]> {
-    let result = await this._listResourceUsage(
-      resourceGroupName,
-      profileName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ProfilesListResourceUsageResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listResourceUsage(
+        resourceGroupName,
+        profileName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listResourceUsageNext(
         resourceGroupName,
@@ -208,7 +248,9 @@ export class ProfilesImpl implements Profiles {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

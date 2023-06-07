@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to List all queue services for the storage account
  *
  * @summary List all queue services for the storage account
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-05-01/examples/QueueServicesList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/QueueServicesList.json
  */
 async function queueServicesList() {
   const subscriptionId = "{subscription-id}";

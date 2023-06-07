@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists all Kusto cluster database principalAssignments.
  *
  * @summary Lists all Kusto cluster database principalAssignments.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDatabasePrincipalAssignmentsList.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoDatabasePrincipalAssignmentsList.json
  */
 async function kustoPrincipalAssignmentsList() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = "kustorptest";
+  const subscriptionId =
+    process.env["KUSTO_SUBSCRIPTION_ID"] ||
+    "12345678-1234-1234-1234-123456789098";
+  const resourceGroupName =
+    process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
   const clusterName = "kustoCluster";
   const databaseName = "Kustodatabase8";
   const credential = new DefaultAzureCredential();
@@ -35,4 +41,8 @@ async function kustoPrincipalAssignmentsList() {
   console.log(resArray);
 }
 
-kustoPrincipalAssignmentsList().catch(console.error);
+async function main() {
+  kustoPrincipalAssignmentsList();
+}
+
+main().catch(console.error);

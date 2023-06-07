@@ -11,9 +11,11 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { EmailRestApiClient } from "../emailRestApiClient";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
-  EmailGetSendStatusOptionalParams,
-  EmailGetSendStatusResponse,
+  EmailGetSendResultOptionalParams,
+  EmailGetSendResultResponse,
   EmailMessage,
   EmailSendOptionalParams,
   EmailSendResponse
@@ -32,63 +34,116 @@ export class EmailImpl implements Email {
   }
 
   /**
-   * Gets the status of a message sent previously.
-   * @param messageId System generated message id (GUID) returned from a previous call to send email
+   * Gets the status of the email send operation.
+   * @param operationId ID of the long running operation (GUID) returned from a previous call to send
+   *                    email
    * @param options The options parameters.
    */
-  getSendStatus(
-    messageId: string,
-    options?: EmailGetSendStatusOptionalParams
-  ): Promise<EmailGetSendStatusResponse> {
+  getSendResult(
+    operationId: string,
+    options?: EmailGetSendResultOptionalParams
+  ): Promise<EmailGetSendResultResponse> {
     return this.client.sendOperationRequest(
-      { messageId, options },
-      getSendStatusOperationSpec
+      { operationId, options },
+      getSendResultOperationSpec
     );
   }
 
   /**
    * Queues an email message to be sent to one or more recipients
-   * @param repeatabilityRequestId If specified, the client directs that the request is repeatable; that
-   *                               is, that the client can make the request multiple times with the same Repeatability-Request-Id and
-   *                               get back an appropriate response without the server executing the request multiple times. The value
-   *                               of the Repeatability-Request-Id is an opaque string representing a client-generated, globally unique
-   *                               for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs.
-   * @param repeatabilityFirstSent Must be sent by clients to specify that a request is repeatable.
-   *                               Repeatability-First-Sent is used to specify the date and time at which the request was first created
-   *                               in the IMF-fix date form of HTTP-date as defined in RFC7231. eg- Tue, 26 Mar 2019 16:06:51 GMT
-   * @param emailMessage Message payload for sending an email
+   * @param message Message payload for sending an email
    * @param options The options parameters.
    */
-  send(
-    repeatabilityRequestId: string,
-    repeatabilityFirstSent: string,
-    emailMessage: EmailMessage,
+  async beginSend(
+    message: EmailMessage,
     options?: EmailSendOptionalParams
-  ): Promise<EmailSendResponse> {
-    return this.client.sendOperationRequest(
-      { repeatabilityRequestId, repeatabilityFirstSent, emailMessage, options },
+  ): Promise<
+    PollerLike<PollOperationState<EmailSendResponse>, EmailSendResponse>
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<EmailSendResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { message, options },
       sendOperationSpec
     );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Queues an email message to be sent to one or more recipients
+   * @param message Message payload for sending an email
+   * @param options The options parameters.
+   */
+  async beginSendAndWait(
+    message: EmailMessage,
+    options?: EmailSendOptionalParams
+  ): Promise<EmailSendResponse> {
+    const poller = await this.beginSend(message, options);
+    return poller.pollUntilDone();
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getSendStatusOperationSpec: coreClient.OperationSpec = {
-  path: "/emails/{messageId}/status",
+const getSendResultOperationSpec: coreClient.OperationSpec = {
+  path: "/emails/operations/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SendStatusResult,
-      headersMapper: Mappers.EmailGetSendStatusHeaders
+      bodyMapper: Mappers.EmailSendResult,
+      headersMapper: Mappers.EmailGetSendResultHeaders
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      headersMapper: Mappers.EmailGetSendStatusExceptionHeaders
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.EmailGetSendResultExceptionHeaders
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.messageId],
+  urlParameters: [Parameters.endpoint, Parameters.operationId],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -96,22 +151,35 @@ const sendOperationSpec: coreClient.OperationSpec = {
   path: "/emails:send",
   httpMethod: "POST",
   responses: {
+    200: {
+      bodyMapper: Mappers.EmailSendResult,
+      headersMapper: Mappers.EmailSendHeaders
+    },
+    201: {
+      bodyMapper: Mappers.EmailSendResult,
+      headersMapper: Mappers.EmailSendHeaders
+    },
     202: {
+      bodyMapper: Mappers.EmailSendResult,
+      headersMapper: Mappers.EmailSendHeaders
+    },
+    204: {
+      bodyMapper: Mappers.EmailSendResult,
       headersMapper: Mappers.EmailSendHeaders
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
       headersMapper: Mappers.EmailSendExceptionHeaders
     }
   },
-  requestBody: Parameters.emailMessage,
+  requestBody: Parameters.message,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
   headerParameters: [
     Parameters.accept,
     Parameters.contentType,
-    Parameters.repeatabilityRequestId,
-    Parameters.repeatabilityFirstSent
+    Parameters.operationId1,
+    Parameters.clientRequestId
   ],
   mediaType: "json",
   serializer

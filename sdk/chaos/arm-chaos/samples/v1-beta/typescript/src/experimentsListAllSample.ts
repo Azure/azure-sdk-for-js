@@ -13,6 +13,9 @@ import {
   ChaosManagementClient
 } from "@azure/arm-chaos";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get a list of Experiment resources in a subscription.
@@ -21,7 +24,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2022-10-01-preview/examples/ListExperimentsInASubscription.json
  */
 async function listAllExperimentsInASubscription() {
-  const subscriptionId = "6b052e15-03d3-4f17-b2e1-be7f07588291";
+  const subscriptionId =
+    process.env["CHAOS_SUBSCRIPTION_ID"] ||
+    "6b052e15-03d3-4f17-b2e1-be7f07588291";
   const continuationToken = undefined;
   const options: ExperimentsListAllOptionalParams = { continuationToken };
   const credential = new DefaultAzureCredential();
@@ -33,4 +38,8 @@ async function listAllExperimentsInASubscription() {
   console.log(resArray);
 }
 
-listAllExperimentsInASubscription().catch(console.error);
+async function main() {
+  listAllExperimentsInASubscription();
+}
+
+main().catch(console.error);

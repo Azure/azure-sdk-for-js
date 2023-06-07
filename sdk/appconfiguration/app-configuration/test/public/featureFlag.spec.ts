@@ -9,9 +9,9 @@ import {
   featureFlagPrefix,
 } from "../../src";
 import { FeatureFlagValue, isFeatureFlag, parseFeatureFlag } from "../../src/featureFlag";
+import { Recorder } from "@azure-tools/test-recorder";
 import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers";
 import { Context } from "mocha";
-import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 
 describe("AppConfigurationClient - FeatureFlag", () => {
@@ -22,8 +22,8 @@ describe("AppConfigurationClient - FeatureFlag", () => {
     let addResponse: AddConfigurationSettingResponse;
 
     beforeEach(async function (this: Context) {
-      recorder = startRecorder(this);
-      client = createAppConfigurationClientForTests() || this.skip();
+      recorder = await startRecorder(this);
+      client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
       baseSetting = {
         value: {
           conditions: {
@@ -57,7 +57,10 @@ describe("AppConfigurationClient - FeatureFlag", () => {
           displayName: "for display",
         },
         isReadOnly: false,
-        key: `${featureFlagPrefix + recorder.getUniqueName("name-1")}`,
+        key: `${
+          featureFlagPrefix +
+          recorder.variable("name-1", `name-1${Math.floor(Math.random() * 1000)}`)
+        }`,
         contentType: featureFlagContentType,
         label: "label-1",
       };
@@ -191,11 +194,14 @@ describe("AppConfigurationClient - FeatureFlag", () => {
     let recorder: Recorder;
     let featureFlag: ConfigurationSetting<FeatureFlagValue>;
     beforeEach(async function (this: Context) {
-      recorder = startRecorder(this);
-      client = createAppConfigurationClientForTests() || this.skip();
+      recorder = await startRecorder(this);
+      client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
       featureFlag = {
         contentType: featureFlagContentType,
-        key: `${featureFlagPrefix}${recorder.getUniqueName("name-1")}`,
+        key: `${featureFlagPrefix}${recorder.variable(
+          "name-1",
+          `name-1${Math.floor(Math.random() * 1000)}`
+        )}`,
         isReadOnly: false,
         value: { conditions: { clientFilters: [] }, enabled: true },
       };

@@ -3241,18 +3241,7 @@ export type UsageDetailsListResponse = UsageDetailsListResult;
 
 /** Optional parameters. */
 export interface UsageDetailsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to expand the properties/additionalInfo or properties/meterDetails within a list of usage details. By default, these fields are not included when listing usage details. */
-  expand?: string;
-  /** May be used to filter usageDetails by properties/resourceGroup, properties/resourceName, properties/resourceId, properties/chargeType, properties/reservationId, properties/publisherType or tags. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value is separated by a colon (:). PublisherType Filter accepts two values azure and marketplace and it is currently supported for Web Direct Offer Type */
-  filter?: string;
-  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  skiptoken?: string;
-  /** May be used to limit the number of results to the most recent N usageDetails. */
-  top?: number;
-  /** Allows to select different type of cost/usage records. */
-  metric?: Metrictype;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type UsageDetailsListNextResponse = UsageDetailsListResult;
@@ -3273,14 +3262,7 @@ export type MarketplacesListResponse = MarketplacesListResult;
 
 /** Optional parameters. */
 export interface MarketplacesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to filter marketplaces by properties/usageEnd (Utc time), properties/usageStart (Utc time), properties/resourceGroup, properties/instanceName or properties/instanceId. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. */
-  filter?: string;
-  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  skiptoken?: string;
-  /** May be used to limit the number of results to the most recent N marketplaces. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type MarketplacesListNextResponse = MarketplacesListResult;
@@ -3391,38 +3373,21 @@ export type ReservationsSummariesListResponse = ReservationSummariesListResult;
 
 /** Optional parameters. */
 export interface ReservationsSummariesListByReservationOrderNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Required only for daily grain. The properties/UsageDate for start date and end date. The filter supports 'le' and  'ge' */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReservationOrderNext operation. */
 export type ReservationsSummariesListByReservationOrderNextResponse = ReservationSummariesListResult;
 
 /** Optional parameters. */
 export interface ReservationsSummariesListByReservationOrderAndReservationNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Required only for daily grain. The properties/UsageDate for start date and end date. The filter supports 'le' and  'ge' */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReservationOrderAndReservationNext operation. */
 export type ReservationsSummariesListByReservationOrderAndReservationNextResponse = ReservationSummariesListResult;
 
 /** Optional parameters. */
 export interface ReservationsSummariesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Required only for daily grain. The properties/UsageDate for start date and end date. The filter supports 'le' and  'ge'. Not applicable when querying with billing profile */
-  filter?: string;
-  /** Start date. Only applicable when querying with billing profile */
-  startDate?: string;
-  /** End date. Only applicable when querying with billing profile */
-  endDate?: string;
-  /** Reservation Id GUID. Only valid if reservationOrderId is also provided. Filter to a specific reservation */
-  reservationId?: string;
-  /** Reservation Order Id GUID. Required if reservationId is provided. Filter to a specific reservation order */
-  reservationOrderId?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ReservationsSummariesListNextResponse = ReservationSummariesListResult;
@@ -3475,18 +3440,7 @@ export type ReservationsDetailsListByReservationOrderAndReservationNextResponse 
 
 /** Optional parameters. */
 export interface ReservationsDetailsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Filter reservation details by date range. The properties/UsageDate for start date and end date. The filter supports 'le' and  'ge'. Not applicable when querying with billing profile */
-  filter?: string;
-  /** Start date. Only applicable when querying with billing profile */
-  startDate?: string;
-  /** End date. Only applicable when querying with billing profile */
-  endDate?: string;
-  /** Reservation Id GUID. Only valid if reservationOrderId is also provided. Filter to a specific reservation */
-  reservationId?: string;
-  /** Reservation Order Id GUID. Required if reservationId is provided. Filter to a specific reservation order */
-  reservationOrderId?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ReservationsDetailsListNextResponse = ReservationDetailsListResult;
@@ -3503,10 +3457,7 @@ export type ReservationRecommendationsListResponse = ReservationRecommendationsL
 
 /** Optional parameters. */
 export interface ReservationRecommendationsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to filter reservationRecommendations by: properties/scope with allowed values ['Single', 'Shared'] and default value 'Single'; properties/resourceType with allowed values ['VirtualMachines', 'SQLDatabases', 'PostgreSQL', 'ManagedDisk', 'MySQL', 'RedHat', 'MariaDB', 'RedisCache', 'CosmosDB', 'SqlDataWarehouse', 'SUSELinux', 'AppService', 'BlockBlob', 'AzureDataExplorer', 'VMwareCloudSimple'] and default value 'VirtualMachines'; and properties/lookBackPeriod with allowed values ['Last7Days', 'Last30Days', 'Last60Days'] and default value 'Last7Days'. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ReservationRecommendationsListNextResponse = ReservationRecommendationsListResult;
@@ -3540,20 +3491,14 @@ export type ReservationTransactionsListByBillingProfileResponse = ModernReservat
 
 /** Optional parameters. */
 export interface ReservationTransactionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Filter reservation transactions by date range. The properties/EventDate for start date and end date. The filter supports 'le' and  'ge' */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ReservationTransactionsListNextResponse = ReservationTransactionsListResult;
 
 /** Optional parameters. */
 export interface ReservationTransactionsListByBillingProfileNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Filter reservation transactions by date range. The properties/EventDate for start date and end date. The filter supports 'le' and  'ge' */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingProfileNext operation. */
 export type ReservationTransactionsListByBillingProfileNextResponse = ModernReservationTransactionsListResult;
@@ -3643,10 +3588,7 @@ export type EventsListByBillingProfileNextResponse = Events;
 
 /** Optional parameters. */
 export interface EventsListByBillingAccountNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to filter the events by lotId, lotSource etc. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value is separated by a colon (:). */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingAccountNext operation. */
 export type EventsListByBillingAccountNextResponse = Events;
@@ -3677,10 +3619,7 @@ export type LotsListByBillingProfileNextResponse = Lots;
 
 /** Optional parameters. */
 export interface LotsListByBillingAccountNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to filter the lots by Status, Source etc. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value is separated by a colon (:). */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingAccountNext operation. */
 export type LotsListByBillingAccountNextResponse = Lots;

@@ -78,9 +78,9 @@ describe("[AccountKey] MixedRealityStsClient functional tests", function () {
   let client: MixedRealityStsClient;
   let recorder: Recorder;
 
-  beforeEach(function (this: Context) {
-    recorder = createRecorder(this);
-    client = createClient();
+  beforeEach(async function (this: Context) {
+    recorder = await createRecorder(this);
+    client = createClient(recorder.configureClientOptions({}));
   });
 
   afterEach(async function () {

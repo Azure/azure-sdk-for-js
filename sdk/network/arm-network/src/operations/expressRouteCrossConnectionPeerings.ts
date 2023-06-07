@@ -6,14 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ExpressRouteCrossConnectionPeerings } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ExpressRouteCrossConnectionPeering,
   ExpressRouteCrossConnectionPeeringsListNextOptionalParams,
@@ -64,11 +69,15 @@ export class ExpressRouteCrossConnectionPeeringsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           crossConnectionName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -77,15 +86,22 @@ export class ExpressRouteCrossConnectionPeeringsImpl
   private async *listPagingPage(
     resourceGroupName: string,
     crossConnectionName: string,
-    options?: ExpressRouteCrossConnectionPeeringsListOptionalParams
+    options?: ExpressRouteCrossConnectionPeeringsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ExpressRouteCrossConnectionPeering[]> {
-    let result = await this._list(
-      resourceGroupName,
-      crossConnectionName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ExpressRouteCrossConnectionPeeringsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        crossConnectionName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -94,7 +110,9 @@ export class ExpressRouteCrossConnectionPeeringsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -141,14 +159,14 @@ export class ExpressRouteCrossConnectionPeeringsImpl
     crossConnectionName: string,
     peeringName: string,
     options?: ExpressRouteCrossConnectionPeeringsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -181,15 +199,15 @@ export class ExpressRouteCrossConnectionPeeringsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, crossConnectionName, peeringName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, crossConnectionName, peeringName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -252,10 +270,8 @@ export class ExpressRouteCrossConnectionPeeringsImpl
     peeringParameters: ExpressRouteCrossConnectionPeering,
     options?: ExpressRouteCrossConnectionPeeringsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        ExpressRouteCrossConnectionPeeringsCreateOrUpdateResponse
-      >,
+    SimplePollerLike<
+      OperationState<ExpressRouteCrossConnectionPeeringsCreateOrUpdateResponse>,
       ExpressRouteCrossConnectionPeeringsCreateOrUpdateResponse
     >
   > {
@@ -265,7 +281,7 @@ export class ExpressRouteCrossConnectionPeeringsImpl
     ): Promise<ExpressRouteCrossConnectionPeeringsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -298,21 +314,24 @@ export class ExpressRouteCrossConnectionPeeringsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         crossConnectionName,
         peeringName,
         peeringParameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ExpressRouteCrossConnectionPeeringsCreateOrUpdateResponse,
+      OperationState<ExpressRouteCrossConnectionPeeringsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -480,7 +499,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

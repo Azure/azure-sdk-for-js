@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { MarketplaceOrderingAgreements } from "@azure/arm-marketplaceordering";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get marketplace terms.
@@ -18,7 +21,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/marketplaceordering/resource-manager/Microsoft.MarketplaceOrdering/stable/2021-01-01/examples/GetMarketplaceTerms.json
  */
 async function getMarketplaceTerms() {
-  const subscriptionId = "subid";
+  const subscriptionId =
+    process.env["MARKETPLACEORDERING_SUBSCRIPTION_ID"] || "subid";
   const offerType = "virtualmachine";
   const publisherId = "pubid";
   const offerId = "offid";
@@ -34,4 +38,8 @@ async function getMarketplaceTerms() {
   console.log(result);
 }
 
-getMarketplaceTerms().catch(console.error);
+async function main() {
+  getMarketplaceTerms();
+}
+
+main().catch(console.error);

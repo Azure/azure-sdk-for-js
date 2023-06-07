@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ActivityOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,9 +17,9 @@ import {
   Activity,
   ActivityListByModuleNextOptionalParams,
   ActivityListByModuleOptionalParams,
+  ActivityListByModuleResponse,
   ActivityGetOptionalParams,
   ActivityGetResponse,
-  ActivityListByModuleResponse,
   ActivityListByModuleNextResponse
 } from "../models";
 
@@ -61,12 +62,16 @@ export class ActivityOperationsImpl implements ActivityOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByModulePagingPage(
           resourceGroupName,
           automationAccountName,
           moduleName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -76,16 +81,23 @@ export class ActivityOperationsImpl implements ActivityOperations {
     resourceGroupName: string,
     automationAccountName: string,
     moduleName: string,
-    options?: ActivityListByModuleOptionalParams
+    options?: ActivityListByModuleOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Activity[]> {
-    let result = await this._listByModule(
-      resourceGroupName,
-      automationAccountName,
-      moduleName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ActivityListByModuleResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByModule(
+        resourceGroupName,
+        automationAccountName,
+        moduleName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByModuleNext(
         resourceGroupName,
@@ -95,7 +107,9 @@ export class ActivityOperationsImpl implements ActivityOperations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -249,7 +263,6 @@ const listByModuleNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

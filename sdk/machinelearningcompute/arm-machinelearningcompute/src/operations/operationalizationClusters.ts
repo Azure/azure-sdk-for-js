@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { OperationalizationClusters } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,8 +19,10 @@ import {
   OperationalizationCluster,
   OperationalizationClustersListByResourceGroupNextOptionalParams,
   OperationalizationClustersListByResourceGroupOptionalParams,
+  OperationalizationClustersListByResourceGroupResponse,
   OperationalizationClustersListBySubscriptionIdNextOptionalParams,
   OperationalizationClustersListBySubscriptionIdOptionalParams,
+  OperationalizationClustersListBySubscriptionIdResponse,
   OperationalizationClustersCreateOrUpdateOptionalParams,
   OperationalizationClustersCreateOrUpdateResponse,
   OperationalizationClustersGetOptionalParams,
@@ -35,8 +38,6 @@ import {
   OperationalizationClustersCheckSystemServicesUpdatesAvailableResponse,
   OperationalizationClustersUpdateSystemServicesOptionalParams,
   OperationalizationClustersUpdateSystemServicesResponse,
-  OperationalizationClustersListByResourceGroupResponse,
-  OperationalizationClustersListBySubscriptionIdResponse,
   OperationalizationClustersListByResourceGroupNextResponse,
   OperationalizationClustersListBySubscriptionIdNextResponse
 } from "../models";
@@ -72,19 +73,33 @@ export class OperationalizationClustersImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: OperationalizationClustersListByResourceGroupOptionalParams
+    options?: OperationalizationClustersListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<OperationalizationCluster[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: OperationalizationClustersListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -92,7 +107,9 @@ export class OperationalizationClustersImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -123,22 +140,34 @@ export class OperationalizationClustersImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionIdPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionIdPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionIdPagingPage(
-    options?: OperationalizationClustersListBySubscriptionIdOptionalParams
+    options?: OperationalizationClustersListBySubscriptionIdOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<OperationalizationCluster[]> {
-    let result = await this._listBySubscriptionId(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: OperationalizationClustersListBySubscriptionIdResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscriptionId(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionIdNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { PolicyExemptions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,21 +17,21 @@ import {
   PolicyExemption,
   PolicyExemptionsListNextOptionalParams,
   PolicyExemptionsListOptionalParams,
+  PolicyExemptionsListResponse,
   PolicyExemptionsListForResourceGroupNextOptionalParams,
   PolicyExemptionsListForResourceGroupOptionalParams,
+  PolicyExemptionsListForResourceGroupResponse,
   PolicyExemptionsListForResourceNextOptionalParams,
   PolicyExemptionsListForResourceOptionalParams,
+  PolicyExemptionsListForResourceResponse,
   PolicyExemptionsListForManagementGroupNextOptionalParams,
   PolicyExemptionsListForManagementGroupOptionalParams,
+  PolicyExemptionsListForManagementGroupResponse,
   PolicyExemptionsDeleteOptionalParams,
   PolicyExemptionsCreateOrUpdateOptionalParams,
   PolicyExemptionsCreateOrUpdateResponse,
   PolicyExemptionsGetOptionalParams,
   PolicyExemptionsGetResponse,
-  PolicyExemptionsListResponse,
-  PolicyExemptionsListForResourceGroupResponse,
-  PolicyExemptionsListForResourceResponse,
-  PolicyExemptionsListForManagementGroupResponse,
   PolicyExemptionsListNextResponse,
   PolicyExemptionsListForResourceGroupNextResponse,
   PolicyExemptionsListForResourceNextResponse,
@@ -70,22 +71,34 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: PolicyExemptionsListOptionalParams
+    options?: PolicyExemptionsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PolicyExemption[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PolicyExemptionsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -119,19 +132,33 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listForResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listForResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listForResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: PolicyExemptionsListForResourceGroupOptionalParams
+    options?: PolicyExemptionsListForResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PolicyExemption[]> {
-    let result = await this._listForResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PolicyExemptionsListForResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listForResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listForResourceGroupNext(
         resourceGroupName,
@@ -139,7 +166,9 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -204,14 +233,18 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listForResourcePagingPage(
           resourceGroupName,
           resourceProviderNamespace,
           parentResourcePath,
           resourceType,
           resourceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -223,18 +256,25 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
     parentResourcePath: string,
     resourceType: string,
     resourceName: string,
-    options?: PolicyExemptionsListForResourceOptionalParams
+    options?: PolicyExemptionsListForResourceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PolicyExemption[]> {
-    let result = await this._listForResource(
-      resourceGroupName,
-      resourceProviderNamespace,
-      parentResourcePath,
-      resourceType,
-      resourceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PolicyExemptionsListForResourceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listForResource(
+        resourceGroupName,
+        resourceProviderNamespace,
+        parentResourcePath,
+        resourceType,
+        resourceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listForResourceNext(
         resourceGroupName,
@@ -246,7 +286,9 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -294,10 +336,14 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listForManagementGroupPagingPage(
           managementGroupId,
-          options
+          options,
+          settings
         );
       }
     };
@@ -305,11 +351,18 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
 
   private async *listForManagementGroupPagingPage(
     managementGroupId: string,
-    options?: PolicyExemptionsListForManagementGroupOptionalParams
+    options?: PolicyExemptionsListForManagementGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PolicyExemption[]> {
-    let result = await this._listForManagementGroup(managementGroupId, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PolicyExemptionsListForManagementGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listForManagementGroup(managementGroupId, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listForManagementGroupNext(
         managementGroupId,
@@ -317,7 +370,9 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -749,7 +804,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -769,7 +823,6 @@ const listForResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -790,7 +843,6 @@ const listForResourceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -815,7 +867,6 @@ const listForManagementGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

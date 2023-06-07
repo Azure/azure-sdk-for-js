@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Profiles } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,12 +19,12 @@ import {
   ProfileResourceFormat,
   ProfilesListByHubNextOptionalParams,
   ProfilesListByHubOptionalParams,
+  ProfilesListByHubResponse,
   ProfilesCreateOrUpdateOptionalParams,
   ProfilesCreateOrUpdateResponse,
   ProfilesGetOptionalParams,
   ProfilesGetResponse,
   ProfilesDeleteOptionalParams,
-  ProfilesListByHubResponse,
   ProfilesGetEnrichingKpisOptionalParams,
   ProfilesGetEnrichingKpisResponse,
   ProfilesListByHubNextResponse
@@ -61,8 +62,16 @@ export class ProfilesImpl implements Profiles {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByHubPagingPage(resourceGroupName, hubName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByHubPagingPage(
+          resourceGroupName,
+          hubName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -70,11 +79,18 @@ export class ProfilesImpl implements Profiles {
   private async *listByHubPagingPage(
     resourceGroupName: string,
     hubName: string,
-    options?: ProfilesListByHubOptionalParams
+    options?: ProfilesListByHubOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ProfileResourceFormat[]> {
-    let result = await this._listByHub(resourceGroupName, hubName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ProfilesListByHubResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByHub(resourceGroupName, hubName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByHubNext(
         resourceGroupName,
@@ -83,7 +99,9 @@ export class ProfilesImpl implements Profiles {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

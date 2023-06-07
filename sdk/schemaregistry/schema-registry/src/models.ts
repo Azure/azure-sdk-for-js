@@ -55,11 +55,23 @@ export interface Schema {
 }
 
 /**
+ * Schema formats supported at the time of this library release.
+ */
+export enum KnownSchemaFormats {
+  /** Avro */
+  Avro = "Avro",
+  /** JSON */
+  Json = "Json",
+  /** Schemas of the custom format will be treated as an opaque string */
+  Custom = "Custom",
+}
+
+/**
  * Options for SchemaRegistrationClient.
  */
 export interface SchemaRegistryClientOptions extends CommonClientOptions {
   /**
-   * The service API version to use in requests. The default is "2021-10".
+   * The service API version to use in requests. The default is "2022-10".
    */
   apiVersion?: string;
 }

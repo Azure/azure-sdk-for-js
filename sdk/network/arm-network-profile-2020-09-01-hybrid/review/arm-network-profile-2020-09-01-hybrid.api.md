@@ -22,21 +22,21 @@ export interface ApplicationGatewayBackendAddress {
 }
 
 // @public
-export type ApplicationGatewayBackendAddressPool = SubResource & {
-    name?: string;
-    etag?: string;
-    type?: string;
-    backendIPConfigurations?: NetworkInterfaceIPConfiguration[];
+export interface ApplicationGatewayBackendAddressPool extends SubResource {
     backendAddresses?: ApplicationGatewayBackendAddress[];
+    backendIPConfigurations?: NetworkInterfaceIPConfiguration[];
+    etag?: string;
+    name?: string;
     provisioningState?: string;
-};
+    type?: string;
+}
 
 // @public
-export type ApplicationSecurityGroup = Resource & {
+export interface ApplicationSecurityGroup extends Resource {
     readonly etag?: string;
-    readonly resourceGuid?: string;
     readonly provisioningState?: string;
-};
+    readonly resourceGuid?: string;
+}
 
 // @public
 export type AuthenticationMethod = string;
@@ -56,15 +56,15 @@ export interface AzureAsyncOperationResult {
 }
 
 // @public
-export type BackendAddressPool = SubResource & {
-    name?: string;
-    etag?: string;
+export interface BackendAddressPool extends SubResource {
     readonly backendIPConfigurations?: NetworkInterfaceIPConfiguration[];
+    etag?: string;
     readonly loadBalancingRules?: SubResource[];
+    name?: string;
     readonly outboundRule?: SubResource;
     readonly outboundRules?: SubResource[];
     provisioningState?: string;
-};
+}
 
 // @public
 export type BgpPeerState = string;
@@ -105,9 +105,9 @@ export interface ConnectionResetSharedKey {
 }
 
 // @public
-export type ConnectionSharedKey = SubResource & {
+export interface ConnectionSharedKey extends SubResource {
     value: string;
-};
+}
 
 // @public
 export interface DdosSettings {
@@ -146,13 +146,13 @@ export interface DefaultSecurityRulesListOptionalParams extends coreClient.Opera
 export type DefaultSecurityRulesListResponse = SecurityRuleListResult;
 
 // @public
-export type Delegation = SubResource & {
-    name?: string;
-    etag?: string;
-    serviceName?: string;
+export interface Delegation extends SubResource {
     actions?: string[];
+    etag?: string;
+    name?: string;
     readonly provisioningState?: string;
-};
+    serviceName?: string;
+}
 
 // @public
 export interface DhcpOptions {
@@ -263,21 +263,21 @@ export interface ErrorModel {
 }
 
 // @public
-export type FrontendIPConfiguration = SubResource & {
-    name?: string;
+export interface FrontendIPConfiguration extends SubResource {
     etag?: string;
-    zones?: string[];
-    readonly inboundNatRules?: SubResource[];
     readonly inboundNatPools?: SubResource[];
-    readonly outboundRules?: SubResource[];
+    readonly inboundNatRules?: SubResource[];
     readonly loadBalancingRules?: SubResource[];
+    name?: string;
+    readonly outboundRules?: SubResource[];
     privateIPAddress?: string;
     privateIPAllocationMethod?: IPAllocationMethod;
-    subnet?: Subnet;
+    provisioningState?: string;
     publicIPAddress?: PublicIPAddress;
     publicIPPrefix?: SubResource;
-    provisioningState?: string;
-};
+    subnet?: Subnet;
+    zones?: string[];
+}
 
 // @public
 export interface GatewayRoute {
@@ -296,40 +296,43 @@ export interface GatewayRouteListResult {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export type IkeEncryption = string;
 
 // @public
 export type IkeIntegrity = string;
 
 // @public
-export type InboundNatPool = SubResource & {
-    name?: string;
-    etag?: string;
-    frontendIPConfiguration?: SubResource;
-    protocol?: TransportProtocol;
-    frontendPortRangeStart?: number;
-    frontendPortRangeEnd?: number;
+export interface InboundNatPool extends SubResource {
     backendPort?: number;
-    idleTimeoutInMinutes?: number;
     enableFloatingIP?: boolean;
     enableTcpReset?: boolean;
+    etag?: string;
+    frontendIPConfiguration?: SubResource;
+    frontendPortRangeEnd?: number;
+    frontendPortRangeStart?: number;
+    idleTimeoutInMinutes?: number;
+    name?: string;
+    protocol?: TransportProtocol;
     provisioningState?: string;
-};
+}
 
 // @public
-export type InboundNatRule = SubResource & {
-    name?: string;
-    etag?: string;
-    frontendIPConfiguration?: SubResource;
+export interface InboundNatRule extends SubResource {
     readonly backendIPConfiguration?: NetworkInterfaceIPConfiguration;
-    protocol?: TransportProtocol;
-    frontendPort?: number;
     backendPort?: number;
-    idleTimeoutInMinutes?: number;
     enableFloatingIP?: boolean;
     enableTcpReset?: boolean;
+    etag?: string;
+    frontendIPConfiguration?: SubResource;
+    frontendPort?: number;
+    idleTimeoutInMinutes?: number;
+    name?: string;
+    protocol?: TransportProtocol;
     provisioningState?: string;
-};
+}
 
 // @public
 export interface InboundNatRuleListResult {
@@ -385,15 +388,15 @@ export interface InboundNatRulesListOptionalParams extends coreClient.OperationO
 export type InboundNatRulesListResponse = InboundNatRuleListResult;
 
 // @public
-export type InterfaceEndpoint = Resource & {
+export interface InterfaceEndpoint extends Resource {
+    endpointService?: EndpointService;
     etag?: string;
     fqdn?: string;
-    endpointService?: EndpointService;
-    subnet?: Subnet;
     readonly networkInterfaces?: NetworkInterface[];
     readonly owner?: string;
     readonly provisioningState?: string;
-};
+    subnet?: Subnet;
+}
 
 // @public
 export interface IPAddressAvailabilityResult {
@@ -405,24 +408,24 @@ export interface IPAddressAvailabilityResult {
 export type IPAllocationMethod = string;
 
 // @public
-export type IPConfiguration = SubResource & {
-    name?: string;
+export interface IPConfiguration extends SubResource {
     etag?: string;
+    name?: string;
     privateIPAddress?: string;
     privateIPAllocationMethod?: IPAllocationMethod;
-    subnet?: Subnet;
-    publicIPAddress?: PublicIPAddress;
     provisioningState?: string;
-};
+    publicIPAddress?: PublicIPAddress;
+    subnet?: Subnet;
+}
 
 // @public
-export type IPConfigurationProfile = SubResource & {
-    name?: string;
-    readonly type?: string;
+export interface IPConfigurationProfile extends SubResource {
     etag?: string;
-    subnet?: Subnet;
+    name?: string;
     readonly provisioningState?: string;
-};
+    subnet?: Subnet;
+    readonly type?: string;
+}
 
 // @public
 export type IpsecEncryption = string;
@@ -453,450 +456,304 @@ export type IPVersion = string;
 
 // @public
 export enum KnownAuthenticationMethod {
-    // (undocumented)
     EapmschaPv2 = "EAPMSCHAPv2",
-    // (undocumented)
     Eaptls = "EAPTLS"
 }
 
 // @public
 export enum KnownBgpPeerState {
-    // (undocumented)
     Connected = "Connected",
-    // (undocumented)
     Connecting = "Connecting",
-    // (undocumented)
     Idle = "Idle",
-    // (undocumented)
     Stopped = "Stopped",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownDdosSettingsProtectionCoverage {
-    // (undocumented)
     Basic = "Basic",
-    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
 export enum KnownDhGroup {
-    // (undocumented)
     DHGroup1 = "DHGroup1",
-    // (undocumented)
     DHGroup14 = "DHGroup14",
-    // (undocumented)
     DHGroup2 = "DHGroup2",
-    // (undocumented)
     DHGroup2048 = "DHGroup2048",
-    // (undocumented)
     DHGroup24 = "DHGroup24",
-    // (undocumented)
     ECP256 = "ECP256",
-    // (undocumented)
     ECP384 = "ECP384",
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownEffectiveRouteSource {
-    // (undocumented)
     Default = "Default",
-    // (undocumented)
     Unknown = "Unknown",
-    // (undocumented)
     User = "User",
-    // (undocumented)
     VirtualNetworkGateway = "VirtualNetworkGateway"
 }
 
 // @public
 export enum KnownEffectiveRouteState {
-    // (undocumented)
     Active = "Active",
-    // (undocumented)
     Invalid = "Invalid"
 }
 
 // @public
 export enum KnownEffectiveSecurityRuleProtocol {
-    // (undocumented)
     All = "All",
-    // (undocumented)
     Tcp = "Tcp",
-    // (undocumented)
     Udp = "Udp"
 }
 
 // @public
 export enum KnownIkeEncryption {
-    // (undocumented)
     AES128 = "AES128",
-    // (undocumented)
     AES192 = "AES192",
-    // (undocumented)
     AES256 = "AES256",
-    // (undocumented)
     DES = "DES",
-    // (undocumented)
     DES3 = "DES3",
-    // (undocumented)
     Gcmaes128 = "GCMAES128",
-    // (undocumented)
     Gcmaes256 = "GCMAES256"
 }
 
 // @public
 export enum KnownIkeIntegrity {
-    // (undocumented)
     Gcmaes128 = "GCMAES128",
-    // (undocumented)
     Gcmaes256 = "GCMAES256",
-    // (undocumented)
     MD5 = "MD5",
-    // (undocumented)
     SHA1 = "SHA1",
-    // (undocumented)
     SHA256 = "SHA256",
-    // (undocumented)
     SHA384 = "SHA384"
 }
 
 // @public
 export enum KnownIPAllocationMethod {
-    // (undocumented)
     Dynamic = "Dynamic",
-    // (undocumented)
     Static = "Static"
 }
 
 // @public
 export enum KnownIpsecEncryption {
-    // (undocumented)
     AES128 = "AES128",
-    // (undocumented)
     AES192 = "AES192",
-    // (undocumented)
     AES256 = "AES256",
-    // (undocumented)
     DES = "DES",
-    // (undocumented)
     DES3 = "DES3",
-    // (undocumented)
     Gcmaes128 = "GCMAES128",
-    // (undocumented)
     Gcmaes192 = "GCMAES192",
-    // (undocumented)
     Gcmaes256 = "GCMAES256",
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownIpsecIntegrity {
-    // (undocumented)
     Gcmaes128 = "GCMAES128",
-    // (undocumented)
     Gcmaes192 = "GCMAES192",
-    // (undocumented)
     Gcmaes256 = "GCMAES256",
-    // (undocumented)
     MD5 = "MD5",
-    // (undocumented)
     SHA1 = "SHA1",
-    // (undocumented)
     SHA256 = "SHA256"
 }
 
 // @public
 export enum KnownIPVersion {
-    // (undocumented)
     IPv4 = "IPv4",
-    // (undocumented)
     IPv6 = "IPv6"
 }
 
 // @public
 export enum KnownLoadBalancerSkuName {
-    // (undocumented)
     Basic = "Basic",
-    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
 export enum KnownLoadDistribution {
-    // (undocumented)
     Default = "Default",
-    // (undocumented)
     SourceIP = "SourceIP",
-    // (undocumented)
     SourceIPProtocol = "SourceIPProtocol"
 }
 
 // @public
 export enum KnownNetworkOperationStatus {
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     InProgress = "InProgress",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownOutboundRulePropertiesFormatProtocol {
-    // (undocumented)
     All = "All",
-    // (undocumented)
     Tcp = "Tcp",
-    // (undocumented)
     Udp = "Udp"
 }
 
 // @public
 export enum KnownPfsGroup {
-    // (undocumented)
     ECP256 = "ECP256",
-    // (undocumented)
     ECP384 = "ECP384",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     PFS1 = "PFS1",
-    // (undocumented)
     PFS14 = "PFS14",
-    // (undocumented)
     PFS2 = "PFS2",
-    // (undocumented)
     PFS2048 = "PFS2048",
-    // (undocumented)
     PFS24 = "PFS24",
-    // (undocumented)
     Pfsmm = "PFSMM"
 }
 
 // @public
 export enum KnownProbeProtocol {
-    // (undocumented)
     Http = "Http",
-    // (undocumented)
     Https = "Https",
-    // (undocumented)
     Tcp = "Tcp"
 }
 
 // @public
 export enum KnownProcessorArchitecture {
-    // (undocumented)
     Amd64 = "Amd64",
-    // (undocumented)
     X86 = "X86"
 }
 
 // @public
 export enum KnownPublicIPAddressSkuName {
-    // (undocumented)
     Basic = "Basic",
-    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
 export enum KnownRouteNextHopType {
-    // (undocumented)
     Internet = "Internet",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     VirtualAppliance = "VirtualAppliance",
-    // (undocumented)
     VirtualNetworkGateway = "VirtualNetworkGateway",
-    // (undocumented)
     VnetLocal = "VnetLocal"
 }
 
 // @public
 export enum KnownSecurityRuleAccess {
-    // (undocumented)
     Allow = "Allow",
-    // (undocumented)
     Deny = "Deny"
 }
 
 // @public
 export enum KnownSecurityRuleDirection {
-    // (undocumented)
     Inbound = "Inbound",
-    // (undocumented)
     Outbound = "Outbound"
 }
 
 // @public
 export enum KnownSecurityRuleProtocol {
-    // (undocumented)
     Asterisk = "*",
-    // (undocumented)
     Tcp = "Tcp",
-    // (undocumented)
     Udp = "Udp"
 }
 
 // @public
 export enum KnownTransportProtocol {
-    // (undocumented)
     All = "All",
-    // (undocumented)
     Tcp = "Tcp",
-    // (undocumented)
     Udp = "Udp"
 }
 
 // @public
 export enum KnownVirtualNetworkGatewayConnectionProtocol {
-    // (undocumented)
     IKEv1 = "IKEv1",
-    // (undocumented)
     IKEv2 = "IKEv2"
 }
 
 // @public
 export enum KnownVirtualNetworkGatewayConnectionStatus {
-    // (undocumented)
     Connected = "Connected",
-    // (undocumented)
     Connecting = "Connecting",
-    // (undocumented)
     NotConnected = "NotConnected",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownVirtualNetworkGatewayConnectionType {
-    // (undocumented)
     ExpressRoute = "ExpressRoute",
-    // (undocumented)
     IPsec = "IPsec",
-    // (undocumented)
     Vnet2Vnet = "Vnet2Vnet",
-    // (undocumented)
     VPNClient = "VPNClient"
 }
 
 // @public
 export enum KnownVirtualNetworkGatewaySkuName {
-    // (undocumented)
     Basic = "Basic",
-    // (undocumented)
     ErGw1AZ = "ErGw1AZ",
-    // (undocumented)
     ErGw2AZ = "ErGw2AZ",
-    // (undocumented)
     ErGw3AZ = "ErGw3AZ",
-    // (undocumented)
     HighPerformance = "HighPerformance",
-    // (undocumented)
     Standard = "Standard",
-    // (undocumented)
     UltraPerformance = "UltraPerformance",
-    // (undocumented)
     VpnGw1 = "VpnGw1",
-    // (undocumented)
     VpnGw1AZ = "VpnGw1AZ",
-    // (undocumented)
     VpnGw2 = "VpnGw2",
-    // (undocumented)
     VpnGw2AZ = "VpnGw2AZ",
-    // (undocumented)
     VpnGw3 = "VpnGw3",
-    // (undocumented)
     VpnGw3AZ = "VpnGw3AZ"
 }
 
 // @public
 export enum KnownVirtualNetworkGatewaySkuTier {
-    // (undocumented)
     Basic = "Basic",
-    // (undocumented)
     ErGw1AZ = "ErGw1AZ",
-    // (undocumented)
     ErGw2AZ = "ErGw2AZ",
-    // (undocumented)
     ErGw3AZ = "ErGw3AZ",
-    // (undocumented)
     HighPerformance = "HighPerformance",
-    // (undocumented)
     Standard = "Standard",
-    // (undocumented)
     UltraPerformance = "UltraPerformance",
-    // (undocumented)
     VpnGw1 = "VpnGw1",
-    // (undocumented)
     VpnGw1AZ = "VpnGw1AZ",
-    // (undocumented)
     VpnGw2 = "VpnGw2",
-    // (undocumented)
     VpnGw2AZ = "VpnGw2AZ",
-    // (undocumented)
     VpnGw3 = "VpnGw3",
-    // (undocumented)
     VpnGw3AZ = "VpnGw3AZ"
 }
 
 // @public
 export enum KnownVirtualNetworkGatewayType {
-    // (undocumented)
     ExpressRoute = "ExpressRoute",
-    // (undocumented)
     Vpn = "Vpn"
 }
 
 // @public
 export enum KnownVirtualNetworkPeeringState {
-    // (undocumented)
     Connected = "Connected",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Initiated = "Initiated"
 }
 
 // @public
 export enum KnownVpnClientProtocol {
-    // (undocumented)
     IkeV2 = "IkeV2",
-    // (undocumented)
     OpenVPN = "OpenVPN",
-    // (undocumented)
     Sstp = "SSTP"
 }
 
 // @public
 export enum KnownVpnType {
-    // (undocumented)
     PolicyBased = "PolicyBased",
-    // (undocumented)
     RouteBased = "RouteBased"
 }
 
 // @public
-export type LoadBalancer = Resource & {
-    sku?: LoadBalancerSku;
+export interface LoadBalancer extends Resource {
+    backendAddressPools?: BackendAddressPool[];
     etag?: string;
     frontendIPConfigurations?: FrontendIPConfiguration[];
-    backendAddressPools?: BackendAddressPool[];
-    loadBalancingRules?: LoadBalancingRule[];
-    probes?: Probe[];
-    inboundNatRules?: InboundNatRule[];
     inboundNatPools?: InboundNatPool[];
+    inboundNatRules?: InboundNatRule[];
+    loadBalancingRules?: LoadBalancingRule[];
     outboundRules?: OutboundRule[];
-    resourceGuid?: string;
+    probes?: Probe[];
     provisioningState?: string;
-};
+    resourceGuid?: string;
+    sku?: LoadBalancerSku;
+}
 
 // @public
 export interface LoadBalancerBackendAddressPoolListResult {
@@ -1170,35 +1027,35 @@ export interface LoadBalancersUpdateTagsOptionalParams extends coreClient.Operat
 export type LoadBalancersUpdateTagsResponse = LoadBalancer;
 
 // @public
-export type LoadBalancingRule = SubResource & {
-    name?: string;
-    etag?: string;
-    frontendIPConfiguration?: SubResource;
+export interface LoadBalancingRule extends SubResource {
     backendAddressPool?: SubResource;
-    probe?: SubResource;
-    protocol?: TransportProtocol;
-    loadDistribution?: LoadDistribution;
-    frontendPort?: number;
     backendPort?: number;
-    idleTimeoutInMinutes?: number;
+    disableOutboundSnat?: boolean;
     enableFloatingIP?: boolean;
     enableTcpReset?: boolean;
-    disableOutboundSnat?: boolean;
+    etag?: string;
+    frontendIPConfiguration?: SubResource;
+    frontendPort?: number;
+    idleTimeoutInMinutes?: number;
+    loadDistribution?: LoadDistribution;
+    name?: string;
+    probe?: SubResource;
+    protocol?: TransportProtocol;
     provisioningState?: string;
-};
+}
 
 // @public
 export type LoadDistribution = string;
 
 // @public
-export type LocalNetworkGateway = Resource & {
-    etag?: string;
-    localNetworkAddressSpace?: AddressSpace;
-    gatewayIpAddress?: string;
+export interface LocalNetworkGateway extends Resource {
     bgpSettings?: BgpSettings;
-    resourceGuid?: string;
+    etag?: string;
+    gatewayIpAddress?: string;
+    localNetworkAddressSpace?: AddressSpace;
     readonly provisioningState?: string;
-};
+    resourceGuid?: string;
+}
 
 // @public
 export interface LocalNetworkGatewayListResult {
@@ -1299,22 +1156,22 @@ export interface MetricSpecification {
 }
 
 // @public
-export type NetworkInterface = Resource & {
-    etag?: string;
-    readonly virtualMachine?: SubResource;
-    networkSecurityGroup?: NetworkSecurityGroup;
-    readonly interfaceEndpoint?: InterfaceEndpoint;
-    ipConfigurations?: NetworkInterfaceIPConfiguration[];
-    tapConfigurations?: NetworkInterfaceTapConfiguration[];
+export interface NetworkInterface extends Resource {
     dnsSettings?: NetworkInterfaceDnsSettings;
-    macAddress?: string;
-    primary?: boolean;
     enableAcceleratedNetworking?: boolean;
     enableIPForwarding?: boolean;
+    etag?: string;
     readonly hostedWorkloads?: string[];
-    resourceGuid?: string;
+    readonly interfaceEndpoint?: InterfaceEndpoint;
+    ipConfigurations?: NetworkInterfaceIPConfiguration[];
+    macAddress?: string;
+    networkSecurityGroup?: NetworkSecurityGroup;
+    primary?: boolean;
     provisioningState?: string;
-};
+    resourceGuid?: string;
+    tapConfigurations?: NetworkInterfaceTapConfiguration[];
+    readonly virtualMachine?: SubResource;
+}
 
 // @public
 export interface NetworkInterfaceDnsSettings {
@@ -1326,22 +1183,22 @@ export interface NetworkInterfaceDnsSettings {
 }
 
 // @public
-export type NetworkInterfaceIPConfiguration = SubResource & {
-    name?: string;
-    etag?: string;
-    virtualNetworkTaps?: VirtualNetworkTap[];
+export interface NetworkInterfaceIPConfiguration extends SubResource {
     applicationGatewayBackendAddressPools?: ApplicationGatewayBackendAddressPool[];
+    applicationSecurityGroups?: ApplicationSecurityGroup[];
+    etag?: string;
     loadBalancerBackendAddressPools?: BackendAddressPool[];
     loadBalancerInboundNatRules?: InboundNatRule[];
-    privateIPAddress?: string;
-    privateIPAllocationMethod?: IPAllocationMethod;
-    privateIPAddressVersion?: IPVersion;
-    subnet?: Subnet;
+    name?: string;
     primary?: boolean;
-    publicIPAddress?: PublicIPAddress;
-    applicationSecurityGroups?: ApplicationSecurityGroup[];
+    privateIPAddress?: string;
+    privateIPAddressVersion?: IPVersion;
+    privateIPAllocationMethod?: IPAllocationMethod;
     provisioningState?: string;
-};
+    publicIPAddress?: PublicIPAddress;
+    subnet?: Subnet;
+    virtualNetworkTaps?: VirtualNetworkTap[];
+}
 
 // @public
 export interface NetworkInterfaceIPConfigurationListResult {
@@ -1503,13 +1360,13 @@ export interface NetworkInterfacesUpdateTagsOptionalParams extends coreClient.Op
 export type NetworkInterfacesUpdateTagsResponse = NetworkInterface;
 
 // @public
-export type NetworkInterfaceTapConfiguration = SubResource & {
-    name?: string;
+export interface NetworkInterfaceTapConfiguration extends SubResource {
     etag?: string;
+    name?: string;
+    readonly provisioningState?: string;
     readonly type?: string;
     virtualNetworkTap?: VirtualNetworkTap;
-    readonly provisioningState?: string;
-};
+}
 
 // @public
 export interface NetworkInterfaceTapConfigurationListResult {
@@ -1635,15 +1492,15 @@ export interface NetworkManagementClientOptionalParams extends coreClient.Servic
 export type NetworkOperationStatus = string;
 
 // @public
-export type NetworkSecurityGroup = Resource & {
-    etag?: string;
-    securityRules?: SecurityRule[];
+export interface NetworkSecurityGroup extends Resource {
     defaultSecurityRules?: SecurityRule[];
+    etag?: string;
     readonly networkInterfaces?: NetworkInterface[];
-    readonly subnets?: Subnet[];
-    resourceGuid?: string;
     provisioningState?: string;
-};
+    resourceGuid?: string;
+    securityRules?: SecurityRule[];
+    readonly subnets?: Subnet[];
+}
 
 // @public
 export interface NetworkSecurityGroupListResult {
@@ -1772,17 +1629,17 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
-export type OutboundRule = SubResource & {
-    name?: string;
-    etag?: string;
+export interface OutboundRule extends SubResource {
     allocatedOutboundPorts?: number;
-    frontendIPConfigurations?: SubResource[];
     backendAddressPool?: SubResource;
-    provisioningState?: string;
-    protocol?: OutboundRulePropertiesFormatProtocol;
     enableTcpReset?: boolean;
+    etag?: string;
+    frontendIPConfigurations?: SubResource[];
     idleTimeoutInMinutes?: number;
-};
+    name?: string;
+    protocol?: OutboundRulePropertiesFormatProtocol;
+    provisioningState?: string;
+}
 
 // @public
 export type OutboundRulePropertiesFormatProtocol = string;
@@ -1791,17 +1648,17 @@ export type OutboundRulePropertiesFormatProtocol = string;
 export type PfsGroup = string;
 
 // @public
-export type Probe = SubResource & {
-    name?: string;
+export interface Probe extends SubResource {
     etag?: string;
-    readonly loadBalancingRules?: SubResource[];
-    protocol?: ProbeProtocol;
-    port?: number;
     intervalInSeconds?: number;
+    readonly loadBalancingRules?: SubResource[];
+    name?: string;
     numberOfProbes?: number;
-    requestPath?: string;
+    port?: number;
+    protocol?: ProbeProtocol;
     provisioningState?: string;
-};
+    requestPath?: string;
+}
 
 // @public
 export type ProbeProtocol = string;
@@ -1810,22 +1667,22 @@ export type ProbeProtocol = string;
 export type ProcessorArchitecture = string;
 
 // @public
-export type PublicIPAddress = Resource & {
-    sku?: PublicIPAddressSku;
-    etag?: string;
-    zones?: string[];
-    publicIPAllocationMethod?: IPAllocationMethod;
-    publicIPAddressVersion?: IPVersion;
-    readonly ipConfiguration?: IPConfiguration;
-    dnsSettings?: PublicIPAddressDnsSettings;
+export interface PublicIPAddress extends Resource {
     ddosSettings?: DdosSettings;
-    ipTags?: IpTag[];
-    ipAddress?: string;
-    publicIPPrefix?: SubResource;
+    dnsSettings?: PublicIPAddressDnsSettings;
+    etag?: string;
     idleTimeoutInMinutes?: number;
-    resourceGuid?: string;
+    ipAddress?: string;
+    readonly ipConfiguration?: IPConfiguration;
+    ipTags?: IpTag[];
     provisioningState?: string;
-};
+    publicIPAddressVersion?: IPVersion;
+    publicIPAllocationMethod?: IPAllocationMethod;
+    publicIPPrefix?: SubResource;
+    resourceGuid?: string;
+    sku?: PublicIPAddressSku;
+    zones?: string[];
+}
 
 // @public
 export interface PublicIPAddressDnsSettings {
@@ -1936,23 +1793,23 @@ export interface Resource {
 export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
 
 // @public
-export type ResourceNavigationLink = SubResource & {
-    name?: string;
+export interface ResourceNavigationLink extends SubResource {
     readonly etag?: string;
-    linkedResourceType?: string;
     link?: string;
+    linkedResourceType?: string;
+    name?: string;
     readonly provisioningState?: string;
-};
+}
 
 // @public
-export type Route = SubResource & {
-    name?: string;
-    etag?: string;
+export interface Route extends SubResource {
     addressPrefix?: string;
-    nextHopType?: RouteNextHopType;
+    etag?: string;
+    name?: string;
     nextHopIpAddress?: string;
+    nextHopType?: RouteNextHopType;
     provisioningState?: string;
-};
+}
 
 // @public
 export interface RouteListResult {
@@ -2010,13 +1867,13 @@ export interface RoutesListOptionalParams extends coreClient.OperationOptions {
 export type RoutesListResponse = RouteListResult;
 
 // @public
-export type RouteTable = Resource & {
+export interface RouteTable extends Resource {
+    disableBgpRoutePropagation?: boolean;
     etag?: string;
+    provisioningState?: string;
     routes?: Route[];
     readonly subnets?: Subnet[];
-    disableBgpRoutePropagation?: boolean;
-    provisioningState?: string;
-};
+}
 
 // @public
 export interface RouteTableListResult {
@@ -2098,26 +1955,26 @@ export interface RouteTablesUpdateTagsOptionalParams extends coreClient.Operatio
 export type RouteTablesUpdateTagsResponse = RouteTable;
 
 // @public
-export type SecurityRule = SubResource & {
-    name?: string;
-    etag?: string;
+export interface SecurityRule extends SubResource {
+    access?: SecurityRuleAccess;
     description?: string;
-    protocol?: SecurityRuleProtocol;
-    sourcePortRange?: string;
-    destinationPortRange?: string;
-    sourceAddressPrefix?: string;
-    sourceAddressPrefixes?: string[];
-    sourceApplicationSecurityGroups?: ApplicationSecurityGroup[];
     destinationAddressPrefix?: string;
     destinationAddressPrefixes?: string[];
     destinationApplicationSecurityGroups?: ApplicationSecurityGroup[];
-    sourcePortRanges?: string[];
+    destinationPortRange?: string;
     destinationPortRanges?: string[];
-    access?: SecurityRuleAccess;
-    priority?: number;
     direction?: SecurityRuleDirection;
+    etag?: string;
+    name?: string;
+    priority?: number;
+    protocol?: SecurityRuleProtocol;
     provisioningState?: string;
-};
+    sourceAddressPrefix?: string;
+    sourceAddressPrefixes?: string[];
+    sourceApplicationSecurityGroups?: ApplicationSecurityGroup[];
+    sourcePortRange?: string;
+    sourcePortRanges?: string[];
+}
 
 // @public
 export type SecurityRuleAccess = string;
@@ -2181,32 +2038,32 @@ export interface SecurityRulesListOptionalParams extends coreClient.OperationOpt
 export type SecurityRulesListResponse = SecurityRuleListResult;
 
 // @public
-export type ServiceAssociationLink = SubResource & {
-    name?: string;
+export interface ServiceAssociationLink extends SubResource {
     readonly etag?: string;
-    linkedResourceType?: string;
     link?: string;
+    linkedResourceType?: string;
+    name?: string;
     readonly provisioningState?: string;
-};
+}
 
 // @public
-export type ServiceEndpointPolicy = Resource & {
+export interface ServiceEndpointPolicy extends Resource {
     etag?: string;
+    readonly provisioningState?: string;
+    readonly resourceGuid?: string;
     serviceEndpointPolicyDefinitions?: ServiceEndpointPolicyDefinition[];
     readonly subnets?: Subnet[];
-    readonly resourceGuid?: string;
-    readonly provisioningState?: string;
-};
+}
 
 // @public
-export type ServiceEndpointPolicyDefinition = SubResource & {
-    name?: string;
-    etag?: string;
+export interface ServiceEndpointPolicyDefinition extends SubResource {
     description?: string;
+    etag?: string;
+    name?: string;
+    readonly provisioningState?: string;
     service?: string;
     serviceResources?: string[];
-    readonly provisioningState?: string;
-};
+}
 
 // @public
 export interface ServiceEndpointPropertiesFormat {
@@ -2216,24 +2073,24 @@ export interface ServiceEndpointPropertiesFormat {
 }
 
 // @public
-export type Subnet = SubResource & {
-    name?: string;
-    etag?: string;
+export interface Subnet extends SubResource {
     addressPrefix?: string;
     addressPrefixes?: string[];
-    networkSecurityGroup?: NetworkSecurityGroup;
-    routeTable?: RouteTable;
-    serviceEndpoints?: ServiceEndpointPropertiesFormat[];
-    serviceEndpointPolicies?: ServiceEndpointPolicy[];
-    readonly interfaceEndpoints?: InterfaceEndpoint[];
-    readonly ipConfigurations?: IPConfiguration[];
-    readonly ipConfigurationProfiles?: IPConfigurationProfile[];
-    resourceNavigationLinks?: ResourceNavigationLink[];
-    serviceAssociationLinks?: ServiceAssociationLink[];
     delegations?: Delegation[];
-    readonly purpose?: string;
+    etag?: string;
+    readonly interfaceEndpoints?: InterfaceEndpoint[];
+    readonly ipConfigurationProfiles?: IPConfigurationProfile[];
+    readonly ipConfigurations?: IPConfiguration[];
+    name?: string;
+    networkSecurityGroup?: NetworkSecurityGroup;
     provisioningState?: string;
-};
+    readonly purpose?: string;
+    resourceNavigationLinks?: ResourceNavigationLink[];
+    routeTable?: RouteTable;
+    serviceAssociationLinks?: ServiceAssociationLink[];
+    serviceEndpointPolicies?: ServiceEndpointPolicy[];
+    serviceEndpoints?: ServiceEndpointPropertiesFormat[];
+}
 
 // @public
 export interface SubnetListResult {
@@ -2313,18 +2170,18 @@ export interface TunnelConnectionHealth {
 }
 
 // @public
-export type VirtualNetwork = Resource & {
-    etag?: string;
+export interface VirtualNetwork extends Resource {
     addressSpace?: AddressSpace;
+    ddosProtectionPlan?: SubResource;
     dhcpOptions?: DhcpOptions;
-    subnets?: Subnet[];
-    virtualNetworkPeerings?: VirtualNetworkPeering[];
-    resourceGuid?: string;
-    provisioningState?: string;
     enableDdosProtection?: boolean;
     enableVmProtection?: boolean;
-    ddosProtectionPlan?: SubResource;
-};
+    etag?: string;
+    provisioningState?: string;
+    resourceGuid?: string;
+    subnets?: Subnet[];
+    virtualNetworkPeerings?: VirtualNetworkPeering[];
+}
 
 // @public
 export interface VirtualNetworkConnectionGatewayReference {
@@ -2332,68 +2189,68 @@ export interface VirtualNetworkConnectionGatewayReference {
 }
 
 // @public
-export type VirtualNetworkGateway = Resource & {
-    etag?: string;
-    ipConfigurations?: VirtualNetworkGatewayIPConfiguration[];
-    gatewayType?: VirtualNetworkGatewayType;
-    vpnType?: VpnType;
-    enableBgp?: boolean;
+export interface VirtualNetworkGateway extends Resource {
     active?: boolean;
+    bgpSettings?: BgpSettings;
+    enableBgp?: boolean;
+    etag?: string;
     gatewayDefaultSite?: SubResource;
+    gatewayType?: VirtualNetworkGatewayType;
+    ipConfigurations?: VirtualNetworkGatewayIPConfiguration[];
+    readonly provisioningState?: string;
+    resourceGuid?: string;
     sku?: VirtualNetworkGatewaySku;
     vpnClientConfiguration?: VpnClientConfiguration;
-    bgpSettings?: BgpSettings;
-    resourceGuid?: string;
-    readonly provisioningState?: string;
-};
+    vpnType?: VpnType;
+}
 
 // @public
-export type VirtualNetworkGatewayConnection = Resource & {
-    etag?: string;
+export interface VirtualNetworkGatewayConnection extends Resource {
     authorizationKey?: string;
+    connectionProtocol?: VirtualNetworkGatewayConnectionProtocol;
+    readonly connectionStatus?: VirtualNetworkGatewayConnectionStatus;
+    connectionType: VirtualNetworkGatewayConnectionType;
+    readonly egressBytesTransferred?: number;
+    enableBgp?: boolean;
+    etag?: string;
+    expressRouteGatewayBypass?: boolean;
+    readonly ingressBytesTransferred?: number;
+    ipsecPolicies?: IpsecPolicy[];
+    localNetworkGateway2?: LocalNetworkGateway;
+    peer?: SubResource;
+    readonly provisioningState?: string;
+    resourceGuid?: string;
+    routingWeight?: number;
+    sharedKey?: string;
+    readonly tunnelConnectionStatus?: TunnelConnectionHealth[];
+    usePolicyBasedTrafficSelectors?: boolean;
     virtualNetworkGateway1: VirtualNetworkGateway;
     virtualNetworkGateway2?: VirtualNetworkGateway;
-    localNetworkGateway2?: LocalNetworkGateway;
-    connectionType: VirtualNetworkGatewayConnectionType;
-    connectionProtocol?: VirtualNetworkGatewayConnectionProtocol;
-    routingWeight?: number;
-    sharedKey?: string;
-    readonly connectionStatus?: VirtualNetworkGatewayConnectionStatus;
-    readonly tunnelConnectionStatus?: TunnelConnectionHealth[];
-    readonly egressBytesTransferred?: number;
-    readonly ingressBytesTransferred?: number;
-    peer?: SubResource;
-    enableBgp?: boolean;
-    usePolicyBasedTrafficSelectors?: boolean;
-    ipsecPolicies?: IpsecPolicy[];
-    resourceGuid?: string;
-    readonly provisioningState?: string;
-    expressRouteGatewayBypass?: boolean;
-};
+}
 
 // @public
-export type VirtualNetworkGatewayConnectionListEntity = Resource & {
-    etag?: string;
+export interface VirtualNetworkGatewayConnectionListEntity extends Resource {
     authorizationKey?: string;
-    virtualNetworkGateway1: VirtualNetworkConnectionGatewayReference;
-    virtualNetworkGateway2?: VirtualNetworkConnectionGatewayReference;
-    localNetworkGateway2?: VirtualNetworkConnectionGatewayReference;
-    connectionType: VirtualNetworkGatewayConnectionType;
     connectionProtocol?: VirtualNetworkGatewayConnectionProtocol;
+    readonly connectionStatus?: VirtualNetworkGatewayConnectionStatus;
+    connectionType: VirtualNetworkGatewayConnectionType;
+    readonly egressBytesTransferred?: number;
+    enableBgp?: boolean;
+    etag?: string;
+    expressRouteGatewayBypass?: boolean;
+    readonly ingressBytesTransferred?: number;
+    ipsecPolicies?: IpsecPolicy[];
+    localNetworkGateway2?: VirtualNetworkConnectionGatewayReference;
+    peer?: SubResource;
+    readonly provisioningState?: string;
+    resourceGuid?: string;
     routingWeight?: number;
     sharedKey?: string;
-    readonly connectionStatus?: VirtualNetworkGatewayConnectionStatus;
     readonly tunnelConnectionStatus?: TunnelConnectionHealth[];
-    readonly egressBytesTransferred?: number;
-    readonly ingressBytesTransferred?: number;
-    peer?: SubResource;
-    enableBgp?: boolean;
     usePolicyBasedTrafficSelectors?: boolean;
-    ipsecPolicies?: IpsecPolicy[];
-    resourceGuid?: string;
-    readonly provisioningState?: string;
-    expressRouteGatewayBypass?: boolean;
-};
+    virtualNetworkGateway1: VirtualNetworkConnectionGatewayReference;
+    virtualNetworkGateway2?: VirtualNetworkConnectionGatewayReference;
+}
 
 // @public
 export interface VirtualNetworkGatewayConnectionListResult {
@@ -2498,14 +2355,14 @@ export type VirtualNetworkGatewayConnectionsUpdateTagsResponse = VirtualNetworkG
 export type VirtualNetworkGatewayConnectionType = string;
 
 // @public
-export type VirtualNetworkGatewayIPConfiguration = SubResource & {
-    name?: string;
+export interface VirtualNetworkGatewayIPConfiguration extends SubResource {
     etag?: string;
+    name?: string;
     privateIPAllocationMethod?: IPAllocationMethod;
-    subnet?: SubResource;
-    publicIPAddress?: SubResource;
     readonly provisioningState?: string;
-};
+    publicIPAddress?: SubResource;
+    subnet?: SubResource;
+}
 
 // @public
 export interface VirtualNetworkGatewayListConnectionsResult {
@@ -2755,18 +2612,18 @@ export interface VirtualNetworkListUsageResult {
 }
 
 // @public
-export type VirtualNetworkPeering = SubResource & {
-    name?: string;
-    etag?: string;
-    allowVirtualNetworkAccess?: boolean;
+export interface VirtualNetworkPeering extends SubResource {
     allowForwardedTraffic?: boolean;
     allowGatewayTransit?: boolean;
-    useRemoteGateways?: boolean;
-    remoteVirtualNetwork?: SubResource;
-    remoteAddressSpace?: AddressSpace;
+    allowVirtualNetworkAccess?: boolean;
+    etag?: string;
+    name?: string;
     peeringState?: VirtualNetworkPeeringState;
     provisioningState?: string;
-};
+    remoteAddressSpace?: AddressSpace;
+    remoteVirtualNetwork?: SubResource;
+    useRemoteGateways?: boolean;
+}
 
 // @public
 export interface VirtualNetworkPeeringListResult {
@@ -2920,15 +2777,15 @@ export interface VirtualNetworksUpdateTagsOptionalParams extends coreClient.Oper
 export type VirtualNetworksUpdateTagsResponse = VirtualNetwork;
 
 // @public
-export type VirtualNetworkTap = Resource & {
+export interface VirtualNetworkTap extends Resource {
+    destinationLoadBalancerFrontEndIPConfiguration?: FrontendIPConfiguration;
+    destinationNetworkInterfaceIPConfiguration?: NetworkInterfaceIPConfiguration;
+    destinationPort?: number;
     etag?: string;
     readonly networkInterfaceTapConfigurations?: NetworkInterfaceTapConfiguration[];
-    readonly resourceGuid?: string;
     readonly provisioningState?: string;
-    destinationNetworkInterfaceIPConfiguration?: NetworkInterfaceIPConfiguration;
-    destinationLoadBalancerFrontEndIPConfiguration?: FrontendIPConfiguration;
-    destinationPort?: number;
-};
+    readonly resourceGuid?: string;
+}
 
 // @public
 export interface VirtualNetworkUsage {
@@ -2980,20 +2837,20 @@ export interface VpnClientParameters {
 export type VpnClientProtocol = string;
 
 // @public
-export type VpnClientRevokedCertificate = SubResource & {
-    name?: string;
+export interface VpnClientRevokedCertificate extends SubResource {
     etag?: string;
-    thumbprint?: string;
+    name?: string;
     readonly provisioningState?: string;
-};
+    thumbprint?: string;
+}
 
 // @public
-export type VpnClientRootCertificate = SubResource & {
-    name?: string;
+export interface VpnClientRootCertificate extends SubResource {
     etag?: string;
-    publicCertData: string;
+    name?: string;
     readonly provisioningState?: string;
-};
+    publicCertData: string;
+}
 
 // @public
 export interface VpnDeviceScriptParameters {

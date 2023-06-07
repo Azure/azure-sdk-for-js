@@ -1,5 +1,17 @@
 # Release History
 
+## 12.12.0 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Update dependency `@azure/core-http` version to `^3.0.0`.
+
 ## 12.11.0 (2022-10-14)
 
 ### Features 

@@ -291,10 +291,7 @@ export type RoleDefinitionsGetByIdResponse = RoleDefinition;
 
 /** Optional parameters. */
 export interface RoleDefinitionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Use atScopeAndBelow filter to search below the given scope as well. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type RoleDefinitionsListNextResponse = RoleDefinitionListResult;
@@ -321,10 +318,7 @@ export type ProviderOperationsMetadataListResponse = ProviderOperationsMetadataL
 
 /** Optional parameters. */
 export interface ProviderOperationsMetadataListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specifies whether to expand the values. */
-  expand?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ProviderOperationsMetadataListNextResponse = ProviderOperationsMetadataListResult;
@@ -417,40 +411,28 @@ export type RoleAssignmentsListForScopeResponse = RoleAssignmentListResult;
 
 /** Optional parameters. */
 export interface RoleAssignmentsListForResourceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForResourceNext operation. */
 export type RoleAssignmentsListForResourceNextResponse = RoleAssignmentListResult;
 
 /** Optional parameters. */
 export interface RoleAssignmentsListForResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForResourceGroupNext operation. */
 export type RoleAssignmentsListForResourceGroupNextResponse = RoleAssignmentListResult;
 
 /** Optional parameters. */
 export interface RoleAssignmentsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type RoleAssignmentsListNextResponse = RoleAssignmentListResult;
 
 /** Optional parameters. */
 export interface RoleAssignmentsListForScopeNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForScopeNext operation. */
 export type RoleAssignmentsListForScopeNextResponse = RoleAssignmentListResult;

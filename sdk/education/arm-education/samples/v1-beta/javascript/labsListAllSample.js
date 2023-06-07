@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { EducationManagementClient } = require("@azure/arm-education");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get a list of labs associated with the provided billing account name and billing profile name.
@@ -31,8 +32,6 @@ async function labList() {
   console.log(resArray);
 }
 
-labList().catch(console.error);
-
 /**
  * This sample demonstrates how to Get a list of labs associated with the provided billing account name and billing profile name.
  *
@@ -53,4 +52,9 @@ async function labListIncludeBudget() {
   console.log(resArray);
 }
 
-labListIncludeBudget().catch(console.error);
+async function main() {
+  labList();
+  labListIncludeBudget();
+}
+
+main().catch(console.error);

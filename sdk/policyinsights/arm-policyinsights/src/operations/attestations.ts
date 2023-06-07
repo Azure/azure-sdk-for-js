@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Attestations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,23 +19,23 @@ import {
   Attestation,
   AttestationsListForSubscriptionNextOptionalParams,
   AttestationsListForSubscriptionOptionalParams,
+  AttestationsListForSubscriptionResponse,
   AttestationsListForResourceGroupNextOptionalParams,
   AttestationsListForResourceGroupOptionalParams,
+  AttestationsListForResourceGroupResponse,
   AttestationsListForResourceNextOptionalParams,
   AttestationsListForResourceOptionalParams,
-  AttestationsListForSubscriptionResponse,
+  AttestationsListForResourceResponse,
   AttestationsCreateOrUpdateAtSubscriptionOptionalParams,
   AttestationsCreateOrUpdateAtSubscriptionResponse,
   AttestationsGetAtSubscriptionOptionalParams,
   AttestationsGetAtSubscriptionResponse,
   AttestationsDeleteAtSubscriptionOptionalParams,
-  AttestationsListForResourceGroupResponse,
   AttestationsCreateOrUpdateAtResourceGroupOptionalParams,
   AttestationsCreateOrUpdateAtResourceGroupResponse,
   AttestationsGetAtResourceGroupOptionalParams,
   AttestationsGetAtResourceGroupResponse,
   AttestationsDeleteAtResourceGroupOptionalParams,
-  AttestationsListForResourceResponse,
   AttestationsCreateOrUpdateAtResourceOptionalParams,
   AttestationsCreateOrUpdateAtResourceResponse,
   AttestationsGetAtResourceOptionalParams,
@@ -73,22 +74,34 @@ export class AttestationsImpl implements Attestations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listForSubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listForSubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listForSubscriptionPagingPage(
-    options?: AttestationsListForSubscriptionOptionalParams
+    options?: AttestationsListForSubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Attestation[]> {
-    let result = await this._listForSubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AttestationsListForSubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listForSubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listForSubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -117,19 +130,33 @@ export class AttestationsImpl implements Attestations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listForResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listForResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listForResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: AttestationsListForResourceGroupOptionalParams
+    options?: AttestationsListForResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Attestation[]> {
-    let result = await this._listForResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AttestationsListForResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listForResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listForResourceGroupNext(
         resourceGroupName,
@@ -137,7 +164,9 @@ export class AttestationsImpl implements Attestations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -170,19 +199,29 @@ export class AttestationsImpl implements Attestations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listForResourcePagingPage(resourceId, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listForResourcePagingPage(resourceId, options, settings);
       }
     };
   }
 
   private async *listForResourcePagingPage(
     resourceId: string,
-    options?: AttestationsListForResourceOptionalParams
+    options?: AttestationsListForResourceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Attestation[]> {
-    let result = await this._listForResource(resourceId, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AttestationsListForResourceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listForResource(resourceId, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listForResourceNext(
         resourceId,
@@ -190,7 +229,9 @@ export class AttestationsImpl implements Attestations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -682,7 +723,7 @@ const listForSubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseAutoGenerated2
     }
   },
-  queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion4],
+  queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion5],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -709,7 +750,7 @@ const createOrUpdateAtSubscriptionOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters3,
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -731,7 +772,7 @@ const getAtSubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseAutoGenerated2
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -751,7 +792,7 @@ const deleteAtSubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseAutoGenerated2
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -772,7 +813,7 @@ const listForResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseAutoGenerated2
     }
   },
-  queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion4],
+  queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -803,7 +844,7 @@ const createOrUpdateAtResourceGroupOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters3,
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -826,7 +867,7 @@ const getAtResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseAutoGenerated2
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -847,7 +888,7 @@ const deleteAtResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseAutoGenerated2
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -868,7 +909,7 @@ const listForResourceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseAutoGenerated2
     }
   },
-  queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion4],
+  queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion5],
   urlParameters: [Parameters.$host, Parameters.resourceId],
   headerParameters: [Parameters.accept],
   serializer
@@ -895,7 +936,7 @@ const createOrUpdateAtResourceOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters3,
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
@@ -917,7 +958,7 @@ const getAtResourceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseAutoGenerated2
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
@@ -937,7 +978,7 @@ const deleteAtResourceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseAutoGenerated2
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
@@ -957,7 +998,6 @@ const listForSubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseAutoGenerated2
     }
   },
-  queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -977,7 +1017,6 @@ const listForResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseAutoGenerated2
     }
   },
-  queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -998,7 +1037,6 @@ const listForResourceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseAutoGenerated2
     }
   },
-  queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion4],
   urlParameters: [Parameters.$host, Parameters.resourceId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

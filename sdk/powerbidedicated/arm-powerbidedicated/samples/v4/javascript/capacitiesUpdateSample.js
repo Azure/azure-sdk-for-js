@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { PowerBIDedicated } = require("@azure/arm-powerbidedicated");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Updates the current state of the specified Dedicated capacity.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/powerbidedicated/resource-manager/Microsoft.PowerBIdedicated/stable/2021-01-01/examples/updateCapacity.json
  */
 async function updateCapacityParameters() {
-  const subscriptionId = "613192d7-503f-477a-9cfe-4efc3ee2bd60";
-  const resourceGroupName = "TestRG";
+  const subscriptionId =
+    process.env["POWERBIDEDICATED_SUBSCRIPTION_ID"] || "613192d7-503f-477a-9cfe-4efc3ee2bd60";
+  const resourceGroupName = process.env["POWERBIDEDICATED_RESOURCE_GROUP"] || "TestRG";
   const dedicatedCapacityName = "azsdktest";
   const capacityUpdateParameters = {
     administration: {
@@ -38,8 +40,6 @@ async function updateCapacityParameters() {
   console.log(result);
 }
 
-updateCapacityParameters().catch(console.error);
-
 /**
  * This sample demonstrates how to Updates the current state of the specified Dedicated capacity.
  *
@@ -47,8 +47,9 @@ updateCapacityParameters().catch(console.error);
  * x-ms-original-file: specification/powerbidedicated/resource-manager/Microsoft.PowerBIdedicated/stable/2021-01-01/examples/updateToGen2.json
  */
 async function updateCapacityToGeneration2() {
-  const subscriptionId = "613192d7-503f-477a-9cfe-4efc3ee2bd60";
-  const resourceGroupName = "TestRG";
+  const subscriptionId =
+    process.env["POWERBIDEDICATED_SUBSCRIPTION_ID"] || "613192d7-503f-477a-9cfe-4efc3ee2bd60";
+  const resourceGroupName = process.env["POWERBIDEDICATED_RESOURCE_GROUP"] || "TestRG";
   const dedicatedCapacityName = "azsdktest";
   const capacityUpdateParameters = {
     mode: "Gen2",
@@ -65,4 +66,9 @@ async function updateCapacityToGeneration2() {
   console.log(result);
 }
 
-updateCapacityToGeneration2().catch(console.error);
+async function main() {
+  updateCapacityParameters();
+  updateCapacityToGeneration2();
+}
+
+main().catch(console.error);

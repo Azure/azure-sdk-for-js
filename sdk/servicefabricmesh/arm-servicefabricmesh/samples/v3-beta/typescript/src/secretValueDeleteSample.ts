@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ServiceFabricMeshManagementClient } from "@azure/arm-servicefabricmesh";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes the secret value resource identified by the name. The name of the resource is typically the version associated with that value. Deletion will fail if the specified value is in use.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/servicefabricmesh/resource-manager/Microsoft.ServiceFabricMesh/preview/2018-09-01-preview/examples/secrets/values/delete.json
  */
 async function deleteSecretValue() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "sbz_demo";
+  const subscriptionId =
+    process.env["SERVICEFABRICMESH_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["SERVICEFABRICMESH_RESOURCE_GROUP"] || "sbz_demo";
   const secretResourceName = "dbConnectionString";
   const secretValueResourceName = "v1";
   const credential = new DefaultAzureCredential();
@@ -35,4 +41,8 @@ async function deleteSecretValue() {
   console.log(result);
 }
 
-deleteSecretValue().catch(console.error);
+async function main() {
+  deleteSecretValue();
+}
+
+main().catch(console.error);

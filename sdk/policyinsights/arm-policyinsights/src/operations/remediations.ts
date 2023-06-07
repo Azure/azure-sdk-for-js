@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Remediations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,55 +17,55 @@ import {
   RemediationDeployment,
   RemediationsListDeploymentsAtManagementGroupNextOptionalParams,
   RemediationsListDeploymentsAtManagementGroupOptionalParams,
+  RemediationsListDeploymentsAtManagementGroupResponse,
   Remediation,
   RemediationsListForManagementGroupNextOptionalParams,
   RemediationsListForManagementGroupOptionalParams,
+  RemediationsListForManagementGroupResponse,
   RemediationsListDeploymentsAtSubscriptionNextOptionalParams,
   RemediationsListDeploymentsAtSubscriptionOptionalParams,
+  RemediationsListDeploymentsAtSubscriptionResponse,
   RemediationsListForSubscriptionNextOptionalParams,
   RemediationsListForSubscriptionOptionalParams,
+  RemediationsListForSubscriptionResponse,
   RemediationsListDeploymentsAtResourceGroupNextOptionalParams,
   RemediationsListDeploymentsAtResourceGroupOptionalParams,
+  RemediationsListDeploymentsAtResourceGroupResponse,
   RemediationsListForResourceGroupNextOptionalParams,
   RemediationsListForResourceGroupOptionalParams,
+  RemediationsListForResourceGroupResponse,
   RemediationsListDeploymentsAtResourceNextOptionalParams,
   RemediationsListDeploymentsAtResourceOptionalParams,
+  RemediationsListDeploymentsAtResourceResponse,
   RemediationsListForResourceNextOptionalParams,
   RemediationsListForResourceOptionalParams,
-  RemediationsListDeploymentsAtManagementGroupResponse,
+  RemediationsListForResourceResponse,
   RemediationsCancelAtManagementGroupOptionalParams,
   RemediationsCancelAtManagementGroupResponse,
-  RemediationsListForManagementGroupResponse,
   RemediationsCreateOrUpdateAtManagementGroupOptionalParams,
   RemediationsCreateOrUpdateAtManagementGroupResponse,
   RemediationsGetAtManagementGroupOptionalParams,
   RemediationsGetAtManagementGroupResponse,
   RemediationsDeleteAtManagementGroupOptionalParams,
   RemediationsDeleteAtManagementGroupResponse,
-  RemediationsListDeploymentsAtSubscriptionResponse,
   RemediationsCancelAtSubscriptionOptionalParams,
   RemediationsCancelAtSubscriptionResponse,
-  RemediationsListForSubscriptionResponse,
   RemediationsCreateOrUpdateAtSubscriptionOptionalParams,
   RemediationsCreateOrUpdateAtSubscriptionResponse,
   RemediationsGetAtSubscriptionOptionalParams,
   RemediationsGetAtSubscriptionResponse,
   RemediationsDeleteAtSubscriptionOptionalParams,
   RemediationsDeleteAtSubscriptionResponse,
-  RemediationsListDeploymentsAtResourceGroupResponse,
   RemediationsCancelAtResourceGroupOptionalParams,
   RemediationsCancelAtResourceGroupResponse,
-  RemediationsListForResourceGroupResponse,
   RemediationsCreateOrUpdateAtResourceGroupOptionalParams,
   RemediationsCreateOrUpdateAtResourceGroupResponse,
   RemediationsGetAtResourceGroupOptionalParams,
   RemediationsGetAtResourceGroupResponse,
   RemediationsDeleteAtResourceGroupOptionalParams,
   RemediationsDeleteAtResourceGroupResponse,
-  RemediationsListDeploymentsAtResourceResponse,
   RemediationsCancelAtResourceOptionalParams,
   RemediationsCancelAtResourceResponse,
-  RemediationsListForResourceResponse,
   RemediationsCreateOrUpdateAtResourceOptionalParams,
   RemediationsCreateOrUpdateAtResourceResponse,
   RemediationsGetAtResourceOptionalParams,
@@ -117,11 +118,15 @@ export class RemediationsImpl implements Remediations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listDeploymentsAtManagementGroupPagingPage(
           managementGroupId,
           remediationName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -130,15 +135,22 @@ export class RemediationsImpl implements Remediations {
   private async *listDeploymentsAtManagementGroupPagingPage(
     managementGroupId: string,
     remediationName: string,
-    options?: RemediationsListDeploymentsAtManagementGroupOptionalParams
+    options?: RemediationsListDeploymentsAtManagementGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<RemediationDeployment[]> {
-    let result = await this._listDeploymentsAtManagementGroup(
-      managementGroupId,
-      remediationName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RemediationsListDeploymentsAtManagementGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listDeploymentsAtManagementGroup(
+        managementGroupId,
+        remediationName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listDeploymentsAtManagementGroupNext(
         managementGroupId,
@@ -147,7 +159,9 @@ export class RemediationsImpl implements Remediations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -185,10 +199,14 @@ export class RemediationsImpl implements Remediations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listForManagementGroupPagingPage(
           managementGroupId,
-          options
+          options,
+          settings
         );
       }
     };
@@ -196,11 +214,18 @@ export class RemediationsImpl implements Remediations {
 
   private async *listForManagementGroupPagingPage(
     managementGroupId: string,
-    options?: RemediationsListForManagementGroupOptionalParams
+    options?: RemediationsListForManagementGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Remediation[]> {
-    let result = await this._listForManagementGroup(managementGroupId, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RemediationsListForManagementGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listForManagementGroup(managementGroupId, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listForManagementGroupNext(
         managementGroupId,
@@ -208,7 +233,9 @@ export class RemediationsImpl implements Remediations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -244,10 +271,14 @@ export class RemediationsImpl implements Remediations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listDeploymentsAtSubscriptionPagingPage(
           remediationName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -255,14 +286,21 @@ export class RemediationsImpl implements Remediations {
 
   private async *listDeploymentsAtSubscriptionPagingPage(
     remediationName: string,
-    options?: RemediationsListDeploymentsAtSubscriptionOptionalParams
+    options?: RemediationsListDeploymentsAtSubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<RemediationDeployment[]> {
-    let result = await this._listDeploymentsAtSubscription(
-      remediationName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RemediationsListDeploymentsAtSubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listDeploymentsAtSubscription(
+        remediationName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listDeploymentsAtSubscriptionNext(
         remediationName,
@@ -270,7 +308,9 @@ export class RemediationsImpl implements Remediations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -301,22 +341,34 @@ export class RemediationsImpl implements Remediations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listForSubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listForSubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listForSubscriptionPagingPage(
-    options?: RemediationsListForSubscriptionOptionalParams
+    options?: RemediationsListForSubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Remediation[]> {
-    let result = await this._listForSubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RemediationsListForSubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listForSubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listForSubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -351,11 +403,15 @@ export class RemediationsImpl implements Remediations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listDeploymentsAtResourceGroupPagingPage(
           resourceGroupName,
           remediationName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -364,15 +420,22 @@ export class RemediationsImpl implements Remediations {
   private async *listDeploymentsAtResourceGroupPagingPage(
     resourceGroupName: string,
     remediationName: string,
-    options?: RemediationsListDeploymentsAtResourceGroupOptionalParams
+    options?: RemediationsListDeploymentsAtResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<RemediationDeployment[]> {
-    let result = await this._listDeploymentsAtResourceGroup(
-      resourceGroupName,
-      remediationName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RemediationsListDeploymentsAtResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listDeploymentsAtResourceGroup(
+        resourceGroupName,
+        remediationName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listDeploymentsAtResourceGroupNext(
         resourceGroupName,
@@ -381,7 +444,9 @@ export class RemediationsImpl implements Remediations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -416,19 +481,33 @@ export class RemediationsImpl implements Remediations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listForResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listForResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listForResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: RemediationsListForResourceGroupOptionalParams
+    options?: RemediationsListForResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Remediation[]> {
-    let result = await this._listForResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RemediationsListForResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listForResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listForResourceGroupNext(
         resourceGroupName,
@@ -436,7 +515,9 @@ export class RemediationsImpl implements Remediations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -475,11 +556,15 @@ export class RemediationsImpl implements Remediations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listDeploymentsAtResourcePagingPage(
           resourceId,
           remediationName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -488,15 +573,22 @@ export class RemediationsImpl implements Remediations {
   private async *listDeploymentsAtResourcePagingPage(
     resourceId: string,
     remediationName: string,
-    options?: RemediationsListDeploymentsAtResourceOptionalParams
+    options?: RemediationsListDeploymentsAtResourceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<RemediationDeployment[]> {
-    let result = await this._listDeploymentsAtResource(
-      resourceId,
-      remediationName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RemediationsListDeploymentsAtResourceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listDeploymentsAtResource(
+        resourceId,
+        remediationName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listDeploymentsAtResourceNext(
         resourceId,
@@ -505,7 +597,9 @@ export class RemediationsImpl implements Remediations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -540,19 +634,29 @@ export class RemediationsImpl implements Remediations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listForResourcePagingPage(resourceId, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listForResourcePagingPage(resourceId, options, settings);
       }
     };
   }
 
   private async *listForResourcePagingPage(
     resourceId: string,
-    options?: RemediationsListForResourceOptionalParams
+    options?: RemediationsListForResourceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Remediation[]> {
-    let result = await this._listForResource(resourceId, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RemediationsListForResourceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listForResource(resourceId, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listForResourceNext(
         resourceId,
@@ -560,7 +664,9 @@ export class RemediationsImpl implements Remediations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -1659,7 +1765,6 @@ const listDeploymentsAtManagementGroupNextOperationSpec: coreClient.OperationSpe
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.top, Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.managementGroupsNamespace,
@@ -1681,7 +1786,6 @@ const listForManagementGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.managementGroupsNamespace,
@@ -1702,7 +1806,6 @@ const listDeploymentsAtSubscriptionNextOperationSpec: coreClient.OperationSpec =
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.top, Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1723,7 +1826,6 @@ const listForSubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1743,7 +1845,6 @@ const listDeploymentsAtResourceGroupNextOperationSpec: coreClient.OperationSpec 
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.top, Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1765,7 +1866,6 @@ const listForResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1786,7 +1886,6 @@ const listDeploymentsAtResourceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.top, Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
@@ -1807,7 +1906,6 @@ const listForResourceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.resourceId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

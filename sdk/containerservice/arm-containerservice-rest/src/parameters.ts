@@ -44,8 +44,8 @@ export interface ManagedClustersListClusterAdminCredentialsQueryParam {
   queryParameters?: ManagedClustersListClusterAdminCredentialsQueryParamProperties;
 }
 
-export type ManagedClustersListClusterAdminCredentialsParameters = ManagedClustersListClusterAdminCredentialsQueryParam &
-  RequestParameters;
+export type ManagedClustersListClusterAdminCredentialsParameters =
+  ManagedClustersListClusterAdminCredentialsQueryParam & RequestParameters;
 
 export interface ManagedClustersListClusterUserCredentialsQueryParamProperties {
   /** server fqdn type for credentials to be returned */
@@ -58,8 +58,8 @@ export interface ManagedClustersListClusterUserCredentialsQueryParam {
   queryParameters?: ManagedClustersListClusterUserCredentialsQueryParamProperties;
 }
 
-export type ManagedClustersListClusterUserCredentialsParameters = ManagedClustersListClusterUserCredentialsQueryParam &
-  RequestParameters;
+export type ManagedClustersListClusterUserCredentialsParameters =
+  ManagedClustersListClusterUserCredentialsQueryParam & RequestParameters;
 
 export interface ManagedClustersListClusterMonitoringUserCredentialsQueryParamProperties {
   /** server fqdn type for credentials to be returned */
@@ -70,8 +70,8 @@ export interface ManagedClustersListClusterMonitoringUserCredentialsQueryParam {
   queryParameters?: ManagedClustersListClusterMonitoringUserCredentialsQueryParamProperties;
 }
 
-export type ManagedClustersListClusterMonitoringUserCredentialsParameters = ManagedClustersListClusterMonitoringUserCredentialsQueryParam &
-  RequestParameters;
+export type ManagedClustersListClusterMonitoringUserCredentialsParameters =
+  ManagedClustersListClusterMonitoringUserCredentialsQueryParam & RequestParameters;
 export type ManagedClustersGetParameters = RequestParameters;
 
 export interface ManagedClustersCreateOrUpdateBodyParam {
@@ -123,9 +123,10 @@ export interface ManagedClustersResetServicePrincipalProfileMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ManagedClustersResetServicePrincipalProfileParameters = ManagedClustersResetServicePrincipalProfileMediaTypesParam &
-  ManagedClustersResetServicePrincipalProfileBodyParam &
-  RequestParameters;
+export type ManagedClustersResetServicePrincipalProfileParameters =
+  ManagedClustersResetServicePrincipalProfileMediaTypesParam &
+    ManagedClustersResetServicePrincipalProfileBodyParam &
+    RequestParameters;
 
 export interface ManagedClustersResetAADProfileBodyParam {
   /** The AAD profile to set on the Managed Cluster */
@@ -137,9 +138,10 @@ export interface ManagedClustersResetAADProfileMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ManagedClustersResetAADProfileParameters = ManagedClustersResetAADProfileMediaTypesParam &
-  ManagedClustersResetAADProfileBodyParam &
-  RequestParameters;
+export type ManagedClustersResetAADProfileParameters =
+  ManagedClustersResetAADProfileMediaTypesParam &
+    ManagedClustersResetAADProfileBodyParam &
+    RequestParameters;
 export type ManagedClustersRotateClusterCertificatesParameters = RequestParameters;
 export type ManagedClustersRotateServiceAccountSigningKeysParameters = RequestParameters;
 export type ManagedClustersStopParameters = RequestParameters;
@@ -173,9 +175,10 @@ export interface MaintenanceConfigurationsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type MaintenanceConfigurationsCreateOrUpdateParameters = MaintenanceConfigurationsCreateOrUpdateMediaTypesParam &
-  MaintenanceConfigurationsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type MaintenanceConfigurationsCreateOrUpdateParameters =
+  MaintenanceConfigurationsCreateOrUpdateMediaTypesParam &
+    MaintenanceConfigurationsCreateOrUpdateBodyParam &
+    RequestParameters;
 export type MaintenanceConfigurationsDeleteParameters = RequestParameters;
 export type AgentPoolsListParameters = RequestParameters;
 export type AgentPoolsGetParameters = RequestParameters;
@@ -220,9 +223,10 @@ export interface PrivateEndpointConnectionsUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type PrivateEndpointConnectionsUpdateParameters = PrivateEndpointConnectionsUpdateMediaTypesParam &
-  PrivateEndpointConnectionsUpdateBodyParam &
-  RequestParameters;
+export type PrivateEndpointConnectionsUpdateParameters =
+  PrivateEndpointConnectionsUpdateMediaTypesParam &
+    PrivateEndpointConnectionsUpdateBodyParam &
+    RequestParameters;
 export type PrivateEndpointConnectionsDeleteParameters = RequestParameters;
 export type PrivateLinkResourcesListParameters = RequestParameters;
 
@@ -236,9 +240,10 @@ export interface ResolvePrivateLinkServiceIdPostMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ResolvePrivateLinkServiceIdPostParameters = ResolvePrivateLinkServiceIdPostMediaTypesParam &
-  ResolvePrivateLinkServiceIdPostBodyParam &
-  RequestParameters;
+export type ResolvePrivateLinkServiceIdPostParameters =
+  ResolvePrivateLinkServiceIdPostMediaTypesParam &
+    ResolvePrivateLinkServiceIdPostBodyParam &
+    RequestParameters;
 export type SnapshotsListParameters = RequestParameters;
 export type SnapshotsListByResourceGroupParameters = RequestParameters;
 export type SnapshotsGetParameters = RequestParameters;
@@ -285,9 +290,10 @@ export interface ManagedClusterSnapshotsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ManagedClusterSnapshotsCreateOrUpdateParameters = ManagedClusterSnapshotsCreateOrUpdateMediaTypesParam &
-  ManagedClusterSnapshotsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type ManagedClusterSnapshotsCreateOrUpdateParameters =
+  ManagedClusterSnapshotsCreateOrUpdateMediaTypesParam &
+    ManagedClusterSnapshotsCreateOrUpdateBodyParam &
+    RequestParameters;
 
 export interface ManagedClusterSnapshotsUpdateTagsBodyParam {
   /** Parameters supplied to the Update managed cluster snapshot Tags operation. */
@@ -299,9 +305,10 @@ export interface ManagedClusterSnapshotsUpdateTagsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ManagedClusterSnapshotsUpdateTagsParameters = ManagedClusterSnapshotsUpdateTagsMediaTypesParam &
-  ManagedClusterSnapshotsUpdateTagsBodyParam &
-  RequestParameters;
+export type ManagedClusterSnapshotsUpdateTagsParameters =
+  ManagedClusterSnapshotsUpdateTagsMediaTypesParam &
+    ManagedClusterSnapshotsUpdateTagsBodyParam &
+    RequestParameters;
 export type ManagedClusterSnapshotsDeleteParameters = RequestParameters;
 export type TrustedAccessRolesListParameters = RequestParameters;
 export type TrustedAccessRoleBindingsListParameters = RequestParameters;
@@ -317,7 +324,8 @@ export interface TrustedAccessRoleBindingsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type TrustedAccessRoleBindingsCreateOrUpdateParameters = TrustedAccessRoleBindingsCreateOrUpdateMediaTypesParam &
-  TrustedAccessRoleBindingsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type TrustedAccessRoleBindingsCreateOrUpdateParameters =
+  TrustedAccessRoleBindingsCreateOrUpdateMediaTypesParam &
+    TrustedAccessRoleBindingsCreateOrUpdateBodyParam &
+    RequestParameters;
 export type TrustedAccessRoleBindingsDeleteParameters = RequestParameters;

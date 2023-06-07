@@ -6,20 +6,27 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Ledger } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ConfidentialLedgerClient } from "../confidentialLedgerClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ConfidentialLedger,
   LedgerListByResourceGroupNextOptionalParams,
   LedgerListByResourceGroupOptionalParams,
+  LedgerListByResourceGroupResponse,
   LedgerListBySubscriptionNextOptionalParams,
   LedgerListBySubscriptionOptionalParams,
+  LedgerListBySubscriptionResponse,
   LedgerGetOptionalParams,
   LedgerGetResponse,
   LedgerDeleteOptionalParams,
@@ -27,8 +34,6 @@ import {
   LedgerCreateResponse,
   LedgerUpdateOptionalParams,
   LedgerUpdateResponse,
-  LedgerListByResourceGroupResponse,
-  LedgerListBySubscriptionResponse,
   LedgerListByResourceGroupNextResponse,
   LedgerListBySubscriptionNextResponse
 } from "../models";
@@ -48,7 +53,7 @@ export class LedgerImpl implements Ledger {
 
   /**
    * Retrieves the properties of all Confidential Ledgers.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -63,19 +68,33 @@ export class LedgerImpl implements Ledger {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: LedgerListByResourceGroupOptionalParams
+    options?: LedgerListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ConfidentialLedger[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: LedgerListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -83,7 +102,9 @@ export class LedgerImpl implements Ledger {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -114,22 +135,34 @@ export class LedgerImpl implements Ledger {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: LedgerListBySubscriptionOptionalParams
+    options?: LedgerListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ConfidentialLedger[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: LedgerListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -143,7 +176,7 @@ export class LedgerImpl implements Ledger {
 
   /**
    * Retrieves the properties of a Confidential Ledger.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param ledgerName Name of the Confidential Ledger
    * @param options The options parameters.
    */
@@ -160,7 +193,7 @@ export class LedgerImpl implements Ledger {
 
   /**
    * Deletes an existing Confidential Ledger.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param ledgerName Name of the Confidential Ledger
    * @param options The options parameters.
    */
@@ -168,14 +201,14 @@ export class LedgerImpl implements Ledger {
     resourceGroupName: string,
     ledgerName: string,
     options?: LedgerDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -208,13 +241,13 @@ export class LedgerImpl implements Ledger {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, ledgerName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, ledgerName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -223,7 +256,7 @@ export class LedgerImpl implements Ledger {
 
   /**
    * Deletes an existing Confidential Ledger.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param ledgerName Name of the Confidential Ledger
    * @param options The options parameters.
    */
@@ -242,7 +275,7 @@ export class LedgerImpl implements Ledger {
 
   /**
    * Creates a  Confidential Ledger with the specified ledger parameters.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param ledgerName Name of the Confidential Ledger
    * @param confidentialLedger Confidential Ledger Create Request Body
    * @param options The options parameters.
@@ -253,7 +286,7 @@ export class LedgerImpl implements Ledger {
     confidentialLedger: ConfidentialLedger,
     options?: LedgerCreateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<LedgerCreateResponse>, LedgerCreateResponse>
+    SimplePollerLike<OperationState<LedgerCreateResponse>, LedgerCreateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -261,7 +294,7 @@ export class LedgerImpl implements Ledger {
     ): Promise<LedgerCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -294,15 +327,18 @@ export class LedgerImpl implements Ledger {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, ledgerName, confidentialLedger, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, ledgerName, confidentialLedger, options },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      LedgerCreateResponse,
+      OperationState<LedgerCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -310,7 +346,7 @@ export class LedgerImpl implements Ledger {
 
   /**
    * Creates a  Confidential Ledger with the specified ledger parameters.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param ledgerName Name of the Confidential Ledger
    * @param confidentialLedger Confidential Ledger Create Request Body
    * @param options The options parameters.
@@ -332,7 +368,7 @@ export class LedgerImpl implements Ledger {
 
   /**
    * Updates properties of Confidential Ledger
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param ledgerName Name of the Confidential Ledger
    * @param confidentialLedger Confidential Ledger request body for Updating Ledger
    * @param options The options parameters.
@@ -343,7 +379,7 @@ export class LedgerImpl implements Ledger {
     confidentialLedger: ConfidentialLedger,
     options?: LedgerUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<LedgerUpdateResponse>, LedgerUpdateResponse>
+    SimplePollerLike<OperationState<LedgerUpdateResponse>, LedgerUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -351,7 +387,7 @@ export class LedgerImpl implements Ledger {
     ): Promise<LedgerUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -384,13 +420,16 @@ export class LedgerImpl implements Ledger {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, ledgerName, confidentialLedger, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, ledgerName, confidentialLedger, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      LedgerUpdateResponse,
+      OperationState<LedgerUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -399,7 +438,7 @@ export class LedgerImpl implements Ledger {
 
   /**
    * Updates properties of Confidential Ledger
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param ledgerName Name of the Confidential Ledger
    * @param confidentialLedger Confidential Ledger request body for Updating Ledger
    * @param options The options parameters.
@@ -421,7 +460,7 @@ export class LedgerImpl implements Ledger {
 
   /**
    * Retrieves the properties of all Confidential Ledgers.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
@@ -449,7 +488,7 @@ export class LedgerImpl implements Ledger {
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
@@ -642,7 +681,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -663,7 +701,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

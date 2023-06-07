@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   EmailServiceResource,
   EmailServicesListBySubscriptionOptionalParams,
@@ -67,8 +67,8 @@ export interface EmailServices {
     parameters: EmailServiceResource,
     options?: EmailServicesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<EmailServicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<EmailServicesCreateOrUpdateResponse>,
       EmailServicesCreateOrUpdateResponse
     >
   >;
@@ -95,7 +95,7 @@ export interface EmailServices {
     resourceGroupName: string,
     emailServiceName: string,
     options?: EmailServicesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Operation to delete a EmailService.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -120,8 +120,8 @@ export interface EmailServices {
     parameters: EmailServiceResourceUpdate,
     options?: EmailServicesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<EmailServicesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<EmailServicesUpdateResponse>,
       EmailServicesUpdateResponse
     >
   >;

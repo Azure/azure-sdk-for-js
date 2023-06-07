@@ -3,11 +3,11 @@
 import { ConfidentialLedgerClient, isUnexpected } from "../../src";
 import { createClient, createRecorder } from "./utils/recordedClient";
 
-import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
+import { Context } from "mocha";
 
-describe("List Enclaves", () => {
+describe("List Enclaves", function () {
   let recorder: Recorder;
   let client: ConfidentialLedgerClient;
 

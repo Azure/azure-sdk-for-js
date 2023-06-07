@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { RedisManagementClient } from "@azure/arm-rediscache";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the detailed information about a linked server of a redis cache (requires Premium SKU).
@@ -18,8 +21,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCacheLinkedServer_Get.json
  */
 async function linkedServerGet() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rg1";
   const name = "cache1";
   const linkedServerName = "cache2";
   const credential = new DefaultAzureCredential();
@@ -32,4 +35,8 @@ async function linkedServerGet() {
   console.log(result);
 }
 
-linkedServerGet().catch(console.error);
+async function main() {
+  linkedServerGet();
+}
+
+main().catch(console.error);

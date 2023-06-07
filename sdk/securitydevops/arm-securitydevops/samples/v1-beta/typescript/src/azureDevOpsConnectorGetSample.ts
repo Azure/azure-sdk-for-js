@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { MicrosoftSecurityDevOps } from "@azure/arm-securitydevops";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Returns a monitored AzureDevOps Connector resource for a given ID.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/securitydevops/resource-manager/Microsoft.SecurityDevOps/preview/2022-09-01-preview/examples/AzureDevOpsConnectorGet.json
  */
 async function azureDevOpsConnectorGet() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "westusrg";
+  const subscriptionId =
+    process.env["SECURITYDEVOPS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["SECURITYDEVOPS_RESOURCE_GROUP"] || "westusrg";
   const azureDevOpsConnectorName = "testconnector";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSecurityDevOps(credential, subscriptionId);
@@ -30,4 +36,8 @@ async function azureDevOpsConnectorGet() {
   console.log(result);
 }
 
-azureDevOpsConnectorGet().catch(console.error);
+async function main() {
+  azureDevOpsConnectorGet();
+}
+
+main().catch(console.error);

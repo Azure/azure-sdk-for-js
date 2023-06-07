@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Customers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,9 +17,9 @@ import {
   Customer,
   CustomersListByBillingProfileNextOptionalParams,
   CustomersListByBillingProfileOptionalParams,
+  CustomersListByBillingProfileResponse,
   CustomersListByBillingAccountNextOptionalParams,
   CustomersListByBillingAccountOptionalParams,
-  CustomersListByBillingProfileResponse,
   CustomersListByBillingAccountResponse,
   CustomersGetOptionalParams,
   CustomersGetResponse,
@@ -63,11 +64,15 @@ export class CustomersImpl implements Customers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByBillingProfilePagingPage(
           billingAccountName,
           billingProfileName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -76,15 +81,22 @@ export class CustomersImpl implements Customers {
   private async *listByBillingProfilePagingPage(
     billingAccountName: string,
     billingProfileName: string,
-    options?: CustomersListByBillingProfileOptionalParams
+    options?: CustomersListByBillingProfileOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Customer[]> {
-    let result = await this._listByBillingProfile(
-      billingAccountName,
-      billingProfileName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: CustomersListByBillingProfileResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByBillingProfile(
+        billingAccountName,
+        billingProfileName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByBillingProfileNext(
         billingAccountName,
@@ -93,7 +105,9 @@ export class CustomersImpl implements Customers {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -132,19 +146,33 @@ export class CustomersImpl implements Customers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByBillingAccountPagingPage(billingAccountName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByBillingAccountPagingPage(
+          billingAccountName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByBillingAccountPagingPage(
     billingAccountName: string,
-    options?: CustomersListByBillingAccountOptionalParams
+    options?: CustomersListByBillingAccountOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Customer[]> {
-    let result = await this._listByBillingAccount(billingAccountName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: CustomersListByBillingAccountResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByBillingAccount(billingAccountName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByBillingAccountNext(
         billingAccountName,
@@ -152,7 +180,9 @@ export class CustomersImpl implements Customers {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.1 (Unreleased)
+## 3.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,79 @@
 
 ### Other Changes
 
+## 3.0.0 (2023-03-24)
+    
+**Features**
+
+  - Added operation group Triggers
+  - Added Interface DistributeVersioner
+  - Added Interface DistributeVersionerLatest
+  - Added Interface DistributeVersionerSource
+  - Added Interface ImageTemplateFileValidator
+  - Added Interface ImageTemplatePropertiesOptimize
+  - Added Interface ImageTemplatePropertiesOptimizeVmBoot
+  - Added Interface SourceImageTriggerProperties
+  - Added Interface TargetRegion
+  - Added Interface Trigger
+  - Added Interface TriggerCollection
+  - Added Interface TriggerProperties
+  - Added Interface TriggersCreateOrUpdateOptionalParams
+  - Added Interface TriggersDeleteHeaders
+  - Added Interface TriggersDeleteOptionalParams
+  - Added Interface TriggersGetOptionalParams
+  - Added Interface TriggersListByImageTemplateNextOptionalParams
+  - Added Interface TriggersListByImageTemplateOptionalParams
+  - Added Interface TriggerStatus
+  - Added Interface UserAssignedIdentity
+  - Added Interface VirtualMachineImageTemplatesDeleteHeaders
+  - Added Type Alias DistributeVersionerUnion
+  - Added Type Alias TriggerPropertiesUnion
+  - Added Type Alias TriggersCreateOrUpdateResponse
+  - Added Type Alias TriggersGetResponse
+  - Added Type Alias TriggersListByImageTemplateNextResponse
+  - Added Type Alias TriggersListByImageTemplateResponse
+  - Added Type Alias VMBootOptimizationState
+  - Interface ImageTemplate has a new optional parameter optimize
+  - Interface ImageTemplateSharedImageDistributor has a new optional parameter targetRegions
+  - Interface ImageTemplateSharedImageDistributor has a new optional parameter versioning
+  - Interface ImageTemplateSharedImageVersionSource has a new optional parameter exactVersion
+  - Interface ImageTemplateVhdDistributor has a new optional parameter uri
+  - Type of parameter type of interface ImageTemplateInVMValidator is changed from "Shell" | "PowerShell" to "Shell" | "PowerShell" | "File"
+  - Enum KnownSharedImageStorageAccountType has a new value PremiumLRS
+
+**Breaking Changes**
+
+  - Type of parameter userAssignedIdentities of interface ImageTemplateIdentity is changed from {
+        [propertyName: string]: ComponentsVrq145SchemasImagetemplateidentityPropertiesUserassignedidentitiesAdditionalproperties;
+    } to {
+        [propertyName: string]: UserAssignedIdentity;
+    }
+    
+    
+## 2.1.0 (2023-01-11)
+    
+**Features**
+
+  - Added Interface ImageTemplate
+  - Added Interface ImageTemplateFileCustomizer
+  - Added Interface ImageTemplateManagedImageDistributor
+  - Added Interface ImageTemplateManagedImageSource
+  - Added Interface ImageTemplatePlatformImageSource
+  - Added Interface ImageTemplatePowerShellCustomizer
+  - Added Interface ImageTemplatePowerShellValidator
+  - Added Interface ImageTemplateRestartCustomizer
+  - Added Interface ImageTemplateSharedImageDistributor
+  - Added Interface ImageTemplateSharedImageVersionSource
+  - Added Interface ImageTemplateShellCustomizer
+  - Added Interface ImageTemplateShellValidator
+  - Added Interface ImageTemplateVhdDistributor
+  - Added Interface ImageTemplateWindowsUpdateCustomizer
+  - Added Interface ProxyResource
+  - Added Interface RunOutput
+  - Added Interface TrackedResource
+  - Added function getContinuationToken
+    
+    
 ## 2.0.0 (2022-06-06)
     
 **Features**

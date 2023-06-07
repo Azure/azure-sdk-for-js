@@ -210,6 +210,9 @@ export interface ExternalIdentitiesConfigurationClientOptionalParams extends cor
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface GuestUsages {
     create(resourceGroupName: string, resourceName: string, options?: GuestUsagesCreateOptionalParams): Promise<GuestUsagesCreateResponse>;
     delete(resourceGroupName: string, resourceName: string, options?: GuestUsagesDeleteOptionalParams): Promise<void>;
@@ -305,13 +308,9 @@ export enum KnownBillingType {
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 

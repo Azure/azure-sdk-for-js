@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Subscriptions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,13 +16,13 @@ import { SubscriptionClient } from "../subscriptionClient";
 import {
   Location,
   SubscriptionsListLocationsOptionalParams,
+  SubscriptionsListLocationsResponse,
   Subscription,
   SubscriptionsListNextOptionalParams,
   SubscriptionsListOptionalParams,
-  SubscriptionsListLocationsResponse,
+  SubscriptionsListResponse,
   SubscriptionsGetOptionalParams,
   SubscriptionsGetResponse,
-  SubscriptionsListResponse,
   CheckZonePeersRequest,
   SubscriptionsCheckZonePeersOptionalParams,
   SubscriptionsCheckZonePeersResponse,
@@ -59,17 +60,22 @@ export class SubscriptionsImpl implements Subscriptions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listLocationsPagingPage(subscriptionId, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listLocationsPagingPage(subscriptionId, options, settings);
       }
     };
   }
 
   private async *listLocationsPagingPage(
     subscriptionId: string,
-    options?: SubscriptionsListLocationsOptionalParams
+    options?: SubscriptionsListLocationsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Location[]> {
-    let result = await this._listLocations(subscriptionId, options);
+    let result: SubscriptionsListLocationsResponse;
+    result = await this._listLocations(subscriptionId, options);
     yield result.value || [];
   }
 
@@ -100,22 +106,34 @@ export class SubscriptionsImpl implements Subscriptions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: SubscriptionsListOptionalParams
+    options?: SubscriptionsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Subscription[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SubscriptionsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -269,7 +287,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SubscriptionListResult
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

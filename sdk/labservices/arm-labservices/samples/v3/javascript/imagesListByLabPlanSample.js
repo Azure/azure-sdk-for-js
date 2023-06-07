@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { LabServicesClient } = require("@azure/arm-labservices");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets all images from galleries attached to a lab plan.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/labservices/resource-manager/Microsoft.LabServices/stable/2022-08-01/examples/Images/listImages.json
  */
 async function listImages() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = "testrg123";
+  const subscriptionId =
+    process.env["LABSERVICES_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName = process.env["LABSERVICES_RESOURCE_GROUP"] || "testrg123";
   const labPlanName = "testlabplan";
   const credential = new DefaultAzureCredential();
   const client = new LabServicesClient(credential, subscriptionId);
@@ -30,4 +32,8 @@ async function listImages() {
   console.log(resArray);
 }
 
-listImages().catch(console.error);
+async function main() {
+  listImages();
+}
+
+main().catch(console.error);

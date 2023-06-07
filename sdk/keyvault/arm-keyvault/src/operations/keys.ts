@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Keys } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,17 +17,17 @@ import {
   Key,
   KeysListNextOptionalParams,
   KeysListOptionalParams,
+  KeysListResponse,
   KeysListVersionsNextOptionalParams,
   KeysListVersionsOptionalParams,
+  KeysListVersionsResponse,
   KeyCreateParameters,
   KeysCreateIfNotExistOptionalParams,
   KeysCreateIfNotExistResponse,
   KeysGetOptionalParams,
   KeysGetResponse,
-  KeysListResponse,
   KeysGetVersionOptionalParams,
   KeysGetVersionResponse,
-  KeysListVersionsResponse,
   KeysListNextResponse,
   KeysListVersionsNextResponse
 } from "../models";
@@ -63,8 +64,16 @@ export class KeysImpl implements Keys {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, vaultName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          vaultName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -72,11 +81,18 @@ export class KeysImpl implements Keys {
   private async *listPagingPage(
     resourceGroupName: string,
     vaultName: string,
-    options?: KeysListOptionalParams
+    options?: KeysListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Key[]> {
-    let result = await this._list(resourceGroupName, vaultName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: KeysListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, vaultName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -85,7 +101,9 @@ export class KeysImpl implements Keys {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -129,12 +147,16 @@ export class KeysImpl implements Keys {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listVersionsPagingPage(
           resourceGroupName,
           vaultName,
           keyName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -144,16 +166,23 @@ export class KeysImpl implements Keys {
     resourceGroupName: string,
     vaultName: string,
     keyName: string,
-    options?: KeysListVersionsOptionalParams
+    options?: KeysListVersionsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Key[]> {
-    let result = await this._listVersions(
-      resourceGroupName,
-      vaultName,
-      keyName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: KeysListVersionsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listVersions(
+        resourceGroupName,
+        vaultName,
+        keyName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listVersionsNext(
         resourceGroupName,
@@ -163,7 +192,9 @@ export class KeysImpl implements Keys {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -189,7 +220,9 @@ export class KeysImpl implements Keys {
    * versions, and does not update existing keys.
    * @param resourceGroupName The name of the resource group which contains the specified key vault.
    * @param vaultName The name of the key vault which contains the key to be created.
-   * @param keyName The name of the key to be created.
+   * @param keyName The name of the key to be created. The value you provide may be copied globally for
+   *                the purpose of running the service. The value provided should not include personally identifiable or
+   *                sensitive information.
    * @param parameters The parameters used to create the specified key.
    * @param options The options parameters.
    */
@@ -453,7 +486,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -475,7 +507,6 @@ const listVersionsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { MicrosoftSecurityDevOps } = require("@azure/arm-securitydevops");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates or updates an Azure DevOps Connector.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/securitydevops/resource-manager/Microsoft.SecurityDevOps/preview/2022-09-01-preview/examples/AzureDevOpsConnectorCreateOrUpdate.json
  */
 async function azureDevOpsConnectorCreateOrUpdate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "westusrg";
+  const subscriptionId =
+    process.env["SECURITYDEVOPS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["SECURITYDEVOPS_RESOURCE_GROUP"] || "westusrg";
   const azureDevOpsConnectorName = "testconnector";
   const azureDevOpsConnector = {
     location: "West US",
@@ -43,4 +45,8 @@ async function azureDevOpsConnectorCreateOrUpdate() {
   console.log(result);
 }
 
-azureDevOpsConnectorCreateOrUpdate().catch(console.error);
+async function main() {
+  azureDevOpsConnectorCreateOrUpdate();
+}
+
+main().catch(console.error);

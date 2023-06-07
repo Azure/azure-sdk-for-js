@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { MicrosoftSupport } = require("@azure/arm-support");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Adds a new customer communication to an Azure support ticket.
@@ -18,7 +19,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2020-04-01/examples/CreateSupportTicketCommunication.json
  */
 async function addCommunicationToSubscriptionTicket() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";
   const supportTicketName = "testticket";
   const communicationName = "testcommunication";
   const createCommunicationParameters = {
@@ -36,4 +37,8 @@ async function addCommunicationToSubscriptionTicket() {
   console.log(result);
 }
 
-addCommunicationToSubscriptionTicket().catch(console.error);
+async function main() {
+  addCommunicationToSubscriptionTicket();
+}
+
+main().catch(console.error);

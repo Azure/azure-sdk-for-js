@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { Remediation, PolicyInsightsClient } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates a remediation at subscription scope.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2021-10-01/examples/Remediations_CreateSubscriptionScope.json
  */
 async function createRemediationAtSubscriptionScope() {
-  const subscriptionId = "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
   const remediationName = "storageRemediation";
   const parameters: Remediation = {
     policyAssignmentId:
@@ -33,8 +38,6 @@ async function createRemediationAtSubscriptionScope() {
   console.log(result);
 }
 
-createRemediationAtSubscriptionScope().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates a remediation at subscription scope.
  *
@@ -42,7 +45,9 @@ createRemediationAtSubscriptionScope().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2021-10-01/examples/Remediations_CreateSubscriptionScope_AllProperties.json
  */
 async function createRemediationAtSubscriptionScopeWithAllProperties() {
-  const subscriptionId = "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
   const remediationName = "storageRemediation";
   const parameters: Remediation = {
     failureThreshold: { percentage: 0.1 },
@@ -63,4 +68,9 @@ async function createRemediationAtSubscriptionScopeWithAllProperties() {
   console.log(result);
 }
 
-createRemediationAtSubscriptionScopeWithAllProperties().catch(console.error);
+async function main() {
+  createRemediationAtSubscriptionScope();
+  createRemediationAtSubscriptionScopeWithAllProperties();
+}
+
+main().catch(console.error);

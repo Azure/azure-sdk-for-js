@@ -1977,7 +1977,7 @@ export interface RecommendationCollection {
 }
 
 /** SSL certificate for an app. */
-export type Certificate = Resource & {
+export interface Certificate extends Resource {
   /**
    * Friendly name of the certificate.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2055,10 +2055,10 @@ export type Certificate = Resource & {
   readonly keyVaultSecretStatus?: KeyVaultSecretStatus;
   /** Resource ID of the associated App Service plan, formatted as: "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}". */
   serverFarmId?: string;
-};
+}
 
 /** A web app, a mobile app backend, or an API app. */
-export type Site = Resource & {
+export interface Site extends Resource {
   /** Managed service identity. */
   identity?: ManagedServiceIdentity;
   /**
@@ -2197,10 +2197,10 @@ export type Site = Resource & {
   readonly inProgressOperationId?: string;
   /** GeoDistributions for this site */
   geoDistributions?: GeoDistribution[];
-};
+}
 
 /** Premier add-on. */
-export type PremierAddOn = Resource & {
+export interface PremierAddOn extends Resource {
   /** Premier add on SKU. */
   sku?: string;
   /** Premier add on Product. */
@@ -2211,10 +2211,10 @@ export type PremierAddOn = Resource & {
   marketplacePublisher?: string;
   /** Premier add on Marketplace offer. */
   marketplaceOffer?: string;
-};
+}
 
 /** App Service plan. */
-export type AppServicePlan = Resource & {
+export interface AppServicePlan extends Resource {
   /** Description of a SKU for a scalable resource. */
   sku?: SkuDescription;
   /** Target worker tier assigned to the App Service plan. */
@@ -2279,10 +2279,10 @@ export type AppServicePlan = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /** ARM resource for a certificate. */
-export type CertificatePatchResource = ProxyOnlyResource & {
+export interface CertificatePatchResource extends ProxyOnlyResource {
   /**
    * Friendly name of the certificate.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2360,10 +2360,10 @@ export type CertificatePatchResource = ProxyOnlyResource & {
   readonly keyVaultSecretStatus?: KeyVaultSecretStatus;
   /** Resource ID of the associated App Service plan, formatted as: "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}". */
   serverFarmId?: string;
-};
+}
 
 /** Push settings for the App. */
-export type PushSettings = ProxyOnlyResource & {
+export interface PushSettings extends ProxyOnlyResource {
   /** Gets or sets a flag indicating whether the Push endpoint is enabled. */
   isPushEnabled?: boolean;
   /** Gets or sets a JSON string containing a list of tags that are whitelisted for use by the push registration endpoint. */
@@ -2377,10 +2377,10 @@ export type PushSettings = ProxyOnlyResource & {
   tagsRequiringAuth?: string;
   /** Gets or sets a JSON string containing a list of dynamic tags that will be evaluated from user claims in the push registration endpoint. */
   dynamicTagsJson?: string;
-};
+}
 
 /** ARM resource for a site. */
-export type SitePatchResource = ProxyOnlyResource & {
+export interface SitePatchResource extends ProxyOnlyResource {
   /** Managed service identity. */
   identity?: ManagedServiceIdentity;
   /**
@@ -2519,10 +2519,10 @@ export type SitePatchResource = ProxyOnlyResource & {
   readonly inProgressOperationId?: string;
   /** GeoDistributions for this site */
   geoDistributions?: GeoDistribution[];
-};
+}
 
 /** Custom domain analysis. */
-export type CustomHostnameAnalysisResult = ProxyOnlyResource & {
+export interface CustomHostnameAnalysisResult extends ProxyOnlyResource {
   /**
    * <code>true</code> if hostname is already verified; otherwise, <code>false</code>.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2563,10 +2563,10 @@ export type CustomHostnameAnalysisResult = ProxyOnlyResource & {
   alternateCNameRecords?: string[];
   /** Alternate TXT records controller can see for this hostname. */
   alternateTxtRecords?: string[];
-};
+}
 
 /** Description of a backup which will be performed. */
-export type BackupRequest = ProxyOnlyResource & {
+export interface BackupRequest extends ProxyOnlyResource {
   /** Name of the backup. */
   backupName?: string;
   /** True if the backup schedule is enabled (must be included in that case), false if the backup schedule should be disabled. */
@@ -2577,10 +2577,10 @@ export type BackupRequest = ProxyOnlyResource & {
   backupSchedule?: BackupSchedule;
   /** Databases included in the backup. */
   databases?: DatabaseBackupSetting[];
-};
+}
 
 /** Backup description. */
-export type BackupItem = ProxyOnlyResource & {
+export interface BackupItem extends ProxyOnlyResource {
   /**
    * Id of the backup.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2651,10 +2651,10 @@ export type BackupItem = ProxyOnlyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly websiteSizeInBytes?: number;
-};
+}
 
 /** Description of a restore request. */
-export type RestoreRequest = ProxyOnlyResource & {
+export interface RestoreRequest extends ProxyOnlyResource {
   /** SAS URL to the container. */
   storageAccountUrl?: string;
   /** Name of a blob which contains the backup. */
@@ -2680,10 +2680,10 @@ export type RestoreRequest = ProxyOnlyResource & {
   adjustConnectionStrings?: boolean;
   /** App Service Environment name, if needed (only when restoring an app to an App Service Environment). */
   hostingEnvironment?: string;
-};
+}
 
 /** Web app configuration ARM resource. */
-export type SiteConfigResource = ProxyOnlyResource & {
+export interface SiteConfigResource extends ProxyOnlyResource {
   /** Number of workers. */
   numberOfWorkers?: number;
   /** Default documents. */
@@ -2796,16 +2796,16 @@ export type SiteConfigResource = ProxyOnlyResource & {
    * This setting only applies to the Consumption Plan
    */
   reservedInstanceCount?: number;
-};
+}
 
 /** String dictionary resource. */
-export type StringDictionary = ProxyOnlyResource & {
+export interface StringDictionary extends ProxyOnlyResource {
   /** Settings. */
   properties?: { [propertyName: string]: string };
-};
+}
 
 /** Configuration settings for the Azure App Service Authentication / Authorization feature. */
-export type SiteAuthSettings = ProxyOnlyResource & {
+export interface SiteAuthSettings extends ProxyOnlyResource {
   /** <code>true</code> if the Authentication / Authorization feature is enabled for the current app; otherwise, <code>false</code>. */
   enabled?: boolean;
   /**
@@ -2942,22 +2942,23 @@ export type SiteAuthSettings = ProxyOnlyResource & {
    * Microsoft Account Scopes and permissions documentation: https://msdn.microsoft.com/en-us/library/dn631845.aspx
    */
   microsoftAccountOAuthScopes?: string[];
-};
+}
 
 /** AzureStorageInfo dictionary resource. */
-export type AzureStoragePropertyDictionaryResource = ProxyOnlyResource & {
+export interface AzureStoragePropertyDictionaryResource
+  extends ProxyOnlyResource {
   /** Azure storage accounts. */
   properties?: { [propertyName: string]: AzureStorageInfoValue };
-};
+}
 
 /** String dictionary resource. */
-export type ConnectionStringDictionary = ProxyOnlyResource & {
+export interface ConnectionStringDictionary extends ProxyOnlyResource {
   /** Connection strings. */
   properties?: { [propertyName: string]: ConnStringValueTypePair };
-};
+}
 
 /** Configuration of App Service site logs. */
-export type SiteLogsConfig = ProxyOnlyResource & {
+export interface SiteLogsConfig extends ProxyOnlyResource {
   /** Application logs configuration. */
   applicationLogs?: ApplicationLogsConfig;
   /** HTTP logs configuration. */
@@ -2966,10 +2967,10 @@ export type SiteLogsConfig = ProxyOnlyResource & {
   failedRequestsTracing?: EnabledConfig;
   /** Detailed error messages configuration. */
   detailedErrorMessages?: EnabledConfig;
-};
+}
 
 /** User credentials used for publishing activity. */
-export type User = ProxyOnlyResource & {
+export interface User extends ProxyOnlyResource {
   /** Username used for publishing. */
   publishingUserName?: string;
   /**
@@ -2989,20 +2990,20 @@ export type User = ProxyOnlyResource & {
   publishingPasswordHashSalt?: string;
   /** Url of SCM site. */
   scmUri?: string;
-};
+}
 
 /** Slot Config names azure resource. */
-export type SlotConfigNamesResource = ProxyOnlyResource & {
+export interface SlotConfigNamesResource extends ProxyOnlyResource {
   /** List of connection string names. */
   connectionStringNames?: string[];
   /** List of application settings names. */
   appSettingNames?: string[];
   /** List of external Azure storage account identifiers. */
   azureStorageConfigNames?: string[];
-};
+}
 
 /** A snapshot of a web app configuration. */
-export type SiteConfigurationSnapshotInfo = ProxyOnlyResource & {
+export interface SiteConfigurationSnapshotInfo extends ProxyOnlyResource {
   /**
    * The time the snapshot was taken.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3013,10 +3014,10 @@ export type SiteConfigurationSnapshotInfo = ProxyOnlyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly snapshotId?: number;
-};
+}
 
 /** Continuous Web Job Information. */
-export type ContinuousWebJob = ProxyOnlyResource & {
+export interface ContinuousWebJob extends ProxyOnlyResource {
   /** Job status. */
   status?: ContinuousWebJobStatus;
   /** Detailed status. */
@@ -3037,10 +3038,10 @@ export type ContinuousWebJob = ProxyOnlyResource & {
   usingSdk?: boolean;
   /** Job settings. */
   settings?: { [propertyName: string]: Record<string, unknown> };
-};
+}
 
 /** User credentials used for publishing activity. */
-export type Deployment = ProxyOnlyResource & {
+export interface Deployment extends ProxyOnlyResource {
   /** Deployment status. */
   status?: number;
   /** Details about deployment status. */
@@ -3059,16 +3060,16 @@ export type Deployment = ProxyOnlyResource & {
   active?: boolean;
   /** Details on deployment. */
   details?: string;
-};
+}
 
 /** A domain specific resource identifier. */
-export type Identifier = ProxyOnlyResource & {
+export interface Identifier extends ProxyOnlyResource {
   /** String representation of the identity. */
   idPropertiesId?: string;
-};
+}
 
 /** MSDeploy ARM response */
-export type MSDeployStatus = ProxyOnlyResource & {
+export interface MSDeployStatus extends ProxyOnlyResource {
   /**
    * Username of deployer
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3094,10 +3095,10 @@ export type MSDeployStatus = ProxyOnlyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly complete?: boolean;
-};
+}
 
 /** MSDeploy ARM PUT information */
-export type MSDeploy = ProxyOnlyResource & {
+export interface MSDeploy extends ProxyOnlyResource {
   /** Package URI */
   packageUri?: string;
   /** SQL Connection String */
@@ -3120,19 +3121,19 @@ export type MSDeploy = ProxyOnlyResource & {
    * Setting is <code>false</code> by default.
    */
   appOffline?: boolean;
-};
+}
 
 /** MSDeploy log */
-export type MSDeployLog = ProxyOnlyResource & {
+export interface MSDeployLog extends ProxyOnlyResource {
   /**
    * List of log entry messages
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly entries?: MSDeployLogEntry[];
-};
+}
 
 /** Function information. */
-export type FunctionEnvelope = ProxyOnlyResource & {
+export interface FunctionEnvelope extends ProxyOnlyResource {
   /** Function App ID. */
   functionAppId?: string;
   /** Script root path URI. */
@@ -3159,18 +3160,18 @@ export type FunctionEnvelope = ProxyOnlyResource & {
   language?: string;
   /** Value indicating whether the function is disabled */
   isDisabled?: boolean;
-};
+}
 
 /** Function secrets. */
-export type FunctionSecrets = ProxyOnlyResource & {
+export interface FunctionSecrets extends ProxyOnlyResource {
   /** Secret key. */
   key?: string;
   /** Trigger URL. */
   triggerUrl?: string;
-};
+}
 
 /** A hostname binding object. */
-export type HostNameBinding = ProxyOnlyResource & {
+export interface HostNameBinding extends ProxyOnlyResource {
   /** App Service app name. */
   siteName?: string;
   /** Fully qualified ARM domain resource URI. */
@@ -3192,10 +3193,10 @@ export type HostNameBinding = ProxyOnlyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly virtualIP?: string;
-};
+}
 
 /** Hybrid Connection contract. This is used to configure a Hybrid Connection. */
-export type HybridConnection = ProxyOnlyResource & {
+export interface HybridConnection extends ProxyOnlyResource {
   /** The name of the Service Bus namespace. */
   serviceBusNamespace?: string;
   /** The name of the Service Bus relay. */
@@ -3215,10 +3216,10 @@ export type HybridConnection = ProxyOnlyResource & {
   sendKeyValue?: string;
   /** The suffix for the service bus endpoint. By default this is .servicebus.windows.net */
   serviceBusSuffix?: string;
-};
+}
 
 /** Hybrid Connection key contract. This has the send key name and value for a Hybrid Connection. */
-export type HybridConnectionKey = ProxyOnlyResource & {
+export interface HybridConnectionKey extends ProxyOnlyResource {
   /**
    * The name of the send key.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3229,10 +3230,10 @@ export type HybridConnectionKey = ProxyOnlyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly sendKeyValue?: string;
-};
+}
 
 /** Hybrid Connection for an App Service app. */
-export type RelayServiceConnectionEntity = ProxyOnlyResource & {
+export interface RelayServiceConnectionEntity extends ProxyOnlyResource {
   entityName?: string;
   entityConnectionString?: string;
   resourceType?: string;
@@ -3240,19 +3241,19 @@ export type RelayServiceConnectionEntity = ProxyOnlyResource & {
   hostname?: string;
   port?: number;
   biztalkUri?: string;
-};
+}
 
 /** Instance of an app. */
-export type SiteInstance = ProxyOnlyResource & {
+export interface SiteInstance extends ProxyOnlyResource {
   /**
    * Name of instance.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly siteInstanceName?: string;
-};
+}
 
 /** Process Thread Information. */
-export type ProcessThreadInfo = ProxyOnlyResource & {
+export interface ProcessThreadInfo extends ProxyOnlyResource {
   /**
    * Site extension ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3282,10 +3283,10 @@ export type ProcessThreadInfo = ProxyOnlyResource & {
   state?: string;
   /** Wait reason. */
   waitReason?: string;
-};
+}
 
 /** Process Module Information. */
-export type ProcessModuleInfo = ProxyOnlyResource & {
+export interface ProcessModuleInfo extends ProxyOnlyResource {
   /** Base address. Used as module identifier in ARM resource URI. */
   baseAddress?: string;
   /** File name. */
@@ -3308,10 +3309,10 @@ export type ProcessModuleInfo = ProxyOnlyResource & {
   isDebug?: boolean;
   /** Module language (locale). */
   language?: string;
-};
+}
 
 /** Process Information. */
-export type ProcessInfo = ProxyOnlyResource & {
+export interface ProcessInfo extends ProxyOnlyResource {
   /**
    * ARM Identifier for deployment.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3387,10 +3388,10 @@ export type ProcessInfo = ProxyOnlyResource & {
   isWebjob?: boolean;
   /** Description of process. */
   description?: string;
-};
+}
 
 /** Metadata for the metrics. */
-export type ResourceMetricDefinition = ProxyOnlyResource & {
+export interface ResourceMetricDefinition extends ProxyOnlyResource {
   /**
    * Unit of the metric.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3416,10 +3417,10 @@ export type ResourceMetricDefinition = ProxyOnlyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly properties?: { [propertyName: string]: string };
-};
+}
 
 /** Options for app content migration. */
-export type StorageMigrationOptions = ProxyOnlyResource & {
+export interface StorageMigrationOptions extends ProxyOnlyResource {
   /** AzureFiles connection string. */
   azurefilesConnectionString?: string;
   /** AzureFiles share. */
@@ -3428,27 +3429,27 @@ export type StorageMigrationOptions = ProxyOnlyResource & {
   switchSiteAfterMigration?: boolean;
   /** <code>true</code> if the app should be read only during copy operation; otherwise, <code>false</code>. */
   blockWriteAccessToSite?: boolean;
-};
+}
 
 /** Response for a migration of app content request. */
-export type StorageMigrationResponse = ProxyOnlyResource & {
+export interface StorageMigrationResponse extends ProxyOnlyResource {
   /**
    * When server starts the migration process, it will return an operation ID identifying that particular migration operation.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operationId?: string;
-};
+}
 
 /** MySQL migration request. */
-export type MigrateMySqlRequest = ProxyOnlyResource & {
+export interface MigrateMySqlRequest extends ProxyOnlyResource {
   /** Connection string to the remote MySQL database. */
   connectionString?: string;
   /** The type of migration operation to be done */
   migrationType?: MySqlMigrationType;
-};
+}
 
 /** MySQL migration status. */
-export type MigrateMySqlStatus = ProxyOnlyResource & {
+export interface MigrateMySqlStatus extends ProxyOnlyResource {
   /**
    * Status of the migration task.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3464,18 +3465,18 @@ export type MigrateMySqlStatus = ProxyOnlyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly localMySqlEnabled?: boolean;
-};
+}
 
 /** Swift Virtual Network Contract. This is used to enable the new Swift way of doing virtual network integration. */
-export type SwiftVirtualNetwork = ProxyOnlyResource & {
+export interface SwiftVirtualNetwork extends ProxyOnlyResource {
   /** The Virtual Network subnet's resource ID. This is the subnet that this Web App will join. This subnet must have a delegation to Microsoft.Web/serverFarms defined first. */
   subnetResourceId?: string;
   /** A flag that specifies if the scale unit this Web App is on supports Swift integration. */
   swiftSupported?: boolean;
-};
+}
 
 /** Virtual Network route contract used to pass routing information for a Virtual Network. */
-export type VnetRoute = ProxyOnlyResource & {
+export interface VnetRoute extends ProxyOnlyResource {
   /** The starting address for this route. This may also include a CIDR notation, in which case the end address must not be specified. */
   startAddress?: string;
   /** The ending address for this route. If the start address is specified in CIDR notation, this must be omitted. */
@@ -3489,10 +3490,10 @@ export type VnetRoute = ProxyOnlyResource & {
    * These values will be used for syncing an app's routes with those from a Virtual Network.
    */
   routeType?: RouteType;
-};
+}
 
 /** Virtual Network information contract. */
-export type VnetInfo = ProxyOnlyResource & {
+export interface VnetInfo extends ProxyOnlyResource {
   /** The Virtual Network's resource ID. */
   vnetResourceId?: string;
   /**
@@ -3519,10 +3520,10 @@ export type VnetInfo = ProxyOnlyResource & {
   dnsServers?: string;
   /** Flag that is used to denote if this is VNET injection */
   isSwift?: boolean;
-};
+}
 
 /** Full view of network features for an app (presently VNET integration and Hybrid Connections). */
-export type NetworkFeatures = ProxyOnlyResource & {
+export interface NetworkFeatures extends ProxyOnlyResource {
   /**
    * The Virtual Network name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3543,10 +3544,10 @@ export type NetworkFeatures = ProxyOnlyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly hybridConnectionsV2?: HybridConnection[];
-};
+}
 
 /** Used for getting PHP error logging flag. */
-export type SitePhpErrorLogFlag = ProxyOnlyResource & {
+export interface SitePhpErrorLogFlag extends ProxyOnlyResource {
   /** Local log_errors setting. */
   localLogErrors?: string;
   /** Master log_errors setting. */
@@ -3555,10 +3556,10 @@ export type SitePhpErrorLogFlag = ProxyOnlyResource & {
   localLogErrorsMaxLength?: string;
   /** Master log_errors_max_len setting. */
   masterLogErrorsMaxLength?: string;
-};
+}
 
 /** ARM resource for a PremierAddOn. */
-export type PremierAddOnPatchResource = ProxyOnlyResource & {
+export interface PremierAddOnPatchResource extends ProxyOnlyResource {
   /** Premier add on SKU. */
   sku?: string;
   /** Premier add on Product. */
@@ -3569,18 +3570,18 @@ export type PremierAddOnPatchResource = ProxyOnlyResource & {
   marketplacePublisher?: string;
   /** Premier add on Marketplace offer. */
   marketplaceOffer?: string;
-};
+}
 
 /** Description of the parameters of Private Access for a Web Site. */
-export type PrivateAccess = ProxyOnlyResource & {
+export interface PrivateAccess extends ProxyOnlyResource {
   /** Whether private access is enabled or not. */
   enabled?: boolean;
   /** The Virtual Networks (and subnets) allowed to access the site privately. */
   virtualNetworks?: PrivateAccessVirtualNetwork[];
-};
+}
 
 /** Public certificate object */
-export type PublicCertificate = ProxyOnlyResource & {
+export interface PublicCertificate extends ProxyOnlyResource {
   /** Public Certificate byte array */
   blob?: Uint8Array;
   /** Public Certificate Location */
@@ -3590,10 +3591,10 @@ export type PublicCertificate = ProxyOnlyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly thumbprint?: string;
-};
+}
 
 /** Details about restoring a deleted app. */
-export type DeletedAppRestoreRequest = ProxyOnlyResource & {
+export interface DeletedAppRestoreRequest extends ProxyOnlyResource {
   /**
    * ARM resource ID of the deleted app. Example:
    * /subscriptions/{subId}/providers/Microsoft.Web/deletedSites/{deletedSiteId}
@@ -3608,10 +3609,10 @@ export type DeletedAppRestoreRequest = ProxyOnlyResource & {
   snapshotTime?: string;
   /** If true, the snapshot is retrieved from DRSecondary endpoint. */
   useDRSecondary?: boolean;
-};
+}
 
 /** Details about app recovery operation. */
-export type SnapshotRestoreRequest = ProxyOnlyResource & {
+export interface SnapshotRestoreRequest extends ProxyOnlyResource {
   /** Point in time in which the app restore should be done, formatted as a DateTime string. */
   snapshotTime?: string;
   /**
@@ -3630,10 +3631,10 @@ export type SnapshotRestoreRequest = ProxyOnlyResource & {
   ignoreConflictingHostNames?: boolean;
   /** If true, the snapshot is retrieved from DRSecondary endpoint. */
   useDRSecondary?: boolean;
-};
+}
 
 /** Site Extension Information. */
-export type SiteExtensionInfo = ProxyOnlyResource & {
+export interface SiteExtensionInfo extends ProxyOnlyResource {
   /** Site extension ID. */
   extensionId?: string;
   title?: string;
@@ -3673,10 +3674,10 @@ export type SiteExtensionInfo = ProxyOnlyResource & {
   provisioningState?: string;
   /** Site Extension comment. */
   comment?: string;
-};
+}
 
 /** A setting difference between two deployment slots of an app. */
-export type SlotDifference = ProxyOnlyResource & {
+export interface SlotDifference extends ProxyOnlyResource {
   /**
    * Level of the difference: Information, Warning or Error.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3712,19 +3713,19 @@ export type SlotDifference = ProxyOnlyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly description?: string;
-};
+}
 
 /** A snapshot of an app. */
-export type Snapshot = ProxyOnlyResource & {
+export interface Snapshot extends ProxyOnlyResource {
   /**
    * The time the snapshot was taken.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly time?: string;
-};
+}
 
 /** Source control configuration for an app. */
-export type SiteSourceControl = ProxyOnlyResource & {
+export interface SiteSourceControl extends ProxyOnlyResource {
   /** Repository or source control URL. */
   repoUrl?: string;
   /** Name of branch to use for deployment. */
@@ -3735,10 +3736,10 @@ export type SiteSourceControl = ProxyOnlyResource & {
   deploymentRollbackEnabled?: boolean;
   /** <code>true</code> for a Mercurial repository; <code>false</code> for a Git repository. */
   isMercurial?: boolean;
-};
+}
 
 /** Triggered Web Job Run Information. */
-export type TriggeredJobRun = ProxyOnlyResource & {
+export interface TriggeredJobRun extends ProxyOnlyResource {
   /** Job ID. */
   webJobId?: string;
   /** Job name. */
@@ -3761,10 +3762,10 @@ export type TriggeredJobRun = ProxyOnlyResource & {
   jobName?: string;
   /** Job trigger. */
   trigger?: string;
-};
+}
 
 /** Triggered Web Job Information. */
-export type TriggeredWebJob = ProxyOnlyResource & {
+export interface TriggeredWebJob extends ProxyOnlyResource {
   /** Latest job run information. */
   latestRun?: TriggeredJobRun;
   /** History URL. */
@@ -3785,24 +3786,24 @@ export type TriggeredWebJob = ProxyOnlyResource & {
   usingSdk?: boolean;
   /** Job settings. */
   settings?: { [propertyName: string]: Record<string, unknown> };
-};
+}
 
 /** Triggered Web Job History. List of Triggered Web Job Run Information elements. */
-export type TriggeredJobHistory = ProxyOnlyResource & {
+export interface TriggeredJobHistory extends ProxyOnlyResource {
   /** List of triggered web job runs. */
   runs?: TriggeredJobRun[];
-};
+}
 
 /** The Virtual Network gateway contract. This is used to give the Virtual Network gateway access to the VPN package. */
-export type VnetGateway = ProxyOnlyResource & {
+export interface VnetGateway extends ProxyOnlyResource {
   /** The Virtual Network name. */
   vnetName?: string;
   /** The URI where the VPN package can be downloaded. */
   vpnPackageUri?: string;
-};
+}
 
 /** Web Job Information. */
-export type WebJob = ProxyOnlyResource & {
+export interface WebJob extends ProxyOnlyResource {
   /** Run command. */
   runCommand?: string;
   /** Job URL. */
@@ -3817,10 +3818,10 @@ export type WebJob = ProxyOnlyResource & {
   usingSdk?: boolean;
   /** Job settings. */
   settings?: { [propertyName: string]: Record<string, unknown> };
-};
+}
 
 /** The source control OAuth token. */
-export type SourceControl = ProxyOnlyResource & {
+export interface SourceControl extends ProxyOnlyResource {
   /** OAuth access token. */
   token?: string;
   /** OAuth access token secret. */
@@ -3829,10 +3830,10 @@ export type SourceControl = ProxyOnlyResource & {
   refreshToken?: string;
   /** OAuth token expiration. */
   expirationTime?: Date;
-};
+}
 
 /** App Service billing entity that contains information about meter which the Azure billing system utilizes to charge users for services. */
-export type BillingMeter = ProxyOnlyResource & {
+export interface BillingMeter extends ProxyOnlyResource {
   /** Meter GUID onboarded in Commerce */
   meterId?: string;
   /** Azure Location of billable resource */
@@ -3845,10 +3846,10 @@ export type BillingMeter = ProxyOnlyResource & {
   resourceType?: string;
   /** App Service OS type meter used for */
   osType?: string;
-};
+}
 
 /** Geographical region. */
-export type GeoRegion = ProxyOnlyResource & {
+export interface GeoRegion extends ProxyOnlyResource {
   /**
    * Region description.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3859,10 +3860,10 @@ export type GeoRegion = ProxyOnlyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly displayName?: string;
-};
+}
 
 /** Premier add-on offer. */
-export type PremierAddOnOffer = ProxyOnlyResource & {
+export interface PremierAddOnOffer extends ProxyOnlyResource {
   /** Premier add on SKU. */
   sku?: string;
   /** Premier add on offer Product. */
@@ -3883,36 +3884,36 @@ export type PremierAddOnOffer = ProxyOnlyResource & {
   marketplacePublisher?: string;
   /** Marketplace offer. */
   marketplaceOffer?: string;
-};
+}
 
 /** The required set of inputs to validate a VNET */
-export type VnetParameters = ProxyOnlyResource & {
+export interface VnetParameters extends ProxyOnlyResource {
   /** The Resource Group of the VNET to be validated */
   vnetResourceGroup?: string;
   /** The name of the VNET to be validated */
   vnetName?: string;
   /** The subnet name to be validated */
   vnetSubnetName?: string;
-};
+}
 
 /** A class that describes a test that failed during NSG and UDR validation. */
-export type VnetValidationTestFailure = ProxyOnlyResource & {
+export interface VnetValidationTestFailure extends ProxyOnlyResource {
   /** The name of the test that failed. */
   testName?: string;
   /** The details of what caused the failure, e.g. the blocking rule name, etc. */
   details?: string;
-};
+}
 
 /** A class that describes the reason for a validation failure. */
-export type VnetValidationFailureDetails = ProxyOnlyResource & {
+export interface VnetValidationFailureDetails extends ProxyOnlyResource {
   /** A flag describing whether or not validation failed. */
   failed?: boolean;
   /** A list of tests that failed in the validation. */
   failedTests?: VnetValidationTestFailure[];
-};
+}
 
 /** ARM resource for a app service plan. */
-export type AppServicePlanPatchResource = ProxyOnlyResource & {
+export interface AppServicePlanPatchResource extends ProxyOnlyResource {
   /** Target worker tier assigned to the App Service plan. */
   workerTierName?: string;
   /**
@@ -3975,10 +3976,10 @@ export type AppServicePlanPatchResource = ProxyOnlyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /** Hybrid Connection limits contract. This is used to return the plan limits of Hybrid Connections. */
-export type HybridConnectionLimits = ProxyOnlyResource & {
+export interface HybridConnectionLimits extends ProxyOnlyResource {
   /**
    * The current number of Hybrid Connections.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3989,10 +3990,10 @@ export type HybridConnectionLimits = ProxyOnlyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly maximum?: number;
-};
+}
 
 /** Represents a recommendation result generated by the recommendation engine. */
-export type Recommendation = ProxyOnlyResource & {
+export interface Recommendation extends ProxyOnlyResource {
   /** Timestamp when this instance was created. */
   creationTime?: Date;
   /** A GUID value that each recommendation object is associated with. */
@@ -4042,10 +4043,10 @@ export type Recommendation = ProxyOnlyResource & {
   bladeName?: string;
   /** Forward link to an external document associated with the rule. */
   forwardLink?: string;
-};
+}
 
 /** Represents a recommendation rule that the recommendation engine can perform. */
-export type RecommendationRule = ProxyOnlyResource & {
+export interface RecommendationRule extends ProxyOnlyResource {
   /** Unique name of the rule. */
   recommendationName?: string;
   /** UI friendly name of the rule. */
@@ -4078,22 +4079,35 @@ export type RecommendationRule = ProxyOnlyResource & {
   bladeName?: string;
   /** Forward link to an external document associated with the rule. Applicable to dynamic rule only. */
   forwardLink?: string;
-};
+}
 
 /** Known values of {@link ScmType} that the service accepts. */
 export enum KnownScmType {
+  /** None */
   None = "None",
+  /** Dropbox */
   Dropbox = "Dropbox",
+  /** Tfs */
   Tfs = "Tfs",
+  /** LocalGit */
   LocalGit = "LocalGit",
+  /** GitHub */
   GitHub = "GitHub",
+  /** CodePlexGit */
   CodePlexGit = "CodePlexGit",
+  /** CodePlexHg */
   CodePlexHg = "CodePlexHg",
+  /** BitbucketGit */
   BitbucketGit = "BitbucketGit",
+  /** BitbucketHg */
   BitbucketHg = "BitbucketHg",
+  /** ExternalGit */
   ExternalGit = "ExternalGit",
+  /** ExternalHg */
   ExternalHg = "ExternalHg",
+  /** OneDrive */
   OneDrive = "OneDrive",
+  /** VSO */
   VSO = "VSO"
 }
 
@@ -4120,8 +4134,11 @@ export type ScmType = string;
 
 /** Known values of {@link SupportedTlsVersions} that the service accepts. */
 export enum KnownSupportedTlsVersions {
+  /** One0 */
   One0 = "1.0",
+  /** One1 */
   One1 = "1.1",
+  /** One2 */
   One2 = "1.2"
 }
 
@@ -4138,8 +4155,11 @@ export type SupportedTlsVersions = string;
 
 /** Known values of {@link FtpsState} that the service accepts. */
 export enum KnownFtpsState {
+  /** AllAllowed */
   AllAllowed = "AllAllowed",
+  /** FtpsOnly */
   FtpsOnly = "FtpsOnly",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -4156,9 +4176,13 @@ export type FtpsState = string;
 
 /** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
 export enum KnownManagedServiceIdentityType {
+  /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
   UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
   SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
+  /** None */
   None = "None"
 }
 
@@ -4176,9 +4200,13 @@ export type ManagedServiceIdentityType = string;
 
 /** Known values of {@link DatabaseType} that the service accepts. */
 export enum KnownDatabaseType {
+  /** SqlAzure */
   SqlAzure = "SqlAzure",
+  /** MySql */
   MySql = "MySql",
+  /** LocalMySql */
   LocalMySql = "LocalMySql",
+  /** PostgreSql */
   PostgreSql = "PostgreSql"
 }
 
@@ -4196,8 +4224,11 @@ export type DatabaseType = string;
 
 /** Known values of {@link RouteType} that the service accepts. */
 export enum KnownRouteType {
+  /** Default */
   Default = "DEFAULT",
+  /** Inherited */
   Inherited = "INHERITED",
+  /** Static */
   Static = "STATIC"
 }
 
@@ -4214,8 +4245,11 @@ export type RouteType = string;
 
 /** Known values of {@link PublishingProfileFormat} that the service accepts. */
 export enum KnownPublishingProfileFormat {
+  /** FileZilla3 */
   FileZilla3 = "FileZilla3",
+  /** WebDeploy */
   WebDeploy = "WebDeploy",
+  /** Ftp */
   Ftp = "Ftp"
 }
 
@@ -4232,13 +4266,21 @@ export type PublishingProfileFormat = string;
 
 /** Known values of {@link CheckNameResourceTypes} that the service accepts. */
 export enum KnownCheckNameResourceTypes {
+  /** Site */
   Site = "Site",
+  /** Slot */
   Slot = "Slot",
+  /** HostingEnvironment */
   HostingEnvironment = "HostingEnvironment",
+  /** PublishingUser */
   PublishingUser = "PublishingUser",
+  /** MicrosoftWebSites */
   MicrosoftWebSites = "Microsoft.Web/sites",
+  /** MicrosoftWebSitesSlots */
   MicrosoftWebSitesSlots = "Microsoft.Web/sites/slots",
+  /** MicrosoftWebHostingEnvironments */
   MicrosoftWebHostingEnvironments = "Microsoft.Web/hostingEnvironments",
+  /** MicrosoftWebPublishingUsers */
   MicrosoftWebPublishingUsers = "Microsoft.Web/publishingUsers"
 }
 
@@ -4260,7 +4302,9 @@ export type CheckNameResourceTypes = string;
 
 /** Known values of {@link InAvailabilityReasonType} that the service accepts. */
 export enum KnownInAvailabilityReasonType {
+  /** Invalid */
   Invalid = "Invalid",
+  /** AlreadyExists */
   AlreadyExists = "AlreadyExists"
 }
 
@@ -4276,15 +4320,25 @@ export type InAvailabilityReasonType = string;
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
+  /** Free */
   Free = "Free",
+  /** Shared */
   Shared = "Shared",
+  /** Basic */
   Basic = "Basic",
+  /** Standard */
   Standard = "Standard",
+  /** Premium */
   Premium = "Premium",
+  /** Dynamic */
   Dynamic = "Dynamic",
+  /** Isolated */
   Isolated = "Isolated",
+  /** PremiumV2 */
   PremiumV2 = "PremiumV2",
+  /** ElasticPremium */
   ElasticPremium = "ElasticPremium",
+  /** ElasticIsolated */
   ElasticIsolated = "ElasticIsolated"
 }
 
@@ -4308,7 +4362,9 @@ export type SkuName = string;
 
 /** Known values of {@link ValidateResourceTypes} that the service accepts. */
 export enum KnownValidateResourceTypes {
+  /** ServerFarm */
   ServerFarm = "ServerFarm",
+  /** Site */
   Site = "Site"
 }
 
@@ -4324,9 +4380,13 @@ export type ValidateResourceTypes = string;
 
 /** Known values of {@link Enum11} that the service accepts. */
 export enum KnownEnum11 {
+  /** Windows */
   Windows = "Windows",
+  /** Linux */
   Linux = "Linux",
+  /** WindowsFunctions */
   WindowsFunctions = "WindowsFunctions",
+  /** LinuxFunctions */
   LinuxFunctions = "LinuxFunctions"
 }
 
@@ -4344,9 +4404,13 @@ export type Enum11 = string;
 
 /** Known values of {@link Enum12} that the service accepts. */
 export enum KnownEnum12 {
+  /** Windows */
   Windows = "Windows",
+  /** Linux */
   Linux = "Linux",
+  /** WindowsFunctions */
   WindowsFunctions = "WindowsFunctions",
+  /** LinuxFunctions */
   LinuxFunctions = "LinuxFunctions"
 }
 
@@ -4364,8 +4428,11 @@ export type Enum12 = string;
 
 /** Known values of {@link ResourceScopeType} that the service accepts. */
 export enum KnownResourceScopeType {
+  /** ServerFarm */
   ServerFarm = "ServerFarm",
+  /** Subscription */
   Subscription = "Subscription",
+  /** WebSite */
   WebSite = "WebSite"
 }
 
@@ -7335,10 +7402,7 @@ export type WebAppsListNextResponse = WebAppCollection;
 
 /** Optional parameters. */
 export interface WebAppsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify <strong>true</strong> to include deployment slots in results. The default is false, which only gives you the production slot of all apps. */
-  includeSlots?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type WebAppsListByResourceGroupNextResponse = WebAppCollection;
@@ -7436,22 +7500,14 @@ export type WebAppsListMetricDefinitionsNextResponse = ResourceMetricDefinitionC
 
 /** Optional parameters. */
 export interface WebAppsListMetricsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify "true" to include metric details in the response. It is "false" by default. */
-  details?: boolean;
-  /** Return only metrics specified in the filter (using OData syntax). For example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMetricsNext operation. */
 export type WebAppsListMetricsNextResponse = ResourceMetricCollection;
 
 /** Optional parameters. */
 export interface WebAppsListPerfMonCountersNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPerfMonCountersNext operation. */
 export type WebAppsListPerfMonCountersNextResponse = PerfMonCounterCollection;
@@ -7591,22 +7647,14 @@ export type WebAppsListMetricDefinitionsSlotNextResponse = ResourceMetricDefinit
 
 /** Optional parameters. */
 export interface WebAppsListMetricsSlotNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify "true" to include metric details in the response. It is "false" by default. */
-  details?: boolean;
-  /** Return only metrics specified in the filter (using OData syntax). For example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMetricsSlotNext operation. */
 export type WebAppsListMetricsSlotNextResponse = ResourceMetricCollection;
 
 /** Optional parameters. */
 export interface WebAppsListPerfMonCountersSlotNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPerfMonCountersSlotNext operation. */
 export type WebAppsListPerfMonCountersSlotNextResponse = PerfMonCounterCollection;
@@ -7683,10 +7731,7 @@ export type WebAppsListTriggeredWebJobHistorySlotNextResponse = TriggeredJobHist
 
 /** Optional parameters. */
 export interface WebAppsListUsagesSlotNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Return only information specified in the filter (using OData syntax). For example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listUsagesSlotNext operation. */
 export type WebAppsListUsagesSlotNextResponse = CsmUsageQuotaCollection;
@@ -7735,10 +7780,7 @@ export type WebAppsListTriggeredWebJobHistoryNextResponse = TriggeredJobHistoryC
 
 /** Optional parameters. */
 export interface WebAppsListUsagesNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Return only information specified in the filter (using OData syntax). For example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listUsagesNext operation. */
 export type WebAppsListUsagesNextResponse = CsmUsageQuotaCollection;
@@ -7886,28 +7928,14 @@ export type ListSourceControlsNextResponse = SourceControlCollection;
 
 /** Optional parameters. */
 export interface ListBillingMetersNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Azure Location of billable resource */
-  billingLocation?: string;
-  /** App Service OS type meters used for */
-  osType?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBillingMetersNext operation. */
 export type ListBillingMetersNextResponse = BillingMeterCollection;
 
 /** Optional parameters. */
 export interface ListGeoRegionsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Name of SKU used to filter the regions. */
-  sku?: SkuName;
-  /** Specify <code>true</code> if you want to filter to only regions that support Linux workers. */
-  linuxWorkersEnabled?: boolean;
-  /** Specify <code>true</code> if you want to filter to only regions that support Xenon workers. */
-  xenonWorkersEnabled?: boolean;
-  /** Specify <code>true</code> if you want to filter to only regions that support Linux Consumption Workers. */
-  linuxDynamicWorkersEnabled?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listGeoRegionsNext operation. */
 export type ListGeoRegionsNextResponse = GeoRegionCollection;
@@ -8145,13 +8173,7 @@ export interface AppServicePlansRebootWorkerOptionalParams
 
 /** Optional parameters. */
 export interface AppServicePlansListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /**
-   * Specify <code>true</code> to return all App Service plan properties. The default is <code>false</code>, which returns a subset of the properties.
-   *  Retrieval of all properties may increase the API latency.
-   */
-  detailed?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type AppServicePlansListNextResponse = AppServicePlanCollection;
@@ -8186,36 +8208,21 @@ export type AppServicePlansListMetricDefintionsNextResponse = ResourceMetricDefi
 
 /** Optional parameters. */
 export interface AppServicePlansListMetricsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specify <code>true</code> to include instance details. The default is <code>false</code>. */
-  details?: boolean;
-  /** Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMetricsNext operation. */
 export type AppServicePlansListMetricsNextResponse = ResourceMetricCollection;
 
 /** Optional parameters. */
 export interface AppServicePlansListWebAppsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Supported filter: $filter=state eq running. Returns only web apps that are currently running */
-  filter?: string;
-  /** Skip to a web app in the list of webapps associated with app service plan. If specified, the resulting list will contain web apps starting from (including) the skipToken. Otherwise, the resulting list contains web apps from the start of the list */
-  skipToken?: string;
-  /** List page size. If specified, results are paged. */
-  top?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listWebAppsNext operation. */
 export type AppServicePlansListWebAppsNextResponse = WebAppCollection;
 
 /** Optional parameters. */
 export interface AppServicePlansListUsagesNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2'). */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listUsagesNext operation. */
 export type AppServicePlansListUsagesNextResponse = CsmUsageQuotaCollection;
@@ -8247,9 +8254,7 @@ export type ProviderGetAvailableStacksOnPremResponse = ApplicationStackCollectio
 
 /** Optional parameters. */
 export interface ProviderGetAvailableStacksNextOptionalParams
-  extends coreClient.OperationOptions {
-  osTypeSelected?: Enum11;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAvailableStacksNext operation. */
 export type ProviderGetAvailableStacksNextResponse = ApplicationStackCollection;
@@ -8263,9 +8268,7 @@ export type ProviderListOperationsNextResponse = CsmOperationCollection;
 
 /** Optional parameters. */
 export interface ProviderGetAvailableStacksOnPremNextOptionalParams
-  extends coreClient.OperationOptions {
-  osTypeSelected?: Enum12;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAvailableStacksOnPremNext operation. */
 export type ProviderGetAvailableStacksOnPremNextResponse = ApplicationStackCollection;
@@ -8388,60 +8391,35 @@ export interface RecommendationsDisableRecommendationForSiteOptionalParams
 
 /** Optional parameters. */
 export interface RecommendationsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Filter is specified by using OData syntax. Example: $filter=channel eq 'Api' or channel eq 'Notification' and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[PT1H|PT1M|P1D] */
-  filter?: string;
-  /** Specify <code>true</code> to return only the most critical recommendations. The default is <code>false</code>, which returns all recommendations. */
-  featured?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type RecommendationsListNextResponse = RecommendationCollection;
 
 /** Optional parameters. */
 export interface RecommendationsListHistoryForHostingEnvironmentNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Filter is specified by using OData syntax. Example: $filter=channel eq 'Api' or channel eq 'Notification' and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[PT1H|PT1M|P1D] */
-  filter?: string;
-  /** Specify <code>false</code> to return all recommendations. The default is <code>true</code>, which returns only expired recommendations. */
-  expiredOnly?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listHistoryForHostingEnvironmentNext operation. */
 export type RecommendationsListHistoryForHostingEnvironmentNextResponse = RecommendationCollection;
 
 /** Optional parameters. */
 export interface RecommendationsListRecommendedRulesForHostingEnvironmentNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Return only channels specified in the filter. Filter is specified by using OData syntax. Example: $filter=channel eq 'Api' or channel eq 'Notification' */
-  filter?: string;
-  /** Specify <code>true</code> to return only the most critical recommendations. The default is <code>false</code>, which returns all recommendations. */
-  featured?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listRecommendedRulesForHostingEnvironmentNext operation. */
 export type RecommendationsListRecommendedRulesForHostingEnvironmentNextResponse = RecommendationCollection;
 
 /** Optional parameters. */
 export interface RecommendationsListHistoryForWebAppNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Filter is specified by using OData syntax. Example: $filter=channel eq 'Api' or channel eq 'Notification' and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[PT1H|PT1M|P1D] */
-  filter?: string;
-  /** Specify <code>false</code> to return all recommendations. The default is <code>true</code>, which returns only expired recommendations. */
-  expiredOnly?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listHistoryForWebAppNext operation. */
 export type RecommendationsListHistoryForWebAppNextResponse = RecommendationCollection;
 
 /** Optional parameters. */
 export interface RecommendationsListRecommendedRulesForWebAppNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Return only channels specified in the filter. Filter is specified by using OData syntax. Example: $filter=channel eq 'Api' or channel eq 'Notification' */
-  filter?: string;
-  /** Specify <code>true</code> to return only the most critical recommendations. The default is <code>false</code>, which returns all recommendations. */
-  featured?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listRecommendedRulesForWebAppNext operation. */
 export type RecommendationsListRecommendedRulesForWebAppNextResponse = RecommendationCollection;

@@ -4,8 +4,8 @@
 import {
   PipelinePolicy,
   PipelineRequest,
-  SendRequest,
   PipelineResponse,
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 
 const AcceptHeaderName = "Accept";

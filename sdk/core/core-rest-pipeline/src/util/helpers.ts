@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
-import { PipelineResponse } from "../interfaces.js";
+import { PipelineResponse } from "../interfaces";
 
 const StandardAbortMessage = "The operation was aborted.";
 

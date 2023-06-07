@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { Relation, SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates the incident relation.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/incidents/relations/CreateIncidentRelation.json
  */
 async function createsOrUpdatesAnIncidentRelation() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const incidentId = "afbd324f-6c48-459c-8710-8d1e1cd03812";
   const relationName = "4bb36b7b-26ff-4d1c-9cbe-0d8ab3da0014";
@@ -39,4 +45,8 @@ async function createsOrUpdatesAnIncidentRelation() {
   console.log(result);
 }
 
-createsOrUpdatesAnIncidentRelation().catch(console.error);
+async function main() {
+  createsOrUpdatesAnIncidentRelation();
+}
+
+main().catch(console.error);

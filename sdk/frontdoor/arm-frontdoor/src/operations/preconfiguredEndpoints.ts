@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { PreconfiguredEndpoints } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -52,8 +53,16 @@ export class PreconfiguredEndpointsImpl implements PreconfiguredEndpoints {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, profileName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          profileName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -61,11 +70,18 @@ export class PreconfiguredEndpointsImpl implements PreconfiguredEndpoints {
   private async *listPagingPage(
     resourceGroupName: string,
     profileName: string,
-    options?: PreconfiguredEndpointsListOptionalParams
+    options?: PreconfiguredEndpointsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PreconfiguredEndpoint[]> {
-    let result = await this._list(resourceGroupName, profileName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PreconfiguredEndpointsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, profileName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -74,7 +90,9 @@ export class PreconfiguredEndpointsImpl implements PreconfiguredEndpoints {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -143,11 +161,11 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.profileName
   ],
   headerParameters: [Parameters.accept],
@@ -164,13 +182,12 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
-    Parameters.nextLink
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.profileName
   ],
   headerParameters: [Parameters.accept],
   serializer

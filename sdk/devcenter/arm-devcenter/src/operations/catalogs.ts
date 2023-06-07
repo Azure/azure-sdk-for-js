@@ -6,14 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Catalogs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DevCenterClient } from "../devCenterClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Catalog,
   CatalogsListByDevCenterNextOptionalParams,
@@ -46,7 +51,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Lists catalogs for a devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -67,11 +72,15 @@ export class CatalogsImpl implements Catalogs {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByDevCenterPagingPage(
           resourceGroupName,
           devCenterName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -80,15 +89,22 @@ export class CatalogsImpl implements Catalogs {
   private async *listByDevCenterPagingPage(
     resourceGroupName: string,
     devCenterName: string,
-    options?: CatalogsListByDevCenterOptionalParams
+    options?: CatalogsListByDevCenterOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Catalog[]> {
-    let result = await this._listByDevCenter(
-      resourceGroupName,
-      devCenterName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: CatalogsListByDevCenterResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByDevCenter(
+        resourceGroupName,
+        devCenterName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByDevCenterNext(
         resourceGroupName,
@@ -97,7 +113,9 @@ export class CatalogsImpl implements Catalogs {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -117,7 +135,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Lists catalogs for a devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -134,7 +152,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Gets a catalog
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param options The options parameters.
@@ -153,7 +171,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Creates or updates a catalog.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param body Represents a catalog.
@@ -166,8 +184,8 @@ export class CatalogsImpl implements Catalogs {
     body: Catalog,
     options?: CatalogsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CatalogsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CatalogsCreateOrUpdateResponse>,
       CatalogsCreateOrUpdateResponse
     >
   > {
@@ -177,7 +195,7 @@ export class CatalogsImpl implements Catalogs {
     ): Promise<CatalogsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -210,15 +228,18 @@ export class CatalogsImpl implements Catalogs {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, devCenterName, catalogName, body, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, devCenterName, catalogName, body, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CatalogsCreateOrUpdateResponse,
+      OperationState<CatalogsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -226,7 +247,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Creates or updates a catalog.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param body Represents a catalog.
@@ -251,7 +272,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Partially updates a catalog.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param body Updatable catalog properties.
@@ -264,8 +285,8 @@ export class CatalogsImpl implements Catalogs {
     body: CatalogUpdate,
     options?: CatalogsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CatalogsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CatalogsUpdateResponse>,
       CatalogsUpdateResponse
     >
   > {
@@ -275,7 +296,7 @@ export class CatalogsImpl implements Catalogs {
     ): Promise<CatalogsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -308,15 +329,18 @@ export class CatalogsImpl implements Catalogs {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, devCenterName, catalogName, body, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, devCenterName, catalogName, body, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CatalogsUpdateResponse,
+      OperationState<CatalogsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -324,7 +348,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Partially updates a catalog.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param body Updatable catalog properties.
@@ -349,7 +373,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Deletes a catalog resource.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param options The options parameters.
@@ -359,14 +383,14 @@ export class CatalogsImpl implements Catalogs {
     devCenterName: string,
     catalogName: string,
     options?: CatalogsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -399,15 +423,15 @@ export class CatalogsImpl implements Catalogs {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, devCenterName, catalogName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, devCenterName, catalogName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -415,7 +439,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Deletes a catalog resource.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param options The options parameters.
@@ -437,7 +461,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Syncs templates for a template source.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param options The options parameters.
@@ -447,14 +471,14 @@ export class CatalogsImpl implements Catalogs {
     devCenterName: string,
     catalogName: string,
     options?: CatalogsSyncOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -487,15 +511,15 @@ export class CatalogsImpl implements Catalogs {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, devCenterName, catalogName, options },
-      syncOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, devCenterName, catalogName, options },
+      spec: syncOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -503,7 +527,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Syncs templates for a template source.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param options The options parameters.
@@ -525,7 +549,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * ListByDevCenterNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param nextLink The nextLink from the previous successful call to the ListByDevCenter method.
    * @param options The options parameters.
@@ -717,7 +741,6 @@ const listByDevCenterNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

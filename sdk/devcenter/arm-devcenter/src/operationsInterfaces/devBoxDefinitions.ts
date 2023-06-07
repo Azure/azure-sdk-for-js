@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DevBoxDefinition,
   DevBoxDefinitionsListByDevCenterOptionalParams,
@@ -29,7 +29,7 @@ import {
 export interface DevBoxDefinitions {
   /**
    * List Dev Box definitions for a devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -40,7 +40,7 @@ export interface DevBoxDefinitions {
   ): PagedAsyncIterableIterator<DevBoxDefinition>;
   /**
    * List Dev Box definitions configured for a project.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
@@ -51,7 +51,7 @@ export interface DevBoxDefinitions {
   ): PagedAsyncIterableIterator<DevBoxDefinition>;
   /**
    * Gets a Dev Box definition
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param devBoxDefinitionName The name of the Dev Box definition.
    * @param options The options parameters.
@@ -64,7 +64,7 @@ export interface DevBoxDefinitions {
   ): Promise<DevBoxDefinitionsGetResponse>;
   /**
    * Creates or updates a Dev Box definition.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param devBoxDefinitionName The name of the Dev Box definition.
    * @param body Represents a Dev Box definition.
@@ -77,14 +77,14 @@ export interface DevBoxDefinitions {
     body: DevBoxDefinition,
     options?: DevBoxDefinitionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DevBoxDefinitionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DevBoxDefinitionsCreateOrUpdateResponse>,
       DevBoxDefinitionsCreateOrUpdateResponse
     >
   >;
   /**
    * Creates or updates a Dev Box definition.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param devBoxDefinitionName The name of the Dev Box definition.
    * @param body Represents a Dev Box definition.
@@ -99,7 +99,7 @@ export interface DevBoxDefinitions {
   ): Promise<DevBoxDefinitionsCreateOrUpdateResponse>;
   /**
    * Partially updates a Dev Box definition.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param devBoxDefinitionName The name of the Dev Box definition.
    * @param body Represents a Dev Box definition.
@@ -112,14 +112,14 @@ export interface DevBoxDefinitions {
     body: DevBoxDefinitionUpdate,
     options?: DevBoxDefinitionsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DevBoxDefinitionsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DevBoxDefinitionsUpdateResponse>,
       DevBoxDefinitionsUpdateResponse
     >
   >;
   /**
    * Partially updates a Dev Box definition.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param devBoxDefinitionName The name of the Dev Box definition.
    * @param body Represents a Dev Box definition.
@@ -134,7 +134,7 @@ export interface DevBoxDefinitions {
   ): Promise<DevBoxDefinitionsUpdateResponse>;
   /**
    * Deletes a Dev Box definition
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param devBoxDefinitionName The name of the Dev Box definition.
    * @param options The options parameters.
@@ -144,10 +144,10 @@ export interface DevBoxDefinitions {
     devCenterName: string,
     devBoxDefinitionName: string,
     options?: DevBoxDefinitionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Dev Box definition
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param devBoxDefinitionName The name of the Dev Box definition.
    * @param options The options parameters.
@@ -160,7 +160,7 @@ export interface DevBoxDefinitions {
   ): Promise<void>;
   /**
    * Gets a Dev Box definition configured for a project
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param devBoxDefinitionName The name of the Dev Box definition.
    * @param options The options parameters.

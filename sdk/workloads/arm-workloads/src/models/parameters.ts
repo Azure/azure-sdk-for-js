@@ -12,9 +12,6 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
-  PhpWorkloadResource as PhpWorkloadResourceMapper,
-  PatchResourceRequestBody as PatchResourceRequestBodyMapper,
-  WordpressInstanceResource as WordpressInstanceResourceMapper,
   SAPSizingRecommendationRequest as SAPSizingRecommendationRequestMapper,
   SAPSupportedSkusRequest as SAPSupportedSkusRequestMapper,
   SAPDiskConfigurationsRequest as SAPDiskConfigurationsRequestMapper,
@@ -30,8 +27,26 @@ import {
   UpdateSAPApplicationInstanceRequest as UpdateSAPApplicationInstanceRequestMapper,
   Monitor as MonitorMapper,
   UpdateMonitorRequest as UpdateMonitorRequestMapper,
-  ProviderInstance as ProviderInstanceMapper
+  ProviderInstance as ProviderInstanceMapper,
+  SapLandscapeMonitor as SapLandscapeMonitorMapper
 } from "../models/mappers";
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const sAPSizingRecommendation: OperationParameter = {
+  parameterPath: ["options", "sAPSizingRecommendation"],
+  mapper: SAPSizingRecommendationRequestMapper
+};
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -71,101 +86,6 @@ export const subscriptionId: OperationURLParameter = {
   }
 };
 
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2021-12-01-preview",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const resourceGroupName: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    constraints: {
-      MaxLength: 90,
-      MinLength: 1
-    },
-    serializedName: "resourceGroupName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const phpWorkloadName: OperationURLParameter = {
-  parameterPath: "phpWorkloadName",
-  mapper: {
-    serializedName: "phpWorkloadName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const phpWorkloadResource: OperationParameter = {
-  parameterPath: "phpWorkloadResource",
-  mapper: PhpWorkloadResourceMapper
-};
-
-export const resourcePatchRequestBody: OperationParameter = {
-  parameterPath: "resourcePatchRequestBody",
-  mapper: PatchResourceRequestBodyMapper
-};
-
-export const deleteInfra: OperationQueryParameter = {
-  parameterPath: ["options", "deleteInfra"],
-  mapper: {
-    constraints: {
-      MinLength: 1
-    },
-    serializedName: "delete-infra",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const wordpressInstanceResource: OperationParameter = {
-  parameterPath: "wordpressInstanceResource",
-  mapper: WordpressInstanceResourceMapper
-};
-
-export const sAPSizingRecommendation: OperationParameter = {
-  parameterPath: ["options", "sAPSizingRecommendation"],
-  mapper: SAPSizingRecommendationRequestMapper
-};
-
 export const location: OperationURLParameter = {
   parameterPath: "location",
   mapper: {
@@ -174,6 +94,18 @@ export const location: OperationURLParameter = {
     },
     serializedName: "location",
     required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2023-04-01",
+    isConstant: true,
+    serializedName: "api-version",
     type: {
       name: "String"
     }
@@ -200,6 +132,21 @@ export const body: OperationParameter = {
   mapper: SAPVirtualInstanceMapper
 };
 
+export const resourceGroupName: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1
+    },
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const sapVirtualInstanceName: OperationURLParameter = {
   parameterPath: "sapVirtualInstanceName",
   mapper: {
@@ -219,6 +166,18 @@ export const body1: OperationParameter = {
 export const body2: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: StopRequestMapper
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
 };
 
 export const centralInstanceName: OperationURLParameter = {
@@ -319,4 +278,9 @@ export const providerInstanceName: OperationURLParameter = {
 export const providerInstanceParameter: OperationParameter = {
   parameterPath: "providerInstanceParameter",
   mapper: ProviderInstanceMapper
+};
+
+export const sapLandscapeMonitorParameter: OperationParameter = {
+  parameterPath: "sapLandscapeMonitorParameter",
+  mapper: SapLandscapeMonitorMapper
 };

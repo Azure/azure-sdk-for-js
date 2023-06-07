@@ -6,18 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { FluxConfigurations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SourceControlConfigurationClient } from "../sourceControlConfigurationClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   FluxConfiguration,
   FluxConfigurationsListNextOptionalParams,
   FluxConfigurationsListOptionalParams,
+  FluxConfigurationsListResponse,
   FluxConfigurationsGetOptionalParams,
   FluxConfigurationsGetResponse,
   FluxConfigurationsCreateOrUpdateOptionalParams,
@@ -26,7 +32,6 @@ import {
   FluxConfigurationsUpdateOptionalParams,
   FluxConfigurationsUpdateResponse,
   FluxConfigurationsDeleteOptionalParams,
-  FluxConfigurationsListResponse,
   FluxConfigurationsListNextResponse
 } from "../models";
 
@@ -74,13 +79,17 @@ export class FluxConfigurationsImpl implements FluxConfigurations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           clusterRp,
           clusterResourceName,
           clusterName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -91,17 +100,24 @@ export class FluxConfigurationsImpl implements FluxConfigurations {
     clusterRp: string,
     clusterResourceName: string,
     clusterName: string,
-    options?: FluxConfigurationsListOptionalParams
+    options?: FluxConfigurationsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<FluxConfiguration[]> {
-    let result = await this._list(
-      resourceGroupName,
-      clusterRp,
-      clusterResourceName,
-      clusterName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: FluxConfigurationsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        clusterRp,
+        clusterResourceName,
+        clusterName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -112,7 +128,9 @@ export class FluxConfigurationsImpl implements FluxConfigurations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -187,8 +205,8 @@ export class FluxConfigurationsImpl implements FluxConfigurations {
     fluxConfiguration: FluxConfiguration,
     options?: FluxConfigurationsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<FluxConfigurationsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<FluxConfigurationsCreateOrUpdateResponse>,
       FluxConfigurationsCreateOrUpdateResponse
     >
   > {
@@ -198,7 +216,7 @@ export class FluxConfigurationsImpl implements FluxConfigurations {
     ): Promise<FluxConfigurationsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -231,9 +249,9 @@ export class FluxConfigurationsImpl implements FluxConfigurations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         clusterRp,
         clusterResourceName,
@@ -242,12 +260,15 @@ export class FluxConfigurationsImpl implements FluxConfigurations {
         fluxConfiguration,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      FluxConfigurationsCreateOrUpdateResponse,
+      OperationState<FluxConfigurationsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -307,8 +328,8 @@ export class FluxConfigurationsImpl implements FluxConfigurations {
     fluxConfigurationPatch: FluxConfigurationPatch,
     options?: FluxConfigurationsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<FluxConfigurationsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<FluxConfigurationsUpdateResponse>,
       FluxConfigurationsUpdateResponse
     >
   > {
@@ -318,7 +339,7 @@ export class FluxConfigurationsImpl implements FluxConfigurations {
     ): Promise<FluxConfigurationsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -351,9 +372,9 @@ export class FluxConfigurationsImpl implements FluxConfigurations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         clusterRp,
         clusterResourceName,
@@ -362,12 +383,15 @@ export class FluxConfigurationsImpl implements FluxConfigurations {
         fluxConfigurationPatch,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      FluxConfigurationsUpdateResponse,
+      OperationState<FluxConfigurationsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -425,14 +449,14 @@ export class FluxConfigurationsImpl implements FluxConfigurations {
     clusterName: string,
     fluxConfigurationName: string,
     options?: FluxConfigurationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -465,9 +489,9 @@ export class FluxConfigurationsImpl implements FluxConfigurations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         clusterRp,
         clusterResourceName,
@@ -475,12 +499,12 @@ export class FluxConfigurationsImpl implements FluxConfigurations {
         fluxConfigurationName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -739,7 +763,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -1,0 +1,50 @@
+{
+  "name": "@azure-samples/keyvault-admin-ts-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Key Vault Administration client library samples for TypeScript (Beta)",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/keyvault/keyvault-admin"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic",
+    "keyvault",
+    "backup",
+    "restore",
+    "access",
+    "role"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-admin",
+  "dependencies": {
+    "@azure/keyvault-admin": "next",
+    "dotenv": "latest",
+    "@azure/identity": "^2.0.1",
+    "uuid": "^8.3.0",
+    "@azure/keyvault-keys": "^4.2.1"
+  },
+  "devDependencies": {
+    "@types/uuid": "^8.0.0",
+    "@types/node": "^14.0.0",
+    "typescript": "~5.0.0",
+    "rimraf": "latest"
+  }
+}

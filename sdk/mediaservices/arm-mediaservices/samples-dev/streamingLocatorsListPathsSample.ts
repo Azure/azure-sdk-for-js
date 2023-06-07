@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to List Paths supported by this Streaming Locator
  *
  * @summary List Paths supported by this Streaming Locator
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/streaming-locators-list-paths-streaming-and-download.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/streaming-locators-list-paths-streaming-and-download.json
  */
 async function listPathsWhichHasStreamingPathsAndDownloadPaths() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contoso";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const streamingLocatorName = "clearStreamingLocator";
   const credential = new DefaultAzureCredential();
@@ -32,17 +38,18 @@ async function listPathsWhichHasStreamingPathsAndDownloadPaths() {
   console.log(result);
 }
 
-listPathsWhichHasStreamingPathsAndDownloadPaths().catch(console.error);
-
 /**
  * This sample demonstrates how to List Paths supported by this Streaming Locator
  *
  * @summary List Paths supported by this Streaming Locator
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/streaming-locators-list-paths-streaming-only.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/streaming-locators-list-paths-streaming-only.json
  */
 async function listPathsWhichHasStreamingPathsOnly() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contoso";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const streamingLocatorName = "secureStreamingLocator";
   const credential = new DefaultAzureCredential();
@@ -55,4 +62,9 @@ async function listPathsWhichHasStreamingPathsOnly() {
   console.log(result);
 }
 
-listPathsWhichHasStreamingPathsOnly().catch(console.error);
+async function main() {
+  listPathsWhichHasStreamingPathsAndDownloadPaths();
+  listPathsWhichHasStreamingPathsOnly();
+}
+
+main().catch(console.error);

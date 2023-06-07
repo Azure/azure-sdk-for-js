@@ -12,6 +12,6 @@
   "license": "ISC",
   "dependencies": {
     "@azure/service-bus": "^1.1.10",
-    "dotenv": "^8.2.0"
+    "dotenv": "^16.0.0"
   }
 }

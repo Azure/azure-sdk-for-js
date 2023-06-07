@@ -95,9 +95,10 @@ export interface AppServiceCertificateOrdersValidatePurchaseInformationMediaType
   contentType?: "application/json";
 }
 
-export type AppServiceCertificateOrdersValidatePurchaseInformationParameters = AppServiceCertificateOrdersValidatePurchaseInformationMediaTypesParam &
-  AppServiceCertificateOrdersValidatePurchaseInformationBodyParam &
-  RequestParameters;
+export type AppServiceCertificateOrdersValidatePurchaseInformationParameters =
+  AppServiceCertificateOrdersValidatePurchaseInformationMediaTypesParam &
+    AppServiceCertificateOrdersValidatePurchaseInformationBodyParam &
+    RequestParameters;
 export type AppServiceCertificateOrdersListByResourceGroupParameters = RequestParameters;
 export type AppServiceCertificateOrdersGetParameters = RequestParameters;
 
@@ -111,9 +112,10 @@ export interface AppServiceCertificateOrdersCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type AppServiceCertificateOrdersCreateOrUpdateParameters = AppServiceCertificateOrdersCreateOrUpdateMediaTypesParam &
-  AppServiceCertificateOrdersCreateOrUpdateBodyParam &
-  RequestParameters;
+export type AppServiceCertificateOrdersCreateOrUpdateParameters =
+  AppServiceCertificateOrdersCreateOrUpdateMediaTypesParam &
+    AppServiceCertificateOrdersCreateOrUpdateBodyParam &
+    RequestParameters;
 export type AppServiceCertificateOrdersDeleteParameters = RequestParameters;
 
 export interface AppServiceCertificateOrdersUpdateBodyParam {
@@ -126,9 +128,10 @@ export interface AppServiceCertificateOrdersUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type AppServiceCertificateOrdersUpdateParameters = AppServiceCertificateOrdersUpdateMediaTypesParam &
-  AppServiceCertificateOrdersUpdateBodyParam &
-  RequestParameters;
+export type AppServiceCertificateOrdersUpdateParameters =
+  AppServiceCertificateOrdersUpdateMediaTypesParam &
+    AppServiceCertificateOrdersUpdateBodyParam &
+    RequestParameters;
 export type AppServiceCertificateOrdersListCertificatesParameters = RequestParameters;
 export type AppServiceCertificateOrdersGetCertificateParameters = RequestParameters;
 
@@ -142,9 +145,10 @@ export interface AppServiceCertificateOrdersCreateOrUpdateCertificateMediaTypesP
   contentType?: "application/json";
 }
 
-export type AppServiceCertificateOrdersCreateOrUpdateCertificateParameters = AppServiceCertificateOrdersCreateOrUpdateCertificateMediaTypesParam &
-  AppServiceCertificateOrdersCreateOrUpdateCertificateBodyParam &
-  RequestParameters;
+export type AppServiceCertificateOrdersCreateOrUpdateCertificateParameters =
+  AppServiceCertificateOrdersCreateOrUpdateCertificateMediaTypesParam &
+    AppServiceCertificateOrdersCreateOrUpdateCertificateBodyParam &
+    RequestParameters;
 export type AppServiceCertificateOrdersDeleteCertificateParameters = RequestParameters;
 
 export interface AppServiceCertificateOrdersUpdateCertificateBodyParam {
@@ -157,9 +161,10 @@ export interface AppServiceCertificateOrdersUpdateCertificateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type AppServiceCertificateOrdersUpdateCertificateParameters = AppServiceCertificateOrdersUpdateCertificateMediaTypesParam &
-  AppServiceCertificateOrdersUpdateCertificateBodyParam &
-  RequestParameters;
+export type AppServiceCertificateOrdersUpdateCertificateParameters =
+  AppServiceCertificateOrdersUpdateCertificateMediaTypesParam &
+    AppServiceCertificateOrdersUpdateCertificateBodyParam &
+    RequestParameters;
 
 export interface AppServiceCertificateOrdersReissueBodyParam {
   /** Parameters for the reissue. */
@@ -171,9 +176,10 @@ export interface AppServiceCertificateOrdersReissueMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type AppServiceCertificateOrdersReissueParameters = AppServiceCertificateOrdersReissueMediaTypesParam &
-  AppServiceCertificateOrdersReissueBodyParam &
-  RequestParameters;
+export type AppServiceCertificateOrdersReissueParameters =
+  AppServiceCertificateOrdersReissueMediaTypesParam &
+    AppServiceCertificateOrdersReissueBodyParam &
+    RequestParameters;
 
 export interface AppServiceCertificateOrdersRenewBodyParam {
   /** Renew parameters */
@@ -185,9 +191,10 @@ export interface AppServiceCertificateOrdersRenewMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type AppServiceCertificateOrdersRenewParameters = AppServiceCertificateOrdersRenewMediaTypesParam &
-  AppServiceCertificateOrdersRenewBodyParam &
-  RequestParameters;
+export type AppServiceCertificateOrdersRenewParameters =
+  AppServiceCertificateOrdersRenewMediaTypesParam &
+    AppServiceCertificateOrdersRenewBodyParam &
+    RequestParameters;
 export type AppServiceCertificateOrdersResendEmailParameters = RequestParameters;
 
 export interface AppServiceCertificateOrdersResendRequestEmailsBodyParam {
@@ -200,9 +207,10 @@ export interface AppServiceCertificateOrdersResendRequestEmailsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type AppServiceCertificateOrdersResendRequestEmailsParameters = AppServiceCertificateOrdersResendRequestEmailsMediaTypesParam &
-  AppServiceCertificateOrdersResendRequestEmailsBodyParam &
-  RequestParameters;
+export type AppServiceCertificateOrdersResendRequestEmailsParameters =
+  AppServiceCertificateOrdersResendRequestEmailsMediaTypesParam &
+    AppServiceCertificateOrdersResendRequestEmailsBodyParam &
+    RequestParameters;
 
 export interface AppServiceCertificateOrdersRetrieveSiteSealBodyParam {
   /** Site seal request. */
@@ -214,13 +222,16 @@ export interface AppServiceCertificateOrdersRetrieveSiteSealMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type AppServiceCertificateOrdersRetrieveSiteSealParameters = AppServiceCertificateOrdersRetrieveSiteSealMediaTypesParam &
-  AppServiceCertificateOrdersRetrieveSiteSealBodyParam &
-  RequestParameters;
+export type AppServiceCertificateOrdersRetrieveSiteSealParameters =
+  AppServiceCertificateOrdersRetrieveSiteSealMediaTypesParam &
+    AppServiceCertificateOrdersRetrieveSiteSealBodyParam &
+    RequestParameters;
 export type AppServiceCertificateOrdersVerifyDomainOwnershipParameters = RequestParameters;
 export type AppServiceCertificateOrdersRetrieveCertificateActionsParameters = RequestParameters;
-export type AppServiceCertificateOrdersRetrieveCertificateEmailHistoryParameters = RequestParameters;
-export type CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseParameters = RequestParameters;
+export type AppServiceCertificateOrdersRetrieveCertificateEmailHistoryParameters =
+  RequestParameters;
+export type CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseParameters =
+  RequestParameters;
 
 export interface CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseQueryParamProperties {
   /** The start time for detector response. */
@@ -235,8 +246,9 @@ export interface CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetect
   queryParameters?: CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseQueryParamProperties;
 }
 
-export type CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseParameters = CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseQueryParam &
-  RequestParameters;
+export type CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseParameters =
+  CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseQueryParam &
+    RequestParameters;
 export type CertificateRegistrationProviderListOperationsParameters = RequestParameters;
 
 export interface DomainsCheckAvailabilityBodyParam {
@@ -322,9 +334,10 @@ export interface DomainsCreateOrUpdateOwnershipIdentifierMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type DomainsCreateOrUpdateOwnershipIdentifierParameters = DomainsCreateOrUpdateOwnershipIdentifierMediaTypesParam &
-  DomainsCreateOrUpdateOwnershipIdentifierBodyParam &
-  RequestParameters;
+export type DomainsCreateOrUpdateOwnershipIdentifierParameters =
+  DomainsCreateOrUpdateOwnershipIdentifierMediaTypesParam &
+    DomainsCreateOrUpdateOwnershipIdentifierBodyParam &
+    RequestParameters;
 export type DomainsDeleteOwnershipIdentifierParameters = RequestParameters;
 
 export interface DomainsUpdateOwnershipIdentifierBodyParam {
@@ -337,9 +350,10 @@ export interface DomainsUpdateOwnershipIdentifierMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type DomainsUpdateOwnershipIdentifierParameters = DomainsUpdateOwnershipIdentifierMediaTypesParam &
-  DomainsUpdateOwnershipIdentifierBodyParam &
-  RequestParameters;
+export type DomainsUpdateOwnershipIdentifierParameters =
+  DomainsUpdateOwnershipIdentifierMediaTypesParam &
+    DomainsUpdateOwnershipIdentifierBodyParam &
+    RequestParameters;
 export type DomainsRenewParameters = RequestParameters;
 export type DomainsTransferOutParameters = RequestParameters;
 export type TopLevelDomainsListParameters = RequestParameters;
@@ -373,9 +387,10 @@ export interface AppServiceEnvironmentsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type AppServiceEnvironmentsCreateOrUpdateParameters = AppServiceEnvironmentsCreateOrUpdateMediaTypesParam &
-  AppServiceEnvironmentsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type AppServiceEnvironmentsCreateOrUpdateParameters =
+  AppServiceEnvironmentsCreateOrUpdateMediaTypesParam &
+    AppServiceEnvironmentsCreateOrUpdateBodyParam &
+    RequestParameters;
 
 export interface AppServiceEnvironmentsDeleteQueryParamProperties {
   /** Specify <code>true</code> to force the deletion even if the App Service Environment contains resources. The default is <code>false</code>. */
@@ -415,9 +430,10 @@ export interface AppServiceEnvironmentsChangeVnetMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type AppServiceEnvironmentsChangeVnetParameters = AppServiceEnvironmentsChangeVnetMediaTypesParam &
-  AppServiceEnvironmentsChangeVnetBodyParam &
-  RequestParameters;
+export type AppServiceEnvironmentsChangeVnetParameters =
+  AppServiceEnvironmentsChangeVnetMediaTypesParam &
+    AppServiceEnvironmentsChangeVnetBodyParam &
+    RequestParameters;
 export type AppServiceEnvironmentsGetAseV3NetworkingConfigurationParameters = RequestParameters;
 
 export interface AppServiceEnvironmentsUpdateAseNetworkingConfigurationBodyParam {
@@ -429,12 +445,14 @@ export interface AppServiceEnvironmentsUpdateAseNetworkingConfigurationMediaType
   contentType?: "application/json";
 }
 
-export type AppServiceEnvironmentsUpdateAseNetworkingConfigurationParameters = AppServiceEnvironmentsUpdateAseNetworkingConfigurationMediaTypesParam &
-  AppServiceEnvironmentsUpdateAseNetworkingConfigurationBodyParam &
-  RequestParameters;
+export type AppServiceEnvironmentsUpdateAseNetworkingConfigurationParameters =
+  AppServiceEnvironmentsUpdateAseNetworkingConfigurationMediaTypesParam &
+    AppServiceEnvironmentsUpdateAseNetworkingConfigurationBodyParam &
+    RequestParameters;
 export type AppServiceEnvironmentsListDiagnosticsParameters = RequestParameters;
 export type AppServiceEnvironmentsGetDiagnosticsItemParameters = RequestParameters;
-export type AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsParameters = RequestParameters;
+export type AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsParameters =
+  RequestParameters;
 export type AppServiceEnvironmentsListMultiRolePoolsParameters = RequestParameters;
 export type AppServiceEnvironmentsGetMultiRolePoolParameters = RequestParameters;
 
@@ -448,9 +466,10 @@ export interface AppServiceEnvironmentsCreateOrUpdateMultiRolePoolMediaTypesPara
   contentType?: "application/json";
 }
 
-export type AppServiceEnvironmentsCreateOrUpdateMultiRolePoolParameters = AppServiceEnvironmentsCreateOrUpdateMultiRolePoolMediaTypesParam &
-  AppServiceEnvironmentsCreateOrUpdateMultiRolePoolBodyParam &
-  RequestParameters;
+export type AppServiceEnvironmentsCreateOrUpdateMultiRolePoolParameters =
+  AppServiceEnvironmentsCreateOrUpdateMultiRolePoolMediaTypesParam &
+    AppServiceEnvironmentsCreateOrUpdateMultiRolePoolBodyParam &
+    RequestParameters;
 
 export interface AppServiceEnvironmentsUpdateMultiRolePoolBodyParam {
   /** Properties of the multi-role pool. */
@@ -462,15 +481,18 @@ export interface AppServiceEnvironmentsUpdateMultiRolePoolMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type AppServiceEnvironmentsUpdateMultiRolePoolParameters = AppServiceEnvironmentsUpdateMultiRolePoolMediaTypesParam &
-  AppServiceEnvironmentsUpdateMultiRolePoolBodyParam &
+export type AppServiceEnvironmentsUpdateMultiRolePoolParameters =
+  AppServiceEnvironmentsUpdateMultiRolePoolMediaTypesParam &
+    AppServiceEnvironmentsUpdateMultiRolePoolBodyParam &
+    RequestParameters;
+export type AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsParameters =
   RequestParameters;
-export type AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsParameters = RequestParameters;
 export type AppServiceEnvironmentsListMultiRoleMetricDefinitionsParameters = RequestParameters;
 export type AppServiceEnvironmentsListMultiRolePoolSkusParameters = RequestParameters;
 export type AppServiceEnvironmentsListMultiRoleUsagesParameters = RequestParameters;
 export type AppServiceEnvironmentsListOperationsParameters = RequestParameters;
-export type AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsParameters = RequestParameters;
+export type AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsParameters =
+  RequestParameters;
 export type AppServiceEnvironmentsGetPrivateEndpointConnectionListParameters = RequestParameters;
 export type AppServiceEnvironmentsGetPrivateEndpointConnectionParameters = RequestParameters;
 
@@ -483,9 +505,10 @@ export interface AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionM
   contentType?: "application/json";
 }
 
-export type AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionParameters = AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionMediaTypesParam &
-  AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionBodyParam &
-  RequestParameters;
+export type AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionParameters =
+  AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionMediaTypesParam &
+    AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionBodyParam &
+    RequestParameters;
 export type AppServiceEnvironmentsDeletePrivateEndpointConnectionParameters = RequestParameters;
 export type AppServiceEnvironmentsGetPrivateLinkResourcesParameters = RequestParameters;
 export type AppServiceEnvironmentsRebootParameters = RequestParameters;
@@ -501,8 +524,8 @@ export interface AppServiceEnvironmentsListWebAppsQueryParam {
   queryParameters?: AppServiceEnvironmentsListWebAppsQueryParamProperties;
 }
 
-export type AppServiceEnvironmentsListWebAppsParameters = AppServiceEnvironmentsListWebAppsQueryParam &
-  RequestParameters;
+export type AppServiceEnvironmentsListWebAppsParameters =
+  AppServiceEnvironmentsListWebAppsQueryParam & RequestParameters;
 export type AppServiceEnvironmentsSuspendParameters = RequestParameters;
 
 export interface AppServiceEnvironmentsListUsagesQueryParamProperties {
@@ -514,8 +537,8 @@ export interface AppServiceEnvironmentsListUsagesQueryParam {
   queryParameters?: AppServiceEnvironmentsListUsagesQueryParamProperties;
 }
 
-export type AppServiceEnvironmentsListUsagesParameters = AppServiceEnvironmentsListUsagesQueryParam &
-  RequestParameters;
+export type AppServiceEnvironmentsListUsagesParameters =
+  AppServiceEnvironmentsListUsagesQueryParam & RequestParameters;
 export type AppServiceEnvironmentsListWorkerPoolsParameters = RequestParameters;
 export type AppServiceEnvironmentsGetWorkerPoolParameters = RequestParameters;
 
@@ -529,9 +552,10 @@ export interface AppServiceEnvironmentsCreateOrUpdateWorkerPoolMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type AppServiceEnvironmentsCreateOrUpdateWorkerPoolParameters = AppServiceEnvironmentsCreateOrUpdateWorkerPoolMediaTypesParam &
-  AppServiceEnvironmentsCreateOrUpdateWorkerPoolBodyParam &
-  RequestParameters;
+export type AppServiceEnvironmentsCreateOrUpdateWorkerPoolParameters =
+  AppServiceEnvironmentsCreateOrUpdateWorkerPoolMediaTypesParam &
+    AppServiceEnvironmentsCreateOrUpdateWorkerPoolBodyParam &
+    RequestParameters;
 
 export interface AppServiceEnvironmentsUpdateWorkerPoolBodyParam {
   /** Properties of the worker pool. */
@@ -543,10 +567,12 @@ export interface AppServiceEnvironmentsUpdateWorkerPoolMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type AppServiceEnvironmentsUpdateWorkerPoolParameters = AppServiceEnvironmentsUpdateWorkerPoolMediaTypesParam &
-  AppServiceEnvironmentsUpdateWorkerPoolBodyParam &
+export type AppServiceEnvironmentsUpdateWorkerPoolParameters =
+  AppServiceEnvironmentsUpdateWorkerPoolMediaTypesParam &
+    AppServiceEnvironmentsUpdateWorkerPoolBodyParam &
+    RequestParameters;
+export type AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitionsParameters =
   RequestParameters;
-export type AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitionsParameters = RequestParameters;
 export type AppServiceEnvironmentsListWebWorkerMetricDefinitionsParameters = RequestParameters;
 export type AppServiceEnvironmentsListWorkerPoolSkusParameters = RequestParameters;
 export type AppServiceEnvironmentsListWebWorkerUsagesParameters = RequestParameters;
@@ -657,9 +683,10 @@ export interface AppServicePlansUpdateVnetGatewayMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type AppServicePlansUpdateVnetGatewayParameters = AppServicePlansUpdateVnetGatewayMediaTypesParam &
-  AppServicePlansUpdateVnetGatewayBodyParam &
-  RequestParameters;
+export type AppServicePlansUpdateVnetGatewayParameters =
+  AppServicePlansUpdateVnetGatewayMediaTypesParam &
+    AppServicePlansUpdateVnetGatewayBodyParam &
+    RequestParameters;
 export type AppServicePlansListRoutesForVnetParameters = RequestParameters;
 export type AppServicePlansGetRouteForVnetParameters = RequestParameters;
 
@@ -673,9 +700,10 @@ export interface AppServicePlansCreateOrUpdateVnetRouteMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type AppServicePlansCreateOrUpdateVnetRouteParameters = AppServicePlansCreateOrUpdateVnetRouteMediaTypesParam &
-  AppServicePlansCreateOrUpdateVnetRouteBodyParam &
-  RequestParameters;
+export type AppServicePlansCreateOrUpdateVnetRouteParameters =
+  AppServicePlansCreateOrUpdateVnetRouteMediaTypesParam &
+    AppServicePlansCreateOrUpdateVnetRouteBodyParam &
+    RequestParameters;
 export type AppServicePlansDeleteVnetRouteParameters = RequestParameters;
 
 export interface AppServicePlansUpdateVnetRouteBodyParam {
@@ -688,9 +716,10 @@ export interface AppServicePlansUpdateVnetRouteMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type AppServicePlansUpdateVnetRouteParameters = AppServicePlansUpdateVnetRouteMediaTypesParam &
-  AppServicePlansUpdateVnetRouteBodyParam &
-  RequestParameters;
+export type AppServicePlansUpdateVnetRouteParameters =
+  AppServicePlansUpdateVnetRouteMediaTypesParam &
+    AppServicePlansUpdateVnetRouteBodyParam &
+    RequestParameters;
 export type AppServicePlansRebootWorkerParameters = RequestParameters;
 
 export interface CertificatesListQueryParamProperties {
@@ -775,8 +804,8 @@ export interface DiagnosticsGetHostingEnvironmentDetectorResponseQueryParam {
   queryParameters?: DiagnosticsGetHostingEnvironmentDetectorResponseQueryParamProperties;
 }
 
-export type DiagnosticsGetHostingEnvironmentDetectorResponseParameters = DiagnosticsGetHostingEnvironmentDetectorResponseQueryParam &
-  RequestParameters;
+export type DiagnosticsGetHostingEnvironmentDetectorResponseParameters =
+  DiagnosticsGetHostingEnvironmentDetectorResponseQueryParam & RequestParameters;
 export type DiagnosticsListSiteDetectorResponsesParameters = RequestParameters;
 
 export interface DiagnosticsGetSiteDetectorResponseQueryParamProperties {
@@ -792,8 +821,8 @@ export interface DiagnosticsGetSiteDetectorResponseQueryParam {
   queryParameters?: DiagnosticsGetSiteDetectorResponseQueryParamProperties;
 }
 
-export type DiagnosticsGetSiteDetectorResponseParameters = DiagnosticsGetSiteDetectorResponseQueryParam &
-  RequestParameters;
+export type DiagnosticsGetSiteDetectorResponseParameters =
+  DiagnosticsGetSiteDetectorResponseQueryParam & RequestParameters;
 export type DiagnosticsListSiteDiagnosticCategoriesParameters = RequestParameters;
 export type DiagnosticsGetSiteDiagnosticCategoryParameters = RequestParameters;
 export type DiagnosticsListSiteAnalysesParameters = RequestParameters;
@@ -847,8 +876,8 @@ export interface DiagnosticsGetSiteDetectorResponseSlotQueryParam {
   queryParameters?: DiagnosticsGetSiteDetectorResponseSlotQueryParamProperties;
 }
 
-export type DiagnosticsGetSiteDetectorResponseSlotParameters = DiagnosticsGetSiteDetectorResponseSlotQueryParam &
-  RequestParameters;
+export type DiagnosticsGetSiteDetectorResponseSlotParameters =
+  DiagnosticsGetSiteDetectorResponseSlotQueryParam & RequestParameters;
 export type DiagnosticsListSiteDiagnosticCategoriesSlotParameters = RequestParameters;
 export type DiagnosticsGetSiteDiagnosticCategorySlotParameters = RequestParameters;
 export type DiagnosticsListSiteAnalysesSlotParameters = RequestParameters;
@@ -867,8 +896,8 @@ export interface DiagnosticsExecuteSiteAnalysisSlotQueryParam {
   queryParameters?: DiagnosticsExecuteSiteAnalysisSlotQueryParamProperties;
 }
 
-export type DiagnosticsExecuteSiteAnalysisSlotParameters = DiagnosticsExecuteSiteAnalysisSlotQueryParam &
-  RequestParameters;
+export type DiagnosticsExecuteSiteAnalysisSlotParameters =
+  DiagnosticsExecuteSiteAnalysisSlotQueryParam & RequestParameters;
 export type DiagnosticsListSiteDetectorsSlotParameters = RequestParameters;
 export type DiagnosticsGetSiteDetectorSlotParameters = RequestParameters;
 
@@ -885,8 +914,8 @@ export interface DiagnosticsExecuteSiteDetectorSlotQueryParam {
   queryParameters?: DiagnosticsExecuteSiteDetectorSlotQueryParamProperties;
 }
 
-export type DiagnosticsExecuteSiteDetectorSlotParameters = DiagnosticsExecuteSiteDetectorSlotQueryParam &
-  RequestParameters;
+export type DiagnosticsExecuteSiteDetectorSlotParameters =
+  DiagnosticsExecuteSiteDetectorSlotQueryParam & RequestParameters;
 export type GlobalGetDeletedWebAppParameters = RequestParameters;
 export type GlobalGetDeletedWebAppSnapshotsParameters = RequestParameters;
 export type GlobalGetSubscriptionOperationWithAsyncResponseParameters = RequestParameters;
@@ -904,9 +933,10 @@ export interface KubeEnvironmentsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type KubeEnvironmentsCreateOrUpdateParameters = KubeEnvironmentsCreateOrUpdateMediaTypesParam &
-  KubeEnvironmentsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type KubeEnvironmentsCreateOrUpdateParameters =
+  KubeEnvironmentsCreateOrUpdateMediaTypesParam &
+    KubeEnvironmentsCreateOrUpdateBodyParam &
+    RequestParameters;
 export type KubeEnvironmentsDeleteParameters = RequestParameters;
 
 export interface KubeEnvironmentsUpdateBodyParam {
@@ -955,8 +985,8 @@ export interface ProviderGetFunctionAppStacksForLocationQueryParam {
   queryParameters?: ProviderGetFunctionAppStacksForLocationQueryParamProperties;
 }
 
-export type ProviderGetFunctionAppStacksForLocationParameters = ProviderGetFunctionAppStacksForLocationQueryParam &
-  RequestParameters;
+export type ProviderGetFunctionAppStacksForLocationParameters =
+  ProviderGetFunctionAppStacksForLocationQueryParam & RequestParameters;
 
 export interface ProviderGetWebAppStacksForLocationQueryParamProperties {
   /** Stack OS Type */
@@ -967,8 +997,8 @@ export interface ProviderGetWebAppStacksForLocationQueryParam {
   queryParameters?: ProviderGetWebAppStacksForLocationQueryParamProperties;
 }
 
-export type ProviderGetWebAppStacksForLocationParameters = ProviderGetWebAppStacksForLocationQueryParam &
-  RequestParameters;
+export type ProviderGetWebAppStacksForLocationParameters =
+  ProviderGetWebAppStacksForLocationQueryParam & RequestParameters;
 export type ProviderListOperationsParameters = RequestParameters;
 
 export interface ProviderGetWebAppStacksQueryParamProperties {
@@ -991,8 +1021,8 @@ export interface ProviderGetAvailableStacksOnPremQueryParam {
   queryParameters?: ProviderGetAvailableStacksOnPremQueryParamProperties;
 }
 
-export type ProviderGetAvailableStacksOnPremParameters = ProviderGetAvailableStacksOnPremQueryParam &
-  RequestParameters;
+export type ProviderGetAvailableStacksOnPremParameters =
+  ProviderGetAvailableStacksOnPremQueryParam & RequestParameters;
 
 export interface RecommendationsListQueryParamProperties {
   /** Specify <code>true</code> to return only the most critical recommendations. The default is <code>false</code>, which returns all recommendations. */
@@ -1020,8 +1050,8 @@ export interface RecommendationsListHistoryForHostingEnvironmentQueryParam {
   queryParameters?: RecommendationsListHistoryForHostingEnvironmentQueryParamProperties;
 }
 
-export type RecommendationsListHistoryForHostingEnvironmentParameters = RecommendationsListHistoryForHostingEnvironmentQueryParam &
-  RequestParameters;
+export type RecommendationsListHistoryForHostingEnvironmentParameters =
+  RecommendationsListHistoryForHostingEnvironmentQueryParam & RequestParameters;
 
 export interface RecommendationsListRecommendedRulesForHostingEnvironmentQueryParamProperties {
   /** Specify <code>true</code> to return only the most critical recommendations. The default is <code>false</code>, which returns all recommendations. */
@@ -1034,8 +1064,8 @@ export interface RecommendationsListRecommendedRulesForHostingEnvironmentQueryPa
   queryParameters?: RecommendationsListRecommendedRulesForHostingEnvironmentQueryParamProperties;
 }
 
-export type RecommendationsListRecommendedRulesForHostingEnvironmentParameters = RecommendationsListRecommendedRulesForHostingEnvironmentQueryParam &
-  RequestParameters;
+export type RecommendationsListRecommendedRulesForHostingEnvironmentParameters =
+  RecommendationsListRecommendedRulesForHostingEnvironmentQueryParam & RequestParameters;
 
 export interface RecommendationsDisableAllForHostingEnvironmentQueryParamProperties {
   /** Name of the app. */
@@ -1046,8 +1076,8 @@ export interface RecommendationsDisableAllForHostingEnvironmentQueryParam {
   queryParameters: RecommendationsDisableAllForHostingEnvironmentQueryParamProperties;
 }
 
-export type RecommendationsDisableAllForHostingEnvironmentParameters = RecommendationsDisableAllForHostingEnvironmentQueryParam &
-  RequestParameters;
+export type RecommendationsDisableAllForHostingEnvironmentParameters =
+  RecommendationsDisableAllForHostingEnvironmentQueryParam & RequestParameters;
 
 export interface RecommendationsResetAllFiltersForHostingEnvironmentQueryParamProperties {
   /** Name of the app. */
@@ -1058,8 +1088,8 @@ export interface RecommendationsResetAllFiltersForHostingEnvironmentQueryParam {
   queryParameters: RecommendationsResetAllFiltersForHostingEnvironmentQueryParamProperties;
 }
 
-export type RecommendationsResetAllFiltersForHostingEnvironmentParameters = RecommendationsResetAllFiltersForHostingEnvironmentQueryParam &
-  RequestParameters;
+export type RecommendationsResetAllFiltersForHostingEnvironmentParameters =
+  RecommendationsResetAllFiltersForHostingEnvironmentQueryParam & RequestParameters;
 
 export interface RecommendationsGetRuleDetailsByHostingEnvironmentQueryParamProperties {
   /** Specify <code>true</code> to update the last-seen timestamp of the recommendation object. */
@@ -1072,8 +1102,8 @@ export interface RecommendationsGetRuleDetailsByHostingEnvironmentQueryParam {
   queryParameters?: RecommendationsGetRuleDetailsByHostingEnvironmentQueryParamProperties;
 }
 
-export type RecommendationsGetRuleDetailsByHostingEnvironmentParameters = RecommendationsGetRuleDetailsByHostingEnvironmentQueryParam &
-  RequestParameters;
+export type RecommendationsGetRuleDetailsByHostingEnvironmentParameters =
+  RecommendationsGetRuleDetailsByHostingEnvironmentQueryParam & RequestParameters;
 
 export interface RecommendationsDisableRecommendationForHostingEnvironmentQueryParamProperties {
   /** Site name */
@@ -1084,8 +1114,8 @@ export interface RecommendationsDisableRecommendationForHostingEnvironmentQueryP
   queryParameters: RecommendationsDisableRecommendationForHostingEnvironmentQueryParamProperties;
 }
 
-export type RecommendationsDisableRecommendationForHostingEnvironmentParameters = RecommendationsDisableRecommendationForHostingEnvironmentQueryParam &
-  RequestParameters;
+export type RecommendationsDisableRecommendationForHostingEnvironmentParameters =
+  RecommendationsDisableRecommendationForHostingEnvironmentQueryParam & RequestParameters;
 
 export interface RecommendationsListHistoryForWebAppQueryParamProperties {
   /** Specify <code>false</code> to return all recommendations. The default is <code>true</code>, which returns only expired recommendations. */
@@ -1098,8 +1128,8 @@ export interface RecommendationsListHistoryForWebAppQueryParam {
   queryParameters?: RecommendationsListHistoryForWebAppQueryParamProperties;
 }
 
-export type RecommendationsListHistoryForWebAppParameters = RecommendationsListHistoryForWebAppQueryParam &
-  RequestParameters;
+export type RecommendationsListHistoryForWebAppParameters =
+  RecommendationsListHistoryForWebAppQueryParam & RequestParameters;
 
 export interface RecommendationsListRecommendedRulesForWebAppQueryParamProperties {
   /** Specify <code>true</code> to return only the most critical recommendations. The default is <code>false</code>, which returns all recommendations. */
@@ -1112,8 +1142,8 @@ export interface RecommendationsListRecommendedRulesForWebAppQueryParam {
   queryParameters?: RecommendationsListRecommendedRulesForWebAppQueryParamProperties;
 }
 
-export type RecommendationsListRecommendedRulesForWebAppParameters = RecommendationsListRecommendedRulesForWebAppQueryParam &
-  RequestParameters;
+export type RecommendationsListRecommendedRulesForWebAppParameters =
+  RecommendationsListRecommendedRulesForWebAppQueryParam & RequestParameters;
 export type RecommendationsDisableAllForWebAppParameters = RequestParameters;
 export type RecommendationsResetAllFiltersForWebAppParameters = RequestParameters;
 
@@ -1128,8 +1158,8 @@ export interface RecommendationsGetRuleDetailsByWebAppQueryParam {
   queryParameters?: RecommendationsGetRuleDetailsByWebAppQueryParamProperties;
 }
 
-export type RecommendationsGetRuleDetailsByWebAppParameters = RecommendationsGetRuleDetailsByWebAppQueryParam &
-  RequestParameters;
+export type RecommendationsGetRuleDetailsByWebAppParameters =
+  RecommendationsGetRuleDetailsByWebAppQueryParam & RequestParameters;
 export type RecommendationsDisableRecommendationForSiteParameters = RequestParameters;
 export type ResourceHealthMetadataListParameters = RequestParameters;
 export type ResourceHealthMetadataListByResourceGroupParameters = RequestParameters;
@@ -1238,9 +1268,10 @@ export interface ListSiteIdentifiersAssignedToHostNameMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ListSiteIdentifiersAssignedToHostNameParameters = ListSiteIdentifiersAssignedToHostNameMediaTypesParam &
-  ListSiteIdentifiersAssignedToHostNameBodyParam &
-  RequestParameters;
+export type ListSiteIdentifiersAssignedToHostNameParameters =
+  ListSiteIdentifiersAssignedToHostNameMediaTypesParam &
+    ListSiteIdentifiersAssignedToHostNameBodyParam &
+    RequestParameters;
 export type ListPremierAddOnOffersParameters = RequestParameters;
 export type ListSkusParameters = RequestParameters;
 
@@ -1323,9 +1354,10 @@ export interface StaticSitesCreateOrUpdateStaticSiteMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type StaticSitesCreateOrUpdateStaticSiteParameters = StaticSitesCreateOrUpdateStaticSiteMediaTypesParam &
-  StaticSitesCreateOrUpdateStaticSiteBodyParam &
-  RequestParameters;
+export type StaticSitesCreateOrUpdateStaticSiteParameters =
+  StaticSitesCreateOrUpdateStaticSiteMediaTypesParam &
+    StaticSitesCreateOrUpdateStaticSiteBodyParam &
+    RequestParameters;
 export type StaticSitesDeleteStaticSiteParameters = RequestParameters;
 
 export interface StaticSitesUpdateStaticSiteBodyParam {
@@ -1354,9 +1386,10 @@ export interface StaticSitesUpdateStaticSiteUserMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type StaticSitesUpdateStaticSiteUserParameters = StaticSitesUpdateStaticSiteUserMediaTypesParam &
-  StaticSitesUpdateStaticSiteUserBodyParam &
-  RequestParameters;
+export type StaticSitesUpdateStaticSiteUserParameters =
+  StaticSitesUpdateStaticSiteUserMediaTypesParam &
+    StaticSitesUpdateStaticSiteUserBodyParam &
+    RequestParameters;
 export type StaticSitesGetStaticSiteBuildsParameters = RequestParameters;
 export type StaticSitesGetStaticSiteBuildParameters = RequestParameters;
 export type StaticSitesDeleteStaticSiteBuildParameters = RequestParameters;
@@ -1371,9 +1404,10 @@ export interface StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsMediaTypesPa
   contentType?: "application/json";
 }
 
-export type StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsParameters = StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsMediaTypesParam &
-  StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsBodyParam &
-  RequestParameters;
+export type StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsParameters =
+  StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsMediaTypesParam &
+    StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsBodyParam &
+    RequestParameters;
 
 export interface StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsBodyParam {
   /** The dictionary containing the static site function app settings to update. */
@@ -1385,9 +1419,10 @@ export interface StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsMedi
   contentType?: "application/json";
 }
 
-export type StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsParameters = StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsMediaTypesParam &
-  StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsBodyParam &
-  RequestParameters;
+export type StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsParameters =
+  StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsMediaTypesParam &
+    StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsBodyParam &
+    RequestParameters;
 export type StaticSitesListStaticSiteBuildFunctionsParameters = RequestParameters;
 export type StaticSitesListStaticSiteBuildAppSettingsParameters = RequestParameters;
 export type StaticSitesListStaticSiteBuildFunctionAppSettingsParameters = RequestParameters;
@@ -1413,11 +1448,13 @@ export interface StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildMe
   contentType?: "application/json";
 }
 
-export type StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildParameters = StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildQueryParam &
-  StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildMediaTypesParam &
-  StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildBodyParam &
+export type StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildParameters =
+  StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildQueryParam &
+    StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildMediaTypesParam &
+    StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildBodyParam &
+    RequestParameters;
+export type StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuildParameters =
   RequestParameters;
-export type StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuildParameters = RequestParameters;
 
 export interface StaticSitesCreateZipDeploymentForStaticSiteBuildBodyParam {
   /** A JSON representation of the StaticSiteZipDeployment properties. See example. */
@@ -1429,9 +1466,10 @@ export interface StaticSitesCreateZipDeploymentForStaticSiteBuildMediaTypesParam
   contentType?: "application/json";
 }
 
-export type StaticSitesCreateZipDeploymentForStaticSiteBuildParameters = StaticSitesCreateZipDeploymentForStaticSiteBuildMediaTypesParam &
-  StaticSitesCreateZipDeploymentForStaticSiteBuildBodyParam &
-  RequestParameters;
+export type StaticSitesCreateZipDeploymentForStaticSiteBuildParameters =
+  StaticSitesCreateZipDeploymentForStaticSiteBuildMediaTypesParam &
+    StaticSitesCreateZipDeploymentForStaticSiteBuildBodyParam &
+    RequestParameters;
 
 export interface StaticSitesCreateOrUpdateStaticSiteAppSettingsBodyParam {
   /** The dictionary containing the static site app settings to update. */
@@ -1443,9 +1481,10 @@ export interface StaticSitesCreateOrUpdateStaticSiteAppSettingsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type StaticSitesCreateOrUpdateStaticSiteAppSettingsParameters = StaticSitesCreateOrUpdateStaticSiteAppSettingsMediaTypesParam &
-  StaticSitesCreateOrUpdateStaticSiteAppSettingsBodyParam &
-  RequestParameters;
+export type StaticSitesCreateOrUpdateStaticSiteAppSettingsParameters =
+  StaticSitesCreateOrUpdateStaticSiteAppSettingsMediaTypesParam &
+    StaticSitesCreateOrUpdateStaticSiteAppSettingsBodyParam &
+    RequestParameters;
 
 export interface StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsBodyParam {
   /** The dictionary containing the static site function app settings to update. */
@@ -1457,9 +1496,10 @@ export interface StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsMediaType
   contentType?: "application/json";
 }
 
-export type StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsParameters = StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsMediaTypesParam &
-  StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsBodyParam &
-  RequestParameters;
+export type StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsParameters =
+  StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsMediaTypesParam &
+    StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsBodyParam &
+    RequestParameters;
 
 export interface StaticSitesCreateUserRolesInvitationLinkBodyParam {
   body: StaticSiteUserInvitationRequestResource;
@@ -1470,9 +1510,10 @@ export interface StaticSitesCreateUserRolesInvitationLinkMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type StaticSitesCreateUserRolesInvitationLinkParameters = StaticSitesCreateUserRolesInvitationLinkMediaTypesParam &
-  StaticSitesCreateUserRolesInvitationLinkBodyParam &
-  RequestParameters;
+export type StaticSitesCreateUserRolesInvitationLinkParameters =
+  StaticSitesCreateUserRolesInvitationLinkMediaTypesParam &
+    StaticSitesCreateUserRolesInvitationLinkBodyParam &
+    RequestParameters;
 export type StaticSitesListStaticSiteCustomDomainsParameters = RequestParameters;
 export type StaticSitesGetStaticSiteCustomDomainParameters = RequestParameters;
 
@@ -1486,9 +1527,10 @@ export interface StaticSitesCreateOrUpdateStaticSiteCustomDomainMediaTypesParam 
   contentType?: "application/json";
 }
 
-export type StaticSitesCreateOrUpdateStaticSiteCustomDomainParameters = StaticSitesCreateOrUpdateStaticSiteCustomDomainMediaTypesParam &
-  StaticSitesCreateOrUpdateStaticSiteCustomDomainBodyParam &
-  RequestParameters;
+export type StaticSitesCreateOrUpdateStaticSiteCustomDomainParameters =
+  StaticSitesCreateOrUpdateStaticSiteCustomDomainMediaTypesParam &
+    StaticSitesCreateOrUpdateStaticSiteCustomDomainBodyParam &
+    RequestParameters;
 export type StaticSitesDeleteStaticSiteCustomDomainParameters = RequestParameters;
 
 export interface StaticSitesValidateCustomDomainCanBeAddedToStaticSiteBodyParam {
@@ -1501,9 +1543,10 @@ export interface StaticSitesValidateCustomDomainCanBeAddedToStaticSiteMediaTypes
   contentType?: "application/json";
 }
 
-export type StaticSitesValidateCustomDomainCanBeAddedToStaticSiteParameters = StaticSitesValidateCustomDomainCanBeAddedToStaticSiteMediaTypesParam &
-  StaticSitesValidateCustomDomainCanBeAddedToStaticSiteBodyParam &
-  RequestParameters;
+export type StaticSitesValidateCustomDomainCanBeAddedToStaticSiteParameters =
+  StaticSitesValidateCustomDomainCanBeAddedToStaticSiteMediaTypesParam &
+    StaticSitesValidateCustomDomainCanBeAddedToStaticSiteBodyParam &
+    RequestParameters;
 export type StaticSitesDetachStaticSiteParameters = RequestParameters;
 export type StaticSitesListStaticSiteFunctionsParameters = RequestParameters;
 export type StaticSitesListStaticSiteAppSettingsParameters = RequestParameters;
@@ -1523,9 +1566,10 @@ export interface StaticSitesApproveOrRejectPrivateEndpointConnectionMediaTypesPa
   contentType?: "application/json";
 }
 
-export type StaticSitesApproveOrRejectPrivateEndpointConnectionParameters = StaticSitesApproveOrRejectPrivateEndpointConnectionMediaTypesParam &
-  StaticSitesApproveOrRejectPrivateEndpointConnectionBodyParam &
-  RequestParameters;
+export type StaticSitesApproveOrRejectPrivateEndpointConnectionParameters =
+  StaticSitesApproveOrRejectPrivateEndpointConnectionMediaTypesParam &
+    StaticSitesApproveOrRejectPrivateEndpointConnectionBodyParam &
+    RequestParameters;
 export type StaticSitesDeletePrivateEndpointConnectionParameters = RequestParameters;
 export type StaticSitesGetPrivateLinkResourcesParameters = RequestParameters;
 
@@ -1538,9 +1582,10 @@ export interface StaticSitesResetStaticSiteApiKeyMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type StaticSitesResetStaticSiteApiKeyParameters = StaticSitesResetStaticSiteApiKeyMediaTypesParam &
-  StaticSitesResetStaticSiteApiKeyBodyParam &
-  RequestParameters;
+export type StaticSitesResetStaticSiteApiKeyParameters =
+  StaticSitesResetStaticSiteApiKeyMediaTypesParam &
+    StaticSitesResetStaticSiteApiKeyBodyParam &
+    RequestParameters;
 export type StaticSitesGetUserProvidedFunctionAppsForStaticSiteParameters = RequestParameters;
 export type StaticSitesGetUserProvidedFunctionAppForStaticSiteParameters = RequestParameters;
 
@@ -1563,10 +1608,11 @@ export interface StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteMediaTy
   contentType?: "application/json";
 }
 
-export type StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteParameters = StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteQueryParam &
-  StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteMediaTypesParam &
-  StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBodyParam &
-  RequestParameters;
+export type StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteParameters =
+  StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteQueryParam &
+    StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteMediaTypesParam &
+    StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBodyParam &
+    RequestParameters;
 export type StaticSitesDetachUserProvidedFunctionAppFromStaticSiteParameters = RequestParameters;
 
 export interface StaticSitesCreateZipDeploymentForStaticSiteBodyParam {
@@ -1579,9 +1625,10 @@ export interface StaticSitesCreateZipDeploymentForStaticSiteMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type StaticSitesCreateZipDeploymentForStaticSiteParameters = StaticSitesCreateZipDeploymentForStaticSiteMediaTypesParam &
-  StaticSitesCreateZipDeploymentForStaticSiteBodyParam &
-  RequestParameters;
+export type StaticSitesCreateZipDeploymentForStaticSiteParameters =
+  StaticSitesCreateZipDeploymentForStaticSiteMediaTypesParam &
+    StaticSitesCreateZipDeploymentForStaticSiteBodyParam &
+    RequestParameters;
 export type WebAppsListParameters = RequestParameters;
 
 export interface WebAppsListByResourceGroupQueryParamProperties {
@@ -1660,9 +1707,10 @@ export interface WebAppsApplySlotConfigToProductionMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsApplySlotConfigToProductionParameters = WebAppsApplySlotConfigToProductionMediaTypesParam &
-  WebAppsApplySlotConfigToProductionBodyParam &
-  RequestParameters;
+export type WebAppsApplySlotConfigToProductionParameters =
+  WebAppsApplySlotConfigToProductionMediaTypesParam &
+    WebAppsApplySlotConfigToProductionBodyParam &
+    RequestParameters;
 
 export interface WebAppsBackupBodyParam {
   /** Backup configuration. You can use the JSON response from the POST action as input here. */
@@ -1691,9 +1739,10 @@ export interface WebAppsListBackupStatusSecretsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsListBackupStatusSecretsParameters = WebAppsListBackupStatusSecretsMediaTypesParam &
-  WebAppsListBackupStatusSecretsBodyParam &
-  RequestParameters;
+export type WebAppsListBackupStatusSecretsParameters =
+  WebAppsListBackupStatusSecretsMediaTypesParam &
+    WebAppsListBackupStatusSecretsBodyParam &
+    RequestParameters;
 
 export interface WebAppsRestoreBodyParam {
   /** Information on restore request . */
@@ -1749,9 +1798,10 @@ export interface WebAppsUpdateApplicationSettingsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsUpdateApplicationSettingsParameters = WebAppsUpdateApplicationSettingsMediaTypesParam &
-  WebAppsUpdateApplicationSettingsBodyParam &
-  RequestParameters;
+export type WebAppsUpdateApplicationSettingsParameters =
+  WebAppsUpdateApplicationSettingsMediaTypesParam &
+    WebAppsUpdateApplicationSettingsBodyParam &
+    RequestParameters;
 export type WebAppsListApplicationSettingsParameters = RequestParameters;
 
 export interface WebAppsUpdateAuthSettingsBodyParam {
@@ -1795,9 +1845,10 @@ export interface WebAppsUpdateAzureStorageAccountsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsUpdateAzureStorageAccountsParameters = WebAppsUpdateAzureStorageAccountsMediaTypesParam &
-  WebAppsUpdateAzureStorageAccountsBodyParam &
-  RequestParameters;
+export type WebAppsUpdateAzureStorageAccountsParameters =
+  WebAppsUpdateAzureStorageAccountsMediaTypesParam &
+    WebAppsUpdateAzureStorageAccountsBodyParam &
+    RequestParameters;
 export type WebAppsListAzureStorageAccountsParameters = RequestParameters;
 
 export interface WebAppsUpdateBackupConfigurationBodyParam {
@@ -1810,9 +1861,10 @@ export interface WebAppsUpdateBackupConfigurationMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsUpdateBackupConfigurationParameters = WebAppsUpdateBackupConfigurationMediaTypesParam &
-  WebAppsUpdateBackupConfigurationBodyParam &
-  RequestParameters;
+export type WebAppsUpdateBackupConfigurationParameters =
+  WebAppsUpdateBackupConfigurationMediaTypesParam &
+    WebAppsUpdateBackupConfigurationBodyParam &
+    RequestParameters;
 export type WebAppsDeleteBackupConfigurationParameters = RequestParameters;
 export type WebAppsGetBackupConfigurationParameters = RequestParameters;
 export type WebAppsGetAppSettingsKeyVaultReferencesParameters = RequestParameters;
@@ -1830,9 +1882,10 @@ export interface WebAppsUpdateConnectionStringsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsUpdateConnectionStringsParameters = WebAppsUpdateConnectionStringsMediaTypesParam &
-  WebAppsUpdateConnectionStringsBodyParam &
-  RequestParameters;
+export type WebAppsUpdateConnectionStringsParameters =
+  WebAppsUpdateConnectionStringsMediaTypesParam &
+    WebAppsUpdateConnectionStringsBodyParam &
+    RequestParameters;
 export type WebAppsListConnectionStringsParameters = RequestParameters;
 export type WebAppsGetDiagnosticLogsConfigurationParameters = RequestParameters;
 
@@ -1846,9 +1899,10 @@ export interface WebAppsUpdateDiagnosticLogsConfigMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsUpdateDiagnosticLogsConfigParameters = WebAppsUpdateDiagnosticLogsConfigMediaTypesParam &
-  WebAppsUpdateDiagnosticLogsConfigBodyParam &
-  RequestParameters;
+export type WebAppsUpdateDiagnosticLogsConfigParameters =
+  WebAppsUpdateDiagnosticLogsConfigMediaTypesParam &
+    WebAppsUpdateDiagnosticLogsConfigBodyParam &
+    RequestParameters;
 
 export interface WebAppsUpdateMetadataBodyParam {
   /** Edited metadata of the app or deployment slot. See example. */
@@ -1892,9 +1946,10 @@ export interface WebAppsUpdateSlotConfigurationNamesMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsUpdateSlotConfigurationNamesParameters = WebAppsUpdateSlotConfigurationNamesMediaTypesParam &
-  WebAppsUpdateSlotConfigurationNamesBodyParam &
-  RequestParameters;
+export type WebAppsUpdateSlotConfigurationNamesParameters =
+  WebAppsUpdateSlotConfigurationNamesMediaTypesParam &
+    WebAppsUpdateSlotConfigurationNamesBodyParam &
+    RequestParameters;
 export type WebAppsGetConfigurationParameters = RequestParameters;
 
 export interface WebAppsCreateOrUpdateConfigurationBodyParam {
@@ -1907,9 +1962,10 @@ export interface WebAppsCreateOrUpdateConfigurationMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsCreateOrUpdateConfigurationParameters = WebAppsCreateOrUpdateConfigurationMediaTypesParam &
-  WebAppsCreateOrUpdateConfigurationBodyParam &
-  RequestParameters;
+export type WebAppsCreateOrUpdateConfigurationParameters =
+  WebAppsCreateOrUpdateConfigurationMediaTypesParam &
+    WebAppsCreateOrUpdateConfigurationBodyParam &
+    RequestParameters;
 
 export interface WebAppsUpdateConfigurationBodyParam {
   /** JSON representation of a SiteConfig object. See example. */
@@ -1979,9 +2035,10 @@ export interface WebAppsCreateOrUpdateDomainOwnershipIdentifierMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsCreateOrUpdateDomainOwnershipIdentifierParameters = WebAppsCreateOrUpdateDomainOwnershipIdentifierMediaTypesParam &
-  WebAppsCreateOrUpdateDomainOwnershipIdentifierBodyParam &
-  RequestParameters;
+export type WebAppsCreateOrUpdateDomainOwnershipIdentifierParameters =
+  WebAppsCreateOrUpdateDomainOwnershipIdentifierMediaTypesParam &
+    WebAppsCreateOrUpdateDomainOwnershipIdentifierBodyParam &
+    RequestParameters;
 export type WebAppsDeleteDomainOwnershipIdentifierParameters = RequestParameters;
 
 export interface WebAppsUpdateDomainOwnershipIdentifierBodyParam {
@@ -1994,9 +2051,10 @@ export interface WebAppsUpdateDomainOwnershipIdentifierMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsUpdateDomainOwnershipIdentifierParameters = WebAppsUpdateDomainOwnershipIdentifierMediaTypesParam &
-  WebAppsUpdateDomainOwnershipIdentifierBodyParam &
-  RequestParameters;
+export type WebAppsUpdateDomainOwnershipIdentifierParameters =
+  WebAppsUpdateDomainOwnershipIdentifierMediaTypesParam &
+    WebAppsUpdateDomainOwnershipIdentifierBodyParam &
+    RequestParameters;
 export type WebAppsGetMSDeployStatusParameters = RequestParameters;
 
 export interface WebAppsCreateMSDeployOperationBodyParam {
@@ -2009,9 +2067,10 @@ export interface WebAppsCreateMSDeployOperationMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsCreateMSDeployOperationParameters = WebAppsCreateMSDeployOperationMediaTypesParam &
-  WebAppsCreateMSDeployOperationBodyParam &
-  RequestParameters;
+export type WebAppsCreateMSDeployOperationParameters =
+  WebAppsCreateMSDeployOperationMediaTypesParam &
+    WebAppsCreateMSDeployOperationBodyParam &
+    RequestParameters;
 export type WebAppsGetMSDeployLogParameters = RequestParameters;
 export type WebAppsGetOneDeployStatusParameters = RequestParameters;
 export type WebAppsCreateOneDeployOperationParameters = RequestParameters;
@@ -2044,9 +2103,10 @@ export interface WebAppsCreateOrUpdateFunctionSecretMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsCreateOrUpdateFunctionSecretParameters = WebAppsCreateOrUpdateFunctionSecretMediaTypesParam &
-  WebAppsCreateOrUpdateFunctionSecretBodyParam &
-  RequestParameters;
+export type WebAppsCreateOrUpdateFunctionSecretParameters =
+  WebAppsCreateOrUpdateFunctionSecretMediaTypesParam &
+    WebAppsCreateOrUpdateFunctionSecretBodyParam &
+    RequestParameters;
 export type WebAppsDeleteFunctionSecretParameters = RequestParameters;
 export type WebAppsListFunctionKeysParameters = RequestParameters;
 export type WebAppsListFunctionSecretsParameters = RequestParameters;
@@ -2064,9 +2124,10 @@ export interface WebAppsCreateOrUpdateHostSecretMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsCreateOrUpdateHostSecretParameters = WebAppsCreateOrUpdateHostSecretMediaTypesParam &
-  WebAppsCreateOrUpdateHostSecretBodyParam &
-  RequestParameters;
+export type WebAppsCreateOrUpdateHostSecretParameters =
+  WebAppsCreateOrUpdateHostSecretMediaTypesParam &
+    WebAppsCreateOrUpdateHostSecretBodyParam &
+    RequestParameters;
 export type WebAppsDeleteHostSecretParameters = RequestParameters;
 export type WebAppsListHostNameBindingsParameters = RequestParameters;
 export type WebAppsGetHostNameBindingParameters = RequestParameters;
@@ -2081,9 +2142,10 @@ export interface WebAppsCreateOrUpdateHostNameBindingMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsCreateOrUpdateHostNameBindingParameters = WebAppsCreateOrUpdateHostNameBindingMediaTypesParam &
-  WebAppsCreateOrUpdateHostNameBindingBodyParam &
-  RequestParameters;
+export type WebAppsCreateOrUpdateHostNameBindingParameters =
+  WebAppsCreateOrUpdateHostNameBindingMediaTypesParam &
+    WebAppsCreateOrUpdateHostNameBindingBodyParam &
+    RequestParameters;
 export type WebAppsDeleteHostNameBindingParameters = RequestParameters;
 export type WebAppsGetHybridConnectionParameters = RequestParameters;
 
@@ -2097,9 +2159,10 @@ export interface WebAppsCreateOrUpdateHybridConnectionMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsCreateOrUpdateHybridConnectionParameters = WebAppsCreateOrUpdateHybridConnectionMediaTypesParam &
-  WebAppsCreateOrUpdateHybridConnectionBodyParam &
-  RequestParameters;
+export type WebAppsCreateOrUpdateHybridConnectionParameters =
+  WebAppsCreateOrUpdateHybridConnectionMediaTypesParam &
+    WebAppsCreateOrUpdateHybridConnectionBodyParam &
+    RequestParameters;
 export type WebAppsDeleteHybridConnectionParameters = RequestParameters;
 
 export interface WebAppsUpdateHybridConnectionBodyParam {
@@ -2129,9 +2192,10 @@ export interface WebAppsCreateOrUpdateRelayServiceConnectionMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsCreateOrUpdateRelayServiceConnectionParameters = WebAppsCreateOrUpdateRelayServiceConnectionMediaTypesParam &
-  WebAppsCreateOrUpdateRelayServiceConnectionBodyParam &
-  RequestParameters;
+export type WebAppsCreateOrUpdateRelayServiceConnectionParameters =
+  WebAppsCreateOrUpdateRelayServiceConnectionMediaTypesParam &
+    WebAppsCreateOrUpdateRelayServiceConnectionBodyParam &
+    RequestParameters;
 export type WebAppsDeleteRelayServiceConnectionParameters = RequestParameters;
 
 export interface WebAppsUpdateRelayServiceConnectionBodyParam {
@@ -2144,9 +2208,10 @@ export interface WebAppsUpdateRelayServiceConnectionMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsUpdateRelayServiceConnectionParameters = WebAppsUpdateRelayServiceConnectionMediaTypesParam &
-  WebAppsUpdateRelayServiceConnectionBodyParam &
-  RequestParameters;
+export type WebAppsUpdateRelayServiceConnectionParameters =
+  WebAppsUpdateRelayServiceConnectionMediaTypesParam &
+    WebAppsUpdateRelayServiceConnectionBodyParam &
+    RequestParameters;
 export type WebAppsListInstanceIdentifiersParameters = RequestParameters;
 export type WebAppsGetInstanceInfoParameters = RequestParameters;
 export type WebAppsGetInstanceMsDeployStatusParameters = RequestParameters;
@@ -2161,9 +2226,10 @@ export interface WebAppsCreateInstanceMSDeployOperationMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsCreateInstanceMSDeployOperationParameters = WebAppsCreateInstanceMSDeployOperationMediaTypesParam &
-  WebAppsCreateInstanceMSDeployOperationBodyParam &
-  RequestParameters;
+export type WebAppsCreateInstanceMSDeployOperationParameters =
+  WebAppsCreateInstanceMSDeployOperationMediaTypesParam &
+    WebAppsCreateInstanceMSDeployOperationBodyParam &
+    RequestParameters;
 export type WebAppsGetInstanceMSDeployLogParameters = RequestParameters;
 export type WebAppsListInstanceProcessesParameters = RequestParameters;
 export type WebAppsGetInstanceProcessParameters = RequestParameters;
@@ -2226,9 +2292,10 @@ export interface WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckMedi
   contentType?: "application/json";
 }
 
-export type WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckParameters = WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckMediaTypesParam &
-  WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckBodyParam &
-  RequestParameters;
+export type WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckParameters =
+  WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckMediaTypesParam &
+    WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckBodyParam &
+    RequestParameters;
 export type WebAppsDeleteSwiftVirtualNetworkParameters = RequestParameters;
 
 export interface WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckBodyParam {
@@ -2241,9 +2308,10 @@ export interface WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckMediaTypesPa
   contentType?: "application/json";
 }
 
-export type WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckParameters = WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckMediaTypesParam &
-  WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckBodyParam &
-  RequestParameters;
+export type WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckParameters =
+  WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckMediaTypesParam &
+    WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckBodyParam &
+    RequestParameters;
 export type WebAppsListNetworkFeaturesParameters = RequestParameters;
 export type WebAppsGetNetworkTraceOperationParameters = RequestParameters;
 
@@ -2276,8 +2344,8 @@ export interface WebAppsStartWebSiteNetworkTraceOperationQueryParam {
   queryParameters?: WebAppsStartWebSiteNetworkTraceOperationQueryParamProperties;
 }
 
-export type WebAppsStartWebSiteNetworkTraceOperationParameters = WebAppsStartWebSiteNetworkTraceOperationQueryParam &
-  RequestParameters;
+export type WebAppsStartWebSiteNetworkTraceOperationParameters =
+  WebAppsStartWebSiteNetworkTraceOperationQueryParam & RequestParameters;
 export type WebAppsStopWebSiteNetworkTraceParameters = RequestParameters;
 export type WebAppsGetNetworkTracesParameters = RequestParameters;
 export type WebAppsGetNetworkTraceOperationV2Parameters = RequestParameters;
@@ -2354,9 +2422,10 @@ export interface WebAppsApproveOrRejectPrivateEndpointConnectionMediaTypesParam 
   contentType?: "application/json";
 }
 
-export type WebAppsApproveOrRejectPrivateEndpointConnectionParameters = WebAppsApproveOrRejectPrivateEndpointConnectionMediaTypesParam &
-  WebAppsApproveOrRejectPrivateEndpointConnectionBodyParam &
-  RequestParameters;
+export type WebAppsApproveOrRejectPrivateEndpointConnectionParameters =
+  WebAppsApproveOrRejectPrivateEndpointConnectionMediaTypesParam &
+    WebAppsApproveOrRejectPrivateEndpointConnectionBodyParam &
+    RequestParameters;
 export type WebAppsDeletePrivateEndpointConnectionParameters = RequestParameters;
 export type WebAppsGetPrivateLinkResourcesParameters = RequestParameters;
 export type WebAppsListProcessesParameters = RequestParameters;
@@ -2379,9 +2448,10 @@ export interface WebAppsCreateOrUpdatePublicCertificateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsCreateOrUpdatePublicCertificateParameters = WebAppsCreateOrUpdatePublicCertificateMediaTypesParam &
-  WebAppsCreateOrUpdatePublicCertificateBodyParam &
-  RequestParameters;
+export type WebAppsCreateOrUpdatePublicCertificateParameters =
+  WebAppsCreateOrUpdatePublicCertificateMediaTypesParam &
+    WebAppsCreateOrUpdatePublicCertificateBodyParam &
+    RequestParameters;
 export type WebAppsDeletePublicCertificateParameters = RequestParameters;
 
 export interface WebAppsListPublishingProfileXmlWithSecretsBodyParam {
@@ -2394,9 +2464,10 @@ export interface WebAppsListPublishingProfileXmlWithSecretsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsListPublishingProfileXmlWithSecretsParameters = WebAppsListPublishingProfileXmlWithSecretsMediaTypesParam &
-  WebAppsListPublishingProfileXmlWithSecretsBodyParam &
-  RequestParameters;
+export type WebAppsListPublishingProfileXmlWithSecretsParameters =
+  WebAppsListPublishingProfileXmlWithSecretsMediaTypesParam &
+    WebAppsListPublishingProfileXmlWithSecretsBodyParam &
+    RequestParameters;
 export type WebAppsResetProductionSlotConfigParameters = RequestParameters;
 
 export interface WebAppsRestartQueryParamProperties {
@@ -2510,8 +2581,8 @@ export interface WebAppsAnalyzeCustomHostnameSlotQueryParam {
   queryParameters?: WebAppsAnalyzeCustomHostnameSlotQueryParamProperties;
 }
 
-export type WebAppsAnalyzeCustomHostnameSlotParameters = WebAppsAnalyzeCustomHostnameSlotQueryParam &
-  RequestParameters;
+export type WebAppsAnalyzeCustomHostnameSlotParameters =
+  WebAppsAnalyzeCustomHostnameSlotQueryParam & RequestParameters;
 
 export interface WebAppsApplySlotConfigurationSlotBodyParam {
   /** JSON object that contains the target slot name. See example. */
@@ -2523,9 +2594,10 @@ export interface WebAppsApplySlotConfigurationSlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsApplySlotConfigurationSlotParameters = WebAppsApplySlotConfigurationSlotMediaTypesParam &
-  WebAppsApplySlotConfigurationSlotBodyParam &
-  RequestParameters;
+export type WebAppsApplySlotConfigurationSlotParameters =
+  WebAppsApplySlotConfigurationSlotMediaTypesParam &
+    WebAppsApplySlotConfigurationSlotBodyParam &
+    RequestParameters;
 
 export interface WebAppsBackupSlotBodyParam {
   /** Backup configuration. You can use the JSON response from the POST action as input here. */
@@ -2554,9 +2626,10 @@ export interface WebAppsListBackupStatusSecretsSlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsListBackupStatusSecretsSlotParameters = WebAppsListBackupStatusSecretsSlotMediaTypesParam &
-  WebAppsListBackupStatusSecretsSlotBodyParam &
-  RequestParameters;
+export type WebAppsListBackupStatusSecretsSlotParameters =
+  WebAppsListBackupStatusSecretsSlotMediaTypesParam &
+    WebAppsListBackupStatusSecretsSlotBodyParam &
+    RequestParameters;
 
 export interface WebAppsRestoreSlotBodyParam {
   /** Information on restore request . */
@@ -2612,9 +2685,10 @@ export interface WebAppsUpdateApplicationSettingsSlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsUpdateApplicationSettingsSlotParameters = WebAppsUpdateApplicationSettingsSlotMediaTypesParam &
-  WebAppsUpdateApplicationSettingsSlotBodyParam &
-  RequestParameters;
+export type WebAppsUpdateApplicationSettingsSlotParameters =
+  WebAppsUpdateApplicationSettingsSlotMediaTypesParam &
+    WebAppsUpdateApplicationSettingsSlotBodyParam &
+    RequestParameters;
 export type WebAppsListApplicationSettingsSlotParameters = RequestParameters;
 
 export interface WebAppsUpdateAuthSettingsSlotBodyParam {
@@ -2643,9 +2717,10 @@ export interface WebAppsUpdateAuthSettingsV2SlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsUpdateAuthSettingsV2SlotParameters = WebAppsUpdateAuthSettingsV2SlotMediaTypesParam &
-  WebAppsUpdateAuthSettingsV2SlotBodyParam &
-  RequestParameters;
+export type WebAppsUpdateAuthSettingsV2SlotParameters =
+  WebAppsUpdateAuthSettingsV2SlotMediaTypesParam &
+    WebAppsUpdateAuthSettingsV2SlotBodyParam &
+    RequestParameters;
 export type WebAppsGetAuthSettingsV2SlotParameters = RequestParameters;
 
 export interface WebAppsUpdateAzureStorageAccountsSlotBodyParam {
@@ -2658,9 +2733,10 @@ export interface WebAppsUpdateAzureStorageAccountsSlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsUpdateAzureStorageAccountsSlotParameters = WebAppsUpdateAzureStorageAccountsSlotMediaTypesParam &
-  WebAppsUpdateAzureStorageAccountsSlotBodyParam &
-  RequestParameters;
+export type WebAppsUpdateAzureStorageAccountsSlotParameters =
+  WebAppsUpdateAzureStorageAccountsSlotMediaTypesParam &
+    WebAppsUpdateAzureStorageAccountsSlotBodyParam &
+    RequestParameters;
 export type WebAppsListAzureStorageAccountsSlotParameters = RequestParameters;
 
 export interface WebAppsUpdateBackupConfigurationSlotBodyParam {
@@ -2673,9 +2749,10 @@ export interface WebAppsUpdateBackupConfigurationSlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsUpdateBackupConfigurationSlotParameters = WebAppsUpdateBackupConfigurationSlotMediaTypesParam &
-  WebAppsUpdateBackupConfigurationSlotBodyParam &
-  RequestParameters;
+export type WebAppsUpdateBackupConfigurationSlotParameters =
+  WebAppsUpdateBackupConfigurationSlotMediaTypesParam &
+    WebAppsUpdateBackupConfigurationSlotBodyParam &
+    RequestParameters;
 export type WebAppsDeleteBackupConfigurationSlotParameters = RequestParameters;
 export type WebAppsGetBackupConfigurationSlotParameters = RequestParameters;
 export type WebAppsGetAppSettingsKeyVaultReferencesSlotParameters = RequestParameters;
@@ -2693,9 +2770,10 @@ export interface WebAppsUpdateConnectionStringsSlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsUpdateConnectionStringsSlotParameters = WebAppsUpdateConnectionStringsSlotMediaTypesParam &
-  WebAppsUpdateConnectionStringsSlotBodyParam &
-  RequestParameters;
+export type WebAppsUpdateConnectionStringsSlotParameters =
+  WebAppsUpdateConnectionStringsSlotMediaTypesParam &
+    WebAppsUpdateConnectionStringsSlotBodyParam &
+    RequestParameters;
 export type WebAppsListConnectionStringsSlotParameters = RequestParameters;
 export type WebAppsGetDiagnosticLogsConfigurationSlotParameters = RequestParameters;
 
@@ -2709,9 +2787,10 @@ export interface WebAppsUpdateDiagnosticLogsConfigSlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsUpdateDiagnosticLogsConfigSlotParameters = WebAppsUpdateDiagnosticLogsConfigSlotMediaTypesParam &
-  WebAppsUpdateDiagnosticLogsConfigSlotBodyParam &
-  RequestParameters;
+export type WebAppsUpdateDiagnosticLogsConfigSlotParameters =
+  WebAppsUpdateDiagnosticLogsConfigSlotMediaTypesParam &
+    WebAppsUpdateDiagnosticLogsConfigSlotBodyParam &
+    RequestParameters;
 
 export interface WebAppsUpdateMetadataSlotBodyParam {
   /** Edited metadata of the app or deployment slot. See example. */
@@ -2739,9 +2818,10 @@ export interface WebAppsUpdateSitePushSettingsSlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsUpdateSitePushSettingsSlotParameters = WebAppsUpdateSitePushSettingsSlotMediaTypesParam &
-  WebAppsUpdateSitePushSettingsSlotBodyParam &
-  RequestParameters;
+export type WebAppsUpdateSitePushSettingsSlotParameters =
+  WebAppsUpdateSitePushSettingsSlotMediaTypesParam &
+    WebAppsUpdateSitePushSettingsSlotBodyParam &
+    RequestParameters;
 export type WebAppsListSitePushSettingsSlotParameters = RequestParameters;
 export type WebAppsGetConfigurationSlotParameters = RequestParameters;
 
@@ -2755,9 +2835,10 @@ export interface WebAppsCreateOrUpdateConfigurationSlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsCreateOrUpdateConfigurationSlotParameters = WebAppsCreateOrUpdateConfigurationSlotMediaTypesParam &
-  WebAppsCreateOrUpdateConfigurationSlotBodyParam &
-  RequestParameters;
+export type WebAppsCreateOrUpdateConfigurationSlotParameters =
+  WebAppsCreateOrUpdateConfigurationSlotMediaTypesParam &
+    WebAppsCreateOrUpdateConfigurationSlotBodyParam &
+    RequestParameters;
 
 export interface WebAppsUpdateConfigurationSlotBodyParam {
   /** JSON representation of a SiteConfig object. See example. */
@@ -2769,9 +2850,10 @@ export interface WebAppsUpdateConfigurationSlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsUpdateConfigurationSlotParameters = WebAppsUpdateConfigurationSlotMediaTypesParam &
-  WebAppsUpdateConfigurationSlotBodyParam &
-  RequestParameters;
+export type WebAppsUpdateConfigurationSlotParameters =
+  WebAppsUpdateConfigurationSlotMediaTypesParam &
+    WebAppsUpdateConfigurationSlotBodyParam &
+    RequestParameters;
 export type WebAppsListConfigurationSnapshotInfoSlotParameters = RequestParameters;
 export type WebAppsGetConfigurationSnapshotSlotParameters = RequestParameters;
 export type WebAppsRecoverSiteConfigurationSnapshotSlotParameters = RequestParameters;
@@ -2827,9 +2909,10 @@ export interface WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotMediaTypesPar
   contentType?: "application/json";
 }
 
-export type WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotParameters = WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotMediaTypesParam &
-  WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotBodyParam &
-  RequestParameters;
+export type WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotParameters =
+  WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotMediaTypesParam &
+    WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotBodyParam &
+    RequestParameters;
 export type WebAppsDeleteDomainOwnershipIdentifierSlotParameters = RequestParameters;
 
 export interface WebAppsUpdateDomainOwnershipIdentifierSlotBodyParam {
@@ -2842,9 +2925,10 @@ export interface WebAppsUpdateDomainOwnershipIdentifierSlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsUpdateDomainOwnershipIdentifierSlotParameters = WebAppsUpdateDomainOwnershipIdentifierSlotMediaTypesParam &
-  WebAppsUpdateDomainOwnershipIdentifierSlotBodyParam &
-  RequestParameters;
+export type WebAppsUpdateDomainOwnershipIdentifierSlotParameters =
+  WebAppsUpdateDomainOwnershipIdentifierSlotMediaTypesParam &
+    WebAppsUpdateDomainOwnershipIdentifierSlotBodyParam &
+    RequestParameters;
 export type WebAppsGetMSDeployStatusSlotParameters = RequestParameters;
 
 export interface WebAppsCreateMSDeployOperationSlotBodyParam {
@@ -2857,9 +2941,10 @@ export interface WebAppsCreateMSDeployOperationSlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsCreateMSDeployOperationSlotParameters = WebAppsCreateMSDeployOperationSlotMediaTypesParam &
-  WebAppsCreateMSDeployOperationSlotBodyParam &
-  RequestParameters;
+export type WebAppsCreateMSDeployOperationSlotParameters =
+  WebAppsCreateMSDeployOperationSlotMediaTypesParam &
+    WebAppsCreateMSDeployOperationSlotBodyParam &
+    RequestParameters;
 export type WebAppsGetMSDeployLogSlotParameters = RequestParameters;
 export type WebAppsListInstanceFunctionsSlotParameters = RequestParameters;
 export type WebAppsGetFunctionsAdminTokenSlotParameters = RequestParameters;
@@ -2875,9 +2960,10 @@ export interface WebAppsCreateInstanceFunctionSlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsCreateInstanceFunctionSlotParameters = WebAppsCreateInstanceFunctionSlotMediaTypesParam &
-  WebAppsCreateInstanceFunctionSlotBodyParam &
-  RequestParameters;
+export type WebAppsCreateInstanceFunctionSlotParameters =
+  WebAppsCreateInstanceFunctionSlotMediaTypesParam &
+    WebAppsCreateInstanceFunctionSlotBodyParam &
+    RequestParameters;
 export type WebAppsDeleteInstanceFunctionSlotParameters = RequestParameters;
 
 export interface WebAppsCreateOrUpdateFunctionSecretSlotBodyParam {
@@ -2890,9 +2976,10 @@ export interface WebAppsCreateOrUpdateFunctionSecretSlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsCreateOrUpdateFunctionSecretSlotParameters = WebAppsCreateOrUpdateFunctionSecretSlotMediaTypesParam &
-  WebAppsCreateOrUpdateFunctionSecretSlotBodyParam &
-  RequestParameters;
+export type WebAppsCreateOrUpdateFunctionSecretSlotParameters =
+  WebAppsCreateOrUpdateFunctionSecretSlotMediaTypesParam &
+    WebAppsCreateOrUpdateFunctionSecretSlotBodyParam &
+    RequestParameters;
 export type WebAppsDeleteFunctionSecretSlotParameters = RequestParameters;
 export type WebAppsListFunctionKeysSlotParameters = RequestParameters;
 export type WebAppsListFunctionSecretsSlotParameters = RequestParameters;
@@ -2910,9 +2997,10 @@ export interface WebAppsCreateOrUpdateHostSecretSlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsCreateOrUpdateHostSecretSlotParameters = WebAppsCreateOrUpdateHostSecretSlotMediaTypesParam &
-  WebAppsCreateOrUpdateHostSecretSlotBodyParam &
-  RequestParameters;
+export type WebAppsCreateOrUpdateHostSecretSlotParameters =
+  WebAppsCreateOrUpdateHostSecretSlotMediaTypesParam &
+    WebAppsCreateOrUpdateHostSecretSlotBodyParam &
+    RequestParameters;
 export type WebAppsDeleteHostSecretSlotParameters = RequestParameters;
 export type WebAppsListHostNameBindingsSlotParameters = RequestParameters;
 export type WebAppsGetHostNameBindingSlotParameters = RequestParameters;
@@ -2927,9 +3015,10 @@ export interface WebAppsCreateOrUpdateHostNameBindingSlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsCreateOrUpdateHostNameBindingSlotParameters = WebAppsCreateOrUpdateHostNameBindingSlotMediaTypesParam &
-  WebAppsCreateOrUpdateHostNameBindingSlotBodyParam &
-  RequestParameters;
+export type WebAppsCreateOrUpdateHostNameBindingSlotParameters =
+  WebAppsCreateOrUpdateHostNameBindingSlotMediaTypesParam &
+    WebAppsCreateOrUpdateHostNameBindingSlotBodyParam &
+    RequestParameters;
 export type WebAppsDeleteHostNameBindingSlotParameters = RequestParameters;
 export type WebAppsGetHybridConnectionSlotParameters = RequestParameters;
 
@@ -2943,9 +3032,10 @@ export interface WebAppsCreateOrUpdateHybridConnectionSlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsCreateOrUpdateHybridConnectionSlotParameters = WebAppsCreateOrUpdateHybridConnectionSlotMediaTypesParam &
-  WebAppsCreateOrUpdateHybridConnectionSlotBodyParam &
-  RequestParameters;
+export type WebAppsCreateOrUpdateHybridConnectionSlotParameters =
+  WebAppsCreateOrUpdateHybridConnectionSlotMediaTypesParam &
+    WebAppsCreateOrUpdateHybridConnectionSlotBodyParam &
+    RequestParameters;
 export type WebAppsDeleteHybridConnectionSlotParameters = RequestParameters;
 
 export interface WebAppsUpdateHybridConnectionSlotBodyParam {
@@ -2958,9 +3048,10 @@ export interface WebAppsUpdateHybridConnectionSlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsUpdateHybridConnectionSlotParameters = WebAppsUpdateHybridConnectionSlotMediaTypesParam &
-  WebAppsUpdateHybridConnectionSlotBodyParam &
-  RequestParameters;
+export type WebAppsUpdateHybridConnectionSlotParameters =
+  WebAppsUpdateHybridConnectionSlotMediaTypesParam &
+    WebAppsUpdateHybridConnectionSlotBodyParam &
+    RequestParameters;
 export type WebAppsListHybridConnectionsSlotParameters = RequestParameters;
 export type WebAppsListRelayServiceConnectionsSlotParameters = RequestParameters;
 export type WebAppsGetRelayServiceConnectionSlotParameters = RequestParameters;
@@ -2975,9 +3066,10 @@ export interface WebAppsCreateOrUpdateRelayServiceConnectionSlotMediaTypesParam 
   contentType?: "application/json";
 }
 
-export type WebAppsCreateOrUpdateRelayServiceConnectionSlotParameters = WebAppsCreateOrUpdateRelayServiceConnectionSlotMediaTypesParam &
-  WebAppsCreateOrUpdateRelayServiceConnectionSlotBodyParam &
-  RequestParameters;
+export type WebAppsCreateOrUpdateRelayServiceConnectionSlotParameters =
+  WebAppsCreateOrUpdateRelayServiceConnectionSlotMediaTypesParam &
+    WebAppsCreateOrUpdateRelayServiceConnectionSlotBodyParam &
+    RequestParameters;
 export type WebAppsDeleteRelayServiceConnectionSlotParameters = RequestParameters;
 
 export interface WebAppsUpdateRelayServiceConnectionSlotBodyParam {
@@ -2990,9 +3082,10 @@ export interface WebAppsUpdateRelayServiceConnectionSlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsUpdateRelayServiceConnectionSlotParameters = WebAppsUpdateRelayServiceConnectionSlotMediaTypesParam &
-  WebAppsUpdateRelayServiceConnectionSlotBodyParam &
-  RequestParameters;
+export type WebAppsUpdateRelayServiceConnectionSlotParameters =
+  WebAppsUpdateRelayServiceConnectionSlotMediaTypesParam &
+    WebAppsUpdateRelayServiceConnectionSlotBodyParam &
+    RequestParameters;
 export type WebAppsListInstanceIdentifiersSlotParameters = RequestParameters;
 export type WebAppsGetInstanceInfoSlotParameters = RequestParameters;
 export type WebAppsGetInstanceMsDeployStatusSlotParameters = RequestParameters;
@@ -3007,9 +3100,10 @@ export interface WebAppsCreateInstanceMSDeployOperationSlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsCreateInstanceMSDeployOperationSlotParameters = WebAppsCreateInstanceMSDeployOperationSlotMediaTypesParam &
-  WebAppsCreateInstanceMSDeployOperationSlotBodyParam &
-  RequestParameters;
+export type WebAppsCreateInstanceMSDeployOperationSlotParameters =
+  WebAppsCreateInstanceMSDeployOperationSlotMediaTypesParam &
+    WebAppsCreateInstanceMSDeployOperationSlotBodyParam &
+    RequestParameters;
 export type WebAppsGetInstanceMSDeployLogSlotParameters = RequestParameters;
 export type WebAppsListInstanceProcessesSlotParameters = RequestParameters;
 export type WebAppsGetInstanceProcessSlotParameters = RequestParameters;
@@ -3034,9 +3128,10 @@ export interface WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlot
   contentType?: "application/json";
 }
 
-export type WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotParameters = WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotMediaTypesParam &
-  WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotBodyParam &
-  RequestParameters;
+export type WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotParameters =
+  WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotMediaTypesParam &
+    WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotBodyParam &
+    RequestParameters;
 export type WebAppsDeleteSwiftVirtualNetworkSlotParameters = RequestParameters;
 
 export interface WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotBodyParam {
@@ -3049,9 +3144,10 @@ export interface WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotMediaTyp
   contentType?: "application/json";
 }
 
-export type WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotParameters = WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotMediaTypesParam &
-  WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotBodyParam &
-  RequestParameters;
+export type WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotParameters =
+  WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotMediaTypesParam &
+    WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotBodyParam &
+    RequestParameters;
 export type WebAppsListNetworkFeaturesSlotParameters = RequestParameters;
 export type WebAppsGetNetworkTraceOperationSlotParameters = RequestParameters;
 
@@ -3068,8 +3164,8 @@ export interface WebAppsStartWebSiteNetworkTraceSlotQueryParam {
   queryParameters?: WebAppsStartWebSiteNetworkTraceSlotQueryParamProperties;
 }
 
-export type WebAppsStartWebSiteNetworkTraceSlotParameters = WebAppsStartWebSiteNetworkTraceSlotQueryParam &
-  RequestParameters;
+export type WebAppsStartWebSiteNetworkTraceSlotParameters =
+  WebAppsStartWebSiteNetworkTraceSlotQueryParam & RequestParameters;
 
 export interface WebAppsStartWebSiteNetworkTraceOperationSlotQueryParamProperties {
   /** The duration to keep capturing in seconds. */
@@ -3084,8 +3180,8 @@ export interface WebAppsStartWebSiteNetworkTraceOperationSlotQueryParam {
   queryParameters?: WebAppsStartWebSiteNetworkTraceOperationSlotQueryParamProperties;
 }
 
-export type WebAppsStartWebSiteNetworkTraceOperationSlotParameters = WebAppsStartWebSiteNetworkTraceOperationSlotQueryParam &
-  RequestParameters;
+export type WebAppsStartWebSiteNetworkTraceOperationSlotParameters =
+  WebAppsStartWebSiteNetworkTraceOperationSlotQueryParam & RequestParameters;
 export type WebAppsStopWebSiteNetworkTraceSlotParameters = RequestParameters;
 export type WebAppsGetNetworkTracesSlotParameters = RequestParameters;
 export type WebAppsGetNetworkTraceOperationSlotV2Parameters = RequestParameters;
@@ -3147,9 +3243,10 @@ export interface WebAppsPutPrivateAccessVnetSlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsPutPrivateAccessVnetSlotParameters = WebAppsPutPrivateAccessVnetSlotMediaTypesParam &
-  WebAppsPutPrivateAccessVnetSlotBodyParam &
-  RequestParameters;
+export type WebAppsPutPrivateAccessVnetSlotParameters =
+  WebAppsPutPrivateAccessVnetSlotMediaTypesParam &
+    WebAppsPutPrivateAccessVnetSlotBodyParam &
+    RequestParameters;
 export type WebAppsGetPrivateEndpointConnectionListSlotParameters = RequestParameters;
 export type WebAppsGetPrivateEndpointConnectionSlotParameters = RequestParameters;
 
@@ -3162,9 +3259,10 @@ export interface WebAppsApproveOrRejectPrivateEndpointConnectionSlotMediaTypesPa
   contentType?: "application/json";
 }
 
-export type WebAppsApproveOrRejectPrivateEndpointConnectionSlotParameters = WebAppsApproveOrRejectPrivateEndpointConnectionSlotMediaTypesParam &
-  WebAppsApproveOrRejectPrivateEndpointConnectionSlotBodyParam &
-  RequestParameters;
+export type WebAppsApproveOrRejectPrivateEndpointConnectionSlotParameters =
+  WebAppsApproveOrRejectPrivateEndpointConnectionSlotMediaTypesParam &
+    WebAppsApproveOrRejectPrivateEndpointConnectionSlotBodyParam &
+    RequestParameters;
 export type WebAppsDeletePrivateEndpointConnectionSlotParameters = RequestParameters;
 export type WebAppsGetPrivateLinkResourcesSlotParameters = RequestParameters;
 export type WebAppsListProcessesSlotParameters = RequestParameters;
@@ -3187,9 +3285,10 @@ export interface WebAppsCreateOrUpdatePublicCertificateSlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsCreateOrUpdatePublicCertificateSlotParameters = WebAppsCreateOrUpdatePublicCertificateSlotMediaTypesParam &
-  WebAppsCreateOrUpdatePublicCertificateSlotBodyParam &
-  RequestParameters;
+export type WebAppsCreateOrUpdatePublicCertificateSlotParameters =
+  WebAppsCreateOrUpdatePublicCertificateSlotMediaTypesParam &
+    WebAppsCreateOrUpdatePublicCertificateSlotBodyParam &
+    RequestParameters;
 export type WebAppsDeletePublicCertificateSlotParameters = RequestParameters;
 
 export interface WebAppsListPublishingProfileXmlWithSecretsSlotBodyParam {
@@ -3202,9 +3301,10 @@ export interface WebAppsListPublishingProfileXmlWithSecretsSlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsListPublishingProfileXmlWithSecretsSlotParameters = WebAppsListPublishingProfileXmlWithSecretsSlotMediaTypesParam &
-  WebAppsListPublishingProfileXmlWithSecretsSlotBodyParam &
-  RequestParameters;
+export type WebAppsListPublishingProfileXmlWithSecretsSlotParameters =
+  WebAppsListPublishingProfileXmlWithSecretsSlotMediaTypesParam &
+    WebAppsListPublishingProfileXmlWithSecretsSlotBodyParam &
+    RequestParameters;
 export type WebAppsResetSlotConfigurationSlotParameters = RequestParameters;
 
 export interface WebAppsRestartSlotQueryParamProperties {
@@ -3230,9 +3330,10 @@ export interface WebAppsRestoreFromBackupBlobSlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsRestoreFromBackupBlobSlotParameters = WebAppsRestoreFromBackupBlobSlotMediaTypesParam &
-  WebAppsRestoreFromBackupBlobSlotBodyParam &
-  RequestParameters;
+export type WebAppsRestoreFromBackupBlobSlotParameters =
+  WebAppsRestoreFromBackupBlobSlotMediaTypesParam &
+    WebAppsRestoreFromBackupBlobSlotBodyParam &
+    RequestParameters;
 
 export interface WebAppsRestoreFromDeletedAppSlotBodyParam {
   /** Deleted web app restore information. */
@@ -3244,9 +3345,10 @@ export interface WebAppsRestoreFromDeletedAppSlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsRestoreFromDeletedAppSlotParameters = WebAppsRestoreFromDeletedAppSlotMediaTypesParam &
-  WebAppsRestoreFromDeletedAppSlotBodyParam &
-  RequestParameters;
+export type WebAppsRestoreFromDeletedAppSlotParameters =
+  WebAppsRestoreFromDeletedAppSlotMediaTypesParam &
+    WebAppsRestoreFromDeletedAppSlotBodyParam &
+    RequestParameters;
 
 export interface WebAppsRestoreSnapshotSlotBodyParam {
   /** Snapshot restore settings. Snapshot information can be obtained by calling GetDeletedSites or GetSiteSnapshots API. */
@@ -3276,9 +3378,10 @@ export interface WebAppsListSlotDifferencesSlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsListSlotDifferencesSlotParameters = WebAppsListSlotDifferencesSlotMediaTypesParam &
-  WebAppsListSlotDifferencesSlotBodyParam &
-  RequestParameters;
+export type WebAppsListSlotDifferencesSlotParameters =
+  WebAppsListSlotDifferencesSlotMediaTypesParam &
+    WebAppsListSlotDifferencesSlotBodyParam &
+    RequestParameters;
 
 export interface WebAppsSwapSlotBodyParam {
   /** JSON object that contains the target slot name. See example. */
@@ -3307,9 +3410,10 @@ export interface WebAppsCreateOrUpdateSourceControlSlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsCreateOrUpdateSourceControlSlotParameters = WebAppsCreateOrUpdateSourceControlSlotMediaTypesParam &
-  WebAppsCreateOrUpdateSourceControlSlotBodyParam &
-  RequestParameters;
+export type WebAppsCreateOrUpdateSourceControlSlotParameters =
+  WebAppsCreateOrUpdateSourceControlSlotMediaTypesParam &
+    WebAppsCreateOrUpdateSourceControlSlotBodyParam &
+    RequestParameters;
 
 export interface WebAppsDeleteSourceControlSlotQueryParamProperties {
   additionalFlags?: string;
@@ -3332,9 +3436,10 @@ export interface WebAppsUpdateSourceControlSlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsUpdateSourceControlSlotParameters = WebAppsUpdateSourceControlSlotMediaTypesParam &
-  WebAppsUpdateSourceControlSlotBodyParam &
-  RequestParameters;
+export type WebAppsUpdateSourceControlSlotParameters =
+  WebAppsUpdateSourceControlSlotMediaTypesParam &
+    WebAppsUpdateSourceControlSlotBodyParam &
+    RequestParameters;
 export type WebAppsStartSlotParameters = RequestParameters;
 
 export interface WebAppsStartNetworkTraceSlotQueryParamProperties {
@@ -3386,9 +3491,10 @@ export interface WebAppsCreateOrUpdateVnetConnectionSlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsCreateOrUpdateVnetConnectionSlotParameters = WebAppsCreateOrUpdateVnetConnectionSlotMediaTypesParam &
-  WebAppsCreateOrUpdateVnetConnectionSlotBodyParam &
-  RequestParameters;
+export type WebAppsCreateOrUpdateVnetConnectionSlotParameters =
+  WebAppsCreateOrUpdateVnetConnectionSlotMediaTypesParam &
+    WebAppsCreateOrUpdateVnetConnectionSlotBodyParam &
+    RequestParameters;
 export type WebAppsDeleteVnetConnectionSlotParameters = RequestParameters;
 
 export interface WebAppsUpdateVnetConnectionSlotBodyParam {
@@ -3401,9 +3507,10 @@ export interface WebAppsUpdateVnetConnectionSlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsUpdateVnetConnectionSlotParameters = WebAppsUpdateVnetConnectionSlotMediaTypesParam &
-  WebAppsUpdateVnetConnectionSlotBodyParam &
-  RequestParameters;
+export type WebAppsUpdateVnetConnectionSlotParameters =
+  WebAppsUpdateVnetConnectionSlotMediaTypesParam &
+    WebAppsUpdateVnetConnectionSlotBodyParam &
+    RequestParameters;
 export type WebAppsGetVnetConnectionGatewaySlotParameters = RequestParameters;
 
 export interface WebAppsCreateOrUpdateVnetConnectionGatewaySlotBodyParam {
@@ -3416,9 +3523,10 @@ export interface WebAppsCreateOrUpdateVnetConnectionGatewaySlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsCreateOrUpdateVnetConnectionGatewaySlotParameters = WebAppsCreateOrUpdateVnetConnectionGatewaySlotMediaTypesParam &
-  WebAppsCreateOrUpdateVnetConnectionGatewaySlotBodyParam &
-  RequestParameters;
+export type WebAppsCreateOrUpdateVnetConnectionGatewaySlotParameters =
+  WebAppsCreateOrUpdateVnetConnectionGatewaySlotMediaTypesParam &
+    WebAppsCreateOrUpdateVnetConnectionGatewaySlotBodyParam &
+    RequestParameters;
 
 export interface WebAppsUpdateVnetConnectionGatewaySlotBodyParam {
   /** The properties to update this gateway with. */
@@ -3430,9 +3538,10 @@ export interface WebAppsUpdateVnetConnectionGatewaySlotMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsUpdateVnetConnectionGatewaySlotParameters = WebAppsUpdateVnetConnectionGatewaySlotMediaTypesParam &
-  WebAppsUpdateVnetConnectionGatewaySlotBodyParam &
-  RequestParameters;
+export type WebAppsUpdateVnetConnectionGatewaySlotParameters =
+  WebAppsUpdateVnetConnectionGatewaySlotMediaTypesParam &
+    WebAppsUpdateVnetConnectionGatewaySlotBodyParam &
+    RequestParameters;
 export type WebAppsListWebJobsSlotParameters = RequestParameters;
 export type WebAppsGetWebJobSlotParameters = RequestParameters;
 
@@ -3446,9 +3555,10 @@ export interface WebAppsListSlotDifferencesFromProductionMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsListSlotDifferencesFromProductionParameters = WebAppsListSlotDifferencesFromProductionMediaTypesParam &
-  WebAppsListSlotDifferencesFromProductionBodyParam &
-  RequestParameters;
+export type WebAppsListSlotDifferencesFromProductionParameters =
+  WebAppsListSlotDifferencesFromProductionMediaTypesParam &
+    WebAppsListSlotDifferencesFromProductionBodyParam &
+    RequestParameters;
 
 export interface WebAppsSwapSlotWithProductionBodyParam {
   /** JSON object that contains the target slot name. See example. */
@@ -3477,9 +3587,10 @@ export interface WebAppsCreateOrUpdateSourceControlMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsCreateOrUpdateSourceControlParameters = WebAppsCreateOrUpdateSourceControlMediaTypesParam &
-  WebAppsCreateOrUpdateSourceControlBodyParam &
-  RequestParameters;
+export type WebAppsCreateOrUpdateSourceControlParameters =
+  WebAppsCreateOrUpdateSourceControlMediaTypesParam &
+    WebAppsCreateOrUpdateSourceControlBodyParam &
+    RequestParameters;
 
 export interface WebAppsDeleteSourceControlQueryParamProperties {
   additionalFlags?: string;
@@ -3556,9 +3667,10 @@ export interface WebAppsCreateOrUpdateVnetConnectionMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsCreateOrUpdateVnetConnectionParameters = WebAppsCreateOrUpdateVnetConnectionMediaTypesParam &
-  WebAppsCreateOrUpdateVnetConnectionBodyParam &
-  RequestParameters;
+export type WebAppsCreateOrUpdateVnetConnectionParameters =
+  WebAppsCreateOrUpdateVnetConnectionMediaTypesParam &
+    WebAppsCreateOrUpdateVnetConnectionBodyParam &
+    RequestParameters;
 export type WebAppsDeleteVnetConnectionParameters = RequestParameters;
 
 export interface WebAppsUpdateVnetConnectionBodyParam {
@@ -3586,9 +3698,10 @@ export interface WebAppsCreateOrUpdateVnetConnectionGatewayMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsCreateOrUpdateVnetConnectionGatewayParameters = WebAppsCreateOrUpdateVnetConnectionGatewayMediaTypesParam &
-  WebAppsCreateOrUpdateVnetConnectionGatewayBodyParam &
-  RequestParameters;
+export type WebAppsCreateOrUpdateVnetConnectionGatewayParameters =
+  WebAppsCreateOrUpdateVnetConnectionGatewayMediaTypesParam &
+    WebAppsCreateOrUpdateVnetConnectionGatewayBodyParam &
+    RequestParameters;
 
 export interface WebAppsUpdateVnetConnectionGatewayBodyParam {
   /** The properties to update this gateway with. */
@@ -3600,8 +3713,9 @@ export interface WebAppsUpdateVnetConnectionGatewayMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WebAppsUpdateVnetConnectionGatewayParameters = WebAppsUpdateVnetConnectionGatewayMediaTypesParam &
-  WebAppsUpdateVnetConnectionGatewayBodyParam &
-  RequestParameters;
+export type WebAppsUpdateVnetConnectionGatewayParameters =
+  WebAppsUpdateVnetConnectionGatewayMediaTypesParam &
+    WebAppsUpdateVnetConnectionGatewayBodyParam &
+    RequestParameters;
 export type WebAppsListWebJobsParameters = RequestParameters;
 export type WebAppsGetWebJobParameters = RequestParameters;

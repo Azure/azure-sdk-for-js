@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Update dependency `@azure/core-http` version to `^3.0.0`.
+
 ## 12.0.0-preview.4 (2022-06-17)
 
 ### Features Added

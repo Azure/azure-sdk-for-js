@@ -9,6 +9,8 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
+  WorkloadNetwork,
+  WorkloadNetworksListOptionalParams,
   WorkloadNetworkSegment,
   WorkloadNetworksListSegmentsOptionalParams,
   WorkloadNetworkDhcp,
@@ -27,6 +29,9 @@ import {
   WorkloadNetworksListDnsZonesOptionalParams,
   WorkloadNetworkPublicIP,
   WorkloadNetworksListPublicIPsOptionalParams,
+  WorkloadNetworkName,
+  WorkloadNetworksGetOptionalParams,
+  WorkloadNetworksGetResponse,
   WorkloadNetworksGetSegmentOptionalParams,
   WorkloadNetworksGetSegmentResponse,
   WorkloadNetworksCreateSegmentsOptionalParams,
@@ -83,6 +88,17 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WorkloadNetworks. */
 export interface WorkloadNetworks {
+  /**
+   * List of workload networks in a private cloud.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param options The options parameters.
+   */
+  list(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksListOptionalParams
+  ): PagedAsyncIterableIterator<WorkloadNetwork>;
   /**
    * List of segments in a private cloud workload network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -182,6 +198,19 @@ export interface WorkloadNetworks {
     privateCloudName: string,
     options?: WorkloadNetworksListPublicIPsOptionalParams
   ): PagedAsyncIterableIterator<WorkloadNetworkPublicIP>;
+  /**
+   * Get a private cloud workload network.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param workloadNetworkName Name for the workload network in the private cloud
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    privateCloudName: string,
+    workloadNetworkName: WorkloadNetworkName,
+    options?: WorkloadNetworksGetOptionalParams
+  ): Promise<WorkloadNetworksGetResponse>;
   /**
    * Get a segment by id in a private cloud workload network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

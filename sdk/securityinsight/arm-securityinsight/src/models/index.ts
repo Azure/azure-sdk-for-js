@@ -8998,16 +8998,7 @@ export type IncidentsListEntitiesResponse = IncidentEntitiesResponse;
 
 /** Optional parameters. */
 export interface IncidentsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Filters the results, based on a Boolean condition. Optional. */
-  filter?: string;
-  /** Sorts the results. Optional. */
-  orderby?: string;
-  /** Returns only the first n results. Optional. */
-  top?: number;
-  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type IncidentsListNextResponse = IncidentList;
@@ -9080,16 +9071,7 @@ export interface BookmarkRelationsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface BookmarkRelationsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Filters the results, based on a Boolean condition. Optional. */
-  filter?: string;
-  /** Sorts the results. Optional. */
-  orderby?: string;
-  /** Returns only the first n results. Optional. */
-  top?: number;
-  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type BookmarkRelationsListNextResponse = RelationList;
@@ -9182,16 +9164,7 @@ export type EntitiesRelationsListResponse = RelationList;
 
 /** Optional parameters. */
 export interface EntitiesRelationsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Filters the results, based on a Boolean condition. Optional. */
-  filter?: string;
-  /** Sorts the results. Optional. */
-  orderby?: string;
-  /** Returns only the first n results. Optional. */
-  top?: number;
-  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type EntitiesRelationsListNextResponse = RelationList;
@@ -9233,10 +9206,7 @@ export interface EntityQueriesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface EntityQueriesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The entity query kind we want to fetch */
-  kind?: Enum13;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type EntityQueriesListNextResponse = EntityQueryList;
@@ -9306,16 +9276,7 @@ export type FileImportsDeleteResponse = FileImport;
 
 /** Optional parameters. */
 export interface FileImportsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Filters the results, based on a Boolean condition. Optional. */
-  filter?: string;
-  /** Sorts the results. Optional. */
-  orderby?: string;
-  /** Returns only the first n results. Optional. */
-  top?: number;
-  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type FileImportsListNextResponse = FileImportList;
@@ -9356,16 +9317,7 @@ export interface IncidentCommentsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface IncidentCommentsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Filters the results, based on a Boolean condition. Optional. */
-  filter?: string;
-  /** Sorts the results. Optional. */
-  orderby?: string;
-  /** Returns only the first n results. Optional. */
-  top?: number;
-  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type IncidentCommentsListNextResponse = IncidentCommentList;
@@ -9406,16 +9358,7 @@ export interface IncidentRelationsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface IncidentRelationsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Filters the results, based on a Boolean condition. Optional. */
-  filter?: string;
-  /** Sorts the results. Optional. */
-  orderby?: string;
-  /** Returns only the first n results. Optional. */
-  top?: number;
-  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type IncidentRelationsListNextResponse = RelationList;
@@ -9463,16 +9406,7 @@ export type MetadataUpdateResponse = MetadataModel;
 
 /** Optional parameters. */
 export interface MetadataListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Filters the results, based on a Boolean condition. Optional. */
-  filter?: string;
-  /** Sorts the results. Optional. */
-  orderby?: string;
-  /** Returns only the first n results. Optional. */
-  top?: number;
-  /** Used to skip n elements in the OData query (offset). Returns a nextLink to the next page of results if there are any left. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type MetadataListNextResponse = MetadataList;
@@ -9701,16 +9635,7 @@ export type ThreatIntelligenceIndicatorsListResponse = ThreatIntelligenceInforma
 
 /** Optional parameters. */
 export interface ThreatIntelligenceIndicatorsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Filters the results, based on a Boolean condition. Optional. */
-  filter?: string;
-  /** Sorts the results. Optional. */
-  orderby?: string;
-  /** Returns only the first n results. Optional. */
-  top?: number;
-  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ThreatIntelligenceIndicatorsListNextResponse = ThreatIntelligenceInformationList;
@@ -9755,10 +9680,7 @@ export type WatchlistsCreateOrUpdateResponse = Watchlist;
 
 /** Optional parameters. */
 export interface WatchlistsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type WatchlistsListNextResponse = WatchlistList;
@@ -9793,10 +9715,7 @@ export type WatchlistItemsCreateOrUpdateResponse = WatchlistItem;
 
 /** Optional parameters. */
 export interface WatchlistItemsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type WatchlistItemsListNextResponse = WatchlistItemList;

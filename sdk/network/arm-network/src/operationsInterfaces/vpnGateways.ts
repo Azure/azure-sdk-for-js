@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VpnGateway,
   VpnGatewaysListByResourceGroupOptionalParams,
@@ -71,8 +71,8 @@ export interface VpnGateways {
     vpnGatewayParameters: VpnGateway,
     options?: VpnGatewaysCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VpnGatewaysCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VpnGatewaysCreateOrUpdateResponse>,
       VpnGatewaysCreateOrUpdateResponse
     >
   >;
@@ -102,8 +102,8 @@ export interface VpnGateways {
     vpnGatewayParameters: TagsObject,
     options?: VpnGatewaysUpdateTagsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VpnGatewaysUpdateTagsResponse>,
+    SimplePollerLike<
+      OperationState<VpnGatewaysUpdateTagsResponse>,
       VpnGatewaysUpdateTagsResponse
     >
   >;
@@ -130,7 +130,7 @@ export interface VpnGateways {
     resourceGroupName: string,
     gatewayName: string,
     options?: VpnGatewaysDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a virtual wan vpn gateway.
    * @param resourceGroupName The resource group name of the VpnGateway.
@@ -153,8 +153,8 @@ export interface VpnGateways {
     gatewayName: string,
     options?: VpnGatewaysResetOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VpnGatewaysResetResponse>,
+    SimplePollerLike<
+      OperationState<VpnGatewaysResetResponse>,
       VpnGatewaysResetResponse
     >
   >;
@@ -180,8 +180,8 @@ export interface VpnGateways {
     gatewayName: string,
     options?: VpnGatewaysStartPacketCaptureOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VpnGatewaysStartPacketCaptureResponse>,
+    SimplePollerLike<
+      OperationState<VpnGatewaysStartPacketCaptureResponse>,
       VpnGatewaysStartPacketCaptureResponse
     >
   >;
@@ -207,8 +207,8 @@ export interface VpnGateways {
     gatewayName: string,
     options?: VpnGatewaysStopPacketCaptureOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VpnGatewaysStopPacketCaptureResponse>,
+    SimplePollerLike<
+      OperationState<VpnGatewaysStopPacketCaptureResponse>,
       VpnGatewaysStopPacketCaptureResponse
     >
   >;

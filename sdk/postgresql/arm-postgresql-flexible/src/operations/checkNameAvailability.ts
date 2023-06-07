@@ -12,7 +12,7 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient";
 import {
-  NameAvailabilityRequest,
+  CheckNameAvailabilityRequest,
   CheckNameAvailabilityExecuteOptionalParams,
   CheckNameAvailabilityExecuteResponse
 } from "../models";
@@ -35,7 +35,7 @@ export class CheckNameAvailabilityImpl implements CheckNameAvailability {
    * @param options The options parameters.
    */
   execute(
-    nameAvailabilityRequest: NameAvailabilityRequest,
+    nameAvailabilityRequest: CheckNameAvailabilityRequest,
     options?: CheckNameAvailabilityExecuteOptionalParams
   ): Promise<CheckNameAvailabilityExecuteResponse> {
     return this.client.sendOperationRequest(
@@ -56,7 +56,7 @@ const executeOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.NameAvailability
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.nameAvailabilityRequest,

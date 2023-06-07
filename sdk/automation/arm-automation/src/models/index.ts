@@ -3597,16 +3597,7 @@ export type DscNodeListByAutomationAccountResponse = DscNodeListResult;
 
 /** Optional parameters. */
 export interface DscNodeListByAutomationAccountNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-  /** The number of rows to skip. */
-  skip?: number;
-  /** The number of rows to take. */
-  top?: number;
-  /** Return total rows. */
-  inlinecount?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAutomationAccountNext operation. */
 export type DscNodeListByAutomationAccountNextResponse = DscNodeListResult;
@@ -3637,10 +3628,7 @@ export type NodeReportsGetContentResponse = Record<string, unknown>;
 
 /** Optional parameters. */
 export interface NodeReportsListByNodeNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNodeNext operation. */
 export type NodeReportsListByNodeNextResponse = DscNodeReportListResult;
@@ -3683,16 +3671,7 @@ export type DscNodeConfigurationListByAutomationAccountResponse = DscNodeConfigu
 
 /** Optional parameters. */
 export interface DscNodeConfigurationListByAutomationAccountNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-  /** The number of rows to skip. */
-  skip?: number;
-  /** The number of rows to take. */
-  top?: number;
-  /** Return total rows. */
-  inlinecount?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAutomationAccountNext operation. */
 export type DscNodeConfigurationListByAutomationAccountNextResponse = DscNodeConfigurationListResult;
@@ -3735,10 +3714,7 @@ export type DscCompilationJobGetStreamResponse = JobStream;
 
 /** Optional parameters. */
 export interface DscCompilationJobListByAutomationAccountNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAutomationAccountNext operation. */
 export type DscCompilationJobListByAutomationAccountNextResponse = DscCompilationJobListResult;
@@ -3794,10 +3770,7 @@ export type SourceControlListByAutomationAccountResponse = SourceControlListResu
 
 /** Optional parameters. */
 export interface SourceControlListByAutomationAccountNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAutomationAccountNext operation. */
 export type SourceControlListByAutomationAccountNextResponse = SourceControlListResult;
@@ -3828,10 +3801,7 @@ export type SourceControlSyncJobListByAutomationAccountResponse = SourceControlS
 
 /** Optional parameters. */
 export interface SourceControlSyncJobListByAutomationAccountNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAutomationAccountNext operation. */
 export type SourceControlSyncJobListByAutomationAccountNextResponse = SourceControlSyncJobListResult;
@@ -3855,10 +3825,7 @@ export type SourceControlSyncJobStreamsGetResponse = SourceControlSyncJobStreamB
 
 /** Optional parameters. */
 export interface SourceControlSyncJobStreamsListBySyncJobNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySyncJobNext operation. */
 export type SourceControlSyncJobStreamsListBySyncJobNextResponse = SourceControlSyncJobStreamsListBySyncJob;
@@ -4119,10 +4086,7 @@ export type JobScheduleListByAutomationAccountResponse = JobScheduleListResult;
 
 /** Optional parameters. */
 export interface JobScheduleListByAutomationAccountNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAutomationAccountNext operation. */
 export type JobScheduleListByAutomationAccountNextResponse = JobScheduleListResult;
@@ -4336,10 +4300,7 @@ export type WatcherListByAutomationAccountResponse = WatcherListResult;
 
 /** Optional parameters. */
 export interface WatcherListByAutomationAccountNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAutomationAccountNext operation. */
 export type WatcherListByAutomationAccountNextResponse = WatcherListResult;
@@ -4411,16 +4372,7 @@ export type DscConfigurationListByAutomationAccountResponse = DscConfigurationLi
 
 /** Optional parameters. */
 export interface DscConfigurationListByAutomationAccountNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-  /** The number of rows to skip. */
-  skip?: number;
-  /** The number of rows to take. */
-  top?: number;
-  /** Return total rows. */
-  inlinecount?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAutomationAccountNext operation. */
 export type DscConfigurationListByAutomationAccountNextResponse = DscConfigurationListResult;
@@ -4502,8 +4454,6 @@ export interface JobResumeOptionalParams extends coreClient.OperationOptions {
 /** Optional parameters. */
 export interface JobListByAutomationAccountNextOptionalParams
   extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
   /** Identifies this specific client request. */
   clientRequestId?: string;
 }
@@ -4536,8 +4486,6 @@ export type JobStreamListByJobResponse = JobStreamListResult;
 /** Optional parameters. */
 export interface JobStreamListByJobNextOptionalParams
   extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
   /** Identifies this specific client request. */
   clientRequestId?: string;
 }
@@ -4780,10 +4728,7 @@ export type TestJobStreamsListByTestJobResponse = JobStreamListResult;
 
 /** Optional parameters. */
 export interface TestJobStreamsListByTestJobNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByTestJobNext operation. */
 export type TestJobStreamsListByTestJobNextResponse = JobStreamListResult;
@@ -4859,10 +4804,7 @@ export type WebhookListByAutomationAccountResponse = WebhookListResult;
 
 /** Optional parameters. */
 export interface WebhookListByAutomationAccountNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAutomationAccountNext operation. */
 export type WebhookListByAutomationAccountNextResponse = WebhookListResult;
@@ -4901,10 +4843,7 @@ export type HybridRunbookWorkersListByHybridRunbookWorkerGroupResponse = HybridR
 
 /** Optional parameters. */
 export interface HybridRunbookWorkersListByHybridRunbookWorkerGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByHybridRunbookWorkerGroupNext operation. */
 export type HybridRunbookWorkersListByHybridRunbookWorkerGroupNextResponse = HybridRunbookWorkersListResult;
@@ -4953,10 +4892,7 @@ export type HybridRunbookWorkerGroupListByAutomationAccountResponse = HybridRunb
 
 /** Optional parameters. */
 export interface HybridRunbookWorkerGroupListByAutomationAccountNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAutomationAccountNext operation. */
 export type HybridRunbookWorkerGroupListByAutomationAccountNextResponse = HybridRunbookWorkerGroupsListResult;

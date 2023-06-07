@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Service } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -74,12 +75,16 @@ export class ServiceImpl implements Service {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listAvailableSkusByResourceGroupPagingPage(
           resourceGroupName,
           location,
           availableSkuRequest,
-          options
+          options,
+          settings
         );
       }
     };
@@ -89,16 +94,23 @@ export class ServiceImpl implements Service {
     resourceGroupName: string,
     location: string,
     availableSkuRequest: AvailableSkuRequest,
-    options?: ServiceListAvailableSkusByResourceGroupOptionalParams
+    options?: ServiceListAvailableSkusByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SkuInformation[]> {
-    let result = await this._listAvailableSkusByResourceGroup(
-      resourceGroupName,
-      location,
-      availableSkuRequest,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ServiceListAvailableSkusByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAvailableSkusByResourceGroup(
+        resourceGroupName,
+        location,
+        availableSkuRequest,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAvailableSkusByResourceGroupNext(
         resourceGroupName,
@@ -108,7 +120,9 @@ export class ServiceImpl implements Service {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -416,7 +430,6 @@ const listAvailableSkusByResourceGroupNextOperationSpec: coreClient.OperationSpe
       bodyMapper: Mappers.ApiError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

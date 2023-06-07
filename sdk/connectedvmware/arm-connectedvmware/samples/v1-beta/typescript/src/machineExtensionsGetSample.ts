@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { AzureArcVMwareManagementServiceAPI } from "@azure/arm-connectedvmware";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to The operation to get the extension.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/connectedvmware/resource-manager/Microsoft.ConnectedVMwarevSphere/preview/2022-01-10-preview/examples/GETExtension.json
  */
 async function getMachineExtension() {
-  const subscriptionId = "{subscriptionId}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["CONNECTEDVMWARE_SUBSCRIPTION_ID"] || "{subscriptionId}";
+  const resourceGroupName =
+    process.env["CONNECTEDVMWARE_RESOURCE_GROUP"] || "myResourceGroup";
   const name = "myMachine";
   const extensionName = "CustomScriptExtension";
   const credential = new DefaultAzureCredential();
@@ -35,4 +40,8 @@ async function getMachineExtension() {
   console.log(result);
 }
 
-getMachineExtension().catch(console.error);
+async function main() {
+  getMachineExtension();
+}
+
+main().catch(console.error);

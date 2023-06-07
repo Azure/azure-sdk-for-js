@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DevCenter,
   DevCentersListBySubscriptionOptionalParams,
@@ -34,7 +34,7 @@ export interface DevCenters {
   ): PagedAsyncIterableIterator<DevCenter>;
   /**
    * Lists all devcenters in a resource group.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
@@ -43,7 +43,7 @@ export interface DevCenters {
   ): PagedAsyncIterableIterator<DevCenter>;
   /**
    * Gets a devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -54,7 +54,7 @@ export interface DevCenters {
   ): Promise<DevCentersGetResponse>;
   /**
    * Creates or updates a devcenter resource
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param body Represents a devcenter.
    * @param options The options parameters.
@@ -65,14 +65,14 @@ export interface DevCenters {
     body: DevCenter,
     options?: DevCentersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DevCentersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DevCentersCreateOrUpdateResponse>,
       DevCentersCreateOrUpdateResponse
     >
   >;
   /**
    * Creates or updates a devcenter resource
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param body Represents a devcenter.
    * @param options The options parameters.
@@ -85,7 +85,7 @@ export interface DevCenters {
   ): Promise<DevCentersCreateOrUpdateResponse>;
   /**
    * Partially updates a devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param body Updatable devcenter properties.
    * @param options The options parameters.
@@ -96,14 +96,14 @@ export interface DevCenters {
     body: DevCenterUpdate,
     options?: DevCentersUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DevCentersUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DevCentersUpdateResponse>,
       DevCentersUpdateResponse
     >
   >;
   /**
    * Partially updates a devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param body Updatable devcenter properties.
    * @param options The options parameters.
@@ -116,7 +116,7 @@ export interface DevCenters {
   ): Promise<DevCentersUpdateResponse>;
   /**
    * Deletes a devcenter
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -124,10 +124,10 @@ export interface DevCenters {
     resourceGroupName: string,
     devCenterName: string,
     options?: DevCentersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a devcenter
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */

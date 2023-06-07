@@ -10,16 +10,21 @@
 // Licensed under the MIT License.
 import { DeveloperHubServiceClient } from "@azure/arm-devhub";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets a workflow.
  *
  * @summary Gets a workflow.
- * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-04-01-preview/examples/Workflow_Get.json
+ * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/Workflow_Get.json
  */
 async function getWorkflow() {
-  const subscriptionId = "subscriptionId1";
-  const resourceGroupName = "resourceGroup1";
+  const subscriptionId =
+    process.env["DEVHUB_SUBSCRIPTION_ID"] || "subscriptionId1";
+  const resourceGroupName =
+    process.env["DEVHUB_RESOURCE_GROUP"] || "resourceGroup1";
   const workflowName = "workflow1";
   const credential = new DefaultAzureCredential();
   const client = new DeveloperHubServiceClient(credential, subscriptionId);
@@ -30,4 +35,8 @@ async function getWorkflow() {
   console.log(result);
 }
 
-getWorkflow().catch(console.error);
+async function main() {
+  getWorkflow();
+}
+
+main().catch(console.error);

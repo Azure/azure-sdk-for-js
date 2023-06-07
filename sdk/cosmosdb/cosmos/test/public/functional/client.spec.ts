@@ -34,6 +34,11 @@ describe("Client Tests", function (this: Suite) {
         assert.fail("Must throw when trying to connect to database");
       } catch (err: any) {
         assert.equal(err.name, "TimeoutError", "client should throw exception");
+        assert.equal(
+          err.message,
+          "Timeout Error! Request took more than 1 ms",
+          "client should throw exception"
+        );
       }
     });
   });
@@ -87,7 +92,6 @@ describe("Client Tests", function (this: Suite) {
         await client.getDatabaseAccount({ abortSignal: signal });
         assert.fail("Must throw when trying to connect to database");
       } catch (err: any) {
-        console.log(err);
         assert.equal(err.name, "AbortError", "client should throw exception");
       }
       client.dispose();

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualNetworkGatewayNatRule,
   VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayOptionalParams,
@@ -61,8 +61,8 @@ export interface VirtualNetworkGatewayNatRules {
     natRuleParameters: VirtualNetworkGatewayNatRule,
     options?: VirtualNetworkGatewayNatRulesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworkGatewayNatRulesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualNetworkGatewayNatRulesCreateOrUpdateResponse>,
       VirtualNetworkGatewayNatRulesCreateOrUpdateResponse
     >
   >;
@@ -94,7 +94,7 @@ export interface VirtualNetworkGatewayNatRules {
     virtualNetworkGatewayName: string,
     natRuleName: string,
     options?: VirtualNetworkGatewayNatRulesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a nat rule.
    * @param resourceGroupName The resource group name of the Virtual Network Gateway.

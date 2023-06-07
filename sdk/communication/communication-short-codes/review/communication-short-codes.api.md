@@ -31,6 +31,9 @@ export interface CompanyInformation {
     url?: string;
 }
 
+// @public (undocumented)
+export const CompanyInformationMapper: coreClient.CompositeMapper;
+
 // @public
 export interface ContactInformation {
     email?: string;
@@ -56,11 +59,15 @@ export interface GetUSProgramBriefOptions extends OperationOptions {
 }
 
 // @public
+export interface ListShortCodeCostsOptions extends ShortCodesGetCostsOptionalParams {
+}
+
+// @public
 export interface ListShortCodesOptions extends ShortCodesGetShortCodesOptionalParams {
 }
 
 // @public
-export interface ListUSProgramBriefsOptions extends OperationOptions {
+export interface ListUSProgramBriefsOptions extends ShortCodesGetUSProgramBriefsOptionalParams {
 }
 
 // @public
@@ -80,6 +87,9 @@ export interface MessageDetails {
     supportedProtocol?: MessageProtocol;
     useCases?: UseCase[];
 }
+
+// @public (undocumented)
+export const MessageDetailsMapper: coreClient.CompositeMapper;
 
 // @public
 export type MessageDirection = "toUser" | "fromUser";
@@ -141,6 +151,9 @@ export interface ProgramDetails {
     url?: string;
 }
 
+// @public (undocumented)
+export const ProgramDetailsMapper: coreClient.CompositeMapper;
+
 // @public
 export type Recurrence = "subscription" | "transaction";
 
@@ -163,7 +176,9 @@ export interface ShortCode {
 export interface ShortCodeCost {
     amount: number;
     billingFrequency: BillingFrequency;
+    countryCode: string;
     currencyCode: string;
+    isVanityShortCode: boolean;
 }
 
 // @public (undocumented)
@@ -181,6 +196,8 @@ export class ShortCodesClient {
     getUSProgramBrief(programBriefId: string, options?: GetUSProgramBriefOptions): Promise<USProgramBrief>;
     // (undocumented)
     getUSProgramBriefAttachment(programBriefId: string, attachmentId: string, options?: ShortCodesGetUSProgramBriefAttachmentOptionalParams): Promise<ProgramBriefAttachment>;
+    // (undocumented)
+    listShortCodeCosts(options?: ListShortCodeCostsOptions): PagedAsyncIterableIterator<ShortCodeCost>;
     // (undocumented)
     listShortCodes(options?: ListShortCodesOptions): PagedAsyncIterableIterator<ShortCode>;
     // (undocumented)
@@ -207,6 +224,12 @@ export interface ShortCodesDeleteUSProgramBriefAttachmentOptionalParams extends 
 }
 
 // @public
+export interface ShortCodesGetCostsOptionalParams extends coreClient.OperationOptions {
+    skip?: number;
+    top?: number;
+}
+
+// @public
 export interface ShortCodesGetShortCodesOptionalParams extends coreClient.OperationOptions {
     skip?: number;
     top?: number;
@@ -218,6 +241,12 @@ export interface ShortCodesGetUSProgramBriefAttachmentOptionalParams extends cor
 
 // @public
 export interface ShortCodesGetUSProgramBriefAttachmentsOptionalParams extends coreClient.OperationOptions {
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export interface ShortCodesGetUSProgramBriefsOptionalParams extends coreClient.OperationOptions {
     skip?: number;
     top?: number;
 }
@@ -240,6 +269,9 @@ export interface TrafficDetails {
     spikeDetails?: string;
     totalMonthlyVolume?: number;
 }
+
+// @public (undocumented)
+export const TrafficDetailsMapper: coreClient.CompositeMapper;
 
 // @public
 export interface UseCase {

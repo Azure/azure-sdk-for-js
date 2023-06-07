@@ -125,7 +125,7 @@ export interface DigitalTwinsResource {
 
 /** The managed identity for the DigitalTwinsInstance. */
 export interface DigitalTwinsIdentity {
-  /** The type of Managed Identity used by the DigitalTwinsInstance. Only SystemAssigned is supported. */
+  /** The type of Managed Identity used by the DigitalTwinsInstance. */
   type?: DigitalTwinsIdentityType;
   /**
    * The object id of the Managed Identity Resource. This will be sent to the RP from ARM via the x-ms-identity-principal-id header in the PUT request if the resource has a systemAssigned(implicit) identity
@@ -137,6 +137,26 @@ export interface DigitalTwinsIdentity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
+  /**
+   * The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+   * .
+   */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+}
+
+/** The information about the user assigned identity. */
+export interface UserAssignedIdentity {
+  /**
+   * The client id of the User Assigned Identity Resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+  /**
+   * The object id of the User Assigned Identity Resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
 }
 
 /** Error response. */
@@ -208,6 +228,16 @@ export interface DigitalTwinsEndpointResourceProperties {
   deadLetterSecret?: string;
   /** Dead letter storage URL for identity-based authentication. */
   deadLetterUri?: string;
+  /** Managed identity properties for the endpoint. */
+  identity?: ManagedIdentityReference;
+}
+
+/** The properties of the Managed Identity. */
+export interface ManagedIdentityReference {
+  /** The type of managed identity used. */
+  type?: IdentityType;
+  /** The user identity ARM resource id if the managed identity type is 'UserAssigned'. */
+  userAssignedIdentity?: string;
 }
 
 /** Definition of a resource. */
@@ -378,13 +408,16 @@ export interface TimeSeriesDatabaseConnectionProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: TimeSeriesDatabaseConnectionState;
+  /** Managed identity properties for the time series database connection resource. */
+  identity?: ManagedIdentityReference;
 }
 
 /** The connection state. */
-export type ConnectionPropertiesPrivateLinkServiceConnectionState = ConnectionState;
+export interface ConnectionPropertiesPrivateLinkServiceConnectionState
+  extends ConnectionState {}
 
 /** The description of the DigitalTwins service. */
-export type DigitalTwinsDescription = DigitalTwinsResource & {
+export interface DigitalTwinsDescription extends DigitalTwinsResource {
   /**
    * Time when DigitalTwinsInstance was created.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -409,10 +442,10 @@ export type DigitalTwinsDescription = DigitalTwinsResource & {
   privateEndpointConnections?: PrivateEndpointConnection[];
   /** Public network access for the DigitalTwinsInstance. */
   publicNetworkAccess?: PublicNetworkAccess;
-};
+}
 
 /** Properties related to ServiceBus. */
-export type ServiceBus = DigitalTwinsEndpointResourceProperties & {
+export interface ServiceBus extends DigitalTwinsEndpointResourceProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   endpointType: "ServiceBus";
   /** PrimaryConnectionString of the endpoint for key-based authentication. Will be obfuscated during read. */
@@ -423,10 +456,10 @@ export type ServiceBus = DigitalTwinsEndpointResourceProperties & {
   endpointUri?: string;
   /** The ServiceBus Topic name for identity-based authentication. */
   entityPath?: string;
-};
+}
 
 /** Properties related to EventHub. */
-export type EventHub = DigitalTwinsEndpointResourceProperties & {
+export interface EventHub extends DigitalTwinsEndpointResourceProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   endpointType: "EventHub";
   /** PrimaryConnectionString of the endpoint for key-based authentication. Will be obfuscated during read. */
@@ -437,10 +470,10 @@ export type EventHub = DigitalTwinsEndpointResourceProperties & {
   endpointUri?: string;
   /** The EventHub name in the EventHub namespace for identity-based authentication. */
   entityPath?: string;
-};
+}
 
 /** Properties related to EventGrid. */
-export type EventGrid = DigitalTwinsEndpointResourceProperties & {
+export interface EventGrid extends DigitalTwinsEndpointResourceProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   endpointType: "EventGrid";
   /** EventGrid Topic Endpoint. */
@@ -449,22 +482,23 @@ export type EventGrid = DigitalTwinsEndpointResourceProperties & {
   accessKey1: string | null;
   /** EventGrid secondary accesskey. Will be obfuscated during read. */
   accessKey2?: string;
-};
+}
 
 /** DigitalTwinsInstance endpoint resource. */
-export type DigitalTwinsEndpointResource = ExternalResource & {
+export interface DigitalTwinsEndpointResource extends ExternalResource {
   /** DigitalTwinsInstance endpoint resource properties. */
   properties: DigitalTwinsEndpointResourcePropertiesUnion;
-};
+}
 
 /** Describes a time series database connection resource. */
-export type TimeSeriesDatabaseConnection = ExternalResource & {
+export interface TimeSeriesDatabaseConnection extends ExternalResource {
   /** Properties of a specific time series database connection. */
   properties?: TimeSeriesDatabaseConnectionPropertiesUnion;
-};
+}
 
 /** Properties of a time series database connection to Azure Data Explorer with data being sent via an EventHub. */
-export type AzureDataExplorerConnectionProperties = TimeSeriesDatabaseConnectionProperties & {
+export interface AzureDataExplorerConnectionProperties
+  extends TimeSeriesDatabaseConnectionProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   connectionType: "AzureDataExplorer";
   /** The resource ID of the Azure Data Explorer cluster. */
@@ -473,8 +507,12 @@ export type AzureDataExplorerConnectionProperties = TimeSeriesDatabaseConnection
   adxEndpointUri: string;
   /** The name of the Azure Data Explorer database. */
   adxDatabaseName: string;
-  /** The name of the Azure Data Explorer table. */
+  /** The name of the Azure Data Explorer table used for storing updates to properties of twins and relationships. Defaults to AdtPropertyEvents. */
   adxTableName?: string;
+  /** The name of the Azure Data Explorer table used for recording twin lifecycle events. The table will not be created if this property is left unspecified. */
+  adxTwinLifecycleEventsTableName?: string;
+  /** The name of the Azure Data Explorer table used for recording relationship lifecycle events. The table will not be created if this property is left unspecified. */
+  adxRelationshipLifecycleEventsTableName?: string;
   /** The URL of the EventHub namespace for identity-based authentication. It must include the protocol sb:// */
   eventHubEndpointUri: string;
   /** The EventHub name in the EventHub namespace for identity-based authentication. */
@@ -483,20 +521,33 @@ export type AzureDataExplorerConnectionProperties = TimeSeriesDatabaseConnection
   eventHubNamespaceResourceId: string;
   /** The EventHub consumer group to use when ADX reads from EventHub. Defaults to $Default. */
   eventHubConsumerGroup?: string;
-};
+  /** Specifies whether or not to record twin / relationship property and item removals, including removals of indexed or keyed values (such as map entries, array elements, etc.). This feature is de-activated unless explicitly set to 'true'. Setting this property to 'true' will generate an additional column in the property events table in ADX. */
+  recordPropertyAndItemRemovals?: RecordPropertyAndItemRemovals;
+}
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Provisioning */
   Provisioning = "Provisioning",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Updating */
   Updating = "Updating",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Deleted */
   Deleted = "Deleted",
+  /** Warning */
   Warning = "Warning",
+  /** Suspending */
   Suspending = "Suspending",
+  /** Restoring */
   Restoring = "Restoring",
+  /** Moving */
   Moving = "Moving"
 }
 
@@ -521,9 +572,13 @@ export type ProvisioningState = string;
 
 /** Known values of {@link ConnectionPropertiesProvisioningState} that the service accepts. */
 export enum KnownConnectionPropertiesProvisioningState {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected",
+  /** Disconnected */
   Disconnected = "Disconnected"
 }
 
@@ -541,9 +596,13 @@ export type ConnectionPropertiesProvisioningState = string;
 
 /** Known values of {@link PrivateLinkServiceConnectionStatus} that the service accepts. */
 export enum KnownPrivateLinkServiceConnectionStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected",
+  /** Disconnected */
   Disconnected = "Disconnected"
 }
 
@@ -561,9 +620,13 @@ export type PrivateLinkServiceConnectionStatus = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -581,7 +644,9 @@ export type CreatedByType = string;
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -597,8 +662,14 @@ export type PublicNetworkAccess = string;
 
 /** Known values of {@link DigitalTwinsIdentityType} that the service accepts. */
 export enum KnownDigitalTwinsIdentityType {
+  /** None */
   None = "None",
-  SystemAssigned = "SystemAssigned"
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
 }
 
 /**
@@ -607,14 +678,19 @@ export enum KnownDigitalTwinsIdentityType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **None** \
- * **SystemAssigned**
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned,UserAssigned**
  */
 export type DigitalTwinsIdentityType = string;
 
 /** Known values of {@link EndpointType} that the service accepts. */
 export enum KnownEndpointType {
+  /** EventHub */
   EventHub = "EventHub",
+  /** EventGrid */
   EventGrid = "EventGrid",
+  /** ServiceBus */
   ServiceBus = "ServiceBus"
 }
 
@@ -631,17 +707,29 @@ export type EndpointType = string;
 
 /** Known values of {@link EndpointProvisioningState} that the service accepts. */
 export enum KnownEndpointProvisioningState {
+  /** Provisioning */
   Provisioning = "Provisioning",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Updating */
   Updating = "Updating",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Deleted */
   Deleted = "Deleted",
+  /** Warning */
   Warning = "Warning",
+  /** Suspending */
   Suspending = "Suspending",
+  /** Restoring */
   Restoring = "Restoring",
+  /** Moving */
   Moving = "Moving",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -667,7 +755,9 @@ export type EndpointProvisioningState = string;
 
 /** Known values of {@link AuthenticationType} that the service accepts. */
 export enum KnownAuthenticationType {
+  /** KeyBased */
   KeyBased = "KeyBased",
+  /** IdentityBased */
   IdentityBased = "IdentityBased"
 }
 
@@ -681,9 +771,29 @@ export enum KnownAuthenticationType {
  */
 export type AuthenticationType = string;
 
+/** Known values of {@link IdentityType} that the service accepts. */
+export enum KnownIdentityType {
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned"
+}
+
+/**
+ * Defines values for IdentityType. \
+ * {@link KnownIdentityType} can be used interchangeably with IdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssigned** \
+ * **UserAssigned**
+ */
+export type IdentityType = string;
+
 /** Known values of {@link Reason} that the service accepts. */
 export enum KnownReason {
+  /** Invalid */
   Invalid = "Invalid",
+  /** AlreadyExists */
   AlreadyExists = "AlreadyExists"
 }
 
@@ -699,6 +809,7 @@ export type Reason = string;
 
 /** Known values of {@link ConnectionType} that the service accepts. */
 export enum KnownConnectionType {
+  /** AzureDataExplorer */
   AzureDataExplorer = "AzureDataExplorer"
 }
 
@@ -713,17 +824,29 @@ export type ConnectionType = string;
 
 /** Known values of {@link TimeSeriesDatabaseConnectionState} that the service accepts. */
 export enum KnownTimeSeriesDatabaseConnectionState {
+  /** Provisioning */
   Provisioning = "Provisioning",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Updating */
   Updating = "Updating",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Deleted */
   Deleted = "Deleted",
+  /** Warning */
   Warning = "Warning",
+  /** Suspending */
   Suspending = "Suspending",
+  /** Restoring */
   Restoring = "Restoring",
+  /** Moving */
   Moving = "Moving",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -746,6 +869,42 @@ export enum KnownTimeSeriesDatabaseConnectionState {
  * **Disabled**
  */
 export type TimeSeriesDatabaseConnectionState = string;
+
+/** Known values of {@link CleanupConnectionArtifacts} that the service accepts. */
+export enum KnownCleanupConnectionArtifacts {
+  /** True */
+  True = "true",
+  /** False */
+  False = "false"
+}
+
+/**
+ * Defines values for CleanupConnectionArtifacts. \
+ * {@link KnownCleanupConnectionArtifacts} can be used interchangeably with CleanupConnectionArtifacts,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **true** \
+ * **false**
+ */
+export type CleanupConnectionArtifacts = string;
+
+/** Known values of {@link RecordPropertyAndItemRemovals} that the service accepts. */
+export enum KnownRecordPropertyAndItemRemovals {
+  /** True */
+  True = "true",
+  /** False */
+  False = "false"
+}
+
+/**
+ * Defines values for RecordPropertyAndItemRemovals. \
+ * {@link KnownRecordPropertyAndItemRemovals} can be used interchangeably with RecordPropertyAndItemRemovals,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **true** \
+ * **false**
+ */
+export type RecordPropertyAndItemRemovals = string;
 
 /** Optional parameters. */
 export interface DigitalTwinsGetOptionalParams
@@ -962,6 +1121,8 @@ export type TimeSeriesDatabaseConnectionsCreateOrUpdateResponse = TimeSeriesData
 /** Optional parameters. */
 export interface TimeSeriesDatabaseConnectionsDeleteOptionalParams
   extends coreClient.OperationOptions {
+  /** Specifies whether or not to attempt to clean up artifacts that were created in order to establish a connection to the time series database. This is a best-effort attempt that will fail if appropriate permissions are not in place. Setting this to 'true' does not delete any recorded data. */
+  cleanupConnectionArtifacts?: CleanupConnectionArtifacts;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */

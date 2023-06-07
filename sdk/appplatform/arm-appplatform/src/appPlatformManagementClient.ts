@@ -19,6 +19,9 @@ import {
   ConfigServersImpl,
   ConfigurationServicesImpl,
   ServiceRegistriesImpl,
+  ApplicationLiveViewsImpl,
+  DevToolPortalsImpl,
+  ContainerRegistriesImpl,
   BuildServiceOperationsImpl,
   BuildpackBindingImpl,
   BuildServiceBuilderImpl,
@@ -37,13 +40,19 @@ import {
   GatewayRouteConfigsImpl,
   GatewayCustomDomainsImpl,
   ApiPortalsImpl,
-  ApiPortalCustomDomainsImpl
+  ApiPortalCustomDomainsImpl,
+  ApplicationAcceleratorsImpl,
+  CustomizedAcceleratorsImpl,
+  PredefinedAcceleratorsImpl
 } from "./operations";
 import {
   Services,
   ConfigServers,
   ConfigurationServices,
   ServiceRegistries,
+  ApplicationLiveViews,
+  DevToolPortals,
+  ContainerRegistries,
   BuildServiceOperations,
   BuildpackBinding,
   BuildServiceBuilder,
@@ -62,7 +71,10 @@ import {
   GatewayRouteConfigs,
   GatewayCustomDomains,
   ApiPortals,
-  ApiPortalCustomDomains
+  ApiPortalCustomDomains,
+  ApplicationAccelerators,
+  CustomizedAccelerators,
+  PredefinedAccelerators
 } from "./operationsInterfaces";
 import { AppPlatformManagementClientOptionalParams } from "./models";
 
@@ -99,22 +111,19 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-appplatform/2.1.0-beta.4`;
+    const packageDetails = `azsdk-js-arm-appplatform/3.0.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
-    if (!options.credentialScopes) {
-      options.credentialScopes = ["https://management.azure.com/.default"];
-    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
+      endpoint:
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
@@ -140,7 +149,9 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
-          scopes: `${optionsWithDefaults.credentialScopes}`,
+          scopes:
+            optionsWithDefaults.credentialScopes ??
+            `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
               coreClient.authorizeRequestOnClaimChallenge
@@ -153,11 +164,14 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-09-01-preview";
+    this.apiVersion = options.apiVersion || "2023-03-01-preview";
     this.services = new ServicesImpl(this);
     this.configServers = new ConfigServersImpl(this);
     this.configurationServices = new ConfigurationServicesImpl(this);
     this.serviceRegistries = new ServiceRegistriesImpl(this);
+    this.applicationLiveViews = new ApplicationLiveViewsImpl(this);
+    this.devToolPortals = new DevToolPortalsImpl(this);
+    this.containerRegistries = new ContainerRegistriesImpl(this);
     this.buildServiceOperations = new BuildServiceOperationsImpl(this);
     this.buildpackBinding = new BuildpackBindingImpl(this);
     this.buildServiceBuilder = new BuildServiceBuilderImpl(this);
@@ -177,6 +191,9 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
     this.gatewayCustomDomains = new GatewayCustomDomainsImpl(this);
     this.apiPortals = new ApiPortalsImpl(this);
     this.apiPortalCustomDomains = new ApiPortalCustomDomainsImpl(this);
+    this.applicationAccelerators = new ApplicationAcceleratorsImpl(this);
+    this.customizedAccelerators = new CustomizedAcceleratorsImpl(this);
+    this.predefinedAccelerators = new PredefinedAcceleratorsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -212,6 +229,9 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
   configServers: ConfigServers;
   configurationServices: ConfigurationServices;
   serviceRegistries: ServiceRegistries;
+  applicationLiveViews: ApplicationLiveViews;
+  devToolPortals: DevToolPortals;
+  containerRegistries: ContainerRegistries;
   buildServiceOperations: BuildServiceOperations;
   buildpackBinding: BuildpackBinding;
   buildServiceBuilder: BuildServiceBuilder;
@@ -231,4 +251,7 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
   gatewayCustomDomains: GatewayCustomDomains;
   apiPortals: ApiPortals;
   apiPortalCustomDomains: ApiPortalCustomDomains;
+  applicationAccelerators: ApplicationAccelerators;
+  customizedAccelerators: CustomizedAccelerators;
+  predefinedAccelerators: PredefinedAccelerators;
 }

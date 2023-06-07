@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface CloudError {
@@ -23,14 +23,30 @@ export interface CloudErrorBody {
     target?: string;
 }
 
-// @public (undocumented)
-export interface ComponentsVrq145SchemasImagetemplateidentityPropertiesUserassignedidentitiesAdditionalproperties {
-    readonly clientId?: string;
-    readonly principalId?: string;
+// @public
+export type CreatedByType = string;
+
+// @public
+export interface DistributeVersioner {
+    scheme: "Latest" | "Source";
 }
 
 // @public
-export type CreatedByType = string;
+export interface DistributeVersionerLatest extends DistributeVersioner {
+    major?: number;
+    scheme: "Latest";
+}
+
+// @public
+export interface DistributeVersionerSource extends DistributeVersioner {
+    scheme: "Source";
+}
+
+// @public (undocumented)
+export type DistributeVersionerUnion = DistributeVersioner | DistributeVersionerLatest | DistributeVersionerSource;
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public (undocumented)
 export class ImageBuilderClient extends coreClient.ServiceClient {
@@ -44,6 +60,8 @@ export class ImageBuilderClient extends coreClient.ServiceClient {
     // (undocumented)
     subscriptionId: string;
     // (undocumented)
+    triggers: Triggers;
+    // (undocumented)
     virtualMachineImageTemplates: VirtualMachineImageTemplates;
 }
 
@@ -55,20 +73,21 @@ export interface ImageBuilderClientOptionalParams extends coreClient.ServiceClie
 }
 
 // @public
-export type ImageTemplate = TrackedResource & {
-    identity: ImageTemplateIdentity;
-    source?: ImageTemplateSourceUnion;
-    customize?: ImageTemplateCustomizerUnion[];
-    validate?: ImageTemplatePropertiesValidate;
-    distribute?: ImageTemplateDistributorUnion[];
-    readonly provisioningState?: ProvisioningState;
-    readonly provisioningError?: ProvisioningError;
-    readonly lastRunStatus?: ImageTemplateLastRunStatus;
+export interface ImageTemplate extends TrackedResource {
     buildTimeoutInMinutes?: number;
-    vmProfile?: ImageTemplateVmProfile;
-    stagingResourceGroup?: string;
+    customize?: ImageTemplateCustomizerUnion[];
+    distribute?: ImageTemplateDistributorUnion[];
     readonly exactStagingResourceGroup?: string;
-};
+    identity: ImageTemplateIdentity;
+    readonly lastRunStatus?: ImageTemplateLastRunStatus;
+    optimize?: ImageTemplatePropertiesOptimize;
+    readonly provisioningError?: ProvisioningError;
+    readonly provisioningState?: ProvisioningState;
+    source?: ImageTemplateSourceUnion;
+    stagingResourceGroup?: string;
+    validate?: ImageTemplatePropertiesValidate;
+    vmProfile?: ImageTemplateVmProfile;
+}
 
 // @public
 export interface ImageTemplateCustomizer {
@@ -92,29 +111,37 @@ export interface ImageTemplateDistributor {
 export type ImageTemplateDistributorUnion = ImageTemplateDistributor | ImageTemplateManagedImageDistributor | ImageTemplateSharedImageDistributor | ImageTemplateVhdDistributor;
 
 // @public
-export type ImageTemplateFileCustomizer = ImageTemplateCustomizer & {
-    type: "File";
-    sourceUri?: string;
-    sha256Checksum?: string;
+export interface ImageTemplateFileCustomizer extends ImageTemplateCustomizer {
     destination?: string;
-};
+    sha256Checksum?: string;
+    sourceUri?: string;
+    type: "File";
+}
+
+// @public
+export interface ImageTemplateFileValidator extends ImageTemplateInVMValidator {
+    destination?: string;
+    sha256Checksum?: string;
+    sourceUri?: string;
+    type: "File";
+}
 
 // @public
 export interface ImageTemplateIdentity {
     type?: ResourceIdentityType;
     userAssignedIdentities?: {
-        [propertyName: string]: ComponentsVrq145SchemasImagetemplateidentityPropertiesUserassignedidentitiesAdditionalproperties;
+        [propertyName: string]: UserAssignedIdentity;
     };
 }
 
 // @public
 export interface ImageTemplateInVMValidator {
     name?: string;
-    type: "Shell" | "PowerShell";
+    type: "Shell" | "PowerShell" | "File";
 }
 
 // @public (undocumented)
-export type ImageTemplateInVMValidatorUnion = ImageTemplateInVMValidator | ImageTemplateShellValidator | ImageTemplatePowerShellValidator;
+export type ImageTemplateInVMValidatorUnion = ImageTemplateInVMValidator | ImageTemplateShellValidator | ImageTemplatePowerShellValidator | ImageTemplateFileValidator;
 
 // @public
 export interface ImageTemplateLastRunStatus {
@@ -132,50 +159,60 @@ export interface ImageTemplateListResult {
 }
 
 // @public
-export type ImageTemplateManagedImageDistributor = ImageTemplateDistributor & {
-    type: "ManagedImage";
+export interface ImageTemplateManagedImageDistributor extends ImageTemplateDistributor {
     imageId: string;
     location: string;
-};
-
-// @public
-export type ImageTemplateManagedImageSource = ImageTemplateSource & {
     type: "ManagedImage";
+}
+
+// @public
+export interface ImageTemplateManagedImageSource extends ImageTemplateSource {
     imageId: string;
-};
+    type: "ManagedImage";
+}
 
 // @public
-export type ImageTemplatePlatformImageSource = ImageTemplateSource & {
-    type: "PlatformImage";
-    publisher?: string;
-    offer?: string;
-    sku?: string;
-    version?: string;
+export interface ImageTemplatePlatformImageSource extends ImageTemplateSource {
     readonly exactVersion?: string;
+    offer?: string;
     planInfo?: PlatformImagePurchasePlan;
-};
+    publisher?: string;
+    sku?: string;
+    type: "PlatformImage";
+    version?: string;
+}
 
 // @public
-export type ImageTemplatePowerShellCustomizer = ImageTemplateCustomizer & {
-    type: "PowerShell";
+export interface ImageTemplatePowerShellCustomizer extends ImageTemplateCustomizer {
+    inline?: string[];
+    runAsSystem?: boolean;
+    runElevated?: boolean;
     scriptUri?: string;
     sha256Checksum?: string;
-    inline?: string[];
-    runElevated?: boolean;
-    runAsSystem?: boolean;
+    type: "PowerShell";
     validExitCodes?: number[];
-};
+}
 
 // @public
-export type ImageTemplatePowerShellValidator = ImageTemplateInVMValidator & {
-    type: "PowerShell";
+export interface ImageTemplatePowerShellValidator extends ImageTemplateInVMValidator {
+    inline?: string[];
+    runAsSystem?: boolean;
+    runElevated?: boolean;
     scriptUri?: string;
     sha256Checksum?: string;
-    inline?: string[];
-    runElevated?: boolean;
-    runAsSystem?: boolean;
+    type: "PowerShell";
     validExitCodes?: number[];
-};
+}
+
+// @public
+export interface ImageTemplatePropertiesOptimize {
+    vmBoot?: ImageTemplatePropertiesOptimizeVmBoot;
+}
+
+// @public
+export interface ImageTemplatePropertiesOptimizeVmBoot {
+    state?: VMBootOptimizationState;
+}
 
 // @public
 export interface ImageTemplatePropertiesValidate {
@@ -185,43 +222,46 @@ export interface ImageTemplatePropertiesValidate {
 }
 
 // @public
-export type ImageTemplateRestartCustomizer = ImageTemplateCustomizer & {
-    type: "WindowsRestart";
-    restartCommand?: string;
+export interface ImageTemplateRestartCustomizer extends ImageTemplateCustomizer {
     restartCheckCommand?: string;
+    restartCommand?: string;
     restartTimeout?: string;
-};
+    type: "WindowsRestart";
+}
 
 // @public
-export type ImageTemplateSharedImageDistributor = ImageTemplateDistributor & {
-    type: "SharedImage";
-    galleryImageId: string;
-    replicationRegions: string[];
+export interface ImageTemplateSharedImageDistributor extends ImageTemplateDistributor {
     excludeFromLatest?: boolean;
+    galleryImageId: string;
+    replicationRegions?: string[];
     storageAccountType?: SharedImageStorageAccountType;
-};
+    targetRegions?: TargetRegion[];
+    type: "SharedImage";
+    versioning?: DistributeVersionerUnion;
+}
 
 // @public
-export type ImageTemplateSharedImageVersionSource = ImageTemplateSource & {
-    type: "SharedImageVersion";
+export interface ImageTemplateSharedImageVersionSource extends ImageTemplateSource {
+    readonly exactVersion?: string;
     imageVersionId: string;
-};
+    type: "SharedImageVersion";
+}
 
 // @public
-export type ImageTemplateShellCustomizer = ImageTemplateCustomizer & {
-    type: "Shell";
+export interface ImageTemplateShellCustomizer extends ImageTemplateCustomizer {
+    inline?: string[];
     scriptUri?: string;
     sha256Checksum?: string;
-    inline?: string[];
-};
+    type: "Shell";
+}
 
 // @public
-export type ImageTemplateShellValidator = ImageTemplateInVMValidator & {
-    type: "Shell";
+export interface ImageTemplateShellValidator extends ImageTemplateInVMValidator {
+    inline?: string[];
     scriptUri?: string;
     sha256Checksum?: string;
-    inline?: string[];
-};
+    type: "Shell";
+}
 
 // @public
 export interface ImageTemplateSource {
@@ -240,9 +280,10 @@ export interface ImageTemplateUpdateParameters {
 }
 
 // @public
-export type ImageTemplateVhdDistributor = ImageTemplateDistributor & {
+export interface ImageTemplateVhdDistributor extends ImageTemplateDistributor {
     type: "VHD";
-};
+    uri?: string;
+}
 
 // @public
 export interface ImageTemplateVmProfile {
@@ -253,64 +294,44 @@ export interface ImageTemplateVmProfile {
 }
 
 // @public
-export type ImageTemplateWindowsUpdateCustomizer = ImageTemplateCustomizer & {
-    type: "WindowsUpdate";
-    searchCriteria?: string;
+export interface ImageTemplateWindowsUpdateCustomizer extends ImageTemplateCustomizer {
     filters?: string[];
+    searchCriteria?: string;
+    type: "WindowsUpdate";
     updateLimit?: number;
-};
+}
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownProvisioningErrorCode {
-    // (undocumented)
     BadCustomizerType = "BadCustomizerType",
-    // (undocumented)
     BadDistributeType = "BadDistributeType",
-    // (undocumented)
     BadManagedImageSource = "BadManagedImageSource",
-    // (undocumented)
     BadPIRSource = "BadPIRSource",
-    // (undocumented)
     BadSharedImageDistribute = "BadSharedImageDistribute",
-    // (undocumented)
     BadSharedImageVersionSource = "BadSharedImageVersionSource",
-    // (undocumented)
     BadSourceType = "BadSourceType",
-    // (undocumented)
     BadStagingResourceGroup = "BadStagingResourceGroup",
-    // (undocumented)
     BadValidatorType = "BadValidatorType",
-    // (undocumented)
     NoCustomizerScript = "NoCustomizerScript",
-    // (undocumented)
     NoValidatorScript = "NoValidatorScript",
-    // (undocumented)
     Other = "Other",
-    // (undocumented)
     ServerError = "ServerError",
-    // (undocumented)
     UnsupportedCustomizerType = "UnsupportedCustomizerType",
-    // (undocumented)
     UnsupportedValidatorType = "UnsupportedValidatorType"
 }
 
 // @public
 export enum KnownSharedImageStorageAccountType {
-    // (undocumented)
+    PremiumLRS = "Premium_LRS",
     StandardLRS = "Standard_LRS",
-    // (undocumented)
     StandardZRS = "Standard_ZRS"
 }
 
@@ -373,10 +394,11 @@ export interface ProvisioningError {
 export type ProvisioningErrorCode = string;
 
 // @public
-export type ProvisioningState = "Creating" | "Updating" | "Succeeded" | "Failed" | "Deleting";
+export type ProvisioningState = "Creating" | "Updating" | "Succeeded" | "Failed" | "Deleting" | "Canceled";
 
 // @public
-export type ProxyResource = Resource;
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface Resource {
@@ -390,11 +412,11 @@ export interface Resource {
 export type ResourceIdentityType = "UserAssigned" | "None";
 
 // @public
-export type RunOutput = ProxyResource & {
+export interface RunOutput extends ProxyResource {
     artifactId?: string;
     artifactUri?: string;
     readonly provisioningState?: ProvisioningState;
-};
+}
 
 // @public
 export interface RunOutputCollection {
@@ -406,10 +428,15 @@ export interface RunOutputCollection {
 export type RunState = "Running" | "Canceling" | "Succeeded" | "PartiallySucceeded" | "Failed" | "Canceled";
 
 // @public
-export type RunSubState = "Queued" | "Building" | "Customizing" | "Validating" | "Distributing";
+export type RunSubState = "Queued" | "Building" | "Customizing" | "Optimizing" | "Validating" | "Distributing";
 
 // @public
 export type SharedImageStorageAccountType = string;
+
+// @public
+export interface SourceImageTriggerProperties extends TriggerProperties {
+    kind: "SourceImage";
+}
 
 // @public
 export interface SystemData {
@@ -422,24 +449,118 @@ export interface SystemData {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TargetRegion {
+    name: string;
+    replicaCount?: number;
+    storageAccountType?: SharedImageStorageAccountType;
+}
+
+// @public
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
+
+// @public
+export interface Trigger extends ProxyResource {
+    kind?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly status?: TriggerStatus;
+}
+
+// @public
+export interface TriggerCollection {
+    nextLink?: string;
+    value: Trigger[];
+}
+
+// @public
+export interface TriggerProperties {
+    kind: "SourceImage";
+    readonly provisioningState?: ProvisioningState;
+    readonly status?: TriggerStatus;
+}
+
+// @public (undocumented)
+export type TriggerPropertiesUnion = TriggerProperties | SourceImageTriggerProperties;
+
+// @public
+export interface Triggers {
+    beginCreateOrUpdate(resourceGroupName: string, imageTemplateName: string, triggerName: string, parameters: Trigger, options?: TriggersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<TriggersCreateOrUpdateResponse>, TriggersCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, imageTemplateName: string, triggerName: string, parameters: Trigger, options?: TriggersCreateOrUpdateOptionalParams): Promise<TriggersCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, imageTemplateName: string, triggerName: string, options?: TriggersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, imageTemplateName: string, triggerName: string, options?: TriggersDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, imageTemplateName: string, triggerName: string, options?: TriggersGetOptionalParams): Promise<TriggersGetResponse>;
+    listByImageTemplate(resourceGroupName: string, imageTemplateName: string, options?: TriggersListByImageTemplateOptionalParams): PagedAsyncIterableIterator<Trigger>;
+}
+
+// @public
+export interface TriggersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type TriggersCreateOrUpdateResponse = Trigger;
+
+// @public
+export interface TriggersDeleteHeaders {
+    location?: string;
+}
+
+// @public
+export interface TriggersDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface TriggersGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TriggersGetResponse = Trigger;
+
+// @public
+export interface TriggersListByImageTemplateNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TriggersListByImageTemplateNextResponse = TriggerCollection;
+
+// @public
+export interface TriggersListByImageTemplateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TriggersListByImageTemplateResponse = TriggerCollection;
+
+// @public
+export interface TriggerStatus {
+    readonly code?: string;
+    readonly message?: string;
+    readonly time?: Date;
+}
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
 
 // @public
 export interface VirtualMachineImageTemplates {
-    beginCancel(resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesCancelOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginCancel(resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesCancelOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginCancelAndWait(resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesCancelOptionalParams): Promise<void>;
-    beginCreateOrUpdate(resourceGroupName: string, imageTemplateName: string, parameters: ImageTemplate, options?: VirtualMachineImageTemplatesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<VirtualMachineImageTemplatesCreateOrUpdateResponse>, VirtualMachineImageTemplatesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, imageTemplateName: string, parameters: ImageTemplate, options?: VirtualMachineImageTemplatesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineImageTemplatesCreateOrUpdateResponse>, VirtualMachineImageTemplatesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, imageTemplateName: string, parameters: ImageTemplate, options?: VirtualMachineImageTemplatesCreateOrUpdateOptionalParams): Promise<VirtualMachineImageTemplatesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesDeleteOptionalParams): Promise<void>;
-    beginRun(resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesRunOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRun(resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesRunOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRunAndWait(resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesRunOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, imageTemplateName: string, parameters: ImageTemplateUpdateParameters, options?: VirtualMachineImageTemplatesUpdateOptionalParams): Promise<PollerLike<PollOperationState<VirtualMachineImageTemplatesUpdateResponse>, VirtualMachineImageTemplatesUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, imageTemplateName: string, parameters: ImageTemplateUpdateParameters, options?: VirtualMachineImageTemplatesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineImageTemplatesUpdateResponse>, VirtualMachineImageTemplatesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, imageTemplateName: string, parameters: ImageTemplateUpdateParameters, options?: VirtualMachineImageTemplatesUpdateOptionalParams): Promise<VirtualMachineImageTemplatesUpdateResponse>;
     get(resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesGetOptionalParams): Promise<VirtualMachineImageTemplatesGetResponse>;
     getRunOutput(resourceGroupName: string, imageTemplateName: string, runOutputName: string, options?: VirtualMachineImageTemplatesGetRunOutputOptionalParams): Promise<VirtualMachineImageTemplatesGetRunOutputResponse>;
@@ -462,6 +583,11 @@ export interface VirtualMachineImageTemplatesCreateOrUpdateOptionalParams extend
 
 // @public
 export type VirtualMachineImageTemplatesCreateOrUpdateResponse = ImageTemplate;
+
+// @public
+export interface VirtualMachineImageTemplatesDeleteHeaders {
+    location?: string;
+}
 
 // @public
 export interface VirtualMachineImageTemplatesDeleteOptionalParams extends coreClient.OperationOptions {
@@ -545,6 +671,9 @@ export interface VirtualNetworkConfig {
     proxyVmSize?: string;
     subnetId?: string;
 }
+
+// @public
+export type VMBootOptimizationState = "Enabled" | "Disabled";
 
 // (No @packageDocumentation comment for this package)
 

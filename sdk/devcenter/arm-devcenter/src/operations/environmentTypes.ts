@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { EnvironmentTypes } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -43,7 +44,7 @@ export class EnvironmentTypesImpl implements EnvironmentTypes {
 
   /**
    * Lists environment types for the devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -64,11 +65,15 @@ export class EnvironmentTypesImpl implements EnvironmentTypes {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByDevCenterPagingPage(
           resourceGroupName,
           devCenterName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -77,15 +82,22 @@ export class EnvironmentTypesImpl implements EnvironmentTypes {
   private async *listByDevCenterPagingPage(
     resourceGroupName: string,
     devCenterName: string,
-    options?: EnvironmentTypesListByDevCenterOptionalParams
+    options?: EnvironmentTypesListByDevCenterOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<EnvironmentType[]> {
-    let result = await this._listByDevCenter(
-      resourceGroupName,
-      devCenterName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: EnvironmentTypesListByDevCenterResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByDevCenter(
+        resourceGroupName,
+        devCenterName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByDevCenterNext(
         resourceGroupName,
@@ -94,7 +106,9 @@ export class EnvironmentTypesImpl implements EnvironmentTypes {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -114,7 +128,7 @@ export class EnvironmentTypesImpl implements EnvironmentTypes {
 
   /**
    * Lists environment types for the devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -131,7 +145,7 @@ export class EnvironmentTypesImpl implements EnvironmentTypes {
 
   /**
    * Gets an environment type.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param environmentTypeName The name of the environment type.
    * @param options The options parameters.
@@ -150,7 +164,7 @@ export class EnvironmentTypesImpl implements EnvironmentTypes {
 
   /**
    * Creates or updates an environment type.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param environmentTypeName The name of the environment type.
    * @param body Represents an Environment Type.
@@ -171,7 +185,7 @@ export class EnvironmentTypesImpl implements EnvironmentTypes {
 
   /**
    * Partially updates an environment type.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param environmentTypeName The name of the environment type.
    * @param body Updatable environment type properties.
@@ -192,7 +206,7 @@ export class EnvironmentTypesImpl implements EnvironmentTypes {
 
   /**
    * Deletes an environment type.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param environmentTypeName The name of the environment type.
    * @param options The options parameters.
@@ -211,7 +225,7 @@ export class EnvironmentTypesImpl implements EnvironmentTypes {
 
   /**
    * ListByDevCenterNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param nextLink The nextLink from the previous successful call to the ListByDevCenter method.
    * @param options The options parameters.
@@ -359,7 +373,6 @@ const listByDevCenterNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

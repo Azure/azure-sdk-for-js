@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ElasticSanManagement } = require("@azure/arm-elasticsan");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List Volumes in a VolumeGroup.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/Volumes_ListByVolumeGroup_MaximumSet_Gen.json
  */
 async function volumesListByVolumeGroupMaximumSetGen() {
-  const subscriptionId = "aaaaaaaaaaaaaaaaaa";
-  const resourceGroupName = "rgelasticsan";
+  const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaa";
+  const resourceGroupName = process.env["ELASTICSANS_RESOURCE_GROUP"] || "rgelasticsan";
   const elasticSanName = "ti7q-k952-1qB3J_5";
   const volumeGroupName = "u_5I_1j4t3";
   const credential = new DefaultAzureCredential();
@@ -34,8 +35,6 @@ async function volumesListByVolumeGroupMaximumSetGen() {
   }
   console.log(resArray);
 }
-
-volumesListByVolumeGroupMaximumSetGen().catch(console.error);
 
 /**
  * This sample demonstrates how to List Volumes in a VolumeGroup.
@@ -44,8 +43,8 @@ volumesListByVolumeGroupMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/Volumes_ListByVolumeGroup_MinimumSet_Gen.json
  */
 async function volumesListByVolumeGroupMinimumSetGen() {
-  const subscriptionId = "aaaaaaaaaaaaaaaaaa";
-  const resourceGroupName = "rgelasticsan";
+  const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaa";
+  const resourceGroupName = process.env["ELASTICSANS_RESOURCE_GROUP"] || "rgelasticsan";
   const elasticSanName = "ti7q-k952-1qB3J_5";
   const volumeGroupName = "u_5I_1j4t3";
   const credential = new DefaultAzureCredential();
@@ -61,4 +60,9 @@ async function volumesListByVolumeGroupMinimumSetGen() {
   console.log(resArray);
 }
 
-volumesListByVolumeGroupMinimumSetGen().catch(console.error);
+async function main() {
+  volumesListByVolumeGroupMaximumSetGen();
+  volumesListByVolumeGroupMinimumSetGen();
+}
+
+main().catch(console.error);

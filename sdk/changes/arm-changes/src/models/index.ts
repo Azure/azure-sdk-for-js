@@ -161,10 +161,11 @@ export interface ErrorAdditionalInfo {
 }
 
 /** Change Resource */
-export type ChangeResourceResult = Resource & {
+export interface ChangeResourceResult extends Resource {
   /** The properties of a change */
   properties?: ChangeProperties;
-};
+}
+
 /** Defines values for ChangeType. */
 export type ChangeType = "Update" | "Delete" | "Create";
 /** Defines values for PropertyChangeType. */

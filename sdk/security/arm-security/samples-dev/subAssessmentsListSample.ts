@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get security sub-assessments on all your scanned resources inside a scope
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2019-01-01-preview/examples/SubAssessments/ListSubAssessments_example.json
  */
 async function listSecuritySubAssessments() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const assessmentName = "82e20e14-edc5-4373-bfc4-f13121257c37";
   const credential = new DefaultAzureCredential();
@@ -30,4 +35,8 @@ async function listSecuritySubAssessments() {
   console.log(resArray);
 }
 
-listSecuritySubAssessments().catch(console.error);
+async function main() {
+  listSecuritySubAssessments();
+}
+
+main().catch(console.error);

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { MicrosoftSecurityDevOps } = require("@azure/arm-securitydevops");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Returns a list of monitored GitHub Connectors.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/securitydevops/resource-manager/Microsoft.SecurityDevOps/preview/2022-09-01-preview/examples/GitHubConnectorListBySubscription.json
  */
 async function gitHubConnectorListBySubscription() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["SECURITYDEVOPS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSecurityDevOps(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +30,8 @@ async function gitHubConnectorListBySubscription() {
   console.log(resArray);
 }
 
-gitHubConnectorListBySubscription().catch(console.error);
+async function main() {
+  gitHubConnectorListBySubscription();
+}
+
+main().catch(console.error);

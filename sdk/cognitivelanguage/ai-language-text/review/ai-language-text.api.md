@@ -14,6 +14,37 @@ import { SimplePollerLike } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export interface AbstractiveSummarizationAction {
+    sentenceCount?: number;
+    stringIndexType?: StringIndexType;
+}
+
+// @public
+export interface AbstractiveSummarizationBatchAction extends AnalyzeBatchActionCommon, AbstractiveSummarizationAction {
+    kind: "AbstractiveSummarization";
+}
+
+// @public
+export type AbstractiveSummarizationBatchResult = ActionMetadata & BatchActionResult<AbstractiveSummarizationResult, "AbstractiveSummarization">;
+
+// @public
+export type AbstractiveSummarizationErrorResult = TextAnalysisErrorResult;
+
+// @public
+export type AbstractiveSummarizationResult = AbstractiveSummarizationSuccessResult | AbstractiveSummarizationErrorResult;
+
+// @public
+export interface AbstractiveSummarizationSuccessResult extends TextAnalysisSuccessResult {
+    readonly summaries: AbstractiveSummary[];
+}
+
+// @public
+export interface AbstractiveSummary {
+    contexts: SummaryContext[];
+    text: string;
+}
+
+// @public
 export interface ActionCommon {
     disableServiceLogs?: boolean;
 }
@@ -58,7 +89,7 @@ export type AnalyzeActionParameters<ActionName extends AnalyzeActionName> = {
 }[ActionName];
 
 // @public
-export type AnalyzeBatchAction = EntityLinkingBatchAction | EntityRecognitionBatchAction | KeyPhraseExtractionBatchAction | PiiEntityRecognitionBatchAction | HealthcareBatchAction | SentimentAnalysisBatchAction | CustomEntityRecognitionBatchAction | CustomSingleLabelClassificationBatchAction | CustomMultiLabelClassificationBatchAction;
+export type AnalyzeBatchAction = EntityLinkingBatchAction | EntityRecognitionBatchAction | KeyPhraseExtractionBatchAction | PiiEntityRecognitionBatchAction | HealthcareBatchAction | SentimentAnalysisBatchAction | ExtractiveSummarizationBatchAction | AbstractiveSummarizationBatchAction | CustomEntityRecognitionBatchAction | CustomSingleLabelClassificationBatchAction | CustomMultiLabelClassificationBatchAction;
 
 // @public
 export interface AnalyzeBatchActionCommon {
@@ -76,6 +107,8 @@ export const AnalyzeBatchActionNames: {
     readonly KeyPhraseExtraction: "KeyPhraseExtraction";
     readonly EntityLinking: "EntityLinking";
     readonly Healthcare: "Healthcare";
+    readonly ExtractiveSummarization: "ExtractiveSummarization";
+    readonly AbstractiveSummarization: "AbstractiveSummarization";
     readonly CustomEntityRecognition: "CustomEntityRecognition";
     readonly CustomSingleLabelClassification: "CustomSingleLabelClassification";
     readonly CustomMultiLabelClassification: "CustomMultiLabelClassification";
@@ -101,7 +134,7 @@ export interface AnalyzeBatchOperationState extends OperationState<PagedAnalyzeB
 export type AnalyzeBatchPoller = PollerLike<AnalyzeBatchOperationState, PagedAnalyzeBatchResult>;
 
 // @public
-export type AnalyzeBatchResult = EntityLinkingBatchResult | EntityRecognitionBatchResult | KeyPhraseExtractionBatchResult | PiiEntityRecognitionBatchResult | SentimentAnalysisBatchResult | HealthcareBatchResult | CustomEntityRecognitionBatchResult | CustomSingleLabelClassificationBatchResult | CustomMultiLabelClassificationBatchResult;
+export type AnalyzeBatchResult = EntityLinkingBatchResult | EntityRecognitionBatchResult | KeyPhraseExtractionBatchResult | PiiEntityRecognitionBatchResult | SentimentAnalysisBatchResult | HealthcareBatchResult | ExtractiveSummarizationBatchResult | AbstractiveSummarizationBatchResult | CustomEntityRecognitionBatchResult | CustomSingleLabelClassificationBatchResult | CustomMultiLabelClassificationBatchResult;
 
 // @public
 export type AnalyzeResult<ActionName extends AnalyzeActionName> = {
@@ -326,6 +359,35 @@ export interface EntityRecognitionSuccessResult extends TextAnalysisSuccessResul
 }
 
 // @public
+export interface ExtractiveSummarizationAction extends ActionPrebuilt {
+    maxSentenceCount?: number;
+    orderBy?: ExtractiveSummarizationOrderingCriteria;
+    stringIndexType?: StringIndexType;
+}
+
+// @public
+export interface ExtractiveSummarizationBatchAction extends AnalyzeBatchActionCommon, ExtractiveSummarizationAction {
+    kind: "ExtractiveSummarization";
+}
+
+// @public
+export type ExtractiveSummarizationBatchResult = ActionMetadata & BatchActionResult<ExtractiveSummarizationResult, "ExtractiveSummarization">;
+
+// @public
+export type ExtractiveSummarizationErrorResult = TextAnalysisErrorResult;
+
+// @public
+export type ExtractiveSummarizationOrderingCriteria = string;
+
+// @public
+export type ExtractiveSummarizationResult = ExtractiveSummarizationSuccessResult | ExtractiveSummarizationErrorResult;
+
+// @public
+export interface ExtractiveSummarizationSuccessResult extends TextAnalysisSuccessResult {
+    readonly sentences: SummarySentence[];
+}
+
+// @public
 export interface HealthcareAction extends ActionPrebuilt {
     stringIndexType?: StringIndexType;
 }
@@ -358,6 +420,7 @@ export type HealthcareEntityCategory = string;
 
 // @public
 export interface HealthcareEntityRelation {
+    readonly confidenceScore?: number;
     readonly relationType: RelationType;
     readonly roles: HealthcareEntityRelationRole[];
 }
@@ -426,6 +489,52 @@ export enum KnownErrorCode {
     TooManyRequests = "TooManyRequests",
     Unauthorized = "Unauthorized",
     Warning = "Warning"
+}
+
+// @public
+export enum KnownExtractiveSummarizationOrderingCriteria {
+    Offset = "Offset",
+    Rank = "Rank"
+}
+
+// @public
+export enum KnownHealthcareEntityCategory {
+    AdministrativeEvent = "AdministrativeEvent",
+    Age = "Age",
+    Allergen = "Allergen",
+    BodyStructure = "BodyStructure",
+    CareEnvironment = "CareEnvironment",
+    ConditionQualifier = "ConditionQualifier",
+    ConditionScale = "ConditionScale",
+    Course = "Course",
+    Date = "Date",
+    Diagnosis = "Diagnosis",
+    Direction = "Direction",
+    Dosage = "Dosage",
+    Employment = "Employment",
+    Ethnicity = "Ethnicity",
+    ExaminationName = "ExaminationName",
+    Expression = "Expression",
+    FamilyRelation = "FamilyRelation",
+    Frequency = "Frequency",
+    Gender = "Gender",
+    GeneOrProtein = "GeneOrProtein",
+    HealthcareProfession = "HealthcareProfession",
+    LivingStatus = "LivingStatus",
+    MeasurementUnit = "MeasurementUnit",
+    MeasurementValue = "MeasurementValue",
+    MedicationClass = "MedicationClass",
+    MedicationForm = "MedicationForm",
+    MedicationName = "MedicationName",
+    MedicationRoute = "MedicationRoute",
+    MutationType = "MutationType",
+    RelationalOperator = "RelationalOperator",
+    SubstanceUse = "SubstanceUse",
+    SubstanceUseAmount = "SubstanceUseAmount",
+    SymptomOrSign = "SymptomOrSign",
+    Time = "Time",
+    TreatmentName = "TreatmentName",
+    Variant = "Variant"
 }
 
 // @public
@@ -630,6 +739,45 @@ export enum KnownPiiEntityDomain {
 }
 
 // @public
+export enum KnownRelationType {
+    Abbreviation = "Abbreviation",
+    BodySiteOfCondition = "BodySiteOfCondition",
+    BodySiteOfTreatment = "BodySiteOfTreatment",
+    CourseOfCondition = "CourseOfCondition",
+    CourseOfExamination = "CourseOfExamination",
+    CourseOfMedication = "CourseOfMedication",
+    CourseOfTreatment = "CourseOfTreatment",
+    DirectionOfBodyStructure = "DirectionOfBodyStructure",
+    DirectionOfCondition = "DirectionOfCondition",
+    DirectionOfExamination = "DirectionOfExamination",
+    DirectionOfTreatment = "DirectionOfTreatment",
+    DosageOfMedication = "DosageOfMedication",
+    ExaminationFindsCondition = "ExaminationFindsCondition",
+    ExpressionOfGene = "ExpressionOfGene",
+    ExpressionOfVariant = "ExpressionOfVariant",
+    FormOfMedication = "FormOfMedication",
+    FrequencyOfCondition = "FrequencyOfCondition",
+    FrequencyOfMedication = "FrequencyOfMedication",
+    FrequencyOfTreatment = "FrequencyOfTreatment",
+    MutationTypeOfGene = "MutationTypeOfGene",
+    MutationTypeOfVariant = "MutationTypeOfVariant",
+    QualifierOfCondition = "QualifierOfCondition",
+    RelationOfExamination = "RelationOfExamination",
+    RouteOfMedication = "RouteOfMedication",
+    ScaleOfCondition = "ScaleOfCondition",
+    TimeOfCondition = "TimeOfCondition",
+    TimeOfEvent = "TimeOfEvent",
+    TimeOfExamination = "TimeOfExamination",
+    TimeOfMedication = "TimeOfMedication",
+    TimeOfTreatment = "TimeOfTreatment",
+    UnitOfCondition = "UnitOfCondition",
+    UnitOfExamination = "UnitOfExamination",
+    ValueOfCondition = "ValueOfCondition",
+    ValueOfExamination = "ValueOfExamination",
+    VariantOfGene = "VariantOfGene"
+}
+
+// @public
 export enum KnownStringIndexType {
     TextElementsV8 = "TextElements_v8",
     UnicodeCodePoint = "UnicodeCodePoint",
@@ -814,6 +962,20 @@ export interface SentimentConfidenceScores {
 
 // @public
 export type StringIndexType = string;
+
+// @public
+export interface SummaryContext {
+    length: number;
+    offset: number;
+}
+
+// @public
+export interface SummarySentence {
+    length: number;
+    offset: number;
+    rankScore: number;
+    text: string;
+}
 
 // @public
 export interface TargetConfidenceScores {

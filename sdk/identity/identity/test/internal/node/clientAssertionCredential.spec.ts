@@ -3,13 +3,8 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import * as fs from "fs";
-import * as jwt from "jsonwebtoken";
-import * as net from "net";
 import * as path from "path";
-import * as tls from "tls";
-import * as uuid from "uuid";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
+import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
 import { ClientAssertionCredential } from "../../../src";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import { Context } from "mocha";
@@ -17,7 +12,7 @@ import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
 import Sinon from "sinon";
 import { assert } from "chai";
 import { env } from "@azure-tools/test-recorder";
-import ms from "ms";
+import { createJWTTokenFromCertificate } from "../../public/node/utils/utils";
 
 describe("ClientAssertionCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
@@ -110,32 +105,3 @@ describe("ClientAssertionCredential (internal)", function () {
     // assert.equal(sentConfiguration.clientAssertion, "assertion");
   });
 });
-
-async function createJWTTokenFromCertificate(
-  authorityHost: string,
-  clientId: string,
-  certificatePath: string
-) {
-  const privateKeyPemCert = fs.readFileSync(certificatePath);
-  const audience = `${authorityHost}/v2.0`;
-  const secureContext = tls.createSecureContext({
-    cert: privateKeyPemCert,
-  });
-  const secureSocket = new tls.TLSSocket(new net.Socket(), { secureContext });
-  const cert = secureSocket.getCertificate() as tls.PeerCertificate;
-  secureSocket.destroy();
-  const signedCert = jwt.sign({}, privateKeyPemCert, {
-    header: {
-      alg: "RS256",
-      typ: "JWT",
-      x5t: Buffer.from(cert.fingerprint256, "hex").toString("base64"),
-    },
-    algorithm: "RS256",
-    audience: audience,
-    jwtid: uuid.v4(),
-    expiresIn: ms("1 h"),
-    subject: clientId,
-    issuer: clientId,
-  });
-  return signedCert;
-}

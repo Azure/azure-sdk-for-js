@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ConnectionMonitorResult,
   ConnectionMonitorsListOptionalParams,
@@ -55,8 +55,8 @@ export interface ConnectionMonitors {
     parameters: ConnectionMonitor,
     options?: ConnectionMonitorsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ConnectionMonitorsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ConnectionMonitorsCreateOrUpdateResponse>,
       ConnectionMonitorsCreateOrUpdateResponse
     >
   >;
@@ -100,7 +100,7 @@ export interface ConnectionMonitors {
     networkWatcherName: string,
     connectionMonitorName: string,
     options?: ConnectionMonitorsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified connection monitor.
    * @param resourceGroupName The name of the resource group containing Network Watcher.
@@ -141,7 +141,7 @@ export interface ConnectionMonitors {
     networkWatcherName: string,
     connectionMonitorName: string,
     options?: ConnectionMonitorsStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Stops the specified connection monitor.
    * @param resourceGroupName The name of the resource group containing Network Watcher.
@@ -167,7 +167,7 @@ export interface ConnectionMonitors {
     networkWatcherName: string,
     connectionMonitorName: string,
     options?: ConnectionMonitorsStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Starts the specified connection monitor.
    * @param resourceGroupName The name of the resource group containing Network Watcher.
@@ -194,8 +194,8 @@ export interface ConnectionMonitors {
     connectionMonitorName: string,
     options?: ConnectionMonitorsQueryOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ConnectionMonitorsQueryResponse>,
+    SimplePollerLike<
+      OperationState<ConnectionMonitorsQueryResponse>,
       ConnectionMonitorsQueryResponse
     >
   >;

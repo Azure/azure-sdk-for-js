@@ -6,18 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { DomainEventSubscriptions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { EventGridManagementClient } from "../eventGridManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   EventSubscription,
   DomainEventSubscriptionsListNextOptionalParams,
   DomainEventSubscriptionsListOptionalParams,
+  DomainEventSubscriptionsListResponse,
   DomainEventSubscriptionsGetDeliveryAttributesOptionalParams,
   DomainEventSubscriptionsGetDeliveryAttributesResponse,
   DomainEventSubscriptionsGetOptionalParams,
@@ -30,7 +36,6 @@ import {
   DomainEventSubscriptionsUpdateResponse,
   DomainEventSubscriptionsGetFullUrlOptionalParams,
   DomainEventSubscriptionsGetFullUrlResponse,
-  DomainEventSubscriptionsListResponse,
   DomainEventSubscriptionsListNextResponse
 } from "../models";
 
@@ -66,8 +71,16 @@ export class DomainEventSubscriptionsImpl implements DomainEventSubscriptions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, domainName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          domainName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -75,11 +88,18 @@ export class DomainEventSubscriptionsImpl implements DomainEventSubscriptions {
   private async *listPagingPage(
     resourceGroupName: string,
     domainName: string,
-    options?: DomainEventSubscriptionsListOptionalParams
+    options?: DomainEventSubscriptionsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<EventSubscription[]> {
-    let result = await this._list(resourceGroupName, domainName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DomainEventSubscriptionsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, domainName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -88,7 +108,9 @@ export class DomainEventSubscriptionsImpl implements DomainEventSubscriptions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -109,7 +131,7 @@ export class DomainEventSubscriptionsImpl implements DomainEventSubscriptions {
   /**
    * Get all delivery attributes for an event subscription for domain.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain topic.
+   * @param domainName Name of the domain.
    * @param eventSubscriptionName Name of the event subscription.
    * @param options The options parameters.
    */
@@ -128,7 +150,7 @@ export class DomainEventSubscriptionsImpl implements DomainEventSubscriptions {
   /**
    * Get properties of an event subscription of a domain.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the partner topic.
+   * @param domainName Name of the domain.
    * @param eventSubscriptionName Name of the event subscription to be found. Event subscription names
    *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
    * @param options The options parameters.
@@ -162,8 +184,8 @@ export class DomainEventSubscriptionsImpl implements DomainEventSubscriptions {
     eventSubscriptionInfo: EventSubscription,
     options?: DomainEventSubscriptionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DomainEventSubscriptionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DomainEventSubscriptionsCreateOrUpdateResponse>,
       DomainEventSubscriptionsCreateOrUpdateResponse
     >
   > {
@@ -173,7 +195,7 @@ export class DomainEventSubscriptionsImpl implements DomainEventSubscriptions {
     ): Promise<DomainEventSubscriptionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -206,19 +228,22 @@ export class DomainEventSubscriptionsImpl implements DomainEventSubscriptions {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         domainName,
         eventSubscriptionName,
         eventSubscriptionInfo,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DomainEventSubscriptionsCreateOrUpdateResponse,
+      OperationState<DomainEventSubscriptionsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -265,14 +290,14 @@ export class DomainEventSubscriptionsImpl implements DomainEventSubscriptions {
     domainName: string,
     eventSubscriptionName: string,
     options?: DomainEventSubscriptionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -305,13 +330,13 @@ export class DomainEventSubscriptionsImpl implements DomainEventSubscriptions {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, domainName, eventSubscriptionName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, domainName, eventSubscriptionName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -356,8 +381,8 @@ export class DomainEventSubscriptionsImpl implements DomainEventSubscriptions {
     eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters,
     options?: DomainEventSubscriptionsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DomainEventSubscriptionsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DomainEventSubscriptionsUpdateResponse>,
       DomainEventSubscriptionsUpdateResponse
     >
   > {
@@ -367,7 +392,7 @@ export class DomainEventSubscriptionsImpl implements DomainEventSubscriptions {
     ): Promise<DomainEventSubscriptionsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -400,19 +425,22 @@ export class DomainEventSubscriptionsImpl implements DomainEventSubscriptions {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         domainName,
         eventSubscriptionName,
         eventSubscriptionUpdateParameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DomainEventSubscriptionsUpdateResponse,
+      OperationState<DomainEventSubscriptionsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -673,7 +701,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

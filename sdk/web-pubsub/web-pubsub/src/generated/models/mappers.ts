@@ -8,21 +8,6 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const ClientTokenResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ClientTokenResponse",
-    modelProperties: {
-      token: {
-        serializedName: "token",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const ErrorDetail: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -91,13 +76,13 @@ export const InnerError: coreClient.CompositeMapper = {
   }
 };
 
-export const WebPubSubGenerateClientTokenExceptionHeaders: coreClient.CompositeMapper = {
+export const ClientTokenResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "WebPubSubGenerateClientTokenExceptionHeaders",
+    className: "ClientTokenResponse",
     modelProperties: {
-      errorCode: {
-        serializedName: "x-ms-error-code",
+      token: {
+        serializedName: "token",
         type: {
           name: "String"
         }
@@ -110,6 +95,21 @@ export const WebPubSubCloseAllConnectionsExceptionHeaders: coreClient.CompositeM
   type: {
     name: "Composite",
     className: "WebPubSubCloseAllConnectionsExceptionHeaders",
+    modelProperties: {
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WebPubSubGenerateClientTokenExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WebPubSubGenerateClientTokenExceptionHeaders",
     modelProperties: {
       errorCode: {
         serializedName: "x-ms-error-code",
@@ -136,21 +136,6 @@ export const WebPubSubSendToAllExceptionHeaders: coreClient.CompositeMapper = {
   }
 };
 
-export const WebPubSubConnectionExistsExceptionHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "WebPubSubConnectionExistsExceptionHeaders",
-    modelProperties: {
-      errorCode: {
-        serializedName: "x-ms-error-code",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const WebPubSubCloseConnectionExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -166,10 +151,40 @@ export const WebPubSubCloseConnectionExceptionHeaders: coreClient.CompositeMappe
   }
 };
 
+export const WebPubSubConnectionExistsExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WebPubSubConnectionExistsExceptionHeaders",
+    modelProperties: {
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const WebPubSubSendToConnectionExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "WebPubSubSendToConnectionExceptionHeaders",
+    modelProperties: {
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WebPubSubRemoveConnectionFromAllGroupsExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WebPubSubRemoveConnectionFromAllGroupsExceptionHeaders",
     modelProperties: {
       errorCode: {
         serializedName: "x-ms-error-code",
@@ -226,6 +241,21 @@ export const WebPubSubSendToGroupExceptionHeaders: coreClient.CompositeMapper = 
   }
 };
 
+export const WebPubSubRemoveConnectionFromGroupExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WebPubSubRemoveConnectionFromGroupExceptionHeaders",
+    modelProperties: {
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const WebPubSubAddConnectionToGroupExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -241,10 +271,40 @@ export const WebPubSubAddConnectionToGroupExceptionHeaders: coreClient.Composite
   }
 };
 
-export const WebPubSubRemoveConnectionFromGroupExceptionHeaders: coreClient.CompositeMapper = {
+export const WebPubSubRevokePermissionExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "WebPubSubRemoveConnectionFromGroupExceptionHeaders",
+    className: "WebPubSubRevokePermissionExceptionHeaders",
+    modelProperties: {
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WebPubSubCheckPermissionExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WebPubSubCheckPermissionExceptionHeaders",
+    modelProperties: {
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WebPubSubGrantPermissionExceptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WebPubSubGrantPermissionExceptionHeaders",
     modelProperties: {
       errorCode: {
         serializedName: "x-ms-error-code",
@@ -301,10 +361,10 @@ export const WebPubSubSendToUserExceptionHeaders: coreClient.CompositeMapper = {
   }
 };
 
-export const WebPubSubAddUserToGroupExceptionHeaders: coreClient.CompositeMapper = {
+export const WebPubSubRemoveUserFromAllGroupsExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "WebPubSubAddUserToGroupExceptionHeaders",
+    className: "WebPubSubRemoveUserFromAllGroupsExceptionHeaders",
     modelProperties: {
       errorCode: {
         serializedName: "x-ms-error-code",
@@ -331,55 +391,10 @@ export const WebPubSubRemoveUserFromGroupExceptionHeaders: coreClient.CompositeM
   }
 };
 
-export const WebPubSubRemoveUserFromAllGroupsExceptionHeaders: coreClient.CompositeMapper = {
+export const WebPubSubAddUserToGroupExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "WebPubSubRemoveUserFromAllGroupsExceptionHeaders",
-    modelProperties: {
-      errorCode: {
-        serializedName: "x-ms-error-code",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const WebPubSubGrantPermissionExceptionHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "WebPubSubGrantPermissionExceptionHeaders",
-    modelProperties: {
-      errorCode: {
-        serializedName: "x-ms-error-code",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const WebPubSubRevokePermissionExceptionHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "WebPubSubRevokePermissionExceptionHeaders",
-    modelProperties: {
-      errorCode: {
-        serializedName: "x-ms-error-code",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const WebPubSubCheckPermissionExceptionHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "WebPubSubCheckPermissionExceptionHeaders",
+    className: "WebPubSubAddUserToGroupExceptionHeaders",
     modelProperties: {
       errorCode: {
         serializedName: "x-ms-error-code",

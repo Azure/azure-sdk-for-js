@@ -117,7 +117,8 @@ const createChildProcess = (data: WorkerData): WorkerLike =>
     [JSON.stringify(data)],
     {
       // Configure an IPC channel so that messages can be sent via process.send.
-      stdio: [0, 0, 0, "ipc"],
+      // https://nodejs.org/api/child_process.html#optionsstdio
+      stdio: ["inherit", "inherit", "inherit", "ipc"],
     }
   );
 

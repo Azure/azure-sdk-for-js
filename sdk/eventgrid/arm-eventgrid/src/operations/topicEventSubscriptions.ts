@@ -6,18 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { TopicEventSubscriptions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { EventGridManagementClient } from "../eventGridManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   EventSubscription,
   TopicEventSubscriptionsListNextOptionalParams,
   TopicEventSubscriptionsListOptionalParams,
+  TopicEventSubscriptionsListResponse,
   TopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
   TopicEventSubscriptionsGetDeliveryAttributesResponse,
   TopicEventSubscriptionsGetOptionalParams,
@@ -30,7 +36,6 @@ import {
   TopicEventSubscriptionsUpdateResponse,
   TopicEventSubscriptionsGetFullUrlOptionalParams,
   TopicEventSubscriptionsGetFullUrlResponse,
-  TopicEventSubscriptionsListResponse,
   TopicEventSubscriptionsListNextResponse
 } from "../models";
 
@@ -66,8 +71,16 @@ export class TopicEventSubscriptionsImpl implements TopicEventSubscriptions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, topicName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          topicName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -75,11 +88,18 @@ export class TopicEventSubscriptionsImpl implements TopicEventSubscriptions {
   private async *listPagingPage(
     resourceGroupName: string,
     topicName: string,
-    options?: TopicEventSubscriptionsListOptionalParams
+    options?: TopicEventSubscriptionsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<EventSubscription[]> {
-    let result = await this._list(resourceGroupName, topicName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: TopicEventSubscriptionsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, topicName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -88,7 +108,9 @@ export class TopicEventSubscriptionsImpl implements TopicEventSubscriptions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -109,7 +131,7 @@ export class TopicEventSubscriptionsImpl implements TopicEventSubscriptions {
   /**
    * Get all delivery attributes for an event subscription for topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param topicName Name of the domain topic.
+   * @param topicName Name of the topic.
    * @param eventSubscriptionName Name of the event subscription.
    * @param options The options parameters.
    */
@@ -128,7 +150,7 @@ export class TopicEventSubscriptionsImpl implements TopicEventSubscriptions {
   /**
    * Get properties of an event subscription of a topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param topicName Name of the partner topic.
+   * @param topicName Name of the topic.
    * @param eventSubscriptionName Name of the event subscription to be found. Event subscription names
    *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
    * @param options The options parameters.
@@ -162,8 +184,8 @@ export class TopicEventSubscriptionsImpl implements TopicEventSubscriptions {
     eventSubscriptionInfo: EventSubscription,
     options?: TopicEventSubscriptionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TopicEventSubscriptionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<TopicEventSubscriptionsCreateOrUpdateResponse>,
       TopicEventSubscriptionsCreateOrUpdateResponse
     >
   > {
@@ -173,7 +195,7 @@ export class TopicEventSubscriptionsImpl implements TopicEventSubscriptions {
     ): Promise<TopicEventSubscriptionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -206,19 +228,22 @@ export class TopicEventSubscriptionsImpl implements TopicEventSubscriptions {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         topicName,
         eventSubscriptionName,
         eventSubscriptionInfo,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      TopicEventSubscriptionsCreateOrUpdateResponse,
+      OperationState<TopicEventSubscriptionsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -265,14 +290,14 @@ export class TopicEventSubscriptionsImpl implements TopicEventSubscriptions {
     topicName: string,
     eventSubscriptionName: string,
     options?: TopicEventSubscriptionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -305,13 +330,13 @@ export class TopicEventSubscriptionsImpl implements TopicEventSubscriptions {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, topicName, eventSubscriptionName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, topicName, eventSubscriptionName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -356,8 +381,8 @@ export class TopicEventSubscriptionsImpl implements TopicEventSubscriptions {
     eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters,
     options?: TopicEventSubscriptionsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TopicEventSubscriptionsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<TopicEventSubscriptionsUpdateResponse>,
       TopicEventSubscriptionsUpdateResponse
     >
   > {
@@ -367,7 +392,7 @@ export class TopicEventSubscriptionsImpl implements TopicEventSubscriptions {
     ): Promise<TopicEventSubscriptionsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -400,19 +425,22 @@ export class TopicEventSubscriptionsImpl implements TopicEventSubscriptions {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         topicName,
         eventSubscriptionName,
         eventSubscriptionUpdateParameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      TopicEventSubscriptionsUpdateResponse,
+      OperationState<TopicEventSubscriptionsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -673,7 +701,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

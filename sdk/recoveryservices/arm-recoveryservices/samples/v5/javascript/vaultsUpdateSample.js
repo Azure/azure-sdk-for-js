@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { RecoveryServicesClient } = require("@azure/arm-recoveryservices");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Updates the vault.
  *
  * @summary Updates the vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/PATCHVault.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/PATCHVault.json
  */
 async function updateResource() {
-  const subscriptionId = "77777777-b0c6-47a2-b37c-d8e65a629c18";
-  const resourceGroupName = "HelloWorld";
+  const subscriptionId =
+    process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] || "77777777-b0c6-47a2-b37c-d8e65a629c18";
+  const resourceGroupName = process.env["RECOVERYSERVICES_RESOURCE_GROUP"] || "HelloWorld";
   const vaultName = "swaggerExample";
   const vault = { tags: { patchKey: "PatchKeyUpdated" } };
   const credential = new DefaultAzureCredential();
@@ -28,17 +30,16 @@ async function updateResource() {
   console.log(result);
 }
 
-updateResource().catch(console.error);
-
 /**
  * This sample demonstrates how to Updates the vault.
  *
  * @summary Updates the vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/PATCHVault_WithCMK.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/PATCHVault_WithCMK.json
  */
 async function updateResourceWithCustomerManagedKeys() {
-  const subscriptionId = "77777777-b0c6-47a2-b37c-d8e65a629c18";
-  const resourceGroupName = "HelloWorld";
+  const subscriptionId =
+    process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] || "77777777-b0c6-47a2-b37c-d8e65a629c18";
+  const resourceGroupName = process.env["RECOVERYSERVICES_RESOURCE_GROUP"] || "HelloWorld";
   const vaultName = "swaggerExample";
   const vault = {
     identity: {
@@ -68,17 +69,16 @@ async function updateResourceWithCustomerManagedKeys() {
   console.log(result);
 }
 
-updateResourceWithCustomerManagedKeys().catch(console.error);
-
 /**
  * This sample demonstrates how to Updates the vault.
  *
  * @summary Updates the vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/PatchVault_WithCMK2.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/PatchVault_WithCMK2.json
  */
 async function updateResourceWithCustomerManagedKeys2() {
-  const subscriptionId = "77777777-b0c6-47a2-b37c-d8e65a629c18";
-  const resourceGroupName = "HelloWorld";
+  const subscriptionId =
+    process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] || "77777777-b0c6-47a2-b37c-d8e65a629c18";
+  const resourceGroupName = process.env["RECOVERYSERVICES_RESOURCE_GROUP"] || "HelloWorld";
   const vaultName = "swaggerExample";
   const vault = {
     identity: { type: "SystemAssigned" },
@@ -93,17 +93,16 @@ async function updateResourceWithCustomerManagedKeys2() {
   console.log(result);
 }
 
-updateResourceWithCustomerManagedKeys2().catch(console.error);
-
 /**
  * This sample demonstrates how to Updates the vault.
  *
  * @summary Updates the vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/PATCHVault_WithCMK3.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/PATCHVault_WithCMK3.json
  */
 async function updateResourceWithCustomerManagedKeys3() {
-  const subscriptionId = "77777777-b0c6-47a2-b37c-d8e65a629c18";
-  const resourceGroupName = "HelloWorld";
+  const subscriptionId =
+    process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] || "77777777-b0c6-47a2-b37c-d8e65a629c18";
+  const resourceGroupName = process.env["RECOVERYSERVICES_RESOURCE_GROUP"] || "HelloWorld";
   const vaultName = "swaggerExample";
   const vault = {
     identity: {
@@ -128,17 +127,16 @@ async function updateResourceWithCustomerManagedKeys3() {
   console.log(result);
 }
 
-updateResourceWithCustomerManagedKeys3().catch(console.error);
-
 /**
  * This sample demonstrates how to Updates the vault.
  *
  * @summary Updates the vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/PATCHVault_WithUserAssignedIdentity.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/PATCHVault_WithUserAssignedIdentity.json
  */
 async function updateResourceWithUserAssignedIdentity() {
-  const subscriptionId = "77777777-b0c6-47a2-b37c-d8e65a629c18";
-  const resourceGroupName = "HelloWorld";
+  const subscriptionId =
+    process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] || "77777777-b0c6-47a2-b37c-d8e65a629c18";
+  const resourceGroupName = process.env["RECOVERYSERVICES_RESOURCE_GROUP"] || "HelloWorld";
   const vaultName = "swaggerExample";
   const vault = {
     identity: {
@@ -156,17 +154,16 @@ async function updateResourceWithUserAssignedIdentity() {
   console.log(result);
 }
 
-updateResourceWithUserAssignedIdentity().catch(console.error);
-
 /**
  * This sample demonstrates how to Updates the vault.
  *
  * @summary Updates the vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/PATCHVault_WithMonitoringSettings.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/PATCHVault_WithMonitoringSettings.json
  */
 async function updateVaultWithMonitoringSetting() {
-  const subscriptionId = "77777777-b0c6-47a2-b37c-d8e65a629c18";
-  const resourceGroupName = "HelloWorld";
+  const subscriptionId =
+    process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] || "77777777-b0c6-47a2-b37c-d8e65a629c18";
+  const resourceGroupName = process.env["RECOVERYSERVICES_RESOURCE_GROUP"] || "HelloWorld";
   const vaultName = "swaggerExample";
   const vault = {
     properties: {
@@ -183,4 +180,13 @@ async function updateVaultWithMonitoringSetting() {
   console.log(result);
 }
 
-updateVaultWithMonitoringSetting().catch(console.error);
+async function main() {
+  updateResource();
+  updateResourceWithCustomerManagedKeys();
+  updateResourceWithCustomerManagedKeys2();
+  updateResourceWithCustomerManagedKeys3();
+  updateResourceWithUserAssignedIdentity();
+  updateVaultWithMonitoringSetting();
+}
+
+main().catch(console.error);

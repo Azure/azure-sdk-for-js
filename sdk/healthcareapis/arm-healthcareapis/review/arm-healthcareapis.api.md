@@ -23,14 +23,14 @@ export interface CheckNameAvailabilityParameters {
 export type CreatedByType = string;
 
 // @public
-export type DicomService = TaggedResource & ServiceManagedIdentity & {
-    readonly systemData?: SystemData;
-    readonly provisioningState?: ProvisioningState;
+export interface DicomService extends TaggedResource, ServiceManagedIdentity {
     authenticationConfiguration?: DicomServiceAuthenticationConfiguration;
-    readonly serviceUrl?: string;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
-};
+    readonly serviceUrl?: string;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface DicomServiceAuthenticationConfiguration {
@@ -45,7 +45,8 @@ export interface DicomServiceCollection {
 }
 
 // @public
-export type DicomServicePatchResource = ResourceTags & ServiceManagedIdentity & {};
+export interface DicomServicePatchResource extends ResourceTags, ServiceManagedIdentity {
+}
 
 // @public
 export interface DicomServices {
@@ -144,20 +145,20 @@ export type FhirDestinationsListByIotConnectorResponse = IotFhirDestinationColle
 export type FhirResourceVersionPolicy = string;
 
 // @public
-export type FhirService = TaggedResource & ServiceManagedIdentity & {
-    kind?: FhirServiceKind;
-    readonly systemData?: SystemData;
-    readonly provisioningState?: ProvisioningState;
+export interface FhirService extends TaggedResource, ServiceManagedIdentity {
     accessPolicies?: FhirServiceAccessPolicyEntry[];
     acrConfiguration?: FhirServiceAcrConfiguration;
     authenticationConfiguration?: FhirServiceAuthenticationConfiguration;
     corsConfiguration?: FhirServiceCorsConfiguration;
-    exportConfiguration?: FhirServiceExportConfiguration;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    publicNetworkAccess?: PublicNetworkAccess;
     readonly eventState?: ServiceEventState;
+    exportConfiguration?: FhirServiceExportConfiguration;
+    kind?: FhirServiceKind;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
     resourceVersionPolicyConfiguration?: ResourceVersionPolicyConfiguration;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface FhirServiceAccessPolicyEntry {
@@ -201,7 +202,8 @@ export interface FhirServiceExportConfiguration {
 export type FhirServiceKind = string;
 
 // @public
-export type FhirServicePatchResource = ResourceTags & ServiceManagedIdentity & {};
+export interface FhirServicePatchResource extends ResourceTags, ServiceManagedIdentity {
+}
 
 // @public
 export interface FhirServices {
@@ -260,6 +262,9 @@ export interface FhirServicesUpdateOptionalParams extends coreClient.OperationOp
 // @public
 export type FhirServicesUpdateResponse = FhirService;
 
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
+
 // @public (undocumented)
 export class HealthcareApisManagementClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -305,12 +310,12 @@ export interface HealthcareApisManagementClientOptionalParams extends coreClient
 }
 
 // @public
-export type IotConnector = TaggedResource & ServiceManagedIdentity & {
-    readonly systemData?: SystemData;
-    readonly provisioningState?: ProvisioningState;
-    ingestionEndpointConfiguration?: IotEventHubIngestionEndpointConfiguration;
+export interface IotConnector extends TaggedResource, ServiceManagedIdentity {
     deviceMapping?: IotMappingProperties;
-};
+    ingestionEndpointConfiguration?: IotEventHubIngestionEndpointConfiguration;
+    readonly provisioningState?: ProvisioningState;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface IotConnectorCollection {
@@ -350,7 +355,8 @@ export interface IotConnectorFhirDestinationGetOptionalParams extends coreClient
 export type IotConnectorFhirDestinationGetResponse = IotFhirDestination;
 
 // @public
-export type IotConnectorPatchResource = ResourceTags & ServiceManagedIdentity & {};
+export interface IotConnectorPatchResource extends ResourceTags, ServiceManagedIdentity {
+}
 
 // @public
 export interface IotConnectors {
@@ -422,13 +428,13 @@ export interface IotEventHubIngestionEndpointConfiguration {
 }
 
 // @public
-export type IotFhirDestination = LocationBasedResource & {
-    readonly systemData?: SystemData;
+export interface IotFhirDestination extends LocationBasedResource {
+    fhirMapping: IotMappingProperties;
+    fhirServiceResourceId: string;
     readonly provisioningState?: ProvisioningState;
     resourceIdentityResolutionType: IotIdentityResolutionType;
-    fhirServiceResourceId: string;
-    fhirMapping: IotMappingProperties;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface IotFhirDestinationCollection {
@@ -437,11 +443,11 @@ export interface IotFhirDestinationCollection {
 }
 
 // @public
-export type IotFhirDestinationProperties = IotDestinationProperties & {
-    resourceIdentityResolutionType: IotIdentityResolutionType;
-    fhirServiceResourceId: string;
+export interface IotFhirDestinationProperties extends IotDestinationProperties {
     fhirMapping: IotMappingProperties;
-};
+    fhirServiceResourceId: string;
+    resourceIdentityResolutionType: IotIdentityResolutionType;
+}
 
 // @public
 export type IotIdentityResolutionType = string;
@@ -456,149 +462,101 @@ export type Kind = "fhir" | "fhir-Stu3" | "fhir-R4";
 
 // @public
 export enum KnownActionType {
-    // (undocumented)
     Internal = "Internal"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownFhirResourceVersionPolicy {
-    // (undocumented)
     NoVersion = "no-version",
-    // (undocumented)
     Versioned = "versioned",
-    // (undocumented)
     VersionedUpdate = "versioned-update"
 }
 
 // @public
 export enum KnownFhirServiceKind {
-    // (undocumented)
     FhirR4 = "fhir-R4",
-    // (undocumented)
     FhirStu3 = "fhir-Stu3"
 }
 
 // @public
 export enum KnownIotIdentityResolutionType {
-    // (undocumented)
     Create = "Create",
-    // (undocumented)
     Lookup = "Lookup"
 }
 
 // @public
 export enum KnownManagedServiceIdentityType {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     SystemAssigned = "SystemAssigned"
 }
 
 // @public
 export enum KnownOperationResultStatus {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Requested = "Requested",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPrivateEndpointServiceConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Deprovisioned = "Deprovisioned",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Moving = "Moving",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Suspended = "Suspended",
-    // (undocumented)
     SystemMaintenance = "SystemMaintenance",
-    // (undocumented)
     Updating = "Updating",
-    // (undocumented)
     Verifying = "Verifying",
-    // (undocumented)
     Warned = "Warned"
 }
 
 // @public
 export enum KnownPublicNetworkAccess {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownServiceEventState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownServiceManagedIdentityType {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     SystemAssigned = "SystemAssigned",
-    // (undocumented)
     SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
-    // (undocumented)
     UserAssigned = "UserAssigned"
 }
 
@@ -609,9 +567,9 @@ export interface ListOperations {
 }
 
 // @public
-export type LocationBasedResource = ResourceCore & {
+export interface LocationBasedResource extends ResourceCore {
     location?: string;
-};
+}
 
 // @public
 export interface LogSpecification {
@@ -718,16 +676,16 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+}
 
 // @public
-export type PrivateEndpointConnectionDescription = PrivateEndpointConnection & {
+export interface PrivateEndpointConnectionDescription extends PrivateEndpointConnection {
     readonly systemData?: SystemData;
-};
+}
 
 // @public
 export interface PrivateEndpointConnectionListResult {
@@ -785,16 +743,16 @@ export type PrivateEndpointConnectionsListByServiceResponse = PrivateEndpointCon
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
     requiredZoneNames?: string[];
-};
+}
 
 // @public
-export type PrivateLinkResourceDescription = PrivateLinkResource & {
+export interface PrivateLinkResourceDescription extends PrivateLinkResource {
     readonly systemData?: SystemData;
-};
+}
 
 // @public
 export interface PrivateLinkResourceListResultDescription {
@@ -970,10 +928,10 @@ export interface ServicesDeleteOptionalParams extends coreClient.OperationOption
 }
 
 // @public
-export type ServicesDescription = ServicesResource & {
+export interface ServicesDescription extends ServicesResource {
     properties?: ServicesProperties;
     readonly systemData?: SystemData;
-};
+}
 
 // @public
 export interface ServicesDescriptionListResult {
@@ -1091,7 +1049,8 @@ export interface SystemData {
 }
 
 // @public
-export type TaggedResource = ResourceTags & LocationBasedResource & {};
+export interface TaggedResource extends ResourceTags, LocationBasedResource {
+}
 
 // @public
 export interface UserAssignedIdentity {
@@ -1100,10 +1059,10 @@ export interface UserAssignedIdentity {
 }
 
 // @public
-export type Workspace = TaggedResource & {
+export interface Workspace extends TaggedResource {
     properties?: WorkspaceProperties;
     readonly systemData?: SystemData;
-};
+}
 
 // @public
 export interface WorkspaceList {
@@ -1112,7 +1071,8 @@ export interface WorkspaceList {
 }
 
 // @public
-export type WorkspacePatchResource = ResourceTags & {};
+export interface WorkspacePatchResource extends ResourceTags {
+}
 
 // @public
 export interface WorkspacePrivateEndpointConnections {

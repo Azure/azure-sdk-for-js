@@ -18,9 +18,7 @@ In this document, we will give a brief introduction on how to use the JavaScript
 
 1. Install dependencies.
    ```
-   // install the nodeauth packages to do the authentication work.
-   npm install @azure/ms-rest-nodeauth
-   // or install @azure/identity, if you would like to use @azure/identity to do the authentication work.
+   // install @azure/identity, you can use @azure/identity to do the authentication work.
    npm install @azure/identity
    
    // Then install your target try out package,  you can install the latest published with
@@ -35,31 +33,28 @@ In this document, we will give a brief introduction on how to use the JavaScript
 1. Create a ts file (free name and copy follow code into this file) eg: test_1.ts
     eg：
     ```
-        const msRestNodeAuth = require("@azure/ms-rest-nodeauth");
-        const { TargetManagementClient } = require("@azure/arm-target");  // must same as dependencies
-        const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
+        import { DefaultAzureCredential } from "@azure/identity";
+        import{ TargetManagementClient } from "@azure/arm-target";
 
-        msRestNodeAuth.interactiveLogin().then((creds) => {
-            const client = new TargetManagementClient(creds, subscriptionId);
-            client.operations.list().then((result) => {      // you can test that you need test operation
-                console.log("The result is:");
-                console.log(result);
-            });
-        }).catch((err) => {
-                console.error(err);
-        });
+        const subscriptionId = process.env.SUBSCRIPTION_ID || '';
+        const credentials=new DefaultAzureCredential();
+
+        async function test() {
+            const client = new TargetManagementClient(credentials, subscriptionId);
+            const result = await client.operations.list();
+            // you can test that you need test operation
+            console.log("The result is:\n");
+            console.log(result);
+        }
+
+        test();
     ```   
-    A few points, you need to pay attention here:  
-    In the example, we are using msRestNodeAuth.interactiveLogin, you can also try other way such as Service Principal
-    ```
-        const credentials = await msRestNodeAuth.loginWithServicePrincipalSecret(clientID, clientSecret, tenantID);
-    ```
     In the example, we only add client.operations.list(), you may change them into other resources CURD function per your need.  
     for example：  
     ```
     const client = new ComputeManagementClient(credentials, subscriptionID);
-    await client.galleries.createOrUpdate(resourceGroupName, galleryName, gallery);
-    await client.galleryImages.createOrUpdate(resourceGroupName, galleryName, galleryImageName, galleryImage);
+    const result= await client.galleries.beginCreateOrUpdateAndWait(resourceGroupName, galleryName, gallery);
+    const result= await client.galleryImages.begincreateOrUpdateAndWait(resourceGroupName, galleryName, galleryImageName, galleryImage);
     ```
     
 1. Install all the dependencies 

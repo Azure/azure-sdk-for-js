@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { MonitorClient } = require("@azure/arm-monitor");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates (or updates) a Azure Monitor PrivateLinkScope. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-07-01-preview/examples/PrivateLinkScopesCreate.json
  */
 async function privateLinkScopeCreate() {
-  const subscriptionId = "86dc51d3-92ed-4d7e-947a-775ea79b4919";
-  const resourceGroupName = "my-resource-group";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "86dc51d3-92ed-4d7e-947a-775ea79b4919";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "my-resource-group";
   const scopeName = "my-privatelinkscope";
   const azureMonitorPrivateLinkScopePayload = {
     accessModeSettings: {
@@ -39,8 +41,6 @@ async function privateLinkScopeCreate() {
   console.log(result);
 }
 
-privateLinkScopeCreate().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates (or updates) a Azure Monitor PrivateLinkScope. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
  *
@@ -48,8 +48,9 @@ privateLinkScopeCreate().catch(console.error);
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-07-01-preview/examples/PrivateLinkScopesUpdate.json
  */
 async function privateLinkScopeUpdate() {
-  const subscriptionId = "86dc51d3-92ed-4d7e-947a-775ea79b4919";
-  const resourceGroupName = "my-resource-group";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "86dc51d3-92ed-4d7e-947a-775ea79b4919";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "my-resource-group";
   const scopeName = "my-privatelinkscope";
   const azureMonitorPrivateLinkScopePayload = {
     accessModeSettings: {
@@ -70,4 +71,9 @@ async function privateLinkScopeUpdate() {
   console.log(result);
 }
 
-privateLinkScopeUpdate().catch(console.error);
+async function main() {
+  privateLinkScopeCreate();
+  privateLinkScopeUpdate();
+}
+
+main().catch(console.error);

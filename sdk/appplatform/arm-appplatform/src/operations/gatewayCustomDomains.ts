@@ -6,24 +6,29 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { GatewayCustomDomains } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AppPlatformManagementClient } from "../appPlatformManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   GatewayCustomDomainResource,
   GatewayCustomDomainsListNextOptionalParams,
   GatewayCustomDomainsListOptionalParams,
+  GatewayCustomDomainsListResponse,
   GatewayCustomDomainsGetOptionalParams,
   GatewayCustomDomainsGetResponse,
   GatewayCustomDomainsCreateOrUpdateOptionalParams,
   GatewayCustomDomainsCreateOrUpdateResponse,
   GatewayCustomDomainsDeleteOptionalParams,
-  GatewayCustomDomainsListResponse,
   GatewayCustomDomainsListNextResponse
 } from "../models";
 
@@ -67,12 +72,16 @@ export class GatewayCustomDomainsImpl implements GatewayCustomDomains {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           serviceName,
           gatewayName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -82,16 +91,23 @@ export class GatewayCustomDomainsImpl implements GatewayCustomDomains {
     resourceGroupName: string,
     serviceName: string,
     gatewayName: string,
-    options?: GatewayCustomDomainsListOptionalParams
+    options?: GatewayCustomDomainsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<GatewayCustomDomainResource[]> {
-    let result = await this._list(
-      resourceGroupName,
-      serviceName,
-      gatewayName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: GatewayCustomDomainsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        serviceName,
+        gatewayName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -101,7 +117,9 @@ export class GatewayCustomDomainsImpl implements GatewayCustomDomains {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -162,8 +180,8 @@ export class GatewayCustomDomainsImpl implements GatewayCustomDomains {
     gatewayCustomDomainResource: GatewayCustomDomainResource,
     options?: GatewayCustomDomainsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<GatewayCustomDomainsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<GatewayCustomDomainsCreateOrUpdateResponse>,
       GatewayCustomDomainsCreateOrUpdateResponse
     >
   > {
@@ -173,7 +191,7 @@ export class GatewayCustomDomainsImpl implements GatewayCustomDomains {
     ): Promise<GatewayCustomDomainsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -206,9 +224,9 @@ export class GatewayCustomDomainsImpl implements GatewayCustomDomains {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serviceName,
         gatewayName,
@@ -216,10 +234,13 @@ export class GatewayCustomDomainsImpl implements GatewayCustomDomains {
         gatewayCustomDomainResource,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      GatewayCustomDomainsCreateOrUpdateResponse,
+      OperationState<GatewayCustomDomainsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -271,14 +292,14 @@ export class GatewayCustomDomainsImpl implements GatewayCustomDomains {
     gatewayName: string,
     domainName: string,
     options?: GatewayCustomDomainsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -311,13 +332,19 @@ export class GatewayCustomDomainsImpl implements GatewayCustomDomains {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serviceName, gatewayName, domainName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        serviceName,
+        gatewayName,
+        domainName,
+        options
+      },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -513,7 +540,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

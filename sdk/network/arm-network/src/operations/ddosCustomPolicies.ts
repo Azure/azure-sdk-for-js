@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DdosCustomPoliciesDeleteOptionalParams,
   DdosCustomPoliciesGetOptionalParams,
@@ -47,14 +51,14 @@ export class DdosCustomPoliciesImpl implements DdosCustomPolicies {
     resourceGroupName: string,
     ddosCustomPolicyName: string,
     options?: DdosCustomPoliciesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -87,15 +91,15 @@ export class DdosCustomPoliciesImpl implements DdosCustomPolicies {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, ddosCustomPolicyName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, ddosCustomPolicyName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -150,8 +154,8 @@ export class DdosCustomPoliciesImpl implements DdosCustomPolicies {
     parameters: DdosCustomPolicy,
     options?: DdosCustomPoliciesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DdosCustomPoliciesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DdosCustomPoliciesCreateOrUpdateResponse>,
       DdosCustomPoliciesCreateOrUpdateResponse
     >
   > {
@@ -161,7 +165,7 @@ export class DdosCustomPoliciesImpl implements DdosCustomPolicies {
     ): Promise<DdosCustomPoliciesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -194,15 +198,18 @@ export class DdosCustomPoliciesImpl implements DdosCustomPolicies {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, ddosCustomPolicyName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, ddosCustomPolicyName, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DdosCustomPoliciesCreateOrUpdateResponse,
+      OperationState<DdosCustomPoliciesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -318,7 +325,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters11,
+  requestBody: Parameters.parameters13,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

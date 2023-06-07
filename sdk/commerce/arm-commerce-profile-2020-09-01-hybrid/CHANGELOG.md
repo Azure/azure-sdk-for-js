@@ -1,5 +1,27 @@
 # Release History
 
+## 2.1.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 2.1.0 (2022-12-19)
+    
+**Features**
+
+  - Added Interface MonetaryCommitment
+  - Added Interface MonetaryCredit
+  - Added Interface RecurringCharge
+  - Added function getContinuationToken
+  - Interface UsageAggregatesListNextOptionalParams no longer has parameter aggregationGranularity
+  - Interface UsageAggregatesListNextOptionalParams no longer has parameter continuationToken
+  - Interface UsageAggregatesListNextOptionalParams no longer has parameter showDetails
+    
 ## 2.0.0 (2022-03-10)
 
 **features**

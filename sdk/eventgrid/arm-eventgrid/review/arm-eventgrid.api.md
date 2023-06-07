@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AdvancedFilter {
@@ -23,37 +23,127 @@ export type AdvancedFilterOperatorType = string;
 export type AdvancedFilterUnion = AdvancedFilter | NumberInAdvancedFilter | NumberNotInAdvancedFilter | NumberLessThanAdvancedFilter | NumberGreaterThanAdvancedFilter | NumberLessThanOrEqualsAdvancedFilter | NumberGreaterThanOrEqualsAdvancedFilter | BoolEqualsAdvancedFilter | StringInAdvancedFilter | StringNotInAdvancedFilter | StringBeginsWithAdvancedFilter | StringEndsWithAdvancedFilter | StringContainsAdvancedFilter | NumberInRangeAdvancedFilter | NumberNotInRangeAdvancedFilter | StringNotBeginsWithAdvancedFilter | StringNotEndsWithAdvancedFilter | StringNotContainsAdvancedFilter | IsNullOrUndefinedAdvancedFilter | IsNotNullAdvancedFilter;
 
 // @public
-export type AzureFunctionEventSubscriptionDestination = EventSubscriptionDestination & {
+export type AlternativeAuthenticationNameSource = string;
+
+// @public
+export interface AzureADPartnerClientAuthentication extends PartnerClientAuthentication {
+    azureActiveDirectoryApplicationIdOrUri?: string;
+    azureActiveDirectoryTenantId?: string;
+    clientAuthenticationType: "AzureAD";
+}
+
+// @public
+export interface AzureFunctionEventSubscriptionDestination extends EventSubscriptionDestination {
+    deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
     endpointType: "AzureFunction";
-    resourceId?: string;
     maxEventsPerBatch?: number;
     preferredBatchSizeInKilobytes?: number;
-    deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
-};
+    resourceId?: string;
+}
 
 // @public
-export type BoolEqualsAdvancedFilter = AdvancedFilter & {
+export interface BoolEqualsAdvancedFilter extends AdvancedFilter {
     operatorType: "BoolEquals";
     value?: boolean;
-};
+}
 
 // @public
-export type Channel = Resource & {
+export interface BoolEqualsFilter extends Filter {
+    operatorType: "BoolEquals";
+    value?: boolean;
+}
+
+// @public
+export interface CaCertificate extends Resource {
+    description?: string;
+    encodedCertificate?: string;
+    readonly expiryTimeInUtc?: Date;
+    readonly issueTimeInUtc?: Date;
+    readonly provisioningState?: CaCertificateProvisioningState;
     readonly systemData?: SystemData;
+}
+
+// @public
+export type CaCertificateProvisioningState = string;
+
+// @public
+export interface CaCertificates {
+    beginCreateOrUpdate(resourceGroupName: string, namespaceName: string, caCertificateName: string, caCertificateInfo: CaCertificate, options?: CaCertificatesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CaCertificatesCreateOrUpdateResponse>, CaCertificatesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, namespaceName: string, caCertificateName: string, caCertificateInfo: CaCertificate, options?: CaCertificatesCreateOrUpdateOptionalParams): Promise<CaCertificatesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, namespaceName: string, caCertificateName: string, options?: CaCertificatesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, namespaceName: string, caCertificateName: string, options?: CaCertificatesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, namespaceName: string, caCertificateName: string, options?: CaCertificatesGetOptionalParams): Promise<CaCertificatesGetResponse>;
+    listByNamespace(resourceGroupName: string, namespaceName: string, options?: CaCertificatesListByNamespaceOptionalParams): PagedAsyncIterableIterator<CaCertificate>;
+}
+
+// @public
+export interface CaCertificatesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type CaCertificatesCreateOrUpdateResponse = CaCertificate;
+
+// @public
+export interface CaCertificatesDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface CaCertificatesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface CaCertificatesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CaCertificatesGetResponse = CaCertificate;
+
+// @public
+export interface CaCertificatesListByNamespaceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CaCertificatesListByNamespaceNextResponse = CaCertificatesListResult;
+
+// @public
+export interface CaCertificatesListByNamespaceOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type CaCertificatesListByNamespaceResponse = CaCertificatesListResult;
+
+// @public
+export interface CaCertificatesListResult {
+    nextLink?: string;
+    value?: CaCertificate[];
+}
+
+// @public
+export interface Channel extends Resource {
     channelType?: ChannelType;
-    partnerTopicInfo?: PartnerTopicInfo;
+    expirationTimeIfNotActivatedUtc?: Date;
     messageForActivation?: string;
+    partnerDestinationInfo?: PartnerDestinationInfoUnion;
+    partnerTopicInfo?: PartnerTopicInfo;
     provisioningState?: ChannelProvisioningState;
     readinessState?: ReadinessState;
-    expirationTimeIfNotActivatedUtc?: Date;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export type ChannelProvisioningState = string;
 
 // @public
 export interface Channels {
-    beginDelete(resourceGroupName: string, partnerNamespaceName: string, channelName: string, options?: ChannelsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, partnerNamespaceName: string, channelName: string, options?: ChannelsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, partnerNamespaceName: string, channelName: string, options?: ChannelsDeleteOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, partnerNamespaceName: string, channelName: string, channelInfo: Channel, options?: ChannelsCreateOrUpdateOptionalParams): Promise<ChannelsCreateOrUpdateResponse>;
     get(resourceGroupName: string, partnerNamespaceName: string, channelName: string, options?: ChannelsGetOptionalParams): Promise<ChannelsGetResponse>;
@@ -68,6 +158,12 @@ export interface ChannelsCreateOrUpdateOptionalParams extends coreClient.Operati
 
 // @public
 export type ChannelsCreateOrUpdateResponse = Channel;
+
+// @public
+export interface ChannelsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface ChannelsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -91,8 +187,6 @@ export type ChannelsGetResponse = Channel;
 
 // @public
 export interface ChannelsListByPartnerNamespaceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -123,8 +217,194 @@ export type ChannelType = string;
 // @public
 export interface ChannelUpdateParameters {
     expirationTimeIfNotActivatedUtc?: Date;
+    partnerDestinationInfo?: PartnerUpdateDestinationInfoUnion;
     partnerTopicInfo?: PartnerUpdateTopicInfo;
 }
+
+// @public
+export interface Client extends Resource {
+    attributes?: {
+        [propertyName: string]: any;
+    };
+    authentication?: ClientAuthentication;
+    authenticationName?: string;
+    clientCertificateAuthentication?: ClientCertificateAuthentication;
+    description?: string;
+    readonly provisioningState?: ClientProvisioningState;
+    state?: ClientState;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface ClientAuthentication {
+    certificateSubject?: ClientCertificateSubjectDistinguishedName;
+    certificateThumbprint?: ClientCertificateThumbprint;
+}
+
+// @public
+export interface ClientAuthenticationSettings {
+    alternativeAuthenticationNameSources?: AlternativeAuthenticationNameSource[];
+}
+
+// @public
+export interface ClientCertificateAuthentication {
+    allowedThumbprints?: string[];
+    validationScheme?: ClientCertificateValidationScheme;
+}
+
+// @public
+export interface ClientCertificateSubjectDistinguishedName {
+    commonName?: string;
+    countryCode?: string;
+    organization?: string;
+    organizationUnit?: string;
+}
+
+// @public
+export interface ClientCertificateThumbprint {
+    primary?: string;
+    secondary?: string;
+}
+
+// @public
+export type ClientCertificateValidationScheme = string;
+
+// @public
+export interface ClientGroup extends Resource {
+    description?: string;
+    readonly provisioningState?: ClientGroupProvisioningState;
+    query?: string;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export type ClientGroupProvisioningState = string;
+
+// @public
+export interface ClientGroups {
+    beginCreateOrUpdate(resourceGroupName: string, namespaceName: string, clientGroupName: string, clientGroupInfo: ClientGroup, options?: ClientGroupsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClientGroupsCreateOrUpdateResponse>, ClientGroupsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, namespaceName: string, clientGroupName: string, clientGroupInfo: ClientGroup, options?: ClientGroupsCreateOrUpdateOptionalParams): Promise<ClientGroupsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, namespaceName: string, clientGroupName: string, options?: ClientGroupsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, namespaceName: string, clientGroupName: string, options?: ClientGroupsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, namespaceName: string, clientGroupName: string, options?: ClientGroupsGetOptionalParams): Promise<ClientGroupsGetResponse>;
+    listByNamespace(resourceGroupName: string, namespaceName: string, options?: ClientGroupsListByNamespaceOptionalParams): PagedAsyncIterableIterator<ClientGroup>;
+}
+
+// @public
+export interface ClientGroupsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ClientGroupsCreateOrUpdateResponse = ClientGroup;
+
+// @public
+export interface ClientGroupsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ClientGroupsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ClientGroupsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClientGroupsGetResponse = ClientGroup;
+
+// @public
+export interface ClientGroupsListByNamespaceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClientGroupsListByNamespaceNextResponse = ClientGroupsListResult;
+
+// @public
+export interface ClientGroupsListByNamespaceOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type ClientGroupsListByNamespaceResponse = ClientGroupsListResult;
+
+// @public
+export interface ClientGroupsListResult {
+    nextLink?: string;
+    value?: ClientGroup[];
+}
+
+// @public
+export type ClientProvisioningState = string;
+
+// @public
+export interface Clients {
+    beginCreateOrUpdate(resourceGroupName: string, namespaceName: string, clientName: string, clientInfo: Client, options?: ClientsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClientsCreateOrUpdateResponse>, ClientsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, namespaceName: string, clientName: string, clientInfo: Client, options?: ClientsCreateOrUpdateOptionalParams): Promise<ClientsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, namespaceName: string, clientName: string, options?: ClientsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, namespaceName: string, clientName: string, options?: ClientsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, namespaceName: string, clientName: string, options?: ClientsGetOptionalParams): Promise<ClientsGetResponse>;
+    listByNamespace(resourceGroupName: string, namespaceName: string, options?: ClientsListByNamespaceOptionalParams): PagedAsyncIterableIterator<Client>;
+}
+
+// @public
+export interface ClientsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ClientsCreateOrUpdateResponse = Client;
+
+// @public
+export interface ClientsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ClientsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ClientsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClientsGetResponse = Client;
+
+// @public
+export interface ClientsListByNamespaceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClientsListByNamespaceNextResponse = ClientsListResult;
+
+// @public
+export interface ClientsListByNamespaceOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type ClientsListByNamespaceResponse = ClientsListResult;
+
+// @public
+export interface ClientsListResult {
+    nextLink?: string;
+    value?: Client[];
+}
+
+// @public
+export type ClientState = string;
 
 // @public
 export interface ConnectionState {
@@ -174,36 +454,51 @@ export type DeliveryAttributeMappingType = string;
 export type DeliveryAttributeMappingUnion = DeliveryAttributeMapping | StaticDeliveryAttributeMapping | DynamicDeliveryAttributeMapping;
 
 // @public
+export interface DeliveryConfiguration {
+    deliveryMode?: DeliveryMode;
+    queue?: QueueInfo;
+}
+
+// @public
+export type DeliveryMode = string;
+
+// @public
+export type DeliverySchema = string;
+
+// @public
 export interface DeliveryWithResourceIdentity {
     destination?: EventSubscriptionDestinationUnion;
     identity?: EventSubscriptionIdentity;
 }
 
 // @public
-export type Domain = TrackedResource & {
-    readonly systemData?: SystemData;
-    identity?: IdentityInfo;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    readonly provisioningState?: DomainProvisioningState;
-    readonly endpoint?: string;
-    inputSchema?: InputSchema;
-    inputSchemaMapping?: InputSchemaMappingUnion;
-    readonly metricResourceId?: string;
-    publicNetworkAccess?: PublicNetworkAccess;
-    inboundIpRules?: InboundIpRule[];
-    disableLocalAuth?: boolean;
+export interface Domain extends TrackedResource {
     autoCreateTopicWithFirstSubscription?: boolean;
     autoDeleteTopicWithLastSubscription?: boolean;
     dataResidencyBoundary?: DataResidencyBoundary;
-};
+    disableLocalAuth?: boolean;
+    readonly endpoint?: string;
+    eventTypeInfo?: EventTypeInfo;
+    identity?: IdentityInfo;
+    inboundIpRules?: InboundIpRule[];
+    inputSchema?: InputSchema;
+    inputSchemaMapping?: InputSchemaMappingUnion;
+    readonly metricResourceId?: string;
+    minimumTlsVersionAllowed?: TlsVersion;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: DomainProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
+    sku?: ResourceSku;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface DomainEventSubscriptions {
-    beginCreateOrUpdate(resourceGroupName: string, domainName: string, eventSubscriptionName: string, eventSubscriptionInfo: EventSubscription, options?: DomainEventSubscriptionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DomainEventSubscriptionsCreateOrUpdateResponse>, DomainEventSubscriptionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, domainName: string, eventSubscriptionName: string, eventSubscriptionInfo: EventSubscription, options?: DomainEventSubscriptionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DomainEventSubscriptionsCreateOrUpdateResponse>, DomainEventSubscriptionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, domainName: string, eventSubscriptionName: string, eventSubscriptionInfo: EventSubscription, options?: DomainEventSubscriptionsCreateOrUpdateOptionalParams): Promise<DomainEventSubscriptionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, domainName: string, eventSubscriptionName: string, options?: DomainEventSubscriptionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, domainName: string, eventSubscriptionName: string, options?: DomainEventSubscriptionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, domainName: string, eventSubscriptionName: string, options?: DomainEventSubscriptionsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, domainName: string, eventSubscriptionName: string, eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters, options?: DomainEventSubscriptionsUpdateOptionalParams): Promise<PollerLike<PollOperationState<DomainEventSubscriptionsUpdateResponse>, DomainEventSubscriptionsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, domainName: string, eventSubscriptionName: string, eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters, options?: DomainEventSubscriptionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DomainEventSubscriptionsUpdateResponse>, DomainEventSubscriptionsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, domainName: string, eventSubscriptionName: string, eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters, options?: DomainEventSubscriptionsUpdateOptionalParams): Promise<DomainEventSubscriptionsUpdateResponse>;
     get(resourceGroupName: string, domainName: string, eventSubscriptionName: string, options?: DomainEventSubscriptionsGetOptionalParams): Promise<DomainEventSubscriptionsGetResponse>;
     getDeliveryAttributes(resourceGroupName: string, domainName: string, eventSubscriptionName: string, options?: DomainEventSubscriptionsGetDeliveryAttributesOptionalParams): Promise<DomainEventSubscriptionsGetDeliveryAttributesResponse>;
@@ -219,6 +514,12 @@ export interface DomainEventSubscriptionsCreateOrUpdateOptionalParams extends co
 
 // @public
 export type DomainEventSubscriptionsCreateOrUpdateResponse = EventSubscription;
+
+// @public
+export interface DomainEventSubscriptionsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface DomainEventSubscriptionsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -249,8 +550,6 @@ export type DomainEventSubscriptionsGetResponse = EventSubscription;
 
 // @public
 export interface DomainEventSubscriptionsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -284,11 +583,11 @@ export interface DomainRegenerateKeyRequest {
 
 // @public
 export interface Domains {
-    beginCreateOrUpdate(resourceGroupName: string, domainName: string, domainInfo: Domain, options?: DomainsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DomainsCreateOrUpdateResponse>, DomainsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, domainName: string, domainInfo: Domain, options?: DomainsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DomainsCreateOrUpdateResponse>, DomainsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, domainName: string, domainInfo: Domain, options?: DomainsCreateOrUpdateOptionalParams): Promise<DomainsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, domainName: string, options?: DomainsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, domainName: string, options?: DomainsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, domainName: string, options?: DomainsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, domainName: string, domainUpdateParameters: DomainUpdateParameters, options?: DomainsUpdateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginUpdate(resourceGroupName: string, domainName: string, domainUpdateParameters: DomainUpdateParameters, options?: DomainsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginUpdateAndWait(resourceGroupName: string, domainName: string, domainUpdateParameters: DomainUpdateParameters, options?: DomainsUpdateOptionalParams): Promise<void>;
     get(resourceGroupName: string, domainName: string, options?: DomainsGetOptionalParams): Promise<DomainsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: DomainsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Domain>;
@@ -305,6 +604,12 @@ export interface DomainsCreateOrUpdateOptionalParams extends coreClient.Operatio
 
 // @public
 export type DomainsCreateOrUpdateResponse = Domain;
+
+// @public
+export interface DomainsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface DomainsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -327,8 +632,6 @@ export interface DomainSharedAccessKeys {
 
 // @public
 export interface DomainsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -345,8 +648,6 @@ export type DomainsListByResourceGroupResponse = DomainsListResult;
 
 // @public
 export interface DomainsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -388,18 +689,18 @@ export interface DomainsUpdateOptionalParams extends coreClient.OperationOptions
 }
 
 // @public
-export type DomainTopic = Resource & {
-    readonly systemData?: SystemData;
+export interface DomainTopic extends Resource {
     readonly provisioningState?: DomainTopicProvisioningState;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface DomainTopicEventSubscriptions {
-    beginCreateOrUpdate(resourceGroupName: string, domainName: string, topicName: string, eventSubscriptionName: string, eventSubscriptionInfo: EventSubscription, options?: DomainTopicEventSubscriptionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DomainTopicEventSubscriptionsCreateOrUpdateResponse>, DomainTopicEventSubscriptionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, domainName: string, topicName: string, eventSubscriptionName: string, eventSubscriptionInfo: EventSubscription, options?: DomainTopicEventSubscriptionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DomainTopicEventSubscriptionsCreateOrUpdateResponse>, DomainTopicEventSubscriptionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, domainName: string, topicName: string, eventSubscriptionName: string, eventSubscriptionInfo: EventSubscription, options?: DomainTopicEventSubscriptionsCreateOrUpdateOptionalParams): Promise<DomainTopicEventSubscriptionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, domainName: string, topicName: string, eventSubscriptionName: string, options?: DomainTopicEventSubscriptionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, domainName: string, topicName: string, eventSubscriptionName: string, options?: DomainTopicEventSubscriptionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, domainName: string, topicName: string, eventSubscriptionName: string, options?: DomainTopicEventSubscriptionsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, domainName: string, topicName: string, eventSubscriptionName: string, eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters, options?: DomainTopicEventSubscriptionsUpdateOptionalParams): Promise<PollerLike<PollOperationState<DomainTopicEventSubscriptionsUpdateResponse>, DomainTopicEventSubscriptionsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, domainName: string, topicName: string, eventSubscriptionName: string, eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters, options?: DomainTopicEventSubscriptionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DomainTopicEventSubscriptionsUpdateResponse>, DomainTopicEventSubscriptionsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, domainName: string, topicName: string, eventSubscriptionName: string, eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters, options?: DomainTopicEventSubscriptionsUpdateOptionalParams): Promise<DomainTopicEventSubscriptionsUpdateResponse>;
     get(resourceGroupName: string, domainName: string, topicName: string, eventSubscriptionName: string, options?: DomainTopicEventSubscriptionsGetOptionalParams): Promise<DomainTopicEventSubscriptionsGetResponse>;
     getDeliveryAttributes(resourceGroupName: string, domainName: string, topicName: string, eventSubscriptionName: string, options?: DomainTopicEventSubscriptionsGetDeliveryAttributesOptionalParams): Promise<DomainTopicEventSubscriptionsGetDeliveryAttributesResponse>;
@@ -415,6 +716,12 @@ export interface DomainTopicEventSubscriptionsCreateOrUpdateOptionalParams exten
 
 // @public
 export type DomainTopicEventSubscriptionsCreateOrUpdateResponse = EventSubscription;
+
+// @public
+export interface DomainTopicEventSubscriptionsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface DomainTopicEventSubscriptionsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -445,8 +752,6 @@ export type DomainTopicEventSubscriptionsGetResponse = EventSubscription;
 
 // @public
 export interface DomainTopicEventSubscriptionsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -475,9 +780,9 @@ export type DomainTopicProvisioningState = string;
 
 // @public
 export interface DomainTopics {
-    beginCreateOrUpdate(resourceGroupName: string, domainName: string, domainTopicName: string, options?: DomainTopicsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DomainTopicsCreateOrUpdateResponse>, DomainTopicsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, domainName: string, domainTopicName: string, options?: DomainTopicsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DomainTopicsCreateOrUpdateResponse>, DomainTopicsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, domainName: string, domainTopicName: string, options?: DomainTopicsCreateOrUpdateOptionalParams): Promise<DomainTopicsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, domainName: string, domainTopicName: string, options?: DomainTopicsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, domainName: string, domainTopicName: string, options?: DomainTopicsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, domainName: string, domainTopicName: string, options?: DomainTopicsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, domainName: string, domainTopicName: string, options?: DomainTopicsGetOptionalParams): Promise<DomainTopicsGetResponse>;
     listByDomain(resourceGroupName: string, domainName: string, options?: DomainTopicsListByDomainOptionalParams): PagedAsyncIterableIterator<DomainTopic>;
@@ -491,6 +796,12 @@ export interface DomainTopicsCreateOrUpdateOptionalParams extends coreClient.Ope
 
 // @public
 export type DomainTopicsCreateOrUpdateResponse = DomainTopic;
+
+// @public
+export interface DomainTopicsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface DomainTopicsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -507,8 +818,6 @@ export type DomainTopicsGetResponse = DomainTopic;
 
 // @public
 export interface DomainTopicsListByDomainNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -535,22 +844,51 @@ export interface DomainUpdateParameters {
     autoDeleteTopicWithLastSubscription?: boolean;
     dataResidencyBoundary?: DataResidencyBoundary;
     disableLocalAuth?: boolean;
+    eventTypeInfo?: EventTypeInfo;
     identity?: IdentityInfo;
     inboundIpRules?: InboundIpRule[];
+    minimumTlsVersionAllowed?: TlsVersion;
     publicNetworkAccess?: PublicNetworkAccess;
+    sku?: ResourceSku;
     tags?: {
         [propertyName: string]: string;
     };
 }
 
 // @public
-export type DynamicDeliveryAttributeMapping = DeliveryAttributeMapping & {
-    type: "Dynamic";
+export interface DynamicDeliveryAttributeMapping extends DeliveryAttributeMapping {
     sourceField?: string;
-};
+    type: "Dynamic";
+}
+
+// @public (undocumented)
+export interface DynamicRoutingEnrichment {
+    key?: string;
+    value?: string;
+}
 
 // @public
 export type EndpointType = string;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
 
 // @public
 export type EventDefinitionKind = string;
@@ -566,7 +904,13 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     apiVersion: string;
     // (undocumented)
+    caCertificates: CaCertificates;
+    // (undocumented)
     channels: Channels;
+    // (undocumented)
+    clientGroups: ClientGroups;
+    // (undocumented)
+    clients: Clients;
     // (undocumented)
     domainEventSubscriptions: DomainEventSubscriptions;
     // (undocumented)
@@ -580,9 +924,17 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     extensionTopics: ExtensionTopics;
     // (undocumented)
+    namespaces: Namespaces;
+    // (undocumented)
+    namespaceTopicEventSubscriptions: NamespaceTopicEventSubscriptions;
+    // (undocumented)
+    namespaceTopics: NamespaceTopics;
+    // (undocumented)
     operations: Operations;
     // (undocumented)
     partnerConfigurations: PartnerConfigurations;
+    // (undocumented)
+    partnerDestinations: PartnerDestinations;
     // (undocumented)
     partnerNamespaces: PartnerNamespaces;
     // (undocumented)
@@ -591,6 +943,8 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
     partnerTopicEventSubscriptions: PartnerTopicEventSubscriptions;
     // (undocumented)
     partnerTopics: PartnerTopics;
+    // (undocumented)
+    permissionBindings: PermissionBindings;
     // (undocumented)
     privateEndpointConnections: PrivateEndpointConnections;
     // (undocumented)
@@ -606,6 +960,8 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     topics: Topics;
     // (undocumented)
+    topicSpaces: TopicSpaces;
+    // (undocumented)
     topicTypes: TopicTypes;
     // (undocumented)
     verifiedPartners: VerifiedPartners;
@@ -619,35 +975,38 @@ export interface EventGridManagementClientOptionalParams extends coreClient.Serv
 }
 
 // @public
-export type EventHubEventSubscriptionDestination = EventSubscriptionDestination & {
+export interface EventHubEventSubscriptionDestination extends EventSubscriptionDestination {
+    deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
     endpointType: "EventHub";
     resourceId?: string;
-    deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
-};
+}
 
 // @public
-export type EventSubscription = Resource & {
-    readonly systemData?: SystemData;
-    readonly topic?: string;
-    readonly provisioningState?: EventSubscriptionProvisioningState;
-    destination?: EventSubscriptionDestinationUnion;
-    deliveryWithResourceIdentity?: DeliveryWithResourceIdentity;
-    filter?: EventSubscriptionFilter;
-    labels?: string[];
-    expirationTimeUtc?: Date;
-    eventDeliverySchema?: EventDeliverySchema;
-    retryPolicy?: RetryPolicy;
+export type EventInputSchema = string;
+
+// @public
+export interface EventSubscription extends Resource {
     deadLetterDestination?: DeadLetterDestinationUnion;
     deadLetterWithResourceIdentity?: DeadLetterWithResourceIdentity;
-};
+    deliveryWithResourceIdentity?: DeliveryWithResourceIdentity;
+    destination?: EventSubscriptionDestinationUnion;
+    eventDeliverySchema?: EventDeliverySchema;
+    expirationTimeUtc?: Date;
+    filter?: EventSubscriptionFilter;
+    labels?: string[];
+    readonly provisioningState?: EventSubscriptionProvisioningState;
+    retryPolicy?: RetryPolicy;
+    readonly systemData?: SystemData;
+    readonly topic?: string;
+}
 
 // @public
 export interface EventSubscriptionDestination {
-    endpointType: "WebHook" | "EventHub" | "StorageQueue" | "HybridConnection" | "ServiceBusQueue" | "ServiceBusTopic" | "AzureFunction";
+    endpointType: "WebHook" | "EventHub" | "StorageQueue" | "HybridConnection" | "ServiceBusQueue" | "ServiceBusTopic" | "AzureFunction" | "PartnerDestination";
 }
 
 // @public (undocumented)
-export type EventSubscriptionDestinationUnion = EventSubscriptionDestination | WebHookEventSubscriptionDestination | EventHubEventSubscriptionDestination | StorageQueueEventSubscriptionDestination | HybridConnectionEventSubscriptionDestination | ServiceBusQueueEventSubscriptionDestination | ServiceBusTopicEventSubscriptionDestination | AzureFunctionEventSubscriptionDestination;
+export type EventSubscriptionDestinationUnion = EventSubscriptionDestination | WebHookEventSubscriptionDestination | EventHubEventSubscriptionDestination | StorageQueueEventSubscriptionDestination | HybridConnectionEventSubscriptionDestination | ServiceBusQueueEventSubscriptionDestination | ServiceBusTopicEventSubscriptionDestination | AzureFunctionEventSubscriptionDestination | PartnerEventSubscriptionDestination;
 
 // @public
 export interface EventSubscriptionFilter {
@@ -678,11 +1037,11 @@ export type EventSubscriptionProvisioningState = string;
 
 // @public
 export interface EventSubscriptions {
-    beginCreateOrUpdate(scope: string, eventSubscriptionName: string, eventSubscriptionInfo: EventSubscription, options?: EventSubscriptionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<EventSubscriptionsCreateOrUpdateResponse>, EventSubscriptionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(scope: string, eventSubscriptionName: string, eventSubscriptionInfo: EventSubscription, options?: EventSubscriptionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<EventSubscriptionsCreateOrUpdateResponse>, EventSubscriptionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(scope: string, eventSubscriptionName: string, eventSubscriptionInfo: EventSubscription, options?: EventSubscriptionsCreateOrUpdateOptionalParams): Promise<EventSubscriptionsCreateOrUpdateResponse>;
-    beginDelete(scope: string, eventSubscriptionName: string, options?: EventSubscriptionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(scope: string, eventSubscriptionName: string, options?: EventSubscriptionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(scope: string, eventSubscriptionName: string, options?: EventSubscriptionsDeleteOptionalParams): Promise<void>;
-    beginUpdate(scope: string, eventSubscriptionName: string, eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters, options?: EventSubscriptionsUpdateOptionalParams): Promise<PollerLike<PollOperationState<EventSubscriptionsUpdateResponse>, EventSubscriptionsUpdateResponse>>;
+    beginUpdate(scope: string, eventSubscriptionName: string, eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters, options?: EventSubscriptionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<EventSubscriptionsUpdateResponse>, EventSubscriptionsUpdateResponse>>;
     beginUpdateAndWait(scope: string, eventSubscriptionName: string, eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters, options?: EventSubscriptionsUpdateOptionalParams): Promise<EventSubscriptionsUpdateResponse>;
     get(scope: string, eventSubscriptionName: string, options?: EventSubscriptionsGetOptionalParams): Promise<EventSubscriptionsGetResponse>;
     getDeliveryAttributes(scope: string, eventSubscriptionName: string, options?: EventSubscriptionsGetDeliveryAttributesOptionalParams): Promise<EventSubscriptionsGetDeliveryAttributesResponse>;
@@ -707,6 +1066,12 @@ export interface EventSubscriptionsCreateOrUpdateOptionalParams extends coreClie
 
 // @public
 export type EventSubscriptionsCreateOrUpdateResponse = EventSubscription;
+
+// @public
+export interface EventSubscriptionsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface EventSubscriptionsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -737,8 +1102,6 @@ export type EventSubscriptionsGetResponse = EventSubscription;
 
 // @public
 export interface EventSubscriptionsListByDomainTopicNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -755,8 +1118,6 @@ export type EventSubscriptionsListByDomainTopicResponse = EventSubscriptionsList
 
 // @public
 export interface EventSubscriptionsListByResourceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -773,8 +1134,6 @@ export type EventSubscriptionsListByResourceResponse = EventSubscriptionsListRes
 
 // @public
 export interface EventSubscriptionsListGlobalByResourceGroupForTopicTypeNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -791,8 +1150,6 @@ export type EventSubscriptionsListGlobalByResourceGroupForTopicTypeResponse = Ev
 
 // @public
 export interface EventSubscriptionsListGlobalByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -809,8 +1166,6 @@ export type EventSubscriptionsListGlobalByResourceGroupResponse = EventSubscript
 
 // @public
 export interface EventSubscriptionsListGlobalBySubscriptionForTopicTypeNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -827,8 +1182,6 @@ export type EventSubscriptionsListGlobalBySubscriptionForTopicTypeResponse = Eve
 
 // @public
 export interface EventSubscriptionsListGlobalBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -845,8 +1198,6 @@ export type EventSubscriptionsListGlobalBySubscriptionResponse = EventSubscripti
 
 // @public
 export interface EventSubscriptionsListRegionalByResourceGroupForTopicTypeNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -863,8 +1214,6 @@ export type EventSubscriptionsListRegionalByResourceGroupForTopicTypeResponse = 
 
 // @public
 export interface EventSubscriptionsListRegionalByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -881,8 +1230,6 @@ export type EventSubscriptionsListRegionalByResourceGroupResponse = EventSubscri
 
 // @public
 export interface EventSubscriptionsListRegionalBySubscriptionForTopicTypeNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -899,8 +1246,6 @@ export type EventSubscriptionsListRegionalBySubscriptionForTopicTypeResponse = E
 
 // @public
 export interface EventSubscriptionsListRegionalBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -944,12 +1289,12 @@ export interface EventSubscriptionUpdateParameters {
 }
 
 // @public
-export type EventType = Resource & {
-    displayName?: string;
+export interface EventType extends Resource {
     description?: string;
-    schemaUrl?: string;
+    displayName?: string;
     isInDefaultSet?: boolean;
-};
+    schemaUrl?: string;
+}
 
 // @public
 export interface EventTypeInfo {
@@ -965,11 +1310,17 @@ export interface EventTypesListResult {
 }
 
 // @public
-export type ExtensionTopic = Resource & {
-    readonly systemData?: SystemData;
+export interface ExtendedLocation {
+    name?: string;
+    type?: string;
+}
+
+// @public
+export interface ExtensionTopic extends Resource {
     description?: string;
+    readonly systemData?: SystemData;
     systemTopic?: string;
-};
+}
 
 // @public
 export interface ExtensionTopics {
@@ -984,11 +1335,32 @@ export interface ExtensionTopicsGetOptionalParams extends coreClient.OperationOp
 export type ExtensionTopicsGetResponse = ExtensionTopic;
 
 // @public
-export type HybridConnectionEventSubscriptionDestination = EventSubscriptionDestination & {
+export interface Filter {
+    key?: string;
+    operatorType: "NumberIn" | "NumberNotIn" | "NumberLessThan" | "NumberGreaterThan" | "NumberLessThanOrEquals" | "NumberGreaterThanOrEquals" | "BoolEquals" | "StringIn" | "StringNotIn" | "StringBeginsWith" | "StringEndsWith" | "StringContains" | "NumberInRange" | "NumberNotInRange" | "StringNotBeginsWith" | "StringNotEndsWith" | "StringNotContains" | "IsNullOrUndefined" | "IsNotNull";
+}
+
+// @public
+export type FilterOperatorType = string;
+
+// @public
+export interface FiltersConfiguration {
+    filters?: FilterUnion[];
+    includedEventTypes?: string[];
+}
+
+// @public (undocumented)
+export type FilterUnion = Filter | NumberInFilter | NumberNotInFilter | NumberLessThanFilter | NumberGreaterThanFilter | NumberLessThanOrEqualsFilter | NumberGreaterThanOrEqualsFilter | BoolEqualsFilter | StringInFilter | StringNotInFilter | StringBeginsWithFilter | StringEndsWithFilter | StringContainsFilter | NumberInRangeFilter | NumberNotInRangeFilter | StringNotBeginsWithFilter | StringNotEndsWithFilter | StringNotContainsFilter | IsNullOrUndefinedFilter | IsNotNullFilter;
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
+export interface HybridConnectionEventSubscriptionDestination extends EventSubscriptionDestination {
+    deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
     endpointType: "HybridConnection";
     resourceId?: string;
-    deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
-};
+}
 
 // @public
 export interface IdentityInfo {
@@ -1035,14 +1407,24 @@ export type InputSchemaMappingUnion = InputSchemaMapping | JsonInputSchemaMappin
 export type IpActionType = string;
 
 // @public
-export type IsNotNullAdvancedFilter = AdvancedFilter & {
+export interface IsNotNullAdvancedFilter extends AdvancedFilter {
     operatorType: "IsNotNull";
-};
+}
 
 // @public
-export type IsNullOrUndefinedAdvancedFilter = AdvancedFilter & {
+export interface IsNotNullFilter extends Filter {
+    operatorType: "IsNotNull";
+}
+
+// @public
+export interface IsNullOrUndefinedAdvancedFilter extends AdvancedFilter {
     operatorType: "IsNullOrUndefined";
-};
+}
+
+// @public
+export interface IsNullOrUndefinedFilter extends Filter {
+    operatorType: "IsNullOrUndefined";
+}
 
 // @public
 export interface JsonField {
@@ -1056,495 +1438,997 @@ export interface JsonFieldWithDefault {
 }
 
 // @public
-export type JsonInputSchemaMapping = InputSchemaMapping & {
-    inputSchemaMappingType: "Json";
-    id?: JsonField;
-    topic?: JsonField;
+export interface JsonInputSchemaMapping extends InputSchemaMapping {
+    dataVersion?: JsonFieldWithDefault;
     eventTime?: JsonField;
     eventType?: JsonFieldWithDefault;
+    id?: JsonField;
+    inputSchemaMappingType: "Json";
     subject?: JsonFieldWithDefault;
-    dataVersion?: JsonFieldWithDefault;
-};
+    topic?: JsonField;
+}
 
 // @public
 export enum KnownAdvancedFilterOperatorType {
-    // (undocumented)
     BoolEquals = "BoolEquals",
-    // (undocumented)
     IsNotNull = "IsNotNull",
-    // (undocumented)
     IsNullOrUndefined = "IsNullOrUndefined",
-    // (undocumented)
     NumberGreaterThan = "NumberGreaterThan",
-    // (undocumented)
     NumberGreaterThanOrEquals = "NumberGreaterThanOrEquals",
-    // (undocumented)
     NumberIn = "NumberIn",
-    // (undocumented)
     NumberInRange = "NumberInRange",
-    // (undocumented)
     NumberLessThan = "NumberLessThan",
-    // (undocumented)
     NumberLessThanOrEquals = "NumberLessThanOrEquals",
-    // (undocumented)
     NumberNotIn = "NumberNotIn",
-    // (undocumented)
     NumberNotInRange = "NumberNotInRange",
-    // (undocumented)
     StringBeginsWith = "StringBeginsWith",
-    // (undocumented)
     StringContains = "StringContains",
-    // (undocumented)
     StringEndsWith = "StringEndsWith",
-    // (undocumented)
     StringIn = "StringIn",
-    // (undocumented)
     StringNotBeginsWith = "StringNotBeginsWith",
-    // (undocumented)
     StringNotContains = "StringNotContains",
-    // (undocumented)
     StringNotEndsWith = "StringNotEndsWith",
-    // (undocumented)
     StringNotIn = "StringNotIn"
 }
 
 // @public
-export enum KnownChannelProvisioningState {
-    // (undocumented)
+export enum KnownAlternativeAuthenticationNameSource {
+    ClientCertificateDns = "ClientCertificateDns",
+    ClientCertificateEmail = "ClientCertificateEmail",
+    ClientCertificateIp = "ClientCertificateIp",
+    ClientCertificateSubject = "ClientCertificateSubject",
+    ClientCertificateUri = "ClientCertificateUri"
+}
+
+// @public
+export enum KnownCaCertificateProvisioningState {
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
+    Deleted = "Deleted",
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
-    IdleDueToMirroredPartnerTopicDeletion = "IdleDueToMirroredPartnerTopicDeletion",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownChannelProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    IdleDueToMirroredPartnerDestinationDeletion = "IdleDueToMirroredPartnerDestinationDeletion",
+    IdleDueToMirroredPartnerTopicDeletion = "IdleDueToMirroredPartnerTopicDeletion",
+    Succeeded = "Succeeded",
     Updating = "Updating"
 }
 
 // @public
 export enum KnownChannelType {
-    // (undocumented)
+    PartnerDestination = "PartnerDestination",
     PartnerTopic = "PartnerTopic"
 }
 
 // @public
+export enum KnownClientCertificateValidationScheme {
+    DnsMatchesAuthenticationName = "DnsMatchesAuthenticationName",
+    EmailMatchesAuthenticationName = "EmailMatchesAuthenticationName",
+    IpMatchesAuthenticationName = "IpMatchesAuthenticationName",
+    SubjectMatchesAuthenticationName = "SubjectMatchesAuthenticationName",
+    ThumbprintMatch = "ThumbprintMatch",
+    UriMatchesAuthenticationName = "UriMatchesAuthenticationName"
+}
+
+// @public
+export enum KnownClientGroupProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleted = "Deleted",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownClientProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleted = "Deleted",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownClientState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownDataResidencyBoundary {
-    // (undocumented)
     WithinGeopair = "WithinGeopair",
-    // (undocumented)
     WithinRegion = "WithinRegion"
 }
 
 // @public
 export enum KnownDeadLetterEndPointType {
-    // (undocumented)
     StorageBlob = "StorageBlob"
 }
 
 // @public
 export enum KnownDeliveryAttributeMappingType {
-    // (undocumented)
     Dynamic = "Dynamic",
-    // (undocumented)
     Static = "Static"
 }
 
 // @public
+export enum KnownDeliveryMode {
+    Queue = "Queue"
+}
+
+// @public
+export enum KnownDeliverySchema {
+    CloudEventSchemaV10 = "CloudEventSchemaV1_0"
+}
+
+// @public
 export enum KnownDomainProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownDomainTopicProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownEndpointType {
-    // (undocumented)
     AzureFunction = "AzureFunction",
-    // (undocumented)
     EventHub = "EventHub",
-    // (undocumented)
     HybridConnection = "HybridConnection",
-    // (undocumented)
+    PartnerDestination = "PartnerDestination",
     ServiceBusQueue = "ServiceBusQueue",
-    // (undocumented)
     ServiceBusTopic = "ServiceBusTopic",
-    // (undocumented)
     StorageQueue = "StorageQueue",
-    // (undocumented)
     WebHook = "WebHook"
 }
 
 // @public
 export enum KnownEventDefinitionKind {
-    // (undocumented)
     Inline = "Inline"
 }
 
 // @public
 export enum KnownEventDeliverySchema {
-    // (undocumented)
     CloudEventSchemaV10 = "CloudEventSchemaV1_0",
-    // (undocumented)
     CustomInputSchema = "CustomInputSchema",
-    // (undocumented)
     EventGridSchema = "EventGridSchema"
 }
 
 // @public
+export enum KnownEventInputSchema {
+    CloudEventSchemaV10 = "CloudEventSchemaV1_0"
+}
+
+// @public
 export enum KnownEventSubscriptionIdentityType {
-    // (undocumented)
     SystemAssigned = "SystemAssigned",
-    // (undocumented)
     UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownEventSubscriptionProvisioningState {
-    // (undocumented)
     AwaitingManualAction = "AwaitingManualAction",
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
+export enum KnownFilterOperatorType {
+    BoolEquals = "BoolEquals",
+    IsNotNull = "IsNotNull",
+    IsNullOrUndefined = "IsNullOrUndefined",
+    NumberGreaterThan = "NumberGreaterThan",
+    NumberGreaterThanOrEquals = "NumberGreaterThanOrEquals",
+    NumberIn = "NumberIn",
+    NumberInRange = "NumberInRange",
+    NumberLessThan = "NumberLessThan",
+    NumberLessThanOrEquals = "NumberLessThanOrEquals",
+    NumberNotIn = "NumberNotIn",
+    NumberNotInRange = "NumberNotInRange",
+    StringBeginsWith = "StringBeginsWith",
+    StringContains = "StringContains",
+    StringEndsWith = "StringEndsWith",
+    StringIn = "StringIn",
+    StringNotBeginsWith = "StringNotBeginsWith",
+    StringNotContains = "StringNotContains",
+    StringNotEndsWith = "StringNotEndsWith",
+    StringNotIn = "StringNotIn"
+}
+
+// @public
 export enum KnownIdentityType {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     SystemAssigned = "SystemAssigned",
-    // (undocumented)
     SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
-    // (undocumented)
     UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownInputSchema {
-    // (undocumented)
     CloudEventSchemaV10 = "CloudEventSchemaV1_0",
-    // (undocumented)
     CustomEventSchema = "CustomEventSchema",
-    // (undocumented)
     EventGridSchema = "EventGridSchema"
 }
 
 // @public
 export enum KnownInputSchemaMappingType {
-    // (undocumented)
     Json = "Json"
 }
 
 // @public
 export enum KnownIpActionType {
-    // (undocumented)
     Allow = "Allow"
 }
 
 // @public
-export enum KnownPartnerConfigurationProvisioningState {
-    // (undocumented)
+export enum KnownNamespaceProvisioningState {
     Canceled = "Canceled",
-    // (undocumented)
+    CreateFailed = "CreateFailed",
     Creating = "Creating",
-    // (undocumented)
+    Deleted = "Deleted",
+    DeleteFailed = "DeleteFailed",
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
+    UpdatedFailed = "UpdatedFailed",
     Updating = "Updating"
 }
 
 // @public
-export enum KnownPartnerNamespaceProvisioningState {
-    // (undocumented)
+export enum KnownNamespaceTopicProvisioningState {
     Canceled = "Canceled",
-    // (undocumented)
+    CreateFailed = "CreateFailed",
     Creating = "Creating",
-    // (undocumented)
+    Deleted = "Deleted",
+    DeleteFailed = "DeleteFailed",
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
+    UpdatedFailed = "UpdatedFailed",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownPartnerClientAuthenticationType {
+    AzureAD = "AzureAD"
+}
+
+// @public
+export enum KnownPartnerConfigurationProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownPartnerDestinationActivationState {
+    Activated = "Activated",
+    NeverActivated = "NeverActivated"
+}
+
+// @public
+export enum KnownPartnerDestinationProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    IdleDueToMirroredChannelResourceDeletion = "IdleDueToMirroredChannelResourceDeletion",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownPartnerEndpointType {
+    WebHook = "WebHook"
+}
+
+// @public
+export enum KnownPartnerNamespaceProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
     Updating = "Updating"
 }
 
 // @public
 export enum KnownPartnerRegistrationProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownPartnerTopicActivationState {
-    // (undocumented)
     Activated = "Activated",
-    // (undocumented)
     Deactivated = "Deactivated",
-    // (undocumented)
     NeverActivated = "NeverActivated"
 }
 
 // @public
 export enum KnownPartnerTopicProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     IdleDueToMirroredChannelResourceDeletion = "IdleDueToMirroredChannelResourceDeletion",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownPartnerTopicRoutingMode {
-    // (undocumented)
     ChannelNameHeader = "ChannelNameHeader",
-    // (undocumented)
     SourceEventAttribute = "SourceEventAttribute"
 }
 
 // @public
+export enum KnownPermissionBindingProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleted = "Deleted",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownPermissionType {
+    Publisher = "Publisher",
+    Subscriber = "Subscriber"
+}
+
+// @public
 export enum KnownPersistedConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownPrivateEndpointConnectionsParentType {
-    // (undocumented)
     Domains = "domains",
-    // (undocumented)
+    Namespaces = "namespaces",
     PartnerNamespaces = "partnerNamespaces",
-    // (undocumented)
     Topics = "topics"
 }
 
 // @public
 export enum KnownPublicNetworkAccess {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
+export enum KnownPublisherType {
+    Custom = "Custom"
+}
+
+// @public
 export enum KnownReadinessState {
-    // (undocumented)
     Activated = "Activated",
-    // (undocumented)
     NeverActivated = "NeverActivated"
 }
 
 // @public
+export enum KnownResourceKind {
+    Azure = "Azure",
+    AzureArc = "AzureArc"
+}
+
+// @public
 export enum KnownResourceProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownResourceRegionType {
-    // (undocumented)
     GlobalResource = "GlobalResource",
-    // (undocumented)
     RegionalResource = "RegionalResource"
 }
 
 // @public
-export enum KnownTopicProvisioningState {
-    // (undocumented)
+export enum KnownRoutingIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownSku {
+    Basic = "Basic",
+    Premium = "Premium"
+}
+
+// @public
+export enum KnownSkuName {
+    Standard = "Standard"
+}
+
+// @public
+export enum KnownStaticRoutingEnrichmentType {
+    String = "String"
+}
+
+// @public
+export enum KnownSubscriptionProvisioningState {
+    AwaitingManualAction = "AwaitingManualAction",
     Canceled = "Canceled",
-    // (undocumented)
+    CreateFailed = "CreateFailed",
     Creating = "Creating",
-    // (undocumented)
+    Deleted = "Deleted",
+    DeleteFailed = "DeleteFailed",
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
+    UpdatedFailed = "UpdatedFailed",
     Updating = "Updating"
 }
 
 // @public
-export enum KnownTopicTypeProvisioningState {
-    // (undocumented)
+export enum KnownTlsVersion {
+    One0 = "1.0",
+    One1 = "1.1",
+    One2 = "1.2"
+}
+
+// @public
+export enum KnownTopicProvisioningState {
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownTopicSpaceProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleted = "Deleted",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownTopicSpacesConfigurationState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownTopicTypeProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
     Updating = "Updating"
 }
 
 // @public
 export enum KnownTopicTypeSourceScope {
-    // (undocumented)
     AzureSubscription = "AzureSubscription",
-    // (undocumented)
     ManagementGroup = "ManagementGroup",
-    // (undocumented)
     Resource = "Resource",
-    // (undocumented)
     ResourceGroup = "ResourceGroup"
 }
 
 // @public
 export enum KnownVerifiedPartnerProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
-export type NumberGreaterThanAdvancedFilter = AdvancedFilter & {
+export interface Namespace extends TrackedResource {
+    identity?: IdentityInfo;
+    inboundIpRules?: InboundIpRule[];
+    isZoneRedundant?: boolean;
+    minimumTlsVersionAllowed?: TlsVersion;
+    // (undocumented)
+    privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: NamespaceProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
+    sku?: NamespaceSku;
+    readonly systemData?: SystemData;
+    topicsConfiguration?: TopicsConfiguration;
+    topicSpacesConfiguration?: TopicSpacesConfiguration;
+}
+
+// @public
+export type NamespaceProvisioningState = string;
+
+// @public
+export interface NamespaceRegenerateKeyRequest {
+    keyName: string;
+}
+
+// @public
+export interface Namespaces {
+    beginCreateOrUpdate(resourceGroupName: string, namespaceName: string, namespaceInfo: Namespace, options?: NamespacesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NamespacesCreateOrUpdateResponse>, NamespacesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, namespaceName: string, namespaceInfo: Namespace, options?: NamespacesCreateOrUpdateOptionalParams): Promise<NamespacesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams): Promise<void>;
+    beginRegenerateKey(resourceGroupName: string, namespaceName: string, regenerateKeyRequest: NamespaceRegenerateKeyRequest, options?: NamespacesRegenerateKeyOptionalParams): Promise<SimplePollerLike<OperationState<NamespacesRegenerateKeyResponse>, NamespacesRegenerateKeyResponse>>;
+    beginRegenerateKeyAndWait(resourceGroupName: string, namespaceName: string, regenerateKeyRequest: NamespaceRegenerateKeyRequest, options?: NamespacesRegenerateKeyOptionalParams): Promise<NamespacesRegenerateKeyResponse>;
+    beginUpdate(resourceGroupName: string, namespaceName: string, namespaceUpdateParameters: NamespaceUpdateParameters, options?: NamespacesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NamespacesUpdateResponse>, NamespacesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, namespaceName: string, namespaceUpdateParameters: NamespaceUpdateParameters, options?: NamespacesUpdateOptionalParams): Promise<NamespacesUpdateResponse>;
+    get(resourceGroupName: string, namespaceName: string, options?: NamespacesGetOptionalParams): Promise<NamespacesGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: NamespacesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Namespace>;
+    listBySubscription(options?: NamespacesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Namespace>;
+    listSharedAccessKeys(resourceGroupName: string, namespaceName: string, options?: NamespacesListSharedAccessKeysOptionalParams): Promise<NamespacesListSharedAccessKeysResponse>;
+}
+
+// @public
+export interface NamespacesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NamespacesCreateOrUpdateResponse = Namespace;
+
+// @public
+export interface NamespacesDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface NamespacesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NamespacesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NamespacesGetResponse = Namespace;
+
+// @public
+export interface NamespaceSharedAccessKeys {
+    key1?: string;
+    key2?: string;
+}
+
+// @public
+export interface NamespaceSku {
+    capacity?: number;
+    name?: SkuName;
+}
+
+// @public
+export interface NamespacesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NamespacesListByResourceGroupNextResponse = NamespacesListResult;
+
+// @public
+export interface NamespacesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type NamespacesListByResourceGroupResponse = NamespacesListResult;
+
+// @public
+export interface NamespacesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NamespacesListBySubscriptionNextResponse = NamespacesListResult;
+
+// @public
+export interface NamespacesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type NamespacesListBySubscriptionResponse = NamespacesListResult;
+
+// @public
+export interface NamespacesListResult {
+    nextLink?: string;
+    value?: Namespace[];
+}
+
+// @public
+export interface NamespacesListSharedAccessKeysOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NamespacesListSharedAccessKeysResponse = NamespaceSharedAccessKeys;
+
+// @public
+export interface NamespacesRegenerateKeyHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface NamespacesRegenerateKeyOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NamespacesRegenerateKeyResponse = NamespaceSharedAccessKeys;
+
+// @public
+export interface NamespacesUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface NamespacesUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NamespacesUpdateResponse = Namespace;
+
+// @public
+export interface NamespaceTopic extends Resource {
+    eventRetentionInDays?: number;
+    inputSchema?: EventInputSchema;
+    readonly provisioningState?: NamespaceTopicProvisioningState;
+    publisherType?: PublisherType;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface NamespaceTopicEventSubscriptions {
+    beginCreateOrUpdate(resourceGroupName: string, namespaceName: string, topicName: string, eventSubscriptionName: string, eventSubscriptionInfo: Subscription, options?: NamespaceTopicEventSubscriptionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NamespaceTopicEventSubscriptionsCreateOrUpdateResponse>, NamespaceTopicEventSubscriptionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, namespaceName: string, topicName: string, eventSubscriptionName: string, eventSubscriptionInfo: Subscription, options?: NamespaceTopicEventSubscriptionsCreateOrUpdateOptionalParams): Promise<NamespaceTopicEventSubscriptionsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, namespaceName: string, topicName: string, eventSubscriptionName: string, options?: NamespaceTopicEventSubscriptionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, namespaceName: string, topicName: string, eventSubscriptionName: string, options?: NamespaceTopicEventSubscriptionsDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, namespaceName: string, topicName: string, eventSubscriptionName: string, eventSubscriptionUpdateParameters: SubscriptionUpdateParameters, options?: NamespaceTopicEventSubscriptionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NamespaceTopicEventSubscriptionsUpdateResponse>, NamespaceTopicEventSubscriptionsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, namespaceName: string, topicName: string, eventSubscriptionName: string, eventSubscriptionUpdateParameters: SubscriptionUpdateParameters, options?: NamespaceTopicEventSubscriptionsUpdateOptionalParams): Promise<NamespaceTopicEventSubscriptionsUpdateResponse>;
+    get(resourceGroupName: string, namespaceName: string, topicName: string, eventSubscriptionName: string, options?: NamespaceTopicEventSubscriptionsGetOptionalParams): Promise<NamespaceTopicEventSubscriptionsGetResponse>;
+    listByNamespaceTopic(resourceGroupName: string, namespaceName: string, topicName: string, options?: NamespaceTopicEventSubscriptionsListByNamespaceTopicOptionalParams): PagedAsyncIterableIterator<Subscription>;
+}
+
+// @public
+export interface NamespaceTopicEventSubscriptionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NamespaceTopicEventSubscriptionsCreateOrUpdateResponse = Subscription;
+
+// @public
+export interface NamespaceTopicEventSubscriptionsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface NamespaceTopicEventSubscriptionsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NamespaceTopicEventSubscriptionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NamespaceTopicEventSubscriptionsGetResponse = Subscription;
+
+// @public
+export interface NamespaceTopicEventSubscriptionsListByNamespaceTopicNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NamespaceTopicEventSubscriptionsListByNamespaceTopicNextResponse = SubscriptionsListResult;
+
+// @public
+export interface NamespaceTopicEventSubscriptionsListByNamespaceTopicOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type NamespaceTopicEventSubscriptionsListByNamespaceTopicResponse = SubscriptionsListResult;
+
+// @public
+export interface NamespaceTopicEventSubscriptionsUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface NamespaceTopicEventSubscriptionsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NamespaceTopicEventSubscriptionsUpdateResponse = Subscription;
+
+// @public
+export type NamespaceTopicProvisioningState = string;
+
+// @public
+export interface NamespaceTopics {
+    beginCreateOrUpdate(resourceGroupName: string, namespaceName: string, topicName: string, namespaceTopicInfo: NamespaceTopic, options?: NamespaceTopicsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NamespaceTopicsCreateOrUpdateResponse>, NamespaceTopicsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, namespaceName: string, topicName: string, namespaceTopicInfo: NamespaceTopic, options?: NamespaceTopicsCreateOrUpdateOptionalParams): Promise<NamespaceTopicsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, namespaceName: string, topicName: string, options?: NamespaceTopicsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, namespaceName: string, topicName: string, options?: NamespaceTopicsDeleteOptionalParams): Promise<void>;
+    beginRegenerateKey(resourceGroupName: string, namespaceName: string, topicName: string, regenerateKeyRequest: TopicRegenerateKeyRequest, options?: NamespaceTopicsRegenerateKeyOptionalParams): Promise<SimplePollerLike<OperationState<NamespaceTopicsRegenerateKeyResponse>, NamespaceTopicsRegenerateKeyResponse>>;
+    beginRegenerateKeyAndWait(resourceGroupName: string, namespaceName: string, topicName: string, regenerateKeyRequest: TopicRegenerateKeyRequest, options?: NamespaceTopicsRegenerateKeyOptionalParams): Promise<NamespaceTopicsRegenerateKeyResponse>;
+    beginUpdate(resourceGroupName: string, namespaceName: string, topicName: string, namespaceTopicUpdateParameters: NamespaceTopicUpdateParameters, options?: NamespaceTopicsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NamespaceTopicsUpdateResponse>, NamespaceTopicsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, namespaceName: string, topicName: string, namespaceTopicUpdateParameters: NamespaceTopicUpdateParameters, options?: NamespaceTopicsUpdateOptionalParams): Promise<NamespaceTopicsUpdateResponse>;
+    get(resourceGroupName: string, namespaceName: string, topicName: string, options?: NamespaceTopicsGetOptionalParams): Promise<NamespaceTopicsGetResponse>;
+    listByNamespace(resourceGroupName: string, namespaceName: string, options?: NamespaceTopicsListByNamespaceOptionalParams): PagedAsyncIterableIterator<NamespaceTopic>;
+    listSharedAccessKeys(resourceGroupName: string, namespaceName: string, topicName: string, options?: NamespaceTopicsListSharedAccessKeysOptionalParams): Promise<NamespaceTopicsListSharedAccessKeysResponse>;
+}
+
+// @public
+export interface NamespaceTopicsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NamespaceTopicsCreateOrUpdateResponse = NamespaceTopic;
+
+// @public
+export interface NamespaceTopicsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface NamespaceTopicsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NamespaceTopicsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NamespaceTopicsGetResponse = NamespaceTopic;
+
+// @public
+export interface NamespaceTopicsListByNamespaceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NamespaceTopicsListByNamespaceNextResponse = NamespaceTopicsListResult;
+
+// @public
+export interface NamespaceTopicsListByNamespaceOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type NamespaceTopicsListByNamespaceResponse = NamespaceTopicsListResult;
+
+// @public
+export interface NamespaceTopicsListResult {
+    nextLink?: string;
+    value?: NamespaceTopic[];
+}
+
+// @public
+export interface NamespaceTopicsListSharedAccessKeysOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NamespaceTopicsListSharedAccessKeysResponse = TopicSharedAccessKeys;
+
+// @public
+export interface NamespaceTopicsRegenerateKeyHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface NamespaceTopicsRegenerateKeyOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NamespaceTopicsRegenerateKeyResponse = TopicSharedAccessKeys;
+
+// @public
+export interface NamespaceTopicsUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface NamespaceTopicsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NamespaceTopicsUpdateResponse = NamespaceTopic;
+
+// @public
+export interface NamespaceTopicUpdateParameters {
+    eventRetentionInDays?: number;
+}
+
+// @public
+export interface NamespaceUpdateParameters {
+    identity?: IdentityInfo;
+    inboundIpRules?: InboundIpRule[];
+    publicNetworkAccess?: PublicNetworkAccess;
+    sku?: NamespaceSku;
+    tags?: {
+        [propertyName: string]: string;
+    };
+    topicSpacesConfiguration?: UpdateTopicSpacesConfigurationInfo;
+}
+
+// @public
+export interface NumberGreaterThanAdvancedFilter extends AdvancedFilter {
     operatorType: "NumberGreaterThan";
     value?: number;
-};
+}
 
 // @public
-export type NumberGreaterThanOrEqualsAdvancedFilter = AdvancedFilter & {
+export interface NumberGreaterThanFilter extends Filter {
+    operatorType: "NumberGreaterThan";
+    value?: number;
+}
+
+// @public
+export interface NumberGreaterThanOrEqualsAdvancedFilter extends AdvancedFilter {
     operatorType: "NumberGreaterThanOrEquals";
     value?: number;
-};
+}
 
 // @public
-export type NumberInAdvancedFilter = AdvancedFilter & {
+export interface NumberGreaterThanOrEqualsFilter extends Filter {
+    operatorType: "NumberGreaterThanOrEquals";
+    value?: number;
+}
+
+// @public
+export interface NumberInAdvancedFilter extends AdvancedFilter {
     operatorType: "NumberIn";
     values?: number[];
-};
+}
 
 // @public
-export type NumberInRangeAdvancedFilter = AdvancedFilter & {
+export interface NumberInFilter extends Filter {
+    operatorType: "NumberIn";
+    values?: number[];
+}
+
+// @public
+export interface NumberInRangeAdvancedFilter extends AdvancedFilter {
     operatorType: "NumberInRange";
     values?: number[][];
-};
+}
 
 // @public
-export type NumberLessThanAdvancedFilter = AdvancedFilter & {
+export interface NumberInRangeFilter extends Filter {
+    operatorType: "NumberInRange";
+    values?: number[][];
+}
+
+// @public
+export interface NumberLessThanAdvancedFilter extends AdvancedFilter {
     operatorType: "NumberLessThan";
     value?: number;
-};
+}
 
 // @public
-export type NumberLessThanOrEqualsAdvancedFilter = AdvancedFilter & {
+export interface NumberLessThanFilter extends Filter {
+    operatorType: "NumberLessThan";
+    value?: number;
+}
+
+// @public
+export interface NumberLessThanOrEqualsAdvancedFilter extends AdvancedFilter {
     operatorType: "NumberLessThanOrEquals";
     value?: number;
-};
+}
 
 // @public
-export type NumberNotInAdvancedFilter = AdvancedFilter & {
+export interface NumberLessThanOrEqualsFilter extends Filter {
+    operatorType: "NumberLessThanOrEquals";
+    value?: number;
+}
+
+// @public
+export interface NumberNotInAdvancedFilter extends AdvancedFilter {
     operatorType: "NumberNotIn";
     values?: number[];
-};
+}
 
 // @public
-export type NumberNotInRangeAdvancedFilter = AdvancedFilter & {
+export interface NumberNotInFilter extends Filter {
+    operatorType: "NumberNotIn";
+    values?: number[];
+}
+
+// @public
+export interface NumberNotInRangeAdvancedFilter extends AdvancedFilter {
     operatorType: "NumberNotInRange";
     values?: number[][];
-};
+}
+
+// @public
+export interface NumberNotInRangeFilter extends Filter {
+    operatorType: "NumberNotInRange";
+    values?: number[][];
+}
 
 // @public
 export interface Operation {
@@ -1594,15 +2478,26 @@ export interface PartnerAuthorization {
 }
 
 // @public
-export type PartnerConfiguration = Resource & {
-    readonly systemData?: SystemData;
+export interface PartnerClientAuthentication {
+    clientAuthenticationType: "AzureAD";
+}
+
+// @public
+export type PartnerClientAuthenticationType = string;
+
+// @public (undocumented)
+export type PartnerClientAuthenticationUnion = PartnerClientAuthentication | AzureADPartnerClientAuthentication;
+
+// @public
+export interface PartnerConfiguration extends Resource {
     location?: string;
+    partnerAuthorization?: PartnerAuthorization;
+    provisioningState?: PartnerConfigurationProvisioningState;
+    readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
-    partnerAuthorization?: PartnerAuthorization;
-    provisioningState?: PartnerConfigurationProvisioningState;
-};
+}
 
 // @public
 export type PartnerConfigurationProvisioningState = string;
@@ -1610,11 +2505,11 @@ export type PartnerConfigurationProvisioningState = string;
 // @public
 export interface PartnerConfigurations {
     authorizePartner(resourceGroupName: string, partnerInfo: Partner, options?: PartnerConfigurationsAuthorizePartnerOptionalParams): Promise<PartnerConfigurationsAuthorizePartnerResponse>;
-    beginCreateOrUpdate(resourceGroupName: string, partnerConfigurationInfo: PartnerConfiguration, options?: PartnerConfigurationsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<PartnerConfigurationsCreateOrUpdateResponse>, PartnerConfigurationsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, partnerConfigurationInfo: PartnerConfiguration, options?: PartnerConfigurationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PartnerConfigurationsCreateOrUpdateResponse>, PartnerConfigurationsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, partnerConfigurationInfo: PartnerConfiguration, options?: PartnerConfigurationsCreateOrUpdateOptionalParams): Promise<PartnerConfigurationsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, options?: PartnerConfigurationsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, options?: PartnerConfigurationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, options?: PartnerConfigurationsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, partnerConfigurationUpdateParameters: PartnerConfigurationUpdateParameters, options?: PartnerConfigurationsUpdateOptionalParams): Promise<PollerLike<PollOperationState<PartnerConfigurationsUpdateResponse>, PartnerConfigurationsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, partnerConfigurationUpdateParameters: PartnerConfigurationUpdateParameters, options?: PartnerConfigurationsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PartnerConfigurationsUpdateResponse>, PartnerConfigurationsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, partnerConfigurationUpdateParameters: PartnerConfigurationUpdateParameters, options?: PartnerConfigurationsUpdateOptionalParams): Promise<PartnerConfigurationsUpdateResponse>;
     get(resourceGroupName: string, options?: PartnerConfigurationsGetOptionalParams): Promise<PartnerConfigurationsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: PartnerConfigurationsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<PartnerConfiguration>;
@@ -1639,6 +2534,12 @@ export interface PartnerConfigurationsCreateOrUpdateOptionalParams extends coreC
 export type PartnerConfigurationsCreateOrUpdateResponse = PartnerConfiguration;
 
 // @public
+export interface PartnerConfigurationsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface PartnerConfigurationsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1660,8 +2561,6 @@ export type PartnerConfigurationsListByResourceGroupResponse = PartnerConfigurat
 
 // @public
 export interface PartnerConfigurationsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -1707,6 +2606,146 @@ export interface PartnerConfigurationUpdateParameters {
 }
 
 // @public
+export interface PartnerDestination extends TrackedResource {
+    activationState?: PartnerDestinationActivationState;
+    endpointBaseUrl?: string;
+    endpointServiceContext?: string;
+    expirationTimeIfNotActivatedUtc?: Date;
+    messageForActivation?: string;
+    partnerRegistrationImmutableId?: string;
+    readonly provisioningState?: PartnerDestinationProvisioningState;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export type PartnerDestinationActivationState = string;
+
+// @public
+export interface PartnerDestinationInfo {
+    azureSubscriptionId?: string;
+    endpointServiceContext?: string;
+    endpointType: "WebHook";
+    name?: string;
+    resourceGroupName?: string;
+    resourceMoveChangeHistory?: ResourceMoveChangeHistory[];
+}
+
+// @public (undocumented)
+export type PartnerDestinationInfoUnion = PartnerDestinationInfo | WebhookPartnerDestinationInfo;
+
+// @public
+export type PartnerDestinationProvisioningState = string;
+
+// @public
+export interface PartnerDestinations {
+    activate(resourceGroupName: string, partnerDestinationName: string, options?: PartnerDestinationsActivateOptionalParams): Promise<PartnerDestinationsActivateResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, partnerDestinationName: string, partnerDestination: PartnerDestination, options?: PartnerDestinationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PartnerDestinationsCreateOrUpdateResponse>, PartnerDestinationsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, partnerDestinationName: string, partnerDestination: PartnerDestination, options?: PartnerDestinationsCreateOrUpdateOptionalParams): Promise<PartnerDestinationsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, partnerDestinationName: string, options?: PartnerDestinationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, partnerDestinationName: string, options?: PartnerDestinationsDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, partnerDestinationName: string, partnerDestinationUpdateParameters: PartnerDestinationUpdateParameters, options?: PartnerDestinationsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PartnerDestinationsUpdateResponse>, PartnerDestinationsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, partnerDestinationName: string, partnerDestinationUpdateParameters: PartnerDestinationUpdateParameters, options?: PartnerDestinationsUpdateOptionalParams): Promise<PartnerDestinationsUpdateResponse>;
+    get(resourceGroupName: string, partnerDestinationName: string, options?: PartnerDestinationsGetOptionalParams): Promise<PartnerDestinationsGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: PartnerDestinationsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<PartnerDestination>;
+    listBySubscription(options?: PartnerDestinationsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<PartnerDestination>;
+}
+
+// @public
+export interface PartnerDestinationsActivateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PartnerDestinationsActivateResponse = PartnerDestination;
+
+// @public
+export interface PartnerDestinationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PartnerDestinationsCreateOrUpdateResponse = PartnerDestination;
+
+// @public
+export interface PartnerDestinationsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface PartnerDestinationsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PartnerDestinationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PartnerDestinationsGetResponse = PartnerDestination;
+
+// @public
+export interface PartnerDestinationsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PartnerDestinationsListByResourceGroupNextResponse = PartnerDestinationsListResult;
+
+// @public
+export interface PartnerDestinationsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type PartnerDestinationsListByResourceGroupResponse = PartnerDestinationsListResult;
+
+// @public
+export interface PartnerDestinationsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PartnerDestinationsListBySubscriptionNextResponse = PartnerDestinationsListResult;
+
+// @public
+export interface PartnerDestinationsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type PartnerDestinationsListBySubscriptionResponse = PartnerDestinationsListResult;
+
+// @public
+export interface PartnerDestinationsListResult {
+    nextLink?: string;
+    value?: PartnerDestination[];
+}
+
+// @public
+export interface PartnerDestinationsUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface PartnerDestinationsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PartnerDestinationsUpdateResponse = PartnerDestination;
+
+// @public
+export interface PartnerDestinationUpdateParameters {
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
 export interface PartnerDetails {
     description?: string;
     longDescription?: string;
@@ -1714,17 +2753,27 @@ export interface PartnerDetails {
 }
 
 // @public
-export type PartnerNamespace = TrackedResource & {
-    readonly systemData?: SystemData;
+export type PartnerEndpointType = string;
+
+// @public (undocumented)
+export interface PartnerEventSubscriptionDestination extends EventSubscriptionDestination {
+    endpointType: "PartnerDestination";
+    resourceId?: string;
+}
+
+// @public
+export interface PartnerNamespace extends TrackedResource {
+    disableLocalAuth?: boolean;
+    readonly endpoint?: string;
+    inboundIpRules?: InboundIpRule[];
+    minimumTlsVersionAllowed?: TlsVersion;
+    partnerRegistrationFullyQualifiedId?: string;
+    partnerTopicRoutingMode?: PartnerTopicRoutingMode;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: PartnerNamespaceProvisioningState;
-    partnerRegistrationFullyQualifiedId?: string;
-    readonly endpoint?: string;
     publicNetworkAccess?: PublicNetworkAccess;
-    inboundIpRules?: InboundIpRule[];
-    disableLocalAuth?: boolean;
-    partnerTopicRoutingMode?: PartnerTopicRoutingMode;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export type PartnerNamespaceProvisioningState = string;
@@ -1736,11 +2785,11 @@ export interface PartnerNamespaceRegenerateKeyRequest {
 
 // @public
 export interface PartnerNamespaces {
-    beginCreateOrUpdate(resourceGroupName: string, partnerNamespaceName: string, partnerNamespaceInfo: PartnerNamespace, options?: PartnerNamespacesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<PartnerNamespacesCreateOrUpdateResponse>, PartnerNamespacesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, partnerNamespaceName: string, partnerNamespaceInfo: PartnerNamespace, options?: PartnerNamespacesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PartnerNamespacesCreateOrUpdateResponse>, PartnerNamespacesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, partnerNamespaceName: string, partnerNamespaceInfo: PartnerNamespace, options?: PartnerNamespacesCreateOrUpdateOptionalParams): Promise<PartnerNamespacesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, partnerNamespaceName: string, options?: PartnerNamespacesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, partnerNamespaceName: string, options?: PartnerNamespacesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, partnerNamespaceName: string, options?: PartnerNamespacesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, partnerNamespaceName: string, partnerNamespaceUpdateParameters: PartnerNamespaceUpdateParameters, options?: PartnerNamespacesUpdateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginUpdate(resourceGroupName: string, partnerNamespaceName: string, partnerNamespaceUpdateParameters: PartnerNamespaceUpdateParameters, options?: PartnerNamespacesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginUpdateAndWait(resourceGroupName: string, partnerNamespaceName: string, partnerNamespaceUpdateParameters: PartnerNamespaceUpdateParameters, options?: PartnerNamespacesUpdateOptionalParams): Promise<void>;
     get(resourceGroupName: string, partnerNamespaceName: string, options?: PartnerNamespacesGetOptionalParams): Promise<PartnerNamespacesGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: PartnerNamespacesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<PartnerNamespace>;
@@ -1757,6 +2806,12 @@ export interface PartnerNamespacesCreateOrUpdateOptionalParams extends coreClien
 
 // @public
 export type PartnerNamespacesCreateOrUpdateResponse = PartnerNamespace;
+
+// @public
+export interface PartnerNamespacesDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface PartnerNamespacesDeleteOptionalParams extends coreClient.OperationOptions {
@@ -1779,8 +2834,6 @@ export interface PartnerNamespaceSharedAccessKeys {
 
 // @public
 export interface PartnerNamespacesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -1797,8 +2850,6 @@ export type PartnerNamespacesListByResourceGroupResponse = PartnerNamespacesList
 
 // @public
 export interface PartnerNamespacesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -1843,6 +2894,7 @@ export interface PartnerNamespacesUpdateOptionalParams extends coreClient.Operat
 export interface PartnerNamespaceUpdateParameters {
     disableLocalAuth?: boolean;
     inboundIpRules?: InboundIpRule[];
+    minimumTlsVersionAllowed?: TlsVersion;
     publicNetworkAccess?: PublicNetworkAccess;
     tags?: {
         [propertyName: string]: string;
@@ -1850,26 +2902,32 @@ export interface PartnerNamespaceUpdateParameters {
 }
 
 // @public
-export type PartnerRegistration = TrackedResource & {
-    readonly systemData?: SystemData;
-    readonly provisioningState?: PartnerRegistrationProvisioningState;
+export interface PartnerRegistration extends TrackedResource {
     partnerRegistrationImmutableId?: string;
-};
+    readonly provisioningState?: PartnerRegistrationProvisioningState;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export type PartnerRegistrationProvisioningState = string;
 
 // @public
 export interface PartnerRegistrations {
-    beginCreateOrUpdate(resourceGroupName: string, partnerRegistrationName: string, partnerRegistrationInfo: PartnerRegistration, options?: PartnerRegistrationsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<PartnerRegistrationsCreateOrUpdateResponse>, PartnerRegistrationsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, partnerRegistrationName: string, partnerRegistrationInfo: PartnerRegistration, options?: PartnerRegistrationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PartnerRegistrationsCreateOrUpdateResponse>, PartnerRegistrationsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, partnerRegistrationName: string, partnerRegistrationInfo: PartnerRegistration, options?: PartnerRegistrationsCreateOrUpdateOptionalParams): Promise<PartnerRegistrationsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, partnerRegistrationName: string, options?: PartnerRegistrationsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, partnerRegistrationName: string, options?: PartnerRegistrationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, partnerRegistrationName: string, options?: PartnerRegistrationsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, partnerRegistrationName: string, partnerRegistrationUpdateParameters: PartnerRegistrationUpdateParameters, options?: PartnerRegistrationsUpdateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginUpdate(resourceGroupName: string, partnerRegistrationName: string, partnerRegistrationUpdateParameters: PartnerRegistrationUpdateParameters, options?: PartnerRegistrationsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginUpdateAndWait(resourceGroupName: string, partnerRegistrationName: string, partnerRegistrationUpdateParameters: PartnerRegistrationUpdateParameters, options?: PartnerRegistrationsUpdateOptionalParams): Promise<void>;
     get(resourceGroupName: string, partnerRegistrationName: string, options?: PartnerRegistrationsGetOptionalParams): Promise<PartnerRegistrationsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: PartnerRegistrationsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<PartnerRegistration>;
     listBySubscription(options?: PartnerRegistrationsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<PartnerRegistration>;
+}
+
+// @public
+export interface PartnerRegistrationsCreateOrUpdateHeaders {
+    // (undocumented)
+    location?: string;
 }
 
 // @public
@@ -1880,6 +2938,12 @@ export interface PartnerRegistrationsCreateOrUpdateOptionalParams extends coreCl
 
 // @public
 export type PartnerRegistrationsCreateOrUpdateResponse = PartnerRegistration;
+
+// @public
+export interface PartnerRegistrationsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface PartnerRegistrationsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -1896,8 +2960,6 @@ export type PartnerRegistrationsGetResponse = PartnerRegistration;
 
 // @public
 export interface PartnerRegistrationsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -1914,8 +2976,6 @@ export type PartnerRegistrationsListByResourceGroupResponse = PartnerRegistratio
 
 // @public
 export interface PartnerRegistrationsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -1950,29 +3010,29 @@ export interface PartnerRegistrationUpdateParameters {
 }
 
 // @public
-export type PartnerTopic = TrackedResource & {
-    readonly systemData?: SystemData;
-    identity?: IdentityInfo;
-    partnerRegistrationImmutableId?: string;
-    source?: string;
+export interface PartnerTopic extends TrackedResource {
+    activationState?: PartnerTopicActivationState;
     eventTypeInfo?: EventTypeInfo;
     expirationTimeIfNotActivatedUtc?: Date;
-    readonly provisioningState?: PartnerTopicProvisioningState;
-    activationState?: PartnerTopicActivationState;
-    partnerTopicFriendlyDescription?: string;
+    identity?: IdentityInfo;
     messageForActivation?: string;
-};
+    partnerRegistrationImmutableId?: string;
+    partnerTopicFriendlyDescription?: string;
+    readonly provisioningState?: PartnerTopicProvisioningState;
+    source?: string;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export type PartnerTopicActivationState = string;
 
 // @public
 export interface PartnerTopicEventSubscriptions {
-    beginCreateOrUpdate(resourceGroupName: string, partnerTopicName: string, eventSubscriptionName: string, eventSubscriptionInfo: EventSubscription, options?: PartnerTopicEventSubscriptionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<PartnerTopicEventSubscriptionsCreateOrUpdateResponse>, PartnerTopicEventSubscriptionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, partnerTopicName: string, eventSubscriptionName: string, eventSubscriptionInfo: EventSubscription, options?: PartnerTopicEventSubscriptionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PartnerTopicEventSubscriptionsCreateOrUpdateResponse>, PartnerTopicEventSubscriptionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, partnerTopicName: string, eventSubscriptionName: string, eventSubscriptionInfo: EventSubscription, options?: PartnerTopicEventSubscriptionsCreateOrUpdateOptionalParams): Promise<PartnerTopicEventSubscriptionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, partnerTopicName: string, eventSubscriptionName: string, options?: PartnerTopicEventSubscriptionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, partnerTopicName: string, eventSubscriptionName: string, options?: PartnerTopicEventSubscriptionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, partnerTopicName: string, eventSubscriptionName: string, options?: PartnerTopicEventSubscriptionsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, partnerTopicName: string, eventSubscriptionName: string, eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters, options?: PartnerTopicEventSubscriptionsUpdateOptionalParams): Promise<PollerLike<PollOperationState<PartnerTopicEventSubscriptionsUpdateResponse>, PartnerTopicEventSubscriptionsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, partnerTopicName: string, eventSubscriptionName: string, eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters, options?: PartnerTopicEventSubscriptionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PartnerTopicEventSubscriptionsUpdateResponse>, PartnerTopicEventSubscriptionsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, partnerTopicName: string, eventSubscriptionName: string, eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters, options?: PartnerTopicEventSubscriptionsUpdateOptionalParams): Promise<PartnerTopicEventSubscriptionsUpdateResponse>;
     get(resourceGroupName: string, partnerTopicName: string, eventSubscriptionName: string, options?: PartnerTopicEventSubscriptionsGetOptionalParams): Promise<PartnerTopicEventSubscriptionsGetResponse>;
     getDeliveryAttributes(resourceGroupName: string, partnerTopicName: string, eventSubscriptionName: string, options?: PartnerTopicEventSubscriptionsGetDeliveryAttributesOptionalParams): Promise<PartnerTopicEventSubscriptionsGetDeliveryAttributesResponse>;
@@ -1988,6 +3048,12 @@ export interface PartnerTopicEventSubscriptionsCreateOrUpdateOptionalParams exte
 
 // @public
 export type PartnerTopicEventSubscriptionsCreateOrUpdateResponse = EventSubscription;
+
+// @public
+export interface PartnerTopicEventSubscriptionsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface PartnerTopicEventSubscriptionsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -2018,8 +3084,6 @@ export type PartnerTopicEventSubscriptionsGetResponse = EventSubscription;
 
 // @public
 export interface PartnerTopicEventSubscriptionsListByPartnerTopicNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -2061,7 +3125,7 @@ export type PartnerTopicRoutingMode = string;
 // @public
 export interface PartnerTopics {
     activate(resourceGroupName: string, partnerTopicName: string, options?: PartnerTopicsActivateOptionalParams): Promise<PartnerTopicsActivateResponse>;
-    beginDelete(resourceGroupName: string, partnerTopicName: string, options?: PartnerTopicsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, partnerTopicName: string, options?: PartnerTopicsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, partnerTopicName: string, options?: PartnerTopicsDeleteOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, partnerTopicName: string, partnerTopicInfo: PartnerTopic, options?: PartnerTopicsCreateOrUpdateOptionalParams): Promise<PartnerTopicsCreateOrUpdateResponse>;
     deactivate(resourceGroupName: string, partnerTopicName: string, options?: PartnerTopicsDeactivateOptionalParams): Promise<PartnerTopicsDeactivateResponse>;
@@ -2093,6 +3157,12 @@ export interface PartnerTopicsDeactivateOptionalParams extends coreClient.Operat
 export type PartnerTopicsDeactivateResponse = PartnerTopic;
 
 // @public
+export interface PartnerTopicsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface PartnerTopicsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2107,8 +3177,6 @@ export type PartnerTopicsGetResponse = PartnerTopic;
 
 // @public
 export interface PartnerTopicsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -2125,8 +3193,6 @@ export type PartnerTopicsListByResourceGroupResponse = PartnerTopicsListResult;
 
 // @public
 export interface PartnerTopicsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -2163,9 +3229,93 @@ export interface PartnerTopicUpdateParameters {
 }
 
 // @public
+export interface PartnerUpdateDestinationInfo {
+    endpointType: "WebHook";
+}
+
+// @public (undocumented)
+export type PartnerUpdateDestinationInfoUnion = PartnerUpdateDestinationInfo | WebhookUpdatePartnerDestinationInfo;
+
+// @public
 export interface PartnerUpdateTopicInfo {
     eventTypeInfo?: EventTypeInfo;
 }
+
+// @public
+export interface PermissionBinding extends Resource {
+    clientGroupName?: string;
+    description?: string;
+    permission?: PermissionType;
+    readonly provisioningState?: PermissionBindingProvisioningState;
+    readonly systemData?: SystemData;
+    topicSpaceName?: string;
+}
+
+// @public
+export type PermissionBindingProvisioningState = string;
+
+// @public
+export interface PermissionBindings {
+    beginCreateOrUpdate(resourceGroupName: string, namespaceName: string, permissionBindingName: string, permissionBindingInfo: PermissionBinding, options?: PermissionBindingsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PermissionBindingsCreateOrUpdateResponse>, PermissionBindingsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, namespaceName: string, permissionBindingName: string, permissionBindingInfo: PermissionBinding, options?: PermissionBindingsCreateOrUpdateOptionalParams): Promise<PermissionBindingsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, namespaceName: string, permissionBindingName: string, options?: PermissionBindingsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, namespaceName: string, permissionBindingName: string, options?: PermissionBindingsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, namespaceName: string, permissionBindingName: string, options?: PermissionBindingsGetOptionalParams): Promise<PermissionBindingsGetResponse>;
+    listByNamespace(resourceGroupName: string, namespaceName: string, options?: PermissionBindingsListByNamespaceOptionalParams): PagedAsyncIterableIterator<PermissionBinding>;
+}
+
+// @public
+export interface PermissionBindingsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PermissionBindingsCreateOrUpdateResponse = PermissionBinding;
+
+// @public
+export interface PermissionBindingsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface PermissionBindingsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PermissionBindingsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PermissionBindingsGetResponse = PermissionBinding;
+
+// @public
+export interface PermissionBindingsListByNamespaceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PermissionBindingsListByNamespaceNextResponse = PermissionBindingsListResult;
+
+// @public
+export interface PermissionBindingsListByNamespaceOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type PermissionBindingsListByNamespaceResponse = PermissionBindingsListResult;
+
+// @public
+export interface PermissionBindingsListResult {
+    nextLink?: string;
+    value?: PermissionBinding[];
+}
+
+// @public
+export type PermissionType = string;
 
 // @public
 export type PersistedConnectionStatus = string;
@@ -2176,12 +3326,12 @@ export interface PrivateEndpoint {
 }
 
 // @public (undocumented)
-export type PrivateEndpointConnection = Resource & {
-    privateEndpoint?: PrivateEndpoint;
+export interface PrivateEndpointConnection extends Resource {
     groupIds?: string[];
+    privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: ConnectionState;
     provisioningState?: ResourceProvisioningState;
-};
+}
 
 // @public
 export interface PrivateEndpointConnectionListResult {
@@ -2191,12 +3341,18 @@ export interface PrivateEndpointConnectionListResult {
 
 // @public
 export interface PrivateEndpointConnections {
-    beginDelete(resourceGroupName: string, parentType: PrivateEndpointConnectionsParentType, parentName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, parentType: PrivateEndpointConnectionsParentType, parentName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, parentType: PrivateEndpointConnectionsParentType, parentName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionsUpdateResponse>, PrivateEndpointConnectionsUpdateResponse>>;
+    beginDelete(resourceGroupName: string, parentType: PrivateEndpointConnectionsParentType, parentName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsDeleteResponse>, PrivateEndpointConnectionsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, parentType: PrivateEndpointConnectionsParentType, parentName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PrivateEndpointConnectionsDeleteResponse>;
+    beginUpdate(resourceGroupName: string, parentType: PrivateEndpointConnectionsParentType, parentName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsUpdateResponse>, PrivateEndpointConnectionsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, parentType: PrivateEndpointConnectionsParentType, parentName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateOptionalParams): Promise<PrivateEndpointConnectionsUpdateResponse>;
     get(resourceGroupName: string, parentType: PrivateEndpointConnectionsParentType, parentName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
     listByResource(resourceGroupName: string, parentType: PrivateEndpointConnectionsParentType, parentName: string, options?: PrivateEndpointConnectionsListByResourceOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
+}
+
+// @public
+export interface PrivateEndpointConnectionsDeleteHeaders {
+    // (undocumented)
+    location?: string;
 }
 
 // @public
@@ -2204,6 +3360,9 @@ export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClie
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type PrivateEndpointConnectionsDeleteResponse = PrivateEndpointConnectionsDeleteHeaders;
 
 // @public
 export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {
@@ -2214,8 +3373,6 @@ export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
 
 // @public
 export interface PrivateEndpointConnectionsListByResourceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -2272,8 +3429,6 @@ export type PrivateLinkResourcesGetResponse = PrivateLinkResource;
 
 // @public
 export interface PrivateLinkResourcesListByResourceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -2298,6 +3453,17 @@ export interface PrivateLinkResourcesListResult {
 export type PublicNetworkAccess = string;
 
 // @public
+export type PublisherType = string;
+
+// @public
+export interface QueueInfo {
+    deadLetterDestinationWithResourceIdentity?: DeadLetterWithResourceIdentity;
+    eventTimeToLive?: string;
+    maxDeliveryCount?: number;
+    receiveLockDurationInSeconds?: number;
+}
+
+// @public
 export type ReadinessState = string;
 
 // @public
@@ -2308,10 +3474,25 @@ export interface Resource {
 }
 
 // @public
+export type ResourceKind = string;
+
+// @public
+export interface ResourceMoveChangeHistory {
+    azureSubscriptionId?: string;
+    changedTimeUtc?: Date;
+    resourceGroupName?: string;
+}
+
+// @public
 export type ResourceProvisioningState = string;
 
 // @public
 export type ResourceRegionType = string;
+
+// @public
+export interface ResourceSku {
+    name?: Sku;
+}
 
 // @public
 export interface RetryPolicy {
@@ -2319,89 +3500,196 @@ export interface RetryPolicy {
     maxDeliveryAttempts?: number;
 }
 
+// @public (undocumented)
+export interface RoutingEnrichments {
+    // (undocumented)
+    dynamic?: DynamicRoutingEnrichment[];
+    // (undocumented)
+    static?: StaticRoutingEnrichment[];
+}
+
 // @public
-export type ServiceBusQueueEventSubscriptionDestination = EventSubscriptionDestination & {
+export interface RoutingIdentityInfo {
+    // (undocumented)
+    type?: RoutingIdentityType;
+    // (undocumented)
+    userAssignedIdentity?: string;
+}
+
+// @public
+export type RoutingIdentityType = string;
+
+// @public
+export interface ServiceBusQueueEventSubscriptionDestination extends EventSubscriptionDestination {
+    deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
     endpointType: "ServiceBusQueue";
     resourceId?: string;
-    deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
-};
+}
 
 // @public
-export type ServiceBusTopicEventSubscriptionDestination = EventSubscriptionDestination & {
+export interface ServiceBusTopicEventSubscriptionDestination extends EventSubscriptionDestination {
+    deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
     endpointType: "ServiceBusTopic";
     resourceId?: string;
-    deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
-};
+}
 
 // @public
-export type StaticDeliveryAttributeMapping = DeliveryAttributeMapping & {
+export type Sku = string;
+
+// @public
+export type SkuName = string;
+
+// @public
+export interface StaticDeliveryAttributeMapping extends DeliveryAttributeMapping {
+    isSecret?: boolean;
     type: "Static";
     value?: string;
-    isSecret?: boolean;
-};
+}
+
+// @public (undocumented)
+export interface StaticRoutingEnrichment {
+    key?: string;
+    valueType?: StaticRoutingEnrichmentType;
+}
 
 // @public
-export type StorageBlobDeadLetterDestination = DeadLetterDestination & {
+export type StaticRoutingEnrichmentType = string;
+
+// @public
+export interface StorageBlobDeadLetterDestination extends DeadLetterDestination {
+    blobContainerName?: string;
     endpointType: "StorageBlob";
     resourceId?: string;
-    blobContainerName?: string;
-};
+}
 
 // @public
-export type StorageQueueEventSubscriptionDestination = EventSubscriptionDestination & {
+export interface StorageQueueEventSubscriptionDestination extends EventSubscriptionDestination {
     endpointType: "StorageQueue";
-    resourceId?: string;
-    queueName?: string;
     queueMessageTimeToLiveInSeconds?: number;
-};
+    queueName?: string;
+    resourceId?: string;
+}
 
 // @public
-export type StringBeginsWithAdvancedFilter = AdvancedFilter & {
+export interface StringBeginsWithAdvancedFilter extends AdvancedFilter {
     operatorType: "StringBeginsWith";
     values?: string[];
-};
+}
 
 // @public
-export type StringContainsAdvancedFilter = AdvancedFilter & {
+export interface StringBeginsWithFilter extends Filter {
+    operatorType: "StringBeginsWith";
+    values?: string[];
+}
+
+// @public
+export interface StringContainsAdvancedFilter extends AdvancedFilter {
     operatorType: "StringContains";
     values?: string[];
-};
+}
 
 // @public
-export type StringEndsWithAdvancedFilter = AdvancedFilter & {
+export interface StringContainsFilter extends Filter {
+    operatorType: "StringContains";
+    values?: string[];
+}
+
+// @public
+export interface StringEndsWithAdvancedFilter extends AdvancedFilter {
     operatorType: "StringEndsWith";
     values?: string[];
-};
+}
 
 // @public
-export type StringInAdvancedFilter = AdvancedFilter & {
+export interface StringEndsWithFilter extends Filter {
+    operatorType: "StringEndsWith";
+    values?: string[];
+}
+
+// @public
+export interface StringInAdvancedFilter extends AdvancedFilter {
     operatorType: "StringIn";
     values?: string[];
-};
+}
 
 // @public
-export type StringNotBeginsWithAdvancedFilter = AdvancedFilter & {
+export interface StringInFilter extends Filter {
+    operatorType: "StringIn";
+    values?: string[];
+}
+
+// @public
+export interface StringNotBeginsWithAdvancedFilter extends AdvancedFilter {
     operatorType: "StringNotBeginsWith";
     values?: string[];
-};
+}
 
 // @public
-export type StringNotContainsAdvancedFilter = AdvancedFilter & {
+export interface StringNotBeginsWithFilter extends Filter {
+    operatorType: "StringNotBeginsWith";
+    values?: string[];
+}
+
+// @public
+export interface StringNotContainsAdvancedFilter extends AdvancedFilter {
     operatorType: "StringNotContains";
     values?: string[];
-};
+}
 
 // @public
-export type StringNotEndsWithAdvancedFilter = AdvancedFilter & {
+export interface StringNotContainsFilter extends Filter {
+    operatorType: "StringNotContains";
+    values?: string[];
+}
+
+// @public
+export interface StringNotEndsWithAdvancedFilter extends AdvancedFilter {
     operatorType: "StringNotEndsWith";
     values?: string[];
-};
+}
 
 // @public
-export type StringNotInAdvancedFilter = AdvancedFilter & {
+export interface StringNotEndsWithFilter extends Filter {
+    operatorType: "StringNotEndsWith";
+    values?: string[];
+}
+
+// @public
+export interface StringNotInAdvancedFilter extends AdvancedFilter {
     operatorType: "StringNotIn";
     values?: string[];
-};
+}
+
+// @public
+export interface StringNotInFilter extends Filter {
+    operatorType: "StringNotIn";
+    values?: string[];
+}
+
+// @public
+export interface Subscription extends Resource {
+    deliveryConfiguration?: DeliveryConfiguration;
+    eventDeliverySchema?: DeliverySchema;
+    filtersConfiguration?: FiltersConfiguration;
+    readonly provisioningState?: SubscriptionProvisioningState;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export type SubscriptionProvisioningState = string;
+
+// @public
+export interface SubscriptionsListResult {
+    nextLink?: string;
+    value?: Subscription[];
+}
+
+// @public
+export interface SubscriptionUpdateParameters {
+    deliveryConfiguration?: DeliveryConfiguration;
+    eventDeliverySchema?: DeliverySchema;
+    filtersConfiguration?: FiltersConfiguration;
+}
 
 // @public
 export interface SystemData {
@@ -2414,22 +3702,22 @@ export interface SystemData {
 }
 
 // @public
-export type SystemTopic = TrackedResource & {
+export interface SystemTopic extends TrackedResource {
     identity?: IdentityInfo;
-    readonly systemData?: SystemData;
+    readonly metricResourceId?: string;
     readonly provisioningState?: ResourceProvisioningState;
     source?: string;
+    readonly systemData?: SystemData;
     topicType?: string;
-    readonly metricResourceId?: string;
-};
+}
 
 // @public
 export interface SystemTopicEventSubscriptions {
-    beginCreateOrUpdate(resourceGroupName: string, systemTopicName: string, eventSubscriptionName: string, eventSubscriptionInfo: EventSubscription, options?: SystemTopicEventSubscriptionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SystemTopicEventSubscriptionsCreateOrUpdateResponse>, SystemTopicEventSubscriptionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, systemTopicName: string, eventSubscriptionName: string, eventSubscriptionInfo: EventSubscription, options?: SystemTopicEventSubscriptionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SystemTopicEventSubscriptionsCreateOrUpdateResponse>, SystemTopicEventSubscriptionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, systemTopicName: string, eventSubscriptionName: string, eventSubscriptionInfo: EventSubscription, options?: SystemTopicEventSubscriptionsCreateOrUpdateOptionalParams): Promise<SystemTopicEventSubscriptionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, systemTopicName: string, eventSubscriptionName: string, options?: SystemTopicEventSubscriptionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, systemTopicName: string, eventSubscriptionName: string, options?: SystemTopicEventSubscriptionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, systemTopicName: string, eventSubscriptionName: string, options?: SystemTopicEventSubscriptionsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, systemTopicName: string, eventSubscriptionName: string, eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters, options?: SystemTopicEventSubscriptionsUpdateOptionalParams): Promise<PollerLike<PollOperationState<SystemTopicEventSubscriptionsUpdateResponse>, SystemTopicEventSubscriptionsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, systemTopicName: string, eventSubscriptionName: string, eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters, options?: SystemTopicEventSubscriptionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SystemTopicEventSubscriptionsUpdateResponse>, SystemTopicEventSubscriptionsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, systemTopicName: string, eventSubscriptionName: string, eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters, options?: SystemTopicEventSubscriptionsUpdateOptionalParams): Promise<SystemTopicEventSubscriptionsUpdateResponse>;
     get(resourceGroupName: string, systemTopicName: string, eventSubscriptionName: string, options?: SystemTopicEventSubscriptionsGetOptionalParams): Promise<SystemTopicEventSubscriptionsGetResponse>;
     getDeliveryAttributes(resourceGroupName: string, systemTopicName: string, eventSubscriptionName: string, options?: SystemTopicEventSubscriptionsGetDeliveryAttributesOptionalParams): Promise<SystemTopicEventSubscriptionsGetDeliveryAttributesResponse>;
@@ -2445,6 +3733,12 @@ export interface SystemTopicEventSubscriptionsCreateOrUpdateOptionalParams exten
 
 // @public
 export type SystemTopicEventSubscriptionsCreateOrUpdateResponse = EventSubscription;
+
+// @public
+export interface SystemTopicEventSubscriptionsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface SystemTopicEventSubscriptionsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -2475,8 +3769,6 @@ export type SystemTopicEventSubscriptionsGetResponse = EventSubscription;
 
 // @public
 export interface SystemTopicEventSubscriptionsListBySystemTopicNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -2502,11 +3794,11 @@ export type SystemTopicEventSubscriptionsUpdateResponse = EventSubscription;
 
 // @public
 export interface SystemTopics {
-    beginCreateOrUpdate(resourceGroupName: string, systemTopicName: string, systemTopicInfo: SystemTopic, options?: SystemTopicsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SystemTopicsCreateOrUpdateResponse>, SystemTopicsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, systemTopicName: string, systemTopicInfo: SystemTopic, options?: SystemTopicsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SystemTopicsCreateOrUpdateResponse>, SystemTopicsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, systemTopicName: string, systemTopicInfo: SystemTopic, options?: SystemTopicsCreateOrUpdateOptionalParams): Promise<SystemTopicsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, systemTopicName: string, options?: SystemTopicsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, systemTopicName: string, options?: SystemTopicsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, systemTopicName: string, options?: SystemTopicsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, systemTopicName: string, systemTopicUpdateParameters: SystemTopicUpdateParameters, options?: SystemTopicsUpdateOptionalParams): Promise<PollerLike<PollOperationState<SystemTopicsUpdateResponse>, SystemTopicsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, systemTopicName: string, systemTopicUpdateParameters: SystemTopicUpdateParameters, options?: SystemTopicsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SystemTopicsUpdateResponse>, SystemTopicsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, systemTopicName: string, systemTopicUpdateParameters: SystemTopicUpdateParameters, options?: SystemTopicsUpdateOptionalParams): Promise<SystemTopicsUpdateResponse>;
     get(resourceGroupName: string, systemTopicName: string, options?: SystemTopicsGetOptionalParams): Promise<SystemTopicsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: SystemTopicsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<SystemTopic>;
@@ -2523,6 +3815,12 @@ export interface SystemTopicsCreateOrUpdateOptionalParams extends coreClient.Ope
 export type SystemTopicsCreateOrUpdateResponse = SystemTopic;
 
 // @public
+export interface SystemTopicsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface SystemTopicsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2537,8 +3835,6 @@ export type SystemTopicsGetResponse = SystemTopic;
 
 // @public
 export interface SystemTopicsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -2555,8 +3851,6 @@ export type SystemTopicsListByResourceGroupResponse = SystemTopicsListResult;
 
 // @public
 export interface SystemTopicsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -2595,28 +3889,36 @@ export interface SystemTopicUpdateParameters {
 }
 
 // @public
-export type Topic = TrackedResource & {
-    identity?: IdentityInfo;
-    readonly systemData?: SystemData;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    readonly provisioningState?: TopicProvisioningState;
+export type TlsVersion = string;
+
+// @public
+export interface Topic extends TrackedResource {
+    dataResidencyBoundary?: DataResidencyBoundary;
+    disableLocalAuth?: boolean;
     readonly endpoint?: string;
+    eventTypeInfo?: EventTypeInfo;
+    extendedLocation?: ExtendedLocation;
+    identity?: IdentityInfo;
+    inboundIpRules?: InboundIpRule[];
     inputSchema?: InputSchema;
     inputSchemaMapping?: InputSchemaMappingUnion;
+    kind?: ResourceKind;
     readonly metricResourceId?: string;
+    minimumTlsVersionAllowed?: TlsVersion;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: TopicProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
-    inboundIpRules?: InboundIpRule[];
-    disableLocalAuth?: boolean;
-    dataResidencyBoundary?: DataResidencyBoundary;
-};
+    sku?: ResourceSku;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface TopicEventSubscriptions {
-    beginCreateOrUpdate(resourceGroupName: string, topicName: string, eventSubscriptionName: string, eventSubscriptionInfo: EventSubscription, options?: TopicEventSubscriptionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<TopicEventSubscriptionsCreateOrUpdateResponse>, TopicEventSubscriptionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, topicName: string, eventSubscriptionName: string, eventSubscriptionInfo: EventSubscription, options?: TopicEventSubscriptionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<TopicEventSubscriptionsCreateOrUpdateResponse>, TopicEventSubscriptionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, topicName: string, eventSubscriptionName: string, eventSubscriptionInfo: EventSubscription, options?: TopicEventSubscriptionsCreateOrUpdateOptionalParams): Promise<TopicEventSubscriptionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, topicName: string, eventSubscriptionName: string, options?: TopicEventSubscriptionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, topicName: string, eventSubscriptionName: string, options?: TopicEventSubscriptionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, topicName: string, eventSubscriptionName: string, options?: TopicEventSubscriptionsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, topicName: string, eventSubscriptionName: string, eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters, options?: TopicEventSubscriptionsUpdateOptionalParams): Promise<PollerLike<PollOperationState<TopicEventSubscriptionsUpdateResponse>, TopicEventSubscriptionsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, topicName: string, eventSubscriptionName: string, eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters, options?: TopicEventSubscriptionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<TopicEventSubscriptionsUpdateResponse>, TopicEventSubscriptionsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, topicName: string, eventSubscriptionName: string, eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters, options?: TopicEventSubscriptionsUpdateOptionalParams): Promise<TopicEventSubscriptionsUpdateResponse>;
     get(resourceGroupName: string, topicName: string, eventSubscriptionName: string, options?: TopicEventSubscriptionsGetOptionalParams): Promise<TopicEventSubscriptionsGetResponse>;
     getDeliveryAttributes(resourceGroupName: string, topicName: string, eventSubscriptionName: string, options?: TopicEventSubscriptionsGetDeliveryAttributesOptionalParams): Promise<TopicEventSubscriptionsGetDeliveryAttributesResponse>;
@@ -2632,6 +3934,12 @@ export interface TopicEventSubscriptionsCreateOrUpdateOptionalParams extends cor
 
 // @public
 export type TopicEventSubscriptionsCreateOrUpdateResponse = EventSubscription;
+
+// @public
+export interface TopicEventSubscriptionsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface TopicEventSubscriptionsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -2662,8 +3970,6 @@ export type TopicEventSubscriptionsGetResponse = EventSubscription;
 
 // @public
 export interface TopicEventSubscriptionsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -2697,19 +4003,24 @@ export interface TopicRegenerateKeyRequest {
 
 // @public
 export interface Topics {
-    beginCreateOrUpdate(resourceGroupName: string, topicName: string, topicInfo: Topic, options?: TopicsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<TopicsCreateOrUpdateResponse>, TopicsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, topicName: string, topicInfo: Topic, options?: TopicsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<TopicsCreateOrUpdateResponse>, TopicsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, topicName: string, topicInfo: Topic, options?: TopicsCreateOrUpdateOptionalParams): Promise<TopicsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, topicName: string, options?: TopicsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, topicName: string, options?: TopicsDeleteOptionalParams): Promise<void>;
-    beginRegenerateKey(resourceGroupName: string, topicName: string, regenerateKeyRequest: TopicRegenerateKeyRequest, options?: TopicsRegenerateKeyOptionalParams): Promise<PollerLike<PollOperationState<TopicsRegenerateKeyResponse>, TopicsRegenerateKeyResponse>>;
+    beginDelete(resourceGroupName: string, topicName: string, options?: TopicsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<TopicsDeleteResponse>, TopicsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, topicName: string, options?: TopicsDeleteOptionalParams): Promise<TopicsDeleteResponse>;
+    beginRegenerateKey(resourceGroupName: string, topicName: string, regenerateKeyRequest: TopicRegenerateKeyRequest, options?: TopicsRegenerateKeyOptionalParams): Promise<SimplePollerLike<OperationState<TopicsRegenerateKeyResponse>, TopicsRegenerateKeyResponse>>;
     beginRegenerateKeyAndWait(resourceGroupName: string, topicName: string, regenerateKeyRequest: TopicRegenerateKeyRequest, options?: TopicsRegenerateKeyOptionalParams): Promise<TopicsRegenerateKeyResponse>;
-    beginUpdate(resourceGroupName: string, topicName: string, topicUpdateParameters: TopicUpdateParameters, options?: TopicsUpdateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginUpdate(resourceGroupName: string, topicName: string, topicUpdateParameters: TopicUpdateParameters, options?: TopicsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginUpdateAndWait(resourceGroupName: string, topicName: string, topicUpdateParameters: TopicUpdateParameters, options?: TopicsUpdateOptionalParams): Promise<void>;
     get(resourceGroupName: string, topicName: string, options?: TopicsGetOptionalParams): Promise<TopicsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: TopicsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Topic>;
     listBySubscription(options?: TopicsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Topic>;
     listEventTypes(resourceGroupName: string, providerNamespace: string, resourceTypeName: string, resourceName: string, options?: TopicsListEventTypesOptionalParams): PagedAsyncIterableIterator<EventType>;
     listSharedAccessKeys(resourceGroupName: string, topicName: string, options?: TopicsListSharedAccessKeysOptionalParams): Promise<TopicsListSharedAccessKeysResponse>;
+}
+
+// @public
+export interface TopicsConfiguration {
+    readonly hostname?: string;
 }
 
 // @public
@@ -2722,10 +4033,19 @@ export interface TopicsCreateOrUpdateOptionalParams extends coreClient.Operation
 export type TopicsCreateOrUpdateResponse = Topic;
 
 // @public
+export interface TopicsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface TopicsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type TopicsDeleteResponse = TopicsDeleteHeaders;
 
 // @public
 export interface TopicsGetOptionalParams extends coreClient.OperationOptions {
@@ -2742,8 +4062,6 @@ export interface TopicSharedAccessKeys {
 
 // @public
 export interface TopicsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -2760,8 +4078,6 @@ export type TopicsListByResourceGroupResponse = TopicsListResult;
 
 // @public
 export interface TopicsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -2797,6 +4113,98 @@ export interface TopicsListSharedAccessKeysOptionalParams extends coreClient.Ope
 export type TopicsListSharedAccessKeysResponse = TopicSharedAccessKeys;
 
 // @public
+export interface TopicSpace extends Resource {
+    description?: string;
+    readonly provisioningState?: TopicSpaceProvisioningState;
+    readonly systemData?: SystemData;
+    topicTemplates?: string[];
+}
+
+// @public
+export type TopicSpaceProvisioningState = string;
+
+// @public
+export interface TopicSpaces {
+    beginCreateOrUpdate(resourceGroupName: string, namespaceName: string, topicSpaceName: string, topicSpaceInfo: TopicSpace, options?: TopicSpacesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<TopicSpacesCreateOrUpdateResponse>, TopicSpacesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, namespaceName: string, topicSpaceName: string, topicSpaceInfo: TopicSpace, options?: TopicSpacesCreateOrUpdateOptionalParams): Promise<TopicSpacesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, namespaceName: string, topicSpaceName: string, options?: TopicSpacesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, namespaceName: string, topicSpaceName: string, options?: TopicSpacesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, namespaceName: string, topicSpaceName: string, options?: TopicSpacesGetOptionalParams): Promise<TopicSpacesGetResponse>;
+    listByNamespace(resourceGroupName: string, namespaceName: string, options?: TopicSpacesListByNamespaceOptionalParams): PagedAsyncIterableIterator<TopicSpace>;
+}
+
+// @public
+export interface TopicSpacesConfiguration {
+    clientAuthentication?: ClientAuthenticationSettings;
+    readonly hostname?: string;
+    maximumClientSessionsPerAuthenticationName?: number;
+    maximumSessionExpiryInHours?: number;
+    routeTopicResourceId?: string;
+    routingEnrichments?: RoutingEnrichments;
+    routingIdentityInfo?: RoutingIdentityInfo;
+    state?: TopicSpacesConfigurationState;
+}
+
+// @public
+export type TopicSpacesConfigurationState = string;
+
+// @public
+export interface TopicSpacesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type TopicSpacesCreateOrUpdateResponse = TopicSpace;
+
+// @public
+export interface TopicSpacesDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface TopicSpacesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface TopicSpacesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TopicSpacesGetResponse = TopicSpace;
+
+// @public
+export interface TopicSpacesListByNamespaceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TopicSpacesListByNamespaceNextResponse = TopicSpacesListResult;
+
+// @public
+export interface TopicSpacesListByNamespaceOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type TopicSpacesListByNamespaceResponse = TopicSpacesListResult;
+
+// @public
+export interface TopicSpacesListResult {
+    nextLink?: string;
+    value?: TopicSpace[];
+}
+
+// @public
+export interface TopicsRegenerateKeyHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface TopicsRegenerateKeyOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2812,16 +4220,17 @@ export interface TopicsUpdateOptionalParams extends coreClient.OperationOptions 
 }
 
 // @public
-export type TopicTypeInfo = Resource & {
-    provider?: string;
-    displayName?: string;
+export interface TopicTypeInfo extends Resource {
+    areRegionalAndGlobalSourcesSupported?: boolean;
     description?: string;
-    resourceRegionType?: ResourceRegionType;
+    displayName?: string;
+    provider?: string;
     provisioningState?: TopicTypeProvisioningState;
-    supportedLocations?: string[];
+    resourceRegionType?: ResourceRegionType;
     sourceResourceFormat?: string;
+    supportedLocations?: string[];
     supportedScopesForSource?: TopicTypeSourceScope[];
-};
+}
 
 // @public
 export type TopicTypeProvisioningState = string;
@@ -2866,21 +4275,35 @@ export type TopicTypeSourceScope = string;
 export interface TopicUpdateParameters {
     dataResidencyBoundary?: DataResidencyBoundary;
     disableLocalAuth?: boolean;
+    eventTypeInfo?: EventTypeInfo;
     identity?: IdentityInfo;
     inboundIpRules?: InboundIpRule[];
+    minimumTlsVersionAllowed?: TlsVersion;
     publicNetworkAccess?: PublicNetworkAccess;
+    sku?: ResourceSku;
     tags?: {
         [propertyName: string]: string;
     };
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
     location: string;
     tags?: {
         [propertyName: string]: string;
     };
-};
+}
+
+// @public
+export interface UpdateTopicSpacesConfigurationInfo {
+    clientAuthentication?: ClientAuthenticationSettings;
+    maximumClientSessionsPerAuthenticationName?: number;
+    maximumSessionExpiryInHours?: number;
+    routeTopicResourceId?: string;
+    routingEnrichments?: RoutingEnrichments;
+    routingIdentityInfo?: RoutingIdentityInfo;
+    state?: TopicSpacesConfigurationState;
+}
 
 // @public
 export interface UserIdentityProperties {
@@ -2889,14 +4312,15 @@ export interface UserIdentityProperties {
 }
 
 // @public
-export type VerifiedPartner = Resource & {
-    readonly systemData?: SystemData;
-    partnerRegistrationImmutableId?: string;
+export interface VerifiedPartner extends Resource {
     organizationName?: string;
+    partnerDestinationDetails?: PartnerDetails;
     partnerDisplayName?: string;
+    partnerRegistrationImmutableId?: string;
     partnerTopicDetails?: PartnerDetails;
     provisioningState?: VerifiedPartnerProvisioningState;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export type VerifiedPartnerProvisioningState = string;
@@ -2916,8 +4340,6 @@ export type VerifiedPartnersGetResponse = VerifiedPartner;
 
 // @public
 export interface VerifiedPartnersListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -2939,16 +4361,33 @@ export interface VerifiedPartnersListResult {
 }
 
 // @public
-export type WebHookEventSubscriptionDestination = EventSubscriptionDestination & {
+export interface WebHookEventSubscriptionDestination extends EventSubscriptionDestination {
+    azureActiveDirectoryApplicationIdOrUri?: string;
+    azureActiveDirectoryTenantId?: string;
+    deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
+    readonly endpointBaseUrl?: string;
     endpointType: "WebHook";
     endpointUrl?: string;
-    readonly endpointBaseUrl?: string;
     maxEventsPerBatch?: number;
+    minimumTlsVersionAllowed?: TlsVersion;
     preferredBatchSizeInKilobytes?: number;
-    azureActiveDirectoryTenantId?: string;
-    azureActiveDirectoryApplicationIdOrUri?: string;
-    deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
-};
+}
+
+// @public
+export interface WebhookPartnerDestinationInfo extends PartnerDestinationInfo {
+    clientAuthentication?: PartnerClientAuthenticationUnion;
+    endpointBaseUrl?: string;
+    endpointType: "WebHook";
+    endpointUrl?: string;
+}
+
+// @public
+export interface WebhookUpdatePartnerDestinationInfo extends PartnerUpdateDestinationInfo {
+    clientAuthentication?: PartnerClientAuthenticationUnion;
+    endpointBaseUrl?: string;
+    endpointType: "WebHook";
+    endpointUrl?: string;
+}
 
 // (No @packageDocumentation comment for this package)
 

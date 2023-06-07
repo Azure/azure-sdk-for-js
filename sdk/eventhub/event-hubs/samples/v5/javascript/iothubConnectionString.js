@@ -108,7 +108,7 @@ async function convertIotHubToEventHubsConnectionString(connectionString) {
         if (!hostname || !regexResults) {
           reject(error);
         } else {
-          const eventHubName = regexResults[0];
+          const eventHubName = regexResults[1];
           resolve(
             `Endpoint=sb://${hostname}/;EntityPath=${eventHubName};SharedAccessKeyName=${SharedAccessKeyName};SharedAccessKey=${SharedAccessKey}`
           );

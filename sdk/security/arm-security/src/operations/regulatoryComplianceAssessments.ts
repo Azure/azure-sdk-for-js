@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { RegulatoryComplianceAssessments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -59,11 +60,15 @@ export class RegulatoryComplianceAssessmentsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           regulatoryComplianceStandardName,
           regulatoryComplianceControlName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -72,15 +77,22 @@ export class RegulatoryComplianceAssessmentsImpl
   private async *listPagingPage(
     regulatoryComplianceStandardName: string,
     regulatoryComplianceControlName: string,
-    options?: RegulatoryComplianceAssessmentsListOptionalParams
+    options?: RegulatoryComplianceAssessmentsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<RegulatoryComplianceAssessment[]> {
-    let result = await this._list(
-      regulatoryComplianceStandardName,
-      regulatoryComplianceControlName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RegulatoryComplianceAssessmentsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        regulatoryComplianceStandardName,
+        regulatoryComplianceControlName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         regulatoryComplianceStandardName,
@@ -89,7 +101,9 @@ export class RegulatoryComplianceAssessmentsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -235,7 +249,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

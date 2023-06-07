@@ -29,8 +29,7 @@ async function createNetworkInterfaceTapConfigurations() {
     body: {
       properties: {
         virtualNetworkTap: {
-          id:
-            "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworkTaps/testvtap",
+          id: "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworkTaps/testvtap",
         },
       },
     },

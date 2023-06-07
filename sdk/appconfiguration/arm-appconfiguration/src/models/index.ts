@@ -451,14 +451,6 @@ export interface PrivateLinkResource {
   readonly requiredZoneNames?: string[];
 }
 
-/** The result of a request to list key-values. */
-export interface KeyValueListResult {
-  /** The collection value. */
-  value?: KeyValue[];
-  /** The URI that can be used to request the next set of paged results. */
-  nextLink?: string;
-}
-
 /** The key-value resource along with all resource properties. */
 export interface KeyValue {
   /**
@@ -572,16 +564,68 @@ export interface DeletedConfigurationStore {
   readonly purgeProtectionEnabled?: boolean;
 }
 
+/** The result of a request to list replicas. */
+export interface ReplicaListResult {
+  /** The collection value. */
+  value?: Replica[];
+  /** The URI that can be used to request the next set of paged results. */
+  nextLink?: string;
+}
+
+/** The replica resource. */
+export interface Replica {
+  /**
+   * The resource ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the replica.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** The location of the replica. */
+  location?: string;
+  /**
+   * Resource system metadata.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * The URI of the replica where the replica API will be available.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endpoint?: string;
+  /**
+   * The provisioning state of the replica.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ReplicaProvisioningState;
+}
+
+/** The result of a request to list key-values. */
+export interface KeyValueListResult {
+  /** The collection value. */
+  value?: KeyValue[];
+  /** The URI that can be used to request the next set of paged results. */
+  nextLink?: string;
+}
+
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** The configuration store along with all resource properties. The Configuration Store will have all information to begin utilizing it. */
-export type ConfigurationStore = TrackedResource & {
+export interface ConfigurationStore extends TrackedResource {
   /** The managed identity information, if configured. */
   identity?: ResourceIdentity;
   /** The sku of the configuration store. */
@@ -623,13 +667,23 @@ export type ConfigurationStore = TrackedResource & {
   enablePurgeProtection?: boolean;
   /** Indicates whether the configuration store need to be recovered. */
   createMode?: CreateMode;
-};
+}
+
+/** Defines headers for Replicas_delete operation. */
+export interface ReplicasDeleteHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+}
 
 /** Known values of {@link IdentityType} that the service accepts. */
 export enum KnownIdentityType {
+  /** None */
   None = "None",
+  /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
   UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
   SystemAssignedUserAssigned = "SystemAssigned, UserAssigned"
 }
 
@@ -647,11 +701,17 @@ export type IdentityType = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled"
 }
 
@@ -671,9 +731,13 @@ export type ProvisioningState = string;
 
 /** Known values of {@link ConnectionStatus} that the service accepts. */
 export enum KnownConnectionStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected",
+  /** Disconnected */
   Disconnected = "Disconnected"
 }
 
@@ -691,7 +755,9 @@ export type ConnectionStatus = string;
 
 /** Known values of {@link ActionsRequired} that the service accepts. */
 export enum KnownActionsRequired {
+  /** None */
   None = "None",
+  /** Recreate */
   Recreate = "Recreate"
 }
 
@@ -707,7 +773,9 @@ export type ActionsRequired = string;
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -723,9 +791,13 @@ export type PublicNetworkAccess = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -743,6 +815,7 @@ export type CreatedByType = string;
 
 /** Known values of {@link ConfigurationResourceType} that the service accepts. */
 export enum KnownConfigurationResourceType {
+  /** MicrosoftAppConfigurationConfigurationStores */
   MicrosoftAppConfigurationConfigurationStores = "Microsoft.AppConfiguration/configurationStores"
 }
 
@@ -754,6 +827,33 @@ export enum KnownConfigurationResourceType {
  * **Microsoft.AppConfiguration\/configurationStores**
  */
 export type ConfigurationResourceType = string;
+
+/** Known values of {@link ReplicaProvisioningState} that the service accepts. */
+export enum KnownReplicaProvisioningState {
+  /** Creating */
+  Creating = "Creating",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled"
+}
+
+/**
+ * Defines values for ReplicaProvisioningState. \
+ * {@link KnownReplicaProvisioningState} can be used interchangeably with ReplicaProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Succeeded** \
+ * **Deleting** \
+ * **Failed** \
+ * **Canceled**
+ */
+export type ReplicaProvisioningState = string;
 /** Defines values for CreateMode. */
 export type CreateMode = "Recover" | "Default";
 
@@ -859,30 +959,21 @@ export interface ConfigurationStoresPurgeDeletedOptionalParams
 
 /** Optional parameters. */
 export interface ConfigurationStoresListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ConfigurationStoresListNextResponse = ConfigurationStoreListResult;
 
 /** Optional parameters. */
 export interface ConfigurationStoresListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type ConfigurationStoresListByResourceGroupNextResponse = ConfigurationStoreListResult;
 
 /** Optional parameters. */
 export interface ConfigurationStoresListKeysNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listKeysNext operation. */
 export type ConfigurationStoresListKeysNextResponse = ApiKeyListResult;
@@ -920,10 +1011,7 @@ export type OperationsRegionalCheckNameAvailabilityResponse = NameAvailabilitySt
 
 /** Optional parameters. */
 export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationDefinitionListResult;
@@ -992,16 +1080,6 @@ export interface PrivateLinkResourcesListByConfigurationStoreNextOptionalParams
 export type PrivateLinkResourcesListByConfigurationStoreNextResponse = PrivateLinkResourceListResult;
 
 /** Optional parameters. */
-export interface KeyValuesListByConfigurationStoreOptionalParams
-  extends coreClient.OperationOptions {
-  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
-
-/** Contains response data for the listByConfigurationStore operation. */
-export type KeyValuesListByConfigurationStoreResponse = KeyValueListResult;
-
-/** Optional parameters. */
 export interface KeyValuesGetOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1028,14 +1106,49 @@ export interface KeyValuesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface KeyValuesListByConfigurationStoreNextOptionalParams
+export interface ReplicasListByConfigurationStoreOptionalParams
   extends coreClient.OperationOptions {
   /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
   skipToken?: string;
 }
 
+/** Contains response data for the listByConfigurationStore operation. */
+export type ReplicasListByConfigurationStoreResponse = ReplicaListResult;
+
+/** Optional parameters. */
+export interface ReplicasGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ReplicasGetResponse = Replica;
+
+/** Optional parameters. */
+export interface ReplicasCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type ReplicasCreateResponse = Replica;
+
+/** Optional parameters. */
+export interface ReplicasDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ReplicasListByConfigurationStoreNextOptionalParams
+  extends coreClient.OperationOptions {}
+
 /** Contains response data for the listByConfigurationStoreNext operation. */
-export type KeyValuesListByConfigurationStoreNextResponse = KeyValueListResult;
+export type ReplicasListByConfigurationStoreNextResponse = ReplicaListResult;
 
 /** Optional parameters. */
 export interface AppConfigurationManagementClientOptionalParams

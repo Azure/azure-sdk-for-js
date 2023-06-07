@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Datasets } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -61,11 +62,15 @@ export class DatasetsImpl implements Datasets {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByFactoryPagingPage(
           resourceGroupName,
           factoryName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -74,15 +79,22 @@ export class DatasetsImpl implements Datasets {
   private async *listByFactoryPagingPage(
     resourceGroupName: string,
     factoryName: string,
-    options?: DatasetsListByFactoryOptionalParams
+    options?: DatasetsListByFactoryOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DatasetResource[]> {
-    let result = await this._listByFactory(
-      resourceGroupName,
-      factoryName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DatasetsListByFactoryResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByFactory(
+        resourceGroupName,
+        factoryName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByFactoryNext(
         resourceGroupName,
@@ -91,7 +103,9 @@ export class DatasetsImpl implements Datasets {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -315,7 +329,6 @@ const listByFactoryNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

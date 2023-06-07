@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { RelayAPI } = require("@azure/arm-relay");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists all the available namespaces within the ResourceGroup.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/relay/resource-manager/Microsoft.Relay/stable/2017-04-01/examples/NameSpaces/RelayNameSpaceListByResourceGroup.json
  */
 async function relayNameSpaceListByResourceGroup() {
-  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = "resourcegroup";
+  const subscriptionId =
+    process.env["RELAY_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["RELAY_RESOURCE_GROUP"] || "resourcegroup";
   const credential = new DefaultAzureCredential();
   const client = new RelayAPI(credential, subscriptionId);
   const resArray = new Array();
@@ -29,4 +31,8 @@ async function relayNameSpaceListByResourceGroup() {
   console.log(resArray);
 }
 
-relayNameSpaceListByResourceGroup().catch(console.error);
+async function main() {
+  relayNameSpaceListByResourceGroup();
+}
+
+main().catch(console.error);

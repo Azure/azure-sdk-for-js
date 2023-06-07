@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ChaosManagementClient } from "@azure/arm-chaos";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get a Target Type resources for given location.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2022-10-01-preview/examples/GetATargetType.json
  */
 async function getATargetTypeForWestus2Location() {
-  const subscriptionId = "6b052e15-03d3-4f17-b2e1-be7f07588291";
+  const subscriptionId =
+    process.env["CHAOS_SUBSCRIPTION_ID"] ||
+    "6b052e15-03d3-4f17-b2e1-be7f07588291";
   const locationName = "westus2";
   const targetTypeName = "Microsoft-Agent";
   const credential = new DefaultAzureCredential();
@@ -27,4 +32,8 @@ async function getATargetTypeForWestus2Location() {
   console.log(result);
 }
 
-getATargetTypeForWestus2Location().catch(console.error);
+async function main() {
+  getATargetTypeForWestus2Location();
+}
+
+main().catch(console.error);

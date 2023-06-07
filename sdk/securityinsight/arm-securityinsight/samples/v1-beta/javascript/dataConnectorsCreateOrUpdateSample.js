@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SecurityInsights } = require("@azure/arm-securityinsight");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates or updates the data connector.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CreateAPIPolling.json
  */
 async function createsOrUpdatesAApiPollingDataConnector() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const dataConnectorId = "316ec55e-7138-4d63-ab18-90c8a60fd1c8";
   const dataConnector = {
@@ -128,8 +130,6 @@ async function createsOrUpdatesAApiPollingDataConnector() {
   console.log(result);
 }
 
-createsOrUpdatesAApiPollingDataConnector().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates the data connector.
  *
@@ -137,8 +137,9 @@ createsOrUpdatesAApiPollingDataConnector().catch(console.error);
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CreateDynamics365DataConnetor.json
  */
 async function createsOrUpdatesADynamics365DataConnector() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const dataConnectorId = "c2541efb-c9a6-47fe-9501-87d1017d1512";
   const dataConnector = {
@@ -158,8 +159,6 @@ async function createsOrUpdatesADynamics365DataConnector() {
   console.log(result);
 }
 
-createsOrUpdatesADynamics365DataConnector().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates the data connector.
  *
@@ -167,8 +166,9 @@ createsOrUpdatesADynamics365DataConnector().catch(console.error);
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CreateGenericUI.json
  */
 async function createsOrUpdatesAGenericUiDataConnector() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const dataConnectorId = "316ec55e-7138-4d63-ab18-90c8a60fd1c8";
   const dataConnector = {
@@ -232,7 +232,7 @@ async function createsOrUpdatesAGenericUiDataConnector() {
         },
         {
           description:
-            'Use this method for automated deployment of the Qualys VM connector using an ARM Tempate.\n\n1. Click the **Deploy to Azure** button below. \n\n	[![Deploy To Azure](https://aka.ms/deploytoazurebutton)](https://aka.ms/sentinelqualysvmazuredeploy)\n2. Select the preferred **Subscription**, **Resource Group** and **Location**. \n3. Enter the **Workspace ID**, **Workspace Key**, **API Username**, **API Password** , update the **URI**, and any additional URI **Filter Parameters** (each filter should be separated by an "&" symbol, no spaces.) \n> - Enter the URI that corresponds to your region. The complete list of API Server URLs can be [found here](https://www.qualys.com/docs/qualys-api-vmpc-user-guide.pdf#G4.735348) -- There is no need to add a time suffix to the URI, the Function App will dynamically append the Time Value to the URI in the proper format. \n - The default **Time Interval** is set to pull the last five (5) minutes of data. If the time interval needs to be modified, it is recommended to change the Function App Timer Trigger accordingly (in the function.json file, post deployment) to prevent overlapping data ingestion. \n> - Note: If using Azure Key Vault secrets for any of the values above, use the`@Microsoft.KeyVault(SecretUri={Security Identifier})`schema in place of the string values. Refer to [Key Vault references documentation](https://docs.microsoft.com/azure/app-service/app-service-key-vault-references) for further details. \n4. Mark the checkbox labeled **I agree to the terms and conditions stated above**. \n5. Click **Purchase** to deploy.',
+            'Use this method for automated deployment of the Qualys VM connector using an ARM Tempate.\n\n1. Click the **Deploy to Azure** button below. \n\n\t[![Deploy To Azure](https://aka.ms/deploytoazurebutton)](https://aka.ms/sentinelqualysvmazuredeploy)\n2. Select the preferred **Subscription**, **Resource Group** and **Location**. \n3. Enter the **Workspace ID**, **Workspace Key**, **API Username**, **API Password** , update the **URI**, and any additional URI **Filter Parameters** (each filter should be separated by an "&" symbol, no spaces.) \n> - Enter the URI that corresponds to your region. The complete list of API Server URLs can be [found here](https://www.qualys.com/docs/qualys-api-vmpc-user-guide.pdf#G4.735348) -- There is no need to add a time suffix to the URI, the Function App will dynamically append the Time Value to the URI in the proper format. \n - The default **Time Interval** is set to pull the last five (5) minutes of data. If the time interval needs to be modified, it is recommended to change the Function App Timer Trigger accordingly (in the function.json file, post deployment) to prevent overlapping data ingestion. \n> - Note: If using Azure Key Vault secrets for any of the values above, use the`@Microsoft.KeyVault(SecretUri={Security Identifier})`schema in place of the string values. Refer to [Key Vault references documentation](https://docs.microsoft.com/azure/app-service/app-service-key-vault-references) for further details. \n4. Mark the checkbox labeled **I agree to the terms and conditions stated above**. \n5. Click **Purchase** to deploy.',
           title: "Option 1 - Azure Resource Manager (ARM) Template",
         },
         {
@@ -252,7 +252,7 @@ async function createsOrUpdatesAGenericUiDataConnector() {
         },
         {
           description:
-            '**3. Configure the Function App**\n\n1. In the Function App, select the Function App Name and select **Configuration**.\n2. In the **Application settings** tab, select **+ New application setting**.\n3. Add each of the following seven (7) application settings individually, with their respective string values (case-sensitive): \n		apiUsername\n		apiPassword\n		workspaceID\n		workspaceKey\n		uri\n		filterParameters\n		timeInterval\n> - Enter the URI that corresponds to your region. The complete list of API Server URLs can be [found here](https://www.qualys.com/docs/qualys-api-vmpc-user-guide.pdf#G4.735348). The `uri` value must follow the following schema: `https://<API Server>/api/2.0/fo/asset/host/vm/detection/?action=list&vm_processed_after=` -- There is no need to add a time suffix to the URI, the Function App will dynamically append the Time Value to the URI in the proper format.\n> - Add any additional filter parameters, for the `filterParameters` variable, that need to be appended to the URI. Each parameter should be seperated by an "&" symbol and should not include any spaces.\n> - Set the `timeInterval` (in minutes) to the value of `5` to correspond to the Timer Trigger of every `5` minutes. If the time interval needs to be modified, it is recommended to change the Function App Timer Trigger accordingly to prevent overlapping data ingestion.\n> - Note: If using Azure Key Vault, use the`@Microsoft.KeyVault(SecretUri={Security Identifier})`schema in place of the string values. Refer to [Key Vault references documentation](https://docs.microsoft.com/azure/app-service/app-service-key-vault-references) for further details.\n4. Once all application settings have been entered, click **Save**.',
+            '**3. Configure the Function App**\n\n1. In the Function App, select the Function App Name and select **Configuration**.\n2. In the **Application settings** tab, select **+ New application setting**.\n3. Add each of the following seven (7) application settings individually, with their respective string values (case-sensitive): \n\t\tapiUsername\n\t\tapiPassword\n\t\tworkspaceID\n\t\tworkspaceKey\n\t\turi\n\t\tfilterParameters\n\t\ttimeInterval\n> - Enter the URI that corresponds to your region. The complete list of API Server URLs can be [found here](https://www.qualys.com/docs/qualys-api-vmpc-user-guide.pdf#G4.735348). The `uri` value must follow the following schema: `https://<API Server>/api/2.0/fo/asset/host/vm/detection/?action=list&vm_processed_after=` -- There is no need to add a time suffix to the URI, the Function App will dynamically append the Time Value to the URI in the proper format.\n> - Add any additional filter parameters, for the `filterParameters` variable, that need to be appended to the URI. Each parameter should be seperated by an "&" symbol and should not include any spaces.\n> - Set the `timeInterval` (in minutes) to the value of `5` to correspond to the Timer Trigger of every `5` minutes. If the time interval needs to be modified, it is recommended to change the Function App Timer Trigger accordingly to prevent overlapping data ingestion.\n> - Note: If using Azure Key Vault, use the`@Microsoft.KeyVault(SecretUri={Security Identifier})`schema in place of the string values. Refer to [Key Vault references documentation](https://docs.microsoft.com/azure/app-service/app-service-key-vault-references) for further details.\n4. Once all application settings have been entered, click **Save**.',
           title: "",
         },
         {
@@ -315,8 +315,6 @@ async function createsOrUpdatesAGenericUiDataConnector() {
   console.log(result);
 }
 
-createsOrUpdatesAGenericUiDataConnector().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates the data connector.
  *
@@ -324,8 +322,9 @@ createsOrUpdatesAGenericUiDataConnector().catch(console.error);
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CreateThreatIntelligenceTaxiiDataConnector.json
  */
 async function createsOrUpdatesAThreatIntelligenceTaxiiDataConnector() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const dataConnectorId = "73e01a99-5cd7-4139-a149-9f2736ff2ab5";
   const dataConnector = {
@@ -353,8 +352,6 @@ async function createsOrUpdatesAThreatIntelligenceTaxiiDataConnector() {
   console.log(result);
 }
 
-createsOrUpdatesAThreatIntelligenceTaxiiDataConnector().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates the data connector.
  *
@@ -362,8 +359,9 @@ createsOrUpdatesAThreatIntelligenceTaxiiDataConnector().catch(console.error);
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CreateOfficePowerBIDataConnector.json
  */
 async function createsOrUpdatesAnOfficePowerBiDataConnector() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const dataConnectorId = "73e01a99-5cd7-4139-a149-9f2736ff2ab5";
   const dataConnector = {
@@ -383,8 +381,6 @@ async function createsOrUpdatesAnOfficePowerBiDataConnector() {
   console.log(result);
 }
 
-createsOrUpdatesAnOfficePowerBiDataConnector().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates the data connector.
  *
@@ -392,8 +388,9 @@ createsOrUpdatesAnOfficePowerBiDataConnector().catch(console.error);
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CreateOffice365ProjectDataConnetor.json
  */
 async function createsOrUpdatesAnOffice365ProjectDataConnector() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const dataConnectorId = "73e01a99-5cd7-4139-a149-9f2736ff2ab5";
   const dataConnector = {
@@ -413,8 +410,6 @@ async function createsOrUpdatesAnOffice365ProjectDataConnector() {
   console.log(result);
 }
 
-createsOrUpdatesAnOffice365ProjectDataConnector().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates the data connector.
  *
@@ -422,8 +417,9 @@ createsOrUpdatesAnOffice365ProjectDataConnector().catch(console.error);
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CreateOfficeDataConnetor.json
  */
 async function createsOrUpdatesAnOffice365DataConnector() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const dataConnectorId = "73e01a99-5cd7-4139-a149-9f2736ff2ab5";
   const dataConnector = {
@@ -447,8 +443,6 @@ async function createsOrUpdatesAnOffice365DataConnector() {
   console.log(result);
 }
 
-createsOrUpdatesAnOffice365DataConnector().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates the data connector.
  *
@@ -456,8 +450,9 @@ createsOrUpdatesAnOffice365DataConnector().catch(console.error);
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/CreateThreatIntelligenceDataConnector.json
  */
 async function createsOrUpdatesAnThreatIntelligencePlatformDataConnector() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const dataConnectorId = "73e01a99-5cd7-4139-a149-9f2736ff2ab5";
   const dataConnector = {
@@ -477,4 +472,15 @@ async function createsOrUpdatesAnThreatIntelligencePlatformDataConnector() {
   console.log(result);
 }
 
-createsOrUpdatesAnThreatIntelligencePlatformDataConnector().catch(console.error);
+async function main() {
+  createsOrUpdatesAApiPollingDataConnector();
+  createsOrUpdatesADynamics365DataConnector();
+  createsOrUpdatesAGenericUiDataConnector();
+  createsOrUpdatesAThreatIntelligenceTaxiiDataConnector();
+  createsOrUpdatesAnOfficePowerBiDataConnector();
+  createsOrUpdatesAnOffice365ProjectDataConnector();
+  createsOrUpdatesAnOffice365DataConnector();
+  createsOrUpdatesAnThreatIntelligencePlatformDataConnector();
+}
+
+main().catch(console.error);

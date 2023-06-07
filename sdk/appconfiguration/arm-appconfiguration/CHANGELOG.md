@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.3 (Unreleased)
+## 4.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,42 @@
 
 ### Other Changes
 
+## 4.0.0 (2023-04-06)
+    
+**Features**
+
+  - Added operation group Replicas
+  - Added Interface Replica
+  - Added Interface ReplicaListResult
+  - Added Interface ReplicasCreateOptionalParams
+  - Added Interface ReplicasDeleteHeaders
+  - Added Interface ReplicasDeleteOptionalParams
+  - Added Interface ReplicasGetOptionalParams
+  - Added Interface ReplicasListByConfigurationStoreNextOptionalParams
+  - Added Interface ReplicasListByConfigurationStoreOptionalParams
+  - Added Type Alias ReplicaProvisioningState
+  - Added Type Alias ReplicasCreateResponse
+  - Added Type Alias ReplicasGetResponse
+  - Added Type Alias ReplicasListByConfigurationStoreNextResponse
+  - Added Type Alias ReplicasListByConfigurationStoreResponse
+  - Added Enum KnownReplicaProvisioningState
+  - Interface ConfigurationStoresListByResourceGroupNextOptionalParams no longer has parameter skipToken
+  - Interface ConfigurationStoresListKeysNextOptionalParams no longer has parameter skipToken
+  - Interface ConfigurationStoresListNextOptionalParams no longer has parameter skipToken
+  - Interface OperationsListNextOptionalParams no longer has parameter skipToken
+
+**Breaking Changes**
+
+  - Removed operation KeyValues.listByConfigurationStore
+    
+    
+## 3.1.0 (2022-11-15)
+    
+**Features**
+
+  - Added Interface ConfigurationStore
+  - Added Interface TrackedResource
+    
 ## 3.0.2 (2022-10-08)
 
 **Bugs Fixed**

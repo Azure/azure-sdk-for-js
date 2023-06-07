@@ -6,6 +6,7 @@
  * model produces key-value pairs and entities in addition to the basic layout information.
  *
  * @summary use the prebuilt (general) document model to extract key-value pairs and entities
+ * @azsdk-skip-javascript
  */
 
 import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";

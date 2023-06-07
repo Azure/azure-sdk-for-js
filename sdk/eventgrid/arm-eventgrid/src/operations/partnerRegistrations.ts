@@ -6,20 +6,27 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { PartnerRegistrations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { EventGridManagementClient } from "../eventGridManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   PartnerRegistration,
   PartnerRegistrationsListBySubscriptionNextOptionalParams,
   PartnerRegistrationsListBySubscriptionOptionalParams,
+  PartnerRegistrationsListBySubscriptionResponse,
   PartnerRegistrationsListByResourceGroupNextOptionalParams,
   PartnerRegistrationsListByResourceGroupOptionalParams,
+  PartnerRegistrationsListByResourceGroupResponse,
   PartnerRegistrationsGetOptionalParams,
   PartnerRegistrationsGetResponse,
   PartnerRegistrationsCreateOrUpdateOptionalParams,
@@ -27,8 +34,6 @@ import {
   PartnerRegistrationsDeleteOptionalParams,
   PartnerRegistrationUpdateParameters,
   PartnerRegistrationsUpdateOptionalParams,
-  PartnerRegistrationsListBySubscriptionResponse,
-  PartnerRegistrationsListByResourceGroupResponse,
   PartnerRegistrationsListBySubscriptionNextResponse,
   PartnerRegistrationsListByResourceGroupNextResponse
 } from "../models";
@@ -61,22 +66,34 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: PartnerRegistrationsListBySubscriptionOptionalParams
+    options?: PartnerRegistrationsListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PartnerRegistration[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PartnerRegistrationsListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -105,19 +122,33 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: PartnerRegistrationsListByResourceGroupOptionalParams
+    options?: PartnerRegistrationsListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PartnerRegistration[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PartnerRegistrationsListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -125,7 +156,9 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -171,8 +204,8 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
     partnerRegistrationInfo: PartnerRegistration,
     options?: PartnerRegistrationsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PartnerRegistrationsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PartnerRegistrationsCreateOrUpdateResponse>,
       PartnerRegistrationsCreateOrUpdateResponse
     >
   > {
@@ -182,7 +215,7 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
     ): Promise<PartnerRegistrationsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -215,18 +248,21 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         partnerRegistrationName,
         partnerRegistrationInfo,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PartnerRegistrationsCreateOrUpdateResponse,
+      OperationState<PartnerRegistrationsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -265,14 +301,14 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
     resourceGroupName: string,
     partnerRegistrationName: string,
     options?: PartnerRegistrationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -305,13 +341,13 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, partnerRegistrationName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, partnerRegistrationName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -349,14 +385,14 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
     partnerRegistrationName: string,
     partnerRegistrationUpdateParameters: PartnerRegistrationUpdateParameters,
     options?: PartnerRegistrationsUpdateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -389,18 +425,18 @@ export class PartnerRegistrationsImpl implements PartnerRegistrations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         partnerRegistrationName,
         partnerRegistrationUpdateParameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -617,7 +653,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -635,7 +670,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

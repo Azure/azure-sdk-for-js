@@ -9,9 +9,8 @@
   "license": "ISC",
   "dependencies": {
     "@azure/app-configuration": "^1.3.1",
-    "@azure/core-http": "^2.0.0",
     "@azure/test-utils-perf": "^1.0.0",
-    "dotenv": "^8.2.0",
+    "dotenv": "^16.0.0",
     "@azure/template": "^1.0.11-beta.1 || ^1.0.12-beta.1",
     "@azure/identity": "^2.0.1"
   },
@@ -24,7 +23,7 @@
     "uuid": "^8.3.0",
     "tslib": "^2.2.0",
     "ts-node": "^10.0.0",
-    "typescript": "~4.6.0"
+    "typescript": "~5.0.0"
   },
   "private": true,
   "scripts": {

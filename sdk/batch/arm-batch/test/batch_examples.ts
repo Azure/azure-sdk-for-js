@@ -281,7 +281,7 @@ describe("Batch test", () => {
     for await (let item of client.privateLinkResourceOperations.listByBatchAccount(resourceGroup, accountName)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 1);
+    assert.equal(resArray.length, 2);
   });
 
   it("poolOperations delete test", async function () {

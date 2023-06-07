@@ -6,24 +6,29 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { DeletedServers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DeletedServer,
   DeletedServersListNextOptionalParams,
   DeletedServersListOptionalParams,
+  DeletedServersListResponse,
   DeletedServersListByLocationNextOptionalParams,
   DeletedServersListByLocationOptionalParams,
-  DeletedServersListResponse,
+  DeletedServersListByLocationResponse,
   DeletedServersGetOptionalParams,
   DeletedServersGetResponse,
-  DeletedServersListByLocationResponse,
   DeletedServersRecoverOptionalParams,
   DeletedServersRecoverResponse,
   DeletedServersListNextResponse,
@@ -58,22 +63,34 @@ export class DeletedServersImpl implements DeletedServers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: DeletedServersListOptionalParams
+    options?: DeletedServersListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DeletedServer[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DeletedServersListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -102,19 +119,29 @@ export class DeletedServersImpl implements DeletedServers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByLocationPagingPage(locationName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByLocationPagingPage(locationName, options, settings);
       }
     };
   }
 
   private async *listByLocationPagingPage(
     locationName: string,
-    options?: DeletedServersListByLocationOptionalParams
+    options?: DeletedServersListByLocationOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DeletedServer[]> {
-    let result = await this._listByLocation(locationName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DeletedServersListByLocationResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByLocation(locationName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByLocationNext(
         locationName,
@@ -122,7 +149,9 @@ export class DeletedServersImpl implements DeletedServers {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -191,8 +220,8 @@ export class DeletedServersImpl implements DeletedServers {
     deletedServerName: string,
     options?: DeletedServersRecoverOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DeletedServersRecoverResponse>,
+    SimplePollerLike<
+      OperationState<DeletedServersRecoverResponse>,
       DeletedServersRecoverResponse
     >
   > {
@@ -202,7 +231,7 @@ export class DeletedServersImpl implements DeletedServers {
     ): Promise<DeletedServersRecoverResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -235,13 +264,16 @@ export class DeletedServersImpl implements DeletedServers {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { locationName, deletedServerName, options },
-      recoverOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { locationName, deletedServerName, options },
+      spec: recoverOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DeletedServersRecoverResponse,
+      OperationState<DeletedServersRecoverResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -312,7 +344,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -327,7 +359,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -347,7 +379,7 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -375,7 +407,7 @@ const recoverOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -394,7 +426,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -412,7 +443,6 @@ const listByLocationNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

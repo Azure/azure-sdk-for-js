@@ -3,6 +3,7 @@
 
 import {
   AnalyzeBatchActionNames,
+  KnownExtractiveSummarizationOrderingCriteria,
   KnownPiiEntityCategory,
   KnownPiiEntityDomain,
   KnownStringIndexType,
@@ -11,11 +12,10 @@ import {
 } from "../../src";
 import { AuthMethod, createClient, startRecorder } from "./utils/recordedClient";
 import { Context, Suite } from "mocha";
-import { Recorder, assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert, matrix } from "@azure/test-utils";
 import { assertActionsResults, assertRestError } from "./utils/resultHelper";
 import {
-  expectation1,
   expectation10,
   expectation11,
   expectation12,
@@ -26,37 +26,48 @@ import {
   expectation17,
   expectation18,
   expectation19,
-  expectation2,
   expectation20,
   expectation21,
   expectation22,
   expectation23,
   expectation24,
   expectation26,
+  expectation27,
+  expectation28,
+  expectation29,
   expectation3,
-  expectation4,
   expectation5,
   expectation6,
   expectation7,
   expectation8,
   expectation9,
+  expectation30,
+  expectation31,
 } from "./expectations";
-import { getDocIDsFromState } from "../../src/lro";
+import { authModes, windows365ArticlePart1, windows365ArticlePart2 } from "./inputs";
 
 const FIXME1 = {
-  // Remove this check when the service updates its message
+  // FIXME: remove this check when the service updates its message
   excludedAdditionalProps: ["message"],
 };
 
-matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
+const FIXME2 = {
+  // FIXME: remove this check when the service returns warnings in document results, see https://dev.azure.com/msazure/Cognitive%20Services/_workitems/edit/15772270
+  excludedAdditionalProps: ["warnings"],
+};
+
+const excludedSummarizationProperties = {
+  excludedAdditionalProps: ["text", "rankScore", "offset", "length"],
+};
+
+matrix(authModes, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
     let recorder: Recorder;
     let client: TextAnalysisClient;
 
     beforeEach(async function (this: Context) {
       recorder = await startRecorder(this.currentTest);
-      client = createClient({
-        authMethod,
+      client = createClient(authMethod, {
         recorder,
       });
     });
@@ -261,23 +272,13 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             );
             await assertActionsResults(await poller.pollUntilDone(), expectation20);
           });
-        });
 
-        describe("custom", function () {
-          it("entity recognition", async function () {
-            const docs = [
-              "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
-            ];
+          it("extractive summarization", async function () {
+            const docs = [windows365ArticlePart1, windows365ArticlePart2];
             const poller = await client.beginAnalyzeBatch(
               [
                 {
-                  kind: AnalyzeBatchActionNames.CustomEntityRecognition,
-                  deploymentName: assertEnvironmentVariable(
-                    "LANGUAGE_CUSTOM_ENTITY_RECOGNITION_DEPLOYMENT_NAME"
-                  ),
-                  projectName: assertEnvironmentVariable(
-                    "LANGUAGE_CUSTOM_ENTITY_RECOGNITION_PROJECT_NAME"
-                  ),
+                  kind: AnalyzeBatchActionNames.ExtractiveSummarization,
                 },
               ],
               docs,
@@ -286,23 +287,22 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionsResults(await poller.pollUntilDone(), expectation1);
+
+            await assertActionsResults(
+              await poller.pollUntilDone(),
+              expectation27,
+              excludedSummarizationProperties
+            );
           });
 
-          it("single label classification action", async function () {
-            const docs = [
-              "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
-            ];
+          it("extractive summarization with maxSentenceCount", async function () {
+            const docs = [windows365ArticlePart1, windows365ArticlePart2];
+            const maxSentenceCount = 2;
             const poller = await client.beginAnalyzeBatch(
               [
                 {
-                  kind: AnalyzeBatchActionNames.CustomSingleLabelClassification,
-                  deploymentName: assertEnvironmentVariable(
-                    "LANGUAGE_CUSTOM_SINGLE_LABEL_CLASSIFICATION_DEPLOYMENT_NAME"
-                  ),
-                  projectName: assertEnvironmentVariable(
-                    "LANGUAGE_CUSTOM_SINGLE_LABEL_CLASSIFICATION_PROJECT_NAME"
-                  ),
+                  kind: AnalyzeBatchActionNames.ExtractiveSummarization,
+                  maxSentenceCount,
                 },
               ],
               docs,
@@ -311,23 +311,33 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionsResults(await poller.pollUntilDone(), expectation2);
+            const results = await poller.pollUntilDone();
+
+            // The max sentence count is 2, so the number of sentences should be 2 or less
+            for await (const actionResult of results) {
+              if (actionResult.kind === "ExtractiveSummarization" && !actionResult.error) {
+                for (const result of actionResult.results) {
+                  if (!result.error) {
+                    assert.isAtMost(
+                      result.sentences.length,
+                      maxSentenceCount,
+                      `Exceeded maximum sentence count, expected ${maxSentenceCount}`
+                    );
+                  }
+                }
+              }
+            }
+
+            await assertActionsResults(results, expectation28, excludedSummarizationProperties);
           });
 
-          it("multi label classification action", async function () {
-            const docs = [
-              "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
-            ];
+          it("extractive summarization with orderBy", async function () {
+            const docs = [windows365ArticlePart1, windows365ArticlePart2];
             const poller = await client.beginAnalyzeBatch(
               [
                 {
-                  kind: AnalyzeBatchActionNames.CustomMultiLabelClassification,
-                  deploymentName: assertEnvironmentVariable(
-                    "LANGUAGE_CUSTOM_MULTI_LABEL_CLASSIFICATION_DEPLOYMENT_NAME"
-                  ),
-                  projectName: assertEnvironmentVariable(
-                    "LANGUAGE_CUSTOM_MULTI_LABEL_CLASSIFICATION_PROJECT_NAME"
-                  ),
+                  kind: AnalyzeBatchActionNames.ExtractiveSummarization,
+                  orderBy: KnownExtractiveSummarizationOrderingCriteria.Rank,
                 },
               ],
               docs,
@@ -336,7 +346,66 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionsResults(await poller.pollUntilDone(), expectation4);
+            const results = await poller.pollUntilDone();
+
+            // Assert that the sentences are in descending rankScore order
+            for await (const actionResult of results) {
+              if (actionResult.kind === "ExtractiveSummarization" && !actionResult.error) {
+                for (const result of actionResult.results) {
+                  if (!result.error) {
+                    assert.isTrue(
+                      result.sentences.every(
+                        (sentence, i) =>
+                          i === 0 || sentence.rankScore <= result.sentences[i - 1].rankScore
+                      ),
+                      "Expected the sentences to be in descending order"
+                    );
+                  }
+                }
+              }
+            }
+            await assertActionsResults(results, expectation29, excludedSummarizationProperties);
+          });
+
+          it("abstractive summarization", async function () {
+            const docs = [windows365ArticlePart1, windows365ArticlePart2];
+            const poller = await client.beginAnalyzeBatch(
+              [
+                {
+                  kind: AnalyzeBatchActionNames.AbstractiveSummarization,
+                },
+              ],
+              docs,
+              "en",
+              {
+                updateIntervalInMs: pollingInterval,
+              }
+            );
+            await assertActionsResults(await poller.pollUntilDone(), expectation30, {
+              ...FIXME2,
+              ...excludedSummarizationProperties,
+            });
+          });
+
+          it("abstractive summarization with sentenceCount", async function () {
+            const docs = [windows365ArticlePart1, windows365ArticlePart2];
+            const poller = await client.beginAnalyzeBatch(
+              [
+                {
+                  kind: AnalyzeBatchActionNames.AbstractiveSummarization,
+                  sentenceCount: 1,
+                },
+              ],
+              docs,
+              "en",
+              {
+                updateIntervalInMs: pollingInterval,
+              }
+            );
+            await assertActionsResults(await poller.pollUntilDone(), expectation31, {
+              ...FIXME2,
+              ...excludedSummarizationProperties,
+            });
           });
         });
       });
@@ -470,7 +539,8 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             );
           });
 
-          it("big document causes a warning", async function () {
+          // TODO: Unskip when hear back from service team on 'DocumentTruncated' warning
+          it.skip("big document causes a warning", async function () {
             let text = "";
             for (let i = 0; i < 5121; ++i) {
               text = text + "x";
@@ -579,7 +649,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionsResults(await poller.pollUntilDone(), expectation11);
+          await assertActionsResults(await poller.pollUntilDone(), expectation11, FIXME1);
         });
 
         it("output order is same as the input's one with multiple actions", async function () {
@@ -681,7 +751,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("whole batch language hint", async function () {
+        it("whole batch with a language hint", async function () {
           const docs = [
             "This was the best day of my life.",
             "I did not like the hotel we stayed at. It was too expensive.",
@@ -708,34 +778,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           await assertActionsResults(await poller.pollUntilDone(), expectation14);
         });
 
-        it("whole batch with no language hint", async function () {
-          const docs = [
-            "This was the best day of my life.",
-            "I did not like the hotel we stayed at. It was too expensive.",
-            "The restaurant was not as good as I hoped.",
-          ];
-          const poller = await client.beginAnalyzeBatch(
-            [
-              {
-                kind: AnalyzeBatchActionNames.EntityRecognition,
-              },
-              {
-                kind: AnalyzeBatchActionNames.PiiEntityRecognition,
-              },
-              {
-                kind: AnalyzeBatchActionNames.KeyPhraseExtraction,
-              },
-            ],
-            docs,
-            "en",
-            {
-              updateIntervalInMs: pollingInterval,
-            }
-          );
-          await assertActionsResults(await poller.pollUntilDone(), expectation14);
-        });
-
-        it("whole batch input with a language hint", async function () {
+        it("whole batch input with no language hint", async function () {
           const docs = [
             { id: "1", text: "I will go to the park." },
             { id: "2", text: "Este es un document escrito en Español." },
@@ -781,7 +824,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionsResults(await poller.pollUntilDone(), expectation16);
+          await assertActionsResults(await poller.pollUntilDone(), expectation16, FIXME1);
         });
 
         it("paged results with custom page size", async function () {
@@ -915,7 +958,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
           const serializedState = originalPoller.toString();
           assert.deepEqual(
-            getDocIDsFromState(serializedState),
+            JSON.parse(serializedState).state.docIds,
             docs.map(({ id }) => id)
           );
           const rehydratedPoller = await client.restoreAnalyzeBatchPoller(serializedState, {
@@ -926,7 +969,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
         });
 
         describe("stringIndexType", function () {
-          it("family emoji wit skin tone modifier", async function () {
+          it("family emoji with skin tone modifier", async function () {
             const docs = ["👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987"];
             const poller = await client.beginAnalyzeBatch(
               [
@@ -944,7 +987,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             await assertActionsResults(await poller.pollUntilDone(), expectation18);
           });
 
-          it("family emoji wit skin tone modifier with Utf16CodeUnit", async function () {
+          it("family emoji with skin tone modifier with Utf16CodeUnit", async function () {
             const docs = ["👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen"];
             const poller = await client.beginAnalyzeBatch(
               [
@@ -962,7 +1005,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             await assertActionsResults(await poller.pollUntilDone(), expectation22);
           });
 
-          it("family emoji wit skin tone modifier with UnicodeCodePoint", async function () {
+          it("family emoji with skin tone modifier with UnicodeCodePoint", async function () {
             const docs = ["👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen"];
             const poller = await client.beginAnalyzeBatch(
               [

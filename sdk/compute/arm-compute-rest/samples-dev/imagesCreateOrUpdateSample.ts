@@ -32,8 +32,7 @@ async function createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource(
           osDisk: {
             blobUri: "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
             diskEncryptionSet: {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
             },
             osState: "Generalized",
             osType: "Linux",
@@ -118,14 +117,12 @@ async function createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetRe
         storageProfile: {
           osDisk: {
             diskEncryptionSet: {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
             },
             osState: "Generalized",
             osType: "Linux",
             snapshot: {
-              id:
-                "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
+              id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
             },
           },
         },
@@ -166,8 +163,7 @@ async function createAVirtualMachineImageFromAManagedDisk() {
         storageProfile: {
           osDisk: {
             managedDisk: {
-              id:
-                "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk",
+              id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk",
             },
             osState: "Generalized",
             osType: "Linux",
@@ -211,12 +207,10 @@ async function createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResou
         storageProfile: {
           osDisk: {
             diskEncryptionSet: {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
             },
             managedDisk: {
-              id:
-                "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk",
+              id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk",
             },
             osState: "Generalized",
             osType: "Linux",
@@ -261,8 +255,7 @@ async function createAVirtualMachineImageFromASnapshot() {
             osState: "Generalized",
             osType: "Linux",
             snapshot: {
-              id:
-                "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
+              id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
             },
           },
           zoneResilient: false,
@@ -302,8 +295,7 @@ async function createAVirtualMachineImageFromAnExistingVirtualMachine() {
       location: "West US",
       properties: {
         sourceVirtualMachine: {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
         },
       },
     },
@@ -392,15 +384,13 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk()
             {
               lun: 1,
               managedDisk: {
-                id:
-                  "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk2",
+                id: "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk2",
               },
             },
           ],
           osDisk: {
             managedDisk: {
-              id:
-                "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk",
+              id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk",
             },
             osState: "Generalized",
             osType: "Linux",
@@ -446,8 +436,7 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromASnapshot() {
             {
               lun: 1,
               snapshot: {
-                id:
-                  "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot2",
+                id: "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot2",
               },
             },
           ],
@@ -455,8 +444,7 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromASnapshot() {
             osState: "Generalized",
             osType: "Linux",
             snapshot: {
-              id:
-                "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
+              id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
             },
           },
           zoneResilient: true,

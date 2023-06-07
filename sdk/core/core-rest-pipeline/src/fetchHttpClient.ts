@@ -8,9 +8,9 @@ import {
   PipelineRequest,
   PipelineResponse,
   TransferProgressEvent,
-} from "./interfaces.js";
-import { RestError } from "./restError.js";
-import { createHttpHeaders } from "./httpHeaders.js";
+} from "./interfaces";
+import { RestError } from "./restError";
+import { createHttpHeaders } from "./httpHeaders";
 
 /**
  * Checks if the body is a NodeReadable stream which is not supported in Browsers
@@ -28,6 +28,14 @@ function isReadableStream(body: unknown): body is ReadableStream {
       typeof (body as ReadableStream).getReader === "function" &&
       typeof (body as ReadableStream).tee === "function"
   );
+}
+
+/**
+ * Checks if the body is a Blob or Blob-like
+ */
+function isBlob(body: unknown): body is Blob {
+  // File objects count as a type of Blob, so we want to use instanceof explicitly
+  return (typeof Blob === "function" || typeof Blob === "object") && body instanceof Blob;
 }
 
 /**
@@ -83,6 +91,10 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
       credentials: request.withCredentials ? "include" : "same-origin",
       cache: "no-store",
     });
+    // If we're uploading a blob, we need to fire the progress event manually
+    if (isBlob(request.body) && request.onUploadProgress) {
+      request.onUploadProgress({ loadedBytes: request.body.size });
+    }
     return buildPipelineResponse(response, request);
   } finally {
     if (abortControllerCleanup) {

@@ -24,13 +24,14 @@ export class BatchReceiveTest extends ServiceBusTest<ReceiverOptions> {
       required: true,
       description: "Size of each message body in bytes",
       shortName: "size",
-      longName: "size-in-bytes",
+      longName: "message-size",
       defaultValue: 2000,
     },
     "max-message-count": {
       required: true,
       description: "Max number of messages to receive",
       shortName: "max-receive",
+      longName: "max-message-count",
       defaultValue: 50,
     },
   };
@@ -86,6 +87,5 @@ export async function sendMessages(
     );
     await sender.sendMessages(currentBatch);
     count = count + currentBatch.count;
-    console.log(`${count} messages sent so far`);
   }
 }

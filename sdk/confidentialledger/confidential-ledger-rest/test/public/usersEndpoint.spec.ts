@@ -7,7 +7,7 @@ import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import { assert } from "chai";
 
-describe("Get user", () => {
+describe("Get user", function () {
   let recorder: Recorder;
   let client: ConfidentialLedgerClient;
 

@@ -13,6 +13,9 @@ import {
   HDInsightManagementClient
 } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Enables the Operations Management Suite (OMS) on the HDInsight cluster.
@@ -21,8 +24,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/EnableLinuxClusterMonitoring.json
  */
 async function enableClusterMonitoring() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cluster1";
   const parameters: ClusterMonitoringRequest = {
     primaryKey: "**********",
@@ -38,4 +41,8 @@ async function enableClusterMonitoring() {
   console.log(result);
 }
 
-enableClusterMonitoring().catch(console.error);
+async function main() {
+  enableClusterMonitoring();
+}
+
+main().catch(console.error);

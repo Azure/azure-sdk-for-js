@@ -6,20 +6,27 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { DdosProtectionPlans } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DdosProtectionPlan,
   DdosProtectionPlansListNextOptionalParams,
   DdosProtectionPlansListOptionalParams,
+  DdosProtectionPlansListResponse,
   DdosProtectionPlansListByResourceGroupNextOptionalParams,
   DdosProtectionPlansListByResourceGroupOptionalParams,
+  DdosProtectionPlansListByResourceGroupResponse,
   DdosProtectionPlansDeleteOptionalParams,
   DdosProtectionPlansGetOptionalParams,
   DdosProtectionPlansGetResponse,
@@ -28,8 +35,6 @@ import {
   TagsObject,
   DdosProtectionPlansUpdateTagsOptionalParams,
   DdosProtectionPlansUpdateTagsResponse,
-  DdosProtectionPlansListResponse,
-  DdosProtectionPlansListByResourceGroupResponse,
   DdosProtectionPlansListNextResponse,
   DdosProtectionPlansListByResourceGroupNextResponse
 } from "../models";
@@ -62,22 +67,34 @@ export class DdosProtectionPlansImpl implements DdosProtectionPlans {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: DdosProtectionPlansListOptionalParams
+    options?: DdosProtectionPlansListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DdosProtectionPlan[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DdosProtectionPlansListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -106,19 +123,33 @@ export class DdosProtectionPlansImpl implements DdosProtectionPlans {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: DdosProtectionPlansListByResourceGroupOptionalParams
+    options?: DdosProtectionPlansListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DdosProtectionPlan[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DdosProtectionPlansListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -126,7 +157,9 @@ export class DdosProtectionPlansImpl implements DdosProtectionPlans {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -152,14 +185,14 @@ export class DdosProtectionPlansImpl implements DdosProtectionPlans {
     resourceGroupName: string,
     ddosProtectionPlanName: string,
     options?: DdosProtectionPlansDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -192,15 +225,15 @@ export class DdosProtectionPlansImpl implements DdosProtectionPlans {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, ddosProtectionPlanName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, ddosProtectionPlanName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -255,8 +288,8 @@ export class DdosProtectionPlansImpl implements DdosProtectionPlans {
     parameters: DdosProtectionPlan,
     options?: DdosProtectionPlansCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DdosProtectionPlansCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DdosProtectionPlansCreateOrUpdateResponse>,
       DdosProtectionPlansCreateOrUpdateResponse
     >
   > {
@@ -266,7 +299,7 @@ export class DdosProtectionPlansImpl implements DdosProtectionPlans {
     ): Promise<DdosProtectionPlansCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -299,15 +332,18 @@ export class DdosProtectionPlansImpl implements DdosProtectionPlans {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, ddosProtectionPlanName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, ddosProtectionPlanName, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DdosProtectionPlansCreateOrUpdateResponse,
+      OperationState<DdosProtectionPlansCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -480,7 +516,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters12,
+  requestBody: Parameters.parameters14,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -565,7 +601,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -585,7 +620,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

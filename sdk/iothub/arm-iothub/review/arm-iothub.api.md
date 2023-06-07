@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type AccessRights = "RegistryRead" | "RegistryWrite" | "ServiceConnect" | "DeviceConnect" | "RegistryRead, RegistryWrite" | "RegistryRead, ServiceConnect" | "RegistryRead, DeviceConnect" | "RegistryWrite, ServiceConnect" | "RegistryWrite, DeviceConnect" | "ServiceConnect, DeviceConnect" | "RegistryRead, RegistryWrite, ServiceConnect" | "RegistryRead, RegistryWrite, DeviceConnect" | "RegistryRead, ServiceConnect, DeviceConnect" | "RegistryWrite, ServiceConnect, DeviceConnect" | "RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect";
@@ -156,6 +156,12 @@ export type CreatedByType = string;
 export type DefaultAction = string;
 
 // @public
+export interface EncryptionPropertiesDescription {
+    keySource?: string;
+    keyVaultProperties?: KeyVaultKeyProperties[];
+}
+
+// @public
 export interface EndpointHealthData {
     endpointId?: string;
     healthStatus?: EndpointHealthStatus;
@@ -258,6 +264,9 @@ export interface FeedbackProperties {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface GroupIdInformation {
     readonly id?: string;
     readonly name?: string;
@@ -286,7 +295,7 @@ export interface ImportDevicesRequest {
 
 // @public
 export interface IotHub {
-    beginManualFailover(iotHubName: string, resourceGroupName: string, failoverInput: FailoverInput, options?: IotHubManualFailoverOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginManualFailover(iotHubName: string, resourceGroupName: string, failoverInput: FailoverInput, options?: IotHubManualFailoverOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginManualFailoverAndWait(iotHubName: string, resourceGroupName: string, failoverInput: FailoverInput, options?: IotHubManualFailoverOptionalParams): Promise<void>;
 }
 
@@ -352,6 +361,13 @@ export interface IotHubLocationDescription {
 }
 
 // @public
+export interface IotHubManualFailoverHeaders {
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface IotHubManualFailoverOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -373,17 +389,20 @@ export interface IotHubProperties {
     authorizationPolicies?: SharedAccessSignatureAuthorizationRule[];
     cloudToDevice?: CloudToDeviceProperties;
     comments?: string;
+    deviceStreams?: IotHubPropertiesDeviceStreams;
     disableDeviceSAS?: boolean;
     disableLocalAuth?: boolean;
     disableModuleSAS?: boolean;
     enableDataResidency?: boolean;
     enableFileUploadNotifications?: boolean;
+    encryption?: EncryptionPropertiesDescription;
     eventHubEndpoints?: {
         [propertyName: string]: EventHubProperties;
     };
     features?: Capabilities;
     readonly hostName?: string;
     ipFilterRules?: IpFilterRule[];
+    ipVersion?: IpVersion;
     readonly locations?: IotHubLocationDescription[];
     messagingEndpoints?: {
         [propertyName: string]: MessagingEndpointProperties;
@@ -394,11 +413,17 @@ export interface IotHubProperties {
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
     restrictOutboundNetworkAccess?: boolean;
+    rootCertificate?: RootCertificateProperties;
     routing?: RoutingProperties;
     readonly state?: string;
     storageEndpoints?: {
         [propertyName: string]: StorageEndpointProperties;
     };
+}
+
+// @public
+export interface IotHubPropertiesDeviceStreams {
+    streamingEndpoints?: string[];
 }
 
 // @public
@@ -419,11 +444,11 @@ export type IotHubReplicaRoleType = string;
 
 // @public
 export interface IotHubResource {
-    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, iotHubDescription: IotHubDescription, options?: IotHubResourceCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<IotHubResourceCreateOrUpdateResponse>, IotHubResourceCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, iotHubDescription: IotHubDescription, options?: IotHubResourceCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<IotHubResourceCreateOrUpdateResponse>, IotHubResourceCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, iotHubDescription: IotHubDescription, options?: IotHubResourceCreateOrUpdateOptionalParams): Promise<IotHubResourceCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, options?: IotHubResourceDeleteOptionalParams): Promise<PollerLike<PollOperationState<IotHubResourceDeleteResponse>, IotHubResourceDeleteResponse>>;
+    beginDelete(resourceGroupName: string, resourceName: string, options?: IotHubResourceDeleteOptionalParams): Promise<SimplePollerLike<OperationState<IotHubResourceDeleteResponse>, IotHubResourceDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, resourceName: string, options?: IotHubResourceDeleteOptionalParams): Promise<IotHubResourceDeleteResponse>;
-    beginUpdate(resourceGroupName: string, resourceName: string, iotHubTags: TagsResource, options?: IotHubResourceUpdateOptionalParams): Promise<PollerLike<PollOperationState<IotHubResourceUpdateResponse>, IotHubResourceUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, resourceName: string, iotHubTags: TagsResource, options?: IotHubResourceUpdateOptionalParams): Promise<SimplePollerLike<OperationState<IotHubResourceUpdateResponse>, IotHubResourceUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, resourceName: string, iotHubTags: TagsResource, options?: IotHubResourceUpdateOptionalParams): Promise<IotHubResourceUpdateResponse>;
     checkNameAvailability(operationInputs: OperationInputs, options?: IotHubResourceCheckNameAvailabilityOptionalParams): Promise<IotHubResourceCheckNameAvailabilityResponse>;
     createEventHubConsumerGroup(resourceGroupName: string, resourceName: string, eventHubEndpointName: string, name: string, consumerGroupBody: EventHubConsumerGroupBodyDescription, options?: IotHubResourceCreateEventHubConsumerGroupOptionalParams): Promise<IotHubResourceCreateEventHubConsumerGroupResponse>;
@@ -462,6 +487,11 @@ export interface IotHubResourceCreateEventHubConsumerGroupOptionalParams extends
 export type IotHubResourceCreateEventHubConsumerGroupResponse = EventHubConsumerGroupInfo;
 
 // @public
+export interface IotHubResourceCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+}
+
+// @public
 export interface IotHubResourceCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     ifMatch?: string;
     resumeFrom?: string;
@@ -473,6 +503,11 @@ export type IotHubResourceCreateOrUpdateResponse = IotHubDescription;
 
 // @public
 export interface IotHubResourceDeleteEventHubConsumerGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface IotHubResourceDeleteHeaders {
+    azureAsyncOperation?: string;
 }
 
 // @public
@@ -660,13 +695,18 @@ export interface IotHubResourceTestRouteOptionalParams extends coreClient.Operat
 export type IotHubResourceTestRouteResponse = TestRouteResult;
 
 // @public
+export interface IotHubResourceUpdateHeaders {
+    azureAsyncOperation?: string;
+}
+
+// @public
 export interface IotHubResourceUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type IotHubResourceUpdateResponse = IotHubDescription;
+export type IotHubResourceUpdateResponse = IotHubResourceUpdateHeaders & IotHubDescription;
 
 // @public
 export type IotHubScaleType = "Automatic" | "Manual" | "None";
@@ -708,6 +748,9 @@ export interface IpFilterRule {
 }
 
 // @public
+export type IpVersion = string;
+
+// @public
 export interface JobResponse {
     readonly endTimeUtc?: Date;
     readonly failureReason?: string;
@@ -730,6 +773,12 @@ export type JobStatus = "unknown" | "enqueued" | "running" | "completed" | "fail
 
 // @public
 export type JobType = string;
+
+// @public
+export interface KeyVaultKeyProperties {
+    identity?: ManagedIdentity;
+    keyIdentifier?: string;
+}
 
 // @public
 export enum KnownAuthenticationType {
@@ -784,6 +833,13 @@ export enum KnownIotHubSku {
 }
 
 // @public
+export enum KnownIpVersion {
+    Ipv4 = "ipv4",
+    Ipv4Ipv6 = "ipv4ipv6",
+    Ipv6 = "ipv6"
+}
+
+// @public
 export enum KnownJobType {
     Backup = "backup",
     Export = "export",
@@ -828,7 +884,9 @@ export enum KnownRoutingSource {
     DeviceJobLifecycleEvents = "DeviceJobLifecycleEvents",
     DeviceLifecycleEvents = "DeviceLifecycleEvents",
     DeviceMessages = "DeviceMessages",
+    DigitalTwinChangeEvents = "DigitalTwinChangeEvents",
     Invalid = "Invalid",
+    MqttBrokerMessages = "MqttBrokerMessages",
     TwinChangeEvents = "TwinChangeEvents"
 }
 
@@ -951,12 +1009,17 @@ export interface PrivateEndpointConnectionProperties {
 
 // @public
 export interface PrivateEndpointConnections {
-    beginDelete(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionsDeleteResponse>, PrivateEndpointConnectionsDeleteResponse>>;
+    beginDelete(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsDeleteResponse>, PrivateEndpointConnectionsDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PrivateEndpointConnectionsDeleteResponse>;
-    beginUpdate(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionsUpdateResponse>, PrivateEndpointConnectionsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsUpdateResponse>, PrivateEndpointConnectionsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateOptionalParams): Promise<PrivateEndpointConnectionsUpdateResponse>;
     get(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
     list(resourceGroupName: string, resourceName: string, options?: PrivateEndpointConnectionsListOptionalParams): Promise<PrivateEndpointConnectionsListResponse>;
+}
+
+// @public
+export interface PrivateEndpointConnectionsDeleteHeaders {
+    azureAsyncOperation?: string;
 }
 
 // @public
@@ -981,6 +1044,11 @@ export interface PrivateEndpointConnectionsListOptionalParams extends coreClient
 
 // @public
 export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnection[];
+
+// @public
+export interface PrivateEndpointConnectionsUpdateHeaders {
+    azureAsyncOperation?: string;
+}
 
 // @public
 export interface PrivateEndpointConnectionsUpdateOptionalParams extends coreClient.OperationOptions {
@@ -1063,6 +1131,12 @@ export interface ResourceProviderCommonGetSubscriptionQuotaOptionalParams extend
 export type ResourceProviderCommonGetSubscriptionQuotaResponse = UserSubscriptionQuotaListResult;
 
 // @public
+export interface RootCertificateProperties {
+    enableRootCertificateV2?: boolean;
+    readonly lastUpdatedTimeUtc?: Date;
+}
+
+// @public
 export interface RouteCompilationError {
     location?: RouteErrorRange;
     message?: string;
@@ -1094,7 +1168,25 @@ export interface RouteProperties {
 }
 
 // @public
+export interface RoutingCosmosDBSqlApiProperties {
+    authenticationType?: AuthenticationType;
+    collectionName: string;
+    databaseName: string;
+    endpointUri: string;
+    id?: string;
+    identity?: ManagedIdentity;
+    name: string;
+    partitionKeyName?: string;
+    partitionKeyTemplate?: string;
+    primaryKey?: string;
+    resourceGroup?: string;
+    secondaryKey?: string;
+    subscriptionId?: string;
+}
+
+// @public
 export interface RoutingEndpoints {
+    cosmosDBSqlCollections?: RoutingCosmosDBSqlApiProperties[];
     eventHubs?: RoutingEventHubProperties[];
     serviceBusQueues?: RoutingServiceBusQueueEndpointProperties[];
     serviceBusTopics?: RoutingServiceBusTopicEndpointProperties[];

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { RedisManagementClient } = require("@azure/arm-rediscache");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deletes the patching schedule of a redis cache.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCachePatchSchedulesDelete.json
  */
 async function redisCachePatchSchedulesDelete() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rg1";
   const name = "cache1";
   const defaultParam = "default";
   const credential = new DefaultAzureCredential();
@@ -28,4 +29,8 @@ async function redisCachePatchSchedulesDelete() {
   console.log(result);
 }
 
-redisCachePatchSchedulesDelete().catch(console.error);
+async function main() {
+  redisCachePatchSchedulesDelete();
+}
+
+main().catch(console.error);

@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Creates or updates the manager.
  *
  * @summary Creates or updates the manager.
- * x-ms-original-file: specification/storSimple1200Series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/ManagersCreateOrUpdate.json
+ * x-ms-original-file: specification/storsimple1200series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/ManagersCreateOrUpdate.json
  */
 async function managersCreateOrUpdate() {
   const subscriptionId = "9eb689cd-7243-43b4-b6f6-5c65cb296641";

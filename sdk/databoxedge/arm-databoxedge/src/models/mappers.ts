@@ -4601,8 +4601,8 @@ export const CloudEdgeManagementRole: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CloudEdgeManagementRole",
-    uberParent: "ARMBaseModel",
-    polymorphicDiscriminator: ARMBaseModel.type.polymorphicDiscriminator,
+    uberParent: "Role",
+    polymorphicDiscriminator: Role.type.polymorphicDiscriminator,
     modelProperties: {
       ...Role.type.modelProperties,
       localManagementStatus: {
@@ -4634,8 +4634,8 @@ export const IoTRole: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IoTRole",
-    uberParent: "ARMBaseModel",
-    polymorphicDiscriminator: ARMBaseModel.type.polymorphicDiscriminator,
+    uberParent: "Role",
+    polymorphicDiscriminator: Role.type.polymorphicDiscriminator,
     modelProperties: {
       ...Role.type.modelProperties,
       hostPlatform: {
@@ -4706,8 +4706,8 @@ export const KubernetesRole: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KubernetesRole",
-    uberParent: "ARMBaseModel",
-    polymorphicDiscriminator: ARMBaseModel.type.polymorphicDiscriminator,
+    uberParent: "Role",
+    polymorphicDiscriminator: Role.type.polymorphicDiscriminator,
     modelProperties: {
       ...Role.type.modelProperties,
       hostPlatform: {
@@ -4759,8 +4759,8 @@ export const MECRole: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MECRole",
-    uberParent: "ARMBaseModel",
-    polymorphicDiscriminator: ARMBaseModel.type.polymorphicDiscriminator,
+    uberParent: "Role",
+    polymorphicDiscriminator: Role.type.polymorphicDiscriminator,
     modelProperties: {
       ...Role.type.modelProperties,
       connectionString: {
@@ -4797,8 +4797,8 @@ export const ArcAddon: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ArcAddon",
-    uberParent: "ARMBaseModel",
-    polymorphicDiscriminator: ARMBaseModel.type.polymorphicDiscriminator,
+    uberParent: "Addon",
+    polymorphicDiscriminator: Addon.type.polymorphicDiscriminator,
     modelProperties: {
       ...Addon.type.modelProperties,
       subscriptionId: {
@@ -4866,8 +4866,8 @@ export const IoTAddon: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IoTAddon",
-    uberParent: "ARMBaseModel",
-    polymorphicDiscriminator: ARMBaseModel.type.polymorphicDiscriminator,
+    uberParent: "Addon",
+    polymorphicDiscriminator: Addon.type.polymorphicDiscriminator,
     modelProperties: {
       ...Addon.type.modelProperties,
       ioTDeviceDetails: {
@@ -4921,8 +4921,8 @@ export const FileEventTrigger: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "FileEventTrigger",
-    uberParent: "ARMBaseModel",
-    polymorphicDiscriminator: ARMBaseModel.type.polymorphicDiscriminator,
+    uberParent: "Trigger",
+    polymorphicDiscriminator: Trigger.type.polymorphicDiscriminator,
     modelProperties: {
       ...Trigger.type.modelProperties,
       sourceInfo: {
@@ -4957,8 +4957,8 @@ export const PeriodicTimerEventTrigger: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PeriodicTimerEventTrigger",
-    uberParent: "ARMBaseModel",
-    polymorphicDiscriminator: ARMBaseModel.type.polymorphicDiscriminator,
+    uberParent: "Trigger",
+    polymorphicDiscriminator: Trigger.type.polymorphicDiscriminator,
     modelProperties: {
       ...Trigger.type.modelProperties,
       sourceInfo: {
@@ -4992,12 +4992,12 @@ export let discriminators = {
   "ARMBaseModel.Role": Role,
   "ARMBaseModel.Addon": Addon,
   "ARMBaseModel.Trigger": Trigger,
-  "ARMBaseModel.CloudEdgeManagement": CloudEdgeManagementRole,
-  "ARMBaseModel.IOT": IoTRole,
-  "ARMBaseModel.Kubernetes": KubernetesRole,
-  "ARMBaseModel.MEC": MECRole,
-  "ARMBaseModel.ArcForKubernetes": ArcAddon,
-  "ARMBaseModel.IotEdge": IoTAddon,
-  "ARMBaseModel.FileEvent": FileEventTrigger,
-  "ARMBaseModel.PeriodicTimerEvent": PeriodicTimerEventTrigger
+  "Role.CloudEdgeManagement": CloudEdgeManagementRole,
+  "Role.IOT": IoTRole,
+  "Role.Kubernetes": KubernetesRole,
+  "Role.MEC": MECRole,
+  "Addon.ArcForKubernetes": ArcAddon,
+  "Addon.IotEdge": IoTAddon,
+  "Trigger.FileEvent": FileEventTrigger,
+  "Trigger.PeriodicTimerEvent": PeriodicTimerEventTrigger
 };

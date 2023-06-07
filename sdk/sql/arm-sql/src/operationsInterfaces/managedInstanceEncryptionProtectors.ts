@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ManagedInstanceEncryptionProtector,
   ManagedInstanceEncryptionProtectorsListByInstanceOptionalParams,
@@ -47,7 +47,7 @@ export interface ManagedInstanceEncryptionProtectors {
     managedInstanceName: string,
     encryptionProtectorName: EncryptionProtectorName,
     options?: ManagedInstanceEncryptionProtectorsRevalidateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Revalidates an existing encryption protector.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -92,10 +92,8 @@ export interface ManagedInstanceEncryptionProtectors {
     parameters: ManagedInstanceEncryptionProtector,
     options?: ManagedInstanceEncryptionProtectorsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        ManagedInstanceEncryptionProtectorsCreateOrUpdateResponse
-      >,
+    SimplePollerLike<
+      OperationState<ManagedInstanceEncryptionProtectorsCreateOrUpdateResponse>,
       ManagedInstanceEncryptionProtectorsCreateOrUpdateResponse
     >
   >;

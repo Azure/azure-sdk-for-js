@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { UsageAggregates } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -56,8 +57,16 @@ export class UsageAggregatesImpl implements UsageAggregates {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(reportedStartTime, reportedEndTime, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          reportedStartTime,
+          reportedEndTime,
+          options,
+          settings
+        );
       }
     };
   }
@@ -65,20 +74,24 @@ export class UsageAggregatesImpl implements UsageAggregates {
   private async *listPagingPage(
     reportedStartTime: Date,
     reportedEndTime: Date,
-    options?: UsageAggregatesListOptionalParams
+    options?: UsageAggregatesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<UsageAggregation[]> {
-    let result = await this._list(reportedStartTime, reportedEndTime, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listNext(
-        reportedStartTime,
-        reportedEndTime,
-        continuationToken,
-        options
-      );
+    let result: UsageAggregatesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(reportedStartTime, reportedEndTime, options);
+      let page = result.value || [];
       continuationToken = result.nextLink;
-      yield result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -115,19 +128,15 @@ export class UsageAggregatesImpl implements UsageAggregates {
 
   /**
    * ListNext
-   * @param reportedStartTime The start of the time range to retrieve data for.
-   * @param reportedEndTime The end of the time range to retrieve data for.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
-    reportedStartTime: Date,
-    reportedEndTime: Date,
     nextLink: string,
     options?: UsageAggregatesListNextOptionalParams
   ): Promise<UsageAggregatesListNextResponse> {
     return this.client.sendOperationRequest(
-      { reportedStartTime, reportedEndTime, nextLink, options },
+      { nextLink, options },
       listNextOperationSpec
     );
   }
@@ -170,14 +179,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.reportedStartTime,
-    Parameters.reportedEndTime,
-    Parameters.showDetails,
-    Parameters.aggregationGranularity,
-    Parameters.continuationToken,
-    Parameters.apiVersion
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

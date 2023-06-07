@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ProjectAllowedEnvironmentTypes } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -38,7 +39,7 @@ export class ProjectAllowedEnvironmentTypesImpl
 
   /**
    * Lists allowed environment types for a project.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
@@ -55,8 +56,16 @@ export class ProjectAllowedEnvironmentTypesImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, projectName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          projectName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -64,11 +73,18 @@ export class ProjectAllowedEnvironmentTypesImpl
   private async *listPagingPage(
     resourceGroupName: string,
     projectName: string,
-    options?: ProjectAllowedEnvironmentTypesListOptionalParams
+    options?: ProjectAllowedEnvironmentTypesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AllowedEnvironmentType[]> {
-    let result = await this._list(resourceGroupName, projectName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ProjectAllowedEnvironmentTypesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, projectName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -77,7 +93,9 @@ export class ProjectAllowedEnvironmentTypesImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -97,7 +115,7 @@ export class ProjectAllowedEnvironmentTypesImpl
 
   /**
    * Lists allowed environment types for a project.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
@@ -114,7 +132,7 @@ export class ProjectAllowedEnvironmentTypesImpl
 
   /**
    * Gets an allowed environment type.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param environmentTypeName The name of the environment type.
    * @param options The options parameters.
@@ -133,7 +151,7 @@ export class ProjectAllowedEnvironmentTypesImpl
 
   /**
    * ListNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -209,7 +227,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

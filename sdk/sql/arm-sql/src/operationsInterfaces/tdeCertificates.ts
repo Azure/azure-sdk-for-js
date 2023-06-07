@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import { TdeCertificate, TdeCertificatesCreateOptionalParams } from "../models";
 
 /** Interface representing a TdeCertificates. */
@@ -24,7 +24,7 @@ export interface TdeCertificates {
     serverName: string,
     parameters: TdeCertificate,
     options?: TdeCertificatesCreateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Creates a TDE certificate for a given server.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

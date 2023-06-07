@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { KustoPoolAttachedDatabaseConfigurations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -65,12 +65,16 @@ export class KustoPoolAttachedDatabaseConfigurationsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByKustoPoolPagingPage(
           workspaceName,
           kustoPoolName,
           resourceGroupName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -80,9 +84,11 @@ export class KustoPoolAttachedDatabaseConfigurationsImpl
     workspaceName: string,
     kustoPoolName: string,
     resourceGroupName: string,
-    options?: KustoPoolAttachedDatabaseConfigurationsListByKustoPoolOptionalParams
+    options?: KustoPoolAttachedDatabaseConfigurationsListByKustoPoolOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<AttachedDatabaseConfiguration[]> {
-    let result = await this._listByKustoPool(
+    let result: KustoPoolAttachedDatabaseConfigurationsListByKustoPoolResponse;
+    result = await this._listByKustoPool(
       workspaceName,
       kustoPoolName,
       resourceGroupName,

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ManagedServiceIdentityClient } = require("@azure/arm-msi");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists the associated resources for this identity.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/IdentityListAssociatedResources.json
  */
 async function identityListAssociatedResources() {
-  const subscriptionId = "1cscb752-d7c9-463f-9731-fd31edada74a";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["MSI_SUBSCRIPTION_ID"] || "1cscb752-d7c9-463f-9731-fd31edada74a";
+  const resourceGroupName = process.env["MSI_RESOURCE_GROUP"] || "testrg";
   const resourceName = "testid";
   const filter = "contains(name, 'test')";
   const orderby = "name asc";
@@ -44,4 +46,8 @@ async function identityListAssociatedResources() {
   console.log(resArray);
 }
 
-identityListAssociatedResources().catch(console.error);
+async function main() {
+  identityListAssociatedResources();
+}
+
+main().catch(console.error);

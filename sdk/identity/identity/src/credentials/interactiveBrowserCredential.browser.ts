@@ -76,6 +76,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
     const msalOptions: MsalBrowserFlowOptions = {
       ...options,
+      tokenCredentialOptions: options,
       logger,
       loginStyle: loginStyle,
       redirectUri:

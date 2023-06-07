@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { HDInsightManagementClient } = require("@azure/arm-hdinsight");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Resizes the specified HDInsight cluster to the specified size.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/ResizeLinuxHadoopCluster.json
  */
 async function resizeTheWorkerNodesForAHadoopOnLinuxCluster() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cluster1";
   const roleName = "workernode";
   const parameters = { targetInstanceCount: 10 };
@@ -34,4 +35,8 @@ async function resizeTheWorkerNodesForAHadoopOnLinuxCluster() {
   console.log(result);
 }
 
-resizeTheWorkerNodesForAHadoopOnLinuxCluster().catch(console.error);
+async function main() {
+  resizeTheWorkerNodesForAHadoopOnLinuxCluster();
+}
+
+main().catch(console.error);

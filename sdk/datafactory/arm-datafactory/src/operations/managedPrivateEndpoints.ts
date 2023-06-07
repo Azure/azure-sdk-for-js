@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ManagedPrivateEndpoints } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -64,12 +65,16 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByFactoryPagingPage(
           resourceGroupName,
           factoryName,
           managedVirtualNetworkName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -79,16 +84,23 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     resourceGroupName: string,
     factoryName: string,
     managedVirtualNetworkName: string,
-    options?: ManagedPrivateEndpointsListByFactoryOptionalParams
+    options?: ManagedPrivateEndpointsListByFactoryOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ManagedPrivateEndpointResource[]> {
-    let result = await this._listByFactory(
-      resourceGroupName,
-      factoryName,
-      managedVirtualNetworkName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ManagedPrivateEndpointsListByFactoryResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByFactory(
+        resourceGroupName,
+        factoryName,
+        managedVirtualNetworkName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByFactoryNext(
         resourceGroupName,
@@ -98,7 +110,9 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -362,7 +376,6 @@ const listByFactoryNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

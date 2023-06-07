@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AccessKeys {
@@ -25,14 +25,80 @@ export interface AccessKeys {
 export type AccessRights = string;
 
 // @public
-export type ArmDisasterRecovery = ProxyResource & {
+export interface ApplicationGroup extends ProxyResource {
+    clientAppGroupIdentifier?: string;
+    isEnabled?: boolean;
+    policies?: ApplicationGroupPolicyUnion[];
     readonly systemData?: SystemData;
-    readonly provisioningState?: ProvisioningStateDR;
-    partnerNamespace?: string;
+}
+
+// @public
+export interface ApplicationGroupCreateOrUpdateApplicationGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApplicationGroupCreateOrUpdateApplicationGroupResponse = ApplicationGroup;
+
+// @public
+export interface ApplicationGroupDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ApplicationGroupGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApplicationGroupGetResponse = ApplicationGroup;
+
+// @public
+export interface ApplicationGroupListByNamespaceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApplicationGroupListByNamespaceNextResponse = ApplicationGroupListResult;
+
+// @public
+export interface ApplicationGroupListByNamespaceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApplicationGroupListByNamespaceResponse = ApplicationGroupListResult;
+
+// @public
+export interface ApplicationGroupListResult {
+    readonly nextLink?: string;
+    value?: ApplicationGroup[];
+}
+
+// @public
+export interface ApplicationGroupOperations {
+    createOrUpdateApplicationGroup(resourceGroupName: string, namespaceName: string, applicationGroupName: string, parameters: ApplicationGroup, options?: ApplicationGroupCreateOrUpdateApplicationGroupOptionalParams): Promise<ApplicationGroupCreateOrUpdateApplicationGroupResponse>;
+    delete(resourceGroupName: string, namespaceName: string, applicationGroupName: string, options?: ApplicationGroupDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, namespaceName: string, applicationGroupName: string, options?: ApplicationGroupGetOptionalParams): Promise<ApplicationGroupGetResponse>;
+    listByNamespace(resourceGroupName: string, namespaceName: string, options?: ApplicationGroupListByNamespaceOptionalParams): PagedAsyncIterableIterator<ApplicationGroup>;
+}
+
+// @public
+export interface ApplicationGroupPolicy {
+    name: string;
+    type: "ThrottlingPolicy";
+}
+
+// @public
+export type ApplicationGroupPolicyType = string;
+
+// @public (undocumented)
+export type ApplicationGroupPolicyUnion = ApplicationGroupPolicy | ThrottlingPolicy;
+
+// @public
+export interface ArmDisasterRecovery extends ProxyResource {
     alternateName?: string;
-    readonly role?: RoleDisasterRecovery;
+    partnerNamespace?: string;
     readonly pendingReplicationOperationsCount?: number;
-};
+    readonly provisioningState?: ProvisioningStateDR;
+    readonly role?: RoleDisasterRecovery;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface ArmDisasterRecoveryListResult {
@@ -41,10 +107,10 @@ export interface ArmDisasterRecoveryListResult {
 }
 
 // @public
-export type AuthorizationRule = ProxyResource & {
-    readonly systemData?: SystemData;
+export interface AuthorizationRule extends ProxyResource {
     rights?: AccessRights[];
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface AuthorizationRuleListResult {
@@ -85,14 +151,18 @@ export interface CheckNameAvailabilityResult {
 }
 
 // @public
-export type Cluster = TrackedResource & {
-    sku?: ClusterSku;
-    readonly systemData?: SystemData;
+export type CleanupPolicyRetentionDescription = string;
+
+// @public
+export interface Cluster extends TrackedResource {
     readonly createdAt?: string;
-    readonly updatedAt?: string;
     readonly metricId?: string;
+    sku?: ClusterSku;
     readonly status?: string;
-};
+    supportsScaling?: boolean;
+    readonly systemData?: SystemData;
+    readonly updatedAt?: string;
+}
 
 // @public
 export interface ClusterListResult {
@@ -109,11 +179,11 @@ export interface ClusterQuotaConfigurationProperties {
 
 // @public
 export interface Clusters {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ClustersCreateOrUpdateResponse>, ClustersCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClustersCreateOrUpdateResponse>, ClustersCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<ClustersCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersUpdateOptionalParams): Promise<PollerLike<PollOperationState<ClustersUpdateResponse>, ClustersUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClustersUpdateResponse>, ClustersUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersUpdateOptionalParams): Promise<ClustersUpdateResponse>;
     get(resourceGroupName: string, clusterName: string, options?: ClustersGetOptionalParams): Promise<ClustersGetResponse>;
     listAvailableClusterRegion(options?: ClustersListAvailableClusterRegionOptionalParams): Promise<ClustersListAvailableClusterRegionResponse>;
@@ -231,12 +301,12 @@ export interface ConnectionState {
 }
 
 // @public
-export type ConsumerGroup = ProxyResource & {
-    readonly systemData?: SystemData;
+export interface ConsumerGroup extends ProxyResource {
     readonly createdAt?: Date;
+    readonly systemData?: SystemData;
     readonly updatedAt?: Date;
     userMetadata?: string;
-};
+}
 
 // @public
 export interface ConsumerGroupListResult {
@@ -272,8 +342,6 @@ export type ConsumerGroupsGetResponse = ConsumerGroup;
 
 // @public
 export interface ConsumerGroupsListByEventHubNextOptionalParams extends coreClient.OperationOptions {
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -395,26 +463,28 @@ export interface DisasterRecoveryConfigsListOptionalParams extends coreClient.Op
 export type DisasterRecoveryConfigsListResponse = ArmDisasterRecoveryListResult;
 
 // @public
-export type EHNamespace = TrackedResource & {
-    sku?: Sku;
-    identity?: Identity;
-    readonly systemData?: SystemData;
-    readonly provisioningState?: string;
-    readonly status?: string;
-    readonly createdAt?: Date;
-    readonly updatedAt?: Date;
-    readonly serviceBusEndpoint?: string;
-    clusterArmId?: string;
-    readonly metricId?: string;
-    isAutoInflateEnabled?: boolean;
-    maximumThroughputUnits?: number;
-    kafkaEnabled?: boolean;
-    zoneRedundant?: boolean;
-    encryption?: Encryption;
-    privateEndpointConnections?: PrivateEndpointConnection[];
-    disableLocalAuth?: boolean;
+export interface EHNamespace extends TrackedResource {
     alternateName?: string;
-};
+    clusterArmId?: string;
+    readonly createdAt?: Date;
+    disableLocalAuth?: boolean;
+    encryption?: Encryption;
+    identity?: Identity;
+    isAutoInflateEnabled?: boolean;
+    kafkaEnabled?: boolean;
+    maximumThroughputUnits?: number;
+    readonly metricId?: string;
+    minimumTlsVersion?: TlsVersion;
+    privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: string;
+    publicNetworkAccess?: PublicNetworkAccess;
+    readonly serviceBusEndpoint?: string;
+    sku?: Sku;
+    readonly status?: string;
+    readonly systemData?: SystemData;
+    readonly updatedAt?: Date;
+    zoneRedundant?: boolean;
+}
 
 // @public
 export interface EHNamespaceIdContainer {
@@ -469,16 +539,17 @@ export interface ErrorResponse {
 }
 
 // @public
-export type Eventhub = ProxyResource & {
-    readonly systemData?: SystemData;
-    readonly partitionIds?: string[];
+export interface Eventhub extends ProxyResource {
+    captureDescription?: CaptureDescription;
     readonly createdAt?: Date;
-    readonly updatedAt?: Date;
     messageRetentionInDays?: number;
     partitionCount?: number;
+    readonly partitionIds?: string[];
+    retentionDescription?: RetentionDescription;
     status?: EntityStatus;
-    captureDescription?: CaptureDescription;
-};
+    readonly systemData?: SystemData;
+    readonly updatedAt?: Date;
+}
 
 // @public
 export interface EventHubListResult {
@@ -494,6 +565,8 @@ export class EventHubManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     apiVersion: string;
     // (undocumented)
+    applicationGroupOperations: ApplicationGroupOperations;
+    // (undocumented)
     clusters: Clusters;
     // (undocumented)
     configuration: Configuration;
@@ -505,6 +578,10 @@ export class EventHubManagementClient extends coreClient.ServiceClient {
     eventHubs: EventHubs;
     // (undocumented)
     namespaces: Namespaces;
+    // (undocumented)
+    networkSecurityPerimeterConfigurationOperations: NetworkSecurityPerimeterConfigurationOperations;
+    // (undocumented)
+    networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -590,8 +667,6 @@ export type EventHubsListAuthorizationRulesResponse = AuthorizationRuleListResul
 
 // @public
 export interface EventHubsListByNamespaceNextOptionalParams extends coreClient.OperationOptions {
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -621,6 +696,9 @@ export interface EventHubsRegenerateKeysOptionalParams extends coreClient.Operat
 export type EventHubsRegenerateKeysResponse = AccessKeys;
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface Identity {
     readonly principalId?: string;
     readonly tenantId?: string;
@@ -645,136 +723,167 @@ export interface KeyVaultProperties {
 
 // @public
 export enum KnownAccessRights {
-    // (undocumented)
     Listen = "Listen",
-    // (undocumented)
     Manage = "Manage",
-    // (undocumented)
     Send = "Send"
 }
 
 // @public
+export enum KnownApplicationGroupPolicyType {
+    ThrottlingPolicy = "ThrottlingPolicy"
+}
+
+// @public
+export enum KnownCleanupPolicyRetentionDescription {
+    Compaction = "Compaction",
+    Delete = "Delete"
+}
+
+// @public
 export enum KnownClusterSkuName {
-    // (undocumented)
     Dedicated = "Dedicated"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownDefaultAction {
-    // (undocumented)
     Allow = "Allow",
-    // (undocumented)
     Deny = "Deny"
 }
 
 // @public
 export enum KnownEndPointProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownKeyType {
-    // (undocumented)
     PrimaryKey = "PrimaryKey",
-    // (undocumented)
     SecondaryKey = "SecondaryKey"
 }
 
 // @public
+export enum KnownMetricId {
+    IncomingBytes = "IncomingBytes",
+    IncomingMessages = "IncomingMessages",
+    OutgoingBytes = "OutgoingBytes",
+    OutgoingMessages = "OutgoingMessages"
+}
+
+// @public
 export enum KnownNetworkRuleIPAction {
-    // (undocumented)
     Allow = "Allow"
 }
 
 // @public
+export enum KnownNetworkSecurityPerimeterConfigurationProvisioningState {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleted = "Deleted",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    InvalidResponse = "InvalidResponse",
+    Succeeded = "Succeeded",
+    SucceededWithIssues = "SucceededWithIssues",
+    Unknown = "Unknown",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownNspAccessRuleDirection {
+    Inbound = "Inbound",
+    Outbound = "Outbound"
+}
+
+// @public
 export enum KnownPrivateLinkConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
-export enum KnownPublicNetworkAccessFlag {
-    // (undocumented)
+export enum KnownPublicNetworkAccess {
     Disabled = "Disabled",
-    // (undocumented)
-    Enabled = "Enabled"
+    Enabled = "Enabled",
+    SecuredByPerimeter = "SecuredByPerimeter"
+}
+
+// @public
+export enum KnownPublicNetworkAccessFlag {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    SecuredByPerimeter = "SecuredByPerimeter"
+}
+
+// @public
+export enum KnownResourceAssociationAccessMode {
+    AuditMode = "AuditMode",
+    EnforcedMode = "EnforcedMode",
+    LearningMode = "LearningMode",
+    NoAssociationMode = "NoAssociationMode",
+    UnspecifiedMode = "UnspecifiedMode"
 }
 
 // @public
 export enum KnownSchemaCompatibility {
-    // (undocumented)
     Backward = "Backward",
-    // (undocumented)
     Forward = "Forward",
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownSchemaType {
-    // (undocumented)
     Avro = "Avro",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownSkuName {
-    // (undocumented)
     Basic = "Basic",
-    // (undocumented)
     Premium = "Premium",
-    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
 export enum KnownSkuTier {
-    // (undocumented)
     Basic = "Basic",
-    // (undocumented)
     Premium = "Premium",
-    // (undocumented)
     Standard = "Standard"
+}
+
+// @public
+export enum KnownTlsVersion {
+    One0 = "1.0",
+    One1 = "1.1",
+    One2 = "1.2"
 }
 
 // @public
 export type ManagedServiceIdentityType = "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
 
 // @public
+export type MetricId = string;
+
+// @public
 export interface Namespaces {
-    beginCreateOrUpdate(resourceGroupName: string, namespaceName: string, parameters: EHNamespace, options?: NamespacesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<NamespacesCreateOrUpdateResponse>, NamespacesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, namespaceName: string, parameters: EHNamespace, options?: NamespacesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NamespacesCreateOrUpdateResponse>, NamespacesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, namespaceName: string, parameters: EHNamespace, options?: NamespacesCreateOrUpdateOptionalParams): Promise<NamespacesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams): Promise<void>;
     checkNameAvailability(parameters: CheckNameAvailabilityParameter, options?: NamespacesCheckNameAvailabilityOptionalParams): Promise<NamespacesCheckNameAvailabilityResponse>;
     createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: AuthorizationRule, options?: NamespacesCreateOrUpdateAuthorizationRuleOptionalParams): Promise<NamespacesCreateOrUpdateAuthorizationRuleResponse>;
@@ -927,19 +1036,105 @@ export type NamespacesUpdateResponse = EHNamespace;
 export type NetworkRuleIPAction = string;
 
 // @public
-export type NetworkRuleSet = ProxyResource & {
-    readonly systemData?: SystemData;
-    trustedServiceAccessEnabled?: boolean;
+export interface NetworkRuleSet extends ProxyResource {
     defaultAction?: DefaultAction;
-    virtualNetworkRules?: NWRuleSetVirtualNetworkRules[];
     ipRules?: NWRuleSetIpRules[];
     publicNetworkAccess?: PublicNetworkAccessFlag;
-};
+    readonly systemData?: SystemData;
+    trustedServiceAccessEnabled?: boolean;
+    virtualNetworkRules?: NWRuleSetVirtualNetworkRules[];
+}
 
 // @public
 export interface NetworkRuleSetListResult {
     nextLink?: string;
     value?: NetworkRuleSet[];
+}
+
+// @public
+export interface NetworkSecurityPerimeter {
+    id?: string;
+    location?: string;
+    perimeterGuid?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfiguration extends Resource {
+    readonly networkSecurityPerimeter?: NetworkSecurityPerimeter;
+    readonly profile?: NetworkSecurityPerimeterConfigurationPropertiesProfile;
+    provisioningIssues?: ProvisioningIssue[];
+    provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
+    readonly resourceAssociation?: NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationList {
+    readonly value?: NetworkSecurityPerimeterConfiguration[];
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationListResponse = NetworkSecurityPerimeterConfigurationList;
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationOperations {
+    list(resourceGroupName: string, namespaceName: string, options?: NetworkSecurityPerimeterConfigurationListOptionalParams): Promise<NetworkSecurityPerimeterConfigurationListResponse>;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationPropertiesProfile {
+    accessRules?: NspAccessRule[];
+    accessRulesVersion?: string;
+    name?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation {
+    accessMode?: ResourceAssociationAccessMode;
+    name?: string;
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationProvisioningState = string;
+
+// @public
+export interface NetworkSecurityPerimeterConfigurations {
+    beginCreateOrUpdate(resourceGroupName: string, namespaceName: string, resourceAssociationName: string, options?: NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, namespaceName: string, resourceAssociationName: string, options?: NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalParams): Promise<void>;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NspAccessRule {
+    id?: string;
+    name?: string;
+    readonly properties?: NspAccessRuleProperties;
+    type?: string;
+}
+
+// @public
+export type NspAccessRuleDirection = string;
+
+// @public
+export interface NspAccessRuleProperties {
+    addressPrefixes?: string[];
+    direction?: NspAccessRuleDirection;
+    readonly fullyQualifiedDomainNames?: string[];
+    readonly networkSecurityPerimeters?: NetworkSecurityPerimeter[];
+    subscriptions?: NspAccessRulePropertiesSubscriptionsItem[];
+}
+
+// @public
+export interface NspAccessRulePropertiesSubscriptionsItem {
+    id?: string;
 }
 
 // @public
@@ -1002,12 +1197,12 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export type PrivateEndpointConnection = ProxyResource & {
-    readonly systemData?: SystemData;
+export interface PrivateEndpointConnection extends ProxyResource {
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: ConnectionState;
     provisioningState?: EndPointProvisioningState;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface PrivateEndpointConnectionListResult {
@@ -1017,7 +1212,7 @@ export interface PrivateEndpointConnectionListResult {
 
 // @public
 export interface PrivateEndpointConnections {
-    beginDelete(resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
     get(resourceGroupName: string, namespaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
@@ -1090,6 +1285,18 @@ export interface PrivateLinkResourcesListResult {
 }
 
 // @public
+export interface ProvisioningIssue {
+    name?: string;
+    readonly properties?: ProvisioningIssueProperties;
+}
+
+// @public
+export interface ProvisioningIssueProperties {
+    description?: string;
+    issueType?: string;
+}
+
+// @public
 export type ProvisioningStateDR = "Accepted" | "Succeeded" | "Failed";
 
 // @public
@@ -1099,6 +1306,9 @@ export interface ProxyResource {
     readonly name?: string;
     readonly type?: string;
 }
+
+// @public
+export type PublicNetworkAccess = string;
 
 // @public
 export type PublicNetworkAccessFlag = string;
@@ -1117,23 +1327,35 @@ export interface Resource {
 }
 
 // @public
+export type ResourceAssociationAccessMode = string;
+
+// @public
+export interface RetentionDescription {
+    cleanupPolicy?: CleanupPolicyRetentionDescription;
+    retentionTimeInHours?: number;
+    tombstoneRetentionTimeInHours?: number;
+}
+
+// @public
 export type RoleDisasterRecovery = "Primary" | "PrimaryNotReplicating" | "Secondary";
 
 // @public
 export type SchemaCompatibility = string;
 
 // @public
-export type SchemaGroup = ProxyResource & {
-    readonly systemData?: SystemData;
-    readonly updatedAtUtc?: Date;
+export interface SchemaGroup extends ProxyResource {
     readonly createdAtUtc?: Date;
     readonly eTag?: string;
     groupProperties?: {
         [propertyName: string]: string;
     };
+    // (undocumented)
     schemaCompatibility?: SchemaCompatibility;
+    // (undocumented)
     schemaType?: SchemaType;
-};
+    readonly systemData?: SystemData;
+    readonly updatedAtUtc?: Date;
+}
 
 // @public
 export interface SchemaGroupListResult {
@@ -1172,8 +1394,6 @@ export type SchemaRegistryGetResponse = SchemaGroup;
 
 // @public
 export interface SchemaRegistryListByNamespaceNextOptionalParams extends coreClient.OperationOptions {
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -1220,12 +1440,22 @@ export interface SystemData {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface ThrottlingPolicy extends ApplicationGroupPolicy {
+    metricId: MetricId;
+    rateLimitThreshold: number;
+    type: "ThrottlingPolicy";
+}
+
+// @public
+export type TlsVersion = string;
+
+// @public
+export interface TrackedResource extends Resource {
     location?: string;
     tags?: {
         [propertyName: string]: string;
     };
-};
+}
 
 // @public
 export type UnavailableReason = "None" | "InvalidName" | "SubscriptionIsDisabled" | "NameInUse" | "NameInLockdown" | "TooManyNamespaceInCurrentSubscription";

@@ -10,20 +10,22 @@
 // Licensed under the MIT License.
 const { AzureMediaServices } = require("@azure/arm-mediaservices");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists all of the Jobs for the Transform.
  *
  * @summary Lists all of the Jobs for the Transform.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/jobs-list-all-filter-by-created.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Encoding/stable/2022-07-01/examples/jobs-list-all-filter-by-created.json
  */
 async function listsJobsForTheTransformFilterByCreated() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contosoresources";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosoresources";
   const accountName = "contosomedia";
   const transformName = "exampleTransform";
   const filter =
-    "properties/created ge 2021-11-01T00:00:10.0000000Z and properties/created le 2021-11-01T00:00:20.0000000Z";
+    "properties/created ge 2021-06-01T00:00:10.0000000Z and properties/created le 2021-06-01T00:00:20.0000000Z";
   const orderby = "properties/created";
   const options = { filter, orderby };
   const credential = new DefaultAzureCredential();
@@ -35,21 +37,20 @@ async function listsJobsForTheTransformFilterByCreated() {
   console.log(resArray);
 }
 
-listsJobsForTheTransformFilterByCreated().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists all of the Jobs for the Transform.
  *
  * @summary Lists all of the Jobs for the Transform.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/jobs-list-all-filter-by-lastmodified.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Encoding/stable/2022-07-01/examples/jobs-list-all-filter-by-lastmodified.json
  */
 async function listsJobsForTheTransformFilterByLastmodified() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contosoresources";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosoresources";
   const accountName = "contosomedia";
   const transformName = "exampleTransform";
   const filter =
-    "properties/lastmodified ge 2021-11-01T00:00:10.0000000Z and properties/lastmodified le 2021-11-01T00:00:20.0000000Z";
+    "properties/lastmodified ge 2021-06-01T00:00:10.0000000Z and properties/lastmodified le 2021-06-01T00:00:20.0000000Z";
   const orderby = "properties/lastmodified desc";
   const options = { filter, orderby };
   const credential = new DefaultAzureCredential();
@@ -61,17 +62,16 @@ async function listsJobsForTheTransformFilterByLastmodified() {
   console.log(resArray);
 }
 
-listsJobsForTheTransformFilterByLastmodified().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists all of the Jobs for the Transform.
  *
  * @summary Lists all of the Jobs for the Transform.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/jobs-list-all-filter-by-name-and-state.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Encoding/stable/2022-07-01/examples/jobs-list-all-filter-by-name-and-state.json
  */
 async function listsJobsForTheTransformFilterByNameAndState() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contosoresources";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosoresources";
   const accountName = "contosomedia";
   const transformName = "exampleTransform";
   const filter = "name eq 'job3' and properties/state eq Microsoft.Media.JobState'finished'";
@@ -85,17 +85,16 @@ async function listsJobsForTheTransformFilterByNameAndState() {
   console.log(resArray);
 }
 
-listsJobsForTheTransformFilterByNameAndState().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists all of the Jobs for the Transform.
  *
  * @summary Lists all of the Jobs for the Transform.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/jobs-list-all-filter-by-name.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Encoding/stable/2022-07-01/examples/jobs-list-all-filter-by-name.json
  */
 async function listsJobsForTheTransformFilterByName() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contosoresources";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosoresources";
   const accountName = "contosomedia";
   const transformName = "exampleTransform";
   const filter = "name eq 'job1' or name eq 'job2'";
@@ -110,17 +109,16 @@ async function listsJobsForTheTransformFilterByName() {
   console.log(resArray);
 }
 
-listsJobsForTheTransformFilterByName().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists all of the Jobs for the Transform.
  *
  * @summary Lists all of the Jobs for the Transform.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/jobs-list-all-filter-by-state-eq.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Encoding/stable/2022-07-01/examples/jobs-list-all-filter-by-state-eq.json
  */
 async function listsJobsForTheTransformFilterByStateEqual() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contosoresources";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosoresources";
   const accountName = "contosomedia";
   const transformName = "exampleTransform";
   const filter = "properties/state eq Microsoft.Media.JobState'Processing'";
@@ -134,17 +132,16 @@ async function listsJobsForTheTransformFilterByStateEqual() {
   console.log(resArray);
 }
 
-listsJobsForTheTransformFilterByStateEqual().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists all of the Jobs for the Transform.
  *
  * @summary Lists all of the Jobs for the Transform.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/jobs-list-all-filter-by-state-ne.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Encoding/stable/2022-07-01/examples/jobs-list-all-filter-by-state-ne.json
  */
 async function listsJobsForTheTransformFilterByStateNotEqual() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contosoresources";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosoresources";
   const accountName = "contosomedia";
   const transformName = "exampleTransform";
   const filter = "properties/state ne Microsoft.Media.JobState'processing'";
@@ -158,17 +155,16 @@ async function listsJobsForTheTransformFilterByStateNotEqual() {
   console.log(resArray);
 }
 
-listsJobsForTheTransformFilterByStateNotEqual().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists all of the Jobs for the Transform.
  *
  * @summary Lists all of the Jobs for the Transform.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/jobs-list-all.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Encoding/stable/2022-07-01/examples/jobs-list-all.json
  */
 async function listsAllOfTheJobsForTheTransform() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contosoresources";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosoresources";
   const accountName = "contosomedia";
   const transformName = "exampleTransform";
   const credential = new DefaultAzureCredential();
@@ -180,4 +176,14 @@ async function listsAllOfTheJobsForTheTransform() {
   console.log(resArray);
 }
 
-listsAllOfTheJobsForTheTransform().catch(console.error);
+async function main() {
+  listsJobsForTheTransformFilterByCreated();
+  listsJobsForTheTransformFilterByLastmodified();
+  listsJobsForTheTransformFilterByNameAndState();
+  listsJobsForTheTransformFilterByName();
+  listsJobsForTheTransformFilterByStateEqual();
+  listsJobsForTheTransformFilterByStateNotEqual();
+  listsAllOfTheJobsForTheTransform();
+}
+
+main().catch(console.error);

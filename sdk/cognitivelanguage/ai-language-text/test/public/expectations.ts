@@ -6,12 +6,14 @@ import {
   EntityLinkingResult,
   EntityRecognitionResult,
   KeyPhraseExtractionResult,
+  KnownErrorCode,
   LanguageDetectionResult,
   PiiEntityRecognitionResult,
   PiiEntityRecognitionSuccessResult,
   SentimentAnalysisResult,
 } from "../../src/";
 
+const failedOn = undefined as any;
 const modelVersion = undefined as any;
 const completedOn = undefined as any;
 const deploymentName = undefined as any;
@@ -26,75 +28,95 @@ export const expectation1: AnalyzeBatchResult[] = [
         warnings: [],
         entities: [
           {
-            text: "Government",
-            category: "restaurant_name",
-            offset: 23,
-            length: 10,
-            confidenceScore: 0.05,
+            text: "Casey Jensen",
+            category: "BorrowerName",
+            offset: 138,
+            length: 12,
+            confidenceScore: 0.99,
           },
           {
-            text: "Accountability",
-            category: "geographic_poi",
-            offset: 34,
-            length: 14,
-            confidenceScore: 0.07,
+            text: "2469 Pennsylvania Avenue",
+            category: "BorrowerAddress",
+            offset: 177,
+            length: 24,
+            confidenceScore: 0.97,
           },
           {
-            text: "Office",
-            category: "restaurant_name",
-            offset: 49,
+            text: "New",
+            category: "BorrowerState",
+            offset: 211,
+            length: 3,
+            confidenceScore: 0.77,
+          },
+          {
+            text: "Brunswick",
+            category: "BorrowerCity",
+            offset: 215,
+            length: 9,
+            confidenceScore: 0.96,
+          },
+          {
+            text: "New",
+            category: "BorrowerState",
+            offset: 235,
+            length: 3,
+            confidenceScore: 0.97,
+          },
+          {
+            text: "Jersey",
+            category: "BorrowerCity",
+            offset: 239,
             length: 6,
-            confidenceScore: 0.11,
+            confidenceScore: 0.55,
           },
           {
-            text: "GAO",
-            category: "restaurant_name",
-            offset: 57,
-            length: 3,
-            confidenceScore: 0.04,
-          },
-          { text: "dramatic", category: "sort", offset: 77, length: 8, confidenceScore: 0.03 },
-          {
-            text: "oil",
-            category: "restaurant_type",
-            offset: 98,
-            length: 3,
-            confidenceScore: 0.03,
-          },
-          { text: "and", category: "served_dish", offset: 102, length: 3, confidenceScore: 0.07 },
-          {
-            text: "natural",
-            category: "geographic_poi",
-            offset: 106,
-            length: 7,
-            confidenceScore: 0.04,
-          },
-          {
-            text: "gas",
-            category: "restaurant_type",
-            offset: 114,
-            length: 3,
-            confidenceScore: 0.09,
-          },
-          {
-            text: "development",
-            category: "object_type",
-            offset: 118,
+            text: "Hollie Rees",
+            category: "LenderName",
+            offset: 265,
             length: 11,
-            confidenceScore: 0.06,
+            confidenceScore: 0.98,
           },
-          { text: "federal", category: "state", offset: 133, length: 7, confidenceScore: 0.07 },
-          { text: "lands", category: "poi", offset: 141, length: 5, confidenceScore: 0.04 },
-          { text: "the", category: "timeRange", offset: 152, length: 3, confidenceScore: 0.24 },
           {
-            text: "past six years",
-            category: "timeRange",
-            offset: 156,
-            length: 14,
-            confidenceScore: 0.54,
+            text: "42 Gladwell Street",
+            category: "LenderAddress",
+            offset: 303,
+            length: 18,
+            confidenceScore: 0.92,
           },
-          { text: "BLM", category: "poi", offset: 202, length: 3, confidenceScore: 0.07 },
-          { text: "protection", category: "state", offset: 267, length: 10, confidenceScore: 0.05 },
+          {
+            text: "Memphis",
+            category: "LenderCity",
+            offset: 331,
+            length: 7,
+            confidenceScore: 0.99,
+          },
+          {
+            text: "Tennessee",
+            category: "LenderState",
+            offset: 349,
+            length: 9,
+            confidenceScore: 0.99,
+          },
+        ],
+      },
+      {
+        id: "1",
+        warnings: [],
+        entities: [
+          {
+            text: "one hundred ninety-two thousand nine hundred eighty-nine Dollars",
+            category: "LoanAmountWords",
+            offset: 47,
+            length: 64,
+            confidenceScore: 1.0,
+          },
+          {
+            text: "$192,989.00",
+            category: "LoanAmountNumbers",
+            offset: 113,
+            length: 11,
+            confidenceScore: 1.0,
+          },
         ],
       },
     ],
@@ -103,7 +125,6 @@ export const expectation1: AnalyzeBatchResult[] = [
     projectName,
   },
 ];
-
 export const expectation2: AnalyzeBatchResult[] = [
   {
     kind: "CustomSingleLabelClassification",
@@ -111,7 +132,7 @@ export const expectation2: AnalyzeBatchResult[] = [
       {
         id: "0",
         warnings: [],
-        classifications: [{ category: "RateBook", confidenceScore: 0.76 }],
+        classifications: [{ category: "Civil_engineering", confidenceScore: 0.76 }],
       },
     ],
     deploymentName,
@@ -187,7 +208,22 @@ export const expectation3: AnalyzeBatchResult[] = [
 export const expectation4: AnalyzeBatchResult[] = [
   {
     kind: "CustomMultiLabelClassification",
-    results: [{ id: "0", warnings: [], classifications: [] }],
+    results: [
+      {
+        id: "0",
+        warnings: [],
+        classifications: [
+          {
+            category: "Comedy",
+            confidenceScore: 0.98,
+          },
+          {
+            category: "Drama",
+            confidenceScore: 0.95,
+          },
+        ],
+      },
+    ],
     deploymentName,
     projectName,
     completedOn,
@@ -409,7 +445,7 @@ export const expectation9: AnalyzeBatchResult[] = [
               {
                 target: {
                   sentiment: "negative",
-                  confidenceScores: { positive: 0, negative: 1 },
+                  confidenceScores: { positive: 0.02, negative: 0.98 },
                   offset: 4,
                   length: 4,
                   text: "food",
@@ -417,7 +453,7 @@ export const expectation9: AnalyzeBatchResult[] = [
                 assessments: [
                   {
                     sentiment: "negative",
-                    confidenceScores: { positive: 0, negative: 1 },
+                    confidenceScores: { positive: 0.02, negative: 0.98 },
                     offset: 13,
                     length: 12,
                     text: "unacceptable",
@@ -624,14 +660,6 @@ export const expectation9: AnalyzeBatchResult[] = [
                     text: "nice",
                     isNegated: false,
                   },
-                  {
-                    sentiment: "positive",
-                    confidenceScores: { positive: 1, negative: 0 },
-                    offset: 59,
-                    length: 5,
-                    text: "clean",
-                    isNegated: false,
-                  },
                 ],
               },
               {
@@ -685,14 +713,6 @@ export const expectation9: AnalyzeBatchResult[] = [
                     offset: 8,
                     length: 5,
                     text: "great",
-                    isNegated: false,
-                  },
-                  {
-                    sentiment: "positive",
-                    confidenceScores: { positive: 0.99, negative: 0.01 },
-                    offset: 14,
-                    length: 12,
-                    text: "unobstructed",
                     isNegated: false,
                   },
                 ],
@@ -755,7 +775,7 @@ export const expectation9: AnalyzeBatchResult[] = [
               {
                 target: {
                   sentiment: "negative",
-                  confidenceScores: { positive: 0, negative: 1 },
+                  confidenceScores: { positive: 0.01, negative: 0.99 },
                   offset: 42,
                   length: 6,
                   text: "toilet",
@@ -763,7 +783,7 @@ export const expectation9: AnalyzeBatchResult[] = [
                 assessments: [
                   {
                     sentiment: "negative",
-                    confidenceScores: { positive: 0, negative: 1 },
+                    confidenceScores: { positive: 0.01, negative: 0.99 },
                     offset: 53,
                     length: 5,
                     text: "dirty",
@@ -827,7 +847,7 @@ export const expectation10: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code 'english'. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
+            "Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr. For additional details see https://aka.ms/language-service/language-support",
         },
       },
       {
@@ -857,7 +877,7 @@ export const expectation10: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code 'english'. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
+            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/language-service/language-support",
         },
       },
       {
@@ -879,7 +899,7 @@ export const expectation10: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code 'english'. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,da,el,et,fi,hr,hu,id,lv,nl,no,pl,ro,ru,sk,sl,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction",
+            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,da,el,et,fi,hr,hu,id,lv,nl,no,pl,ro,ru,sk,sl,sv,tr. For additional details see https://aka.ms/language-service/language-support",
         },
       },
       { id: "3", warnings: [], keyPhrases: ["good food", "restaurant"] },
@@ -899,13 +919,13 @@ export const expectation11: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code 'english'. Supported languages: ar,cs,da,fi,hu,nl,no,pl,ru,sv,tr,ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
+            "Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr. For additional details see https://aka.ms/language-service/language-support",
         },
       },
       { id: "3", error: { code: "InvalidDocument", message: "Document text is empty." } },
     ],
-    completedOn,
     modelVersion,
+    completedOn,
   },
   {
     kind: "PiiEntityRecognition",
@@ -916,13 +936,13 @@ export const expectation11: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code 'english'. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
+            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/language-service/language-support",
         },
       },
       { id: "3", error: { code: "InvalidDocument", message: "Document text is empty." } },
     ],
-    completedOn,
     modelVersion,
+    completedOn,
   },
   {
     kind: "KeyPhraseExtraction",
@@ -933,13 +953,13 @@ export const expectation11: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code 'english'. Supported languages: de,en,es,fr,it,pt-BR,pt-PT,af,am,ar,as,az,be,bg,bn,br,bs,ca,cs,cy,da,el,eo,et,eu,fa,fi,fil,fy,ga,gd,gl,gu,ha,he,hi,hr,hu,hy,id,ja,jv,ka,kk,km,kn,ko,ku,ky,la,lo,lt,lv,mg,mk,ml,mn,mr,ms,my,ne,nl,no,om,or,pa,pl,ps,ro,ru,sa,sd,si,sk,sl,so,sq,sr,su,sv,sw,ta,te,th,tr,ug,uk,ur,uz,vi,xh,yi,zh-Hans,zh-Hant. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction",
+            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,da,el,et,fi,hr,hu,id,lv,nl,no,pl,ro,ru,sk,sl,sv,tr. For additional details see https://aka.ms/language-service/language-support",
         },
       },
       { id: "3", error: { code: "InvalidDocument", message: "Document text is empty." } },
     ],
-    completedOn,
     modelVersion,
+    completedOn,
   },
 ];
 
@@ -1167,7 +1187,14 @@ export const expectation15: AnalyzeBatchResult[] = [
         id: "1",
         warnings: [],
         entities: [
-          { text: "park", category: "Location", offset: 17, length: 4, confidenceScore: 0.99 },
+          {
+            text: "park",
+            category: "Location",
+            offset: 17,
+            subCategory: "Structural",
+            length: 4,
+            confidenceScore: 0.99,
+          },
         ],
       },
       {
@@ -1218,12 +1245,12 @@ export const expectation16: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code 'notalanguage'. Supported languages: ar,cs,da,fi,hu,nl,no,pl,ru,sv,tr,ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
+            "Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr. For additional details see https://aka.ms/language-service/language-support",
         },
       },
     ],
-    completedOn,
     modelVersion,
+    completedOn,
   },
   {
     kind: "PiiEntityRecognition",
@@ -1233,12 +1260,12 @@ export const expectation16: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code 'notalanguage'. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
+            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/language-service/language-support",
         },
       },
     ],
-    completedOn,
     modelVersion,
+    completedOn,
   },
   {
     kind: "KeyPhraseExtraction",
@@ -1248,12 +1275,12 @@ export const expectation16: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code 'notalanguage'. Supported languages: de,en,es,fr,it,pt-BR,pt-PT,af,am,ar,as,az,be,bg,bn,br,bs,ca,cs,cy,da,el,eo,et,eu,fa,fi,fil,fy,ga,gd,gl,gu,ha,he,hi,hr,hu,hy,id,ja,jv,ka,kk,km,kn,ko,ku,ky,la,lo,lt,lv,mg,mk,ml,mn,mr,ms,my,ne,nl,no,om,or,pa,pl,ps,ro,ru,sa,sd,si,sk,sl,so,sq,sr,su,sv,sw,ta,te,th,tr,ug,uk,ur,uz,vi,xh,yi,zh-Hans,zh-Hant. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction",
+            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,da,el,et,fi,hr,hu,id,lv,nl,no,pl,ro,ru,sk,sl,sv,tr. For additional details see https://aka.ms/language-service/language-support",
         },
       },
     ],
-    completedOn,
     modelVersion,
+    completedOn,
   },
 ];
 
@@ -1437,14 +1464,6 @@ export const expectation20: AnalyzeBatchResult[] = [
               { name: "MTHICD9", entityId: "997.91" },
               { name: "NANDA-I", entityId: "00905" },
               { name: "NCI", entityId: "C3117" },
-              { name: "NCI_CPTAC", entityId: "C3117" },
-              { name: "NCI_CTCAE", entityId: "E13785" },
-              { name: "NCI_CTRP", entityId: "C3117" },
-              { name: "NCI_FDA", entityId: "1908" },
-              { name: "NCI_GDC", entityId: "C3117" },
-              { name: "NCI_NCI-GLOSS", entityId: "CDR0000458091" },
-              { name: "NCI_NICHD", entityId: "C3117" },
-              { name: "NCI_caDSR", entityId: "C3117" },
               { name: "NOC", entityId: "060808" },
               { name: "OMIM", entityId: "MTHU002068" },
               { name: "PCDS", entityId: "PRB_11000.06" },
@@ -1477,7 +1496,7 @@ export const expectation20: AnalyzeBatchResult[] = [
             category: "Dosage",
             offset: 11,
             length: 5,
-            confidenceScore: 0.98,
+            confidenceScore: 0.99,
           },
           {
             dataSources: [
@@ -1496,11 +1515,6 @@ export const expectation20: AnalyzeBatchResult[] = [
               { name: "MSH", entityId: "D007052" },
               { name: "MTHSPL", entityId: "WK2XYI10QM" },
               { name: "NCI", entityId: "C561" },
-              { name: "NCI_CTRP", entityId: "C561" },
-              { name: "NCI_DCP", entityId: "00803" },
-              { name: "NCI_DTP", entityId: "NSC0256857" },
-              { name: "NCI_FDA", entityId: "WK2XYI10QM" },
-              { name: "NCI_NCI-GLOSS", entityId: "CDR0000613511" },
               { name: "NDDF", entityId: "002377" },
               { name: "PDQ", entityId: "CDR0000040475" },
               { name: "RCD", entityId: "x02MO" },
@@ -1531,6 +1545,7 @@ export const expectation20: AnalyzeBatchResult[] = [
         entityRelations: [
           {
             relationType: "DosageOfMedication",
+            confidenceScore: 1,
             roles: [
               {
                 entity: {
@@ -1539,7 +1554,7 @@ export const expectation20: AnalyzeBatchResult[] = [
                   category: "Dosage",
                   offset: 11,
                   length: 5,
-                  confidenceScore: 0.98,
+                  confidenceScore: 0.99,
                 },
                 name: "Dosage",
               },
@@ -1561,11 +1576,6 @@ export const expectation20: AnalyzeBatchResult[] = [
                     { name: "MSH", entityId: "D007052" },
                     { name: "MTHSPL", entityId: "WK2XYI10QM" },
                     { name: "NCI", entityId: "C561" },
-                    { name: "NCI_CTRP", entityId: "C561" },
-                    { name: "NCI_DCP", entityId: "00803" },
-                    { name: "NCI_DTP", entityId: "NSC0256857" },
-                    { name: "NCI_FDA", entityId: "WK2XYI10QM" },
-                    { name: "NCI_NCI-GLOSS", entityId: "CDR0000613511" },
                     { name: "NDDF", entityId: "002377" },
                     { name: "PDQ", entityId: "CDR0000040475" },
                     { name: "RCD", entityId: "x02MO" },
@@ -1590,6 +1600,7 @@ export const expectation20: AnalyzeBatchResult[] = [
           },
           {
             relationType: "FrequencyOfMedication",
+            confidenceScore: 1,
             roles: [
               {
                 entity: {
@@ -1609,11 +1620,6 @@ export const expectation20: AnalyzeBatchResult[] = [
                     { name: "MSH", entityId: "D007052" },
                     { name: "MTHSPL", entityId: "WK2XYI10QM" },
                     { name: "NCI", entityId: "C561" },
-                    { name: "NCI_CTRP", entityId: "C561" },
-                    { name: "NCI_DCP", entityId: "00803" },
-                    { name: "NCI_DTP", entityId: "NSC0256857" },
-                    { name: "NCI_FDA", entityId: "WK2XYI10QM" },
-                    { name: "NCI_NCI-GLOSS", entityId: "CDR0000613511" },
                     { name: "NDDF", entityId: "002377" },
                     { name: "PDQ", entityId: "CDR0000040475" },
                     { name: "RCD", entityId: "x02MO" },
@@ -1666,15 +1672,13 @@ export const expectation20: AnalyzeBatchResult[] = [
               { name: "MDR", entityId: "10021731" },
               { name: "MSH", entityId: "D007223" },
               { name: "NCI", entityId: "C27956" },
-              { name: "NCI_FDA", entityId: "C27956" },
-              { name: "NCI_NICHD", entityId: "C27956" },
               { name: "SNOMEDCT_US", entityId: "133931009" },
             ],
             text: "Baby",
-            category: "Age",
+            category: "FamilyRelation",
             offset: 0,
             length: 4,
-            confidenceScore: 0.94,
+            confidenceScore: 1,
             normalizedText: "Infant",
           },
           {
@@ -1683,7 +1687,6 @@ export const expectation20: AnalyzeBatchResult[] = [
               { name: "AOD", entityId: "0000006185" },
               { name: "BI", entityId: "BI00546" },
               { name: "CCPSS", entityId: "1018016" },
-              { name: "CCSR_10", entityId: "NVS001" },
               { name: "CCSR_ICD10CM", entityId: "NVS001" },
               { name: "CHV", entityId: "0000007932" },
               { name: "COSTAR", entityId: "478" },
@@ -1706,12 +1709,6 @@ export const expectation20: AnalyzeBatchResult[] = [
               { name: "MSH", entityId: "D008581" },
               { name: "NANDA-I", entityId: "02899" },
               { name: "NCI", entityId: "C26828" },
-              { name: "NCI_CPTAC", entityId: "C26828" },
-              { name: "NCI_CTCAE", entityId: "E11458" },
-              { name: "NCI_FDA", entityId: "2389" },
-              { name: "NCI_NCI-GLOSS", entityId: "CDR0000471780" },
-              { name: "NCI_NICHD", entityId: "C26828" },
-              { name: "NCI_caDSR", entityId: "C26828" },
               { name: "OMIM", entityId: "MTHU005994" },
               { name: "PSY", entityId: "30660" },
               { name: "RCD", entityId: "X000H" },
@@ -1725,7 +1722,7 @@ export const expectation20: AnalyzeBatchResult[] = [
             offset: 24,
             length: 10,
             confidenceScore: 1,
-            assertion: { certainty: "negativePossible" },
+            assertion: { certainty: "negativePossible", association: "other" },
             normalizedText: "Meningitis",
           },
           {
@@ -1736,7 +1733,6 @@ export const expectation20: AnalyzeBatchResult[] = [
               { name: "BI", entityId: "BI00751" },
               { name: "CCC", entityId: "K25.2" },
               { name: "CCPSS", entityId: "1017166" },
-              { name: "CCSR_10", entityId: "SYM002" },
               { name: "CCSR_ICD10CM", entityId: "SYM002" },
               { name: "CHV", entityId: "0000005010" },
               { name: "COSTAR", entityId: "300" },
@@ -1765,12 +1761,6 @@ export const expectation20: AnalyzeBatchResult[] = [
               { name: "MTHICD9", entityId: "780.60" },
               { name: "NANDA-I", entityId: "01128" },
               { name: "NCI", entityId: "C3038" },
-              { name: "NCI_CTCAE", entityId: "E11102" },
-              { name: "NCI_FDA", entityId: "1858" },
-              { name: "NCI_GDC", entityId: "C3038" },
-              { name: "NCI_NCI-GLOSS", entityId: "CDR0000450108" },
-              { name: "NCI_NICHD", entityId: "C3038" },
-              { name: "NCI_caDSR", entityId: "C3038" },
               { name: "NOC", entityId: "070307" },
               { name: "OMIM", entityId: "MTHU005439" },
               { name: "OMS", entityId: "50.03" },
@@ -1788,7 +1778,8 @@ export const expectation20: AnalyzeBatchResult[] = [
             category: "SymptomOrSign",
             offset: 47,
             length: 5,
-            confidenceScore: 0.98,
+            confidenceScore: 0.99,
+            assertion: { conditionality: "hypothetical" },
             normalizedText: "Fever",
           },
           {
@@ -1804,9 +1795,6 @@ export const expectation20: AnalyzeBatchResult[] = [
               { name: "LNC", entityId: "LA10417-6" },
               { name: "MSH", entityId: "D009035" },
               { name: "NCI", entityId: "C25189" },
-              { name: "NCI_CDISC", entityId: "C25189" },
-              { name: "NCI_GDC", entityId: "C25189" },
-              { name: "NCI_caDSR", entityId: "C25189" },
               { name: "PSY", entityId: "32140" },
               { name: "RCD", entityId: "X78ym" },
               { name: "SNMI", entityId: "S-10120" },
@@ -1835,8 +1823,6 @@ export const expectation20: AnalyzeBatchResult[] = [
               { name: "MMSL", entityId: "d00116" },
               { name: "MSH", entityId: "D010406" },
               { name: "NCI", entityId: "C1500" },
-              { name: "NCI_DTP", entityId: "NSC0402815" },
-              { name: "NCI_NCI-GLOSS", entityId: "CDR0000045296" },
               { name: "NDDF", entityId: "016121" },
               { name: "PSY", entityId: "37190" },
               { name: "RCD", entityId: "x009C" },
@@ -1849,8 +1835,8 @@ export const expectation20: AnalyzeBatchResult[] = [
             category: "MedicationName",
             offset: 77,
             length: 10,
-            confidenceScore: 0.84,
-            assertion: { certainty: "neutralPossible" },
+            confidenceScore: 0.99,
+            assertion: { conditionality: "conditional", certainty: "neutralPossible" },
             normalizedText: "penicillins",
           },
           {
@@ -1866,8 +1852,6 @@ export const expectation20: AnalyzeBatchResult[] = [
               { name: "MDR", entityId: "10021731" },
               { name: "MSH", entityId: "D007223" },
               { name: "NCI", entityId: "C27956" },
-              { name: "NCI_FDA", entityId: "C27956" },
-              { name: "NCI_NICHD", entityId: "C27956" },
               { name: "SNOMEDCT_US", entityId: "133931009" },
             ],
             text: "baby",
@@ -1933,11 +1917,6 @@ export const expectation22: AnalyzeBatchResult[] = [
               { name: "MSH", entityId: "D007052" },
               { name: "MTHSPL", entityId: "WK2XYI10QM" },
               { name: "NCI", entityId: "C561" },
-              { name: "NCI_CTRP", entityId: "C561" },
-              { name: "NCI_DCP", entityId: "00803" },
-              { name: "NCI_DTP", entityId: "NSC0256857" },
-              { name: "NCI_FDA", entityId: "WK2XYI10QM" },
-              { name: "NCI_NCI-GLOSS", entityId: "CDR0000613511" },
               { name: "NDDF", entityId: "002377" },
               { name: "PDQ", entityId: "CDR0000040475" },
               { name: "RCD", entityId: "x02MO" },
@@ -1953,7 +1932,7 @@ export const expectation22: AnalyzeBatchResult[] = [
             category: "MedicationName",
             offset: 20,
             length: 9,
-            confidenceScore: 0.95,
+            confidenceScore: 1,
             normalizedText: "ibuprofen",
           },
         ],
@@ -1990,11 +1969,6 @@ export const expectation23: AnalyzeBatchResult[] = [
               { name: "MSH", entityId: "D007052" },
               { name: "MTHSPL", entityId: "WK2XYI10QM" },
               { name: "NCI", entityId: "C561" },
-              { name: "NCI_CTRP", entityId: "C561" },
-              { name: "NCI_DCP", entityId: "00803" },
-              { name: "NCI_DTP", entityId: "NSC0256857" },
-              { name: "NCI_FDA", entityId: "WK2XYI10QM" },
-              { name: "NCI_NCI-GLOSS", entityId: "CDR0000613511" },
               { name: "NDDF", entityId: "002377" },
               { name: "PDQ", entityId: "CDR0000040475" },
               { name: "RCD", entityId: "x02MO" },
@@ -2010,7 +1984,7 @@ export const expectation23: AnalyzeBatchResult[] = [
             category: "MedicationName",
             offset: 12,
             length: 9,
-            confidenceScore: 0.95,
+            confidenceScore: 1,
             normalizedText: "ibuprofen",
           },
         ],
@@ -2135,14 +2109,6 @@ export const expectation26: AnalyzeBatchResult[] = [
               { name: "MTHICD9", entityId: "997.91" },
               { name: "NANDA-I", entityId: "00905" },
               { name: "NCI", entityId: "C3117" },
-              { name: "NCI_CPTAC", entityId: "C3117" },
-              { name: "NCI_CTCAE", entityId: "E13785" },
-              { name: "NCI_CTRP", entityId: "C3117" },
-              { name: "NCI_FDA", entityId: "1908" },
-              { name: "NCI_GDC", entityId: "C3117" },
-              { name: "NCI_NCI-GLOSS", entityId: "CDR0000458091" },
-              { name: "NCI_NICHD", entityId: "C3117" },
-              { name: "NCI_caDSR", entityId: "C3117" },
               { name: "NOC", entityId: "060808" },
               { name: "OMIM", entityId: "MTHU002068" },
               { name: "PCDS", entityId: "PRB_11000.06" },
@@ -2175,7 +2141,7 @@ export const expectation26: AnalyzeBatchResult[] = [
             category: "Dosage",
             offset: 11,
             length: 5,
-            confidenceScore: 0.98,
+            confidenceScore: 0.99,
           },
           {
             dataSources: [
@@ -2194,11 +2160,6 @@ export const expectation26: AnalyzeBatchResult[] = [
               { name: "MSH", entityId: "D007052" },
               { name: "MTHSPL", entityId: "WK2XYI10QM" },
               { name: "NCI", entityId: "C561" },
-              { name: "NCI_CTRP", entityId: "C561" },
-              { name: "NCI_DCP", entityId: "00803" },
-              { name: "NCI_DTP", entityId: "NSC0256857" },
-              { name: "NCI_FDA", entityId: "WK2XYI10QM" },
-              { name: "NCI_NCI-GLOSS", entityId: "CDR0000613511" },
               { name: "NDDF", entityId: "002377" },
               { name: "PDQ", entityId: "CDR0000040475" },
               { name: "RCD", entityId: "x02MO" },
@@ -2229,6 +2190,7 @@ export const expectation26: AnalyzeBatchResult[] = [
         entityRelations: [
           {
             relationType: "DosageOfMedication",
+            confidenceScore: 1,
             roles: [
               {
                 entity: {
@@ -2237,7 +2199,7 @@ export const expectation26: AnalyzeBatchResult[] = [
                   category: "Dosage",
                   offset: 11,
                   length: 5,
-                  confidenceScore: 0.98,
+                  confidenceScore: 0.99,
                 },
                 name: "Dosage",
               },
@@ -2259,11 +2221,6 @@ export const expectation26: AnalyzeBatchResult[] = [
                     { name: "MSH", entityId: "D007052" },
                     { name: "MTHSPL", entityId: "WK2XYI10QM" },
                     { name: "NCI", entityId: "C561" },
-                    { name: "NCI_CTRP", entityId: "C561" },
-                    { name: "NCI_DCP", entityId: "00803" },
-                    { name: "NCI_DTP", entityId: "NSC0256857" },
-                    { name: "NCI_FDA", entityId: "WK2XYI10QM" },
-                    { name: "NCI_NCI-GLOSS", entityId: "CDR0000613511" },
                     { name: "NDDF", entityId: "002377" },
                     { name: "PDQ", entityId: "CDR0000040475" },
                     { name: "RCD", entityId: "x02MO" },
@@ -2288,6 +2245,7 @@ export const expectation26: AnalyzeBatchResult[] = [
           },
           {
             relationType: "FrequencyOfMedication",
+            confidenceScore: 1,
             roles: [
               {
                 entity: {
@@ -2307,11 +2265,6 @@ export const expectation26: AnalyzeBatchResult[] = [
                     { name: "MSH", entityId: "D007052" },
                     { name: "MTHSPL", entityId: "WK2XYI10QM" },
                     { name: "NCI", entityId: "C561" },
-                    { name: "NCI_CTRP", entityId: "C561" },
-                    { name: "NCI_DCP", entityId: "00803" },
-                    { name: "NCI_DTP", entityId: "NSC0256857" },
-                    { name: "NCI_FDA", entityId: "WK2XYI10QM" },
-                    { name: "NCI_NCI-GLOSS", entityId: "CDR0000613511" },
                     { name: "NDDF", entityId: "002377" },
                     { name: "PDQ", entityId: "CDR0000040475" },
                     { name: "RCD", entityId: "x02MO" },
@@ -2461,7 +2414,229 @@ export const expectation26: AnalyzeBatchResult[] = [
   },
 ];
 
-export const expectation30: SentimentAnalysisResult[] = [
+export const expectation27: AnalyzeBatchResult[] = [
+  {
+    kind: "ExtractiveSummarization",
+    results: [
+      {
+        id: "0",
+        warnings: [],
+        sentences: [
+          {
+            text: "Windows is already accessible in the cloud via Azure Virtual Desktop, which offers customers flexibility to create and run their own virtualization service.",
+            rankScore: 0.43,
+            offset: 2453,
+            length: 156,
+          },
+          {
+            text: "Windows 365 is a new virtualization technology for Windows that is easy to set up and deploy for today’s login-from-anywhere, mobile and elastic workforces.",
+            rankScore: 1,
+            offset: 2610,
+            length: 156,
+          },
+          {
+            text: "With Windows 365, she added, IT admins can manage and deploy Cloud PCs using the same tools they use today to manage physical PCs.",
+            rankScore: 0.25,
+            offset: 3161,
+            length: 130,
+          },
+        ],
+      },
+      {
+        id: "1",
+        warnings: [],
+        sentences: [
+          {
+            text: "Windows 365 was in the works before COVID-19 sent companies around the world on a scramble to secure solutions to support employees suddenly forced to work from home, but “what really put the firecracker behind it was the pandemic, it accelerated everything,” McKelvey said.",
+            rankScore: 0.79,
+            offset: 10,
+            length: 274,
+          },
+          {
+            text: "In this new world of Windows 365, remote workers flip the lid on their laptop, bootup the family workstation or clip a keyboard onto a tablet, launch a native app or modern web browser and login to their Windows 365 account.",
+            rankScore: 0.84,
+            offset: 479,
+            length: 224,
+          },
+          {
+            text: "The ability to login to a Cloud PC from anywhere on any device is part of Microsoft’s larger strategy around tailoring products such as Microsoft Teams and Microsoft 365 for the post-pandemic hybrid workforce of the future, she added.",
+            rankScore: 1,
+            offset: 1102,
+            length: 234,
+          },
+        ],
+      },
+    ],
+    completedOn,
+    modelVersion,
+  },
+];
+
+export const expectation28: AnalyzeBatchResult[] = [
+  {
+    kind: "ExtractiveSummarization",
+    results: [
+      {
+        id: "0",
+        warnings: [],
+        sentences: [
+          {
+            text: "Windows is already accessible in the cloud via Azure Virtual Desktop, which offers customers flexibility to create and run their own virtualization service.",
+            rankScore: 0.43,
+            offset: 2453,
+            length: 156,
+          },
+          {
+            text: "Windows 365 is a new virtualization technology for Windows that is easy to set up and deploy for today’s login-from-anywhere, mobile and elastic workforces.",
+            rankScore: 1,
+            offset: 2610,
+            length: 156,
+          },
+        ],
+      },
+      {
+        id: "1",
+        warnings: [],
+        sentences: [
+          {
+            text: "In this new world of Windows 365, remote workers flip the lid on their laptop, bootup the family workstation or clip a keyboard onto a tablet, launch a native app or modern web browser and login to their Windows 365 account.",
+            rankScore: 0.84,
+            offset: 479,
+            length: 224,
+          },
+          {
+            text: "The ability to login to a Cloud PC from anywhere on any device is part of Microsoft’s larger strategy around tailoring products such as Microsoft Teams and Microsoft 365 for the post-pandemic hybrid workforce of the future, she added.",
+            rankScore: 1,
+            offset: 1102,
+            length: 234,
+          },
+        ],
+      },
+    ],
+    completedOn,
+    modelVersion,
+  },
+];
+
+export const expectation29: AnalyzeBatchResult[] = [
+  {
+    kind: "ExtractiveSummarization",
+    results: [
+      {
+        id: "0",
+        warnings: [],
+        sentences: [
+          {
+            text: "Windows 365 is a new virtualization technology for Windows that is easy to set up and deploy for today’s login-from-anywhere, mobile and elastic workforces.",
+            rankScore: 1,
+            offset: 2610,
+            length: 156,
+          },
+          {
+            text: "Windows is already accessible in the cloud via Azure Virtual Desktop, which offers customers flexibility to create and run their own virtualization service.",
+            rankScore: 0.43,
+            offset: 2453,
+            length: 156,
+          },
+          {
+            text: "With Windows 365, she added, IT admins can manage and deploy Cloud PCs using the same tools they use today to manage physical PCs.",
+            rankScore: 0.25,
+            offset: 3161,
+            length: 130,
+          },
+        ],
+      },
+      {
+        id: "1",
+        warnings: [],
+        sentences: [
+          {
+            text: "The ability to login to a Cloud PC from anywhere on any device is part of Microsoft’s larger strategy around tailoring products such as Microsoft Teams and Microsoft 365 for the post-pandemic hybrid workforce of the future, she added.",
+            rankScore: 1,
+            offset: 1102,
+            length: 234,
+          },
+          {
+            text: "In this new world of Windows 365, remote workers flip the lid on their laptop, bootup the family workstation or clip a keyboard onto a tablet, launch a native app or modern web browser and login to their Windows 365 account.",
+            rankScore: 0.84,
+            offset: 479,
+            length: 224,
+          },
+          {
+            text: "Windows 365 was in the works before COVID-19 sent companies around the world on a scramble to secure solutions to support employees suddenly forced to work from home, but “what really put the firecracker behind it was the pandemic, it accelerated everything,” McKelvey said.",
+            rankScore: 0.79,
+            offset: 10,
+            length: 274,
+          },
+        ],
+      },
+    ],
+    completedOn,
+    modelVersion,
+  },
+];
+
+export const expectation30: AnalyzeBatchResult[] = [
+  {
+    kind: "AbstractiveSummarization",
+    results: [
+      {
+        id: "0",
+        summaries: [
+          {
+            text: "Microsoft is releasing Windows 365, a new operating system that is easy to set up and deploy for today’s login-from- anywhere, mobile and elastic workforces. The Cloud PC is a new virtualization technology for Windows that is easier to set Up and Deploy for today's login. The Cloud PCs are accessible through a native application or web browser on any device, from anywhere with an internet connection.",
+            contexts: [{ offset: 0, length: 7519 }],
+          },
+        ],
+        warnings: [],
+      },
+      {
+        id: "1",
+        summaries: [
+          {
+            text: "Microsoft is rolling out Windows 365 Cloud PCs for employees forced to work from home. The ability to login to a Cloud PC from anywhere on any device is part of a larger strategy around tailoring products such as Microsoft Teams and Microsoft 365 for the post-pandemic hybrid workforce of the future.",
+            contexts: [{ offset: 0, length: 3416 }],
+          },
+        ],
+        warnings: [],
+      },
+    ],
+    completedOn,
+    modelVersion,
+  },
+];
+
+export const expectation31: AnalyzeBatchResult[] = [
+  {
+    kind: "AbstractiveSummarization",
+    results: [
+      {
+        id: "0",
+        summaries: [
+          {
+            text: "Microsoft is releasing Windows 365, a new operating system that is easy to set up and deploy for today’s login-from- anywhere, mobile and elastic workforces. The Cloud PC is a new virtualization technology for Windows that is easier to set Up and Deploy for today's login. The Cloud PCs are accessible through a native application or web browser on any device, from anywhere with an internet connection.",
+            contexts: [{ offset: 0, length: 7519 }],
+          },
+        ],
+        warnings: [],
+      },
+      {
+        id: "1",
+        summaries: [
+          {
+            text: "Microsoft is rolling out Windows 365 Cloud PCs for employees forced to work from home. The ability to login to a Cloud PC from anywhere on any device is part of a larger strategy around tailoring products such as Microsoft Teams and Microsoft 365 for the post-pandemic hybrid workforce of the future.",
+            contexts: [{ offset: 0, length: 3416 }],
+          },
+        ],
+        warnings: [],
+      },
+    ],
+    completedOn,
+    modelVersion,
+  },
+];
+
+export const expectation63: SentimentAnalysisResult[] = [
   {
     id: "0",
     warnings: [],
@@ -2536,18 +2711,7 @@ export const expectation30: SentimentAnalysisResult[] = [
   },
 ];
 
-export const expectation31: SentimentAnalysisResult[] = [
-  {
-    id: "0",
-    error: {
-      code: "UnsupportedLanguageCode",
-      message:
-        "Invalid language code 'notalanguage'. Supported languages: af,am,ar,as,az,be,bg,bn,br,bs,ca,cs,cy,da,de,el,en,eo,es,et,eu,fa,fi,fil,fr,fy,ga,gd,gl,gu,ha,he,hi,hr,hu,hy,id,it,ja,jv,ka,kk,km,kn,ko,ku,ky,la,lo,lt,lv,mg,mk,ml,mn,mr,ms,my,ne,nl,no,om,or,pa,pl,ps,pt-BR,pt-PT,ro,ru,sa,sd,si,sk,sl,so,sq,sr,su,sv,sw,ta,te,th,tr,ug,uk,ur,uz,vi,xh,yi,zh-Hans,zh-Hant. For additional details see https://aka.ms/text-analytics/language-support?tabs=sentiment-analysis",
-    },
-  },
-];
-
-export const expectation32: SentimentAnalysisResult[] = [
+export const expectation65: SentimentAnalysisResult[] = [
   {
     id: "0",
     warnings: [],
@@ -2564,7 +2728,7 @@ export const expectation32: SentimentAnalysisResult[] = [
           {
             target: {
               sentiment: "negative",
-              confidenceScores: { positive: 0, negative: 1 },
+              confidenceScores: { positive: 0.02, negative: 0.98 },
               offset: 4,
               length: 4,
               text: "food",
@@ -2572,7 +2736,7 @@ export const expectation32: SentimentAnalysisResult[] = [
             assessments: [
               {
                 sentiment: "negative",
-                confidenceScores: { positive: 0, negative: 1 },
+                confidenceScores: { positive: 0.02, negative: 0.98 },
                 offset: 13,
                 length: 12,
                 text: "unacceptable",
@@ -2779,14 +2943,6 @@ export const expectation32: SentimentAnalysisResult[] = [
                 text: "nice",
                 isNegated: false,
               },
-              {
-                sentiment: "positive",
-                confidenceScores: { positive: 1, negative: 0 },
-                offset: 59,
-                length: 5,
-                text: "clean",
-                isNegated: false,
-              },
             ],
           },
           {
@@ -2840,14 +2996,6 @@ export const expectation32: SentimentAnalysisResult[] = [
                 offset: 8,
                 length: 5,
                 text: "great",
-                isNegated: false,
-              },
-              {
-                sentiment: "positive",
-                confidenceScores: { positive: 0.99, negative: 0.01 },
-                offset: 14,
-                length: 12,
-                text: "unobstructed",
                 isNegated: false,
               },
             ],
@@ -2910,7 +3058,7 @@ export const expectation32: SentimentAnalysisResult[] = [
           {
             target: {
               sentiment: "negative",
-              confidenceScores: { positive: 0, negative: 1 },
+              confidenceScores: { positive: 0.01, negative: 0.99 },
               offset: 42,
               length: 6,
               text: "toilet",
@@ -2918,7 +3066,7 @@ export const expectation32: SentimentAnalysisResult[] = [
             assessments: [
               {
                 sentiment: "negative",
-                confidenceScores: { positive: 0, negative: 1 },
+                confidenceScores: { positive: 0.01, negative: 0.99 },
                 offset: 53,
                 length: 5,
                 text: "dirty",
@@ -2968,7 +3116,7 @@ export const expectation32: SentimentAnalysisResult[] = [
   },
 ];
 
-export const expectation33: SentimentAnalysisResult[] = [
+export const expectation66: SentimentAnalysisResult[] = [
   {
     id: "0",
     warnings: [],
@@ -3241,8 +3389,8 @@ export const expectation36: SentimentAnalysisResult[] = [
           },
           {
             target: {
-              sentiment: "positive",
-              confidenceScores: { positive: 1, negative: 0 },
+              sentiment: "negative",
+              confidenceScores: { positive: 0, negative: 1 },
               offset: 13,
               length: 7,
               text: "service",
@@ -3308,7 +3456,7 @@ export const expectation38: LanguageDetectionResult[] = [
 
 export const expectation39: LanguageDetectionResult[] = [
   {
-    primaryLanguage: { name: "French", iso6391Name: "fr", confidenceScore: 1 },
+    primaryLanguage: { name: "English", iso6391Name: "en", confidenceScore: 1 },
     id: "0",
     warnings: [],
   },
@@ -3539,17 +3687,6 @@ export const expectation45: EntityRecognitionResult[] = [
   },
 ];
 
-export const expectation46: EntityRecognitionResult[] = [
-  {
-    id: "0",
-    error: {
-      code: "UnsupportedLanguageCode",
-      message:
-        "Invalid language code 'notalanguage'. Supported languages: ar,cs,da,de,en,es,fi,fr,hu,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv,tr,zh-Hans. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
-    },
-  },
-];
-
 export const expectation47: EntityRecognitionResult[] = [
   {
     id: "1",
@@ -3655,17 +3792,6 @@ export const expectation49: KeyPhraseExtractionResult[] = [
   { id: "1", warnings: [], keyPhrases: ["entire trip", "Space Needle", "Seattle"] },
   { id: "2", warnings: [], keyPhrases: ["movie", "Saturday"] },
   { id: "3", warnings: [], keyPhrases: ["last book"] },
-];
-
-export const expectation50: KeyPhraseExtractionResult[] = [
-  {
-    id: "0",
-    error: {
-      code: "UnsupportedLanguageCode",
-      message:
-        "Invalid language code 'notalanguage'. Supported languages: af,am,ar,as,az,be,bg,bn,br,bs,ca,cs,cy,da,de,el,en,eo,es,et,eu,fa,fi,fil,fr,fy,ga,gd,gl,gu,ha,he,hi,hr,hu,hy,id,it,ja,jv,ka,kk,km,kn,ko,ku,ky,la,lo,lt,lv,mg,mk,ml,mn,mr,ms,my,ne,nl,no,om,or,pa,pl,ps,pt-BR,pt-PT,ro,ru,sa,sd,si,sk,sl,so,sq,sr,su,sv,sw,ta,te,th,tr,ug,uk,ur,uz,vi,xh,yi,zh-Hans,zh-Hant. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction",
-    },
-  },
 ];
 
 export const expectation51: KeyPhraseExtractionResult[] = [
@@ -3787,17 +3913,6 @@ export const expectation54: PiiEntityRecognitionResult[] = [
         confidenceScore: 0.65,
       },
     ],
-  },
-];
-
-export const expectation55: PiiEntityRecognitionResult[] = [
-  {
-    id: "0",
-    error: {
-      code: "UnsupportedLanguageCode",
-      message:
-        "Invalid language code 'notalanguage'. Supported languages: de,en,es,fr,it,ja,ko,pt-BR,pt-PT,zh-Hans. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
-    },
   },
 ];
 
@@ -3984,17 +4099,6 @@ export const expectation60: EntityLinkingResult[] = [
   { id: "3", warnings: [], entities: [] },
 ];
 
-export const expectation61: EntityLinkingResult[] = [
-  {
-    id: "0",
-    error: {
-      code: "UnsupportedLanguageCode",
-      message:
-        "Invalid language code 'notalanguage'. Supported languages: en,es. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
-    },
-  },
-];
-
 export const expectation62: EntityLinkingResult[] = [
   {
     id: "1",
@@ -4012,4 +4116,35 @@ export const expectation62: EntityLinkingResult[] = [
     ],
   },
   { id: "2", warnings: [], entities: [] },
+];
+
+export const expectation73: AnalyzeBatchResult[] = [
+  {
+    kind: "EntityRecognition",
+    error: {
+      code: KnownErrorCode.InvalidRequest,
+      message: "oh my bad",
+    },
+    modelVersion,
+    failedOn,
+  },
+  {
+    kind: "Healthcare",
+    results: [
+      {
+        entities: [],
+        entityRelations: [],
+        id: "0",
+        warnings: [
+          {
+            code: "DocumentTruncated",
+            message:
+              "Document is large and must be split to be processed; relations across splits may not be caught by the model",
+          },
+        ],
+      },
+    ],
+    completedOn,
+    modelVersion,
+  },
 ];

@@ -68,7 +68,8 @@ async function createADiskEncryptionSetWithKeyVaultFromADifferentTenant() {
       identity: {
         type: "UserAssigned",
         userAssignedIdentities: {
-          "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}": {},
+          "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}":
+            {},
         },
       },
       location: "West US",
@@ -116,8 +117,7 @@ async function createADiskEncryptionSet() {
         activeKey: {
           keyUrl: "https://myvmvault.vault-int.azure-int.net/keys/{key}",
           sourceVault: {
-            id:
-              "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/myVMVault",
+            id: "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/myVMVault",
           },
         },
         encryptionType: "EncryptionAtRestWithCustomerKey",

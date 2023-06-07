@@ -38,7 +38,7 @@ export class EmailRestApiClient extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-communication-email/1.0.0-beta.2`;
+    const packageDetails = `azsdk-js-communication-email/1.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -57,7 +57,7 @@ export class EmailRestApiClient extends coreClient.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2021-10-01-preview";
+    this.apiVersion = options.apiVersion || "2023-03-31";
     this.email = new EmailImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }

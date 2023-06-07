@@ -1,4 +1,4 @@
-# Authentication Events Trigger for Azure Functions client library for .NET
+# Authentication Events Trigger for Azure Functions client library for Node
 
 Authentication Event Trigger for Azure Functions handles all the backend processing, (e.g. token/json schema validation) for incoming Http requests for Authentication events. And provides the developer with a strongly typed, versioned object model to work with, meaning the developer need not have any prior knowledge of the request and response json payloads.
 
@@ -12,40 +12,19 @@ This project framework provides the following features:
 
 ## Getting started
 
-### Install the package
+### Install the npm package
 
-```dotnetcli
-dotnet add package Microsoft.Azure.WebJobs.Extensions.AuthenticationEvents --prerelease
+```console
+npm install @azure/functions-authentication-events 
 ```
 
 ### Prerequisites
 
-* [Visual Studio 2019](https://visualstudio.microsoft.com/vs/) for Windows **OR** [Visual Studio Code >= 1.61](https://code.visualstudio.com/download)
-* [Dotnet core 3.1](https://dotnet.microsoft.com/download/dotnet/3.1)
-* [Azure function tools 3.30](https://github.com/Azure/azure-functions-core-tools)
-* [Nuget](https://docs.microsoft.com/nuget/install-nuget-client-tools)
+* [Azure function tools](https://github.com/Azure/azure-functions-core-tools)
 * [Azure Function Core Tools](https://github.com/Azure/azure-functions-core-tools#installing)
 * If using Visual Studio Code the following extensions:
   * [ms-azuretools.vscode-azurefunctions](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azurefunctions)
   * [ms-dotnettools.csharp](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp)
-* For private preview register a Nuget source either using Nuget''s cli **OR** Visual Studio's Nuget Package Manager.
-  * Generate a GIT Personal Access Token. Go to [https://github.com/settings/tokens](https://github.com/settings/tokens)
-    * When generating the token, it needs to have the following permissions/scope: **read:package**
-    * Authorize **Azure** to use the Personal Access Token. (::Only if you are a member of the Azure Organization on GitHub::)
-
-  * Nuget CLI (**Recommended**):
-    * **GIT-USERNAME**: Your GIT username that you log into GIT with.
-    * **GIT-PERSONAL-ACCESS-TOKEN**: Your GIT Personal access token (see below reference on how to generate one)
-
-    ```shell
-    nuget sources add -Name "Azure" -Source "https://nuget.pkg.github.com/Azure/index.json" -username "**[GIT-USERNAME]**" -password "**[GIT-PERSONAL-ACCESS-TOKEN]**"
-    ```
-
-    * More details can be found here
-      * [Nuget Source](https://docs.microsoft.com/nuget/reference/cli-reference/cli-ref-sources)
-      * [How to Generate a GIT Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
-  * Visual Studio's Nuget Package Manager
-    * You'll be prompted for credentials when accessing the source, so keep you Personal Access Token handy as this would be your password.
 
 ### Authenticate the Client
 
@@ -115,17 +94,14 @@ If you would like to _not_ authenticate the token while in local development, se
 
 ### Quickstart
 
-* Visual Studio 2019
-  * Start Visual Studio
-  * Select "Create a new project"
-  * In the template search area search and select "AzureAuthEventsTrigger"
-  * Give your project a meaningful Project Name, Location, Solution and Solution Name.
-
 * Visual Studio Code
   * Start Visual Studio Code
-  * Run the command "Create Azure Authentication Events Trigger Project" via the command palette
+  * Run the terminal command `func init . --worker-runtime node` via the command palette
+  * Run the terminal command `func new` via the command palette
   * Follow the project creation prompts
-* Please note: that on a first time run it might take awhile to download the the required packages.
+  * Run the terminal command `npm install @azure/functions-authentication-events` via the command palette
+  * Run the terminal command `npm install` via the command palette
+  * Run the terminal command `npm run-script build` via the command palette
 * For development purpose turn of token validation for testing:
 * Add the **AuthenticationEvents__BypassTokenValidation** application key to the "Values" section in the local.settings.json file and set it's value to **true**.  If you do not have a local.settings.json file in your local environment, create one in the root of your Function App.
 
@@ -134,7 +110,7 @@ If you would like to _not_ authenticate the token while in local development, se
   "IsEncrypted": false,
   "Values": {
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "FUNCTIONS_WORKER_RUNTIME": "node",
     "AuthenticationEvents__BypassTokenValidation": true
   }
 }
@@ -157,9 +133,8 @@ Key concepts of the Azure .NET SDK can be found [here](https://azure.github.io/a
 
 To Test Token Augmentation, please do the following.
 
-* Start Visual Studio.
 * Open the project that was created in the prior step. (QuickStart)
-* Run the Application. (F5)
+* Run the Application. `func host start`
 * Once the Azure functions developer's application has started, copy the listening url that is displayed with the application starts up.
 * Note: All Authentication functions are listed, in the case we have one function listener registered called "**OnTokenIssuanceStart**"
 * Your function endpoint will then be a combination of the listening url and function, for example: "http://localhost:7071/runtime/webhooks/AuthenticationEvents?code=(YOUR_CODE)&function=OnTokenIssuanceStart"
@@ -168,52 +143,45 @@ To Test Token Augmentation, please do the following.
 
 ```json
 {
-  "type":"microsoft.graph.authenticationEvent.TokenIssuanceStart",
-  "source":"/tenants/{tenantId}/applications/{resourceAppId}",
-  "data":{
-    "@odata.type": "microsoft.graph.onTokenIssuanceStartCalloutData",
-    "tenantId": "30000000-0000-0000-0000-000000000003",
-    "authenticationEventListenerId1": "10000000-0000-0000-0000-000000000001",
-    "customAuthenticationExtensionId": "10000000-0000-0000-0000-000000000002",
-    "authenticationContext1":{
-      "correlationId": "20000000-0000-0000-0000-000000000002",
-      "client": {
-        "ip": "127.0.0.1",
-        "locale": "en-us",
-        "market": "en-au"
-      },
-      "authenticationProtocol": "OAUTH2.0",
-      "clientServicePrincipal": {
-        "id": "40000000-0000-0000-0000-000000000001",
-        "appId": "40000000-0000-0000-0000-000000000002",
-        "appDisplayName": "Test client app",
-        "displayName": "Test client application"
-      },
-      "resourceServicePrincipal": {
-        "id": "40000000-0000-0000-0000-000000000003",
-        "appId": "40000000-0000-0000-0000-000000000004",
-        "appDisplayName": "Test resource app",
-        "displayName": "Test resource application"
-      },
-      "user": {
-        "companyName": "Nick Gomez",
-        "country": "USA",
-        "createdDateTime": "0001-01-01T00:00:00Z",
-        "displayName": "Dummy display name",
-        "givenName": "Example",
-        "id": "60000000-0000-0000-0000-000000000006",
-        "mail": "test@example.com",
-        "onPremisesSamAccountName": "testadmin",
-        "onPremisesSecurityIdentifier": "DummySID",
-        "onPremisesUserPrincipalName": "Dummy Name",
-        "preferredDataLocation": "DummyDataLocation",
-        "preferredLanguage": "DummyLanguage",
-        "surname": "Test",
-        "userPrincipalName": "testadmin@example.com",
-        "userType": "UserTypeCloudManaged"
-      }
+    "type": "microsoft.graph.authenticationEvent.tokenIssuanceStart",
+    "source": "/tenants/00000001-0000-0ff1-ce00-000000000000/applications/ef9e995c-efdb-4e76-97a9-8cdfc6e06afc",
+    "data": {
+        "@odata.type": "microsoft.graph.onTokenIssuanceStartCalloutData",
+        "tenantId": "00000001-0000-0ff1-ce00-000000000000",
+        "authenticationEventListenerId": "f2390d57-9664-4dde-b625-f0115925e1e2",
+        "customAuthenticationExtensionId": "9cc1c1ed-5f04-4fdf-85c0-94a7c6ea819c",
+        "authenticationContext": {
+            "correlationId": "f4bd1870-b774-4fa5-ba78-e08ac6be14c0",
+            "client": {
+                "ip": "127.0.0.1",
+                "locale": "en-us",
+                "market": "en-us"
+            },
+            "protocol": "OAUTH2.0",
+            "clientServicePrincipal": {
+                "id": "eedfddb9-304e-4d62-aa83-24700a0bcf0e",
+                "appId": "ef9e995c-efdb-4e76-97a9-8cdfc6e06afc",
+                "appDisplayName": "",
+                "displayName": "Test application"
+            },
+            "resourceServicePrincipal": {
+                "id": "eedfddb9-304e-4d62-aa83-24700a0bcf0e",
+                "appId": "ef9e995c-efdb-4e76-97a9-8cdfc6e06afc",
+                "appDisplayName": "",
+                "displayName": "Test application"
+            },
+            "user": {
+                "companyName": "Evo Sts Test",
+                "country": "",
+                "id": "69d24544-c420-4721-a4bf-106f2378d9f6",
+                "mail": "testadmin@evostsoneboxtest.com",
+                "onPremisesSamAccountName": "testadmin",
+                "onPremisesSecurityIdentifier": "testadmin",
+                "preferredDataLocation": "",
+                "userPrincipalName": "testadmin@evostsoneboxtest.com"
+            }
+        }
     }
-  }
 }
 ```
 

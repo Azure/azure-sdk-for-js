@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { FileServers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,21 +17,21 @@ import { LroImpl } from "../lroImpl";
 import {
   FileServer,
   FileServersListByDeviceOptionalParams,
+  FileServersListByDeviceResponse,
   Metrics,
   FileServersListMetricsOptionalParams,
+  FileServersListMetricsResponse,
   MetricDefinition,
   FileServersListMetricDefinitionOptionalParams,
+  FileServersListMetricDefinitionResponse,
   FileServersListByManagerOptionalParams,
-  FileServersListByDeviceResponse,
+  FileServersListByManagerResponse,
   FileServersGetOptionalParams,
   FileServersGetResponse,
   FileServersCreateOrUpdateOptionalParams,
   FileServersCreateOrUpdateResponse,
   FileServersDeleteOptionalParams,
-  FileServersBackupNowOptionalParams,
-  FileServersListMetricsResponse,
-  FileServersListMetricDefinitionResponse,
-  FileServersListByManagerResponse
+  FileServersBackupNowOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -73,12 +73,16 @@ export class FileServersImpl implements FileServers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByDevicePagingPage(
           deviceName,
           resourceGroupName,
           managerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -88,9 +92,11 @@ export class FileServersImpl implements FileServers {
     deviceName: string,
     resourceGroupName: string,
     managerName: string,
-    options?: FileServersListByDeviceOptionalParams
+    options?: FileServersListByDeviceOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<FileServer[]> {
-    let result = await this._listByDevice(
+    let result: FileServersListByDeviceResponse;
+    result = await this._listByDevice(
       deviceName,
       resourceGroupName,
       managerName,
@@ -144,13 +150,17 @@ export class FileServersImpl implements FileServers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMetricsPagingPage(
           deviceName,
           fileServerName,
           resourceGroupName,
           managerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -161,9 +171,11 @@ export class FileServersImpl implements FileServers {
     fileServerName: string,
     resourceGroupName: string,
     managerName: string,
-    options?: FileServersListMetricsOptionalParams
+    options?: FileServersListMetricsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Metrics[]> {
-    let result = await this._listMetrics(
+    let result: FileServersListMetricsResponse;
+    result = await this._listMetrics(
       deviceName,
       fileServerName,
       resourceGroupName,
@@ -220,13 +232,17 @@ export class FileServersImpl implements FileServers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMetricDefinitionPagingPage(
           deviceName,
           fileServerName,
           resourceGroupName,
           managerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -237,9 +253,11 @@ export class FileServersImpl implements FileServers {
     fileServerName: string,
     resourceGroupName: string,
     managerName: string,
-    options?: FileServersListMetricDefinitionOptionalParams
+    options?: FileServersListMetricDefinitionOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<MetricDefinition[]> {
-    let result = await this._listMetricDefinition(
+    let result: FileServersListMetricDefinitionResponse;
+    result = await this._listMetricDefinition(
       deviceName,
       fileServerName,
       resourceGroupName,
@@ -290,11 +308,15 @@ export class FileServersImpl implements FileServers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByManagerPagingPage(
           resourceGroupName,
           managerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -303,13 +325,11 @@ export class FileServersImpl implements FileServers {
   private async *listByManagerPagingPage(
     resourceGroupName: string,
     managerName: string,
-    options?: FileServersListByManagerOptionalParams
+    options?: FileServersListByManagerOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<FileServer[]> {
-    let result = await this._listByManager(
-      resourceGroupName,
-      managerName,
-      options
-    );
+    let result: FileServersListByManagerResponse;
+    result = await this._listByManager(resourceGroupName, managerName, options);
     yield result.value || [];
   }
 

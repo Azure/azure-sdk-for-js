@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import os from "os";
+import * as os from "os";
 
 /**
  * @internal

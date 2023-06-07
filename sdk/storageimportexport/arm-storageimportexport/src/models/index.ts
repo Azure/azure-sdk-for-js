@@ -534,24 +534,14 @@ export interface JobsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface JobsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** An integer value that specifies how many jobs at most should be returned. The value cannot exceed 100. */
-  top?: number;
-  /** Can be used to restrict the results to certain conditions. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type JobsListBySubscriptionNextResponse = ListJobsResponse;
 
 /** Optional parameters. */
 export interface JobsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** An integer value that specifies how many jobs at most should be returned. The value cannot exceed 100. */
-  top?: number;
-  /** Can be used to restrict the results to certain conditions. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type JobsListByResourceGroupNextResponse = ListJobsResponse;

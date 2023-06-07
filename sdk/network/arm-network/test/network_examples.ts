@@ -33,7 +33,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("My test", () => {
+describe("Network test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: NetworkManagementClient;

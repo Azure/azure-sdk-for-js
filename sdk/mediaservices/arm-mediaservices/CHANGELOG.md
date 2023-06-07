@@ -1,6 +1,6 @@
 # Release History
 
-## 13.0.1 (Unreleased)
+## 13.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,39 @@
 
 ### Other Changes
 
+## 13.1.0 (2023-01-16)
+    
+**Features**
+
+  - Added Interface DDAudio
+  - Added Interface Fade
+  - Interface Filters has a new optional parameter fadeIn
+  - Interface Filters has a new optional parameter fadeOut
+  - Interface StandardEncoderPreset has a new optional parameter experimentalOptions
+  - Enum KnownEncoderNamedPreset has a new value DDGoodQualityAudio
+  - Enum KnownJobErrorCategory has a new value Account
+  - Enum KnownJobErrorCode has a new value IdentityUnsupported
+  - Added function getContinuationToken
+  - Interface AssetsListNextOptionalParams no longer has parameter filter
+  - Interface AssetsListNextOptionalParams no longer has parameter orderby
+  - Interface AssetsListNextOptionalParams no longer has parameter top
+  - Interface ContentKeyPoliciesListNextOptionalParams no longer has parameter filter
+  - Interface ContentKeyPoliciesListNextOptionalParams no longer has parameter orderby
+  - Interface ContentKeyPoliciesListNextOptionalParams no longer has parameter top
+  - Interface JobsListNextOptionalParams no longer has parameter filter
+  - Interface JobsListNextOptionalParams no longer has parameter orderby
+  - Interface StreamingLocatorsListNextOptionalParams no longer has parameter filter
+  - Interface StreamingLocatorsListNextOptionalParams no longer has parameter orderby
+  - Interface StreamingLocatorsListNextOptionalParams no longer has parameter top
+  - Interface StreamingPoliciesListNextOptionalParams no longer has parameter filter
+  - Interface StreamingPoliciesListNextOptionalParams no longer has parameter orderby
+  - Interface StreamingPoliciesListNextOptionalParams no longer has parameter top
+  - Interface TransformsListNextOptionalParams no longer has parameter filter
+  - Interface TransformsListNextOptionalParams no longer has parameter orderby
+  - Type of parameter odataType of interface Audio_2 is changed from "#Microsoft.Media.Audio" | "#Microsoft.Media.AacAudio" to "#Microsoft.Media.Audio" | "#Microsoft.Media.AacAudio" | "#Microsoft.Media.DDAudio"
+  - Type of parameter odataType of interface Codec is changed from "#Microsoft.Media.Audio" | "#Microsoft.Media.AacAudio" | "#Microsoft.Media.Video" | "#Microsoft.Media.H265Video" | "#Microsoft.Media.CopyVideo" | "#Microsoft.Media.Image" | "#Microsoft.Media.CopyAudio" | "#Microsoft.Media.H264Video" | "#Microsoft.Media.JpgImage" | "#Microsoft.Media.PngImage" to "#Microsoft.Media.Audio" | "#Microsoft.Media.AacAudio" | "#Microsoft.Media.DDAudio" | "#Microsoft.Media.Video" | "#Microsoft.Media.H265Video" | "#Microsoft.Media.CopyVideo" | "#Microsoft.Media.Image" | "#Microsoft.Media.CopyAudio" | "#Microsoft.Media.H264Video" | "#Microsoft.Media.JpgImage" | "#Microsoft.Media.PngImage"
+    
+    
 ## 13.0.0 (2022-09-06)
     
 **Features**

@@ -2,8 +2,10 @@
 // Licensed under the MIT license.
 
 import { GetTokenOptions } from "@azure/core-auth";
+import { CredentialUnavailableError } from "../errors";
+import { CredentialLogger } from "./logging";
 
-function createConfigurationErrorMessage(tenantId: string) {
+function createConfigurationErrorMessage(tenantId: string): string {
   return `The current credential is not configured to acquire tokens for tenant ${tenantId}. To enable acquiring tokens for this tenant add it to the AdditionallyAllowedTenants on the credential options, or add "*" to AdditionallyAllowedTenants to allow acquiring tokens for any tenant.`;
 }
 
@@ -16,7 +18,8 @@ function createConfigurationErrorMessage(tenantId: string) {
 export function processMultiTenantRequest(
   tenantId?: string,
   getTokenOptions?: GetTokenOptions,
-  additionallyAllowedTenantIds: string[] = []
+  additionallyAllowedTenantIds: string[] = [],
+  logger?: CredentialLogger
 ): string | undefined {
   let resolvedTenantId: string | undefined;
   if (process.env.AZURE_IDENTITY_DISABLE_MULTITENANTAUTH) {
@@ -26,14 +29,15 @@ export function processMultiTenantRequest(
   } else {
     resolvedTenantId = getTokenOptions?.tenantId ?? tenantId;
   }
-
   if (
     tenantId &&
     resolvedTenantId !== tenantId &&
     !additionallyAllowedTenantIds.includes("*") &&
     !additionallyAllowedTenantIds.some((t) => t.localeCompare(resolvedTenantId!) === 0)
   ) {
-    throw new Error(createConfigurationErrorMessage(tenantId));
+    const message = createConfigurationErrorMessage(tenantId);
+    logger?.info(message);
+    throw new CredentialUnavailableError(message);
   }
 
   return resolvedTenantId;

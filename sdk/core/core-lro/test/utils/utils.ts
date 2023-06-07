@@ -67,9 +67,10 @@ export async function assertError(
   options: {
     statusCode?: number;
     messagePattern?: RegExp;
+    name?: string;
   } = {}
 ): Promise<void> {
-  const { statusCode, messagePattern } = options;
+  const { statusCode, messagePattern, name } = options;
   try {
     await error;
     assert.fail(`Should have failed instead!`);
@@ -84,6 +85,13 @@ export async function assertError(
     if (statusCode) {
       if (isRestError(e)) {
         assert.equal(e.statusCode, statusCode);
+      } else {
+        assert.fail(`Unexpected error: ${JSON.stringify(e)}`);
+      }
+    }
+    if (name) {
+      if (e instanceof Error) {
+        assert.equal(e.name, name);
       } else {
         assert.fail(`Unexpected error: ${JSON.stringify(e)}`);
       }

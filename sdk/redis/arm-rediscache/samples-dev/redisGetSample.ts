@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { RedisManagementClient } from "@azure/arm-rediscache";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets a Redis cache (resource description).
@@ -18,8 +21,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCacheGet.json
  */
 async function redisCacheGet() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rg1";
   const name = "cache1";
   const credential = new DefaultAzureCredential();
   const client = new RedisManagementClient(credential, subscriptionId);
@@ -27,4 +30,8 @@ async function redisCacheGet() {
   console.log(result);
 }
 
-redisCacheGet().catch(console.error);
+async function main() {
+  redisCacheGet();
+}
+
+main().catch(console.error);

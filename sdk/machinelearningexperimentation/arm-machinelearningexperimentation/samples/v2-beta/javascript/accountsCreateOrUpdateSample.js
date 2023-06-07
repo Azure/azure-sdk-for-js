@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { MLTeamAccountManagementClient } = require("@azure/arm-machinelearningexperimentation");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates or updates a team account with the specified parameters.
@@ -18,8 +19,11 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/machinelearningexperimentation/resource-manager/Microsoft.MachineLearningExperimentation/preview/2017-05-01-preview/examples/CreateAccount.json
  */
 async function accountCreate() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "accountcrud-1234";
+  const subscriptionId =
+    process.env["MACHINELEARNINGEXPERIMENTATION_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNINGEXPERIMENTATION_RESOURCE_GROUP"] || "accountcrud-1234";
   const accountName = "accountcrud5678";
   const parameters = {
     keyVaultId:
@@ -40,4 +44,8 @@ async function accountCreate() {
   console.log(result);
 }
 
-accountCreate().catch(console.error);
+async function main() {
+  accountCreate();
+}
+
+main().catch(console.error);

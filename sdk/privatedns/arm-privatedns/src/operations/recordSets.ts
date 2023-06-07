@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { RecordSets } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,8 +18,10 @@ import {
   RecordType,
   RecordSetsListByTypeNextOptionalParams,
   RecordSetsListByTypeOptionalParams,
+  RecordSetsListByTypeResponse,
   RecordSetsListNextOptionalParams,
   RecordSetsListOptionalParams,
+  RecordSetsListResponse,
   RecordSetsCreateOrUpdateOptionalParams,
   RecordSetsCreateOrUpdateResponse,
   RecordSetsUpdateOptionalParams,
@@ -26,8 +29,6 @@ import {
   RecordSetsDeleteOptionalParams,
   RecordSetsGetOptionalParams,
   RecordSetsGetResponse,
-  RecordSetsListByTypeResponse,
-  RecordSetsListResponse,
   RecordSetsListByTypeNextResponse,
   RecordSetsListNextResponse
 } from "../models";
@@ -71,12 +72,16 @@ export class RecordSetsImpl implements RecordSets {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByTypePagingPage(
           resourceGroupName,
           privateZoneName,
           recordType,
-          options
+          options,
+          settings
         );
       }
     };
@@ -86,16 +91,23 @@ export class RecordSetsImpl implements RecordSets {
     resourceGroupName: string,
     privateZoneName: string,
     recordType: RecordType,
-    options?: RecordSetsListByTypeOptionalParams
+    options?: RecordSetsListByTypeOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<RecordSet[]> {
-    let result = await this._listByType(
-      resourceGroupName,
-      privateZoneName,
-      recordType,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RecordSetsListByTypeResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByType(
+        resourceGroupName,
+        privateZoneName,
+        recordType,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByTypeNext(
         resourceGroupName,
@@ -105,7 +117,9 @@ export class RecordSetsImpl implements RecordSets {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -148,8 +162,16 @@ export class RecordSetsImpl implements RecordSets {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, privateZoneName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          privateZoneName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -157,11 +179,18 @@ export class RecordSetsImpl implements RecordSets {
   private async *listPagingPage(
     resourceGroupName: string,
     privateZoneName: string,
-    options?: RecordSetsListOptionalParams
+    options?: RecordSetsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<RecordSet[]> {
-    let result = await this._list(resourceGroupName, privateZoneName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RecordSetsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, privateZoneName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -170,7 +199,9 @@ export class RecordSetsImpl implements RecordSets {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -558,11 +589,6 @@ const listByTypeNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.recordsetnamesuffix
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -585,11 +611,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.recordsetnamesuffix
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

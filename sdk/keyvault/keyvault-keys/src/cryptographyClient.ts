@@ -39,6 +39,8 @@ import { CryptographyProvider, CryptographyProviderOperation } from "./cryptogra
 import { RsaCryptographyProvider } from "./cryptography/rsaCryptographyProvider";
 import { AesCryptographyProvider } from "./cryptography/aesCryptographyProvider";
 import { tracingClient } from "./tracing";
+import { isRestError } from "@azure/core-rest-pipeline";
+import { logger } from "./log";
 
 /**
  * A client used to perform cryptographic operations on an Azure Key vault key
@@ -142,7 +144,7 @@ export class CryptographyClient {
    * The ID of the key used to perform cryptographic operations for the client.
    */
   get keyID(): string | undefined {
-    if (this.key.kind === "identifier") {
+    if (this.key.kind === "identifier" || this.key.kind === "remoteOnlyIdentifier") {
       return this.key.value;
     } else if (this.key.kind === "KeyVaultKey") {
       return this.key.value.id;
@@ -540,7 +542,7 @@ export class CryptographyClient {
   }
 
   /**
-   * Retrieves the {@link JsonWebKey} from the Key Vault.
+   * Retrieves the {@link JsonWebKey} from the Key Vault, if possible. Returns undefined if the key could not be retrieved due to insufficient permissions.
    *
    * Example usage:
    * ```ts
@@ -548,7 +550,7 @@ export class CryptographyClient {
    * let result = await client.getKeyMaterial();
    * ```
    */
-  private async getKeyMaterial(options: GetKeyOptions): Promise<JsonWebKey> {
+  private async getKeyMaterial(options: GetKeyOptions): Promise<JsonWebKey | undefined> {
     const key = await this.fetchKey(options);
 
     switch (key.kind) {
@@ -557,21 +559,39 @@ export class CryptographyClient {
       case "KeyVaultKey":
         return key.value.key!;
       default:
-        throw new Error("Failed to exchange Key ID for an actual KeyVault Key.");
+        return undefined;
     }
   }
 
   /**
    * Returns the underlying key used for cryptographic operations.
-   * If needed, fetches the key from KeyVault and exchanges the ID for the actual key.
+   * If needed, attempts to fetch the key from KeyVault and exchanges the ID for the actual key.
    * @param options - The additional options.
    */
   private async fetchKey<T extends OperationOptions>(options: T): Promise<CryptographyClientKey> {
     if (this.key.kind === "identifier") {
       // Exchange the identifier with the actual key when needed
-      const key = await this.remoteProvider!.getKey(options);
-      this.key = { kind: "KeyVaultKey", value: key };
+      let key: KeyVaultKey | undefined;
+      try {
+        key = await this.remoteProvider!.getKey(options);
+      } catch (e: unknown) {
+        if (isRestError(e) && e.statusCode === 403) {
+          // If we don't have permission to get the key, we'll fall back to using the remote provider.
+          // Marking the key as a remoteOnlyIdentifier will ensure that we don't attempt to fetch the key again.
+          logger.verbose(
+            `Permission denied to get key ${this.key.value}. Falling back to remote operation.`
+          );
+          this.key = { kind: "remoteOnlyIdentifier", value: this.key.value };
+        } else {
+          throw e;
+        }
+      }
+
+      if (key) {
+        this.key = { kind: "KeyVaultKey", value: key };
+      }
     }
+
     return this.key;
   }
 
@@ -590,11 +610,15 @@ export class CryptographyClient {
   ): Promise<CryptographyProvider> {
     if (!this.providers) {
       const keyMaterial = await this.getKeyMaterial(options);
+      this.providers = [];
+
       // Add local crypto providers as needed
-      this.providers = [
-        new RsaCryptographyProvider(keyMaterial),
-        new AesCryptographyProvider(keyMaterial),
-      ];
+      if (keyMaterial) {
+        this.providers.push(
+          new RsaCryptographyProvider(keyMaterial),
+          new AesCryptographyProvider(keyMaterial)
+        );
+      }
 
       // If the remote provider exists, we're in hybrid-mode. Otherwise we're in local-only mode.
       // If we're in hybrid mode the remote provider is used as a catch-all and should be last in the list.

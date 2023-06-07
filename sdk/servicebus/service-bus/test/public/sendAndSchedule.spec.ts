@@ -179,6 +179,32 @@ describe("Sender Tests", () => {
     await testSimpleSendArray();
   });
 
+  it(
+    noSessionTestClientType + "should reject with proper error instead of OperationTimeoutError",
+    async function (): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
+      const content = new Array(256 * 1024).join("x"); // Generate a Large Message Content of 265KB
+      const largeMessage = {
+        contentType: "application/json",
+        subject: "Scientist",
+        body: content,
+        timeToLive: 2 * 60 * 1000, // message expires in 2 minutes
+      };
+
+      let actualErrorCode = "";
+      let actualErr;
+      try {
+        await sender.scheduleMessages(largeMessage, new Date(Date.now()));
+        throw new Error("Test fail if reaching here.");
+      } catch (err: any) {
+        actualErr = err;
+        actualErrorCode = err.code;
+      }
+
+      should.equal(actualErrorCode, "MessageSizeExceeded", actualErr);
+    }
+  );
+
   async function testScheduleSingleMessage(): Promise<void> {
     const testMessage = entityName.usesSessions
       ? TestMessage.getSessionSample()
@@ -393,6 +419,37 @@ describe("Sender Tests", () => {
       "Unexpected number of msgs found when receiving"
     );
   }
+
+  it(
+    anyRandomTestClientType + ": scheduleMessages in parallel should not throw error",
+    async function () {
+      await beforeEachTest(anyRandomTestClientType);
+      const ids = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }];
+      const msgs = await Promise.all(
+        ids
+          .map((user) => ({
+            body: {
+              userId: user.id,
+            },
+            sessionId: TestMessage.sessionId,
+          }))
+          .map((message) =>
+            sender
+              .scheduleMessages(message, new Date(new Date().getTime() + 1000 * 6))
+              .then((numbers) => {
+                should.equal(numbers.length, 1, "Expect message scheduled");
+                return numbers[0];
+              })
+          )
+      );
+      should.equal(msgs.length, 5, "Expect total of 5 messages scheduled");
+      const received = await receiver.receiveMessages(5);
+      should.equal(received.length, 5, "Expect total of 5 messages received");
+      for (let i = 0; i < 5; i++) {
+        await receiver.completeMessage(received[i]);
+      }
+    }
+  );
 
   it(
     anyRandomTestClientType + ": Abort scheduleMessages request on the sender",

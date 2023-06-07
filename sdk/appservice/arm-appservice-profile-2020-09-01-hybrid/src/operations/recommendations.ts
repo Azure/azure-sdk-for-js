@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Recommendations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,26 +17,26 @@ import {
   Recommendation,
   RecommendationsListNextOptionalParams,
   RecommendationsListOptionalParams,
+  RecommendationsListResponse,
   RecommendationsListHistoryForHostingEnvironmentNextOptionalParams,
   RecommendationsListHistoryForHostingEnvironmentOptionalParams,
+  RecommendationsListHistoryForHostingEnvironmentResponse,
   RecommendationsListRecommendedRulesForHostingEnvironmentNextOptionalParams,
   RecommendationsListRecommendedRulesForHostingEnvironmentOptionalParams,
+  RecommendationsListRecommendedRulesForHostingEnvironmentResponse,
   RecommendationsListHistoryForWebAppNextOptionalParams,
   RecommendationsListHistoryForWebAppOptionalParams,
+  RecommendationsListHistoryForWebAppResponse,
   RecommendationsListRecommendedRulesForWebAppNextOptionalParams,
   RecommendationsListRecommendedRulesForWebAppOptionalParams,
-  RecommendationsListResponse,
+  RecommendationsListRecommendedRulesForWebAppResponse,
   RecommendationsResetAllFiltersOptionalParams,
   RecommendationsDisableRecommendationForSubscriptionOptionalParams,
-  RecommendationsListHistoryForHostingEnvironmentResponse,
-  RecommendationsListRecommendedRulesForHostingEnvironmentResponse,
   RecommendationsDisableAllForHostingEnvironmentOptionalParams,
   RecommendationsResetAllFiltersForHostingEnvironmentOptionalParams,
   RecommendationsGetRuleDetailsByHostingEnvironmentOptionalParams,
   RecommendationsGetRuleDetailsByHostingEnvironmentResponse,
   RecommendationsDisableRecommendationForHostingEnvironmentOptionalParams,
-  RecommendationsListHistoryForWebAppResponse,
-  RecommendationsListRecommendedRulesForWebAppResponse,
   RecommendationsDisableAllForWebAppOptionalParams,
   RecommendationsResetAllFiltersForWebAppOptionalParams,
   RecommendationsGetRuleDetailsByWebAppOptionalParams,
@@ -76,22 +77,34 @@ export class RecommendationsImpl implements Recommendations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: RecommendationsListOptionalParams
+    options?: RecommendationsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Recommendation[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RecommendationsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -126,11 +139,15 @@ export class RecommendationsImpl implements Recommendations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listHistoryForHostingEnvironmentPagingPage(
           resourceGroupName,
           hostingEnvironmentName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -139,15 +156,22 @@ export class RecommendationsImpl implements Recommendations {
   private async *listHistoryForHostingEnvironmentPagingPage(
     resourceGroupName: string,
     hostingEnvironmentName: string,
-    options?: RecommendationsListHistoryForHostingEnvironmentOptionalParams
+    options?: RecommendationsListHistoryForHostingEnvironmentOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Recommendation[]> {
-    let result = await this._listHistoryForHostingEnvironment(
-      resourceGroupName,
-      hostingEnvironmentName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RecommendationsListHistoryForHostingEnvironmentResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listHistoryForHostingEnvironment(
+        resourceGroupName,
+        hostingEnvironmentName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listHistoryForHostingEnvironmentNext(
         resourceGroupName,
@@ -156,7 +180,9 @@ export class RecommendationsImpl implements Recommendations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -197,11 +223,15 @@ export class RecommendationsImpl implements Recommendations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listRecommendedRulesForHostingEnvironmentPagingPage(
           resourceGroupName,
           hostingEnvironmentName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -210,15 +240,22 @@ export class RecommendationsImpl implements Recommendations {
   private async *listRecommendedRulesForHostingEnvironmentPagingPage(
     resourceGroupName: string,
     hostingEnvironmentName: string,
-    options?: RecommendationsListRecommendedRulesForHostingEnvironmentOptionalParams
+    options?: RecommendationsListRecommendedRulesForHostingEnvironmentOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Recommendation[]> {
-    let result = await this._listRecommendedRulesForHostingEnvironment(
-      resourceGroupName,
-      hostingEnvironmentName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RecommendationsListRecommendedRulesForHostingEnvironmentResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listRecommendedRulesForHostingEnvironment(
+        resourceGroupName,
+        hostingEnvironmentName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listRecommendedRulesForHostingEnvironmentNext(
         resourceGroupName,
@@ -227,7 +264,9 @@ export class RecommendationsImpl implements Recommendations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -268,11 +307,15 @@ export class RecommendationsImpl implements Recommendations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listHistoryForWebAppPagingPage(
           resourceGroupName,
           siteName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -281,15 +324,22 @@ export class RecommendationsImpl implements Recommendations {
   private async *listHistoryForWebAppPagingPage(
     resourceGroupName: string,
     siteName: string,
-    options?: RecommendationsListHistoryForWebAppOptionalParams
+    options?: RecommendationsListHistoryForWebAppOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Recommendation[]> {
-    let result = await this._listHistoryForWebApp(
-      resourceGroupName,
-      siteName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RecommendationsListHistoryForWebAppResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listHistoryForWebApp(
+        resourceGroupName,
+        siteName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listHistoryForWebAppNext(
         resourceGroupName,
@@ -298,7 +348,9 @@ export class RecommendationsImpl implements Recommendations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -339,11 +391,15 @@ export class RecommendationsImpl implements Recommendations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listRecommendedRulesForWebAppPagingPage(
           resourceGroupName,
           siteName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -352,15 +408,22 @@ export class RecommendationsImpl implements Recommendations {
   private async *listRecommendedRulesForWebAppPagingPage(
     resourceGroupName: string,
     siteName: string,
-    options?: RecommendationsListRecommendedRulesForWebAppOptionalParams
+    options?: RecommendationsListRecommendedRulesForWebAppOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Recommendation[]> {
-    let result = await this._listRecommendedRulesForWebApp(
-      resourceGroupName,
-      siteName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RecommendationsListRecommendedRulesForWebAppResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listRecommendedRulesForWebApp(
+        resourceGroupName,
+        siteName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listRecommendedRulesForWebAppNext(
         resourceGroupName,
@@ -369,7 +432,9 @@ export class RecommendationsImpl implements Recommendations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -1042,11 +1107,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.featured
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1066,11 +1126,6 @@ const listHistoryForHostingEnvironmentNextOperationSpec: coreClient.OperationSpe
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.expiredOnly
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1092,11 +1147,6 @@ const listRecommendedRulesForHostingEnvironmentNextOperationSpec: coreClient.Ope
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.featured
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1118,11 +1168,6 @@ const listHistoryForWebAppNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.expiredOnly
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1144,11 +1189,6 @@ const listRecommendedRulesForWebAppNextOperationSpec: coreClient.OperationSpec =
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.featured
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

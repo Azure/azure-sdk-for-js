@@ -31,8 +31,7 @@ async function virtualHubPut() {
         addressPrefix: "10.168.0.0/24",
         sku: "Basic",
         virtualWan: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/virtualWan1",
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/virtualWan1",
         },
       },
       tags: { key1: "value1" },

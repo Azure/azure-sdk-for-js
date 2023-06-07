@@ -13,6 +13,16 @@ export function computeSha256Hash(content: string, encoding: "base64" | "hex"): 
 export function computeSha256Hmac(key: string, stringToSign: string, encoding: "base64" | "hex"): Promise<string>;
 
 // @public
+export function createAbortablePromise<T>(buildPromise: (resolve: (value: T | PromiseLike<T>) => void, reject: (reason?: any) => void) => void, options?: CreateAbortablePromiseOptions): Promise<T>;
+
+// @public
+export interface CreateAbortablePromiseOptions {
+    abortErrorMsg?: string;
+    abortSignal?: AbortSignalLike;
+    cleanupBeforeAbort?: () => void;
+}
+
+// @public
 export function delay(timeInMs: number, options?: DelayOptions): Promise<void>;
 
 // @public
@@ -28,7 +38,16 @@ export function getErrorMessage(e: unknown): string;
 export function getRandomIntegerInclusive(min: number, max: number): number;
 
 // @public
+export const isBrowser: boolean;
+
+// @public
+export const isBun: boolean;
+
+// @public
 export function isDefined<T>(thing: T | undefined | null): thing is T;
+
+// @public
+export const isDeno: boolean;
 
 // @public
 export function isError(e: unknown): e is Error;
@@ -43,7 +62,16 @@ export function isObject(input: unknown): input is UnknownObject;
 export function isObjectWithProperties<Thing, PropertyName extends string>(thing: Thing, properties: PropertyName[]): thing is Thing & Record<PropertyName, unknown>;
 
 // @public
+export const isReactNative: boolean;
+
+// @public
+export const isWebWorker: boolean;
+
+// @public
 export function objectHasProperty<Thing, PropertyName extends string>(thing: Thing, property: PropertyName): thing is Thing & Record<PropertyName, unknown>;
+
+// @public
+export function randomUUID(): string;
 
 // @public
 export type UnknownObject = {

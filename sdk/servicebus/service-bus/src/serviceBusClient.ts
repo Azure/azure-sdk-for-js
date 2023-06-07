@@ -229,6 +229,7 @@ export class ServiceBusClient {
       receiveMode,
       maxLockAutoRenewDurationInMs,
       options?.skipParsingBodyAsJson ?? false,
+      options?.skipConvertingDate ?? false,
       this._clientOptions.retryOptions,
       options?.identifier
     );
@@ -362,6 +363,7 @@ export class ServiceBusClient {
         abortSignal: options?.abortSignal,
         retryOptions: this._clientOptions.retryOptions,
         skipParsingBodyAsJson: options?.skipParsingBodyAsJson ?? false,
+        skipConvertingDate: options?.skipConvertingDate ?? false,
       }
     );
 
@@ -370,6 +372,8 @@ export class ServiceBusClient {
       this._connectionContext,
       entityPath,
       receiveMode,
+      options?.skipParsingBodyAsJson ?? false,
+      options?.skipConvertingDate ?? false,
       this._clientOptions.retryOptions
     );
 
@@ -449,6 +453,7 @@ export class ServiceBusClient {
         abortSignal: options?.abortSignal,
         retryOptions: this._clientOptions.retryOptions,
         skipParsingBodyAsJson: options?.skipParsingBodyAsJson ?? false,
+        skipConvertingDate: options?.skipConvertingDate ?? false,
       }
     );
 
@@ -457,6 +462,8 @@ export class ServiceBusClient {
       this._connectionContext,
       entityPath,
       receiveMode,
+      options?.skipParsingBodyAsJson ?? false,
+      options?.skipConvertingDate ?? false,
       this._clientOptions.retryOptions
     );
 

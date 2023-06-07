@@ -31,8 +31,7 @@ async function updateAVMByDetachingDataDisk() {
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -107,8 +106,7 @@ async function updateAVMByForceDetachingDataDisk() {
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],

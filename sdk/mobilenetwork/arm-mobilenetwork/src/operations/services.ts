@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Services } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,6 +19,7 @@ import {
   Service,
   ServicesListByMobileNetworkNextOptionalParams,
   ServicesListByMobileNetworkOptionalParams,
+  ServicesListByMobileNetworkResponse,
   ServicesDeleteOptionalParams,
   ServicesGetOptionalParams,
   ServicesGetResponse,
@@ -26,7 +28,6 @@ import {
   TagsObject,
   ServicesUpdateTagsOptionalParams,
   ServicesUpdateTagsResponse,
-  ServicesListByMobileNetworkResponse,
   ServicesListByMobileNetworkNextResponse
 } from "../models";
 
@@ -66,11 +67,15 @@ export class ServicesImpl implements Services {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByMobileNetworkPagingPage(
           resourceGroupName,
           mobileNetworkName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -79,15 +84,22 @@ export class ServicesImpl implements Services {
   private async *listByMobileNetworkPagingPage(
     resourceGroupName: string,
     mobileNetworkName: string,
-    options?: ServicesListByMobileNetworkOptionalParams
+    options?: ServicesListByMobileNetworkOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Service[]> {
-    let result = await this._listByMobileNetwork(
-      resourceGroupName,
-      mobileNetworkName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ServicesListByMobileNetworkResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByMobileNetwork(
+        resourceGroupName,
+        mobileNetworkName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByMobileNetworkNext(
         resourceGroupName,
@@ -96,7 +108,9 @@ export class ServicesImpl implements Services {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -225,7 +239,7 @@ export class ServicesImpl implements Services {
   }
 
   /**
-   * Creates or updates a service.
+   * Creates or updates a service. Must be created in the same location as its parent mobile network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param serviceName The name of the service. You must not use any of the following reserved strings -
@@ -305,7 +319,7 @@ export class ServicesImpl implements Services {
   }
 
   /**
-   * Creates or updates a service.
+   * Creates or updates a service. Must be created in the same location as its parent mobile network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param serviceName The name of the service. You must not use any of the following reserved strings -
@@ -465,7 +479,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters9,
+  requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -536,7 +550,6 @@ const listByMobileNetworkNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

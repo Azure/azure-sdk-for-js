@@ -255,7 +255,8 @@ export class StreamingReceiver extends MessageReceiver {
         context.delivery!,
         true,
         this.receiveMode,
-        options.skipParsingBodyAsJson ?? false
+        options.skipParsingBodyAsJson ?? false,
+        options.skipConvertingDate ?? false
       );
 
       this._lockRenewer?.start(this, bMessage, (err) => {
@@ -502,7 +503,7 @@ export class StreamingReceiver extends MessageReceiver {
             "StreamReceiver.process",
             operationOptions ?? {},
             () => userHandlers.processMessage(message),
-            toProcessingSpanOptions(message, this, this._context.config)
+            toProcessingSpanOptions(message, this, this._context.config, "process")
           );
         } catch (err: any) {
           this._messageHandlers().processError({

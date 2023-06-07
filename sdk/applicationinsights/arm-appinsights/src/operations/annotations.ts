@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { Annotations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -66,13 +66,17 @@ export class AnnotationsImpl implements Annotations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           resourceName,
           start,
           end,
-          options
+          options,
+          settings
         );
       }
     };
@@ -83,9 +87,11 @@ export class AnnotationsImpl implements Annotations {
     resourceName: string,
     start: string,
     end: string,
-    options?: AnnotationsListOptionalParams
+    options?: AnnotationsListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Annotation[]> {
-    let result = await this._list(
+    let result: AnnotationsListResponse;
+    result = await this._list(
       resourceGroupName,
       resourceName,
       start,

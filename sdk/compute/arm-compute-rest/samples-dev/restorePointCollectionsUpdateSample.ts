@@ -27,8 +27,7 @@ async function restorePointCollectionsUpdateMaximumSetGen() {
     body: {
       properties: {
         source: {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
         },
       },
       tags: { key8536: "aaaaaaaaaaaaaaaaaaa" },

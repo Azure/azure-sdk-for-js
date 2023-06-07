@@ -442,6 +442,9 @@ export interface DownloadUrl {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface Group {
     eTag?: string;
     readonly id?: string;

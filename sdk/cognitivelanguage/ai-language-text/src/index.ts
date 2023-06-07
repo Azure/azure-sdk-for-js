@@ -55,6 +55,11 @@ export {
   EntityAssociation,
   EntityCertainty,
   EntityConditionality,
+  SummaryContext,
+  AbstractiveSummary,
+  ExtractiveSummarizationAction,
+  SummarySentence,
+  ExtractiveSummarizationOrderingCriteria,
   /** orphan exports */
   KnownPiiEntityDomain,
   KnownPiiEntityCategory,
@@ -62,4 +67,7 @@ export {
   KnownErrorCode,
   KnownInnerErrorCode,
   TextDocumentBatchStatistics,
+  KnownRelationType,
+  KnownExtractiveSummarizationOrderingCriteria,
+  KnownHealthcareEntityCategory,
 } from "./generated/models";

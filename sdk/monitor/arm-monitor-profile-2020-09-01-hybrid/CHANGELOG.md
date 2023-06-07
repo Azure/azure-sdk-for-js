@@ -1,4 +1,23 @@
 # Release History
+
+## 2.1.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 2.1.0 (2022-12-21)
+    
+**Features**
+
+  - Added Interface DiagnosticSettingsCategoryResource
+  - Added Interface DiagnosticSettingsResource
+  - Added function getContinuationToken
+    
     
 ## 2.0.0 (2022-03-11)
 

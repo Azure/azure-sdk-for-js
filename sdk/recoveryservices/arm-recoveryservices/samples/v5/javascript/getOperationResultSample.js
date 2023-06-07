@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { RecoveryServicesClient } = require("@azure/arm-recoveryservices");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets the operation result for a resource.
  *
  * @summary Gets the operation result for a resource.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/GetOperationResult.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/GetOperationResult.json
  */
 async function getOperationResult() {
-  const subscriptionId = "77777777-b0c6-47a2-b37c-d8e65a629c18";
-  const resourceGroupName = "HelloWorld";
+  const subscriptionId =
+    process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] || "77777777-b0c6-47a2-b37c-d8e65a629c18";
+  const resourceGroupName = process.env["RECOVERYSERVICES_RESOURCE_GROUP"] || "HelloWorld";
   const vaultName = "swaggerExample";
   const operationId =
     "YWUzNDFkMzQtZmM5OS00MmUyLWEzNDMtZGJkMDIxZjlmZjgzOzdmYzBiMzhmLTc2NmItNDM5NS05OWQ1LTVmOGEzNzg4MWQzNA==";
@@ -29,4 +31,8 @@ async function getOperationResult() {
   console.log(result);
 }
 
-getOperationResult().catch(console.error);
+async function main() {
+  getOperationResult();
+}
+
+main().catch(console.error);

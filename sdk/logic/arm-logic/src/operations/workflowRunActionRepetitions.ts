@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { WorkflowRunActionRepetitions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,12 +15,12 @@ import { LogicManagementClient } from "../logicManagementClient";
 import {
   WorkflowRunActionRepetitionDefinition,
   WorkflowRunActionRepetitionsListOptionalParams,
+  WorkflowRunActionRepetitionsListResponse,
   ExpressionRoot,
   WorkflowRunActionRepetitionsListExpressionTracesOptionalParams,
-  WorkflowRunActionRepetitionsListResponse,
+  WorkflowRunActionRepetitionsListExpressionTracesResponse,
   WorkflowRunActionRepetitionsGetOptionalParams,
-  WorkflowRunActionRepetitionsGetResponse,
-  WorkflowRunActionRepetitionsListExpressionTracesResponse
+  WorkflowRunActionRepetitionsGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -66,13 +66,17 @@ export class WorkflowRunActionRepetitionsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           workflowName,
           runName,
           actionName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -83,9 +87,11 @@ export class WorkflowRunActionRepetitionsImpl
     workflowName: string,
     runName: string,
     actionName: string,
-    options?: WorkflowRunActionRepetitionsListOptionalParams
+    options?: WorkflowRunActionRepetitionsListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<WorkflowRunActionRepetitionDefinition[]> {
-    let result = await this._list(
+    let result: WorkflowRunActionRepetitionsListResponse;
+    result = await this._list(
       resourceGroupName,
       workflowName,
       runName,
@@ -145,14 +151,18 @@ export class WorkflowRunActionRepetitionsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listExpressionTracesPagingPage(
           resourceGroupName,
           workflowName,
           runName,
           actionName,
           repetitionName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -164,9 +174,11 @@ export class WorkflowRunActionRepetitionsImpl
     runName: string,
     actionName: string,
     repetitionName: string,
-    options?: WorkflowRunActionRepetitionsListExpressionTracesOptionalParams
+    options?: WorkflowRunActionRepetitionsListExpressionTracesOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ExpressionRoot[]> {
-    let result = await this._listExpressionTraces(
+    let result: WorkflowRunActionRepetitionsListExpressionTracesResponse;
+    result = await this._listExpressionTraces(
       resourceGroupName,
       workflowName,
       runName,

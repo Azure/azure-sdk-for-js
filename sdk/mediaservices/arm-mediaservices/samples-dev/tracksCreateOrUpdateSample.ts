@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { AssetTrack, AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update a Track in the asset
  *
  * @summary Create or update a Track in the asset
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/asset-tracks-create.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/asset-tracks-create.json
  */
 async function createsATrack() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contoso";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const assetName = "ClimbingMountRainer";
   const trackName = "text3";
@@ -43,4 +49,8 @@ async function createsATrack() {
   console.log(result);
 }
 
-createsATrack().catch(console.error);
+async function main() {
+  createsATrack();
+}
+
+main().catch(console.error);

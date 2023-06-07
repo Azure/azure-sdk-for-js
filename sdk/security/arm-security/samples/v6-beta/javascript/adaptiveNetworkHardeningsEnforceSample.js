@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SecurityCenter } = require("@azure/arm-security");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Enforces the given rules on the NSG(s) listed in the request
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2020-01-01/examples/AdaptiveNetworkHardenings/EnforceAdaptiveNetworkHardeningRules_example.json
  */
 async function enforcesTheGivenRulesOnTheNsgSListedInTheRequest() {
-  const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
-  const resourceGroupName = "rg1";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] || "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
+  const resourceGroupName = process.env["SECURITY_RESOURCE_GROUP"] || "rg1";
   const resourceNamespace = "Microsoft.Compute";
   const resourceType = "virtualMachines";
   const resourceName = "vm1";
@@ -59,4 +61,8 @@ async function enforcesTheGivenRulesOnTheNsgSListedInTheRequest() {
   console.log(result);
 }
 
-enforcesTheGivenRulesOnTheNsgSListedInTheRequest().catch(console.error);
+async function main() {
+  enforcesTheGivenRulesOnTheNsgSListedInTheRequest();
+}
+
+main().catch(console.error);

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ApiPortalResource,
   ApiPortalsListOptionalParams,
@@ -66,8 +66,8 @@ export interface ApiPortals {
     apiPortalResource: ApiPortalResource,
     options?: ApiPortalsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ApiPortalsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ApiPortalsCreateOrUpdateResponse>,
       ApiPortalsCreateOrUpdateResponse
     >
   >;
@@ -100,7 +100,7 @@ export interface ApiPortals {
     serviceName: string,
     apiPortalName: string,
     options?: ApiPortalsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the default API portal.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

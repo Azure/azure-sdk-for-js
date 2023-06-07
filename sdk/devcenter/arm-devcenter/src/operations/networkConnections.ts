@@ -6,25 +6,35 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { NetworkConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DevCenterClient } from "../devCenterClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   NetworkConnection,
   NetworkConnectionsListBySubscriptionNextOptionalParams,
   NetworkConnectionsListBySubscriptionOptionalParams,
+  NetworkConnectionsListBySubscriptionResponse,
   NetworkConnectionsListByResourceGroupNextOptionalParams,
   NetworkConnectionsListByResourceGroupOptionalParams,
+  NetworkConnectionsListByResourceGroupResponse,
   HealthCheckStatusDetails,
   NetworkConnectionsListHealthDetailsNextOptionalParams,
   NetworkConnectionsListHealthDetailsOptionalParams,
-  NetworkConnectionsListBySubscriptionResponse,
-  NetworkConnectionsListByResourceGroupResponse,
+  NetworkConnectionsListHealthDetailsResponse,
+  OutboundEnvironmentEndpoint,
+  NetworkConnectionsListOutboundNetworkDependenciesEndpointsNextOptionalParams,
+  NetworkConnectionsListOutboundNetworkDependenciesEndpointsOptionalParams,
+  NetworkConnectionsListOutboundNetworkDependenciesEndpointsResponse,
   NetworkConnectionsGetOptionalParams,
   NetworkConnectionsGetResponse,
   NetworkConnectionsCreateOrUpdateOptionalParams,
@@ -33,13 +43,13 @@ import {
   NetworkConnectionsUpdateOptionalParams,
   NetworkConnectionsUpdateResponse,
   NetworkConnectionsDeleteOptionalParams,
-  NetworkConnectionsListHealthDetailsResponse,
   NetworkConnectionsGetHealthDetailsOptionalParams,
   NetworkConnectionsGetHealthDetailsResponse,
   NetworkConnectionsRunHealthChecksOptionalParams,
   NetworkConnectionsListBySubscriptionNextResponse,
   NetworkConnectionsListByResourceGroupNextResponse,
-  NetworkConnectionsListHealthDetailsNextResponse
+  NetworkConnectionsListHealthDetailsNextResponse,
+  NetworkConnectionsListOutboundNetworkDependenciesEndpointsNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -70,22 +80,34 @@ export class NetworkConnectionsImpl implements NetworkConnections {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: NetworkConnectionsListBySubscriptionOptionalParams
+    options?: NetworkConnectionsListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<NetworkConnection[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: NetworkConnectionsListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -99,7 +121,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
 
   /**
    * Lists network connections in a resource group
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -114,19 +136,33 @@ export class NetworkConnectionsImpl implements NetworkConnections {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: NetworkConnectionsListByResourceGroupOptionalParams
+    options?: NetworkConnectionsListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<NetworkConnection[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: NetworkConnectionsListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -134,7 +170,9 @@ export class NetworkConnectionsImpl implements NetworkConnections {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -152,7 +190,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
 
   /**
    * Lists health check status details
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param options The options parameters.
    */
@@ -173,11 +211,15 @@ export class NetworkConnectionsImpl implements NetworkConnections {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listHealthDetailsPagingPage(
           resourceGroupName,
           networkConnectionName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -186,15 +228,22 @@ export class NetworkConnectionsImpl implements NetworkConnections {
   private async *listHealthDetailsPagingPage(
     resourceGroupName: string,
     networkConnectionName: string,
-    options?: NetworkConnectionsListHealthDetailsOptionalParams
+    options?: NetworkConnectionsListHealthDetailsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<HealthCheckStatusDetails[]> {
-    let result = await this._listHealthDetails(
-      resourceGroupName,
-      networkConnectionName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: NetworkConnectionsListHealthDetailsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listHealthDetails(
+        resourceGroupName,
+        networkConnectionName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listHealthDetailsNext(
         resourceGroupName,
@@ -203,7 +252,9 @@ export class NetworkConnectionsImpl implements NetworkConnections {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -213,6 +264,91 @@ export class NetworkConnectionsImpl implements NetworkConnections {
     options?: NetworkConnectionsListHealthDetailsOptionalParams
   ): AsyncIterableIterator<HealthCheckStatusDetails> {
     for await (const page of this.listHealthDetailsPagingPage(
+      resourceGroupName,
+      networkConnectionName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists the endpoints that agents may call as part of Dev Box service administration. These FQDNs
+   * should be allowed for outbound access in order for the Dev Box service to function.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
+   * @param options The options parameters.
+   */
+  public listOutboundNetworkDependenciesEndpoints(
+    resourceGroupName: string,
+    networkConnectionName: string,
+    options?: NetworkConnectionsListOutboundNetworkDependenciesEndpointsOptionalParams
+  ): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint> {
+    const iter = this.listOutboundNetworkDependenciesEndpointsPagingAll(
+      resourceGroupName,
+      networkConnectionName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listOutboundNetworkDependenciesEndpointsPagingPage(
+          resourceGroupName,
+          networkConnectionName,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listOutboundNetworkDependenciesEndpointsPagingPage(
+    resourceGroupName: string,
+    networkConnectionName: string,
+    options?: NetworkConnectionsListOutboundNetworkDependenciesEndpointsOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<OutboundEnvironmentEndpoint[]> {
+    let result: NetworkConnectionsListOutboundNetworkDependenciesEndpointsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listOutboundNetworkDependenciesEndpoints(
+        resourceGroupName,
+        networkConnectionName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listOutboundNetworkDependenciesEndpointsNext(
+        resourceGroupName,
+        networkConnectionName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listOutboundNetworkDependenciesEndpointsPagingAll(
+    resourceGroupName: string,
+    networkConnectionName: string,
+    options?: NetworkConnectionsListOutboundNetworkDependenciesEndpointsOptionalParams
+  ): AsyncIterableIterator<OutboundEnvironmentEndpoint> {
+    for await (const page of this.listOutboundNetworkDependenciesEndpointsPagingPage(
       resourceGroupName,
       networkConnectionName,
       options
@@ -236,7 +372,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
 
   /**
    * Lists network connections in a resource group
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
@@ -251,7 +387,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
 
   /**
    * Gets a network connection resource
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param options The options parameters.
    */
@@ -268,7 +404,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
 
   /**
    * Creates or updates a Network Connections resource
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param body Represents network connection
    * @param options The options parameters.
@@ -279,8 +415,8 @@ export class NetworkConnectionsImpl implements NetworkConnections {
     body: NetworkConnection,
     options?: NetworkConnectionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NetworkConnectionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<NetworkConnectionsCreateOrUpdateResponse>,
       NetworkConnectionsCreateOrUpdateResponse
     >
   > {
@@ -290,7 +426,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
     ): Promise<NetworkConnectionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -323,15 +459,18 @@ export class NetworkConnectionsImpl implements NetworkConnections {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, networkConnectionName, body, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, networkConnectionName, body, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      NetworkConnectionsCreateOrUpdateResponse,
+      OperationState<NetworkConnectionsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -339,7 +478,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
 
   /**
    * Creates or updates a Network Connections resource
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param body Represents network connection
    * @param options The options parameters.
@@ -361,7 +500,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
 
   /**
    * Partially updates a Network Connection
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param body Represents network connection
    * @param options The options parameters.
@@ -372,8 +511,8 @@ export class NetworkConnectionsImpl implements NetworkConnections {
     body: NetworkConnectionUpdate,
     options?: NetworkConnectionsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NetworkConnectionsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<NetworkConnectionsUpdateResponse>,
       NetworkConnectionsUpdateResponse
     >
   > {
@@ -383,7 +522,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
     ): Promise<NetworkConnectionsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -416,15 +555,18 @@ export class NetworkConnectionsImpl implements NetworkConnections {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, networkConnectionName, body, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, networkConnectionName, body, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      NetworkConnectionsUpdateResponse,
+      OperationState<NetworkConnectionsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -432,7 +574,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
 
   /**
    * Partially updates a Network Connection
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param body Represents network connection
    * @param options The options parameters.
@@ -454,7 +596,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
 
   /**
    * Deletes a Network Connections resource
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param options The options parameters.
    */
@@ -462,14 +604,14 @@ export class NetworkConnectionsImpl implements NetworkConnections {
     resourceGroupName: string,
     networkConnectionName: string,
     options?: NetworkConnectionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -502,15 +644,15 @@ export class NetworkConnectionsImpl implements NetworkConnections {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, networkConnectionName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, networkConnectionName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -518,7 +660,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
 
   /**
    * Deletes a Network Connections resource
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param options The options parameters.
    */
@@ -537,7 +679,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
 
   /**
    * Lists health check status details
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param options The options parameters.
    */
@@ -554,7 +696,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
 
   /**
    * Gets health check status details.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param options The options parameters.
    */
@@ -572,18 +714,105 @@ export class NetworkConnectionsImpl implements NetworkConnections {
   /**
    * Triggers a new health check run. The execution and health check result can be tracked via the
    * network Connection health check details
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param options The options parameters.
    */
-  runHealthChecks(
+  async beginRunHealthChecks(
+    resourceGroupName: string,
+    networkConnectionName: string,
+    options?: NetworkConnectionsRunHealthChecksOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, networkConnectionName, options },
+      spec: runHealthChecksOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Triggers a new health check run. The execution and health check result can be tracked via the
+   * network Connection health check details
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
+   * @param options The options parameters.
+   */
+  async beginRunHealthChecksAndWait(
     resourceGroupName: string,
     networkConnectionName: string,
     options?: NetworkConnectionsRunHealthChecksOptionalParams
   ): Promise<void> {
+    const poller = await this.beginRunHealthChecks(
+      resourceGroupName,
+      networkConnectionName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Lists the endpoints that agents may call as part of Dev Box service administration. These FQDNs
+   * should be allowed for outbound access in order for the Dev Box service to function.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
+   * @param options The options parameters.
+   */
+  private _listOutboundNetworkDependenciesEndpoints(
+    resourceGroupName: string,
+    networkConnectionName: string,
+    options?: NetworkConnectionsListOutboundNetworkDependenciesEndpointsOptionalParams
+  ): Promise<
+    NetworkConnectionsListOutboundNetworkDependenciesEndpointsResponse
+  > {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkConnectionName, options },
-      runHealthChecksOperationSpec
+      listOutboundNetworkDependenciesEndpointsOperationSpec
     );
   }
 
@@ -604,7 +833,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
@@ -621,7 +850,7 @@ export class NetworkConnectionsImpl implements NetworkConnections {
 
   /**
    * ListHealthDetailsNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
    * @param nextLink The nextLink from the previous successful call to the ListHealthDetails method.
    * @param options The options parameters.
@@ -635,6 +864,28 @@ export class NetworkConnectionsImpl implements NetworkConnections {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkConnectionName, nextLink, options },
       listHealthDetailsNextOperationSpec
+    );
+  }
+
+  /**
+   * ListOutboundNetworkDependenciesEndpointsNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkConnectionName Name of the Network Connection that can be applied to a Pool.
+   * @param nextLink The nextLink from the previous successful call to the
+   *                 ListOutboundNetworkDependenciesEndpoints method.
+   * @param options The options parameters.
+   */
+  private _listOutboundNetworkDependenciesEndpointsNext(
+    resourceGroupName: string,
+    networkConnectionName: string,
+    nextLink: string,
+    options?: NetworkConnectionsListOutboundNetworkDependenciesEndpointsNextOptionalParams
+  ): Promise<
+    NetworkConnectionsListOutboundNetworkDependenciesEndpointsNextResponse
+  > {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, networkConnectionName, nextLink, options },
+      listOutboundNetworkDependenciesEndpointsNextOperationSpec
     );
   }
 }
@@ -840,11 +1091,36 @@ const runHealthChecksOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.networkConnectionName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/networkConnections/{networkConnectionName}/outboundNetworkDependenciesEndpoints",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OutboundEnvironmentEndpointCollection
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -865,7 +1141,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -885,7 +1160,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -906,7 +1180,27 @@ const listHealthDetailsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.nextLink,
+    Parameters.networkConnectionName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listOutboundNetworkDependenciesEndpointsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OutboundEnvironmentEndpointCollection
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

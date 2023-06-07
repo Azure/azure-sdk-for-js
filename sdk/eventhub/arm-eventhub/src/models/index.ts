@@ -8,6 +8,10 @@
 
 import * as coreClient from "@azure/core-client";
 
+export type ApplicationGroupPolicyUnion =
+  | ApplicationGroupPolicy
+  | ThrottlingPolicy;
+
 /** The response of the List Available Clusters operation. */
 export interface AvailableClustersList {
   /** The count of readily available and pre-provisioned Event Hubs Clusters per region. */
@@ -130,12 +134,6 @@ export interface EHNamespaceIdListResult {
 export interface EHNamespaceIdContainer {
   /** id parameter */
   id?: string;
-}
-
-/** Contains all settings for the cluster. */
-export interface ClusterQuotaConfigurationProperties {
-  /** All possible Cluster settings - a collection of key/value paired settings which apply to quotas and configurations imposed on the cluster. */
-  settings?: { [propertyName: string]: string };
 }
 
 /** The response of the List Namespace operation */
@@ -284,6 +282,232 @@ export interface PrivateLinkResource {
   requiredZoneNames?: string[];
 }
 
+/** Result of the List NetworkSecurityPerimeterConfiguration operation. */
+export interface NetworkSecurityPerimeterConfigurationList {
+  /**
+   * A collection of NetworkSecurityPerimeterConfigurations
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: NetworkSecurityPerimeterConfiguration[];
+}
+
+/** Describes Provisioning issue for given NetworkSecurityPerimeterConfiguration */
+export interface ProvisioningIssue {
+  /** Name of the issue */
+  name?: string;
+  /**
+   * Properties of Provisioning Issue
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly properties?: ProvisioningIssueProperties;
+}
+
+/** Properties of Provisioning Issue */
+export interface ProvisioningIssueProperties {
+  /** Type of Issue */
+  issueType?: string;
+  /** Description of the issue */
+  description?: string;
+}
+
+/** NetworkSecurityPerimeter related information */
+export interface NetworkSecurityPerimeter {
+  /** Fully qualified identifier of the resource */
+  id?: string;
+  /** Guid of the resource */
+  perimeterGuid?: string;
+  /** Location of the resource */
+  location?: string;
+}
+
+/** Information about resource association */
+export interface NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation {
+  /** Name of the resource association */
+  name?: string;
+  /** Access Mode of the resource association */
+  accessMode?: ResourceAssociationAccessMode;
+}
+
+/** Information about current network profile */
+export interface NetworkSecurityPerimeterConfigurationPropertiesProfile {
+  /** Name of the resource */
+  name?: string;
+  /** Current access rules version */
+  accessRulesVersion?: string;
+  /** List of Access Rules */
+  accessRules?: NspAccessRule[];
+}
+
+/** Information of Access Rule in Network Profile */
+export interface NspAccessRule {
+  /** Fully qualified identifier of the resource */
+  id?: string;
+  /** Name of the resource */
+  name?: string;
+  /** Type of the resource */
+  type?: string;
+  /**
+   * Properties of Access Rule
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly properties?: NspAccessRuleProperties;
+}
+
+/** Properties of Access Rule */
+export interface NspAccessRuleProperties {
+  /** Direction of Access Rule */
+  direction?: NspAccessRuleDirection;
+  /** Address prefixes in the CIDR format for inbound rules */
+  addressPrefixes?: string[];
+  /** Subscriptions for inbound rules */
+  subscriptions?: NspAccessRulePropertiesSubscriptionsItem[];
+  /**
+   * NetworkSecurityPerimeters for inbound rules
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkSecurityPerimeters?: NetworkSecurityPerimeter[];
+  /**
+   * FQDN for outbound rules
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fullyQualifiedDomainNames?: string[];
+}
+
+/** Subscription for inbound rule */
+export interface NspAccessRulePropertiesSubscriptionsItem {
+  /** Fully qualified identifier of subscription */
+  id?: string;
+}
+
+/** Contains all settings for the cluster. */
+export interface ClusterQuotaConfigurationProperties {
+  /** All possible Cluster settings - a collection of key/value paired settings which apply to quotas and configurations imposed on the cluster. */
+  settings?: { [propertyName: string]: string };
+}
+
+/** The response from the List namespace operation. */
+export interface NWRuleSetVirtualNetworkRules {
+  /** Subnet properties */
+  subnet?: Subnet;
+  /** Value that indicates whether to ignore missing Vnet Service Endpoint */
+  ignoreMissingVnetServiceEndpoint?: boolean;
+}
+
+/** Properties supplied for Subnet */
+export interface Subnet {
+  /** Resource ID of Virtual Network Subnet */
+  id?: string;
+}
+
+/** The response from the List namespace operation. */
+export interface NWRuleSetIpRules {
+  /** IP Mask */
+  ipMask?: string;
+  /** The IP Filter Action */
+  action?: NetworkRuleIPAction;
+}
+
+/** The response of the List NetworkRuleSet operation */
+export interface NetworkRuleSetListResult {
+  /** Result of the List NetworkRuleSet operation */
+  value?: NetworkRuleSet[];
+  /** Link to the next set of results. Not empty if Value contains incomplete list of NetworkRuleSet. */
+  nextLink?: string;
+}
+
+/** The response from the List namespace operation. */
+export interface AuthorizationRuleListResult {
+  /** Result of the List Authorization Rules operation. */
+  value?: AuthorizationRule[];
+  /** Link to the next set of results. Not empty if Value contains an incomplete list of Authorization Rules */
+  nextLink?: string;
+}
+
+/** Namespace/EventHub Connection String */
+export interface AccessKeys {
+  /**
+   * Primary connection string of the created namespace AuthorizationRule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly primaryConnectionString?: string;
+  /**
+   * Secondary connection string of the created namespace AuthorizationRule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly secondaryConnectionString?: string;
+  /**
+   * Primary connection string of the alias if GEO DR is enabled
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly aliasPrimaryConnectionString?: string;
+  /**
+   * Secondary  connection string of the alias if GEO DR is enabled
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly aliasSecondaryConnectionString?: string;
+  /**
+   * A base64-encoded 256-bit primary key for signing and validating the SAS token.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly primaryKey?: string;
+  /**
+   * A base64-encoded 256-bit primary key for signing and validating the SAS token.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly secondaryKey?: string;
+  /**
+   * A string that describes the AuthorizationRule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly keyName?: string;
+}
+
+/** Parameters supplied to the Regenerate Authorization Rule operation, specifies which key needs to be reset. */
+export interface RegenerateAccessKeyParameters {
+  /** The access key to regenerate. */
+  keyType: KeyType;
+  /** Optional, if the key value provided, is set for KeyType or autogenerated Key value set for keyType */
+  key?: string;
+}
+
+/** Parameter supplied to check Namespace name availability operation */
+export interface CheckNameAvailabilityParameter {
+  /** Name to check the namespace name availability */
+  name: string;
+}
+
+/** The Result of the CheckNameAvailability operation */
+export interface CheckNameAvailabilityResult {
+  /**
+   * The detailed info regarding the reason associated with the Namespace.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /** Value indicating Namespace is availability, true if the Namespace is available; otherwise, false. */
+  nameAvailable?: boolean;
+  /** The reason for unavailability of a Namespace. */
+  reason?: UnavailableReason;
+}
+
+/** The result to the List Consumer Group operation. */
+export interface ConsumerGroupListResult {
+  /** Result of the List Consumer Group operation. */
+  value?: ConsumerGroup[];
+  /** Link to the next set of results. Not empty if Value contains incomplete list of Consumer Group */
+  nextLink?: string;
+}
+
+/** The result of the List Alias(Disaster Recovery configuration) operation. */
+export interface ArmDisasterRecoveryListResult {
+  /** List of Alias(Disaster Recovery configurations) */
+  value?: ArmDisasterRecovery[];
+  /**
+   * Link to the next set of results. Not empty if Value contains incomplete list of Alias(Disaster Recovery configuration)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
 /** Result of the request to list Event Hub operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /**
@@ -381,127 +605,14 @@ export interface Destination {
   dataLakeFolderPath?: string;
 }
 
-/** Parameter supplied to check Namespace name availability operation */
-export interface CheckNameAvailabilityParameter {
-  /** Name to check the namespace name availability */
-  name: string;
-}
-
-/** The Result of the CheckNameAvailability operation */
-export interface CheckNameAvailabilityResult {
-  /**
-   * The detailed info regarding the reason associated with the Namespace.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /** Value indicating Namespace is availability, true if the Namespace is available; otherwise, false. */
-  nameAvailable?: boolean;
-  /** The reason for unavailability of a Namespace. */
-  reason?: UnavailableReason;
-}
-
-/** The result of the List Alias(Disaster Recovery configuration) operation. */
-export interface ArmDisasterRecoveryListResult {
-  /** List of Alias(Disaster Recovery configurations) */
-  value?: ArmDisasterRecovery[];
-  /**
-   * Link to the next set of results. Not empty if Value contains incomplete list of Alias(Disaster Recovery configuration)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** The response from the List namespace operation. */
-export interface NWRuleSetVirtualNetworkRules {
-  /** Subnet properties */
-  subnet?: Subnet;
-  /** Value that indicates whether to ignore missing Vnet Service Endpoint */
-  ignoreMissingVnetServiceEndpoint?: boolean;
-}
-
-/** Properties supplied for Subnet */
-export interface Subnet {
-  /** Resource ID of Virtual Network Subnet */
-  id?: string;
-}
-
-/** The response from the List namespace operation. */
-export interface NWRuleSetIpRules {
-  /** IP Mask */
-  ipMask?: string;
-  /** The IP Filter Action */
-  action?: NetworkRuleIPAction;
-}
-
-/** The response of the List NetworkRuleSet operation */
-export interface NetworkRuleSetListResult {
-  /** Result of the List NetworkRuleSet operation */
-  value?: NetworkRuleSet[];
-  /** Link to the next set of results. Not empty if Value contains incomplete list of NetworkRuleSet. */
-  nextLink?: string;
-}
-
-/** The response from the List namespace operation. */
-export interface AuthorizationRuleListResult {
-  /** Result of the List Authorization Rules operation. */
-  value?: AuthorizationRule[];
-  /** Link to the next set of results. Not empty if Value contains an incomplete list of Authorization Rules */
-  nextLink?: string;
-}
-
-/** Namespace/EventHub Connection String */
-export interface AccessKeys {
-  /**
-   * Primary connection string of the created namespace AuthorizationRule.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly primaryConnectionString?: string;
-  /**
-   * Secondary connection string of the created namespace AuthorizationRule.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly secondaryConnectionString?: string;
-  /**
-   * Primary connection string of the alias if GEO DR is enabled
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly aliasPrimaryConnectionString?: string;
-  /**
-   * Secondary  connection string of the alias if GEO DR is enabled
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly aliasSecondaryConnectionString?: string;
-  /**
-   * A base64-encoded 256-bit primary key for signing and validating the SAS token.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly primaryKey?: string;
-  /**
-   * A base64-encoded 256-bit primary key for signing and validating the SAS token.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly secondaryKey?: string;
-  /**
-   * A string that describes the AuthorizationRule.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly keyName?: string;
-}
-
-/** Parameters supplied to the Regenerate Authorization Rule operation, specifies which key needs to be reset. */
-export interface RegenerateAccessKeyParameters {
-  /** The access key to regenerate. */
-  keyType: KeyType;
-  /** Optional, if the key value provided, is set for KeyType or autogenerated Key value set for keyType */
-  key?: string;
-}
-
-/** The result to the List Consumer Group operation. */
-export interface ConsumerGroupListResult {
-  /** Result of the List Consumer Group operation. */
-  value?: ConsumerGroup[];
-  /** Link to the next set of results. Not empty if Value contains incomplete list of Consumer Group */
-  nextLink?: string;
+/** Properties to configure retention settings for the  eventhub */
+export interface RetentionDescription {
+  /** Enumerates the possible values for cleanup policy */
+  cleanupPolicy?: CleanupPolicyRetentionDescription;
+  /** Number of hours to retain the events for this Event Hub. This value is only used when cleanupPolicy is Delete. If cleanupPolicy is Compaction the returned value of this property is Long.MaxValue */
+  retentionTimeInHours?: number;
+  /** Number of hours to retain the tombstone markers of a compacted Event Hub. This value is only used when cleanupPolicy is Compaction. Consumer must complete reading the tombstone marker within this specified amount of time if consumer begins from starting offset to ensure they get a valid snapshot for the specific key described by the tombstone marker within the compacted Event Hub */
+  tombstoneRetentionTimeInHours?: number;
 }
 
 /** The result of the List SchemaGroup operation. */
@@ -512,16 +623,58 @@ export interface SchemaGroupListResult {
   nextLink?: string;
 }
 
+/** The response from the List Application Groups operation. */
+export interface ApplicationGroupListResult {
+  /** Result of the List Application Groups operation. */
+  value?: ApplicationGroup[];
+  /**
+   * Link to the next set of results. Not empty if Value contains an incomplete list of Authorization Rules
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Properties of the Application Group policy */
+export interface ApplicationGroupPolicy {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ThrottlingPolicy";
+  /** The Name of this policy */
+  name: string;
+}
+
 /** Definition of resource. */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource location. */
   location?: string;
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-};
+}
+
+/** Network Security Perimeter related configurations of a given namespace */
+export interface NetworkSecurityPerimeterConfiguration extends Resource {
+  /** Provisioning state of NetworkSecurityPerimeter configuration propagation */
+  provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
+  /** List of Provisioning Issues if any */
+  provisioningIssues?: ProvisioningIssue[];
+  /**
+   * NetworkSecurityPerimeter related information
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkSecurityPerimeter?: NetworkSecurityPerimeter;
+  /**
+   * Information about resource association
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceAssociation?: NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation;
+  /**
+   * Information about current network profile
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly profile?: NetworkSecurityPerimeterConfigurationPropertiesProfile;
+}
 
 /** Properties of the PrivateEndpointConnection. */
-export type PrivateEndpointConnection = ProxyResource & {
+export interface PrivateEndpointConnection extends ProxyResource {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -533,10 +686,89 @@ export type PrivateEndpointConnection = ProxyResource & {
   privateLinkServiceConnectionState?: ConnectionState;
   /** Provisioning state of the Private Endpoint Connection. */
   provisioningState?: EndPointProvisioningState;
-};
+}
+
+/** Description of topic resource. */
+export interface NetworkRuleSet extends ProxyResource {
+  /**
+   * The system meta data relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Value that indicates whether Trusted Service Access is Enabled or not. */
+  trustedServiceAccessEnabled?: boolean;
+  /** Default Action for Network Rule Set */
+  defaultAction?: DefaultAction;
+  /** List VirtualNetwork Rules */
+  virtualNetworkRules?: NWRuleSetVirtualNetworkRules[];
+  /** List of IpRules */
+  ipRules?: NWRuleSetIpRules[];
+  /** This determines if traffic is allowed over public network. By default it is enabled. If value is SecuredByPerimeter then Inbound and Outbound communication is controlled by the network security perimeter and profile's access rules. */
+  publicNetworkAccess?: PublicNetworkAccessFlag;
+}
+
+/** Single item in a List or Get AuthorizationRule operation */
+export interface AuthorizationRule extends ProxyResource {
+  /**
+   * The system meta data relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** The rights associated with the rule. */
+  rights?: AccessRights[];
+}
+
+/** Single item in List or Get Consumer group operation */
+export interface ConsumerGroup extends ProxyResource {
+  /**
+   * The system meta data relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * Exact time the message was created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdAt?: Date;
+  /**
+   * The exact time the message was updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedAt?: Date;
+  /** User Metadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be used to store descriptive data, such as list of teams and their contact information also user-defined configuration settings can be stored. */
+  userMetadata?: string;
+}
+
+/** Single item in List or Get Alias(Disaster Recovery configuration) operation */
+export interface ArmDisasterRecovery extends ProxyResource {
+  /**
+   * The system meta data relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * Provisioning state of the Alias(Disaster Recovery configuration) - possible values 'Accepted' or 'Succeeded' or 'Failed'
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningStateDR;
+  /** ARM Id of the Primary/Secondary eventhub namespace name, which is part of GEO DR pairing */
+  partnerNamespace?: string;
+  /** Alternate name specified when alias and namespace names are same. */
+  alternateName?: string;
+  /**
+   * role of namespace in GEO DR - possible values 'Primary' or 'PrimaryNotReplicating' or 'Secondary'
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly role?: RoleDisasterRecovery;
+  /**
+   * Number of entities pending to be replicated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly pendingReplicationOperationsCount?: number;
+}
 
 /** Single item in List or Get Event Hub operation */
-export type Eventhub = ProxyResource & {
+export interface Eventhub extends ProxyResource {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -565,89 +797,12 @@ export type Eventhub = ProxyResource & {
   status?: EntityStatus;
   /** Properties of capture description */
   captureDescription?: CaptureDescription;
-};
-
-/** Single item in List or Get Alias(Disaster Recovery configuration) operation */
-export type ArmDisasterRecovery = ProxyResource & {
-  /**
-   * The system meta data relating to this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /**
-   * Provisioning state of the Alias(Disaster Recovery configuration) - possible values 'Accepted' or 'Succeeded' or 'Failed'
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningStateDR;
-  /** ARM Id of the Primary/Secondary eventhub namespace name, which is part of GEO DR pairing */
-  partnerNamespace?: string;
-  /** Alternate name specified when alias and namespace names are same. */
-  alternateName?: string;
-  /**
-   * role of namespace in GEO DR - possible values 'Primary' or 'PrimaryNotReplicating' or 'Secondary'
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly role?: RoleDisasterRecovery;
-  /**
-   * Number of entities pending to be replicated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly pendingReplicationOperationsCount?: number;
-};
-
-/** Description of topic resource. */
-export type NetworkRuleSet = ProxyResource & {
-  /**
-   * The system meta data relating to this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** Value that indicates whether Trusted Service Access is Enabled or not. */
-  trustedServiceAccessEnabled?: boolean;
-  /** Default Action for Network Rule Set */
-  defaultAction?: DefaultAction;
-  /** List VirtualNetwork Rules */
-  virtualNetworkRules?: NWRuleSetVirtualNetworkRules[];
-  /** List of IpRules */
-  ipRules?: NWRuleSetIpRules[];
-  /** This determines if traffic is allowed over public network. By default it is enabled. */
-  publicNetworkAccess?: PublicNetworkAccessFlag;
-};
-
-/** Single item in a List or Get AuthorizationRule operation */
-export type AuthorizationRule = ProxyResource & {
-  /**
-   * The system meta data relating to this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** The rights associated with the rule. */
-  rights?: AccessRights[];
-};
-
-/** Single item in List or Get Consumer group operation */
-export type ConsumerGroup = ProxyResource & {
-  /**
-   * The system meta data relating to this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /**
-   * Exact time the message was created.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdAt?: Date;
-  /**
-   * The exact time the message was updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly updatedAt?: Date;
-  /** User Metadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be used to store descriptive data, such as list of teams and their contact information also user-defined configuration settings can be stored. */
-  userMetadata?: string;
-};
+  /** Event Hub retention settings */
+  retentionDescription?: RetentionDescription;
+}
 
 /** Single item in List or Get Schema Group operation */
-export type SchemaGroup = ProxyResource & {
+export interface SchemaGroup extends ProxyResource {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -672,10 +827,35 @@ export type SchemaGroup = ProxyResource & {
   groupProperties?: { [propertyName: string]: string };
   schemaCompatibility?: SchemaCompatibility;
   schemaType?: SchemaType;
-};
+}
+
+/** The Application Group object */
+export interface ApplicationGroup extends ProxyResource {
+  /**
+   * The system meta data relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Determines if Application Group is allowed to create connection with namespace or not. Once the isEnabled is set to false, all the existing connections of application group gets dropped and no new connections will be allowed */
+  isEnabled?: boolean;
+  /** The Unique identifier for application group.Supports SAS(SASKeyName=KeyName) or AAD(AADAppID=Guid) */
+  clientAppGroupIdentifier?: string;
+  /** List of group policies that define the behavior of application group. The policies can support resource governance scenarios such as limiting ingress or egress traffic. */
+  policies?: ApplicationGroupPolicyUnion[];
+}
+
+/** Properties of the throttling policy */
+export interface ThrottlingPolicy extends ApplicationGroupPolicy {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ThrottlingPolicy";
+  /** The Threshold limit above which the application group will be throttled.Rate limit is always per second. */
+  rateLimitThreshold: number;
+  /** Metric Id on which the throttle limit should be set, MetricId can be discovered by hovering over Metric in the Metrics section of Event Hub Namespace inside Azure Portal */
+  metricId: MetricId;
+}
 
 /** Single Event Hubs Cluster resource in List or Get operations. */
-export type Cluster = TrackedResource & {
+export interface Cluster extends TrackedResource {
   /** Properties of the cluster SKU. */
   sku?: ClusterSku;
   /**
@@ -703,10 +883,12 @@ export type Cluster = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: string;
-};
+  /** A value that indicates whether Scaling is Supported. */
+  supportsScaling?: boolean;
+}
 
 /** Single Namespace item in List or Get Operation */
-export type EHNamespace = TrackedResource & {
+export interface EHNamespace extends TrackedResource {
   /** Properties of sku resource */
   sku?: Sku;
   /** Properties of BYOK Identity description */
@@ -716,6 +898,8 @@ export type EHNamespace = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
+  /** The minimum TLS version for the cluster to support, e.g. '1.2' */
+  minimumTlsVersion?: TlsVersion;
   /**
    * Provisioning state of the Namespace.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -750,6 +934,8 @@ export type EHNamespace = TrackedResource & {
   readonly metricId?: string;
   /** Value that indicates whether AutoInflate is enabled for eventhub namespace. */
   isAutoInflateEnabled?: boolean;
+  /** This determines if traffic is allowed over public network. By default it is enabled. */
+  publicNetworkAccess?: PublicNetworkAccess;
   /** Upper limit of throughput units when AutoInflate is enabled, value should be within 0 to 20 throughput units. ( '0' if AutoInflateEnabled = true) */
   maximumThroughputUnits?: number;
   /** Value that indicates whether Kafka is enabled for eventhub namespace. */
@@ -764,10 +950,11 @@ export type EHNamespace = TrackedResource & {
   disableLocalAuth?: boolean;
   /** Alternate name specified when alias and namespace names are same. */
   alternateName?: string;
-};
+}
 
 /** Known values of {@link ClusterSkuName} that the service accepts. */
 export enum KnownClusterSkuName {
+  /** Dedicated */
   Dedicated = "Dedicated"
 }
 
@@ -782,9 +969,13 @@ export type ClusterSkuName = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -802,8 +993,11 @@ export type CreatedByType = string;
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
+  /** Basic */
   Basic = "Basic",
+  /** Standard */
   Standard = "Standard",
+  /** Premium */
   Premium = "Premium"
 }
 
@@ -820,8 +1014,11 @@ export type SkuName = string;
 
 /** Known values of {@link SkuTier} that the service accepts. */
 export enum KnownSkuTier {
+  /** Basic */
   Basic = "Basic",
+  /** Standard */
   Standard = "Standard",
+  /** Premium */
   Premium = "Premium"
 }
 
@@ -836,11 +1033,57 @@ export enum KnownSkuTier {
  */
 export type SkuTier = string;
 
+/** Known values of {@link TlsVersion} that the service accepts. */
+export enum KnownTlsVersion {
+  /** One0 */
+  One0 = "1.0",
+  /** One1 */
+  One1 = "1.1",
+  /** One2 */
+  One2 = "1.2"
+}
+
+/**
+ * Defines values for TlsVersion. \
+ * {@link KnownTlsVersion} can be used interchangeably with TlsVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **1.0** \
+ * **1.1** \
+ * **1.2**
+ */
+export type TlsVersion = string;
+
+/** Known values of {@link PublicNetworkAccess} that the service accepts. */
+export enum KnownPublicNetworkAccess {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** SecuredByPerimeter */
+  SecuredByPerimeter = "SecuredByPerimeter"
+}
+
+/**
+ * Defines values for PublicNetworkAccess. \
+ * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled** \
+ * **SecuredByPerimeter**
+ */
+export type PublicNetworkAccess = string;
+
 /** Known values of {@link PrivateLinkConnectionStatus} that the service accepts. */
 export enum KnownPrivateLinkConnectionStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected",
+  /** Disconnected */
   Disconnected = "Disconnected"
 }
 
@@ -858,11 +1101,17 @@ export type PrivateLinkConnectionStatus = string;
 
 /** Known values of {@link EndPointProvisioningState} that the service accepts. */
 export enum KnownEndPointProvisioningState {
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -880,9 +1129,101 @@ export enum KnownEndPointProvisioningState {
  */
 export type EndPointProvisioningState = string;
 
+/** Known values of {@link NetworkSecurityPerimeterConfigurationProvisioningState} that the service accepts. */
+export enum KnownNetworkSecurityPerimeterConfigurationProvisioningState {
+  /** Unknown */
+  Unknown = "Unknown",
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Accepted */
+  Accepted = "Accepted",
+  /** InvalidResponse */
+  InvalidResponse = "InvalidResponse",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** SucceededWithIssues */
+  SucceededWithIssues = "SucceededWithIssues",
+  /** Failed */
+  Failed = "Failed",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Deleted */
+  Deleted = "Deleted",
+  /** Canceled */
+  Canceled = "Canceled"
+}
+
+/**
+ * Defines values for NetworkSecurityPerimeterConfigurationProvisioningState. \
+ * {@link KnownNetworkSecurityPerimeterConfigurationProvisioningState} can be used interchangeably with NetworkSecurityPerimeterConfigurationProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **Creating** \
+ * **Updating** \
+ * **Accepted** \
+ * **InvalidResponse** \
+ * **Succeeded** \
+ * **SucceededWithIssues** \
+ * **Failed** \
+ * **Deleting** \
+ * **Deleted** \
+ * **Canceled**
+ */
+export type NetworkSecurityPerimeterConfigurationProvisioningState = string;
+
+/** Known values of {@link ResourceAssociationAccessMode} that the service accepts. */
+export enum KnownResourceAssociationAccessMode {
+  /** NoAssociationMode */
+  NoAssociationMode = "NoAssociationMode",
+  /** EnforcedMode */
+  EnforcedMode = "EnforcedMode",
+  /** LearningMode */
+  LearningMode = "LearningMode",
+  /** AuditMode */
+  AuditMode = "AuditMode",
+  /** UnspecifiedMode */
+  UnspecifiedMode = "UnspecifiedMode"
+}
+
+/**
+ * Defines values for ResourceAssociationAccessMode. \
+ * {@link KnownResourceAssociationAccessMode} can be used interchangeably with ResourceAssociationAccessMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NoAssociationMode** \
+ * **EnforcedMode** \
+ * **LearningMode** \
+ * **AuditMode** \
+ * **UnspecifiedMode**
+ */
+export type ResourceAssociationAccessMode = string;
+
+/** Known values of {@link NspAccessRuleDirection} that the service accepts. */
+export enum KnownNspAccessRuleDirection {
+  /** Inbound */
+  Inbound = "Inbound",
+  /** Outbound */
+  Outbound = "Outbound"
+}
+
+/**
+ * Defines values for NspAccessRuleDirection. \
+ * {@link KnownNspAccessRuleDirection} can be used interchangeably with NspAccessRuleDirection,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Inbound** \
+ * **Outbound**
+ */
+export type NspAccessRuleDirection = string;
+
 /** Known values of {@link DefaultAction} that the service accepts. */
 export enum KnownDefaultAction {
+  /** Allow */
   Allow = "Allow",
+  /** Deny */
   Deny = "Deny"
 }
 
@@ -898,6 +1239,7 @@ export type DefaultAction = string;
 
 /** Known values of {@link NetworkRuleIPAction} that the service accepts. */
 export enum KnownNetworkRuleIPAction {
+  /** Allow */
   Allow = "Allow"
 }
 
@@ -912,8 +1254,12 @@ export type NetworkRuleIPAction = string;
 
 /** Known values of {@link PublicNetworkAccessFlag} that the service accepts. */
 export enum KnownPublicNetworkAccessFlag {
+  /** Enabled */
   Enabled = "Enabled",
-  Disabled = "Disabled"
+  /** Disabled */
+  Disabled = "Disabled",
+  /** SecuredByPerimeter */
+  SecuredByPerimeter = "SecuredByPerimeter"
 }
 
 /**
@@ -922,14 +1268,18 @@ export enum KnownPublicNetworkAccessFlag {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Enabled** \
- * **Disabled**
+ * **Disabled** \
+ * **SecuredByPerimeter**
  */
 export type PublicNetworkAccessFlag = string;
 
 /** Known values of {@link AccessRights} that the service accepts. */
 export enum KnownAccessRights {
+  /** Manage */
   Manage = "Manage",
+  /** Send */
   Send = "Send",
+  /** Listen */
   Listen = "Listen"
 }
 
@@ -946,7 +1296,9 @@ export type AccessRights = string;
 
 /** Known values of {@link KeyType} that the service accepts. */
 export enum KnownKeyType {
+  /** PrimaryKey */
   PrimaryKey = "PrimaryKey",
+  /** SecondaryKey */
   SecondaryKey = "SecondaryKey"
 }
 
@@ -960,10 +1312,31 @@ export enum KnownKeyType {
  */
 export type KeyType = string;
 
+/** Known values of {@link CleanupPolicyRetentionDescription} that the service accepts. */
+export enum KnownCleanupPolicyRetentionDescription {
+  /** Delete */
+  Delete = "Delete",
+  /** Compaction */
+  Compaction = "Compaction"
+}
+
+/**
+ * Defines values for CleanupPolicyRetentionDescription. \
+ * {@link KnownCleanupPolicyRetentionDescription} can be used interchangeably with CleanupPolicyRetentionDescription,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Delete** \
+ * **Compaction**
+ */
+export type CleanupPolicyRetentionDescription = string;
+
 /** Known values of {@link SchemaCompatibility} that the service accepts. */
 export enum KnownSchemaCompatibility {
+  /** None */
   None = "None",
+  /** Backward */
   Backward = "Backward",
+  /** Forward */
   Forward = "Forward"
 }
 
@@ -980,7 +1353,9 @@ export type SchemaCompatibility = string;
 
 /** Known values of {@link SchemaType} that the service accepts. */
 export enum KnownSchemaType {
+  /** Unknown */
   Unknown = "Unknown",
+  /** Avro */
   Avro = "Avro"
 }
 
@@ -993,25 +1368,51 @@ export enum KnownSchemaType {
  * **Avro**
  */
 export type SchemaType = string;
+
+/** Known values of {@link ApplicationGroupPolicyType} that the service accepts. */
+export enum KnownApplicationGroupPolicyType {
+  /** ThrottlingPolicy */
+  ThrottlingPolicy = "ThrottlingPolicy"
+}
+
+/**
+ * Defines values for ApplicationGroupPolicyType. \
+ * {@link KnownApplicationGroupPolicyType} can be used interchangeably with ApplicationGroupPolicyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ThrottlingPolicy**
+ */
+export type ApplicationGroupPolicyType = string;
+
+/** Known values of {@link MetricId} that the service accepts. */
+export enum KnownMetricId {
+  /** IncomingBytes */
+  IncomingBytes = "IncomingBytes",
+  /** OutgoingBytes */
+  OutgoingBytes = "OutgoingBytes",
+  /** IncomingMessages */
+  IncomingMessages = "IncomingMessages",
+  /** OutgoingMessages */
+  OutgoingMessages = "OutgoingMessages"
+}
+
+/**
+ * Defines values for MetricId. \
+ * {@link KnownMetricId} can be used interchangeably with MetricId,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **IncomingBytes** \
+ * **OutgoingBytes** \
+ * **IncomingMessages** \
+ * **OutgoingMessages**
+ */
+export type MetricId = string;
 /** Defines values for ManagedServiceIdentityType. */
 export type ManagedServiceIdentityType =
   | "SystemAssigned"
   | "UserAssigned"
   | "SystemAssigned, UserAssigned"
   | "None";
-/** Defines values for EntityStatus. */
-export type EntityStatus =
-  | "Active"
-  | "Disabled"
-  | "Restoring"
-  | "SendDisabled"
-  | "ReceiveDisabled"
-  | "Creating"
-  | "Deleting"
-  | "Renaming"
-  | "Unknown";
-/** Defines values for EncodingCaptureDescription. */
-export type EncodingCaptureDescription = "Avro" | "AvroDeflate";
 /** Defines values for UnavailableReason. */
 export type UnavailableReason =
   | "None"
@@ -1027,6 +1428,19 @@ export type RoleDisasterRecovery =
   | "Primary"
   | "PrimaryNotReplicating"
   | "Secondary";
+/** Defines values for EntityStatus. */
+export type EntityStatus =
+  | "Active"
+  | "Disabled"
+  | "Restoring"
+  | "SendDisabled"
+  | "ReceiveDisabled"
+  | "Creating"
+  | "Deleting"
+  | "Renaming"
+  | "Unknown";
+/** Defines values for EncodingCaptureDescription. */
+export type EncodingCaptureDescription = "Avro" | "AvroDeflate";
 
 /** Optional parameters. */
 export interface ClustersListAvailableClusterRegionOptionalParams
@@ -1109,20 +1523,6 @@ export interface ClustersListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type ClustersListByResourceGroupNextResponse = ClusterListResult;
-
-/** Optional parameters. */
-export interface ConfigurationPatchOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the patch operation. */
-export type ConfigurationPatchResponse = ClusterQuotaConfigurationProperties;
-
-/** Optional parameters. */
-export interface ConfigurationGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ConfigurationGetResponse = ClusterQuotaConfigurationProperties;
 
 /** Optional parameters. */
 export interface NamespacesListOptionalParams
@@ -1306,106 +1706,55 @@ export interface PrivateLinkResourcesGetOptionalParams
 export type PrivateLinkResourcesGetResponse = PrivateLinkResourcesListResult;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
+export interface NetworkSecurityPerimeterConfigurationListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type OperationsListResponse = OperationListResult;
+export type NetworkSecurityPerimeterConfigurationListResponse = NetworkSecurityPerimeterConfigurationList;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type OperationsListNextResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface EventHubsListByNamespaceOptionalParams
+export interface NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls. */
-  skip?: number;
-  /** May be used to limit the number of results to the most recent N usageDetails. */
-  top?: number;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
-/** Contains response data for the listByNamespace operation. */
-export type EventHubsListByNamespaceResponse = EventHubListResult;
-
 /** Optional parameters. */
-export interface EventHubsCreateOrUpdateOptionalParams
+export interface ConfigurationPatchOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the createOrUpdate operation. */
-export type EventHubsCreateOrUpdateResponse = Eventhub;
+/** Contains response data for the patch operation. */
+export type ConfigurationPatchResponse = ClusterQuotaConfigurationProperties;
 
 /** Optional parameters. */
-export interface EventHubsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface EventHubsGetOptionalParams
+export interface ConfigurationGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type EventHubsGetResponse = Eventhub;
+export type ConfigurationGetResponse = ClusterQuotaConfigurationProperties;
 
 /** Optional parameters. */
-export interface EventHubsListAuthorizationRulesOptionalParams
+export interface DisasterRecoveryConfigsListAuthorizationRulesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthorizationRules operation. */
-export type EventHubsListAuthorizationRulesResponse = AuthorizationRuleListResult;
+export type DisasterRecoveryConfigsListAuthorizationRulesResponse = AuthorizationRuleListResult;
 
 /** Optional parameters. */
-export interface EventHubsCreateOrUpdateAuthorizationRuleOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdateAuthorizationRule operation. */
-export type EventHubsCreateOrUpdateAuthorizationRuleResponse = AuthorizationRule;
-
-/** Optional parameters. */
-export interface EventHubsGetAuthorizationRuleOptionalParams
+export interface DisasterRecoveryConfigsGetAuthorizationRuleOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAuthorizationRule operation. */
-export type EventHubsGetAuthorizationRuleResponse = AuthorizationRule;
+export type DisasterRecoveryConfigsGetAuthorizationRuleResponse = AuthorizationRule;
 
 /** Optional parameters. */
-export interface EventHubsDeleteAuthorizationRuleOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface EventHubsListKeysOptionalParams
+export interface DisasterRecoveryConfigsListKeysOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listKeys operation. */
-export type EventHubsListKeysResponse = AccessKeys;
-
-/** Optional parameters. */
-export interface EventHubsRegenerateKeysOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the regenerateKeys operation. */
-export type EventHubsRegenerateKeysResponse = AccessKeys;
-
-/** Optional parameters. */
-export interface EventHubsListByNamespaceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls. */
-  skip?: number;
-  /** May be used to limit the number of results to the most recent N usageDetails. */
-  top?: number;
-}
-
-/** Contains response data for the listByNamespaceNext operation. */
-export type EventHubsListByNamespaceNextResponse = EventHubListResult;
-
-/** Optional parameters. */
-export interface EventHubsListAuthorizationRulesNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listAuthorizationRulesNext operation. */
-export type EventHubsListAuthorizationRulesNextResponse = AuthorizationRuleListResult;
+export type DisasterRecoveryConfigsListKeysResponse = AccessKeys;
 
 /** Optional parameters. */
 export interface DisasterRecoveryConfigsCheckNameAvailabilityOptionalParams
@@ -1448,25 +1797,11 @@ export interface DisasterRecoveryConfigsFailOverOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface DisasterRecoveryConfigsListAuthorizationRulesOptionalParams
+export interface DisasterRecoveryConfigsListAuthorizationRulesNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listAuthorizationRules operation. */
-export type DisasterRecoveryConfigsListAuthorizationRulesResponse = AuthorizationRuleListResult;
-
-/** Optional parameters. */
-export interface DisasterRecoveryConfigsGetAuthorizationRuleOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getAuthorizationRule operation. */
-export type DisasterRecoveryConfigsGetAuthorizationRuleResponse = AuthorizationRule;
-
-/** Optional parameters. */
-export interface DisasterRecoveryConfigsListKeysOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listKeys operation. */
-export type DisasterRecoveryConfigsListKeysResponse = AccessKeys;
+/** Contains response data for the listAuthorizationRulesNext operation. */
+export type DisasterRecoveryConfigsListAuthorizationRulesNextResponse = AuthorizationRuleListResult;
 
 /** Optional parameters. */
 export interface DisasterRecoveryConfigsListNextOptionalParams
@@ -1476,11 +1811,87 @@ export interface DisasterRecoveryConfigsListNextOptionalParams
 export type DisasterRecoveryConfigsListNextResponse = ArmDisasterRecoveryListResult;
 
 /** Optional parameters. */
-export interface DisasterRecoveryConfigsListAuthorizationRulesNextOptionalParams
+export interface EventHubsListAuthorizationRulesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAuthorizationRules operation. */
+export type EventHubsListAuthorizationRulesResponse = AuthorizationRuleListResult;
+
+/** Optional parameters. */
+export interface EventHubsCreateOrUpdateAuthorizationRuleOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdateAuthorizationRule operation. */
+export type EventHubsCreateOrUpdateAuthorizationRuleResponse = AuthorizationRule;
+
+/** Optional parameters. */
+export interface EventHubsGetAuthorizationRuleOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAuthorizationRule operation. */
+export type EventHubsGetAuthorizationRuleResponse = AuthorizationRule;
+
+/** Optional parameters. */
+export interface EventHubsDeleteAuthorizationRuleOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface EventHubsListKeysOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listKeys operation. */
+export type EventHubsListKeysResponse = AccessKeys;
+
+/** Optional parameters. */
+export interface EventHubsRegenerateKeysOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the regenerateKeys operation. */
+export type EventHubsRegenerateKeysResponse = AccessKeys;
+
+/** Optional parameters. */
+export interface EventHubsListByNamespaceOptionalParams
+  extends coreClient.OperationOptions {
+  /** Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls. */
+  skip?: number;
+  /** May be used to limit the number of results to the most recent N usageDetails. */
+  top?: number;
+}
+
+/** Contains response data for the listByNamespace operation. */
+export type EventHubsListByNamespaceResponse = EventHubListResult;
+
+/** Optional parameters. */
+export interface EventHubsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type EventHubsCreateOrUpdateResponse = Eventhub;
+
+/** Optional parameters. */
+export interface EventHubsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface EventHubsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type EventHubsGetResponse = Eventhub;
+
+/** Optional parameters. */
+export interface EventHubsListAuthorizationRulesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthorizationRulesNext operation. */
-export type DisasterRecoveryConfigsListAuthorizationRulesNextResponse = AuthorizationRuleListResult;
+export type EventHubsListAuthorizationRulesNextResponse = AuthorizationRuleListResult;
+
+/** Optional parameters. */
+export interface EventHubsListByNamespaceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByNamespaceNext operation. */
+export type EventHubsListByNamespaceNextResponse = EventHubListResult;
 
 /** Optional parameters. */
 export interface ConsumerGroupsCreateOrUpdateOptionalParams
@@ -1514,15 +1925,24 @@ export type ConsumerGroupsListByEventHubResponse = ConsumerGroupListResult;
 
 /** Optional parameters. */
 export interface ConsumerGroupsListByEventHubNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls. */
-  skip?: number;
-  /** May be used to limit the number of results to the most recent N usageDetails. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByEventHubNext operation. */
 export type ConsumerGroupsListByEventHubNextResponse = ConsumerGroupListResult;
+
+/** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface SchemaRegistryListByNamespaceOptionalParams
@@ -1556,15 +1976,42 @@ export type SchemaRegistryGetResponse = SchemaGroup;
 
 /** Optional parameters. */
 export interface SchemaRegistryListByNamespaceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls. */
-  skip?: number;
-  /** May be used to limit the number of results to the most recent N usageDetails. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNamespaceNext operation. */
 export type SchemaRegistryListByNamespaceNextResponse = SchemaGroupListResult;
+
+/** Optional parameters. */
+export interface ApplicationGroupListByNamespaceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByNamespace operation. */
+export type ApplicationGroupListByNamespaceResponse = ApplicationGroupListResult;
+
+/** Optional parameters. */
+export interface ApplicationGroupCreateOrUpdateApplicationGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdateApplicationGroup operation. */
+export type ApplicationGroupCreateOrUpdateApplicationGroupResponse = ApplicationGroup;
+
+/** Optional parameters. */
+export interface ApplicationGroupDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ApplicationGroupGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ApplicationGroupGetResponse = ApplicationGroup;
+
+/** Optional parameters. */
+export interface ApplicationGroupListByNamespaceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByNamespaceNext operation. */
+export type ApplicationGroupListByNamespaceNextResponse = ApplicationGroupListResult;
 
 /** Optional parameters. */
 export interface EventHubManagementClientOptionalParams

@@ -112,8 +112,7 @@ async function updateADiskEncryptionSet() {
         activeKey: {
           keyUrl: "https://myvmvault.vault-int.azure-int.net/keys/keyName/keyVersion",
           sourceVault: {
-            id:
-              "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/myVMVault",
+            id: "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/myVMVault",
           },
         },
         encryptionType: "EncryptionAtRestWithCustomerKey",

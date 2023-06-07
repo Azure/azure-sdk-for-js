@@ -145,6 +145,60 @@ export interface Sku {
   capacity?: number;
 }
 
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /**
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
+/** Encryption-at-rest configuration for the cluster. */
+export interface ClusterPropertiesEncryption {
+  /** All Customer-managed key encryption properties for the resource. Set this to an empty object to use Microsoft-managed key encryption. */
+  customerManagedKeyEncryption?: ClusterPropertiesEncryptionCustomerManagedKeyEncryption;
+}
+
+/** All Customer-managed key encryption properties for the resource. Set this to an empty object to use Microsoft-managed key encryption. */
+export interface ClusterPropertiesEncryptionCustomerManagedKeyEncryption {
+  /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
+  keyEncryptionKeyIdentity?: ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity;
+  /** Key encryption key Url, versioned only. Ex: https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 */
+  keyEncryptionKeyUrl?: string;
+}
+
+/** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
+export interface ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity {
+  /** User assigned identity to use for accessing key encryption key Url. Ex: /subscriptions/<sub uuid>/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. */
+  userAssignedIdentityResourceId?: string;
+  /** Only userAssignedIdentity is supported in this API version; other types may be supported in the future */
+  identityType?: CmkIdentityType;
+}
+
 /** The Private Endpoint resource. */
 export interface PrivateEndpoint {
   /**
@@ -181,16 +235,41 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
 /** A partial update to the RedisEnterprise cluster */
 export interface ClusterUpdate {
   /** The SKU to create, which affects price, performance, and features. */
   sku?: Sku;
+  /** The identity of the resource. */
+  identity?: ManagedServiceIdentity;
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The minimum TLS version for the cluster to support, e.g. '1.2' */
   minimumTlsVersion?: TlsVersion;
+  /** Encryption-at-rest configuration for the cluster. */
+  encryption?: ClusterPropertiesEncryption;
   /**
    * DNS name of the cluster endpoint
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -362,8 +441,52 @@ export interface ForceUnlinkParameters {
   ids: string[];
 }
 
+/** Parameters for a Redis Enterprise active geo-replication flush operation. */
+export interface FlushParameters {
+  /** The resource identifiers of all the other database resources in the georeplication group to be flushed */
+  ids?: string[];
+}
+
+/** List of details about all the available SKUs */
+export interface RegionSkuDetails {
+  /** List of Sku Detail */
+  value?: RegionSkuDetail[];
+}
+
+/** Details about the location requested and the available skus in the location */
+export interface RegionSkuDetail {
+  /** Resource type which has the SKU, such as Microsoft.Cache/redisEnterprise */
+  resourceType?: string;
+  /** Details about location and its capabilities */
+  locationInfo?: LocationInfo;
+  /** Details about available skus */
+  skuDetails?: SkuDetail;
+}
+
+/** Information about location (for example: features that it supports) */
+export interface LocationInfo {
+  /** Location name */
+  location?: string;
+  /** List of capabilities */
+  capabilities?: Capability[];
+}
+
+/** Information about the features the location supports */
+export interface Capability {
+  /** Feature name */
+  name?: string;
+  /** Indicates whether feature is supported or not */
+  value?: boolean;
+}
+
+/** Information about Sku */
+export interface SkuDetail {
+  /** The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.) */
+  name?: SkuName;
+}
+
 /** The Private Endpoint Connection resource. */
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
   /** The resource of private end point. */
   privateEndpoint?: PrivateEndpoint;
   /** A collection of information about the state of the connection between service consumer and provider. */
@@ -373,21 +496,21 @@ export type PrivateEndpointConnection = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** A private link resource */
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
   /**
    * The private link resource group id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -400,16 +523,20 @@ export type PrivateLinkResource = Resource & {
   readonly requiredMembers?: string[];
   /** The private link resource Private link DNS zone name. */
   requiredZoneNames?: string[];
-};
+}
 
 /** Describes the RedisEnterprise cluster */
-export type Cluster = TrackedResource & {
+export interface Cluster extends TrackedResource {
   /** The SKU to create, which affects price, performance, and features. */
   sku: Sku;
   /** The Availability Zones where this cluster will be deployed. */
   zones?: string[];
+  /** The identity of the resource. */
+  identity?: ManagedServiceIdentity;
   /** The minimum TLS version for the cluster to support, e.g. '1.2' */
   minimumTlsVersion?: TlsVersion;
+  /** Encryption-at-rest configuration for the cluster. */
+  encryption?: ClusterPropertiesEncryption;
   /**
    * DNS name of the cluster endpoint
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -435,10 +562,10 @@ export type Cluster = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
-};
+}
 
 /** Describes a database on the RedisEnterprise cluster */
-export type Database = ProxyResource & {
+export interface Database extends ProxyResource {
   /** Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is TLS-encrypted. */
   clientProtocol?: Protocol;
   /** TCP port of the database endpoint. Specified at create time. Defaults to an available port. */
@@ -463,12 +590,23 @@ export type Database = ProxyResource & {
   modules?: Module[];
   /** Optional set of properties to configure geo replication for this database. */
   geoReplication?: DatabasePropertiesGeoReplication;
-};
+}
+
+/** Defines headers for Databases_flush operation. */
+export interface DatabasesFlushHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
 
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
+  /** User */
   User = "user",
+  /** System */
   System = "system",
+  /** UserSystem */
   UserSystem = "user,system"
 }
 
@@ -485,6 +623,7 @@ export type Origin = string;
 
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
+  /** Internal */
   Internal = "Internal"
 }
 
@@ -499,12 +638,19 @@ export type ActionType = string;
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
+  /** EnterpriseE10 */
   EnterpriseE10 = "Enterprise_E10",
+  /** EnterpriseE20 */
   EnterpriseE20 = "Enterprise_E20",
+  /** EnterpriseE50 */
   EnterpriseE50 = "Enterprise_E50",
+  /** EnterpriseE100 */
   EnterpriseE100 = "Enterprise_E100",
+  /** EnterpriseFlashF300 */
   EnterpriseFlashF300 = "EnterpriseFlash_F300",
+  /** EnterpriseFlashF700 */
   EnterpriseFlashF700 = "EnterpriseFlash_F700",
+  /** EnterpriseFlashF1500 */
   EnterpriseFlashF1500 = "EnterpriseFlash_F1500"
 }
 
@@ -523,10 +669,37 @@ export enum KnownSkuName {
  */
 export type SkuName = string;
 
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned"
+}
+
+/**
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned, UserAssigned**
+ */
+export type ManagedServiceIdentityType = string;
+
 /** Known values of {@link TlsVersion} that the service accepts. */
 export enum KnownTlsVersion {
+  /** One0 */
   One0 = "1.0",
+  /** One1 */
   One1 = "1.1",
+  /** One2 */
   One2 = "1.2"
 }
 
@@ -541,13 +714,37 @@ export enum KnownTlsVersion {
  */
 export type TlsVersion = string;
 
+/** Known values of {@link CmkIdentityType} that the service accepts. */
+export enum KnownCmkIdentityType {
+  /** SystemAssignedIdentity */
+  SystemAssignedIdentity = "systemAssignedIdentity",
+  /** UserAssignedIdentity */
+  UserAssignedIdentity = "userAssignedIdentity"
+}
+
+/**
+ * Defines values for CmkIdentityType. \
+ * {@link KnownCmkIdentityType} can be used interchangeably with CmkIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **systemAssignedIdentity** \
+ * **userAssignedIdentity**
+ */
+export type CmkIdentityType = string;
+
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting"
 }
 
@@ -567,17 +764,29 @@ export type ProvisioningState = string;
 
 /** Known values of {@link ResourceState} that the service accepts. */
 export enum KnownResourceState {
+  /** Running */
   Running = "Running",
+  /** Creating */
   Creating = "Creating",
+  /** CreateFailed */
   CreateFailed = "CreateFailed",
+  /** Updating */
   Updating = "Updating",
+  /** UpdateFailed */
   UpdateFailed = "UpdateFailed",
+  /** Deleting */
   Deleting = "Deleting",
+  /** DeleteFailed */
   DeleteFailed = "DeleteFailed",
+  /** Enabling */
   Enabling = "Enabling",
+  /** EnableFailed */
   EnableFailed = "EnableFailed",
+  /** Disabling */
   Disabling = "Disabling",
+  /** DisableFailed */
   DisableFailed = "DisableFailed",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -603,8 +812,11 @@ export type ResourceState = string;
 
 /** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
 export enum KnownPrivateEndpointServiceConnectionStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected"
 }
 
@@ -621,9 +833,13 @@ export type PrivateEndpointServiceConnectionStatus = string;
 
 /** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
 export enum KnownPrivateEndpointConnectionProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Creating */
   Creating = "Creating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -639,9 +855,35 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
  */
 export type PrivateEndpointConnectionProvisioningState = string;
 
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
 /** Known values of {@link Protocol} that the service accepts. */
 export enum KnownProtocol {
+  /** Encrypted */
   Encrypted = "Encrypted",
+  /** Plaintext */
   Plaintext = "Plaintext"
 }
 
@@ -657,7 +899,9 @@ export type Protocol = string;
 
 /** Known values of {@link ClusteringPolicy} that the service accepts. */
 export enum KnownClusteringPolicy {
+  /** EnterpriseCluster */
   EnterpriseCluster = "EnterpriseCluster",
+  /** OSSCluster */
   OSSCluster = "OSSCluster"
 }
 
@@ -673,13 +917,21 @@ export type ClusteringPolicy = string;
 
 /** Known values of {@link EvictionPolicy} that the service accepts. */
 export enum KnownEvictionPolicy {
+  /** AllKeysLFU */
   AllKeysLFU = "AllKeysLFU",
+  /** AllKeysLRU */
   AllKeysLRU = "AllKeysLRU",
+  /** AllKeysRandom */
   AllKeysRandom = "AllKeysRandom",
+  /** VolatileLRU */
   VolatileLRU = "VolatileLRU",
+  /** VolatileLFU */
   VolatileLFU = "VolatileLFU",
+  /** VolatileTTL */
   VolatileTTL = "VolatileTTL",
+  /** VolatileRandom */
   VolatileRandom = "VolatileRandom",
+  /** NoEviction */
   NoEviction = "NoEviction"
 }
 
@@ -701,7 +953,9 @@ export type EvictionPolicy = string;
 
 /** Known values of {@link AofFrequency} that the service accepts. */
 export enum KnownAofFrequency {
+  /** OneS */
   OneS = "1s",
+  /** Always */
   Always = "always"
 }
 
@@ -717,8 +971,11 @@ export type AofFrequency = string;
 
 /** Known values of {@link RdbFrequency} that the service accepts. */
 export enum KnownRdbFrequency {
+  /** OneH */
   OneH = "1h",
+  /** SixH */
   SixH = "6h",
+  /** TwelveH */
   TwelveH = "12h"
 }
 
@@ -735,10 +992,15 @@ export type RdbFrequency = string;
 
 /** Known values of {@link LinkState} that the service accepts. */
 export enum KnownLinkState {
+  /** Linked */
   Linked = "Linked",
+  /** Linking */
   Linking = "Linking",
+  /** Unlinking */
   Unlinking = "Unlinking",
+  /** LinkFailed */
   LinkFailed = "LinkFailed",
+  /** UnlinkFailed */
   UnlinkFailed = "UnlinkFailed"
 }
 
@@ -940,6 +1202,15 @@ export interface DatabasesForceUnlinkOptionalParams
 }
 
 /** Optional parameters. */
+export interface DatabasesFlushOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
 export interface DatabasesListByClusterNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -982,6 +1253,12 @@ export interface PrivateLinkResourcesListByClusterOptionalParams
 
 /** Contains response data for the listByCluster operation. */
 export type PrivateLinkResourcesListByClusterResponse = PrivateLinkResourceListResult;
+
+/** Optional parameters. */
+export interface SkusListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SkusListResponse = RegionSkuDetails;
 
 /** Optional parameters. */
 export interface RedisEnterpriseManagementClientOptionalParams

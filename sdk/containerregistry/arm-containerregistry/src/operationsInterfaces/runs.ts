@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Run,
   RunsListOptionalParams,
@@ -63,7 +63,7 @@ export interface Runs {
     runUpdateParameters: RunUpdateParameters,
     options?: RunsUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<RunsUpdateResponse>, RunsUpdateResponse>
+    SimplePollerLike<OperationState<RunsUpdateResponse>, RunsUpdateResponse>
   >;
   /**
    * Patch the run properties.
@@ -105,7 +105,7 @@ export interface Runs {
     registryName: string,
     runId: string,
     options?: RunsCancelOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Cancel an existing run.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.

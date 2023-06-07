@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ConfidentialLedgerClient } from "@azure/arm-confidentialledger";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes an existing Confidential Ledger.
@@ -18,8 +21,12 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/stable/2022-05-13/examples/ConfidentialLedger_Delete.json
  */
 async function confidentialLedgerDelete() {
-  const subscriptionId = "0000000-0000-0000-0000-000000000001";
-  const resourceGroupName = "DummyResourceGroupName";
+  const subscriptionId =
+    process.env["CONFIDENTIALLEDGER_SUBSCRIPTION_ID"] ||
+    "0000000-0000-0000-0000-000000000001";
+  const resourceGroupName =
+    process.env["CONFIDENTIALLEDGER_RESOURCE_GROUP"] ||
+    "DummyResourceGroupName";
   const ledgerName = "DummyLedgerName";
   const credential = new DefaultAzureCredential();
   const client = new ConfidentialLedgerClient(credential, subscriptionId);
@@ -30,4 +37,8 @@ async function confidentialLedgerDelete() {
   console.log(result);
 }
 
-confidentialLedgerDelete().catch(console.error);
+async function main() {
+  confidentialLedgerDelete();
+}
+
+main().catch(console.error);

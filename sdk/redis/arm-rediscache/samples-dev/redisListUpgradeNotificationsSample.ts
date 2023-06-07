@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { RedisManagementClient } from "@azure/arm-rediscache";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets any upgrade notifications for a Redis cache.
@@ -18,8 +21,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCacheListUpgradeNotifications.json
  */
 async function redisCacheListUpgradeNotifications() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rg1";
   const name = "cache1";
   const history = 5000;
   const credential = new DefaultAzureCredential();
@@ -35,4 +38,8 @@ async function redisCacheListUpgradeNotifications() {
   console.log(resArray);
 }
 
-redisCacheListUpgradeNotifications().catch(console.error);
+async function main() {
+  redisCacheListUpgradeNotifications();
+}
+
+main().catch(console.error);

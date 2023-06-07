@@ -13,6 +13,9 @@ import {
   TimeSeriesInsightsClient
 } from "@azure/arm-timeseriesinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update an environment in the specified subscription and resource group.
@@ -21,8 +24,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/EnvironmentsCreate.json
  */
 async function environmentsCreate() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId =
+    process.env["TIMESERIESINSIGHTS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["TIMESERIESINSIGHTS_RESOURCE_GROUP"] || "rg1";
   const environmentName = "env1";
   const parameters: Gen1EnvironmentCreateOrUpdateParameters = {
     dataRetentionTime: "P31D",
@@ -41,4 +46,8 @@ async function environmentsCreate() {
   console.log(result);
 }
 
-environmentsCreate().catch(console.error);
+async function main() {
+  environmentsCreate();
+}
+
+main().catch(console.error);

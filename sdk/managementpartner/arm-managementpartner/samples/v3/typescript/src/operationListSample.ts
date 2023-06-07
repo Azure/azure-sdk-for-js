@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ACEProvisioningManagementPartnerAPI } from "@azure/arm-managementpartner";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to List all the operations.
@@ -27,4 +30,8 @@ async function getOperations() {
   console.log(resArray);
 }
 
-getOperations().catch(console.error);
+async function main() {
+  getOperations();
+}
+
+main().catch(console.error);

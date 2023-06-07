@@ -13,13 +13,12 @@
  * @azsdk-weight 100
  */
 
-import { createClientContext } from "@azure/notification-hubs/client";
-import { createFcmLegacyInstallation } from "@azure/notification-hubs/models/installation";
-import { createOrUpdateInstallation } from "@azure/notification-hubs/client/createOrUpdateInstallation";
-import { v4 as uuid } from "uuid";
+import * as dotenv from "dotenv";
+import { createClientContext, createOrUpdateInstallation } from "@azure/notification-hubs/api";
+import { createFcmLegacyInstallation } from "@azure/notification-hubs/models";
+import { randomUUID } from "@azure/core-util";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and hub name
@@ -34,7 +33,7 @@ async function main() {
   const context = createClientContext(connectionString, hubName);
 
   const installation = createFcmLegacyInstallation({
-    installationId: uuid(),
+    installationId: randomUUID(),
     pushChannel: gcmRegistrationId,
     tags: ["likes_hockey", "likes_football"],
   });

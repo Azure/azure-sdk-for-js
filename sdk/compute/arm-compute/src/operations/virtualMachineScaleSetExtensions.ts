@@ -6,18 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { VirtualMachineScaleSetExtensions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ComputeManagementClient } from "../computeManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   VirtualMachineScaleSetExtension,
   VirtualMachineScaleSetExtensionsListNextOptionalParams,
   VirtualMachineScaleSetExtensionsListOptionalParams,
+  VirtualMachineScaleSetExtensionsListResponse,
   VirtualMachineScaleSetExtensionsCreateOrUpdateOptionalParams,
   VirtualMachineScaleSetExtensionsCreateOrUpdateResponse,
   VirtualMachineScaleSetExtensionUpdate,
@@ -26,7 +32,6 @@ import {
   VirtualMachineScaleSetExtensionsDeleteOptionalParams,
   VirtualMachineScaleSetExtensionsGetOptionalParams,
   VirtualMachineScaleSetExtensionsGetResponse,
-  VirtualMachineScaleSetExtensionsListResponse,
   VirtualMachineScaleSetExtensionsListNextResponse
 } from "../models";
 
@@ -63,8 +68,16 @@ export class VirtualMachineScaleSetExtensionsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, vmScaleSetName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          vmScaleSetName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -72,11 +85,18 @@ export class VirtualMachineScaleSetExtensionsImpl
   private async *listPagingPage(
     resourceGroupName: string,
     vmScaleSetName: string,
-    options?: VirtualMachineScaleSetExtensionsListOptionalParams
+    options?: VirtualMachineScaleSetExtensionsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<VirtualMachineScaleSetExtension[]> {
-    let result = await this._list(resourceGroupName, vmScaleSetName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VirtualMachineScaleSetExtensionsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, vmScaleSetName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -85,7 +105,9 @@ export class VirtualMachineScaleSetExtensionsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -118,10 +140,8 @@ export class VirtualMachineScaleSetExtensionsImpl
     extensionParameters: VirtualMachineScaleSetExtension,
     options?: VirtualMachineScaleSetExtensionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        VirtualMachineScaleSetExtensionsCreateOrUpdateResponse
-      >,
+    SimplePollerLike<
+      OperationState<VirtualMachineScaleSetExtensionsCreateOrUpdateResponse>,
       VirtualMachineScaleSetExtensionsCreateOrUpdateResponse
     >
   > {
@@ -131,7 +151,7 @@ export class VirtualMachineScaleSetExtensionsImpl
     ): Promise<VirtualMachineScaleSetExtensionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -164,19 +184,22 @@ export class VirtualMachineScaleSetExtensionsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         vmScaleSetName,
         vmssExtensionName,
         extensionParameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VirtualMachineScaleSetExtensionsCreateOrUpdateResponse,
+      OperationState<VirtualMachineScaleSetExtensionsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -223,8 +246,8 @@ export class VirtualMachineScaleSetExtensionsImpl
     extensionParameters: VirtualMachineScaleSetExtensionUpdate,
     options?: VirtualMachineScaleSetExtensionsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachineScaleSetExtensionsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachineScaleSetExtensionsUpdateResponse>,
       VirtualMachineScaleSetExtensionsUpdateResponse
     >
   > {
@@ -234,7 +257,7 @@ export class VirtualMachineScaleSetExtensionsImpl
     ): Promise<VirtualMachineScaleSetExtensionsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -267,19 +290,22 @@ export class VirtualMachineScaleSetExtensionsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         vmScaleSetName,
         vmssExtensionName,
         extensionParameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VirtualMachineScaleSetExtensionsUpdateResponse,
+      OperationState<VirtualMachineScaleSetExtensionsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -323,14 +349,14 @@ export class VirtualMachineScaleSetExtensionsImpl
     vmScaleSetName: string,
     vmssExtensionName: string,
     options?: VirtualMachineScaleSetExtensionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -363,13 +389,13 @@ export class VirtualMachineScaleSetExtensionsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vmScaleSetName, vmssExtensionName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vmScaleSetName, vmssExtensionName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -604,7 +630,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

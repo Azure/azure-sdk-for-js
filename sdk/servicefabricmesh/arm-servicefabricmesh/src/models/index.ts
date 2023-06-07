@@ -676,71 +676,79 @@ export interface AutoScalingMetric {
 }
 
 /** This type describes the properties of a secret resource, including its kind. */
-export type SecretResourcePropertiesBase = ProvisionedResourceProperties & {
+export interface SecretResourcePropertiesBase
+  extends ProvisionedResourceProperties {
   /** Describes the kind of secret. */
   kind: SecretKind;
-};
+}
 
 /** This type describes properties of a secret value resource. */
-export type SecretValueResourceProperties = ProvisionedResourceProperties &
-  SecretValueProperties;
+export interface SecretValueResourceProperties
+  extends ProvisionedResourceProperties,
+    SecretValueProperties {}
 
 /** This type describes properties of a volume resource. */
-export type VolumeResourceProperties = ProvisionedResourceProperties &
-  VolumeProperties;
+export interface VolumeResourceProperties
+  extends ProvisionedResourceProperties,
+    VolumeProperties {}
 
 /** This type describes the properties of a network resource, including its kind. */
-export type NetworkResourcePropertiesBase = ProvisionedResourceProperties & {
+export interface NetworkResourcePropertiesBase
+  extends ProvisionedResourceProperties {
   /** The type of a Service Fabric container network. */
   kind: NetworkKind;
-};
+}
 
 /** This type describes properties of a gateway resource. */
-export type GatewayResourceProperties = ProvisionedResourceProperties &
-  GatewayProperties;
+export interface GatewayResourceProperties
+  extends ProvisionedResourceProperties,
+    GatewayProperties {}
 
 /** This type describes properties of a service resource. */
-export type ServiceResourceProperties = ProvisionedResourceProperties &
-  ServiceReplicaProperties &
-  ServiceProperties;
+export interface ServiceResourceProperties
+  extends ProvisionedResourceProperties,
+    ServiceReplicaProperties,
+    ServiceProperties {}
 
 /** This type describes properties of an application resource. */
-export type ApplicationResourceProperties = ProvisionedResourceProperties &
-  ApplicationProperties;
+export interface ApplicationResourceProperties
+  extends ProvisionedResourceProperties,
+    ApplicationProperties {}
 
 /** The resource model definition for Azure Resource Manager tracked top-level resource. */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** The resource model definition for Azure Resource Manager proxy resource. It will have everything other than required location and tags. */
-export type ProxyResource = Resource;
+export interface ProxyResource extends Resource {}
 
 /** Describes a replica of a service resource. */
-export type ServiceReplicaDescription = ServiceReplicaProperties & {
+export interface ServiceReplicaDescription extends ServiceReplicaProperties {
   /** Name of the replica. */
   replicaName: string;
-};
+}
 
 /** Describes a volume whose lifetime is scoped to the application's lifetime. */
-export type ApplicationScopedVolume = VolumeReference & {
+export interface ApplicationScopedVolume extends VolumeReference {
   /** Describes parameters for creating application-scoped volumes. */
   creationParameters: ApplicationScopedVolumeCreationParametersUnion;
-};
+}
 
 /** Describes parameters for creating application-scoped volumes provided by Service Fabric Volume Disks */
-export type ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk = ApplicationScopedVolumeCreationParameters & {
+export interface ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk
+  extends ApplicationScopedVolumeCreationParameters {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "ServiceFabricVolumeDisk";
   /** Volume size */
   sizeDisk: SizeTypes;
-};
+}
 
 /** Describes the average load trigger used for auto scaling. */
-export type AverageLoadScalingTrigger = AutoScalingTrigger & {
+export interface AverageLoadScalingTrigger extends AutoScalingTrigger {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "AverageLoad";
   /** Description of the metric that is used for scaling. */
@@ -751,10 +759,10 @@ export type AverageLoadScalingTrigger = AutoScalingTrigger & {
   upperLoadThreshold: number;
   /** Scale interval that indicates how often will this trigger be checked. */
   scaleIntervalInSeconds: number;
-};
+}
 
 /** Describes the horizontal auto scaling mechanism that adds or removes replicas (containers or container groups). */
-export type AddRemoveReplicaScalingMechanism = AutoScalingMechanism & {
+export interface AddRemoveReplicaScalingMechanism extends AutoScalingMechanism {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "AddRemoveReplica";
   /** Minimum number of containers (scale down won't be performed below this number). */
@@ -763,10 +771,10 @@ export type AddRemoveReplicaScalingMechanism = AutoScalingMechanism & {
   maxCount: number;
   /** Each time auto scaling is performed, this number of containers will be added or removed. */
   scaleIncrement: number;
-};
+}
 
 /** This type describes a service resource. */
-export type ServiceResourceDescription = ManagedProxyResource & {
+export interface ServiceResourceDescription extends ManagedProxyResource {
   /**
    * State of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -806,10 +814,11 @@ export type ServiceResourceDescription = ManagedProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly unhealthyEvaluation?: string;
-};
+}
 
 /** Diagnostics settings for Geneva. */
-export type AzureInternalMonitoringPipelineSinkDescription = DiagnosticsSinkProperties & {
+export interface AzureInternalMonitoringPipelineSinkDescription
+  extends DiagnosticsSinkProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "AzureInternalMonitoringPipeline";
   /** Azure Internal monitoring pipeline account. */
@@ -822,18 +831,20 @@ export type AzureInternalMonitoringPipelineSinkDescription = DiagnosticsSinkProp
   fluentdConfigUrl?: any;
   /** Azure Internal monitoring pipeline autokey associated with the certificate. */
   autoKeyConfigUrl?: string;
-};
+}
 
 /** Describes the resource that is used for triggering auto scaling. */
-export type AutoScalingResourceMetric = AutoScalingMetric & {
+export interface AutoScalingResourceMetric extends AutoScalingMetric {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "Resource";
   /** Name of the resource. */
   name: AutoScalingResourceMetricName;
-};
+}
 
 /** Describes the properties of a secret resource. */
-export type SecretResourceProperties = SecretResourcePropertiesBase & {
+export interface SecretResourceProperties extends SecretResourcePropertiesBase {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "SecretResourceProperties" | "inlinedValue";
   /** User readable description of the secret. */
   description?: string;
   /**
@@ -848,10 +859,13 @@ export type SecretResourceProperties = SecretResourcePropertiesBase & {
   readonly statusDetails?: string;
   /** The type of the content stored in the secret value. The value of this property is opaque to Service Fabric. Once set, the value of this property cannot be changed. */
   contentType?: string;
-};
+}
 
 /** Describes properties of a network resource. */
-export type NetworkResourceProperties = NetworkResourcePropertiesBase & {
+export interface NetworkResourceProperties
+  extends NetworkResourcePropertiesBase {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "NetworkResourceProperties" | "Local";
   /** User readable description of the network. */
   description?: string;
   /**
@@ -864,16 +878,16 @@ export type NetworkResourceProperties = NetworkResourcePropertiesBase & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly statusDetails?: string;
-};
+}
 
 /** This type describes a secret resource. */
-export type SecretResourceDescription = TrackedResource & {
+export interface SecretResourceDescription extends TrackedResource {
   /** Describes the properties of a secret resource. */
   properties: SecretResourcePropertiesUnion;
-};
+}
 
 /** This type describes a value of a secret resource. The name of this resource is the version identifier corresponding to this secret value. */
-export type SecretValueResourceDescription = TrackedResource & {
+export interface SecretValueResourceDescription extends TrackedResource {
   /**
    * State of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -881,10 +895,10 @@ export type SecretValueResourceDescription = TrackedResource & {
   readonly provisioningState?: string;
   /** The actual value of the secret. */
   value?: string;
-};
+}
 
 /** This type describes a volume resource. */
-export type VolumeResourceDescription = TrackedResource & {
+export interface VolumeResourceDescription extends TrackedResource {
   /**
    * State of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -906,16 +920,16 @@ export type VolumeResourceDescription = TrackedResource & {
   provider: VolumeProvider;
   /** This type describes a volume provided by an Azure Files file share. */
   azureFileParameters?: VolumeProviderParametersAzureFile;
-};
+}
 
 /** This type describes a network resource. */
-export type NetworkResourceDescription = TrackedResource & {
+export interface NetworkResourceDescription extends TrackedResource {
   /** Describes properties of a network resource. */
   properties: NetworkResourcePropertiesUnion;
-};
+}
 
 /** This type describes a gateway resource. */
-export type GatewayResourceDescription = TrackedResource & {
+export interface GatewayResourceDescription extends TrackedResource {
   /**
    * State of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -946,10 +960,10 @@ export type GatewayResourceDescription = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ipAddress?: string;
-};
+}
 
 /** This type describes an application resource. */
-export type ApplicationResourceDescription = TrackedResource & {
+export interface ApplicationResourceDescription extends TrackedResource {
   /**
    * State of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -988,16 +1002,23 @@ export type ApplicationResourceDescription = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly unhealthyEvaluation?: string;
-};
+}
 
 /** Describes the properties of a secret resource whose value is provided explicitly as plaintext. The secret resource may have multiple values, each being uniquely versioned. The secret value of each version is stored encrypted, and delivered as plaintext into the context of applications referencing it. */
-export type InlinedValueSecretResourceProperties = SecretResourceProperties;
+export interface InlinedValueSecretResourceProperties
+  extends SecretResourceProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "inlinedValue";
+}
 
 /** Information about a Service Fabric container network local to a single Service Fabric cluster. */
-export type LocalNetworkResourceProperties = NetworkResourceProperties & {
+export interface LocalNetworkResourceProperties
+  extends NetworkResourceProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "Local";
   /** Address space for the local container network. */
   networkAddressPrefix?: string;
-};
+}
 
 /** Known values of {@link ResourceStatus} that the service accepts. */
 export enum KnownResourceStatus {
@@ -1076,6 +1097,7 @@ export type NetworkKind = string;
 
 /** Known values of {@link PathMatchType} that the service accepts. */
 export enum KnownPathMatchType {
+  /** Prefix */
   Prefix = "prefix"
 }
 
@@ -1090,6 +1112,7 @@ export type PathMatchType = string;
 
 /** Known values of {@link HeaderMatchType} that the service accepts. */
 export enum KnownHeaderMatchType {
+  /** Exact */
   Exact = "exact"
 }
 
@@ -1212,8 +1235,11 @@ export type DiagnosticsSinkKind = string;
 
 /** Known values of {@link SizeTypes} that the service accepts. */
 export enum KnownSizeTypes {
+  /** Small */
   Small = "Small",
+  /** Medium */
   Medium = "Medium",
+  /** Large */
   Large = "Large"
 }
 

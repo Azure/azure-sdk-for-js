@@ -22,7 +22,7 @@ async function jobsListByDevice() {
   const deviceName = "Device05ForSDKTest";
   const resourceGroupName = "ResourceGroupForSDKTest";
   const managerName = "ManagerForSDKTest1";
-  const filter = "jobType eq 'ManualBackup'";
+  const filter = "jobType%20eq%20'ManualBackup'";
   const options = { filter };
   const credential = new DefaultAzureCredential();
   const client = new StorSimple8000SeriesManagementClient(credential, subscriptionId);

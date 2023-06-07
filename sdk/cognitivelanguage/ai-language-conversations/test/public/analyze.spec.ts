@@ -24,7 +24,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
       await recorder.stop();
     });
 
-    describe("#sync", () => {
+    describe("#sync", function () {
       it("Test Conversation App", async function () {
         const message = await client.analyzeConversation({
           kind: "Conversation",
@@ -205,7 +205,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
       });
     });
 
-    describe("#async", () => {
+    describe("#async", function () {
       it("Test Conversation App PII transcript", async function () {
         const poller = await client.beginConversationAnalysis({
           displayName: "Analyze PII in conversation",

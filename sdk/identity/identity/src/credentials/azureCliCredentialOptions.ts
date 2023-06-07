@@ -11,4 +11,8 @@ export interface AzureCliCredentialOptions extends MultiTenantTokenCredentialOpt
    * Allows specifying a tenant ID
    */
   tenantId?: string;
+  /**
+   * Process timeout configurable for making token requests, provided in milliseconds
+   */
+  processTimeoutInMs?: number;
 }

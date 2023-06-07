@@ -34,8 +34,7 @@ async function vpnSiteCreate() {
           breakOutCategories: { default: false, allow: true, optimize: true },
         },
         virtualWan: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWANs/wan1",
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWANs/wan1",
         },
         vpnSiteLinks: [
           {

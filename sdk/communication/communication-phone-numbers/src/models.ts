@@ -2,7 +2,12 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-client";
-import { PhoneNumberSearchRequest } from "./generated/src/models/";
+import {
+  PhoneNumberAssignmentType,
+  PhoneNumberSearchRequest,
+  PhoneNumbersListAreaCodesOptionalParams,
+  PhoneNumberType,
+} from "./generated/src/models/";
 
 /**
  * The result of the phone numbers purchase operation.
@@ -35,17 +40,66 @@ export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchReq
   countryCode: string;
 }
 
+/**
+ * Additional options that can be passed to the available countries request.
+ */
+export interface ListAvailableCountriesOptions extends OperationOptions {}
+
+/**
+ * Additional options that can be passed to the Toll-Free area codes request.
+ */
+export interface ListTollFreeAreaCodesOptions
+  extends Omit<
+    PhoneNumbersListAreaCodesOptionalParams,
+    "assignmentType" | "locality" | "administrativeDivision"
+  > {}
+
+/**
+ * Additional options that can be passed to the Geographic area codes request.
+ */
+export interface ListGeographicAreaCodesOptions extends PhoneNumbersListAreaCodesOptionalParams {}
+
+/**
+ * Additional options that can be passed to the available localities request.
+ */
+export interface ListLocalitiesOptions extends OperationOptions {
+  administrativeDivision?: string;
+}
+
+/**
+ * Additional options that can be passed to list SIP routes.
+ */
+export interface ListSipRoutesOptions extends OperationOptions {}
+
+/**
+ * Additional options that can be passed to list SIP trunks.
+ */
+export interface ListSipTrunksOptions extends OperationOptions {}
+
+/**
+ * Additional options that can be passed to the available offerings request.
+ */
+export interface ListOfferingsOptions extends OperationOptions {
+  phoneNumberType?: PhoneNumberType;
+  assignmentType?: PhoneNumberAssignmentType;
+}
+
 export {
-  PurchasedPhoneNumber,
+  PhoneNumberAdministrativeDivision,
   PhoneNumberAssignmentType,
+  PhoneNumberAreaCode,
   PhoneNumberCapabilities,
   PhoneNumberCapabilitiesRequest,
   PhoneNumberCapabilityType,
   PhoneNumberCost,
-  PhoneNumberSearchResult,
+  PhoneNumberCountry,
+  PhoneNumbersListAreaCodesOptionalParams,
+  PhoneNumberLocality,
+  PhoneNumberOffering,
   PhoneNumberSearchRequest,
+  PhoneNumberSearchResult,
   PhoneNumberType,
-  PhoneNumberSource,
+  PurchasedPhoneNumber,
 } from "./generated/src/models/";
 
 export { SipRoutingError, SipTrunkRoute } from "./generated/src/siprouting/models";

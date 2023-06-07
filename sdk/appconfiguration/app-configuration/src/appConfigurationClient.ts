@@ -32,13 +32,13 @@ import {
   GetKeyValuesResponse,
   GetRevisionsResponse,
 } from "./generated/src/models";
-import {
-  CommonClientOptions,
-  deserializationPolicy,
-  deserializationPolicyName,
-} from "@azure/core-client";
+import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
 import { PagedAsyncIterableIterator, PagedResult, getPagedAsyncIterator } from "@azure/core-paging";
-import { PipelinePolicy, bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import {
+  PipelinePolicy,
+  bearerTokenAuthenticationPolicy,
+  RestError,
+} from "@azure/core-rest-pipeline";
 import { SyncTokens, syncTokenPolicy } from "./internal/synctokenpolicy";
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
@@ -59,6 +59,7 @@ import { FeatureFlagValue } from "./featureFlag";
 import { SecretReferenceValue } from "./secretReference";
 import { appConfigKeyCredentialPolicy } from "./appConfigCredential";
 import { tracingClient } from "./internal/tracing";
+import { logger } from "./logger";
 
 const apiVersion = "1.0";
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
@@ -147,15 +148,24 @@ export class AppConfigurationClient {
       }
     }
 
+    const internalClientPipelineOptions: InternalClientPipelineOptions = {
+      ...appConfigOptions,
+      loggingOptions: {
+        logger: logger.info,
+      },
+      deserializationOptions: {
+        expectedContentTypes: deserializationContentTypes,
+      },
+    };
+
     this._syncTokens = appConfigOptions.syncTokens || new SyncTokens();
-    this.client = new AppConfiguration(appConfigEndpoint, apiVersion, appConfigOptions);
+    this.client = new AppConfiguration(
+      appConfigEndpoint,
+      apiVersion,
+      internalClientPipelineOptions
+    );
     this.client.pipeline.addPolicy(authPolicy, { phase: "Sign" });
     this.client.pipeline.addPolicy(syncTokenPolicy(this._syncTokens), { afterPhase: "Retry" });
-    this.client.pipeline.removePolicy({ name: deserializationPolicyName });
-    this.client.pipeline.addPolicy(
-      deserializationPolicy({ expectedContentTypes: deserializationContentTypes }),
-      { phase: "Deserialize" }
-    );
   }
 
   /**
@@ -181,15 +191,26 @@ export class AppConfigurationClient {
       options,
       async (updatedOptions) => {
         const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
-        const originalResponse = await this.client.putKeyValue(configurationSetting.key, {
-          ifNoneMatch: "*",
-          label: configurationSetting.label,
-          entity: keyValue,
-          ...updatedOptions,
-        });
-        const response = transformKeyValueResponse(originalResponse);
-        assertResponse(response);
-        return response;
+        logger.info("[addConfigurationSetting] Creating a key value pair");
+        try {
+          const originalResponse = await this.client.putKeyValue(configurationSetting.key, {
+            ifNoneMatch: "*",
+            label: configurationSetting.label,
+            entity: keyValue,
+            ...updatedOptions,
+          });
+          const response = transformKeyValueResponse(originalResponse);
+          assertResponse(response);
+          return response;
+        } catch (error) {
+          const err = error as RestError;
+          // Service does not return an error message. Raise a 412 error similar to .NET
+          if (err.statusCode === 412) {
+            err.message = `Status 412: Setting was already present`;
+          }
+          throw err;
+        }
+        throw new Error("Unreachable code");
       }
     );
   }
@@ -213,6 +234,7 @@ export class AppConfigurationClient {
       options,
       async (updatedOptions) => {
         let status;
+        logger.info("[deleteConfigurationSetting] Deleting key value pair");
         const originalResponse = await this.client.deleteKeyValue(id.key, {
           label: id.label,
           ...updatedOptions,
@@ -248,6 +270,7 @@ export class AppConfigurationClient {
       options,
       async (updatedOptions) => {
         let status;
+        logger.info("[getConfigurationSetting] Getting key value pair");
         const originalResponse = await this.client.getKeyValue(id.key, {
           ...updatedOptions,
           label: id.label,
@@ -412,6 +435,7 @@ export class AppConfigurationClient {
       options,
       async (updatedOptions) => {
         const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
+        logger.info("[setConfigurationSetting] Setting new key value");
         const response = transformKeyValueResponse(
           await this.client.putKeyValue(configurationSetting.key, {
             ...updatedOptions,
@@ -441,12 +465,14 @@ export class AppConfigurationClient {
       async (newOptions) => {
         let response;
         if (readOnly) {
+          logger.info("[setReadOnly] Setting read-only status to ${readOnly}");
           response = await this.client.putLock(id.key, {
             ...newOptions,
             label: id.label,
             ...checkAndFormatIfAndIfNoneMatch(id, options),
           });
         } else {
+          logger.info("[setReadOnly] Deleting read-only lock");
           response = await this.client.deleteLock(id.key, {
             ...newOptions,
             label: id.label,

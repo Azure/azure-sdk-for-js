@@ -6,20 +6,27 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { SystemTopics } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { EventGridManagementClient } from "../eventGridManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   SystemTopic,
   SystemTopicsListBySubscriptionNextOptionalParams,
   SystemTopicsListBySubscriptionOptionalParams,
+  SystemTopicsListBySubscriptionResponse,
   SystemTopicsListByResourceGroupNextOptionalParams,
   SystemTopicsListByResourceGroupOptionalParams,
+  SystemTopicsListByResourceGroupResponse,
   SystemTopicsGetOptionalParams,
   SystemTopicsGetResponse,
   SystemTopicsCreateOrUpdateOptionalParams,
@@ -28,8 +35,6 @@ import {
   SystemTopicUpdateParameters,
   SystemTopicsUpdateOptionalParams,
   SystemTopicsUpdateResponse,
-  SystemTopicsListBySubscriptionResponse,
-  SystemTopicsListByResourceGroupResponse,
   SystemTopicsListBySubscriptionNextResponse,
   SystemTopicsListByResourceGroupNextResponse
 } from "../models";
@@ -62,22 +67,34 @@ export class SystemTopicsImpl implements SystemTopics {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: SystemTopicsListBySubscriptionOptionalParams
+    options?: SystemTopicsListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SystemTopic[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SystemTopicsListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -106,19 +123,33 @@ export class SystemTopicsImpl implements SystemTopics {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: SystemTopicsListByResourceGroupOptionalParams
+    options?: SystemTopicsListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SystemTopic[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SystemTopicsListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -126,7 +157,9 @@ export class SystemTopicsImpl implements SystemTopics {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -172,8 +205,8 @@ export class SystemTopicsImpl implements SystemTopics {
     systemTopicInfo: SystemTopic,
     options?: SystemTopicsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SystemTopicsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SystemTopicsCreateOrUpdateResponse>,
       SystemTopicsCreateOrUpdateResponse
     >
   > {
@@ -183,7 +216,7 @@ export class SystemTopicsImpl implements SystemTopics {
     ): Promise<SystemTopicsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -216,13 +249,16 @@ export class SystemTopicsImpl implements SystemTopics {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, systemTopicName, systemTopicInfo, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, systemTopicName, systemTopicInfo, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SystemTopicsCreateOrUpdateResponse,
+      OperationState<SystemTopicsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -261,14 +297,14 @@ export class SystemTopicsImpl implements SystemTopics {
     resourceGroupName: string,
     systemTopicName: string,
     options?: SystemTopicsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -301,13 +337,13 @@ export class SystemTopicsImpl implements SystemTopics {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, systemTopicName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, systemTopicName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -346,8 +382,8 @@ export class SystemTopicsImpl implements SystemTopics {
     systemTopicUpdateParameters: SystemTopicUpdateParameters,
     options?: SystemTopicsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SystemTopicsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SystemTopicsUpdateResponse>,
       SystemTopicsUpdateResponse
     >
   > {
@@ -357,7 +393,7 @@ export class SystemTopicsImpl implements SystemTopics {
     ): Promise<SystemTopicsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -390,18 +426,21 @@ export class SystemTopicsImpl implements SystemTopics {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         systemTopicName,
         systemTopicUpdateParameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SystemTopicsUpdateResponse,
+      OperationState<SystemTopicsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -632,7 +671,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -650,7 +688,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

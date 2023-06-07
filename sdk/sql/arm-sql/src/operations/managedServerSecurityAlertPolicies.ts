@@ -6,24 +6,29 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ManagedServerSecurityAlertPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ManagedServerSecurityAlertPolicy,
   ManagedServerSecurityAlertPoliciesListByInstanceNextOptionalParams,
   ManagedServerSecurityAlertPoliciesListByInstanceOptionalParams,
+  ManagedServerSecurityAlertPoliciesListByInstanceResponse,
   SecurityAlertPolicyName,
   ManagedServerSecurityAlertPoliciesGetOptionalParams,
   ManagedServerSecurityAlertPoliciesGetResponse,
   ManagedServerSecurityAlertPoliciesCreateOrUpdateOptionalParams,
   ManagedServerSecurityAlertPoliciesCreateOrUpdateResponse,
-  ManagedServerSecurityAlertPoliciesListByInstanceResponse,
   ManagedServerSecurityAlertPoliciesListByInstanceNextResponse
 } from "../models";
 
@@ -65,11 +70,15 @@ export class ManagedServerSecurityAlertPoliciesImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByInstancePagingPage(
           resourceGroupName,
           managedInstanceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -78,15 +87,22 @@ export class ManagedServerSecurityAlertPoliciesImpl
   private async *listByInstancePagingPage(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ManagedServerSecurityAlertPoliciesListByInstanceOptionalParams
+    options?: ManagedServerSecurityAlertPoliciesListByInstanceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ManagedServerSecurityAlertPolicy[]> {
-    let result = await this._listByInstance(
-      resourceGroupName,
-      managedInstanceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ManagedServerSecurityAlertPoliciesListByInstanceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByInstance(
+        resourceGroupName,
+        managedInstanceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByInstanceNext(
         resourceGroupName,
@@ -95,7 +111,9 @@ export class ManagedServerSecurityAlertPoliciesImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -154,10 +172,8 @@ export class ManagedServerSecurityAlertPoliciesImpl
     parameters: ManagedServerSecurityAlertPolicy,
     options?: ManagedServerSecurityAlertPoliciesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        ManagedServerSecurityAlertPoliciesCreateOrUpdateResponse
-      >,
+    SimplePollerLike<
+      OperationState<ManagedServerSecurityAlertPoliciesCreateOrUpdateResponse>,
       ManagedServerSecurityAlertPoliciesCreateOrUpdateResponse
     >
   > {
@@ -167,7 +183,7 @@ export class ManagedServerSecurityAlertPoliciesImpl
     ): Promise<ManagedServerSecurityAlertPoliciesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -200,19 +216,22 @@ export class ManagedServerSecurityAlertPoliciesImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         managedInstanceName,
         securityAlertPolicyName,
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ManagedServerSecurityAlertPoliciesCreateOrUpdateResponse,
+      OperationState<ManagedServerSecurityAlertPoliciesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -296,7 +315,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -326,8 +345,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters55,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters43,
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -335,7 +354,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.securityAlertPolicyName,
     Parameters.managedInstanceName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -349,7 +368,7 @@ const listByInstanceOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -368,7 +387,6 @@ const listByInstanceNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -10,61 +10,125 @@ import {
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders as HttpHeadersV2, PipelineRequest } from "@azure/core-rest-pipeline";
 
-const originalRequest = Symbol("Original PipelineRequest");
-type CompatWebResourceLike = WebResourceLike & { [originalRequest]?: PipelineRequest };
+// We use a custom symbol to cache a reference to the original request without
+// exposing it on the public interface.
+const originalRequestSymbol = Symbol("Original PipelineRequest");
+type CompatWebResourceLike = WebResourceLike & { [originalRequestSymbol]?: PipelineRequest };
+// Symbol.for() will return the same symbol if it's already been created
+// This particular one is used in core-client to handle the case of when a request is
+// cloned but we need to retrieve the OperationSpec and OperationArguments from the
+// original request.
+const originalClientRequestSymbol = Symbol.for("@azure/core-client original request");
+type PipelineRequestWithOriginal = PipelineRequest & {
+  [originalClientRequestSymbol]?: PipelineRequest;
+};
 
-export function toPipelineRequest(webResource: WebResourceLike): PipelineRequest {
+export function toPipelineRequest(
+  webResource: WebResourceLike,
+  options: {
+    originalRequest?: PipelineRequest;
+  } = {}
+): PipelineRequest {
   const compatWebResource = webResource as CompatWebResourceLike;
-  const request = compatWebResource[originalRequest];
+  const request = compatWebResource[originalRequestSymbol];
   const headers = createHttpHeaders(webResource.headers.toJson({ preserveCase: true }));
   if (request) {
     request.headers = headers;
     return request;
   } else {
-    return createPipelineRequest({
+    const newRequest = createPipelineRequest({
       url: webResource.url,
       method: webResource.method,
       headers,
       withCredentials: webResource.withCredentials,
       timeout: webResource.timeout,
       requestId: webResource.requestId,
+      abortSignal: webResource.abortSignal,
+      body: webResource.body,
+      formData: webResource.formData,
+      disableKeepAlive: !!webResource.keepAlive,
+      onDownloadProgress: webResource.onDownloadProgress,
+      onUploadProgress: webResource.onUploadProgress,
+      proxySettings: webResource.proxySettings,
+      streamResponseStatusCodes: webResource.streamResponseStatusCodes,
     });
+    if (options.originalRequest) {
+      (newRequest as PipelineRequestWithOriginal)[originalClientRequestSymbol] =
+        options.originalRequest;
+    }
+    return newRequest;
   }
 }
 
 export function toWebResourceLike(
   request: PipelineRequest,
-  options?: { createProxy?: boolean }
+  options?: { createProxy?: boolean; originalRequest?: PipelineRequest }
 ): WebResourceLike {
+  const originalRequest = options?.originalRequest ?? request;
   const webResource: WebResourceLike = {
     url: request.url,
     method: request.method,
-    headers: toHttpHeaderLike(request.headers),
+    headers: toHttpHeadersLike(request.headers),
     withCredentials: request.withCredentials,
     timeout: request.timeout,
     requestId: request.headers.get("x-ms-client-request-id") || request.requestId,
+    abortSignal: request.abortSignal,
+    body: request.body,
+    formData: request.formData,
+    keepAlive: !!request.disableKeepAlive,
+    onDownloadProgress: request.onDownloadProgress,
+    onUploadProgress: request.onUploadProgress,
+    proxySettings: request.proxySettings,
+    streamResponseStatusCodes: request.streamResponseStatusCodes,
+    clone(): WebResourceLike {
+      throw new Error("Cannot clone a non-proxied WebResourceLike");
+    },
+    prepare(): WebResourceLike {
+      throw new Error("WebResourceLike.prepare() is not supported by @azure/core-http-compat");
+    },
+    validateRequestProperties(): void {
+      /** do nothing */
+    },
   };
 
   if (options?.createProxy) {
     return new Proxy(webResource, {
       get(target, prop, receiver) {
-        if (prop === originalRequest) {
+        if (prop === originalRequestSymbol) {
           return request;
+        } else if (prop === "clone") {
+          return () => {
+            return toWebResourceLike(toPipelineRequest(webResource, { originalRequest }), {
+              createProxy: true,
+              originalRequest,
+            });
+          };
         }
         return Reflect.get(target, prop, receiver);
       },
       set(target: any, prop, value, receiver) {
-        if (prop === "url") {
-          request.url = value;
-        } else if (prop === "method") {
-          request.method = value;
-        } else if (prop === "withCredentials") {
-          request.withCredentials = value;
-        } else if (prop === "timeout") {
-          request.timeout = value;
-        } else if (prop === "requestId") {
-          request.requestId = value;
+        if (prop === "keepAlive") {
+          request.disableKeepAlive = !value;
         }
+        const passThroughProps = [
+          "url",
+          "method",
+          "withCredentials",
+          "timeout",
+          "requestId",
+          "abortSignal",
+          "body",
+          "formData",
+          "onDownloadProgress",
+          "onUploadProgress",
+          "proxySettings",
+          "streamResponseStatusCodes",
+        ];
+
+        if (typeof prop === "string" && passThroughProps.includes(prop)) {
+          (request as any)[prop] = value;
+        }
+
         return Reflect.set(target, prop, value, receiver);
       },
     });
@@ -73,7 +137,13 @@ export function toWebResourceLike(
   }
 }
 
-export function toHttpHeaderLike(headers: HttpHeadersV2): HttpHeadersLike {
+/**
+ * Converts HttpHeaders from core-rest-pipeline to look like
+ * HttpHeaders from core-http.
+ * @param headers - HttpHeaders from core-rest-pipeline
+ * @returns HttpHeaders as they looked in core-http
+ */
+export function toHttpHeadersLike(headers: HttpHeadersV2): HttpHeadersLike {
   return new HttpHeaders(headers.toJSON({ preserveCase: true }));
 }
 
@@ -370,6 +440,24 @@ export interface WebResourceLike {
 
   /** Callback which fires upon download progress. */
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
+
+  /**
+   * Clone this request object.
+   */
+  clone(): WebResourceLike;
+
+  /**
+   * Validates that the required properties such as method, url, headers["Content-Type"],
+   * headers["accept-language"] are defined. It will throw an error if one of the above
+   * mentioned properties are not defined.
+   * Note: this a no-op for compat purposes.
+   */
+  validateRequestProperties(): void;
+
+  /**
+   * This is a no-op for compat purposes and will throw if called.
+   */
+  prepare(options: unknown): WebResourceLike;
 }
 
 /**

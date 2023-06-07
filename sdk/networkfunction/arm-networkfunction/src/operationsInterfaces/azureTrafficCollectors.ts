@@ -35,11 +35,13 @@ export interface AzureTrafficCollectors {
    * Creates or updates a Azure Traffic Collector resource
    * @param resourceGroupName The name of the resource group.
    * @param azureTrafficCollectorName Azure Traffic Collector name
+   * @param location Resource location.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     azureTrafficCollectorName: string,
+    location: string,
     options?: AzureTrafficCollectorsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
@@ -51,11 +53,13 @@ export interface AzureTrafficCollectors {
    * Creates or updates a Azure Traffic Collector resource
    * @param resourceGroupName The name of the resource group.
    * @param azureTrafficCollectorName Azure Traffic Collector name
+   * @param location Resource location.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     azureTrafficCollectorName: string,
+    location: string,
     options?: AzureTrafficCollectorsCreateOrUpdateOptionalParams
   ): Promise<AzureTrafficCollectorsCreateOrUpdateResponse>;
   /**

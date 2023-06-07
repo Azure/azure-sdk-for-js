@@ -13,6 +13,9 @@ import {
   ConsumptionManagementClient
 } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Provides the aggregate cost of a management group and all child management groups by current billing period.
@@ -21,7 +24,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/AggregatedCostByManagementGroup.json
  */
 async function aggregatedCostByManagementGroup() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const managementGroupId = "managementGroupForTest";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -31,8 +36,6 @@ async function aggregatedCostByManagementGroup() {
   console.log(result);
 }
 
-aggregatedCostByManagementGroup().catch(console.error);
-
 /**
  * This sample demonstrates how to Provides the aggregate cost of a management group and all child management groups by current billing period.
  *
@@ -40,7 +43,9 @@ aggregatedCostByManagementGroup().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/AggregatedCostByManagementGroupFilterByDate.json
  */
 async function aggregatedCostByManagementGroupFilterByDate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const managementGroupId = "managementGroupForTest";
   const filter =
     "usageStart ge '2018-08-15' and properties/usageStart le '2018-08-31'";
@@ -54,4 +59,9 @@ async function aggregatedCostByManagementGroupFilterByDate() {
   console.log(result);
 }
 
-aggregatedCostByManagementGroupFilterByDate().catch(console.error);
+async function main() {
+  aggregatedCostByManagementGroup();
+  aggregatedCostByManagementGroupFilterByDate();
+}
+
+main().catch(console.error);

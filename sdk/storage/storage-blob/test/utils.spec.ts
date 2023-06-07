@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { assert } from "chai";
-import { HttpHeaders } from "../src";
 import {
   sanitizeHeaders,
   sanitizeURL,
   extractConnectionStringParts,
   isIpEndpointStyle,
+  setURLParameter,
 } from "../src/utils/utils.common";
-import { URLBuilder } from "@azure/core-http";
 
 describe("Utility Helpers", () => {
   const protocol = "https";
@@ -38,6 +38,42 @@ describe("Utility Helpers", () => {
     );
   }
 
+  it("setURLParameter correctly updates parameters", function () {
+    assert.equal(setURLParameter("http://test.com/", "a", "b"), "http://test.com/?a=b");
+    assert.equal(
+      setURLParameter("http://test.com/container/blob", "a", "b"),
+      "http://test.com/container/blob?a=b"
+    );
+    assert.equal(
+      setURLParameter("http://test.com/container/blob?a=b", "a", ""),
+      "http://test.com/container/blob"
+    );
+    assert.equal(
+      setURLParameter("http://test.com/container/blob?a=b", "a"),
+      "http://test.com/container/blob"
+    );
+    assert.equal(
+      setURLParameter("http://test.com/container/blob?a=b", "a", "c"),
+      "http://test.com/container/blob?a=c"
+    );
+    assert.equal(
+      setURLParameter("http://test.com/container/blob?a=b", "c", "d"),
+      "http://test.com/container/blob?a=b&c=d"
+    );
+    assert.equal(
+      setURLParameter("http://test.com/container/blob?a=b", "c", ""),
+      "http://test.com/container/blob?a=b"
+    );
+    assert.equal(
+      setURLParameter(
+        "http://test.com/container/blob",
+        "versionid",
+        "2022-12-10T19:55:31.5767937Z"
+      ),
+      "http://test.com/container/blob?versionid=2022-12-10T19%3A55%3A31.5767937Z"
+    );
+  });
+
   it("sanitizeURL redacts SAS token", () => {
     const url = "https://some.url.com/container/blob?sig=sasstring";
     const sanitized = sanitizeURL(url);
@@ -47,7 +83,7 @@ describe("Utility Helpers", () => {
 
   it("sanitizeHeaders redacts SAS token", () => {
     const url = "https://some.url.com/container/blob?sig=sasstring";
-    const headers = new HttpHeaders();
+    const headers = createHttpHeaders();
     headers.set("authorization", "Bearer abcdefg");
     headers.set("x-ms-copy-source", url);
     headers.set("otherheader", url);
@@ -72,7 +108,7 @@ describe("Utility Helpers", () => {
     );
   });
 
-  it("extractConnectionStringParts parses sas connection string with queue and file endpoints", async () => {
+  it("extractConnectionStringParts parses sas connection string with queue and file endpoints", async function () {
     verifySASConnectionString(
       `BlobEndpoint=${blobEndpoint};
         FileEndpoint=https://storagesample.file.core.windows.net;
@@ -80,7 +116,7 @@ describe("Utility Helpers", () => {
     );
   });
 
-  it("extractConnectionStringParts parses sas connection string with queue endpoint", async () => {
+  it("extractConnectionStringParts parses sas connection string with queue endpoint", async function () {
     verifySASConnectionString(
       `BlobEndpoint=${blobEndpoint};
         FileEndpoint=https://storagesample.file.core.windows.net;
@@ -88,7 +124,7 @@ describe("Utility Helpers", () => {
     );
   });
 
-  it("extractConnectionStringParts parses sas connection string with custom domain", async () => {
+  it("extractConnectionStringParts parses sas connection string with custom domain", async function () {
     const sasConnectionString = `BlobEndpoint=${customDomainBlobEndpoint};
     SharedAccessSignature=${sharedAccessSignature}`;
     const connectionStringParts = extractConnectionStringParts(sasConnectionString);
@@ -109,46 +145,34 @@ describe("Utility Helpers", () => {
     );
   });
 
-  it("isIpEndpointStyle", async () => {
+  it("isIpEndpointStyle", async function () {
     assert.equal(
-      isIpEndpointStyle(
-        URLBuilder.parse("https://192.0.0.10:1900/accountName/containerName/blobName")
-      ),
+      isIpEndpointStyle(new URL("https://192.0.0.10:1900/accountName/containerName/blobName")),
       true
     );
     assert.equal(
       isIpEndpointStyle(
-        URLBuilder.parse(
+        new URL(
           "https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/accountName/containerName/blobName"
         )
       ),
       true
     );
     assert.equal(
-      isIpEndpointStyle(
-        URLBuilder.parse("https://localhost:80/accountName/containerName/blobName")
-      ),
+      isIpEndpointStyle(new URL("https://localhost:80/accountName/containerName/blobName")),
       true
     );
 
-    assert.equal(isIpEndpointStyle(URLBuilder.parse("https://192.0.0.10:1900/")), true);
-    assert.equal(isIpEndpointStyle(URLBuilder.parse("https://192.0.0.10")), true);
+    assert.equal(isIpEndpointStyle(new URL("https://192.0.0.10:1900/")), true);
+    assert.equal(isIpEndpointStyle(new URL("https://192.0.0.10")), true);
 
     assert.equal(
       isIpEndpointStyle(
-        URLBuilder.parse("https://2001:db8:85a3:8d3:1319:8a2e:370:7348/accountName/containerName")
+        new URL("https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]/accountName/containerName")
       ),
       true
     );
-    assert.equal(isIpEndpointStyle(URLBuilder.parse("https://2001::1")), true);
-    // assert.equal(isIpEndpointStyle(URLBuilder.parse('https://::1')), true); currently not working due to http url.ts's issue. uncomment after core lib fixed.
-
-    assert.equal(isIpEndpointStyle(URLBuilder.parse("https://255")), false);
-    assert.equal(isIpEndpointStyle(URLBuilder.parse("https://255.255")), false);
-    assert.equal(isIpEndpointStyle(URLBuilder.parse("https://a.b.c.d")), false);
-    assert.equal(isIpEndpointStyle(URLBuilder.parse("https://256.1.1.1")), false);
-    assert.equal(isIpEndpointStyle(URLBuilder.parse("https://255.256.1.1")), false);
-    assert.equal(isIpEndpointStyle(URLBuilder.parse("https://255.255.256.1")), false);
-    assert.equal(isIpEndpointStyle(URLBuilder.parse("https://255.255.255.256")), false);
+    assert.equal(isIpEndpointStyle(new URL("https://[::1]")), true);
+    assert.equal(isIpEndpointStyle(new URL("https://a.b.c.d")), false);
   });
 });

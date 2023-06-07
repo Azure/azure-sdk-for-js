@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse } from "../interfaces.js";
-import { RestError } from "../restError.js";
+import { PipelineResponse } from "../interfaces";
+import { RestError } from "../restError";
 import { getRandomIntegerInclusive } from "@azure/core-util";
-import { RetryStrategy } from "./retryStrategy.js";
-import { isThrottlingRetryResponse } from "./throttlingRetryStrategy.js";
+import { RetryStrategy } from "./retryStrategy";
+import { isThrottlingRetryResponse } from "./throttlingRetryStrategy";
 
 // intervals are in milliseconds
 const DEFAULT_CLIENT_RETRY_INTERVAL = 1000;

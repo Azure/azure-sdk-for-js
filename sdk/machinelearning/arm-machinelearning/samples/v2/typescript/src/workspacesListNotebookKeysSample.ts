@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to List keys of a notebook.
  *
  * @summary List keys of a notebook.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/Notebook/listKeys.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Notebook/listKeys.json
  */
 async function listWorkspaceKeys() {
   const subscriptionId = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";

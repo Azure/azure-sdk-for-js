@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
+import { CosmosDiagnosticContext } from "../../CosmosDiagnosticsContext";
 import {
   createDocumentUri,
   getIdFromLink,
@@ -13,6 +14,7 @@ import { PartitionKey } from "../../documents";
 import { extractPartitionKey, undefinedPartitionKey } from "../../extractPartitionKey";
 import { RequestOptions, Response } from "../../request";
 import { PatchRequestBody } from "../../utils/patch";
+import { readAndRecordPartitionKeyDefinition } from "../ClientUtils";
 import { Container } from "../Container";
 import { Resource } from "../Resource";
 import { ItemDefinition } from "./ItemDefinition";
@@ -74,10 +76,11 @@ export class Item {
   public async read<T extends ItemDefinition = any>(
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
+    let diagnosticContext: CosmosDiagnosticContext;
     if (this.partitionKey === undefined) {
-      const { resource: partitionKeyDefinition } =
-        await this.container.readPartitionKeyDefinition();
-      this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
+      const partitionKeyResponse = await readAndRecordPartitionKeyDefinition(this.container);
+      this.partitionKey = undefinedPartitionKey(partitionKeyResponse.partitionKeyDefinition);
+      diagnosticContext = partitionKeyResponse.diagnosticContext;
     }
 
     const path = getPathFromLink(this.url);
@@ -90,6 +93,7 @@ export class Item {
         resourceId: id,
         options,
         partitionKey: this.partitionKey,
+        diagnosticContext,
       });
     } catch (error: any) {
       if (error.code !== StatusCodes.NotFound) {
@@ -103,7 +107,8 @@ export class Item {
       response.headers,
       response.code,
       response.substatus,
-      this
+      this,
+      response.diagnostics
     );
   }
 
@@ -138,10 +143,11 @@ export class Item {
     body: T,
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
+    let diagnosticContext: CosmosDiagnosticContext;
     if (this.partitionKey === undefined) {
-      const { resource: partitionKeyDefinition } =
-        await this.container.readPartitionKeyDefinition();
-      this.partitionKey = extractPartitionKey(body, partitionKeyDefinition);
+      const partitionKeyResponse = await readAndRecordPartitionKeyDefinition(this.container);
+      this.partitionKey = extractPartitionKey(body, partitionKeyResponse.partitionKeyDefinition);
+      diagnosticContext = partitionKeyResponse.diagnosticContext;
     }
 
     const err = {};
@@ -159,13 +165,15 @@ export class Item {
       resourceId: id,
       options,
       partitionKey: this.partitionKey,
+      diagnosticContext,
     });
     return new ItemResponse(
       response.result,
       response.headers,
       response.code,
       response.substatus,
-      this
+      this,
+      response.diagnostics
     );
   }
 
@@ -180,10 +188,11 @@ export class Item {
   public async delete<T extends ItemDefinition = any>(
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
+    let diagnosticContext: CosmosDiagnosticContext;
     if (this.partitionKey === undefined) {
-      const { resource: partitionKeyDefinition } =
-        await this.container.readPartitionKeyDefinition();
-      this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
+      const partitionKeyResponse = await readAndRecordPartitionKeyDefinition(this.container);
+      this.partitionKey = undefinedPartitionKey(partitionKeyResponse.partitionKeyDefinition);
+      diagnosticContext = partitionKeyResponse.diagnosticContext;
     }
 
     const path = getPathFromLink(this.url);
@@ -195,13 +204,15 @@ export class Item {
       resourceId: id,
       options,
       partitionKey: this.partitionKey,
+      diagnosticContext,
     });
     return new ItemResponse(
       response.result,
       response.headers,
       response.code,
       response.substatus,
-      this
+      this,
+      response.diagnostics
     );
   }
 
@@ -217,10 +228,11 @@ export class Item {
     body: PatchRequestBody,
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
+    let diagnosticContext: CosmosDiagnosticContext;
     if (this.partitionKey === undefined) {
-      const { resource: partitionKeyDefinition } =
-        await this.container.readPartitionKeyDefinition();
-      this.partitionKey = extractPartitionKey(body, partitionKeyDefinition);
+      const partitionKeyResponse = await readAndRecordPartitionKeyDefinition(this.container);
+      this.partitionKey = extractPartitionKey(body, partitionKeyResponse.partitionKeyDefinition);
+      diagnosticContext = partitionKeyResponse.diagnosticContext;
     }
 
     const path = getPathFromLink(this.url);
@@ -233,13 +245,15 @@ export class Item {
       resourceId: id,
       options,
       partitionKey: this.partitionKey,
+      diagnosticContext,
     });
     return new ItemResponse(
       response.result,
       response.headers,
       response.code,
       response.substatus,
-      this
+      this,
+      response.diagnostics
     );
   }
 }

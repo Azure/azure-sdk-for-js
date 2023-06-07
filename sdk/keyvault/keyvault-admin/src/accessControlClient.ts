@@ -24,7 +24,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RoleAssignmentsListForScopeOptionalParams } from "./generated/models";
 import { TokenCredential } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { createKeyVaultChallengeCallbacks } from "../../keyvault-common/src";
+import { createKeyVaultChallengeCallbacks } from "@azure/keyvault-common";
 import { logger } from "./log";
 import { mappings } from "./mappings";
 import { tracingClient } from "./tracing";

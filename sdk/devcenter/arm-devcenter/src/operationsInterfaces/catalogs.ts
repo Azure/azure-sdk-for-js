@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Catalog,
   CatalogsListByDevCenterOptionalParams,
@@ -27,7 +27,7 @@ import {
 export interface Catalogs {
   /**
    * Lists catalogs for a devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -38,7 +38,7 @@ export interface Catalogs {
   ): PagedAsyncIterableIterator<Catalog>;
   /**
    * Gets a catalog
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param options The options parameters.
@@ -51,7 +51,7 @@ export interface Catalogs {
   ): Promise<CatalogsGetResponse>;
   /**
    * Creates or updates a catalog.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param body Represents a catalog.
@@ -64,14 +64,14 @@ export interface Catalogs {
     body: Catalog,
     options?: CatalogsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CatalogsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CatalogsCreateOrUpdateResponse>,
       CatalogsCreateOrUpdateResponse
     >
   >;
   /**
    * Creates or updates a catalog.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param body Represents a catalog.
@@ -86,7 +86,7 @@ export interface Catalogs {
   ): Promise<CatalogsCreateOrUpdateResponse>;
   /**
    * Partially updates a catalog.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param body Updatable catalog properties.
@@ -99,14 +99,14 @@ export interface Catalogs {
     body: CatalogUpdate,
     options?: CatalogsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CatalogsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CatalogsUpdateResponse>,
       CatalogsUpdateResponse
     >
   >;
   /**
    * Partially updates a catalog.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param body Updatable catalog properties.
@@ -121,7 +121,7 @@ export interface Catalogs {
   ): Promise<CatalogsUpdateResponse>;
   /**
    * Deletes a catalog resource.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param options The options parameters.
@@ -131,10 +131,10 @@ export interface Catalogs {
     devCenterName: string,
     catalogName: string,
     options?: CatalogsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a catalog resource.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param options The options parameters.
@@ -147,7 +147,7 @@ export interface Catalogs {
   ): Promise<void>;
   /**
    * Syncs templates for a template source.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param options The options parameters.
@@ -157,10 +157,10 @@ export interface Catalogs {
     devCenterName: string,
     catalogName: string,
     options?: CatalogsSyncOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Syncs templates for a template source.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param options The options parameters.

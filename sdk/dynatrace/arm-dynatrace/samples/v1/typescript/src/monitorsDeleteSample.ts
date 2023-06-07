@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { DynatraceObservability } from "@azure/arm-dynatrace";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Delete a MonitorResource
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2021-09-01/examples/Monitors_Delete_MaximumSet_Gen.json
  */
 async function monitorsDeleteMaximumSetGen() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["DYNATRACE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["DYNATRACE_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const credential = new DefaultAzureCredential();
   const client = new DynatraceObservability(credential, subscriptionId);
@@ -29,8 +35,6 @@ async function monitorsDeleteMaximumSetGen() {
   );
   console.log(result);
 }
-
-monitorsDeleteMaximumSetGen().catch(console.error);
 
 /**
  * This sample demonstrates how to Delete a MonitorResource
@@ -39,8 +43,11 @@ monitorsDeleteMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2021-09-01/examples/Monitors_Delete_MinimumSet_Gen.json
  */
 async function monitorsDeleteMinimumSetGen() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["DYNATRACE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["DYNATRACE_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const credential = new DefaultAzureCredential();
   const client = new DynatraceObservability(credential, subscriptionId);
@@ -51,4 +58,9 @@ async function monitorsDeleteMinimumSetGen() {
   console.log(result);
 }
 
-monitorsDeleteMinimumSetGen().catch(console.error);
+async function main() {
+  monitorsDeleteMaximumSetGen();
+  monitorsDeleteMinimumSetGen();
+}
+
+main().catch(console.error);

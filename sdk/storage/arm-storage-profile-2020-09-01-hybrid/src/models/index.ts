@@ -1004,7 +1004,7 @@ export interface EncryptionScopeListResult {
 }
 
 /** The Private Endpoint Connection resource. */
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
   /** The resource of private end point. */
   privateEndpoint?: PrivateEndpoint;
   /** A collection of information about the state of the connection between service consumer and provider. */
@@ -1014,18 +1014,18 @@ export type PrivateEndpointConnection = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** The Get Storage Account ManagementPolicies operation response. */
-export type ManagementPolicy = Resource & {
+export interface ManagementPolicy extends Resource {
   /**
    * Returns the date and time the ManagementPolicies was last modified.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1033,10 +1033,10 @@ export type ManagementPolicy = Resource & {
   readonly lastModifiedTime?: Date;
   /** The Storage Account ManagementPolicy, in JSON format. See more details in: https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts. */
   policy?: ManagementPolicySchema;
-};
+}
 
 /** The storage account blob inventory policy. */
-export type BlobInventoryPolicy = Resource & {
+export interface BlobInventoryPolicy extends Resource {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1049,10 +1049,10 @@ export type BlobInventoryPolicy = Resource & {
   readonly lastModifiedTime?: Date;
   /** The storage account blob inventory policy object. It is composed of policy rules. */
   policy?: BlobInventoryPolicySchema;
-};
+}
 
 /** A private link resource */
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
   /**
    * The private link resource group id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1065,10 +1065,10 @@ export type PrivateLinkResource = Resource & {
   readonly requiredMembers?: string[];
   /** The private link resource Private link DNS zone name. */
   requiredZoneNames?: string[];
-};
+}
 
 /** The replication policy between two storage accounts. Multiple rules can be defined in one policy. */
-export type ObjectReplicationPolicy = Resource & {
+export interface ObjectReplicationPolicy extends Resource {
   /**
    * A unique id for object replication policy.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1085,10 +1085,10 @@ export type ObjectReplicationPolicy = Resource & {
   destinationAccount?: string;
   /** The storage account object replication rules. */
   rules?: ObjectReplicationPolicyRule[];
-};
+}
 
 /** The Encryption Scope resource. */
-export type EncryptionScope = Resource & {
+export interface EncryptionScope extends Resource {
   /** The provider for the encryption scope. Possible values (case-insensitive):  Microsoft.Storage, Microsoft.KeyVault. */
   source?: EncryptionScopeSource;
   /** The state of the encryption scope. Possible values (case-insensitive):  Enabled, Disabled. */
@@ -1105,10 +1105,10 @@ export type EncryptionScope = Resource & {
   readonly lastModifiedTime?: Date;
   /** The key vault properties for the encryption scope. This is a required field if encryption scope 'source' attribute is set to 'Microsoft.KeyVault'. */
   keyVaultProperties?: EncryptionScopeKeyVaultProperties;
-};
+}
 
 /** The storage account. */
-export type StorageAccount = TrackedResource & {
+export interface StorageAccount extends TrackedResource {
   /**
    * Gets the SKU.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1222,17 +1222,25 @@ export type StorageAccount = TrackedResource & {
   minimumTlsVersion?: MinimumTlsVersion;
   /** Indicates whether the storage account permits requests to be authorized with the account access key via Shared Key. If false, then all requests, including shared access signatures, must be authorized with Azure Active Directory (Azure AD). The default value is null, which is equivalent to true. */
   allowSharedKeyAccess?: boolean;
-};
+}
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
+  /** StandardLRS */
   StandardLRS = "Standard_LRS",
+  /** StandardGRS */
   StandardGRS = "Standard_GRS",
+  /** StandardRagrs */
   StandardRagrs = "Standard_RAGRS",
+  /** StandardZRS */
   StandardZRS = "Standard_ZRS",
+  /** PremiumLRS */
   PremiumLRS = "Premium_LRS",
+  /** PremiumZRS */
   PremiumZRS = "Premium_ZRS",
+  /** StandardGzrs */
   StandardGzrs = "Standard_GZRS",
+  /** StandardRagzrs */
   StandardRagzrs = "Standard_RAGZRS"
 }
 
@@ -1254,10 +1262,15 @@ export type SkuName = string;
 
 /** Known values of {@link Kind} that the service accepts. */
 export enum KnownKind {
+  /** Storage */
   Storage = "Storage",
+  /** StorageV2 */
   StorageV2 = "StorageV2",
+  /** BlobStorage */
   BlobStorage = "BlobStorage",
+  /** FileStorage */
   FileStorage = "FileStorage",
+  /** BlockBlobStorage */
   BlockBlobStorage = "BlockBlobStorage"
 }
 
@@ -1276,7 +1289,9 @@ export type Kind = string;
 
 /** Known values of {@link ReasonCode} that the service accepts. */
 export enum KnownReasonCode {
+  /** QuotaId */
   QuotaId = "QuotaId",
+  /** NotAvailableForSubscription */
   NotAvailableForSubscription = "NotAvailableForSubscription"
 }
 
@@ -1292,7 +1307,9 @@ export type ReasonCode = string;
 
 /** Known values of {@link KeyType} that the service accepts. */
 export enum KnownKeyType {
+  /** Service */
   Service = "Service",
+  /** Account */
   Account = "Account"
 }
 
@@ -1308,7 +1325,9 @@ export type KeyType = string;
 
 /** Known values of {@link KeySource} that the service accepts. */
 export enum KnownKeySource {
+  /** MicrosoftStorage */
   MicrosoftStorage = "Microsoft.Storage",
+  /** MicrosoftKeyvault */
   MicrosoftKeyvault = "Microsoft.Keyvault"
 }
 
@@ -1324,9 +1343,13 @@ export type KeySource = string;
 
 /** Known values of {@link Bypass} that the service accepts. */
 export enum KnownBypass {
+  /** None */
   None = "None",
+  /** Logging */
   Logging = "Logging",
+  /** Metrics */
   Metrics = "Metrics",
+  /** AzureServices */
   AzureServices = "AzureServices"
 }
 
@@ -1344,8 +1367,11 @@ export type Bypass = string;
 
 /** Known values of {@link DirectoryServiceOptions} that the service accepts. */
 export enum KnownDirectoryServiceOptions {
+  /** None */
   None = "None",
+  /** Aadds */
   Aadds = "AADDS",
+  /** AD */
   AD = "AD"
 }
 
@@ -1362,7 +1388,9 @@ export type DirectoryServiceOptions = string;
 
 /** Known values of {@link LargeFileSharesState} that the service accepts. */
 export enum KnownLargeFileSharesState {
+  /** Disabled */
   Disabled = "Disabled",
+  /** Enabled */
   Enabled = "Enabled"
 }
 
@@ -1378,7 +1406,9 @@ export type LargeFileSharesState = string;
 
 /** Known values of {@link RoutingChoice} that the service accepts. */
 export enum KnownRoutingChoice {
+  /** MicrosoftRouting */
   MicrosoftRouting = "MicrosoftRouting",
+  /** InternetRouting */
   InternetRouting = "InternetRouting"
 }
 
@@ -1394,8 +1424,11 @@ export type RoutingChoice = string;
 
 /** Known values of {@link MinimumTlsVersion} that the service accepts. */
 export enum KnownMinimumTlsVersion {
+  /** TLS10 */
   TLS10 = "TLS1_0",
+  /** TLS11 */
   TLS11 = "TLS1_1",
+  /** TLS12 */
   TLS12 = "TLS1_2"
 }
 
@@ -1412,8 +1445,11 @@ export type MinimumTlsVersion = string;
 
 /** Known values of {@link GeoReplicationStatus} that the service accepts. */
 export enum KnownGeoReplicationStatus {
+  /** Live */
   Live = "Live",
+  /** Bootstrap */
   Bootstrap = "Bootstrap",
+  /** Unavailable */
   Unavailable = "Unavailable"
 }
 
@@ -1430,8 +1466,11 @@ export type GeoReplicationStatus = string;
 
 /** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
 export enum KnownPrivateEndpointServiceConnectionStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected"
 }
 
@@ -1448,9 +1487,13 @@ export type PrivateEndpointServiceConnectionStatus = string;
 
 /** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
 export enum KnownPrivateEndpointConnectionProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Creating */
   Creating = "Creating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -1468,8 +1511,11 @@ export type PrivateEndpointConnectionProvisioningState = string;
 
 /** Known values of {@link BlobRestoreProgressStatus} that the service accepts. */
 export enum KnownBlobRestoreProgressStatus {
+  /** InProgress */
   InProgress = "InProgress",
+  /** Complete */
   Complete = "Complete",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -1486,9 +1532,13 @@ export type BlobRestoreProgressStatus = string;
 
 /** Known values of {@link Services} that the service accepts. */
 export enum KnownServices {
+  /** B */
   B = "b",
+  /** Q */
   Q = "q",
+  /** T */
   T = "t",
+  /** F */
   F = "f"
 }
 
@@ -1506,8 +1556,11 @@ export type Services = string;
 
 /** Known values of {@link SignedResourceTypes} that the service accepts. */
 export enum KnownSignedResourceTypes {
+  /** S */
   S = "s",
+  /** C */
   C = "c",
+  /** O */
   O = "o"
 }
 
@@ -1524,13 +1577,21 @@ export type SignedResourceTypes = string;
 
 /** Known values of {@link Permissions} that the service accepts. */
 export enum KnownPermissions {
+  /** R */
   R = "r",
+  /** D */
   D = "d",
+  /** W */
   W = "w",
+  /** L */
   L = "l",
+  /** A */
   A = "a",
+  /** C */
   C = "c",
+  /** U */
   U = "u",
+  /** P */
   P = "p"
 }
 
@@ -1552,9 +1613,13 @@ export type Permissions = string;
 
 /** Known values of {@link SignedResource} that the service accepts. */
 export enum KnownSignedResource {
+  /** B */
   B = "b",
+  /** C */
   C = "c",
+  /** F */
   F = "f",
+  /** S */
   S = "s"
 }
 
@@ -1572,6 +1637,7 @@ export type SignedResource = string;
 
 /** Known values of {@link ManagementPolicyName} that the service accepts. */
 export enum KnownManagementPolicyName {
+  /** Default */
   Default = "default"
 }
 
@@ -1586,6 +1652,7 @@ export type ManagementPolicyName = string;
 
 /** Known values of {@link RuleType} that the service accepts. */
 export enum KnownRuleType {
+  /** Lifecycle */
   Lifecycle = "Lifecycle"
 }
 
@@ -1600,6 +1667,7 @@ export type RuleType = string;
 
 /** Known values of {@link BlobInventoryPolicyName} that the service accepts. */
 export enum KnownBlobInventoryPolicyName {
+  /** Default */
   Default = "default"
 }
 
@@ -1614,6 +1682,7 @@ export type BlobInventoryPolicyName = string;
 
 /** Known values of {@link InventoryRuleType} that the service accepts. */
 export enum KnownInventoryRuleType {
+  /** Inventory */
   Inventory = "Inventory"
 }
 
@@ -1628,9 +1697,13 @@ export type InventoryRuleType = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -1648,7 +1721,9 @@ export type CreatedByType = string;
 
 /** Known values of {@link EncryptionScopeSource} that the service accepts. */
 export enum KnownEncryptionScopeSource {
+  /** MicrosoftStorage */
   MicrosoftStorage = "Microsoft.Storage",
+  /** MicrosoftKeyVault */
   MicrosoftKeyVault = "Microsoft.KeyVault"
 }
 
@@ -1664,7 +1739,9 @@ export type EncryptionScopeSource = string;
 
 /** Known values of {@link EncryptionScopeState} that the service accepts. */
 export enum KnownEncryptionScopeState {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 

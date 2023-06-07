@@ -14,6 +14,9 @@ import {
   SecurityInsights
 } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create Sentinel onboarding state
@@ -22,8 +25,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/onboardingStates/CreateSentinelOnboardingState.json
  */
 async function createSentinelOnboardingState() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const sentinelOnboardingStateName = "default";
   const sentinelOnboardingStateParameter: SentinelOnboardingState = {
@@ -43,4 +49,8 @@ async function createSentinelOnboardingState() {
   console.log(result);
 }
 
-createSentinelOnboardingState().catch(console.error);
+async function main() {
+  createSentinelOnboardingState();
+}
+
+main().catch(console.error);

@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 const { ResourceConnectorManagementClient } = require("@azure/arm-resourceconnector");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists all available Appliances operations.
  *
  * @summary Lists all available Appliances operations.
- * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/preview/2022-04-15-preview/examples/AppliancesListOperations.json
+ * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/stable/2022-10-27/examples/AppliancesListOperations.json
  */
 async function listAppliancesOperations() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RESOURCECONNECTOR_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ResourceConnectorManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +30,8 @@ async function listAppliancesOperations() {
   console.log(resArray);
 }
 
-listAppliancesOperations().catch(console.error);
+async function main() {
+  listAppliancesOperations();
+}
+
+main().catch(console.error);

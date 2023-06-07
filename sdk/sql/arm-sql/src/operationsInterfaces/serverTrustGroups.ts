@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ServerTrustGroup,
   ServerTrustGroupsListByLocationOptionalParams,
@@ -76,8 +76,8 @@ export interface ServerTrustGroups {
     parameters: ServerTrustGroup,
     options?: ServerTrustGroupsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ServerTrustGroupsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ServerTrustGroupsCreateOrUpdateResponse>,
       ServerTrustGroupsCreateOrUpdateResponse
     >
   >;
@@ -110,7 +110,7 @@ export interface ServerTrustGroups {
     locationName: string,
     serverTrustGroupName: string,
     options?: ServerTrustGroupsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a server trust group.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

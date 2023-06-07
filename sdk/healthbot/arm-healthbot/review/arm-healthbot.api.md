@@ -112,11 +112,14 @@ export interface ErrorModel {
 }
 
 // @public
-export type HealthBot = TrackedResource & {
-    sku: Sku;
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
+export interface HealthBot extends TrackedResource {
     identity?: Identity;
     properties?: HealthBotProperties;
-};
+    sku: Sku;
+}
 
 // @public (undocumented)
 export class HealthbotClient extends coreClient.ServiceClient {
@@ -172,13 +175,9 @@ export type IdentityType = string;
 
 // @public
 export enum KnownIdentityType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
@@ -248,12 +247,12 @@ export interface SystemData {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // @public
 export interface UserAssignedIdentity {

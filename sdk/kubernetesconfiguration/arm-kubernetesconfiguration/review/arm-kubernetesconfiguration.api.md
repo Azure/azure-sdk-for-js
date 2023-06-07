@@ -6,12 +6,38 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type AKSIdentityType = "SystemAssigned" | "UserAssigned";
+
+// @public
+export interface AzureBlobDefinition {
+    accountKey?: string;
+    containerName?: string;
+    localAuthRef?: string;
+    managedIdentity?: ManagedIdentityDefinition;
+    sasToken?: string;
+    servicePrincipal?: ServicePrincipalDefinition;
+    syncIntervalInSeconds?: number;
+    timeoutInSeconds?: number;
+    url?: string;
+}
+
+// @public
+export interface AzureBlobPatchDefinition {
+    accountKey?: string;
+    containerName?: string;
+    localAuthRef?: string;
+    managedIdentity?: ManagedIdentityPatchDefinition;
+    sasToken?: string;
+    servicePrincipal?: ServicePrincipalPatchDefinition;
+    syncIntervalInSeconds?: number;
+    timeoutInSeconds?: number;
+    url?: string;
+}
 
 // @public
 export interface BucketDefinition {
@@ -70,30 +96,32 @@ export interface ErrorResponse {
 }
 
 // @public
-export type Extension = ProxyResource & {
-    identity?: Identity;
-    readonly systemData?: SystemData;
-    extensionType?: string;
+export interface Extension extends ProxyResource {
+    aksAssignedIdentity?: ExtensionPropertiesAksAssignedIdentity;
     autoUpgradeMinorVersion?: boolean;
-    releaseTrain?: string;
-    version?: string;
-    scope?: Scope;
-    configurationSettings?: {
-        [propertyName: string]: string;
-    };
     configurationProtectedSettings?: {
         [propertyName: string]: string;
     };
-    readonly installedVersion?: string;
-    readonly provisioningState?: ProvisioningState;
-    statuses?: ExtensionStatus[];
-    readonly errorInfo?: ErrorDetail;
+    configurationSettings?: {
+        [propertyName: string]: string;
+    };
+    readonly currentVersion?: string;
     readonly customLocationSettings?: {
         [propertyName: string]: string;
     };
+    readonly errorInfo?: ErrorDetail;
+    extensionType?: string;
+    identity?: Identity;
+    readonly isSystemExtension?: boolean;
     readonly packageUri?: string;
-    aksAssignedIdentity?: ExtensionPropertiesAksAssignedIdentity;
-};
+    plan?: Plan;
+    readonly provisioningState?: ProvisioningState;
+    releaseTrain?: string;
+    scope?: Scope;
+    statuses?: ExtensionStatus[];
+    readonly systemData?: SystemData;
+    version?: string;
+}
 
 // @public
 export interface ExtensionPropertiesAksAssignedIdentity {
@@ -104,11 +132,11 @@ export interface ExtensionPropertiesAksAssignedIdentity {
 
 // @public
 export interface Extensions {
-    beginCreate(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, extension: Extension, options?: ExtensionsCreateOptionalParams): Promise<PollerLike<PollOperationState<ExtensionsCreateResponse>, ExtensionsCreateResponse>>;
+    beginCreate(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, extension: Extension, options?: ExtensionsCreateOptionalParams): Promise<SimplePollerLike<OperationState<ExtensionsCreateResponse>, ExtensionsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, extension: Extension, options?: ExtensionsCreateOptionalParams): Promise<ExtensionsCreateResponse>;
-    beginDelete(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, options?: ExtensionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, options?: ExtensionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, options?: ExtensionsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, patchExtension: PatchExtension, options?: ExtensionsUpdateOptionalParams): Promise<PollerLike<PollOperationState<ExtensionsUpdateResponse>, ExtensionsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, patchExtension: PatchExtension, options?: ExtensionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ExtensionsUpdateResponse>, ExtensionsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, patchExtension: PatchExtension, options?: ExtensionsUpdateOptionalParams): Promise<ExtensionsUpdateResponse>;
     get(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, options?: ExtensionsGetOptionalParams): Promise<ExtensionsGetResponse>;
     list(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, options?: ExtensionsListOptionalParams): PagedAsyncIterableIterator<Extension>;
@@ -191,32 +219,34 @@ export interface FluxConfigOperationStatusGetOptionalParams extends coreClient.O
 export type FluxConfigOperationStatusGetResponse = OperationStatusResult;
 
 // @public
-export type FluxConfiguration = ProxyResource & {
-    readonly systemData?: SystemData;
-    scope?: ScopeType;
-    namespace?: string;
-    sourceKind?: SourceKindType;
-    suspend?: boolean;
-    gitRepository?: GitRepositoryDefinition;
+export interface FluxConfiguration extends ProxyResource {
+    azureBlob?: AzureBlobDefinition;
     bucket?: BucketDefinition;
-    kustomizations?: {
-        [propertyName: string]: KustomizationDefinition | null;
-    };
+    readonly complianceState?: FluxComplianceState;
     configurationProtectedSettings?: {
         [propertyName: string]: string;
     };
-    readonly statuses?: (ObjectStatusDefinition | null)[];
+    readonly errorMessage?: string;
+    gitRepository?: GitRepositoryDefinition;
+    kustomizations?: {
+        [propertyName: string]: KustomizationDefinition | null;
+    };
+    namespace?: string;
+    readonly provisioningState?: ProvisioningState;
     readonly repositoryPublicKey?: string;
+    scope?: ScopeType;
+    sourceKind?: SourceKindType;
     readonly sourceSyncedCommitId?: string;
     readonly sourceUpdatedAt?: Date;
+    readonly statuses?: (ObjectStatusDefinition | null)[];
     readonly statusUpdatedAt?: Date;
-    readonly complianceState?: FluxComplianceState;
-    readonly provisioningState?: ProvisioningState;
-    readonly errorMessage?: string;
-};
+    suspend?: boolean;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface FluxConfigurationPatch {
+    azureBlob?: AzureBlobPatchDefinition;
     bucket?: BucketPatchDefinition;
     configurationProtectedSettings?: {
         [propertyName: string]: string;
@@ -231,11 +261,11 @@ export interface FluxConfigurationPatch {
 
 // @public
 export interface FluxConfigurations {
-    beginCreateOrUpdate(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, fluxConfiguration: FluxConfiguration, options?: FluxConfigurationsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<FluxConfigurationsCreateOrUpdateResponse>, FluxConfigurationsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, fluxConfiguration: FluxConfiguration, options?: FluxConfigurationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FluxConfigurationsCreateOrUpdateResponse>, FluxConfigurationsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, fluxConfiguration: FluxConfiguration, options?: FluxConfigurationsCreateOrUpdateOptionalParams): Promise<FluxConfigurationsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, options?: FluxConfigurationsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, options?: FluxConfigurationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, options?: FluxConfigurationsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, fluxConfigurationPatch: FluxConfigurationPatch, options?: FluxConfigurationsUpdateOptionalParams): Promise<PollerLike<PollOperationState<FluxConfigurationsUpdateResponse>, FluxConfigurationsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, fluxConfigurationPatch: FluxConfigurationPatch, options?: FluxConfigurationsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FluxConfigurationsUpdateResponse>, FluxConfigurationsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, fluxConfigurationPatch: FluxConfigurationPatch, options?: FluxConfigurationsUpdateOptionalParams): Promise<FluxConfigurationsUpdateResponse>;
     get(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, fluxConfigurationName: string, options?: FluxConfigurationsGetOptionalParams): Promise<FluxConfigurationsGetResponse>;
     list(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, options?: FluxConfigurationsListOptionalParams): PagedAsyncIterableIterator<FluxConfiguration>;
@@ -294,6 +324,9 @@ export interface FluxConfigurationsUpdateOptionalParams extends coreClient.Opera
 export type FluxConfigurationsUpdateResponse = FluxConfiguration;
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface GitRepositoryDefinition {
     httpsCACert?: string;
     httpsUser?: string;
@@ -341,131 +374,91 @@ export interface Identity {
 
 // @public
 export enum KnownComplianceStateType {
-    // (undocumented)
     Compliant = "Compliant",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Installed = "Installed",
-    // (undocumented)
     Noncompliant = "Noncompliant",
-    // (undocumented)
     Pending = "Pending"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownFluxComplianceState {
-    // (undocumented)
     Compliant = "Compliant",
-    // (undocumented)
     NonCompliant = "Non-Compliant",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Suspended = "Suspended",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownKustomizationValidationType {
-    // (undocumented)
     Client = "client",
-    // (undocumented)
     None = "none",
-    // (undocumented)
     Server = "server"
 }
 
 // @public
 export enum KnownLevelType {
-    // (undocumented)
     Error = "Error",
-    // (undocumented)
     Information = "Information",
-    // (undocumented)
     Warning = "Warning"
 }
 
 // @public
 export enum KnownMessageLevelType {
-    // (undocumented)
     Error = "Error",
-    // (undocumented)
     Information = "Information",
-    // (undocumented)
     Warning = "Warning"
 }
 
 // @public
 export enum KnownOperatorScopeType {
-    // (undocumented)
     Cluster = "cluster",
-    // (undocumented)
     Namespace = "namespace"
 }
 
 // @public
 export enum KnownOperatorType {
-    // (undocumented)
     Flux = "Flux"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownProvisioningStateType {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownScopeType {
-    // (undocumented)
     Cluster = "cluster",
-    // (undocumented)
     Namespace = "namespace"
 }
 
 // @public
 export enum KnownSourceKindType {
-    // (undocumented)
+    AzureBlob = "AzureBlob",
     Bucket = "Bucket",
-    // (undocumented)
     GitRepository = "GitRepository"
 }
 
@@ -497,6 +490,16 @@ export type KustomizationValidationType = string;
 
 // @public
 export type LevelType = string;
+
+// @public
+export interface ManagedIdentityDefinition {
+    clientId?: string;
+}
+
+// @public
+export interface ManagedIdentityPatchDefinition {
+    clientId?: string;
+}
 
 // @public
 export type MessageLevelType = string;
@@ -610,13 +613,23 @@ export interface PatchExtension {
 }
 
 // @public
+export interface Plan {
+    name: string;
+    product: string;
+    promotionCode?: string;
+    publisher: string;
+    version?: string;
+}
+
+// @public
 export type ProvisioningState = string;
 
 // @public
 export type ProvisioningStateType = string;
 
 // @public
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface RepositoryRefDefinition {
@@ -675,24 +688,44 @@ export interface ScopeNamespace {
 export type ScopeType = string;
 
 // @public
-export type SourceControlConfiguration = ProxyResource & {
-    readonly systemData?: SystemData;
-    repositoryUrl?: string;
-    operatorNamespace?: string;
-    operatorInstanceName?: string;
-    operatorType?: OperatorType;
-    operatorParams?: string;
+export interface ServicePrincipalDefinition {
+    clientCertificate?: string;
+    clientCertificatePassword?: string;
+    clientCertificateSendChain?: boolean;
+    clientId?: string;
+    clientSecret?: string;
+    tenantId?: string;
+}
+
+// @public
+export interface ServicePrincipalPatchDefinition {
+    clientCertificate?: string;
+    clientCertificatePassword?: string;
+    clientCertificateSendChain?: boolean;
+    clientId?: string;
+    clientSecret?: string;
+    tenantId?: string;
+}
+
+// @public
+export interface SourceControlConfiguration extends ProxyResource {
+    readonly complianceStatus?: ComplianceStatus;
     configurationProtectedSettings?: {
         [propertyName: string]: string;
     };
-    operatorScope?: OperatorScopeType;
-    readonly repositoryPublicKey?: string;
-    sshKnownHostsContents?: string;
     enableHelmOperator?: boolean;
     helmOperatorProperties?: HelmOperatorProperties;
+    operatorInstanceName?: string;
+    operatorNamespace?: string;
+    operatorParams?: string;
+    operatorScope?: OperatorScopeType;
+    operatorType?: OperatorType;
     readonly provisioningState?: ProvisioningStateType;
-    readonly complianceStatus?: ComplianceStatus;
-};
+    readonly repositoryPublicKey?: string;
+    repositoryUrl?: string;
+    sshKnownHostsContents?: string;
+    readonly systemData?: SystemData;
+}
 
 // @public (undocumented)
 export class SourceControlConfigurationClient extends coreClient.ServiceClient {
@@ -732,7 +765,7 @@ export interface SourceControlConfigurationList {
 
 // @public
 export interface SourceControlConfigurations {
-    beginDelete(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, sourceControlConfigurationName: string, options?: SourceControlConfigurationsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, sourceControlConfigurationName: string, options?: SourceControlConfigurationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, sourceControlConfigurationName: string, options?: SourceControlConfigurationsDeleteOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, sourceControlConfigurationName: string, sourceControlConfiguration: SourceControlConfiguration, options?: SourceControlConfigurationsCreateOrUpdateOptionalParams): Promise<SourceControlConfigurationsCreateOrUpdateResponse>;
     get(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, sourceControlConfigurationName: string, options?: SourceControlConfigurationsGetOptionalParams): Promise<SourceControlConfigurationsGetResponse>;

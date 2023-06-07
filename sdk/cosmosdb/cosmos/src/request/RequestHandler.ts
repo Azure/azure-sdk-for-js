@@ -18,6 +18,7 @@ import { Response as CosmosResponse } from "./Response";
 import { TimeoutError } from "./TimeoutError";
 import { getCachedDefaultHttpClient } from "../utils/cachedClient";
 import { AzureLogger, createClientLogger } from "@azure/logger";
+import { CosmosDiagnostics } from "../CosmosDiagnostics";
 
 const logger: AzureLogger = createClientLogger("RequestHandler");
 
@@ -33,6 +34,7 @@ async function httpRequest(requestContext: RequestContext): Promise<{
   result: any;
   code: number;
   substatus: number;
+  diagnostics: CosmosDiagnostics;
 }> {
   const controller = new AbortController();
   const signal = controller.signal;
@@ -57,6 +59,7 @@ async function httpRequest(requestContext: RequestContext): Promise<{
 
   if (requestContext.body) {
     requestContext.body = bodyFromData(requestContext.body);
+    requestContext.diagnosticContext.recordRequestPayload(requestContext.body);
   }
 
   const httpsClient = getCachedDefaultHttpClient();
@@ -90,24 +93,28 @@ async function httpRequest(requestContext: RequestContext): Promise<{
         throw error;
       }
       // If the user didn't cancel, it must be an abort we called due to timeout
-      throw new TimeoutError();
+      throw new TimeoutError(
+        `Timeout Error! Request took more than ${requestContext.connectionPolicy.requestTimeout} ms`
+      );
     }
     throw error;
   }
 
   clearTimeout(timeout);
-
   const result =
-    response.status === 204 || response.status === 304 ? null : JSON.parse(response.bodyAsText);
+    response.status === 204 || response.status === 304 || response.bodyAsText === ""
+      ? null
+      : JSON.parse(response.bodyAsText);
   const headers = response.headers.toJSON();
+  requestContext.diagnosticContext.recordResponseStats(result, reqHeaders);
 
   const substatus = headers[Constants.HttpHeaders.SubStatus]
     ? parseInt(headers[Constants.HttpHeaders.SubStatus], 10)
     : undefined;
 
   if (response.status >= 400) {
-    const errorResponse: ErrorResponse = new Error(result.message);
-
+    const errorResponse: ErrorResponse = new ErrorResponse(result.message);
+    errorResponse.diagnostics = requestContext.diagnosticContext.getDiagnostics();
     logger.warning(
       response.status +
         " " +
@@ -146,6 +153,7 @@ async function httpRequest(requestContext: RequestContext): Promise<{
     result,
     code: response.status,
     substatus,
+    diagnostics: requestContext.diagnosticContext.getDiagnostics(),
   };
 }
 

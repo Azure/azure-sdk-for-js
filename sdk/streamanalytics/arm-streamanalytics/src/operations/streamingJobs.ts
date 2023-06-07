@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { StreamingJobs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,8 +19,10 @@ import {
   StreamingJob,
   StreamingJobsListByResourceGroupNextOptionalParams,
   StreamingJobsListByResourceGroupOptionalParams,
+  StreamingJobsListByResourceGroupResponse,
   StreamingJobsListNextOptionalParams,
   StreamingJobsListOptionalParams,
+  StreamingJobsListResponse,
   StreamingJobsCreateOrReplaceOptionalParams,
   StreamingJobsCreateOrReplaceResponse,
   StreamingJobsUpdateOptionalParams,
@@ -27,8 +30,6 @@ import {
   StreamingJobsDeleteOptionalParams,
   StreamingJobsGetOptionalParams,
   StreamingJobsGetResponse,
-  StreamingJobsListByResourceGroupResponse,
-  StreamingJobsListResponse,
   StreamingJobsStartOptionalParams,
   StreamingJobsStopOptionalParams,
   StreamingJobsScaleOptionalParams,
@@ -66,19 +67,33 @@ export class StreamingJobsImpl implements StreamingJobs {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: StreamingJobsListByResourceGroupOptionalParams
+    options?: StreamingJobsListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<StreamingJob[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: StreamingJobsListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -86,7 +101,9 @@ export class StreamingJobsImpl implements StreamingJobs {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -117,22 +134,34 @@ export class StreamingJobsImpl implements StreamingJobs {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: StreamingJobsListOptionalParams
+    options?: StreamingJobsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<StreamingJob[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: StreamingJobsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -893,7 +922,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -914,7 +942,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

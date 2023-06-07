@@ -89,7 +89,8 @@ export interface MicrosoftSerialConsoleClientOptionalParams extends coreClient.S
 }
 
 // @public
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface Resource {
@@ -131,9 +132,9 @@ export interface SerialConsoleStatus {
 }
 
 // @public
-export type SerialPort = ProxyResource & {
+export interface SerialPort extends ProxyResource {
     state?: SerialPortState;
-};
+}
 
 // @public
 export interface SerialPortConnectResult {

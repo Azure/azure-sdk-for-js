@@ -23,9 +23,12 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
   };
 
   beforeEach(async function (this: Context) {
-    recorder = startRecorder(this);
-    testConfigSetting.key = recorder.getUniqueName("readOnlyTests");
-    client = createAppConfigurationClientForTests() || this.skip();
+    recorder = await startRecorder(this);
+    testConfigSetting.key = recorder.variable(
+      "readOnlyTests",
+      `readOnlyTests${Math.floor(Math.random() * 1000)}`
+    );
+    client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
     // before it's set to read only we can set it all we want
     await client.setConfigurationSetting(testConfigSetting);
   });

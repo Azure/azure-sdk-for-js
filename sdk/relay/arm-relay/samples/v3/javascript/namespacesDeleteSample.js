@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { RelayAPI } = require("@azure/arm-relay");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deletes an existing namespace. This operation also removes all associated resources under the namespace.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/relay/resource-manager/Microsoft.Relay/stable/2017-04-01/examples/NameSpaces/RelayNameSpaceDelete.json
  */
 async function relayNameSpaceDelete() {
-  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = "resourcegroup";
+  const subscriptionId =
+    process.env["RELAY_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["RELAY_RESOURCE_GROUP"] || "resourcegroup";
   const namespaceName = "example-RelayNamespace-01";
   const credential = new DefaultAzureCredential();
   const client = new RelayAPI(credential, subscriptionId);
@@ -27,4 +29,8 @@ async function relayNameSpaceDelete() {
   console.log(result);
 }
 
-relayNameSpaceDelete().catch(console.error);
+async function main() {
+  relayNameSpaceDelete();
+}
+
+main().catch(console.error);

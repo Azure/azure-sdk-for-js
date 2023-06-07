@@ -29,280 +29,53 @@ export type OSConfigurationUnion =
   | OSConfiguration
   | WindowsConfiguration
   | LinuxConfiguration;
+export type SingleServerCustomResourceNamesUnion =
+  | SingleServerCustomResourceNames
+  | SingleServerFullResourceNames;
 export type InfrastructureConfigurationUnion =
   | InfrastructureConfiguration
   | SingleServerConfiguration
   | ThreeTierConfiguration;
+export type FileShareConfigurationUnion =
+  | FileShareConfiguration
+  | SkipFileShareConfiguration
+  | CreateAndMountFileShareConfiguration
+  | MountFileShareConfiguration;
+export type ThreeTierCustomResourceNamesUnion =
+  | ThreeTierCustomResourceNames
+  | ThreeTierFullResourceNames;
 export type SoftwareConfigurationUnion =
   | SoftwareConfiguration
   | ServiceInitiatedSoftwareConfiguration
-  | SAPInstallWithoutOSConfigSoftwareConfiguration;
+  | SAPInstallWithoutOSConfigSoftwareConfiguration
+  | ExternalInstallationSoftwareConfiguration;
 
-/** Php workload resource list */
-export interface PhpWorkloadResourceList {
-  /** List of resources in current page */
-  value?: PhpWorkloadResource[];
-  /** Link to next page of resources */
-  nextLink?: string;
+/** The SAP Sizing Recommendation request. */
+export interface SAPSizingRecommendationRequest {
+  /** The geo-location where the resource is to be created. */
+  appLocation: string;
+  /** Defines the environment type - Production/Non Production. */
+  environment: SAPEnvironmentType;
+  /** Defines the SAP Product type. */
+  sapProduct: SAPProductType;
+  /** The deployment type. Eg: SingleServer/ThreeTier */
+  deploymentType: SAPDeploymentType;
+  /** The SAP Application Performance Standard measurement. */
+  saps: number;
+  /** The database memory configuration. */
+  dbMemory: number;
+  /** The database type. */
+  databaseType: SAPDatabaseType;
+  /** The DB scale method. */
+  dbScaleMethod?: SAPDatabaseScaleMethod;
+  /** The high availability type. */
+  highAvailabilityType?: SAPHighAvailabilityType;
 }
 
-/** Managed resource group configuration */
-export interface ManagedRGConfiguration {
-  /** Managed resource group name */
-  name?: string;
-}
-
-/** User profile to configure on a compute resources such as VM, VMSS */
-export interface UserProfile {
-  /** User name */
-  userName: string;
-  /** SSH public key data */
-  sshPublicKey: string;
-}
-
-/** VM or VMSS node profile */
-export interface NodeProfile {
-  /** VM or VMSS name */
-  name?: string;
-  /** VM SKU for node(s) */
-  nodeSku: string;
-  /** OS image used for creating the nodes */
-  osImage: OsImageProfile;
-  /** OS disk details */
-  osDisk: DiskInfo;
-  /** Data disks details. This property is not in use right now */
-  dataDisks?: DiskInfo[];
-  /**
-   * VM/VMSS resource ARM Ids
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nodeResourceIds?: string[];
-}
-
-/** OS image profile */
-export interface OsImageProfile {
-  /** OS image publisher */
-  publisher?: OSImagePublisher;
-  /** OS image offer */
-  offer?: OSImageOffer;
-  /** OS image sku */
-  sku?: OSImageSku;
-  /** OS image version */
-  version?: OSImageVersion;
-}
-
-/** Disk resource creation details */
-export interface DiskInfo {
-  /** Storage type */
-  storageType: DiskStorageType;
-  /** Disk size in GB */
-  sizeInGB?: number;
-}
-
-/** Network profile */
-export interface NetworkProfile {
-  /** Load balancer type */
-  loadBalancerType: LoadBalancerType;
-  /** Load balancer SKU */
-  loadBalancerSku?: string;
-  /** Load balancer tier */
-  loadBalancerTier?: string;
-  /** Capacity, applicable only for Application Gateway */
-  capacity?: number;
-  /** Whether to enable Azure front door */
-  azureFrontDoorEnabled?: AzureFrontDoorEnabled;
-  /**
-   * Virtual network resource Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly vNetResourceId?: string;
-  /**
-   * Azure Loadbalancer or ApplicationGateway resource Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly loadBalancerResourceId?: string;
-  /**
-   * Azure front door resource id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly azureFrontDoorResourceId?: string;
-  /**
-   * Loadbalancer front-end IP address resource Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly frontEndPublicIpResourceId?: string;
-  /**
-   * List of outbound public IP resource IDs
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly outboundPublicIpResourceIds?: string[];
-}
-
-/** Workload database profile */
-export interface DatabaseProfile {
-  /** Database type */
-  type: DatabaseType;
-  /** Database server name */
-  serverName?: string;
-  /** Database version */
-  version?: string;
-  /** The name of the server SKU, e.g. Standard_D32s_v4 */
-  sku: string;
-  /** Tier of the server SKU */
-  tier: DatabaseTier;
-  /** Whether to enable HA for the server */
-  haEnabled?: HAEnabled;
-  /** SKU name for database storage */
-  storageSku?: string;
-  /** Database storage size in GB */
-  storageInGB?: number;
-  /** Storage IOPS for the server */
-  storageIops?: number;
-  /** Backup retention days for the server */
-  backupRetentionDays?: number;
-  /** Whether to enable SSL enforcement on the database */
-  sslEnforcementEnabled?: EnableSslEnforcement;
-  /**
-   * Azure Database Server resource Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serverResourceId?: string;
-}
-
-/** Workload website profile */
-export interface SiteProfile {
-  /** Domain name for the application site URL */
-  domainName?: string;
-}
-
-/** File share profile */
-export interface FileshareProfile {
-  /** Share type */
-  shareType: FileShareType;
-  /** File share backing storage type */
-  storageType: FileShareStorageType;
-  /** File share size in GB */
-  shareSizeInGB?: number;
-  /**
-   * File share storage resource id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly storageResourceId?: string;
-  /**
-   * File share name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly shareName?: string;
-}
-
-/** PHP profile */
-export interface PhpProfile {
-  /** PHP version */
-  version: PHPVersion;
-}
-
-/** Cache profile */
-export interface CacheProfile {
-  /** Cache name */
-  name?: string;
-  /** Cache SKU name */
-  skuName: string;
-  /** Cache family */
-  family: RedisCacheFamily;
-  /** Cache capacity */
-  capacity: number;
-  /**
-   * Cache resource Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cacheResourceId?: string;
-}
-
-/** Backup profile */
-export interface BackupProfile {
-  /** Whether to enable Azure backup for the workload */
-  backupEnabled: EnableBackup;
-  /**
-   * Backup vault resource Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly vaultResourceId?: string;
-}
-
-/** The resource model definition representing SKU */
-export interface Sku {
-  /** The name of the SKU. Ex - P3. It is typically a letter+number code */
-  name: string;
-  /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
-  tier?: SkuTier;
-  /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
-  size?: string;
-  /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
-  family?: string;
-  /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
-  capacity?: number;
-}
-
-/** Managed service identity (user assigned identities) */
-export interface UserAssignedServiceIdentity {
-  /** Type of manage identity */
-  type: ManagedServiceIdentityType;
-  /** User assigned identities dictionary */
-  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
-}
-
-/** User assigned identity properties */
-export interface UserAssignedIdentity {
-  /**
-   * The principal ID of the assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The client ID of the assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly clientId?: string;
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
+/** The SAP sizing recommendation result. */
+export interface SAPSizingRecommendationResult {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  deploymentType: "SingleServer" | "ThreeTier";
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
@@ -352,49 +125,6 @@ export interface ErrorAdditionalInfo {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly info?: Record<string, unknown>;
-}
-
-/** Resource patch request body */
-export interface PatchResourceRequestBody {
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
-  identity?: PatchResourceRequestBodyIdentity;
-}
-
-/** WordPress instance resource list */
-export interface WordpressInstanceResourceList {
-  /** List of resources in current page */
-  value?: WordpressInstanceResource[];
-  /** Link to next page of resources */
-  nextLink?: string;
-}
-
-/** The SAP Sizing Recommendation request. */
-export interface SAPSizingRecommendationRequest {
-  /** The geo-location where the resource is to be created. */
-  appLocation: string;
-  /** Defines the environment type - Production/Non Production. */
-  environment: SAPEnvironmentType;
-  /** Defines the SAP Product type. */
-  sapProduct: SAPProductType;
-  /** The deployment type. Eg: SingleServer/ThreeTier */
-  deploymentType: SAPDeploymentType;
-  /** The SAP Application Performance Standard measurement. */
-  saps: number;
-  /** The database memory configuration. */
-  dbMemory: number;
-  /** The database type. */
-  databaseType: SAPDatabaseType;
-  /** The DB scale method. */
-  dbScaleMethod?: SAPDatabaseScaleMethod;
-  /** The high availability type. */
-  highAvailabilityType?: SAPHighAvailabilityType;
-}
-
-/** The SAP sizing recommendation result. */
-export interface SAPSizingRecommendationResult {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  deploymentType: "SingleServer" | "ThreeTier";
 }
 
 /** The SAP request to get list of supported SKUs. */
@@ -447,26 +177,50 @@ export interface SAPDiskConfigurationsRequest {
 
 /** The list of disk configuration for vmSku which are part of SAP deployment. */
 export interface SAPDiskConfigurationsResult {
-  /** Gets the list of Disk Configurations. */
-  diskConfigurations?: SAPDiskConfiguration[];
+  /** The disk configuration for the db volume. For HANA, Required volumes are: ['hana/data', 'hana/log', hana/shared', 'usr/sap', 'os'], Optional volume : ['backup']. */
+  volumeConfigurations?: { [propertyName: string]: SAPDiskConfiguration };
 }
 
-/** The SAP Disk Configuration. */
+/** The SAP Disk Configuration contains 'recommended disk' details and list of supported disks detail for a volume type. */
 export interface SAPDiskConfiguration {
-  /** The volume name. */
-  volume?: string;
-  /** The disk type. */
-  diskType?: string;
-  /** The disk count. */
-  diskCount?: number;
+  /** The recommended disk details for a given VM Sku. */
+  recommendedConfiguration?: DiskVolumeConfiguration;
+  /** The list of supported disks for a given VM Sku. */
+  supportedConfigurations?: DiskDetails[];
+}
+
+/** The disk configuration required for the selected volume. */
+export interface DiskVolumeConfiguration {
+  /** The total number of disks required for the concerned volume. */
+  count?: number;
   /** The disk size in GB. */
-  diskSizeGB?: number;
+  sizeGB?: number;
+  /** The disk SKU details. */
+  sku?: DiskSku;
+}
+
+/** The type of disk sku. For example, Standard_LRS, Standard_ZRS, Premium_LRS, Premium_ZRS. */
+export interface DiskSku {
+  /** Defines the disk sku name. */
+  name?: DiskSkuName;
+}
+
+/** The supported disk size details for a disk type. */
+export interface DiskDetails {
+  /** The type of disk sku. For example, Standard_LRS, Standard_ZRS, Premium_LRS, Premium_ZRS. */
+  sku?: DiskSku;
+  /** The disk size in GB. */
+  sizeGB?: number;
+  /** The minimum supported disk count. */
+  minimumSupportedDiskCount?: number;
+  /** The maximum supported disk count. */
+  maximumSupportedDiskCount?: number;
   /** The disk Iops. */
-  diskIopsReadWrite?: number;
+  iopsReadWrite?: number;
   /** The disk provisioned throughput in MBps. */
-  diskMBpsReadWrite?: number;
-  /** The disk storage type */
-  diskStorageType?: string;
+  mbpsReadWrite?: number;
+  /** The disk tier, e.g. P10, E10. */
+  diskTier?: string;
 }
 
 /** The SAP request to get list of availability zones. */
@@ -493,10 +247,38 @@ export interface SAPAvailabilityZonePair {
   zoneB?: number;
 }
 
+/** A pre-created user assigned identity with appropriate roles assigned. To learn more on identity and roles required, visit the ACSS how-to-guide. */
+export interface UserAssignedServiceIdentity {
+  /** Type of manage identity */
+  type: ManagedServiceIdentityType;
+  /** User assigned identities dictionary */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
 /** The SAP Configuration. */
 export interface SAPConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   configurationType: "Discovery" | "Deployment" | "DeploymentWithOSConfig";
+}
+
+/** Managed resource group configuration */
+export interface ManagedRGConfiguration {
+  /** Managed resource group name */
+  name?: string;
 }
 
 /** An error response from the Virtual Instance for SAP Workload service. */
@@ -524,11 +306,51 @@ export interface ErrorDefinition {
   readonly details?: ErrorDefinition[];
 }
 
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
 /** Defines the request body for updating Virtual Instance for SAP. */
 export interface UpdateSAPVirtualInstanceRequest {
   /** Gets or sets the Resource tags. */
   tags?: { [propertyName: string]: string };
-  /** Managed service identity (user assigned identities) */
+  /** A pre-created user assigned identity with appropriate roles assigned. To learn more on identity and roles required, visit the ACSS how-to-guide. */
   identity?: UserAssignedServiceIdentity;
 }
 
@@ -552,72 +374,72 @@ export interface OperationStatusResult {
   error?: ErrorDetail;
 }
 
-/** Defines the collection of Virtual Instance for SAP. */
+/** Defines the collection of Virtual Instance for SAP solutions resources. */
 export interface SAPVirtualInstanceList {
-  /** Gets the list of Virtual Instances for SAP. */
+  /** Gets the list of Virtual Instances for SAP solutions resources. */
   value?: SAPVirtualInstance[];
   /** Gets the value of next link. */
   nextLink?: string;
 }
 
-/** Defines the SAP message server properties. */
+/** Defines the SAP Message Server properties. */
 export interface MessageServerProperties {
   /**
-   * The message server port.
+   * Message Server port.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly msPort?: number;
   /**
-   * The message server internal MS port.
+   * Message Server internal MS port.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly internalMsPort?: number;
   /**
-   * The message server http port.
+   * Message Server HTTP Port.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly httpPort?: number;
   /**
-   * The message server https port.
+   * Message Server HTTPS Port.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly httpsPort?: number;
   /**
-   * The message server SAP host name.
+   * Message Server SAP Hostname.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly hostname?: string;
   /**
-   * The message server IP Address.
+   * Message server IP Address.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ipAddress?: string;
   /**
-   * Defines the SAP Instance health.
+   * Defines the health of SAP Instances.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly health?: SAPHealthState;
 }
 
-/** Defines the SAP enqueue server properties. */
+/** Defines the SAP Enqueue Server properties. */
 export interface EnqueueServerProperties {
   /**
-   * The enqueue server SAP host name.
+   * Enqueue Server SAP Hostname.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly hostname?: string;
   /**
-   * The enqueue server SAP IP Address.
+   * Enqueue Server SAP IP Address.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ipAddress?: string;
   /**
-   * The enqueue server Port.
+   * Enqueue Server Port.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly port?: number;
   /**
-   * Defines the SAP Instance health.
+   * Defines the health of SAP Instances.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly health?: SAPHealthState;
@@ -626,18 +448,18 @@ export interface EnqueueServerProperties {
 /** Defines the SAP Gateway Server properties. */
 export interface GatewayServerProperties {
   /**
-   * The gateway Port.
+   * Gateway Port.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly port?: number;
   /**
-   * Defines the SAP Instance health.
+   * Defines the health of SAP Instances.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly health?: SAPHealthState;
 }
 
-/** Defines the SAP ERS Server properties. */
+/** Defines the SAP Enqueue Replication Server (ERS) properties. */
 export interface EnqueueReplicationServerProperties {
   /**
    * Defines the type of Enqueue Replication Server.
@@ -645,38 +467,44 @@ export interface EnqueueReplicationServerProperties {
    */
   readonly ersVersion?: EnqueueReplicationServerType;
   /**
-   * The ERS server instance id.
+   * ERS Instance Number.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly instanceNo?: string;
   /**
-   * The ERS server SAP host name.
+   * ERS SAP Hostname.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly hostname?: string;
   /**
-   * The ERS server SAP kernel version.
+   * ERS SAP Kernel Version.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly kernelVersion?: string;
   /**
-   * The ERS server SAP kernel patch.
+   * ERS SAP Kernel Patch level.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly kernelPatch?: string;
   /**
-   * The ERS server SAP IP Address.
+   * ERS SAP IP Address.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ipAddress?: string;
   /**
-   * Defines the SAP Instance health.
+   * Defines the health of SAP Instances.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly health?: SAPHealthState;
 }
 
-/** The Central Server VM Details. */
+/** The Load Balancer details such as Load Balancer ID. */
+export interface LoadBalancerDetails {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly id?: string;
+}
+
+/** The SAP Central Services Instance VM details. */
 export interface CentralServerVmDetails {
   /**
    * Defines the type of central server VM.
@@ -685,6 +513,17 @@ export interface CentralServerVmDetails {
   readonly type?: CentralServerVirtualMachineType;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly virtualMachineId?: string;
+  /**
+   * Storage details of all the Storage Accounts attached to the ASCS Virtual Machine. For e.g. NFS on AFS Shared Storage.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly storageDetails?: StorageInformation[];
+}
+
+/** Storage details of all the Storage accounts attached to the VM. For e.g. NFS on AFS Shared Storage. */
+export interface StorageInformation {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly id?: string;
 }
 
 /** Defines the request body for updating SAP Central Instance. */
@@ -693,15 +532,15 @@ export interface UpdateSAPCentralInstanceRequest {
   tags?: { [propertyName: string]: string };
 }
 
-/** Defines the collection of SAP Central Instances. */
+/** Defines the collection of SAP Central Services Instance resources. */
 export interface SAPCentralInstanceList {
-  /** Gets the list of SAP central instances. */
+  /** Gets the list of SAP central services instance resources. */
   value?: SAPCentralServerInstance[];
   /** Gets the value of next link. */
   nextLink?: string;
 }
 
-/** The Database VM Details. */
+/** Database VM details. */
 export interface DatabaseVmDetails {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly virtualMachineId?: string;
@@ -710,6 +549,11 @@ export interface DatabaseVmDetails {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: SAPVirtualInstanceStatus;
+  /**
+   * Storage details of all the Storage Accounts attached to the Database Virtual Machine. For e.g. NFS on AFS Shared Storage.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly storageDetails?: StorageInformation[];
 }
 
 /** Defines the request body for updating SAP Database Instance. */
@@ -726,24 +570,147 @@ export interface SAPDatabaseInstanceList {
   nextLink?: string;
 }
 
+/** The Application Server VM Details. */
+export interface ApplicationServerVmDetails {
+  /**
+   * Defines the type of application server VM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: ApplicationServerVirtualMachineType;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly virtualMachineId?: string;
+  /**
+   * Storage details of all the Storage Accounts attached to the App Virtual Machine. For e.g. NFS on AFS Shared Storage.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly storageDetails?: StorageInformation[];
+}
+
 /** Defines the request body for updating SAP Application Instance. */
 export interface UpdateSAPApplicationInstanceRequest {
   /** Gets or sets the Resource tags. */
   tags?: { [propertyName: string]: string };
 }
 
-/** Defines the collection of SAP Application Server Instances. */
+/** Defines the collection of SAP Application Server Instance resources. */
 export interface SAPApplicationServerInstanceList {
-  /** Gets the list of SAP Application Server instances. */
+  /** Gets the list of SAP Application Server instance resources. */
   value?: SAPApplicationServerInstance[];
   /** Gets the value of next link. */
   nextLink?: string;
 }
 
-/** Stop SAP Request. */
+/** Stop SAP instance(s) request body. */
 export interface StopRequest {
-  /** A boolean to specify if the SAP system should be hard-stopped. */
-  hardStop?: boolean;
+  /** This parameter defines how long (in seconds) the soft shutdown waits until the RFC/HTTP clients no longer consider the server for calls with load balancing. Value 0 means that the kernel does not wait, but goes directly into the next shutdown state, i.e. hard stop. */
+  softStopTimeoutSeconds?: number;
+}
+
+/** The response from the List SAP monitors operation. */
+export interface MonitorListResult {
+  /** The list of SAP monitors. */
+  value?: Monitor[];
+  /** The URL to get the next set of SAP monitors. */
+  nextLink?: string;
+}
+
+/** Standard error object. */
+export interface ErrorModel {
+  /**
+   * Server-defined set of error codes.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Human-readable representation of the error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * Target of the error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * Array of details about specific errors that led to this reported error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorModel[];
+  /**
+   * Object containing more specific information than  the current object about the error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly innerError?: ErrorInnerError;
+}
+
+/** Object containing more specific information than  the current object about the error. */
+export interface ErrorInnerError {
+  /** Standard error object. */
+  innerError?: ErrorModel;
+}
+
+/** Defines the request body for updating SAP monitor resource. */
+export interface UpdateMonitorRequest {
+  /** Gets or sets the Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** [currently not in use] Managed service identity(user assigned identities) */
+  identity?: UserAssignedServiceIdentity;
+}
+
+/** The response from the List provider instances operation. */
+export interface ProviderInstanceListResult {
+  /** The list of provider instances. */
+  value?: ProviderInstance[];
+  /** The URL to get the next set of provider instances. */
+  nextLink?: string;
+}
+
+/** Gets or sets the provider specific properties. */
+export interface ProviderSpecificProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  providerType:
+    | "SapHana"
+    | "SapNetWeaver"
+    | "PrometheusOS"
+    | "Db2"
+    | "PrometheusHaCluster"
+    | "MsSqlServer";
+}
+
+/** Gets or sets the SID groupings by landscape and Environment. */
+export interface SapLandscapeMonitorPropertiesGrouping {
+  /** Gets or sets the list of landscape to SID mappings. */
+  landscape?: SapLandscapeMonitorSidMapping[];
+  /** Gets or sets the list of Sap Applications to SID mappings. */
+  sapApplication?: SapLandscapeMonitorSidMapping[];
+}
+
+/** Gets or sets the mapping for SID to Environment/Applications. */
+export interface SapLandscapeMonitorSidMapping {
+  /** Gets or sets the name of the grouping. */
+  name?: string;
+  /** Gets or sets the list of SID's. */
+  topSid?: string[];
+}
+
+/** Gets or sets the Threshold Values for Top Metrics Health. */
+export interface SapLandscapeMonitorMetricThresholds {
+  /** Gets or sets the name of the threshold. */
+  name?: string;
+  /** Gets or sets the threshold value for Green. */
+  green?: number;
+  /** Gets or sets the threshold value for Yellow. */
+  yellow?: number;
+  /** Gets or sets the threshold value for Red. */
+  red?: number;
+}
+
+/** The response from the List SAP Landscape Monitor Dashboard operation. */
+export interface SapLandscapeMonitorListResult {
+  /** The list of Sap Landscape Monitor configuration. */
+  value?: SapLandscapeMonitor[];
+  /** The URL to get the next set of SAP Landscape Monitor Dashboard. */
+  nextLink?: string;
 }
 
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
@@ -810,171 +777,6 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
-/** The response from the List SAP monitors operation. */
-export interface MonitorListResult {
-  /** The list of SAP monitors. */
-  value?: Monitor[];
-  /** The URL to get the next set of SAP monitors. */
-  nextLink?: string;
-}
-
-/** Standard error object. */
-export interface ErrorModel {
-  /**
-   * Server-defined set of error codes.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * Human-readable representation of the error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * Target of the error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /**
-   * Array of details about specific errors that led to this reported error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: ErrorModel[];
-  /**
-   * Object containing more specific information than  the current object about the error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly innerError?: ErrorInnerError;
-}
-
-/** Object containing more specific information than  the current object about the error. */
-export interface ErrorInnerError {
-  /** Standard error object. */
-  innerError?: ErrorModel;
-}
-
-/** Defines the request body for updating SAP monitor resource. */
-export interface UpdateMonitorRequest {
-  /** Gets or sets the Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** Managed service identity (user assigned identities) */
-  identity?: UserAssignedServiceIdentity;
-}
-
-/** The response from the List provider instances operation. */
-export interface ProviderInstanceListResult {
-  /** The list of provider instances. */
-  value?: ProviderInstance[];
-  /** The URL to get the next set of provider instances. */
-  nextLink?: string;
-}
-
-/** Gets or sets the provider specific properties. */
-export interface ProviderSpecificProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  providerType:
-    | "SapHana"
-    | "SapNetWeaver"
-    | "PrometheusOS"
-    | "Db2"
-    | "PrometheusHaCluster"
-    | "MsSqlServer";
-}
-
-/** A list of SKUs supported by an Azure Resource Provider. */
-export interface SkusListResult {
-  /**
-   * List of SKUs supported by the resource provider
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: SkuDefinition[];
-  /**
-   * URL to get the next set of SKU list results (if there are any).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** The SKU definition. */
-export interface SkuDefinition {
-  /** The name of the SKU. */
-  name: string;
-  /** Resource type the SKU applicable for. */
-  resourceType?: string;
-  /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
-  tier?: string;
-  /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
-  size?: string;
-  /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
-  family?: string;
-  /** If the service has different kinds of hardware, for the same SKU, then that can be captured here. */
-  kind?: string;
-  /** List of locations where this SKU is available. */
-  locations?: string[];
-  /** List of locations where this SKU is available. */
-  locationInfo?: SkuLocationAndZones[];
-  /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
-  capacity?: Record<string, unknown>;
-  /** The SKU costs. */
-  costs?: SkuCost[];
-  /** The SKU capabilities. */
-  capabilities?: SkuCapability[];
-  /** The SKU restrictions. */
-  restrictions?: SkuRestriction[];
-}
-
-/** The SKU location and zone. */
-export interface SkuLocationAndZones {
-  /** The location of the SKU. */
-  location?: string;
-  /** The availability zones of SKU location. */
-  zones?: string[];
-  /** The availability zone details of the SKU location. */
-  zoneDetails?: SkuZoneDetail[];
-  /** The extended locations of SKU. */
-  extendedLocations?: string[];
-  /** Type of the extended location. */
-  type?: LocationType;
-}
-
-/** The SKU zone details. */
-export interface SkuZoneDetail {
-  /** The physical zones. */
-  zones?: string[];
-  /** The capabilities. */
-  capabilities?: SkuCapability[];
-}
-
-/** The SKU capability definition. */
-export interface SkuCapability {
-  /** The capability name. */
-  name?: string;
-  /** The capability value. */
-  value?: string;
-}
-
-/** The SKU cost definition. */
-export interface SkuCost {
-  /** Billing meter id. */
-  meterId?: string;
-  /** The quantity. */
-  quantity?: number;
-  /** The extended unit. */
-  extendedUnit?: string;
-}
-
-/** The SKU restriction definition. */
-export interface SkuRestriction {
-  /** The SKU restriction type. */
-  type?: SkuRestrictionType;
-  /** Restriction values. */
-  values?: string[];
-  /** The restriction information. */
-  restrictionInfo?: Record<string, unknown>;
-  /** The SKU restriction reason code. */
-  reasonCode?: SkuRestrictionReasonCode;
-}
-
 /** Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations. NOTE: Image reference publisher and offer can only be set when you create the scale set. */
 export interface ImageReference {
   /** The image publisher. */
@@ -985,13 +787,6 @@ export interface ImageReference {
   sku?: string;
   /** Specifies the version of the platform image or marketplace image used to create the virtual machine. The allowed formats are Major.Minor.Build or 'latest'. Major, Minor, and Build are decimal numbers. Specify 'latest' to use the latest version of an image available at deploy time. Even if you use 'latest', the VM image will not automatically update after deploy time even if a new version becomes available. */
   version?: string;
-  /**
-   * Specifies in decimal numbers, the version of platform image or marketplace image used to create the virtual machine. This readonly field differs from 'version', only if the value specified in 'version' field is 'latest'.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly exactVersion?: string;
-  /** Specified the shared gallery image unique id for vm deployment. This can be fetched from shared gallery image GET call. */
-  sharedGalleryImageId?: string;
 }
 
 /** Defines the OS configuration. */
@@ -1030,6 +825,14 @@ export interface OSProfile {
   osConfiguration?: OSConfigurationUnion;
 }
 
+/** The Disk Configuration Details. */
+export interface DiskConfiguration {
+  /** The disk configuration for the db volume. For HANA, Required volumes are: ['hana/data', 'hana/log', hana/shared', 'usr/sap', 'os'], Optional volume : ['backup']. */
+  diskVolumeConfigurations?: {
+    [propertyName: string]: DiskVolumeConfiguration;
+  };
+}
+
 /** Defines the virtual machine configuration. */
 export interface VirtualMachineConfiguration {
   /** The virtual machine size. */
@@ -1040,10 +843,16 @@ export interface VirtualMachineConfiguration {
   osProfile: OSProfile;
 }
 
-/** Defines the network configuration for SAP infrastructure */
+/** Defines the network configuration type for SAP system infrastructure that is being deployed */
 export interface NetworkConfiguration {
-  /** Specifies whether a secondary IP address should be added to the network interface on all VMs */
+  /** Specifies whether a secondary IP address should be added to the network interface on all VMs of the SAP system being deployed */
   isSecondaryIpEnabled?: boolean;
+}
+
+/** The resource-names input to specify custom names for underlying azure resources that are part of a single server SAP system. */
+export interface SingleServerCustomResourceNames {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  namingPatternType: "FullResourceName";
 }
 
 /** Deploy SAP Infrastructure Details. */
@@ -1074,6 +883,8 @@ export interface DatabaseConfiguration {
   virtualMachineConfiguration: VirtualMachineConfiguration;
   /** The number of database VMs. */
   instanceCount: number;
+  /** Gets or sets the disk configuration. */
+  diskConfiguration?: DiskConfiguration;
 }
 
 /** Gets or sets the application server configuration. */
@@ -1092,10 +903,99 @@ export interface HighAvailabilityConfiguration {
   highAvailabilityType: SAPHighAvailabilityType;
 }
 
+/** File Share configuration details, populated with information on storage configuration mounted on the VIS. The createAndMount option is selected in case of missing input. */
+export interface FileShareConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  configurationType: "Skip" | "CreateAndMount" | "Mount";
+}
+
+/** Gets or sets the storage configuration. */
+export interface StorageConfiguration {
+  /** The properties of the transport directory attached to the VIS. The default for transportFileShareConfiguration is the createAndMount flow if storage configuration is missing. */
+  transportFileShareConfiguration?: FileShareConfigurationUnion;
+}
+
+/** The resource-names input to specify custom names for underlying azure resources that are part of a three tier SAP system. */
+export interface ThreeTierCustomResourceNames {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  namingPatternType: "FullResourceName";
+}
+
+/** The resource names object for virtual machine and related resources. */
+export interface VirtualMachineResourceNames {
+  /** The full name for virtual machine. The length of this field can be upto 64 characters. If name is not provided, service uses a default name based on the deployment type. For SingleServer, default name is {SID}vm. In case of HA-AvZone systems, default name will be {SID}{app/ascs/db}z{a/b}vm with an incrementor at the end in case of more than 1 vm per layer. For distributed and HA-AvSet systems, default name will be {SID}{app/ascs/db}vm with an incrementor at the end in case of more than 1 vm per layer. */
+  vmName?: string;
+  /** The full name for virtual-machine's host (computer name). Currently, ACSS only supports host names which are less than or equal to 13 characters long. If this value is not provided, vmName will be used as host name. */
+  hostName?: string;
+  /** The list of network interface name objects for the selected virtual machine. Currently, only one network interface is supported per virtual machine. */
+  networkInterfaces?: NetworkInterfaceResourceNames[];
+  /** The full name for OS disk attached to the VM. If this value is not provided, it will be named by ARM as per its default naming standards (prefixed with vm name). There is only one OS disk attached per Virtual Machine. */
+  osDiskName?: string;
+  /** The full resource names for virtual machine data disks. This is a dictionary containing list of names of data disks per volume. Currently supported volumes for database layer are ['hana/data', 'hana/log', hana/shared', 'usr/sap', 'os', 'backup']. For application and cs layers, only 'default' volume is supported */
+  dataDiskNames?: { [propertyName: string]: string[] };
+}
+
+/** The resource names object for network interface and related resources. */
+export interface NetworkInterfaceResourceNames {
+  /** The full name for network interface. If name is not provided, service uses a default name based on the deployment type. For SingleServer, default name is {SID}-Nic. In case of HA-AvZone systems, default name will be {SID}-{App/ASCS/DB}-Zone{A/B}-Nic with an incrementor at the end in case of more than 1 instance per layer. For distributed and HA-AvSet systems, default name will be {SID}-{App/ASCS/DB}-Nic with an incrementor at the end in case of more than 1 instance per layer. */
+  networkInterfaceName?: string;
+}
+
+/** The full resource names object for central server layer resources. */
+export interface CentralServerFullResourceNames {
+  /** The list of names for all ASCS virtual machines to be deployed. The number of entries in this list should be equal to the number VMs to be created for ASCS layer. At maximum, there can be two virtual machines at this layer: ASCS and ERS. */
+  virtualMachines?: VirtualMachineResourceNames[];
+  /** The full name for availability set. In case name is not provided, it will be defaulted to {SID}-ASCS-AvSet. */
+  availabilitySetName?: string;
+  /** The resource names object for load balancer and related resources. */
+  loadBalancer?: LoadBalancerResourceNames;
+}
+
+/** The resource names object for load balancer and related resources. */
+export interface LoadBalancerResourceNames {
+  /** The full resource name for load balancer. If this value is not provided, load balancer will be name as {ASCS/DB}-loadBalancer. */
+  loadBalancerName?: string;
+  /** The list of frontend IP configuration names. If provided as input, size of this list should be 2 for cs layer and should be 1 for database layer. */
+  frontendIpConfigurationNames?: string[];
+  /** The list of backend pool names. Currently, ACSS deploys only one backend pool and hence, size of this list should be 1 */
+  backendPoolNames?: string[];
+  /** The list of health probe names. If provided as input, size of this list should be 2 for cs layer and should be 1 for database layer. */
+  healthProbeNames?: string[];
+}
+
+/** The full resource names object for application layer resources. The number of entries in this list should be equal to the number VMs to be created for application layer. */
+export interface ApplicationServerFullResourceNames {
+  /** The list of virtual machine naming details. */
+  virtualMachines?: VirtualMachineResourceNames[];
+  /** The full name for availability set. In case name is not provided, it will be defaulted to {SID}-App-AvSet. */
+  availabilitySetName?: string;
+}
+
+/** The full resource names object for database layer resources. The number of entries in this list should be equal to the number VMs to be created for database layer. */
+export interface DatabaseServerFullResourceNames {
+  /** The list of virtual machine naming details. */
+  virtualMachines?: VirtualMachineResourceNames[];
+  /** The full name for availability set. In case name is not provided, it will be defaulted to {SID}-DB-AvSet. */
+  availabilitySetName?: string;
+  /** The resource names object for load balancer and related resources. */
+  loadBalancer?: LoadBalancerResourceNames;
+}
+
+/** The resource names object for shared storage. */
+export interface SharedStorageResourceNames {
+  /** The full name of the shared storage account. If it is not provided, it will be defaulted to {SID}nfs{guid of 15 chars}. */
+  sharedStorageAccountName?: string;
+  /** The full name of private end point for the shared storage account. If it is not provided, it will be defaulted to {storageAccountName}_pe */
+  sharedStorageAccountPrivateEndPointName?: string;
+}
+
 /** The SAP Software configuration Input. */
 export interface SoftwareConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  softwareInstallationType: "ServiceInitiated" | "SAPInstallWithoutOSConfig";
+  softwareInstallationType:
+    | "ServiceInitiated"
+    | "SAPInstallWithoutOSConfig"
+    | "External";
 }
 
 /** Gets or sets the HA software configuration. */
@@ -1164,74 +1064,6 @@ export interface Tags {
   tags?: { [propertyName: string]: string };
 }
 
-/** The SKU restriction information. */
-export interface RestrictionInfo {
-  /** The restriction locations. */
-  locations?: string[];
-  /** The restriction zones. */
-  zones?: string[];
-}
-
-/** The SKU capacity. */
-export interface SkuCapacity {
-  /** Minimum capacity value. */
-  minimum?: number;
-  /** Maximum capacity value. */
-  maximum?: number;
-  /** Default capacity value. */
-  default?: number;
-  /** Scale type of the SKU capacity. */
-  scaleType?: SkuScaleType;
-}
-
-/** VMSS profile */
-export interface VmssNodesProfile extends NodeProfile {
-  /** Minimum number of nodes for autoscale */
-  autoScaleMinCount?: number;
-  /** Maximum number of nodes for autoscale */
-  autoScaleMaxCount?: number;
-}
-
-/** Search profile */
-export interface SearchProfile extends NodeProfile {
-  /** Search type */
-  searchType: SearchType;
-}
-
-/** Identity for the resource. Currently not supported */
-export interface PhpWorkloadResourceIdentity
-  extends UserAssignedServiceIdentity {}
-
-export interface PatchResourceRequestBodyIdentity
-  extends UserAssignedServiceIdentity {}
-
-/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export interface TrackedResource extends Resource {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** The geo-location where the resource lives */
-  location: string;
-}
-
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
-
-/** Defines the workload operation content. */
-export interface OperationsContent extends Resource {
-  /** Name of the operation. */
-  namePropertiesName?: string;
-  /** Indicates whether the operation applies to data-plane. */
-  isDataAction?: boolean;
-  /** Defines the workload operation origin. */
-  origin?: OperationProperties;
-  /** Display information of the operation. */
-  display?: OperationsDefinitionDisplay;
-  /** Defines the action type of workload operation. */
-  actionType?: WorkloadMonitorActionType;
-  /** Defines the workload operation properties. */
-  properties?: any;
-}
-
 /** The recommended configuration for a single server SAP system. */
 export interface SingleServerRecommendationResult
   extends SAPSizingRecommendationResult {
@@ -1266,6 +1098,8 @@ export interface DiscoveryConfiguration extends SAPConfiguration {
   configurationType: "Discovery";
   /** The virtual machine ID of the Central Server. */
   centralServerVmId?: string;
+  /** The custom storage account name for the storage account created by the service in the managed resource group created as part of VIS deployment.<br><br>Refer to the storage account naming rules [here](https://learn.microsoft.com/azure/azure-resource-manager/management/resource-name-rules#microsoftstorage).<br><br>If not provided, the service will create the storage account with a random name. */
+  managedRgStorageAccountName?: string;
   /**
    * The geo-location where the SAP system exists.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1299,6 +1133,33 @@ export interface DeploymentWithOSConfiguration extends SAPConfiguration {
   osSapConfiguration?: OsSapConfiguration;
 }
 
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+/** Defines the workload operation content. */
+export interface OperationsContent extends Resource {
+  /** Name of the operation. */
+  namePropertiesName?: string;
+  /** Indicates whether the operation applies to data-plane. */
+  isDataAction?: boolean;
+  /** Defines the workload operation origin. */
+  origin?: OperationProperties;
+  /** Display information of the operation. */
+  display?: OperationsDefinitionDisplay;
+  /** Defines the action type of workload operation. */
+  actionType?: WorkloadMonitorActionType;
+  /** Defines the workload operation properties. */
+  properties?: any;
+}
+
 /** Defines the SAP monitor errors. */
 export interface MonitorPropertiesErrors extends ErrorModel {}
 
@@ -1325,9 +1186,13 @@ export interface HanaDbProviderInstanceProperties
   /** Gets or sets the key vault URI to secret with the database password. */
   dbPasswordUri?: string;
   /** Gets or sets the blob URI to SSL certificate for the DB. */
-  dbSslCertificateUri?: string;
+  sslCertificateUri?: string;
   /** Gets or sets the hostname(s) in the SSL certificate. */
   sslHostNameInCertificate?: string;
+  /** Gets or sets certificate preference if secure communication is enabled. */
+  sslPreference?: SslPreference;
+  /** Gets or sets the SAP System Identifier. */
+  sapSid?: string;
 }
 
 /** Gets or sets the provider properties. */
@@ -1354,7 +1219,9 @@ export interface SapNetWeaverProviderInstanceProperties
   /** Gets or sets the SAP HTTP port number. */
   sapPortNumber?: string;
   /** Gets or sets the blob URI to SSL certificate for the SAP system. */
-  sapSslCertificateUri?: string;
+  sslCertificateUri?: string;
+  /** Gets or sets certificate preference if secure communication is enabled. */
+  sslPreference?: SslPreference;
 }
 
 /** Gets or sets the PrometheusOS provider properties. */
@@ -1364,6 +1231,12 @@ export interface PrometheusOSProviderInstanceProperties
   providerType: "PrometheusOS";
   /** URL of the Node Exporter endpoint */
   prometheusUrl?: string;
+  /** Gets or sets certificate preference if secure communication is enabled. */
+  sslPreference?: SslPreference;
+  /** Gets or sets the blob URI to SSL certificate for the prometheus node exporter. */
+  sslCertificateUri?: string;
+  /** Gets or sets the SAP System Identifier */
+  sapSid?: string;
 }
 
 /** Gets or sets the DB2 provider properties. */
@@ -1385,6 +1258,10 @@ export interface DB2ProviderInstanceProperties
   dbPasswordUri?: string;
   /** Gets or sets the SAP System Identifier */
   sapSid?: string;
+  /** Gets or sets certificate preference if secure communication is enabled. */
+  sslPreference?: SslPreference;
+  /** Gets or sets the blob URI to SSL certificate for the DB2 Database. */
+  sslCertificateUri?: string;
 }
 
 /** Gets or sets the PrometheusHaCluster provider properties. */
@@ -1400,6 +1277,10 @@ export interface PrometheusHaClusterProviderInstanceProperties
   sid?: string;
   /** Gets or sets the clusterName. */
   clusterName?: string;
+  /** Gets or sets certificate preference if secure communication is enabled. */
+  sslPreference?: SslPreference;
+  /** Gets or sets the blob URI to SSL certificate for the HA cluster exporter. */
+  sslCertificateUri?: string;
 }
 
 /** Gets or sets the SQL server provider properties. */
@@ -1419,6 +1300,10 @@ export interface MsSqlServerProviderInstanceProperties
   dbPasswordUri?: string;
   /** Gets or sets the SAP System Identifier */
   sapSid?: string;
+  /** Gets or sets certificate preference if secure communication is enabled. */
+  sslPreference?: SslPreference;
+  /** Gets or sets the blob URI to SSL certificate for the SQL Database. */
+  sslCertificateUri?: string;
 }
 
 /** Specifies Windows operating system settings on the virtual machine. */
@@ -1439,7 +1324,16 @@ export interface LinuxConfiguration extends OSConfiguration {
   sshKeyPair?: SshKeyPair;
 }
 
-/** Gets or sets the single server configuration. */
+/** The resource name object where the specified values will be full resource names of the corresponding resources in a single server SAP system. */
+export interface SingleServerFullResourceNames
+  extends SingleServerCustomResourceNames {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  namingPatternType: "FullResourceName";
+  /** The resource names object for virtual machine and related resources. */
+  virtualMachine?: VirtualMachineResourceNames;
+}
+
+/** Gets or sets the single server configuration. For prerequisites for creating the infrastructure, please see [here](https://go.microsoft.com/fwlink/?linkid=2212611&clcid=0x409) */
 export interface SingleServerConfiguration extends InfrastructureConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   deploymentType: "SingleServer";
@@ -1451,9 +1345,13 @@ export interface SingleServerConfiguration extends InfrastructureConfiguration {
   subnetId: string;
   /** Gets or sets the virtual machine configuration. */
   virtualMachineConfiguration: VirtualMachineConfiguration;
+  /** Gets or sets the disk configuration. */
+  dbDiskConfiguration?: DiskConfiguration;
+  /** The set of custom names to be used for underlying azure resources that are part of the SAP system. */
+  customResourceNames?: SingleServerCustomResourceNamesUnion;
 }
 
-/** Gets or sets the three tier SAP configuration. */
+/** Gets or sets the three tier SAP configuration. For prerequisites for creating the infrastructure, please see [here](https://go.microsoft.com/fwlink/?linkid=2212611&clcid=0x409) */
 export interface ThreeTierConfiguration extends InfrastructureConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   deploymentType: "ThreeTier";
@@ -1467,6 +1365,52 @@ export interface ThreeTierConfiguration extends InfrastructureConfiguration {
   databaseServer: DatabaseConfiguration;
   /** The high availability configuration. */
   highAvailabilityConfig?: HighAvailabilityConfiguration;
+  /** The storage configuration. */
+  storageConfiguration?: StorageConfiguration;
+  /** The set of custom names to be used for underlying azure resources that are part of the SAP system. */
+  customResourceNames?: ThreeTierCustomResourceNamesUnion;
+}
+
+/** Gets or sets the file share configuration for scenarios where transport directory fileshare is not created or required. */
+export interface SkipFileShareConfiguration extends FileShareConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  configurationType: "Skip";
+}
+
+/** Gets or sets the file share configuration where the transport directory fileshare is created and mounted as a part of the create infra flow. Please pre-create the resource group you intend to place the transport directory in. The storage account and fileshare will be auto-created by the ACSS and doesn’t need to pre-created. */
+export interface CreateAndMountFileShareConfiguration
+  extends FileShareConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  configurationType: "CreateAndMount";
+  /** The name of transport file share resource group. This should be pre created by the customer. The app rg is used in case of missing input. */
+  resourceGroup?: string;
+  /** The name of file share storage account name . A custom name is used in case of missing input. */
+  storageAccountName?: string;
+}
+
+/** Gets or sets the file share configuration where the transport directory fileshare already exists, and user wishes to mount the fileshare as a part of the create infra flow. */
+export interface MountFileShareConfiguration extends FileShareConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  configurationType: "Mount";
+  /** The fileshare resource ID */
+  id: string;
+  /** The private endpoint resource ID */
+  privateEndpointId: string;
+}
+
+/** The resource name object where the specified values will be full resource names of the corresponding resources in a three tier SAP system. */
+export interface ThreeTierFullResourceNames
+  extends ThreeTierCustomResourceNames {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  namingPatternType: "FullResourceName";
+  /** The full resource names object for central server layer resources. */
+  centralServer?: CentralServerFullResourceNames;
+  /** The full resource names object for application layer resources. The number of entries in this list should be equal to the number VMs to be created for application layer. */
+  applicationServer?: ApplicationServerFullResourceNames;
+  /** The full resource names object for database layer resources. The number of entries in this list should be equal to the number VMs to be created for database layer. */
+  databaseServer?: DatabaseServerFullResourceNames;
+  /** The resource names object for shared storage. */
+  sharedStorage?: SharedStorageResourceNames;
 }
 
 /** The SAP Software configuration Input when the software is to be installed by service. */
@@ -1503,60 +1447,28 @@ export interface SAPInstallWithoutOSConfigSoftwareConfiguration
   highAvailabilitySoftwareConfiguration?: HighAvailabilitySoftwareConfiguration;
 }
 
+/** The SAP Software configuration Input when the software is installed externally outside the service. */
+export interface ExternalInstallationSoftwareConfiguration
+  extends SoftwareConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  softwareInstallationType: "External";
+  /** The resource ID of the virtual machine containing the central server instance. */
+  centralServerVmId?: string;
+}
+
 /** Display information of the operation. */
 export interface OperationsDefinitionDisplay
   extends OperationsDisplayDefinition {}
 
-/** Php workload resource */
-export interface PhpWorkloadResource extends TrackedResource {
-  /** Indicates which kind of php workload this resource represent e.g WordPress */
-  kind: WorkloadKind;
-  /** Php workloads SKU */
-  sku?: Sku;
-  /** Identity for the resource. Currently not supported */
-  identity?: PhpWorkloadResourceIdentity;
-  /** The infra resources for PHP workload will be created in this location */
-  appLocation?: string;
-  /** Managed resource group configuration of the workload */
-  managedResourceGroupConfiguration?: ManagedRGConfiguration;
-  /** Admin user profile used for VM and VMSS */
-  adminUserProfile?: UserProfile;
-  /** VMSS web nodes profile */
-  webNodesProfile?: VmssNodesProfile;
-  /** Controller VM profile */
-  controllerProfile?: NodeProfile;
-  /** Network profile */
-  networkProfile?: NetworkProfile;
-  /** Database profile */
-  databaseProfile?: DatabaseProfile;
-  /** Site profile */
-  siteProfile?: SiteProfile;
-  /** File share profile */
-  fileshareProfile?: FileshareProfile;
-  /** PHP profile */
-  phpProfile?: PhpProfile;
-  /** Search profile */
-  searchProfile?: SearchProfile;
-  /** Cache profile */
-  cacheProfile?: CacheProfile;
-  /** Backup profile */
-  backupProfile?: BackupProfile;
-  /**
-   * Php workload resource provisioning state
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: PhpWorkloadProvisioningState;
-}
-
-/** Define the Virtual Instance for SAP. */
+/** Define the Virtual Instance for SAP solutions resource. */
 export interface SAPVirtualInstance extends TrackedResource {
-  /** Managed service identity (user assigned identities) */
+  /** A pre-created user assigned identity with appropriate roles assigned. To learn more on identity and roles required, visit the ACSS how-to-guide. */
   identity?: UserAssignedServiceIdentity;
   /** Defines the environment type - Production/Non Production. */
   environment: SAPEnvironmentType;
   /** Defines the SAP Product type. */
   sapProduct: SAPProductType;
-  /** Defines if an existing SAP system is being registered or a new SAP system is being created */
+  /** Defines if the SAP system is being created using Azure Center for SAP solutions (ACSS) or if an existing SAP system is being registered with ACSS */
   configuration: SAPConfigurationUnion;
   /** Managed resource group configuration */
   managedResourceGroupConfiguration?: ManagedRGConfiguration;
@@ -1566,7 +1478,7 @@ export interface SAPVirtualInstance extends TrackedResource {
    */
   readonly status?: SAPVirtualInstanceStatus;
   /**
-   * Defines the SAP Instance health.
+   * Defines the health of SAP Instances.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly health?: SAPHealthState;
@@ -1581,44 +1493,49 @@ export interface SAPVirtualInstance extends TrackedResource {
    */
   readonly provisioningState?: SapVirtualInstanceProvisioningState;
   /**
-   * Defines the Virtual Instance for SAP errors.
+   * Indicates any errors on the Virtual Instance for SAP solutions resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly errors?: SAPVirtualInstanceError;
 }
 
-/** Define the SAP Central Server Instance. */
+/** Define the SAP Central Services Instance resource. */
 export interface SAPCentralServerInstance extends TrackedResource {
   /**
-   * The central server instance id.
+   * The central services instance number.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly instanceNo?: string;
   /**
-   * The central server subnet.
+   * The central services instance subnet.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly subnet?: string;
-  /** Defines the SAP message server properties. */
+  /** Defines the SAP Message Server properties. */
   messageServerProperties?: MessageServerProperties;
-  /** Defines the SAP enqueue server properties. */
+  /** Defines the SAP Enqueue Server properties. */
   enqueueServerProperties?: EnqueueServerProperties;
   /** Defines the SAP Gateway Server properties. */
   gatewayServerProperties?: GatewayServerProperties;
-  /** Defines the SAP ERS Server properties. */
+  /** Defines the SAP Enqueue Replication Server (ERS) properties. */
   enqueueReplicationServerProperties?: EnqueueReplicationServerProperties;
   /**
-   * The central server kernel version.
+   * The central services instance Kernel Version.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly kernelVersion?: string;
   /**
-   * The central server kernel patch.
+   * The central services instance Kernel Patch level.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly kernelPatch?: string;
   /**
-   * The list of virtual machines.
+   * The Load Balancer details such as LoadBalancer ID attached to ASCS Virtual Machines
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly loadBalancerDetails?: LoadBalancerDetails;
+  /**
+   * The list of virtual machines corresponding to the Central Services instance.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly vmDetails?: CentralServerVmDetails[];
@@ -1628,7 +1545,7 @@ export interface SAPCentralServerInstance extends TrackedResource {
    */
   readonly status?: SAPVirtualInstanceStatus;
   /**
-   * Defines the SAP Instance health.
+   * Defines the health of SAP Instances.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly health?: SAPHealthState;
@@ -1638,36 +1555,41 @@ export interface SAPCentralServerInstance extends TrackedResource {
    */
   readonly provisioningState?: SapVirtualInstanceProvisioningState;
   /**
-   * Defines the Central Instance errors.
+   * Defines the errors related to SAP Central Services Instance resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly errors?: SAPVirtualInstanceError;
 }
 
-/** Define the SAP Database Instance. */
+/** Define the Database resource. */
 export interface SAPDatabaseInstance extends TrackedResource {
   /**
-   * The database subnet.
+   * Database subnet.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly subnet?: string;
   /**
-   * The database SID.
+   * Database SID name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly databaseSid?: string;
   /**
-   * The SAP database type.
+   * Database type, that is if the DB is HANA, DB2, Oracle, SAP ASE, Max DB or MS SQL Server.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly databaseType?: string;
   /**
-   * The database IP Address.
+   * Database IP Address.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ipAddress?: string;
   /**
-   * The list of virtual machines.
+   * The Load Balancer details such as LoadBalancer ID attached to Database Virtual Machines
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly loadBalancerDetails?: LoadBalancerDetails;
+  /**
+   * The list of virtual machines corresponding to the Database resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly vmDetails?: DatabaseVmDetails[];
@@ -1682,71 +1604,76 @@ export interface SAPDatabaseInstance extends TrackedResource {
    */
   readonly provisioningState?: SapVirtualInstanceProvisioningState;
   /**
-   * Defines the Database Instance errors.
+   * Defines the errors related to Database resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly errors?: SAPVirtualInstanceError;
 }
 
-/** Define the SAP Application Server Instance. */
+/** Define the SAP Application Server Instance resource. */
 export interface SAPApplicationServerInstance extends TrackedResource {
   /**
-   * The application server instance id.
+   * Application server Instance Number.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly instanceNo?: string;
   /**
-   * The application server subnet.
+   * Application server Subnet.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly subnet?: string;
   /**
-   * The application server SAP host name.
+   * Application server instance SAP hostname.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly hostname?: string;
   /**
-   * The application server SAP kernel version.
+   *  Application server instance SAP Kernel Version.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly kernelVersion?: string;
   /**
-   * The application server SAP kernel patch.
+   * Application server instance SAP Kernel Patch level.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly kernelPatch?: string;
   /**
-   * The application server SAP IP Address.
+   *  Application server instance SAP IP Address.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ipAddress?: string;
   /**
-   * The application server gateway Port.
+   * Application server instance gateway Port.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly gatewayPort?: number;
   /**
-   * The application server ICM HTTP Port.
+   * Application server instance ICM HTTP Port.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly icmHttpPort?: number;
   /**
-   * The application server ICM HTTPS Port.
+   * Application server instance ICM HTTPS Port.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly icmHttpsPort?: number;
   /**
-   * The virtual machine.
+   * The Load Balancer details such as LoadBalancer ID attached to Application Server Virtual Machines
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly virtualMachineId?: string;
+  readonly loadBalancerDetails?: LoadBalancerDetails;
+  /**
+   * The list of virtual machines.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vmDetails?: ApplicationServerVmDetails[];
   /**
    * Defines the SAP Instance status.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: SAPVirtualInstanceStatus;
   /**
-   * Defines the SAP Instance health.
+   * Defines the health of SAP Instances.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly health?: SAPHealthState;
@@ -1764,7 +1691,7 @@ export interface SAPApplicationServerInstance extends TrackedResource {
 
 /** SAP monitor info on Azure (ARM properties and SAP monitor properties) */
 export interface Monitor extends TrackedResource {
-  /** Managed service identity (user assigned identities) */
+  /** [currently not in use] Managed service identity(user assigned identities) */
   identity?: UserAssignedServiceIdentity;
   /**
    * State of provisioning of the SAP monitor.
@@ -1780,6 +1707,8 @@ export interface Monitor extends TrackedResource {
   appLocation?: string;
   /** Sets the routing preference of the SAP monitor. By default only RFC1918 traffic is routed to the customer VNET. */
   routingPreference?: RoutingPreference;
+  /** Sets the preference for zone redundancy on resources created for the SAP monitor. By default resources will be created which do not support zone redundancy. */
+  zoneRedundancyPreference?: string;
   /** Managed resource group configuration */
   managedResourceGroupConfiguration?: ManagedRGConfiguration;
   /** The ARM ID of the Log Analytics Workspace that is used for SAP monitoring. */
@@ -1791,31 +1720,16 @@ export interface Monitor extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly msiArmId?: string;
-}
-
-/** WordPress instance resource */
-export interface WordpressInstanceResource extends ProxyResource {
-  /** Application version */
-  version?: WordpressVersions;
-  /** Database name used by the application */
-  databaseName?: string;
-  /** User name used by the application to connect to database */
-  databaseUser?: string;
   /**
-   * Site Url to access the WordPress application
+   * The ARM ID of the Storage account used for SAP monitoring.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly siteUrl?: string;
-  /**
-   * WordPress instance provisioning state
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ApplicationProvisioningState;
+  readonly storageAccountArmId?: string;
 }
 
 /** A provider instance associated with SAP monitor. */
 export interface ProviderInstance extends ProxyResource {
-  /** Managed service identity (user assigned identities) */
+  /** [currently not in use] Managed service identity(user assigned identities) */
   identity?: UserAssignedServiceIdentity;
   /**
    * State of provisioning of the provider instance
@@ -1827,423 +1741,22 @@ export interface ProviderInstance extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly errors?: ProviderInstancePropertiesErrors;
-  /** Defines the provider instance errors. */
+  /** Defines the provider specific properties. */
   providerSettings?: ProviderSpecificPropertiesUnion;
 }
 
-/** Known values of {@link OSImagePublisher} that the service accepts. */
-export enum KnownOSImagePublisher {
-  /** Canonical */
-  Canonical = "Canonical"
+/** configuration associated with SAP Landscape Monitor Dashboard. */
+export interface SapLandscapeMonitor extends ProxyResource {
+  /**
+   * State of provisioning of the SAP monitor.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: SapLandscapeMonitorProvisioningState;
+  /** Gets or sets the SID groupings by landscape and Environment. */
+  grouping?: SapLandscapeMonitorPropertiesGrouping;
+  /** Gets or sets the list Top Metric Thresholds for SAP Landscape Monitor Dashboard */
+  topMetricsThresholds?: SapLandscapeMonitorMetricThresholds[];
 }
-
-/**
- * Defines values for OSImagePublisher. \
- * {@link KnownOSImagePublisher} can be used interchangeably with OSImagePublisher,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Canonical**
- */
-export type OSImagePublisher = string;
-
-/** Known values of {@link OSImageOffer} that the service accepts. */
-export enum KnownOSImageOffer {
-  /** UbuntuServer */
-  UbuntuServer = "UbuntuServer"
-}
-
-/**
- * Defines values for OSImageOffer. \
- * {@link KnownOSImageOffer} can be used interchangeably with OSImageOffer,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **UbuntuServer**
- */
-export type OSImageOffer = string;
-
-/** Known values of {@link OSImageSku} that the service accepts. */
-export enum KnownOSImageSku {
-  /** Eighteen04LTS */
-  Eighteen04LTS = "18.04-LTS",
-  /** Sixteen04LTS */
-  Sixteen04LTS = "16.04-LTS"
-}
-
-/**
- * Defines values for OSImageSku. \
- * {@link KnownOSImageSku} can be used interchangeably with OSImageSku,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **18.04-LTS** \
- * **16.04-LTS**
- */
-export type OSImageSku = string;
-
-/** Known values of {@link OSImageVersion} that the service accepts. */
-export enum KnownOSImageVersion {
-  /** Latest */
-  Latest = "latest"
-}
-
-/**
- * Defines values for OSImageVersion. \
- * {@link KnownOSImageVersion} can be used interchangeably with OSImageVersion,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **latest**
- */
-export type OSImageVersion = string;
-
-/** Known values of {@link LoadBalancerType} that the service accepts. */
-export enum KnownLoadBalancerType {
-  /** ApplicationGateway */
-  ApplicationGateway = "ApplicationGateway",
-  /** LoadBalancer */
-  LoadBalancer = "LoadBalancer"
-}
-
-/**
- * Defines values for LoadBalancerType. \
- * {@link KnownLoadBalancerType} can be used interchangeably with LoadBalancerType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ApplicationGateway** \
- * **LoadBalancer**
- */
-export type LoadBalancerType = string;
-
-/** Known values of {@link AzureFrontDoorEnabled} that the service accepts. */
-export enum KnownAzureFrontDoorEnabled {
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled"
-}
-
-/**
- * Defines values for AzureFrontDoorEnabled. \
- * {@link KnownAzureFrontDoorEnabled} can be used interchangeably with AzureFrontDoorEnabled,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
- */
-export type AzureFrontDoorEnabled = string;
-
-/** Known values of {@link DatabaseType} that the service accepts. */
-export enum KnownDatabaseType {
-  /** MySql */
-  MySql = "MySql"
-}
-
-/**
- * Defines values for DatabaseType. \
- * {@link KnownDatabaseType} can be used interchangeably with DatabaseType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **MySql**
- */
-export type DatabaseType = string;
-
-/** Known values of {@link HAEnabled} that the service accepts. */
-export enum KnownHAEnabled {
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled"
-}
-
-/**
- * Defines values for HAEnabled. \
- * {@link KnownHAEnabled} can be used interchangeably with HAEnabled,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
- */
-export type HAEnabled = string;
-
-/** Known values of {@link EnableSslEnforcement} that the service accepts. */
-export enum KnownEnableSslEnforcement {
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled"
-}
-
-/**
- * Defines values for EnableSslEnforcement. \
- * {@link KnownEnableSslEnforcement} can be used interchangeably with EnableSslEnforcement,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
- */
-export type EnableSslEnforcement = string;
-
-/** Known values of {@link FileShareType} that the service accepts. */
-export enum KnownFileShareType {
-  /** NfsOnController */
-  NfsOnController = "NfsOnController",
-  /** AzureFiles */
-  AzureFiles = "AzureFiles"
-}
-
-/**
- * Defines values for FileShareType. \
- * {@link KnownFileShareType} can be used interchangeably with FileShareType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NfsOnController** \
- * **AzureFiles**
- */
-export type FileShareType = string;
-
-/** Known values of {@link FileShareStorageType} that the service accepts. */
-export enum KnownFileShareStorageType {
-  /** StandardLRS */
-  StandardLRS = "Standard_LRS",
-  /** StandardGRS */
-  StandardGRS = "Standard_GRS",
-  /** StandardZRS */
-  StandardZRS = "Standard_ZRS",
-  /** PremiumLRS */
-  PremiumLRS = "Premium_LRS"
-}
-
-/**
- * Defines values for FileShareStorageType. \
- * {@link KnownFileShareStorageType} can be used interchangeably with FileShareStorageType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Standard_LRS** \
- * **Standard_GRS** \
- * **Standard_ZRS** \
- * **Premium_LRS**
- */
-export type FileShareStorageType = string;
-
-/** Known values of {@link PHPVersion} that the service accepts. */
-export enum KnownPHPVersion {
-  /** Seven2 */
-  Seven2 = "7.2",
-  /** Seven3 */
-  Seven3 = "7.3",
-  /** Seven4 */
-  Seven4 = "7.4"
-}
-
-/**
- * Defines values for PHPVersion. \
- * {@link KnownPHPVersion} can be used interchangeably with PHPVersion,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **7.2** \
- * **7.3** \
- * **7.4**
- */
-export type PHPVersion = string;
-
-/** Known values of {@link SearchType} that the service accepts. */
-export enum KnownSearchType {
-  /** Elastic */
-  Elastic = "Elastic"
-}
-
-/**
- * Defines values for SearchType. \
- * {@link KnownSearchType} can be used interchangeably with SearchType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Elastic**
- */
-export type SearchType = string;
-
-/** Known values of {@link RedisCacheFamily} that the service accepts. */
-export enum KnownRedisCacheFamily {
-  /** C */
-  C = "C",
-  /** P */
-  P = "P"
-}
-
-/**
- * Defines values for RedisCacheFamily. \
- * {@link KnownRedisCacheFamily} can be used interchangeably with RedisCacheFamily,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **C** \
- * **P**
- */
-export type RedisCacheFamily = string;
-
-/** Known values of {@link EnableBackup} that the service accepts. */
-export enum KnownEnableBackup {
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled"
-}
-
-/**
- * Defines values for EnableBackup. \
- * {@link KnownEnableBackup} can be used interchangeably with EnableBackup,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
- */
-export type EnableBackup = string;
-
-/** Known values of {@link PhpWorkloadProvisioningState} that the service accepts. */
-export enum KnownPhpWorkloadProvisioningState {
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-  /** Accepted */
-  Accepted = "Accepted",
-  /** Created */
-  Created = "Created",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Provisioning */
-  Provisioning = "Provisioning",
-  /** Deleting */
-  Deleting = "Deleting"
-}
-
-/**
- * Defines values for PhpWorkloadProvisioningState. \
- * {@link KnownPhpWorkloadProvisioningState} can be used interchangeably with PhpWorkloadProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotSpecified** \
- * **Accepted** \
- * **Created** \
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **Provisioning** \
- * **Deleting**
- */
-export type PhpWorkloadProvisioningState = string;
-
-/** Known values of {@link WorkloadKind} that the service accepts. */
-export enum KnownWorkloadKind {
-  /** WordPress */
-  WordPress = "WordPress"
-}
-
-/**
- * Defines values for WorkloadKind. \
- * {@link KnownWorkloadKind} can be used interchangeably with WorkloadKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **WordPress**
- */
-export type WorkloadKind = string;
-
-/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
-export enum KnownManagedServiceIdentityType {
-  /** None */
-  None = "None",
-  /** UserAssigned */
-  UserAssigned = "UserAssigned"
-}
-
-/**
- * Defines values for ManagedServiceIdentityType. \
- * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **UserAssigned**
- */
-export type ManagedServiceIdentityType = string;
-
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key"
-}
-
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
-
-/** Known values of {@link WordpressVersions} that the service accepts. */
-export enum KnownWordpressVersions {
-  /** Five43 */
-  Five43 = "5.4.3",
-  /** Five42 */
-  Five42 = "5.4.2",
-  /** Five41 */
-  Five41 = "5.4.1",
-  /** Five4 */
-  Five4 = "5.4"
-}
-
-/**
- * Defines values for WordpressVersions. \
- * {@link KnownWordpressVersions} can be used interchangeably with WordpressVersions,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **5.4.3** \
- * **5.4.2** \
- * **5.4.1** \
- * **5.4**
- */
-export type WordpressVersions = string;
-
-/** Known values of {@link ApplicationProvisioningState} that the service accepts. */
-export enum KnownApplicationProvisioningState {
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-  /** Accepted */
-  Accepted = "Accepted",
-  /** Created */
-  Created = "Created",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Installing */
-  Installing = "Installing"
-}
-
-/**
- * Defines values for ApplicationProvisioningState. \
- * {@link KnownApplicationProvisioningState} can be used interchangeably with ApplicationProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotSpecified** \
- * **Accepted** \
- * **Created** \
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **Installing**
- */
-export type ApplicationProvisioningState = string;
 
 /** Known values of {@link SAPEnvironmentType} that the service accepts. */
 export enum KnownSAPEnvironmentType {
@@ -2353,6 +1866,57 @@ export enum KnownSAPHighAvailabilityType {
  */
 export type SAPHighAvailabilityType = string;
 
+/** Known values of {@link DiskSkuName} that the service accepts. */
+export enum KnownDiskSkuName {
+  /** StandardLRS */
+  StandardLRS = "Standard_LRS",
+  /** PremiumLRS */
+  PremiumLRS = "Premium_LRS",
+  /** StandardSSDLRS */
+  StandardSSDLRS = "StandardSSD_LRS",
+  /** UltraSSDLRS */
+  UltraSSDLRS = "UltraSSD_LRS",
+  /** PremiumZRS */
+  PremiumZRS = "Premium_ZRS",
+  /** StandardSSDZRS */
+  StandardSSDZRS = "StandardSSD_ZRS",
+  /** PremiumV2LRS */
+  PremiumV2LRS = "PremiumV2_LRS"
+}
+
+/**
+ * Defines values for DiskSkuName. \
+ * {@link KnownDiskSkuName} can be used interchangeably with DiskSkuName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Standard_LRS** \
+ * **Premium_LRS** \
+ * **StandardSSD_LRS** \
+ * **UltraSSD_LRS** \
+ * **Premium_ZRS** \
+ * **StandardSSD_ZRS** \
+ * **PremiumV2_LRS**
+ */
+export type DiskSkuName = string;
+
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  /** None */
+  None = "None",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned"
+}
+
+/**
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **UserAssigned**
+ */
+export type ManagedServiceIdentityType = string;
+
 /** Known values of {@link SAPConfigurationType} that the service accepts. */
 export enum KnownSAPConfigurationType {
   /** Deployment */
@@ -2387,7 +1951,9 @@ export enum KnownSAPVirtualInstanceStatus {
   /** PartiallyRunning */
   PartiallyRunning = "PartiallyRunning",
   /** Unavailable */
-  Unavailable = "Unavailable"
+  Unavailable = "Unavailable",
+  /** SoftShutdown */
+  SoftShutdown = "SoftShutdown"
 }
 
 /**
@@ -2400,7 +1966,8 @@ export enum KnownSAPVirtualInstanceStatus {
  * **Stopping** \
  * **Offline** \
  * **PartiallyRunning** \
- * **Unavailable**
+ * **Unavailable** \
+ * **SoftShutdown**
  */
 export type SAPVirtualInstanceStatus = string;
 
@@ -2442,6 +2009,10 @@ export enum KnownSAPVirtualInstanceState {
   SoftwareInstallationInProgress = "SoftwareInstallationInProgress",
   /** SoftwareInstallationFailed */
   SoftwareInstallationFailed = "SoftwareInstallationFailed",
+  /** SoftwareDetectionInProgress */
+  SoftwareDetectionInProgress = "SoftwareDetectionInProgress",
+  /** SoftwareDetectionFailed */
+  SoftwareDetectionFailed = "SoftwareDetectionFailed",
   /** DiscoveryPending */
   DiscoveryPending = "DiscoveryPending",
   /** DiscoveryInProgress */
@@ -2463,6 +2034,8 @@ export enum KnownSAPVirtualInstanceState {
  * **SoftwareInstallationPending** \
  * **SoftwareInstallationInProgress** \
  * **SoftwareInstallationFailed** \
+ * **SoftwareDetectionInProgress** \
+ * **SoftwareDetectionFailed** \
  * **DiscoveryPending** \
  * **DiscoveryInProgress** \
  * **DiscoveryFailed** \
@@ -2496,6 +2069,30 @@ export enum KnownSapVirtualInstanceProvisioningState {
  * **Deleting**
  */
 export type SapVirtualInstanceProvisioningState = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
 
 /** Known values of {@link EnqueueReplicationServerType} that the service accepts. */
 export enum KnownEnqueueReplicationServerType {
@@ -2548,41 +2145,26 @@ export enum KnownCentralServerVirtualMachineType {
  */
 export type CentralServerVirtualMachineType = string;
 
-/** Known values of {@link Origin} that the service accepts. */
-export enum KnownOrigin {
-  /** User */
-  User = "user",
-  /** System */
-  System = "system",
-  /** UserSystem */
-  UserSystem = "user,system"
+/** Known values of {@link ApplicationServerVirtualMachineType} that the service accepts. */
+export enum KnownApplicationServerVirtualMachineType {
+  /** Active */
+  Active = "Active",
+  /** Standby */
+  Standby = "Standby",
+  /** Unknown */
+  Unknown = "Unknown"
 }
 
 /**
- * Defines values for Origin. \
- * {@link KnownOrigin} can be used interchangeably with Origin,
+ * Defines values for ApplicationServerVirtualMachineType. \
+ * {@link KnownApplicationServerVirtualMachineType} can be used interchangeably with ApplicationServerVirtualMachineType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **user** \
- * **system** \
- * **user,system**
+ * **Active** \
+ * **Standby** \
+ * **Unknown**
  */
-export type Origin = string;
-
-/** Known values of {@link ActionType} that the service accepts. */
-export enum KnownActionType {
-  /** Internal */
-  Internal = "Internal"
-}
-
-/**
- * Defines values for ActionType. \
- * {@link KnownActionType} can be used interchangeably with ActionType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Internal**
- */
-export type ActionType = string;
+export type ApplicationServerVirtualMachineType = string;
 
 /** Known values of {@link WorkloadMonitorProvisioningState} that the service accepts. */
 export enum KnownWorkloadMonitorProvisioningState {
@@ -2635,65 +2217,68 @@ export enum KnownRoutingPreference {
  */
 export type RoutingPreference = string;
 
-/** Known values of {@link LocationType} that the service accepts. */
-export enum KnownLocationType {
-  /** Region */
-  Region = "Region",
-  /** EdgeZone */
-  EdgeZone = "EdgeZone"
+/** Known values of {@link SapLandscapeMonitorProvisioningState} that the service accepts. */
+export enum KnownSapLandscapeMonitorProvisioningState {
+  /** Accepted */
+  Accepted = "Accepted",
+  /** Created */
+  Created = "Created",
+  /** Failed */
+  Failed = "Failed",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Canceled */
+  Canceled = "Canceled"
 }
 
 /**
- * Defines values for LocationType. \
- * {@link KnownLocationType} can be used interchangeably with LocationType,
+ * Defines values for SapLandscapeMonitorProvisioningState. \
+ * {@link KnownSapLandscapeMonitorProvisioningState} can be used interchangeably with SapLandscapeMonitorProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Region** \
- * **EdgeZone**
+ * **Accepted** \
+ * **Created** \
+ * **Failed** \
+ * **Succeeded** \
+ * **Canceled**
  */
-export type LocationType = string;
+export type SapLandscapeMonitorProvisioningState = string;
 
-/** Known values of {@link SkuRestrictionType} that the service accepts. */
-export enum KnownSkuRestrictionType {
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-  /** Location */
-  Location = "Location",
-  /** Zone */
-  Zone = "Zone"
+/** Known values of {@link Origin} that the service accepts. */
+export enum KnownOrigin {
+  /** User */
+  User = "user",
+  /** System */
+  System = "system",
+  /** UserSystem */
+  UserSystem = "user,system"
 }
 
 /**
- * Defines values for SkuRestrictionType. \
- * {@link KnownSkuRestrictionType} can be used interchangeably with SkuRestrictionType,
+ * Defines values for Origin. \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **NotSpecified** \
- * **Location** \
- * **Zone**
+ * **user** \
+ * **system** \
+ * **user,system**
  */
-export type SkuRestrictionType = string;
+export type Origin = string;
 
-/** Known values of {@link SkuRestrictionReasonCode} that the service accepts. */
-export enum KnownSkuRestrictionReasonCode {
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-  /** QuotaId */
-  QuotaId = "QuotaId",
-  /** NotAvailableForSubscription */
-  NotAvailableForSubscription = "NotAvailableForSubscription"
+/** Known values of {@link ActionType} that the service accepts. */
+export enum KnownActionType {
+  /** Internal */
+  Internal = "Internal"
 }
 
 /**
- * Defines values for SkuRestrictionReasonCode. \
- * {@link KnownSkuRestrictionReasonCode} can be used interchangeably with SkuRestrictionReasonCode,
+ * Defines values for ActionType. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **NotSpecified** \
- * **QuotaId** \
- * **NotAvailableForSubscription**
+ * **Internal**
  */
-export type SkuRestrictionReasonCode = string;
+export type ActionType = string;
 
 /** Known values of {@link OSType} that the service accepts. */
 export enum KnownOSType {
@@ -2713,12 +2298,50 @@ export enum KnownOSType {
  */
 export type OSType = string;
 
+/** Known values of {@link NamingPatternType} that the service accepts. */
+export enum KnownNamingPatternType {
+  /** FullResourceName */
+  FullResourceName = "FullResourceName"
+}
+
+/**
+ * Defines values for NamingPatternType. \
+ * {@link KnownNamingPatternType} can be used interchangeably with NamingPatternType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **FullResourceName**
+ */
+export type NamingPatternType = string;
+
+/** Known values of {@link ConfigurationType} that the service accepts. */
+export enum KnownConfigurationType {
+  /** Skip */
+  Skip = "Skip",
+  /** CreateAndMount */
+  CreateAndMount = "CreateAndMount",
+  /** Mount */
+  Mount = "Mount"
+}
+
+/**
+ * Defines values for ConfigurationType. \
+ * {@link KnownConfigurationType} can be used interchangeably with ConfigurationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Skip** \
+ * **CreateAndMount** \
+ * **Mount**
+ */
+export type ConfigurationType = string;
+
 /** Known values of {@link SAPSoftwareInstallationType} that the service accepts. */
 export enum KnownSAPSoftwareInstallationType {
   /** ServiceInitiated */
   ServiceInitiated = "ServiceInitiated",
   /** SAPInstallWithoutOSConfig */
-  SAPInstallWithoutOSConfig = "SAPInstallWithoutOSConfig"
+  SAPInstallWithoutOSConfig = "SAPInstallWithoutOSConfig",
+  /** External */
+  External = "External"
 }
 
 /**
@@ -2727,7 +2350,8 @@ export enum KnownSAPSoftwareInstallationType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **ServiceInitiated** \
- * **SAPInstallWithoutOSConfig**
+ * **SAPInstallWithoutOSConfig** \
+ * **External**
  */
 export type SAPSoftwareInstallationType = string;
 
@@ -2770,137 +2394,26 @@ export enum KnownWorkloadMonitorActionType {
  */
 export type WorkloadMonitorActionType = string;
 
-/** Known values of {@link SkuScaleType} that the service accepts. */
-export enum KnownSkuScaleType {
-  /** None */
-  None = "None",
-  /** Manual */
-  Manual = "Manual",
-  /** Automatic */
-  Automatic = "Automatic"
+/** Known values of {@link SslPreference} that the service accepts. */
+export enum KnownSslPreference {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** RootCertificate */
+  RootCertificate = "RootCertificate",
+  /** ServerCertificate */
+  ServerCertificate = "ServerCertificate"
 }
 
 /**
- * Defines values for SkuScaleType. \
- * {@link KnownSkuScaleType} can be used interchangeably with SkuScaleType,
+ * Defines values for SslPreference. \
+ * {@link KnownSslPreference} can be used interchangeably with SslPreference,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None** \
- * **Manual** \
- * **Automatic**
+ * **Disabled** \
+ * **RootCertificate** \
+ * **ServerCertificate**
  */
-export type SkuScaleType = string;
-/** Defines values for DiskStorageType. */
-export type DiskStorageType =
-  | "Premium_LRS"
-  | "Standard_LRS"
-  | "StandardSSD_LRS";
-/** Defines values for DatabaseTier. */
-export type DatabaseTier = "Burstable" | "GeneralPurpose" | "MemoryOptimized";
-/** Defines values for SkuTier. */
-export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
-
-/** Optional parameters. */
-export interface PhpWorkloadsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscription operation. */
-export type PhpWorkloadsListBySubscriptionResponse = PhpWorkloadResourceList;
-
-/** Optional parameters. */
-export interface PhpWorkloadsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type PhpWorkloadsListByResourceGroupResponse = PhpWorkloadResourceList;
-
-/** Optional parameters. */
-export interface PhpWorkloadsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type PhpWorkloadsGetResponse = PhpWorkloadResource;
-
-/** Optional parameters. */
-export interface PhpWorkloadsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type PhpWorkloadsCreateOrUpdateResponse = PhpWorkloadResource;
-
-/** Optional parameters. */
-export interface PhpWorkloadsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type PhpWorkloadsUpdateResponse = PhpWorkloadResource;
-
-/** Optional parameters. */
-export interface PhpWorkloadsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Whether to delete infra along with workload resource. */
-  deleteInfra?: string;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface PhpWorkloadsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type PhpWorkloadsListBySubscriptionNextResponse = PhpWorkloadResourceList;
-
-/** Optional parameters. */
-export interface PhpWorkloadsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type PhpWorkloadsListByResourceGroupNextResponse = PhpWorkloadResourceList;
-
-/** Optional parameters. */
-export interface WordpressInstancesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type WordpressInstancesListResponse = WordpressInstanceResourceList;
-
-/** Optional parameters. */
-export interface WordpressInstancesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type WordpressInstancesGetResponse = WordpressInstanceResource;
-
-/** Optional parameters. */
-export interface WordpressInstancesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type WordpressInstancesCreateOrUpdateResponse = WordpressInstanceResource;
-
-/** Optional parameters. */
-export interface WordpressInstancesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface WordpressInstancesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type WordpressInstancesListNextResponse = WordpressInstanceResourceList;
+export type SslPreference = string;
 
 /** Optional parameters. */
 export interface SAPSizingRecommendationsOptionalParams
@@ -2945,7 +2458,7 @@ export type SAPAvailabilityZoneDetailsResponse = SAPAvailabilityZoneDetailsResul
 /** Optional parameters. */
 export interface SAPVirtualInstancesCreateOptionalParams
   extends coreClient.OperationOptions {
-  /** The Virtual Instance for SAP request body. */
+  /** Virtual Instance for SAP solutions resource request body. */
   body?: SAPVirtualInstance;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -2966,7 +2479,7 @@ export type SAPVirtualInstancesGetResponse = SAPVirtualInstance;
 /** Optional parameters. */
 export interface SAPVirtualInstancesUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The Update Virtual Instance for SAP request body. */
+  /** Request body to update a Virtual Instance for SAP solutions resource. */
   body?: UpdateSAPVirtualInstanceRequest;
 }
 
@@ -3014,7 +2527,7 @@ export type SAPVirtualInstancesStartResponse = OperationStatusResult;
 /** Optional parameters. */
 export interface SAPVirtualInstancesStopOptionalParams
   extends coreClient.OperationOptions {
-  /** The Virtual Instances for SAP stop request body. */
+  /** The Virtual Instance for SAP solutions resource stop request body. */
   body?: StopRequest;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -3049,7 +2562,7 @@ export type SAPCentralInstancesGetResponse = SAPCentralServerInstance;
 /** Optional parameters. */
 export interface SAPCentralInstancesCreateOptionalParams
   extends coreClient.OperationOptions {
-  /** The SAP Central Server instance request body. */
+  /** The SAP Central Services Instance request body. */
   body?: SAPCentralServerInstance;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -3063,7 +2576,7 @@ export type SAPCentralInstancesCreateResponse = SAPCentralServerInstance;
 /** Optional parameters. */
 export interface SAPCentralInstancesUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The SAP Central Server instance request body. */
+  /** The SAP Central Services Instance resource request body. */
   body?: UpdateSAPCentralInstanceRequest;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -3094,6 +2607,32 @@ export interface SAPCentralInstancesListOptionalParams
 export type SAPCentralInstancesListResponse = SAPCentralInstanceList;
 
 /** Optional parameters. */
+export interface SAPCentralInstancesStartInstanceOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the startInstance operation. */
+export type SAPCentralInstancesStartInstanceResponse = OperationStatusResult;
+
+/** Optional parameters. */
+export interface SAPCentralInstancesStopInstanceOptionalParams
+  extends coreClient.OperationOptions {
+  /** SAP Central Services instance stop request body. */
+  body?: StopRequest;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the stopInstance operation. */
+export type SAPCentralInstancesStopInstanceResponse = OperationStatusResult;
+
+/** Optional parameters. */
 export interface SAPCentralInstancesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -3110,7 +2649,7 @@ export type SAPDatabaseInstancesGetResponse = SAPDatabaseInstance;
 /** Optional parameters. */
 export interface SAPDatabaseInstancesCreateOptionalParams
   extends coreClient.OperationOptions {
-  /** The SAP Database Server instance request body. */
+  /** Request body of Database resource of a SAP system. */
   body?: SAPDatabaseInstance;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -3124,7 +2663,7 @@ export type SAPDatabaseInstancesCreateResponse = SAPDatabaseInstance;
 /** Optional parameters. */
 export interface SAPDatabaseInstancesUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The SAP Database Server instance request body. */
+  /** Database resource update request body. */
   body?: UpdateSAPDatabaseInstanceRequest;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -3155,6 +2694,32 @@ export interface SAPDatabaseInstancesListOptionalParams
 export type SAPDatabaseInstancesListResponse = SAPDatabaseInstanceList;
 
 /** Optional parameters. */
+export interface SAPDatabaseInstancesStartInstanceOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the startInstance operation. */
+export type SAPDatabaseInstancesStartInstanceResponse = OperationStatusResult;
+
+/** Optional parameters. */
+export interface SAPDatabaseInstancesStopInstanceOptionalParams
+  extends coreClient.OperationOptions {
+  /** Stop request for the database instance of the SAP system. */
+  body?: StopRequest;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the stopInstance operation. */
+export type SAPDatabaseInstancesStopInstanceResponse = OperationStatusResult;
+
+/** Optional parameters. */
 export interface SAPDatabaseInstancesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -3171,7 +2736,7 @@ export type SAPApplicationServerInstancesGetResponse = SAPApplicationServerInsta
 /** Optional parameters. */
 export interface SAPApplicationServerInstancesCreateOptionalParams
   extends coreClient.OperationOptions {
-  /** The SAP Application Server instance request body. */
+  /** The SAP Application Server Instance resource request body. */
   body?: SAPApplicationServerInstance;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -3185,7 +2750,7 @@ export type SAPApplicationServerInstancesCreateResponse = SAPApplicationServerIn
 /** Optional parameters. */
 export interface SAPApplicationServerInstancesUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The SAP Application Server instance request body. */
+  /** The SAP Application Server Instance resource request body. */
   body?: UpdateSAPApplicationInstanceRequest;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -3216,25 +2781,37 @@ export interface SAPApplicationServerInstancesListOptionalParams
 export type SAPApplicationServerInstancesListResponse = SAPApplicationServerInstanceList;
 
 /** Optional parameters. */
+export interface SAPApplicationServerInstancesStartInstanceOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the startInstance operation. */
+export type SAPApplicationServerInstancesStartInstanceResponse = OperationStatusResult;
+
+/** Optional parameters. */
+export interface SAPApplicationServerInstancesStopInstanceOptionalParams
+  extends coreClient.OperationOptions {
+  /** SAP Application server instance stop request body. */
+  body?: StopRequest;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the stopInstance operation. */
+export type SAPApplicationServerInstancesStopInstanceResponse = OperationStatusResult;
+
+/** Optional parameters. */
 export interface SAPApplicationServerInstancesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SAPApplicationServerInstancesListNextResponse = SAPApplicationServerInstanceList;
-
-/** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type OperationsListResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface MonitorsListOptionalParams
@@ -3348,17 +2925,50 @@ export interface ProviderInstancesListNextOptionalParams
 export type ProviderInstancesListNextResponse = ProviderInstanceListResult;
 
 /** Optional parameters. */
-export interface SkusListOptionalParams extends coreClient.OperationOptions {}
+export interface SapLandscapeMonitorGetOptionalParams
+  extends coreClient.OperationOptions {}
 
-/** Contains response data for the list operation. */
-export type SkusListResponse = SkusListResult;
+/** Contains response data for the get operation. */
+export type SapLandscapeMonitorGetResponse = SapLandscapeMonitor;
 
 /** Optional parameters. */
-export interface SkusListNextOptionalParams
+export interface SapLandscapeMonitorCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type SapLandscapeMonitorCreateResponse = SapLandscapeMonitor;
+
+/** Optional parameters. */
+export interface SapLandscapeMonitorDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SapLandscapeMonitorUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type SapLandscapeMonitorUpdateResponse = SapLandscapeMonitor;
+
+/** Optional parameters. */
+export interface SapLandscapeMonitorListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SapLandscapeMonitorListResponse = SapLandscapeMonitorListResult;
+
+/** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type SkusListNextResponse = SkusListResult;
+export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface WorkloadsClientOptionalParams

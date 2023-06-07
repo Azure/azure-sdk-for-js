@@ -20,27 +20,42 @@ import {
 export interface ReplicationStorageClassifications {
   /**
    * Lists the storage classifications available in the specified fabric.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName Site name of interest.
    * @param options The options parameters.
    */
   listByReplicationFabrics(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     options?: ReplicationStorageClassificationsListByReplicationFabricsOptionalParams
   ): PagedAsyncIterableIterator<StorageClassification>;
   /**
    * Lists the storage classifications in the vault.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param options The options parameters.
    */
   list(
+    resourceName: string,
+    resourceGroupName: string,
     options?: ReplicationStorageClassificationsListOptionalParams
   ): PagedAsyncIterableIterator<StorageClassification>;
   /**
    * Gets the details of the specified storage classification.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName Fabric name.
    * @param storageClassificationName Storage classification name.
    * @param options The options parameters.
    */
   get(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     storageClassificationName: string,
     options?: ReplicationStorageClassificationsGetOptionalParams

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ElasticSanManagement } = require("@azure/arm-elasticsan");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create ElasticSan.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/ElasticSans_Create_MaximumSet_Gen.json
  */
 async function elasticSansCreateMaximumSetGen() {
-  const subscriptionId = "aaaaaaaaaaaaaaaaaa";
-  const resourceGroupName = "rgelasticsan";
+  const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaa";
+  const resourceGroupName = process.env["ELASTICSANS_RESOURCE_GROUP"] || "rgelasticsan";
   const elasticSanName = "ti7q-k952-1qB3J_5";
   const parameters = {
     availabilityZones: ["aaaaaaaaaaaaaaaaa"],
@@ -39,8 +40,6 @@ async function elasticSansCreateMaximumSetGen() {
   console.log(result);
 }
 
-elasticSansCreateMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to Create ElasticSan.
  *
@@ -48,8 +47,8 @@ elasticSansCreateMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/ElasticSans_Create_MinimumSet_Gen.json
  */
 async function elasticSansCreateMinimumSetGen() {
-  const subscriptionId = "aaaaaaaaaaaaaaaaaa";
-  const resourceGroupName = "rgelasticsan";
+  const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaa";
+  const resourceGroupName = process.env["ELASTICSANS_RESOURCE_GROUP"] || "rgelasticsan";
   const elasticSanName = "ti7q-k952-1qB3J_5";
   const parameters = {
     baseSizeTiB: 26,
@@ -66,4 +65,9 @@ async function elasticSansCreateMinimumSetGen() {
   console.log(result);
 }
 
-elasticSansCreateMinimumSetGen().catch(console.error);
+async function main() {
+  elasticSansCreateMaximumSetGen();
+  elasticSansCreateMinimumSetGen();
+}
+
+main().catch(console.error);

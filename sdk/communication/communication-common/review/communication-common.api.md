@@ -24,10 +24,10 @@ export interface CommunicationGetTokenOptions {
 }
 
 // @public
-export type CommunicationIdentifier = CommunicationUserIdentifier | PhoneNumberIdentifier | MicrosoftTeamsUserIdentifier | UnknownIdentifier;
+export type CommunicationIdentifier = CommunicationUserIdentifier | PhoneNumberIdentifier | MicrosoftTeamsUserIdentifier | MicrosoftBotIdentifier | UnknownIdentifier;
 
 // @public
-export type CommunicationIdentifierKind = CommunicationUserKind | PhoneNumberKind | MicrosoftTeamsUserKind | UnknownIdentifierKind;
+export type CommunicationIdentifierKind = CommunicationUserKind | PhoneNumberKind | MicrosoftTeamsUserKind | MicrosoftBotKind | UnknownIdentifierKind;
 
 // @public
 export interface CommunicationTokenCredential {
@@ -83,6 +83,9 @@ export const isCommunicationUserIdentifier: (identifier: CommunicationIdentifier
 export const isKeyCredential: (credential: unknown) => credential is KeyCredential;
 
 // @public
+export const isMicrosoftBotIdentifier: (identifier: CommunicationIdentifier) => identifier is MicrosoftBotIdentifier;
+
+// @public
 export const isMicrosoftTeamsUserIdentifier: (identifier: CommunicationIdentifier) => identifier is MicrosoftTeamsUserIdentifier;
 
 // @public
@@ -90,6 +93,19 @@ export const isPhoneNumberIdentifier: (identifier: CommunicationIdentifier) => i
 
 // @public
 export const isUnknownIdentifier: (identifier: CommunicationIdentifier) => identifier is UnknownIdentifier;
+
+// @public
+export interface MicrosoftBotIdentifier {
+    botId: string;
+    cloud?: "public" | "dod" | "gcch";
+    isResourceAccountConfigured?: boolean;
+    rawId?: string;
+}
+
+// @public
+export interface MicrosoftBotKind extends MicrosoftBotIdentifier {
+    kind: "microsoftBot";
+}
 
 // @public
 export interface MicrosoftTeamsUserIdentifier {
@@ -130,6 +146,8 @@ export type SerializedCommunicationCloudEnvironment = "public" | "dod" | "gcch";
 // @public
 export interface SerializedCommunicationIdentifier {
     communicationUser?: SerializedCommunicationUserIdentifier;
+    kind?: string;
+    microsoftBot?: SerializedMicrosoftBotIdentifier;
     microsoftTeamsUser?: SerializedMicrosoftTeamsUserIdentifier;
     phoneNumber?: SerializedPhoneNumberIdentifier;
     rawId?: string;
@@ -138,6 +156,13 @@ export interface SerializedCommunicationIdentifier {
 // @public
 export interface SerializedCommunicationUserIdentifier {
     id: string;
+}
+
+// @public
+export interface SerializedMicrosoftBotIdentifier {
+    botId: string;
+    cloud?: SerializedCommunicationCloudEnvironment;
+    isResourceAccountConfigured?: boolean;
 }
 
 // @public

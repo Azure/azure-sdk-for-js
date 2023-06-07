@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to List SSH authorized keys and shared key of the local user.
  *
  * @summary List SSH authorized keys and shared key of the local user.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-05-01/examples/LocalUserListKeys.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/LocalUserListKeys.json
  */
 async function listLocalUserKeys() {
   const subscriptionId = "{subscription-id}";

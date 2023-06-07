@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { SubAssessments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,9 +17,9 @@ import {
   SecuritySubAssessment,
   SubAssessmentsListAllNextOptionalParams,
   SubAssessmentsListAllOptionalParams,
+  SubAssessmentsListAllResponse,
   SubAssessmentsListNextOptionalParams,
   SubAssessmentsListOptionalParams,
-  SubAssessmentsListAllResponse,
   SubAssessmentsListResponse,
   SubAssessmentsGetOptionalParams,
   SubAssessmentsGetResponse,
@@ -58,23 +59,35 @@ export class SubAssessmentsImpl implements SubAssessments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listAllPagingPage(scope, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listAllPagingPage(scope, options, settings);
       }
     };
   }
 
   private async *listAllPagingPage(
     scope: string,
-    options?: SubAssessmentsListAllOptionalParams
+    options?: SubAssessmentsListAllOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SecuritySubAssessment[]> {
-    let result = await this._listAll(scope, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SubAssessmentsListAllResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAll(scope, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAllNext(scope, continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -108,8 +121,11 @@ export class SubAssessmentsImpl implements SubAssessments {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(scope, assessmentName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(scope, assessmentName, options, settings);
       }
     };
   }
@@ -117,11 +133,18 @@ export class SubAssessmentsImpl implements SubAssessments {
   private async *listPagingPage(
     scope: string,
     assessmentName: string,
-    options?: SubAssessmentsListOptionalParams
+    options?: SubAssessmentsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SecuritySubAssessment[]> {
-    let result = await this._list(scope, assessmentName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SubAssessmentsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(scope, assessmentName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         scope,
@@ -130,7 +153,9 @@ export class SubAssessmentsImpl implements SubAssessments {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -318,7 +343,6 @@ const listAllNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion9],
   urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
   headerParameters: [Parameters.accept],
   serializer
@@ -334,7 +358,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

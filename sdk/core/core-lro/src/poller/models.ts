@@ -70,6 +70,18 @@ export interface CreatePollerOptions<TResponse, TResult, TState> {
   withOperationLocation?: (operationLocation: string) => void;
 }
 
+export interface LroError {
+  code: string;
+  innererror?: InnerError;
+  message: string;
+}
+
+export interface InnerError {
+  code: string;
+  message: string;
+  innererror?: InnerError;
+}
+
 /**
  * Options for `buildCreatePoller`.
  */
@@ -93,6 +105,10 @@ export interface BuildCreatePollerOptions<TResponse, TState> {
     state: RestorableOperationState<TState>
   ) => OperationStatus;
   /**
+   * Determines if the input error is an operation error.
+   */
+  isOperationError: (error: Error) => boolean;
+  /**
    * Gets the updated operation location from polling responses.
    */
   getOperationLocation?: (
@@ -111,6 +127,10 @@ export interface BuildCreatePollerOptions<TResponse, TState> {
    * wait before sending the next polling request.
    */
   getPollingInterval?: (response: TResponse) => number | undefined;
+  /**
+   * Extracts an error model from a response.
+   */
+  getError?: (response: TResponse) => LroError | undefined;
   /**
    * Control whether to throw an exception if the operation failed or was canceled.
    */

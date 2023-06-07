@@ -9,7 +9,7 @@ import {
   TokenCredential,
   UsernamePasswordCredential,
 } from "../../../src";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
+import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
 import { Recorder, delay, env } from "@azure-tools/test-recorder";
 import {
   bearerTokenAuthenticationPolicy,

@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ClusterPrincipalAssignments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,6 +17,7 @@ import { LroImpl } from "../lroImpl";
 import {
   ClusterPrincipalAssignment,
   ClusterPrincipalAssignmentsListOptionalParams,
+  ClusterPrincipalAssignmentsListResponse,
   ClusterPrincipalAssignmentCheckNameRequest,
   ClusterPrincipalAssignmentsCheckNameAvailabilityOptionalParams,
   ClusterPrincipalAssignmentsCheckNameAvailabilityResponse,
@@ -24,8 +25,7 @@ import {
   ClusterPrincipalAssignmentsGetResponse,
   ClusterPrincipalAssignmentsCreateOrUpdateOptionalParams,
   ClusterPrincipalAssignmentsCreateOrUpdateResponse,
-  ClusterPrincipalAssignmentsDeleteOptionalParams,
-  ClusterPrincipalAssignmentsListResponse
+  ClusterPrincipalAssignmentsDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -61,8 +61,16 @@ export class ClusterPrincipalAssignmentsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, clusterName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          clusterName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -70,9 +78,11 @@ export class ClusterPrincipalAssignmentsImpl
   private async *listPagingPage(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClusterPrincipalAssignmentsListOptionalParams
+    options?: ClusterPrincipalAssignmentsListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ClusterPrincipalAssignment[]> {
-    let result = await this._list(resourceGroupName, clusterName, options);
+    let result: ClusterPrincipalAssignmentsListResponse;
+    result = await this._list(resourceGroupName, clusterName, options);
     yield result.value || [];
   }
 

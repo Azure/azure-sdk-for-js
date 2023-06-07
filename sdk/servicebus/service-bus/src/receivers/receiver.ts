@@ -307,6 +307,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     public receiveMode: "peekLock" | "receiveAndDelete",
     maxAutoRenewLockDurationInMs: number,
     private skipParsingBodyAsJson: boolean,
+    private skipConvertingDate: boolean = false,
     retryOptions: RetryOptions = {},
     identifier?: string
   ) {
@@ -372,6 +373,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
           receiveMode: this.receiveMode,
           lockRenewer: this._lockRenewer,
           skipParsingBodyAsJson: this.skipParsingBodyAsJson,
+          skipConvertingDate: this.skipConvertingDate,
         };
         this._batchingReceiver = this._createBatchingReceiver(
           this._context,
@@ -437,6 +439,8 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
           associatedLinkName: this._getAssociatedReceiverName(),
           requestName: "receiveDeferredMessages",
           timeoutInMs: this._retryOptions.timeoutInMs,
+          skipParsingBodyAsJson: this.skipParsingBodyAsJson,
+          skipConvertingDate: this.skipConvertingDate,
         });
       return deferredMessages;
     };
@@ -463,6 +467,8 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       associatedLinkName: this._getAssociatedReceiverName(),
       requestName: "peekMessages",
       timeoutInMs: this._retryOptions?.timeoutInMs,
+      skipParsingBodyAsJson: this.skipParsingBodyAsJson,
+      skipConvertingDate: this.skipConvertingDate,
     };
     const peekOperationPromise = async (): Promise<ServiceBusReceivedMessage[]> => {
       if (options.fromSequenceNumber !== undefined) {
@@ -526,6 +532,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
         retryOptions: this._retryOptions,
         lockRenewer: this._lockRenewer,
         skipParsingBodyAsJson: this.skipParsingBodyAsJson,
+        skipConvertingDate: this.skipConvertingDate,
       });
 
     // this ensures that if the outer service bus client is closed that  this receiver is cleaned up.
@@ -626,6 +633,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
         spanLinks,
         ...toSpanOptions(
           { entityPath: this.entityPath, host: this._context.config.host },
+          "receive",
           "client"
         ),
       }
@@ -679,7 +687,12 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     entityPath: string,
     options: ReceiveOptions
   ): BatchingReceiver {
-    return BatchingReceiver.create(this.identifier, context, entityPath, options);
+    const receiver = BatchingReceiver.create(this.identifier, context, entityPath, options);
+    logger.verbose(
+      `[${this.logPrefix}] receiver '${receiver.name}' created, with maxConcurrentCalls set to ${options.maxConcurrentCalls}.`
+    );
+
+    return receiver;
   }
 
   /**

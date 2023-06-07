@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Links } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,12 +19,12 @@ import {
   LinkResourceFormat,
   LinksListByHubNextOptionalParams,
   LinksListByHubOptionalParams,
+  LinksListByHubResponse,
   LinksCreateOrUpdateOptionalParams,
   LinksCreateOrUpdateResponse,
   LinksGetOptionalParams,
   LinksGetResponse,
   LinksDeleteOptionalParams,
-  LinksListByHubResponse,
   LinksListByHubNextResponse
 } from "../models";
 
@@ -59,8 +60,16 @@ export class LinksImpl implements Links {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByHubPagingPage(resourceGroupName, hubName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByHubPagingPage(
+          resourceGroupName,
+          hubName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -68,11 +77,18 @@ export class LinksImpl implements Links {
   private async *listByHubPagingPage(
     resourceGroupName: string,
     hubName: string,
-    options?: LinksListByHubOptionalParams
+    options?: LinksListByHubOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<LinkResourceFormat[]> {
-    let result = await this._listByHub(resourceGroupName, hubName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: LinksListByHubResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByHub(resourceGroupName, hubName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByHubNext(
         resourceGroupName,
@@ -81,7 +97,9 @@ export class LinksImpl implements Links {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

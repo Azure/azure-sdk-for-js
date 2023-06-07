@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   IntegrationRuntimeObjectMetadataRefreshOptionalParams,
   IntegrationRuntimeObjectMetadataRefreshResponse,
@@ -29,8 +29,8 @@ export interface IntegrationRuntimeObjectMetadata {
     integrationRuntimeName: string,
     options?: IntegrationRuntimeObjectMetadataRefreshOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IntegrationRuntimeObjectMetadataRefreshResponse>,
+    SimplePollerLike<
+      OperationState<IntegrationRuntimeObjectMetadataRefreshResponse>,
       IntegrationRuntimeObjectMetadataRefreshResponse
     >
   >;

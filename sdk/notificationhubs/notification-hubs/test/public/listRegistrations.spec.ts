@@ -4,36 +4,31 @@
 import {
   AppleRegistrationDescription,
   createAppleRegistrationDescription,
-} from "@azure/notification-hubs/models/registration";
+} from "@azure/notification-hubs/models";
 import {
   NotificationHubsClientContext,
-  createClientContext,
-} from "@azure/notification-hubs/client";
-import { assert } from "@azure/test-utils";
-import { createRegistration } from "@azure/notification-hubs/client/createRegistration";
-import { deleteRegistration } from "@azure/notification-hubs/client/deleteRegistration";
-import { listRegistrations } from "@azure/notification-hubs/client/listRegistrations";
-
-// Load the .env file if it exists
-// eslint-disable-next-line sort-imports
-import * as dotenv from "dotenv";
-
-dotenv.config();
-
-// Define connection string and hub name
-const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";
-const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
-
-// Define message constants
-const DUMMY_DEVICE = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
-const deviceToken = process.env.APNS_DEVICE_TOKEN || DUMMY_DEVICE;
-
-const registrationIds: string[] = [];
-let context: NotificationHubsClientContext;
+  createRegistration,
+  deleteRegistration,
+  listRegistrations,
+} from "@azure/notification-hubs/api";
+import { assert, isNode } from "@azure/test-utils";
+import { Recorder } from "@azure-tools/test-recorder";
+import { createRecordedClientContext } from "./utils/recordedClient.js";
 
 describe("listRegistrations()", () => {
-  beforeEach(async () => {
-    context = createClientContext(connectionString, hubName);
+  let recorder: Recorder;
+  let context: NotificationHubsClientContext;
+  const registrationIds: string[] = [];
+  const deviceToken = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
+
+  beforeEach(async function () {
+    if (!isNode) {
+      return;
+    }
+
+    recorder = new Recorder(this.currentTest);
+    await recorder.setMatcher("BodilessMatcher");
+    context = await createRecordedClientContext(recorder);
 
     for (let i = 0; i < 3; i++) {
       let registration = createAppleRegistrationDescription({
@@ -50,12 +45,22 @@ describe("listRegistrations()", () => {
   });
 
   afterEach(async () => {
+    if (!isNode) {
+      return;
+    }
+
     for (const registrationId of registrationIds) {
       await deleteRegistration(context, registrationId);
     }
+
+    await recorder.stop();
   });
 
-  it("should list all registrations", async () => {
+  it("should list all registrations", async function () {
+    if (!isNode) {
+      this.skip();
+    }
+
     const registrations = listRegistrations(context);
 
     let numberOfItems = 0;

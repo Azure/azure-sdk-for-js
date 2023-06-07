@@ -12,6 +12,7 @@ import {
   ReqResLink,
   Message as RheaMessage,
   Sender,
+  SenderEvents,
   SenderOptions,
   Session,
   generate_uuid,
@@ -66,6 +67,9 @@ export class RequestResponseLink implements ReqResLink {
     this.receiver = receiver;
     this.receiver.on(ReceiverEvents.message, (context) => {
       onMessageReceived(context, this.connection.id, this._responsesMap);
+    });
+    this.sender.on(SenderEvents.senderError, (context) => {
+      onSenderError(context, this.connection.id, this._responsesMap);
     });
   }
 
@@ -332,4 +336,21 @@ export function onMessageReceived(
   }
   logErrorStackTrace(error);
   return promise.reject(error);
+}
+
+function onSenderError(
+  context: Pick<EventContext, "sender">,
+  connectionId: string,
+  responsesMap: Map<string, DeferredPromiseWithCallback>
+): void {
+  if (context.sender) {
+    for (const [key, promise] of responsesMap.entries()) {
+      logger.verbose(
+        `[${connectionId}] Sender closed due to error when sending request with message_id "${key}"`
+      );
+      promise.cleanupBeforeResolveOrReject();
+      promise.reject(context.sender.error);
+    }
+    responsesMap.clear();
+  }
 }

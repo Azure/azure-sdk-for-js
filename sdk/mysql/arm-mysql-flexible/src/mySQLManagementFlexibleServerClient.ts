@@ -10,28 +10,36 @@ import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  AzureADAdministratorsImpl,
+  BackupsImpl,
+  BackupAndExportImpl,
+  ConfigurationsImpl,
+  DatabasesImpl,
+  FirewallRulesImpl,
   ServersImpl,
   ReplicasImpl,
-  BackupsImpl,
-  FirewallRulesImpl,
-  DatabasesImpl,
-  ConfigurationsImpl,
+  LogFilesImpl,
   LocationBasedCapabilitiesImpl,
   CheckVirtualNetworkSubnetUsageImpl,
   CheckNameAvailabilityImpl,
+  CheckNameAvailabilityWithoutLocationImpl,
   GetPrivateDnsZoneSuffixImpl,
   OperationsImpl
 } from "./operations";
 import {
+  AzureADAdministrators,
+  Backups,
+  BackupAndExport,
+  Configurations,
+  Databases,
+  FirewallRules,
   Servers,
   Replicas,
-  Backups,
-  FirewallRules,
-  Databases,
-  Configurations,
+  LogFiles,
   LocationBasedCapabilities,
   CheckVirtualNetworkSubnetUsage,
   CheckNameAvailability,
+  CheckNameAvailabilityWithoutLocation,
   GetPrivateDnsZoneSuffix,
   Operations
 } from "./operationsInterfaces";
@@ -39,7 +47,6 @@ import { MySQLManagementFlexibleServerClientOptionalParams } from "./models";
 
 export class MySQLManagementFlexibleServerClient extends coreClient.ServiceClient {
   $host: string;
-  apiVersion: string;
   subscriptionId: string;
 
   /**
@@ -69,78 +76,93 @@ export class MySQLManagementFlexibleServerClient extends coreClient.ServiceClien
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-mysql-flexible/3.0.1`;
+    const packageDetails = `azsdk-js-arm-mysql-flexible/4.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
-    if (!options.credentialScopes) {
-      options.credentialScopes = ["https://management.azure.com/.default"];
-    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
+      endpoint:
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
 
+    let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
       const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+      bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
           coreRestPipeline.bearerTokenAuthenticationPolicyName
       );
-      if (!bearerTokenAuthenticationPolicyFound) {
-        this.pipeline.removePolicy({
-          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-        });
-        this.pipeline.addPolicy(
-          coreRestPipeline.bearerTokenAuthenticationPolicy({
-            scopes: `${optionsWithDefaults.baseUri}/.default`,
-            challengeCallbacks: {
-              authorizeRequestOnChallenge:
-                coreClient.authorizeRequestOnClaimChallenge
-            }
-          })
-        );
-      }
+    }
+    if (
+      !options ||
+      !options.pipeline ||
+      options.pipeline.getOrderedPolicies().length == 0 ||
+      !bearerTokenAuthenticationPolicyFound
+    ) {
+      this.pipeline.removePolicy({
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+      });
+      this.pipeline.addPolicy(
+        coreRestPipeline.bearerTokenAuthenticationPolicy({
+          credential: credentials,
+          scopes:
+            optionsWithDefaults.credentialScopes ??
+            `${optionsWithDefaults.endpoint}/.default`,
+          challengeCallbacks: {
+            authorizeRequestOnChallenge:
+              coreClient.authorizeRequestOnClaimChallenge
+          }
+        })
+      );
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-05-01";
+    this.azureADAdministrators = new AzureADAdministratorsImpl(this);
+    this.backups = new BackupsImpl(this);
+    this.backupAndExport = new BackupAndExportImpl(this);
+    this.configurations = new ConfigurationsImpl(this);
+    this.databases = new DatabasesImpl(this);
+    this.firewallRules = new FirewallRulesImpl(this);
     this.servers = new ServersImpl(this);
     this.replicas = new ReplicasImpl(this);
-    this.backups = new BackupsImpl(this);
-    this.firewallRules = new FirewallRulesImpl(this);
-    this.databases = new DatabasesImpl(this);
-    this.configurations = new ConfigurationsImpl(this);
+    this.logFiles = new LogFilesImpl(this);
     this.locationBasedCapabilities = new LocationBasedCapabilitiesImpl(this);
     this.checkVirtualNetworkSubnetUsage = new CheckVirtualNetworkSubnetUsageImpl(
       this
     );
     this.checkNameAvailability = new CheckNameAvailabilityImpl(this);
+    this.checkNameAvailabilityWithoutLocation = new CheckNameAvailabilityWithoutLocationImpl(
+      this
+    );
     this.getPrivateDnsZoneSuffix = new GetPrivateDnsZoneSuffixImpl(this);
     this.operations = new OperationsImpl(this);
   }
 
+  azureADAdministrators: AzureADAdministrators;
+  backups: Backups;
+  backupAndExport: BackupAndExport;
+  configurations: Configurations;
+  databases: Databases;
+  firewallRules: FirewallRules;
   servers: Servers;
   replicas: Replicas;
-  backups: Backups;
-  firewallRules: FirewallRules;
-  databases: Databases;
-  configurations: Configurations;
+  logFiles: LogFiles;
   locationBasedCapabilities: LocationBasedCapabilities;
   checkVirtualNetworkSubnetUsage: CheckVirtualNetworkSubnetUsage;
   checkNameAvailability: CheckNameAvailability;
+  checkNameAvailabilityWithoutLocation: CheckNameAvailabilityWithoutLocation;
   getPrivateDnsZoneSuffix: GetPrivateDnsZoneSuffix;
   operations: Operations;
 }

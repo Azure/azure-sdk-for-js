@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { SignalRManagementClient } = require("@azure/arm-signalr");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get the access keys of the resource.
  *
  * @summary Get the access keys of the resource.
- * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/stable/2022-02-01/examples/SignalR_ListKeys.json
+ * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/stable/2023-02-01/examples/SignalR_ListKeys.json
  */
 async function signalRListKeys() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["SIGNALR_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["SIGNALR_RESOURCE_GROUP"] || "myResourceGroup";
   const resourceName = "mySignalRService";
   const credential = new DefaultAzureCredential();
   const client = new SignalRManagementClient(credential, subscriptionId);
@@ -27,4 +29,8 @@ async function signalRListKeys() {
   console.log(result);
 }
 
-signalRListKeys().catch(console.error);
+async function main() {
+  signalRListKeys();
+}
+
+main().catch(console.error);

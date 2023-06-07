@@ -13,6 +13,9 @@ import {
   ConsumptionManagementClient
 } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists all Azure credits and Microsoft Azure consumption commitments for a billing account or a billing profile. Microsoft Azure consumption commitments are only supported for the billing account scope.
@@ -21,7 +24,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/LotsListByBillingAccount.json
  */
 async function lotsListByBillingAccount() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const billingAccountId = "1234:5678";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -34,8 +39,6 @@ async function lotsListByBillingAccount() {
   console.log(resArray);
 }
 
-lotsListByBillingAccount().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists all Azure credits and Microsoft Azure consumption commitments for a billing account or a billing profile. Microsoft Azure consumption commitments are only supported for the billing account scope.
  *
@@ -43,7 +46,9 @@ lotsListByBillingAccount().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/LotsListByBillingAccountWithFilters.json
  */
 async function lotsListByBillingAccountWithStatusFilter() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const billingAccountId = "1234:5678";
   const filter = "status eq 'active' AND source eq 'consumptioncommitment'";
   const options: LotsListByBillingAccountOptionalParams = { filter };
@@ -59,4 +64,9 @@ async function lotsListByBillingAccountWithStatusFilter() {
   console.log(resArray);
 }
 
-lotsListByBillingAccountWithStatusFilter().catch(console.error);
+async function main() {
+  lotsListByBillingAccount();
+  lotsListByBillingAccountWithStatusFilter();
+}
+
+main().catch(console.error);

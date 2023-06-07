@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import sinon from "sinon";
-import { RestError, SendRequest, createPipelineRequest, defaultRetryPolicy } from "../src/index.js";
-import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants.js";
+import * as sinon from "sinon";
+import { RestError, SendRequest, createPipelineRequest, defaultRetryPolicy } from "../src";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
 
 describe("defaultRetryPolicy", function () {
   afterEach(function () {

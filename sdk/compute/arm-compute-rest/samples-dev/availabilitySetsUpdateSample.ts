@@ -29,13 +29,11 @@ async function availabilitySetsUpdateMaximumSetGen() {
         platformFaultDomainCount: 2,
         platformUpdateDomainCount: 20,
         proximityPlacementGroup: {
-          id:
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+          id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
         },
         virtualMachines: [
           {
-            id:
-              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+            id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
           },
         ],
       },

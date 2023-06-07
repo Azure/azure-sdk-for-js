@@ -7,7 +7,8 @@
  */
 
 import { tracingClient } from "../tracing";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { LinkConnectionOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,14 +16,14 @@ import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
 import {
   LinkConnectionResource,
-  LinkConnectionListLinkConnectionsByWorkspaceNextOptionalParams,
-  LinkConnectionListLinkConnectionsByWorkspaceOptionalParams,
-  LinkConnectionListLinkConnectionsByWorkspaceResponse,
-  LinkConnectionCreateOrUpdateLinkConnectionOptionalParams,
-  LinkConnectionCreateOrUpdateLinkConnectionResponse,
-  LinkConnectionGetLinkConnectionOptionalParams,
-  LinkConnectionGetLinkConnectionResponse,
-  LinkConnectionDeleteLinkConnectionOptionalParams,
+  LinkConnectionListByWorkspaceNextOptionalParams,
+  LinkConnectionListByWorkspaceOptionalParams,
+  LinkConnectionListByWorkspaceResponse,
+  LinkConnectionCreateOrUpdateOptionalParams,
+  LinkConnectionCreateOrUpdateResponse,
+  LinkConnectionGetOptionalParams,
+  LinkConnectionGetResponse,
+  LinkConnectionDeleteOptionalParams,
   EditTablesRequest,
   LinkConnectionEditTablesOptionalParams,
   LinkConnectionStartOptionalParams,
@@ -36,7 +37,9 @@ import {
   LinkConnectionQueryTableStatusResponse,
   UpdateLandingZoneCredential,
   LinkConnectionUpdateLandingZoneCredentialOptionalParams,
-  LinkConnectionListLinkConnectionsByWorkspaceNextResponse
+  LinkConnectionPauseOptionalParams,
+  LinkConnectionResumeOptionalParams,
+  LinkConnectionListByWorkspaceNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,10 +59,10 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
    * List link connections
    * @param options The options parameters.
    */
-  public listLinkConnectionsByWorkspace(
-    options?: LinkConnectionListLinkConnectionsByWorkspaceOptionalParams
+  public listByWorkspace(
+    options?: LinkConnectionListByWorkspaceOptionalParams
   ): PagedAsyncIterableIterator<LinkConnectionResource> {
-    const iter = this.listLinkConnectionsByWorkspacePagingAll(options);
+    const iter = this.listByWorkspacePagingAll(options);
     return {
       next() {
         return iter.next();
@@ -67,34 +70,41 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listLinkConnectionsByWorkspacePagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByWorkspacePagingPage(options, settings);
       }
     };
   }
 
-  private async *listLinkConnectionsByWorkspacePagingPage(
-    options?: LinkConnectionListLinkConnectionsByWorkspaceOptionalParams
+  private async *listByWorkspacePagingPage(
+    options?: LinkConnectionListByWorkspaceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<LinkConnectionResource[]> {
-    let result = await this._listLinkConnectionsByWorkspace(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listLinkConnectionsByWorkspaceNext(
-        continuationToken,
-        options
-      );
+    let result: LinkConnectionListByWorkspaceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByWorkspace(options);
+      let page = result.value || [];
       continuationToken = result.nextLink;
-      yield result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByWorkspaceNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
-  private async *listLinkConnectionsByWorkspacePagingAll(
-    options?: LinkConnectionListLinkConnectionsByWorkspaceOptionalParams
+  private async *listByWorkspacePagingAll(
+    options?: LinkConnectionListByWorkspaceOptionalParams
   ): AsyncIterableIterator<LinkConnectionResource> {
-    for await (const page of this.listLinkConnectionsByWorkspacePagingPage(
-      options
-    )) {
+    for await (const page of this.listByWorkspacePagingPage(options)) {
       yield* page;
     }
   }
@@ -103,17 +113,17 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
    * List link connections
    * @param options The options parameters.
    */
-  private async _listLinkConnectionsByWorkspace(
-    options?: LinkConnectionListLinkConnectionsByWorkspaceOptionalParams
-  ): Promise<LinkConnectionListLinkConnectionsByWorkspaceResponse> {
+  private async _listByWorkspace(
+    options?: LinkConnectionListByWorkspaceOptionalParams
+  ): Promise<LinkConnectionListByWorkspaceResponse> {
     return tracingClient.withSpan(
-      "ArtifactsClient._listLinkConnectionsByWorkspace",
+      "ArtifactsClient._listByWorkspace",
       options ?? {},
       async (options) => {
         return this.client.sendOperationRequest(
           { options },
-          listLinkConnectionsByWorkspaceOperationSpec
-        ) as Promise<LinkConnectionListLinkConnectionsByWorkspaceResponse>;
+          listByWorkspaceOperationSpec
+        ) as Promise<LinkConnectionListByWorkspaceResponse>;
       }
     );
   }
@@ -124,19 +134,19 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
    * @param linkConnection Link connection resource definition
    * @param options The options parameters.
    */
-  async createOrUpdateLinkConnection(
+  async createOrUpdate(
     linkConnectionName: string,
     linkConnection: LinkConnectionResource,
-    options?: LinkConnectionCreateOrUpdateLinkConnectionOptionalParams
-  ): Promise<LinkConnectionCreateOrUpdateLinkConnectionResponse> {
+    options?: LinkConnectionCreateOrUpdateOptionalParams
+  ): Promise<LinkConnectionCreateOrUpdateResponse> {
     return tracingClient.withSpan(
-      "ArtifactsClient.createOrUpdateLinkConnection",
+      "ArtifactsClient.createOrUpdate",
       options ?? {},
       async (options) => {
         return this.client.sendOperationRequest(
           { linkConnectionName, linkConnection, options },
-          createOrUpdateLinkConnectionOperationSpec
-        ) as Promise<LinkConnectionCreateOrUpdateLinkConnectionResponse>;
+          createOrUpdateOperationSpec
+        ) as Promise<LinkConnectionCreateOrUpdateResponse>;
       }
     );
   }
@@ -146,18 +156,18 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
    * @param linkConnectionName The link connection name
    * @param options The options parameters.
    */
-  async getLinkConnection(
+  async get(
     linkConnectionName: string,
-    options?: LinkConnectionGetLinkConnectionOptionalParams
-  ): Promise<LinkConnectionGetLinkConnectionResponse> {
+    options?: LinkConnectionGetOptionalParams
+  ): Promise<LinkConnectionGetResponse> {
     return tracingClient.withSpan(
-      "ArtifactsClient.getLinkConnection",
+      "ArtifactsClient.get",
       options ?? {},
       async (options) => {
         return this.client.sendOperationRequest(
           { linkConnectionName, options },
-          getLinkConnectionOperationSpec
-        ) as Promise<LinkConnectionGetLinkConnectionResponse>;
+          getOperationSpec
+        ) as Promise<LinkConnectionGetResponse>;
       }
     );
   }
@@ -167,17 +177,17 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
    * @param linkConnectionName The link connection name
    * @param options The options parameters.
    */
-  async deleteLinkConnection(
+  async delete(
     linkConnectionName: string,
-    options?: LinkConnectionDeleteLinkConnectionOptionalParams
+    options?: LinkConnectionDeleteOptionalParams
   ): Promise<void> {
     return tracingClient.withSpan(
-      "ArtifactsClient.deleteLinkConnection",
+      "ArtifactsClient.delete",
       options ?? {},
       async (options) => {
         return this.client.sendOperationRequest(
           { linkConnectionName, options },
-          deleteLinkConnectionOperationSpec
+          deleteOperationSpec
         ) as Promise<void>;
       }
     );
@@ -207,7 +217,8 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
   }
 
   /**
-   * Start a link connection
+   * Start a link connection. It may take a few minutes from Starting to Running, monitor the status with
+   * LinkConnection_GetDetailedStatus.
    * @param linkConnectionName The link connection name
    * @param options The options parameters.
    */
@@ -228,7 +239,8 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
   }
 
   /**
-   * Stop a link connection
+   * Stop a link connection. It may take a few minutes from Stopping to stopped, monitor the status with
+   * LinkConnection_GetDetailedStatus.
    * @param linkConnectionName The link connection name
    * @param options The options parameters.
    */
@@ -337,23 +349,66 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
   }
 
   /**
-   * ListLinkConnectionsByWorkspaceNext
-   * @param nextLink The nextLink from the previous successful call to the ListLinkConnectionsByWorkspace
-   *                 method.
+   * Pause a link connection. It may take a few minutes from Pausing to Paused, monitor the status with
+   * LinkConnection_GetDetailedStatus.
+   * @param linkConnectionName The link connection name
    * @param options The options parameters.
    */
-  private async _listLinkConnectionsByWorkspaceNext(
-    nextLink: string,
-    options?: LinkConnectionListLinkConnectionsByWorkspaceNextOptionalParams
-  ): Promise<LinkConnectionListLinkConnectionsByWorkspaceNextResponse> {
+  async pause(
+    linkConnectionName: string,
+    options?: LinkConnectionPauseOptionalParams
+  ): Promise<void> {
     return tracingClient.withSpan(
-      "ArtifactsClient._listLinkConnectionsByWorkspaceNext",
+      "ArtifactsClient.pause",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { linkConnectionName, options },
+          pauseOperationSpec
+        ) as Promise<void>;
+      }
+    );
+  }
+
+  /**
+   * Resume a link connection. It may take a few minutes from Resuming to Running, monitor the status
+   * with LinkConnection_GetDetailedStatus.
+   * @param linkConnectionName The link connection name
+   * @param options The options parameters.
+   */
+  async resume(
+    linkConnectionName: string,
+    options?: LinkConnectionResumeOptionalParams
+  ): Promise<void> {
+    return tracingClient.withSpan(
+      "ArtifactsClient.resume",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { linkConnectionName, options },
+          resumeOperationSpec
+        ) as Promise<void>;
+      }
+    );
+  }
+
+  /**
+   * ListByWorkspaceNext
+   * @param nextLink The nextLink from the previous successful call to the ListByWorkspace method.
+   * @param options The options parameters.
+   */
+  private async _listByWorkspaceNext(
+    nextLink: string,
+    options?: LinkConnectionListByWorkspaceNextOptionalParams
+  ): Promise<LinkConnectionListByWorkspaceNextResponse> {
+    return tracingClient.withSpan(
+      "ArtifactsClient._listByWorkspaceNext",
       options ?? {},
       async (options) => {
         return this.client.sendOperationRequest(
           { nextLink, options },
-          listLinkConnectionsByWorkspaceNextOperationSpec
-        ) as Promise<LinkConnectionListLinkConnectionsByWorkspaceNextResponse>;
+          listByWorkspaceNextOperationSpec
+        ) as Promise<LinkConnectionListByWorkspaceNextResponse>;
       }
     );
   }
@@ -361,7 +416,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listLinkConnectionsByWorkspaceOperationSpec: coreClient.OperationSpec = {
+const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
   path: "/linkconnections",
   httpMethod: "GET",
   responses: {
@@ -377,7 +432,7 @@ const listLinkConnectionsByWorkspaceOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const createOrUpdateLinkConnectionOperationSpec: coreClient.OperationSpec = {
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/linkconnections/{linkConnectionName}",
   httpMethod: "PUT",
   responses: {
@@ -395,7 +450,7 @@ const createOrUpdateLinkConnectionOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const getLinkConnectionOperationSpec: coreClient.OperationSpec = {
+const getOperationSpec: coreClient.OperationSpec = {
   path: "/linkconnections/{linkConnectionName}",
   httpMethod: "GET",
   responses: {
@@ -411,7 +466,7 @@ const getLinkConnectionOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const deleteLinkConnectionOperationSpec: coreClient.OperationSpec = {
+const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/linkconnections/{linkConnectionName}",
   httpMethod: "DELETE",
   responses: {
@@ -536,7 +591,35 @@ const updateLandingZoneCredentialOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const listLinkConnectionsByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
+const pauseOperationSpec: coreClient.OperationSpec = {
+  path: "/linkconnections/{linkConnectionName}/pause",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.linkConnectionName],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const resumeOperationSpec: coreClient.OperationSpec = {
+  path: "/linkconnections/{linkConnectionName}/resume",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.linkConnectionName],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
@@ -547,7 +630,6 @@ const listLinkConnectionsByWorkspaceNextOperationSpec: coreClient.OperationSpec 
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { CustomLocationsManagementClient } = require("@azure/arm-extendedlocation");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Updates a Custom Location with the specified Resource Name in the specified Resource Group and Subscription.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/preview/2021-08-31-preview/examples/CustomLocationsPatch.json
  */
 async function updateCustomLocation() {
-  const subscriptionId = "11111111-2222-3333-4444-555555555555";
-  const resourceGroupName = "testresourcegroup";
+  const subscriptionId =
+    process.env["EXTENDEDLOCATION_SUBSCRIPTION_ID"] || "11111111-2222-3333-4444-555555555555";
+  const resourceGroupName = process.env["EXTENDEDLOCATION_RESOURCE_GROUP"] || "testresourcegroup";
   const resourceName = "customLocation01";
   const identity = { type: "SystemAssigned" };
   const tags = { archv3: "", tier: "testing" };
@@ -30,4 +32,8 @@ async function updateCustomLocation() {
   console.log(result);
 }
 
-updateCustomLocation().catch(console.error);
+async function main() {
+  updateCustomLocation();
+}
+
+main().catch(console.error);

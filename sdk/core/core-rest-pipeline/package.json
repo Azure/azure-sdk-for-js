@@ -1,23 +1,10 @@
 {
   "name": "@azure/core-rest-pipeline",
-  "version": "1.10.0",
+  "version": "1.11.1",
   "description": "Isomorphic client library for making HTTP requests in node.js and browser.",
   "sdk-type": "client",
-  "main": "dist/index.cjs",
+  "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
-  "type": "module",
-  "export": {
-    ".": {
-      "require": {
-        "types": "core-rest-pipeline.shims.d.ts",
-        "default": "./dist/index.cjs"
-      },
-      "import": {
-        "types": "core-rest-pipeline.shims.d.cts",
-        "default": "./dist-esm/src/index.js"
-      }
-    }
-  },
   "browser": {
     "./dist-esm/src/defaultHttpClient.js": "./dist-esm/src/defaultHttpClient.browser.js",
     "./dist-esm/src/policies/decompressResponsePolicy.js": "./dist-esm/src/policies/decompressResponsePolicy.browser.js",
@@ -27,7 +14,7 @@
     "./dist-esm/src/util/userAgentPlatform.js": "./dist-esm/src/util/userAgentPlatform.browser.js"
   },
   "react-native": {
-    "./dist/index.cjs": "./dist-esm/src/index.js",
+    "./dist/index.js": "./dist-esm/src/index.js",
     "./dist-esm/src/defaultHttpClient.js": "./dist-esm/src/defaultHttpClient.native.js",
     "./dist-esm/src/util/userAgentPlatform.js": "./dist-esm/src/util/userAgentPlatform.native.js"
   },
@@ -36,9 +23,6 @@
     "<3.6": {
       "core-rest-pipeline.shims.d.ts": [
         "core-rest-pipeline.shims-3_1.d.ts"
-      ],
-      "core-rest-pipeline.shims.d.cts": [
-        "core-rest-pipeline.shims-3_1.d.cts"
       ]
     }
   },
@@ -62,16 +46,14 @@
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
-    "unit-test:browser": "karma start karma.conf.cjs --single-run",
-    "unit-test:node": "mocha --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace  --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\"",
+    "unit-test:browser": "karma start --single-run",
+    "unit-test:node": "mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace  --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/3.1/src/",
     "types/3.1/core-rest-pipeline.d.ts",
-    "types/latest/src/",
     "types/latest/core-rest-pipeline.d.ts",
     "core-rest-pipeline.shims.d.ts",
     "core-rest-pipeline.shims-3_1.d.ts",
@@ -106,19 +88,18 @@
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-auth": "^1.4.0",
     "@azure/core-tracing": "^1.0.1",
-    "@azure/core-util": "^1.0.0",
+    "@azure/core-util": "^1.3.0",
     "@azure/logger": "^1.0.0",
     "form-data": "^4.0.0",
     "tslib": "^2.2.0",
     "http-proxy-agent": "^5.0.0",
-    "https-proxy-agent": "^5.0.0",
-    "uuid": "^8.3.0"
+    "https-proxy-agent": "^5.0.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "^7.31.1",
-    "@opentelemetry/api": "^1.2.0",
+    "@opentelemetry/api": "^1.4.1",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "^7.0.2",
@@ -133,28 +114,22 @@
     "inherits": "^2.0.3",
     "karma-chrome-launcher": "^3.1.0",
     "karma-coverage": "^2.0.0",
-    "karma-edge-launcher": "^0.4.2",
     "karma-env-preprocessor": "^0.1.1",
     "karma-firefox-launcher": "^1.1.0",
-    "karma-ie-launcher": "^1.0.0",
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
     "karma-mocha": "^2.0.1",
     "karma-sourcemap-loader": "^0.3.8",
     "karma": "^6.3.0",
     "mocha-junit-reporter": "^2.0.0",
-    "mocha": "^10.0.0",
+    "mocha": "^7.1.1",
     "prettier": "^2.5.1",
-    "puppeteer": "^14.0.0",
+    "puppeteer": "^19.2.2",
     "rimraf": "^3.0.0",
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
-    "ts-node": "^10.0.0",
-    "typescript": "~4.7.0",
+    "typescript": "~5.0.0",
     "util": "^0.12.1"
-  },
-  "mocha": {
-    "loader": "ts-node/esm"
   },
   "//sampleConfiguration": {
     "skipFolder": true,

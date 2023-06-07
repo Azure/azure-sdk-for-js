@@ -16,16 +16,6 @@ export interface NotificationCommon {
    * The headers to include for the push notification.
    */
   headers?: Record<string, string>;
-
-  /**
-   * The platform for the push notification.
-   */
-  platform: string;
-
-  /**
-   * The content type for the push notification.
-   */
-  contentType: string;
 }
 
 /**
@@ -53,9 +43,7 @@ export interface AppleNotification extends JsonNotification {
  * @param notification - A partial message used to create a message for Apple.
  * @returns A newly created Apple.
  */
-export function createAppleNotification(
-  notification: Omit<AppleNotification, "platform" | "contentType">
-): AppleNotification {
+export function createAppleNotification(notification: NotificationCommon): AppleNotification {
   return {
     ...notification,
     platform: "apple",
@@ -78,9 +66,7 @@ export interface AdmNotification extends JsonNotification {
  * @param notification - A partial message used to create a message for Amazon Device Messaging.
  * @returns A newly created Amazon Device Messaging.
  */
-export function createAdmNotification(
-  notification: Omit<AdmNotification, "platform" | "contentType">
-): AdmNotification {
+export function createAdmNotification(notification: NotificationCommon): AdmNotification {
   return {
     ...notification,
     platform: "adm",
@@ -103,9 +89,7 @@ export interface BaiduNotification extends JsonNotification {
  * @param notification - A partial message used to create a message for Baidu.
  * @returns A newly created Baidu.
  */
-export function createBaiduNotification(
-  notification: Omit<BaiduNotification, "platform" | "contentType">
-): BaiduNotification {
+export function createBaiduNotification(notification: NotificationCommon): BaiduNotification {
   return {
     ...notification,
     platform: "baidu",
@@ -128,9 +112,7 @@ export interface BrowserNotification extends JsonNotification {
  * @param notification - A partial message used to create a message for a browser.
  * @returns A newly created Web Push browser.
  */
-export function createBrowserNotification(
-  notification: Omit<BrowserNotification, "platform" | "contentType">
-): BrowserNotification {
+export function createBrowserNotification(notification: NotificationCommon): BrowserNotification {
   return {
     ...notification,
     platform: "browser",
@@ -151,14 +133,37 @@ export interface FcmLegacyNotification extends JsonNotification {
 /**
  * Creates a notification to send to Firebase.
  * @param notification - A partial message used to create a message for Firebase.
- * @returns A newly created Firebase.
+ * @returns A newly created Firebase notification.
  */
 export function createFcmLegacyNotification(
-  notification: Omit<FcmLegacyNotification, "platform" | "contentType">
+  notification: NotificationCommon
 ): FcmLegacyNotification {
   return {
     ...notification,
     platform: "gcm",
+    contentType: Constants.JSON_CONTENT_TYPE,
+  };
+}
+
+/**
+ * Represents a Xiaomi push notification.
+ */
+export interface XiaomiNotification extends JsonNotification {
+  /**
+   * The platform for the push notification.
+   */
+  platform: "xiaomi";
+}
+
+/**
+ * Creates a notification to send to Xiaomi.
+ * @param notification - A partial message used to create a message for Xiaomi.
+ * @returns A newly created Xiaomi notification.
+ */
+export function createXiaomiNotification(notification: NotificationCommon): XiaomiNotification {
+  return {
+    ...notification,
+    platform: "xiaomi",
     contentType: Constants.JSON_CONTENT_TYPE,
   };
 }
@@ -178,9 +183,7 @@ export interface TemplateNotification extends JsonNotification {
  * @param notification - A partial message used to create a message for Firebase.
  * @returns A newly created Firebase.
  */
-export function createTemplateNotification(
-  notification: Omit<TemplateNotification, "platform" | "contentType">
-): TemplateNotification {
+export function createTemplateNotification(notification: NotificationCommon): TemplateNotification {
   return {
     ...notification,
     platform: "template",
@@ -214,7 +217,7 @@ export interface WindowsNotification extends NotificationCommon {
  * @returns A newly created WNS badge.
  */
 export function createWindowsBadgeNotification(
-  notification: Omit<WindowsNotification, "platform" | "contentType">
+  notification: NotificationCommon
 ): WindowsNotification {
   const result: WindowsNotification = {
     ...notification,
@@ -237,7 +240,7 @@ export function createWindowsBadgeNotification(
  * @returns A newly created WNS tile.
  */
 export function createWindowsTileNotification(
-  notification: Omit<WindowsNotification, "platform" | "contentType">
+  notification: NotificationCommon
 ): WindowsNotification {
   const result: WindowsNotification = {
     ...notification,
@@ -260,7 +263,7 @@ export function createWindowsTileNotification(
  * @returns A newly created WNS toast.
  */
 export function createWindowsToastNotification(
-  notification: Omit<WindowsNotification, "platform" | "contentType">
+  notification: NotificationCommon
 ): WindowsNotification {
   const result: WindowsNotification = {
     ...notification,
@@ -283,7 +286,7 @@ export function createWindowsToastNotification(
  * @returns A newly created WNS message using XML.
  */
 export function createWindowsRawNotification(
-  notification: Omit<WindowsNotification, "platform" | "contentType">
+  notification: NotificationCommon
 ): WindowsNotification {
   const result: WindowsNotification = {
     ...notification,
@@ -309,5 +312,6 @@ export type Notification =
   | BaiduNotification
   | BrowserNotification
   | FcmLegacyNotification
+  | XiaomiNotification
   | WindowsNotification
   | TemplateNotification;

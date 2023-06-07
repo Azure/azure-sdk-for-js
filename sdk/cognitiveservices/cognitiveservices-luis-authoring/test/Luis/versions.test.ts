@@ -10,9 +10,9 @@ import { BaseTest } from "../baseTest";
 
 
 
-describe("Versions Module Functionality Tests", () => {
+describe("Versions Module Functionality Tests", function () {
 
-  it('should list all versions', async () => {
+  it('should list all versions', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let results = await client.versions.list(BaseTest.GlobalAppId);
       chai.expect(results.length > 0).to.be.true;
@@ -22,7 +22,7 @@ describe("Versions Module Functionality Tests", () => {
     });
   });
 
-  it('should get version', async () => {
+  it('should get version', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let versions = await client.versions.list(BaseTest.GlobalAppId);
       for (let version of versions) {
@@ -32,7 +32,7 @@ describe("Versions Module Functionality Tests", () => {
     });
   });
 
-  it('should update version', async () => {
+  it('should update version', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let versions = await client.versions.list(BaseTest.GlobalAppId);
       let first = versions[0];
@@ -44,7 +44,7 @@ describe("Versions Module Functionality Tests", () => {
     });
   });
 
-  it('should delete version', async () => {
+  it('should delete version', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let versions = await client.versions.list(BaseTest.GlobalAppId);
       let first = versions[0];
@@ -57,7 +57,7 @@ describe("Versions Module Functionality Tests", () => {
     });
   });
 
-  it('should clone version', async () => {
+  it('should clone version', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let versions = await client.versions.list(BaseTest.GlobalAppId);
       let first = versions[0];
@@ -71,7 +71,7 @@ describe("Versions Module Functionality Tests", () => {
   });
 
 
-  it('should list versions with error subsription key', async () => {
+  it('should list versions with error subsription key', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let errorCode = "401";
       await client.versions.list(BaseTest.GlobalAppId, {
@@ -87,7 +87,7 @@ describe("Versions Module Functionality Tests", () => {
     });
   });
 
-  it('should list versions with error app id', async () => {
+  it('should list versions with error app id', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let errorCode = "BadArgument";
       client.versions.list(BaseTest.GlobalAppIdError).catch(err => {
@@ -98,7 +98,7 @@ describe("Versions Module Functionality Tests", () => {
     });
   });
 
-  it('should get version with error version', async () => {
+  it('should get version with error version', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let errorCode = "BadArgument";
       let versions = await client.versions.list(BaseTest.GlobalAppId);
@@ -111,7 +111,7 @@ describe("Versions Module Functionality Tests", () => {
     });
   });
 
-  it('should update version with error model', async () => {
+  it('should update version with error model', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let errorCode = "BadArgument";
       let versions = await client.versions.list(BaseTest.GlobalAppId);
@@ -126,7 +126,7 @@ describe("Versions Module Functionality Tests", () => {
     });
   });
 
-  it('should delete version with error model', async () => {
+  it('should delete version with error model', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let errorCode = "BadArgument";
       let versions = await client.versions.list(BaseTest.GlobalAppId);
@@ -139,7 +139,7 @@ describe("Versions Module Functionality Tests", () => {
     });
   });
 
-  it('should clone version with error model', async () => {
+  it('should clone version with error model', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let errorCode = "BadArgument";
       let versions = await client.versions.list(BaseTest.GlobalAppId);

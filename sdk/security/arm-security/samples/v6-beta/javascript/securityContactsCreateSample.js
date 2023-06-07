@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SecurityCenter } = require("@azure/arm-security");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create security contact configurations for the subscription
@@ -18,13 +19,14 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2020-01-01-preview/examples/SecurityContacts/CreateSecurityContact_example.json
  */
 async function createSecurityContactData() {
-  const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] || "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const securityContactName = "default";
   const securityContact = {
     alertNotifications: { minimalSeverity: "Low", state: "On" },
     emails: "john@contoso.com;jane@contoso.com",
     notificationsByRole: { roles: ["Owner"], state: "On" },
-    phone: "+214-2754038",
+    phone: "(214)275-4038",
   };
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
@@ -32,4 +34,8 @@ async function createSecurityContactData() {
   console.log(result);
 }
 
-createSecurityContactData().catch(console.error);
+async function main() {
+  createSecurityContactData();
+}
+
+main().catch(console.error);

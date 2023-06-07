@@ -62,3 +62,17 @@ export interface PagedResult<TPage, TPageSettings = PageSettings, TLink = string
    */
   toElements?: (page: TPage) => unknown[];
 }
+
+/**
+ * Paged collection of T items
+ */
+export type Paged<T> = {
+  /**
+   * The T items on this page
+   */
+  value: T[];
+  /**
+   * The link to the next page of items
+   */
+  nextLink?: string;
+};

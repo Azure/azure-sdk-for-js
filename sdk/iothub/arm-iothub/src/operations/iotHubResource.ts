@@ -6,38 +6,51 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { IotHubResource } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { IotHubClient } from "../iotHubClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   IotHubDescription,
   IotHubResourceListBySubscriptionNextOptionalParams,
   IotHubResourceListBySubscriptionOptionalParams,
+  IotHubResourceListBySubscriptionResponse,
   IotHubResourceListByResourceGroupNextOptionalParams,
   IotHubResourceListByResourceGroupOptionalParams,
+  IotHubResourceListByResourceGroupResponse,
   IotHubSkuDescription,
   IotHubResourceGetValidSkusNextOptionalParams,
   IotHubResourceGetValidSkusOptionalParams,
+  IotHubResourceGetValidSkusResponse,
   EventHubConsumerGroupInfo,
   IotHubResourceListEventHubConsumerGroupsNextOptionalParams,
   IotHubResourceListEventHubConsumerGroupsOptionalParams,
+  IotHubResourceListEventHubConsumerGroupsResponse,
   JobResponse,
   IotHubResourceListJobsNextOptionalParams,
   IotHubResourceListJobsOptionalParams,
+  IotHubResourceListJobsResponse,
   IotHubQuotaMetricInfo,
   IotHubResourceGetQuotaMetricsNextOptionalParams,
   IotHubResourceGetQuotaMetricsOptionalParams,
+  IotHubResourceGetQuotaMetricsResponse,
   EndpointHealthData,
   IotHubResourceGetEndpointHealthNextOptionalParams,
   IotHubResourceGetEndpointHealthOptionalParams,
+  IotHubResourceGetEndpointHealthResponse,
   SharedAccessSignatureAuthorizationRule,
   IotHubResourceListKeysNextOptionalParams,
   IotHubResourceListKeysOptionalParams,
+  IotHubResourceListKeysResponse,
   IotHubResourceGetOptionalParams,
   IotHubResourceGetResponse,
   IotHubResourceCreateOrUpdateOptionalParams,
@@ -47,23 +60,16 @@ import {
   IotHubResourceUpdateResponse,
   IotHubResourceDeleteOptionalParams,
   IotHubResourceDeleteResponse,
-  IotHubResourceListBySubscriptionResponse,
-  IotHubResourceListByResourceGroupResponse,
   IotHubResourceGetStatsOptionalParams,
   IotHubResourceGetStatsResponse,
-  IotHubResourceGetValidSkusResponse,
-  IotHubResourceListEventHubConsumerGroupsResponse,
   IotHubResourceGetEventHubConsumerGroupOptionalParams,
   IotHubResourceGetEventHubConsumerGroupResponse,
   EventHubConsumerGroupBodyDescription,
   IotHubResourceCreateEventHubConsumerGroupOptionalParams,
   IotHubResourceCreateEventHubConsumerGroupResponse,
   IotHubResourceDeleteEventHubConsumerGroupOptionalParams,
-  IotHubResourceListJobsResponse,
   IotHubResourceGetJobOptionalParams,
   IotHubResourceGetJobResponse,
-  IotHubResourceGetQuotaMetricsResponse,
-  IotHubResourceGetEndpointHealthResponse,
   OperationInputs,
   IotHubResourceCheckNameAvailabilityOptionalParams,
   IotHubResourceCheckNameAvailabilityResponse,
@@ -73,7 +79,6 @@ import {
   TestRouteInput,
   IotHubResourceTestRouteOptionalParams,
   IotHubResourceTestRouteResponse,
-  IotHubResourceListKeysResponse,
   IotHubResourceGetKeysForKeyNameOptionalParams,
   IotHubResourceGetKeysForKeyNameResponse,
   ExportDevicesRequest,
@@ -120,22 +125,34 @@ export class IotHubResourceImpl implements IotHubResource {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: IotHubResourceListBySubscriptionOptionalParams
+    options?: IotHubResourceListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<IotHubDescription[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: IotHubResourceListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -164,19 +181,33 @@ export class IotHubResourceImpl implements IotHubResource {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: IotHubResourceListByResourceGroupOptionalParams
+    options?: IotHubResourceListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<IotHubDescription[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: IotHubResourceListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -184,7 +215,9 @@ export class IotHubResourceImpl implements IotHubResource {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -223,11 +256,15 @@ export class IotHubResourceImpl implements IotHubResource {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.getValidSkusPagingPage(
           resourceGroupName,
           resourceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -236,15 +273,22 @@ export class IotHubResourceImpl implements IotHubResource {
   private async *getValidSkusPagingPage(
     resourceGroupName: string,
     resourceName: string,
-    options?: IotHubResourceGetValidSkusOptionalParams
+    options?: IotHubResourceGetValidSkusOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<IotHubSkuDescription[]> {
-    let result = await this._getValidSkus(
-      resourceGroupName,
-      resourceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: IotHubResourceGetValidSkusResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._getValidSkus(
+        resourceGroupName,
+        resourceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._getValidSkusNext(
         resourceGroupName,
@@ -253,7 +297,9 @@ export class IotHubResourceImpl implements IotHubResource {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -298,12 +344,16 @@ export class IotHubResourceImpl implements IotHubResource {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listEventHubConsumerGroupsPagingPage(
           resourceGroupName,
           resourceName,
           eventHubEndpointName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -313,16 +363,23 @@ export class IotHubResourceImpl implements IotHubResource {
     resourceGroupName: string,
     resourceName: string,
     eventHubEndpointName: string,
-    options?: IotHubResourceListEventHubConsumerGroupsOptionalParams
+    options?: IotHubResourceListEventHubConsumerGroupsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<EventHubConsumerGroupInfo[]> {
-    let result = await this._listEventHubConsumerGroups(
-      resourceGroupName,
-      resourceName,
-      eventHubEndpointName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: IotHubResourceListEventHubConsumerGroupsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listEventHubConsumerGroups(
+        resourceGroupName,
+        resourceName,
+        eventHubEndpointName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listEventHubConsumerGroupsNext(
         resourceGroupName,
@@ -332,7 +389,9 @@ export class IotHubResourceImpl implements IotHubResource {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -376,11 +435,15 @@ export class IotHubResourceImpl implements IotHubResource {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listJobsPagingPage(
           resourceGroupName,
           resourceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -389,11 +452,18 @@ export class IotHubResourceImpl implements IotHubResource {
   private async *listJobsPagingPage(
     resourceGroupName: string,
     resourceName: string,
-    options?: IotHubResourceListJobsOptionalParams
+    options?: IotHubResourceListJobsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<JobResponse[]> {
-    let result = await this._listJobs(resourceGroupName, resourceName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: IotHubResourceListJobsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listJobs(resourceGroupName, resourceName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listJobsNext(
         resourceGroupName,
@@ -402,7 +472,9 @@ export class IotHubResourceImpl implements IotHubResource {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -443,11 +515,15 @@ export class IotHubResourceImpl implements IotHubResource {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.getQuotaMetricsPagingPage(
           resourceGroupName,
           resourceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -456,15 +532,22 @@ export class IotHubResourceImpl implements IotHubResource {
   private async *getQuotaMetricsPagingPage(
     resourceGroupName: string,
     resourceName: string,
-    options?: IotHubResourceGetQuotaMetricsOptionalParams
+    options?: IotHubResourceGetQuotaMetricsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<IotHubQuotaMetricInfo[]> {
-    let result = await this._getQuotaMetrics(
-      resourceGroupName,
-      resourceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: IotHubResourceGetQuotaMetricsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._getQuotaMetrics(
+        resourceGroupName,
+        resourceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._getQuotaMetricsNext(
         resourceGroupName,
@@ -473,7 +556,9 @@ export class IotHubResourceImpl implements IotHubResource {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -514,11 +599,15 @@ export class IotHubResourceImpl implements IotHubResource {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.getEndpointHealthPagingPage(
           resourceGroupName,
           iotHubName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -527,15 +616,22 @@ export class IotHubResourceImpl implements IotHubResource {
   private async *getEndpointHealthPagingPage(
     resourceGroupName: string,
     iotHubName: string,
-    options?: IotHubResourceGetEndpointHealthOptionalParams
+    options?: IotHubResourceGetEndpointHealthOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<EndpointHealthData[]> {
-    let result = await this._getEndpointHealth(
-      resourceGroupName,
-      iotHubName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: IotHubResourceGetEndpointHealthResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._getEndpointHealth(
+        resourceGroupName,
+        iotHubName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._getEndpointHealthNext(
         resourceGroupName,
@@ -544,7 +640,9 @@ export class IotHubResourceImpl implements IotHubResource {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -586,11 +684,15 @@ export class IotHubResourceImpl implements IotHubResource {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listKeysPagingPage(
           resourceGroupName,
           resourceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -599,11 +701,18 @@ export class IotHubResourceImpl implements IotHubResource {
   private async *listKeysPagingPage(
     resourceGroupName: string,
     resourceName: string,
-    options?: IotHubResourceListKeysOptionalParams
+    options?: IotHubResourceListKeysOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SharedAccessSignatureAuthorizationRule[]> {
-    let result = await this._listKeys(resourceGroupName, resourceName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: IotHubResourceListKeysResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listKeys(resourceGroupName, resourceName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listKeysNext(
         resourceGroupName,
@@ -612,7 +721,9 @@ export class IotHubResourceImpl implements IotHubResource {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -650,8 +761,7 @@ export class IotHubResourceImpl implements IotHubResource {
   /**
    * Create or update the metadata of an Iot hub. The usual pattern to modify a property is to retrieve
    * the IoT hub metadata and security metadata, and then combine them with the modified values in a new
-   * body to update the IoT hub. If certain properties are missing in the JSON, updating IoT Hub may
-   * cause these values to fallback to default, which may lead to unexpected behavior.
+   * body to update the IoT hub.
    * @param resourceGroupName The name of the resource group that contains the IoT hub.
    * @param resourceName The name of the IoT hub.
    * @param iotHubDescription The IoT hub metadata and security metadata.
@@ -663,8 +773,8 @@ export class IotHubResourceImpl implements IotHubResource {
     iotHubDescription: IotHubDescription,
     options?: IotHubResourceCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IotHubResourceCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IotHubResourceCreateOrUpdateResponse>,
       IotHubResourceCreateOrUpdateResponse
     >
   > {
@@ -674,7 +784,7 @@ export class IotHubResourceImpl implements IotHubResource {
     ): Promise<IotHubResourceCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -707,13 +817,16 @@ export class IotHubResourceImpl implements IotHubResource {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, resourceName, iotHubDescription, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, iotHubDescription, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      IotHubResourceCreateOrUpdateResponse,
+      OperationState<IotHubResourceCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -723,8 +836,7 @@ export class IotHubResourceImpl implements IotHubResource {
   /**
    * Create or update the metadata of an Iot hub. The usual pattern to modify a property is to retrieve
    * the IoT hub metadata and security metadata, and then combine them with the modified values in a new
-   * body to update the IoT hub. If certain properties are missing in the JSON, updating IoT Hub may
-   * cause these values to fallback to default, which may lead to unexpected behavior.
+   * body to update the IoT hub.
    * @param resourceGroupName The name of the resource group that contains the IoT hub.
    * @param resourceName The name of the IoT hub.
    * @param iotHubDescription The IoT hub metadata and security metadata.
@@ -758,8 +870,8 @@ export class IotHubResourceImpl implements IotHubResource {
     iotHubTags: TagsResource,
     options?: IotHubResourceUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IotHubResourceUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IotHubResourceUpdateResponse>,
       IotHubResourceUpdateResponse
     >
   > {
@@ -769,7 +881,7 @@ export class IotHubResourceImpl implements IotHubResource {
     ): Promise<IotHubResourceUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -802,13 +914,16 @@ export class IotHubResourceImpl implements IotHubResource {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, resourceName, iotHubTags, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, iotHubTags, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      IotHubResourceUpdateResponse,
+      OperationState<IotHubResourceUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -848,8 +963,8 @@ export class IotHubResourceImpl implements IotHubResource {
     resourceName: string,
     options?: IotHubResourceDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IotHubResourceDeleteResponse>,
+    SimplePollerLike<
+      OperationState<IotHubResourceDeleteResponse>,
       IotHubResourceDeleteResponse
     >
   > {
@@ -859,7 +974,7 @@ export class IotHubResourceImpl implements IotHubResource {
     ): Promise<IotHubResourceDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -892,13 +1007,16 @@ export class IotHubResourceImpl implements IotHubResource {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, resourceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      IotHubResourceDeleteResponse,
+      OperationState<IotHubResourceDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1507,16 +1625,20 @@ const updateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.IotHubDescription
+      bodyMapper: Mappers.IotHubDescription,
+      headersMapper: Mappers.IotHubResourceUpdateHeaders
     },
     201: {
-      bodyMapper: Mappers.IotHubDescription
+      bodyMapper: Mappers.IotHubDescription,
+      headersMapper: Mappers.IotHubResourceUpdateHeaders
     },
     202: {
-      bodyMapper: Mappers.IotHubDescription
+      bodyMapper: Mappers.IotHubDescription,
+      headersMapper: Mappers.IotHubResourceUpdateHeaders
     },
     204: {
-      bodyMapper: Mappers.IotHubDescription
+      bodyMapper: Mappers.IotHubDescription,
+      headersMapper: Mappers.IotHubResourceUpdateHeaders
     }
   },
   requestBody: Parameters.iotHubTags,
@@ -1998,7 +2120,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorDetails
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -2018,7 +2139,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorDetails
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -2039,7 +2159,6 @@ const getValidSkusNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorDetails
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -2061,7 +2180,6 @@ const listEventHubConsumerGroupsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorDetails
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -2084,7 +2202,6 @@ const listJobsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorDetails
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -2106,7 +2223,6 @@ const getQuotaMetricsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorDetails
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -2128,7 +2244,6 @@ const getEndpointHealthNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorDetails
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -2150,7 +2265,6 @@ const listKeysNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorDetails
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

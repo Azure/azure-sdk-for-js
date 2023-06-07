@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { SourceControlOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -60,12 +61,16 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listRepositoriesPagingPage(
           resourceGroupName,
           workspaceName,
           repoType,
-          options
+          options,
+          settings
         );
       }
     };
@@ -75,16 +80,23 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
     resourceGroupName: string,
     workspaceName: string,
     repoType: RepoType,
-    options?: SourceControlListRepositoriesOptionalParams
+    options?: SourceControlListRepositoriesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Repo[]> {
-    let result = await this._listRepositories(
-      resourceGroupName,
-      workspaceName,
-      repoType,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SourceControlListRepositoriesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listRepositories(
+        resourceGroupName,
+        workspaceName,
+        repoType,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listRepositoriesNext(
         resourceGroupName,
@@ -94,7 +106,9 @@ export class SourceControlOperationsImpl implements SourceControlOperations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -192,7 +206,6 @@ const listRepositoriesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

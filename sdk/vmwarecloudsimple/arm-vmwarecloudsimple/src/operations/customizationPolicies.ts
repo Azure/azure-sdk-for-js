@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { CustomizationPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -54,8 +55,11 @@ export class CustomizationPoliciesImpl implements CustomizationPolicies {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(regionId, pcName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(regionId, pcName, options, settings);
       }
     };
   }
@@ -63,11 +67,18 @@ export class CustomizationPoliciesImpl implements CustomizationPolicies {
   private async *listPagingPage(
     regionId: string,
     pcName: string,
-    options?: CustomizationPoliciesListOptionalParams
+    options?: CustomizationPoliciesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<CustomizationPolicy[]> {
-    let result = await this._list(regionId, pcName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: CustomizationPoliciesListOperationResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(regionId, pcName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         regionId,
@@ -76,7 +87,9 @@ export class CustomizationPoliciesImpl implements CustomizationPolicies {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -204,7 +217,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CsrpError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

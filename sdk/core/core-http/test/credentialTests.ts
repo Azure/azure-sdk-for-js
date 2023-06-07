@@ -87,21 +87,21 @@ describe("Basic Authentication credentials", () => {
       it("should fail with options.inHeader and options.inQuery set to null or undefined", function (done) {
         (function () {
           new ApiKeyCredentials({ inHeader: undefined, inQuery: undefined } as any);
-        }.should.throw());
+        }).should.throw();
         done();
       });
 
       it("should fail without options", function (done) {
         (function () {
           new (ApiKeyCredentials as any)();
-        }.should.throw());
+        }).should.throw();
         done();
       });
 
       it("should fail with empty options", function (done) {
         (function () {
           new ApiKeyCredentials({});
-        }.should.throw());
+        }).should.throw();
         done();
       });
     });

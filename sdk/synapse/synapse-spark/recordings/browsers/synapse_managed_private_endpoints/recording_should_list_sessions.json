@@ -1,52 +1,63 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1322",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 10 Aug 2021 20:26:33 GMT",
-    "expires": "-1",
-    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11935.14 - SCUS ProdSlices",
-    "x-ms-request-id": "fadb5160-6cac-46f7-a665-233fb6100000"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://testaccount.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/testsparkpool/sessions",
-   "query": {},
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"from\":0,\"total\":20,\"sessions\":[{\"id\":9,\"appId\":\"application_1628552050977_0007\",\"appInfo\":{\"driverLogUrl\":\"http://d3bdd27a029942e8b116889ad2df853c003e1c44323:8042/node/containerlogs/container_1628552050977_0007_01_000001/trusted-service-user\",\"sparkUiUrl\":\"http://d3bdd27a029942e8b116889ad2df853c00376412812:8088/proxy/application_1628552050977_0007/\",\"isSessionTimedOut\":\"true\"},\"state\":\"dead\",\"log\":[\"\\t tracking URL: http://d3bdd27a029942e8b116889ad2df853c00376412812:8088/proxy/application_1628552050977_0007/\",\"\\t user: trusted-service-user\",\"21/08/09 23:56:25 INFO ShutdownHookManager: Shutdown hook called\",\"21/08/09 23:56:25 INFO ShutdownHookManager: Deleting directory /tmp/spark-9b0c5aab-edc7-45ee-81bf-579ddf7743c9\",\"21/08/09 23:56:25 INFO ShutdownHookManager: Deleting directory /tmp/spark-c998cf7d-9373-4042-badc-3b46fae5fc6f\",\"21/08/09 23:56:25 INFO MetricsSystemImpl: Stopping azure-file-system metrics system...\",\"21/08/09 23:56:25 INFO MetricsSystemImpl: azure-file-system metrics system stopped.\",\"21/08/09 23:56:25 INFO MetricsSystemImpl: azure-file-system metrics system shutdown complete.\",\"\\nstderr: \",\"\\nYARN Diagnostics: \"]},{\"id\":10,\"appId\":\"application_1628552050977_0008\",\"appInfo\":{\"driverLogUrl\":\"http://d3bdd27a029942e8b116889ad2df853c003db842456:8042/node/containerlogs/container_1628552050977_0008_01_000001/trusted-service-user\",\"sparkUiUrl\":\"http://d3bdd27a029942e8b116889ad2df853c00376412812:8088/proxy/application_1628552050977_0008/\",\"isSessionTimedOut\":\"true\"},\"state\":\"dead\",\"log\":[\"\\t tracking URL: http://d3bdd27a029942e8b116889ad2df853c00376412812:8088/proxy/application_1628552050977_0008/\",\"\\t user: trusted-service-user\",\"21/08/09 23:59:20 INFO ShutdownHookManager: Shutdown hook called\",\"21/08/09 23:59:20 INFO ShutdownHookManager: Deleting directory /tmp/spark-b417ffae-5dc8-4e87-886d-5187e5537846\",\"21/08/09 23:59:20 INFO ShutdownHookManager: Deleting directory /tmp/spark-74ff6670-9a2a-4ea4-bfaa-2dee5129cbd5\",\"21/08/09 23:59:20 INFO MetricsSystemImpl: Stopping azure-file-system metrics system...\",\"21/08/09 23:59:20 INFO MetricsSystemImpl: azure-file-system metrics system stopped.\",\"21/08/09 23:59:20 INFO MetricsSystemImpl: azure-file-system metrics system shutdown complete.\",\"\\nstderr: \",\"\\nYARN Diagnostics: \"]},{\"id\":17,\"appId\":\"application_1628626490330_0001\",\"appInfo\":{\"driverLogUrl\":\"http://fcb56c1652644ce788aaf828196d9cb400135519550:8042/node/containerlogs/container_1628626490330_0001_01_000001/trusted-service-user\",\"sparkUiUrl\":\"http://fcb56c1652644ce788aaf828196d9cb400197b73200:8088/proxy/application_1628626490330_0001/\",\"isSessionTimedOut\":\"true\"},\"state\":\"dead\",\"log\":[\"\\t tracking URL: http://fcb56c1652644ce788aaf828196d9cb400197b73200:8088/proxy/application_1628626490330_0001/\",\"\\t user: trusted-service-user\",\"21/08/10 20:15:18 INFO ShutdownHookManager: Shutdown hook called\",\"21/08/10 20:15:18 INFO ShutdownHookManager: Deleting directory /tmp/spark-3a6db1d3-8268-4fd3-8571-abc0f9ed62ae\",\"21/08/10 20:15:18 INFO ShutdownHookManager: Deleting directory /tmp/spark-a7f16008-fa48-4694-a5f3-9e37b8413b58\",\"21/08/10 20:15:18 INFO MetricsSystemImpl: Stopping azure-file-system metrics system...\",\"21/08/10 20:15:18 INFO MetricsSystemImpl: azure-file-system metrics system stopped.\",\"21/08/10 20:15:18 INFO MetricsSystemImpl: azure-file-system metrics system shutdown complete.\",\"\\nstderr: \",\"\\nYARN Diagnostics: \"]},{\"id\":18,\"appId\":\"application_1628626490330_0002\",\"appInfo\":{\"driverLogUrl\":\"http://fcb56c1652644ce788aaf828196d9cb400495c68195:8042/node/containerlogs/container_1628626490330_0002_01_000001/trusted-service-user\",\"sparkUiUrl\":\"http://fcb56c1652644ce788aaf828196d9cb400197b73200:8088/proxy/application_1628626490330_0002/\",\"isSessionTimedOut\":\"true\"},\"state\":\"dead\",\"log\":[\"\\t tracking URL: http://fcb56c1652644ce788aaf828196d9cb400197b73200:8088/proxy/application_1628626490330_0002/\",\"\\t user: trusted-service-user\",\"21/08/10 20:15:18 INFO ShutdownHookManager: Shutdown hook called\",\"21/08/10 20:15:18 INFO ShutdownHookManager: Deleting directory /tmp/spark-81d42dd5-dfee-4207-987a-720e1d945c6d\",\"21/08/10 20:15:18 INFO ShutdownHookManager: Deleting directory /tmp/spark-982afeba-acf8-4a35-b947-009adeb638dc\",\"21/08/10 20:15:18 INFO MetricsSystemImpl: Stopping azure-file-system metrics system...\",\"21/08/10 20:15:18 INFO MetricsSystemImpl: azure-file-system metrics system stopped.\",\"21/08/10 20:15:18 INFO MetricsSystemImpl: azure-file-system metrics system shutdown complete.\",\"\\nstderr: \",\"\\nYARN Diagnostics: \"]},{\"id\":19,\"appId\":\"application_1628626490330_0003\",\"appInfo\":{\"driverLogUrl\":\"http://fcb56c1652644ce788aaf828196d9cb4001ebe94562:8042/node/containerlogs/container_1628626490330_0003_01_000001/trusted-service-user\",\"sparkUiUrl\":\"http://fcb56c1652644ce788aaf828196d9cb400197b73200:8088/proxy/application_1628626490330_0003/\",\"isSessionTimedOut\":\"true\"},\"state\":\"dead\",\"log\":[\"\\t tracking URL: http://fcb56c1652644ce788aaf828196d9cb400197b73200:8088/proxy/application_1628626490330_0003/\",\"\\t user: trusted-service-user\",\"21/08/10 20:15:25 INFO ShutdownHookManager: Shutdown hook called\",\"21/08/10 20:15:25 INFO ShutdownHookManager: Deleting directory /tmp/spark-a0d7e240-e9e1-4643-9903-3512e2803e54\",\"21/08/10 20:15:25 INFO ShutdownHookManager: Deleting directory /tmp/spark-24f0f6cb-56e6-4b6f-97c1-f757f3837e00\",\"21/08/10 20:15:25 INFO MetricsSystemImpl: Stopping azure-file-system metrics system...\",\"21/08/10 20:15:25 INFO MetricsSystemImpl: azure-file-system metrics system stopped.\",\"21/08/10 20:15:25 INFO MetricsSystemImpl: azure-file-system metrics system shutdown complete.\",\"\\nstderr: \",\"\\nYARN Diagnostics: \"]},{\"id\":20,\"appId\":null,\"appInfo\":{\"driverLogUrl\":null,\"sparkUiUrl\":null,\"isSessionTimedOut\":\"false\"},\"state\":\"starting\",\"log\":[\"stdout: \",\"\\nstderr: \",\"\\nYARN Diagnostics: \"]},{\"id\":21,\"appId\":null,\"appInfo\":{\"driverLogUrl\":null,\"sparkUiUrl\":null,\"isSessionTimedOut\":\"false\"},\"state\":\"starting\",\"log\":[\"stdout: \",\"\\nstderr: \",\"\\nYARN Diagnostics: \"]},{\"id\":22,\"appId\":null,\"appInfo\":{\"driverLogUrl\":null,\"sparkUiUrl\":null,\"isSessionTimedOut\":\"false\"},\"state\":\"starting\",\"log\":[\"stdout: \",\"\\nstderr: \",\"\\nYARN Diagnostics: \"]},{\"id\":23,\"appId\":null,\"appInfo\":null,\"state\":\"not_started\",\"log\":null},{\"id\":24,\"appId\":null,\"appInfo\":null,\"state\":\"not_started\",\"log\":null},{\"id\":25,\"appId\":null,\"appInfo\":null,\"state\":\"not_started\",\"log\":null},{\"id\":26,\"appId\":null,\"appInfo\":null,\"state\":\"not_started\",\"log\":null},{\"id\":27,\"appId\":null,\"appInfo\":null,\"state\":\"not_started\",\"log\":null},{\"id\":28,\"appId\":null,\"appInfo\":null,\"state\":\"not_started\",\"log\":null},{\"id\":29,\"appId\":null,\"appInfo\":null,\"state\":\"not_started\",\"log\":null},{\"id\":30,\"appId\":null,\"appInfo\":null,\"state\":\"not_started\",\"log\":null},{\"id\":31,\"appId\":null,\"appInfo\":null,\"state\":\"not_started\",\"log\":null},{\"id\":32,\"appId\":null,\"appInfo\":null,\"state\":\"not_started\",\"log\":null},{\"id\":33,\"appId\":null,\"appInfo\":null,\"state\":\"not_started\",\"log\":null},{\"id\":34,\"appId\":null,\"appInfo\":null,\"state\":\"not_started\",\"log\":null}]}",
-   "responseHeaders": {
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 10 Aug 2021 20:26:33 GMT",
-    "server": "Kestrel Microsoft-HTTPAPI/2.0",
-    "status": "200",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-activity-id": "bf4d4802-fe23-4206-a74f-4962b5364b23",
-    "x-ms-client-request-id": "6fab3034-2238-4775-9522-0beffabb7a50",
-    "x-ms-request-id": "878499b8-8a9e-4d43-b5fc-68152f77fb52",
-    "x-ms-response-time-ms": "166"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "fd0e964348b53bd7f2b6e0fab7983ffb"
+  "Entries": [
+    {
+      "RequestUri": "https://testaccount.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/testsparkpool/sessions",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/109.0.5412.0 Safari/537.36",
+        "x-ms-client-request-id": "f6e773e2-8a70-441b-9b35-7adb44655765",
+        "x-ms-useragent": "azsdk-js-synapse-spark/1.0.0-beta.6 core-rest-pipeline/1.10.2 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "223",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 17 Jan 2023 19:33:19 GMT",
+        "Server": [
+          "Kestrel",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-activity-id": "e4de4842-4b0d-46bb-a53c-8679ba9cff93",
+        "x-ms-client-request-id": "f6e773e2-8a70-441b-9b35-7adb44655765",
+        "x-ms-request-id": "fd2c83e8-5a34-4a74-9123-a9ab656285a8"
+      },
+      "ResponseBody": {
+        "from": 0,
+        "total": 2,
+        "sessions": [
+          {
+            "id": 1,
+            "appId": null,
+            "appInfo": null,
+            "state": "not_started",
+            "log": null,
+            "registeredSources": null
+          },
+          {
+            "id": 0,
+            "appId": null,
+            "appInfo": null,
+            "state": "not_started",
+            "log": null,
+            "registeredSources": null
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
 }

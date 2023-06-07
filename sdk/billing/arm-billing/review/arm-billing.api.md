@@ -53,15 +53,15 @@ export type AddressValidateResponse = ValidateAddressResponse;
 export type AddressValidationStatus = string;
 
 // @public
-export type Agreement = Resource & {
+export interface Agreement extends Resource {
+    readonly acceptanceMode?: AcceptanceMode;
     readonly agreementLink?: string;
     readonly category?: Category;
-    readonly acceptanceMode?: AcceptanceMode;
     readonly effectiveDate?: Date;
     readonly expirationDate?: Date;
     participants?: Participants[];
     readonly status?: string;
-};
+}
 
 // @public
 export interface AgreementListResult {
@@ -112,9 +112,9 @@ export interface Amount {
 export type AutoRenew = string;
 
 // @public
-export type AvailableBalance = Resource & {
+export interface AvailableBalance extends Resource {
     readonly amount?: Amount;
-};
+}
 
 // @public
 export interface AvailableBalances {
@@ -135,19 +135,19 @@ export interface AzurePlan {
 }
 
 // @public
-export type BillingAccount = Resource & {
-    displayName?: string;
-    soldTo?: AddressDetails;
-    readonly agreementType?: AgreementType;
-    readonly accountType?: AccountType;
+export interface BillingAccount extends Resource {
     readonly accountStatus?: AccountStatus;
+    readonly accountType?: AccountType;
+    readonly agreementType?: AgreementType;
     billingProfiles?: BillingProfilesOnExpand;
-    readonly enrollmentDetails?: Enrollment;
     departments?: Department[];
+    displayName?: string;
     enrollmentAccounts?: EnrollmentAccount[];
+    readonly enrollmentDetails?: Enrollment;
     readonly hasReadAccess?: boolean;
     notificationEmailAddress?: string;
-};
+    soldTo?: AddressDetails;
+}
 
 // @public
 export interface BillingAccountListResult {
@@ -287,11 +287,11 @@ export interface BillingManagementClientOptionalParams extends coreClient.Servic
 }
 
 // @public
-export type BillingPeriod = Resource & {
-    readonly billingPeriodStartDate?: Date;
+export interface BillingPeriod extends Resource {
     readonly billingPeriodEndDate?: Date;
+    readonly billingPeriodStartDate?: Date;
     readonly invoiceIds?: string[];
-};
+}
 
 // @public
 export interface BillingPeriods {
@@ -409,27 +409,27 @@ export interface BillingPermissionsProperties {
 }
 
 // @public
-export type BillingProfile = Resource & {
-    displayName?: string;
-    poNumber?: string;
+export interface BillingProfile extends Resource {
     readonly billingRelationshipType?: BillingRelationshipType;
     billTo?: AddressDetails;
-    readonly indirectRelationshipInfo?: IndirectRelationshipInfo;
-    invoiceEmailOptIn?: boolean;
-    readonly invoiceDay?: number;
     readonly currency?: string;
+    displayName?: string;
     enabledAzurePlans?: AzurePlan[];
-    invoiceSections?: InvoiceSectionsOnExpand;
     readonly hasReadAccess?: boolean;
-    readonly systemId?: string;
+    readonly indirectRelationshipInfo?: IndirectRelationshipInfo;
+    readonly invoiceDay?: number;
+    invoiceEmailOptIn?: boolean;
+    invoiceSections?: InvoiceSectionsOnExpand;
+    poNumber?: string;
+    readonly spendingLimit?: SpendingLimit;
     readonly status?: BillingProfileStatus;
     readonly statusReasonCode?: StatusReasonCode;
-    readonly spendingLimit?: SpendingLimit;
-    readonly targetClouds?: TargetCloud[];
+    readonly systemId?: string;
     tags?: {
         [propertyName: string]: string;
     };
-};
+    readonly targetClouds?: TargetCloud[];
+}
 
 // @public
 export interface BillingProfileCreationRequest {
@@ -509,25 +509,25 @@ export type BillingProfileStatus = string;
 export type BillingProfileStatusReasonCode = string;
 
 // @public
-export type BillingProperty = Resource & {
+export interface BillingProperty extends Resource {
     readonly accountAdminNotificationEmailAddress?: string;
-    readonly billingTenantId?: string;
-    readonly billingAccountId?: string;
     readonly billingAccountDisplayName?: string;
-    readonly billingProfileId?: string;
+    readonly billingAccountId?: string;
     readonly billingProfileDisplayName?: string;
+    readonly billingProfileId?: string;
+    readonly billingProfileSpendingLimit?: BillingProfileSpendingLimit;
     readonly billingProfileStatus?: BillingProfileStatus;
     readonly billingProfileStatusReasonCode?: BillingProfileStatusReasonCode;
-    readonly billingProfileSpendingLimit?: BillingProfileSpendingLimit;
+    readonly billingTenantId?: string;
     costCenter?: string;
-    readonly invoiceSectionId?: string;
     readonly invoiceSectionDisplayName?: string;
+    readonly invoiceSectionId?: string;
     readonly isAccountAdmin?: boolean;
     readonly productId?: string;
     readonly productName?: string;
-    readonly skuId?: string;
     readonly skuDescription?: string;
-};
+    readonly skuId?: string;
+}
 
 // @public
 export interface BillingPropertyGetOptionalParams extends coreClient.OperationOptions {
@@ -553,18 +553,18 @@ export type BillingPropertyUpdateResponse = BillingProperty;
 export type BillingRelationshipType = string;
 
 // @public
-export type BillingRoleAssignment = Resource & {
-    readonly createdOn?: string;
-    readonly createdByPrincipalTenantId?: string;
+export interface BillingRoleAssignment extends Resource {
     readonly createdByPrincipalId?: string;
+    readonly createdByPrincipalTenantId?: string;
     readonly createdByUserEmailAddress?: string;
+    readonly createdOn?: string;
     principalId?: string;
     principalTenantId?: string;
     roleDefinitionId?: string;
     readonly scope?: string;
     userAuthenticationType?: string;
     userEmailAddress?: string;
-};
+}
 
 // @public
 export interface BillingRoleAssignmentListResult {
@@ -670,11 +670,11 @@ export interface BillingRoleAssignmentsListByInvoiceSectionOptionalParams extend
 export type BillingRoleAssignmentsListByInvoiceSectionResponse = BillingRoleAssignmentListResult;
 
 // @public
-export type BillingRoleDefinition = Resource & {
+export interface BillingRoleDefinition extends Resource {
     readonly description?: string;
     permissions?: BillingPermissionsProperties[];
     readonly roleName?: string;
-};
+}
 
 // @public
 export interface BillingRoleDefinitionListResult {
@@ -756,24 +756,24 @@ export interface BillingRoleDefinitionsListByInvoiceSectionOptionalParams extend
 export type BillingRoleDefinitionsListByInvoiceSectionResponse = BillingRoleDefinitionListResult;
 
 // @public
-export type BillingSubscription = Resource & {
+export interface BillingSubscription extends Resource {
+    readonly billingProfileDisplayName?: string;
+    readonly billingProfileId?: string;
+    costCenter?: string;
+    readonly customerDisplayName?: string;
+    readonly customerId?: string;
     readonly displayName?: string;
-    readonly subscriptionId?: string;
-    subscriptionBillingStatus?: BillingSubscriptionStatusType;
+    readonly invoiceSectionDisplayName?: string;
+    readonly invoiceSectionId?: string;
     readonly lastMonthCharges?: Amount;
     readonly monthToDateCharges?: Amount;
-    readonly billingProfileId?: string;
-    readonly billingProfileDisplayName?: string;
-    costCenter?: string;
-    readonly customerId?: string;
-    readonly customerDisplayName?: string;
-    readonly invoiceSectionId?: string;
-    readonly invoiceSectionDisplayName?: string;
     readonly reseller?: Reseller;
-    skuId?: string;
     readonly skuDescription?: string;
+    skuId?: string;
+    subscriptionBillingStatus?: BillingSubscriptionStatusType;
+    readonly subscriptionId?: string;
     readonly suspensionReasons?: string[];
-};
+}
 
 // @public
 export interface BillingSubscriptions {
@@ -894,13 +894,13 @@ export type BillingSubscriptionsValidateMoveResponse = ValidateSubscriptionTrans
 export type Category = string;
 
 // @public
-export type Customer = Resource & {
-    readonly billingProfileId?: string;
+export interface Customer extends Resource {
     readonly billingProfileDisplayName?: string;
+    readonly billingProfileId?: string;
     displayName?: string;
     enabledAzurePlans?: AzurePlan[];
     resellers?: Reseller[];
-};
+}
 
 // @public
 export interface CustomerListResult {
@@ -910,9 +910,9 @@ export interface CustomerListResult {
 }
 
 // @public
-export type CustomerPolicy = Resource & {
+export interface CustomerPolicy extends Resource {
     viewCharges?: ViewCharges;
-};
+}
 
 // @public
 export interface Customers {
@@ -966,12 +966,12 @@ export interface CustomersListByBillingProfileOptionalParams extends coreClient.
 export type CustomersListByBillingProfileResponse = CustomerListResult;
 
 // @public
-export type Department = Resource & {
-    departmentName?: string;
+export interface Department extends Resource {
     costCenter?: string;
-    status?: string;
+    departmentName?: string;
     enrollmentAccounts?: EnrollmentAccount[];
-};
+    status?: string;
+}
 
 // @public
 interface Document_2 {
@@ -1008,16 +1008,16 @@ export interface Enrollment {
 }
 
 // @public
-export type EnrollmentAccount = Resource & {
+export interface EnrollmentAccount extends Resource {
     accountName?: string;
-    costCenter?: string;
     accountOwner?: string;
     accountOwnerEmail?: string;
-    status?: string;
-    startDate?: Date;
-    endDate?: Date;
+    costCenter?: string;
     department?: Department;
-};
+    endDate?: Date;
+    startDate?: Date;
+    status?: string;
+}
 
 // @public
 export interface EnrollmentAccountContext {
@@ -1061,9 +1061,9 @@ export interface EnrollmentAccountsListOptionalParams extends coreClient.Operati
 export type EnrollmentAccountsListResponse = EnrollmentAccountListResult;
 
 // @public
-export type EnrollmentAccountSummary = Resource & {
+export interface EnrollmentAccountSummary extends Resource {
     readonly principalName?: string;
-};
+}
 
 // @public
 export interface EnrollmentPolicies {
@@ -1094,6 +1094,9 @@ export interface ErrorSubDetailsItem {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface IndirectRelationshipInfo {
     billingAccountName?: string;
     billingProfileName?: string;
@@ -1101,12 +1104,12 @@ export interface IndirectRelationshipInfo {
 }
 
 // @public
-export type Instruction = Resource & {
+export interface Instruction extends Resource {
     amount?: number;
-    startDate?: Date;
-    endDate?: Date;
     creationDate?: Date;
-};
+    endDate?: Date;
+    startDate?: Date;
+}
 
 // @public
 export interface InstructionListResult {
@@ -1150,35 +1153,35 @@ export interface InstructionsPutOptionalParams extends coreClient.OperationOptio
 export type InstructionsPutResponse = Instruction;
 
 // @public
-export type Invoice = Resource & {
-    readonly dueDate?: Date;
-    readonly invoiceDate?: Date;
-    readonly status?: InvoiceStatus;
+export interface Invoice extends Resource {
     readonly amountDue?: Amount;
     readonly azurePrepaymentApplied?: Amount;
     readonly billedAmount?: Amount;
+    readonly billedDocumentId?: string;
+    readonly billingProfileDisplayName?: string;
+    readonly billingProfileId?: string;
     readonly creditAmount?: Amount;
+    readonly creditForDocumentId?: string;
+    readonly documents?: Document_2[];
+    readonly documentType?: InvoiceDocumentType;
+    readonly dueDate?: Date;
     readonly freeAzureCreditApplied?: Amount;
-    readonly subTotal?: Amount;
-    readonly taxAmount?: Amount;
-    readonly totalAmount?: Amount;
-    readonly invoicePeriodStartDate?: Date;
+    readonly invoiceDate?: Date;
     readonly invoicePeriodEndDate?: Date;
+    readonly invoicePeriodStartDate?: Date;
     readonly invoiceType?: InvoiceType;
     readonly isMonthlyInvoice?: boolean;
-    readonly billingProfileId?: string;
-    readonly billingProfileDisplayName?: string;
-    readonly purchaseOrderNumber?: string;
-    readonly documents?: Document_2[];
     readonly payments?: PaymentProperties[];
+    readonly purchaseOrderNumber?: string;
     readonly rebillDetails?: {
         [propertyName: string]: RebillDetails;
     };
-    readonly documentType?: InvoiceDocumentType;
-    readonly billedDocumentId?: string;
-    readonly creditForDocumentId?: string;
+    readonly status?: InvoiceStatus;
     readonly subscriptionId?: string;
-};
+    readonly subTotal?: Amount;
+    readonly taxAmount?: Amount;
+    readonly totalAmount?: Amount;
+}
 
 // @public
 export type InvoiceDocumentType = string;
@@ -1269,7 +1272,7 @@ export interface InvoicesDownloadMultipleBillingSubscriptionInvoicesOptionalPara
 export type InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse = DownloadUrl;
 
 // @public
-export type InvoiceSection = Resource & {
+export interface InvoiceSection extends Resource {
     displayName?: string;
     labels?: {
         [propertyName: string]: string;
@@ -1280,7 +1283,7 @@ export type InvoiceSection = Resource & {
         [propertyName: string]: string;
     };
     readonly targetCloud?: TargetCloud;
-};
+}
 
 // @public
 export interface InvoiceSectionCreationRequest {
@@ -1438,393 +1441,265 @@ export type InvoiceType = string;
 
 // @public
 export enum KnownAcceptanceMode {
-    // (undocumented)
     ClickToAccept = "ClickToAccept",
-    // (undocumented)
     ESignEmbedded = "ESignEmbedded",
-    // (undocumented)
     ESignOffline = "ESignOffline"
 }
 
 // @public
 export enum KnownAccountStatus {
-    // (undocumented)
     Active = "Active",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Expired = "Expired",
-    // (undocumented)
     Extended = "Extended",
-    // (undocumented)
     Terminated = "Terminated",
-    // (undocumented)
     Transferred = "Transferred"
 }
 
 // @public
 export enum KnownAccountType {
-    // (undocumented)
     Enterprise = "Enterprise",
-    // (undocumented)
     Individual = "Individual",
-    // (undocumented)
     Partner = "Partner"
 }
 
 // @public
 export enum KnownAddressValidationStatus {
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     Valid = "Valid"
 }
 
 // @public
 export enum KnownAgreementType {
-    // (undocumented)
     EnterpriseAgreement = "EnterpriseAgreement",
-    // (undocumented)
     MicrosoftCustomerAgreement = "MicrosoftCustomerAgreement",
-    // (undocumented)
     MicrosoftOnlineServicesProgram = "MicrosoftOnlineServicesProgram",
-    // (undocumented)
     MicrosoftPartnerAgreement = "MicrosoftPartnerAgreement"
 }
 
 // @public
 export enum KnownAutoRenew {
-    // (undocumented)
     Off = "Off",
-    // (undocumented)
     On = "On"
 }
 
 // @public
 export enum KnownBillingFrequency {
-    // (undocumented)
     Monthly = "Monthly",
-    // (undocumented)
     OneTime = "OneTime",
-    // (undocumented)
     UsageBased = "UsageBased"
 }
 
 // @public
 export enum KnownBillingProfileSpendingLimit {
-    // (undocumented)
     Off = "Off",
-    // (undocumented)
     On = "On"
 }
 
 // @public
 export enum KnownBillingProfileStatus {
-    // (undocumented)
     Active = "Active",
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Warned = "Warned"
 }
 
 // @public
 export enum KnownBillingProfileStatusReasonCode {
-    // (undocumented)
     PastDue = "PastDue",
-    // (undocumented)
     SpendingLimitExpired = "SpendingLimitExpired",
-    // (undocumented)
     SpendingLimitReached = "SpendingLimitReached"
 }
 
 // @public
 export enum KnownBillingRelationshipType {
-    // (undocumented)
     CSPPartner = "CSPPartner",
-    // (undocumented)
     Direct = "Direct",
-    // (undocumented)
     IndirectCustomer = "IndirectCustomer",
-    // (undocumented)
     IndirectPartner = "IndirectPartner"
 }
 
 // @public
 export enum KnownBillingSubscriptionStatusType {
-    // (undocumented)
     Abandoned = "Abandoned",
-    // (undocumented)
     Active = "Active",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Inactive = "Inactive",
-    // (undocumented)
     Warning = "Warning"
 }
 
 // @public
 export enum KnownCategory {
-    // (undocumented)
     AffiliatePurchaseTerms = "AffiliatePurchaseTerms",
-    // (undocumented)
     MicrosoftCustomerAgreement = "MicrosoftCustomerAgreement",
-    // (undocumented)
     Other = "Other"
 }
 
 // @public
 export enum KnownDocumentSource {
-    // (undocumented)
     DRS = "DRS",
-    // (undocumented)
     ENF = "ENF"
 }
 
 // @public
 export enum KnownDocumentType {
-    // (undocumented)
     CreditNote = "CreditNote",
-    // (undocumented)
     Invoice = "Invoice",
-    // (undocumented)
     TaxReceipt = "TaxReceipt",
-    // (undocumented)
     VoidNote = "VoidNote"
 }
 
 // @public
 export enum KnownInvoiceDocumentType {
-    // (undocumented)
     CreditNote = "CreditNote",
-    // (undocumented)
     Invoice = "Invoice"
 }
 
 // @public
 export enum KnownInvoiceSectionState {
-    // (undocumented)
     Active = "Active",
-    // (undocumented)
     Restricted = "Restricted"
 }
 
 // @public
 export enum KnownInvoiceStatus {
-    // (undocumented)
     Due = "Due",
-    // (undocumented)
     OverDue = "OverDue",
-    // (undocumented)
     Paid = "Paid",
-    // (undocumented)
     Void = "Void"
 }
 
 // @public
 export enum KnownInvoiceType {
-    // (undocumented)
     AzureMarketplace = "AzureMarketplace",
-    // (undocumented)
     AzureService = "AzureService",
-    // (undocumented)
     AzureSupport = "AzureSupport"
 }
 
 // @public
 export enum KnownMarketplacePurchasesPolicy {
-    // (undocumented)
     AllAllowed = "AllAllowed",
-    // (undocumented)
     NotAllowed = "NotAllowed",
-    // (undocumented)
     OnlyFreeAllowed = "OnlyFreeAllowed"
 }
 
 // @public
 export enum KnownPaymentMethodFamily {
-    // (undocumented)
     CheckWire = "CheckWire",
-    // (undocumented)
     CreditCard = "CreditCard",
-    // (undocumented)
     Credits = "Credits",
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownProductStatusType {
-    // (undocumented)
     Active = "Active",
-    // (undocumented)
     AutoRenew = "AutoRenew",
-    // (undocumented)
     Cancelled = "Cancelled",
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Expired = "Expired",
-    // (undocumented)
     Expiring = "Expiring",
-    // (undocumented)
     Inactive = "Inactive",
-    // (undocumented)
     PastDue = "PastDue"
 }
 
 // @public
 export enum KnownProductTransferValidationErrorCode {
-    // (undocumented)
     CrossBillingAccountNotAllowed = "CrossBillingAccountNotAllowed",
-    // (undocumented)
     DestinationBillingProfilePastDue = "DestinationBillingProfilePastDue",
-    // (undocumented)
     InsufficientPermissionOnDestination = "InsufficientPermissionOnDestination",
-    // (undocumented)
     InsufficientPermissionOnSource = "InsufficientPermissionOnSource",
-    // (undocumented)
     InvalidSource = "InvalidSource",
-    // (undocumented)
     NotAvailableForDestinationMarket = "NotAvailableForDestinationMarket",
-    // (undocumented)
     OneTimePurchaseProductTransferNotAllowed = "OneTimePurchaseProductTransferNotAllowed",
-    // (undocumented)
     ProductNotActive = "ProductNotActive",
-    // (undocumented)
     ProductTypeNotSupported = "ProductTypeNotSupported"
 }
 
 // @public
 export enum KnownReservationPurchasesPolicy {
-    // (undocumented)
     Allowed = "Allowed",
-    // (undocumented)
     NotAllowed = "NotAllowed"
 }
 
 // @public
 export enum KnownReservationType {
-    // (undocumented)
     Purchase = "Purchase",
-    // (undocumented)
     UsageCharge = "Usage Charge"
 }
 
 // @public
 export enum KnownSpendingLimit {
-    // (undocumented)
     Off = "Off",
-    // (undocumented)
     On = "On"
 }
 
 // @public
 export enum KnownSpendingLimitForBillingProfile {
-    // (undocumented)
     Off = "Off",
-    // (undocumented)
     On = "On"
 }
 
 // @public
 export enum KnownStatusReasonCode {
-    // (undocumented)
     PastDue = "PastDue",
-    // (undocumented)
     SpendingLimitExpired = "SpendingLimitExpired",
-    // (undocumented)
     SpendingLimitReached = "SpendingLimitReached"
 }
 
 // @public
 export enum KnownStatusReasonCodeForBillingProfile {
-    // (undocumented)
     PastDue = "PastDue",
-    // (undocumented)
     SpendingLimitExpired = "SpendingLimitExpired",
-    // (undocumented)
     SpendingLimitReached = "SpendingLimitReached"
 }
 
 // @public
 export enum KnownSubscriptionTransferValidationErrorCode {
-    // (undocumented)
     BillingAccountInactive = "BillingAccountInactive",
-    // (undocumented)
     CrossBillingAccountNotAllowed = "CrossBillingAccountNotAllowed",
-    // (undocumented)
     DestinationBillingProfileInactive = "DestinationBillingProfileInactive",
-    // (undocumented)
     DestinationBillingProfileNotFound = "DestinationBillingProfileNotFound",
-    // (undocumented)
     DestinationBillingProfilePastDue = "DestinationBillingProfilePastDue",
-    // (undocumented)
     DestinationInvoiceSectionInactive = "DestinationInvoiceSectionInactive",
-    // (undocumented)
     DestinationInvoiceSectionNotFound = "DestinationInvoiceSectionNotFound",
-    // (undocumented)
     InsufficientPermissionOnDestination = "InsufficientPermissionOnDestination",
-    // (undocumented)
     InsufficientPermissionOnSource = "InsufficientPermissionOnSource",
-    // (undocumented)
     InvalidDestination = "InvalidDestination",
-    // (undocumented)
     InvalidSource = "InvalidSource",
-    // (undocumented)
     MarketplaceNotEnabledOnDestination = "MarketplaceNotEnabledOnDestination",
-    // (undocumented)
     NotAvailableForDestinationMarket = "NotAvailableForDestinationMarket",
-    // (undocumented)
     ProductInactive = "ProductInactive",
-    // (undocumented)
     ProductNotFound = "ProductNotFound",
-    // (undocumented)
     ProductTypeNotSupported = "ProductTypeNotSupported",
-    // (undocumented)
     SourceBillingProfilePastDue = "SourceBillingProfilePastDue",
-    // (undocumented)
     SourceInvoiceSectionInactive = "SourceInvoiceSectionInactive",
-    // (undocumented)
     SubscriptionNotActive = "SubscriptionNotActive",
-    // (undocumented)
     SubscriptionTypeNotSupported = "SubscriptionTypeNotSupported"
 }
 
 // @public
 export enum KnownTargetCloud {
-    // (undocumented)
     USGov = "USGov",
-    // (undocumented)
     USNat = "USNat",
-    // (undocumented)
     USSec = "USSec"
 }
 
 // @public
 export enum KnownTransactionTypeKind {
-    // (undocumented)
     All = "all",
-    // (undocumented)
     Reservation = "reservation"
 }
 
 // @public
 export enum KnownViewCharges {
-    // (undocumented)
     Allowed = "Allowed",
-    // (undocumented)
     NotAllowed = "NotAllowed"
 }
 
 // @public
 export enum KnownViewChargesPolicy {
-    // (undocumented)
     Allowed = "Allowed",
-    // (undocumented)
     NotAllowed = "NotAllowed"
 }
 
@@ -1927,37 +1802,37 @@ export interface PoliciesUpdateOptionalParams extends coreClient.OperationOption
 export type PoliciesUpdateResponse = Policy;
 
 // @public
-export type Policy = Resource & {
+export interface Policy extends Resource {
     marketplacePurchases?: MarketplacePurchasesPolicy;
     reservationPurchases?: ReservationPurchasesPolicy;
     viewCharges?: ViewChargesPolicy;
-};
+}
 
 // @public
-export type Product = Resource & {
+export interface Product extends Resource {
     autoRenew?: AutoRenew;
-    readonly displayName?: string;
-    readonly purchaseDate?: Date;
-    readonly productTypeId?: string;
-    readonly productType?: string;
-    status?: ProductStatusType;
-    readonly endDate?: Date;
+    readonly availabilityId?: string;
     billingFrequency?: BillingFrequency;
+    readonly billingProfileDisplayName?: string;
+    readonly billingProfileId?: string;
+    readonly customerDisplayName?: string;
+    readonly customerId?: string;
+    readonly displayName?: string;
+    readonly endDate?: Date;
+    readonly invoiceSectionDisplayName?: string;
+    readonly invoiceSectionId?: string;
     readonly lastCharge?: Amount;
     readonly lastChargeDate?: Date;
+    readonly productType?: string;
+    readonly productTypeId?: string;
+    readonly purchaseDate?: Date;
     readonly quantity?: number;
-    readonly skuId?: string;
-    readonly skuDescription?: string;
-    readonly tenantId?: string;
-    readonly availabilityId?: string;
-    readonly invoiceSectionId?: string;
-    readonly invoiceSectionDisplayName?: string;
-    readonly billingProfileId?: string;
-    readonly billingProfileDisplayName?: string;
-    readonly customerId?: string;
-    readonly customerDisplayName?: string;
     readonly reseller?: Reseller;
-};
+    readonly skuDescription?: string;
+    readonly skuId?: string;
+    status?: ProductStatusType;
+    readonly tenantId?: string;
+}
 
 // @public
 export interface Products {
@@ -2239,44 +2114,44 @@ export type SubscriptionTransferValidationErrorCode = string;
 export type TargetCloud = string;
 
 // @public
-export type Transaction = Resource & {
-    kind?: TransactionTypeKind;
-    readonly date?: Date;
-    readonly invoice?: string;
-    readonly invoiceId?: string;
-    readonly orderId?: string;
-    readonly orderName?: string;
-    readonly productFamily?: string;
-    readonly productTypeId?: string;
-    readonly productType?: string;
-    readonly productDescription?: string;
-    transactionType?: ReservationType;
-    readonly transactionAmount?: Amount;
-    readonly quantity?: number;
-    readonly invoiceSectionId?: string;
-    readonly invoiceSectionDisplayName?: string;
-    readonly billingProfileId?: string;
-    readonly billingProfileDisplayName?: string;
-    readonly customerId?: string;
-    readonly customerDisplayName?: string;
-    readonly subscriptionId?: string;
-    readonly subscriptionName?: string;
-    readonly azurePlan?: string;
+export interface Transaction extends Resource {
     readonly azureCreditApplied?: Amount;
+    readonly azurePlan?: string;
     readonly billingCurrency?: string;
+    readonly billingProfileDisplayName?: string;
+    readonly billingProfileId?: string;
+    readonly customerDisplayName?: string;
+    readonly customerId?: string;
+    readonly date?: Date;
     readonly discount?: number;
     readonly effectivePrice?: Amount;
     readonly exchangeRate?: number;
+    readonly invoice?: string;
+    readonly invoiceId?: string;
+    readonly invoiceSectionDisplayName?: string;
+    readonly invoiceSectionId?: string;
+    kind?: TransactionTypeKind;
     readonly marketPrice?: Amount;
+    readonly orderId?: string;
+    readonly orderName?: string;
     readonly pricingCurrency?: string;
-    readonly servicePeriodStartDate?: Date;
+    readonly productDescription?: string;
+    readonly productFamily?: string;
+    readonly productType?: string;
+    readonly productTypeId?: string;
+    readonly quantity?: number;
     readonly servicePeriodEndDate?: Date;
+    readonly servicePeriodStartDate?: Date;
+    readonly subscriptionId?: string;
+    readonly subscriptionName?: string;
     readonly subTotal?: Amount;
     readonly tax?: Amount;
+    readonly transactionAmount?: Amount;
+    transactionType?: ReservationType;
     readonly unitOfMeasure?: string;
     readonly units?: number;
     readonly unitType?: string;
-};
+}
 
 // @public
 export interface TransactionListResult {

@@ -13,6 +13,9 @@ import {
   DeviceUpdate
 } from "@azure/arm-deviceupdate";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Checks ADU resource name availability.
@@ -21,7 +24,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/CheckNameAvailability_AlreadyExists.json
  */
 async function checkNameAvailabilityAlreadyExists() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["DEVICEUPDATE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const request: CheckNameAvailabilityRequest = {
     name: "contoso",
     type: "Microsoft.DeviceUpdate/accounts"
@@ -31,8 +36,6 @@ async function checkNameAvailabilityAlreadyExists() {
   const result = await client.checkNameAvailability(request);
   console.log(result);
 }
-
-checkNameAvailabilityAlreadyExists().catch(console.error);
 
 /**
  * This sample demonstrates how to Checks ADU resource name availability.
@@ -41,7 +44,9 @@ checkNameAvailabilityAlreadyExists().catch(console.error);
  * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/CheckNameAvailability_Available.json
  */
 async function checkNameAvailabilityAvailable() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["DEVICEUPDATE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const request: CheckNameAvailabilityRequest = {
     name: "contoso",
     type: "Microsoft.DeviceUpdate/accounts"
@@ -52,4 +57,9 @@ async function checkNameAvailabilityAvailable() {
   console.log(result);
 }
 
-checkNameAvailabilityAvailable().catch(console.error);
+async function main() {
+  checkNameAvailabilityAlreadyExists();
+  checkNameAvailabilityAvailable();
+}
+
+main().catch(console.error);

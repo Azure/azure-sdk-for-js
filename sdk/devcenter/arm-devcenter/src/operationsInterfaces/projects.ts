@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Project,
   ProjectsListBySubscriptionOptionalParams,
@@ -34,7 +34,7 @@ export interface Projects {
   ): PagedAsyncIterableIterator<Project>;
   /**
    * Lists all projects in the resource group.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
@@ -43,7 +43,7 @@ export interface Projects {
   ): PagedAsyncIterableIterator<Project>;
   /**
    * Gets a specific project.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
@@ -54,7 +54,7 @@ export interface Projects {
   ): Promise<ProjectsGetResponse>;
   /**
    * Creates or updates a project.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param body Represents a project.
    * @param options The options parameters.
@@ -65,14 +65,14 @@ export interface Projects {
     body: Project,
     options?: ProjectsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ProjectsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ProjectsCreateOrUpdateResponse>,
       ProjectsCreateOrUpdateResponse
     >
   >;
   /**
    * Creates or updates a project.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param body Represents a project.
    * @param options The options parameters.
@@ -85,7 +85,7 @@ export interface Projects {
   ): Promise<ProjectsCreateOrUpdateResponse>;
   /**
    * Partially updates a project.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param body Updatable project properties.
    * @param options The options parameters.
@@ -96,14 +96,14 @@ export interface Projects {
     body: ProjectUpdate,
     options?: ProjectsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ProjectsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ProjectsUpdateResponse>,
       ProjectsUpdateResponse
     >
   >;
   /**
    * Partially updates a project.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param body Updatable project properties.
    * @param options The options parameters.
@@ -116,7 +116,7 @@ export interface Projects {
   ): Promise<ProjectsUpdateResponse>;
   /**
    * Deletes a project resource.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
@@ -124,10 +124,10 @@ export interface Projects {
     resourceGroupName: string,
     projectName: string,
     options?: ProjectsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a project resource.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */

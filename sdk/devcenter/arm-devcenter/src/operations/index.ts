@@ -20,6 +20,7 @@ export * from "./devBoxDefinitions";
 export * from "./operations";
 export * from "./operationStatuses";
 export * from "./usages";
+export * from "./checkNameAvailability";
 export * from "./skus";
 export * from "./pools";
 export * from "./schedules";

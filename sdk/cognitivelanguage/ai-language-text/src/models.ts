@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import {
+  AbstractiveSummary,
   AssessmentSentiment,
   ClassificationCategory,
   CustomEntityRecognitionAction,
@@ -14,6 +15,7 @@ import {
   EntityDataSource,
   EntityLinkingAction,
   EntityRecognitionAction,
+  ExtractiveSummarizationAction,
   HealthcareAction,
   HealthcareAssertion,
   HealthcareEntityCategory,
@@ -27,6 +29,8 @@ import {
   SentenceSentimentLabel,
   SentimentAnalysisAction,
   SentimentConfidenceScores,
+  StringIndexType,
+  SummarySentence,
   TargetConfidenceScores,
   TextDocumentBatchStatistics,
   TextDocumentStatistics,
@@ -111,6 +115,8 @@ export const AnalyzeBatchActionNames = {
   KeyPhraseExtraction: "KeyPhraseExtraction",
   EntityLinking: "EntityLinking",
   Healthcare: "Healthcare",
+  ExtractiveSummarization: "ExtractiveSummarization",
+  AbstractiveSummarization: "AbstractiveSummarization",
   CustomEntityRecognition: "CustomEntityRecognition",
   CustomSingleLabelClassification: "CustomSingleLabelClassification",
   CustomMultiLabelClassification: "CustomMultiLabelClassification",
@@ -144,6 +150,18 @@ export type AnalyzeResult<ActionName extends AnalyzeActionName> = {
   SentimentAnalysis: SentimentAnalysisResult[];
   LanguageDetection: LanguageDetectionResult[];
 }[ActionName];
+
+/** Options for an Abstractive Summarization action. */
+export interface AbstractiveSummarizationAction {
+  /** The approximate number of sentences to be part of the summary. */
+  sentenceCount?: number;
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
+   *
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
+}
 
 /**
  * Enum of possible error codes of a {@link TextAnalysisError}.
@@ -521,6 +539,10 @@ export interface HealthcareEntityRelation {
    * The list of healthcare entities and their roles in the healthcare relation.
    */
   readonly roles: HealthcareEntityRelationRole[];
+  /**
+   * The confidence score between 0 and 1 of the extracted relation.
+   */
+  readonly confidenceScore?: number;
 }
 
 /**
@@ -546,6 +568,52 @@ export type HealthcareErrorResult = TextAnalysisErrorResult;
  * The result of the healthcare analysis action on a single document.
  */
 export type HealthcareResult = HealthcareSuccessResult | HealthcareErrorResult;
+
+/**
+ * The result of the extractive summarization action on a single document.
+ */
+export type ExtractiveSummarizationResult =
+  | ExtractiveSummarizationSuccessResult
+  | ExtractiveSummarizationErrorResult;
+
+/**
+ * The result of the extractive summarization action on a single document,
+ * containing a collection of the summary identified in that document.
+ */
+export interface ExtractiveSummarizationSuccessResult extends TextAnalysisSuccessResult {
+  /**
+   * A list of sentences composing a summary of the input document.
+   */
+  readonly sentences: SummarySentence[];
+}
+
+/**
+ * An error result from the extractive summarization action on a single document.
+ */
+export type ExtractiveSummarizationErrorResult = TextAnalysisErrorResult;
+
+/**
+ * The result of the abstractive summarization action on a single document.
+ */
+export type AbstractiveSummarizationResult =
+  | AbstractiveSummarizationSuccessResult
+  | AbstractiveSummarizationErrorResult;
+
+/**
+ * The result of the abstractive summarization action on a single document,
+ * containing a collection of the summaries identified for that document.
+ */
+export interface AbstractiveSummarizationSuccessResult extends TextAnalysisSuccessResult {
+  /**
+   * A list of summaries of the input document.
+   */
+  readonly summaries: AbstractiveSummary[];
+}
+
+/**
+ * An error result from the abstractive summarization action on a single document.
+ */
+export type AbstractiveSummarizationErrorResult = TextAnalysisErrorResult;
 
 /**
  * The result of the custom entity recognition action on a single document.
@@ -682,6 +750,26 @@ export interface SentimentAnalysisBatchAction
   kind: "SentimentAnalysis";
 }
 
+/** Options for an extractive summarization batch action. */
+export interface ExtractiveSummarizationBatchAction
+  extends AnalyzeBatchActionCommon,
+    ExtractiveSummarizationAction {
+  /**
+   * The kind of the action.
+   */
+  kind: "ExtractiveSummarization";
+}
+
+/** Options for an abstractive summarization batch action. */
+export interface AbstractiveSummarizationBatchAction
+  extends AnalyzeBatchActionCommon,
+    AbstractiveSummarizationAction {
+  /**
+   * The kind of the action.
+   */
+  kind: "AbstractiveSummarization";
+}
+
 /** Options for a custom entity recognition batch action. */
 export interface CustomEntityRecognitionBatchAction
   extends AnalyzeBatchActionCommon,
@@ -722,6 +810,8 @@ export type AnalyzeBatchAction =
   | PiiEntityRecognitionBatchAction
   | HealthcareBatchAction
   | SentimentAnalysisBatchAction
+  | ExtractiveSummarizationBatchAction
+  | AbstractiveSummarizationBatchAction
   | CustomEntityRecognitionBatchAction
   | CustomSingleLabelClassificationBatchAction
   | CustomMultiLabelClassificationBatchAction;
@@ -849,6 +939,18 @@ export type HealthcareBatchResult = ActionMetadata &
   BatchActionResult<HealthcareResult, "Healthcare">;
 
 /**
+ * The result of an extractive summarization batch action.
+ */
+export type ExtractiveSummarizationBatchResult = ActionMetadata &
+  BatchActionResult<ExtractiveSummarizationResult, "ExtractiveSummarization">;
+
+/**
+ * The result of an abstractive summarization batch action.
+ */
+export type AbstractiveSummarizationBatchResult = ActionMetadata &
+  BatchActionResult<AbstractiveSummarizationResult, "AbstractiveSummarization">;
+
+/**
  * The result of a custom entity recognition batch action.
  */
 export type CustomEntityRecognitionBatchResult = CustomActionMetadata &
@@ -875,6 +977,8 @@ export type AnalyzeBatchResult =
   | PiiEntityRecognitionBatchResult
   | SentimentAnalysisBatchResult
   | HealthcareBatchResult
+  | ExtractiveSummarizationBatchResult
+  | AbstractiveSummarizationBatchResult
   | CustomEntityRecognitionBatchResult
   | CustomSingleLabelClassificationBatchResult
   | CustomMultiLabelClassificationBatchResult;

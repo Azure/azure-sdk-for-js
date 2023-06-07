@@ -10,17 +10,23 @@
 // Licensed under the MIT License.
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
- * This sample demonstrates how to Gets an Log Search rule
+ * This sample demonstrates how to Retrieve an scheduled query rule definition.
  *
- * @summary Gets an Log Search rule
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-04-16/examples/getScheduledQueryRules.json
+ * @summary Retrieve an scheduled query rule definition.
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2022-08-01-preview/examples/getScheduledQueryRule.json
  */
-async function getRule() {
-  const subscriptionId = "b67f7fec-69fc-4974-9099-a26bd6ffeda3";
-  const resourceGroupName = "Rac46PostSwapRG";
-  const ruleName = "logalertfoo";
+async function getAScheduledQueryRuleForSingleResource() {
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] ||
+    "dd4bfc94-a096-412b-9c43-4bd13e35afbc";
+  const resourceGroupName =
+    process.env["MONITOR_RESOURCE_GROUP"] || "QueryResourceGroupName";
+  const ruleName = "perf";
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.scheduledQueryRules.get(
@@ -30,4 +36,8 @@ async function getRule() {
   console.log(result);
 }
 
-getRule().catch(console.error);
+async function main() {
+  getAScheduledQueryRuleForSingleResource();
+}
+
+main().catch(console.error);

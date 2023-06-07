@@ -32,8 +32,7 @@ async function inboundNatRuleCreate() {
         enableFloatingIP: false,
         enableTcpReset: false,
         frontendIPConfiguration: {
-          id:
-            "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb1/frontendIPConfigurations/ip1",
+          id: "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb1/frontendIPConfigurations/ip1",
         },
         frontendPort: 3390,
         idleTimeoutInMinutes: 4,

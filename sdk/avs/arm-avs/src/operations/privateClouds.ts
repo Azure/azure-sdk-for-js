@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { PrivateClouds } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,9 +19,9 @@ import {
   PrivateCloud,
   PrivateCloudsListNextOptionalParams,
   PrivateCloudsListOptionalParams,
+  PrivateCloudsListResponse,
   PrivateCloudsListInSubscriptionNextOptionalParams,
   PrivateCloudsListInSubscriptionOptionalParams,
-  PrivateCloudsListResponse,
   PrivateCloudsListInSubscriptionResponse,
   PrivateCloudsGetOptionalParams,
   PrivateCloudsGetResponse,
@@ -68,19 +69,29 @@ export class PrivateCloudsImpl implements PrivateClouds {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceGroupName, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    options?: PrivateCloudsListOptionalParams
+    options?: PrivateCloudsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PrivateCloud[]> {
-    let result = await this._list(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PrivateCloudsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -88,7 +99,9 @@ export class PrivateCloudsImpl implements PrivateClouds {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -116,22 +129,34 @@ export class PrivateCloudsImpl implements PrivateClouds {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listInSubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listInSubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listInSubscriptionPagingPage(
-    options?: PrivateCloudsListInSubscriptionOptionalParams
+    options?: PrivateCloudsListInSubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PrivateCloud[]> {
-    let result = await this._listInSubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PrivateCloudsListInSubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listInSubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listInSubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -897,7 +922,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -918,7 +942,6 @@ const listInSubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

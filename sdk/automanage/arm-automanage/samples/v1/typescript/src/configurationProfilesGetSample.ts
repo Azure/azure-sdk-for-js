@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { AutomanageClient } from "@azure/arm-automanage";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get information about a configuration profile
@@ -18,9 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/getConfigurationProfile.json
  */
 async function getAConfigurationProfile() {
-  const subscriptionId = "mySubscriptionId";
+  const subscriptionId =
+    process.env["AUTOMANAGE_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const configurationProfileName = "customConfigurationProfile";
-  const resourceGroupName = "myResourceGroupName";
+  const resourceGroupName =
+    process.env["AUTOMANAGE_RESOURCE_GROUP"] || "myResourceGroupName";
   const credential = new DefaultAzureCredential();
   const client = new AutomanageClient(credential, subscriptionId);
   const result = await client.configurationProfiles.get(
@@ -30,4 +35,8 @@ async function getAConfigurationProfile() {
   console.log(result);
 }
 
-getAConfigurationProfile().catch(console.error);
+async function main() {
+  getAConfigurationProfile();
+}
+
+main().catch(console.error);

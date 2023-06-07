@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ManagedDatabaseTables } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -65,13 +66,17 @@ export class ManagedDatabaseTablesImpl implements ManagedDatabaseTables {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listBySchemaPagingPage(
           resourceGroupName,
           managedInstanceName,
           databaseName,
           schemaName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -82,17 +87,24 @@ export class ManagedDatabaseTablesImpl implements ManagedDatabaseTables {
     managedInstanceName: string,
     databaseName: string,
     schemaName: string,
-    options?: ManagedDatabaseTablesListBySchemaOptionalParams
+    options?: ManagedDatabaseTablesListBySchemaOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DatabaseTable[]> {
-    let result = await this._listBySchema(
-      resourceGroupName,
-      managedInstanceName,
-      databaseName,
-      schemaName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ManagedDatabaseTablesListBySchemaResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySchema(
+        resourceGroupName,
+        managedInstanceName,
+        databaseName,
+        schemaName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySchemaNext(
         resourceGroupName,
@@ -103,7 +115,9 @@ export class ManagedDatabaseTablesImpl implements ManagedDatabaseTables {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -228,7 +242,7 @@ const listBySchemaOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2, Parameters.filter1],
+  queryParameters: [Parameters.filter1, Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -250,7 +264,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -272,7 +286,6 @@ const listBySchemaNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2, Parameters.filter1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

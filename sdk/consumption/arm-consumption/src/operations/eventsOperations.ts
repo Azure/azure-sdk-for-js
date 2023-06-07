@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { EventsOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,9 +17,9 @@ import {
   EventSummary,
   EventsListByBillingProfileNextOptionalParams,
   EventsListByBillingProfileOptionalParams,
+  EventsListByBillingProfileResponse,
   EventsListByBillingAccountNextOptionalParams,
   EventsListByBillingAccountOptionalParams,
-  EventsListByBillingProfileResponse,
   EventsListByBillingAccountResponse,
   EventsListByBillingProfileNextResponse,
   EventsListByBillingAccountNextResponse
@@ -67,13 +68,17 @@ export class EventsOperationsImpl implements EventsOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByBillingProfilePagingPage(
           billingAccountId,
           billingProfileId,
           startDate,
           endDate,
-          options
+          options,
+          settings
         );
       }
     };
@@ -84,28 +89,35 @@ export class EventsOperationsImpl implements EventsOperations {
     billingProfileId: string,
     startDate: string,
     endDate: string,
-    options?: EventsListByBillingProfileOptionalParams
+    options?: EventsListByBillingProfileOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<EventSummary[]> {
-    let result = await this._listByBillingProfile(
-      billingAccountId,
-      billingProfileId,
-      startDate,
-      endDate,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listByBillingProfileNext(
+    let result: EventsListByBillingProfileResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByBillingProfile(
         billingAccountId,
         billingProfileId,
         startDate,
         endDate,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByBillingProfileNext(
+        billingAccountId,
+        billingProfileId,
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -145,19 +157,33 @@ export class EventsOperationsImpl implements EventsOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByBillingAccountPagingPage(billingAccountId, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByBillingAccountPagingPage(
+          billingAccountId,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByBillingAccountPagingPage(
     billingAccountId: string,
-    options?: EventsListByBillingAccountOptionalParams
+    options?: EventsListByBillingAccountOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<EventSummary[]> {
-    let result = await this._listByBillingAccount(billingAccountId, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: EventsListByBillingAccountResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByBillingAccount(billingAccountId, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByBillingAccountNext(
         billingAccountId,
@@ -165,7 +191,9 @@ export class EventsOperationsImpl implements EventsOperations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -223,28 +251,17 @@ export class EventsOperationsImpl implements EventsOperations {
    * ListByBillingProfileNext
    * @param billingAccountId BillingAccount ID
    * @param billingProfileId Azure Billing Profile ID.
-   * @param startDate Start date
-   * @param endDate End date
    * @param nextLink The nextLink from the previous successful call to the ListByBillingProfile method.
    * @param options The options parameters.
    */
   private _listByBillingProfileNext(
     billingAccountId: string,
     billingProfileId: string,
-    startDate: string,
-    endDate: string,
     nextLink: string,
     options?: EventsListByBillingProfileNextOptionalParams
   ): Promise<EventsListByBillingProfileNextResponse> {
     return this.client.sendOperationRequest(
-      {
-        billingAccountId,
-        billingProfileId,
-        startDate,
-        endDate,
-        nextLink,
-        options
-      },
+      { billingAccountId, billingProfileId, nextLink, options },
       listByBillingProfileNextOperationSpec
     );
   }
@@ -322,11 +339,6 @@ const listByBillingProfileNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.startDate1,
-    Parameters.endDate1
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -347,7 +359,6 @@ const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

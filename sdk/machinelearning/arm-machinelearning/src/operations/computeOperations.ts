@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ComputeOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,10 +19,11 @@ import {
   ComputeResource,
   ComputeListNextOptionalParams,
   ComputeListOptionalParams,
+  ComputeListResponse,
   AmlComputeNodeInformation,
   ComputeListNodesNextOptionalParams,
   ComputeListNodesOptionalParams,
-  ComputeListResponse,
+  ComputeListNodesResponse,
   ComputeGetOptionalParams,
   ComputeGetResponse,
   ComputeCreateOrUpdateOptionalParams,
@@ -31,7 +33,6 @@ import {
   ComputeUpdateResponse,
   UnderlyingResourceAction,
   ComputeDeleteOptionalParams,
-  ComputeListNodesResponse,
   ComputeListKeysOptionalParams,
   ComputeListKeysResponse,
   ComputeStartOptionalParams,
@@ -73,8 +74,16 @@ export class ComputeOperationsImpl implements ComputeOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, workspaceName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          workspaceName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -82,11 +91,18 @@ export class ComputeOperationsImpl implements ComputeOperations {
   private async *listPagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ComputeListOptionalParams
+    options?: ComputeListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ComputeResource[]> {
-    let result = await this._list(resourceGroupName, workspaceName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ComputeListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, workspaceName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -95,7 +111,9 @@ export class ComputeOperationsImpl implements ComputeOperations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -139,12 +157,16 @@ export class ComputeOperationsImpl implements ComputeOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listNodesPagingPage(
           resourceGroupName,
           workspaceName,
           computeName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -154,16 +176,23 @@ export class ComputeOperationsImpl implements ComputeOperations {
     resourceGroupName: string,
     workspaceName: string,
     computeName: string,
-    options?: ComputeListNodesOptionalParams
+    options?: ComputeListNodesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AmlComputeNodeInformation[]> {
-    let result = await this._listNodes(
-      resourceGroupName,
-      workspaceName,
-      computeName,
-      options
-    );
-    yield result.nodes || [];
-    let continuationToken = result.nextLink;
+    let result: ComputeListNodesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listNodes(
+        resourceGroupName,
+        workspaceName,
+        computeName,
+        options
+      );
+      let page = result.nodes || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNodesNext(
         resourceGroupName,
@@ -173,7 +202,9 @@ export class ComputeOperationsImpl implements ComputeOperations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.nodes || [];
+      let page = result.nodes || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.2 (Unreleased)
+## 2.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,37 @@
 
 ### Other Changes
 
+## 2.1.0 (2022-12-12)
+    
+**Features**
+
+  - Added Interface AvailabilitySetResourceSettings
+  - Added Interface DiskEncryptionSetResourceSettings
+  - Added Interface KeyVaultResourceSettings
+  - Added Interface LoadBalancerBackendAddressPoolReference
+  - Added Interface LoadBalancerNatRuleReference
+  - Added Interface LoadBalancerResourceSettings
+  - Added Interface MoveCollectionPropertiesErrors
+  - Added Interface MoveResourcePropertiesErrors
+  - Added Interface MoveResourcePropertiesMoveStatus
+  - Added Interface NetworkInterfaceResourceSettings
+  - Added Interface NetworkSecurityGroupResourceSettings
+  - Added Interface NsgReference
+  - Added Interface ProxyResourceReference
+  - Added Interface PublicIPAddressResourceSettings
+  - Added Interface PublicIpReference
+  - Added Interface ResourceGroupResourceSettings
+  - Added Interface SqlDatabaseResourceSettings
+  - Added Interface SqlElasticPoolResourceSettings
+  - Added Interface SqlServerResourceSettings
+  - Added Interface SubnetReference
+  - Added Interface VirtualMachineResourceSettings
+  - Added Interface VirtualNetworkResourceSettings
+  - Interface MoveResourcesListNextOptionalParams no longer has parameter filter
+  - Interface UnresolvedDependenciesGetNextOptionalParams no longer has parameter dependencyLevel
+  - Interface UnresolvedDependenciesGetNextOptionalParams no longer has parameter filter
+  - Interface UnresolvedDependenciesGetNextOptionalParams no longer has parameter orderby
+    
 ## 2.0.1 (2022-04-29)
 
 **Features**

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ElasticSanManagement } = require("@azure/arm-elasticsan");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets a list of ElasticSan in a resource group.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/ElasticSans_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function elasticSansListByResourceGroupMaximumSetGen() {
-  const subscriptionId = "aaaaaaaaaaaaaaaaaa";
-  const resourceGroupName = "rgelasticsan";
+  const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaa";
+  const resourceGroupName = process.env["ELASTICSANS_RESOURCE_GROUP"] || "rgelasticsan";
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const resArray = new Array();
@@ -28,8 +29,6 @@ async function elasticSansListByResourceGroupMaximumSetGen() {
   }
   console.log(resArray);
 }
-
-elasticSansListByResourceGroupMaximumSetGen().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets a list of ElasticSan in a resource group.
@@ -38,8 +37,8 @@ elasticSansListByResourceGroupMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/ElasticSans_ListByResourceGroup_MinimumSet_Gen.json
  */
 async function elasticSansListByResourceGroupMinimumSetGen() {
-  const subscriptionId = "aaaaaaaaaaaaaaaaaa";
-  const resourceGroupName = "rgelasticsan";
+  const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaa";
+  const resourceGroupName = process.env["ELASTICSANS_RESOURCE_GROUP"] || "rgelasticsan";
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const resArray = new Array();
@@ -49,4 +48,9 @@ async function elasticSansListByResourceGroupMinimumSetGen() {
   console.log(resArray);
 }
 
-elasticSansListByResourceGroupMinimumSetGen().catch(console.error);
+async function main() {
+  elasticSansListByResourceGroupMaximumSetGen();
+  elasticSansListByResourceGroupMinimumSetGen();
+}
+
+main().catch(console.error);

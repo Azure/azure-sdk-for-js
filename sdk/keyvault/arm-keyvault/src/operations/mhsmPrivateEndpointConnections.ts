@@ -6,14 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { MhsmPrivateEndpointConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { KeyVaultManagementClient } from "../keyVaultManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   MhsmPrivateEndpointConnection,
   MhsmPrivateEndpointConnectionsListByResourceNextOptionalParams,
@@ -62,8 +67,16 @@ export class MhsmPrivateEndpointConnectionsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourcePagingPage(resourceGroupName, name, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourcePagingPage(
+          resourceGroupName,
+          name,
+          options,
+          settings
+        );
       }
     };
   }
@@ -71,11 +84,18 @@ export class MhsmPrivateEndpointConnectionsImpl
   private async *listByResourcePagingPage(
     resourceGroupName: string,
     name: string,
-    options?: MhsmPrivateEndpointConnectionsListByResourceOptionalParams
+    options?: MhsmPrivateEndpointConnectionsListByResourceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<MhsmPrivateEndpointConnection[]> {
-    let result = await this._listByResource(resourceGroupName, name, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: MhsmPrivateEndpointConnectionsListByResourceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResource(resourceGroupName, name, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceNext(
         resourceGroupName,
@@ -84,7 +104,9 @@ export class MhsmPrivateEndpointConnectionsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -182,8 +204,8 @@ export class MhsmPrivateEndpointConnectionsImpl
     privateEndpointConnectionName: string,
     options?: MhsmPrivateEndpointConnectionsDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MhsmPrivateEndpointConnectionsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<MhsmPrivateEndpointConnectionsDeleteResponse>,
       MhsmPrivateEndpointConnectionsDeleteResponse
     >
   > {
@@ -193,7 +215,7 @@ export class MhsmPrivateEndpointConnectionsImpl
     ): Promise<MhsmPrivateEndpointConnectionsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -226,13 +248,16 @@ export class MhsmPrivateEndpointConnectionsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, name, privateEndpointConnectionName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, name, privateEndpointConnectionName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MhsmPrivateEndpointConnectionsDeleteResponse,
+      OperationState<MhsmPrivateEndpointConnectionsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -301,7 +326,7 @@ const listByResourceOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name
+    Parameters.name1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -324,7 +349,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateEndpointConnectionName,
-    Parameters.name
+    Parameters.name1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -349,7 +374,7 @@ const putOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateEndpointConnectionName,
-    Parameters.name
+    Parameters.name1
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -382,7 +407,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateEndpointConnectionName,
-    Parameters.name
+    Parameters.name1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -398,13 +423,12 @@ const listByResourceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ManagedHsmError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.name
+    Parameters.name1
   ],
   headerParameters: [Parameters.accept],
   serializer

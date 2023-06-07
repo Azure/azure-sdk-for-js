@@ -74,7 +74,7 @@ export interface Resource {
 }
 
 /** Azure Data Catalog. */
-export type ADCCatalog = Resource & {
+export interface ADCCatalog extends Resource {
   /** Azure data catalog SKU. */
   sku?: SkuType;
   /** Azure data catalog units. */
@@ -87,11 +87,13 @@ export type ADCCatalog = Resource & {
   successfullyProvisioned?: boolean;
   /** Automatic unit adjustment enabled or not. */
   enableAutomaticUnitAdjustment?: boolean;
-};
+}
 
 /** Known values of {@link SkuType} that the service accepts. */
 export enum KnownSkuType {
+  /** Free */
   Free = "Free",
+  /** Standard */
   Standard = "Standard"
 }
 

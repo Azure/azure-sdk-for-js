@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ThreatIntelligenceIndicator } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,6 +18,7 @@ import {
   ThreatIntelligenceFilteringCriteria,
   ThreatIntelligenceIndicatorQueryIndicatorsNextOptionalParams,
   ThreatIntelligenceIndicatorQueryIndicatorsOptionalParams,
+  ThreatIntelligenceIndicatorQueryIndicatorsResponse,
   ThreatIntelligenceIndicatorModel,
   ThreatIntelligenceIndicatorCreateIndicatorOptionalParams,
   ThreatIntelligenceIndicatorCreateIndicatorResponse,
@@ -25,7 +27,6 @@ import {
   ThreatIntelligenceIndicatorCreateOptionalParams,
   ThreatIntelligenceIndicatorCreateResponse,
   ThreatIntelligenceIndicatorDeleteOptionalParams,
-  ThreatIntelligenceIndicatorQueryIndicatorsResponse,
   ThreatIntelligenceAppendTags,
   ThreatIntelligenceIndicatorAppendTagsOptionalParams,
   ThreatIntelligenceIndicatorReplaceTagsOptionalParams,
@@ -74,12 +75,16 @@ export class ThreatIntelligenceIndicatorImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.queryIndicatorsPagingPage(
           resourceGroupName,
           workspaceName,
           threatIntelligenceFilteringCriteria,
-          options
+          options,
+          settings
         );
       }
     };
@@ -89,16 +94,23 @@ export class ThreatIntelligenceIndicatorImpl
     resourceGroupName: string,
     workspaceName: string,
     threatIntelligenceFilteringCriteria: ThreatIntelligenceFilteringCriteria,
-    options?: ThreatIntelligenceIndicatorQueryIndicatorsOptionalParams
+    options?: ThreatIntelligenceIndicatorQueryIndicatorsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ThreatIntelligenceInformationUnion[]> {
-    let result = await this._queryIndicators(
-      resourceGroupName,
-      workspaceName,
-      threatIntelligenceFilteringCriteria,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ThreatIntelligenceIndicatorQueryIndicatorsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._queryIndicators(
+        resourceGroupName,
+        workspaceName,
+        threatIntelligenceFilteringCriteria,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._queryIndicatorsNext(
         resourceGroupName,
@@ -108,7 +120,9 @@ export class ThreatIntelligenceIndicatorImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -512,7 +526,6 @@ const queryIndicatorsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

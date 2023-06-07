@@ -6,24 +6,29 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { VirtualHubRouteTableV2S } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   VirtualHubRouteTableV2,
   VirtualHubRouteTableV2SListNextOptionalParams,
   VirtualHubRouteTableV2SListOptionalParams,
+  VirtualHubRouteTableV2SListResponse,
   VirtualHubRouteTableV2SGetOptionalParams,
   VirtualHubRouteTableV2SGetResponse,
   VirtualHubRouteTableV2SCreateOrUpdateOptionalParams,
   VirtualHubRouteTableV2SCreateOrUpdateResponse,
   VirtualHubRouteTableV2SDeleteOptionalParams,
-  VirtualHubRouteTableV2SListResponse,
   VirtualHubRouteTableV2SListNextResponse
 } from "../models";
 
@@ -59,8 +64,16 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, virtualHubName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          virtualHubName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -68,11 +81,18 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
   private async *listPagingPage(
     resourceGroupName: string,
     virtualHubName: string,
-    options?: VirtualHubRouteTableV2SListOptionalParams
+    options?: VirtualHubRouteTableV2SListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<VirtualHubRouteTableV2[]> {
-    let result = await this._list(resourceGroupName, virtualHubName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VirtualHubRouteTableV2SListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, virtualHubName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -81,7 +101,9 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -135,8 +157,8 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
     virtualHubRouteTableV2Parameters: VirtualHubRouteTableV2,
     options?: VirtualHubRouteTableV2SCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualHubRouteTableV2SCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualHubRouteTableV2SCreateOrUpdateResponse>,
       VirtualHubRouteTableV2SCreateOrUpdateResponse
     >
   > {
@@ -146,7 +168,7 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
     ): Promise<VirtualHubRouteTableV2SCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -179,21 +201,24 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         virtualHubName,
         routeTableName,
         virtualHubRouteTableV2Parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VirtualHubRouteTableV2SCreateOrUpdateResponse,
+      OperationState<VirtualHubRouteTableV2SCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -238,14 +263,14 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
     virtualHubName: string,
     routeTableName: string,
     options?: VirtualHubRouteTableV2SDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -278,15 +303,15 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, virtualHubName, routeTableName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, virtualHubName, routeTableName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -467,7 +492,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

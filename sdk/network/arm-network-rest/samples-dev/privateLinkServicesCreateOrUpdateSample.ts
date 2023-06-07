@@ -38,16 +38,14 @@ async function createPrivateLinkService() {
               privateIPAddressVersion: "IPv4",
               privateIPAllocationMethod: "Static",
               subnet: {
-                id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb",
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb",
               },
             },
           },
         ],
         loadBalancerFrontendIpConfigurations: [
           {
-            id:
-              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
+            id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
           },
         ],
         visibility: {

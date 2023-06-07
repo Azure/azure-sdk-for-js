@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Pool,
   PoolsListByProjectOptionalParams,
@@ -18,7 +18,8 @@ import {
   PoolUpdate,
   PoolsUpdateOptionalParams,
   PoolsUpdateResponse,
-  PoolsDeleteOptionalParams
+  PoolsDeleteOptionalParams,
+  PoolsRunHealthChecksOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +27,7 @@ import {
 export interface Pools {
   /**
    * Lists pools for a project
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
@@ -37,7 +38,7 @@ export interface Pools {
   ): PagedAsyncIterableIterator<Pool>;
   /**
    * Gets a machine pool
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param options The options parameters.
@@ -50,7 +51,7 @@ export interface Pools {
   ): Promise<PoolsGetResponse>;
   /**
    * Creates or updates a machine pool
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param body Represents a machine pool
@@ -63,14 +64,14 @@ export interface Pools {
     body: Pool,
     options?: PoolsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PoolsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PoolsCreateOrUpdateResponse>,
       PoolsCreateOrUpdateResponse
     >
   >;
   /**
    * Creates or updates a machine pool
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param body Represents a machine pool
@@ -85,7 +86,7 @@ export interface Pools {
   ): Promise<PoolsCreateOrUpdateResponse>;
   /**
    * Partially updates a machine pool
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param body Represents a machine pool
@@ -98,11 +99,11 @@ export interface Pools {
     body: PoolUpdate,
     options?: PoolsUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<PoolsUpdateResponse>, PoolsUpdateResponse>
+    SimplePollerLike<OperationState<PoolsUpdateResponse>, PoolsUpdateResponse>
   >;
   /**
    * Partially updates a machine pool
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param body Represents a machine pool
@@ -117,7 +118,7 @@ export interface Pools {
   ): Promise<PoolsUpdateResponse>;
   /**
    * Deletes a machine pool
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param options The options parameters.
@@ -127,10 +128,10 @@ export interface Pools {
     projectName: string,
     poolName: string,
     options?: PoolsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a machine pool
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param poolName Name of the pool.
    * @param options The options parameters.
@@ -140,5 +141,31 @@ export interface Pools {
     projectName: string,
     poolName: string,
     options?: PoolsDeleteOptionalParams
+  ): Promise<void>;
+  /**
+   * Triggers a refresh of the pool status.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param poolName Name of the pool.
+   * @param options The options parameters.
+   */
+  beginRunHealthChecks(
+    resourceGroupName: string,
+    projectName: string,
+    poolName: string,
+    options?: PoolsRunHealthChecksOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Triggers a refresh of the pool status.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param poolName Name of the pool.
+   * @param options The options parameters.
+   */
+  beginRunHealthChecksAndWait(
+    resourceGroupName: string,
+    projectName: string,
+    poolName: string,
+    options?: PoolsRunHealthChecksOptionalParams
   ): Promise<void>;
 }

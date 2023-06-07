@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { LabServicesClient } = require("@azure/arm-labservices");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets an image resource.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/labservices/resource-manager/Microsoft.LabServices/stable/2022-08-01/examples/Images/getImage.json
  */
 async function getImage() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = "testrg123";
+  const subscriptionId =
+    process.env["LABSERVICES_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName = process.env["LABSERVICES_RESOURCE_GROUP"] || "testrg123";
   const labPlanName = "testlabplan";
   const imageName = "image1";
   const credential = new DefaultAzureCredential();
@@ -28,4 +30,8 @@ async function getImage() {
   console.log(result);
 }
 
-getImage().catch(console.error);
+async function main() {
+  getImage();
+}
+
+main().catch(console.error);

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   HubIpConfiguration,
   VirtualHubIpConfigurationListOptionalParams,
@@ -61,8 +61,8 @@ export interface VirtualHubIpConfiguration {
     parameters: HubIpConfiguration,
     options?: VirtualHubIpConfigurationCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualHubIpConfigurationCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualHubIpConfigurationCreateOrUpdateResponse>,
       VirtualHubIpConfigurationCreateOrUpdateResponse
     >
   >;
@@ -94,7 +94,7 @@ export interface VirtualHubIpConfiguration {
     virtualHubName: string,
     ipConfigName: string,
     options?: VirtualHubIpConfigurationDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a VirtualHubIpConfiguration.
    * @param resourceGroupName The resource group name of the VirtualHubBgpConnection.

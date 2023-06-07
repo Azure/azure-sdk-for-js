@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import sinon from "sinon";
+import * as sinon from "sinon";
 import {
   PipelineResponse,
   SendRequest,
   createHttpHeaders,
   createPipelineRequest,
   formDataPolicy,
-} from "../../src/index.js";
+} from "../../src";
 
 describe("formDataPolicy", function () {
   afterEach(function () {

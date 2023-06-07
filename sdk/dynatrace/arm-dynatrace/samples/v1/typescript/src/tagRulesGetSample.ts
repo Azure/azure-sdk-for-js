@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { DynatraceObservability } from "@azure/arm-dynatrace";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get a TagRule
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2021-09-01/examples/TagRules_Get_MaximumSet_Gen.json
  */
 async function tagRulesGetMaximumSetGen() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["DYNATRACE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["DYNATRACE_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const ruleSetName = "default";
   const credential = new DefaultAzureCredential();
@@ -31,8 +37,6 @@ async function tagRulesGetMaximumSetGen() {
   );
   console.log(result);
 }
-
-tagRulesGetMaximumSetGen().catch(console.error);
 
 /**
  * This sample demonstrates how to Get a TagRule
@@ -41,8 +45,11 @@ tagRulesGetMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2021-09-01/examples/TagRules_Get_MinimumSet_Gen.json
  */
 async function tagRulesGetMinimumSetGen() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["DYNATRACE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["DYNATRACE_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const ruleSetName = "default";
   const credential = new DefaultAzureCredential();
@@ -55,4 +62,9 @@ async function tagRulesGetMinimumSetGen() {
   console.log(result);
 }
 
-tagRulesGetMinimumSetGen().catch(console.error);
+async function main() {
+  tagRulesGetMaximumSetGen();
+  tagRulesGetMinimumSetGen();
+}
+
+main().catch(console.error);

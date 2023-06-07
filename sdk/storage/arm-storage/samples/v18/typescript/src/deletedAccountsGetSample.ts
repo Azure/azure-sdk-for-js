@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Get properties of specified deleted account resource.
  *
  * @summary Get properties of specified deleted account resource.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-05-01/examples/DeletedAccountGet.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/DeletedAccountGet.json
  */
 async function deletedAccountGet() {
   const subscriptionId = "{subscription-id}";

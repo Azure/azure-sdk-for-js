@@ -196,7 +196,7 @@ const countOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.indexName],
-  headerParameters: [Parameters.accept, Parameters.xMsClientRequestId],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const searchGetOperationSpec: coreClient.OperationSpec = {
@@ -239,7 +239,7 @@ const searchGetOperationSpec: coreClient.OperationSpec = {
     Parameters.semanticFields
   ],
   urlParameters: [Parameters.endpoint, Parameters.indexName],
-  headerParameters: [Parameters.accept, Parameters.xMsClientRequestId],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const searchPostOperationSpec: coreClient.OperationSpec = {
@@ -256,11 +256,7 @@ const searchPostOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.searchRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.indexName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.xMsClientRequestId,
-    Parameters.contentType
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -279,7 +275,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion, Parameters.selectedFields],
   urlParameters: [Parameters.endpoint, Parameters.indexName, Parameters.key],
-  headerParameters: [Parameters.accept, Parameters.xMsClientRequestId],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const suggestGetOperationSpec: coreClient.OperationSpec = {
@@ -308,7 +304,7 @@ const suggestGetOperationSpec: coreClient.OperationSpec = {
     Parameters.top1
   ],
   urlParameters: [Parameters.endpoint, Parameters.indexName],
-  headerParameters: [Parameters.accept, Parameters.xMsClientRequestId],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const suggestPostOperationSpec: coreClient.OperationSpec = {
@@ -325,11 +321,7 @@ const suggestPostOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.suggestRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.indexName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.xMsClientRequestId,
-    Parameters.contentType
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -350,11 +342,7 @@ const indexOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.batch,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.indexName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.xMsClientRequestId,
-    Parameters.contentType
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -383,7 +371,7 @@ const autocompleteGetOperationSpec: coreClient.OperationSpec = {
     Parameters.top2
   ],
   urlParameters: [Parameters.endpoint, Parameters.indexName],
-  headerParameters: [Parameters.accept, Parameters.xMsClientRequestId],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const autocompletePostOperationSpec: coreClient.OperationSpec = {
@@ -400,11 +388,7 @@ const autocompletePostOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.autocompleteRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.indexName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.xMsClientRequestId,
-    Parameters.contentType
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };

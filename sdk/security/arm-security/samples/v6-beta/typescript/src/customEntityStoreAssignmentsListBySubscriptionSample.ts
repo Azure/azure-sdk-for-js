@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to List custom entity store assignments by provided subscription
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2021-07-01-preview/examples/CustomEntityStoreAssignments/customEntityStoreAssignmentListBySubscription_example.json
  */
 async function listCustomEntityStoreAssignmentsInASubscription() {
-  const subscriptionId = "e5d1b86c-3051-44d5-8802-aa65d45a279b";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] ||
+    "e5d1b86c-3051-44d5-8802-aa65d45a279b";
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +33,8 @@ async function listCustomEntityStoreAssignmentsInASubscription() {
   console.log(resArray);
 }
 
-listCustomEntityStoreAssignmentsInASubscription().catch(console.error);
+async function main() {
+  listCustomEntityStoreAssignmentsInASubscription();
+}
+
+main().catch(console.error);

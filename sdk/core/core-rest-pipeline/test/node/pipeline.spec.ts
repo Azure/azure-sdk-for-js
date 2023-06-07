@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import http from "https";
-import https from "https";
+import * as http from "https";
+import * as https from "https";
 
-import { proxyPolicy, proxyPolicyName } from "../../src/policies/proxyPolicy.js";
-import { tlsPolicy, tlsPolicyName } from "../../src/policies/tlsPolicy.js";
+import { proxyPolicy, proxyPolicyName } from "../../src/policies/proxyPolicy";
+import { tlsPolicy, tlsPolicyName } from "../../src/policies/tlsPolicy";
 
-import { HttpClient } from "../../src/interfaces.js";
-import httpsPA from "https-proxy-agent";
-const { HttpsProxyAgent } = httpsPA;
+import { HttpClient } from "../../src/interfaces";
+import { HttpsProxyAgent } from "https-proxy-agent";
 import { assert } from "chai";
-import { createEmptyPipeline } from "../../src/pipeline.js";
-import { createHttpHeaders } from "../../src/httpHeaders.js";
-import { createNodeHttpClient } from "../../src/nodeHttpClient.js";
-import { createPipelineFromOptions } from "../../src/createPipelineFromOptions.js";
+import { createEmptyPipeline } from "../../src/pipeline";
+import { createHttpHeaders } from "../../src/httpHeaders";
+import { createNodeHttpClient } from "../../src/nodeHttpClient";
+import { createPipelineFromOptions } from "../../src/createPipelineFromOptions";
 import sinon from "sinon";
 
 describe("HttpsPipeline", function () {

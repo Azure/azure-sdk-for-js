@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.1 (Unreleased)
+## 2.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,18 @@
 
 ### Other Changes
 
+## 2.1.0 (2022-12-19)
+    
+**Features**
+
+  - Interface ProviderOperationsMetadataListNextOptionalParams no longer has parameter expand
+  - Interface RoleAssignmentsListForResourceGroupNextOptionalParams no longer has parameter filter
+  - Interface RoleAssignmentsListForResourceNextOptionalParams no longer has parameter filter
+  - Interface RoleAssignmentsListForScopeNextOptionalParams no longer has parameter filter
+  - Interface RoleAssignmentsListNextOptionalParams no longer has parameter filter
+  - Interface RoleDefinitionsListNextOptionalParams no longer has parameter filter
+    
+    
 ## 2.0.0 (2022-03-10)
 
 The package of @azure/arm-authorization-profile-2020-09-01-hybrid is using our next generation design principles since version 2.0.0, which contains breaking changes.

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { DnsForwardingRulesets } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,11 +19,14 @@ import {
   DnsForwardingRuleset,
   DnsForwardingRulesetsListByResourceGroupNextOptionalParams,
   DnsForwardingRulesetsListByResourceGroupOptionalParams,
+  DnsForwardingRulesetsListByResourceGroupResponse,
   DnsForwardingRulesetsListNextOptionalParams,
   DnsForwardingRulesetsListOptionalParams,
+  DnsForwardingRulesetsListResponse,
   VirtualNetworkDnsForwardingRuleset,
   DnsForwardingRulesetsListByVirtualNetworkNextOptionalParams,
   DnsForwardingRulesetsListByVirtualNetworkOptionalParams,
+  DnsForwardingRulesetsListByVirtualNetworkResponse,
   DnsForwardingRulesetsCreateOrUpdateOptionalParams,
   DnsForwardingRulesetsCreateOrUpdateResponse,
   DnsForwardingRulesetPatch,
@@ -31,9 +35,6 @@ import {
   DnsForwardingRulesetsDeleteOptionalParams,
   DnsForwardingRulesetsGetOptionalParams,
   DnsForwardingRulesetsGetResponse,
-  DnsForwardingRulesetsListByResourceGroupResponse,
-  DnsForwardingRulesetsListResponse,
-  DnsForwardingRulesetsListByVirtualNetworkResponse,
   DnsForwardingRulesetsListByResourceGroupNextResponse,
   DnsForwardingRulesetsListNextResponse,
   DnsForwardingRulesetsListByVirtualNetworkNextResponse
@@ -69,19 +70,33 @@ export class DnsForwardingRulesetsImpl implements DnsForwardingRulesets {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: DnsForwardingRulesetsListByResourceGroupOptionalParams
+    options?: DnsForwardingRulesetsListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DnsForwardingRuleset[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DnsForwardingRulesetsListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -89,7 +104,9 @@ export class DnsForwardingRulesetsImpl implements DnsForwardingRulesets {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -120,22 +137,34 @@ export class DnsForwardingRulesetsImpl implements DnsForwardingRulesets {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: DnsForwardingRulesetsListOptionalParams
+    options?: DnsForwardingRulesetsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DnsForwardingRuleset[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DnsForwardingRulesetsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -170,11 +199,15 @@ export class DnsForwardingRulesetsImpl implements DnsForwardingRulesets {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByVirtualNetworkPagingPage(
           resourceGroupName,
           virtualNetworkName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -183,15 +216,22 @@ export class DnsForwardingRulesetsImpl implements DnsForwardingRulesets {
   private async *listByVirtualNetworkPagingPage(
     resourceGroupName: string,
     virtualNetworkName: string,
-    options?: DnsForwardingRulesetsListByVirtualNetworkOptionalParams
+    options?: DnsForwardingRulesetsListByVirtualNetworkOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<VirtualNetworkDnsForwardingRuleset[]> {
-    let result = await this._listByVirtualNetwork(
-      resourceGroupName,
-      virtualNetworkName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DnsForwardingRulesetsListByVirtualNetworkResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByVirtualNetwork(
+        resourceGroupName,
+        virtualNetworkName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByVirtualNetworkNext(
         resourceGroupName,
@@ -200,7 +240,9 @@ export class DnsForwardingRulesetsImpl implements DnsForwardingRulesets {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -790,7 +832,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -811,7 +852,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -831,7 +871,6 @@ const listByVirtualNetworkNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

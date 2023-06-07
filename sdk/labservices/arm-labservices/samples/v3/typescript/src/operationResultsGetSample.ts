@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { LabServicesClient } from "@azure/arm-labservices";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Returns an azure operation result.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/labservices/resource-manager/Microsoft.LabServices/stable/2022-08-01/examples/OperationResults/getOperationResult.json
  */
 async function getOperationResult() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const subscriptionId =
+    process.env["LABSERVICES_SUBSCRIPTION_ID"] ||
+    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const operationResultId = "a64149d8-84cb-4566-ab8e-b4ee1a074174";
   const credential = new DefaultAzureCredential();
   const client = new LabServicesClient(credential, subscriptionId);
@@ -26,4 +31,8 @@ async function getOperationResult() {
   console.log(result);
 }
 
-getOperationResult().catch(console.error);
+async function main() {
+  getOperationResult();
+}
+
+main().catch(console.error);

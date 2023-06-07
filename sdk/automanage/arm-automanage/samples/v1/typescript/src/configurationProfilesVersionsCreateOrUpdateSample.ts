@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ConfigurationProfile, AutomanageClient } from "@azure/arm-automanage";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates a configuration profile version
@@ -18,10 +21,12 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/createOrUpdateConfigurationProfileVersion.json
  */
 async function createOrUpdateConfigurationProfileVersion() {
-  const subscriptionId = "mySubscriptionId";
+  const subscriptionId =
+    process.env["AUTOMANAGE_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const configurationProfileName = "customConfigurationProfile";
   const versionName = "version1";
-  const resourceGroupName = "myResourceGroupName";
+  const resourceGroupName =
+    process.env["AUTOMANAGE_RESOURCE_GROUP"] || "myResourceGroupName";
   const parameters: ConfigurationProfile = {
     location: "East US",
     properties: {
@@ -50,4 +55,8 @@ async function createOrUpdateConfigurationProfileVersion() {
   console.log(result);
 }
 
-createOrUpdateConfigurationProfileVersion().catch(console.error);
+async function main() {
+  createOrUpdateConfigurationProfileVersion();
+}
+
+main().catch(console.error);

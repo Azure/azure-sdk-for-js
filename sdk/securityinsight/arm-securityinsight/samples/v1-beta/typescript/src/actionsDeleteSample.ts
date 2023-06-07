@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Delete the action of alert rule.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/actions/DeleteActionOfAlertRule.json
  */
 async function deleteAnActionOfAlertRule() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const ruleId = "73e01a99-5cd7-4139-a149-9f2736ff2ab5";
   const actionId = "912bec42-cb66-4c03-ac63-1761b6898c3e";
@@ -34,4 +40,8 @@ async function deleteAnActionOfAlertRule() {
   console.log(result);
 }
 
-deleteAnActionOfAlertRule().catch(console.error);
+async function main() {
+  deleteAnActionOfAlertRule();
+}
+
+main().catch(console.error);

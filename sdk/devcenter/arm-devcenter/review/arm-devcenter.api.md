@@ -6,16 +6,16 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type ActionType = string;
 
 // @public
 export interface AllowedEnvironmentType extends Resource {
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -30,7 +30,7 @@ export interface AttachedNetworkConnection extends Resource {
     readonly healthCheckStatus?: HealthCheckStatus;
     networkConnectionId?: string;
     readonly networkConnectionLocation?: string;
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -41,9 +41,9 @@ export interface AttachedNetworkListResult {
 
 // @public
 export interface AttachedNetworks {
-    beginCreateOrUpdate(resourceGroupName: string, devCenterName: string, attachedNetworkConnectionName: string, body: AttachedNetworkConnection, options?: AttachedNetworksCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<AttachedNetworksCreateOrUpdateResponse>, AttachedNetworksCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, devCenterName: string, attachedNetworkConnectionName: string, body: AttachedNetworkConnection, options?: AttachedNetworksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AttachedNetworksCreateOrUpdateResponse>, AttachedNetworksCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, devCenterName: string, attachedNetworkConnectionName: string, body: AttachedNetworkConnection, options?: AttachedNetworksCreateOrUpdateOptionalParams): Promise<AttachedNetworksCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, devCenterName: string, attachedNetworkConnectionName: string, options?: AttachedNetworksDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, devCenterName: string, attachedNetworkConnectionName: string, options?: AttachedNetworksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, devCenterName: string, attachedNetworkConnectionName: string, options?: AttachedNetworksDeleteOptionalParams): Promise<void>;
     getByDevCenter(resourceGroupName: string, devCenterName: string, attachedNetworkConnectionName: string, options?: AttachedNetworksGetByDevCenterOptionalParams): Promise<AttachedNetworksGetByDevCenterResponse>;
     getByProject(resourceGroupName: string, projectName: string, attachedNetworkConnectionName: string, options?: AttachedNetworksGetByProjectOptionalParams): Promise<AttachedNetworksGetByProjectResponse>;
@@ -82,7 +82,6 @@ export type AttachedNetworksGetByProjectResponse = AttachedNetworkConnection;
 
 // @public
 export interface AttachedNetworksListByDevCenterNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -98,7 +97,6 @@ export type AttachedNetworksListByDevCenterResponse = AttachedNetworkListResult;
 
 // @public
 export interface AttachedNetworksListByProjectNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -123,7 +121,8 @@ export interface Catalog extends Resource {
     adoGit?: GitCatalog;
     gitHub?: GitCatalog;
     readonly lastSyncTime?: Date;
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly syncState?: CatalogSyncState;
 }
 
 // @public
@@ -135,18 +134,19 @@ export interface CatalogListResult {
 // @public
 export interface CatalogProperties extends CatalogUpdateProperties {
     readonly lastSyncTime?: Date;
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly syncState?: CatalogSyncState;
 }
 
 // @public
 export interface Catalogs {
-    beginCreateOrUpdate(resourceGroupName: string, devCenterName: string, catalogName: string, body: Catalog, options?: CatalogsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<CatalogsCreateOrUpdateResponse>, CatalogsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, devCenterName: string, catalogName: string, body: Catalog, options?: CatalogsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CatalogsCreateOrUpdateResponse>, CatalogsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, devCenterName: string, catalogName: string, body: Catalog, options?: CatalogsCreateOrUpdateOptionalParams): Promise<CatalogsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, devCenterName: string, catalogName: string, options?: CatalogsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, devCenterName: string, catalogName: string, options?: CatalogsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, devCenterName: string, catalogName: string, options?: CatalogsDeleteOptionalParams): Promise<void>;
-    beginSync(resourceGroupName: string, devCenterName: string, catalogName: string, options?: CatalogsSyncOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginSync(resourceGroupName: string, devCenterName: string, catalogName: string, options?: CatalogsSyncOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginSyncAndWait(resourceGroupName: string, devCenterName: string, catalogName: string, options?: CatalogsSyncOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, devCenterName: string, catalogName: string, body: CatalogUpdate, options?: CatalogsUpdateOptionalParams): Promise<PollerLike<PollOperationState<CatalogsUpdateResponse>, CatalogsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, devCenterName: string, catalogName: string, body: CatalogUpdate, options?: CatalogsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CatalogsUpdateResponse>, CatalogsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, devCenterName: string, catalogName: string, body: CatalogUpdate, options?: CatalogsUpdateOptionalParams): Promise<CatalogsUpdateResponse>;
     get(resourceGroupName: string, devCenterName: string, catalogName: string, options?: CatalogsGetOptionalParams): Promise<CatalogsGetResponse>;
     listByDevCenter(resourceGroupName: string, devCenterName: string, options?: CatalogsListByDevCenterOptionalParams): PagedAsyncIterableIterator<Catalog>;
@@ -176,7 +176,6 @@ export type CatalogsGetResponse = Catalog;
 
 // @public
 export interface CatalogsListByDevCenterNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -206,6 +205,9 @@ export interface CatalogsUpdateOptionalParams extends coreClient.OperationOption
 export type CatalogsUpdateResponse = Catalog;
 
 // @public
+export type CatalogSyncState = string;
+
+// @public
 export interface CatalogUpdate {
     adoGit?: GitCatalog;
     gitHub?: GitCatalog;
@@ -218,6 +220,34 @@ export interface CatalogUpdate {
 export interface CatalogUpdateProperties {
     adoGit?: GitCatalog;
     gitHub?: GitCatalog;
+}
+
+// @public
+export interface CheckNameAvailability {
+    execute(nameAvailabilityRequest: CheckNameAvailabilityRequest, options?: CheckNameAvailabilityExecuteOptionalParams): Promise<CheckNameAvailabilityExecuteResponse>;
+}
+
+// @public
+export interface CheckNameAvailabilityExecuteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CheckNameAvailabilityExecuteResponse = CheckNameAvailabilityResponse;
+
+// @public
+export type CheckNameAvailabilityReason = string;
+
+// @public
+export interface CheckNameAvailabilityRequest {
+    name?: string;
+    type?: string;
+}
+
+// @public
+export interface CheckNameAvailabilityResponse {
+    message?: string;
+    nameAvailable?: boolean;
+    reason?: CheckNameAvailabilityReason;
 }
 
 // @public
@@ -239,11 +269,12 @@ export type CreatedByType = string;
 // @public
 export interface DevBoxDefinition extends TrackedResource {
     readonly activeImageReference?: ImageReference;
+    hibernateSupport?: HibernateSupport;
     imageReference?: ImageReference;
     readonly imageValidationErrorDetails?: ImageValidationErrorDetails;
     readonly imageValidationStatus?: ImageValidationStatus;
     osStorageType?: string;
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
     sku?: Sku;
 }
 
@@ -258,16 +289,16 @@ export interface DevBoxDefinitionProperties extends DevBoxDefinitionUpdateProper
     readonly activeImageReference?: ImageReference;
     readonly imageValidationErrorDetails?: ImageValidationErrorDetails;
     readonly imageValidationStatus?: ImageValidationStatus;
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
 export interface DevBoxDefinitions {
-    beginCreateOrUpdate(resourceGroupName: string, devCenterName: string, devBoxDefinitionName: string, body: DevBoxDefinition, options?: DevBoxDefinitionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DevBoxDefinitionsCreateOrUpdateResponse>, DevBoxDefinitionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, devCenterName: string, devBoxDefinitionName: string, body: DevBoxDefinition, options?: DevBoxDefinitionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DevBoxDefinitionsCreateOrUpdateResponse>, DevBoxDefinitionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, devCenterName: string, devBoxDefinitionName: string, body: DevBoxDefinition, options?: DevBoxDefinitionsCreateOrUpdateOptionalParams): Promise<DevBoxDefinitionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, devCenterName: string, devBoxDefinitionName: string, options?: DevBoxDefinitionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, devCenterName: string, devBoxDefinitionName: string, options?: DevBoxDefinitionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, devCenterName: string, devBoxDefinitionName: string, options?: DevBoxDefinitionsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, devCenterName: string, devBoxDefinitionName: string, body: DevBoxDefinitionUpdate, options?: DevBoxDefinitionsUpdateOptionalParams): Promise<PollerLike<PollOperationState<DevBoxDefinitionsUpdateResponse>, DevBoxDefinitionsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, devCenterName: string, devBoxDefinitionName: string, body: DevBoxDefinitionUpdate, options?: DevBoxDefinitionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DevBoxDefinitionsUpdateResponse>, DevBoxDefinitionsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, devCenterName: string, devBoxDefinitionName: string, body: DevBoxDefinitionUpdate, options?: DevBoxDefinitionsUpdateOptionalParams): Promise<DevBoxDefinitionsUpdateResponse>;
     get(resourceGroupName: string, devCenterName: string, devBoxDefinitionName: string, options?: DevBoxDefinitionsGetOptionalParams): Promise<DevBoxDefinitionsGetResponse>;
     getByProject(resourceGroupName: string, projectName: string, devBoxDefinitionName: string, options?: DevBoxDefinitionsGetByProjectOptionalParams): Promise<DevBoxDefinitionsGetByProjectResponse>;
@@ -306,7 +337,6 @@ export type DevBoxDefinitionsGetResponse = DevBoxDefinition;
 
 // @public
 export interface DevBoxDefinitionsListByDevCenterNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -322,7 +352,6 @@ export type DevBoxDefinitionsListByDevCenterResponse = DevBoxDefinitionListResul
 
 // @public
 export interface DevBoxDefinitionsListByProjectNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -347,6 +376,7 @@ export type DevBoxDefinitionsUpdateResponse = DevBoxDefinition;
 
 // @public
 export interface DevBoxDefinitionUpdate extends TrackedResourceUpdate {
+    hibernateSupport?: HibernateSupport;
     imageReference?: ImageReference;
     osStorageType?: string;
     sku?: Sku;
@@ -354,6 +384,7 @@ export interface DevBoxDefinitionUpdate extends TrackedResourceUpdate {
 
 // @public
 export interface DevBoxDefinitionUpdateProperties {
+    hibernateSupport?: HibernateSupport;
     imageReference?: ImageReference;
     osStorageType?: string;
     sku?: Sku;
@@ -361,8 +392,9 @@ export interface DevBoxDefinitionUpdateProperties {
 
 // @public
 export interface DevCenter extends TrackedResource {
+    readonly devCenterUri?: string;
     identity?: ManagedServiceIdentity;
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public (undocumented)
@@ -376,6 +408,8 @@ export class DevCenterClient extends coreClient.ServiceClient {
     attachedNetworks: AttachedNetworks;
     // (undocumented)
     catalogs: Catalogs;
+    // (undocumented)
+    checkNameAvailability: CheckNameAvailability;
     // (undocumented)
     devBoxDefinitions: DevBoxDefinitions;
     // (undocumented)
@@ -427,11 +461,11 @@ export interface DevCenterListResult {
 
 // @public
 export interface DevCenters {
-    beginCreateOrUpdate(resourceGroupName: string, devCenterName: string, body: DevCenter, options?: DevCentersCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DevCentersCreateOrUpdateResponse>, DevCentersCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, devCenterName: string, body: DevCenter, options?: DevCentersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DevCentersCreateOrUpdateResponse>, DevCentersCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, devCenterName: string, body: DevCenter, options?: DevCentersCreateOrUpdateOptionalParams): Promise<DevCentersCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, devCenterName: string, options?: DevCentersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, devCenterName: string, options?: DevCentersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, devCenterName: string, options?: DevCentersDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, devCenterName: string, body: DevCenterUpdate, options?: DevCentersUpdateOptionalParams): Promise<PollerLike<PollOperationState<DevCentersUpdateResponse>, DevCentersUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, devCenterName: string, body: DevCenterUpdate, options?: DevCentersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DevCentersUpdateResponse>, DevCentersUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, devCenterName: string, body: DevCenterUpdate, options?: DevCentersUpdateOptionalParams): Promise<DevCentersUpdateResponse>;
     get(resourceGroupName: string, devCenterName: string, options?: DevCentersGetOptionalParams): Promise<DevCentersGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: DevCentersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<DevCenter>;
@@ -469,7 +503,6 @@ export interface DevCenterSku extends Sku {
 
 // @public
 export interface DevCentersListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -485,7 +518,6 @@ export type DevCentersListByResourceGroupResponse = DevCenterListResult;
 
 // @public
 export interface DevCentersListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -517,7 +549,16 @@ export interface DevCenterUpdate extends TrackedResourceUpdate {
 export type DomainJoinType = string;
 
 // @public
-export type EnableStatus = string;
+export interface EndpointDependency {
+    readonly description?: string;
+    readonly domainName?: string;
+    readonly endpointDetails?: EndpointDetail[];
+}
+
+// @public
+export interface EndpointDetail {
+    readonly port?: number;
+}
 
 // @public
 export interface EnvironmentRole {
@@ -527,11 +568,14 @@ export interface EnvironmentRole {
 
 // @public
 export interface EnvironmentType extends Resource {
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
     tags?: {
         [propertyName: string]: string;
     };
 }
+
+// @public
+export type EnvironmentTypeEnableStatus = string;
 
 // @public
 export interface EnvironmentTypeListResult {
@@ -568,7 +612,6 @@ export type EnvironmentTypesGetResponse = EnvironmentType;
 
 // @public
 export interface EnvironmentTypesListByDevCenterNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -597,10 +640,30 @@ export interface EnvironmentTypeUpdate {
 }
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface Galleries {
-    beginCreateOrUpdate(resourceGroupName: string, devCenterName: string, galleryName: string, body: Gallery, options?: GalleriesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<GalleriesCreateOrUpdateResponse>, GalleriesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, devCenterName: string, galleryName: string, body: Gallery, options?: GalleriesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleriesCreateOrUpdateResponse>, GalleriesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, devCenterName: string, galleryName: string, body: Gallery, options?: GalleriesCreateOrUpdateOptionalParams): Promise<GalleriesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, devCenterName: string, galleryName: string, options?: GalleriesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, devCenterName: string, galleryName: string, options?: GalleriesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, devCenterName: string, galleryName: string, options?: GalleriesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, devCenterName: string, galleryName: string, options?: GalleriesGetOptionalParams): Promise<GalleriesGetResponse>;
     listByDevCenter(resourceGroupName: string, devCenterName: string, options?: GalleriesListByDevCenterOptionalParams): PagedAsyncIterableIterator<Gallery>;
@@ -630,7 +693,6 @@ export type GalleriesGetResponse = Gallery;
 
 // @public
 export interface GalleriesListByDevCenterNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -647,7 +709,7 @@ export type GalleriesListByDevCenterResponse = GalleryListResult;
 // @public
 export interface Gallery extends Resource {
     galleryResourceId?: string;
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -655,6 +717,9 @@ export interface GalleryListResult {
     readonly nextLink?: string;
     readonly value?: Gallery[];
 }
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface GitCatalog {
@@ -692,10 +757,23 @@ export interface HealthCheckStatusDetailsListResult {
 }
 
 // @public
+export type HealthStatus = string;
+
+// @public
+export interface HealthStatusDetail {
+    readonly code?: string;
+    readonly message?: string;
+}
+
+// @public
+export type HibernateSupport = string;
+
+// @public
 interface Image_2 extends ProxyResource {
     readonly description?: string;
+    readonly hibernateSupport?: HibernateSupport;
     readonly offer?: string;
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
     readonly publisher?: string;
     readonly recommendedMachineConfiguration?: RecommendedMachineConfiguration;
     readonly sku?: string;
@@ -712,9 +790,6 @@ export interface ImageListResult {
 export interface ImageReference {
     readonly exactVersion?: string;
     id?: string;
-    offer?: string;
-    publisher?: string;
-    sku?: string;
 }
 
 // @public
@@ -733,7 +808,6 @@ export type ImagesGetResponse = Image_2;
 
 // @public
 export interface ImagesListByDevCenterNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -749,7 +823,6 @@ export type ImagesListByDevCenterResponse = ImageListResult;
 
 // @public
 export interface ImagesListByGalleryNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -777,7 +850,7 @@ export interface ImageVersion extends ProxyResource {
     readonly excludeFromLatest?: boolean;
     readonly namePropertiesName?: string;
     readonly osDiskImageSizeInGb?: number;
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
     readonly publishedDate?: Date;
 }
 
@@ -820,6 +893,20 @@ export enum KnownActionType {
 }
 
 // @public
+export enum KnownCatalogSyncState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownCheckNameAvailabilityReason {
+    AlreadyExists = "AlreadyExists",
+    Invalid = "Invalid"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -834,7 +921,7 @@ export enum KnownDomainJoinType {
 }
 
 // @public
-export enum KnownEnableStatus {
+export enum KnownEnvironmentTypeEnableStatus {
     Disabled = "Disabled",
     Enabled = "Enabled"
 }
@@ -847,6 +934,21 @@ export enum KnownHealthCheckStatus {
     Running = "Running",
     Unknown = "Unknown",
     Warning = "Warning"
+}
+
+// @public
+export enum KnownHealthStatus {
+    Healthy = "Healthy",
+    Pending = "Pending",
+    Unhealthy = "Unhealthy",
+    Unknown = "Unknown",
+    Warning = "Warning"
+}
+
+// @public
+export enum KnownHibernateSupport {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -885,6 +987,26 @@ export enum KnownOrigin {
 }
 
 // @public
+export enum KnownProvisioningState {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Created = "Created",
+    Creating = "Creating",
+    Deleted = "Deleted",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    MovingResources = "MovingResources",
+    NotSpecified = "NotSpecified",
+    RolloutInProgress = "RolloutInProgress",
+    Running = "Running",
+    StorageProvisioningFailed = "StorageProvisioningFailed",
+    Succeeded = "Succeeded",
+    TransientFailure = "TransientFailure",
+    Updated = "Updated",
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownScheduledFrequency {
     Daily = "Daily"
 }
@@ -892,6 +1014,18 @@ export enum KnownScheduledFrequency {
 // @public
 export enum KnownScheduledType {
     StopDevBox = "StopDevBox"
+}
+
+// @public
+export enum KnownScheduleEnableStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownStopOnDisconnectEnableStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -933,7 +1067,7 @@ export interface NetworkConnection extends TrackedResource {
     readonly healthCheckStatus?: HealthCheckStatus;
     networkingResourceGroupName?: string;
     organizationUnit?: string;
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
     subnetId?: string;
 }
 
@@ -945,18 +1079,20 @@ export interface NetworkConnectionListResult {
 
 // @public
 export interface NetworkConnections {
-    beginCreateOrUpdate(resourceGroupName: string, networkConnectionName: string, body: NetworkConnection, options?: NetworkConnectionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<NetworkConnectionsCreateOrUpdateResponse>, NetworkConnectionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, networkConnectionName: string, body: NetworkConnection, options?: NetworkConnectionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NetworkConnectionsCreateOrUpdateResponse>, NetworkConnectionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, networkConnectionName: string, body: NetworkConnection, options?: NetworkConnectionsCreateOrUpdateOptionalParams): Promise<NetworkConnectionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, networkConnectionName: string, options?: NetworkConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, networkConnectionName: string, options?: NetworkConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, networkConnectionName: string, options?: NetworkConnectionsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, networkConnectionName: string, body: NetworkConnectionUpdate, options?: NetworkConnectionsUpdateOptionalParams): Promise<PollerLike<PollOperationState<NetworkConnectionsUpdateResponse>, NetworkConnectionsUpdateResponse>>;
+    beginRunHealthChecks(resourceGroupName: string, networkConnectionName: string, options?: NetworkConnectionsRunHealthChecksOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginRunHealthChecksAndWait(resourceGroupName: string, networkConnectionName: string, options?: NetworkConnectionsRunHealthChecksOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, networkConnectionName: string, body: NetworkConnectionUpdate, options?: NetworkConnectionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NetworkConnectionsUpdateResponse>, NetworkConnectionsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, networkConnectionName: string, body: NetworkConnectionUpdate, options?: NetworkConnectionsUpdateOptionalParams): Promise<NetworkConnectionsUpdateResponse>;
     get(resourceGroupName: string, networkConnectionName: string, options?: NetworkConnectionsGetOptionalParams): Promise<NetworkConnectionsGetResponse>;
     getHealthDetails(resourceGroupName: string, networkConnectionName: string, options?: NetworkConnectionsGetHealthDetailsOptionalParams): Promise<NetworkConnectionsGetHealthDetailsResponse>;
     listByResourceGroup(resourceGroupName: string, options?: NetworkConnectionsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<NetworkConnection>;
     listBySubscription(options?: NetworkConnectionsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<NetworkConnection>;
     listHealthDetails(resourceGroupName: string, networkConnectionName: string, options?: NetworkConnectionsListHealthDetailsOptionalParams): PagedAsyncIterableIterator<HealthCheckStatusDetails>;
-    runHealthChecks(resourceGroupName: string, networkConnectionName: string, options?: NetworkConnectionsRunHealthChecksOptionalParams): Promise<void>;
+    listOutboundNetworkDependenciesEndpoints(resourceGroupName: string, networkConnectionName: string, options?: NetworkConnectionsListOutboundNetworkDependenciesEndpointsOptionalParams): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
 }
 
 // @public
@@ -990,7 +1126,6 @@ export type NetworkConnectionsGetResponse = NetworkConnection;
 
 // @public
 export interface NetworkConnectionsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -1006,7 +1141,6 @@ export type NetworkConnectionsListByResourceGroupResponse = NetworkConnectionLis
 
 // @public
 export interface NetworkConnectionsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -1022,7 +1156,6 @@ export type NetworkConnectionsListBySubscriptionResponse = NetworkConnectionList
 
 // @public
 export interface NetworkConnectionsListHealthDetailsNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -1037,7 +1170,24 @@ export interface NetworkConnectionsListHealthDetailsOptionalParams extends coreC
 export type NetworkConnectionsListHealthDetailsResponse = HealthCheckStatusDetailsListResult;
 
 // @public
+export interface NetworkConnectionsListOutboundNetworkDependenciesEndpointsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkConnectionsListOutboundNetworkDependenciesEndpointsNextResponse = OutboundEnvironmentEndpointCollection;
+
+// @public
+export interface NetworkConnectionsListOutboundNetworkDependenciesEndpointsOptionalParams extends coreClient.OperationOptions {
+    top?: number;
+}
+
+// @public
+export type NetworkConnectionsListOutboundNetworkDependenciesEndpointsResponse = OutboundEnvironmentEndpointCollection;
+
+// @public
 export interface NetworkConnectionsRunHealthChecksOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1072,7 +1222,7 @@ export interface NetworkProperties extends NetworkConnectionUpdateProperties {
     domainJoinType: DomainJoinType;
     readonly healthCheckStatus?: HealthCheckStatus;
     networkingResourceGroupName?: string;
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -1118,22 +1268,9 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
-export interface OperationStatus {
-    readonly endTime?: Date;
-    error?: OperationStatusError;
-    readonly id?: string;
-    readonly name?: string;
-    readonly percentComplete?: number;
+export interface OperationStatus extends OperationStatusResult {
     readonly properties?: Record<string, unknown>;
     readonly resourceId?: string;
-    readonly startTime?: Date;
-    readonly status?: string;
-}
-
-// @public
-export interface OperationStatusError {
-    readonly code?: string;
-    readonly message?: string;
 }
 
 // @public
@@ -1149,15 +1286,42 @@ export interface OperationStatusesGetOptionalParams extends coreClient.Operation
 export type OperationStatusesGetResponse = OperationStatus;
 
 // @public
+export interface OperationStatusResult {
+    endTime?: Date;
+    error?: ErrorDetail;
+    id?: string;
+    name?: string;
+    operations?: OperationStatusResult[];
+    percentComplete?: number;
+    startTime?: Date;
+    status: string;
+}
+
+// @public
 export type Origin = string;
+
+// @public
+export interface OutboundEnvironmentEndpoint {
+    readonly category?: string;
+    readonly endpoints?: EndpointDependency[];
+}
+
+// @public
+export interface OutboundEnvironmentEndpointCollection {
+    nextLink?: string;
+    readonly value?: OutboundEnvironmentEndpoint[];
+}
 
 // @public
 export interface Pool extends TrackedResource {
     devBoxDefinitionName?: string;
+    readonly healthStatus?: HealthStatus;
+    readonly healthStatusDetails?: HealthStatusDetail[];
     licenseType?: LicenseType;
     localAdministrator?: LocalAdminStatus;
     networkConnectionName?: string;
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
+    stopOnDisconnect?: StopOnDisconnectConfiguration;
 }
 
 // @public
@@ -1168,16 +1332,20 @@ export interface PoolListResult {
 
 // @public
 export interface PoolProperties extends PoolUpdateProperties {
-    readonly provisioningState?: string;
+    readonly healthStatus?: HealthStatus;
+    readonly healthStatusDetails?: HealthStatusDetail[];
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
 export interface Pools {
-    beginCreateOrUpdate(resourceGroupName: string, projectName: string, poolName: string, body: Pool, options?: PoolsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<PoolsCreateOrUpdateResponse>, PoolsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, projectName: string, poolName: string, body: Pool, options?: PoolsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PoolsCreateOrUpdateResponse>, PoolsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, projectName: string, poolName: string, body: Pool, options?: PoolsCreateOrUpdateOptionalParams): Promise<PoolsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, projectName: string, poolName: string, options?: PoolsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, projectName: string, poolName: string, options?: PoolsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, projectName: string, poolName: string, options?: PoolsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, projectName: string, poolName: string, body: PoolUpdate, options?: PoolsUpdateOptionalParams): Promise<PollerLike<PollOperationState<PoolsUpdateResponse>, PoolsUpdateResponse>>;
+    beginRunHealthChecks(resourceGroupName: string, projectName: string, poolName: string, options?: PoolsRunHealthChecksOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginRunHealthChecksAndWait(resourceGroupName: string, projectName: string, poolName: string, options?: PoolsRunHealthChecksOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, projectName: string, poolName: string, body: PoolUpdate, options?: PoolsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PoolsUpdateResponse>, PoolsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, projectName: string, poolName: string, body: PoolUpdate, options?: PoolsUpdateOptionalParams): Promise<PoolsUpdateResponse>;
     get(resourceGroupName: string, projectName: string, poolName: string, options?: PoolsGetOptionalParams): Promise<PoolsGetResponse>;
     listByProject(resourceGroupName: string, projectName: string, options?: PoolsListByProjectOptionalParams): PagedAsyncIterableIterator<Pool>;
@@ -1207,7 +1375,6 @@ export type PoolsGetResponse = Pool;
 
 // @public
 export interface PoolsListByProjectNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -1220,6 +1387,12 @@ export interface PoolsListByProjectOptionalParams extends coreClient.OperationOp
 
 // @public
 export type PoolsListByProjectResponse = PoolListResult;
+
+// @public
+export interface PoolsRunHealthChecksOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface PoolsUpdateOptionalParams extends coreClient.OperationOptions {
@@ -1236,6 +1409,7 @@ export interface PoolUpdate extends TrackedResourceUpdate {
     licenseType?: LicenseType;
     localAdministrator?: LocalAdminStatus;
     networkConnectionName?: string;
+    stopOnDisconnect?: StopOnDisconnectConfiguration;
 }
 
 // @public
@@ -1244,13 +1418,16 @@ export interface PoolUpdateProperties {
     licenseType?: LicenseType;
     localAdministrator?: LocalAdminStatus;
     networkConnectionName?: string;
+    stopOnDisconnect?: StopOnDisconnectConfiguration;
 }
 
 // @public
 export interface Project extends TrackedResource {
     description?: string;
     devCenterId?: string;
-    readonly provisioningState?: string;
+    readonly devCenterUri?: string;
+    maxDevBoxesPerUser?: number;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -1268,7 +1445,6 @@ export type ProjectAllowedEnvironmentTypesGetResponse = AllowedEnvironmentType;
 
 // @public
 export interface ProjectAllowedEnvironmentTypesListNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -1288,8 +1464,8 @@ export interface ProjectEnvironmentType extends Resource {
     deploymentTargetId?: string;
     identity?: ManagedServiceIdentity;
     location?: string;
-    readonly provisioningState?: string;
-    status?: EnableStatus;
+    readonly provisioningState?: ProvisioningState;
+    status?: EnvironmentTypeEnableStatus;
     tags?: {
         [propertyName: string]: string;
     };
@@ -1306,7 +1482,7 @@ export interface ProjectEnvironmentTypeListResult {
 
 // @public
 export interface ProjectEnvironmentTypeProperties extends ProjectEnvironmentTypeUpdateProperties {
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -1338,7 +1514,6 @@ export type ProjectEnvironmentTypesGetResponse = ProjectEnvironmentType;
 
 // @public
 export interface ProjectEnvironmentTypesListNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -1364,7 +1539,7 @@ export interface ProjectEnvironmentTypeUpdate {
     creatorRoleAssignment?: ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment;
     deploymentTargetId?: string;
     identity?: ManagedServiceIdentity;
-    status?: EnableStatus;
+    status?: EnvironmentTypeEnableStatus;
     tags?: {
         [propertyName: string]: string;
     };
@@ -1377,7 +1552,7 @@ export interface ProjectEnvironmentTypeUpdate {
 export interface ProjectEnvironmentTypeUpdateProperties {
     creatorRoleAssignment?: ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment;
     deploymentTargetId?: string;
-    status?: EnableStatus;
+    status?: EnvironmentTypeEnableStatus;
     userRoleAssignments?: {
         [propertyName: string]: UserRoleAssignmentValue;
     };
@@ -1398,16 +1573,17 @@ export interface ProjectListResult {
 
 // @public
 export interface ProjectProperties extends ProjectUpdateProperties {
-    readonly provisioningState?: string;
+    readonly devCenterUri?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
 export interface Projects {
-    beginCreateOrUpdate(resourceGroupName: string, projectName: string, body: Project, options?: ProjectsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ProjectsCreateOrUpdateResponse>, ProjectsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, projectName: string, body: Project, options?: ProjectsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ProjectsCreateOrUpdateResponse>, ProjectsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, projectName: string, body: Project, options?: ProjectsCreateOrUpdateOptionalParams): Promise<ProjectsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, projectName: string, options?: ProjectsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, projectName: string, options?: ProjectsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, projectName: string, options?: ProjectsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, projectName: string, body: ProjectUpdate, options?: ProjectsUpdateOptionalParams): Promise<PollerLike<PollOperationState<ProjectsUpdateResponse>, ProjectsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, projectName: string, body: ProjectUpdate, options?: ProjectsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ProjectsUpdateResponse>, ProjectsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, projectName: string, body: ProjectUpdate, options?: ProjectsUpdateOptionalParams): Promise<ProjectsUpdateResponse>;
     get(resourceGroupName: string, projectName: string, options?: ProjectsGetOptionalParams): Promise<ProjectsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ProjectsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Project>;
@@ -1438,7 +1614,6 @@ export type ProjectsGetResponse = Project;
 
 // @public
 export interface ProjectsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -1454,7 +1629,6 @@ export type ProjectsListByResourceGroupResponse = ProjectListResult;
 
 // @public
 export interface ProjectsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -1481,13 +1655,18 @@ export type ProjectsUpdateResponse = Project;
 export interface ProjectUpdate extends TrackedResourceUpdate {
     description?: string;
     devCenterId?: string;
+    maxDevBoxesPerUser?: number;
 }
 
 // @public
 export interface ProjectUpdateProperties {
     description?: string;
     devCenterId?: string;
+    maxDevBoxesPerUser?: number;
 }
+
+// @public
+export type ProvisioningState = string;
 
 // @public
 export interface ProxyResource extends Resource {
@@ -1516,8 +1695,8 @@ export interface ResourceRange {
 // @public
 export interface Schedule extends Resource {
     frequency?: ScheduledFrequency;
-    readonly provisioningState?: string;
-    state?: EnableStatus;
+    readonly provisioningState?: ProvisioningState;
+    state?: ScheduleEnableStatus;
     time?: string;
     timeZone?: string;
     typePropertiesType?: ScheduledType;
@@ -1530,6 +1709,9 @@ export type ScheduledFrequency = string;
 export type ScheduledType = string;
 
 // @public
+export type ScheduleEnableStatus = string;
+
+// @public
 export interface ScheduleListResult {
     readonly nextLink?: string;
     readonly value?: Schedule[];
@@ -1537,17 +1719,17 @@ export interface ScheduleListResult {
 
 // @public
 export interface ScheduleProperties extends ScheduleUpdateProperties {
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
 export interface Schedules {
-    beginCreateOrUpdate(resourceGroupName: string, projectName: string, poolName: string, scheduleName: string, body: Schedule, options?: SchedulesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SchedulesCreateOrUpdateResponse>, SchedulesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, projectName: string, poolName: string, scheduleName: string, body: Schedule, options?: SchedulesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SchedulesCreateOrUpdateResponse>, SchedulesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, projectName: string, poolName: string, scheduleName: string, body: Schedule, options?: SchedulesCreateOrUpdateOptionalParams): Promise<SchedulesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, projectName: string, poolName: string, scheduleName: string, options?: SchedulesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, projectName: string, poolName: string, scheduleName: string, options?: SchedulesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, projectName: string, poolName: string, scheduleName: string, options?: SchedulesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, projectName: string, poolName: string, scheduleName: string, body: ScheduleUpdate, options?: SchedulesUpdateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginUpdateAndWait(resourceGroupName: string, projectName: string, poolName: string, scheduleName: string, body: ScheduleUpdate, options?: SchedulesUpdateOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, projectName: string, poolName: string, scheduleName: string, body: ScheduleUpdate, options?: SchedulesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SchedulesUpdateResponse>, SchedulesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, projectName: string, poolName: string, scheduleName: string, body: ScheduleUpdate, options?: SchedulesUpdateOptionalParams): Promise<SchedulesUpdateResponse>;
     get(resourceGroupName: string, projectName: string, poolName: string, scheduleName: string, options?: SchedulesGetOptionalParams): Promise<SchedulesGetResponse>;
     listByPool(resourceGroupName: string, projectName: string, poolName: string, options?: SchedulesListByPoolOptionalParams): PagedAsyncIterableIterator<Schedule>;
 }
@@ -1579,7 +1761,6 @@ export type SchedulesGetResponse = Schedule;
 
 // @public
 export interface SchedulesListByPoolNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -1601,9 +1782,12 @@ export interface SchedulesUpdateOptionalParams extends coreClient.OperationOptio
 }
 
 // @public
+export type SchedulesUpdateResponse = Schedule;
+
+// @public
 export interface ScheduleUpdate extends TrackedResourceUpdate {
     frequency?: ScheduledFrequency;
-    state?: EnableStatus;
+    state?: ScheduleEnableStatus;
     time?: string;
     timeZone?: string;
     type?: ScheduledType;
@@ -1612,7 +1796,7 @@ export interface ScheduleUpdate extends TrackedResourceUpdate {
 // @public
 export interface ScheduleUpdateProperties {
     frequency?: ScheduledFrequency;
-    state?: EnableStatus;
+    state?: ScheduleEnableStatus;
     time?: string;
     timeZone?: string;
     type?: ScheduledType;
@@ -1640,7 +1824,6 @@ export interface Skus {
 
 // @public
 export interface SkusListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -1656,6 +1839,15 @@ export type SkusListBySubscriptionResponse = SkuListResult;
 
 // @public
 export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
+
+// @public
+export interface StopOnDisconnectConfiguration {
+    gracePeriodMinutes?: number;
+    status?: StopOnDisconnectEnableStatus;
+}
+
+// @public
+export type StopOnDisconnectEnableStatus = string;
 
 // @public
 export interface SystemData {

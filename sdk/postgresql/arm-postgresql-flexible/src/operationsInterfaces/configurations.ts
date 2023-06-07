@@ -7,12 +7,13 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Configuration,
   ConfigurationsListByServerOptionalParams,
   ConfigurationsGetOptionalParams,
   ConfigurationsGetResponse,
+  ConfigurationForUpdate,
   ConfigurationsUpdateOptionalParams,
   ConfigurationsUpdateResponse,
   ConfigurationsPutOptionalParams,
@@ -58,11 +59,11 @@ export interface Configurations {
     resourceGroupName: string,
     serverName: string,
     configurationName: string,
-    parameters: Configuration,
+    parameters: ConfigurationForUpdate,
     options?: ConfigurationsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ConfigurationsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ConfigurationsUpdateResponse>,
       ConfigurationsUpdateResponse
     >
   >;
@@ -78,7 +79,7 @@ export interface Configurations {
     resourceGroupName: string,
     serverName: string,
     configurationName: string,
-    parameters: Configuration,
+    parameters: ConfigurationForUpdate,
     options?: ConfigurationsUpdateOptionalParams
   ): Promise<ConfigurationsUpdateResponse>;
   /**
@@ -96,8 +97,8 @@ export interface Configurations {
     parameters: Configuration,
     options?: ConfigurationsPutOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ConfigurationsPutResponse>,
+    SimplePollerLike<
+      OperationState<ConfigurationsPutResponse>,
       ConfigurationsPutResponse
     >
   >;

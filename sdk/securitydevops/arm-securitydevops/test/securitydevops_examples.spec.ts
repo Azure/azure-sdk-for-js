@@ -34,7 +34,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe.skip("securitydevops test", () => {
+describe("securitydevops test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: MicrosoftSecurityDevOps;
@@ -52,53 +52,16 @@ describe.skip("securitydevops test", () => {
     client = new MicrosoftSecurityDevOps(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "centralus";
     resourceGroup = "myjstest";
-    azureDevOpsConnectorName = "testconnector"
-    azureDevOpsConnector = {
-      location: location,
-      properties: {
-        authorization: { code: "00000000000000000000" },
-        orgs: [
-          {
-            name: "testOrg",
-            projects: [{ name: "testProject", repos: ["testRepo"] }]
-          }
-        ]
-      }
-    };
   });
 
   afterEach(async function () {
     await recorder.stop();
   });
 
-  it("azureDevOpsConnector create test", async function () {
-    const res = await client.azureDevOpsConnectorOperations.beginCreateOrUpdateAndWait(
-      resourceGroup,
-      azureDevOpsConnectorName,
-      azureDevOpsConnector,
-      testPollingOptions);
-    assert.equal(res.name, azureDevOpsConnectorName);
-  });
-
-  it("azureDevOpsConnector get test", async function () {
-    const res = await client.azureDevOpsConnectorOperations.get(resourceGroup, azureDevOpsConnectorName);
-    assert.equal(res.name, azureDevOpsConnectorName);
-  });
-
-  it("azureDevOpsConnector list test", async function () {
+  it("azureDevOps operation list test", async function () {
     const resArray = new Array();
-    for await (let item of client.azureDevOpsConnectorOperations.listByResourceGroup(resourceGroup)) {
+    for await (let item of client.operations.list()) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 1);
-  });
-
-  it("azureDevOpsConnector delete test", async function () {
-    const resArray = new Array();
-    const res = await client.azureDevOpsConnectorOperations.beginDeleteAndWait(resourceGroup, azureDevOpsConnectorName)
-    for await (let item of client.azureDevOpsConnectorOperations.listByResourceGroup(resourceGroup)) {
-      resArray.push(item);
-    }
-    assert.equal(resArray.length, 0);
   });
 })

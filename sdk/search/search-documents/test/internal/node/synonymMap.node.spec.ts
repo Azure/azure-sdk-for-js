@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { createSynonymMapFromFile } from "../../../src";
 import { SynonymMap } from "../../../src/serviceModels";
 
-describe("synonymmap", () => {
+describe("synonymmap", function () {
   it("create synonymmap from file(node)", async function () {
     const synonymMap: SynonymMap = await createSynonymMapFromFile(
       "my-synonym-map-1",

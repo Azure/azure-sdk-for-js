@@ -434,7 +434,7 @@ export interface Annotations {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Date and time on which the image was built (string, date-time as defined by https://tools.ietf.org/html/rfc3339#section-5.6) */
-  createdOn?: Date;
+  created?: Date;
   /** Contact details of the people or organization responsible for the image. */
   authors?: string;
   /** URL to find more information on the image. */
@@ -541,7 +541,7 @@ export interface PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwForm
 }
 
 /** Returns the requested manifest file */
-export type ManifestWrapper = Manifest & {
+export interface ManifestWrapper extends Manifest {
   /** Media type for this Manifest */
   mediaType?: string;
   /** (ManifestList, OCIIndex) List of V2 image layer information */
@@ -564,36 +564,36 @@ export type ManifestWrapper = Manifest & {
   history?: History[];
   /** (V1) Image signature */
   signatures?: ImageSignature[];
-};
+}
 
 /** Returns the requested Docker multi-arch-manifest file */
-export type ManifestList = Manifest & {
+export interface ManifestList extends Manifest {
   /** Media type for this Manifest */
   mediaType?: string;
   /** List of V2 image layer information */
   manifests?: ManifestListAttributes[];
-};
+}
 
 /** Returns the requested Docker V2 Manifest file */
-export type V2Manifest = Manifest & {
+export interface V2Manifest extends Manifest {
   /** Media type for this Manifest */
   mediaType?: string;
   /** V2 image config descriptor */
   config?: Descriptor;
   /** List of V2 image layer information */
   layers?: Descriptor[];
-};
+}
 
 /** Returns the requested OCI index file */
-export type OCIIndex = Manifest & {
+export interface OCIIndex extends Manifest {
   /** List of OCI image layer information */
   manifests?: ManifestListAttributes[];
   /** Additional information provided through arbitrary metadata. */
   annotations?: Annotations;
-};
+}
 
 /** Returns the requested V1 manifest file */
-export type V1Manifest = Manifest & {
+export interface V1Manifest extends Manifest {
   /** CPU architecture */
   architecture?: string;
   /** Image name */
@@ -606,12 +606,14 @@ export type V1Manifest = Manifest & {
   history?: History[];
   /** Image signature */
   signatures?: ImageSignature[];
-};
+}
 
 /** Defines headers for ContainerRegistry_getManifest operation. */
 export interface ContainerRegistryGetManifestHeaders {
   /** Identifies the docker upload uuid for the current request. */
   dockerContentDigest?: string;
+  /** Content type of the uploaded media */
+  mediaType?: string;
 }
 
 /** Defines headers for ContainerRegistry_createManifest operation. */
@@ -814,19 +816,33 @@ export type ArtifactArchitecture = string;
 
 /** Known values of {@link ArtifactOperatingSystem} that the service accepts. */
 export enum KnownArtifactOperatingSystem {
+  /** Aix */
   Aix = "aix",
+  /** Android */
   Android = "android",
+  /** Darwin */
   Darwin = "darwin",
+  /** Dragonfly */
   Dragonfly = "dragonfly",
+  /** FreeBsd */
   FreeBsd = "freebsd",
+  /** Illumos */
   Illumos = "illumos",
+  /** IOS */
   IOS = "ios",
+  /** JS */
   JS = "js",
+  /** Linux */
   Linux = "linux",
+  /** NetBsd */
   NetBsd = "netbsd",
+  /** OpenBsd */
   OpenBsd = "openbsd",
+  /** Plan9 */
   Plan9 = "plan9",
+  /** Solaris */
   Solaris = "solaris",
+  /** Windows */
   Windows = "windows"
 }
 
@@ -854,8 +870,11 @@ export type ArtifactOperatingSystem = string;
 
 /** Known values of {@link PostContentSchemaGrantType} that the service accepts. */
 export enum KnownPostContentSchemaGrantType {
+  /** AccessTokenRefreshToken */
   AccessTokenRefreshToken = "access_token_refresh_token",
+  /** AccessToken */
   AccessToken = "access_token",
+  /** RefreshToken */
   RefreshToken = "refresh_token"
 }
 
@@ -1025,12 +1044,7 @@ export type ContainerRegistryUpdateManifestPropertiesResponse = ArtifactManifest
 
 /** Optional parameters. */
 export interface ContainerRegistryGetRepositoriesNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Query parameter for the last item in previous query. Result set will include values lexically after last. */
-  last?: string;
-  /** query parameter for max number of items */
-  n?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getRepositoriesNext operation. */
 export type ContainerRegistryGetRepositoriesNextResponse = ContainerRegistryGetRepositoriesNextHeaders &
@@ -1038,16 +1052,7 @@ export type ContainerRegistryGetRepositoriesNextResponse = ContainerRegistryGetR
 
 /** Optional parameters. */
 export interface ContainerRegistryGetTagsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Query parameter for the last item in previous query. Result set will include values lexically after last. */
-  last?: string;
-  /** query parameter for max number of items */
-  n?: number;
-  /** orderby query parameter */
-  orderby?: string;
-  /** filter by digest */
-  digest?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getTagsNext operation. */
 export type ContainerRegistryGetTagsNextResponse = ContainerRegistryGetTagsNextHeaders &
@@ -1055,14 +1060,7 @@ export type ContainerRegistryGetTagsNextResponse = ContainerRegistryGetTagsNextH
 
 /** Optional parameters. */
 export interface ContainerRegistryGetManifestsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Query parameter for the last item in previous query. Result set will include values lexically after last. */
-  last?: string;
-  /** query parameter for max number of items */
-  n?: number;
-  /** orderby query parameter */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getManifestsNext operation. */
 export type ContainerRegistryGetManifestsNextResponse = ContainerRegistryGetManifestsNextHeaders &
@@ -1102,22 +1100,7 @@ export interface ContainerRegistryBlobDeleteBlobOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the deleteBlob operation. */
-export type ContainerRegistryBlobDeleteBlobResponse = ContainerRegistryBlobDeleteBlobHeaders & {
-  /**
-   * BROWSER ONLY
-   *
-   * The response body as a browser Blob.
-   * Always `undefined` in node.js.
-   */
-  blobBody?: Promise<Blob>;
-  /**
-   * NODEJS ONLY
-   *
-   * The response body as a node.js Readable stream.
-   * Always `undefined` in the browser.
-   */
-  readableStreamBody?: NodeJS.ReadableStream;
-};
+export type ContainerRegistryBlobDeleteBlobResponse = ContainerRegistryBlobDeleteBlobHeaders;
 
 /** Optional parameters. */
 export interface ContainerRegistryBlobMountBlobOptionalParams

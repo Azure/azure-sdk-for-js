@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Inputs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,6 +19,7 @@ import {
   Input,
   InputsListByStreamingJobNextOptionalParams,
   InputsListByStreamingJobOptionalParams,
+  InputsListByStreamingJobResponse,
   InputsCreateOrReplaceOptionalParams,
   InputsCreateOrReplaceResponse,
   InputsUpdateOptionalParams,
@@ -25,7 +27,6 @@ import {
   InputsDeleteOptionalParams,
   InputsGetOptionalParams,
   InputsGetResponse,
-  InputsListByStreamingJobResponse,
   InputsTestOptionalParams,
   InputsTestResponse,
   InputsListByStreamingJobNextResponse
@@ -67,11 +68,15 @@ export class InputsImpl implements Inputs {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByStreamingJobPagingPage(
           resourceGroupName,
           jobName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -80,15 +85,22 @@ export class InputsImpl implements Inputs {
   private async *listByStreamingJobPagingPage(
     resourceGroupName: string,
     jobName: string,
-    options?: InputsListByStreamingJobOptionalParams
+    options?: InputsListByStreamingJobOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Input[]> {
-    let result = await this._listByStreamingJob(
-      resourceGroupName,
-      jobName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: InputsListByStreamingJobResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByStreamingJob(
+        resourceGroupName,
+        jobName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByStreamingJobNext(
         resourceGroupName,
@@ -97,7 +109,9 @@ export class InputsImpl implements Inputs {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -506,7 +520,6 @@ const listByStreamingJobNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.select],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

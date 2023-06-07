@@ -6,10 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { Service } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { StorageClientContext } from "../storageClientContext";
+import { StorageClient } from "../storageClient";
 import {
   BlobServiceProperties,
   ServiceSetPropertiesOptionalParams,
@@ -23,6 +25,7 @@ import {
   KeyInfo,
   ServiceGetUserDelegationKeyOptionalParams,
   ServiceGetUserDelegationKeyResponse,
+  ServiceGetAccountInfoOptionalParams,
   ServiceGetAccountInfoResponse,
   ServiceSubmitBatchOptionalParams,
   ServiceSubmitBatchResponse,
@@ -30,15 +33,15 @@ import {
   ServiceFilterBlobsResponse
 } from "../models";
 
-/** Class representing a Service. */
-export class Service {
-  private readonly client: StorageClientContext;
+/** Class containing Service operations. */
+export class ServiceImpl implements Service {
+  private readonly client: StorageClient;
 
   /**
    * Initialize a new instance of the class Service class.
    * @param client Reference to the service client
    */
-  constructor(client: StorageClientContext) {
+  constructor(client: StorageClient) {
     this.client = client;
   }
 
@@ -52,14 +55,10 @@ export class Service {
     blobServiceProperties: BlobServiceProperties,
     options?: ServiceSetPropertiesOptionalParams
   ): Promise<ServiceSetPropertiesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      blobServiceProperties,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { blobServiceProperties, options },
       setPropertiesOperationSpec
-    ) as Promise<ServiceSetPropertiesResponse>;
+    );
   }
 
   /**
@@ -70,13 +69,10 @@ export class Service {
   getProperties(
     options?: ServiceGetPropertiesOptionalParams
   ): Promise<ServiceGetPropertiesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       getPropertiesOperationSpec
-    ) as Promise<ServiceGetPropertiesResponse>;
+    );
   }
 
   /**
@@ -88,13 +84,10 @@ export class Service {
   getStatistics(
     options?: ServiceGetStatisticsOptionalParams
   ): Promise<ServiceGetStatisticsResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       getStatisticsOperationSpec
-    ) as Promise<ServiceGetStatisticsResponse>;
+    );
   }
 
   /**
@@ -104,13 +97,10 @@ export class Service {
   listContainersSegment(
     options?: ServiceListContainersSegmentOptionalParams
   ): Promise<ServiceListContainersSegmentResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       listContainersSegmentOperationSpec
-    ) as Promise<ServiceListContainersSegmentResponse>;
+    );
   }
 
   /**
@@ -123,14 +113,10 @@ export class Service {
     keyInfo: KeyInfo,
     options?: ServiceGetUserDelegationKeyOptionalParams
   ): Promise<ServiceGetUserDelegationKeyResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      keyInfo,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { keyInfo, options },
       getUserDelegationKeyOperationSpec
-    ) as Promise<ServiceGetUserDelegationKeyResponse>;
+    );
   }
 
   /**
@@ -138,15 +124,12 @@ export class Service {
    * @param options The options parameters.
    */
   getAccountInfo(
-    options?: coreHttp.OperationOptions
+    options?: ServiceGetAccountInfoOptionalParams
   ): Promise<ServiceGetAccountInfoResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       getAccountInfoOperationSpec
-    ) as Promise<ServiceGetAccountInfoResponse>;
+    );
   }
 
   /**
@@ -160,19 +143,13 @@ export class Service {
   submitBatch(
     contentLength: number,
     multipartContentType: string,
-    body: coreHttp.HttpRequestBody,
+    body: coreRestPipeline.RequestBodyType,
     options?: ServiceSubmitBatchOptionalParams
   ): Promise<ServiceSubmitBatchResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      contentLength,
-      multipartContentType,
-      body,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { contentLength, multipartContentType, body, options },
       submitBatchOperationSpec
-    ) as Promise<ServiceSubmitBatchResponse>;
+    );
   }
 
   /**
@@ -184,19 +161,16 @@ export class Service {
   filterBlobs(
     options?: ServiceFilterBlobsOptionalParams
   ): Promise<ServiceFilterBlobsResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       filterBlobsOperationSpec
-    ) as Promise<ServiceFilterBlobsResponse>;
+    );
   }
 }
 // Operation Specifications
-const xmlSerializer = new coreHttp.Serializer(Mappers, /* isXml */ true);
+const xmlSerializer = coreClient.createSerializer(Mappers, /* isXml */ true);
 
-const setPropertiesOperationSpec: coreHttp.OperationSpec = {
+const setPropertiesOperationSpec: coreClient.OperationSpec = {
   path: "/",
   httpMethod: "PUT",
   responses: {
@@ -226,7 +200,7 @@ const setPropertiesOperationSpec: coreHttp.OperationSpec = {
   mediaType: "xml",
   serializer: xmlSerializer
 };
-const getPropertiesOperationSpec: coreHttp.OperationSpec = {
+const getPropertiesOperationSpec: coreClient.OperationSpec = {
   path: "/",
   httpMethod: "GET",
   responses: {
@@ -253,7 +227,7 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const getStatisticsOperationSpec: coreHttp.OperationSpec = {
+const getStatisticsOperationSpec: coreClient.OperationSpec = {
   path: "/",
   httpMethod: "GET",
   responses: {
@@ -280,7 +254,7 @@ const getStatisticsOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const listContainersSegmentOperationSpec: coreHttp.OperationSpec = {
+const listContainersSegmentOperationSpec: coreClient.OperationSpec = {
   path: "/",
   httpMethod: "GET",
   responses: {
@@ -310,7 +284,7 @@ const listContainersSegmentOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const getUserDelegationKeyOperationSpec: coreHttp.OperationSpec = {
+const getUserDelegationKeyOperationSpec: coreClient.OperationSpec = {
   path: "/",
   httpMethod: "POST",
   responses: {
@@ -341,7 +315,7 @@ const getUserDelegationKeyOperationSpec: coreHttp.OperationSpec = {
   mediaType: "xml",
   serializer: xmlSerializer
 };
-const getAccountInfoOperationSpec: coreHttp.OperationSpec = {
+const getAccountInfoOperationSpec: coreClient.OperationSpec = {
   path: "/",
   httpMethod: "GET",
   responses: {
@@ -359,7 +333,7 @@ const getAccountInfoOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const submitBatchOperationSpec: coreHttp.OperationSpec = {
+const submitBatchOperationSpec: coreClient.OperationSpec = {
   path: "/",
   httpMethod: "POST",
   responses: {
@@ -379,7 +353,6 @@ const submitBatchOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [Parameters.timeoutInSeconds, Parameters.comp4],
   urlParameters: [Parameters.url],
   headerParameters: [
-    Parameters.contentType,
     Parameters.accept,
     Parameters.version,
     Parameters.requestId,
@@ -391,7 +364,7 @@ const submitBatchOperationSpec: coreHttp.OperationSpec = {
   mediaType: "xml",
   serializer: xmlSerializer
 };
-const filterBlobsOperationSpec: coreHttp.OperationSpec = {
+const filterBlobsOperationSpec: coreClient.OperationSpec = {
   path: "/",
   httpMethod: "GET",
   responses: {

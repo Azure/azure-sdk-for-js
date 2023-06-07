@@ -34,7 +34,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe.skip("devcenter test", () => {
+describe("devcenter test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: DevCenterClient;
@@ -52,9 +52,9 @@ describe.skip("devcenter test", () => {
     client = new DevCenterClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroup = "myjstest";
-    devCenterName = "Contoso";
+    devCenterName = "Contoso1";
     body = {
-      location: location,
+      location,
       tags: { costCode: "12345" }
     };
   });

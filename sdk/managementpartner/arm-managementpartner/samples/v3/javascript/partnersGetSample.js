@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ACEProvisioningManagementPartnerAPI } = require("@azure/arm-managementpartner");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get the management partner using the objectId and tenantId.
@@ -24,4 +25,8 @@ async function getPartnerDetails() {
   console.log(result);
 }
 
-getPartnerDetails().catch(console.error);
+async function main() {
+  getPartnerDetails();
+}
+
+main().catch(console.error);

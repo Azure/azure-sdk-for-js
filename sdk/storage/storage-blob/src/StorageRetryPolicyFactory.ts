@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "@azure/core-http";
+import {
+  RequestPolicy,
+  RequestPolicyOptionsLike as RequestPolicyOptions,
+  RequestPolicyFactory,
+} from "@azure/core-http-compat";
 import { StorageRetryPolicy, StorageRetryPolicyType } from "./policies/StorageRetryPolicy";
 
 export { StorageRetryPolicyType, StorageRetryPolicy };

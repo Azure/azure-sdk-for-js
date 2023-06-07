@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { Scvmm } = require("@azure/arm-scvmm");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List of VirtualMachines in a subscription.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/preview/2020-06-05-preview/examples/ListVirtualMachinesBySubscription.json
  */
 async function listVirtualMachinesBySubscription() {
-  const subscriptionId = "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
+  const subscriptionId =
+    process.env["SCVMM_SUBSCRIPTION_ID"] || "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
   const credential = new DefaultAzureCredential();
   const client = new Scvmm(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +30,8 @@ async function listVirtualMachinesBySubscription() {
   console.log(resArray);
 }
 
-listVirtualMachinesBySubscription().catch(console.error);
+async function main() {
+  listVirtualMachinesBySubscription();
+}
+
+main().catch(console.error);

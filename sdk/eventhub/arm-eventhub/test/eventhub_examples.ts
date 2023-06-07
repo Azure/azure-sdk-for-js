@@ -8,33 +8,27 @@
 
 import {
   env,
-  record,
-  RecorderEnvironmentSetup,
   Recorder,
+  RecorderStartOptions,
   delay,
-  isPlaybackMode
+  isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import * as assert from "assert";
-import { ClientSecretCredential } from "@azure/identity";
+import { createTestCredential } from "@azure-tools/test-credential";
+import { assert } from "chai";
+import { Context } from "mocha";
 import { EventHubManagementClient } from "../src/eventHubManagementClient";
-import { StorageManagementClient,StorageAccountCreateParameters } from "@azure/arm-storage";
-import { NetworkManagementClient,VirtualNetwork } from "@azure/arm-network";
+import { StorageManagementClient, StorageAccountCreateParameters } from "@azure/arm-storage";
+import { NetworkManagementClient, VirtualNetwork } from "@azure/arm-network";
 
-const recorderEnvSetup: RecorderEnvironmentSetup = {
-  replaceableVariables: {
-    AZURE_CLIENT_ID: "azure_client_id",
-    AZURE_CLIENT_SECRET: "azure_client_secret",
-    AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-    SUBSCRIPTION_ID: "azure_subscription_id"
-  },
-  customizationsOnRecordings: [
-    (recording: any): any =>
-      recording.replace(
-        /"access_token":"[^"]*"/g,
-        `"access_token":"access_token"`
-      )
-  ],
-  queryParametersToSkip: []
+const replaceableVariables: Record<string, string> = {
+  AZURE_CLIENT_ID: "azure_client_id",
+  AZURE_CLIENT_SECRET: "azure_client_secret",
+  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
+  SUBSCRIPTION_ID: "azure_subscription_id"
+};
+
+const recorderOptions: RecorderStartOptions = {
+  envSetupForPlayback: replaceableVariables
 };
 
 export const testPollingOptions = {
@@ -55,28 +49,25 @@ describe("Eventhub test", () => {
   let storage_client: StorageManagementClient;
   let network_client: NetworkManagementClient;
 
-  beforeEach(async function() {
-    recorder = record(this, recorderEnvSetup);
-    subscriptionId = env.SUBSCRIPTION_ID;
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
-    const credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET
-    );
-    client = new EventHubManagementClient(credential, subscriptionId);
-    storage_client = new StorageManagementClient(credential,subscriptionId);
-    network_client = new NetworkManagementClient(credential,subscriptionId);
+    const credential = createTestCredential();
+    client = new EventHubManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    storage_client = new StorageManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    network_client = new NetworkManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroupName = "myjstest";
     subnetName = "subnetxxx";
     eventhubName = "myeventhubxxx";
     namespaceName = "mynamespacexxx";
     virtualNetworkName = "myvirtualnetwork";
-    storageAccountName = "mystorageaccountxxx";
+    storageAccountName = "mystorageaccountxxx11";
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -89,8 +80,8 @@ describe("Eventhub test", () => {
         addressPrefixes: ["10.0.0.0/16"],
       },
     };
-    const network_create = await network_client.virtualNetworks.beginCreateOrUpdateAndWait(resourceGroupName,virtualNetworkName,parameter,testPollingOptions);
-    const subnet_info = await network_client.subnets.beginCreateOrUpdateAndWait(resourceGroupName,virtualNetworkName,subnetName,{ addressPrefix: "10.0.0.0/24" },testPollingOptions);
+    const network_create = await network_client.virtualNetworks.beginCreateOrUpdateAndWait(resourceGroupName, virtualNetworkName, parameter, testPollingOptions);
+    const subnet_info = await network_client.subnets.beginCreateOrUpdateAndWait(resourceGroupName, virtualNetworkName, subnetName, { addressPrefix: "10.0.0.0/24" }, testPollingOptions);
   }
 
   //storageAccounts.beginCreateAndWait
@@ -111,25 +102,25 @@ describe("Eventhub test", () => {
     console.log(storageaccount);
   }
 
-  it("namespaces create test", async function() {
+  it("namespaces create test", async function () {
     await createVirtualNetwork();
     await storageAccounts_beginCreateAndWait();
-    const res = await client.namespaces.beginCreateOrUpdateAndWait(resourceGroupName,namespaceName,{
+    const res = await client.namespaces.beginCreateOrUpdateAndWait(resourceGroupName, namespaceName, {
       sku: {
-      name: "Standard",
-      tier: "Standard",
+        name: "Standard",
+        tier: "Standard",
       },
       location: location,
       tags: {
         tag1: "value1",
         tag2: "value2",
       }
-    },testPollingOptions);
-    assert.equal(res.name,"mynamespacexxx");
+    }, testPollingOptions);
+    assert.equal(res.name, "mynamespacexxx");
   });
 
-  it("eventHubs create test", async function() {
-    const res = await client.eventHubs.createOrUpdate(resourceGroupName,namespaceName,eventhubName,{
+  it("eventHubs create test", async function () {
+    const res = await client.eventHubs.createOrUpdate(resourceGroupName, namespaceName, eventhubName, {
       messageRetentionInDays: 4,
       partitionCount: 4,
       status: "Active",
@@ -153,37 +144,37 @@ describe("Eventhub test", () => {
         }
       }
     });
-  assert.equal(res.name,"myeventhubxxx");
+    assert.equal(res.name, "myeventhubxxx");
   });
 
-  it("eventHubs get test", async function() {
-    const res = await client.eventHubs.get(resourceGroupName,namespaceName,eventhubName);
-    console.log(res.type,"Microsoft.EventHub/Namespaces/EventHubs");
+  it("eventHubs get test", async function () {
+    const res = await client.eventHubs.get(resourceGroupName, namespaceName, eventhubName);
+    console.log(res.type, "Microsoft.EventHub/Namespaces/EventHubs");
   });
 
-  it("eventHubs listByNamespace test", async function() {
+  it("eventHubs listByNamespace test", async function () {
     const resArray = new Array();
-    for await (const item of client.eventHubs.listByNamespace(resourceGroupName,namespaceName)){
+    for await (const item of client.eventHubs.listByNamespace(resourceGroupName, namespaceName)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length,1);
+    assert.equal(resArray.length, 1);
   });
 
-  it("eventHubs delete test", async function() {
-    const res = await client.eventHubs.delete(resourceGroupName,namespaceName,eventhubName);
+  it("eventHubs delete test", async function () {
+    const res = await client.eventHubs.delete(resourceGroupName, namespaceName, eventhubName);
     const resArray = new Array();
-    for await (const item of client.eventHubs.listByNamespace(resourceGroupName,namespaceName)){
+    for await (const item of client.eventHubs.listByNamespace(resourceGroupName, namespaceName)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length,0);
+    assert.equal(resArray.length, 0);
   });
 
-  it("namespaces delete test", async function() {
-    const res = await client.namespaces.beginDeleteAndWait(resourceGroupName,namespaceName,testPollingOptions);
+  it("namespaces delete test", async function () {
+    const res = await client.namespaces.beginDeleteAndWait(resourceGroupName, namespaceName, testPollingOptions);
     const resArray = new Array();
-    for await (const item of client.namespaces.listByResourceGroup(resourceGroupName)){
+    for await (const item of client.namespaces.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length,0);
+    assert.equal(resArray.length, 0);
   });
 });

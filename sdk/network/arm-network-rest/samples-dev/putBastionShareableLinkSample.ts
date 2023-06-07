@@ -30,14 +30,12 @@ async function createBastionShareableLinksForTheRequestVMS() {
       vms: [
         {
           vm: {
-            id:
-              "/subscriptions/subid/resourceGroups/rgx/providers/Microsoft.Compute/virtualMachines/vm1",
+            id: "/subscriptions/subid/resourceGroups/rgx/providers/Microsoft.Compute/virtualMachines/vm1",
           },
         },
         {
           vm: {
-            id:
-              "/subscriptions/subid/resourceGroups/rgx/providers/Microsoft.Compute/virtualMachines/vm2",
+            id: "/subscriptions/subid/resourceGroups/rgx/providers/Microsoft.Compute/virtualMachines/vm2",
           },
         },
       ],

@@ -28,8 +28,7 @@ async function createOrUpdateARestorePointCollectionForCrossRegionCopy() {
       location: "norwayeast",
       properties: {
         source: {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/sourceRpcName",
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/sourceRpcName",
         },
       },
       tags: { myTag1: "tagValue1" },
@@ -65,8 +64,7 @@ async function createOrUpdateARestorePointCollection() {
       location: "norwayeast",
       properties: {
         source: {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
         },
       },
       tags: { myTag1: "tagValue1" },

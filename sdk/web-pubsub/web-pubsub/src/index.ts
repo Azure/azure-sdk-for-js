@@ -38,3 +38,4 @@ export {
   GroupSendTextToAllOptions,
   GroupSendToAllOptions,
 } from "./groupClient";
+export { odata } from "./utils";

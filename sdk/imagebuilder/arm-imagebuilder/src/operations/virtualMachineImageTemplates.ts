@@ -6,25 +6,31 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { VirtualMachineImageTemplates } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ImageBuilderClient } from "../imageBuilderClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ImageTemplate,
   VirtualMachineImageTemplatesListNextOptionalParams,
   VirtualMachineImageTemplatesListOptionalParams,
+  VirtualMachineImageTemplatesListResponse,
   VirtualMachineImageTemplatesListByResourceGroupNextOptionalParams,
   VirtualMachineImageTemplatesListByResourceGroupOptionalParams,
+  VirtualMachineImageTemplatesListByResourceGroupResponse,
   RunOutput,
   VirtualMachineImageTemplatesListRunOutputsNextOptionalParams,
   VirtualMachineImageTemplatesListRunOutputsOptionalParams,
-  VirtualMachineImageTemplatesListResponse,
-  VirtualMachineImageTemplatesListByResourceGroupResponse,
+  VirtualMachineImageTemplatesListRunOutputsResponse,
   VirtualMachineImageTemplatesCreateOrUpdateOptionalParams,
   VirtualMachineImageTemplatesCreateOrUpdateResponse,
   ImageTemplateUpdateParameters,
@@ -35,7 +41,6 @@ import {
   VirtualMachineImageTemplatesDeleteOptionalParams,
   VirtualMachineImageTemplatesRunOptionalParams,
   VirtualMachineImageTemplatesCancelOptionalParams,
-  VirtualMachineImageTemplatesListRunOutputsResponse,
   VirtualMachineImageTemplatesGetRunOutputOptionalParams,
   VirtualMachineImageTemplatesGetRunOutputResponse,
   VirtualMachineImageTemplatesListNextResponse,
@@ -72,22 +77,34 @@ export class VirtualMachineImageTemplatesImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: VirtualMachineImageTemplatesListOptionalParams
+    options?: VirtualMachineImageTemplatesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ImageTemplate[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VirtualMachineImageTemplatesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -116,19 +133,33 @@ export class VirtualMachineImageTemplatesImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: VirtualMachineImageTemplatesListByResourceGroupOptionalParams
+    options?: VirtualMachineImageTemplatesListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ImageTemplate[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VirtualMachineImageTemplatesListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -136,7 +167,9 @@ export class VirtualMachineImageTemplatesImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -175,11 +208,15 @@ export class VirtualMachineImageTemplatesImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listRunOutputsPagingPage(
           resourceGroupName,
           imageTemplateName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -188,15 +225,22 @@ export class VirtualMachineImageTemplatesImpl
   private async *listRunOutputsPagingPage(
     resourceGroupName: string,
     imageTemplateName: string,
-    options?: VirtualMachineImageTemplatesListRunOutputsOptionalParams
+    options?: VirtualMachineImageTemplatesListRunOutputsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<RunOutput[]> {
-    let result = await this._listRunOutputs(
-      resourceGroupName,
-      imageTemplateName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VirtualMachineImageTemplatesListRunOutputsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listRunOutputs(
+        resourceGroupName,
+        imageTemplateName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listRunOutputsNext(
         resourceGroupName,
@@ -205,7 +249,9 @@ export class VirtualMachineImageTemplatesImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -261,8 +307,8 @@ export class VirtualMachineImageTemplatesImpl
     parameters: ImageTemplate,
     options?: VirtualMachineImageTemplatesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachineImageTemplatesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachineImageTemplatesCreateOrUpdateResponse>,
       VirtualMachineImageTemplatesCreateOrUpdateResponse
     >
   > {
@@ -272,7 +318,7 @@ export class VirtualMachineImageTemplatesImpl
     ): Promise<VirtualMachineImageTemplatesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -305,15 +351,18 @@ export class VirtualMachineImageTemplatesImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, imageTemplateName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, imageTemplateName, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VirtualMachineImageTemplatesCreateOrUpdateResponse,
+      OperationState<VirtualMachineImageTemplatesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -354,8 +403,8 @@ export class VirtualMachineImageTemplatesImpl
     parameters: ImageTemplateUpdateParameters,
     options?: VirtualMachineImageTemplatesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualMachineImageTemplatesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualMachineImageTemplatesUpdateResponse>,
       VirtualMachineImageTemplatesUpdateResponse
     >
   > {
@@ -365,7 +414,7 @@ export class VirtualMachineImageTemplatesImpl
     ): Promise<VirtualMachineImageTemplatesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -398,15 +447,18 @@ export class VirtualMachineImageTemplatesImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, imageTemplateName, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, imageTemplateName, parameters, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VirtualMachineImageTemplatesUpdateResponse,
+      OperationState<VirtualMachineImageTemplatesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -461,14 +513,14 @@ export class VirtualMachineImageTemplatesImpl
     resourceGroupName: string,
     imageTemplateName: string,
     options?: VirtualMachineImageTemplatesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -501,15 +553,15 @@ export class VirtualMachineImageTemplatesImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, imageTemplateName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, imageTemplateName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -544,14 +596,14 @@ export class VirtualMachineImageTemplatesImpl
     resourceGroupName: string,
     imageTemplateName: string,
     options?: VirtualMachineImageTemplatesRunOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -584,15 +636,15 @@ export class VirtualMachineImageTemplatesImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, imageTemplateName, options },
-      runOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, imageTemplateName, options },
+      spec: runOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -627,14 +679,14 @@ export class VirtualMachineImageTemplatesImpl
     resourceGroupName: string,
     imageTemplateName: string,
     options?: VirtualMachineImageTemplatesCancelOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -667,15 +719,15 @@ export class VirtualMachineImageTemplatesImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, imageTemplateName, options },
-      cancelOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, imageTemplateName, options },
+      spec: cancelOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -1041,7 +1093,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1061,7 +1112,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1082,7 +1132,6 @@ const listRunOutputsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

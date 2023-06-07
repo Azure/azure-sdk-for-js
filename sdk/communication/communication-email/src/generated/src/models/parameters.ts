@@ -37,10 +37,10 @@ export const endpoint: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const messageId: OperationURLParameter = {
-  parameterPath: "messageId",
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
   mapper: {
-    serializedName: "messageId",
+    serializedName: "operationId",
     required: true,
     type: {
       name: "String"
@@ -51,7 +51,7 @@ export const messageId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-10-01-preview",
+    defaultValue: "2023-03-31",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -72,29 +72,27 @@ export const contentType: OperationParameter = {
   }
 };
 
-export const emailMessage: OperationParameter = {
-  parameterPath: "emailMessage",
+export const message: OperationParameter = {
+  parameterPath: "message",
   mapper: EmailMessageMapper
 };
 
-export const repeatabilityRequestId: OperationParameter = {
-  parameterPath: "repeatabilityRequestId",
+export const operationId1: OperationParameter = {
+  parameterPath: ["options", "operationId"],
   mapper: {
-    serializedName: "repeatability-request-id",
-    required: true,
+    serializedName: "Operation-Id",
     type: {
-      name: "String"
+      name: "Uuid"
     }
   }
 };
 
-export const repeatabilityFirstSent: OperationParameter = {
-  parameterPath: "repeatabilityFirstSent",
+export const clientRequestId: OperationParameter = {
+  parameterPath: ["options", "clientRequestId"],
   mapper: {
-    serializedName: "repeatability-first-sent",
-    required: true,
+    serializedName: "x-ms-client-request-id",
     type: {
-      name: "String"
+      name: "Uuid"
     }
   }
 };

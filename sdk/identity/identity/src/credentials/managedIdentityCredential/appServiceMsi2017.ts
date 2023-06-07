@@ -6,9 +6,9 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import { GetTokenOptions } from "@azure/core-auth";
 import { credentialLogger } from "../../util/logging";
-import { MSI, MSIConfiguration } from "./models";
+import { MSI, MSIConfiguration, MSIToken } from "./models";
 import { mapScopesToResource } from "./utils";
 
 const msiName = "ManagedIdentityCredential - AppServiceMSI 2017";
@@ -59,6 +59,7 @@ function prepareRequestOptions(
  * Defines how to determine whether the Azure App Service MSI is available, and also how to retrieve a token from the Azure App Service MSI.
  */
 export const appServiceMsi2017: MSI = {
+  name: "appServiceMsi2017",
   async isAvailable({ scopes }): Promise<boolean> {
     const resource = mapScopesToResource(scopes);
     if (!resource) {
@@ -77,7 +78,7 @@ export const appServiceMsi2017: MSI = {
   async getToken(
     configuration: MSIConfiguration,
     getTokenOptions: GetTokenOptions = {}
-  ): Promise<AccessToken | null> {
+  ): Promise<MSIToken | null> {
     const { identityClient, scopes, clientId, resourceId } = configuration;
 
     if (resourceId) {

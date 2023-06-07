@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ProjectEnvironmentTypes } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -43,7 +44,7 @@ export class ProjectEnvironmentTypesImpl implements ProjectEnvironmentTypes {
 
   /**
    * Lists environment types for a project.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
@@ -60,8 +61,16 @@ export class ProjectEnvironmentTypesImpl implements ProjectEnvironmentTypes {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, projectName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          projectName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -69,11 +78,18 @@ export class ProjectEnvironmentTypesImpl implements ProjectEnvironmentTypes {
   private async *listPagingPage(
     resourceGroupName: string,
     projectName: string,
-    options?: ProjectEnvironmentTypesListOptionalParams
+    options?: ProjectEnvironmentTypesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ProjectEnvironmentType[]> {
-    let result = await this._list(resourceGroupName, projectName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ProjectEnvironmentTypesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, projectName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -82,7 +98,9 @@ export class ProjectEnvironmentTypesImpl implements ProjectEnvironmentTypes {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -102,7 +120,7 @@ export class ProjectEnvironmentTypesImpl implements ProjectEnvironmentTypes {
 
   /**
    * Lists environment types for a project.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
@@ -119,7 +137,7 @@ export class ProjectEnvironmentTypesImpl implements ProjectEnvironmentTypes {
 
   /**
    * Gets a project environment type.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param environmentTypeName The name of the environment type.
    * @param options The options parameters.
@@ -138,7 +156,7 @@ export class ProjectEnvironmentTypesImpl implements ProjectEnvironmentTypes {
 
   /**
    * Creates or updates a project environment type.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param environmentTypeName The name of the environment type.
    * @param body Represents a Project Environment Type.
@@ -159,7 +177,7 @@ export class ProjectEnvironmentTypesImpl implements ProjectEnvironmentTypes {
 
   /**
    * Partially updates a project environment type.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param environmentTypeName The name of the environment type.
    * @param body Updatable project environment type properties.
@@ -180,7 +198,7 @@ export class ProjectEnvironmentTypesImpl implements ProjectEnvironmentTypes {
 
   /**
    * Deletes a project environment type.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param environmentTypeName The name of the environment type.
    * @param options The options parameters.
@@ -199,7 +217,7 @@ export class ProjectEnvironmentTypesImpl implements ProjectEnvironmentTypes {
 
   /**
    * ListNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -347,7 +365,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

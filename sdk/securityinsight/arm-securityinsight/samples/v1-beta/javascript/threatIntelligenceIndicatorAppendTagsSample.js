@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SecurityInsights } = require("@azure/arm-securityinsight");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Append tags to a threat intelligence indicator.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/threatintelligence/AppendTagsThreatIntelligence.json
  */
 async function appendTagsToAThreatIntelligenceIndicator() {
-  const subscriptionId = "bd794837-4d29-4647-9105-6339bfdb4e6a";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "bd794837-4d29-4647-9105-6339bfdb4e6a";
+  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const name = "d9cd6f0b-96b9-3984-17cd-a779d1e15a93";
   const threatIntelligenceAppendTags = {
@@ -36,4 +38,8 @@ async function appendTagsToAThreatIntelligenceIndicator() {
   console.log(result);
 }
 
-appendTagsToAThreatIntelligenceIndicator().catch(console.error);
+async function main() {
+  appendTagsToAThreatIntelligenceIndicator();
+}
+
+main().catch(console.error);

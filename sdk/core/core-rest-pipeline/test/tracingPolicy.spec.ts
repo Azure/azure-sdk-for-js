@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import sinon from "sinon";
+import * as sinon from "sinon";
 import {
   PipelineRequest,
   PipelineResponse,
@@ -11,7 +11,7 @@ import {
   createHttpHeaders,
   createPipelineRequest,
   tracingPolicy,
-} from "../src/index.js";
+} from "../src";
 import {
   Instrumenter,
   InstrumenterSpanOptions,

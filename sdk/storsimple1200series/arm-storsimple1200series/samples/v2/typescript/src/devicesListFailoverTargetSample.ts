@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Retrieves all the devices which can be used as failover targets for the given device.
  *
  * @summary Retrieves all the devices which can be used as failover targets for the given device.
- * x-ms-original-file: specification/storSimple1200Series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/DevicesListFailoverTarget.json
+ * x-ms-original-file: specification/storsimple1200series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/DevicesListFailoverTarget.json
  */
 async function devicesListFailoverTarget() {
   const subscriptionId = "9eb689cd-7243-43b4-b6f6-5c65cb296641";

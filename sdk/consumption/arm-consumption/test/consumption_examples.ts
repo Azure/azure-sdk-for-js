@@ -67,8 +67,8 @@ describe("Consumption test", () => {
       amount: 100,
       timeGrain: "Monthly",
       timePeriod: {
-        startDate: new Date("2022-09-01T00:00:00Z"),
-        endDate: new Date("2022-09-31T00:00:00Z")
+        startDate: new Date("2023-09-01T00:00:00Z"),
+        endDate: new Date("2023-09-31T00:00:00Z")
       },
       filter: {
         and: [

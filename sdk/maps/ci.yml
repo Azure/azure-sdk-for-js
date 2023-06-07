@@ -30,7 +30,13 @@ extends:
   parameters:
     ServiceDirectory: maps
     Artifacts:
-      - name: azure-maps-search
-        safeName: azuremapssearch
+      - name: azure-rest-maps-route
+        safeName: azurerestmapsroute
       - name: azure-maps-common
         safeName: azuremapscommon
+      - name: azure-rest-maps-render
+        safeName: azurerestmapsrender
+      - name: azure-rest-maps-geolocation
+        safeName: azurerestmapsgeolocation
+      - name: azure-rest-maps-search
+        safeName: azurerestmapssearch

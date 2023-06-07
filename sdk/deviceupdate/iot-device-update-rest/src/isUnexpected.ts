@@ -117,19 +117,15 @@ const responseMap: Record<string, string[]> = {
     "200",
     "304",
   ],
-  "DELETE /deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}": [
-    "202",
-  ],
+  "DELETE /deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}":
+    ["202"],
   "GET /deviceUpdate/{instanceId}/updates/providers": ["200"],
   "GET /deviceUpdate/{instanceId}/updates/providers/{provider}/names": ["200"],
   "GET /deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions": ["200"],
-  "GET /deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}/files": [
-    "200",
-  ],
-  "GET /deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}/files/{fileId}": [
-    "200",
-    "304",
-  ],
+  "GET /deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}/files":
+    ["200"],
+  "GET /deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}/files/{fileId}":
+    ["200", "304"],
   "GET /deviceUpdate/{instanceId}/updates/operations": ["200"],
   "GET /deviceUpdate/{instanceId}/updates/operations/{operationId}": ["200", "304"],
   "GET /deviceUpdate/{instanceId}/management/deviceClasses": ["200"],
@@ -160,39 +156,28 @@ const responseMap: Record<string, string[]> = {
     "200",
   ],
   "GET /deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups": ["200"],
-  "GET /deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}": [
-    "200",
-  ],
-  "DELETE /deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}": [
-    "204",
-  ],
-  "GET /deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}/updateCompliance": [
-    "200",
-  ],
-  "GET /deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}/bestUpdates": [
-    "200",
-  ],
-  "GET /deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}/deployments": [
-    "200",
-  ],
-  "GET /deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}/deployments/{deploymentId}": [
-    "200",
-  ],
-  "DELETE /deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}/deployments/{deploymentId}": [
-    "204",
-  ],
-  "POST /deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}/deployments/{deploymentId}:cancel": [
-    "200",
-  ],
-  "POST /deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}/deployments/{deploymentId}:retry": [
-    "200",
-  ],
-  "GET /deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}/deployments/{deploymentId}/status": [
-    "200",
-  ],
-  "GET /deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}/deployments/{deploymentId}/devicestates": [
-    "200",
-  ],
+  "GET /deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}":
+    ["200"],
+  "DELETE /deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}":
+    ["204"],
+  "GET /deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}/updateCompliance":
+    ["200"],
+  "GET /deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}/bestUpdates":
+    ["200"],
+  "GET /deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}/deployments":
+    ["200"],
+  "GET /deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}/deployments/{deploymentId}":
+    ["200"],
+  "DELETE /deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}/deployments/{deploymentId}":
+    ["204"],
+  "POST /deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}/deployments/{deploymentId}:cancel":
+    ["200"],
+  "POST /deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}/deployments/{deploymentId}:retry":
+    ["200"],
+  "GET /deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}/deployments/{deploymentId}/status":
+    ["200"],
+  "GET /deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}/deployments/{deploymentId}/devicestates":
+    ["200"],
   "GET /deviceUpdate/{instanceId}/management/operations/{operationId}": ["200", "304"],
   "GET /deviceUpdate/{instanceId}/management/operations": ["200"],
   "PUT /deviceUpdate/{instanceId}/management/deviceDiagnostics/logCollections/{operationId}": [
@@ -202,9 +187,8 @@ const responseMap: Record<string, string[]> = {
     "200",
   ],
   "GET /deviceUpdate/{instanceId}/management/deviceDiagnostics/logCollections": ["200"],
-  "GET /deviceUpdate/{instanceId}/management/deviceDiagnostics/logCollections/{operationId}/detailedStatus": [
-    "200",
-  ],
+  "GET /deviceUpdate/{instanceId}/management/deviceDiagnostics/logCollections/{operationId}/detailedStatus":
+    ["200"],
   "GET /deviceUpdate/{instanceId}/management/deviceDiagnostics/deviceHealth": ["200"],
 };
 

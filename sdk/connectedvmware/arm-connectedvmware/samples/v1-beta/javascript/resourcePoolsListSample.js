@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AzureArcVMwareManagementServiceAPI } = require("@azure/arm-connectedvmware");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List of resourcePools in a subscription.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/connectedvmware/resource-manager/Microsoft.ConnectedVMwarevSphere/preview/2022-01-10-preview/examples/ListResourcePools.json
  */
 async function listResourcePools() {
-  const subscriptionId = "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
+  const subscriptionId =
+    process.env["CONNECTEDVMWARE_SUBSCRIPTION_ID"] || "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
   const credential = new DefaultAzureCredential();
   const client = new AzureArcVMwareManagementServiceAPI(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +30,8 @@ async function listResourcePools() {
   console.log(resArray);
 }
 
-listResourcePools().catch(console.error);
+async function main() {
+  listResourcePools();
+}
+
+main().catch(console.error);

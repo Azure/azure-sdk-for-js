@@ -57,6 +57,7 @@ describe("Message session unit tests", () => {
               receiveMode: lockMode,
               retryOptions: undefined,
               skipParsingBodyAsJson: false,
+              skipConvertingDate: false,
             }
           );
 
@@ -89,6 +90,7 @@ describe("Message session unit tests", () => {
               receiveMode: lockMode,
               retryOptions: undefined,
               skipParsingBodyAsJson: false,
+              skipConvertingDate: false,
             }
           );
 
@@ -121,6 +123,7 @@ describe("Message session unit tests", () => {
                 receiveMode: lockMode,
                 retryOptions: undefined,
                 skipParsingBodyAsJson: false,
+                skipConvertingDate: false,
               }
             );
 
@@ -169,6 +172,7 @@ describe("Message session unit tests", () => {
               receiveMode: lockMode,
               retryOptions: undefined,
               skipParsingBodyAsJson: false,
+              skipConvertingDate: false,
             }
           );
 
@@ -223,6 +227,7 @@ describe("Message session unit tests", () => {
                 receiveMode: lockMode,
                 retryOptions: undefined,
                 skipParsingBodyAsJson: false,
+                skipConvertingDate: false,
               }
             );
 
@@ -300,6 +305,12 @@ describe("Message session unit tests", () => {
           remainingRegisteredListeners.delete(evt.toString());
           emitter.removeListener(evt, handler);
         },
+        once(evt: ReceiverEvents, handler: OnAmqpEventAsPromise) {
+          emitter.once(evt, handler);
+          if (evt === ReceiverEvents.message) {
+            --credit;
+          }
+        },
         session: {
           on(evt: SessionEvents, handler: OnAmqpEventAsPromise) {
             emitter.on(evt, handler);
@@ -316,6 +327,15 @@ describe("Message session unit tests", () => {
           removeListener(evt: SessionEvents, handler: OnAmqpEventAsPromise) {
             remainingRegisteredListeners.delete(evt.toString());
             emitter.removeListener(evt, handler);
+          },
+          once(evt: SessionEvents, handler: OnAmqpEventAsPromise) {
+            emitter.once(evt, handler);
+
+            if (evt === SessionEvents.sessionClose) {
+              // this also happens to be the final thing the Promise does
+              // as part of it's initialization.
+              resolvePromiseIsReady();
+            }
           },
         },
         isOpen: () => true,
@@ -373,6 +393,7 @@ describe("Message session unit tests", () => {
           receiveMode: "receiveAndDelete",
           retryOptions: undefined,
           skipParsingBodyAsJson: false,
+          skipConvertingDate: false,
         }
       );
 

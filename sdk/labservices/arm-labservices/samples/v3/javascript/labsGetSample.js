@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { LabServicesClient } = require("@azure/arm-labservices");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Returns the properties of a lab resource.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/labservices/resource-manager/Microsoft.LabServices/stable/2022-08-01/examples/Labs/getLab.json
  */
 async function getLab() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = "testrg123";
+  const subscriptionId =
+    process.env["LABSERVICES_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName = process.env["LABSERVICES_RESOURCE_GROUP"] || "testrg123";
   const labName = "testlab";
   const credential = new DefaultAzureCredential();
   const client = new LabServicesClient(credential, subscriptionId);
@@ -27,4 +29,8 @@ async function getLab() {
   console.log(result);
 }
 
-getLab().catch(console.error);
+async function main() {
+  getLab();
+}
+
+main().catch(console.error);

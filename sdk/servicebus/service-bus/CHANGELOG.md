@@ -1,6 +1,6 @@
 # Release History
 
-## 7.7.3 (Unreleased)
+## 7.9.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,42 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 7.9.0 (2023-04-11)
+
+### Bugs Fixed
+
+- Fix an issue of over-adding credits when receiving messages in a batch [PR #25185](https://github.com/Azure/azure-sdk-for-js/pull/25185)
+- Fix a race condition in initializing management links [PR #25279](https://github.com/Azure/azure-sdk-for-js/pull/25279)
+- `Uint8Array` payload is converted into JSON before being sent. This PR fixes it so that `Uint8Array` is being treated the same as a Buffer.
+- Fix an issue where closing receiver could be blocked indefinitely when we don't receive a drain credit response.
+- Fix an edge case issue where `receiveMessages()` may never resolve indefinitely. [PR #25355](https://github.com/Azure/azure-sdk-for-js/pull/25355)
+
+### Other Changes
+
+- upgrade dependency `rhea-promise` version to `^3.0.0`.
+
+## 7.8.1 (2023-03-07)
+
+### Bugs Fixed
+
+- Pass `skipParsingBodyAsJson` and `skipConvertingDate` options to peek operations. (PR #24950)[https://github.com/Azure/azure-sdk-for-js/pull/24950]
+
+## 7.8.0 (2023-02-07)
+
+### Features Added
+
+- Add an option to skip converting Date type into UNIX epoch number for properties in message annotations or application properties. (PR #24539)[https://github.com/Azure/azure-sdk-for-js/pull/24539]
+
+### Bugs Fixed
+
+- Ensure unique `replyTo` when new link is needed in ManagementClient. (PR #24509)[https://github.com/Azure/azure-sdk-for-js/pull/24509]
+
+## 7.7.3 (2022-11-08)
+
+### Bugs Fixed
+
+- Fix React-Native bundling issue by adding a `react-native` mapping to ESM entrypoint file. (PR #23524)[https://github.com/Azure/azure-sdk-for-js/pull/23524]
 
 ## 7.7.2 (2022-10-11)
 

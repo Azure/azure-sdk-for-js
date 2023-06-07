@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { PolicyDefinitions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,10 +17,13 @@ import {
   PolicyDefinition,
   PolicyDefinitionsListNextOptionalParams,
   PolicyDefinitionsListOptionalParams,
+  PolicyDefinitionsListResponse,
   PolicyDefinitionsListBuiltInNextOptionalParams,
   PolicyDefinitionsListBuiltInOptionalParams,
+  PolicyDefinitionsListBuiltInResponse,
   PolicyDefinitionsListByManagementGroupNextOptionalParams,
   PolicyDefinitionsListByManagementGroupOptionalParams,
+  PolicyDefinitionsListByManagementGroupResponse,
   PolicyDefinitionsCreateOrUpdateOptionalParams,
   PolicyDefinitionsCreateOrUpdateResponse,
   PolicyDefinitionsDeleteOptionalParams,
@@ -32,9 +36,6 @@ import {
   PolicyDefinitionsDeleteAtManagementGroupOptionalParams,
   PolicyDefinitionsGetAtManagementGroupOptionalParams,
   PolicyDefinitionsGetAtManagementGroupResponse,
-  PolicyDefinitionsListResponse,
-  PolicyDefinitionsListBuiltInResponse,
-  PolicyDefinitionsListByManagementGroupResponse,
   PolicyDefinitionsListNextResponse,
   PolicyDefinitionsListBuiltInNextResponse,
   PolicyDefinitionsListByManagementGroupNextResponse
@@ -77,22 +78,34 @@ export class PolicyDefinitionsImpl implements PolicyDefinitions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: PolicyDefinitionsListOptionalParams
+    options?: PolicyDefinitionsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PolicyDefinition[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PolicyDefinitionsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -123,22 +136,34 @@ export class PolicyDefinitionsImpl implements PolicyDefinitions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBuiltInPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBuiltInPagingPage(options, settings);
       }
     };
   }
 
   private async *listBuiltInPagingPage(
-    options?: PolicyDefinitionsListBuiltInOptionalParams
+    options?: PolicyDefinitionsListBuiltInOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PolicyDefinition[]> {
-    let result = await this._listBuiltIn(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PolicyDefinitionsListBuiltInResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBuiltIn(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBuiltInNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -179,19 +204,33 @@ export class PolicyDefinitionsImpl implements PolicyDefinitions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByManagementGroupPagingPage(managementGroupId, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByManagementGroupPagingPage(
+          managementGroupId,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByManagementGroupPagingPage(
     managementGroupId: string,
-    options?: PolicyDefinitionsListByManagementGroupOptionalParams
+    options?: PolicyDefinitionsListByManagementGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PolicyDefinition[]> {
-    let result = await this._listByManagementGroup(managementGroupId, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PolicyDefinitionsListByManagementGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByManagementGroup(managementGroupId, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByManagementGroupNext(
         managementGroupId,
@@ -199,7 +238,9 @@ export class PolicyDefinitionsImpl implements PolicyDefinitions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -647,7 +688,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -667,7 +707,6 @@ const listBuiltInNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
@@ -683,7 +722,6 @@ const listByManagementGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

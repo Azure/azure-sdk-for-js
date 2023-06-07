@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ChaosManagementClient } from "@azure/arm-chaos";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get a list of Capability Type resources for given Target Type and location.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2022-10-01-preview/examples/ListCapabilityTypes.json
  */
 async function listAllCapabilityTypesForAVirtualMachineTargetResourceOnWestus2Location() {
-  const subscriptionId = "6b052e15-03d3-4f17-b2e1-be7f07588291";
+  const subscriptionId =
+    process.env["CHAOS_SUBSCRIPTION_ID"] ||
+    "6b052e15-03d3-4f17-b2e1-be7f07588291";
   const locationName = "westus2";
   const targetTypeName = "Microsoft-VirtualMachine";
   const credential = new DefaultAzureCredential();
@@ -33,6 +38,8 @@ async function listAllCapabilityTypesForAVirtualMachineTargetResourceOnWestus2Lo
   console.log(resArray);
 }
 
-listAllCapabilityTypesForAVirtualMachineTargetResourceOnWestus2Location().catch(
-  console.error
-);
+async function main() {
+  listAllCapabilityTypesForAVirtualMachineTargetResourceOnWestus2Location();
+}
+
+main().catch(console.error);

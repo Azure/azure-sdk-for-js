@@ -6,15 +6,12 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type ActionType = string;
-
-// @public
-export type ApplicationProvisioningState = string;
 
 // @public
 export interface ApplicationServerConfiguration {
@@ -24,21 +21,19 @@ export interface ApplicationServerConfiguration {
 }
 
 // @public
-export type AzureFrontDoorEnabled = string;
-
-// @public
-export interface BackupProfile {
-    backupEnabled: EnableBackup;
-    readonly vaultResourceId?: string;
+export interface ApplicationServerFullResourceNames {
+    availabilitySetName?: string;
+    virtualMachines?: VirtualMachineResourceNames[];
 }
 
 // @public
-export interface CacheProfile {
-    readonly cacheResourceId?: string;
-    capacity: number;
-    family: RedisCacheFamily;
-    name?: string;
-    skuName: string;
+export type ApplicationServerVirtualMachineType = string;
+
+// @public
+export interface ApplicationServerVmDetails {
+    readonly storageDetails?: StorageInformation[];
+    readonly type?: ApplicationServerVirtualMachineType;
+    readonly virtualMachineId?: string;
 }
 
 // @public
@@ -49,12 +44,30 @@ export interface CentralServerConfiguration {
 }
 
 // @public
+export interface CentralServerFullResourceNames {
+    availabilitySetName?: string;
+    loadBalancer?: LoadBalancerResourceNames;
+    virtualMachines?: VirtualMachineResourceNames[];
+}
+
+// @public
 export type CentralServerVirtualMachineType = string;
 
 // @public
 export interface CentralServerVmDetails {
+    readonly storageDetails?: StorageInformation[];
     readonly type?: CentralServerVirtualMachineType;
     readonly virtualMachineId?: string;
+}
+
+// @public
+export type ConfigurationType = string;
+
+// @public
+export interface CreateAndMountFileShareConfiguration extends FileShareConfiguration {
+    configurationType: "CreateAndMount";
+    resourceGroup?: string;
+    storageAccountName?: string;
 }
 
 // @public
@@ -63,36 +76,23 @@ export type CreatedByType = string;
 // @public
 export interface DatabaseConfiguration {
     databaseType?: SAPDatabaseType;
+    diskConfiguration?: DiskConfiguration;
     instanceCount: number;
     subnetId: string;
     virtualMachineConfiguration: VirtualMachineConfiguration;
 }
 
 // @public
-export interface DatabaseProfile {
-    backupRetentionDays?: number;
-    haEnabled?: HAEnabled;
-    serverName?: string;
-    readonly serverResourceId?: string;
-    sku: string;
-    sslEnforcementEnabled?: EnableSslEnforcement;
-    storageInGB?: number;
-    storageIops?: number;
-    storageSku?: string;
-    tier: DatabaseTier;
-    type: DatabaseType;
-    version?: string;
+export interface DatabaseServerFullResourceNames {
+    availabilitySetName?: string;
+    loadBalancer?: LoadBalancerResourceNames;
+    virtualMachines?: VirtualMachineResourceNames[];
 }
-
-// @public
-export type DatabaseTier = "Burstable" | "GeneralPurpose" | "MemoryOptimized";
-
-// @public
-export type DatabaseType = string;
 
 // @public
 export interface DatabaseVmDetails {
     readonly status?: SAPVirtualInstanceStatus;
+    readonly storageDetails?: StorageInformation[];
     readonly virtualMachineId?: string;
 }
 
@@ -106,6 +106,8 @@ export interface DB2ProviderInstanceProperties extends ProviderSpecificPropertie
     hostname?: string;
     providerType: "Db2";
     sapSid?: string;
+    sslCertificateUri?: string;
+    sslPreference?: SslPreference;
 }
 
 // @public
@@ -136,22 +138,41 @@ export interface DiscoveryConfiguration extends SAPConfiguration {
     readonly appLocation?: string;
     centralServerVmId?: string;
     configurationType: "Discovery";
+    managedRgStorageAccountName?: string;
 }
 
 // @public
-export interface DiskInfo {
-    sizeInGB?: number;
-    storageType: DiskStorageType;
+export interface DiskConfiguration {
+    diskVolumeConfigurations?: {
+        [propertyName: string]: DiskVolumeConfiguration;
+    };
 }
 
 // @public
-export type DiskStorageType = "Premium_LRS" | "Standard_LRS" | "StandardSSD_LRS";
+export interface DiskDetails {
+    diskTier?: string;
+    iopsReadWrite?: number;
+    maximumSupportedDiskCount?: number;
+    mbpsReadWrite?: number;
+    minimumSupportedDiskCount?: number;
+    sizeGB?: number;
+    sku?: DiskSku;
+}
 
 // @public
-export type EnableBackup = string;
+export interface DiskSku {
+    name?: DiskSkuName;
+}
 
 // @public
-export type EnableSslEnforcement = string;
+export type DiskSkuName = string;
+
+// @public
+export interface DiskVolumeConfiguration {
+    count?: number;
+    sizeGB?: number;
+    sku?: DiskSku;
+}
 
 // @public
 export interface EnqueueReplicationServerProperties {
@@ -217,19 +238,18 @@ export interface ErrorResponse {
 }
 
 // @public
-export interface FileshareProfile {
-    readonly shareName?: string;
-    shareSizeInGB?: number;
-    shareType: FileShareType;
-    readonly storageResourceId?: string;
-    storageType: FileShareStorageType;
+export interface ExternalInstallationSoftwareConfiguration extends SoftwareConfiguration {
+    centralServerVmId?: string;
+    softwareInstallationType: "External";
 }
 
 // @public
-export type FileShareStorageType = string;
+export interface FileShareConfiguration {
+    configurationType: "Skip" | "CreateAndMount" | "Mount";
+}
 
-// @public
-export type FileShareType = string;
+// @public (undocumented)
+export type FileShareConfigurationUnion = FileShareConfiguration | SkipFileShareConfiguration | CreateAndMountFileShareConfiguration | MountFileShareConfiguration;
 
 // @public
 export interface GatewayServerProperties {
@@ -238,20 +258,22 @@ export interface GatewayServerProperties {
 }
 
 // @public
-export type HAEnabled = string;
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface HanaDbProviderInstanceProperties extends ProviderSpecificProperties {
     dbName?: string;
     dbPassword?: string;
     dbPasswordUri?: string;
-    dbSslCertificateUri?: string;
     dbUsername?: string;
     hostname?: string;
     instanceNumber?: string;
     providerType: "SapHana";
+    sapSid?: string;
     sqlPort?: string;
+    sslCertificateUri?: string;
     sslHostNameInCertificate?: string;
+    sslPreference?: SslPreference;
 }
 
 // @public
@@ -267,10 +289,8 @@ export interface HighAvailabilitySoftwareConfiguration {
 
 // @public
 export interface ImageReference {
-    readonly exactVersion?: string;
     offer?: string;
     publisher?: string;
-    sharedGalleryImageId?: string;
     sku?: string;
     version?: string;
 }
@@ -290,20 +310,10 @@ export enum KnownActionType {
 }
 
 // @public
-export enum KnownApplicationProvisioningState {
-    Accepted = "Accepted",
-    Canceled = "Canceled",
-    Created = "Created",
-    Failed = "Failed",
-    Installing = "Installing",
-    NotSpecified = "NotSpecified",
-    Succeeded = "Succeeded"
-}
-
-// @public
-export enum KnownAzureFrontDoorEnabled {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
+export enum KnownApplicationServerVirtualMachineType {
+    Active = "Active",
+    Standby = "Standby",
+    Unknown = "Unknown"
 }
 
 // @public
@@ -318,6 +328,13 @@ export enum KnownCentralServerVirtualMachineType {
 }
 
 // @public
+export enum KnownConfigurationType {
+    CreateAndMount = "CreateAndMount",
+    Mount = "Mount",
+    Skip = "Skip"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -326,20 +343,14 @@ export enum KnownCreatedByType {
 }
 
 // @public
-export enum KnownDatabaseType {
-    MySql = "MySql"
-}
-
-// @public
-export enum KnownEnableBackup {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
-}
-
-// @public
-export enum KnownEnableSslEnforcement {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
+export enum KnownDiskSkuName {
+    PremiumLRS = "Premium_LRS",
+    PremiumV2LRS = "PremiumV2_LRS",
+    PremiumZRS = "Premium_ZRS",
+    StandardLRS = "Standard_LRS",
+    StandardSSDLRS = "StandardSSD_LRS",
+    StandardSSDZRS = "StandardSSD_ZRS",
+    UltraSSDLRS = "UltraSSD_LRS"
 }
 
 // @public
@@ -349,41 +360,14 @@ export enum KnownEnqueueReplicationServerType {
 }
 
 // @public
-export enum KnownFileShareStorageType {
-    PremiumLRS = "Premium_LRS",
-    StandardGRS = "Standard_GRS",
-    StandardLRS = "Standard_LRS",
-    StandardZRS = "Standard_ZRS"
-}
-
-// @public
-export enum KnownFileShareType {
-    AzureFiles = "AzureFiles",
-    NfsOnController = "NfsOnController"
-}
-
-// @public
-export enum KnownHAEnabled {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
-}
-
-// @public
-export enum KnownLoadBalancerType {
-    ApplicationGateway = "ApplicationGateway",
-    LoadBalancer = "LoadBalancer"
-}
-
-// @public
-export enum KnownLocationType {
-    EdgeZone = "EdgeZone",
-    Region = "Region"
-}
-
-// @public
 export enum KnownManagedServiceIdentityType {
     None = "None",
     UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownNamingPatternType {
+    FullResourceName = "FullResourceName"
 }
 
 // @public
@@ -401,57 +385,9 @@ export enum KnownOrigin {
 }
 
 // @public
-export enum KnownOSImageOffer {
-    UbuntuServer = "UbuntuServer"
-}
-
-// @public
-export enum KnownOSImagePublisher {
-    Canonical = "Canonical"
-}
-
-// @public
-export enum KnownOSImageSku {
-    Eighteen04LTS = "18.04-LTS",
-    Sixteen04LTS = "16.04-LTS"
-}
-
-// @public
-export enum KnownOSImageVersion {
-    Latest = "latest"
-}
-
-// @public
 export enum KnownOSType {
     Linux = "Linux",
     Windows = "Windows"
-}
-
-// @public
-export enum KnownPHPVersion {
-    Seven2 = "7.2",
-    Seven3 = "7.3",
-    Seven4 = "7.4"
-}
-
-// @public
-export enum KnownPhpWorkloadProvisioningState {
-    Accepted = "Accepted",
-    Canceled = "Canceled",
-    Created = "Created",
-    Deleting = "Deleting",
-    Failed = "Failed",
-    NotSpecified = "NotSpecified",
-    Provisioning = "Provisioning",
-    Succeeded = "Succeeded"
-}
-
-// @public
-export enum KnownRedisCacheFamily {
-    // (undocumented)
-    C = "C",
-    // (undocumented)
-    P = "P"
 }
 
 // @public
@@ -505,6 +441,15 @@ export enum KnownSAPHighAvailabilityType {
 }
 
 // @public
+export enum KnownSapLandscapeMonitorProvisioningState {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Created = "Created",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownSAPProductType {
     ECC = "ECC",
     Other = "Other",
@@ -513,6 +458,7 @@ export enum KnownSAPProductType {
 
 // @public
 export enum KnownSAPSoftwareInstallationType {
+    External = "External",
     SAPInstallWithoutOSConfig = "SAPInstallWithoutOSConfig",
     ServiceInitiated = "ServiceInitiated"
 }
@@ -535,6 +481,8 @@ export enum KnownSAPVirtualInstanceState {
     InfrastructureDeploymentInProgress = "InfrastructureDeploymentInProgress",
     InfrastructureDeploymentPending = "InfrastructureDeploymentPending",
     RegistrationComplete = "RegistrationComplete",
+    SoftwareDetectionFailed = "SoftwareDetectionFailed",
+    SoftwareDetectionInProgress = "SoftwareDetectionInProgress",
     SoftwareInstallationFailed = "SoftwareInstallationFailed",
     SoftwareInstallationInProgress = "SoftwareInstallationInProgress",
     SoftwareInstallationPending = "SoftwareInstallationPending"
@@ -545,48 +493,17 @@ export enum KnownSAPVirtualInstanceStatus {
     Offline = "Offline",
     PartiallyRunning = "PartiallyRunning",
     Running = "Running",
+    SoftShutdown = "SoftShutdown",
     Starting = "Starting",
     Stopping = "Stopping",
     Unavailable = "Unavailable"
 }
 
 // @public
-export enum KnownSearchType {
-    Elastic = "Elastic"
-}
-
-// @public
-export enum KnownSkuRestrictionReasonCode {
-    NotAvailableForSubscription = "NotAvailableForSubscription",
-    NotSpecified = "NotSpecified",
-    QuotaId = "QuotaId"
-}
-
-// @public
-export enum KnownSkuRestrictionType {
-    Location = "Location",
-    NotSpecified = "NotSpecified",
-    Zone = "Zone"
-}
-
-// @public
-export enum KnownSkuScaleType {
-    Automatic = "Automatic",
-    Manual = "Manual",
-    None = "None"
-}
-
-// @public
-export enum KnownWordpressVersions {
-    Five4 = "5.4",
-    Five41 = "5.4.1",
-    Five42 = "5.4.2",
-    Five43 = "5.4.3"
-}
-
-// @public
-export enum KnownWorkloadKind {
-    WordPress = "WordPress"
+export enum KnownSslPreference {
+    Disabled = "Disabled",
+    RootCertificate = "RootCertificate",
+    ServerCertificate = "ServerCertificate"
 }
 
 // @public
@@ -615,10 +532,17 @@ export interface LinuxConfiguration extends OSConfiguration {
 }
 
 // @public
-export type LoadBalancerType = string;
+export interface LoadBalancerDetails {
+    readonly id?: string;
+}
 
 // @public
-export type LocationType = string;
+export interface LoadBalancerResourceNames {
+    backendPoolNames?: string[];
+    frontendIpConfigurationNames?: string[];
+    healthProbeNames?: string[];
+    loadBalancerName?: string;
+}
 
 // @public
 export interface ManagedRGConfiguration {
@@ -650,6 +574,8 @@ export interface Monitor extends TrackedResource {
     readonly msiArmId?: string;
     readonly provisioningState?: WorkloadMonitorProvisioningState;
     routingPreference?: RoutingPreference;
+    readonly storageAccountArmId?: string;
+    zoneRedundancyPreference?: string;
 }
 
 // @public
@@ -664,9 +590,9 @@ export interface MonitorPropertiesErrors extends ErrorModel {
 
 // @public
 export interface Monitors {
-    beginCreate(resourceGroupName: string, monitorName: string, monitorParameter: Monitor, options?: MonitorsCreateOptionalParams): Promise<PollerLike<PollOperationState<MonitorsCreateResponse>, MonitorsCreateResponse>>;
+    beginCreate(resourceGroupName: string, monitorName: string, monitorParameter: Monitor, options?: MonitorsCreateOptionalParams): Promise<SimplePollerLike<OperationState<MonitorsCreateResponse>, MonitorsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, monitorName: string, monitorParameter: Monitor, options?: MonitorsCreateOptionalParams): Promise<MonitorsCreateResponse>;
-    beginDelete(resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams): Promise<PollerLike<PollOperationState<MonitorsDeleteResponse>, MonitorsDeleteResponse>>;
+    beginDelete(resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<MonitorsDeleteResponse>, MonitorsDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams): Promise<MonitorsDeleteResponse>;
     get(resourceGroupName: string, monitorName: string, options?: MonitorsGetOptionalParams): Promise<MonitorsGetResponse>;
     list(options?: MonitorsListOptionalParams): PagedAsyncIterableIterator<Monitor>;
@@ -735,6 +661,13 @@ export interface MonitorsUpdateOptionalParams extends coreClient.OperationOption
 export type MonitorsUpdateResponse = Monitor;
 
 // @public
+export interface MountFileShareConfiguration extends FileShareConfiguration {
+    configurationType: "Mount";
+    id: string;
+    privateEndpointId: string;
+}
+
+// @public
 export interface MsSqlServerProviderInstanceProperties extends ProviderSpecificProperties {
     dbPassword?: string;
     dbPasswordUri?: string;
@@ -743,7 +676,12 @@ export interface MsSqlServerProviderInstanceProperties extends ProviderSpecificP
     hostname?: string;
     providerType: "MsSqlServer";
     sapSid?: string;
+    sslCertificateUri?: string;
+    sslPreference?: SslPreference;
 }
+
+// @public
+export type NamingPatternType = string;
 
 // @public
 export interface NetworkConfiguration {
@@ -751,27 +689,8 @@ export interface NetworkConfiguration {
 }
 
 // @public
-export interface NetworkProfile {
-    azureFrontDoorEnabled?: AzureFrontDoorEnabled;
-    readonly azureFrontDoorResourceId?: string;
-    capacity?: number;
-    readonly frontEndPublicIpResourceId?: string;
-    readonly loadBalancerResourceId?: string;
-    loadBalancerSku?: string;
-    loadBalancerTier?: string;
-    loadBalancerType: LoadBalancerType;
-    readonly outboundPublicIpResourceIds?: string[];
-    readonly vNetResourceId?: string;
-}
-
-// @public
-export interface NodeProfile {
-    dataDisks?: DiskInfo[];
-    name?: string;
-    readonly nodeResourceIds?: string[];
-    nodeSku: string;
-    osDisk: DiskInfo;
-    osImage: OsImageProfile;
+export interface NetworkInterfaceResourceNames {
+    networkInterfaceName?: string;
 }
 
 // @public
@@ -881,26 +800,6 @@ export interface OSConfiguration {
 export type OSConfigurationUnion = OSConfiguration | WindowsConfiguration | LinuxConfiguration;
 
 // @public
-export type OSImageOffer = string;
-
-// @public
-export interface OsImageProfile {
-    offer?: OSImageOffer;
-    publisher?: OSImagePublisher;
-    sku?: OSImageSku;
-    version?: OSImageVersion;
-}
-
-// @public
-export type OSImagePublisher = string;
-
-// @public
-export type OSImageSku = string;
-
-// @public
-export type OSImageVersion = string;
-
-// @public
 export interface OSProfile {
     adminPassword?: string;
     adminUsername?: string;
@@ -917,143 +816,23 @@ export interface OsSapConfiguration {
 export type OSType = string;
 
 // @public
-export interface PatchResourceRequestBody {
-    // (undocumented)
-    identity?: PatchResourceRequestBodyIdentity;
-    tags?: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public (undocumented)
-export interface PatchResourceRequestBodyIdentity extends UserAssignedServiceIdentity {
-}
-
-// @public
-export interface PhpProfile {
-    version: PHPVersion;
-}
-
-// @public
-export type PHPVersion = string;
-
-// @public
-export type PhpWorkloadProvisioningState = string;
-
-// @public
-export interface PhpWorkloadResource extends TrackedResource {
-    adminUserProfile?: UserProfile;
-    appLocation?: string;
-    backupProfile?: BackupProfile;
-    cacheProfile?: CacheProfile;
-    controllerProfile?: NodeProfile;
-    databaseProfile?: DatabaseProfile;
-    fileshareProfile?: FileshareProfile;
-    identity?: PhpWorkloadResourceIdentity;
-    kind: WorkloadKind;
-    managedResourceGroupConfiguration?: ManagedRGConfiguration;
-    networkProfile?: NetworkProfile;
-    phpProfile?: PhpProfile;
-    readonly provisioningState?: PhpWorkloadProvisioningState;
-    searchProfile?: SearchProfile;
-    siteProfile?: SiteProfile;
-    sku?: Sku;
-    webNodesProfile?: VmssNodesProfile;
-}
-
-// @public
-export interface PhpWorkloadResourceIdentity extends UserAssignedServiceIdentity {
-}
-
-// @public
-export interface PhpWorkloadResourceList {
-    nextLink?: string;
-    value?: PhpWorkloadResource[];
-}
-
-// @public
-export interface PhpWorkloads {
-    beginCreateOrUpdate(resourceGroupName: string, phpWorkloadName: string, phpWorkloadResource: PhpWorkloadResource, options?: PhpWorkloadsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<PhpWorkloadsCreateOrUpdateResponse>, PhpWorkloadsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, phpWorkloadName: string, phpWorkloadResource: PhpWorkloadResource, options?: PhpWorkloadsCreateOrUpdateOptionalParams): Promise<PhpWorkloadsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, phpWorkloadName: string, options?: PhpWorkloadsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, phpWorkloadName: string, options?: PhpWorkloadsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, phpWorkloadName: string, options?: PhpWorkloadsGetOptionalParams): Promise<PhpWorkloadsGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: PhpWorkloadsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<PhpWorkloadResource>;
-    listBySubscription(options?: PhpWorkloadsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<PhpWorkloadResource>;
-    update(resourceGroupName: string, phpWorkloadName: string, resourcePatchRequestBody: PatchResourceRequestBody, options?: PhpWorkloadsUpdateOptionalParams): Promise<PhpWorkloadsUpdateResponse>;
-}
-
-// @public
-export interface PhpWorkloadsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type PhpWorkloadsCreateOrUpdateResponse = PhpWorkloadResource;
-
-// @public
-export interface PhpWorkloadsDeleteOptionalParams extends coreClient.OperationOptions {
-    deleteInfra?: string;
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface PhpWorkloadsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PhpWorkloadsGetResponse = PhpWorkloadResource;
-
-// @public
-export interface PhpWorkloadsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PhpWorkloadsListByResourceGroupNextResponse = PhpWorkloadResourceList;
-
-// @public
-export interface PhpWorkloadsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PhpWorkloadsListByResourceGroupResponse = PhpWorkloadResourceList;
-
-// @public
-export interface PhpWorkloadsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PhpWorkloadsListBySubscriptionNextResponse = PhpWorkloadResourceList;
-
-// @public
-export interface PhpWorkloadsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PhpWorkloadsListBySubscriptionResponse = PhpWorkloadResourceList;
-
-// @public
-export interface PhpWorkloadsUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PhpWorkloadsUpdateResponse = PhpWorkloadResource;
-
-// @public
 export interface PrometheusHaClusterProviderInstanceProperties extends ProviderSpecificProperties {
     clusterName?: string;
     hostname?: string;
     prometheusUrl?: string;
     providerType: "PrometheusHaCluster";
     sid?: string;
+    sslCertificateUri?: string;
+    sslPreference?: SslPreference;
 }
 
 // @public
 export interface PrometheusOSProviderInstanceProperties extends ProviderSpecificProperties {
     prometheusUrl?: string;
     providerType: "PrometheusOS";
+    sapSid?: string;
+    sslCertificateUri?: string;
+    sslPreference?: SslPreference;
 }
 
 // @public
@@ -1076,9 +855,9 @@ export interface ProviderInstancePropertiesErrors extends ErrorModel {
 
 // @public
 export interface ProviderInstances {
-    beginCreate(resourceGroupName: string, monitorName: string, providerInstanceName: string, providerInstanceParameter: ProviderInstance, options?: ProviderInstancesCreateOptionalParams): Promise<PollerLike<PollOperationState<ProviderInstancesCreateResponse>, ProviderInstancesCreateResponse>>;
+    beginCreate(resourceGroupName: string, monitorName: string, providerInstanceName: string, providerInstanceParameter: ProviderInstance, options?: ProviderInstancesCreateOptionalParams): Promise<SimplePollerLike<OperationState<ProviderInstancesCreateResponse>, ProviderInstancesCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, monitorName: string, providerInstanceName: string, providerInstanceParameter: ProviderInstance, options?: ProviderInstancesCreateOptionalParams): Promise<ProviderInstancesCreateResponse>;
-    beginDelete(resourceGroupName: string, monitorName: string, providerInstanceName: string, options?: ProviderInstancesDeleteOptionalParams): Promise<PollerLike<PollOperationState<ProviderInstancesDeleteResponse>, ProviderInstancesDeleteResponse>>;
+    beginDelete(resourceGroupName: string, monitorName: string, providerInstanceName: string, options?: ProviderInstancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ProviderInstancesDeleteResponse>, ProviderInstancesDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, monitorName: string, providerInstanceName: string, options?: ProviderInstancesDeleteOptionalParams): Promise<ProviderInstancesDeleteResponse>;
     get(resourceGroupName: string, monitorName: string, providerInstanceName: string, options?: ProviderInstancesGetOptionalParams): Promise<ProviderInstancesGetResponse>;
     list(resourceGroupName: string, monitorName: string, options?: ProviderInstancesListOptionalParams): PagedAsyncIterableIterator<ProviderInstance>;
@@ -1136,20 +915,11 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
-export type RedisCacheFamily = string;
-
-// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
-}
-
-// @public
-export interface RestrictionInfo {
-    locations?: string[];
-    zones?: string[];
 }
 
 // @public
@@ -1167,10 +937,11 @@ export interface SAPApplicationServerInstance extends TrackedResource {
     readonly ipAddress?: string;
     readonly kernelPatch?: string;
     readonly kernelVersion?: string;
+    readonly loadBalancerDetails?: LoadBalancerDetails;
     readonly provisioningState?: SapVirtualInstanceProvisioningState;
     readonly status?: SAPVirtualInstanceStatus;
     readonly subnet?: string;
-    readonly virtualMachineId?: string;
+    readonly vmDetails?: ApplicationServerVmDetails[];
 }
 
 // @public
@@ -1181,11 +952,15 @@ export interface SAPApplicationServerInstanceList {
 
 // @public
 export interface SAPApplicationServerInstances {
-    beginCreate(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesCreateOptionalParams): Promise<PollerLike<PollOperationState<SAPApplicationServerInstancesCreateResponse>, SAPApplicationServerInstancesCreateResponse>>;
+    beginCreate(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesCreateOptionalParams): Promise<SimplePollerLike<OperationState<SAPApplicationServerInstancesCreateResponse>, SAPApplicationServerInstancesCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesCreateOptionalParams): Promise<SAPApplicationServerInstancesCreateResponse>;
-    beginDelete(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesDeleteOptionalParams): Promise<PollerLike<PollOperationState<SAPApplicationServerInstancesDeleteResponse>, SAPApplicationServerInstancesDeleteResponse>>;
+    beginDelete(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<SAPApplicationServerInstancesDeleteResponse>, SAPApplicationServerInstancesDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesDeleteOptionalParams): Promise<SAPApplicationServerInstancesDeleteResponse>;
-    beginUpdate(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesUpdateOptionalParams): Promise<PollerLike<PollOperationState<SAPApplicationServerInstancesUpdateResponse>, SAPApplicationServerInstancesUpdateResponse>>;
+    beginStartInstance(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesStartInstanceOptionalParams): Promise<SimplePollerLike<OperationState<SAPApplicationServerInstancesStartInstanceResponse>, SAPApplicationServerInstancesStartInstanceResponse>>;
+    beginStartInstanceAndWait(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesStartInstanceOptionalParams): Promise<SAPApplicationServerInstancesStartInstanceResponse>;
+    beginStopInstance(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesStopInstanceOptionalParams): Promise<SimplePollerLike<OperationState<SAPApplicationServerInstancesStopInstanceResponse>, SAPApplicationServerInstancesStopInstanceResponse>>;
+    beginStopInstanceAndWait(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesStopInstanceOptionalParams): Promise<SAPApplicationServerInstancesStopInstanceResponse>;
+    beginUpdate(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SAPApplicationServerInstancesUpdateResponse>, SAPApplicationServerInstancesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesUpdateOptionalParams): Promise<SAPApplicationServerInstancesUpdateResponse>;
     get(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesGetOptionalParams): Promise<SAPApplicationServerInstancesGetResponse>;
     list(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPApplicationServerInstancesListOptionalParams): PagedAsyncIterableIterator<SAPApplicationServerInstance>;
@@ -1232,6 +1007,25 @@ export interface SAPApplicationServerInstancesListOptionalParams extends coreCli
 export type SAPApplicationServerInstancesListResponse = SAPApplicationServerInstanceList;
 
 // @public
+export interface SAPApplicationServerInstancesStartInstanceOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SAPApplicationServerInstancesStartInstanceResponse = OperationStatusResult;
+
+// @public
+export interface SAPApplicationServerInstancesStopInstanceOptionalParams extends coreClient.OperationOptions {
+    body?: StopRequest;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SAPApplicationServerInstancesStopInstanceResponse = OperationStatusResult;
+
+// @public
 export interface SAPApplicationServerInstancesUpdateOptionalParams extends coreClient.OperationOptions {
     body?: UpdateSAPApplicationInstanceRequest;
     resumeFrom?: string;
@@ -1275,11 +1069,15 @@ export interface SAPCentralInstanceList {
 
 // @public
 export interface SAPCentralInstances {
-    beginCreate(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesCreateOptionalParams): Promise<PollerLike<PollOperationState<SAPCentralInstancesCreateResponse>, SAPCentralInstancesCreateResponse>>;
+    beginCreate(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesCreateOptionalParams): Promise<SimplePollerLike<OperationState<SAPCentralInstancesCreateResponse>, SAPCentralInstancesCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesCreateOptionalParams): Promise<SAPCentralInstancesCreateResponse>;
-    beginDelete(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesDeleteOptionalParams): Promise<PollerLike<PollOperationState<SAPCentralInstancesDeleteResponse>, SAPCentralInstancesDeleteResponse>>;
+    beginDelete(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<SAPCentralInstancesDeleteResponse>, SAPCentralInstancesDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesDeleteOptionalParams): Promise<SAPCentralInstancesDeleteResponse>;
-    beginUpdate(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesUpdateOptionalParams): Promise<PollerLike<PollOperationState<SAPCentralInstancesUpdateResponse>, SAPCentralInstancesUpdateResponse>>;
+    beginStartInstance(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesStartInstanceOptionalParams): Promise<SimplePollerLike<OperationState<SAPCentralInstancesStartInstanceResponse>, SAPCentralInstancesStartInstanceResponse>>;
+    beginStartInstanceAndWait(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesStartInstanceOptionalParams): Promise<SAPCentralInstancesStartInstanceResponse>;
+    beginStopInstance(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesStopInstanceOptionalParams): Promise<SimplePollerLike<OperationState<SAPCentralInstancesStopInstanceResponse>, SAPCentralInstancesStopInstanceResponse>>;
+    beginStopInstanceAndWait(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesStopInstanceOptionalParams): Promise<SAPCentralInstancesStopInstanceResponse>;
+    beginUpdate(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SAPCentralInstancesUpdateResponse>, SAPCentralInstancesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesUpdateOptionalParams): Promise<SAPCentralInstancesUpdateResponse>;
     get(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesGetOptionalParams): Promise<SAPCentralInstancesGetResponse>;
     list(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPCentralInstancesListOptionalParams): PagedAsyncIterableIterator<SAPCentralServerInstance>;
@@ -1326,6 +1124,25 @@ export interface SAPCentralInstancesListOptionalParams extends coreClient.Operat
 export type SAPCentralInstancesListResponse = SAPCentralInstanceList;
 
 // @public
+export interface SAPCentralInstancesStartInstanceOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SAPCentralInstancesStartInstanceResponse = OperationStatusResult;
+
+// @public
+export interface SAPCentralInstancesStopInstanceOptionalParams extends coreClient.OperationOptions {
+    body?: StopRequest;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SAPCentralInstancesStopInstanceResponse = OperationStatusResult;
+
+// @public
 export interface SAPCentralInstancesUpdateOptionalParams extends coreClient.OperationOptions {
     body?: UpdateSAPCentralInstanceRequest;
     resumeFrom?: string;
@@ -1345,6 +1162,7 @@ export interface SAPCentralServerInstance extends TrackedResource {
     readonly instanceNo?: string;
     readonly kernelPatch?: string;
     readonly kernelVersion?: string;
+    readonly loadBalancerDetails?: LoadBalancerDetails;
     messageServerProperties?: MessageServerProperties;
     readonly provisioningState?: SapVirtualInstanceProvisioningState;
     readonly status?: SAPVirtualInstanceStatus;
@@ -1369,6 +1187,7 @@ export interface SAPDatabaseInstance extends TrackedResource {
     readonly databaseType?: string;
     readonly errors?: SAPVirtualInstanceError;
     readonly ipAddress?: string;
+    readonly loadBalancerDetails?: LoadBalancerDetails;
     readonly provisioningState?: SapVirtualInstanceProvisioningState;
     readonly status?: SAPVirtualInstanceStatus;
     readonly subnet?: string;
@@ -1383,11 +1202,15 @@ export interface SAPDatabaseInstanceList {
 
 // @public
 export interface SAPDatabaseInstances {
-    beginCreate(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesCreateOptionalParams): Promise<PollerLike<PollOperationState<SAPDatabaseInstancesCreateResponse>, SAPDatabaseInstancesCreateResponse>>;
+    beginCreate(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesCreateOptionalParams): Promise<SimplePollerLike<OperationState<SAPDatabaseInstancesCreateResponse>, SAPDatabaseInstancesCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesCreateOptionalParams): Promise<SAPDatabaseInstancesCreateResponse>;
-    beginDelete(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesDeleteOptionalParams): Promise<PollerLike<PollOperationState<SAPDatabaseInstancesDeleteResponse>, SAPDatabaseInstancesDeleteResponse>>;
+    beginDelete(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<SAPDatabaseInstancesDeleteResponse>, SAPDatabaseInstancesDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesDeleteOptionalParams): Promise<SAPDatabaseInstancesDeleteResponse>;
-    beginUpdate(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesUpdateOptionalParams): Promise<PollerLike<PollOperationState<SAPDatabaseInstancesUpdateResponse>, SAPDatabaseInstancesUpdateResponse>>;
+    beginStartInstance(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesStartInstanceOptionalParams): Promise<SimplePollerLike<OperationState<SAPDatabaseInstancesStartInstanceResponse>, SAPDatabaseInstancesStartInstanceResponse>>;
+    beginStartInstanceAndWait(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesStartInstanceOptionalParams): Promise<SAPDatabaseInstancesStartInstanceResponse>;
+    beginStopInstance(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesStopInstanceOptionalParams): Promise<SimplePollerLike<OperationState<SAPDatabaseInstancesStopInstanceResponse>, SAPDatabaseInstancesStopInstanceResponse>>;
+    beginStopInstanceAndWait(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesStopInstanceOptionalParams): Promise<SAPDatabaseInstancesStopInstanceResponse>;
+    beginUpdate(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SAPDatabaseInstancesUpdateResponse>, SAPDatabaseInstancesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesUpdateOptionalParams): Promise<SAPDatabaseInstancesUpdateResponse>;
     get(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesGetOptionalParams): Promise<SAPDatabaseInstancesGetResponse>;
     list(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPDatabaseInstancesListOptionalParams): PagedAsyncIterableIterator<SAPDatabaseInstance>;
@@ -1434,6 +1257,25 @@ export interface SAPDatabaseInstancesListOptionalParams extends coreClient.Opera
 export type SAPDatabaseInstancesListResponse = SAPDatabaseInstanceList;
 
 // @public
+export interface SAPDatabaseInstancesStartInstanceOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SAPDatabaseInstancesStartInstanceResponse = OperationStatusResult;
+
+// @public
+export interface SAPDatabaseInstancesStopInstanceOptionalParams extends coreClient.OperationOptions {
+    body?: StopRequest;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SAPDatabaseInstancesStopInstanceResponse = OperationStatusResult;
+
+// @public
 export interface SAPDatabaseInstancesUpdateOptionalParams extends coreClient.OperationOptions {
     body?: UpdateSAPDatabaseInstanceRequest;
     resumeFrom?: string;
@@ -1454,13 +1296,8 @@ export type SAPDeploymentType = string;
 
 // @public
 export interface SAPDiskConfiguration {
-    diskCount?: number;
-    diskIopsReadWrite?: number;
-    diskMBpsReadWrite?: number;
-    diskSizeGB?: number;
-    diskStorageType?: string;
-    diskType?: string;
-    volume?: string;
+    recommendedConfiguration?: DiskVolumeConfiguration;
+    supportedConfigurations?: DiskDetails[];
 }
 
 // @public
@@ -1483,7 +1320,9 @@ export type SAPDiskConfigurationsResponse = SAPDiskConfigurationsResult;
 
 // @public
 export interface SAPDiskConfigurationsResult {
-    diskConfigurations?: SAPDiskConfiguration[];
+    volumeConfigurations?: {
+        [propertyName: string]: SAPDiskConfiguration;
+    };
 }
 
 // @public
@@ -1505,6 +1344,83 @@ export interface SAPInstallWithoutOSConfigSoftwareConfiguration extends Software
 }
 
 // @public
+export interface SapLandscapeMonitor extends ProxyResource {
+    grouping?: SapLandscapeMonitorPropertiesGrouping;
+    readonly provisioningState?: SapLandscapeMonitorProvisioningState;
+    topMetricsThresholds?: SapLandscapeMonitorMetricThresholds[];
+}
+
+// @public
+export interface SapLandscapeMonitorCreateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SapLandscapeMonitorCreateResponse = SapLandscapeMonitor;
+
+// @public
+export interface SapLandscapeMonitorDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SapLandscapeMonitorGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SapLandscapeMonitorGetResponse = SapLandscapeMonitor;
+
+// @public
+export interface SapLandscapeMonitorListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SapLandscapeMonitorListResponse = SapLandscapeMonitorListResult;
+
+// @public
+export interface SapLandscapeMonitorListResult {
+    nextLink?: string;
+    value?: SapLandscapeMonitor[];
+}
+
+// @public
+export interface SapLandscapeMonitorMetricThresholds {
+    green?: number;
+    name?: string;
+    red?: number;
+    yellow?: number;
+}
+
+// @public
+export interface SapLandscapeMonitorOperations {
+    create(resourceGroupName: string, monitorName: string, sapLandscapeMonitorParameter: SapLandscapeMonitor, options?: SapLandscapeMonitorCreateOptionalParams): Promise<SapLandscapeMonitorCreateResponse>;
+    delete(resourceGroupName: string, monitorName: string, options?: SapLandscapeMonitorDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, monitorName: string, options?: SapLandscapeMonitorGetOptionalParams): Promise<SapLandscapeMonitorGetResponse>;
+    list(resourceGroupName: string, monitorName: string, options?: SapLandscapeMonitorListOptionalParams): Promise<SapLandscapeMonitorListResponse>;
+    update(resourceGroupName: string, monitorName: string, sapLandscapeMonitorParameter: SapLandscapeMonitor, options?: SapLandscapeMonitorUpdateOptionalParams): Promise<SapLandscapeMonitorUpdateResponse>;
+}
+
+// @public
+export interface SapLandscapeMonitorPropertiesGrouping {
+    landscape?: SapLandscapeMonitorSidMapping[];
+    sapApplication?: SapLandscapeMonitorSidMapping[];
+}
+
+// @public
+export type SapLandscapeMonitorProvisioningState = string;
+
+// @public
+export interface SapLandscapeMonitorSidMapping {
+    name?: string;
+    topSid?: string[];
+}
+
+// @public
+export interface SapLandscapeMonitorUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SapLandscapeMonitorUpdateResponse = SapLandscapeMonitor;
+
+// @public
 export interface SapNetWeaverProviderInstanceProperties extends ProviderSpecificProperties {
     providerType: "SapNetWeaver";
     sapClientId?: string;
@@ -1515,8 +1431,9 @@ export interface SapNetWeaverProviderInstanceProperties extends ProviderSpecific
     sapPasswordUri?: string;
     sapPortNumber?: string;
     sapSid?: string;
-    sapSslCertificateUri?: string;
     sapUsername?: string;
+    sslCertificateUri?: string;
+    sslPreference?: SslPreference;
 }
 
 // @public
@@ -1614,13 +1531,13 @@ export type SapVirtualInstanceProvisioningState = string;
 
 // @public
 export interface SAPVirtualInstances {
-    beginCreate(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesCreateOptionalParams): Promise<PollerLike<PollOperationState<SAPVirtualInstancesCreateResponse>, SAPVirtualInstancesCreateResponse>>;
+    beginCreate(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesCreateOptionalParams): Promise<SimplePollerLike<OperationState<SAPVirtualInstancesCreateResponse>, SAPVirtualInstancesCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesCreateOptionalParams): Promise<SAPVirtualInstancesCreateResponse>;
-    beginDelete(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesDeleteOptionalParams): Promise<PollerLike<PollOperationState<SAPVirtualInstancesDeleteResponse>, SAPVirtualInstancesDeleteResponse>>;
+    beginDelete(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<SAPVirtualInstancesDeleteResponse>, SAPVirtualInstancesDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesDeleteOptionalParams): Promise<SAPVirtualInstancesDeleteResponse>;
-    beginStart(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesStartOptionalParams): Promise<PollerLike<PollOperationState<SAPVirtualInstancesStartResponse>, SAPVirtualInstancesStartResponse>>;
+    beginStart(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesStartOptionalParams): Promise<SimplePollerLike<OperationState<SAPVirtualInstancesStartResponse>, SAPVirtualInstancesStartResponse>>;
     beginStartAndWait(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesStartOptionalParams): Promise<SAPVirtualInstancesStartResponse>;
-    beginStop(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesStopOptionalParams): Promise<PollerLike<PollOperationState<SAPVirtualInstancesStopResponse>, SAPVirtualInstancesStopResponse>>;
+    beginStop(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesStopOptionalParams): Promise<SimplePollerLike<OperationState<SAPVirtualInstancesStopResponse>, SAPVirtualInstancesStopResponse>>;
     beginStopAndWait(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesStopOptionalParams): Promise<SAPVirtualInstancesStopResponse>;
     get(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesGetOptionalParams): Promise<SAPVirtualInstancesGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: SAPVirtualInstancesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<SAPVirtualInstance>;
@@ -1716,14 +1633,6 @@ export interface SAPVirtualInstancesUpdateOptionalParams extends coreClient.Oper
 export type SAPVirtualInstancesUpdateResponse = SAPVirtualInstance;
 
 // @public
-export interface SearchProfile extends NodeProfile {
-    searchType: SearchType;
-}
-
-// @public
-export type SearchType = string;
-
-// @public
 export interface ServiceInitiatedSoftwareConfiguration extends SoftwareConfiguration {
     bomUrl: string;
     highAvailabilitySoftwareConfiguration?: HighAvailabilitySoftwareConfiguration;
@@ -1735,12 +1644,34 @@ export interface ServiceInitiatedSoftwareConfiguration extends SoftwareConfigura
 }
 
 // @public
+export interface SharedStorageResourceNames {
+    sharedStorageAccountName?: string;
+    sharedStorageAccountPrivateEndPointName?: string;
+}
+
+// @public
 export interface SingleServerConfiguration extends InfrastructureConfiguration {
+    customResourceNames?: SingleServerCustomResourceNamesUnion;
     databaseType?: SAPDatabaseType;
+    dbDiskConfiguration?: DiskConfiguration;
     deploymentType: "SingleServer";
     networkConfiguration?: NetworkConfiguration;
     subnetId: string;
     virtualMachineConfiguration: VirtualMachineConfiguration;
+}
+
+// @public
+export interface SingleServerCustomResourceNames {
+    namingPatternType: "FullResourceName";
+}
+
+// @public (undocumented)
+export type SingleServerCustomResourceNamesUnion = SingleServerCustomResourceNames | SingleServerFullResourceNames;
+
+// @public
+export interface SingleServerFullResourceNames extends SingleServerCustomResourceNames {
+    namingPatternType: "FullResourceName";
+    virtualMachine?: VirtualMachineResourceNames;
 }
 
 // @public
@@ -1750,123 +1681,17 @@ export interface SingleServerRecommendationResult extends SAPSizingRecommendatio
 }
 
 // @public
-export interface SiteProfile {
-    domainName?: string;
-}
-
-// @public
-export interface Sku {
-    capacity?: number;
-    family?: string;
-    name: string;
-    size?: string;
-    tier?: SkuTier;
-}
-
-// @public
-export interface SkuCapability {
-    name?: string;
-    value?: string;
-}
-
-// @public
-export interface SkuCapacity {
-    default?: number;
-    maximum?: number;
-    minimum?: number;
-    scaleType?: SkuScaleType;
-}
-
-// @public
-export interface SkuCost {
-    extendedUnit?: string;
-    meterId?: string;
-    quantity?: number;
-}
-
-// @public
-export interface SkuDefinition {
-    capabilities?: SkuCapability[];
-    capacity?: Record<string, unknown>;
-    costs?: SkuCost[];
-    family?: string;
-    kind?: string;
-    locationInfo?: SkuLocationAndZones[];
-    locations?: string[];
-    name: string;
-    resourceType?: string;
-    restrictions?: SkuRestriction[];
-    size?: string;
-    tier?: string;
-}
-
-// @public
-export interface SkuLocationAndZones {
-    extendedLocations?: string[];
-    location?: string;
-    type?: LocationType;
-    zoneDetails?: SkuZoneDetail[];
-    zones?: string[];
-}
-
-// @public
-export interface SkuRestriction {
-    reasonCode?: SkuRestrictionReasonCode;
-    restrictionInfo?: Record<string, unknown>;
-    type?: SkuRestrictionType;
-    values?: string[];
-}
-
-// @public
-export type SkuRestrictionReasonCode = string;
-
-// @public
-export type SkuRestrictionType = string;
-
-// @public
-export interface Skus {
-    list(options?: SkusListOptionalParams): PagedAsyncIterableIterator<SkuDefinition>;
-}
-
-// @public
-export type SkuScaleType = string;
-
-// @public
-export interface SkusListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SkusListNextResponse = SkusListResult;
-
-// @public
-export interface SkusListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SkusListResponse = SkusListResult;
-
-// @public
-export interface SkusListResult {
-    readonly nextLink?: string;
-    readonly value?: SkuDefinition[];
-}
-
-// @public
-export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
-
-// @public
-export interface SkuZoneDetail {
-    capabilities?: SkuCapability[];
-    zones?: string[];
+export interface SkipFileShareConfiguration extends FileShareConfiguration {
+    configurationType: "Skip";
 }
 
 // @public
 export interface SoftwareConfiguration {
-    softwareInstallationType: "ServiceInitiated" | "SAPInstallWithoutOSConfig";
+    softwareInstallationType: "ServiceInitiated" | "SAPInstallWithoutOSConfig" | "External";
 }
 
 // @public (undocumented)
-export type SoftwareConfigurationUnion = SoftwareConfiguration | ServiceInitiatedSoftwareConfiguration | SAPInstallWithoutOSConfigSoftwareConfiguration;
+export type SoftwareConfigurationUnion = SoftwareConfiguration | ServiceInitiatedSoftwareConfiguration | SAPInstallWithoutOSConfigSoftwareConfiguration | ExternalInstallationSoftwareConfiguration;
 
 // @public
 export interface SshConfiguration {
@@ -1885,8 +1710,21 @@ export interface SshPublicKey {
 }
 
 // @public
+export type SslPreference = string;
+
+// @public
 export interface StopRequest {
-    hardStop?: boolean;
+    softStopTimeoutSeconds?: number;
+}
+
+// @public
+export interface StorageConfiguration {
+    transportFileShareConfiguration?: FileShareConfigurationUnion;
+}
+
+// @public
+export interface StorageInformation {
+    readonly id?: string;
 }
 
 // @public
@@ -1910,10 +1748,29 @@ export interface Tags {
 export interface ThreeTierConfiguration extends InfrastructureConfiguration {
     applicationServer: ApplicationServerConfiguration;
     centralServer: CentralServerConfiguration;
+    customResourceNames?: ThreeTierCustomResourceNamesUnion;
     databaseServer: DatabaseConfiguration;
     deploymentType: "ThreeTier";
     highAvailabilityConfig?: HighAvailabilityConfiguration;
     networkConfiguration?: NetworkConfiguration;
+    storageConfiguration?: StorageConfiguration;
+}
+
+// @public
+export interface ThreeTierCustomResourceNames {
+    namingPatternType: "FullResourceName";
+}
+
+// @public (undocumented)
+export type ThreeTierCustomResourceNamesUnion = ThreeTierCustomResourceNames | ThreeTierFullResourceNames;
+
+// @public
+export interface ThreeTierFullResourceNames extends ThreeTierCustomResourceNames {
+    applicationServer?: ApplicationServerFullResourceNames;
+    centralServer?: CentralServerFullResourceNames;
+    databaseServer?: DatabaseServerFullResourceNames;
+    namingPatternType: "FullResourceName";
+    sharedStorage?: SharedStorageResourceNames;
 }
 
 // @public
@@ -1987,12 +1844,6 @@ export interface UserAssignedServiceIdentity {
 }
 
 // @public
-export interface UserProfile {
-    sshPublicKey: string;
-    userName: string;
-}
-
-// @public
 export interface VirtualMachineConfiguration {
     imageReference: ImageReference;
     osProfile: OSProfile;
@@ -2000,79 +1851,20 @@ export interface VirtualMachineConfiguration {
 }
 
 // @public
-export interface VmssNodesProfile extends NodeProfile {
-    autoScaleMaxCount?: number;
-    autoScaleMinCount?: number;
+export interface VirtualMachineResourceNames {
+    dataDiskNames?: {
+        [propertyName: string]: string[];
+    };
+    hostName?: string;
+    networkInterfaces?: NetworkInterfaceResourceNames[];
+    osDiskName?: string;
+    vmName?: string;
 }
 
 // @public
 export interface WindowsConfiguration extends OSConfiguration {
     osType: "Windows";
 }
-
-// @public
-export interface WordpressInstanceResource extends ProxyResource {
-    databaseName?: string;
-    databaseUser?: string;
-    readonly provisioningState?: ApplicationProvisioningState;
-    readonly siteUrl?: string;
-    version?: WordpressVersions;
-}
-
-// @public
-export interface WordpressInstanceResourceList {
-    nextLink?: string;
-    value?: WordpressInstanceResource[];
-}
-
-// @public
-export interface WordpressInstances {
-    beginCreateOrUpdate(resourceGroupName: string, phpWorkloadName: string, wordpressInstanceResource: WordpressInstanceResource, options?: WordpressInstancesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<WordpressInstancesCreateOrUpdateResponse>, WordpressInstancesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, phpWorkloadName: string, wordpressInstanceResource: WordpressInstanceResource, options?: WordpressInstancesCreateOrUpdateOptionalParams): Promise<WordpressInstancesCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, phpWorkloadName: string, options?: WordpressInstancesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, phpWorkloadName: string, options?: WordpressInstancesGetOptionalParams): Promise<WordpressInstancesGetResponse>;
-    list(resourceGroupName: string, phpWorkloadName: string, options?: WordpressInstancesListOptionalParams): PagedAsyncIterableIterator<WordpressInstanceResource>;
-}
-
-// @public
-export interface WordpressInstancesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type WordpressInstancesCreateOrUpdateResponse = WordpressInstanceResource;
-
-// @public
-export interface WordpressInstancesDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface WordpressInstancesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WordpressInstancesGetResponse = WordpressInstanceResource;
-
-// @public
-export interface WordpressInstancesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WordpressInstancesListNextResponse = WordpressInstanceResourceList;
-
-// @public
-export interface WordpressInstancesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WordpressInstancesListResponse = WordpressInstanceResourceList;
-
-// @public
-export type WordpressVersions = string;
-
-// @public
-export type WorkloadKind = string;
 
 // @public
 export type WorkloadMonitorActionType = string;
@@ -2092,8 +1884,6 @@ export class WorkloadsClient extends coreClient.ServiceClient {
     // (undocumented)
     operations: Operations;
     // (undocumented)
-    phpWorkloads: PhpWorkloads;
-    // (undocumented)
     providerInstances: ProviderInstances;
     // (undocumented)
     sAPApplicationServerInstances: SAPApplicationServerInstances;
@@ -2103,16 +1893,14 @@ export class WorkloadsClient extends coreClient.ServiceClient {
     // (undocumented)
     sAPDatabaseInstances: SAPDatabaseInstances;
     sAPDiskConfigurations(location: string, options?: SAPDiskConfigurationsOptionalParams): Promise<SAPDiskConfigurationsResponse>;
+    // (undocumented)
+    sapLandscapeMonitorOperations: SapLandscapeMonitorOperations;
     sAPSizingRecommendations(location: string, options?: SAPSizingRecommendationsOptionalParams): Promise<SAPSizingRecommendationsResponse>;
     sAPSupportedSku(location: string, options?: SAPSupportedSkuOptionalParams): Promise<SAPSupportedSkuResponse>;
     // (undocumented)
     sAPVirtualInstances: SAPVirtualInstances;
     // (undocumented)
-    skus: Skus;
-    // (undocumented)
     subscriptionId: string;
-    // (undocumented)
-    wordpressInstances: WordpressInstances;
 }
 
 // @public

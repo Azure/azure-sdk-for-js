@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { DynatraceObservability } = require("@azure/arm-dynatrace");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Update a TagRule
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2021-09-01/examples/TagRules_Update_MaximumSet_Gen.json
  */
 async function tagRulesUpdateMaximumSetGen() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["DYNATRACE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["DYNATRACE_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const ruleSetName = "default";
   const resource = {
@@ -47,8 +49,6 @@ async function tagRulesUpdateMaximumSetGen() {
   console.log(result);
 }
 
-tagRulesUpdateMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to Update a TagRule
  *
@@ -56,8 +56,9 @@ tagRulesUpdateMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2021-09-01/examples/TagRules_Update_MinimumSet_Gen.json
  */
 async function tagRulesUpdateMinimumSetGen() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["DYNATRACE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["DYNATRACE_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const ruleSetName = "default";
   const resource = {};
@@ -72,4 +73,9 @@ async function tagRulesUpdateMinimumSetGen() {
   console.log(result);
 }
 
-tagRulesUpdateMinimumSetGen().catch(console.error);
+async function main() {
+  tagRulesUpdateMaximumSetGen();
+  tagRulesUpdateMinimumSetGen();
+}
+
+main().catch(console.error);

@@ -57,11 +57,13 @@ export class AzureTrafficCollectorsImpl implements AzureTrafficCollectors {
    * Creates or updates a Azure Traffic Collector resource
    * @param resourceGroupName The name of the resource group.
    * @param azureTrafficCollectorName Azure Traffic Collector name
+   * @param location Resource location.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     azureTrafficCollectorName: string,
+    location: string,
     options?: AzureTrafficCollectorsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
@@ -110,7 +112,7 @@ export class AzureTrafficCollectorsImpl implements AzureTrafficCollectors {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, azureTrafficCollectorName, options },
+      { resourceGroupName, azureTrafficCollectorName, location, options },
       createOrUpdateOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -126,16 +128,19 @@ export class AzureTrafficCollectorsImpl implements AzureTrafficCollectors {
    * Creates or updates a Azure Traffic Collector resource
    * @param resourceGroupName The name of the resource group.
    * @param azureTrafficCollectorName Azure Traffic Collector name
+   * @param location Resource location.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     azureTrafficCollectorName: string,
+    location: string,
     options?: AzureTrafficCollectorsCreateOrUpdateOptionalParams
   ): Promise<AzureTrafficCollectorsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       azureTrafficCollectorName,
+      location,
       options
     );
     return poller.pollUntilDone();
@@ -291,9 +296,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: {
     parameterPath: {
-      location: ["options", "location"],
+      location: ["location"],
       tags: ["options", "tags"],
-      collectorPolicies: ["options", "collectorPolicies"],
       virtualHub: ["options", "virtualHub"]
     },
     mapper: { ...Mappers.AzureTrafficCollector, required: true }

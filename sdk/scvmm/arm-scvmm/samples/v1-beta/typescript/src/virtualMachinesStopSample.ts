@@ -14,6 +14,9 @@ import {
   Scvmm
 } from "@azure/arm-scvmm";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Stop virtual machine.
@@ -22,8 +25,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/preview/2020-06-05-preview/examples/StopVirtualMachine.json
  */
 async function stopVirtualMachine() {
-  const subscriptionId = "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["SCVMM_SUBSCRIPTION_ID"] ||
+    "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
+  const resourceGroupName = process.env["SCVMM_RESOURCE_GROUP"] || "testrg";
   const virtualMachineName = "DemoVM";
   const body: StopVirtualMachineOptions = { skipShutdown: true };
   const options: VirtualMachinesStopOptionalParams = { body };
@@ -37,4 +42,8 @@ async function stopVirtualMachine() {
   console.log(result);
 }
 
-stopVirtualMachine().catch(console.error);
+async function main() {
+  stopVirtualMachine();
+}
+
+main().catch(console.error);

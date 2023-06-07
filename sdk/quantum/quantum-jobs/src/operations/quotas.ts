@@ -6,15 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { tracingClient } from "../tracing";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import * as coreHttp from "@azure/core-http";
+import { Quotas } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { QuantumJobClient } from "../quantumJobClient";
-import { Quota, QuotasListResponse, QuotasListNextResponse } from "../models";
+import {
+  Quota,
+  QuotasListNextOptionalParams,
+  QuotasListOptionalParams,
+  QuotasListResponse,
+  QuotasListNextResponse
+} from "../models";
 
-/** Class representing a Quotas. */
-export class Quotas {
+/// <reference lib="esnext.asynciterable" />
+/** Class containing Quotas operations. */
+export class QuotasImpl implements Quotas {
   private readonly client: QuantumJobClient;
 
   /**
@@ -29,7 +38,9 @@ export class Quotas {
    * List quotas for the given workspace.
    * @param options The options parameters.
    */
-  public list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<Quota> {
+  public list(
+    options?: QuotasListOptionalParams
+  ): PagedAsyncIterableIterator<Quota> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -45,7 +56,7 @@ export class Quotas {
   }
 
   private async *listPagingPage(
-    options?: coreHttp.OperationOptions
+    options?: QuotasListOptionalParams
   ): AsyncIterableIterator<Quota[]> {
     let result = await this._list(options);
     yield result.value || [];
@@ -57,7 +68,9 @@ export class Quotas {
     }
   }
 
-  private async *listPagingAll(options?: coreHttp.OperationOptions): AsyncIterableIterator<Quota> {
+  private async *listPagingAll(
+    options?: QuotasListOptionalParams
+  ): AsyncIterableIterator<Quota> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
@@ -67,13 +80,19 @@ export class Quotas {
    * List quotas for the given workspace.
    * @param options The options parameters.
    */
-  private _list(options?: coreHttp.OperationOptions): Promise<QuotasListResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(operationArguments, listOperationSpec) as Promise<
-      QuotasListResponse
-    >;
+  private async _list(
+    options?: QuotasListOptionalParams
+  ): Promise<QuotasListResponse> {
+    return tracingClient.withSpan(
+      "QuantumJobClient._list",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          listOperationSpec
+        ) as Promise<QuotasListResponse>;
+      }
+    );
   }
 
   /**
@@ -81,23 +100,26 @@ export class Quotas {
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  private _listNext(
+  private async _listNext(
     nextLink: string,
-    options?: coreHttp.OperationOptions
+    options?: QuotasListNextOptionalParams
   ): Promise<QuotasListNextResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(operationArguments, listNextOperationSpec) as Promise<
-      QuotasListNextResponse
-    >;
+    return tracingClient.withSpan(
+      "QuantumJobClient._listNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { nextLink, options },
+          listNextOperationSpec
+        ) as Promise<QuotasListNextResponse>;
+      }
+    );
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreHttp.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path:
     "/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}/quotas",
   httpMethod: "GET",
@@ -118,7 +140,7 @@ const listOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listNextOperationSpec: coreHttp.OperationSpec = {
+const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

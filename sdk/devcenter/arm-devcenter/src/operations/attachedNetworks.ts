@@ -6,24 +6,29 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { AttachedNetworks } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DevCenterClient } from "../devCenterClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   AttachedNetworkConnection,
   AttachedNetworksListByProjectNextOptionalParams,
   AttachedNetworksListByProjectOptionalParams,
+  AttachedNetworksListByProjectResponse,
   AttachedNetworksListByDevCenterNextOptionalParams,
   AttachedNetworksListByDevCenterOptionalParams,
-  AttachedNetworksListByProjectResponse,
+  AttachedNetworksListByDevCenterResponse,
   AttachedNetworksGetByProjectOptionalParams,
   AttachedNetworksGetByProjectResponse,
-  AttachedNetworksListByDevCenterResponse,
   AttachedNetworksGetByDevCenterOptionalParams,
   AttachedNetworksGetByDevCenterResponse,
   AttachedNetworksCreateOrUpdateOptionalParams,
@@ -48,7 +53,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * Lists the attached NetworkConnections for a Project.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
@@ -69,11 +74,15 @@ export class AttachedNetworksImpl implements AttachedNetworks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByProjectPagingPage(
           resourceGroupName,
           projectName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -82,15 +91,22 @@ export class AttachedNetworksImpl implements AttachedNetworks {
   private async *listByProjectPagingPage(
     resourceGroupName: string,
     projectName: string,
-    options?: AttachedNetworksListByProjectOptionalParams
+    options?: AttachedNetworksListByProjectOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AttachedNetworkConnection[]> {
-    let result = await this._listByProject(
-      resourceGroupName,
-      projectName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AttachedNetworksListByProjectResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByProject(
+        resourceGroupName,
+        projectName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByProjectNext(
         resourceGroupName,
@@ -99,7 +115,9 @@ export class AttachedNetworksImpl implements AttachedNetworks {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -119,7 +137,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * Lists the attached NetworkConnections for a DevCenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -140,11 +158,15 @@ export class AttachedNetworksImpl implements AttachedNetworks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByDevCenterPagingPage(
           resourceGroupName,
           devCenterName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -153,15 +175,22 @@ export class AttachedNetworksImpl implements AttachedNetworks {
   private async *listByDevCenterPagingPage(
     resourceGroupName: string,
     devCenterName: string,
-    options?: AttachedNetworksListByDevCenterOptionalParams
+    options?: AttachedNetworksListByDevCenterOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AttachedNetworkConnection[]> {
-    let result = await this._listByDevCenter(
-      resourceGroupName,
-      devCenterName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AttachedNetworksListByDevCenterResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByDevCenter(
+        resourceGroupName,
+        devCenterName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByDevCenterNext(
         resourceGroupName,
@@ -170,7 +199,9 @@ export class AttachedNetworksImpl implements AttachedNetworks {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -190,7 +221,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * Lists the attached NetworkConnections for a Project.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
@@ -207,7 +238,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * Gets an attached NetworkConnection.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param attachedNetworkConnectionName The name of the attached NetworkConnection.
    * @param options The options parameters.
@@ -231,7 +262,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * Lists the attached NetworkConnections for a DevCenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -248,7 +279,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * Gets an attached NetworkConnection.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param attachedNetworkConnectionName The name of the attached NetworkConnection.
    * @param options The options parameters.
@@ -272,7 +303,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * Creates or updates an attached NetworkConnection.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param attachedNetworkConnectionName The name of the attached NetworkConnection.
    * @param body Represents an attached NetworkConnection.
@@ -285,8 +316,8 @@ export class AttachedNetworksImpl implements AttachedNetworks {
     body: AttachedNetworkConnection,
     options?: AttachedNetworksCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AttachedNetworksCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AttachedNetworksCreateOrUpdateResponse>,
       AttachedNetworksCreateOrUpdateResponse
     >
   > {
@@ -296,7 +327,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
     ): Promise<AttachedNetworksCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -329,21 +360,24 @@ export class AttachedNetworksImpl implements AttachedNetworks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         devCenterName,
         attachedNetworkConnectionName,
         body,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AttachedNetworksCreateOrUpdateResponse,
+      OperationState<AttachedNetworksCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -351,7 +385,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * Creates or updates an attached NetworkConnection.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param attachedNetworkConnectionName The name of the attached NetworkConnection.
    * @param body Represents an attached NetworkConnection.
@@ -376,7 +410,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * Un-attach a NetworkConnection.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param attachedNetworkConnectionName The name of the attached NetworkConnection.
    * @param options The options parameters.
@@ -386,14 +420,14 @@ export class AttachedNetworksImpl implements AttachedNetworks {
     devCenterName: string,
     attachedNetworkConnectionName: string,
     options?: AttachedNetworksDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -426,20 +460,20 @@ export class AttachedNetworksImpl implements AttachedNetworks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         devCenterName,
         attachedNetworkConnectionName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -447,7 +481,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * Un-attach a NetworkConnection.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param attachedNetworkConnectionName The name of the attached NetworkConnection.
    * @param options The options parameters.
@@ -469,7 +503,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * ListByProjectNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param nextLink The nextLink from the previous successful call to the ListByProject method.
    * @param options The options parameters.
@@ -488,7 +522,7 @@ export class AttachedNetworksImpl implements AttachedNetworks {
 
   /**
    * ListByDevCenterNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param nextLink The nextLink from the previous successful call to the ListByDevCenter method.
    * @param options The options parameters.
@@ -667,7 +701,6 @@ const listByProjectNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -689,7 +722,6 @@ const listByDevCenterNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

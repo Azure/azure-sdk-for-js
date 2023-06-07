@@ -64,11 +64,11 @@ export interface AccessPolicyListResponse {
 }
 
 // @public
-export type AccessPolicyResource = Resource & {
-    principalObjectId?: string;
+export interface AccessPolicyResource extends Resource {
     description?: string;
+    principalObjectId?: string;
     roles?: AccessPolicyRole[];
-};
+}
 
 // @public
 export type AccessPolicyRole = string;
@@ -80,9 +80,9 @@ export interface AccessPolicyUpdateParameters {
 }
 
 // @public
-export type AzureEventSourceProperties = EventSourceCommonProperties & {
+export interface AzureEventSourceProperties extends EventSourceCommonProperties {
     eventSourceResourceId: string;
-};
+}
 
 // @public
 export interface CloudError {
@@ -115,10 +115,10 @@ export interface Dimension {
 }
 
 // @public
-export type EnvironmentCreateOrUpdateParameters = CreateOrUpdateTrackedResourceProperties & {
+export interface EnvironmentCreateOrUpdateParameters extends CreateOrUpdateTrackedResourceProperties {
     kind: EnvironmentKind;
     sku: Sku;
-};
+}
 
 // @public (undocumented)
 export type EnvironmentCreateOrUpdateParametersUnion = EnvironmentCreateOrUpdateParameters | Gen1EnvironmentCreateOrUpdateParameters | Gen2EnvironmentCreateOrUpdateParameters;
@@ -132,20 +132,20 @@ export interface EnvironmentListResponse {
 }
 
 // @public
-export type EnvironmentResource = TrackedResource & {
-    sku: Sku;
+export interface EnvironmentResource extends TrackedResource {
     kind: EnvironmentResourceKind;
-};
+    sku: Sku;
+}
 
 // @public
 export type EnvironmentResourceKind = string;
 
 // @public
-export type EnvironmentResourceProperties = ResourceProperties & {
-    readonly dataAccessId?: string;
+export interface EnvironmentResourceProperties extends ResourceProperties {
     readonly dataAccessFqdn?: string;
+    readonly dataAccessId?: string;
     readonly status?: EnvironmentStatus;
-};
+}
 
 // @public (undocumented)
 export type EnvironmentResourceUnion = EnvironmentResource | Gen1EnvironmentResource | Gen2EnvironmentResource;
@@ -230,77 +230,80 @@ export interface EnvironmentUpdateParameters {
 export type EnvironmentUpdateParametersUnion = EnvironmentUpdateParameters | Gen1EnvironmentUpdateParameters | Gen2EnvironmentUpdateParameters;
 
 // @public
-export type EventHubEventSourceCommonProperties = AzureEventSourceProperties & {
-    serviceBusNamespace: string;
-    eventHubName: string;
+export interface EventHubEventSourceCommonProperties extends AzureEventSourceProperties {
     consumerGroupName: string;
+    eventHubName: string;
     keyName: string;
-};
+    serviceBusNamespace: string;
+}
 
 // @public
-export type EventHubEventSourceCreateOrUpdateParameters = EventSourceCreateOrUpdateParameters & {
-    readonly provisioningState?: ProvisioningState;
+export interface EventHubEventSourceCreateOrUpdateParameters extends EventSourceCreateOrUpdateParameters {
+    consumerGroupName: string;
     readonly creationTime?: Date;
-    timestampPropertyName?: string;
-    localTimestampPropertiesLocalTimestamp?: LocalTimestamp;
-    type?: IngressStartAtType;
-    time?: string;
-    eventSourceResourceId: string;
-    serviceBusNamespace: string;
     eventHubName: string;
-    consumerGroupName: string;
-    keyName: string;
-    sharedAccessKey: string;
-};
-
-// @public
-export type EventHubEventSourceCreationProperties = EventHubEventSourceCommonProperties & {
-    sharedAccessKey: string;
-};
-
-// @public
-export type EventHubEventSourceMutableProperties = EventSourceMutableProperties & {
-    sharedAccessKey?: string;
-};
-
-// @public
-export type EventHubEventSourceResource = EventSourceResource & {
-    readonly provisioningState?: ProvisioningState;
-    readonly creationTime?: Date;
-    timestampPropertyName?: string;
-    localTimestamp?: LocalTimestamp;
-    typePropertiesIngressStartAtType?: IngressStartAtType;
-    time?: string;
     eventSourceResourceId: string;
-    serviceBusNamespace: string;
-    eventHubName: string;
-    consumerGroupName: string;
     keyName: string;
-};
-
-// @public
-export type EventHubEventSourceResourceProperties = EventHubEventSourceCommonProperties & {};
-
-// @public
-export type EventHubEventSourceUpdateParameters = EventSourceUpdateParameters & {
     kind: "Microsoft.EventHub";
-    timestampPropertyName?: string;
-    sharedAccessKey?: string;
-};
-
-// @public
-export type EventSourceCommonProperties = ResourceProperties & {
-    timestampPropertyName?: string;
-    localTimestamp?: LocalTimestamp;
-    type?: IngressStartAtType;
+    localTimestampPropertiesLocalTimestamp?: LocalTimestamp;
+    readonly provisioningState?: ProvisioningState;
+    serviceBusNamespace: string;
+    sharedAccessKey: string;
     time?: string;
-};
+    timestampPropertyName?: string;
+    type?: IngressStartAtType;
+}
 
 // @public
-export type EventSourceCreateOrUpdateParameters = CreateOrUpdateTrackedResourceProperties & {
+export interface EventHubEventSourceCreationProperties extends EventHubEventSourceCommonProperties {
+    sharedAccessKey: string;
+}
+
+// @public
+export interface EventHubEventSourceMutableProperties extends EventSourceMutableProperties {
+    sharedAccessKey?: string;
+}
+
+// @public
+export interface EventHubEventSourceResource extends EventSourceResource {
+    consumerGroupName: string;
+    readonly creationTime?: Date;
+    eventHubName: string;
+    eventSourceResourceId: string;
+    keyName: string;
+    kind: "Microsoft.EventHub";
+    localTimestamp?: LocalTimestamp;
+    readonly provisioningState?: ProvisioningState;
+    serviceBusNamespace: string;
+    time?: string;
+    timestampPropertyName?: string;
+    typePropertiesIngressStartAtType?: IngressStartAtType;
+}
+
+// @public
+export interface EventHubEventSourceResourceProperties extends EventHubEventSourceCommonProperties {
+}
+
+// @public
+export interface EventHubEventSourceUpdateParameters extends EventSourceUpdateParameters {
+    kind: "Microsoft.EventHub";
+    sharedAccessKey?: string;
+    timestampPropertyName?: string;
+}
+
+// @public
+export interface EventSourceCommonProperties extends ResourceProperties {
+    localTimestamp?: LocalTimestamp;
+    time?: string;
+    timestampPropertyName?: string;
+    type?: IngressStartAtType;
+}
+
+// @public
+export interface EventSourceCreateOrUpdateParameters extends CreateOrUpdateTrackedResourceProperties {
     kind: EventSourceKind;
     localTimestamp?: LocalTimestamp;
-};
+}
 
 // @public (undocumented)
 export type EventSourceCreateOrUpdateParametersUnion = EventSourceCreateOrUpdateParameters | EventHubEventSourceCreateOrUpdateParameters | IoTHubEventSourceCreateOrUpdateParameters;
@@ -319,9 +322,9 @@ export interface EventSourceMutableProperties {
 }
 
 // @public
-export type EventSourceResource = TrackedResource & {
+export interface EventSourceResource extends TrackedResource {
     kind: EventSourceResourceKind;
-};
+}
 
 // @public
 export type EventSourceResourceKind = string;
@@ -382,11 +385,12 @@ export interface EventSourceUpdateParameters {
 export type EventSourceUpdateParametersUnion = EventSourceUpdateParameters | EventHubEventSourceUpdateParameters | IoTHubEventSourceUpdateParameters;
 
 // @public
-export type Gen1EnvironmentCreateOrUpdateParameters = EnvironmentCreateOrUpdateParameters & {
+export interface Gen1EnvironmentCreateOrUpdateParameters extends EnvironmentCreateOrUpdateParameters {
     dataRetentionTime: string;
-    storageLimitExceededBehavior?: StorageLimitExceededBehavior;
+    kind: "Gen1";
     partitionKeyProperties?: TimeSeriesIdProperty[];
-};
+    storageLimitExceededBehavior?: StorageLimitExceededBehavior;
+}
 
 // @public
 export interface Gen1EnvironmentCreationProperties {
@@ -396,66 +400,70 @@ export interface Gen1EnvironmentCreationProperties {
 }
 
 // @public
-export type Gen1EnvironmentResource = EnvironmentResource & {
+export interface Gen1EnvironmentResource extends EnvironmentResource {
+    readonly creationTime?: Date;
+    readonly dataAccessFqdn?: string;
+    readonly dataAccessId?: string;
     dataRetentionTime: string;
-    storageLimitExceededBehavior?: StorageLimitExceededBehavior;
+    kind: "Gen1";
     partitionKeyProperties?: TimeSeriesIdProperty[];
     readonly provisioningState?: ProvisioningState;
-    readonly creationTime?: Date;
-    readonly dataAccessId?: string;
-    readonly dataAccessFqdn?: string;
     readonly status?: EnvironmentStatus;
-};
+    storageLimitExceededBehavior?: StorageLimitExceededBehavior;
+}
 
 // @public
-export type Gen1EnvironmentResourceProperties = Gen1EnvironmentCreationProperties & EnvironmentResourceProperties & {};
+export interface Gen1EnvironmentResourceProperties extends Gen1EnvironmentCreationProperties, EnvironmentResourceProperties {
+}
 
 // @public
-export type Gen1EnvironmentUpdateParameters = EnvironmentUpdateParameters & {
+export interface Gen1EnvironmentUpdateParameters extends EnvironmentUpdateParameters {
+    dataRetentionTime?: string;
     kind: "Gen1";
     sku?: Sku;
-    dataRetentionTime?: string;
     storageLimitExceededBehavior?: StorageLimitExceededBehavior;
-};
+}
 
 // @public
-export type Gen2EnvironmentCreateOrUpdateParameters = EnvironmentCreateOrUpdateParameters & {
-    timeSeriesIdProperties: TimeSeriesIdProperty[];
+export interface Gen2EnvironmentCreateOrUpdateParameters extends EnvironmentCreateOrUpdateParameters {
+    kind: "Gen2";
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    publicNetworkAccess?: PublicNetworkAccess;
     storageConfiguration: Gen2StorageConfigurationInput;
+    timeSeriesIdProperties: TimeSeriesIdProperty[];
     warmStoreConfiguration?: WarmStoreConfigurationProperties;
-    publicNetworkAccess?: PublicNetworkAccess;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-};
+}
 
 // @public
-export type Gen2EnvironmentResource = EnvironmentResource & {
-    readonly provisioningState?: ProvisioningState;
+export interface Gen2EnvironmentResource extends EnvironmentResource {
     readonly creationTime?: Date;
-    readonly dataAccessId?: string;
     readonly dataAccessFqdn?: string;
+    readonly dataAccessId?: string;
+    kind: "Gen2";
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
     readonly status?: EnvironmentStatus;
-    timeSeriesIdProperties: TimeSeriesIdProperty[];
     storageConfiguration: Gen2StorageConfigurationOutput;
+    timeSeriesIdProperties: TimeSeriesIdProperty[];
     warmStoreConfiguration?: WarmStoreConfigurationProperties;
-    publicNetworkAccess?: PublicNetworkAccess;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-};
+}
 
 // @public
-export type Gen2EnvironmentResourceProperties = EnvironmentResourceProperties & {
-    timeSeriesIdProperties: TimeSeriesIdProperty[];
-    storageConfiguration: Gen2StorageConfigurationOutput;
-    warmStoreConfiguration?: WarmStoreConfigurationProperties;
-    publicNetworkAccess?: PublicNetworkAccess;
+export interface Gen2EnvironmentResourceProperties extends EnvironmentResourceProperties {
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
-};
+    publicNetworkAccess?: PublicNetworkAccess;
+    storageConfiguration: Gen2StorageConfigurationOutput;
+    timeSeriesIdProperties: TimeSeriesIdProperty[];
+    warmStoreConfiguration?: WarmStoreConfigurationProperties;
+}
 
 // @public
-export type Gen2EnvironmentUpdateParameters = EnvironmentUpdateParameters & {
+export interface Gen2EnvironmentUpdateParameters extends EnvironmentUpdateParameters {
     kind: "Gen2";
     storageConfiguration?: Gen2StorageConfigurationMutableProperties;
     warmStoreConfiguration?: WarmStoreConfigurationProperties;
-};
+}
 
 // @public
 export interface Gen2StorageConfigurationInput {
@@ -474,6 +482,9 @@ export interface Gen2StorageConfigurationOutput {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface IngressEnvironmentStatus {
     state?: IngressState;
     readonly stateDetails?: EnvironmentStateDetails;
@@ -486,230 +497,183 @@ export type IngressStartAtType = string;
 export type IngressState = string;
 
 // @public
-export type IoTHubEventSourceCommonProperties = AzureEventSourceProperties & {
-    iotHubName: string;
+export interface IoTHubEventSourceCommonProperties extends AzureEventSourceProperties {
     consumerGroupName: string;
+    iotHubName: string;
     keyName: string;
-};
+}
 
 // @public
-export type IoTHubEventSourceCreateOrUpdateParameters = EventSourceCreateOrUpdateParameters & {
-    readonly provisioningState?: ProvisioningState;
+export interface IoTHubEventSourceCreateOrUpdateParameters extends EventSourceCreateOrUpdateParameters {
+    consumerGroupName: string;
     readonly creationTime?: Date;
-    timestampPropertyName?: string;
-    localTimestampPropertiesLocalTimestamp?: LocalTimestamp;
-    type?: IngressStartAtType;
-    time?: string;
     eventSourceResourceId: string;
     iotHubName: string;
-    consumerGroupName: string;
     keyName: string;
-    sharedAccessKey: string;
-};
-
-// @public
-export type IoTHubEventSourceCreationProperties = IoTHubEventSourceCommonProperties & {
-    sharedAccessKey: string;
-};
-
-// @public
-export type IoTHubEventSourceMutableProperties = EventSourceMutableProperties & {
-    sharedAccessKey?: string;
-};
-
-// @public
-export type IoTHubEventSourceResource = EventSourceResource & {
-    readonly provisioningState?: ProvisioningState;
-    readonly creationTime?: Date;
-    timestampPropertyName?: string;
-    localTimestamp?: LocalTimestamp;
-    typePropertiesIngressStartAtType?: IngressStartAtType;
-    time?: string;
-    eventSourceResourceId: string;
-    iotHubName: string;
-    consumerGroupName: string;
-    keyName: string;
-};
-
-// @public
-export type IoTHubEventSourceResourceProperties = IoTHubEventSourceCommonProperties & {};
-
-// @public
-export type IoTHubEventSourceUpdateParameters = EventSourceUpdateParameters & {
     kind: "Microsoft.IoTHub";
+    localTimestampPropertiesLocalTimestamp?: LocalTimestamp;
+    readonly provisioningState?: ProvisioningState;
+    sharedAccessKey: string;
+    time?: string;
     timestampPropertyName?: string;
+    type?: IngressStartAtType;
+}
+
+// @public
+export interface IoTHubEventSourceCreationProperties extends IoTHubEventSourceCommonProperties {
+    sharedAccessKey: string;
+}
+
+// @public
+export interface IoTHubEventSourceMutableProperties extends EventSourceMutableProperties {
     sharedAccessKey?: string;
-};
+}
+
+// @public
+export interface IoTHubEventSourceResource extends EventSourceResource {
+    consumerGroupName: string;
+    readonly creationTime?: Date;
+    eventSourceResourceId: string;
+    iotHubName: string;
+    keyName: string;
+    kind: "Microsoft.IoTHub";
+    localTimestamp?: LocalTimestamp;
+    readonly provisioningState?: ProvisioningState;
+    time?: string;
+    timestampPropertyName?: string;
+    typePropertiesIngressStartAtType?: IngressStartAtType;
+}
+
+// @public
+export interface IoTHubEventSourceResourceProperties extends IoTHubEventSourceCommonProperties {
+}
+
+// @public
+export interface IoTHubEventSourceUpdateParameters extends EventSourceUpdateParameters {
+    kind: "Microsoft.IoTHub";
+    sharedAccessKey?: string;
+    timestampPropertyName?: string;
+}
 
 // @public
 export enum KnownAccessPolicyRole {
-    // (undocumented)
     Contributor = "Contributor",
-    // (undocumented)
     Reader = "Reader"
 }
 
 // @public
 export enum KnownDataStringComparisonBehavior {
-    // (undocumented)
     Ordinal = "Ordinal",
-    // (undocumented)
     OrdinalIgnoreCase = "OrdinalIgnoreCase"
 }
 
 // @public
 export enum KnownEnvironmentKind {
-    // (undocumented)
     Gen1 = "Gen1",
-    // (undocumented)
     Gen2 = "Gen2"
 }
 
 // @public
 export enum KnownEnvironmentResourceKind {
-    // (undocumented)
     Gen1 = "Gen1",
-    // (undocumented)
     Gen2 = "Gen2"
 }
 
 // @public
 export enum KnownEventSourceKind {
-    // (undocumented)
     MicrosoftEventHub = "Microsoft.EventHub",
-    // (undocumented)
     MicrosoftIoTHub = "Microsoft.IoTHub"
 }
 
 // @public
 export enum KnownEventSourceResourceKind {
-    // (undocumented)
     MicrosoftEventHub = "Microsoft.EventHub",
-    // (undocumented)
     MicrosoftIoTHub = "Microsoft.IoTHub"
 }
 
 // @public
 export enum KnownIngressStartAtType {
-    // (undocumented)
     CustomEnqueuedTime = "CustomEnqueuedTime",
-    // (undocumented)
     EarliestAvailable = "EarliestAvailable",
-    // (undocumented)
     EventSourceCreationTime = "EventSourceCreationTime"
 }
 
 // @public
 export enum KnownIngressState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Paused = "Paused",
-    // (undocumented)
     Ready = "Ready",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownLocalTimestampFormat {
-    // (undocumented)
     Embedded = "Embedded"
 }
 
 // @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPrivateEndpointServiceConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownPropertyType {
-    // (undocumented)
     String = "String"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownPublicNetworkAccess {
-    // (undocumented)
     Disabled = "disabled",
-    // (undocumented)
     Enabled = "enabled"
 }
 
 // @public
 export enum KnownReferenceDataKeyPropertyType {
-    // (undocumented)
     Bool = "Bool",
-    // (undocumented)
     DateTime = "DateTime",
-    // (undocumented)
     Double = "Double",
-    // (undocumented)
     String = "String"
 }
 
 // @public
 export enum KnownSkuName {
-    // (undocumented)
     L1 = "L1",
-    // (undocumented)
     P1 = "P1",
-    // (undocumented)
     S1 = "S1",
-    // (undocumented)
     S2 = "S2"
 }
 
 // @public
 export enum KnownStorageLimitExceededBehavior {
-    // (undocumented)
     PauseIngress = "PauseIngress",
-    // (undocumented)
     PurgeOldData = "PurgeOldData"
 }
 
 // @public
 export enum KnownWarmStoragePropertiesState {
-    // (undocumented)
     Error = "Error",
-    // (undocumented)
     Ok = "Ok",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
@@ -801,12 +765,12 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export type PrivateEndpointConnection = Resource & {
-    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-    privateEndpoint?: PrivateEndpoint;
+export interface PrivateEndpointConnection extends Resource {
     groupIds?: string[];
+    privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-};
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+}
 
 // @public
 export interface PrivateEndpointConnectionListResult {
@@ -853,11 +817,11 @@ export type PrivateEndpointConnectionsListByEnvironmentResponse = PrivateEndpoin
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
     requiredZoneNames?: string[];
-};
+}
 
 // @public
 export interface PrivateLinkResourceListResult {
@@ -896,10 +860,10 @@ export type PublicNetworkAccess = string;
 export type ReferenceDataKeyPropertyType = string;
 
 // @public (undocumented)
-export type ReferenceDataSetCreateOrUpdateParameters = CreateOrUpdateTrackedResourceProperties & {
-    keyProperties: ReferenceDataSetKeyProperty[];
+export interface ReferenceDataSetCreateOrUpdateParameters extends CreateOrUpdateTrackedResourceProperties {
     dataStringComparisonBehavior?: DataStringComparisonBehavior;
-};
+    keyProperties: ReferenceDataSetKeyProperty[];
+}
 
 // @public
 export interface ReferenceDataSetCreationProperties {
@@ -919,15 +883,16 @@ export interface ReferenceDataSetListResponse {
 }
 
 // @public
-export type ReferenceDataSetResource = TrackedResource & {
-    keyProperties?: ReferenceDataSetKeyProperty[];
-    dataStringComparisonBehavior?: DataStringComparisonBehavior;
-    readonly provisioningState?: ProvisioningState;
+export interface ReferenceDataSetResource extends TrackedResource {
     readonly creationTime?: Date;
-};
+    dataStringComparisonBehavior?: DataStringComparisonBehavior;
+    keyProperties?: ReferenceDataSetKeyProperty[];
+    readonly provisioningState?: ProvisioningState;
+}
 
 // @public
-export type ReferenceDataSetResourceProperties = ReferenceDataSetCreationProperties & ResourceProperties & {};
+export interface ReferenceDataSetResourceProperties extends ReferenceDataSetCreationProperties, ResourceProperties {
+}
 
 // @public
 export interface ReferenceDataSets {
@@ -1047,12 +1012,12 @@ export interface TimeSeriesInsightsClientOptionalParams extends coreClient.Servi
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
     location: string;
     tags?: {
         [propertyName: string]: string;
     };
-};
+}
 
 // @public
 export interface WarmStorageEnvironmentStatus {

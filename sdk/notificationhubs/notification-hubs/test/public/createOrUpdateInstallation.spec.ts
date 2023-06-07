@@ -3,40 +3,45 @@
 
 import {
   NotificationHubsClientContext,
-  createClientContext,
-} from "@azure/notification-hubs/client";
-import { assert } from "@azure/test-utils";
-import { createAppleInstallation } from "@azure/notification-hubs/models/installation";
-import { createOrUpdateInstallation } from "@azure/notification-hubs/client/createOrUpdateInstallation";
-import { deleteInstallation } from "@azure/notification-hubs/client/deleteInstallation";
-import { v4 as uuid } from "uuid";
-
-// Load the .env file if it exists
-// eslint-disable-next-line sort-imports
-import * as dotenv from "dotenv";
-
-dotenv.config();
-
-// Define connection string and hub name
-const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";
-const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
-
-// Define message constants
-const DUMMY_DEVICE = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
-const deviceToken = process.env.APNS_DEVICE_TOKEN || DUMMY_DEVICE;
-
-let installationId: string;
-let context: NotificationHubsClientContext;
+  createOrUpdateInstallation,
+  deleteInstallation,
+} from "@azure/notification-hubs/api";
+import { assert, isNode } from "@azure/test-utils";
+import { Recorder } from "@azure-tools/test-recorder";
+import { createAppleInstallation } from "@azure/notification-hubs/models";
+import { createRecordedClientContext } from "./utils/recordedClient.js";
 
 describe("createOrUpdateInstallation()", () => {
-  it("should add an installation", async () => {
-    context = createClientContext(connectionString, hubName);
+  let recorder: Recorder;
+  let context: NotificationHubsClientContext;
+  const installationId = "0e7c5973-714c-4ba9-a233-7c4497d5f43b";
+  const pushChannel = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
 
-    installationId = uuid();
+  beforeEach(async function (this: Mocha.Context) {
+    if (!isNode) {
+      return;
+    }
+
+    recorder = new Recorder(this.currentTest);
+    context = await createRecordedClientContext(recorder);
+  });
+
+  afterEach(async function () {
+    if (!isNode) {
+      return;
+    }
+
+    await recorder.stop();
+  });
+
+  it("should add an installation", async function () {
+    if (!isNode) {
+      this.skip();
+    }
 
     const installation = createAppleInstallation({
       installationId,
-      pushChannel: deviceToken,
+      pushChannel,
       tags: ["likes_hockey", "likes_football"],
     });
 
@@ -44,9 +49,7 @@ describe("createOrUpdateInstallation()", () => {
 
     assert.isDefined(result.correlationId);
     assert.isDefined(result.trackingId);
-  });
 
-  afterEach(async () => {
     await deleteInstallation(context, installationId);
   });
 });

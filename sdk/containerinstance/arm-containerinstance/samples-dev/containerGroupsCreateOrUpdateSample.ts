@@ -13,16 +13,186 @@ import {
   ContainerInstanceManagementClient
 } from "@azure/arm-containerinstance";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update container groups with specified configurations.
  *
  * @summary Create or update container groups with specified configurations.
- * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/examples/ContainerGroupsCreateOrUpdate.json
+ * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2023-05-01/examples/ContainerGroupCreateConfidential.json
+ */
+async function confidentialContainerGroup() {
+  const subscriptionId =
+    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
+  const containerGroupName = "demo1";
+  const containerGroup: ContainerGroup = {
+    confidentialComputeProperties: {
+      ccePolicy:
+        "eyJhbGxvd19hbGwiOiB0cnVlLCAiY29udGFpbmVycyI6IHsibGVuZ3RoIjogMCwgImVsZW1lbnRzIjogbnVsbH19"
+    },
+    containers: [
+      {
+        name: "accdemo",
+        command: [],
+        environmentVariables: [],
+        image: "confiimage",
+        ports: [{ port: 8000 }],
+        resources: { requests: { cpu: 1, memoryInGB: 1.5 } },
+        securityContext: {
+          capabilities: { add: ["CAP_NET_ADMIN"] },
+          privileged: false
+        }
+      }
+    ],
+    imageRegistryCredentials: [],
+    ipAddress: { type: "Public", ports: [{ port: 8000, protocol: "TCP" }] },
+    location: "westeurope",
+    osType: "Linux",
+    sku: "Confidential"
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new ContainerInstanceManagementClient(
+    credential,
+    subscriptionId
+  );
+  const result = await client.containerGroups.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    containerGroupName,
+    containerGroup
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Create or update container groups with specified configurations.
+ *
+ * @summary Create or update container groups with specified configurations.
+ * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2023-05-01/examples/ContainerGroupExtensions.json
+ */
+async function containerGroupCreateWithExtensions() {
+  const subscriptionId =
+    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
+  const containerGroupName = "demo1";
+  const containerGroup: ContainerGroup = {
+    containers: [
+      {
+        name: "demo1",
+        command: [],
+        environmentVariables: [],
+        image: "nginx",
+        ports: [{ port: 80 }],
+        resources: { requests: { cpu: 1, memoryInGB: 1.5 } }
+      }
+    ],
+    imageRegistryCredentials: [],
+    ipAddress: { type: "Private", ports: [{ port: 80, protocol: "TCP" }] },
+    location: "eastus2",
+    osType: "Linux",
+    subnetIds: [
+      {
+        id:
+          "/subscriptions/00000000-0000-0000-0000-00000000/resourceGroups/test-rg/providers/Microsoft.Network/virtualNetworks/test-rg-vnet/subnets/test-subnet"
+      }
+    ],
+    extensions: [
+      {
+        name: "kube-proxy",
+        extensionType: "kube-proxy",
+        protectedSettings: { kubeConfig: "<kubeconfig encoded string>" },
+        settings: { clusterCidr: "10.240.0.0/16", kubeVersion: "v1.9.10" },
+        version: "1.0"
+      },
+      {
+        name: "vk-realtime-metrics",
+        extensionType: "realtime-metrics",
+        version: "1.0"
+      }
+    ]
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new ContainerInstanceManagementClient(
+    credential,
+    subscriptionId
+  );
+  const result = await client.containerGroups.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    containerGroupName,
+    containerGroup
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Create or update container groups with specified configurations.
+ *
+ * @summary Create or update container groups with specified configurations.
+ * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2023-05-01/examples/ContainerGroupEncryptionProperties.json
+ */
+async function containerGroupWithEncryptionProperties() {
+  const subscriptionId =
+    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
+  const containerGroupName = "demo1";
+  const containerGroup: ContainerGroup = {
+    containers: [
+      {
+        name: "demo1",
+        command: [],
+        environmentVariables: [],
+        image: "nginx",
+        ports: [{ port: 80 }],
+        resources: { requests: { cpu: 1, memoryInGB: 1.5 } }
+      }
+    ],
+    encryptionProperties: {
+      identity:
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/test-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/container-group-identity",
+      keyName: "test-key",
+      keyVersion: "<key version>",
+      vaultBaseUrl: "https://testkeyvault.vault.azure.net"
+    },
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/00000000000000000000000000000000/resourcegroups/testRg/providers/MicrosoftManagedIdentity/userAssignedIdentities/containerGroupIdentity": {}
+      }
+    },
+    imageRegistryCredentials: [],
+    ipAddress: { type: "Public", ports: [{ port: 80, protocol: "TCP" }] },
+    location: "eastus2",
+    osType: "Linux"
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new ContainerInstanceManagementClient(
+    credential,
+    subscriptionId
+  );
+  const result = await client.containerGroups.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    containerGroupName,
+    containerGroup
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Create or update container groups with specified configurations.
+ *
+ * @summary Create or update container groups with specified configurations.
+ * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2023-05-01/examples/ContainerGroupsCreateOrUpdate.json
  */
 async function containerGroupsCreateOrUpdate() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "demo";
+  const subscriptionId =
+    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
   const containerGroupName = "demo1";
   const containerGroup: ContainerGroup = {
     containers: [
@@ -110,4 +280,52 @@ async function containerGroupsCreateOrUpdate() {
   console.log(result);
 }
 
-containerGroupsCreateOrUpdate().catch(console.error);
+/**
+ * This sample demonstrates how to Create or update container groups with specified configurations.
+ *
+ * @summary Create or update container groups with specified configurations.
+ * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2023-05-01/examples/ContainerGroupsCreatePriority.json
+ */
+async function containerGroupsCreateWithPriority() {
+  const subscriptionId =
+    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
+  const containerGroupName = "demo1";
+  const containerGroup: ContainerGroup = {
+    containers: [
+      {
+        name: "test-container-001",
+        command: ["/bin/sh", "-c", "sleep 10"],
+        image: "alpine:latest",
+        resources: { requests: { cpu: 1, memoryInGB: 1 } }
+      }
+    ],
+    location: "eastus",
+    osType: "Linux",
+    priority: "Spot",
+    restartPolicy: "Never",
+    sku: "Standard"
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new ContainerInstanceManagementClient(
+    credential,
+    subscriptionId
+  );
+  const result = await client.containerGroups.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    containerGroupName,
+    containerGroup
+  );
+  console.log(result);
+}
+
+async function main() {
+  confidentialContainerGroup();
+  containerGroupCreateWithExtensions();
+  containerGroupWithEncryptionProperties();
+  containerGroupsCreateOrUpdate();
+  containerGroupsCreateWithPriority();
+}
+
+main().catch(console.error);

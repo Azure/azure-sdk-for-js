@@ -26,11 +26,6 @@ export interface InstallationCommon {
   readonly lastUpdate?: string;
 
   /**
-   * The platform for the installation.
-   */
-  platform: "apns" | "adm" | "baidu" | "browser" | "gcm" | "wns";
-
-  /**
    * The tags used for targeting this installation.
    */
   tags?: string[];
@@ -66,9 +61,7 @@ export interface AppleInstallation extends DeviceTokenInstallation {
  * @param installation - A partial installation used to create the Apple installation.
  * @returns The newly created Apple installation.
  */
-export function createAppleInstallation(
-  installation: Omit<AppleInstallation, "platform">
-): AppleInstallation {
+export function createAppleInstallation(installation: DeviceTokenInstallation): AppleInstallation {
   return {
     ...installation,
     platform: "apns",
@@ -90,9 +83,7 @@ export interface AdmInstallation extends DeviceTokenInstallation {
  * @param installation - A partial installation used to create the ADM installation.
  * @returns The newly created ADM installation.
  */
-export function createAdmInstallation(
-  installation: Omit<AdmInstallation, "platform">
-): AdmInstallation {
+export function createAdmInstallation(installation: DeviceTokenInstallation): AdmInstallation {
   return {
     ...installation,
     platform: "adm",
@@ -114,9 +105,7 @@ export interface BaiduInstallation extends DeviceTokenInstallation {
  * @param installation - A partial installation used to create the Baidu installation.
  * @returns The newly created Baidu installation.
  */
-export function createBaiduInstallation(
-  installation: Omit<BaiduInstallation, "platform">
-): BaiduInstallation {
+export function createBaiduInstallation(installation: DeviceTokenInstallation): BaiduInstallation {
   return {
     ...installation,
     platform: "baidu",
@@ -139,11 +128,35 @@ export interface FcmLegacyInstallation extends DeviceTokenInstallation {
  * @returns The newly created Baidu installation.
  */
 export function createFcmLegacyInstallation(
-  installation: Omit<FcmLegacyInstallation, "platform">
+  installation: DeviceTokenInstallation
 ): FcmLegacyInstallation {
   return {
     ...installation,
     platform: "gcm",
+  };
+}
+
+/**
+ * Represents a Xiaomi based installation.
+ */
+export interface XiaomiInstallation extends DeviceTokenInstallation {
+  /**
+   * The platform for the installation.
+   */
+  platform: "xiaomi";
+}
+
+/**
+ * Creates a Xiaomi based installation.
+ * @param installation - A partial installation used to create the Xiaomi installation.
+ * @returns The newly created Xiaomi installation.
+ */
+export function createXiaomiInstallation(
+  installation: DeviceTokenInstallation
+): XiaomiInstallation {
+  return {
+    ...installation,
+    platform: "xiaomi",
   };
 }
 
@@ -163,7 +176,7 @@ export interface WindowsInstallation extends DeviceTokenInstallation {
  * @returns The newly created WNS installation.
  */
 export function createWindowsInstallation(
-  installation: Omit<WindowsInstallation, "platform">
+  installation: DeviceTokenInstallation
 ): WindowsInstallation {
   return {
     ...installation,
@@ -194,12 +207,17 @@ export interface BrowserPushChannel {
 /**
  * Represents a Browser/Web Push based installation.
  */
-export interface BrowserInstallation extends InstallationCommon {
+export interface BrowserInstallationCommon extends InstallationCommon {
   /**
    * The push channel for the Web Push API.
    */
   pushChannel: BrowserPushChannel;
+}
 
+/**
+ * Represents a Browser/Web Push based installation.
+ */
+export interface BrowserInstallation extends BrowserInstallationCommon {
   /**
    * The platform for the installation.
    */
@@ -212,7 +230,7 @@ export interface BrowserInstallation extends InstallationCommon {
  * @returns The newly created Web Push installation.
  */
 export function createBrowserInstallation(
-  installation: Omit<BrowserInstallation, "platform">
+  installation: BrowserInstallationCommon
 ): BrowserInstallation {
   return {
     ...installation,
@@ -229,6 +247,7 @@ export type Installation =
   | BaiduInstallation
   | BrowserInstallation
   | FcmLegacyInstallation
+  | XiaomiInstallation
   | WindowsInstallation;
 
 /**

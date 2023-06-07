@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SecurityCenter } = require("@azure/arm-security");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Update an application control machine group
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2020-01-01/examples/ApplicationWhitelistings/PutAdaptiveApplicationControls_example.json
  */
 async function updateAnApplicationControlMachineGroupByAddingANewApplication() {
-  const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] || "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const ascLocation = "centralus";
   const groupName = "ERELGROUP1";
   const body = {
@@ -26,7 +28,7 @@ async function updateAnApplicationControlMachineGroupByAddingANewApplication() {
     pathRecommendations: [
       {
         type: "PublisherSignature",
-        path: "[Exe] O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US**\0.0.0.0",
+        path: "[Exe] O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US\\*\\*\\0.0.0.0",
         action: "Recommended",
         common: true,
         configurationStatus: "Configured",
@@ -42,7 +44,7 @@ async function updateAnApplicationControlMachineGroupByAddingANewApplication() {
       },
       {
         type: "ProductSignature",
-        path: "%OSDRIVE%WINDOWSAZURESECAGENTWASECAGENTPROV.EXE",
+        path: "%OSDRIVE%\\WINDOWSAZURE\\SECAGENT\\WASECAGENTPROV.EXE",
         action: "Recommended",
         common: true,
         configurationStatus: "Configured",
@@ -57,13 +59,13 @@ async function updateAnApplicationControlMachineGroupByAddingANewApplication() {
         usernames: [
           {
             recommendationAction: "Recommended",
-            username: "NT AUTHORITYSYSTEM",
+            username: "NT AUTHORITY\\SYSTEM",
           },
         ],
       },
       {
         type: "PublisherSignature",
-        path: "%OSDRIVE%WINDOWSAZUREPACKAGES_201973_7415COLLECTGUESTLOGS.EXE",
+        path: "%OSDRIVE%\\WINDOWSAZURE\\PACKAGES_201973_7415\\COLLECTGUESTLOGS.EXE",
         action: "Recommended",
         common: true,
         configurationStatus: "Configured",
@@ -78,13 +80,13 @@ async function updateAnApplicationControlMachineGroupByAddingANewApplication() {
         usernames: [
           {
             recommendationAction: "Recommended",
-            username: "NT AUTHORITYSYSTEM",
+            username: "NT AUTHORITY\\SYSTEM",
           },
         ],
       },
       {
         type: "File",
-        path: "C:directory\file.exe",
+        path: "C:\\directory\\file.exe",
         action: "Add",
         common: true,
       },
@@ -113,4 +115,8 @@ async function updateAnApplicationControlMachineGroupByAddingANewApplication() {
   console.log(result);
 }
 
-updateAnApplicationControlMachineGroupByAddingANewApplication().catch(console.error);
+async function main() {
+  updateAnApplicationControlMachineGroupByAddingANewApplication();
+}
+
+main().catch(console.error);

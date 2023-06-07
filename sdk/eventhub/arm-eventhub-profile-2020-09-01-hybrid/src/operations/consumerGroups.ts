@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ConsumerGroups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,12 +17,12 @@ import {
   ConsumerGroup,
   ConsumerGroupsListByEventHubNextOptionalParams,
   ConsumerGroupsListByEventHubOptionalParams,
+  ConsumerGroupsListByEventHubResponse,
   ConsumerGroupsCreateOrUpdateOptionalParams,
   ConsumerGroupsCreateOrUpdateResponse,
   ConsumerGroupsDeleteOptionalParams,
   ConsumerGroupsGetOptionalParams,
   ConsumerGroupsGetResponse,
-  ConsumerGroupsListByEventHubResponse,
   ConsumerGroupsListByEventHubNextResponse
 } from "../models";
 
@@ -65,12 +66,16 @@ export class ConsumerGroupsImpl implements ConsumerGroups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByEventHubPagingPage(
           resourceGroupName,
           namespaceName,
           eventHubName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -80,16 +85,23 @@ export class ConsumerGroupsImpl implements ConsumerGroups {
     resourceGroupName: string,
     namespaceName: string,
     eventHubName: string,
-    options?: ConsumerGroupsListByEventHubOptionalParams
+    options?: ConsumerGroupsListByEventHubOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ConsumerGroup[]> {
-    let result = await this._listByEventHub(
-      resourceGroupName,
-      namespaceName,
-      eventHubName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ConsumerGroupsListByEventHubResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByEventHub(
+        resourceGroupName,
+        namespaceName,
+        eventHubName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByEventHubNext(
         resourceGroupName,
@@ -99,7 +111,9 @@ export class ConsumerGroupsImpl implements ConsumerGroups {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -354,7 +368,6 @@ const listByEventHubNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1, Parameters.skip, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -45,6 +45,9 @@ export interface ExtendedErrorInfo {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export enum KnownErrorResponseCode {
     BadRequest = "BadRequest",
     Conflict = "Conflict",

@@ -14,16 +14,21 @@ import {
   AzureVMwareSolutionAPI
 } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Return the logs for a script execution resource
  *
  * @summary Return the logs for a script execution resource
- * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/ScriptExecutions_GetExecutionLogs.json
+ * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/ScriptExecutions_GetExecutionLogs.json
  */
 async function scriptExecutionsGetExecutionLogs() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "group1";
+  const subscriptionId =
+    process.env["AVS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["AVS_RESOURCE_GROUP"] || "group1";
   const privateCloudName = "cloud1";
   const scriptExecutionName = "addSsoServer";
   const scriptOutputStreamType: ScriptOutputStreamType[] = [
@@ -46,4 +51,8 @@ async function scriptExecutionsGetExecutionLogs() {
   console.log(result);
 }
 
-scriptExecutionsGetExecutionLogs().catch(console.error);
+async function main() {
+  scriptExecutionsGetExecutionLogs();
+}
+
+main().catch(console.error);

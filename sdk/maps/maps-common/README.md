@@ -9,6 +9,7 @@ This package contains common code that needs to be shared among the other Azure 
 The following client libraries use this package:
 
 - @azure/maps-search
+- @azure-rest/maps-route
 
 ## Getting started
 

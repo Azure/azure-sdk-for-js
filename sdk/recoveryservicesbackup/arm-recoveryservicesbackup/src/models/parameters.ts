@@ -32,6 +32,7 @@ import {
   ILRRequestResource as ILRRequestResourceMapper,
   SecurityPinBase as SecurityPinBaseMapper,
   ListRecoveryPointsRecommendedForMoveRequest as ListRecoveryPointsRecommendedForMoveRequestMapper,
+  ResourceGuardProxyBaseResource as ResourceGuardProxyBaseResourceMapper,
   UnlockDeleteRequest as UnlockDeleteRequestMapper
 } from "../models/mappers";
 
@@ -62,7 +63,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-03-01",
+    defaultValue: "2023-02-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -381,6 +382,11 @@ export const resourceGuardProxyName: OperationURLParameter = {
 };
 
 export const parameters20: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ResourceGuardProxyBaseResourceMapper
+};
+
+export const parameters21: OperationParameter = {
   parameterPath: "parameters",
   mapper: UnlockDeleteRequestMapper
 };

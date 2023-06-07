@@ -352,27 +352,27 @@ export interface AsyncOperationResult {
 }
 
 /** Describes an existing Private Endpoint connection to the Azure Cognitive Search service. */
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
   /** Describes the properties of an existing Private Endpoint connection to the Azure Cognitive Search service. */
   properties?: PrivateEndpointConnectionProperties;
-};
+}
 
 /** Describes a Shared Private Link Resource managed by the Azure Cognitive Search service. */
-export type SharedPrivateLinkResource = Resource & {
+export interface SharedPrivateLinkResource extends Resource {
   /** Describes the properties of a Shared Private Link Resource managed by the Azure Cognitive Search service. */
   properties?: SharedPrivateLinkResourceProperties;
-};
+}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** The parameters used to update an Azure Cognitive Search service. */
-export type SearchServiceUpdate = Resource & {
+export interface SearchServiceUpdate extends Resource {
   /** The SKU of the Search Service, which determines price tier and capacity limits. This property is required when creating a new Search Service. */
   sku?: Sku;
   /** The geographic location of the resource. This must be one of the supported and registered Azure Geo Regions (for example, West US, East US, Southeast Asia, and so forth). This property is required when creating a new resource. */
@@ -416,19 +416,19 @@ export type SearchServiceUpdate = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
-};
+}
 
 /** Describes a supported private link resource for the Azure Cognitive Search service. */
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
   /**
    * Describes the properties of a supported private link resource for the Azure Cognitive Search service.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly properties?: PrivateLinkResourceProperties;
-};
+}
 
 /** Describes an Azure Cognitive Search service and its current state. */
-export type SearchService = TrackedResource & {
+export interface SearchService extends TrackedResource {
   /** The SKU of the Search Service, which determines price tier and capacity limits. This property is required when creating a new Search Service. */
   sku?: Sku;
   /** The identity of the resource. */
@@ -468,7 +468,7 @@ export type SearchService = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
-};
+}
 
 /** Parameter group */
 export interface SearchManagementRequestOptions {
@@ -478,7 +478,9 @@ export interface SearchManagementRequestOptions {
 
 /** Known values of {@link UnavailableNameReason} that the service accepts. */
 export enum KnownUnavailableNameReason {
+  /** Invalid */
   Invalid = "Invalid",
+  /** AlreadyExists */
   AlreadyExists = "AlreadyExists"
 }
 
@@ -494,8 +496,11 @@ export type UnavailableNameReason = string;
 
 /** Known values of {@link SharedPrivateLinkResourceAsyncOperationResult} that the service accepts. */
 export enum KnownSharedPrivateLinkResourceAsyncOperationResult {
+  /** Running */
   Running = "Running",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed"
 }
 

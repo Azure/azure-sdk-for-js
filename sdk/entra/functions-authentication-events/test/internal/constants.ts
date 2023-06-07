@@ -66,13 +66,13 @@ export const PayloadConstants = {
 };
 
 export const ActionConstants = {
-  Claims: [
-    { id: "claim1", value: "value1" },
-    { id: "claim2", value: "value2" },
-    { id: "claim3", value: "value3" },
-    { id: "claim4", value: "value4" },
-    { id: "claim5", value: "value5" },
-  ],
+  Claims: {
+    claim1: "value1",
+    claim2: "value2",
+    claim3: "value3",
+    claim4: "value4",
+    claim5: "value5",
+  },
   Claims_as_string:
-    '[{"actionType":"ProvideClaimsForToken","claims":[{"id":"claim1","value":"value1"},{"id":"claim2","value":"value2"},{"id":"claim3","value":"value3"},{"id":"claim4","value":"value4"},{"id":"claim5","value":"value5"}]}]',
+    '[{"actionType":"microsoft.graph.ProvideClaimsForToken","claims":{"claim1":"value1","claim2":"value2","claim3":"value3","claim4":"value4","claim5":"value5"}}]',
 };

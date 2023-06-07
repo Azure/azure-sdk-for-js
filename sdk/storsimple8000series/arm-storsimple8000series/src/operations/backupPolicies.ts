@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { BackupPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -65,12 +65,16 @@ export class BackupPoliciesImpl implements BackupPolicies {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByDevicePagingPage(
           deviceName,
           resourceGroupName,
           managerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -80,9 +84,11 @@ export class BackupPoliciesImpl implements BackupPolicies {
     deviceName: string,
     resourceGroupName: string,
     managerName: string,
-    options?: BackupPoliciesListByDeviceOptionalParams
+    options?: BackupPoliciesListByDeviceOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<BackupPolicy[]> {
-    let result = await this._listByDevice(
+    let result: BackupPoliciesListByDeviceResponse;
+    result = await this._listByDevice(
       deviceName,
       resourceGroupName,
       managerName,

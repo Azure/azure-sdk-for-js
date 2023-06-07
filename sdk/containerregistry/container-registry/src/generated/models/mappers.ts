@@ -1004,7 +1004,7 @@ export const Annotations: coreClient.CompositeMapper = {
     className: "Annotations",
     additionalProperties: { type: { name: "Object" } },
     modelProperties: {
-      createdOn: {
+      created: {
         serializedName: "org\\.opencontainers\\.image\\.created",
         type: {
           name: "DateTime"
@@ -1618,6 +1618,12 @@ export const ContainerRegistryGetManifestHeaders: coreClient.CompositeMapper = {
     modelProperties: {
       dockerContentDigest: {
         serializedName: "docker-content-digest",
+        type: {
+          name: "String"
+        }
+      },
+      mediaType: {
+        serializedName: "content-type",
         type: {
           name: "String"
         }

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { MLTeamAccountManagementClient } = require("@azure/arm-machinelearningexperimentation");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists all the available machine learning team accounts under the specified subscription.
@@ -18,7 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/machinelearningexperimentation/resource-manager/Microsoft.MachineLearningExperimentation/preview/2017-05-01-preview/examples/ListAccount.json
  */
 async function accountList() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const subscriptionId =
+    process.env["MACHINELEARNINGEXPERIMENTATION_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
   const credential = new DefaultAzureCredential();
   const client = new MLTeamAccountManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +31,8 @@ async function accountList() {
   console.log(resArray);
 }
 
-accountList().catch(console.error);
+async function main() {
+  accountList();
+}
+
+main().catch(console.error);

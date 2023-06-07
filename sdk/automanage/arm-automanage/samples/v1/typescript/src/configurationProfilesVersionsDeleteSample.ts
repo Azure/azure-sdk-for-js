@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { AutomanageClient } from "@azure/arm-automanage";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Delete a configuration profile version
@@ -18,8 +21,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/deleteConfigurationProfileVersion.json
  */
 async function deleteAConfigurationProfileVersion() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg";
+  const subscriptionId = process.env["AUTOMANAGE_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["AUTOMANAGE_RESOURCE_GROUP"] || "rg";
   const configurationProfileName = "customConfigurationProfile";
   const versionName = "version1";
   const credential = new DefaultAzureCredential();
@@ -32,4 +35,8 @@ async function deleteAConfigurationProfileVersion() {
   console.log(result);
 }
 
-deleteAConfigurationProfileVersion().catch(console.error);
+async function main() {
+  deleteAConfigurationProfileVersion();
+}
+
+main().catch(console.error);

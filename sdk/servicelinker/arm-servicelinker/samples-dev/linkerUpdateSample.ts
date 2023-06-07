@@ -13,6 +13,9 @@ import {
   ServiceLinkerManagementClient
 } from "@azure/arm-servicelinker";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Operation to update an existing link.
@@ -47,4 +50,8 @@ async function patchLink() {
   console.log(result);
 }
 
-patchLink().catch(console.error);
+async function main() {
+  patchLink();
+}
+
+main().catch(console.error);

@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get the test notifications by the notification id
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/getTestNotifications.json
  */
 async function getNotificationDetailsAtSubscriptionLevel() {
-  const subscriptionId = "187f412d-1758-44d9-b052-169e2564721d";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] ||
+    "187f412d-1758-44d9-b052-169e2564721d";
   const notificationId = "11000222191287";
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
@@ -26,4 +31,8 @@ async function getNotificationDetailsAtSubscriptionLevel() {
   console.log(result);
 }
 
-getNotificationDetailsAtSubscriptionLevel().catch(console.error);
+async function main() {
+  getNotificationDetailsAtSubscriptionLevel();
+}
+
+main().catch(console.error);

@@ -34,7 +34,9 @@ export type AnalyzeBatchActionUnion =
   | EntitiesLROTask
   | EntityLinkingLROTask
   | PiiLROTask
-  | KeyPhraseLROTask;
+  | ExtractiveSummarizationLROTask
+  | KeyPhraseLROTask
+  | AbstractiveSummarizationLROTask;
 export type AnalyzeTextLROResultUnion =
   | AnalyzeTextLROResult
   | EntityRecognitionLROResult
@@ -43,9 +45,11 @@ export type AnalyzeTextLROResultUnion =
   | CustomMultiLabelClassificationLROResult
   | EntityLinkingLROResult
   | PiiEntityRecognitionLROResult
+  | ExtractiveSummarizationLROResult
   | HealthcareLROResult
   | SentimentLROResult
-  | KeyPhraseExtractionLROResult;
+  | KeyPhraseExtractionLROResult
+  | AbstractiveSummarizationLROResult;
 
 export interface AnalyzeAction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -202,22 +206,6 @@ export interface ActionCommon {
   disableServiceLogs?: boolean;
 }
 
-export interface PreBuiltResult {
-  /** Errors by document id. */
-  errors: DocumentError[];
-  /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
-  statistics?: TextDocumentBatchStatistics;
-  /** This field indicates which model is used for scoring. */
-  modelVersion: string;
-}
-
-export interface DocumentError {
-  /** Document Id. */
-  id: string;
-  /** Document Error. */
-  error: ErrorModel;
-}
-
 export interface CustomResult {
   /** Errors by document id. */
   errors: DocumentError[];
@@ -227,6 +215,14 @@ export interface CustomResult {
   projectName: string;
   /** This field indicates the deployment name for the model. */
   deploymentName: string;
+}
+
+/** Contains details of errors encountered during a job execution. */
+export interface DocumentError {
+  /** The ID of the input document. */
+  id: string;
+  /** Error encountered. */
+  error: ErrorModel;
 }
 
 /** A word or phrase identified as an entity that is categorized within a taxonomy of types. The set of categories recognized by the Language service is described at https://docs.microsoft.com/azure/cognitive-services/language-service/named-entity-recognition/concepts/named-entity-categories . */
@@ -322,6 +318,8 @@ export interface EntityDataSource {
 export interface HealthcareRelation {
   /** Type of relation. Examples include: `DosageOfMedication` or 'FrequencyOfMedication', etc. */
   relationType: RelationType;
+  /** Confidence score between 0 and 1 of the extracted relation. */
+  confidenceScore?: number;
   /** The entities in the relation. */
   entities: HealthcareRelationEntity[];
 }
@@ -331,6 +329,15 @@ export interface HealthcareRelationEntity {
   ref: string;
   /** Role of entity in the relationship. For example: 'CD20-positive diffuse large B-cell lymphoma' has the following entities with their roles in parenthesis:  CD20 (GeneOrProtein), Positive (Expression), diffuse large B-cell lymphoma (Diagnosis). */
   role: string;
+}
+
+export interface PreBuiltResult {
+  /** Errors by document id. */
+  errors: DocumentError[];
+  /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
+  statistics?: TextDocumentBatchStatistics;
+  /** This field indicates which model is used for scoring. */
+  modelVersion: string;
 }
 
 /** Represents the confidence scores between 0 and 1 across all sentiment classes: positive, neutral, negative. */
@@ -437,6 +444,18 @@ export interface Match {
   length: number;
 }
 
+/** A sentence that is part of the extracted summary. */
+export interface SummarySentence {
+  /** The extracted sentence text. */
+  text: string;
+  /** A double value representing the relevance of the sentence within the summary. Higher values indicate higher importance. */
+  rankScore: number;
+  /** The sentence offset from the start of the document, based on the value of the parameter StringIndexType. */
+  offset: number;
+  /** The length of the sentence. */
+  length: number;
+}
+
 /** Information about the language of a document as identified by the Language service. */
 export interface DetectedLanguage {
   /** Long name of a detected language (e.g. English, French). */
@@ -453,6 +472,40 @@ export interface Pagination {
 
 export interface JobErrors {
   errors?: ErrorModel[];
+}
+
+/** Supported parameters for an Abstractive Summarization task. */
+export interface AbstractiveSummarizationTaskParametersBase {
+  /** It controls the approximate number of sentences in the output summaries. */
+  sentenceCount?: number;
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
+   *
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
+}
+
+/** An object representing the summarization results of each document. */
+export interface AbstractiveSummarizationResultBase {
+  /** Response by document */
+  documents: AbstractiveSummaryDocumentResult[];
+}
+
+/** An object representing a single summary with context for given document. */
+export interface AbstractiveSummary {
+  /** The text of the summary. */
+  text: string;
+  /** The context list of the summary. */
+  contexts: SummaryContext[];
+}
+
+/** The context of the summary. */
+export interface SummaryContext {
+  /** Start position for the context. Use of different 'stringIndexType' values can affect the offset returned. */
+  offset: number;
+  /** The length of the context. Use of different 'stringIndexType' values can affect the length returned. */
+  length: number;
 }
 
 export interface AnalyzeTextEntityLinkingInput extends AnalyzeAction {
@@ -568,40 +621,6 @@ export interface ActionCustom extends ActionCommon {
   deploymentName: string;
 }
 
-export interface HealthcareResult extends PreBuiltResult {
-  documents: HealthcareResultDocumentsItem[];
-}
-
-export interface SentimentResponse extends PreBuiltResult {
-  /** Sentiment analysis per document. */
-  documents: SentimentResponseDocumentsItem[];
-}
-
-export interface EntitiesResult extends PreBuiltResult {
-  /** Response by document */
-  documents: EntitiesResultDocumentsItem[];
-}
-
-export interface EntityLinkingResult extends PreBuiltResult {
-  /** Response by document */
-  documents: EntityLinkingResultDocumentsItem[];
-}
-
-export interface PiiResult extends PreBuiltResult {
-  /** Response by document */
-  documents: PiiResultDocumentsItem[];
-}
-
-export interface KeyPhraseResult extends PreBuiltResult {
-  /** Response by document */
-  documents: KeyPhraseResultDocumentsItem[];
-}
-
-export interface LanguageDetectionResult extends PreBuiltResult {
-  /** Response by document */
-  documents: LanguageDetectionDocumentResult[];
-}
-
 export interface CustomEntitiesResult extends CustomResult {
   /** Response by document */
   documents: CustomEntitiesResultDocumentsItem[];
@@ -618,7 +637,7 @@ export interface EntitiesDocumentResult extends DocumentResult {
 }
 
 export interface ClassificationDocumentResult extends DocumentResult {
-  class: ClassificationCategory[];
+  classifications: ClassificationCategory[];
 }
 
 export interface HealthcareEntitiesDocumentResult extends DocumentResult {
@@ -649,6 +668,11 @@ export interface PiiEntitiesDocumentResult extends DocumentResult {
   entities: Entity[];
 }
 
+export interface ExtractedSummaryDocumentResult extends DocumentResult {
+  /** A ranked list of sentences representing the extracted summary. */
+  sentences: SummarySentence[];
+}
+
 export interface KeyPhrasesDocumentResult extends DocumentResult {
   /** A list of representative words or phrases. The number of key phrases returned is proportional to the number of words in the input document. */
   keyPhrases: string[];
@@ -659,8 +683,65 @@ export interface LanguageDetectionDocumentResult extends DocumentResult {
   detectedLanguage: DetectedLanguage;
 }
 
+/** An object representing the summarization result of a single document. */
+export interface AbstractiveSummaryDocumentResult extends DocumentResult {
+  /** A list of abstractive summaries. */
+  summaries: AbstractiveSummary[];
+}
+
+export interface HealthcareResult extends PreBuiltResult {
+  documents: HealthcareResultDocumentsItem[];
+}
+
+export interface SentimentResponse extends PreBuiltResult {
+  /** Sentiment analysis per document. */
+  documents: SentimentResponseDocumentsItem[];
+}
+
+export interface EntitiesResult extends PreBuiltResult {
+  /** Response by document */
+  documents: EntitiesResultDocumentsItem[];
+}
+
+export interface EntityLinkingResult extends PreBuiltResult {
+  /** Response by document */
+  documents: EntityLinkingResultDocumentsItem[];
+}
+
+export interface PiiResult extends PreBuiltResult {
+  /** Response by document */
+  documents: PiiResultDocumentsItem[];
+}
+
+export interface ExtractiveSummarizationResult extends PreBuiltResult {
+  /** Response by document */
+  documents: ExtractedSummaryDocumentResult[];
+}
+
+export interface KeyPhraseResult extends PreBuiltResult {
+  /** Response by document */
+  documents: KeyPhraseResultDocumentsItem[];
+}
+
+export interface LanguageDetectionResult extends PreBuiltResult {
+  /** Response by document */
+  documents: LanguageDetectionDocumentResult[];
+}
+
+/** An object representing the pre-build summarization results of each document. */
+export interface AbstractiveSummarizationResult
+  extends AbstractiveSummarizationResultBase,
+    PreBuiltResult {}
+
+/** Supported parameters for the pre-build Abstractive Summarization task. */
+export interface AbstractiveSummarizationAction
+  extends AbstractiveSummarizationTaskParametersBase,
+    ActionPrebuilt {}
+
 /** Use custom models to ease the process of information extraction from unstructured documents like contracts or financial documents */
 export interface CustomEntitiesLROTask extends AnalyzeBatchAction {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "CustomEntityRecognition";
   /** Supported parameters for a Custom Entities task. */
   parameters?: CustomEntityRecognitionAction;
 }
@@ -668,6 +749,8 @@ export interface CustomEntitiesLROTask extends AnalyzeBatchAction {
 /** Use custom models to classify text into single label taxonomy */
 export interface CustomSingleLabelClassificationLROTask
   extends AnalyzeBatchAction {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "CustomSingleLabelClassification";
   /** Options for a single-label classification custom action */
   parameters?: CustomSingleLabelClassificationAction;
 }
@@ -675,81 +758,144 @@ export interface CustomSingleLabelClassificationLROTask
 /** Use custom models to classify text into multi label taxonomy */
 export interface CustomMultiLabelClassificationLROTask
   extends AnalyzeBatchAction {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "CustomMultiLabelClassification";
   /** Options for a multi-label classification custom action */
   parameters?: CustomMultiLabelClassificationAction;
 }
 
 export interface HealthcareLROTask extends AnalyzeBatchAction {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "Healthcare";
   /** Supported parameters for a Healthcare task. */
   parameters?: HealthcareAction;
 }
 
 /** An object representing the task definition for a Sentiment Analysis task. */
 export interface SentimentAnalysisLROTask extends AnalyzeBatchAction {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "SentimentAnalysis";
   /** Options for a sentiment analysis action. */
   parameters?: SentimentAnalysisAction;
 }
 
 /** An object representing the task definition for an Entities Recognition task. */
 export interface EntitiesLROTask extends AnalyzeBatchAction {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "EntityRecognition";
   /** Options for an entity recognition action. */
   parameters?: EntityRecognitionAction;
 }
 
 /** An object representing the task definition for an Entity Linking task. */
 export interface EntityLinkingLROTask extends AnalyzeBatchAction {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "EntityLinking";
   /** Options for an entity linking action. */
   parameters?: EntityLinkingAction;
 }
 
 /** An object representing the task definition for a PII Entities Recognition task. */
 export interface PiiLROTask extends AnalyzeBatchAction {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "PiiEntityRecognition";
   /** Options for a Pii entity recognition action. */
   parameters?: PiiEntityRecognitionAction;
 }
 
+/** An object representing the task definition for an Extractive Summarization task. */
+export interface ExtractiveSummarizationLROTask extends AnalyzeBatchAction {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "ExtractiveSummarization";
+  /** Supported parameters for an Extractive Summarization task. */
+  parameters?: ExtractiveSummarizationAction;
+}
+
 /** An object representing the task definition for a Key Phrase Extraction task. */
 export interface KeyPhraseLROTask extends AnalyzeBatchAction {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "KeyPhraseExtraction";
   /** Options for a key phrase recognition action. */
   parameters?: KeyPhraseExtractionAction;
 }
 
+/** An object representing the task definition for an Abstractive Summarization task. */
+export interface AbstractiveSummarizationLROTask extends AnalyzeBatchAction {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "AbstractiveSummarization";
+  /** Supported parameters for the pre-build Abstractive Summarization task. */
+  parameters: AbstractiveSummarizationAction;
+}
+
 export interface EntityRecognitionLROResult extends AnalyzeTextLROResult {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "EntityRecognitionLROResults";
   results: EntitiesResult;
 }
 
 export interface CustomEntityRecognitionLROResult extends AnalyzeTextLROResult {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "CustomEntityRecognitionLROResults";
   results: CustomEntitiesResult;
 }
 
 export interface CustomSingleLabelClassificationLROResult
   extends AnalyzeTextLROResult {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "CustomSingleLabelClassificationLROResults";
   results: CustomLabelClassificationResult;
 }
 
 export interface CustomMultiLabelClassificationLROResult
   extends AnalyzeTextLROResult {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "CustomMultiLabelClassificationLROResults";
   results: CustomLabelClassificationResult;
 }
 
 export interface EntityLinkingLROResult extends AnalyzeTextLROResult {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "EntityLinkingLROResults";
   results: EntityLinkingResult;
 }
 
 export interface PiiEntityRecognitionLROResult extends AnalyzeTextLROResult {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "PiiEntityRecognitionLROResults";
   results: PiiResult;
 }
 
+export interface ExtractiveSummarizationLROResult extends AnalyzeTextLROResult {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "ExtractiveSummarizationLROResults";
+  results: ExtractiveSummarizationResult;
+}
+
 export interface HealthcareLROResult extends AnalyzeTextLROResult {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "HealthcareLROResults";
   results: HealthcareResult;
 }
 
 export interface SentimentLROResult extends AnalyzeTextLROResult {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "SentimentAnalysisLROResults";
   results: SentimentResponse;
 }
 
 export interface KeyPhraseExtractionLROResult extends AnalyzeTextLROResult {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "KeyPhraseExtractionLROResults";
   results: KeyPhraseResult;
+}
+
+/** An object representing the results for an Abstractive Summarization task. */
+export interface AbstractiveSummarizationLROResult
+  extends AnalyzeTextLROResult {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "AbstractiveSummarizationLROResults";
+  /** An object representing the pre-build summarization results of each document. */
+  results: AbstractiveSummarizationResult;
 }
 
 /** Options for an entity linking action. */
@@ -810,6 +956,20 @@ export interface SentimentAnalysisAction extends ActionPrebuilt {
 
 /** Supported parameters for a Healthcare task. */
 export interface HealthcareAction extends ActionPrebuilt {
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
+   *
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
+}
+
+/** Supported parameters for an Extractive Summarization task. */
+export interface ExtractiveSummarizationAction extends ActionPrebuilt {
+  /** The max number of sentences to be part of the summary. */
+  maxSentenceCount?: number;
+  /** The sorting criteria to use for the results of Extractive Summarization. */
+  orderBy?: ExtractiveSummarizationOrderingCriteria;
   /**
    * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
    *
@@ -1060,12 +1220,16 @@ export enum KnownAnalyzeTextLROTaskKind {
   EntityLinking = "EntityLinking",
   /** Healthcare */
   Healthcare = "Healthcare",
+  /** ExtractiveSummarization */
+  ExtractiveSummarization = "ExtractiveSummarization",
   /** CustomEntityRecognition */
   CustomEntityRecognition = "CustomEntityRecognition",
   /** CustomSingleLabelClassification */
   CustomSingleLabelClassification = "CustomSingleLabelClassification",
   /** CustomMultiLabelClassification */
-  CustomMultiLabelClassification = "CustomMultiLabelClassification"
+  CustomMultiLabelClassification = "CustomMultiLabelClassification",
+  /** AbstractiveSummarization */
+  AbstractiveSummarization = "AbstractiveSummarization"
 }
 
 /**
@@ -1079,9 +1243,11 @@ export enum KnownAnalyzeTextLROTaskKind {
  * **KeyPhraseExtraction** \
  * **EntityLinking** \
  * **Healthcare** \
+ * **ExtractiveSummarization** \
  * **CustomEntityRecognition** \
  * **CustomSingleLabelClassification** \
- * **CustomMultiLabelClassification**
+ * **CustomMultiLabelClassification** \
+ * **AbstractiveSummarization**
  */
 export type AnalyzeTextLROTaskKind = string;
 
@@ -1132,12 +1298,16 @@ export enum KnownAnalyzeTextLROResultsKind {
   EntityLinkingLROResults = "EntityLinkingLROResults",
   /** HealthcareLROResults */
   HealthcareLROResults = "HealthcareLROResults",
+  /** ExtractiveSummarizationLROResults */
+  ExtractiveSummarizationLROResults = "ExtractiveSummarizationLROResults",
   /** CustomEntityRecognitionLROResults */
   CustomEntityRecognitionLROResults = "CustomEntityRecognitionLROResults",
   /** CustomSingleLabelClassificationLROResults */
   CustomSingleLabelClassificationLROResults = "CustomSingleLabelClassificationLROResults",
   /** CustomMultiLabelClassificationLROResults */
-  CustomMultiLabelClassificationLROResults = "CustomMultiLabelClassificationLROResults"
+  CustomMultiLabelClassificationLROResults = "CustomMultiLabelClassificationLROResults",
+  /** AbstractiveSummarizationLROResults */
+  AbstractiveSummarizationLROResults = "AbstractiveSummarizationLROResults"
 }
 
 /**
@@ -1151,9 +1321,11 @@ export enum KnownAnalyzeTextLROResultsKind {
  * **KeyPhraseExtractionLROResults** \
  * **EntityLinkingLROResults** \
  * **HealthcareLROResults** \
+ * **ExtractiveSummarizationLROResults** \
  * **CustomEntityRecognitionLROResults** \
  * **CustomSingleLabelClassificationLROResults** \
- * **CustomMultiLabelClassificationLROResults**
+ * **CustomMultiLabelClassificationLROResults** \
+ * **AbstractiveSummarizationLROResults**
  */
 export type AnalyzeTextLROResultsKind = string;
 
@@ -1783,6 +1955,8 @@ export enum KnownHealthcareEntityCategory {
   Age = "Age",
   /** Gender */
   Gender = "Gender",
+  /** Ethnicity */
+  Ethnicity = "Ethnicity",
   /** ExaminationName */
   ExaminationName = "ExaminationName",
   /** Date */
@@ -1799,10 +1973,16 @@ export enum KnownHealthcareEntityCategory {
   RelationalOperator = "RelationalOperator",
   /** Time */
   Time = "Time",
+  /** Course */
+  Course = "Course",
   /** GeneOrProtein */
   GeneOrProtein = "GeneOrProtein",
   /** Variant */
   Variant = "Variant",
+  /** Expression */
+  Expression = "Expression",
+  /** MutationType */
+  MutationType = "MutationType",
   /** AdministrativeEvent */
   AdministrativeEvent = "AdministrativeEvent",
   /** CareEnvironment */
@@ -1815,6 +1995,8 @@ export enum KnownHealthcareEntityCategory {
   SymptomOrSign = "SymptomOrSign",
   /** ConditionQualifier */
   ConditionQualifier = "ConditionQualifier",
+  /** ConditionScale */
+  ConditionScale = "ConditionScale",
   /** MedicationClass */
   MedicationClass = "MedicationClass",
   /** MedicationName */
@@ -1828,7 +2010,17 @@ export enum KnownHealthcareEntityCategory {
   /** FamilyRelation */
   FamilyRelation = "FamilyRelation",
   /** TreatmentName */
-  TreatmentName = "TreatmentName"
+  TreatmentName = "TreatmentName",
+  /** Allergen */
+  Allergen = "Allergen",
+  /** Employment */
+  Employment = "Employment",
+  /** LivingStatus */
+  LivingStatus = "LivingStatus",
+  /** SubstanceUse */
+  SubstanceUse = "SubstanceUse",
+  /** SubstanceUseAmount */
+  SubstanceUseAmount = "SubstanceUseAmount"
 }
 
 /**
@@ -1839,6 +2031,7 @@ export enum KnownHealthcareEntityCategory {
  * **BodyStructure** \
  * **Age** \
  * **Gender** \
+ * **Ethnicity** \
  * **ExaminationName** \
  * **Date** \
  * **Direction** \
@@ -1847,21 +2040,30 @@ export enum KnownHealthcareEntityCategory {
  * **MeasurementUnit** \
  * **RelationalOperator** \
  * **Time** \
+ * **Course** \
  * **GeneOrProtein** \
  * **Variant** \
+ * **Expression** \
+ * **MutationType** \
  * **AdministrativeEvent** \
  * **CareEnvironment** \
  * **HealthcareProfession** \
  * **Diagnosis** \
  * **SymptomOrSign** \
  * **ConditionQualifier** \
+ * **ConditionScale** \
  * **MedicationClass** \
  * **MedicationName** \
  * **Dosage** \
  * **MedicationForm** \
  * **MedicationRoute** \
  * **FamilyRelation** \
- * **TreatmentName**
+ * **TreatmentName** \
+ * **Allergen** \
+ * **Employment** \
+ * **LivingStatus** \
+ * **SubstanceUse** \
+ * **SubstanceUseAmount**
  */
 export type HealthcareEntityCategory = string;
 
@@ -1869,6 +2071,18 @@ export type HealthcareEntityCategory = string;
 export enum KnownRelationType {
   /** Abbreviation */
   Abbreviation = "Abbreviation",
+  /** BodySiteOfCondition */
+  BodySiteOfCondition = "BodySiteOfCondition",
+  /** BodySiteOfTreatment */
+  BodySiteOfTreatment = "BodySiteOfTreatment",
+  /** CourseOfCondition */
+  CourseOfCondition = "CourseOfCondition",
+  /** CourseOfExamination */
+  CourseOfExamination = "CourseOfExamination",
+  /** CourseOfMedication */
+  CourseOfMedication = "CourseOfMedication",
+  /** CourseOfTreatment */
+  CourseOfTreatment = "CourseOfTreatment",
   /** DirectionOfBodyStructure */
   DirectionOfBodyStructure = "DirectionOfBodyStructure",
   /** DirectionOfCondition */
@@ -1879,18 +2093,32 @@ export enum KnownRelationType {
   DirectionOfTreatment = "DirectionOfTreatment",
   /** DosageOfMedication */
   DosageOfMedication = "DosageOfMedication",
+  /** ExaminationFindsCondition */
+  ExaminationFindsCondition = "ExaminationFindsCondition",
+  /** ExpressionOfGene */
+  ExpressionOfGene = "ExpressionOfGene",
+  /** ExpressionOfVariant */
+  ExpressionOfVariant = "ExpressionOfVariant",
   /** FormOfMedication */
   FormOfMedication = "FormOfMedication",
+  /** FrequencyOfCondition */
+  FrequencyOfCondition = "FrequencyOfCondition",
   /** FrequencyOfMedication */
   FrequencyOfMedication = "FrequencyOfMedication",
   /** FrequencyOfTreatment */
   FrequencyOfTreatment = "FrequencyOfTreatment",
+  /** MutationTypeOfGene */
+  MutationTypeOfGene = "MutationTypeOfGene",
+  /** MutationTypeOfVariant */
+  MutationTypeOfVariant = "MutationTypeOfVariant",
   /** QualifierOfCondition */
   QualifierOfCondition = "QualifierOfCondition",
   /** RelationOfExamination */
   RelationOfExamination = "RelationOfExamination",
   /** RouteOfMedication */
   RouteOfMedication = "RouteOfMedication",
+  /** ScaleOfCondition */
+  ScaleOfCondition = "ScaleOfCondition",
   /** TimeOfCondition */
   TimeOfCondition = "TimeOfCondition",
   /** TimeOfEvent */
@@ -1908,7 +2136,9 @@ export enum KnownRelationType {
   /** ValueOfCondition */
   ValueOfCondition = "ValueOfCondition",
   /** ValueOfExamination */
-  ValueOfExamination = "ValueOfExamination"
+  ValueOfExamination = "ValueOfExamination",
+  /** VariantOfGene */
+  VariantOfGene = "VariantOfGene"
 }
 
 /**
@@ -1917,17 +2147,30 @@ export enum KnownRelationType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Abbreviation** \
+ * **BodySiteOfCondition** \
+ * **BodySiteOfTreatment** \
+ * **CourseOfCondition** \
+ * **CourseOfExamination** \
+ * **CourseOfMedication** \
+ * **CourseOfTreatment** \
  * **DirectionOfBodyStructure** \
  * **DirectionOfCondition** \
  * **DirectionOfExamination** \
  * **DirectionOfTreatment** \
  * **DosageOfMedication** \
+ * **ExaminationFindsCondition** \
+ * **ExpressionOfGene** \
+ * **ExpressionOfVariant** \
  * **FormOfMedication** \
+ * **FrequencyOfCondition** \
  * **FrequencyOfMedication** \
  * **FrequencyOfTreatment** \
+ * **MutationTypeOfGene** \
+ * **MutationTypeOfVariant** \
  * **QualifierOfCondition** \
  * **RelationOfExamination** \
  * **RouteOfMedication** \
+ * **ScaleOfCondition** \
  * **TimeOfCondition** \
  * **TimeOfEvent** \
  * **TimeOfExamination** \
@@ -1936,9 +2179,28 @@ export enum KnownRelationType {
  * **UnitOfCondition** \
  * **UnitOfExamination** \
  * **ValueOfCondition** \
- * **ValueOfExamination**
+ * **ValueOfExamination** \
+ * **VariantOfGene**
  */
 export type RelationType = string;
+
+/** Known values of {@link ExtractiveSummarizationOrderingCriteria} that the service accepts. */
+export enum KnownExtractiveSummarizationOrderingCriteria {
+  /** Indicates that results should be sorted in order of appearance in the text. */
+  Offset = "Offset",
+  /** Indicates that results should be sorted in order of importance (i.e. rank score) according to the model. */
+  Rank = "Rank"
+}
+
+/**
+ * Defines values for ExtractiveSummarizationOrderingCriteria. \
+ * {@link KnownExtractiveSummarizationOrderingCriteria} can be used interchangeably with ExtractiveSummarizationOrderingCriteria,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Offset**: Indicates that results should be sorted in order of appearance in the text. \
+ * **Rank**: Indicates that results should be sorted in order of importance (i.e. rank score) according to the model.
+ */
+export type ExtractiveSummarizationOrderingCriteria = string;
 /** Defines values for EntityConditionality. */
 export type EntityConditionality = "hypothetical" | "conditional";
 /** Defines values for EntityCertainty. */

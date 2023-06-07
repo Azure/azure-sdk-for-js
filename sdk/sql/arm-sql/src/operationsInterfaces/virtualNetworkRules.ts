@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualNetworkRule,
   VirtualNetworkRulesListByServerOptionalParams,
@@ -63,8 +63,8 @@ export interface VirtualNetworkRules {
     parameters: VirtualNetworkRule,
     options?: VirtualNetworkRulesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworkRulesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualNetworkRulesCreateOrUpdateResponse>,
       VirtualNetworkRulesCreateOrUpdateResponse
     >
   >;
@@ -97,7 +97,7 @@ export interface VirtualNetworkRules {
     serverName: string,
     virtualNetworkRuleName: string,
     options?: VirtualNetworkRulesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the virtual network rule with the given name.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

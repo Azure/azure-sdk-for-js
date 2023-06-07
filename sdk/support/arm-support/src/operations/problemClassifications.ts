@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ProblemClassifications } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -53,17 +53,22 @@ export class ProblemClassificationsImpl implements ProblemClassifications {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(serviceName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(serviceName, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     serviceName: string,
-    options?: ProblemClassificationsListOptionalParams
+    options?: ProblemClassificationsListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ProblemClassification[]> {
-    let result = await this._list(serviceName, options);
+    let result: ProblemClassificationsListResponse;
+    result = await this._list(serviceName, options);
     yield result.value || [];
   }
 

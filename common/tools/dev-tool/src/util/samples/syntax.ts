@@ -2,9 +2,6 @@
 // Licensed under the MIT license.
 
 import * as ts from "typescript";
-import { createPrinter } from "../printer";
-
-const log = createPrinter("samples:syntax");
 
 /**
  * Tests for syntax compatibility.
@@ -47,13 +44,6 @@ const SYNTAX_VIABILITY_TESTS = {
     ImportExpression: (node: ts.Node) =>
       ts.isCallExpression(node) && node.expression.kind === ts.SyntaxKind.ImportKeyword,
   },
-  // Supported in Node 14+
-  ES2020: {
-    // foo ?? bar
-    NullishCoalesce: ts.isNullishCoalesce,
-    // foo?.bar, foo?.(bar), and foo?.[bar]
-    OptionalChain: ts.isOptionalChain,
-  },
   ES2021: {
     // x ??= y, x ||= y, and x &&= y (Node 15+)
     ShorthandAssignment: (node: ts.Node) =>
@@ -63,9 +53,6 @@ const SYNTAX_VIABILITY_TESTS = {
         ts.SyntaxKind.BarBarEqualsToken,
         ts.SyntaxKind.QuestionQuestionEqualsToken,
       ].includes(node.operatorToken.kind),
-    // 1_000_000 (Node >= 12.8.0)
-    NumericSeparator: (node: ts.Node) =>
-      ts.isNumericLiteral(node) && !!node.getText().includes("_"),
   },
   ES2022: {
     // This is well-supported in TypeScript but is emitted as an assignment rather than a `static`
@@ -73,8 +60,6 @@ const SYNTAX_VIABILITY_TESTS = {
     StaticField: (node: ts.Node) =>
       ts.isPropertyDeclaration(node) &&
       node.modifiers?.some((modifier) => modifier.kind === ts.SyntaxKind.StaticKeyword),
-    // #foo (Node 14+)
-    PrivateIdentifier: ts.isPrivateIdentifier,
     // static { ... } (Node 17+)
     StaticInitializer: ts.isClassStaticBlockDeclaration,
   },
@@ -93,7 +78,7 @@ type UnionToIntersection<Union> =
 type SyntaxTest = (node: ts.Node) => boolean;
 
 type SyntaxName = keyof UnionToIntersection<
-  typeof SYNTAX_VIABILITY_TESTS[keyof typeof SYNTAX_VIABILITY_TESTS]
+  (typeof SYNTAX_VIABILITY_TESTS)[keyof typeof SYNTAX_VIABILITY_TESTS]
 >;
 
 /**
@@ -107,37 +92,6 @@ const SUGGEST_SYNTAX: {
   ExportAssignment: "export each symbol individually instead of using `export =`",
   ExportDeclaration:
     "export each symbol individually where it is declared instead of using a blanket export declaration",
-  OptionalChain: (node) => {
-    const chain = node as ts.OptionalChain;
-    const expressionText = chain.expression.getText().replace(/\?\./g, ".");
-    // We need some text for the right-hand side
-    const rhs = (
-      ts.isPropertyAccessExpression(chain)
-        ? "." + chain.name.text
-        : ts.isElementAccessExpression(chain)
-        ? "[" + chain.argumentExpression.getText() + "]"
-        : ts.isCallExpression(chain)
-        ? "(" + chain.arguments.map((node) => node.getText()).join(", ") + ")"
-        : (() => {
-            log.warn(
-              "[Internal Error] Unknown right-hand-side of Optional Chain:",
-              chain.getText()
-            );
-            return "<unknown>";
-          })()
-    )
-      // Optional chains can be recursive nodes, so we'll also just replace all '?.' with '.', since there should be an
-      // error for each node.
-      .replace(/\?\./g, ".");
-
-    return `try \`${expressionText} && ${expressionText}${rhs}\` if it does not affect runtime behavior, or use an explicit \`if\` block to handle the nullish case`;
-  },
-  // For Nullish Coalescing, we can suggest using || for the same effect in most cases, but it is ultimately up to the
-  // developer to decide if this is the right behavior.
-  NullishCoalesce: (node) => {
-    const nullish = node as ts.BinaryExpression;
-    return `try \`${nullish.left.getText()} || ${nullish.right.getText()}\` if it does not affect runtime behavior, or use an explicit \`if\` block to handle the nullish case`;
-  },
 };
 
 /**

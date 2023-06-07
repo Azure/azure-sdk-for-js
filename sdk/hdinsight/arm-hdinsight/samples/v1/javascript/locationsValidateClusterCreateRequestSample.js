@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { HDInsightManagementClient } = require("@azure/arm-hdinsight");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Validate the cluster create request spec is valid or not.
@@ -18,7 +19,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/HDI_Locations_ValidateClusterCreateRequest.json
  */
 async function getTheSubscriptionUsagesForSpecificLocation() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
   const location = "southcentralus";
   const parameters = {
     name: "testclustername",
@@ -114,4 +115,8 @@ async function getTheSubscriptionUsagesForSpecificLocation() {
   console.log(result);
 }
 
-getTheSubscriptionUsagesForSpecificLocation().catch(console.error);
+async function main() {
+  getTheSubscriptionUsagesForSpecificLocation();
+}
+
+main().catch(console.error);

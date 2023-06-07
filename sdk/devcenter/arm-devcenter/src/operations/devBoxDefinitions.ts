@@ -6,21 +6,27 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { DevBoxDefinitions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DevCenterClient } from "../devCenterClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DevBoxDefinition,
   DevBoxDefinitionsListByDevCenterNextOptionalParams,
   DevBoxDefinitionsListByDevCenterOptionalParams,
+  DevBoxDefinitionsListByDevCenterResponse,
   DevBoxDefinitionsListByProjectNextOptionalParams,
   DevBoxDefinitionsListByProjectOptionalParams,
-  DevBoxDefinitionsListByDevCenterResponse,
+  DevBoxDefinitionsListByProjectResponse,
   DevBoxDefinitionsGetOptionalParams,
   DevBoxDefinitionsGetResponse,
   DevBoxDefinitionsCreateOrUpdateOptionalParams,
@@ -29,7 +35,6 @@ import {
   DevBoxDefinitionsUpdateOptionalParams,
   DevBoxDefinitionsUpdateResponse,
   DevBoxDefinitionsDeleteOptionalParams,
-  DevBoxDefinitionsListByProjectResponse,
   DevBoxDefinitionsGetByProjectOptionalParams,
   DevBoxDefinitionsGetByProjectResponse,
   DevBoxDefinitionsListByDevCenterNextResponse,
@@ -51,7 +56,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * List Dev Box definitions for a devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -72,11 +77,15 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByDevCenterPagingPage(
           resourceGroupName,
           devCenterName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -85,15 +94,22 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   private async *listByDevCenterPagingPage(
     resourceGroupName: string,
     devCenterName: string,
-    options?: DevBoxDefinitionsListByDevCenterOptionalParams
+    options?: DevBoxDefinitionsListByDevCenterOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DevBoxDefinition[]> {
-    let result = await this._listByDevCenter(
-      resourceGroupName,
-      devCenterName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DevBoxDefinitionsListByDevCenterResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByDevCenter(
+        resourceGroupName,
+        devCenterName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByDevCenterNext(
         resourceGroupName,
@@ -102,7 +118,9 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -122,7 +140,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * List Dev Box definitions configured for a project.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
@@ -143,11 +161,15 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByProjectPagingPage(
           resourceGroupName,
           projectName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -156,15 +178,22 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   private async *listByProjectPagingPage(
     resourceGroupName: string,
     projectName: string,
-    options?: DevBoxDefinitionsListByProjectOptionalParams
+    options?: DevBoxDefinitionsListByProjectOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DevBoxDefinition[]> {
-    let result = await this._listByProject(
-      resourceGroupName,
-      projectName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DevBoxDefinitionsListByProjectResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByProject(
+        resourceGroupName,
+        projectName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByProjectNext(
         resourceGroupName,
@@ -173,7 +202,9 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -193,7 +224,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * List Dev Box definitions for a devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -210,7 +241,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * Gets a Dev Box definition
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param devBoxDefinitionName The name of the Dev Box definition.
    * @param options The options parameters.
@@ -229,7 +260,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * Creates or updates a Dev Box definition.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param devBoxDefinitionName The name of the Dev Box definition.
    * @param body Represents a Dev Box definition.
@@ -242,8 +273,8 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
     body: DevBoxDefinition,
     options?: DevBoxDefinitionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DevBoxDefinitionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DevBoxDefinitionsCreateOrUpdateResponse>,
       DevBoxDefinitionsCreateOrUpdateResponse
     >
   > {
@@ -253,7 +284,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
     ): Promise<DevBoxDefinitionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -286,15 +317,24 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, devCenterName, devBoxDefinitionName, body, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        devCenterName,
+        devBoxDefinitionName,
+        body,
+        options
+      },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DevBoxDefinitionsCreateOrUpdateResponse,
+      OperationState<DevBoxDefinitionsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -302,7 +342,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * Creates or updates a Dev Box definition.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param devBoxDefinitionName The name of the Dev Box definition.
    * @param body Represents a Dev Box definition.
@@ -327,7 +367,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * Partially updates a Dev Box definition.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param devBoxDefinitionName The name of the Dev Box definition.
    * @param body Represents a Dev Box definition.
@@ -340,8 +380,8 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
     body: DevBoxDefinitionUpdate,
     options?: DevBoxDefinitionsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DevBoxDefinitionsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DevBoxDefinitionsUpdateResponse>,
       DevBoxDefinitionsUpdateResponse
     >
   > {
@@ -351,7 +391,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
     ): Promise<DevBoxDefinitionsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -384,15 +424,24 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, devCenterName, devBoxDefinitionName, body, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        devCenterName,
+        devBoxDefinitionName,
+        body,
+        options
+      },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DevBoxDefinitionsUpdateResponse,
+      OperationState<DevBoxDefinitionsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -400,7 +449,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * Partially updates a Dev Box definition.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param devBoxDefinitionName The name of the Dev Box definition.
    * @param body Represents a Dev Box definition.
@@ -425,7 +474,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * Deletes a Dev Box definition
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param devBoxDefinitionName The name of the Dev Box definition.
    * @param options The options parameters.
@@ -435,14 +484,14 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
     devCenterName: string,
     devBoxDefinitionName: string,
     options?: DevBoxDefinitionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -475,15 +524,15 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, devCenterName, devBoxDefinitionName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, devCenterName, devBoxDefinitionName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -491,7 +540,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * Deletes a Dev Box definition
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param devBoxDefinitionName The name of the Dev Box definition.
    * @param options The options parameters.
@@ -513,7 +562,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * List Dev Box definitions configured for a project.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
@@ -530,7 +579,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * Gets a Dev Box definition configured for a project
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param devBoxDefinitionName The name of the Dev Box definition.
    * @param options The options parameters.
@@ -549,7 +598,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * ListByDevCenterNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param nextLink The nextLink from the previous successful call to the ListByDevCenter method.
    * @param options The options parameters.
@@ -568,7 +617,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
   /**
    * ListByProjectNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param nextLink The nextLink from the previous successful call to the ListByProject method.
    * @param options The options parameters.
@@ -781,7 +830,6 @@ const listByDevCenterNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -803,7 +851,6 @@ const listByProjectNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

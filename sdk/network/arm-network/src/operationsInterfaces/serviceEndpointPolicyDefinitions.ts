@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ServiceEndpointPolicyDefinition,
   ServiceEndpointPolicyDefinitionsListByResourceGroupOptionalParams,
@@ -44,7 +44,7 @@ export interface ServiceEndpointPolicyDefinitions {
     serviceEndpointPolicyName: string,
     serviceEndpointPolicyDefinitionName: string,
     options?: ServiceEndpointPolicyDefinitionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified ServiceEndpoint policy definitions.
    * @param resourceGroupName The name of the resource group.
@@ -87,10 +87,8 @@ export interface ServiceEndpointPolicyDefinitions {
     serviceEndpointPolicyDefinitions: ServiceEndpointPolicyDefinition,
     options?: ServiceEndpointPolicyDefinitionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        ServiceEndpointPolicyDefinitionsCreateOrUpdateResponse
-      >,
+    SimplePollerLike<
+      OperationState<ServiceEndpointPolicyDefinitionsCreateOrUpdateResponse>,
       ServiceEndpointPolicyDefinitionsCreateOrUpdateResponse
     >
   >;

@@ -1,14 +1,30 @@
 # Release History
 
-## 5.8.1 (Unreleased)
+## 5.11.0 (2023-06-06)
 
-### Features Added
+### Other Changes
 
-### Breaking Changes
+- Use Rhea's prefetch window to prefetch events from the service. This improves the performance of the receiver by reducing the number of round trips to the service. The default prefetch window is 3 * `maxBatchSize` events. This can be configured by setting the `prefetchCount` option on the `subscribe` method on `EventHubConsumerClient`.
+
+## 5.10.0 (2023-05-01)
 
 ### Bugs Fixed
 
+- Fix a memory leak issue of linked child abort signals not being released.
+
 ### Other Changes
+
+- upgrade dependency `rhea-promise` version to `^3.0.0`.
+
+## 5.9.0 (2023-03-07)
+
+### Bugs Fixed
+
+- Fixing a bug where events were not always received in order [[#23993]](https://github.com/Azure/azure-sdk-for-js/issues/23993).
+
+### Other Changes
+
+- The receiver no longer attempts to build batches of `maxMessageCount` size, instead, it returns batches as soon as they are received from the service, up to `maxMessageCount`.
 
 ## 5.8.0 (2022-05-10)
 

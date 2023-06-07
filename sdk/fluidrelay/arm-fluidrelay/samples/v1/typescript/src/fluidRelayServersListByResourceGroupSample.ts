@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { FluidRelayManagementClient } from "@azure/arm-fluidrelay";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to List all Fluid Relay servers in a resource group.
@@ -18,7 +21,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/fluidrelay/resource-manager/Microsoft.FluidRelay/stable/2022-06-01/examples/FluidRelayServers_ListByResourceGroup.json
  */
 async function listAllFluidRelayServersInAResourceGroup() {
-  const subscriptionId = "xxxx-xxxx-xxxx-xxxx";
+  const subscriptionId =
+    process.env["FLUIDRELAY_SUBSCRIPTION_ID"] || "xxxx-xxxx-xxxx-xxxx";
   const resourceGroup = "myResourceGroup";
   const credential = new DefaultAzureCredential();
   const client = new FluidRelayManagementClient(credential, subscriptionId);
@@ -31,4 +35,8 @@ async function listAllFluidRelayServersInAResourceGroup() {
   console.log(resArray);
 }
 
-listAllFluidRelayServersInAResourceGroup().catch(console.error);
+async function main() {
+  listAllFluidRelayServersInAResourceGroup();
+}
+
+main().catch(console.error);

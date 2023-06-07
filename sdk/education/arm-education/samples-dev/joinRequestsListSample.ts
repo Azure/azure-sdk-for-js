@@ -13,6 +13,9 @@ import {
   EducationManagementClient
 } from "@azure/arm-education";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to get student join requests
@@ -40,4 +43,8 @@ async function joinRequestList() {
   console.log(resArray);
 }
 
-joinRequestList().catch(console.error);
+async function main() {
+  joinRequestList();
+}
+
+main().catch(console.error);

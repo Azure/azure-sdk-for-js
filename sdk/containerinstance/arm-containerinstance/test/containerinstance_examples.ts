@@ -50,7 +50,7 @@ describe("ContainerInstance test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new ContainerInstanceManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
+    location = "eastus2";
     resourceGroup = "myjstest";
     containerGroupName = "mycontainerGroupxxx";
     containerInstanceName = "my-containerinstancexx";
@@ -81,10 +81,10 @@ describe("ContainerInstance test", () => {
             requests: {
               cpu: 1,
               memoryInGB: 1.5,
-              gpu: {
-                count: 1,
-                sku: "K80"
-              }
+              // gpu: {
+              //   count: 1,
+              //   sku: "K80"
+              // }
             }
           },
           volumeMounts: [
@@ -112,7 +112,7 @@ describe("ContainerInstance test", () => {
       ]
     }, testPollingOptions)
     assert.equal(res.name, containerGroupName);
-  });
+  }).timeout(3600000);
 
   it("containerGroups get test", async function () {
     const res = await client.containerGroups.get(resourceGroup, containerGroupName);

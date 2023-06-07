@@ -11,7 +11,7 @@
   "dtsRollup": {
     "enabled": true,
     "untrimmedFilePath": "",
-    "publicTrimmedFilePath": "./types/maps-common.d.ts"
+    "publicTrimmedFilePath": "./types/latest/maps-common.d.ts"
   },
   "messages": {
     "tsdocMessageReporting": {

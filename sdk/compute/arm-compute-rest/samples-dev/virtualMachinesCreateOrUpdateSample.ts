@@ -32,8 +32,7 @@ async function createALinuxVMWithAPatchSettingAssessmentModeOfImageDefault() {
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -99,8 +98,7 @@ async function createALinuxVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndA
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -172,8 +170,7 @@ async function createALinuxVMWithAPatchSettingPatchModeOfImageDefault() {
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -239,8 +236,7 @@ async function createALinuxVMWithAPatchSettingsPatchModeAndAssessmentModeSetToAu
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -311,8 +307,7 @@ async function createAVMFromACommunityGalleryImage() {
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -372,8 +367,7 @@ async function createAVMFromASharedGalleryImage() {
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -439,8 +433,7 @@ async function createAVMWithDiskControllerType() {
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -511,8 +504,7 @@ async function createAVMWithHibernationEnabled() {
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -574,8 +566,7 @@ async function createAVMWithUefiSettingsOfSecureBootAndVTpm() {
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -647,8 +638,7 @@ async function createAVMWithUserData() {
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -720,8 +710,7 @@ async function createAVMWithVMSizeProperties() {
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -866,8 +855,7 @@ async function createAVMWithSecurityTypeConfidentialVMWithCustomerManagedKeys() 
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -895,8 +883,7 @@ async function createAVMWithSecurityTypeConfidentialVMWithCustomerManagedKeys() 
             managedDisk: {
               securityProfile: {
                 diskEncryptionSet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
                 },
                 securityEncryptionType: "DiskWithVMGuestState",
               },
@@ -942,8 +929,7 @@ async function createAVMWithSecurityTypeConfidentialVMWithPlatformManagedKeys() 
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -1014,8 +1000,7 @@ async function createAWindowsVMWithAPatchSettingAssessmentModeOfImageDefault() {
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -1082,8 +1067,7 @@ async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByOS() {
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/nsgExistingNic",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/nsgExistingNic",
               properties: { primary: true },
             },
           ],
@@ -1150,8 +1134,7 @@ async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAn
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -1224,8 +1207,7 @@ async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAn
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -1297,8 +1279,7 @@ async function createAWindowsVMWithAPatchSettingPatchModeOfManual() {
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -1365,8 +1346,7 @@ async function createAWindowsVMWithPatchSettingsPatchModeAndAssessmentModeSetToA
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -1438,8 +1418,7 @@ async function createACustomImageVMFromAnUnmanagedGeneralizedOSImage() {
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -1455,13 +1434,11 @@ async function createACustomImageVMFromAnUnmanagedGeneralizedOSImage() {
             caching: "ReadWrite",
             createOption: "FromImage",
             image: {
-              uri:
-                "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/{existing-generalized-os-image-blob-name}.vhd",
+              uri: "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/{existing-generalized-os-image-blob-name}.vhd",
             },
             osType: "Windows",
             vhd: {
-              uri:
-                "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk.vhd",
+              uri: "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk.vhd",
             },
           },
         },
@@ -1503,8 +1480,7 @@ async function createAPlatformImageVMWithUnmanagedOSAndDataDisks() {
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -1521,8 +1497,7 @@ async function createAPlatformImageVMWithUnmanagedOSAndDataDisks() {
               diskSizeGB: 1023,
               lun: 0,
               vhd: {
-                uri:
-                  "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk0.vhd",
+                uri: "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk0.vhd",
               },
             },
             {
@@ -1530,8 +1505,7 @@ async function createAPlatformImageVMWithUnmanagedOSAndDataDisks() {
               diskSizeGB: 1023,
               lun: 1,
               vhd: {
-                uri:
-                  "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk1.vhd",
+                uri: "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk1.vhd",
               },
             },
           ],
@@ -1546,8 +1520,7 @@ async function createAPlatformImageVMWithUnmanagedOSAndDataDisks() {
             caching: "ReadWrite",
             createOption: "FromImage",
             vhd: {
-              uri:
-                "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk.vhd",
+              uri: "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk.vhd",
             },
           },
         },
@@ -1589,8 +1562,7 @@ async function createAVMFromACustomImage() {
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -1602,8 +1574,7 @@ async function createAVMFromACustomImage() {
         },
         storageProfile: {
           imageReference: {
-            id:
-              "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}",
+            id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}",
           },
           osDisk: {
             name: "myVMosdisk",
@@ -1650,8 +1621,7 @@ async function createAVMFromAGeneralizedSharedImage() {
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -1663,8 +1633,7 @@ async function createAVMFromAGeneralizedSharedImage() {
         },
         storageProfile: {
           imageReference: {
-            id:
-              "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/mySharedGallery/images/mySharedImage",
+            id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/mySharedGallery/images/mySharedImage",
           },
           osDisk: {
             name: "myVMosdisk",
@@ -1711,16 +1680,14 @@ async function createAVMFromASpecializedSharedImage() {
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
         },
         storageProfile: {
           imageReference: {
-            id:
-              "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/mySharedGallery/images/mySharedImage",
+            id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/mySharedGallery/images/mySharedImage",
           },
           osDisk: {
             name: "myVMosdisk",
@@ -1767,8 +1734,7 @@ async function createAVMInAVirtualMachineScaleSetWithCustomerAssignedPlatformFau
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -1794,8 +1760,7 @@ async function createAVMInAVirtualMachineScaleSetWithCustomerAssignedPlatformFau
           },
         },
         virtualMachineScaleSet: {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{existing-flex-vmss-name-with-platformFaultDomainCount-greater-than-1}",
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{existing-flex-vmss-name-with-platformFaultDomainCount-greater-than-1}",
         },
       },
     },
@@ -1832,15 +1797,13 @@ async function createAVMInAnAvailabilitySet() {
       location: "westus",
       properties: {
         availabilitySet: {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/availabilitySets/{existing-availability-set-name}",
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/availabilitySets/{existing-availability-set-name}",
         },
         hardwareProfile: { vmSize: "Standard_D1_v2" },
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -1920,8 +1883,7 @@ async function createAVMWithApplicationProfile() {
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -1983,8 +1945,7 @@ async function createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk() 
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -2003,8 +1964,7 @@ async function createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk() 
               lun: 0,
               managedDisk: {
                 diskEncryptionSet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
                 },
                 storageAccountType: "Standard_LRS",
               },
@@ -2016,18 +1976,15 @@ async function createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk() 
               lun: 1,
               managedDisk: {
                 diskEncryptionSet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
                 },
-                id:
-                  "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/{existing-managed-disk-name}",
+                id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/{existing-managed-disk-name}",
                 storageAccountType: "Standard_LRS",
               },
             },
           ],
           imageReference: {
-            id:
-              "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}",
+            id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}",
           },
           osDisk: {
             name: "myVMosdisk",
@@ -2035,8 +1992,7 @@ async function createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk() 
             createOption: "FromImage",
             managedDisk: {
               diskEncryptionSet: {
-                id:
-                  "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
+                id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
               },
               storageAccountType: "Standard_LRS",
             },
@@ -2085,8 +2041,7 @@ async function createAVMWithHostEncryptionUsingEncryptionAtHostProperty() {
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -2155,8 +2110,7 @@ async function createAVMWithScheduledEventsProfile() {
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -2229,8 +2183,7 @@ async function createAVMWithAMarketplaceImagePlan() {
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -2299,8 +2252,7 @@ async function createAVMWithAnExtensionsTimeBudget() {
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -2368,8 +2320,7 @@ async function createAVMWithBootDiagnostics() {
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -2431,8 +2382,7 @@ async function createAVMWithEmptyDataDisks() {
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -2503,8 +2453,7 @@ async function createAVMWithEphemeralOSDiskProvisioningInCacheDiskUsingPlacement
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -2572,8 +2521,7 @@ async function createAVMWithEphemeralOSDiskProvisioningInResourceDiskUsingPlacem
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -2641,8 +2589,7 @@ async function createAVMWithEphemeralOSDisk() {
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -2706,8 +2653,7 @@ async function createAVMWithManagedBootDiagnostics() {
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -2769,8 +2715,7 @@ async function createAVMWithPasswordAuthentication() {
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -2832,8 +2777,7 @@ async function createAVMWithPremiumStorage() {
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -2895,8 +2839,7 @@ async function createAVMWithSshAuthentication() {
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],
@@ -2972,16 +2915,14 @@ async function createOrUpdateAVMWithCapacityReservation() {
       properties: {
         capacityReservation: {
           capacityReservationGroup: {
-            id:
-              "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/CapacityReservationGroups/{crgName}",
+            id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/CapacityReservationGroups/{crgName}",
           },
         },
         hardwareProfile: { vmSize: "Standard_DS1_v2" },
         networkProfile: {
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
               properties: { primary: true },
             },
           ],

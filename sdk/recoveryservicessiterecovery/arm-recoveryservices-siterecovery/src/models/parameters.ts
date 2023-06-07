@@ -24,6 +24,8 @@ import {
   EnableMigrationInput as EnableMigrationInputMapper,
   UpdateMigrationItemInput as UpdateMigrationItemInputMapper,
   MigrateInput as MigrateInputMapper,
+  PauseReplicationInput as PauseReplicationInputMapper,
+  ResumeReplicationInput as ResumeReplicationInputMapper,
   ResyncInput as ResyncInputMapper,
   TestMigrateInput as TestMigrateInputMapper,
   TestMigrateCleanupInput as TestMigrateCleanupInputMapper,
@@ -90,7 +92,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-11-01",
+    defaultValue: "2022-10-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -355,6 +357,16 @@ export const migrateInput: OperationParameter = {
   mapper: MigrateInputMapper
 };
 
+export const pauseReplicationInput: OperationParameter = {
+  parameterPath: "pauseReplicationInput",
+  mapper: PauseReplicationInputMapper
+};
+
+export const resumeReplicationInput: OperationParameter = {
+  parameterPath: "resumeReplicationInput",
+  mapper: ResumeReplicationInputMapper
+};
+
 export const input5: OperationParameter = {
   parameterPath: "input",
   mapper: ResyncInputMapper
@@ -496,17 +508,6 @@ export const applianceUpdateInput: OperationParameter = {
 export const updateMobilityServiceRequest: OperationParameter = {
   parameterPath: "updateMobilityServiceRequest",
   mapper: UpdateMobilityServiceRequestMapper
-};
-
-export const replicationProtectedItemName: OperationURLParameter = {
-  parameterPath: "replicationProtectedItemName",
-  mapper: {
-    serializedName: "replicationProtectedItemName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
 };
 
 export const recoveryPointName: OperationURLParameter = {

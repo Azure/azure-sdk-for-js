@@ -151,6 +151,9 @@ export interface ErrorMessage {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface GroupIdInformation {
     readonly id?: string;
     readonly name?: string;
@@ -438,109 +441,73 @@ export type IpFilterTargetType = "all" | "serviceApi" | "deviceApi";
 
 // @public
 export enum KnownAccessRightsDescription {
-    // (undocumented)
     DeviceConnect = "DeviceConnect",
-    // (undocumented)
     EnrollmentRead = "EnrollmentRead",
-    // (undocumented)
     EnrollmentWrite = "EnrollmentWrite",
-    // (undocumented)
     RegistrationStatusRead = "RegistrationStatusRead",
-    // (undocumented)
     RegistrationStatusWrite = "RegistrationStatusWrite",
-    // (undocumented)
     ServiceConfig = "ServiceConfig"
 }
 
 // @public
 export enum KnownAllocationPolicy {
-    // (undocumented)
     GeoLatency = "GeoLatency",
-    // (undocumented)
     Hashed = "Hashed",
-    // (undocumented)
     Static = "Static"
 }
 
 // @public
 export enum KnownCertificatePurpose {
-    // (undocumented)
     ClientAuthentication = "clientAuthentication",
-    // (undocumented)
     ServerAuthentication = "serverAuthentication"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownIotDpsSku {
-    // (undocumented)
     S1 = "S1"
 }
 
 // @public
 export enum KnownNameUnavailabilityReason {
-    // (undocumented)
     AlreadyExists = "AlreadyExists",
-    // (undocumented)
     Invalid = "Invalid"
 }
 
 // @public
 export enum KnownPrivateLinkServiceConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownPublicNetworkAccess {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownState {
-    // (undocumented)
     Activating = "Activating",
-    // (undocumented)
     ActivationFailed = "ActivationFailed",
-    // (undocumented)
     Active = "Active",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     DeletionFailed = "DeletionFailed",
-    // (undocumented)
     FailingOver = "FailingOver",
-    // (undocumented)
     FailoverFailed = "FailoverFailed",
-    // (undocumented)
     Resuming = "Resuming",
-    // (undocumented)
     Suspended = "Suspended",
-    // (undocumented)
     Suspending = "Suspending",
-    // (undocumented)
     Transitioning = "Transitioning"
 }
 
@@ -633,12 +600,12 @@ export interface PrivateLinkServiceConnectionState {
 export type PrivateLinkServiceConnectionStatus = string;
 
 // @public
-export type ProvisioningServiceDescription = Resource & {
+export interface ProvisioningServiceDescription extends Resource {
     etag?: string;
     properties: IotDpsPropertiesDescription;
     sku: IotDpsSkuInfo;
     readonly systemData?: SystemData;
-};
+}
 
 // @public
 export interface ProvisioningServiceDescriptionListResult {

@@ -329,7 +329,7 @@ export interface ResourceOperationDisplay {
 }
 
 /** Instance of an Azure ML Operationalization Cluster resource. */
-export type OperationalizationCluster = Resource & {
+export interface OperationalizationCluster extends Resource {
   /** The description of the cluster. */
   description?: string;
   /**
@@ -364,7 +364,7 @@ export type OperationalizationCluster = Resource & {
   appInsights?: AppInsightsProperties;
   /** Contains global configuration for the web services in the cluster. */
   globalServiceConfiguration?: GlobalServiceConfiguration;
-};
+}
 
 /** Defines headers for OperationalizationClusters_delete operation. */
 export interface OperationalizationClustersDeleteHeaders {
@@ -380,12 +380,19 @@ export interface OperationalizationClustersUpdateSystemServicesHeaders {
 
 /** Known values of {@link OperationStatus} that the service accepts. */
 export enum KnownOperationStatus {
+  /** Unknown */
   Unknown = "Unknown",
+  /** Updating */
   Updating = "Updating",
+  /** Creating */
   Creating = "Creating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled"
 }
 
@@ -406,7 +413,9 @@ export type OperationStatus = string;
 
 /** Known values of {@link ClusterType} that the service accepts. */
 export enum KnownClusterType {
+  /** ACS */
   ACS = "ACS",
+  /** Local */
   Local = "Local"
 }
 
@@ -422,7 +431,9 @@ export type ClusterType = string;
 
 /** Known values of {@link OrchestratorType} that the service accepts. */
 export enum KnownOrchestratorType {
+  /** Kubernetes */
   Kubernetes = "Kubernetes",
+  /** None */
   None = "None"
 }
 
@@ -438,8 +449,11 @@ export type OrchestratorType = string;
 
 /** Known values of {@link SystemServiceType} that the service accepts. */
 export enum KnownSystemServiceType {
+  /** None */
   None = "None",
+  /** ScoringFrontEnd */
   ScoringFrontEnd = "ScoringFrontEnd",
+  /** BatchFrontEnd */
   BatchFrontEnd = "BatchFrontEnd"
 }
 
@@ -456,52 +470,99 @@ export type SystemServiceType = string;
 
 /** Known values of {@link AgentVMSizeTypes} that the service accepts. */
 export enum KnownAgentVMSizeTypes {
+  /** StandardA0 */
   StandardA0 = "Standard_A0",
+  /** StandardA1 */
   StandardA1 = "Standard_A1",
+  /** StandardA2 */
   StandardA2 = "Standard_A2",
+  /** StandardA3 */
   StandardA3 = "Standard_A3",
+  /** StandardA4 */
   StandardA4 = "Standard_A4",
+  /** StandardA5 */
   StandardA5 = "Standard_A5",
+  /** StandardA6 */
   StandardA6 = "Standard_A6",
+  /** StandardA7 */
   StandardA7 = "Standard_A7",
+  /** StandardA8 */
   StandardA8 = "Standard_A8",
+  /** StandardA9 */
   StandardA9 = "Standard_A9",
+  /** StandardA10 */
   StandardA10 = "Standard_A10",
+  /** StandardA11 */
   StandardA11 = "Standard_A11",
+  /** StandardD1 */
   StandardD1 = "Standard_D1",
+  /** StandardD2 */
   StandardD2 = "Standard_D2",
+  /** StandardD3 */
   StandardD3 = "Standard_D3",
+  /** StandardD4 */
   StandardD4 = "Standard_D4",
+  /** StandardD11 */
   StandardD11 = "Standard_D11",
+  /** StandardD12 */
   StandardD12 = "Standard_D12",
+  /** StandardD13 */
   StandardD13 = "Standard_D13",
+  /** StandardD14 */
   StandardD14 = "Standard_D14",
+  /** StandardD1V2 */
   StandardD1V2 = "Standard_D1_v2",
+  /** StandardD2V2 */
   StandardD2V2 = "Standard_D2_v2",
+  /** StandardD3V2 */
   StandardD3V2 = "Standard_D3_v2",
+  /** StandardD4V2 */
   StandardD4V2 = "Standard_D4_v2",
+  /** StandardD5V2 */
   StandardD5V2 = "Standard_D5_v2",
+  /** StandardD11V2 */
   StandardD11V2 = "Standard_D11_v2",
+  /** StandardD12V2 */
   StandardD12V2 = "Standard_D12_v2",
+  /** StandardD13V2 */
   StandardD13V2 = "Standard_D13_v2",
+  /** StandardD14V2 */
   StandardD14V2 = "Standard_D14_v2",
+  /** StandardG1 */
   StandardG1 = "Standard_G1",
+  /** StandardG2 */
   StandardG2 = "Standard_G2",
+  /** StandardG3 */
   StandardG3 = "Standard_G3",
+  /** StandardG4 */
   StandardG4 = "Standard_G4",
+  /** StandardG5 */
   StandardG5 = "Standard_G5",
+  /** StandardDS1 */
   StandardDS1 = "Standard_DS1",
+  /** StandardDS2 */
   StandardDS2 = "Standard_DS2",
+  /** StandardDS3 */
   StandardDS3 = "Standard_DS3",
+  /** StandardDS4 */
   StandardDS4 = "Standard_DS4",
+  /** StandardDS11 */
   StandardDS11 = "Standard_DS11",
+  /** StandardDS12 */
   StandardDS12 = "Standard_DS12",
+  /** StandardDS13 */
   StandardDS13 = "Standard_DS13",
+  /** StandardDS14 */
   StandardDS14 = "Standard_DS14",
+  /** StandardGS1 */
   StandardGS1 = "Standard_GS1",
+  /** StandardGS2 */
   StandardGS2 = "Standard_GS2",
+  /** StandardGS3 */
   StandardGS3 = "Standard_GS3",
+  /** StandardGS4 */
   StandardGS4 = "Standard_GS4",
+  /** StandardGS5 */
   StandardGS5 = "Standard_GS5"
 }
 
@@ -562,7 +623,9 @@ export type AgentVMSizeTypes = string;
 
 /** Known values of {@link Status} that the service accepts. */
 export enum KnownStatus {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -578,7 +641,9 @@ export type Status = string;
 
 /** Known values of {@link UpdatesAvailable} that the service accepts. */
 export enum KnownUpdatesAvailable {
+  /** Yes */
   Yes = "Yes",
+  /** No */
   No = "No"
 }
 

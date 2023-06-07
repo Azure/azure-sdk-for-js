@@ -11,8 +11,11 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
+export type ApiVersionParameter = string;
+
+// @public
 export interface AzureTrafficCollector extends TrackedResource {
-    collectorPolicies?: CollectorPolicy[];
+    readonly collectorPolicies?: ResourceReference[];
     readonly etag?: string;
     readonly provisioningState?: ProvisioningState;
     virtualHub?: ResourceReference;
@@ -54,8 +57,8 @@ export interface AzureTrafficCollectorListResult {
 
 // @public
 export interface AzureTrafficCollectors {
-    beginCreateOrUpdate(resourceGroupName: string, azureTrafficCollectorName: string, options?: AzureTrafficCollectorsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<AzureTrafficCollectorsCreateOrUpdateResponse>, AzureTrafficCollectorsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, azureTrafficCollectorName: string, options?: AzureTrafficCollectorsCreateOrUpdateOptionalParams): Promise<AzureTrafficCollectorsCreateOrUpdateResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, azureTrafficCollectorName: string, location: string, options?: AzureTrafficCollectorsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<AzureTrafficCollectorsCreateOrUpdateResponse>, AzureTrafficCollectorsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, azureTrafficCollectorName: string, location: string, options?: AzureTrafficCollectorsCreateOrUpdateOptionalParams): Promise<AzureTrafficCollectorsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, azureTrafficCollectorName: string, options?: AzureTrafficCollectorsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, azureTrafficCollectorName: string, options?: AzureTrafficCollectorsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, azureTrafficCollectorName: string, options?: AzureTrafficCollectorsGetOptionalParams): Promise<AzureTrafficCollectorsGetResponse>;
@@ -102,8 +105,6 @@ export type AzureTrafficCollectorsBySubscriptionListResponse = AzureTrafficColle
 
 // @public
 export interface AzureTrafficCollectorsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    collectorPolicies?: CollectorPolicy[];
-    location?: string;
     resumeFrom?: string;
     tags?: {
         [propertyName: string]: string;
@@ -150,12 +151,13 @@ export interface CloudErrorBody {
 
 // @public
 export interface CollectorPolicies {
-    beginCreateOrUpdate(resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, options?: CollectorPoliciesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<CollectorPoliciesCreateOrUpdateResponse>, CollectorPoliciesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, options?: CollectorPoliciesCreateOrUpdateOptionalParams): Promise<CollectorPoliciesCreateOrUpdateResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, location: string, options?: CollectorPoliciesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<CollectorPoliciesCreateOrUpdateResponse>, CollectorPoliciesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, location: string, options?: CollectorPoliciesCreateOrUpdateOptionalParams): Promise<CollectorPoliciesCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, options?: CollectorPoliciesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, options?: CollectorPoliciesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, options?: CollectorPoliciesGetOptionalParams): Promise<CollectorPoliciesGetResponse>;
     list(resourceGroupName: string, azureTrafficCollectorName: string, options?: CollectorPoliciesListOptionalParams): PagedAsyncIterableIterator<CollectorPolicy>;
+    updateTags(resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, parameters: TagsObject, options?: CollectorPoliciesUpdateTagsOptionalParams): Promise<CollectorPoliciesUpdateTagsResponse>;
 }
 
 // @public
@@ -163,6 +165,9 @@ export interface CollectorPoliciesCreateOrUpdateOptionalParams extends coreClien
     emissionPolicies?: EmissionPoliciesPropertiesFormat[];
     ingestionPolicy?: IngestionPolicyPropertiesFormat;
     resumeFrom?: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
     updateIntervalInMs?: number;
 }
 
@@ -197,22 +202,24 @@ export interface CollectorPoliciesListOptionalParams extends coreClient.Operatio
 export type CollectorPoliciesListResponse = CollectorPolicyListResult;
 
 // @public
-export interface CollectorPolicy extends ProxyResource {
+export interface CollectorPoliciesUpdateTagsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CollectorPoliciesUpdateTagsResponse = CollectorPolicy;
+
+// @public
+export interface CollectorPolicy extends TrackedResource {
     emissionPolicies?: EmissionPoliciesPropertiesFormat[];
     readonly etag?: string;
     ingestionPolicy?: IngestionPolicyPropertiesFormat;
     readonly provisioningState?: ProvisioningState;
-    readonly systemData?: CollectorPolicySystemData;
 }
 
 // @public
 export interface CollectorPolicyListResult {
     readonly nextLink?: string;
     value?: CollectorPolicy[];
-}
-
-// @public
-export interface CollectorPolicySystemData extends SystemData {
 }
 
 // @public
@@ -236,6 +243,9 @@ export interface EmissionPolicyDestination {
 export type EmissionType = string;
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface IngestionPolicyPropertiesFormat {
     ingestionSources?: IngestionSourcesPropertiesFormat[];
     ingestionType?: IngestionType;
@@ -249,6 +259,13 @@ export interface IngestionSourcesPropertiesFormat {
 
 // @public
 export type IngestionType = string;
+
+// @public
+export enum KnownApiVersionParameter {
+    TwoThousandTwentyTwo0501 = "2022-05-01",
+    TwoThousandTwentyTwo0801 = "2022-08-01",
+    TwoThousandTwentyTwo1101 = "2022-11-01"
+}
 
 // @public
 export enum KnownCreatedByType {
@@ -357,7 +374,7 @@ export interface TagsObject {
 // @public
 export interface TrackedResource {
     readonly id?: string;
-    location?: string;
+    location: string;
     readonly name?: string;
     readonly systemData?: TrackedResourceSystemData;
     tags?: {

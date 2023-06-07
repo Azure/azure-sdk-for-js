@@ -7,9 +7,13 @@
 /// <reference lib="dom" />
 /// <reference lib="esnext.asynciterable" />
 
+import { AbortError } from '@azure/abort-controller';
 import { AbortSignal as AbortSignal_2 } from 'node-abort-controller';
 import { Pipeline } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
+
+export { AbortError }
 
 // @public (undocumented)
 export interface Agent {
@@ -27,6 +31,11 @@ export interface Agent {
 
 // @public (undocumented)
 export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum";
+
+// @public (undocumented)
+export type BulkOperationResponse = OperationResponse[] & {
+    diagnostics: CosmosDiagnostics;
+};
 
 // @public (undocumented)
 export const BulkOperationType: {
@@ -83,51 +92,57 @@ export class ChangeFeedResponse<T> {
 export class ClientContext {
     constructor(cosmosClientOptions: CosmosClientOptions, globalEndpointManager: GlobalEndpointManager);
     // (undocumented)
-    batch<T>({ body, path, partitionKey, resourceId, options, }: {
+    batch<T>({ body, path, partitionKey, resourceId, options, diagnosticContext, }: {
         body: T;
         path: string;
         partitionKey: string;
         resourceId: string;
         options?: RequestOptions;
+        diagnosticContext?: CosmosDiagnosticContext;
     }): Promise<Response_2<any>>;
     // (undocumented)
-    bulk<T>({ body, path, partitionKeyRangeId, resourceId, bulkOptions, options, }: {
+    bulk<T>({ body, path, partitionKeyRangeId, resourceId, bulkOptions, options, diagnosticContext, }: {
         body: T;
         path: string;
         partitionKeyRangeId: string;
         resourceId: string;
         bulkOptions?: BulkOptions;
         options?: RequestOptions;
+        diagnosticContext?: CosmosDiagnosticContext;
     }): Promise<Response_2<any>>;
     // (undocumented)
     clearSessionToken(path: string): void;
     // (undocumented)
-    create<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey, }: {
+    create<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticContext, }: {
         body: T;
         path: string;
         resourceType: ResourceType;
         resourceId: string;
         options?: RequestOptions;
         partitionKey?: PartitionKey;
+        diagnosticContext?: CosmosDiagnosticContext;
     }): Promise<Response_2<T & U & Resource>>;
     // (undocumented)
-    delete<T>({ path, resourceType, resourceId, options, partitionKey, }: {
+    delete<T>({ path, resourceType, resourceId, options, partitionKey, method, diagnosticContext, }: {
         path: string;
         resourceType: ResourceType;
         resourceId: string;
         options?: RequestOptions;
         partitionKey?: PartitionKey;
+        method?: HTTPMethod;
+        diagnosticContext?: CosmosDiagnosticContext;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
-    execute<T>({ sprocLink, params, options, partitionKey, }: {
+    execute<T>({ sprocLink, params, options, partitionKey, diagnosticContext, }: {
         sprocLink: string;
         params?: any[];
         options?: RequestOptions;
         partitionKey?: PartitionKey;
+        diagnosticContext?: CosmosDiagnosticContext;
     }): Promise<Response_2<T>>;
-    getDatabaseAccount(options?: RequestOptions): Promise<Response_2<DatabaseAccount>>;
+    getDatabaseAccount(options?: RequestOptions, diagnosticContext?: CosmosDiagnosticContext): Promise<Response_2<DatabaseAccount>>;
     // (undocumented)
-    getQueryPlan(path: string, resourceType: ResourceType, resourceId: string, query: SqlQuerySpec | string, options?: FeedOptions): Promise<Response_2<PartitionedQueryExecutionInfo>>;
+    getQueryPlan(path: string, resourceType: ResourceType, resourceId: string, query: SqlQuerySpec | string, options?: FeedOptions, diagnosticContext?: CosmosDiagnosticContext): Promise<Response_2<PartitionedQueryExecutionInfo>>;
     // (undocumented)
     getReadEndpoint(): Promise<string>;
     // (undocumented)
@@ -141,16 +156,17 @@ export class ClientContext {
         [containerUrl: string]: any;
     };
     // (undocumented)
-    patch<T>({ body, path, resourceType, resourceId, options, partitionKey, }: {
+    patch<T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticContext, }: {
         body: any;
         path: string;
         resourceType: ResourceType;
         resourceId: string;
         options?: RequestOptions;
         partitionKey?: PartitionKey;
+        diagnosticContext?: CosmosDiagnosticContext;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
-    queryFeed<T>({ path, resourceType, resourceId, resultFn, query, options, partitionKeyRangeId, partitionKey, }: {
+    queryFeed<T>({ path, resourceType, resourceId, resultFn, query, options, partitionKeyRangeId, partitionKey, diagnosticContext, }: {
         path: string;
         resourceType: ResourceType;
         resourceId: string;
@@ -161,34 +177,38 @@ export class ClientContext {
         options: FeedOptions;
         partitionKeyRangeId?: string;
         partitionKey?: PartitionKey;
+        diagnosticContext?: CosmosDiagnosticContext;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
-    queryPartitionKeyRanges(collectionLink: string, query?: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<PartitionKeyRange>;
+    queryPartitionKeyRanges(collectionLink: string, diagnosticContext: CosmosDiagnosticContext, query?: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<PartitionKeyRange>;
     // (undocumented)
-    read<T>({ path, resourceType, resourceId, options, partitionKey, }: {
+    read<T>({ path, resourceType, resourceId, options, partitionKey, diagnosticContext, }: {
         path: string;
         resourceType: ResourceType;
         resourceId: string;
         options?: RequestOptions;
         partitionKey?: PartitionKey;
+        diagnosticContext?: CosmosDiagnosticContext;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
-    replace<T>({ body, path, resourceType, resourceId, options, partitionKey, }: {
+    replace<T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticContext, }: {
         body: any;
         path: string;
         resourceType: ResourceType;
         resourceId: string;
         options?: RequestOptions;
         partitionKey?: PartitionKey;
+        diagnosticContext?: CosmosDiagnosticContext;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
-    upsert<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey, }: {
+    upsert<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticContext, }: {
         body: T;
         path: string;
         resourceType: ResourceType;
         resourceId: string;
         options?: RequestOptions;
         partitionKey?: PartitionKey;
+        diagnosticContext?: CosmosDiagnosticContext;
     }): Promise<Response_2<T & U & Resource>>;
 }
 
@@ -203,6 +223,18 @@ export class ClientSideMetrics {
     // (undocumented)
     static readonly zero: ClientSideMetrics;
 }
+
+// @public
+export type ClientSideRequestStatistics = {
+    requestStartTimeUTCInMs: number;
+    requestEndTimeUTCInMs: number;
+    activityId: string;
+    locationEndpointsContacted: Location_2[];
+    retryDiagnostics: RetryDiagnostics;
+    metadataDiagnostics: MetadataLookUpDiagnostics;
+    requestPayloadLengthInBytes: number;
+    responsePayloadLengthInBytes: number;
+};
 
 // @public
 export class Conflict {
@@ -245,7 +277,7 @@ export interface ConflictResolutionPolicy {
 
 // @public (undocumented)
 export class ConflictResponse extends ResourceResponse<ConflictDefinition & Resource> {
-    constructor(resource: ConflictDefinition & Resource, headers: CosmosHeaders, statusCode: number, conflict: Conflict);
+    constructor(resource: ConflictDefinition & Resource, headers: CosmosHeaders, statusCode: number, conflict: Conflict, diagnostics: CosmosDiagnostics);
     readonly conflict: Conflict;
 }
 
@@ -365,6 +397,8 @@ export const Constants: {
         ResponseContinuationTokenLimitInKB: string;
         PopulateQueryMetrics: string;
         QueryMetrics: string;
+        PopulateIndexMetrics: string;
+        IndexUtilization: string;
         Version: string;
         OwnerFullName: string;
         OwnerId: string;
@@ -400,6 +434,7 @@ export const Constants: {
     };
     WritableLocations: string;
     ReadableLocations: string;
+    LocationUnavailableExpirationTimeInMs: number;
     ENABLE_MULTIPLE_WRITABLE_LOCATIONS: string;
     DefaultUnavailableLocationExpirationTimeMS: number;
     ThrottleRetryCount: string;
@@ -409,6 +444,7 @@ export const Constants: {
     AzurePackageName: string;
     SDKName: string;
     SDKVersion: string;
+    DefaultMaxBulkRequestBodySizeInBytes: number;
     Quota: {
         CollectionSize: string;
     };
@@ -454,6 +490,7 @@ export class Container {
     // (undocumented)
     readonly database: Database;
     delete(options?: RequestOptions): Promise<ContainerResponse>;
+    deleteAllItemsForPartitionKey(partitionKey: PartitionKey, options?: RequestOptions): Promise<ContainerResponse>;
     // @deprecated
     getPartitionKeyDefinition(): Promise<ResourceResponse<PartitionKeyDefinition>>;
     // (undocumented)
@@ -505,7 +542,7 @@ export interface ContainerRequest extends VerboseOmit<ContainerDefinition, "part
 
 // @public
 export class ContainerResponse extends ResourceResponse<ContainerDefinition & Resource> {
-    constructor(resource: ContainerDefinition & Resource, headers: CosmosHeaders, statusCode: number, container: Container);
+    constructor(resource: ContainerDefinition & Resource, headers: CosmosHeaders, statusCode: number, container: Container, diagnostics: CosmosDiagnostics);
     readonly container: Container;
 }
 
@@ -555,6 +592,16 @@ export interface CosmosClientOptions {
     };
     tokenProvider?: TokenProvider;
     userAgentSuffix?: string;
+}
+
+// @public
+export class CosmosDiagnostics {
+    // (undocumented)
+    readonly clientSideRequestStatistics: ClientSideRequestStatistics;
+    // (undocumented)
+    get getContactedRegionNames(): Set<string>;
+    // (undocumented)
+    readonly id: string;
 }
 
 // @public (undocumented)
@@ -648,7 +695,7 @@ export interface DatabaseRequest extends DatabaseDefinition {
 
 // @public
 export class DatabaseResponse extends ResourceResponse<DatabaseDefinition & Resource> {
-    constructor(resource: DatabaseDefinition & Resource, headers: CosmosHeaders, statusCode: number, database: Database);
+    constructor(resource: DatabaseDefinition & Resource, headers: CosmosHeaders, statusCode: number, database: Database, diagnostics: CosmosDiagnostics);
     readonly database: Database;
 }
 
@@ -704,7 +751,7 @@ export interface ErrorBody {
 }
 
 // @public (undocumented)
-export interface ErrorResponse extends Error {
+export class ErrorResponse extends Error {
     // (undocumented)
     [key: string]: any;
     // (undocumented)
@@ -713,6 +760,8 @@ export interface ErrorResponse extends Error {
     body?: ErrorBody;
     // (undocumented)
     code?: number;
+    // (undocumented)
+    diagnostics: CosmosDiagnostics;
     // (undocumented)
     headers?: CosmosHeaders;
     // (undocumented)
@@ -734,6 +783,20 @@ export type ExistingKeyOperation = {
 export function extractPartitionKey(document: unknown, partitionKeyDefinition: PartitionKeyDefinition): PartitionKey[];
 
 // @public
+export interface FailedRequestAttemptDiagnostic {
+    // (undocumented)
+    attemptNumber: number;
+    // (undocumented)
+    endTimeUTCInMs: number;
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    startTimeUTCInMs: number;
+    // (undocumented)
+    statusCode: string;
+}
+
+// @public
 export interface FeedOptions extends SharedOptions {
     accessCondition?: {
         type: string;
@@ -749,13 +812,14 @@ export interface FeedOptions extends SharedOptions {
     maxDegreeOfParallelism?: number;
     maxItemCount?: number;
     partitionKey?: any;
+    populateIndexMetrics?: boolean;
     populateQueryMetrics?: boolean;
     useIncrementalFeed?: boolean;
 }
 
 // @public (undocumented)
 export class FeedResponse<TResource> {
-    constructor(resources: TResource[], headers: CosmosHeaders, hasMoreResults: boolean);
+    constructor(resources: TResource[], headers: CosmosHeaders, hasMoreResults: boolean, diagnostics: CosmosDiagnostics);
     // (undocumented)
     get activityId(): string;
     // (undocumented)
@@ -763,7 +827,11 @@ export class FeedResponse<TResource> {
     // (undocumented)
     get continuationToken(): string;
     // (undocumented)
+    readonly diagnostics: CosmosDiagnostics;
+    // (undocumented)
     readonly hasMoreResults: boolean;
+    // (undocumented)
+    get indexMetrics(): string;
     // (undocumented)
     get queryMetrics(): string;
     // (undocumented)
@@ -796,7 +864,7 @@ export class GlobalEndpointManager {
     markCurrentLocationUnavailableForWrite(endpoint: string): Promise<void>;
     refreshEndpointList(): Promise<void>;
     // (undocumented)
-    resolveServiceEndpoint(resourceType: ResourceType, operationType: OperationType): Promise<string>;
+    resolveServiceEndpoint(resourceType: ResourceType, operationType: OperationType, requestContext?: RequestContext): Promise<string>;
 }
 
 // @public (undocumented)
@@ -889,15 +957,15 @@ export interface ItemDefinition {
 
 // @public (undocumented)
 export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T & Resource> {
-    constructor(resource: T & Resource, headers: CosmosHeaders, statusCode: number, subsstatusCode: number, item: Item);
+    constructor(resource: T & Resource, headers: CosmosHeaders, statusCode: number, subsstatusCode: number, item: Item, diagnostics: CosmosDiagnostics);
     readonly item: Item;
 }
 
 // @public
 export class Items {
     constructor(container: Container, clientContext: ClientContext);
-    batch(operations: OperationInput[], partitionKey?: string, options?: RequestOptions): Promise<Response_2<any>>;
-    bulk(operations: OperationInput[], bulkOptions?: BulkOptions, options?: RequestOptions): Promise<OperationResponse[]>;
+    batch(operations: OperationInput[], partitionKey?: string, options?: RequestOptions): Promise<Response_2<OperationResponse[]>>;
+    bulk(operations: OperationInput[], bulkOptions?: BulkOptions, options?: RequestOptions): Promise<BulkOperationResponse>;
     changeFeed(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     changeFeed<T>(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
@@ -939,18 +1007,42 @@ interface Location_2 {
     // (undocumented)
     databaseAccountEndpoint: string;
     // (undocumented)
+    lastUnavailabilityTimestampInMs?: number;
+    // (undocumented)
     name: string;
     // (undocumented)
     unavailable?: boolean;
 }
 export { Location_2 as Location }
 
-// @public (undocumented)
-export type MoveOperation = {
-    op: keyof typeof PatchOperationType;
-    from: string;
-    path: string;
+// @public
+export interface MetadataLookUpDiagnostic {
+    // (undocumented)
+    activityId: string;
+    // (undocumented)
+    endTimeUTCInMs: number;
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    metaDataType: MetadataLookUpType;
+    // (undocumented)
+    startTimeUTCInMs: number;
+}
+
+// @public
+export type MetadataLookUpDiagnostics = {
+    metadataLookups: MetadataLookUpDiagnostic[];
 };
+
+// @public
+export enum MetadataLookUpType {
+    // (undocumented)
+    DatabaseAccountLookUp = "DATABASE_ACCOUNT_LOOK_UP",
+    // (undocumented)
+    PartitionKeyRangeLookUp = "PARTITION_KEY_RANGE_LOOK_UP",
+    // (undocumented)
+    ServerAddressLookUp = "SERVER_ADDRESS_LOOK_UP"
+}
 
 // @public
 export type Next<T> = (context: RequestContext) => Promise<Response_2<T>>;
@@ -998,7 +1090,7 @@ export interface OfferDefinition {
 
 // @public (undocumented)
 export class OfferResponse extends ResourceResponse<OfferDefinition & Resource> {
-    constructor(resource: OfferDefinition & Resource, headers: CosmosHeaders, statusCode: number, offer?: Offer);
+    constructor(resource: OfferDefinition & Resource, headers: CosmosHeaders, statusCode: number, diagnostics: CosmosDiagnostics, offer?: Offer);
     readonly offer: Offer;
 }
 
@@ -1117,7 +1209,7 @@ export interface PartitionKeyRangePropertiesNames {
 }
 
 // @public (undocumented)
-export type PatchOperation = ExistingKeyOperation | RemoveOperation | MoveOperation;
+export type PatchOperation = ExistingKeyOperation | RemoveOperation;
 
 // @public (undocumented)
 export interface PatchOperationInput {
@@ -1142,7 +1234,6 @@ export const PatchOperationType: {
     readonly remove: "remove";
     readonly set: "set";
     readonly incr: "incr";
-    readonly move: "move";
 };
 
 // @public (undocumented)
@@ -1187,7 +1278,7 @@ export enum PermissionMode {
 
 // @public (undocumented)
 export class PermissionResponse extends ResourceResponse<PermissionDefinition & PermissionBody & Resource> {
-    constructor(resource: PermissionDefinition & PermissionBody & Resource, headers: CosmosHeaders, statusCode: number, permission: Permission);
+    constructor(resource: PermissionDefinition & PermissionBody & Resource, headers: CosmosHeaders, statusCode: number, permission: Permission, diagnostics: CosmosDiagnostics);
     readonly permission: Permission;
 }
 
@@ -1249,7 +1340,7 @@ export interface QueryInfo {
 // @public
 export class QueryIterator<T> {
     // Warning: (ae-forgotten-export) The symbol "FetchFunctionCallback" needs to be exported by the entry point index.d.ts
-    constructor(clientContext: ClientContext, query: SqlQuerySpec | string, options: FeedOptions, fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[], resourceLink?: string, resourceType?: ResourceType);
+    constructor(clientContext: ClientContext, query: SqlQuerySpec | string, options: FeedOptions, fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[], diagnosticContext?: CosmosDiagnosticContext, resourceLink?: string, resourceType?: ResourceType);
     fetchAll(): Promise<FeedResponse<T>>;
     fetchNext(): Promise<FeedResponse<T>>;
     getAsyncIterator(): AsyncIterable<FeedResponse<T>>;
@@ -1425,6 +1516,8 @@ export interface RequestContext {
     // (undocumented)
     connectionPolicy: ConnectionPolicy;
     // (undocumented)
+    diagnosticContext: CosmosDiagnosticContext;
+    // (undocumented)
     endpoint?: string;
     // (undocumented)
     globalEndpointManager: GlobalEndpointManager;
@@ -1502,9 +1595,11 @@ export interface Resource {
 
 // @public (undocumented)
 export class ResourceResponse<TResource> {
-    constructor(resource: TResource | undefined, headers: CosmosHeaders_2, statusCode: StatusCode, substatus?: SubStatusCode);
+    constructor(resource: TResource | undefined, headers: CosmosHeaders_2, statusCode: StatusCode, diagnostics: CosmosDiagnostics, substatus?: SubStatusCode);
     // (undocumented)
     get activityId(): string;
+    // (undocumented)
+    readonly diagnostics: CosmosDiagnostics;
     // (undocumented)
     get etag(): string;
     // (undocumented)
@@ -1534,6 +1629,8 @@ export enum ResourceType {
     // (undocumented)
     offer = "offers",
     // (undocumented)
+    partitionkey = "partitionKey",
+    // (undocumented)
     permission = "permissions",
     // (undocumented)
     pkranges = "pkranges",
@@ -1552,6 +1649,8 @@ interface Response_2<T> {
     // (undocumented)
     code?: number;
     // (undocumented)
+    diagnostics: CosmosDiagnostics;
+    // (undocumented)
     headers: CosmosHeaders;
     // (undocumented)
     result?: T;
@@ -1559,6 +1658,13 @@ interface Response_2<T> {
     substatus?: number;
 }
 export { Response_2 as Response }
+
+export { RestError }
+
+// @public
+export type RetryDiagnostics = {
+    failedAttempts: FailedRequestAttemptDiagnostic[];
+};
 
 // @public
 export interface RetryOptions {
@@ -1847,7 +1953,7 @@ export interface StoredProcedureDefinition {
 
 // @public (undocumented)
 export class StoredProcedureResponse extends ResourceResponse<StoredProcedureDefinition & Resource> {
-    constructor(resource: StoredProcedureDefinition & Resource, headers: CosmosHeaders, statusCode: number, storedProcedure: StoredProcedure);
+    constructor(resource: StoredProcedureDefinition & Resource, headers: CosmosHeaders, statusCode: number, storedProcedure: StoredProcedure, diagnostics: CosmosDiagnostics);
     get sproc(): StoredProcedure;
     readonly storedProcedure: StoredProcedure;
 }
@@ -1865,6 +1971,13 @@ export class StoredProcedures {
 
 // @public (undocumented)
 export type SubStatusCode = number;
+
+// @public (undocumented)
+export class TimeoutError extends Error {
+    constructor(message?: string);
+    // (undocumented)
+    readonly code: string;
+}
 
 // @public
 export class TimeSpan {
@@ -1962,7 +2075,7 @@ export enum TriggerOperation {
 
 // @public (undocumented)
 export class TriggerResponse extends ResourceResponse<TriggerDefinition & Resource> {
-    constructor(resource: TriggerDefinition & Resource, headers: CosmosHeaders, statusCode: number, trigger: Trigger);
+    constructor(resource: TriggerDefinition & Resource, headers: CosmosHeaders, statusCode: number, trigger: Trigger, diagnostics: CosmosDiagnostics);
     readonly trigger: Trigger;
 }
 
@@ -2050,7 +2163,7 @@ export interface UserDefinedFunctionDefinition {
 
 // @public (undocumented)
 export class UserDefinedFunctionResponse extends ResourceResponse<UserDefinedFunctionDefinition & Resource> {
-    constructor(resource: UserDefinedFunctionDefinition & Resource, headers: CosmosHeaders, statusCode: number, udf: UserDefinedFunction);
+    constructor(resource: UserDefinedFunctionDefinition & Resource, headers: CosmosHeaders, statusCode: number, udf: UserDefinedFunction, diagnostics: CosmosDiagnostics);
     get udf(): UserDefinedFunction;
     readonly userDefinedFunction: UserDefinedFunction;
 }
@@ -2078,7 +2191,7 @@ export interface UserDefinition {
 
 // @public (undocumented)
 export class UserResponse extends ResourceResponse<UserDefinition & Resource> {
-    constructor(resource: UserDefinition & Resource, headers: CosmosHeaders, statusCode: number, user: User);
+    constructor(resource: UserDefinition & Resource, headers: CosmosHeaders, statusCode: number, user: User, diagnostics: CosmosDiagnostics);
     readonly user: User;
 }
 
@@ -2093,6 +2206,10 @@ export class Users {
     readAll(options?: FeedOptions): QueryIterator<UserDefinition & Resource>;
     upsert(body: UserDefinition, options?: RequestOptions): Promise<UserResponse>;
 }
+
+// Warnings were encountered during analysis:
+//
+// src/ClientContext.ts:91:5 - (ae-forgotten-export) The symbol "CosmosDiagnosticContext" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

@@ -38,8 +38,8 @@ const credentialName = "EnvironmentCredential";
 const logger = credentialLogger(credentialName);
 
 /**
- * Enables authentication to Azure Active Directory using client secret
- * details configured in environment variables
+ * Enables authentication to Azure Active Directory using a client secret or certificate, or as a user
+ * with a username and password.
  */
 export class EnvironmentCredential implements TokenCredential {
   private _credential?:

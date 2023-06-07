@@ -6,14 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { VirtualHubBgpConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   BgpConnection,
   VirtualHubBgpConnectionsListNextOptionalParams,
@@ -58,8 +63,16 @@ export class VirtualHubBgpConnectionsImpl implements VirtualHubBgpConnections {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, virtualHubName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          virtualHubName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -67,11 +80,18 @@ export class VirtualHubBgpConnectionsImpl implements VirtualHubBgpConnections {
   private async *listPagingPage(
     resourceGroupName: string,
     virtualHubName: string,
-    options?: VirtualHubBgpConnectionsListOptionalParams
+    options?: VirtualHubBgpConnectionsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<BgpConnection[]> {
-    let result = await this._list(resourceGroupName, virtualHubName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VirtualHubBgpConnectionsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, virtualHubName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -80,7 +100,9 @@ export class VirtualHubBgpConnectionsImpl implements VirtualHubBgpConnections {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -128,8 +150,8 @@ export class VirtualHubBgpConnectionsImpl implements VirtualHubBgpConnections {
     connectionName: string,
     options?: VirtualHubBgpConnectionsListLearnedRoutesOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualHubBgpConnectionsListLearnedRoutesResponse>,
+    SimplePollerLike<
+      OperationState<VirtualHubBgpConnectionsListLearnedRoutesResponse>,
       VirtualHubBgpConnectionsListLearnedRoutesResponse
     >
   > {
@@ -139,7 +161,7 @@ export class VirtualHubBgpConnectionsImpl implements VirtualHubBgpConnections {
     ): Promise<VirtualHubBgpConnectionsListLearnedRoutesResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -172,15 +194,18 @@ export class VirtualHubBgpConnectionsImpl implements VirtualHubBgpConnections {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, hubName, connectionName, options },
-      listLearnedRoutesOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, hubName, connectionName, options },
+      spec: listLearnedRoutesOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VirtualHubBgpConnectionsListLearnedRoutesResponse,
+      OperationState<VirtualHubBgpConnectionsListLearnedRoutesResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -221,8 +246,8 @@ export class VirtualHubBgpConnectionsImpl implements VirtualHubBgpConnections {
     connectionName: string,
     options?: VirtualHubBgpConnectionsListAdvertisedRoutesOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualHubBgpConnectionsListAdvertisedRoutesResponse>,
+    SimplePollerLike<
+      OperationState<VirtualHubBgpConnectionsListAdvertisedRoutesResponse>,
       VirtualHubBgpConnectionsListAdvertisedRoutesResponse
     >
   > {
@@ -232,7 +257,7 @@ export class VirtualHubBgpConnectionsImpl implements VirtualHubBgpConnections {
     ): Promise<VirtualHubBgpConnectionsListAdvertisedRoutesResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -265,15 +290,18 @@ export class VirtualHubBgpConnectionsImpl implements VirtualHubBgpConnections {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, hubName, connectionName, options },
-      listAdvertisedRoutesOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, hubName, connectionName, options },
+      spec: listAdvertisedRoutesOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VirtualHubBgpConnectionsListAdvertisedRoutesResponse,
+      OperationState<VirtualHubBgpConnectionsListAdvertisedRoutesResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -351,16 +379,56 @@ const listLearnedRoutesOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.PeerRouteList
+      bodyMapper: {
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Sequence",
+              element: { type: { name: "Composite", className: "PeerRoute" } }
+            }
+          }
+        }
+      }
     },
     201: {
-      bodyMapper: Mappers.PeerRouteList
+      bodyMapper: {
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Sequence",
+              element: { type: { name: "Composite", className: "PeerRoute" } }
+            }
+          }
+        }
+      }
     },
     202: {
-      bodyMapper: Mappers.PeerRouteList
+      bodyMapper: {
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Sequence",
+              element: { type: { name: "Composite", className: "PeerRoute" } }
+            }
+          }
+        }
+      }
     },
     204: {
-      bodyMapper: Mappers.PeerRouteList
+      bodyMapper: {
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Sequence",
+              element: { type: { name: "Composite", className: "PeerRoute" } }
+            }
+          }
+        }
+      }
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -383,16 +451,56 @@ const listAdvertisedRoutesOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.PeerRouteList
+      bodyMapper: {
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Sequence",
+              element: { type: { name: "Composite", className: "PeerRoute" } }
+            }
+          }
+        }
+      }
     },
     201: {
-      bodyMapper: Mappers.PeerRouteList
+      bodyMapper: {
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Sequence",
+              element: { type: { name: "Composite", className: "PeerRoute" } }
+            }
+          }
+        }
+      }
     },
     202: {
-      bodyMapper: Mappers.PeerRouteList
+      bodyMapper: {
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Sequence",
+              element: { type: { name: "Composite", className: "PeerRoute" } }
+            }
+          }
+        }
+      }
     },
     204: {
-      bodyMapper: Mappers.PeerRouteList
+      bodyMapper: {
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Sequence",
+              element: { type: { name: "Composite", className: "PeerRoute" } }
+            }
+          }
+        }
+      }
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -420,7 +528,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

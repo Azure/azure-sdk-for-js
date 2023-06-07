@@ -30,30 +30,45 @@ import {
 export interface ReplicationProtectionContainerMappings {
   /**
    * Lists the protection container mappings for a protection container.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param options The options parameters.
    */
   listByReplicationProtectionContainers(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
     options?: ReplicationProtectionContainerMappingsListByReplicationProtectionContainersOptionalParams
   ): PagedAsyncIterableIterator<ProtectionContainerMapping>;
   /**
    * Lists the protection container mappings in the vault.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param options The options parameters.
    */
   list(
+    resourceName: string,
+    resourceGroupName: string,
     options?: ReplicationProtectionContainerMappingsListOptionalParams
   ): PagedAsyncIterableIterator<ProtectionContainerMapping>;
   /**
    * Gets the details of a protection container mapping.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param mappingName Protection Container mapping name.
    * @param options The options parameters.
    */
   get(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
     mappingName: string,
@@ -61,6 +76,9 @@ export interface ReplicationProtectionContainerMappings {
   ): Promise<ReplicationProtectionContainerMappingsGetResponse>;
   /**
    * The operation to create a protection container mapping.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param mappingName Protection container mapping name.
@@ -68,6 +86,8 @@ export interface ReplicationProtectionContainerMappings {
    * @param options The options parameters.
    */
   beginCreate(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
     mappingName: string,
@@ -81,6 +101,9 @@ export interface ReplicationProtectionContainerMappings {
   >;
   /**
    * The operation to create a protection container mapping.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param mappingName Protection container mapping name.
@@ -88,6 +111,8 @@ export interface ReplicationProtectionContainerMappings {
    * @param options The options parameters.
    */
   beginCreateAndWait(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
     mappingName: string,
@@ -96,12 +121,17 @@ export interface ReplicationProtectionContainerMappings {
   ): Promise<ReplicationProtectionContainerMappingsCreateResponse>;
   /**
    * The operation to purge(force delete) a protection container mapping.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param mappingName Protection container mapping name.
    * @param options The options parameters.
    */
   beginPurge(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
     mappingName: string,
@@ -109,12 +139,17 @@ export interface ReplicationProtectionContainerMappings {
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * The operation to purge(force delete) a protection container mapping.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param mappingName Protection container mapping name.
    * @param options The options parameters.
    */
   beginPurgeAndWait(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
     mappingName: string,
@@ -122,6 +157,9 @@ export interface ReplicationProtectionContainerMappings {
   ): Promise<void>;
   /**
    * The operation to update protection container mapping.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param mappingName Protection container mapping name.
@@ -129,6 +167,8 @@ export interface ReplicationProtectionContainerMappings {
    * @param options The options parameters.
    */
   beginUpdate(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
     mappingName: string,
@@ -142,6 +182,9 @@ export interface ReplicationProtectionContainerMappings {
   >;
   /**
    * The operation to update protection container mapping.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param mappingName Protection container mapping name.
@@ -149,6 +192,8 @@ export interface ReplicationProtectionContainerMappings {
    * @param options The options parameters.
    */
   beginUpdateAndWait(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
     mappingName: string,
@@ -157,6 +202,9 @@ export interface ReplicationProtectionContainerMappings {
   ): Promise<ReplicationProtectionContainerMappingsUpdateResponse>;
   /**
    * The operation to delete or remove a protection container mapping.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param mappingName Protection container mapping name.
@@ -164,6 +212,8 @@ export interface ReplicationProtectionContainerMappings {
    * @param options The options parameters.
    */
   beginDelete(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
     mappingName: string,
@@ -172,6 +222,9 @@ export interface ReplicationProtectionContainerMappings {
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * The operation to delete or remove a protection container mapping.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param mappingName Protection container mapping name.
@@ -179,6 +232,8 @@ export interface ReplicationProtectionContainerMappings {
    * @param options The options parameters.
    */
   beginDeleteAndWait(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
     mappingName: string,

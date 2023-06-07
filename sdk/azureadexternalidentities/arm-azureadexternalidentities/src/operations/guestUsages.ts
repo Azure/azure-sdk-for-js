@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { GuestUsages } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,16 +15,16 @@ import { ExternalIdentitiesConfigurationClient } from "../externalIdentitiesConf
 import {
   GuestUsagesResource,
   GuestUsagesListBySubscriptionOptionalParams,
+  GuestUsagesListBySubscriptionResponse,
   GuestUsagesListByResourceGroupOptionalParams,
+  GuestUsagesListByResourceGroupResponse,
   GuestUsagesCreateOptionalParams,
   GuestUsagesCreateResponse,
   GuestUsagesUpdateOptionalParams,
   GuestUsagesUpdateResponse,
   GuestUsagesDeleteOptionalParams,
   GuestUsagesGetOptionalParams,
-  GuestUsagesGetResponse,
-  GuestUsagesListBySubscriptionResponse,
-  GuestUsagesListByResourceGroupResponse
+  GuestUsagesGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,16 +56,21 @@ export class GuestUsagesImpl implements GuestUsages {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: GuestUsagesListBySubscriptionOptionalParams
+    options?: GuestUsagesListBySubscriptionOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<GuestUsagesResource[]> {
-    let result = await this._listBySubscription(options);
+    let result: GuestUsagesListBySubscriptionResponse;
+    result = await this._listBySubscription(options);
     yield result.value || [];
   }
 
@@ -95,17 +100,26 @@ export class GuestUsagesImpl implements GuestUsages {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: GuestUsagesListByResourceGroupOptionalParams
+    options?: GuestUsagesListByResourceGroupOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<GuestUsagesResource[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
+    let result: GuestUsagesListByResourceGroupResponse;
+    result = await this._listByResourceGroup(resourceGroupName, options);
     yield result.value || [];
   }
 

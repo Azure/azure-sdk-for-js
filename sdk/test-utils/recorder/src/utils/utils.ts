@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
 import { env } from "./env";
 /**
  * A custom error type for failed pipeline requests.

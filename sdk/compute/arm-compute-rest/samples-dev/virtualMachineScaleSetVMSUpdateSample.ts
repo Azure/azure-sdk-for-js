@@ -40,8 +40,7 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
           ultraSSDEnabled: true,
         },
         availabilitySet: {
-          id:
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+          id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
         },
         diagnosticsProfile: {
           bootDiagnostics: { enabled: true, storageUri: "aaaaaaaaaaaaa" },
@@ -68,16 +67,14 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
                   diskEncryptionKey: {
                     secretUrl: "aaaaaaaa",
                     sourceVault: {
-                      id:
-                        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+                      id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
                     },
                   },
                   enabled: true,
                   keyEncryptionKey: {
                     keyUrl: "aaaaaaaaaaaaaa",
                     sourceVault: {
-                      id:
-                        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+                      id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
                     },
                   },
                 },
@@ -185,8 +182,7 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
                 deleteOption: "Delete",
                 dnsSettings: { dnsServers: ["aaaaaa"] },
                 dscpConfiguration: {
-                  id:
-                    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+                  id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
                 },
                 enableAcceleratedNetworking: true,
                 enableFpga: true,
@@ -197,20 +193,17 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
                     properties: {
                       applicationGatewayBackendAddressPools: [
                         {
-                          id:
-                            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+                          id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
                         },
                       ],
                       applicationSecurityGroups: [
                         {
-                          id:
-                            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+                          id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
                         },
                       ],
                       loadBalancerBackendAddressPools: [
                         {
-                          id:
-                            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+                          id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
                         },
                       ],
                       primary: true,
@@ -232,22 +225,19 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
                           publicIPAddressVersion: "IPv4",
                           publicIPAllocationMethod: "Dynamic",
                           publicIPPrefix: {
-                            id:
-                              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+                            id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
                           },
                         },
                         sku: { name: "Basic", tier: "Regional" },
                       },
                       subnet: {
-                        id:
-                          "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+                        id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
                       },
                     },
                   },
                 ],
                 networkSecurityGroup: {
-                  id:
-                    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+                  id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
                 },
                 primary: true,
               },
@@ -255,8 +245,7 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
           ],
           networkInterfaces: [
             {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}/virtualMachines/0/networkInterfaces/vmsstestnetconfig5415",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}/virtualMachines/0/networkInterfaces/vmsstestnetconfig5415",
               properties: { deleteOption: "Delete", primary: true },
             },
           ],
@@ -279,26 +268,22 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
                     properties: {
                       applicationGatewayBackendAddressPools: [
                         {
-                          id:
-                            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+                          id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
                         },
                       ],
                       applicationSecurityGroups: [
                         {
-                          id:
-                            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+                          id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
                         },
                       ],
                       loadBalancerBackendAddressPools: [
                         {
-                          id:
-                            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+                          id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
                         },
                       ],
                       loadBalancerInboundNatPools: [
                         {
-                          id:
-                            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+                          id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
                         },
                       ],
                       primary: true,
@@ -319,22 +304,19 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
                           ],
                           publicIPAddressVersion: "IPv4",
                           publicIPPrefix: {
-                            id:
-                              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+                            id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
                           },
                         },
                         sku: { name: "Basic", tier: "Regional" },
                       },
                       subnet: {
-                        id:
-                          "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/vn4071/subnets/sn5503",
+                        id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/vn4071/subnets/sn5503",
                       },
                     },
                   },
                 ],
                 networkSecurityGroup: {
-                  id:
-                    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+                  id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
                 },
                 primary: true,
               },
@@ -399,20 +381,17 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
               detachOption: "ForceDetach",
               diskSizeGB: 128,
               image: {
-                uri:
-                  "https://{storageAccountName}.blob.core.windows.net/{containerName}/{vhdName}.vhd",
+                uri: "https://{storageAccountName}.blob.core.windows.net/{containerName}/{vhdName}.vhd",
               },
               lun: 1,
               managedDisk: {
                 diskEncryptionSet: { id: "aaaaaaaaaaaa" },
-                id:
-                  "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/vmss3176_vmss3176_0_disk2_6c4f554bdafa49baa780eb2d128ff39d",
+                id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/vmss3176_vmss3176_0_disk2_6c4f554bdafa49baa780eb2d128ff39d",
                 storageAccountType: "Standard_LRS",
               },
               toBeDetached: true,
               vhd: {
-                uri:
-                  "https://{storageAccountName}.blob.core.windows.net/{containerName}/{vhdName}.vhd",
+                uri: "https://{storageAccountName}.blob.core.windows.net/{containerName}/{vhdName}.vhd",
               },
               writeAcceleratorEnabled: true,
             },
@@ -436,33 +415,28 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
               diskEncryptionKey: {
                 secretUrl: "aaaaaaaa",
                 sourceVault: {
-                  id:
-                    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+                  id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
                 },
               },
               enabled: true,
               keyEncryptionKey: {
                 keyUrl: "aaaaaaaaaaaaaa",
                 sourceVault: {
-                  id:
-                    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+                  id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
                 },
               },
             },
             image: {
-              uri:
-                "https://{storageAccountName}.blob.core.windows.net/{containerName}/{vhdName}.vhd",
+              uri: "https://{storageAccountName}.blob.core.windows.net/{containerName}/{vhdName}.vhd",
             },
             managedDisk: {
               diskEncryptionSet: { id: "aaaaaaaaaaaa" },
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/vmss3176_vmss3176_0_OsDisk_1_6d72b805e50e4de6830303c5055077fc",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/vmss3176_vmss3176_0_OsDisk_1_6d72b805e50e4de6830303c5055077fc",
               storageAccountType: "Standard_LRS",
             },
             osType: "Windows",
             vhd: {
-              uri:
-                "https://{storageAccountName}.blob.core.windows.net/{containerName}/{vhdName}.vhd",
+              uri: "https://{storageAccountName}.blob.core.windows.net/{containerName}/{vhdName}.vhd",
             },
             writeAcceleratorEnabled: true,
           },

@@ -2,12 +2,17 @@
 import { v4 as uuid } from "uuid";
 import * as dotenv from "dotenv";
 import { duration } from "moment";
-import { AccountListPoolNodeCountsResponse, TaskGetResponse } from "../src/models";
+import { AccountListPoolNodeCountsResponse, JobAddParameter, TaskGetResponse } from "../src/models";
 import { assert } from "chai";
 import { BatchServiceClient, BatchServiceModels } from "../src/batchServiceClient";
 import moment from "moment";
 import { createClient } from "./utils/recordedClient";
-import { fakeTestCertData, fakeTestPasswordPlaceholder1, fakeTestPasswordPlaceholder2, fakeTestPasswordPlaceholder3 } from "./fakeTestSecrets";
+import {
+  fakeTestCertData,
+  fakeTestPasswordPlaceholder1,
+  fakeTestPasswordPlaceholder2,
+  fakeTestPasswordPlaceholder3,
+} from "./fakeTestSecrets";
 
 dotenv.config();
 const wait = (timeout = 1000) => new Promise((resolve) => setTimeout(() => resolve(null), timeout));
@@ -37,7 +42,7 @@ function getPoolName(type: string) {
   return `jssdktest-${type}-${_SUFFIX}`;
 }
 
-describe("Batch Service", () => {
+describe("Batch Service", function () {
   let client: BatchServiceClient;
   // let batchEndpoint: string;
   // let clientId: string;
@@ -59,7 +64,7 @@ describe("Batch Service", () => {
     });
   };
 
-  beforeEach(async () => {
+  beforeEach(async function () {
     // batchEndpoint = process.env["AZURE_BATCH_ENDPOINT"]!;
 
     // dummy thumb
@@ -69,8 +74,8 @@ describe("Batch Service", () => {
     client = createClient("APIKey");
   });
 
-  describe("certificate operations", () => {
-    it("should list supported images successfully", async () => {
+  describe("certificate operations", function () {
+    it("should list supported images successfully", async function () {
       const result = await client.account.listSupportedImages();
       assert.isAtLeast(result.length, 1);
       assert.equal(result._response.status, 200);
@@ -80,7 +85,7 @@ describe("Batch Service", () => {
       assert.isNotNull(supportedImage.osType);
     });
 
-    it("should add new certificate successfully", async () => {
+    it("should add new certificate successfully", async function () {
       const cert: BatchServiceModels.CertificateAddParameter = {
         thumbprint: certThumb,
         thumbprintAlgorithm: "sha1",
@@ -93,7 +98,7 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 201);
     });
 
-    it("should list certificates successfully", async () => {
+    it("should list certificates successfully", async function () {
       const result = await client.certificate.list();
       assert.isAtLeast(result.length, 1);
       assert.equal(result[0].thumbprint, certThumb);
@@ -101,7 +106,7 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 200);
     });
 
-    it("should get certificate reference successfully", async () => {
+    it("should get certificate reference successfully", async function () {
       const result = await client.certificate.get("sha1", certThumb);
       assert.equal(result.thumbprint, certThumb);
       assert.equal(result.thumbprintAlgorithm, "sha1");
@@ -109,8 +114,8 @@ describe("Batch Service", () => {
     });
   });
 
-  describe("Basic pool", async () => {
-    it("should create a new pool successfully", async () => {
+  describe("Basic pool", async function () {
+    it("should create a new pool successfully", async function () {
       const pool: BatchServiceModels.PoolAddParameter = {
         id: BASIC_POOL,
         vmSize: VMSIZE_D1,
@@ -135,7 +140,7 @@ describe("Batch Service", () => {
       await wait();
     });
 
-    it("should update pool parameters successfully", async () => {
+    it("should update pool parameters successfully", async function () {
       const options: BatchServiceModels.PoolUpdatePropertiesParameter = {
         metadata: [{ name: "foo", value: "bar" }],
         certificateReferences: [],
@@ -148,7 +153,7 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 204);
     });
 
-    it("should patch pool parameters successfully", async () => {
+    it("should patch pool parameters successfully", async function () {
       const options: BatchServiceModels.PoolPatchParameter = {
         metadata: [
           {
@@ -164,7 +169,7 @@ describe("Batch Service", () => {
       await wait();
     });
 
-    it("should get a pool reference successfully", async () => {
+    it("should get a pool reference successfully", async function () {
       let result: any;
       let metadata: any;
 
@@ -200,7 +205,7 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 200);
     }).timeout(LONG_TEST_TIMEOUT);
 
-    it("should get a pool reference with odata successfully", async () => {
+    it("should get a pool reference with odata successfully", async function () {
       const options: BatchServiceModels.PoolGetOptionalParams = {
         poolGetOptions: { select: "id,state", expand: "stats" },
       };
@@ -213,7 +218,7 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 200);
     });
 
-    // it("should perform AAD authentication successfully", (done) => {
+    // it("should perform AAD authentication successfully", function (done) {
     //   const verifyAadAuth = function(token: string, callback: any) {
     //     const tokenCreds = new TokenCredentials(token, "Bearer");
     //     const aadClient = new BatchServiceClient(tokenCreds, batchEndpoint);
@@ -249,7 +254,7 @@ describe("Batch Service", () => {
     //   // }
     // });
 
-    it("should add a pool with vnet and get expected error", async () => {
+    it("should add a pool with vnet and get expected error", async function () {
       const pool: BatchServiceModels.PoolAddParameter = {
         id: VNET_POOL,
         vmSize: VMSIZE_A1,
@@ -270,7 +275,7 @@ describe("Batch Service", () => {
       }
     });
 
-    it("should add a pool with a custom image and get expected error", async () => {
+    it("should add a pool with a custom image and get expected error", async function () {
       const pool: BatchServiceModels.PoolAddParameter = {
         id: IMAGE_POOL,
         vmSize: VMSIZE_A1,
@@ -294,7 +299,7 @@ describe("Batch Service", () => {
       }
     });
 
-    it("should add a pool with a Data Disk", async () => {
+    it("should add a pool with a Data Disk", async function () {
       const pool: BatchServiceModels.PoolAddParameter = {
         id: DISK_POOL,
         vmSize: VMSIZE_A1,
@@ -327,10 +332,55 @@ describe("Batch Service", () => {
       const resultDelete = await client.pool.deleteMethod(pool.id);
       assert.equal(resultDelete._response.status, 202);
     });
+
+    it("should create a new pool with a target node communication mode", async function () {
+      const pool: BatchServiceModels.PoolAddParameter = {
+        id: getPoolName("NodeCommunication"),
+        vmSize: VMSIZE_D1,
+        cloudServiceConfiguration: { osFamily: "4" },
+        targetDedicatedNodes: 3,
+        targetNodeCommunicationMode: "simplified",
+        startTask: { commandLine: "cmd /c echo hello > hello.txt" },
+      };
+
+      const result = await client.pool.add(pool);
+      assert.equal(result._response.status, 201);
+
+      try {
+        let getResult: any;
+        let poolResizing = true;
+        let poolResult;
+        while (poolResizing) {
+          poolResult = await client.pool.get(pool.id);
+          if (poolResult.allocationState === "steady") {
+            break;
+          } else {
+            await wait(POLLING_INTERVAL * 2);
+          }
+        }
+
+        getResult = await client.pool.get(pool.id);
+        assert.equal(getResult.targetNodeCommunicationMode, pool.targetNodeCommunicationMode);
+        assert.isDefined(getResult.currentNodeCommunicationMode);
+
+        const options: BatchServiceModels.PoolPatchParameter = {
+          targetNodeCommunicationMode: "simplified",
+        };
+
+        const result = await client.pool.patch(pool.id, options);
+        assert.equal(result._response.status, 200);
+
+        getResult = await client.pool.get(pool.id);
+        assert.equal(getResult.targetNodeCommunicationMode, options.targetNodeCommunicationMode);
+        assert.isDefined(getResult.currentNodeCommunicationMode);
+      } finally {
+        await client.pool.deleteMethod(pool.id);
+      }
+    });
   });
 
-  describe("Pool with endpoint configuration", async () => {
-    it("should add a pool with inbound endpoint configuration successfully", async () => {
+  describe("Pool with endpoint configuration", async function () {
+    it("should add a pool with inbound endpoint configuration successfully", async function () {
       const pool: BatchServiceModels.PoolAddParameter = {
         id: ENDPOINT_POOL,
         vmSize: VMSIZE_A1,
@@ -370,7 +420,7 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 201);
     });
 
-    it("should get the details of a pool with endpoint configuration successfully", async () => {
+    it("should get the details of a pool with endpoint configuration successfully", async function () {
       let result;
       while (true) {
         result = await client.computeNode.list(ENDPOINT_POOL);
@@ -390,7 +440,7 @@ describe("Batch Service", () => {
       assert.equal(result[0].endpointConfiguration!.inboundEndpoints[0].protocol, "udp");
     });
 
-    it("should get pool node counts successfully", async () => {
+    it("should get pool node counts successfully", async function () {
       let result: AccountListPoolNodeCountsResponse;
       while (true) {
         result = await client.account.listPoolNodeCounts();
@@ -401,7 +451,7 @@ describe("Batch Service", () => {
         }
       }
 
-      assert.lengthOf(result, 2);
+      assert.isAtLeast(result.length, 2);
       assert.equal(result._response.status, 200);
 
       const endpointPoolObj = result.filter((pool) => pool.poolId == ENDPOINT_POOL);
@@ -413,8 +463,8 @@ describe("Batch Service", () => {
     }).timeout(LONG_TEST_TIMEOUT);
   });
 
-  describe("Compute node operations", async () => {
-    it("should list compute nodes successfully", async () => {
+  describe("Compute node operations", async function () {
+    it("should list compute nodes successfully", async function () {
       let result;
       while (true) {
         result = await client.computeNode.list(BASIC_POOL);
@@ -434,7 +484,7 @@ describe("Batch Service", () => {
       });
     }).timeout(LONG_TEST_TIMEOUT);
 
-    it("should get a compute node reference", async () => {
+    it("should get a compute node reference", async function () {
       const result = await client.computeNode.get(BASIC_POOL, compute_nodes[0]);
       assert.equal(result.id, compute_nodes[0]);
       assert.equal(result.state, "idle");
@@ -442,7 +492,7 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 200);
     });
 
-    it("should get a compute node reference", async () => {
+    it("should get a compute node reference", async function () {
       const result = await client.computeNode.get(BASIC_POOL, compute_nodes[0]);
 
       assert.equal(result.id, compute_nodes[0]);
@@ -451,14 +501,14 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 200);
     });
 
-    it("should add a user to a compute node successfully", async () => {
+    it("should add a user to a compute node successfully", async function () {
       const options = { name: TEST_USER, isAdmin: false, password: fakeTestPasswordPlaceholder2 };
       const result = await client.computeNode.addUser(BASIC_POOL, compute_nodes[0], options);
 
       assert.equal(result._response.status, 201);
     });
 
-    it("should update a compute node user successfully", async () => {
+    it("should update a compute node user successfully", async function () {
       const options = { password: fakeTestPasswordPlaceholder3 };
       const result = await client.computeNode.updateUser(
         BASIC_POOL,
@@ -470,7 +520,7 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 200);
     });
 
-    it("should get a remote desktop file successfully", (done) => {
+    it("should get a remote desktop file successfully", function (done) {
       client.computeNode
         .getRemoteDesktop(BASIC_POOL, compute_nodes[0])
         .then((result) => {
@@ -485,13 +535,13 @@ describe("Batch Service", () => {
         });
     });
 
-    it("should delete a compute node user successfully", async () => {
+    it("should delete a compute node user successfully", async function () {
       const result = await client.computeNode.deleteUser(BASIC_POOL, compute_nodes[0], TEST_USER);
 
       assert.equal(result._response.status, 200);
     });
 
-    it("should disable scheduling on a compute node successfully", async () => {
+    it("should disable scheduling on a compute node successfully", async function () {
       while (true) {
         try {
           const result = await client.computeNode.disableScheduling(BASIC_POOL, compute_nodes[1]);
@@ -507,25 +557,25 @@ describe("Batch Service", () => {
       }
     });
 
-    it("should enable scheduling on a compute node successfully", async () => {
+    it("should enable scheduling on a compute node successfully", async function () {
       const result = await client.computeNode.enableScheduling(BASIC_POOL, compute_nodes[1]);
 
       assert.equal(result._response.status, 200);
     });
 
-    it("should reboot a compute node successfully", async () => {
+    it("should reboot a compute node successfully", async function () {
       const result = await client.computeNode.reboot(BASIC_POOL, compute_nodes[0]);
 
       assert.equal(result._response.status, 202);
     });
 
-    it("should reimage a compute node successfully", async () => {
+    it("should reimage a compute node successfully", async function () {
       const result = await client.computeNode.reimage(BASIC_POOL, compute_nodes[1]);
 
       assert.equal(result._response.status, 202);
     });
 
-    it("should upload pool node logs at paas pool", async () => {
+    it("should upload pool node logs at paas pool", async function () {
       const container = "https://teststorage.blob.core.windows.net/fakecontainer";
       const config: BatchServiceModels.UploadBatchServiceLogsConfiguration = {
         containerUrl: container,
@@ -542,8 +592,8 @@ describe("Batch Service", () => {
     });
   });
 
-  describe("Autoscale operations", async () => {
-    it("should enable autoscale successfully", async () => {
+  describe("Autoscale operations", async function () {
+    it("should enable autoscale successfully", async function () {
       const model: BatchServiceModels.PoolEnableAutoScaleParameter = {
         autoScaleFormula: "$TargetDedicatedNodes=2",
         autoScaleEvaluationInterval: duration({ minutes: 6 }).toISOString(),
@@ -554,7 +604,7 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 200);
     });
 
-    it("should evaluate pool autoscale successfully", async () => {
+    it("should evaluate pool autoscale successfully", async function () {
       const result = await client.pool.evaluateAutoScale(BASIC_POOL, "$TargetDedicatedNodes=3");
 
       assert.equal(
@@ -564,7 +614,7 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 200);
     });
 
-    it("should fail to evaluate invalid autoscale formula", async () => {
+    it("should fail to evaluate invalid autoscale formula", async function () {
       const result = await client.pool.evaluateAutoScale(BASIC_POOL, "something_useless");
 
       assert.equal(
@@ -574,15 +624,15 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 200);
     });
 
-    it("should disable autoscale successfully", async () => {
+    it("should disable autoscale successfully", async function () {
       const result = await client.pool.disableAutoScale(BASIC_POOL);
 
       assert.equal(result._response.status, 200);
     });
   });
 
-  describe("Pool operations (advanced)", async () => {
-    it("should create a second pool successfully", async () => {
+  describe("Pool operations (advanced)", async function () {
+    it("should create a second pool successfully", async function () {
       const pool = {
         id: TEST_POOL3,
         vmSize: VMSIZE_SMALL,
@@ -592,14 +642,14 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 201);
     });
 
-    it("should list pools without filters", async () => {
+    it("should list pools without filters", async function () {
       const result = await client.pool.list();
 
       assert.isAtLeast(result.length, 2);
       assert.equal(result._response.status, 200);
     });
 
-    it("should list a maximum number of pools", async () => {
+    it("should list a maximum number of pools", async function () {
       const options = { poolListOptions: { maxResults: 1 } };
       let result = await client.pool.list(options);
 
@@ -611,7 +661,7 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 200);
     });
 
-    it("should fail to list pools with invalid max", async () => {
+    it("should fail to list pools with invalid max", async function () {
       const options = { poolListOptions: { maxResults: -5 } };
       client.pool.list(options, function (err) {
         assert.equal(
@@ -621,7 +671,7 @@ describe("Batch Service", () => {
       });
     });
 
-    it("should list pools according to filter", async () => {
+    it("should list pools according to filter", async function () {
       const options = {
         poolListOptions: {
           filter: `startswith(id,'${BASIC_POOL}')`,
@@ -639,27 +689,27 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 200);
     });
 
-    it("should check that pool exists successfully", async () => {
+    it("should check that pool exists successfully", async function () {
       const result = await client.pool.exists(BASIC_POOL);
 
       assert.isTrue(result.body);
       assert.equal(result._response.status, 200);
     });
 
-    it("should start pool resizing successfully", async () => {
+    it("should start pool resizing successfully", async function () {
       const options = { targetDedicatedNodes: 3, targetLowPriorityNodes: 2 };
       const result = await client.pool.resize(TEST_POOL3, options);
 
       assert.equal(result._response.status, 202);
     });
 
-    it("should stop pool resizing successfully", async () => {
+    it("should stop pool resizing successfully", async function () {
       const result = await client.pool.stopResize(TEST_POOL3);
 
       assert.equal(result._response.status, 202);
     });
 
-    it("should get pool lifetime statistics", async () => {
+    it("should get pool lifetime statistics", async function () {
       const result = await client.pool.getAllLifetimeStatistics();
 
       assert.isDefined(result.usageStats);
@@ -667,7 +717,7 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 200);
     });
 
-    it("should list pools usage metrics", async () => {
+    it("should list pools usage metrics", async function () {
       const result = await client.pool.listUsageMetrics();
 
       assert.isAtLeast(result.length, 1);
@@ -675,8 +725,8 @@ describe("Batch Service", () => {
     });
   });
 
-  describe("Job operations (basic)", async () => {
-    it("should create a job successfully", async () => {
+  describe("Job operations (basic)", async function () {
+    it("should create a job successfully", async function () {
       const options = { id: JOB_NAME, poolInfo: { poolId: BASIC_POOL } };
       const result = await client.job.add(options);
 
@@ -686,7 +736,7 @@ describe("Batch Service", () => {
       assert.equal(getResult.allowTaskPreemption, false);
     });
 
-    it("should update a job successfully", async () => {
+    it("should update a job successfully", async function () {
       const options = {
         priority: 500,
         constraints: { maxTaskRetryCount: 3 },
@@ -697,7 +747,7 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 200);
     });
 
-    it("should patch a job successfully", async () => {
+    it("should patch a job successfully", async function () {
       const options = {
         priority: 500,
         constraints: { maxTaskRetryCount: 3 },
@@ -709,8 +759,8 @@ describe("Batch Service", () => {
     });
   });
 
-  describe("Task operations", async () => {
-    it("should create a task with container settings successfully", async () => {
+  describe("Task operations", async function () {
+    it("should create a task with container settings successfully", async function () {
       const options = {
         id: TASK3_NAME,
         poolInfo: { poolId: ENDPOINT_POOL },
@@ -728,7 +778,7 @@ describe("Batch Service", () => {
       await client.job.deleteMethod(TASK3_NAME);
     });
 
-    it("should create a task with exit conditions successfully", async () => {
+    it("should create a task with exit conditions successfully", async function () {
       const jobId = "JobWithAutoComplete";
       const taskId = "TaskWithAutoComplete";
       const job: BatchServiceModels.JobAddParameter = {
@@ -780,7 +830,7 @@ describe("Batch Service", () => {
       await client.job.deleteMethod(jobId);
     });
 
-    it("should create a task successfully", async () => {
+    it("should create a task successfully", async function () {
       const task = {
         id: TASK1_NAME,
         commandLine: "ping 127.0.0.1 -n 20",
@@ -789,13 +839,13 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 201);
     });
 
-    it("should terminate a task successfully", async () => {
+    it("should terminate a task successfully", async function () {
       const result = await client.task.terminate(JOB_NAME, TASK1_NAME);
 
       assert.equal(result._response.status, 204);
     });
 
-    it("should create a second task with output files successfully", async () => {
+    it("should create a second task with output files successfully", async function () {
       const container =
         "https://teststorage.blob.core.windows.net/batch-sdk-test?se=2017-05-05T23%3A48%3A11Z&sv=2016-05-31&sig=fwsWniANVb/KSQQdok%2BbT7gR79iiZSG%2BGkw9Rsd5efY";
       const outputs = [
@@ -832,20 +882,20 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 201);
     });
 
-    it("should reactivate a task successfully", async () => {
+    it("should reactivate a task successfully", async function () {
       const result = await client.task.reactivate(JOB_NAME, TASK1_NAME);
 
       assert.equal(result._response.status, 204);
     });
 
-    it("should update a task successfully", async () => {
+    it("should update a task successfully", async function () {
       const options = { constraints: { maxTaskRetryCount: 3 } };
       const result = await client.task.update(JOB_NAME, TASK2_NAME, options);
 
       assert.equal(result._response.status, 200);
     });
 
-    it("should list all tasks successfully", async () => {
+    it("should list all tasks successfully", async function () {
       const result = await client.task.list(JOB_NAME);
 
       assert.lengthOf(result, 2);
@@ -853,7 +903,7 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 200);
     });
 
-    it("should get task reference successfully", async () => {
+    it("should get task reference successfully", async function () {
       const result = await client.task.get(JOB_NAME, TASK1_NAME);
 
       assert.equal(result.id, TASK1_NAME);
@@ -872,13 +922,13 @@ describe("Batch Service", () => {
     });
 
     //TODO: Need to test with actual subtasks
-    it("should list sub tasks successfully", async () => {
+    it("should list sub tasks successfully", async function () {
       const result = await client.task.listSubtasks(JOB_NAME, TASK1_NAME);
 
       assert.equal(result._response.status, 200);
     });
 
-    it("should create a task with authentication token settings successfully", async () => {
+    it("should create a task with authentication token settings successfully", async function () {
       const jobId = JOB_NAME;
       const taskId = "TaskWithAuthTokenSettings";
       const task: BatchServiceModels.TaskAddParameter = {
@@ -901,7 +951,7 @@ describe("Batch Service", () => {
       assert.equal(result2.authenticationTokenSettings!.access![0], "job");
     });
 
-    it("should create a task with a user identity successfully", async () => {
+    it("should create a task with a user identity successfully", async function () {
       const jobId = JOB_NAME;
       const taskId = "TaskWithUserIdentity";
       const task = {
@@ -933,7 +983,7 @@ describe("Batch Service", () => {
       assert.notEqual(result2.executionInfo!.exitCode, 0);
     }).timeout(LONG_TEST_TIMEOUT);
 
-    it("should count tasks sucessfully", async () => {
+    it("should count tasks sucessfully", async function () {
       const jobId = JOB_NAME;
       const result = await client.job.getTaskCounts(jobId);
 
@@ -942,21 +992,21 @@ describe("Batch Service", () => {
     });
   });
 
-  describe("File operations", async () => {
-    it("should list files from task successfully", async () => {
+  describe("File operations", async function () {
+    it("should list files from task successfully", async function () {
       const result = await client.file.listFromTask(JOB_NAME, TASK2_NAME);
 
       assert.isAtLeast(result.length, 1);
       assert.equal(result._response.status, 200);
     });
 
-    it("should get file properties from task successfully", async () => {
+    it("should get file properties from task successfully", async function () {
       const result = await client.file.getPropertiesFromTask(JOB_NAME, TASK2_NAME, "stderr.txt");
 
       assert.equal(result._response.status, 200);
     });
 
-    it("should get file from task successfully", (done) => {
+    it("should get file from task successfully", function (done) {
       client.file
         .getFromTask(JOB_NAME, TASK2_NAME, "stdout.txt")
         .then((result) => {
@@ -971,13 +1021,13 @@ describe("Batch Service", () => {
         });
     });
 
-    it("should delete file from task successfully", async () => {
+    it("should delete file from task successfully", async function () {
       const result = await client.file.deleteFromTask(JOB_NAME, TASK2_NAME, "stderr.txt");
 
       assert.equal(result._response.status, 200);
     });
 
-    it("should re-list compute nodes successfully", async () => {
+    it("should re-list compute nodes successfully", async function () {
       const result = await client.computeNode.list(BASIC_POOL);
 
       assert.isAtLeast(result.length, 1);
@@ -995,14 +1045,14 @@ describe("Batch Service", () => {
       // }
     });
 
-    it("should list files from compute node successfully", async () => {
+    it("should list files from compute node successfully", async function () {
       const result = await client.file.listFromComputeNode(BASIC_POOL, compute_nodes[1]);
 
       assert.isAtLeast(result.length, 1);
       assert.equal(result._response.status, 200);
     });
 
-    it("should get file properties from node successfully", async () => {
+    it("should get file properties from node successfully", async function () {
       const result = await client.file.getPropertiesFromComputeNode(
         BASIC_POOL,
         compute_nodes[1],
@@ -1012,7 +1062,7 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 200);
     });
 
-    it("should get file from node successfully", (done) => {
+    it("should get file from node successfully", function (done) {
       client.file
         .getFromComputeNode(BASIC_POOL, compute_nodes[1], "startup/wd/hello.txt")
         .then((result) => {
@@ -1027,7 +1077,7 @@ describe("Batch Service", () => {
         });
     });
 
-    it("should delete file from node successfully", async () => {
+    it("should delete file from node successfully", async function () {
       const result = await client.file.deleteFromComputeNode(
         BASIC_POOL,
         compute_nodes[1],
@@ -1038,28 +1088,28 @@ describe("Batch Service", () => {
     });
   });
 
-  // describe("Applications", async () => {
+  // describe("Applications", async function () {
   //   // the application is not added by the tests and should be added by the tester manually
-  //   it("should list applications successfully", async () => {
+  //   it("should list applications successfully", async function () {
   //     const result = await client.application.list();
 
   //     assert.isAtLeast(result.length, 1);
   //     assert.equal(result._response.status, 200);
   //   });
 
-  //   it("should get application reference successfully", async () => {
+  //   it("should get application reference successfully", async function () {
   //     await client.application.get("my_application_id");
   //   });
   // });
 
-  describe("Task cleanup", async () => {
-    it("should delete a task successfully", async () => {
+  describe("Task cleanup", async function () {
+    it("should delete a task successfully", async function () {
       const result = await client.task.deleteMethod(JOB_NAME, TASK1_NAME);
 
       assert.equal(result._response.status, 200);
     });
 
-    it("should add a task with an application package reference successfully", async () => {
+    it("should add a task with an application package reference successfully", async function () {
       const taskId = "ApplicationPacakgeReferenceTask";
       const task = {
         id: taskId,
@@ -1077,15 +1127,15 @@ describe("Batch Service", () => {
       assert.isDefined(result2.applicationPackageReferences);
     });
 
-    it("should delete a second task successfully", async () => {
+    it("should delete a second task successfully", async function () {
       const result = await client.task.deleteMethod(JOB_NAME, TASK2_NAME);
 
       assert.equal(result._response.status, 200);
     });
   });
 
-  describe("Job operations (advanced)", async () => {
-    it("should get a job reference successfully", async () => {
+  describe("Job operations (advanced)", async function () {
+    it("should get a job reference successfully", async function () {
       const result = await client.job.get(JOB_NAME);
 
       assert.equal(result.id, JOB_NAME);
@@ -1094,14 +1144,14 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 200);
     });
 
-    it("should list jobs successfully", async () => {
+    it("should list jobs successfully", async function () {
       const result = await client.job.list();
 
       assert.isAtLeast(result.length, 1);
       assert.equal(result._response.status, 200);
     });
 
-    it("should fail to job prep+release status", async () => {
+    it("should fail to job prep+release status", async function () {
       try {
         await client.job.listPreparationAndReleaseTaskStatus(JOB_NAME);
       } catch (error) {
@@ -1109,41 +1159,84 @@ describe("Batch Service", () => {
       }
     });
 
-    it("should disable a job successfully", async () => {
+    it("should disable a job successfully", async function () {
       const result = await client.job.disable(JOB_NAME, "requeue");
 
       assert.equal(result._response.status, 202);
     });
 
-    it("should enable a job successfully", async () => {
+    it("should enable a job successfully", async function () {
       const result = await client.job.enable(JOB_NAME);
 
       assert.equal(result._response.status, 202);
     });
 
-    it("should terminate a job successfully", async () => {
+    it("should terminate a job successfully", async function () {
       const result = await client.job.terminate(JOB_NAME);
 
       assert.equal(result._response.status, 202);
     });
 
-    it("should delete a job successfully", async () => {
+    it("should delete a job successfully", async function () {
       const result = await client.job.deleteMethod(JOB_NAME);
 
       assert.equal(result._response.status, 202);
     });
 
-    it("should get all job statistics successfully", async () => {
+    it("should get all job statistics successfully", async function () {
       const result = await client.job.getAllLifetimeStatistics();
 
       assert.isDefined(result.userCPUTime);
       assert.isDefined(result.kernelCPUTime);
       assert.equal(result._response.status, 200);
     });
+
+    it("should create a job with node communication mode in pool specification", async function () {
+      const options: JobAddParameter = {
+        id: `JSSDKTestJobCommunicationMode-${_SUFFIX}`,
+        poolInfo: {
+          autoPoolSpecification: {
+            poolLifetimeOption: "job",
+            pool: {
+              vmSize: VMSIZE_A1,
+              targetNodeCommunicationMode: "simplified",
+              virtualMachineConfiguration: {
+                imageReference: {
+                  publisher: "Canonical",
+                  offer: "UbuntuServer",
+                  sku: "18.04-LTS",
+                },
+                nodeAgentSKUId: "batch.node.ubuntu 18.04",
+                dataDisks: [
+                  {
+                    lun: 1,
+                    diskSizeGB: 50,
+                  },
+                ],
+              },
+            },
+          },
+        },
+      };
+
+      const result = await client.job.add(options);
+
+      assert.equal(result._response.status, 201);
+
+      try {
+        const getResult = await client.job.get(options.id);
+        assert.equal(
+          getResult.poolInfo?.autoPoolSpecification?.pool?.targetNodeCommunicationMode,
+          options.poolInfo.autoPoolSpecification?.pool?.targetNodeCommunicationMode
+        );
+      } finally {
+        await client.job.deleteMethod(options.id);
+      }
+    });
   });
 
-  describe("Job schedules", async () => {
-    it("should create a job schedule successfully", async () => {
+  describe("Job schedules", async function () {
+    it("should create a job schedule successfully", async function () {
       const options: BatchServiceModels.JobScheduleAddParameter = {
         id: SCHEDULE,
         jobSpecification: {
@@ -1161,28 +1254,28 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 201);
     });
 
-    it("should list job schedules successfully", async () => {
+    it("should list job schedules successfully", async function () {
       const result = await client.jobSchedule.list();
 
       assert.isAtLeast(result.length, 1);
       assert.equal(result._response.status, 200);
     });
 
-    it("should list jobs from job schedule successfully", async () => {
+    it("should list jobs from job schedule successfully", async function () {
       const result = await client.job.listFromJobSchedule(SCHEDULE);
 
       assert.lengthOf(result, 0);
       assert.equal(result._response.status, 200);
     });
 
-    it("should check if a job schedule exists successfully", async () => {
+    it("should check if a job schedule exists successfully", async function () {
       const result = await client.jobSchedule.exists(SCHEDULE);
 
       assert.isTrue(result.body);
       assert.equal(result._response.status, 200);
     });
 
-    it("should get a job schedule reference successfully", async () => {
+    it("should get a job schedule reference successfully", async function () {
       const result = await client.jobSchedule.get(SCHEDULE);
 
       assert.equal(result.id, SCHEDULE);
@@ -1190,7 +1283,7 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 200);
     });
 
-    it("should update a job schedule successfully", async () => {
+    it("should update a job schedule successfully", async function () {
       const options: BatchServiceModels.JobScheduleUpdateParameter = {
         schedule: { recurrenceInterval: duration({ hours: 6 }).toISOString() },
         jobSpecification: { poolInfo: { poolId: TEST_POOL3 } },
@@ -1201,7 +1294,7 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 200);
     });
 
-    it("should patch a job schedule successfully", async () => {
+    it("should patch a job schedule successfully", async function () {
       const options = {
         schedule: {
           recurrenceInterval: duration({ hours: 3 }).toISOString(),
@@ -1214,33 +1307,33 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 200);
     });
 
-    it("should disable a job schedule successfully", async () => {
+    it("should disable a job schedule successfully", async function () {
       const result = await client.jobSchedule.disable(SCHEDULE);
 
       assert.equal(result._response.status, 204);
     });
 
-    it("should enable a job schedule successfully", async () => {
+    it("should enable a job schedule successfully", async function () {
       const result = await client.jobSchedule.enable(SCHEDULE);
 
       assert.equal(result._response.status, 204);
     });
 
-    it("should terminate a job schedule successfully", async () => {
+    it("should terminate a job schedule successfully", async function () {
       const result = await client.jobSchedule.terminate(SCHEDULE);
 
       assert.equal(result._response.status, 202);
     });
 
-    it("should delete a job schedule successfully", async () => {
+    it("should delete a job schedule successfully", async function () {
       const result = await client.jobSchedule.deleteMethod(SCHEDULE);
 
       assert.equal(result._response.status, 202);
     });
   });
 
-  describe("Resource cleanup", async () => {
-    it("should remove nodes in pool successfully", async () => {
+  describe("Resource cleanup", async function () {
+    it("should remove nodes in pool successfully", async function () {
       const options: BatchServiceModels.NodeRemoveParameter = {
         nodeList: compute_nodes,
         nodeDeallocationOption: "terminate",
@@ -1250,25 +1343,25 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 202);
     });
 
-    it("should delete a pool successfully", async () => {
+    it("should delete a pool successfully", async function () {
       const result = await client.pool.deleteMethod(BASIC_POOL);
 
       assert.equal(result._response.status, 202);
     });
 
-    it("should delete a second pool successfully", async () => {
+    it("should delete a second pool successfully", async function () {
       const result = await client.pool.deleteMethod(TEST_POOL3);
 
       assert.equal(result._response.status, 202);
     });
 
-    it("should delete a third pool successfully", async () => {
+    it("should delete a third pool successfully", async function () {
       const result = await client.pool.deleteMethod(ENDPOINT_POOL);
 
       assert.equal(result._response.status, 202);
     });
 
-    it("should fail to delete a non-existent pool", async () => {
+    it("should fail to delete a non-existent pool", async function () {
       try {
         await client.pool.deleteMethod(BASIC_POOL);
       } catch (error) {
@@ -1276,13 +1369,13 @@ describe("Batch Service", () => {
       }
     });
 
-    it("should delete a certificate successfully", async () => {
+    it("should delete a certificate successfully", async function () {
       const result = await client.certificate.deleteMethod("sha1", certThumb);
 
       assert.equal(result._response.status, 202);
     });
 
-    it("should fail to cancel deleting a certificate", async () => {
+    it("should fail to cancel deleting a certificate", async function () {
       try {
         await client.certificate.cancelDeletion("sha1", certThumb);
       } catch (error) {

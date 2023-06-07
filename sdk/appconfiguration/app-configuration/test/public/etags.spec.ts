@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { Recorder } from "@azure-tools/test-recorder";
 import {
   assertThrowsRestError,
   createAppConfigurationClientForTests,
@@ -9,7 +10,6 @@ import {
 } from "./utils/testHelpers";
 import { AppConfigurationClient } from "../../src";
 import { Context } from "mocha";
-import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 
 describe("etags", () => {
@@ -18,9 +18,9 @@ describe("etags", () => {
   let key: string;
 
   beforeEach(async function (this: Context) {
-    recorder = startRecorder(this);
-    key = recorder.getUniqueName("etags");
-    client = createAppConfigurationClientForTests() || this.skip();
+    recorder = await startRecorder(this);
+    key = recorder.variable("etags", `etags${Math.floor(Math.random() * 1000)}`);
+    client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
     await client.addConfigurationSetting({
       key: key,
       value: "some value",

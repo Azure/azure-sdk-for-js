@@ -25,6 +25,7 @@ pr:
   paths:
     include:
       - sdk/keyvault/
+      - eng/common/testproxy/
     exclude:
       - sdk/keyvault/ci.mgmt.yml
       - sdk/keyvault/arm-keyvault

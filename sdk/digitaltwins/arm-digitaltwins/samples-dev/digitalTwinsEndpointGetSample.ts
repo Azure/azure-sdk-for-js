@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { AzureDigitalTwinsManagementClient } from "@azure/arm-digitaltwins";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get DigitalTwinsInstances Endpoint.
  *
  * @summary Get DigitalTwinsInstances Endpoint.
- * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2022-05-31/examples/DigitalTwinsEndpointGet_example.json
+ * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2023-01-31/examples/DigitalTwinsEndpointGet_example.json
  */
 async function getADigitalTwinsInstanceEndpoint() {
-  const subscriptionId = "50016170-c839-41ba-a724-51e9df440b9e";
-  const resourceGroupName = "resRg";
+  const subscriptionId =
+    process.env["DIGITALTWINS_SUBSCRIPTION_ID"] ||
+    "50016170-c839-41ba-a724-51e9df440b9e";
+  const resourceGroupName =
+    process.env["DIGITALTWINS_RESOURCE_GROUP"] || "resRg";
   const resourceName = "myDigitalTwinsService";
   const endpointName = "myServiceBus";
   const credential = new DefaultAzureCredential();
@@ -34,18 +40,19 @@ async function getADigitalTwinsInstanceEndpoint() {
   );
   console.log(result);
 }
-
-getADigitalTwinsInstanceEndpoint().catch(console.error);
 
 /**
  * This sample demonstrates how to Get DigitalTwinsInstances Endpoint.
  *
  * @summary Get DigitalTwinsInstances Endpoint.
- * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2022-05-31/examples/DigitalTwinsEndpointGet_WithIdentity_example.json
+ * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2023-01-31/examples/DigitalTwinsEndpointGet_WithIdentity_example.json
  */
 async function getADigitalTwinsInstanceEndpointWithIdentity() {
-  const subscriptionId = "50016170-c839-41ba-a724-51e9df440b9e";
-  const resourceGroupName = "resRg";
+  const subscriptionId =
+    process.env["DIGITALTWINS_SUBSCRIPTION_ID"] ||
+    "50016170-c839-41ba-a724-51e9df440b9e";
+  const resourceGroupName =
+    process.env["DIGITALTWINS_RESOURCE_GROUP"] || "resRg";
   const resourceName = "myDigitalTwinsService";
   const endpointName = "myServiceBus";
   const credential = new DefaultAzureCredential();
@@ -61,4 +68,9 @@ async function getADigitalTwinsInstanceEndpointWithIdentity() {
   console.log(result);
 }
 
-getADigitalTwinsInstanceEndpointWithIdentity().catch(console.error);
+async function main() {
+  getADigitalTwinsInstanceEndpoint();
+  getADigitalTwinsInstanceEndpointWithIdentity();
+}
+
+main().catch(console.error);

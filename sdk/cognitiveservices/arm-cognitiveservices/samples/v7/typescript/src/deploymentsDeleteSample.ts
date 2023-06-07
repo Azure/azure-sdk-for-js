@@ -10,16 +10,21 @@
 // Licensed under the MIT License.
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes the specified deployment associated with the Cognitive Services account.
  *
  * @summary Deletes the specified deployment associated with the Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-03-01/examples/DeleteDeployment.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-12-01/examples/DeleteDeployment.json
  */
 async function deleteDeployment() {
-  const subscriptionId = "subscriptionId";
-  const resourceGroupName = "resourceGroupName";
+  const subscriptionId =
+    process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] || "subscriptionId";
+  const resourceGroupName =
+    process.env["COGNITIVESERVICES_RESOURCE_GROUP"] || "resourceGroupName";
   const accountName = "accountName";
   const deploymentName = "deploymentName";
   const credential = new DefaultAzureCredential();
@@ -35,4 +40,8 @@ async function deleteDeployment() {
   console.log(result);
 }
 
-deleteDeployment().catch(console.error);
+async function main() {
+  deleteDeployment();
+}
+
+main().catch(console.error);

@@ -59,6 +59,7 @@ describe("Monitor test", () => {
   let storageId: string;
   let authorizationId: string;
   let workspaceId: string;
+  let azureMonitorWorkspaceName: string;
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
@@ -81,6 +82,7 @@ describe("Monitor test", () => {
     authorizationRuleName = "myauthorizationRulexxx";
     logProfileName = "mylogProfilexxx";
     diagnosticName = "mydiagnosticxxxx";
+    azureMonitorWorkspaceName = "myAzureMonitorWorkspace"
   });
 
   afterEach(async function () {
@@ -250,6 +252,38 @@ describe("Monitor test", () => {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
+  });
+
+  it("workspace create test", async function () {
+    const res = await client.azureMonitorWorkspaces.create(
+      resourceGroup,
+      azureMonitorWorkspaceName,
+      {
+        location
+      });
+    assert.equal(res.name, azureMonitorWorkspaceName);
+  });
+
+  it("workspace get test", async function () {
+    const res = await client.azureMonitorWorkspaces.get(resourceGroup, azureMonitorWorkspaceName);
+    assert.equal(res.name, azureMonitorWorkspaceName);
+  });
+
+  it("workspace list test", async function () {
+    const resArray = new Array();
+    for await (let item of client.azureMonitorWorkspaces.listByResourceGroup(resourceGroup)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 1);
+  });
+
+  it("workspace delete test", async function () {
+    const resArray = new Array();
+    const res = await client.azureMonitorWorkspaces.delete(resourceGroup, azureMonitorWorkspaceName)
+    for await (let item of client.azureMonitorWorkspaces.listByResourceGroup(resourceGroup)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 0);
   });
 
   it("delete parameters for diagnosticSettings", async function () {

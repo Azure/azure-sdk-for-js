@@ -19,8 +19,7 @@ import {
 export interface PrivateLinkResourcesOperations {
   /**
    * Returns the list of private link resources that need to be created for Backup and SiteRecovery
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the recovery services vault.
    * @param options The options parameters.
    */
@@ -31,8 +30,7 @@ export interface PrivateLinkResourcesOperations {
   ): PagedAsyncIterableIterator<PrivateLinkResource>;
   /**
    * Returns a specified private link resource that need to be created for Backup and SiteRecovery
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the recovery services vault.
    * @param privateLinkResourceName
    * @param options The options parameters.

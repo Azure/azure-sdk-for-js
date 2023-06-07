@@ -6,20 +6,27 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ExpressRouteCircuits } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ExpressRouteCircuit,
   ExpressRouteCircuitsListNextOptionalParams,
   ExpressRouteCircuitsListOptionalParams,
+  ExpressRouteCircuitsListResponse,
   ExpressRouteCircuitsListAllNextOptionalParams,
   ExpressRouteCircuitsListAllOptionalParams,
+  ExpressRouteCircuitsListAllResponse,
   ExpressRouteCircuitsDeleteOptionalParams,
   ExpressRouteCircuitsGetOptionalParams,
   ExpressRouteCircuitsGetResponse,
@@ -38,8 +45,6 @@ import {
   ExpressRouteCircuitsGetStatsResponse,
   ExpressRouteCircuitsGetPeeringStatsOptionalParams,
   ExpressRouteCircuitsGetPeeringStatsResponse,
-  ExpressRouteCircuitsListResponse,
-  ExpressRouteCircuitsListAllResponse,
   ExpressRouteCircuitsListNextResponse,
   ExpressRouteCircuitsListAllNextResponse
 } from "../models";
@@ -74,19 +79,29 @@ export class ExpressRouteCircuitsImpl implements ExpressRouteCircuits {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceGroupName, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    options?: ExpressRouteCircuitsListOptionalParams
+    options?: ExpressRouteCircuitsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ExpressRouteCircuit[]> {
-    let result = await this._list(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ExpressRouteCircuitsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -94,7 +109,9 @@ export class ExpressRouteCircuitsImpl implements ExpressRouteCircuits {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -122,22 +139,34 @@ export class ExpressRouteCircuitsImpl implements ExpressRouteCircuits {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listAllPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listAllPagingPage(options, settings);
       }
     };
   }
 
   private async *listAllPagingPage(
-    options?: ExpressRouteCircuitsListAllOptionalParams
+    options?: ExpressRouteCircuitsListAllOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ExpressRouteCircuit[]> {
-    let result = await this._listAll(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ExpressRouteCircuitsListAllResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAll(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAllNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -159,14 +188,14 @@ export class ExpressRouteCircuitsImpl implements ExpressRouteCircuits {
     resourceGroupName: string,
     circuitName: string,
     options?: ExpressRouteCircuitsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -199,15 +228,15 @@ export class ExpressRouteCircuitsImpl implements ExpressRouteCircuits {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, circuitName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, circuitName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -262,8 +291,8 @@ export class ExpressRouteCircuitsImpl implements ExpressRouteCircuits {
     parameters: ExpressRouteCircuit,
     options?: ExpressRouteCircuitsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ExpressRouteCircuitsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ExpressRouteCircuitsCreateOrUpdateResponse>,
       ExpressRouteCircuitsCreateOrUpdateResponse
     >
   > {
@@ -273,7 +302,7 @@ export class ExpressRouteCircuitsImpl implements ExpressRouteCircuits {
     ): Promise<ExpressRouteCircuitsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -306,15 +335,18 @@ export class ExpressRouteCircuitsImpl implements ExpressRouteCircuits {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, circuitName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, circuitName, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ExpressRouteCircuitsCreateOrUpdateResponse,
+      OperationState<ExpressRouteCircuitsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -377,8 +409,8 @@ export class ExpressRouteCircuitsImpl implements ExpressRouteCircuits {
     devicePath: string,
     options?: ExpressRouteCircuitsListArpTableOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ExpressRouteCircuitsListArpTableResponse>,
+    SimplePollerLike<
+      OperationState<ExpressRouteCircuitsListArpTableResponse>,
       ExpressRouteCircuitsListArpTableResponse
     >
   > {
@@ -388,7 +420,7 @@ export class ExpressRouteCircuitsImpl implements ExpressRouteCircuits {
     ): Promise<ExpressRouteCircuitsListArpTableResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -421,15 +453,24 @@ export class ExpressRouteCircuitsImpl implements ExpressRouteCircuits {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, circuitName, peeringName, devicePath, options },
-      listArpTableOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        circuitName,
+        peeringName,
+        devicePath,
+        options
+      },
+      spec: listArpTableOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ExpressRouteCircuitsListArpTableResponse,
+      OperationState<ExpressRouteCircuitsListArpTableResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -477,8 +518,8 @@ export class ExpressRouteCircuitsImpl implements ExpressRouteCircuits {
     devicePath: string,
     options?: ExpressRouteCircuitsListRoutesTableOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ExpressRouteCircuitsListRoutesTableResponse>,
+    SimplePollerLike<
+      OperationState<ExpressRouteCircuitsListRoutesTableResponse>,
       ExpressRouteCircuitsListRoutesTableResponse
     >
   > {
@@ -488,7 +529,7 @@ export class ExpressRouteCircuitsImpl implements ExpressRouteCircuits {
     ): Promise<ExpressRouteCircuitsListRoutesTableResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -521,15 +562,24 @@ export class ExpressRouteCircuitsImpl implements ExpressRouteCircuits {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, circuitName, peeringName, devicePath, options },
-      listRoutesTableOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        circuitName,
+        peeringName,
+        devicePath,
+        options
+      },
+      spec: listRoutesTableOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ExpressRouteCircuitsListRoutesTableResponse,
+      OperationState<ExpressRouteCircuitsListRoutesTableResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -577,8 +627,8 @@ export class ExpressRouteCircuitsImpl implements ExpressRouteCircuits {
     devicePath: string,
     options?: ExpressRouteCircuitsListRoutesTableSummaryOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ExpressRouteCircuitsListRoutesTableSummaryResponse>,
+    SimplePollerLike<
+      OperationState<ExpressRouteCircuitsListRoutesTableSummaryResponse>,
       ExpressRouteCircuitsListRoutesTableSummaryResponse
     >
   > {
@@ -588,7 +638,7 @@ export class ExpressRouteCircuitsImpl implements ExpressRouteCircuits {
     ): Promise<ExpressRouteCircuitsListRoutesTableSummaryResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -621,15 +671,24 @@ export class ExpressRouteCircuitsImpl implements ExpressRouteCircuits {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, circuitName, peeringName, devicePath, options },
-      listRoutesTableSummaryOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        circuitName,
+        peeringName,
+        devicePath,
+        options
+      },
+      spec: listRoutesTableSummaryOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ExpressRouteCircuitsListRoutesTableSummaryResponse,
+      OperationState<ExpressRouteCircuitsListRoutesTableSummaryResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -823,7 +882,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters14,
+  requestBody: Parameters.parameters16,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1052,7 +1111,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -1073,7 +1131,6 @@ const listAllNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

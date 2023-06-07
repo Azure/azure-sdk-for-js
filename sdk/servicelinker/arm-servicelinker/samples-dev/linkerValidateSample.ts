@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ServiceLinkerManagementClient } from "@azure/arm-servicelinker";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Validate a link.
@@ -30,4 +33,8 @@ async function validateLinkSuccess() {
   console.log(result);
 }
 
-validateLinkSuccess().catch(console.error);
+async function main() {
+  validateLinkSuccess();
+}
+
+main().catch(console.error);

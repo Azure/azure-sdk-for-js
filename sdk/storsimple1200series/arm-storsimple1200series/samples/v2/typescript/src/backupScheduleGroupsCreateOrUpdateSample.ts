@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Creates or Updates the backup schedule Group.
  *
  * @summary Creates or Updates the backup schedule Group.
- * x-ms-original-file: specification/storSimple1200Series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/BackupScheduleGroupsCreateOrUpdate.json
+ * x-ms-original-file: specification/storsimple1200series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/BackupScheduleGroupsCreateOrUpdate.json
  */
 async function backupScheduleGroupsCreateOrUpdate() {
   const subscriptionId = "9eb689cd-7243-43b4-b6f6-5c65cb296641";

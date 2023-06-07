@@ -8,35 +8,65 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest
+} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  ServersImpl,
-  FirewallRulesImpl,
-  ConfigurationsImpl,
-  CheckNameAvailabilityImpl,
+  AdministratorsImpl,
+  BackupsImpl,
   LocationBasedCapabilitiesImpl,
-  VirtualNetworkSubnetUsageImpl,
-  OperationsImpl,
+  ServerCapabilitiesImpl,
+  CheckNameAvailabilityImpl,
+  CheckNameAvailabilityWithLocationImpl,
+  ConfigurationsImpl,
   DatabasesImpl,
-  GetPrivateDnsZoneSuffixImpl
+  FirewallRulesImpl,
+  ServersImpl,
+  MigrationsImpl,
+  OperationsImpl,
+  GetPrivateDnsZoneSuffixImpl,
+  ReplicasImpl,
+  LogFilesImpl,
+  VirtualNetworkSubnetUsageImpl,
+  FlexibleServerImpl,
+  LtrBackupOperationsImpl
 } from "./operations";
 import {
-  Servers,
-  FirewallRules,
-  Configurations,
-  CheckNameAvailability,
+  Administrators,
+  Backups,
   LocationBasedCapabilities,
-  VirtualNetworkSubnetUsage,
-  Operations,
+  ServerCapabilities,
+  CheckNameAvailability,
+  CheckNameAvailabilityWithLocation,
+  Configurations,
   Databases,
-  GetPrivateDnsZoneSuffix
+  FirewallRules,
+  Servers,
+  Migrations,
+  Operations,
+  GetPrivateDnsZoneSuffix,
+  Replicas,
+  LogFiles,
+  VirtualNetworkSubnetUsage,
+  FlexibleServer,
+  LtrBackupOperations
 } from "./operationsInterfaces";
-import { PostgreSQLManagementFlexibleServerClientOptionalParams } from "./models";
+import * as Parameters from "./models/parameters";
+import * as Mappers from "./models/mappers";
+import {
+  PostgreSQLManagementFlexibleServerClientOptionalParams,
+  MigrationNameAvailabilityResource,
+  CheckMigrationNameAvailabilityOptionalParams,
+  CheckMigrationNameAvailabilityResponse
+} from "./models";
 
 export class PostgreSQLManagementFlexibleServerClient extends coreClient.ServiceClient {
   $host: string;
-  apiVersion: string;
   subscriptionId: string;
+  apiVersion: string;
 
   /**
    * Initializes a new instance of the PostgreSQLManagementFlexibleServerClient class.
@@ -65,72 +95,181 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-postgresql-flexible/6.0.1`;
+    const packageDetails = `azsdk-js-arm-postgresql-flexible/8.0.0-beta.3`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
-    if (!options.credentialScopes) {
-      options.credentialScopes = ["https://management.azure.com/.default"];
-    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
+      endpoint:
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
 
+    let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
       const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+      bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
           coreRestPipeline.bearerTokenAuthenticationPolicyName
       );
-      if (!bearerTokenAuthenticationPolicyFound) {
-        this.pipeline.removePolicy({
-          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-        });
-        this.pipeline.addPolicy(
-          coreRestPipeline.bearerTokenAuthenticationPolicy({
-            scopes: `${optionsWithDefaults.baseUri}/.default`,
-            challengeCallbacks: {
-              authorizeRequestOnChallenge:
-                coreClient.authorizeRequestOnClaimChallenge
-            }
-          })
-        );
-      }
+    }
+    if (
+      !options ||
+      !options.pipeline ||
+      options.pipeline.getOrderedPolicies().length == 0 ||
+      !bearerTokenAuthenticationPolicyFound
+    ) {
+      this.pipeline.removePolicy({
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+      });
+      this.pipeline.addPolicy(
+        coreRestPipeline.bearerTokenAuthenticationPolicy({
+          credential: credentials,
+          scopes:
+            optionsWithDefaults.credentialScopes ??
+            `${optionsWithDefaults.endpoint}/.default`,
+          challengeCallbacks: {
+            authorizeRequestOnChallenge:
+              coreClient.authorizeRequestOnClaimChallenge
+          }
+        })
+      );
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-06-01";
-    this.servers = new ServersImpl(this);
-    this.firewallRules = new FirewallRulesImpl(this);
-    this.configurations = new ConfigurationsImpl(this);
-    this.checkNameAvailability = new CheckNameAvailabilityImpl(this);
+    this.apiVersion = options.apiVersion || "2023-03-01-preview";
+    this.administrators = new AdministratorsImpl(this);
+    this.backups = new BackupsImpl(this);
     this.locationBasedCapabilities = new LocationBasedCapabilitiesImpl(this);
-    this.virtualNetworkSubnetUsage = new VirtualNetworkSubnetUsageImpl(this);
-    this.operations = new OperationsImpl(this);
+    this.serverCapabilities = new ServerCapabilitiesImpl(this);
+    this.checkNameAvailability = new CheckNameAvailabilityImpl(this);
+    this.checkNameAvailabilityWithLocation = new CheckNameAvailabilityWithLocationImpl(
+      this
+    );
+    this.configurations = new ConfigurationsImpl(this);
     this.databases = new DatabasesImpl(this);
+    this.firewallRules = new FirewallRulesImpl(this);
+    this.servers = new ServersImpl(this);
+    this.migrations = new MigrationsImpl(this);
+    this.operations = new OperationsImpl(this);
     this.getPrivateDnsZoneSuffix = new GetPrivateDnsZoneSuffixImpl(this);
+    this.replicas = new ReplicasImpl(this);
+    this.logFiles = new LogFilesImpl(this);
+    this.virtualNetworkSubnetUsage = new VirtualNetworkSubnetUsageImpl(this);
+    this.flexibleServer = new FlexibleServerImpl(this);
+    this.ltrBackupOperations = new LtrBackupOperationsImpl(this);
+    this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
-  servers: Servers;
-  firewallRules: FirewallRules;
-  configurations: Configurations;
-  checkNameAvailability: CheckNameAvailability;
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return "api-version=" + apiVersion;
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      }
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
+  }
+
+  /**
+   * This method checks whether a proposed migration name is valid and available.
+   * @param subscriptionId The subscription ID of the target database server.
+   * @param resourceGroupName The resource group name of the target database server.
+   * @param targetDbServerName The name of the target database server.
+   * @param parameters The required parameters for checking if a migration name is available.
+   * @param options The options parameters.
+   */
+  checkMigrationNameAvailability(
+    subscriptionId: string,
+    resourceGroupName: string,
+    targetDbServerName: string,
+    parameters: MigrationNameAvailabilityResource,
+    options?: CheckMigrationNameAvailabilityOptionalParams
+  ): Promise<CheckMigrationNameAvailabilityResponse> {
+    return this.sendOperationRequest(
+      {
+        subscriptionId,
+        resourceGroupName,
+        targetDbServerName,
+        parameters,
+        options
+      },
+      checkMigrationNameAvailabilityOperationSpec
+    );
+  }
+
+  administrators: Administrators;
+  backups: Backups;
   locationBasedCapabilities: LocationBasedCapabilities;
-  virtualNetworkSubnetUsage: VirtualNetworkSubnetUsage;
-  operations: Operations;
+  serverCapabilities: ServerCapabilities;
+  checkNameAvailability: CheckNameAvailability;
+  checkNameAvailabilityWithLocation: CheckNameAvailabilityWithLocation;
+  configurations: Configurations;
   databases: Databases;
+  firewallRules: FirewallRules;
+  servers: Servers;
+  migrations: Migrations;
+  operations: Operations;
   getPrivateDnsZoneSuffix: GetPrivateDnsZoneSuffix;
+  replicas: Replicas;
+  logFiles: LogFiles;
+  virtualNetworkSubnetUsage: VirtualNetworkSubnetUsage;
+  flexibleServer: FlexibleServer;
+  ltrBackupOperations: LtrBackupOperations;
 }
+// Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+
+const checkMigrationNameAvailabilityOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{targetDbServerName}/checkMigrationNameAvailability",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MigrationNameAvailabilityResource
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters10,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId1,
+    Parameters.resourceGroupName1,
+    Parameters.targetDbServerName
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};

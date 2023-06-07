@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { SqlPoolGeoBackupPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -62,12 +62,16 @@ export class SqlPoolGeoBackupPoliciesImpl implements SqlPoolGeoBackupPolicies {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           workspaceName,
           sqlPoolName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -77,9 +81,11 @@ export class SqlPoolGeoBackupPoliciesImpl implements SqlPoolGeoBackupPolicies {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolGeoBackupPoliciesListOptionalParams
+    options?: SqlPoolGeoBackupPoliciesListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<GeoBackupPolicy[]> {
-    let result = await this._list(
+    let result: SqlPoolGeoBackupPoliciesListResponse;
+    result = await this._list(
       resourceGroupName,
       workspaceName,
       sqlPoolName,

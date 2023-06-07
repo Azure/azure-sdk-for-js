@@ -10,6 +10,7 @@ import * as git from "../../src/util/git";
 
 import { assert } from "chai";
 import { findMatchingFiles } from "../../src/util/findMatchingFiles";
+import { METADATA_KEY } from "../../src/util/resolveProject";
 
 // Please read: ./files/README.md
 
@@ -57,13 +58,18 @@ describe("File content tests", async function () {
               ...ownPackageJson,
               // Required by the PackageJson definition type, but not required for this test
               main: "",
+              "sdk-type": "client",
+              types: "",
               version,
               keywords: [name],
-              "//sampleConfiguration": {
-                ...(await import(path.join(dir, "config.json"))),
-                disableDocsMs: true,
-                overridePublicationLinkFragment:
-                  "common/tools/dev-tool/test/samples/files/expectations/" + name,
+              [METADATA_KEY]: {
+                constantPaths: [],
+                sampleConfiguration: {
+                  ...(await import(path.join(dir, "config.json"))),
+                  disableDocsMs: true,
+                  overridePublicationLinkFragment:
+                    "common/tools/dev-tool/test/samples/files/expectations/" + name,
+                },
               },
             },
             path: dir,

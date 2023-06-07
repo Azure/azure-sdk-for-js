@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { DynatraceObservability } = require("@azure/arm-dynatrace");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List all MonitorResource by subscriptionId
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2021-09-01/examples/Monitors_ListBySubscriptionId_MaximumSet_Gen.json
  */
 async function monitorsListBySubscriptionIdMaximumSetGen() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["DYNATRACE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new DynatraceObservability(credential, subscriptionId);
   const resArray = new Array();
@@ -27,8 +29,6 @@ async function monitorsListBySubscriptionIdMaximumSetGen() {
   }
   console.log(resArray);
 }
-
-monitorsListBySubscriptionIdMaximumSetGen().catch(console.error);
 
 /**
  * This sample demonstrates how to List all MonitorResource by subscriptionId
@@ -37,7 +37,8 @@ monitorsListBySubscriptionIdMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2021-09-01/examples/Monitors_ListBySubscriptionId_MinimumSet_Gen.json
  */
 async function monitorsListBySubscriptionIdMinimumSetGen() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["DYNATRACE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new DynatraceObservability(credential, subscriptionId);
   const resArray = new Array();
@@ -47,4 +48,9 @@ async function monitorsListBySubscriptionIdMinimumSetGen() {
   console.log(resArray);
 }
 
-monitorsListBySubscriptionIdMinimumSetGen().catch(console.error);
+async function main() {
+  monitorsListBySubscriptionIdMaximumSetGen();
+  monitorsListBySubscriptionIdMinimumSetGen();
+}
+
+main().catch(console.error);

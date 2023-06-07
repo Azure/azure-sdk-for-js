@@ -47,6 +47,7 @@ describe("AMQP message encoding", () => {
       {} as Delivery,
       false,
       "receiveAndDelete",
+      false,
       false
     );
 

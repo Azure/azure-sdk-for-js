@@ -51,25 +51,26 @@ import {
   SecureScoreControlDefinitionsImpl,
   SecuritySolutionsImpl,
   ConnectorsImpl,
-  SqlVulnerabilityAssessmentScansImpl,
-  SqlVulnerabilityAssessmentScanResultsImpl,
-  SqlVulnerabilityAssessmentBaselineRulesImpl,
   AlertsImpl,
   SettingsImpl,
   IngestionSettingsImpl,
   SoftwareInventoriesImpl,
-  SecurityConnectorsImpl,
-  GovernanceRuleOperationsImpl,
   GovernanceRulesImpl,
-  SecurityConnectorGovernanceRuleImpl,
-  SecurityConnectorGovernanceRulesImpl,
-  SubscriptionGovernanceRulesExecuteStatusImpl,
-  SecurityConnectorGovernanceRulesExecuteStatusImpl,
   GovernanceAssignmentsImpl,
   ApplicationsImpl,
   ApplicationOperationsImpl,
   SecurityConnectorApplicationsImpl,
-  SecurityConnectorApplicationImpl
+  SecurityConnectorApplicationImpl,
+  APICollectionImpl,
+  APICollectionOnboardingImpl,
+  APICollectionOffboardingImpl,
+  HealthReportsImpl,
+  HealthReportOperationsImpl,
+  SqlVulnerabilityAssessmentScansImpl,
+  SqlVulnerabilityAssessmentScanResultsImpl,
+  SqlVulnerabilityAssessmentBaselineRulesImpl,
+  SecurityConnectorsImpl,
+  SecurityOperatorsImpl
 } from "./operations";
 import {
   MdeOnboardings,
@@ -113,25 +114,26 @@ import {
   SecureScoreControlDefinitions,
   SecuritySolutions,
   Connectors,
-  SqlVulnerabilityAssessmentScans,
-  SqlVulnerabilityAssessmentScanResults,
-  SqlVulnerabilityAssessmentBaselineRules,
   Alerts,
   Settings,
   IngestionSettings,
   SoftwareInventories,
-  SecurityConnectors,
-  GovernanceRuleOperations,
   GovernanceRules,
-  SecurityConnectorGovernanceRule,
-  SecurityConnectorGovernanceRules,
-  SubscriptionGovernanceRulesExecuteStatus,
-  SecurityConnectorGovernanceRulesExecuteStatus,
   GovernanceAssignments,
   Applications,
   ApplicationOperations,
   SecurityConnectorApplications,
-  SecurityConnectorApplication
+  SecurityConnectorApplication,
+  APICollection,
+  APICollectionOnboarding,
+  APICollectionOffboarding,
+  HealthReports,
+  HealthReportOperations,
+  SqlVulnerabilityAssessmentScans,
+  SqlVulnerabilityAssessmentScanResults,
+  SqlVulnerabilityAssessmentBaselineRules,
+  SecurityConnectors,
+  SecurityOperators
 } from "./operationsInterfaces";
 import { SecurityCenterOptionalParams } from "./models";
 
@@ -166,22 +168,19 @@ export class SecurityCenter extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-security/6.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-security/6.0.0-beta.5`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
-    if (!options.credentialScopes) {
-      options.credentialScopes = ["https://management.azure.com/.default"];
-    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
+      endpoint:
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
@@ -207,7 +206,9 @@ export class SecurityCenter extends coreClient.ServiceClient {
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
-          scopes: `${optionsWithDefaults.credentialScopes}`,
+          scopes:
+            optionsWithDefaults.credentialScopes ??
+            `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
               coreClient.authorizeRequestOnClaimChallenge
@@ -289,34 +290,11 @@ export class SecurityCenter extends coreClient.ServiceClient {
     );
     this.securitySolutions = new SecuritySolutionsImpl(this);
     this.connectors = new ConnectorsImpl(this);
-    this.sqlVulnerabilityAssessmentScans = new SqlVulnerabilityAssessmentScansImpl(
-      this
-    );
-    this.sqlVulnerabilityAssessmentScanResults = new SqlVulnerabilityAssessmentScanResultsImpl(
-      this
-    );
-    this.sqlVulnerabilityAssessmentBaselineRules = new SqlVulnerabilityAssessmentBaselineRulesImpl(
-      this
-    );
     this.alerts = new AlertsImpl(this);
     this.settings = new SettingsImpl(this);
     this.ingestionSettings = new IngestionSettingsImpl(this);
     this.softwareInventories = new SoftwareInventoriesImpl(this);
-    this.securityConnectors = new SecurityConnectorsImpl(this);
-    this.governanceRuleOperations = new GovernanceRuleOperationsImpl(this);
     this.governanceRules = new GovernanceRulesImpl(this);
-    this.securityConnectorGovernanceRule = new SecurityConnectorGovernanceRuleImpl(
-      this
-    );
-    this.securityConnectorGovernanceRules = new SecurityConnectorGovernanceRulesImpl(
-      this
-    );
-    this.subscriptionGovernanceRulesExecuteStatus = new SubscriptionGovernanceRulesExecuteStatusImpl(
-      this
-    );
-    this.securityConnectorGovernanceRulesExecuteStatus = new SecurityConnectorGovernanceRulesExecuteStatusImpl(
-      this
-    );
     this.governanceAssignments = new GovernanceAssignmentsImpl(this);
     this.applications = new ApplicationsImpl(this);
     this.applicationOperations = new ApplicationOperationsImpl(this);
@@ -326,6 +304,22 @@ export class SecurityCenter extends coreClient.ServiceClient {
     this.securityConnectorApplication = new SecurityConnectorApplicationImpl(
       this
     );
+    this.aPICollection = new APICollectionImpl(this);
+    this.aPICollectionOnboarding = new APICollectionOnboardingImpl(this);
+    this.aPICollectionOffboarding = new APICollectionOffboardingImpl(this);
+    this.healthReports = new HealthReportsImpl(this);
+    this.healthReportOperations = new HealthReportOperationsImpl(this);
+    this.sqlVulnerabilityAssessmentScans = new SqlVulnerabilityAssessmentScansImpl(
+      this
+    );
+    this.sqlVulnerabilityAssessmentScanResults = new SqlVulnerabilityAssessmentScanResultsImpl(
+      this
+    );
+    this.sqlVulnerabilityAssessmentBaselineRules = new SqlVulnerabilityAssessmentBaselineRulesImpl(
+      this
+    );
+    this.securityConnectors = new SecurityConnectorsImpl(this);
+    this.securityOperators = new SecurityOperatorsImpl(this);
   }
 
   mdeOnboardings: MdeOnboardings;
@@ -369,23 +363,24 @@ export class SecurityCenter extends coreClient.ServiceClient {
   secureScoreControlDefinitions: SecureScoreControlDefinitions;
   securitySolutions: SecuritySolutions;
   connectors: Connectors;
-  sqlVulnerabilityAssessmentScans: SqlVulnerabilityAssessmentScans;
-  sqlVulnerabilityAssessmentScanResults: SqlVulnerabilityAssessmentScanResults;
-  sqlVulnerabilityAssessmentBaselineRules: SqlVulnerabilityAssessmentBaselineRules;
   alerts: Alerts;
   settings: Settings;
   ingestionSettings: IngestionSettings;
   softwareInventories: SoftwareInventories;
-  securityConnectors: SecurityConnectors;
-  governanceRuleOperations: GovernanceRuleOperations;
   governanceRules: GovernanceRules;
-  securityConnectorGovernanceRule: SecurityConnectorGovernanceRule;
-  securityConnectorGovernanceRules: SecurityConnectorGovernanceRules;
-  subscriptionGovernanceRulesExecuteStatus: SubscriptionGovernanceRulesExecuteStatus;
-  securityConnectorGovernanceRulesExecuteStatus: SecurityConnectorGovernanceRulesExecuteStatus;
   governanceAssignments: GovernanceAssignments;
   applications: Applications;
   applicationOperations: ApplicationOperations;
   securityConnectorApplications: SecurityConnectorApplications;
   securityConnectorApplication: SecurityConnectorApplication;
+  aPICollection: APICollection;
+  aPICollectionOnboarding: APICollectionOnboarding;
+  aPICollectionOffboarding: APICollectionOffboarding;
+  healthReports: HealthReports;
+  healthReportOperations: HealthReportOperations;
+  sqlVulnerabilityAssessmentScans: SqlVulnerabilityAssessmentScans;
+  sqlVulnerabilityAssessmentScanResults: SqlVulnerabilityAssessmentScanResults;
+  sqlVulnerabilityAssessmentBaselineRules: SqlVulnerabilityAssessmentBaselineRules;
+  securityConnectors: SecurityConnectors;
+  securityOperators: SecurityOperators;
 }
