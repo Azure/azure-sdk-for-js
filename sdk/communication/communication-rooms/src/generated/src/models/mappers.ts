@@ -45,6 +45,7 @@ export const ParticipantProperties: coreClient.CompositeMapper = {
     modelProperties: {
       role: {
         serializedName: "role",
+        required: true,
         type: {
           name: "Enum",
           allowedValues: ["Presenter", "Attendee", "Consumer"]
