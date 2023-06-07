@@ -169,7 +169,7 @@ function median(values: number[]) {
     return a - b;
   });
 
-  var half = Math.floor(values.length / 2);
+  let half = Math.floor(values.length / 2);
 
   if (values.length % 2)
     return values[half];
