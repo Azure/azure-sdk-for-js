@@ -278,7 +278,6 @@ export interface ContainerServiceLinuxProfile {
 // @public
 export interface ContainerServiceNetworkProfile {
     dnsServiceIP?: string;
-    dockerBridgeCidr?: string;
     ipFamilies?: IpFamily[];
     loadBalancerProfile?: ManagedClusterLoadBalancerProfile;
     loadBalancerSku?: LoadBalancerSku;
@@ -524,6 +523,7 @@ export enum KnownOSDiskType {
 
 // @public
 export enum KnownOssku {
+    AzureLinux = "AzureLinux",
     CBLMariner = "CBLMariner",
     Ubuntu = "Ubuntu",
     Windows2019 = "Windows2019",

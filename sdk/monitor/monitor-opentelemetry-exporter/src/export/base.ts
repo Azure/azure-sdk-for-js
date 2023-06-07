@@ -9,7 +9,11 @@ import { HttpSender, FileSystemPersist } from "../platform";
 import { AzureMonitorExporterOptions } from "../config";
 import { PersistentStorage, Sender } from "../types";
 import { isRetriable, BreezeResponse } from "../utils/breezeUtils";
-import { DEFAULT_BREEZE_ENDPOINT, ENV_CONNECTION_STRING } from "../Declarations/Constants";
+import {
+  DEFAULT_BREEZE_ENDPOINT,
+  ENV_CONNECTION_STRING,
+  ENV_DISABLE_STATSBEAT,
+} from "../Declarations/Constants";
 import { TelemetryItem as Envelope } from "../generated";
 import { NetworkStatsbeatMetrics } from "./statsbeat/networkStatsbeatMetrics";
 import { MAX_STATSBEAT_FAILURES } from "./statsbeat/types";
@@ -68,7 +72,7 @@ export abstract class AzureMonitorBaseExporter {
     this._sender = new HttpSender(this._endpointUrl, this._options);
     this._persister = new FileSystemPersist(this._instrumentationKey, this._options);
 
-    if (!this._isStatsbeatExporter) {
+    if (!this._isStatsbeatExporter && !process.env[ENV_DISABLE_STATSBEAT]) {
       // Initialize statsbeatMetrics
       this._networkStatsbeatMetrics = new NetworkStatsbeatMetrics({
         instrumentationKey: this._instrumentationKey,

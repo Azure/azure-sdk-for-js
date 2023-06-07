@@ -7,5 +7,5 @@
  */
 
 export * from "./models";
-export { RoomsApiClient } from "./roomsApiClient";
+export { RoomsRestClient } from "./roomsRestClient";
 export * from "./operationsInterfaces";

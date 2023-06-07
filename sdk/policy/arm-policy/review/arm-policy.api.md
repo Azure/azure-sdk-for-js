@@ -109,7 +109,6 @@ export type DataPolicyManifestsGetByPolicyModeResponse = DataPolicyManifest;
 
 // @public
 export interface DataPolicyManifestsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -332,8 +331,6 @@ export type PolicyAssignmentsGetResponse = PolicyAssignment;
 
 // @public
 export interface PolicyAssignmentsListForManagementGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -350,8 +347,6 @@ export type PolicyAssignmentsListForManagementGroupResponse = PolicyAssignmentLi
 
 // @public
 export interface PolicyAssignmentsListForResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -368,8 +363,6 @@ export type PolicyAssignmentsListForResourceGroupResponse = PolicyAssignmentList
 
 // @public
 export interface PolicyAssignmentsListForResourceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -386,8 +379,6 @@ export type PolicyAssignmentsListForResourceResponse = PolicyAssignmentListResul
 
 // @public
 export interface PolicyAssignmentsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -427,6 +418,7 @@ export class PolicyClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: PolicyClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: PolicyClientOptionalParams);
     // (undocumented)
     dataPolicyManifests: DataPolicyManifests;
     // (undocumented)
@@ -438,7 +430,7 @@ export class PolicyClient extends coreClient.ServiceClient {
     // (undocumented)
     policySetDefinitions: PolicySetDefinitions;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
 }
 
 // @public
@@ -548,8 +540,6 @@ export type PolicyDefinitionsGetResponse = PolicyDefinition;
 
 // @public
 export interface PolicyDefinitionsListBuiltInNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -566,8 +556,6 @@ export type PolicyDefinitionsListBuiltInResponse = PolicyDefinitionListResult;
 
 // @public
 export interface PolicyDefinitionsListByManagementGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -584,8 +572,6 @@ export type PolicyDefinitionsListByManagementGroupResponse = PolicyDefinitionLis
 
 // @public
 export interface PolicyDefinitionsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -652,7 +638,6 @@ export type PolicyExemptionsGetResponse = PolicyExemption;
 
 // @public
 export interface PolicyExemptionsListForManagementGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -668,7 +653,6 @@ export type PolicyExemptionsListForManagementGroupResponse = PolicyExemptionList
 
 // @public
 export interface PolicyExemptionsListForResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -684,7 +668,6 @@ export type PolicyExemptionsListForResourceGroupResponse = PolicyExemptionListRe
 
 // @public
 export interface PolicyExemptionsListForResourceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -700,7 +683,6 @@ export type PolicyExemptionsListForResourceResponse = PolicyExemptionListResult;
 
 // @public
 export interface PolicyExemptionsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -796,8 +778,6 @@ export type PolicySetDefinitionsGetResponse = PolicySetDefinition;
 
 // @public
 export interface PolicySetDefinitionsListBuiltInNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -814,8 +794,6 @@ export type PolicySetDefinitionsListBuiltInResponse = PolicySetDefinitionListRes
 
 // @public
 export interface PolicySetDefinitionsListByManagementGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -832,8 +810,6 @@ export type PolicySetDefinitionsListByManagementGroupResponse = PolicySetDefinit
 
 // @public
 export interface PolicySetDefinitionsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public

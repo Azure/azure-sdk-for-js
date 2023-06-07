@@ -1,6 +1,6 @@
 # Release History
 
-## 18.0.1 (Unreleased)
+## 19.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,17 @@
 
 ### Other Changes
 
+## 19.0.0 (2023-05-19)
+    
+**Features**
+
+  - Enum KnownOssku has a new value AzureLinux
+
+**Breaking Changes**
+
+  - Interface ContainerServiceNetworkProfile no longer has parameter dockerBridgeCidr
+    
+    
 ## 18.0.0 (2023-04-23)
     
 **Features**

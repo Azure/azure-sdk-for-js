@@ -134,9 +134,11 @@ export interface CreateJobOptions extends JobRouterUpsertJobOptionalParams {
     priority?: number;
     queueId?: string;
     requestedWorkerSelectors?: WorkerSelector[];
+    scheduledTimeUtc?: Date;
     tags?: {
         [propertyName: string]: any;
     };
+    unavailableForMatching?: boolean;
 }
 
 // @public
@@ -165,6 +167,16 @@ export interface CreateWorkerOptions extends JobRouterUpsertWorkerOptionalParams
         [propertyName: string]: any;
     };
     totalCapacity?: number;
+}
+
+// @public
+export interface DeclineJobOfferOptions extends JobRouterDeclineJobActionOptionalParams {
+    reofferTimeUtc?: Date;
+}
+
+// @public
+export interface DeclineJobOfferRequest {
+    reofferTimeUtc?: Date;
 }
 
 // @public
@@ -342,7 +354,9 @@ export interface JobRouterCancelJobActionOptionalParams extends coreClient.Opera
 }
 
 // @public
-export type JobRouterCancelJobActionResponse = Record<string, unknown>;
+export type JobRouterCancelJobActionResponse = {
+    body: any;
+};
 
 // @public
 export interface JobRouterCloseJobActionOptionalParams extends coreClient.OperationOptions {
@@ -352,7 +366,9 @@ export interface JobRouterCloseJobActionOptionalParams extends coreClient.Operat
 }
 
 // @public
-export type JobRouterCloseJobActionResponse = Record<string, unknown>;
+export type JobRouterCloseJobActionResponse = {
+    body: any;
+};
 
 // @public
 export interface JobRouterCompleteJobActionOptionalParams extends coreClient.OperationOptions {
@@ -360,18 +376,29 @@ export interface JobRouterCompleteJobActionOptionalParams extends coreClient.Ope
 }
 
 // @public
-export type JobRouterCompleteJobActionResponse = Record<string, unknown>;
+export type JobRouterCompleteJobActionResponse = {
+    body: any;
+};
 
 // @public
-export type JobRouterDeclineJobActionResponse = Record<string, unknown>;
-
-// @public
-export interface JobRouterReclassifyJobActionOptionalParams extends coreClient.OperationOptions {
-    reclassifyJobRequest?: Record<string, unknown>;
+export interface JobRouterDeclineJobActionOptionalParams extends coreClient.OperationOptions {
+    declineJobOfferRequest?: DeclineJobOfferRequest;
 }
 
 // @public
-export type JobRouterReclassifyJobActionResponse = Record<string, unknown>;
+export type JobRouterDeclineJobActionResponse = {
+    body: any;
+};
+
+// @public
+export interface JobRouterReclassifyJobActionOptionalParams extends coreClient.OperationOptions {
+    reclassifyJobRequest?: any;
+}
+
+// @public
+export type JobRouterReclassifyJobActionResponse = {
+    body: any;
+};
 
 // @public
 export interface JobRouterUpsertJobOptionalParams extends coreClient.OperationOptions {
@@ -382,14 +409,7 @@ export interface JobRouterUpsertWorkerOptionalParams extends coreClient.Operatio
 }
 
 // @public
-export type JobStateSelector = "all" | "pendingClassification" | "queued" | "assigned" | "completed" | "closed" | "cancelled" | "classificationFailed" | "active";
-
-// @public
-export enum KnownRouterWorkerState {
-    Active = "active",
-    Draining = "draining",
-    Inactive = "inactive"
-}
+export type JobStateSelector = "all" | "pendingClassification" | "queued" | "assigned" | "completed" | "closed" | "cancelled" | "classificationFailed" | "created" | "pendingSchedule" | "scheduled" | "scheduleFailed" | "waitingForActivation" | "active";
 
 // @public
 export type LabelOperator = "equal" | "notEqual" | "lessThan" | "lessThanEqual" | "greaterThan" | "greaterThanEqual";
@@ -416,6 +436,8 @@ export interface ListJobsOptions extends OperationOptions {
     jobStateSelector?: JobStateSelector;
     maxPageSize?: number;
     queueId?: string;
+    scheduledAfter?: Date;
+    scheduledBefore?: Date;
 }
 
 // @public
@@ -481,7 +503,7 @@ export interface QueueLengthExceptionTrigger extends JobExceptionTrigger {
 export interface QueueSelector {
     key: string;
     labelOperator: LabelOperator;
-    value?: Record<string, unknown>;
+    value?: any;
 }
 
 // @public
@@ -572,7 +594,7 @@ export class RouterClient {
     completeJob(jobId: string, assignmentId: string, options?: CompleteJobOptions): Promise<JobRouterCompleteJobActionResponse>;
     createJob(jobId: string, options?: CreateJobOptions): Promise<RouterJobResponse>;
     createWorker(workerId: string, options?: CreateWorkerOptions): Promise<RouterWorkerResponse>;
-    declineJobOffer(workerId: string, offerId: string, options?: OperationOptions): Promise<JobRouterDeclineJobActionResponse>;
+    declineJobOffer(workerId: string, offerId: string, options?: DeclineJobOfferOptions): Promise<JobRouterDeclineJobActionResponse>;
     deleteJob(jobId: string, options?: OperationOptions): Promise<void>;
     deleteWorker(workerId: string, options?: OperationOptions): Promise<void>;
     deregisterWorker(workerId: string, options?: OperationOptions): Promise<RouterWorkerResponse>;
@@ -618,9 +640,11 @@ export interface RouterJob {
     priority?: number;
     queueId?: string;
     requestedWorkerSelectors?: WorkerSelector[];
+    scheduledTimeUtc?: Date;
     tags?: {
         [propertyName: string]: any;
     };
+    unavailableForMatching?: boolean;
 }
 
 // @public
@@ -636,7 +660,7 @@ export interface RouterJobResponse extends RouterJob {
 }
 
 // @public
-export type RouterJobStatus = "pendingClassification" | "queued" | "assigned" | "completed" | "closed" | "cancelled" | "classificationFailed" | "created";
+export type RouterJobStatus = "pendingClassification" | "queued" | "assigned" | "completed" | "closed" | "cancelled" | "classificationFailed" | "created" | "pendingSchedule" | "scheduled" | "scheduleFailed" | "waitingForActivation";
 
 // @public
 export interface RouterRule {
@@ -660,7 +684,7 @@ export interface RouterWorker {
     readonly loadRatio?: number;
     readonly offers?: JobOffer[];
     queueAssignments?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
     readonly state?: RouterWorkerState;
     tags?: {
@@ -682,7 +706,7 @@ export interface RouterWorkerResponse extends RouterWorker {
 }
 
 // @public
-export type RouterWorkerState = string;
+export type RouterWorkerState = "active" | "draining" | "inactive";
 
 // @public
 export interface RuleEngineQueueSelectorAttachment extends QueueSelectorAttachment {
@@ -716,7 +740,7 @@ export interface StaticQueueSelectorAttachment extends QueueSelectorAttachment {
 // @public
 export interface StaticRule extends RouterRule {
     kind: "static-rule";
-    value?: Record<string, unknown>;
+    value?: any;
 }
 
 // @public
@@ -770,9 +794,11 @@ export interface UpdateJobOptions extends JobRouterUpsertJobOptionalParams {
     priority?: number;
     queueId?: string;
     requestedWorkerSelectors?: WorkerSelector[];
+    scheduledTimeUtc?: Date;
     tags?: {
         [propertyName: string]: any;
     };
+    unavailableForMatching?: boolean;
 }
 
 // @public
@@ -845,7 +871,7 @@ export interface WorkerSelector {
     labelOperator: LabelOperator;
     readonly state?: WorkerSelectorState;
     ttlSeconds?: number;
-    value?: Record<string, unknown>;
+    value?: any;
 }
 
 // @public

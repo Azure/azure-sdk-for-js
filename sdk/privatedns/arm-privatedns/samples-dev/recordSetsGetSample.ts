@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { PrivateDnsManagementClient } from "@azure/arm-privatedns";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets a record set.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetAGet.json
  */
 async function getPrivateDnsZoneARecordSet() {
-  const subscriptionId = "subscriptionId";
-  const resourceGroupName = "resourceGroup1";
+  const subscriptionId =
+    process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
+  const resourceGroupName =
+    process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
   const privateZoneName = "privatezone1.com";
   const recordType = "A";
   const relativeRecordSetName = "recordA";
@@ -34,8 +39,6 @@ async function getPrivateDnsZoneARecordSet() {
   console.log(result);
 }
 
-getPrivateDnsZoneARecordSet().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets a record set.
  *
@@ -43,8 +46,10 @@ getPrivateDnsZoneARecordSet().catch(console.error);
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetAAAAGet.json
  */
 async function getPrivateDnsZoneAaaaRecordSet() {
-  const subscriptionId = "subscriptionId";
-  const resourceGroupName = "resourceGroup1";
+  const subscriptionId =
+    process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
+  const resourceGroupName =
+    process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
   const privateZoneName = "privatezone1.com";
   const recordType = "AAAA";
   const relativeRecordSetName = "recordAAAA";
@@ -59,8 +64,6 @@ async function getPrivateDnsZoneAaaaRecordSet() {
   console.log(result);
 }
 
-getPrivateDnsZoneAaaaRecordSet().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets a record set.
  *
@@ -68,8 +71,10 @@ getPrivateDnsZoneAaaaRecordSet().catch(console.error);
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetCNAMEGet.json
  */
 async function getPrivateDnsZoneCnameRecordSet() {
-  const subscriptionId = "subscriptionId";
-  const resourceGroupName = "resourceGroup1";
+  const subscriptionId =
+    process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
+  const resourceGroupName =
+    process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
   const privateZoneName = "privatezone1.com";
   const recordType = "CNAME";
   const relativeRecordSetName = "recordCNAME";
@@ -84,8 +89,6 @@ async function getPrivateDnsZoneCnameRecordSet() {
   console.log(result);
 }
 
-getPrivateDnsZoneCnameRecordSet().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets a record set.
  *
@@ -93,8 +96,10 @@ getPrivateDnsZoneCnameRecordSet().catch(console.error);
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetMXGet.json
  */
 async function getPrivateDnsZoneMxRecordSet() {
-  const subscriptionId = "subscriptionId";
-  const resourceGroupName = "resourceGroup1";
+  const subscriptionId =
+    process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
+  const resourceGroupName =
+    process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
   const privateZoneName = "privatezone1.com";
   const recordType = "MX";
   const relativeRecordSetName = "recordMX";
@@ -109,8 +114,6 @@ async function getPrivateDnsZoneMxRecordSet() {
   console.log(result);
 }
 
-getPrivateDnsZoneMxRecordSet().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets a record set.
  *
@@ -118,8 +121,10 @@ getPrivateDnsZoneMxRecordSet().catch(console.error);
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetPTRGet.json
  */
 async function getPrivateDnsZonePtrRecordSet() {
-  const subscriptionId = "subscriptionId";
-  const resourceGroupName = "resourceGroup1";
+  const subscriptionId =
+    process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
+  const resourceGroupName =
+    process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
   const privateZoneName = "0.0.127.in-addr.arpa";
   const recordType = "PTR";
   const relativeRecordSetName = "1";
@@ -134,8 +139,6 @@ async function getPrivateDnsZonePtrRecordSet() {
   console.log(result);
 }
 
-getPrivateDnsZonePtrRecordSet().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets a record set.
  *
@@ -143,8 +146,10 @@ getPrivateDnsZonePtrRecordSet().catch(console.error);
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetSOAGet.json
  */
 async function getPrivateDnsZoneSoaRecordSet() {
-  const subscriptionId = "subscriptionId";
-  const resourceGroupName = "resourceGroup1";
+  const subscriptionId =
+    process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
+  const resourceGroupName =
+    process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
   const privateZoneName = "privatezone1.com";
   const recordType = "SOA";
   const relativeRecordSetName = "@";
@@ -159,8 +164,6 @@ async function getPrivateDnsZoneSoaRecordSet() {
   console.log(result);
 }
 
-getPrivateDnsZoneSoaRecordSet().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets a record set.
  *
@@ -168,8 +171,10 @@ getPrivateDnsZoneSoaRecordSet().catch(console.error);
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetSRVGet.json
  */
 async function getPrivateDnsZoneSrvRecordSet() {
-  const subscriptionId = "subscriptionId";
-  const resourceGroupName = "resourceGroup1";
+  const subscriptionId =
+    process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
+  const resourceGroupName =
+    process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
   const privateZoneName = "privatezone1.com";
   const recordType = "SRV";
   const relativeRecordSetName = "recordSRV";
@@ -184,8 +189,6 @@ async function getPrivateDnsZoneSrvRecordSet() {
   console.log(result);
 }
 
-getPrivateDnsZoneSrvRecordSet().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets a record set.
  *
@@ -193,8 +196,10 @@ getPrivateDnsZoneSrvRecordSet().catch(console.error);
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetTXTGet.json
  */
 async function getPrivateDnsZoneTxtRecordSet() {
-  const subscriptionId = "subscriptionId";
-  const resourceGroupName = "resourceGroup1";
+  const subscriptionId =
+    process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
+  const resourceGroupName =
+    process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";
   const privateZoneName = "privatezone1.com";
   const recordType = "TXT";
   const relativeRecordSetName = "recordTXT";
@@ -209,4 +214,15 @@ async function getPrivateDnsZoneTxtRecordSet() {
   console.log(result);
 }
 
-getPrivateDnsZoneTxtRecordSet().catch(console.error);
+async function main() {
+  getPrivateDnsZoneARecordSet();
+  getPrivateDnsZoneAaaaRecordSet();
+  getPrivateDnsZoneCnameRecordSet();
+  getPrivateDnsZoneMxRecordSet();
+  getPrivateDnsZonePtrRecordSet();
+  getPrivateDnsZoneSoaRecordSet();
+  getPrivateDnsZoneSrvRecordSet();
+  getPrivateDnsZoneTxtRecordSet();
+}
+
+main().catch(console.error);

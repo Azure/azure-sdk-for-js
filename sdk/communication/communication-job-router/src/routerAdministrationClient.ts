@@ -2,7 +2,13 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-import { OperationOptions } from "@azure/core-client";
+import {
+  CommunicationTokenCredential,
+  createCommunicationAuthPolicy,
+  isKeyCredential,
+  parseClientArguments,
+} from "@azure/communication-common";
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
   ClassificationPolicyItem,
   DistributionPolicyItem,
@@ -29,25 +35,17 @@ import {
   UpdateExceptionPolicyOptions,
   UpdateQueueOptions,
 } from "./models/options";
-
-import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import {
-  CommunicationTokenCredential,
-  createCommunicationAuthPolicy,
-  isKeyCredential,
-  parseClientArguments,
-} from "@azure/communication-common";
-
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SDK_VERSION } from "./constants";
-import { logger } from "./models/logger";
 import {
   ClassificationPolicyResponse,
   DistributionPolicyResponse,
   ExceptionPolicyResponse,
   JobQueueResponse,
 } from "./models/responses";
+import { OperationOptions } from "@azure/core-client";
+import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SDK_VERSION } from "./constants";
+import { logger } from "./models/logger";
 
 /**
  * Checks whether the type of a value is {@link RouterAdministrationClientOptions} or not.
@@ -153,7 +151,7 @@ export class RouterAdministrationClient {
    * Creates a classification policy.
    * Returns the created classification policy.
    * @param classificationPolicyId - Id of the classification policy.
-   * @param options - Operation options.
+   * @param options - Create classification options.
    */
   public async createClassificationPolicy(
     classificationPolicyId: string,
@@ -171,7 +169,7 @@ export class RouterAdministrationClient {
    * Updates a classification policy.
    * Returns the updated classification policy.
    * @param classificationPolicyId - Id of the classification policy.
-   * @param options - Operation options.
+   * @param options - Update classification policy options.
    */
   public async updateClassificationPolicy(
     classificationPolicyId: string,
@@ -217,7 +215,7 @@ export class RouterAdministrationClient {
   /**
    * Deletes a classification policy.
    * @param classificationPolicyId - The id of the classification policy to delete.
-   * @param options -  Operation options.
+   * @param options - Operation options.
    */
   public async deleteClassificationPolicy(
     classificationPolicyId: string,
@@ -234,7 +232,7 @@ export class RouterAdministrationClient {
    * Creates a distribution policy.
    * Returns the created distribution policy.
    * @param distributionPolicyId - The id of the distribution policy to create.
-   * @param options - Operation options.
+   * @param options - Create distribution policy options.
    */
   public async createDistributionPolicy(
     distributionPolicyId: string,
@@ -252,7 +250,7 @@ export class RouterAdministrationClient {
    * Updates a distribution policy.
    * Returns the updated distribution policy.
    * @param distributionPolicyId - The id of the distribution policy to update.
-   * @param options - Operation options.
+   * @param options - Update distribution policy options.
    */
   public async updateDistributionPolicy(
     distributionPolicyId: string,
@@ -282,7 +280,7 @@ export class RouterAdministrationClient {
    * Gets a distribution policy.
    * Returns the distribution policy.
    * @param distributionPolicyId - The id of the distribution policy to get.
-   * @param options -  Operation options.
+   * @param options - Operation options.
    */
   public async getDistributionPolicy(
     distributionPolicyId: string,
@@ -315,7 +313,7 @@ export class RouterAdministrationClient {
    * Creates a exception policy.
    * Returns the created exception policy.
    * @param exceptionPolicyId - The id of the exception policy to create.
-   * @param options - Operation options.
+   * @param options - Create exception policy options.
    */
   public async createExceptionPolicy(
     exceptionPolicyId: string,
@@ -333,7 +331,7 @@ export class RouterAdministrationClient {
    * Updates a exception policy.
    * Returns the updated exception policy.
    * @param exceptionPolicyId - The id of the exception policy to update.
-   * @param options - Operation options.
+   * @param options - Update exception policy options.
    */
   public async updateExceptionPolicy(
     exceptionPolicyId: string,
@@ -363,7 +361,7 @@ export class RouterAdministrationClient {
    * Gets an exception policy.
    * Returns the exception policy.
    * @param exceptionPolicyId - The id of the exception policy to get.
-   * @param options -  Operation options.
+   * @param options - Operation options.
    */
   public async getExceptionPolicy(
     exceptionPolicyId: string,
@@ -379,7 +377,7 @@ export class RouterAdministrationClient {
   /**
    * Deletes an exception policy.
    * @param exceptionPolicyId - The id of the exception policy to delete.
-   * @param options -  Operation options.
+   * @param options - Operation options.
    */
   public async deleteExceptionPolicy(
     exceptionPolicyId: string,
@@ -393,7 +391,7 @@ export class RouterAdministrationClient {
    * Creates a queue.
    * Returns the created queue.
    * @param queueId - The ID of the queue to create.
-   * @param options - Operation options.
+   * @param options - Create queue options.
    */
   public async createQueue(
     queueId: string,
@@ -412,7 +410,7 @@ export class RouterAdministrationClient {
    * Updates a queue.
    * Returns the updated queue.
    * @param queueId - The ID of the queue to update.
-   * @param options - Operation options.
+   * @param options - Update queue options.
    */
   public async updateQueue(
     queueId: string,
@@ -441,7 +439,7 @@ export class RouterAdministrationClient {
    * Gets a queue.
    * Returns the queue.
    * @param queueId - The ID of the queue to get.
-   * @param options -  Operation options.
+   * @param options - Operation options.
    */
   public async getQueue(
     queueId: string,
@@ -454,7 +452,7 @@ export class RouterAdministrationClient {
   /**
    * Deletes a queue.
    * @param queueId - The ID of the queue to delete.
-   * @param options -  Operation options.
+   * @param options - Operation options.
    */
   public async deleteQueue(queueId: string, options: OperationOptions = {}): Promise<void> {
     return this.client.jobRouterAdministration.deleteQueue(queueId, options);

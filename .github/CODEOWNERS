@@ -62,7 +62,7 @@
 /sdk/attestation/ @LarryOsterman @deyaaeldeen @anilba06 @gkostal
 
 # PRLabel: %Batch
-/sdk/batch/ @dpwatrous @paterasMSFT @zfengms @NickKouds @deyaaeldeen
+/sdk/batch/ @jingjlii @wanghoppe @dpwatrous @NickKouds @deyaaeldeen
 
 # PRLabel: %Communication
 /sdk/communication/
@@ -167,6 +167,9 @@
 
 # PRLabel: %Cognitive - Language
 /sdk/cognitivelanguage/ @minhanh-phan @deyaaeldeen
+
+# PRLabel: %OpenAI
+/sdk/openai/ @deyaaeldeen @minhanh-phan
 
 # PRLabel: %Schema Registry
 /sdk/schemaregistry/ @deyaaeldeen

@@ -12,21 +12,28 @@ import {
   ServiceListSharesSegmentHeaders,
   ListSharesResponseModel,
   SharePropertiesInternal,
+  ServiceSetPropertiesHeaders,
+  ServiceGetPropertiesHeaders,
 } from "./generatedModels";
-import { Service } from "./generated/src/operations";
-import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
+import { Service } from "./generated/src/operationsInterfaces";
+import { newPipeline, StoragePipelineOptions, Pipeline } from "../../storage-blob/src/Pipeline";
 import { StorageClient, CommonOptions } from "./StorageClient";
 import { ShareClientInternal } from "./ShareClientInternal";
 import { ShareClient, ShareCreateOptions, ShareDeleteMethodOptions } from "./Clients";
-import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
-import { Credential } from "./credentials/Credential";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import {
+  WithResponse,
+  appendToURLPath,
+  extractConnectionStringParts,
+  assertResponse,
+} from "./utils/utils.common";
+import { Credential } from "../../storage-blob/src/credentials/Credential";
+import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
+import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { isNode, HttpResponse } from "@azure/core-http";
+import { isNode } from "@azure/core-util";
 import { SpanStatusCode } from "@azure/core-tracing";
-import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
+import { createSpan } from "./utils/tracing";
 import { ShareProtocols, toShareProtocols } from "./models";
 import { AccountSASPermissions } from "./AccountSASPermissions";
 import { generateAccountSASQueryParameters } from "./AccountSASSignatureValues";
@@ -169,28 +176,11 @@ export interface ListSharesResponse {
 /**
  * Contains response data for the {@link ShareServiceClient.listShares} operation.
  */
-export type ServiceListSharesSegmentResponse = ListSharesResponse &
-  ServiceListSharesSegmentHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ServiceListSharesSegmentHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListSharesResponseModel;
-    };
-  };
+export type ServiceListSharesSegmentResponse = WithResponse<
+  ListSharesResponse & ServiceListSharesSegmentHeaders,
+  ServiceListSharesSegmentHeaders,
+  ListSharesResponseModel
+>;
 
 /**
  * Options to configure {@link ShareServiceClient.generateAccountSasUrl} operation.
@@ -278,9 +268,14 @@ export class ShareServiceClient extends StorageClient {
    *                                  If not specified, AnonymousCredential is used.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
-  // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
-  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-  constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
+
+  constructor(
+    url: string,
+    credential?: AnonymousCredential | StorageSharedKeyCredential,
+    // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
+    options?: StoragePipelineOptions
+  );
   /**
    * Creates an instance of ShareServiceClient.
    *
@@ -293,7 +288,7 @@ export class ShareServiceClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     url: string,
-    credentialOrPipeline?: Credential | Pipeline,
+    credentialOrPipeline?: AnonymousCredential | StorageSharedKeyCredential | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: StoragePipelineOptions
@@ -309,7 +304,7 @@ export class ShareServiceClient extends StorageClient {
     }
 
     super(url, pipeline);
-    this.serviceContext = new Service(this.storageClientContext);
+    this.serviceContext = this.storageClientContext.service;
   }
 
   /**
@@ -399,10 +394,11 @@ export class ShareServiceClient extends StorageClient {
   ): Promise<ServiceGetPropertiesResponse> {
     const { span, updatedOptions } = createSpan("ShareServiceClient-getProperties", options);
     try {
-      return await this.serviceContext.getProperties({
-        abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse<
+        ServiceGetPropertiesHeaders & FileServiceProperties,
+        ServiceGetPropertiesHeaders,
+        FileServiceProperties
+      >(await this.serviceContext.getProperties(updatedOptions));
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -429,10 +425,9 @@ export class ShareServiceClient extends StorageClient {
   ): Promise<ServiceSetPropertiesResponse> {
     const { span, updatedOptions } = createSpan("ShareServiceClient-setProperties", options);
     try {
-      return await this.serviceContext.setProperties(properties, {
-        abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse<ServiceSetPropertiesHeaders, ServiceSetPropertiesHeaders>(
+        await this.serviceContext.setProperties(properties, updatedOptions)
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -633,18 +628,22 @@ export class ShareServiceClient extends StorageClient {
     marker?: string,
     options: ServiceListSharesSegmentOptions = {}
   ): Promise<ServiceListSharesSegmentResponse> {
-    const { span, updatedOptions } = createSpan("ShareServiceClient-listSharesSegment", options);
-
     if (options.prefix === "") {
       options.prefix = undefined;
     }
+    const { span, updatedOptions } = createSpan("ShareServiceClient-listSharesSegment", options);
 
     try {
-      const res = await this.serviceContext.listSharesSegment({
-        marker,
-        ...options,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      const res = assertResponse<
+        ServiceListSharesSegmentHeaders & ListSharesResponseModel,
+        ServiceListSharesSegmentHeaders,
+        ListSharesResponseModel
+      >(
+        await this.serviceContext.listSharesSegment({
+          ...updatedOptions,
+          marker,
+        })
+      );
 
       // parse protocols
       if (res.shareItems) {
@@ -685,10 +684,9 @@ export class ShareServiceClient extends StorageClient {
     try {
       const shareClient = this.getShareClient(deletedShareName);
       await new ShareClientInternal(shareClient.url, this.pipeline).restore({
+        ...updatedOptions,
         deletedShareName: deletedShareName,
         deletedShareVersion: deletedShareVersion,
-        abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
       return shareClient;
     } catch (e: any) {

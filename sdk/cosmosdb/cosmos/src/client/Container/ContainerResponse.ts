@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { CosmosDiagnostics } from "../../CosmosDiagnostics";
 import { CosmosHeaders } from "../../queryExecutionContext";
 import { ResourceResponse } from "../../request/ResourceResponse";
 import { Resource } from "../Resource";
@@ -12,9 +13,10 @@ export class ContainerResponse extends ResourceResponse<ContainerDefinition & Re
     resource: ContainerDefinition & Resource,
     headers: CosmosHeaders,
     statusCode: number,
-    container: Container
+    container: Container,
+    diagnostics: CosmosDiagnostics
   ) {
-    super(resource, headers, statusCode);
+    super(resource, headers, statusCode, diagnostics);
     this.container = container;
   }
   /** A reference to the {@link Container} that the returned {@link ContainerDefinition} corresponds to. */

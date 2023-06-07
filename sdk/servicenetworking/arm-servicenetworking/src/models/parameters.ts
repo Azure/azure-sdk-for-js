@@ -47,7 +47,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-10-01-preview",
+    defaultValue: "2023-05-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -101,7 +101,7 @@ export const trafficControllerName: OperationURLParameter = {
   parameterPath: "trafficControllerName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("[A-Za-z0-9]*")
+      Pattern: new RegExp("[A-Za-z0-9]+[A-Za-z0-9-_.]{0,62}[A-Za-z0-9_]+")
     },
     serializedName: "trafficControllerName",
     required: true,
@@ -137,7 +137,7 @@ export const associationName: OperationURLParameter = {
   parameterPath: "associationName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("[A-Za-z0-9]*")
+      Pattern: new RegExp("[A-Za-z0-9]+[A-Za-z0-9-_.]{0,62}[A-Za-z0-9_]+")
     },
     serializedName: "associationName",
     required: true,
@@ -161,7 +161,7 @@ export const frontendName: OperationURLParameter = {
   parameterPath: "frontendName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("[A-Za-z0-9]*")
+      Pattern: new RegExp("[A-Za-z0-9]+[A-Za-z0-9-_.]{0,62}[A-Za-z0-9_]+")
     },
     serializedName: "frontendName",
     required: true,

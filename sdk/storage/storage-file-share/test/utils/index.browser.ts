@@ -1,9 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AnonymousCredential } from "../../src/credentials/AnonymousCredential";
-import { newPipeline } from "../../src/Pipeline";
+import { AnonymousCredential } from "../../../storage-blob/src/credentials/AnonymousCredential";
+import { newPipeline } from "../../../storage-blob/src/Pipeline";
 import { ShareServiceClient } from "../../src/ShareServiceClient";
+import { createXhrHttpClient } from "@azure/test-utils";
+import { isLiveMode } from "@azure-tools/test-recorder";
+import { setTestOnlySetHttpClient } from "../../src/StorageClient";
 
 export * from "./testutils.common";
 
@@ -11,6 +14,10 @@ export function getGenericBSU(
   accountType: string,
   accountNameSuffix: string = ""
 ): ShareServiceClient {
+  // only needed until we can migrate to test recorder v2
+  if (!isLiveMode()) {
+    setTestOnlySetHttpClient(createXhrHttpClient());
+  }
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
 
@@ -27,6 +34,11 @@ export function getGenericBSU(
 
   if (accountSAS) {
     accountSAS = accountSAS.startsWith("?") ? accountSAS : `?${accountSAS}`;
+  }
+
+  // don't add the test account SAS value.
+  if (accountSAS === "?fakeSasToken") {
+    accountSAS = "";
   }
 
   const credentials = new AnonymousCredential();
@@ -118,8 +130,16 @@ export function getBrowserFile(name: string, size: number): File {
 }
 
 export function getSASConnectionStringFromEnvironment(): string {
+  if (!isLiveMode()) {
+    setTestOnlySetHttpClient(createXhrHttpClient());
+  }
   const env = (self as any).__env__;
-  return `BlobEndpoint=https://${env.ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${env.ACCOUNT_NAME}.queue.core.windows.net/;FileEndpoint=https://${env.ACCOUNT_NAME}.file.core.windows.net/;TableEndpoint=https://${env.ACCOUNT_NAME}.table.core.windows.net/;SharedAccessSignature=${env.ACCOUNT_SAS}`;
+  let sasToken: string = env.ACCOUNT_SAS;
+  // connection string SAS doesn't have the prefix
+  if (sasToken && sasToken.startsWith("?")) {
+    sasToken = sasToken.slice(1);
+  }
+  return `BlobEndpoint=https://${env.ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${env.ACCOUNT_NAME}.queue.core.windows.net/;FileEndpoint=https://${env.ACCOUNT_NAME}.file.core.windows.net/;TableEndpoint=https://${env.ACCOUNT_NAME}.table.core.windows.net/;SharedAccessSignature=${sasToken}`;
 }
 
 export function arraysEqual(a: Uint8Array, b: Uint8Array): boolean {

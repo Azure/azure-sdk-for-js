@@ -33,6 +33,7 @@ import {
   callParticipantConverter,
   communicationIdentifierConverter,
   communicationIdentifierModelConverter,
+  communicationUserIdentifierConverter,
   phoneNumberIdentifierConverter,
   PhoneNumberIdentifierModelConverter,
 } from "./utli/converters";
@@ -83,15 +84,15 @@ export class CallConnection {
   public async getCallConnectionProperties(
     options: GetCallConnectionPropertiesOptions = {}
   ): Promise<CallConnectionProperties> {
-    const result = await this.callConnection.getCall(this.callConnectionId, options);
+    const { targets, sourceCallerIdNumber, answeredByIdentifier, sourceIdentity, ...result } =
+      await this.callConnection.getCall(this.callConnectionId, options);
     const callConnectionProperties: CallConnectionProperties = {
       ...result,
-      sourceIdentity: result.sourceIdentity
-        ? communicationIdentifierConverter(result.sourceIdentity)
-        : undefined,
-      targetParticipants: result.targets?.map((target) => communicationIdentifierConverter(target)),
-      sourceCallerIdNumber: result.sourceCallerIdNumber
-        ? phoneNumberIdentifierConverter(result.sourceCallerIdNumber)
+      sourceIdentity: sourceIdentity ? communicationIdentifierConverter(sourceIdentity) : undefined,
+      answeredByIdentifier: communicationUserIdentifierConverter(answeredByIdentifier),
+      targetParticipants: targets?.map((target) => communicationIdentifierConverter(target)),
+      sourceCallerIdNumber: sourceCallerIdNumber
+        ? phoneNumberIdentifierConverter(sourceCallerIdNumber)
         : undefined,
     };
     return callConnectionProperties;
@@ -125,8 +126,8 @@ export class CallConnection {
     targetParticipant: CommunicationIdentifier,
     options: GetParticipantOptions = {}
   ): Promise<CallParticipant> {
-    const rawId: string = communicationIdentifierModelConverter(targetParticipant).rawId || "";
-    if (!rawId) throw Error("Invalid targetParticipant");
+    let rawId: string | undefined = communicationIdentifierModelConverter(targetParticipant).rawId;
+    rawId = rawId === undefined ? "" : rawId;
 
     const result = await this.callConnection.getParticipant(this.callConnectionId, rawId, options);
     const callParticipant: CallParticipant = {
@@ -204,15 +205,15 @@ export class CallConnection {
    * @param targetParticipant - The target to be transferred to.
    */
   public async transferCallToParticipant(
-    targetParticipant: CallInvite,
+    targetParticipant: CommunicationIdentifier,
     options: TransferCallToParticipantOptions = {}
   ): Promise<TransferCallResult> {
     const transferToParticipantRequest: TransferToParticipantRequest = {
-      targetParticipant: communicationIdentifierModelConverter(targetParticipant.targetParticipant),
+      targetParticipant: communicationIdentifierModelConverter(targetParticipant),
       operationContext: options.operationContext,
       customContext: {
-        sipHeaders: targetParticipant.sipHeaders,
-        voipHeaders: targetParticipant.voipHeaders,
+        sipHeaders: options.sipHeaders,
+        voipHeaders: options.voipHeaders,
       },
     };
     const optionsInternal = {

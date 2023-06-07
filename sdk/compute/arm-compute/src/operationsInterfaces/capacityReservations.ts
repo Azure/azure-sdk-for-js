@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   CapacityReservation,
   CapacityReservationsListByCapacityReservationGroupOptionalParams,
@@ -53,8 +53,8 @@ export interface CapacityReservations {
     parameters: CapacityReservation,
     options?: CapacityReservationsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CapacityReservationsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CapacityReservationsCreateOrUpdateResponse>,
       CapacityReservationsCreateOrUpdateResponse
     >
   >;
@@ -90,8 +90,8 @@ export interface CapacityReservations {
     parameters: CapacityReservationUpdate,
     options?: CapacityReservationsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CapacityReservationsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CapacityReservationsUpdateResponse>,
       CapacityReservationsUpdateResponse
     >
   >;
@@ -124,7 +124,7 @@ export interface CapacityReservations {
     capacityReservationGroupName: string,
     capacityReservationName: string,
     options?: CapacityReservationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete a capacity reservation. This operation is allowed only when all the
    * associated resources are disassociated from the capacity reservation. Please refer to

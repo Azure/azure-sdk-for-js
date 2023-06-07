@@ -22,7 +22,7 @@ describe("MetricsClient live tests", function () {
     loggerForTest.verbose(`Recorder: starting...`);
     recorder = new Recorder(this.currentTest);
     const recordedClient: RecorderAndMetricsClient = await createRecorderAndMetricsClient(recorder);
-    ({ resourceId } = getMetricsArmResourceId());
+    resourceId = getMetricsArmResourceId();
     metricsQueryClient = recordedClient.client;
   });
 
@@ -69,7 +69,7 @@ describe("MetricsClient live tests", function () {
       if (i % 20 === 0 || i === metricDefinitionsLength) {
         const newResults = await metricsQueryClient.queryResource(resourceId, definitionNames, {
           timespan: {
-            duration: Durations.twentyFourHours,
+            duration: Durations.oneDay,
           },
         });
         assert.ok(newResults);
@@ -87,7 +87,7 @@ describe("MetricsClient live tests", function () {
       resourceId,
       [firstResult.name!],
       {
-        timespan: { duration: Durations.twentyFourHours },
+        timespan: { duration: Durations.oneDay },
         metricNamespace: firstResult.namespace,
       }
     );

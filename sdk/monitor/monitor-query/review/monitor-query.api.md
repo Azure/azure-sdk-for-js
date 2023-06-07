@@ -20,8 +20,9 @@ export const Durations: {
     readonly oneDay: "P1D";
     readonly oneHour: "PT1H";
     readonly fourHours: "PT4H";
-    readonly twentyFourHours: "P1D";
-    readonly fourtyEightHours: "P2D";
+    readonly twentyFourHours: "P24H";
+    readonly fortyEightHours: "P48H";
+    readonly fourtyEightHours: "P48H";
     readonly thirtyMinutes: "PT30M";
     readonly fiveMinutes: "PT5M";
 };
@@ -61,6 +62,7 @@ export type LogsQueryBatchResult = Array<LogsQueryPartialResult | LogsQuerySucce
 export class LogsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions);
     queryBatch(batch: QueryBatch[], options?: LogsQueryBatchOptions): Promise<LogsQueryBatchResult>;
+    queryResource(resourceId: string, query: string, timespan: QueryTimeInterval, options?: LogsQueryOptions): Promise<LogsQueryResult>;
     queryWorkspace(workspaceId: string, query: string, timespan: QueryTimeInterval, options?: LogsQueryOptions): Promise<LogsQueryResult>;
 }
 
