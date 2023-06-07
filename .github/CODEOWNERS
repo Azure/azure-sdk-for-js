@@ -168,6 +168,9 @@
 # PRLabel: %Cognitive - Language
 /sdk/cognitivelanguage/ @minhanh-phan @deyaaeldeen
 
+# PRLabel: %OpenAI
+/sdk/openai/ @deyaaeldeen @minhanh-phan
+
 # PRLabel: %Schema Registry
 /sdk/schemaregistry/ @deyaaeldeen
 

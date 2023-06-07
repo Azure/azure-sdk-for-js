@@ -1,9 +1,9 @@
 {
   "name": "@azure/openai",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "An isomorphic client library for Azure OpenAI.",
   "sdk-type": "client",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist-esm/src/index.js",
   "browser": {
     "./dist-esm/src/api/getStream.js": "./dist-esm/src/api/getStream.browser.js"
