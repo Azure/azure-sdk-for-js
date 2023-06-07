@@ -228,3 +228,33 @@ export const CommunicationIdentityAccessTokenRequest: coreClient.CompositeMapper
     }
   }
 };
+
+export const CommunicationIdentityCreateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommunicationIdentityCreateHeaders",
+    modelProperties: {
+      repeatabilityResult: {
+        serializedName: "repeatability-result",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CommunicationIdentityRevokeAccessTokensHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommunicationIdentityRevokeAccessTokensHeaders",
+    modelProperties: {
+      repeatabilityResult: {
+        serializedName: "repeatability-result",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};

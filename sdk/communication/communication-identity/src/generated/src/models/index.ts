@@ -82,6 +82,18 @@ export interface CommunicationIdentityAccessTokenRequest {
   expiresInMinutes?: number;
 }
 
+/** Defines headers for CommunicationIdentity_create operation. */
+export interface CommunicationIdentityCreateHeaders {
+  /** Result of idempotent request. Present only in case of idempotent processing. */
+  repeatabilityResult?: string;
+}
+
+/** Defines headers for CommunicationIdentity_revokeAccessTokens operation. */
+export interface CommunicationIdentityRevokeAccessTokensHeaders {
+  /** Result of idempotent request. Present only in case of idempotent processing. */
+  repeatabilityResult?: string;
+}
+
 /** Known values of {@link CommunicationIdentityTokenScope} that the service accepts. */
 export enum KnownCommunicationIdentityTokenScope {
   /** Chat */
@@ -107,10 +119,15 @@ export interface CommunicationIdentityCreateOptionalParams
   createTokenWithScopes?: CommunicationIdentityTokenScope[];
   /** Optional custom validity period of the token within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used. */
   expiresInMinutes?: number;
+  /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated, globally unique for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs. Internal identifiers shouldn't be used. The value should be an opaque meaningless string in UUID format. */
+  repeatabilityRequestID?: string;
+  /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date */
+  repeatabilityFirstSent?: Date;
 }
 
 /** Contains response data for the create operation. */
-export type CommunicationIdentityCreateResponse = CommunicationIdentityAccessTokenResult;
+export type CommunicationIdentityCreateResponse = CommunicationIdentityCreateHeaders &
+  CommunicationIdentityAccessTokenResult;
 
 /** Optional parameters. */
 export interface CommunicationIdentityDeleteOptionalParams
@@ -118,7 +135,15 @@ export interface CommunicationIdentityDeleteOptionalParams
 
 /** Optional parameters. */
 export interface CommunicationIdentityRevokeAccessTokensOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated, globally unique for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs. Internal identifiers shouldn't be used. The value should be an opaque meaningless string in UUID format. */
+  repeatabilityRequestID?: string;
+  /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date */
+  repeatabilityFirstSent?: Date;
+}
+
+/** Contains response data for the revokeAccessTokens operation. */
+export type CommunicationIdentityRevokeAccessTokensResponse = CommunicationIdentityRevokeAccessTokensHeaders;
 
 /** Optional parameters. */
 export interface CommunicationIdentityExchangeTeamsUserAccessTokenOptionalParams

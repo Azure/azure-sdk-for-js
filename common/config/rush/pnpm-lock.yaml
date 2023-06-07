@@ -2560,6 +2560,10 @@ packages:
     resolution: {integrity: sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==}
     dev: false
 
+  /@types/uuid/9.0.1:
+    resolution: {integrity: sha512-rFT3ak0/2trgvp4yYZo5iKFEPsET7vKydKF+VRCxlQ9bpheehyAJH89dAkaLEq/j/RZXJIqcgsmPJKUP1Z28HA==}
+    dev: false
+
   /@types/ws/7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
     dependencies:
@@ -15629,7 +15633,7 @@ packages:
     dev: false
 
   file:projects/communication-identity.tgz:
-    resolution: {integrity: sha512-RMlSbsSRIqSjeSrf5y9Cqwf8EexxVJqjT9FTrxedIzxzx164tkYt0hwh2cCCj7USACC0+hh58ANhyF8TENXxJw==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-X9O3wuEmLXT5Zexhfth7m/iWSDlJCY3mK/BghK4JEzRuksGxFzKchAg8pSSbWQvKNFWhlczBALQIiTk67h8nDQ==, tarball: file:projects/communication-identity.tgz}
     name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:
@@ -15641,6 +15645,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 14.18.48
       '@types/sinon': 9.0.11
+      '@types/uuid': 9.0.1
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.1.4
@@ -15668,6 +15673,7 @@ packages:
       sinon: 9.2.4
       tslib: 2.5.3
       typescript: 5.0.4
+      uuid: 9.0.0
     transitivePeerDependencies:
       - bufferutil
       - debug

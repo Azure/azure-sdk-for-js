@@ -21,6 +21,7 @@ import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-a
 import { IdentityRestClient } from "./generated/src/identityRestClient";
 import { logger } from "./common/logger";
 import { tracingClient } from "./generated/src/tracing";
+import { v4 as uuidv4 } from "uuid";
 
 const isCommunicationIdentityClientOptions = (
   options: any
@@ -126,13 +127,18 @@ export class CommunicationIdentityClient {
     user: CommunicationUserIdentifier,
     options: OperationOptions = {}
   ): Promise<void> {
+    const { repeatabilityRequestId, repeatabilityFirstSent } = this.getRepeatabilityHeaders();
     return tracingClient.withSpan(
       "CommunicationIdentity-revokeTokens",
       options,
       async (updatedOptions) => {
         await this.client.communicationIdentityOperations.revokeAccessTokens(
           user.communicationUserId,
-          updatedOptions
+          {
+            repeatabilityRequestID: repeatabilityRequestId,
+            repeatabilityFirstSent: repeatabilityFirstSent,
+            ...updatedOptions,
+          }
         );
       }
     );
@@ -144,12 +150,15 @@ export class CommunicationIdentityClient {
    * @param options - Additional options for the request.
    */
   public createUser(options: OperationOptions = {}): Promise<CommunicationUserIdentifier> {
+    const { repeatabilityRequestId, repeatabilityFirstSent } = this.getRepeatabilityHeaders();
     return tracingClient.withSpan(
       "CommunicationIdentity-createUser",
       options,
       async (updatedOptions) => {
         const result = await this.client.communicationIdentityOperations.create({
           expiresInMinutes: undefined,
+          repeatabilityRequestID: repeatabilityRequestId,
+          repeatabilityFirstSent: repeatabilityFirstSent,
           ...updatedOptions,
         });
         return {
@@ -169,6 +178,7 @@ export class CommunicationIdentityClient {
     scopes: TokenScope[],
     options: CreateUserAndTokenOptions = {}
   ): Promise<CommunicationUserToken> {
+    const { repeatabilityRequestId, repeatabilityFirstSent } = this.getRepeatabilityHeaders();
     return tracingClient.withSpan(
       "CommunicationIdentity-createUserAndToken",
       options,
@@ -176,6 +186,8 @@ export class CommunicationIdentityClient {
         const { identity, accessToken } = await this.client.communicationIdentityOperations.create({
           createTokenWithScopes: scopes,
           expiresInMinutes: options.tokenExpiresInMinutes,
+          repeatabilityRequestID: repeatabilityRequestId,
+          repeatabilityFirstSent: repeatabilityFirstSent,
           ...updatedOptions,
         });
         return {
@@ -229,5 +241,16 @@ export class CommunicationIdentityClient {
         );
       }
     );
+  }
+
+  /** Initializes and returns Repeatability Headers */
+  private getRepeatabilityHeaders(): {
+    repeatabilityRequestId: string;
+    repeatabilityFirstSent: Date;
+  } {
+    const repeatabilityRequestId = uuidv4();
+    const repeatabilityFirstSent = new Date();
+
+    return { repeatabilityRequestId, repeatabilityFirstSent };
   }
 }
