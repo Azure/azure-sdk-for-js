@@ -70,9 +70,12 @@ export default leafCommand(commandInfo, async (options) => {
 
     try {
       const bundle = await rollup.rollup(baseConfig);
-
+      const cjsOutput = info.packageJson.main;
+      if (!cjsOutput) {
+        throw new Error("Expecting valid main entry");
+      }
       await bundle.write({
-        file: "dist/index.js",
+        file: cjsOutput,
         format: "cjs",
         sourcemap: true,
         exports: "named",
