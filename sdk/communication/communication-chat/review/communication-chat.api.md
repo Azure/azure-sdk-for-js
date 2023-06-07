@@ -163,6 +163,7 @@ export class ChatThreadClient {
     sendTypingNotification(options?: SendTypingNotificationOptions): Promise<boolean>;
     readonly threadId: string;
     updateMessage(messageId: string, options?: UpdateMessageOptions): Promise<void>;
+    updateMetadata(metadata: Record<string, string>, options?: UpdateMetadataOptions): Promise<void>;
     updateTopic(topic: string, options?: UpdateTopicOptions): Promise<void>;
 }
 
@@ -310,6 +311,10 @@ export { TypingIndicatorReceivedEvent }
 export interface UpdateMessageOptions extends OperationOptions {
     content?: string;
     metadata?: Record<string, string>;
+}
+
+// @public
+export interface UpdateMetadataOptions extends OperationOptions {
 }
 
 // @public

@@ -33,6 +33,11 @@ export interface ChatThreadClientOptions extends ChatClientOptions { }
 export interface UpdateTopicOptions extends OperationOptions { }
 
 /**
+ * Options to update a chat thread.
+ */
+export interface UpdateMetadataOptions extends OperationOptions { }
+
+/**
  * Options to get chat threads.
  */
 export type ListChatThreadsOptions = RestListChatThreadsOptions;
