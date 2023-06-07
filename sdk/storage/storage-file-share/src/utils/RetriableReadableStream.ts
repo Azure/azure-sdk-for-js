@@ -2,14 +2,12 @@
 // Licensed under the MIT license.
 
 import { AbortError } from "@azure/abort-controller";
-import { TransferProgressEvent } from "@azure/core-http";
+import { TransferProgressEvent } from "@azure/core-rest-pipeline";
 import { Readable } from "stream";
-import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
 
 export type ReadableStreamGetter = (offset: number) => Promise<NodeJS.ReadableStream>;
 
 export interface RetriableReadableStreamOptions {
-  abortSignal?: AbortSignalLike;
   /**
    * Max retry count (greater than or equal to 0), undefined or invalid value means no retry
    */
@@ -32,15 +30,12 @@ export interface RetriableReadableStreamOptions {
   doInjectErrorOnce?: boolean;
 }
 
-const ABORT_ERROR = new AbortError("The operation was aborted.");
-
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
  * A Node.js ReadableStream will internally retry when internal ReadableStream unexpected ends.
  */
 export class RetriableReadableStream extends Readable {
-  private aborter: AbortSignalLike;
   private start: number;
   private offset: number;
   private end: number;
@@ -50,10 +45,6 @@ export class RetriableReadableStream extends Readable {
   private maxRetryRequests: number;
   private onProgress?: (progress: TransferProgressEvent) => void;
   private options: RetriableReadableStreamOptions;
-  private abortHandler = () => {
-    this.source.pause();
-    this.emit("error", ABORT_ERROR);
-  };
 
   /**
    * Creates an instance of RetriableReadableStream.
@@ -73,8 +64,6 @@ export class RetriableReadableStream extends Readable {
     options: RetriableReadableStreamOptions = {}
   ) {
     super();
-    const aborter = options.abortSignal || AbortSignal.none;
-    this.aborter = aborter;
     this.getter = getter;
     this.source = source;
     this.start = offset;
@@ -85,97 +74,110 @@ export class RetriableReadableStream extends Readable {
     this.onProgress = options.onProgress;
     this.options = options;
 
-    aborter.addEventListener("abort", this.abortHandler);
-
-    this.setSourceDataHandler();
-    this.setSourceEndHandler();
-    this.setSourceErrorHandler();
+    this.setSourceEventHandlers();
   }
 
   public _read(): void {
-    if (!this.aborter.aborted) {
-      this.source.resume();
+    this.source.resume();
+  }
+
+  private setSourceEventHandlers() {
+    this.source.on("data", this.sourceDataHandler);
+    this.source.on("end", this.sourceErrorOrEndHandler);
+    this.source.on("error", this.sourceErrorOrEndHandler);
+    // needed for Node14
+    this.source.on("aborted", this.sourceAbortedHandler);
+  }
+
+  private removeSourceEventHandlers() {
+    this.source.removeListener("data", this.sourceDataHandler);
+    this.source.removeListener("end", this.sourceErrorOrEndHandler);
+    this.source.removeListener("error", this.sourceErrorOrEndHandler);
+    this.source.removeListener("aborted", this.sourceAbortedHandler);
+  }
+
+  private sourceDataHandler = (data: Buffer) => {
+    if (this.options.doInjectErrorOnce) {
+      this.options.doInjectErrorOnce = undefined;
+      this.source.pause();
+      this.sourceErrorOrEndHandler();
+      (this.source as Readable).destroy();
+      return;
     }
-  }
 
-  private setSourceDataHandler() {
-    this.source.on("data", (data: Buffer) => {
-      if (this.options.doInjectErrorOnce) {
-        this.options.doInjectErrorOnce = undefined;
-        this.source.pause();
-        this.source.removeAllListeners("data");
-        this.source.emit("end");
-        return;
-      }
+    // console.log(
+    //   `Offset: ${this.offset}, Received ${data.length} from internal stream`
+    // );
+    this.offset += data.length;
+    if (this.onProgress) {
+      this.onProgress({ loadedBytes: this.offset - this.start });
+    }
+    if (!this.push(data)) {
+      this.source.pause();
+    }
+  };
 
+  private sourceAbortedHandler = () => {
+    const abortError = new AbortError("The operation was aborted.");
+    this.destroy(abortError);
+  };
+
+  private sourceErrorOrEndHandler = (err?: Error) => {
+    if (err && err.name === "AbortError") {
+      this.destroy(err);
+      return;
+    }
+
+    // console.log(
+    //   `Source stream emits end or error, offset: ${
+    //     this.offset
+    //   }, dest end : ${this.end}`
+    // );
+    this.removeSourceEventHandlers();
+    if (this.offset - 1 === this.end) {
+      this.push(null);
+    } else if (this.offset <= this.end) {
       // console.log(
-      //   `Offset: ${this.offset}, Received ${data.length} from internal stream`
+      //   `retries: ${this.retries}, max retries: ${this.maxRetries}`
       // );
-      this.offset += data.length;
-      if (this.onProgress) {
-        this.onProgress({ loadedBytes: this.offset - this.start });
-      }
-      if (!this.push(data)) {
-        this.source.pause();
-      }
-    });
-  }
-
-  private setSourceEndHandler() {
-    this.source.on("end", () => {
-      // console.log(
-      //   `Source stream emits end, offset: ${
-      //     this.offset
-      //   }, dest end : ${this.end}`
-      // );
-      if (this.offset - 1 === this.end) {
-        this.aborter.removeEventListener("abort", this.abortHandler);
-        this.push(null);
-      } else if (this.offset <= this.end) {
-        // console.log(
-        //   `retries: ${this.retries}, max retries: ${this.maxRetries}`
-        // );
-        if (this.retries < this.maxRetryRequests) {
-          this.retries += 1;
-          this.getter(this.offset)
-            .then((newSource) => {
-              this.source = newSource;
-              this.setSourceDataHandler();
-              this.setSourceEndHandler();
-              this.setSourceErrorHandler();
-              return;
-            })
-            .catch((error) => {
-              this.emit("error", error);
-            });
-        } else {
-          this.emit(
-            "error",
-            new Error(
-              `Data corruption failure: received less data than required and reached maxRetires limitation. Received data offset: ${
-                this.offset - 1
-              }, data needed offset: ${this.end}, retries: ${this.retries}, max retries: ${
-                this.maxRetryRequests
-              }`
-            )
-          );
-        }
+      if (this.retries < this.maxRetryRequests) {
+        this.retries += 1;
+        this.getter(this.offset)
+          .then((newSource) => {
+            this.source = newSource;
+            this.setSourceEventHandlers();
+            return;
+          })
+          .catch((error) => {
+            this.destroy(error);
+          });
       } else {
-        this.emit(
-          "error",
+        this.destroy(
           new Error(
-            `Data corruption failure: Received more data than original request, data needed offset is ${
-              this.end
-            }, received offset: ${this.offset - 1}`
+            `Data corruption failure: received less data than required and reached maxRetires limitation. Received data offset: ${
+              this.offset - 1
+            }, data needed offset: ${this.end}, retries: ${this.retries}, max retries: ${
+              this.maxRetryRequests
+            }`
           )
         );
       }
-    });
-  }
+    } else {
+      this.destroy(
+        new Error(
+          `Data corruption failure: Received more data than original request, data needed offset is ${
+            this.end
+          }, received offset: ${this.offset - 1}`
+        )
+      );
+    }
+  };
 
-  private setSourceErrorHandler() {
-    this.source.on("error", (error) => {
-      this.emit("error", error);
-    });
+  _destroy(error: Error | null, callback: (error?: Error) => void): void {
+    // remove listener from source and release source
+    this.removeSourceEventHandlers();
+    (this.source as Readable).destroy();
+
+    callback(error === null ? undefined : error);
   }
 }
