@@ -127,7 +127,7 @@ export class CommunicationIdentityClient {
     user: CommunicationUserIdentifier,
     options: OperationOptions = {}
   ): Promise<void> {
-    const {repeatabilityRequestId, repeatabilityFirstSent} = this.getRepeatabilityHeaders();
+    const { repeatabilityRequestId, repeatabilityFirstSent } = this.getRepeatabilityHeaders();
     return tracingClient.withSpan(
       "CommunicationIdentity-revokeTokens",
       options,
@@ -137,7 +137,7 @@ export class CommunicationIdentityClient {
           {
             repeatabilityRequestID: repeatabilityRequestId,
             repeatabilityFirstSent: repeatabilityFirstSent,
-            ...updatedOptions
+            ...updatedOptions,
           }
         );
       }
@@ -150,7 +150,7 @@ export class CommunicationIdentityClient {
    * @param options - Additional options for the request.
    */
   public createUser(options: OperationOptions = {}): Promise<CommunicationUserIdentifier> {
-    const {repeatabilityRequestId, repeatabilityFirstSent} = this.getRepeatabilityHeaders();
+    const { repeatabilityRequestId, repeatabilityFirstSent } = this.getRepeatabilityHeaders();
     return tracingClient.withSpan(
       "CommunicationIdentity-createUser",
       options,
@@ -159,7 +159,7 @@ export class CommunicationIdentityClient {
           expiresInMinutes: undefined,
           repeatabilityRequestID: repeatabilityRequestId,
           repeatabilityFirstSent: repeatabilityFirstSent,
-          ...updatedOptions
+          ...updatedOptions,
         });
         return {
           communicationUserId: result.identity.id,
@@ -178,7 +178,7 @@ export class CommunicationIdentityClient {
     scopes: TokenScope[],
     options: CreateUserAndTokenOptions = {}
   ): Promise<CommunicationUserToken> {
-    const {repeatabilityRequestId, repeatabilityFirstSent} = this.getRepeatabilityHeaders();
+    const { repeatabilityRequestId, repeatabilityFirstSent } = this.getRepeatabilityHeaders();
     return tracingClient.withSpan(
       "CommunicationIdentity-createUserAndToken",
       options,
@@ -188,7 +188,7 @@ export class CommunicationIdentityClient {
           expiresInMinutes: options.tokenExpiresInMinutes,
           repeatabilityRequestID: repeatabilityRequestId,
           repeatabilityFirstSent: repeatabilityFirstSent,
-          ...updatedOptions
+          ...updatedOptions,
         });
         return {
           ...accessToken!,
@@ -244,7 +244,10 @@ export class CommunicationIdentityClient {
   }
 
   /** Initializes and returns Repeatability Headers */
-  private getRepeatabilityHeaders(): { repeatabilityRequestId: string, repeatabilityFirstSent: Date } {
+  private getRepeatabilityHeaders(): {
+    repeatabilityRequestId: string;
+    repeatabilityFirstSent: Date;
+  } {
     const repeatabilityRequestId = uuidv4();
     const repeatabilityFirstSent = new Date();
 
