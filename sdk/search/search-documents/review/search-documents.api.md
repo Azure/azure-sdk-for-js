@@ -189,6 +189,12 @@ export interface BaseTokenFilter {
 }
 
 // @public
+export interface BaseVectorSearchAlgorithmConfiguration {
+    kind: "hnsw";
+    name: string;
+}
+
+// @public
 export type BlobIndexerDataToExtract = string;
 
 // @public
@@ -634,12 +640,17 @@ export type HighWaterMarkChangeDetectionPolicy = BaseDataChangeDetectionPolicy &
 };
 
 // @public
-export type HnswAlgorithmConfiguration = {
-    kind: "hnsw";
-    m?: number;
+export interface HnswParameters {
     efConstruction?: number;
     efSearch?: number;
+    m?: number;
     metric?: VectorSearchAlgorithmMetric;
+}
+
+// @public
+export type HnswVectorSearchAlgorithmConfiguration = BaseVectorSearchAlgorithmConfiguration & {
+    kind: "hnsw";
+    parameters?: HnswParameters;
 };
 
 // @public
@@ -2452,6 +2463,7 @@ export type SearchIndexingBufferedSenderUploadDocumentsOptions = OperationOption
 export interface SearchIndexStatistics {
     readonly documentCount: number;
     readonly storageSize: number;
+    readonly vectorIndexSize?: number;
 }
 
 // @public
@@ -2633,14 +2645,15 @@ export type SentimentSkillV3 = BaseSearchIndexerSkill & {
 
 // @public
 export interface ServiceCounters {
-    aliasCounter?: ResourceCounter;
+    aliasCounter: ResourceCounter;
     dataSourceCounter: ResourceCounter;
     documentCounter: ResourceCounter;
     indexCounter: ResourceCounter;
     indexerCounter: ResourceCounter;
-    skillsetCounter?: ResourceCounter;
+    skillsetCounter: ResourceCounter;
     storageSizeCounter: ResourceCounter;
     synonymMapCounter: ResourceCounter;
+    vectorIndexSizeCounter: ResourceCounter;
 }
 
 // @public
@@ -2886,20 +2899,11 @@ export interface VectorSearch {
     algorithmConfigurations?: VectorSearchAlgorithmConfiguration[];
 }
 
-// @public
-export type VectorSearchAlgorithmConfiguration = {
-    name: string;
-    kind: VectorSearchConfigurationKind;
-} & VectorSearchAlgorithms;
+// @public (undocumented)
+export type VectorSearchAlgorithmConfiguration = BaseVectorSearchAlgorithmConfiguration | HnswVectorSearchAlgorithmConfiguration;
 
 // @public (undocumented)
 export type VectorSearchAlgorithmMetric = "cosine" | "euclidean" | "dotProduct";
-
-// @public
-export type VectorSearchAlgorithms = HnswAlgorithmConfiguration;
-
-// @public (undocumented)
-export type VectorSearchConfigurationKind = "hnsw";
 
 // @public
 export type VisualFeature = string;

@@ -55,8 +55,6 @@ import {
   TextTranslationSkill,
   TokenFilterUnion,
   SearchIndexerCache as GeneratedSearchIndexerCache,
-  VectorSearch as GeneratedVectorSearch,
-  VectorSearchAlgorithmConfiguration as GeneratedVectorSearchAlgorithmConfiguration,
 } from "./generated/service/models";
 import {
   CharFilter,
@@ -82,8 +80,6 @@ import {
   SimpleField,
   SynonymMap,
   TokenFilter,
-  VectorSearch,
-  VectorSearchAlgorithmConfiguration,
   WebApiSkill,
   isComplexField,
 } from "./serviceModels";
@@ -479,7 +475,7 @@ export function generatedIndexToPublicIndex(generatedIndex: GeneratedSearchIndex
     fields: convertFieldsToPublic(generatedIndex.fields),
     similarity: convertSimilarityToPublic(generatedIndex.similarity),
     semanticSettings: generatedIndex.semanticSettings,
-    vectorSearch: convertVectorSearchToPublic(generatedIndex.vectorSearch),
+    vectorSearch: generatedIndex.vectorSearch,
   };
 }
 
@@ -536,8 +532,7 @@ export function generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<
 }
 
 export function publicIndexToGeneratedIndex(index: SearchIndex): GeneratedSearchIndex {
-  const { encryptionKey, tokenFilters, analyzers, tokenizers, fields, similarity, vectorSearch } =
-    index;
+  const { encryptionKey, tokenFilters, analyzers, tokenizers, fields, similarity } = index;
 
   return {
     ...index,
@@ -547,7 +542,6 @@ export function publicIndexToGeneratedIndex(index: SearchIndex): GeneratedSearch
     tokenizers: convertTokenizersToGenerated(tokenizers),
     fields: convertFieldsToGenerated(fields),
     similarity: convertSimilarityToGenerated(similarity),
-    vectorSearch: convertVectorSearchToGenerated(vectorSearch),
   };
 }
 
@@ -785,55 +779,5 @@ function convertSearchIndexerCacheToPublic(
   return {
     ...cache,
     identity: convertSearchIndexerDataIdentityToPublic(cache.identity),
-  };
-}
-
-function convertVectorSearchToPublic(
-  vectorSearch?: GeneratedVectorSearch
-): VectorSearch | undefined {
-  if (!vectorSearch) {
-    return vectorSearch;
-  }
-
-  const algorithmConfigurations = vectorSearch.algorithmConfigurations?.map(
-    (config): VectorSearchAlgorithmConfiguration => {
-      switch (config.kind) {
-        case "hnsw": {
-          const { name, kind, hnswParameters } = config;
-          return { name, kind, ...hnswParameters } as VectorSearchAlgorithmConfiguration;
-        }
-        default:
-          throw Error("Switch statement is not exhaustive");
-      }
-    }
-  );
-
-  return {
-    algorithmConfigurations,
-  };
-}
-
-function convertVectorSearchToGenerated(
-  vectorSearch?: VectorSearch
-): GeneratedVectorSearch | undefined {
-  if (!vectorSearch) {
-    return vectorSearch;
-  }
-
-  const algorithmConfigurations = vectorSearch.algorithmConfigurations?.map(
-    (config): GeneratedVectorSearchAlgorithmConfiguration => {
-      switch (config.kind) {
-        case "hnsw": {
-          const { name, kind, ...hnswParameters } = config;
-          return { name, kind, hnswParameters };
-        }
-        default:
-          throw Error("Switch statement is not exhaustive");
-      }
-    }
-  );
-
-  return {
-    algorithmConfigurations,
   };
 }

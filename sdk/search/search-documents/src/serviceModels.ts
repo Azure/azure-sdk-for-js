@@ -86,6 +86,7 @@ import {
   UniqueTokenFilter,
   WordDelimiterTokenFilter,
   SearchIndexerKnowledgeStoreProjection,
+  VectorSearchAlgorithmConfiguration as BaseVectorSearchAlgorithmConfiguration,
 } from "./generated/service/models";
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -160,6 +161,11 @@ export interface SearchIndexStatistics {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly storageSize: number;
+  /**
+   * The amount of memory in bytes consumed by vectors in the index.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vectorIndexSize?: number;
 }
 
 /**
@@ -2071,38 +2077,40 @@ export interface SearchIndexerDataSourceConnection {
   encryptionKey?: SearchResourceEncryptionKey;
 }
 
-/** Contains configuration options related to vector search. */
+/**
+ * Contains configuration options related to vector search.
+ */
 export interface VectorSearch {
-  /** Contains configuration options specific to the algorithm used during indexing time. */
+  /**
+   * Contains configuration options specific to the algorithm used during indexing time.
+   */
   algorithmConfigurations?: VectorSearchAlgorithmConfiguration[];
 }
 
-/** Contains configuration options specific to the algorithm used during indexing time. */
-export type VectorSearchAlgorithmConfiguration = {
-  /**
-   * The name to associate with this particular configuration.
-   */
-  name: string;
-  /**
-   * The name of the kind of algorithm being configured for use with vector search. Only `hnsw` is
-   * supported in the current preview.
-   */
-  kind: VectorSearchConfigurationKind;
-} & VectorSearchAlgorithms;
+export type VectorSearchAlgorithmConfiguration =
+  | BaseVectorSearchAlgorithmConfiguration
+  | HnswVectorSearchAlgorithmConfiguration;
 
 /**
- * Contains configurations for the vector search algorithm.
+ * Contains configuration options specific to the hnsw approximate nearest neighbors algorithm
+ * used during indexing time.
  */
-export type VectorSearchAlgorithms = HnswAlgorithmConfiguration;
-
-/**
- * Configuration options for the HNSW similarity search algorithm.
- */
-export type HnswAlgorithmConfiguration = {
+export type HnswVectorSearchAlgorithmConfiguration = BaseVectorSearchAlgorithmConfiguration & {
   /**
-   * The name of the kind of algorithm being configured for use with vector search.
+   * Polymorphic discriminator, which specifies the different types this object can be
    */
   kind: "hnsw";
+  /**
+   * Contains the parameters specific to hnsw algorithm.
+   *
+   */
+  parameters?: HnswParameters;
+};
+
+/**
+ * Contains the parameters specific to hnsw algorithm.
+ */
+export interface HnswParameters {
   /**
    * The number of bi-directional links created for every new element during construction.
    * Increasing this parameter value may improve recall and reduce retrieval times for datasets
@@ -2126,10 +2134,6 @@ export type HnswAlgorithmConfiguration = {
    * The similarity metric to use for vector comparisons.
    */
   metric?: VectorSearchAlgorithmMetric;
-};
-
+}
 export type VectorSearchAlgorithmMetric = "cosine" | "euclidean" | "dotProduct";
-
-export type VectorSearchConfigurationKind = "hnsw";
-
 // END manually modified generated interfaces

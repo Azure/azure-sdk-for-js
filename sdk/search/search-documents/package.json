@@ -12,7 +12,7 @@
     "build:node": "tsc -p . && dev-tool run bundle",
     "build:samples": "echo Obsolete.",
     "execute:samples": "dev-tool samples run samples-dev",
-    "build:test": "patch node_modules/@azure/openai/package.json openai-patch.diff -f; tsc -p . && dev-tool run bundle",
+    "build:test": "tsc -p . && dev-tool run bundle",
     "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",

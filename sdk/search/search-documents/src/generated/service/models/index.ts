@@ -104,6 +104,9 @@ export type CharFilterUnion =
   | PatternReplaceCharFilter;
 export type LexicalNormalizerUnion = LexicalNormalizer | CustomNormalizer;
 export type SimilarityUnion = Similarity | ClassicSimilarity | BM25Similarity;
+export type VectorSearchAlgorithmConfigurationUnion =
+  | VectorSearchAlgorithmConfiguration
+  | HnswVectorSearchAlgorithmConfiguration;
 
 /** Represents a datasource definition, which can be used to configure an indexer. */
 export interface SearchIndexerDataSource {
@@ -953,29 +956,15 @@ export interface SemanticField {
 /** Contains configuration options related to vector search. */
 export interface VectorSearch {
   /** Contains configuration options specific to the algorithm used during indexing time. */
-  algorithmConfigurations?: VectorSearchAlgorithmConfiguration[];
+  algorithmConfigurations?: VectorSearchAlgorithmConfigurationUnion[];
 }
 
 /** Contains configuration options specific to the algorithm used during indexing time. */
 export interface VectorSearchAlgorithmConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "hnsw";
   /** The name to associate with this particular configuration. */
   name: string;
-  /** The name of the kind of algorithm being configured for use with vector search. Only `hnsw` is supported in the current preview. */
-  kind: string;
-  /** Contains the parameters specific to hnsw algorithm. */
-  hnswParameters?: HnswParameters;
-}
-
-/** Contains the parameters specific to hnsw algorithm. */
-export interface HnswParameters {
-  /** The number of bi-directional links created for every new element during construction. Increasing this parameter value may improve recall and reduce retrieval times for datasets with high intrinsic dimensionality at the expense of increased memory consumption and longer indexing time. */
-  m?: number;
-  /** The size of the dynamic list containing the nearest neighbors, which is used during index time. Increasing this parameter may improve index quality, at the expense of increased indexing time. At a certain point, increasing this parameter leads to diminishing returns. */
-  efConstruction?: number;
-  /** The size of the dynamic list containing the nearest neighbors, which is used during search time. Increasing this parameter may improve search results, at the expense of slower search. Increasing this parameter leads to diminishing returns.. */
-  efSearch?: number;
-  /** The similarity metric to use for vector comparisons. */
-  metric?: VectorSearchAlgorithmMetric;
 }
 
 /** Response from a List Indexes request. If successful, it includes the full definitions of all indexes. */
@@ -999,6 +988,11 @@ export interface GetIndexStatisticsResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly storageSize: number;
+  /**
+   * The amount of memory in bytes consumed by vectors in the index.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vectorIndexSize?: number;
 }
 
 /** Specifies some text and analysis components used to break that text into tokens. */
@@ -1077,7 +1071,7 @@ export interface ServiceStatistics {
 /** Represents service-level resource counters and quotas. */
 export interface ServiceCounters {
   /** Total number of aliases. */
-  aliasCounter?: ResourceCounter;
+  aliasCounter: ResourceCounter;
   /** Total number of documents across all indexes in the service. */
   documentCounter: ResourceCounter;
   /** Total number of indexes. */
@@ -1091,7 +1085,9 @@ export interface ServiceCounters {
   /** Total number of synonym maps. */
   synonymMapCounter: ResourceCounter;
   /** Total number of skillsets. */
-  skillsetCounter?: ResourceCounter;
+  skillsetCounter: ResourceCounter;
+  /** Total memory consumption of all vector indexes within the service, in bytes. */
+  vectorIndexSizeCounter: ResourceCounter;
 }
 
 /** Represents a resource's usage and quota. */
@@ -1112,6 +1108,18 @@ export interface ServiceLimits {
   maxComplexCollectionFieldsPerIndex?: number;
   /** The maximum number of objects in complex collections allowed per document. */
   maxComplexObjectsInCollectionsPerDocument?: number;
+}
+
+/** Contains the parameters specific to hnsw algorithm. */
+export interface HnswParameters {
+  /** The number of bi-directional links created for every new element during construction. Increasing this parameter value may improve recall and reduce retrieval times for datasets with high intrinsic dimensionality at the expense of increased memory consumption and longer indexing time. */
+  m?: number;
+  /** The size of the dynamic list containing the nearest neighbors, which is used during index time. Increasing this parameter may improve index quality, at the expense of increased indexing time. At a certain point, increasing this parameter leads to diminishing returns. */
+  efConstruction?: number;
+  /** The size of the dynamic list containing the nearest neighbors, which is used during search time. Increasing this parameter may improve search results, at the expense of slower search. Increasing this parameter leads to diminishing returns.. */
+  efSearch?: number;
+  /** The similarity metric to use for vector comparisons. */
+  metric?: VectorSearchAlgorithmMetric;
 }
 
 /** Provides parameter values to a distance scoring function. */
@@ -2020,6 +2028,14 @@ export type BM25Similarity = Similarity & {
   b?: number;
 };
 
+/** Contains configuration options specific to the hnsw approximate nearest neighbors algorithm used during indexing time. */
+export type HnswVectorSearchAlgorithmConfiguration = VectorSearchAlgorithmConfiguration & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "hnsw";
+  /** Contains the parameters specific to hnsw algorithm. */
+  parameters?: HnswParameters;
+};
+
 /** Projection definition for what data to store in Azure Blob. */
 export type SearchIndexerKnowledgeStoreObjectProjectionSelector = SearchIndexerKnowledgeStoreBlobProjectionSelector & {};
 
@@ -2569,24 +2585,6 @@ export enum KnownLexicalNormalizerName {
  */
 export type LexicalNormalizerName = string;
 
-/** Known values of {@link VectorSearchAlgorithmMetric} that the service accepts. */
-export enum KnownVectorSearchAlgorithmMetric {
-  Cosine = "cosine",
-  Euclidean = "euclidean",
-  DotProduct = "dotProduct"
-}
-
-/**
- * Defines values for VectorSearchAlgorithmMetric. \
- * {@link KnownVectorSearchAlgorithmMetric} can be used interchangeably with VectorSearchAlgorithmMetric,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **cosine** \
- * **euclidean** \
- * **dotProduct**
- */
-export type VectorSearchAlgorithmMetric = string;
-
 /** Known values of {@link TokenFilterName} that the service accepts. */
 export enum KnownTokenFilterName {
   /** A token filter that applies the Arabic normalizer to normalize the orthography. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/ar/ArabicNormalizationFilter.html */
@@ -2715,6 +2713,24 @@ export enum KnownCharFilterName {
  * **html_strip**: A character filter that attempts to strip out HTML constructs. See https:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/charfilter\/HTMLStripCharFilter.html
  */
 export type CharFilterName = string;
+
+/** Known values of {@link VectorSearchAlgorithmMetric} that the service accepts. */
+export enum KnownVectorSearchAlgorithmMetric {
+  Cosine = "cosine",
+  Euclidean = "euclidean",
+  DotProduct = "dotProduct"
+}
+
+/**
+ * Defines values for VectorSearchAlgorithmMetric. \
+ * {@link KnownVectorSearchAlgorithmMetric} can be used interchangeably with VectorSearchAlgorithmMetric,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **cosine** \
+ * **euclidean** \
+ * **dotProduct**
+ */
+export type VectorSearchAlgorithmMetric = string;
 
 /** Known values of {@link KeyPhraseExtractionSkillLanguage} that the service accepts. */
 export enum KnownKeyPhraseExtractionSkillLanguage {

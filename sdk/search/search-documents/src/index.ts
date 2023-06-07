@@ -148,9 +148,8 @@ export {
   SearchIndexerCache,
   SearchIndexerKnowledgeStore,
   WebApiSkill,
-  VectorSearchAlgorithms,
-  VectorSearchConfigurationKind,
-  HnswAlgorithmConfiguration,
+  HnswParameters,
+  HnswVectorSearchAlgorithmConfiguration,
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";
@@ -365,6 +364,7 @@ export {
   PrioritizedFields,
   SemanticField,
   SearchAlias,
+  VectorSearchAlgorithmConfiguration as BaseVectorSearchAlgorithmConfiguration,
 } from "./generated/service/models";
 export { AzureKeyCredential } from "@azure/core-auth";
 export { createSynonymMapFromFile } from "./synonymMapHelper";
