@@ -82,6 +82,7 @@ testWithServiceTypes((serviceVersion) => {
         client = createReceiver(
           context,
           "$default", // consumer group
+          "ID",
           "0", // partition id
           {
             enqueuedOn: Date.now(),
@@ -134,7 +135,7 @@ testWithServiceTypes((serviceVersion) => {
     describe("EventHubSender", () => {
       let client: EventHubSender;
       beforeEach("instantiate EventHubSender", () => {
-        client = new EventHubSender(context, { enableIdempotentProducer: false });
+        client = new EventHubSender(context, "Sender1", { enableIdempotentProducer: false });
       });
 
       afterEach("close EventHubSender", () => {
