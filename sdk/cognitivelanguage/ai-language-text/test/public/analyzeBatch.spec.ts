@@ -27,7 +27,6 @@ import {
   expectation18,
   expectation19,
   expectation20,
-  expectation21,
   expectation22,
   expectation23,
   expectation24,
@@ -45,11 +44,6 @@ import {
   expectation31,
 } from "./expectations";
 import { authModes, windows365ArticlePart1, windows365ArticlePart2 } from "./inputs";
-
-const FIXME1 = {
-  // FIXME: remove this check when the service updates its message
-  excludedAdditionalProps: ["message"],
-};
 
 const excludedSummarizationProperties = {
   excludedAdditionalProps: ["text", "rankScore", "offset", "length"],
@@ -551,7 +545,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
                 updateIntervalInMs: pollingInterval,
               }
             );
-            await assertActionsResults(await poller.pollUntilDone(), expectation21, FIXME1);
+            await assertActionsResults(await poller.pollUntilDone(), expectation21);
           });
         });
 
@@ -608,7 +602,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionsResults(await poller.pollUntilDone(), expectation10, FIXME1);
+          await assertActionsResults(await poller.pollUntilDone(), expectation10);
         });
 
         it("all documents with errors and multiple actions", async function () {
@@ -642,7 +636,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionsResults(await poller.pollUntilDone(), expectation11, FIXME1);
+          await assertActionsResults(await poller.pollUntilDone(), expectation11);
         });
 
         it("output order is same as the input's one with multiple actions", async function () {
@@ -817,7 +811,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionsResults(await poller.pollUntilDone(), expectation16, FIXME1);
+          await assertActionsResults(await poller.pollUntilDone(), expectation16);
         });
 
         it("paged results with custom page size", async function () {
