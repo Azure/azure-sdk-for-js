@@ -1,14 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-
 import { AbortController } from "@azure/abort-controller";
 import { isNode } from "@azure/core-util";
 import { delay, isLiveMode, record, Recorder } from "@azure-tools/test-recorder";
-import { context, setSpan } from "@azure/core-tracing";
 import { Context } from "mocha";
-import { setTracer, SpanGraph } from "@azure/test-utils";
+import { assert } from "@azure/test-utils";
 
 import { FileStartCopyOptions, ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
 import { FileSystemAttributes } from "../src/FileSystemAttributes";
@@ -888,35 +885,12 @@ describe("FileClient", () => {
   });
 
   it("create with tracing", async () => {
-    const tracer = setTracer();
-    const rootSpan = tracer.startSpan("root");
-    await fileClient.create(content.length, {
-      tracingOptions: {
-        tracingContext: setSpan(context.active(), rootSpan),
+    await assert.supportsTracing(
+      async (options) => {
+        await fileClient.create(content.length, options);
       },
-    });
-    rootSpan.end();
-
-    const rootSpans = tracer.getRootSpans();
-    assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
-    assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
-
-    const expectedGraph: SpanGraph = {
-      roots: [
-        {
-          name: rootSpan.name,
-          children: [
-            {
-              name: "Azure.Storage.File.ShareFileClient-create",
-              children: [],
-            },
-          ],
-        },
-      ],
-    };
-
-    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
-    assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
+      ["ShareFileClient-create"]
+    );
   });
 
   // STG81
