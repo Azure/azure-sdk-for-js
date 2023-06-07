@@ -1,9 +1,8 @@
 # Release History
 
-## 3.17.4-beta.1 (2023-03-04)
+## 4.0.0 (Unreleased)
 
 ### Features Added
-
 - Added support for hierarchical partitions.
 
 ## 3.17.3 (2023-02-13)
