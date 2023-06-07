@@ -1,7 +1,7 @@
 {
-  "name": "my-webpack-project",
+  "name": "azure-openai-browser-completions",
   "version": "1.0.0",
-  "description": "My webpack project",
+  "description": "SPA to demonstrate browser completions using Azure OpenAI",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
