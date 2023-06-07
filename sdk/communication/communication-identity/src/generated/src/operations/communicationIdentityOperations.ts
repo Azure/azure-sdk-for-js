@@ -17,6 +17,7 @@ import {
   CommunicationIdentityCreateResponse,
   CommunicationIdentityDeleteOptionalParams,
   CommunicationIdentityRevokeAccessTokensOptionalParams,
+  CommunicationIdentityRevokeAccessTokensResponse,
   CommunicationIdentityExchangeTeamsUserAccessTokenOptionalParams,
   CommunicationIdentityExchangeTeamsUserAccessTokenResponse,
   CommunicationIdentityTokenScope,
@@ -85,7 +86,7 @@ export class CommunicationIdentityOperationsImpl
   async revokeAccessTokens(
     id: string,
     options?: CommunicationIdentityRevokeAccessTokensOptionalParams
-  ): Promise<void> {
+  ): Promise<CommunicationIdentityRevokeAccessTokensResponse> {
     return tracingClient.withSpan(
       "IdentityRestClient.revokeAccessTokens",
       options ?? {},
@@ -93,7 +94,7 @@ export class CommunicationIdentityOperationsImpl
         return this.client.sendOperationRequest(
           { id, options },
           revokeAccessTokensOperationSpec
-        ) as Promise<void>;
+        ) as Promise<CommunicationIdentityRevokeAccessTokensResponse>;
       }
     );
   }
@@ -158,7 +159,8 @@ const createOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     201: {
-      bodyMapper: Mappers.CommunicationIdentityAccessTokenResult
+      bodyMapper: Mappers.CommunicationIdentityAccessTokenResult,
+      headersMapper: Mappers.CommunicationIdentityCreateHeaders
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -173,7 +175,12 @@ const createOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.repeatabilityRequestID,
+    Parameters.repeatabilityFirstSent
+  ],
   mediaType: "json",
   serializer
 };
@@ -195,14 +202,20 @@ const revokeAccessTokensOperationSpec: coreClient.OperationSpec = {
   path: "/identities/{id}/:revokeAccessTokens",
   httpMethod: "POST",
   responses: {
-    204: {},
+    204: {
+      headersMapper: Mappers.CommunicationIdentityRevokeAccessTokensHeaders
+    },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.id],
-  headerParameters: [Parameters.accept],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.repeatabilityRequestID,
+    Parameters.repeatabilityFirstSent
+  ],
   serializer
 };
 const exchangeTeamsUserAccessTokenOperationSpec: coreClient.OperationSpec = {

@@ -11,6 +11,7 @@ import {
   CommunicationIdentityCreateResponse,
   CommunicationIdentityDeleteOptionalParams,
   CommunicationIdentityRevokeAccessTokensOptionalParams,
+  CommunicationIdentityRevokeAccessTokensResponse,
   CommunicationIdentityExchangeTeamsUserAccessTokenOptionalParams,
   CommunicationIdentityExchangeTeamsUserAccessTokenResponse,
   CommunicationIdentityTokenScope,
@@ -44,7 +45,7 @@ export interface CommunicationIdentityOperations {
   revokeAccessTokens(
     id: string,
     options?: CommunicationIdentityRevokeAccessTokensOptionalParams
-  ): Promise<void>;
+  ): Promise<CommunicationIdentityRevokeAccessTokensResponse>;
   /**
    * Exchange an Azure Active Directory (Azure AD) access token of a Teams user for a new Communication
    * Identity access token with a matching expiration time.
