@@ -1,14 +1,10 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.0.0-beta.2 (2023-06-06)
 
 ### Bugs Fixed
 
-### Other Changes
+- Fix a bug where the customer-passed options for credentials were overwritten by the defaults values.
 
 ## 1.0.0-beta.1 (2023-05-22)
 
