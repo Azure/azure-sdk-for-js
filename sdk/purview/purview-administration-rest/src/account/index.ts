@@ -6,5 +6,6 @@ import * as Pagination from "./paginateHelper";
 import * as Parameters from "./parameters";
 import * as Client from "./clientDefinitions";
 import * as Responses from "./responses";
+import PurviewAccountClient from "./purviewAccount";
 export { Models, Pagination, Parameters, Client, Responses };
-export { PurviewAccountClient } from "./purviewAccount";
+export default PurviewAccountClient;

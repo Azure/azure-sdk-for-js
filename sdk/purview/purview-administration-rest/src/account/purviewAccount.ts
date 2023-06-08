@@ -4,7 +4,7 @@ import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
 import { PurviewAccountRestClient } from "./clientDefinitions";
 
-export function PurviewAccountClient(
+export default function PurviewAccountClient(
   endpoint: string,
   credentials: TokenCredential,
   options: ClientOptions = {}
