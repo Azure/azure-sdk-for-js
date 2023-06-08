@@ -1,0 +1,27 @@
+emit:
+
+  - "@azure-tools/typespec-ts"
+
+options:
+
+  "@azure-tools/typespec-ts":
+
+    generateMetadata: false
+
+    generateTest: false
+
+    multiClient: false
+
+    azureSdkForJs: false
+
+    isModularLibrary: true
+
+    "emitter-output-dir": "{project-root}/generated/typespec-ts"
+
+    packageDetails:
+
+      name: "@azure/openai"
+
+      description: "OpenAI Inference Service"
+
+      version: "1.0.0-beta.3"

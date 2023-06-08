@@ -23,12 +23,14 @@ export default function createClient(
   options = {
     ...options,
     credentials: {
-      scopes: ["https://cognitiveservices.azure.com/.default"],
-      apiKeyHeaderName: "api-key",
+      scopes: options.credentials?.scopes ?? [
+        "https://cognitiveservices.azure.com/.default",
+      ],
+      apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "api-key",
     },
   };
 
-  const userAgentInfo = `azsdk-js-openai-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-openai-rest/1.0.0-beta.3`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
