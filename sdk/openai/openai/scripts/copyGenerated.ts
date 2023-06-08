@@ -4,5 +4,5 @@
 import * as fs from "fs";
 import * as fsextra from "fs-extra";
 
-await fsextra.move("typespec/generated/typespec-ts/src", "sources/generated", { overwrite: true});
-fs.rmSync("typespec/generated", { recursive: true, force: true });
+await fsextra.move("TempTypeSpecFiles/OpenAI.Inference/generated/typespec-ts/src", "sources/generated", { overwrite: true});
+fs.rmSync("TempTypeSpecFiles/OpenAI.Inference/generated", { recursive: true, force: true });

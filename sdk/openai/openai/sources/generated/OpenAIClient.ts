@@ -34,7 +34,7 @@ export class OpenAIClient {
 
   /** Return the embeddings for a given prompt. */
   getEmbeddings(
-    input: string | string[],
+    input: string[],
     deploymentId: string,
     options: GetEmbeddingsOptions = { requestOptions: {} }
   ): Promise<Embeddings> {
