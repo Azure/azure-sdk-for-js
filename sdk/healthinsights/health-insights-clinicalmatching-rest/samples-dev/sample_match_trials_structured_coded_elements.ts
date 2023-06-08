@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Trial Eligibility Assessment for a Custom Trial.
+ * Finding potential eligible trials for a patient, based on patient’s structured medical information.
  *
  * @summary detects change points.
  */
@@ -11,37 +11,20 @@ import { AzureKeyCredential } from "@azure/core-auth";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-import * as fs from 'fs';
 import createClient, {
-    ClinicalCodedElement,
-    ClinicalTrialRegistryFilter,
-    ClinicalTrials,
-    DocumentContent,
-    GeographicLocation,
-    getLongRunningPoller,
-    isUnexpected,
-    MatchTrialsBodyParam,
-    MatchTrialsParameters,
-    PatientDocument,
-    PatientInfo,
-    PatientRecord,
-    TrialMatcherData,
-    TrialMatcherModelConfiguration,
-    TrialMatcherResultOutput, TrialMatcherResultsOutput
+  ClinicalCodedElement,
+  ClinicalTrialRegistryFilter, ClinicalTrials,
+  GeographicLocation, getLongRunningPoller, MatchTrialsBodyParam,
+  PatientInfo,
+  PatientRecord, TrialMatcherData, TrialMatcherModelConfiguration, TrialMatcherResultOutput, TrialMatcherResultsOutput
 } from "../src";
 import {HttpResponse} from "@azure-rest/core-client";
-
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
 
 const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "https://eastus.api.cognitive.microsoft.com";
-
-function getPatientDocContent(): string {
-  const content = fs.readFileSync("./example-data/match_trial_fhir_data.txt").toString();
-  return content;
-}
 
 function printResults(trialMatcherResult: HttpResponse): void {
     if (trialMatcherResult.status === "200") {
@@ -78,6 +61,12 @@ export async function main() {
     },
     {
       system: "http://www.nlm.nih.gov/research/umls",
+      code: "METASTATIC",
+      name: "metastatic",
+      value: "true",
+    },
+    {
+      system: "http://www.nlm.nih.gov/research/umls",
       code: "C1512162",
       name: "Eastern Cooperative Oncology Group",
       value: "1",
@@ -93,7 +82,31 @@ export async function main() {
       code: "C1300072",
       name: "Tumor stage",
       value: "2",
-    }
+    },
+    {
+      system: "http://www.nlm.nih.gov/research/umls",
+      code: "C0019163",
+      name: "Hepatitis B",
+      value: "false",
+    },
+    {
+      system: "http://www.nlm.nih.gov/research/umls",
+      code: "C0018802",
+      name: "Congestive heart failure",
+      value: "true",
+    },
+    {
+      system: "http://www.nlm.nih.gov/research/umls",
+      code: "C0019196",
+      name: "Hepatitis C",
+      value: "false",
+    },
+    {
+      system: "http://www.nlm.nih.gov/research/umls",
+      code: "C0220650",
+      name: "Metastatic malignant neoplasm to brain",
+      value: "true",
+    },
   ];
 
   const patientInfo: PatientInfo = {
@@ -101,18 +114,10 @@ export async function main() {
     birthDate: new Date(1965, 11, 26), // Note: Months are zero-based (11 represents December)
     clinicalInfo: clinicalInfoList,
   };
-  const docContent: DocumentContent = {sourceType: "INLINE", value: getPatientDocContent()};
-  const patientDataList: PatientDocument = {
-      type: "FHIR_BUNDLE",
-      id: "Consultation-14-Demo",
-      content: docContent,
-      clinicalType: "CONSULTATION"
-  };
 
   const patient1: PatientRecord = {
     id: "patient_id",
     info: patientInfo,
-    data: [patientDataList]
   };
 
   const geographicLocation: GeographicLocation = { countryOrRegion: "United States", city: "Gilbert", state: "Arizona" };
@@ -124,10 +129,12 @@ export async function main() {
     studyTypes: ["INTERVENTIONAL"]
   };
 
+  // Construct ClinicalTrial instance and attach the registry filter to it.
   const clinicalTrials: ClinicalTrials = ({
     registryFilters: [registryFilters]
   });
 
+  // Create TrialMatcherRequest
   const configuration: TrialMatcherModelConfiguration = {
     clinicalTrials: clinicalTrials,
   };
@@ -147,7 +154,6 @@ export async function main() {
   }*/
   const poller = await getLongRunningPoller(client, initialResponse);
   const res = await poller.pollUntilDone();
-  console.log(res)
   printResults(res);
 }
 
