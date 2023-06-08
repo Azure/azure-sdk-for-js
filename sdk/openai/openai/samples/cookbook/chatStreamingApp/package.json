@@ -1,0 +1,33 @@
+{
+  "name": "azure-openai-chat-app",
+  "version": "1.0.0",
+  "description": "Example app using streaming completions",
+  "main": "index.js",
+  "scripts": {
+    "server": "node-env-run server --exec nodemon | pino-colada", 
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@azure/identity": "^3.2.2",
+    "@azure/openai": "^1.0.0-beta.2",
+    "child_process": "^1.0.2",
+    "bootstrap": "^4.5.3",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-pino-logger": "^5.0.0",
+    "node-env-run": "^4.0.2",
+    "nodemon": "^2.0.7",
+    "npm-run-all": "^4.1.5",
+    "pino-colada": "^2.1.0"
+  },
+  "browser":{
+    "child_process": false
+  } 
+}

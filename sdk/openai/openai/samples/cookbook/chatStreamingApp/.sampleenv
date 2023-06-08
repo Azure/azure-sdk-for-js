@@ -1,0 +1,5 @@
+AZURE_AOAI_ENDPOINT=https://<your-azure-openai-resource>.openai.azure.com/
+AZURE_AOAI_DEPLOYMENT_ID=your_deployment_id
+AZURE_CLIENT_ID=your_client_id
+AZURE_TENANT_ID=your_tenant_id
+AZURE_CLIENT_SECRET=your_client_secret

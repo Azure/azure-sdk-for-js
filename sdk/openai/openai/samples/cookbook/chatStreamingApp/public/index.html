@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Streaming Chat App</title>
+    <meta charset="utf-8" />
+</head>
+
+<body style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:13px;">
+  <table>
+    <tr>
+        <td></td>
+        <td>
+            <h2 style="font-weight:500;">Azure OpenAI SDK</h2>
+            <h3 style="font-weight:500;">Javascript Streaming Chat App</h3>
+        </td>
+    </tr>
+    <tr>
+      <td align="right" valign="top">Input Prompt</td>
+      <td><textarea id="inputPrompt" rows="4" cols="50"></textarea> </td>
+    </tr>
+    <tr>
+      <td align="right"><b></b></td>
+      <td>
+        <button id="sendChatMessagesButton">Start Chat</button>
+      </td>
+    </tr>
+    <tr>
+      <td align="right">Chat Response:</td>
+      <td align="left">
+          <textarea id="responseDiv" style="display: inline-block;width:500px;height:200px"></textarea>
+      </td>
+    </tr>
+    
+  </table>
+    
+  <script>
+    const startChatButton = document.getElementById('sendChatMessagesButton');
+    const responseDiv = document.getElementById('responseDiv');
+
+    startChatButton.addEventListener("click", function () {
+      if (!!window.EventSource) {
+        responseDiv.innerHTML = "";
+        const message = document.getElementById('inputPrompt').value;
+        const url = `http://localhost:3001/api/streaming-chat?message=${message}`;
+        const source = new EventSource(url);
+
+        source.addEventListener('message', function(e) {
+          const data = JSON.parse(e.data);
+          responseDiv.innerHTML += data.text;
+        }, false);
+
+        source.addEventListener('open', function(e) {
+          console.log("Connected to url");
+        }, false);
+
+        source.addEventListener('error', function(e) {
+          if (e.target.readyState == EventSource.CLOSED) {
+            console.log(`Disconnected from ${url}`);
+          } else if (e.target.readyState == EventSource.CONNECTING) {
+            console.log(`Connecting to ${url}`);
+          }
+        }, false);
+
+        source.addEventListener('end', function(e) {
+          source.close();
+        }, false);
+
+      } else {
+        console.log("Your browser doesn't support SSE")
+      }
+    });
+  </script>
+</body>
+
+</html>
