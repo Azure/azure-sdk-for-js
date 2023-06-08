@@ -11,13 +11,24 @@
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 import createClient, {
-    ClinicalTrialRegistryFilter, ClinicalTrials, DocumentContent,
-    GeographicLocation, isUnexpected, MatchTrialsParameters, PatientDocument,
+    ClinicalTrialRegistryFilter,
+    ClinicalTrials,
+    DocumentContent,
+    GeographicLocation,
+    getLongRunningPoller,
+    isUnexpected,
+    MatchTrialsDefaultResponse,
+    MatchTrialsParameters,
+    PatientDocument,
     PatientInfo,
-    PatientRecord, TrialMatcherData, TrialMatcherModelConfiguration
+    PatientRecord,
+    TrialMatcherData,
+    TrialMatcherModelConfiguration, TrialMatcherPatientResultOutput,
+    TrialMatcherResultOutput,
+    TrialMatcherResultsOutput
 } from "../src";
 import { AzureKeyCredential } from "@azure/core-auth";
-import {LroResponse} from "@azure/core-lro";
+import {LroResponse, SimplePollerLike} from "@azure/core-lro";
 
 dotenv.config();
 
@@ -26,9 +37,9 @@ dotenv.config();
 const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "https://eastus.api.cognitive.microsoft.com";
 
-/*function printResults(trialMatcherResult: LroResponse): void {
-  if (trialMatcherResult.status === "SUCCEEDED") {
-    const tmResults = trialMatcherResult.results;
+/*function printResults(trialMatcherResult: SimplePollerLike): void {
+  if (trialMatcherResult.status === "200") {
+    const tmResults = trialMatcherResult.body.results;
     for (const patientResult of tmResults.patients) {
       console.log(`Inferences of Patient ${patientResult.id}`);
       for (const tmInferences of patientResult.inferences) {
@@ -229,10 +240,37 @@ export async function main() {
     body: trialMatcherData
   };
 
-  const result = await client.path("/trialmatcher/jobs").post(trialMatcherParameters);
-  if (isUnexpected(result)) {
-    throw result;
-  }
+  const initialResponse = await client.path("/trialmatcher/jobs").post(trialMatcherParameters);
+/*  if (isUnexpected(initialResponse)) {
+    throw initialResponse;
+  }*/
+  const poller = await getLongRunningPoller(client, initialResponse);
+  const res = await poller.pollUntilDone();
+  const resultBody: TrialMatcherResultOutput = (res.body as TrialMatcherResultOutput);
+  const tmResults: TrialMatcherResultsOutput = (resultBody.results as TrialMatcherResultsOutput);
+  const patients: TrialMatcherPatientResultOutput[] = tmResults.patients;
+
+  console.log("here is the results:");
+  console.log(patients);
+
+/*    if (res.status === "200") {
+    const tmResults = res.body.results;
+    for (const patientResult of tmResults.patients) {
+      console.log(`Inferences of Patient ${patientResult.id}`);
+      for (const tmInferences of patientResult.inferences) {
+        console.log(`Trial Id ${tmInferences.id}`);
+        console.log(`Type: ${String(tmInferences.type)}  Value: ${tmInferences.value}`);
+        console.log(`Description ${tmInferences.description}`);
+      }
+    }
+  } else {
+    const tmErrors = res.errors;
+    if (tmErrors !== null) {
+      for (const error of tmErrors) {
+        console.log(`${error.code} : ${error.message}`);
+      }
+    }
+  }*/
 
 }
 
