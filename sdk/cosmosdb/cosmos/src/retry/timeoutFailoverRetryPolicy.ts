@@ -72,36 +72,29 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
       return false;
     }
     this.failoverRetryCount++;
-    if (!(await this.isFailoverCountWithinEndpointLimits(readRequest))) {
-      return false;
-    }
-    retryContext.retryLocationIndex = this.failoverRetryCount;
-
+    retryContext.retryLocationIndex = await this.findEndpointIndex(this.failoverRetryCount);
     return true;
   }
 
-  private async isFailoverCountWithinEndpointLimits(readRequest: boolean) {
+  private async findEndpointIndex(failoverRetryCount: number): Promise<number> {
     const preferredLocationsCount = this.globalEndpointManager.preferredLocationsCount;
-    if (preferredLocationsCount !== 0 && this.failoverRetryCount >= preferredLocationsCount) {
-      return false;
-    }
+    let readRequest = isReadRequest(this.operationType);
+    let endpointIndex = 0;
     if (preferredLocationsCount !== 0) {
-      if (this.failoverRetryCount >= preferredLocationsCount) {
-        return false;
-      }
+      endpointIndex = failoverRetryCount % preferredLocationsCount;
     } else {
       if (readRequest) {
         const getReadEndpoints = await this.globalEndpointManager.getReadEndpoints();
-        if (this.failoverRetryCount >= getReadEndpoints.length) {
-          return false;
+        if(getReadEndpoints && getReadEndpoints.length > 0) {
+          endpointIndex = failoverRetryCount % getReadEndpoints.length;
         }
       } else {
         const getWriteEndpoints = await this.globalEndpointManager.getWriteEndpoints();
-        if (this.failoverRetryCount >= getWriteEndpoints.length) {
-          return false;
+        if(getWriteEndpoints && getWriteEndpoints.length > 0) {
+          endpointIndex = failoverRetryCount % getWriteEndpoints.length;
         }
       }
     }
-    return true;
+    return endpointIndex;
   }
 }
