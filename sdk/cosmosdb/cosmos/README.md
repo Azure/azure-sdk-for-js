@@ -105,7 +105,7 @@ The following sections provide several code snippets covering some of the most c
 - [CRUD on Container with hierarchical partition key](#container-hierarchical-partition-key)
 ### Create a database
 
-After authenticating your [CosmosClient](https://docs.microsoft.com/javascript/api/@azure/cosmos/cosmosclient?view=azure-node-latest), you can work with any resource in the account. The code snippet below creates a SQL API database.
+After authenticating your [CosmosClient](https://docs.microsoft.com/javascript/api/@azure/cosmos/cosmosclient?view=azure-node-latest), you can work with any resource in the account. The code snippet below creates a NOSQL API database.
 
 ```js
 const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
@@ -132,14 +132,14 @@ await container.item(undefined).read();  // None type
 await container.item(null).read();       // null type
 ```
 
-If the Partition Key consistes of a single value, it could be supplied either as a lietral value, or an array.
+If the Partition Key consists of a single value, it could be supplied either as a lietral value, or an array.
 
 ```js
 await container.item("1").read();
 await container.item(["1"]).read();
 ```
 
-If the Partition Key consistes of more than one values, it should be supplied as an array.
+If the Partition Key consists of more than one values, it should be supplied as an array.
 ```js
 await container.item(["a", "b"]).read();
 await container.item(["a", 2]).read();
@@ -151,7 +151,7 @@ await container.item([2, null]).read();
 
 ### Insert items
 
-To insert items into a container, pass an object containing your data to [Items.upsert](https://docs.microsoft.com/javascript/api/@azure/cosmos/items?view=azure-node-latest#upsert-t--requestoptions-). The Cosmos DB service requires each item has an `id` key. If you do not provide one, the SDK will generate an `id` automatically.
+To insert items into a container, pass an object containing your data to [Items.upsert](https://docs.microsoft.com/javascript/api/@azure/cosmos/items?view=azure-node-latest#upsert-t--requestoptions-). The Azure Cosmos DB service requires each item has an `id` key. If you do not provide one, the SDK will generate an `id` automatically.
 
 This example inserts several items into the container
 

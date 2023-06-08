@@ -502,7 +502,7 @@ export class Items {
       const hashed = hashPartitionKey(
         assertNotUndefined(
           partitionKey,
-          "undefined value for PartitionKey not expected during grouping of bulk operations."
+          "undefined value for PartitionKey is not expected during grouping of bulk operations."
         ),
         partitionDefinition
       );
