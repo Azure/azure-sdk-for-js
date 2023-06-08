@@ -1,6 +1,6 @@
 # Azure Communication Tiering client library for JavaScript
 
-The Tiering client library allows developers to retrieves limits for each capability (SMS/PSTN Calling/Phone Number purchasing) for a specific resource/tier.
+The Tiering client library allows developers to retrieve limits for each capability (SMS/PSTN Calling/Phone Number purchasing) for a specific resource/tier.
 
 ## Getting started
 
