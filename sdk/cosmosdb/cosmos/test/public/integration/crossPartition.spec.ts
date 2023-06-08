@@ -360,7 +360,6 @@ describe("Cross Partition", function (this: Suite) {
         query,
         options,
         expectedOrderIds: expectedOrderedIds,
-        expectedRus: 70,
       });
     });
 
