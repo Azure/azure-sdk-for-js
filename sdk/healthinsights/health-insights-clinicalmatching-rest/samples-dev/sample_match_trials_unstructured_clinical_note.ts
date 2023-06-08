@@ -17,18 +17,17 @@ import createClient, {
     GeographicLocation,
     getLongRunningPoller,
     isUnexpected,
-    MatchTrialsDefaultResponse,
     MatchTrialsParameters,
     PatientDocument,
     PatientInfo,
     PatientRecord,
     TrialMatcherData,
-    TrialMatcherModelConfiguration, TrialMatcherPatientResultOutput,
+    TrialMatcherModelConfiguration,
     TrialMatcherResultOutput,
     TrialMatcherResultsOutput
 } from "../src";
 import { AzureKeyCredential } from "@azure/core-auth";
-import {LroResponse, SimplePollerLike} from "@azure/core-lro";
+import {HttpResponse} from "@azure-rest/core-client";
 
 dotenv.config();
 
@@ -37,26 +36,21 @@ dotenv.config();
 const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "https://eastus.api.cognitive.microsoft.com";
 
-/*function printResults(trialMatcherResult: SimplePollerLike): void {
-  if (trialMatcherResult.status === "200") {
-    const tmResults = trialMatcherResult.body.results;
-    for (const patientResult of tmResults.patients) {
-      console.log(`Inferences of Patient ${patientResult.id}`);
-      for (const tmInferences of patientResult.inferences) {
-        console.log(`Trial Id ${tmInferences.id}`);
-        console.log(`Type: ${String(tmInferences.type)}  Value: ${tmInferences.value}`);
-        console.log(`Description ${tmInferences.description}`);
+function printResults(trialMatcherResult: HttpResponse): void {
+    if (trialMatcherResult.status === "200") {
+      const resultBody = trialMatcherResult.body as TrialMatcherResultOutput;
+      const results = resultBody.results as TrialMatcherResultsOutput;
+      const patients = results.patients;
+      for (const patientResult of patients) {
+          console.log(`Inferences of Patient ${patientResult.id}`);
+          for (const tmInferences of patientResult.inferences) {
+              console.log(`Trial Id ${tmInferences.id}`);
+              console.log(`Type: ${String(tmInferences.type)}  Value: ${tmInferences.value}`);
+              console.log(`Description ${tmInferences.description}`);
+          }
       }
-    }
-  } else {
-    const tmErrors = trialMatcherResult.errors;
-    if (tmErrors !== null) {
-      for (const error of tmErrors) {
-        console.log(`${error.code} : ${error.message}`);
-      }
-    }
   }
-}*/
+}
 
 function getPatientDocContent(): string {
     let content = "TITLE:  Cardiology Consult\r\n                       DIVISION OF CARDIOLOGY\r\n                   "
@@ -246,32 +240,7 @@ export async function main() {
   }*/
   const poller = await getLongRunningPoller(client, initialResponse);
   const res = await poller.pollUntilDone();
-  const resultBody: TrialMatcherResultOutput = (res.body as TrialMatcherResultOutput);
-  const tmResults: TrialMatcherResultsOutput = (resultBody.results as TrialMatcherResultsOutput);
-  const patients: TrialMatcherPatientResultOutput[] = tmResults.patients;
-
-  console.log("here is the results:");
-  console.log(patients);
-
-/*    if (res.status === "200") {
-    const tmResults = res.body.results;
-    for (const patientResult of tmResults.patients) {
-      console.log(`Inferences of Patient ${patientResult.id}`);
-      for (const tmInferences of patientResult.inferences) {
-        console.log(`Trial Id ${tmInferences.id}`);
-        console.log(`Type: ${String(tmInferences.type)}  Value: ${tmInferences.value}`);
-        console.log(`Description ${tmInferences.description}`);
-      }
-    }
-  } else {
-    const tmErrors = res.errors;
-    if (tmErrors !== null) {
-      for (const error of tmErrors) {
-        console.log(`${error.code} : ${error.message}`);
-      }
-    }
-  }*/
-
+  printResults(res);
 }
 
 main().catch((err) => {
