@@ -1,0 +1,128 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://fakestorageaccount.file.core.windows.net/share168617854911606666?restype=share",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/xml",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "User-Agent": "azsdk-js-azure-storage-blob/12.13.0 core-rest-pipeline/1.11.1 Node/v16.18.0 OS/(x64-Linux-5.15.0-1038-azure)",
+        "x-ms-client-request-id": "e1963762-4229-440c-91c3-becd1563a4d7",
+        "x-ms-date": "Wed, 07 Jun 2023 22:55:49 GMT",
+        "x-ms-version": "2021-10-04"
+      },
+      "RequestBody": null,
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Date": "Wed, 07 Jun 2023 22:55:48 GMT",
+        "ETag": "\u00220x8DB67AA5634EC1F\u0022",
+        "Last-Modified": "Wed, 07 Jun 2023 22:55:49 GMT",
+        "Server": [
+          "Windows-Azure-File/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "x-ms-client-request-id": "e1963762-4229-440c-91c3-becd1563a4d7",
+        "x-ms-request-id": "21eda302-701a-0031-2193-992ba2000000",
+        "x-ms-version": "2021-10-04"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://fakestorageaccount.file.core.windows.net/share168617854911606666?restype=share\u0026comp=acl",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/xml",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "321",
+        "Content-Type": "application/xml",
+        "User-Agent": "azsdk-js-azure-storage-blob/12.13.0 core-rest-pipeline/1.11.1 Node/v16.18.0 OS/(x64-Linux-5.15.0-1038-azure)",
+        "x-ms-client-request-id": "2275ccc3-d81b-45c1-ba95-0bb2fc82910a",
+        "x-ms-date": "Wed, 07 Jun 2023 22:55:49 GMT",
+        "x-ms-version": "2021-10-04"
+      },
+      "RequestBody": "\u003C?xml version=\u00221.0\u0022 encoding=\u0022UTF-8\u0022 standalone=\u0022yes\u0022?\u003E\u003CSignedIdentifiers\u003E\u003CSignedIdentifier\u003E\u003CId\u003E6D97528B-8412-48AE-9DB1-6BF69C9F83A6\u003C/Id\u003E\u003CAccessPolicy\u003E\u003CStart\u003E2023-06-06T22:55:49.1830000Z\u003C/Start\u003E\u003CExpiry\u003E2023-06-08T22:55:49.1830000Z\u003C/Expiry\u003E\u003CPermission\u003Erwd\u003C/Permission\u003E\u003C/AccessPolicy\u003E\u003C/SignedIdentifier\u003E\u003C/SignedIdentifiers\u003E",
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Date": "Wed, 07 Jun 2023 22:55:48 GMT",
+        "ETag": "\u00220x8DB67AA563F1076\u0022",
+        "Last-Modified": "Wed, 07 Jun 2023 22:55:49 GMT",
+        "Server": [
+          "Windows-Azure-File/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "x-ms-client-request-id": "2275ccc3-d81b-45c1-ba95-0bb2fc82910a",
+        "x-ms-request-id": "21eda306-701a-0031-2293-992ba2000000",
+        "x-ms-version": "2021-10-04"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://fakestorageaccount.file.core.windows.net/share168617854911606666?restype=share\u0026comp=acl",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/xml",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-azure-storage-blob/12.13.0 core-rest-pipeline/1.11.1 Node/v16.18.0 OS/(x64-Linux-5.15.0-1038-azure)",
+        "x-ms-client-request-id": "75d2889f-cb1d-49a4-bb90-c15f26efc24a",
+        "x-ms-date": "Wed, 07 Jun 2023 22:55:49 GMT",
+        "x-ms-version": "2021-10-04"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,Last-Modified,ETag,Content-Length,Date,Transfer-Encoding",
+        "Content-Type": "application/xml",
+        "Date": "Wed, 07 Jun 2023 22:55:48 GMT",
+        "ETag": "\u00220x8DB67AA563F1076\u0022",
+        "Last-Modified": "Wed, 07 Jun 2023 22:55:49 GMT",
+        "Server": [
+          "Windows-Azure-File/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "Transfer-Encoding": "chunked",
+        "x-ms-client-request-id": "75d2889f-cb1d-49a4-bb90-c15f26efc24a",
+        "x-ms-request-id": "21eda308-701a-0031-2493-992ba2000000",
+        "x-ms-version": "2021-10-04"
+      },
+      "ResponseBody": "\uFEFF\u003C?xml version=\u00221.0\u0022 encoding=\u0022utf-8\u0022?\u003E\u003CSignedIdentifiers\u003E\u003CSignedIdentifier\u003E\u003CId\u003E6D97528B-8412-48AE-9DB1-6BF69C9F83A6\u003C/Id\u003E\u003CAccessPolicy\u003E\u003CStart\u003E2023-06-06T22:55:49.1830000Z\u003C/Start\u003E\u003CExpiry\u003E2023-06-08T22:55:49.1830000Z\u003C/Expiry\u003E\u003CPermission\u003Erwd\u003C/Permission\u003E\u003C/AccessPolicy\u003E\u003C/SignedIdentifier\u003E\u003C/SignedIdentifiers\u003E"
+    },
+    {
+      "RequestUri": "https://fakestorageaccount.file.core.windows.net/share168617854911606666?restype=share",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/xml",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-azure-storage-blob/12.13.0 core-rest-pipeline/1.11.1 Node/v16.18.0 OS/(x64-Linux-5.15.0-1038-azure)",
+        "x-ms-client-request-id": "0d4fca8f-a41a-49ba-896e-9438c58e612d",
+        "x-ms-date": "Wed, 07 Jun 2023 22:55:49 GMT",
+        "x-ms-version": "2021-10-04"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Date": "Wed, 07 Jun 2023 22:55:48 GMT",
+        "Server": [
+          "Windows-Azure-File/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "x-ms-client-request-id": "0d4fca8f-a41a-49ba-896e-9438c58e612d",
+        "x-ms-request-id": "21eda30a-701a-0031-2693-992ba2000000",
+        "x-ms-version": "2021-10-04"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {
+    "now": "2023-06-07T22:55:49.183Z",
+    "share": "share168617854911606666"
+  }
+}
