@@ -6,7 +6,11 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { SchemaRegistryClient, SchemaDescription, KnownSchemaFormats } from "@azure/schema-registry";
+import {
+  SchemaRegistryClient,
+  SchemaDescription,
+  KnownSchemaFormats,
+} from "@azure/schema-registry";
 import { JsonSerializer } from "@azure/schema-registry-json";
 
 // Load the .env file if it exists
