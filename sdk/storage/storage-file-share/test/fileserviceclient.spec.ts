@@ -395,7 +395,7 @@ describe("FileServiceClient", () => {
   });
 });
 
-describe("FileServiceClient", () => {
+describe("FileServiceClient - soft delete", () => {
   let recorder: Recorder;
   let serviceClient: ShareServiceClient;
 

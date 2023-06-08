@@ -22,7 +22,6 @@ describe("StorageSharedKeyCredentialPolicy Node.js only", () => {
     shareName = recorder.variable("1share-with-dash", getUniqueName("1share-with-dash"));
     shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();
-    await recorder.stop();
   });
 
   afterEach(async function (this: Context) {

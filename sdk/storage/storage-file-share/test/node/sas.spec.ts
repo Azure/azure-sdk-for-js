@@ -36,7 +36,15 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: ["x-ms-file-rename-source"],
+        },
+        uriSanitizers,
+      },
+      ["record", "playback"]
+    );
     serviceClient = getBSU(recorder);
   });
 
@@ -48,7 +56,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date(recorder.variable("now", new Date().toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = serviceClient["credential"];
@@ -76,7 +84,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSASQueryParameters should not work with invalid permission", async () => {
-    const tmr = new Date(recorder.variable("now", new Date().toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = serviceClient["credential"];
@@ -108,7 +116,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSASQueryParameters should not work with invalid service", async () => {
-    const tmr = new Date(recorder.variable("now", new Date().toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = serviceClient["credential"];
@@ -138,7 +146,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSASQueryParameters should not work with invalid resource type", async () => {
-    const tmr = new Date(recorder.variable("now", new Date().toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = serviceClient["credential"];
@@ -174,7 +182,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date(recorder.variable("now", new Date().toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = serviceClient["credential"];
@@ -198,6 +206,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sasURL = `${shareClient.url}?${shareSAS}`;
     const shareClientwithSAS = new ShareClient(sasURL);
+    configureStorageClient(recorder, shareClientwithSAS);
 
     const dirURLwithSAS = shareClientwithSAS.getDirectoryClient("");
     const result = (await dirURLwithSAS.listFilesAndDirectories().byPage().next()).value;
@@ -211,7 +220,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date(recorder.variable("now", new Date().toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = serviceClient["credential"];
@@ -321,6 +330,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sasURL = `${shareClient.url}?${shareSAS}`;
     const shareClientwithSAS = new ShareClient(sasURL, newPipeline(new AnonymousCredential()));
+    configureStorageClient(recorder, shareClientwithSAS);
 
     const dirClientwithSAS = shareClientwithSAS.getDirectoryClient("");
     const result = (await dirClientwithSAS.listFilesAndDirectories().byPage().next()).value;

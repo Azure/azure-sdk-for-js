@@ -48,7 +48,15 @@ describe("FileClient", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
+        },
+        uriSanitizers,
+      },
+      ["record", "playback"]
+    );
     const serviceClient = getBSU(recorder);
     shareName = recorder.variable("share", getUniqueName("share"));
     shareClient = serviceClient.getShareClient(shareName);
@@ -64,10 +72,10 @@ describe("FileClient", () => {
   });
 
   afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+    if (shareClient) {
       await shareClient.delete({ deleteSnapshots: "include" });
-      await recorder.stop();
     }
+    await recorder.stop();
   });
 
   it("create with default parameters", async function () {
@@ -351,21 +359,24 @@ describe("FileClient", () => {
     assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
     assert.deepStrictEqual(properties2.copyId, result.copyId);
 
-    // A service feature is being rolling out which will sanitize the sig field
-    // so we remove it before comparing urls.
-    assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
+    // we don't record this header so we can't find it during playback
+    if (isLiveMode()) {
+      // A service feature is being rolling out which will sanitize the sig field
+      // so we remove it before comparing urls.
+      assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
 
-    const sanitizedActualUrl = new URL(properties2.copySource!);
-    sanitizedActualUrl.searchParams.delete("sig");
+      const sanitizedActualUrl = new URL(properties2.copySource!);
+      sanitizedActualUrl.searchParams.delete("sig");
 
-    const sanitizedExpectedUrl = new URL(fileClient.url);
-    sanitizedExpectedUrl.searchParams.delete("sig");
+      const sanitizedExpectedUrl = new URL(fileClient.url);
+      sanitizedExpectedUrl.searchParams.delete("sig");
 
-    assert.strictEqual(
-      sanitizedActualUrl.toString(),
-      sanitizedExpectedUrl.toString(),
-      "copySource does not match original source"
-    );
+      assert.strictEqual(
+        sanitizedActualUrl.toString(),
+        sanitizedExpectedUrl.toString(),
+        "copySource does not match original source"
+      );
+    }
   });
 
   it("startCopyFromURL ignore readonly", async function () {
@@ -749,9 +760,6 @@ describe("FileClient", () => {
 
     const fileClientWithShareSnapShot = fileClient.withShareSnapshot(snapshotRes2.snapshot!);
     const result = await fileClientWithShareSnapShot.getRangeListDiff(snapshotRes.snapshot!);
-    console.log(result.clearRanges);
-    console.log(result.ranges);
-    console.log(result.requestId);
 
     assert.ok(result.clearRanges);
     assert.deepStrictEqual(result.clearRanges!.length, 1);
@@ -808,7 +816,7 @@ describe("FileClient", () => {
   });
 
   it("download should update progress and abort successfully", async function () {
-    if (!isNode || !isLiveMode) {
+    if (!isNode || !isLiveMode()) {
       // because this test is using a blob response, there won't be
       // anything to abort by the time onProgress gets called.
       this.skip();
@@ -1162,6 +1170,14 @@ describe("FileClient", () => {
   });
 
   it("rename - source leased", async function () {
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: ["x-ms-source-lease-id", "x-ms-proposed-lease-id"],
+        },
+      },
+      ["record", "playback"]
+    );
     const sourceFileName = recorder.variable("sourcefile", getUniqueName("sourcefile"));
     const sourceFileClient = shareClient.getDirectoryClient("").getFileClient(sourceFileName);
     await sourceFileClient.create(1024);
@@ -1194,6 +1210,14 @@ describe("FileClient", () => {
   });
 
   it("rename - source leased - no lease access condition", async function () {
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: ["x-ms-source-lease-id", "x-ms-proposed-lease-id"],
+        },
+      },
+      ["record", "playback"]
+    );
     const sourceFileName = recorder.variable("sourcefile", getUniqueName("sourcefile"));
     const sourceFileClient = shareClient.getDirectoryClient("").getFileClient(sourceFileName);
     await sourceFileClient.create(1024);

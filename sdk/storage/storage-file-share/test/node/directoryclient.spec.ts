@@ -2,7 +2,13 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "../utils";
+import {
+  configureStorageClient,
+  getBSU,
+  getUniqueName,
+  recorderEnvSetup,
+  uriSanitizers,
+} from "../utils";
 import {
   newPipeline,
   ShareDirectoryClient,
@@ -43,6 +49,7 @@ describe("DirectoryClient Node.js only", () => {
   it("can be created with a url and a credential", async () => {
     const credential = dirClient["credential"] as StorageSharedKeyCredential;
     const newClient = new ShareDirectoryClient(dirClient.url, credential);
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -60,6 +67,7 @@ describe("DirectoryClient Node.js only", () => {
         maxTries: 5,
       },
     });
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -74,6 +82,7 @@ describe("DirectoryClient Node.js only", () => {
     const credential = dirClient["credential"] as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new ShareDirectoryClient(dirClient.url, pipeline);
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 

@@ -5,6 +5,7 @@ import { randomBytes } from "crypto";
 import * as fs from "fs";
 import * as path from "path";
 import { env, Recorder } from "@azure-tools/test-recorder";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 import { TokenCredential } from "@azure/core-auth";
 import { BlobServiceClient } from "@azure/storage-blob";
@@ -20,7 +21,7 @@ import { StorageSharedKeyCredential } from "../../../storage-blob/src/credential
 import { newPipeline } from "../../../storage-blob/src/Pipeline";
 import { ShareServiceClient } from "../../src/ShareServiceClient";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
-import { getUniqueName, SimpleTokenCredential, configureStorageClient } from "./testutils.common";
+import { getUniqueName, configureStorageClient } from "./testutils.common";
 import { StorageClient } from "../../src/StorageClient";
 
 export * from "./testutils.common";
@@ -36,7 +37,7 @@ export function getGenericBSU(
   const accountName = env[accountNameEnvVar];
   const accountKey = env[accountKeyEnvVar];
 
-  if (!accountName || !accountKey || accountName === "" || accountKey === "") {
+  if (!accountName || !accountKey) {
     throw new Error(
       `${accountNameEnvVar} and/or ${accountKeyEnvVar} environment variables not specified.`
     );
@@ -199,14 +200,7 @@ async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Bu
 }
 
 export function getTokenCredential(): TokenCredential {
-  const accountTokenEnvVar = `ACCOUNT_TOKEN`;
-  const accountToken = env[accountTokenEnvVar];
-
-  if (!accountToken || accountToken === "") {
-    throw new Error(`${accountTokenEnvVar} environment variables not specified.`);
-  }
-
-  return new SimpleTokenCredential(accountToken);
+  return createTestCredential();
 }
 
 /**

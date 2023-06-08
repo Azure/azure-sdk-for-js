@@ -60,6 +60,7 @@ describe("FileServiceClient Node.js only", () => {
     const credential = serviceClient["credential"] as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new ShareServiceClient(serviceClient.url, pipeline);
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 

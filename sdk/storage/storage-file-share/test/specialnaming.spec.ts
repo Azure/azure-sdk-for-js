@@ -30,8 +30,6 @@ describe("Special Naming Tests", () => {
 
     await shareClient.create();
     await directoryClient.create();
-
-    await recorder.stop();
   });
 
   afterEach(async function (this: Context) {
