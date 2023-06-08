@@ -42,16 +42,16 @@ export function getCacheByDefinition(schema: string): CacheEntry | undefined {
   return cacheBySchemaDefinition.get(schema);
 }
 
-function getSchemaValidator(schema: string, schemaObj?: SchemaObject): { validator: AjvValidator } {
+function getSchemaValidator(schema: string, schemaObj?: SchemaObject): AjvValidator {
   const schemaObject = schemaObj === undefined ? getSchemaObject(schema) : schemaObj;
   return wrapError(() => {
     const validator = ajv.compile(schemaObject);
-    return { validator };
-  }, `Validating Json schema failed:\n\n\t${schema}\n\nSee 'cause' for more details.`);
+    return validator;
+  }, `Parsing Json schema failed:\n\n\t${schema}\n\nSee 'cause' for more details.`);
 }
 
 export function cache(id: string, schema: string, schemaObj?: SchemaObject): CacheEntry {
-  const entry = { id, ...getSchemaValidator(schema, schemaObj) };
+  const entry = { id, validator: getSchemaValidator(schema, schemaObj) };
   cacheById.set(id, entry.validator);
   cacheBySchemaDefinition.set(schema, entry);
   logger.verbose(
