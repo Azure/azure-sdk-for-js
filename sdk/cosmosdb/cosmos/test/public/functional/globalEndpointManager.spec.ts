@@ -75,6 +75,16 @@ describe("GlobalEndpointManager", function () {
       );
 
       assert.equal(gem.preferredLocationsCount, 2);
+
+      assert.equal(
+        await gem.resolveServiceEndpoint(ResourceType.item, OperationType.Read, undefined, 1),
+        "https://test-westus2.documents.azure.com:443/"
+      );
+      // location index out of range, 1st available location is used
+      assert.equal(
+        await gem.resolveServiceEndpoint(ResourceType.item, OperationType.Read, undefined, 2),
+        "https://test-westus2.documents.azure.com:443/"
+      );
     });
 
     it("should allow you to pass a normalized preferred location", async function () {
