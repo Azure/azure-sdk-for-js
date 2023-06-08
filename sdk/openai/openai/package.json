@@ -100,7 +100,6 @@
     "@types/fs-extra": "^9.0.0",
     "@types/mocha": "^7.0.2",
     "@types/node": "^14.0.0",
-    "@typespec/compiler": "^0.45.0",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",
     "eslint": "^8.16.0",
