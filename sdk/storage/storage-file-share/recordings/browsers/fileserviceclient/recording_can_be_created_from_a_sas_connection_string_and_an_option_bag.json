@@ -1,0 +1,44 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://fakestorageaccount.file.core.windows.net/?restype=service\u0026comp=properties\u0026",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/xml",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "Origin": "http://localhost:9876",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "841ea74e-d2c4-497b-b3f2-1598afc4dbe6",
+        "x-ms-useragent": "azsdk-js-azure-storage-blob/12.13.0 core-rest-pipeline/1.11.1 OS",
+        "x-ms-version": "2021-10-04"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,Content-Length,Date,Transfer-Encoding",
+        "Content-Type": "application/xml",
+        "Date": "Thu, 08 Jun 2023 19:17:05 GMT",
+        "Server": [
+          "Windows-Azure-File/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "Transfer-Encoding": "chunked",
+        "x-ms-client-request-id": "841ea74e-d2c4-497b-b3f2-1598afc4dbe6",
+        "x-ms-request-id": "53b7a4a4-f01a-0062-473d-9a0896000000",
+        "x-ms-version": "2021-10-04"
+      },
+      "ResponseBody": "\uFEFF\u003C?xml version=\u00221.0\u0022 encoding=\u0022utf-8\u0022?\u003E\u003CStorageServiceProperties\u003E\u003CHourMetrics\u003E\u003CVersion\u003E1.0\u003C/Version\u003E\u003CEnabled\u003Etrue\u003C/Enabled\u003E\u003CIncludeAPIs\u003Etrue\u003C/IncludeAPIs\u003E\u003CRetentionPolicy\u003E\u003CEnabled\u003Etrue\u003C/Enabled\u003E\u003CDays\u003E3\u003C/Days\u003E\u003C/RetentionPolicy\u003E\u003C/HourMetrics\u003E\u003CMinuteMetrics\u003E\u003CVersion\u003E1.0\u003C/Version\u003E\u003CEnabled\u003Etrue\u003C/Enabled\u003E\u003CIncludeAPIs\u003Etrue\u003C/IncludeAPIs\u003E\u003CRetentionPolicy\u003E\u003CEnabled\u003Etrue\u003C/Enabled\u003E\u003CDays\u003E4\u003C/Days\u003E\u003C/RetentionPolicy\u003E\u003C/MinuteMetrics\u003E\u003CCors\u003E\u003CCorsRule\u003E\u003CAllowedMethods\u003EDELETE,GET,HEAD,MERGE,POST,OPTIONS,PUT\u003C/AllowedMethods\u003E\u003CAllowedOrigins\u003E*\u003C/AllowedOrigins\u003E\u003CAllowedHeaders\u003E*\u003C/AllowedHeaders\u003E\u003CExposedHeaders\u003E*\u003C/ExposedHeaders\u003E\u003CMaxAgeInSeconds\u003E86400\u003C/MaxAgeInSeconds\u003E\u003C/CorsRule\u003E\u003CCorsRule\u003E\u003CAllowedMethods\u003EGET\u003C/AllowedMethods\u003E\u003CAllowedOrigins\u003Eexample.com\u003C/AllowedOrigins\u003E\u003CAllowedHeaders\u003E*\u003C/AllowedHeaders\u003E\u003CExposedHeaders\u003E*\u003C/ExposedHeaders\u003E\u003CMaxAgeInSeconds\u003E8888\u003C/MaxAgeInSeconds\u003E\u003C/CorsRule\u003E\u003CCorsRule\u003E\u003CAllowedMethods\u003EGET\u003C/AllowedMethods\u003E\u003CAllowedOrigins\u003Eexample.com\u003C/AllowedOrigins\u003E\u003CAllowedHeaders\u003E*\u003C/AllowedHeaders\u003E\u003CExposedHeaders\u003E*\u003C/ExposedHeaders\u003E\u003CMaxAgeInSeconds\u003E8888\u003C/MaxAgeInSeconds\u003E\u003C/CorsRule\u003E\u003CCorsRule\u003E\u003CAllowedMethods\u003EGET\u003C/AllowedMethods\u003E\u003CAllowedOrigins\u003Eexample.com\u003C/AllowedOrigins\u003E\u003CAllowedHeaders\u003E*\u003C/AllowedHeaders\u003E\u003CExposedHeaders\u003E*\u003C/ExposedHeaders\u003E\u003CMaxAgeInSeconds\u003E8888\u003C/MaxAgeInSeconds\u003E\u003C/CorsRule\u003E\u003CCorsRule\u003E\u003CAllowedMethods\u003EGET\u003C/AllowedMethods\u003E\u003CAllowedOrigins\u003Eexample.com\u003C/AllowedOrigins\u003E\u003CAllowedHeaders\u003E*\u003C/AllowedHeaders\u003E\u003CExposedHeaders\u003E*\u003C/ExposedHeaders\u003E\u003CMaxAgeInSeconds\u003E8888\u003C/MaxAgeInSeconds\u003E\u003C/CorsRule\u003E\u003C/Cors\u003E\u003CProtocolSettings\u003E\u003CSMB\u003E\u003CMultichannel\u003E\u003CEnabled\u003Efalse\u003C/Enabled\u003E\u003C/Multichannel\u003E\u003C/SMB\u003E\u003C/ProtocolSettings\u003E\u003C/StorageServiceProperties\u003E"
+    }
+  ],
+  "Variables": {}
+}
