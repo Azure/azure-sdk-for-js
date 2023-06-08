@@ -97,6 +97,7 @@ The following sections provide several code snippets covering some of the most c
 
 - [Create a database](#create-a-database)
 - [Create a container](#create-a-container)
+- [Using Partition Keys](#using-partition-keys)
 - [Insert items](#insert-items)
 - [Query documents](#query-the-database)
 - [Read an item](#read-an-item)
@@ -118,6 +119,34 @@ This example creates a container with default settings
 ```js
 const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
 console.log(container.id);
+```
+
+### Using Partition Keys
+This example shows various types of partition Keys supported.
+```js
+await container.item("1").read();        // string type
+await container.item(2).read();          // number type
+await container.item(true).read();       // boolean type
+await container.item({}).read();         // None type
+await container.item(undefined).read();  // None type
+await container.item(null).read();       // null type
+```
+
+If the Partition Key consistes of a single value, it could be supplied either as a lietral value, or an array.
+
+```js
+await container.item("1").read();
+await container.item(["1"]).read();
+```
+
+If the Partition Key consistes of more than one values, it should be supplied as an array.
+```js
+await container.item(["a", "b"]).read();
+await container.item(["a", 2]).read();
+await container.item([{}, {}]).read();
+await container.item(["a", {}]).read();
+await container.item([2, null]).read();
+
 ```
 
 ### Insert items
@@ -145,6 +174,8 @@ To read a single item from a container, use [Item.read](https://docs.microsoft.c
 await container.item("1").read();
 ```
 ### CRUD on Container with hierarchical partition key
+
+Create a Container with hierarchical partition key
 ```js
 const containerDefinition = {
   id: "Test Database",
@@ -157,7 +188,7 @@ const containerDefinition = {
 const { container } = await database.containers.createIfNotExists(containerDefinition);
 console.log(container.id);
 ```
-#### Insert an item with hierarchical partition key
+Insert an item with hierarchical partition key defined as - `["/name", "/address/zip"]`
 ```js
 const item = {
   id: 1,
@@ -169,12 +200,12 @@ const item = {
 }
 await container.items.create(item);
 ```
-#### Read an item with hierarchical partition key
+
+To read a single item from a container with hierarchical partition key defined as - `["/name", "/address/zip"],`
 ```js
-To read a single item from a container with hierarchical partition key defines as `paths: ["/name", "/address/zip"],`
 await container.item("1", ["foo", 100]).read();
 ```
-#### Query an item with hierarchical partition key
+Query an item with hierarchical partition key with hierarchical partition key defined as - `["/name", "/address/zip"],`
 ```js
 const { resources } = await container.items
   .query("SELECT * from c WHERE c.active = true", {
@@ -184,6 +215,7 @@ const { resources } = await container.items
 for (const item of resources) {
   console.log(`${item.name}, ${item.address.zip} `);
 }
+```
 ### Delete an item
 
 To delete items from a container, use [Item.delete](https://docs.microsoft.com/javascript/api/@azure/cosmos/item?view=azure-node-latest#delete-requestoptions-).
