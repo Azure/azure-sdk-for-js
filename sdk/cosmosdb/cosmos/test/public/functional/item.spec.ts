@@ -1341,7 +1341,7 @@ describe("bulk/batch item operations", async function () {
               },
             ],
           };
-          runBulkTestDataSet(dataset);
+          await runBulkTestDataSet(dataset);
         });
         it("424 errors for operations after an error", async function () {
           const dataset: BulkTestDataSet = {
@@ -1368,7 +1368,7 @@ describe("bulk/batch item operations", async function () {
               },
             ],
           };
-          runBulkTestDataSet(dataset);
+          await runBulkTestDataSet(dataset);
         });
         it("Continues after errors with continueOnError true", async function () {
           const dataset: BulkTestDataSet = {
@@ -1399,7 +1399,7 @@ describe("bulk/batch item operations", async function () {
               },
             ],
           };
-          runBulkTestDataSet(dataset);
+          await runBulkTestDataSet(dataset);
           // const operations = [
           //   {
           //     operationType: BulkOperationType.Create,
@@ -1435,7 +1435,7 @@ describe("bulk/batch item operations", async function () {
               },
             ],
           };
-          runBulkTestDataSet(dataset);
+          await runBulkTestDataSet(dataset);
         });
         it("handles operations with null, undefined, and 0 partition keys", async function () {
           const item1Id = addEntropy("item1");
@@ -1465,7 +1465,7 @@ describe("bulk/batch item operations", async function () {
                   BulkOperationType.Read,
                   { partitionKey: 0 },
                   {},
-                  item1Id
+                  item2Id
                 ),
                 expectedOutput: creatreBulkOperationExpectedOutput(200, []),
               },
@@ -1475,13 +1475,13 @@ describe("bulk/batch item operations", async function () {
                   BulkOperationType.Read,
                   { partitionKey: undefined },
                   {},
-                  item1Id
+                  item3Id
                 ),
                 expectedOutput: creatreBulkOperationExpectedOutput(200, []),
               },
             ],
           };
-          runBulkTestDataSet(dataset);
+          await runBulkTestDataSet(dataset);
 
           // await v2Container.items.create({
           //   id: item1Id,
