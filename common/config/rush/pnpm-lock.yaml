@@ -14697,7 +14697,7 @@ packages:
     dev: false
 
   file:projects/arm-sqlvirtualmachine.tgz:
-    resolution: {integrity: sha512-Gy5lwEOdexSJPVh9mY1Nq/F0G2wlR0t0rbqVkfTSb9XTVxXW88951lWx5XROE9Ux/imdaPs3CJ5j3YslJo2JEw==, tarball: file:projects/arm-sqlvirtualmachine.tgz}
+    resolution: {integrity: sha512-Y4qOyqaC9IcRR9408CJoB0ocVKbRja40ZxxYHyhg7R2Vjpn5Ws8CkuyXaP6dj4YpRPNitYpcye72xPtSirsGbg==, tarball: file:projects/arm-sqlvirtualmachine.tgz}
     name: '@rush-temp/arm-sqlvirtualmachine'
     version: 0.0.0
     dependencies:
@@ -14711,8 +14711,8 @@ packages:
       '@types/node': 14.18.48
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.1.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -19316,7 +19316,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-Ta2DL1i32tq8YzBuBOpmsMPn5ZwaEkk4UK/PIovIBFkm19A6Pb/TcIsJWYe2IDV6bmz9S4jLLFdRex0krtigYw==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-P71uQ6hYBUOp8sAtiKzvb3oy1eskU0cjAcXH5W5MdCh12E5VENENL6BLv5YCHvt9VelKTdzXOtNw274eP80iAg==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
