@@ -2325,6 +2325,13 @@ packages:
       '@types/serve-static': 1.15.1
     dev: false
 
+  /@types/fs-extra/11.0.1:
+    resolution: {integrity: sha512-MxObHvNl4A69ofaTRU8DFqvgzzv8s9yRtaPPm5gud9HDNvpB3GPQFvNuTWAI59B9huVGV5jXYJwbCsmBsOGYWA==}
+    dependencies:
+      '@types/jsonfile': 6.1.1
+      '@types/node': 16.18.34
+    dev: false
+
   /@types/fs-extra/8.1.2:
     resolution: {integrity: sha512-SvSrYXfWSc7R4eqnOzbQF4TZmfpNSM9FrSWLU3EUnWBuyZqNBOrv1B1JA3byUDPUl9z4Ab3jeZG2eDdySlgNMg==}
     dependencies:
@@ -2356,6 +2363,12 @@ packages:
 
   /@types/json5/0.0.29:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
+    dev: false
+
+  /@types/jsonfile/6.1.1:
+    resolution: {integrity: sha512-GSgiRCVeapDN+3pqA35IkQwasaCh/0YFH5dEF6S88iDvEn901DjOeH3/QPY+XYP1DFzDZPvIvfeEgk+7br5png==}
+    dependencies:
+      '@types/node': 16.18.34
     dev: false
 
   /@types/jsonwebtoken/9.0.2:
@@ -3909,7 +3922,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230607
+      typescript: 5.2.0-dev.20230608
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8605,8 +8618,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230607:
-    resolution: {integrity: sha512-7Lgk1sNuuYpMNvHuXIMczqhLbJ99RpX3VgokK+Ir4DgliycYNrNGM/daAO38fHkk8n3lg2rP/6U5I545xTJdKA==}
+  /typescript/5.2.0-dev.20230608:
+    resolution: {integrity: sha512-My8VOVNpHAZ693+NgsvD2JXgXg5eosPJcEDzPcme8tU1vs+C6G6liR15r3qd1qSSNjDghmCe014GjWspVBZ7ag==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -18346,11 +18359,12 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-t58aWhD/dospdzxl4G7jYxGsoiz7oush17gjphAwpMi9RXvvhG4j9hYsS7hpXyLJqJ6VSBPeI0VsZZqrVaO1Lg==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-KlwsjG+ZfsmCvhkX50XuijKHLNi42CYn+ycDbUqARCD4Qx7jnyvxKVDDBnES0oiW0PVk5pCrkbXFnsowX3JjoA==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.35.1_@types+node@14.18.48
+      '@types/fs-extra': 11.0.1
       '@types/mocha': 7.0.2
       '@types/node': 14.18.48
       '@typespec/compiler': 0.45.0
@@ -18358,6 +18372,7 @@ packages:
       dotenv: 16.1.4
       eslint: 8.42.0
       esm: 3.2.25
+      fs-extra: 11.1.1
       karma: 6.4.2
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.0
