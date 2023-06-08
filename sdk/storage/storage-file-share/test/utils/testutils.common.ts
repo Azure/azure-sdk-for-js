@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { env, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 
 export function isBrowser(): boolean {
   return typeof self !== "undefined";
@@ -10,6 +10,7 @@ export function isBrowser(): boolean {
 
 const mockAccountName = "fakestorageaccount";
 const mockAccountKey = "aaaaa";
+const mockSas = "fakeSasToken";
 const mockSDAccountName = "sd-fakestorageaccount";
 export const recorderEnvSetup: RecorderEnvironmentSetup = {
   replaceableVariables: {
@@ -18,18 +19,18 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     // 2. If the env variables are present in the recordings as plain strings, they will be replaced with the provided values in record mode
     ACCOUNT_NAME: `${mockAccountName}`,
     ACCOUNT_KEY: `${mockAccountKey}`,
-    ACCOUNT_SAS: `${mockAccountKey}`,
+    ACCOUNT_SAS: `${mockSas}`,
     STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
     // Comment following line to skip user delegation key/SAS related cases in record and play
     // which depends on this environment variable
     ACCOUNT_TOKEN: `${mockAccountKey}`,
     SOFT_DELETE_ACCOUNT_NAME: `${mockSDAccountName}`,
     SOFT_DELETE_ACCOUNT_KEY: `${mockAccountKey}`,
-    SOFT_DELETE_ACCOUNT_SAS: `${mockAccountKey}`,
+    SOFT_DELETE_ACCOUNT_SAS: `${mockSas}`,
     SOFT_DELETE_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockSDAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
     PREMIUM_FILE_ACCOUNT_NAME: `${mockAccountName}`,
     PREMIUM_FILE_ACCOUNT_KEY: `${mockAccountKey}`,
-    PREMIUM_FILE_ACCOUNT_SAS: `${mockAccountKey}`,
+    PREMIUM_FILE_ACCOUNT_SAS: `${mockSas}`,
     PREMIUM_FILE_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockSDAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
   },
   customizationsOnRecordings: [

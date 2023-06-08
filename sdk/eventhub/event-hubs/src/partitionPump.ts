@@ -84,6 +84,7 @@ export class PartitionPump {
     this._receiver = createReceiver(
       this._context,
       this._partitionProcessor.consumerGroup,
+      this._partitionProcessor.eventProcessorId,
       partitionId,
       currentEventPosition,
       {

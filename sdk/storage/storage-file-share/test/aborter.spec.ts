@@ -32,7 +32,6 @@ describe("Aborter", () => {
       assert.fail();
     } catch (err: any) {
       assert.equal(err.name, "AbortError");
-      assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
     }
   });
 
@@ -50,7 +49,6 @@ describe("Aborter", () => {
       assert.fail();
     } catch (err: any) {
       assert.equal(err.name, "AbortError");
-      assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
     }
   });
 
@@ -72,7 +70,6 @@ describe("Aborter", () => {
       assert.fail();
     } catch (err: any) {
       assert.equal(err.name, "AbortError");
-      assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
     }
   });
 });

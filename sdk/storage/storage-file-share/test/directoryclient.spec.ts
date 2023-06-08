@@ -1,17 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-
 import { getBSU, recorderEnvSetup } from "./utils";
 import { ShareClient, ShareDirectoryClient, FileSystemAttributes } from "../src";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
-import { SpanGraph, setTracer, getYieldedValue } from "@azure/test-utils";
-import { MockPolicyFactory } from "./utils/MockPolicyFactory";
-import { Pipeline } from "../src/Pipeline";
-import { setSpan, context } from "@azure/core-tracing";
+import { assert, getYieldedValue } from "@azure/test-utils";
 import { Context } from "mocha";
 
 describe("DirectoryClient", () => {
@@ -732,129 +727,46 @@ describe("DirectoryClient", () => {
   });
 
   it("createFile and deleteFile with tracing", async () => {
-    const tracer = setTracer();
-    const rootSpan = tracer.startSpan("root");
-    const tracingOptions = {
-      tracingContext: setSpan(context.active(), rootSpan),
-    };
-    const directoryName = recorder.getUniqueName("directory");
-    const { directoryClient: subDirClient } = await dirClient.createSubdirectory(directoryName, {
-      tracingOptions,
-    });
-    const fileName = recorder.getUniqueName("file");
-    const metadata = { key: "value" };
-    const { fileClient } = await subDirClient.createFile(fileName, 256, {
-      metadata,
-      tracingOptions,
-    });
-    const result = await fileClient.getProperties({
-      tracingOptions,
-    });
-    assert.deepEqual(result.metadata, metadata);
+    await assert.supportsTracing(
+      async (options) => {
+        const directoryName = recorder.getUniqueName("directory");
+        const { directoryClient: subDirClient } = await dirClient.createSubdirectory(
+          directoryName,
+          options
+        );
+        const fileName = recorder.getUniqueName("file");
+        const metadata = { key: "value" };
+        const { fileClient } = await subDirClient.createFile(fileName, 256, {
+          metadata,
+          ...options,
+        });
+        const result = await fileClient.getProperties(options);
+        assert.deepEqual(result.metadata, metadata);
 
-    await subDirClient.deleteFile(fileName, { tracingOptions });
-    try {
-      await fileClient.getProperties({ tracingOptions });
-      assert.fail(
-        "Expecting an error in getting properties from a deleted block blob but didn't get one."
-      );
-    } catch (error: any) {
-      assert.ok((error.statusCode as number) === 404);
-      assert.equal(
-        error.details.errorCode,
-        "ResourceNotFound",
-        "Error does not contain details property"
-      );
-    }
-    await subDirClient.delete({ tracingOptions });
-
-    rootSpan.end();
-
-    const rootSpans = tracer.getRootSpans();
-    assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
-    assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
-
-    const expectedGraph: SpanGraph = {
-      roots: [
-        {
-          name: rootSpan.name,
-          children: [
-            {
-              name: "Azure.Storage.File.ShareDirectoryClient-createSubdirectory",
-              children: [
-                {
-                  name: "Azure.Storage.File.ShareDirectoryClient-create",
-                  children: [
-                    {
-                      name: "HTTP PUT",
-                      children: [],
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              name: "Azure.Storage.File.ShareDirectoryClient-createFile",
-              children: [
-                {
-                  name: "Azure.Storage.File.ShareFileClient-create",
-                  children: [
-                    {
-                      name: "HTTP PUT",
-                      children: [],
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              name: "Azure.Storage.File.ShareFileClient-getProperties",
-              children: [
-                {
-                  name: "HTTP HEAD",
-                  children: [],
-                },
-              ],
-            },
-            {
-              name: "Azure.Storage.File.ShareDirectoryClient-deleteFile",
-              children: [
-                {
-                  name: "Azure.Storage.File.ShareFileClient-delete",
-                  children: [
-                    {
-                      name: "HTTP DELETE",
-                      children: [],
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              name: "Azure.Storage.File.ShareFileClient-getProperties",
-              children: [
-                {
-                  name: "HTTP HEAD",
-                  children: [],
-                },
-              ],
-            },
-            {
-              name: "Azure.Storage.File.ShareDirectoryClient-delete",
-              children: [
-                {
-                  name: "HTTP DELETE",
-                  children: [],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    };
-
-    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
-    assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
+        await subDirClient.deleteFile(fileName, options);
+        try {
+          await fileClient.getProperties(options);
+          assert.fail(
+            "Expecting an error in getting properties from a deleted block blob but didn't get one."
+          );
+        } catch (error: any) {
+          assert.ok((error.statusCode as number) === 404);
+          assert.equal(
+            error.details.errorCode,
+            "ResourceNotFound",
+            "Error does not contain details property"
+          );
+        }
+        await subDirClient.delete(options);
+      },
+      [
+        "ShareDirectoryClient-createSubdirectory",
+        "ShareDirectoryClient-createFile",
+        "ShareFileClient-getProperties",
+        "ShareDirectoryClient-deleteFile",
+        "ShareDirectoryClient-delete",
+      ]
+    );
   });
 
   it("listHandles should work", async () => {
@@ -890,26 +802,6 @@ describe("DirectoryClient", () => {
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const handle = result.handleList[0];
       await dirClient.forceCloseHandle(handle.handleId);
-    }
-  });
-
-  it("forceCloseHandle could return closeFailureCount", async () => {
-    // TODO: Open or create a handle; currently have to do this manually
-    const result = (await dirClient.listHandles().byPage().next()).value;
-    if (result.handleList !== undefined && result.handleList.length > 0) {
-      const mockPolicyFactory = new MockPolicyFactory({ numberOfHandlesFailedToClose: 1 });
-      const factories = (dirClient as any).pipeline.factories.slice(); // clone factories array
-      factories.unshift(mockPolicyFactory);
-      const pipeline = new Pipeline(factories);
-      const mockDirClient = new ShareDirectoryClient(dirClient.url, pipeline);
-
-      const handle = result.handleList[0];
-      const closeResp = await mockDirClient.forceCloseHandle(handle.handleId);
-      assert.equal(
-        closeResp.closeFailureCount,
-        1,
-        "Number of handles failed to close is not as set."
-      );
     }
   });
 

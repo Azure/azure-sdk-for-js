@@ -3832,7 +3832,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230606
+      typescript: 5.2.0-dev.20230607
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -4416,8 +4416,8 @@ packages:
     resolution: {integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==}
     dev: false
 
-  /fast-xml-parser/4.2.3:
-    resolution: {integrity: sha512-3wwn8WJZwUPwv7nU2hxIwKdxpwVexw8AYrUSG0prEPZXKbLBmz3eBlqvj+gB7lDY26MHDKCw7A8G2zoVO/Sf9A==}
+  /fast-xml-parser/4.2.4:
+    resolution: {integrity: sha512-fbfMDvgBNIdDJLdLOwacjFAPYt67tr31H9ZhWSm45CDAxvd0I6WTlSOUo7K2P/K5sA5JgMKG64PI3DMcaFdWpQ==}
     hasBin: true
     dependencies:
       strnum: 1.0.5
@@ -8425,8 +8425,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230606:
-    resolution: {integrity: sha512-aS+7vCKtiKKuzHFWW3sZ0zX1mHqSHESmM+LgOXx2jAMQ8NnHoT+7ixl37t0Z+JWXjOb0umUbgjBepaOLiGTuSQ==}
+  /typescript/5.2.0-dev.20230607:
+    resolution: {integrity: sha512-7Lgk1sNuuYpMNvHuXIMczqhLbJ99RpX3VgokK+Ir4DgliycYNrNGM/daAO38fHkk8n3lg2rP/6U5I545xTJdKA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -16546,7 +16546,7 @@ packages:
     dev: false
 
   file:projects/core-xml.tgz:
-    resolution: {integrity: sha512-6yMKr8V3D8WIvtZeHvAyMYLsCezhCP2pT73ucTLfIeoS5saNORZVRFX+IC8aXWlJG2jljv27bdZ05OEQTzpspw==, tarball: file:projects/core-xml.tgz}
+    resolution: {integrity: sha512-J3rljMfosWnpNmQNKztwDUY7WJt+qc5eOdQCdxfmJl3bOEhri2oQBOFJM9tJXwfTOqRK8J6A4p1IeYaH/IPaoQ==, tarball: file:projects/core-xml.tgz}
     name: '@rush-temp/core-xml'
     version: 0.0.0
     dependencies:
@@ -16560,7 +16560,7 @@ packages:
       cross-env: 7.0.3
       downlevel-dts: 0.10.1
       eslint: 8.42.0
-      fast-xml-parser: 4.2.3
+      fast-xml-parser: 4.2.4
       inherits: 2.0.4
       karma: 6.4.2
       karma-chrome-launcher: 3.2.0
@@ -19316,7 +19316,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-5ie5/QK9klG91C+f7GkzlFX+KDKuwVgKyn52dzGylmLr4NCjh/b4OWguq/5kae9OC8qHn4+aJHg2J81P5M4QDA==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-P71uQ6hYBUOp8sAtiKzvb3oy1eskU0cjAcXH5W5MdCh12E5VENENL6BLv5YCHvt9VelKTdzXOtNw274eP80iAg==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
@@ -19326,6 +19326,8 @@ packages:
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.48
+      '@types/sinon': 9.0.11
+      '@types/uuid': 8.3.4
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.1.4
@@ -19352,11 +19354,13 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1_typescript@5.0.4
       rimraf: 3.0.2
+      sinon: 9.2.4
       source-map-support: 0.5.21
       ts-node: 10.9.1_haicren4phfcx6dckkdidh3s3e
       tslib: 2.5.3
       typescript: 5.0.4
       util: 0.12.5
+      uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'

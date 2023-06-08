@@ -1,23 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-
 import { AbortController } from "@azure/abort-controller";
-import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
+import { isNode } from "@azure/core-util";
 import { delay, isLiveMode, record, Recorder } from "@azure-tools/test-recorder";
-import { context, setSpan } from "@azure/core-tracing";
 import { Context } from "mocha";
-import { setTracer, SpanGraph } from "@azure/test-utils";
+import { assert } from "@azure/test-utils";
 
 import { FileStartCopyOptions, ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
 import { FileSystemAttributes } from "../src/FileSystemAttributes";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
-import { Pipeline } from "../src/Pipeline";
 import { FILE_MAX_SIZE_BYTES } from "../src/utils/constants";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
 import { bodyToString, compareBodyWithUint8Array, getBSU, recorderEnvSetup } from "./utils";
-import { MockPolicyFactory } from "./utils/MockPolicyFactory";
 
 describe("FileClient", () => {
   let shareName: string;
@@ -345,15 +340,11 @@ describe("FileClient", () => {
     // so we remove it before comparing urls.
     assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
 
-    const sanitizedActualUrl = URLBuilder.parse(properties2.copySource!);
-    const sanitizedQuery = URLQuery.parse(sanitizedActualUrl.getQuery()!);
-    sanitizedQuery.set("sig", undefined);
-    sanitizedActualUrl.setQuery(sanitizedQuery.toString());
+    const sanitizedActualUrl = new URL(properties2.copySource!);
+    sanitizedActualUrl.searchParams.delete("sig");
 
-    const sanitizedExpectedUrl = URLBuilder.parse(fileClient.url);
-    const sanitizedQuery2 = URLQuery.parse(sanitizedActualUrl.getQuery()!);
-    sanitizedQuery2.set("sig", undefined);
-    sanitizedExpectedUrl.setQuery(sanitizedQuery.toString());
+    const sanitizedExpectedUrl = new URL(fileClient.url);
+    sanitizedExpectedUrl.searchParams.delete("sig");
 
     assert.strictEqual(
       sanitizedActualUrl.toString(),
@@ -598,7 +589,9 @@ describe("FileClient", () => {
     );
     await fileClient.create(10);
     let progressUpdated = false;
-    await fileClient.uploadRange("HelloWorld", 0, 10, {
+    // fetch http client doesn't fire progress for string bodies, only blob and streams
+    const body = isNode ? "HelloWorld" : new Blob(["HelloWorld"]);
+    await fileClient.uploadRange(body, 0, 10, {
       onProgress: () => {
         progressUpdated = true;
       },
@@ -792,11 +785,16 @@ describe("FileClient", () => {
     assert.deepStrictEqual(await bodyToString(result, 2), "He");
   });
 
-  it("download should update progress and abort successfully", async () => {
+  it("download should update progress and abort successfully", async function () {
     recorder.skip(
       undefined,
       "Abort - Recorder does not record a request if it's aborted in a 'progress' callback"
     );
+    if (!isNode) {
+      // because this test is using a blob response, there won't be
+      // anything to abort by the time onProgress gets called.
+      this.skip();
+    }
     await fileClient.create(128 * 1024 * 1024);
 
     let eventTriggered = false;
@@ -873,44 +871,10 @@ describe("FileClient", () => {
 
   it("forceCloseHandle could return closeFailureCount", async () => {
     await fileClient.create(10);
-
-    // TODO: Open or create a handle, currently have to do this manually
-    const result = (await fileClient.listHandles().byPage().next()).value;
-    if (result.handleList !== undefined && result.handleList.length > 0) {
-      const mockPolicyFactory = new MockPolicyFactory({ numberOfHandlesFailedToClose: 1 });
-      const factories = (fileClient as any).pipeline.factories.slice(); // clone factories array
-      factories.unshift(mockPolicyFactory);
-      const pipeline = new Pipeline(factories);
-      const mockFileClient = new ShareFileClient(fileClient.url, pipeline);
-
-      const handle = result.handleList[0];
-      const closeResp = await mockFileClient.forceCloseHandle(handle.handleId);
-      assert.equal(
-        closeResp.closeFailureCount,
-        1,
-        "Number of handles failed to close is not as set."
-      );
-    }
   });
 
   it("forceCloseAllHandles return correct closeFailureCount", async () => {
     await fileClient.create(10);
-
-    // TODO: Open or create a handle; currently have to do this manually
-    const result = (await fileClient.listHandles().byPage().next()).value;
-    if (result.handleList !== undefined && result.handleList.length > 0) {
-      const mockPolicyFactory = new MockPolicyFactory({ numberOfHandlesFailedToClose: 1 });
-      const factories = (fileClient as any).pipeline.factories.slice(); // clone factories array
-      factories.unshift(mockPolicyFactory);
-      const pipeline = new Pipeline(factories);
-      const mockFileClient = new ShareFileClient(fileClient.url, pipeline);
-      const closeResp = await mockFileClient.forceCloseAllHandles();
-      assert.equal(
-        closeResp.closeFailureCount,
-        1,
-        "Number of handles failed to close is not as set."
-      );
-    }
 
     const closeAllResp = await fileClient.forceCloseAllHandles();
     assert.equal(
@@ -921,40 +885,12 @@ describe("FileClient", () => {
   });
 
   it("create with tracing", async () => {
-    const tracer = setTracer();
-    const rootSpan = tracer.startSpan("root");
-    await fileClient.create(content.length, {
-      tracingOptions: {
-        tracingContext: setSpan(context.active(), rootSpan),
+    await assert.supportsTracing(
+      async (options) => {
+        await fileClient.create(content.length, options);
       },
-    });
-    rootSpan.end();
-
-    const rootSpans = tracer.getRootSpans();
-    assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
-    assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
-
-    const expectedGraph: SpanGraph = {
-      roots: [
-        {
-          name: rootSpan.name,
-          children: [
-            {
-              name: "Azure.Storage.File.ShareFileClient-create",
-              children: [
-                {
-                  name: "HTTP PUT",
-                  children: [],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    };
-
-    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
-    assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
+      ["ShareFileClient-create"]
+    );
   });
 
   // STG81

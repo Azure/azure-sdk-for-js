@@ -5,7 +5,7 @@ import { randomBytes } from "crypto";
 import * as fs from "fs";
 import * as path from "path";
 
-import { TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
 import { BlobServiceClient } from "@azure/storage-blob";
 
 import {
@@ -15,8 +15,8 @@ import {
   generateAccountSASQueryParameters,
   SASProtocol,
 } from "../../src";
-import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
-import { newPipeline } from "../../src/Pipeline";
+import { StorageSharedKeyCredential } from "../../../storage-blob/src/credentials/StorageSharedKeyCredential";
+import { newPipeline } from "../../../storage-blob/src/Pipeline";
 import { ShareServiceClient } from "../../src/ShareServiceClient";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
 import { getUniqueName, SimpleTokenCredential } from "./testutils.common";
@@ -150,9 +150,7 @@ export function getSASConnectionStringFromEnvironment(): string {
   const tmr = new Date();
   tmr.setDate(tmr.getDate() + 1);
   const queueServiceClient = getBSU();
-  // By default, credential is always the last element of pipeline factories
-  const factories = (queueServiceClient as any).pipeline.factories;
-  const sharedKeyCredential = factories[factories.length - 1];
+  const sharedKeyCredential = queueServiceClient["credential"];
 
   const sas = generateAccountSASQueryParameters(
     {

@@ -9,6 +9,7 @@
 - Add AiCloudRole and AiCloudRoleInstance to OTel Resource event.
 - Add OTel resource metric envelope.
 - Add OpenTelemetry Log Exporter
+- Use Kubernetes resource attributes to populate cloud role and role instance.
 
 ## 1.0.0-beta.12 (2023-04-04)
 

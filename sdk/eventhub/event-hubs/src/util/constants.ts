@@ -19,6 +19,9 @@ export const idempotentProducerAmqpPropertyNames = {
   producerSequenceNumber: "com.microsoft:producer-sequence-number",
 } as const;
 
+/** @internal */
+export const receiverIdPropertyName = "com.microsoft:receiver-name";
+
 /**
  * @internal
  */

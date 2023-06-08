@@ -39,8 +39,7 @@ describe("DirectoryClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential", async () => {
-    const factories = (dirClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = dirClient["credential"] as StorageSharedKeyCredential;
     const newClient = new ShareDirectoryClient(dirClient.url, credential);
 
     const result = await newClient.getProperties();
@@ -53,8 +52,7 @@ describe("DirectoryClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
-    const factories = (dirClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = dirClient["credential"] as StorageSharedKeyCredential;
     const newClient = new ShareDirectoryClient(dirClient.url, credential, {
       retryOptions: {
         maxTries: 5,
@@ -71,8 +69,7 @@ describe("DirectoryClient Node.js only", () => {
   });
 
   it("can be created with a url and a pipeline", async () => {
-    const factories = (dirClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = dirClient["credential"] as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new ShareDirectoryClient(dirClient.url, pipeline);
 
