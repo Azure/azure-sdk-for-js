@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
 import { assert } from "chai";
 import { Context } from "mocha";
 import { SipRoutingClient, SipRoutingTestRoutesWithNumberOptionalParams } from "../../../src";
@@ -12,10 +11,11 @@ import {
   createRecordedClientWithToken,
   getAzureTestDomain,
   getUniqueFqdn,
+  resetUniqueFqdns,
 } from "./utils/recordedClient";
 import { matrix } from "@azure/test-utils";
 
-matrix([[true, false]], async function (useAad) {
+matrix([[false, true]], async function (useAad) {
   describe(`SipRoutingClient - match number to routes${useAad ? " [AAD]" : ""}`, function () {
     let client: SipRoutingClient;
     let recorder: Recorder;
@@ -27,6 +27,7 @@ matrix([[true, false]], async function (useAad) {
       ({ client, recorder } = useAad
         ? await createRecordedClientWithToken(this)
         : await createRecordedClient(this));
+      resetUniqueFqdns();
 
       trunkUs = getUniqueFqdn(recorder);
       trunkNz = getUniqueFqdn(recorder);
