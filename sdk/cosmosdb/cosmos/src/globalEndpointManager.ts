@@ -31,6 +31,7 @@ export class GlobalEndpointManager {
   private unavailableReadableLocations: Location[] = [];
   private unavailableWriteableLocations: Location[] = [];
 
+  public preferredLocationsCount: number;
   /**
    * @param options - The document client instance.
    */
@@ -45,6 +46,7 @@ export class GlobalEndpointManager {
     this.enableEndpointDiscovery = options.connectionPolicy.enableEndpointDiscovery;
     this.isRefreshing = false;
     this.preferredLocations = this.options.connectionPolicy.preferredLocations;
+    this.preferredLocationsCount = this.preferredLocations ? this.preferredLocations.length : 0;
   }
 
   /**

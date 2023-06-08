@@ -6,7 +6,7 @@ import { ErrorResponse } from "../request";
 import { Constants, ResourceType } from "../common/constants";
 import { RetryContext } from "./RetryContext";
 import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
-import { OperationType, TimeoutError } from "@azure/cosmos";
+import { OperationType } from "@azure/cosmos";
 import { TimeoutErrorCode } from "../request/TimeoutError";
 
 export class TimeoutFailoverRetryPolicy implements RetryPolicy {
@@ -47,22 +47,18 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     if (!retryContext || !locationEndpoint) {
       return false;
     }
-
     if (err.statusCode === TimeoutErrorCode && !this.isValidRequestForTimeoutError()) {
       return false;
     }
-
     if (!this.enableEndPointDiscovery) {
       return false;
     }
-
     if (
       err.statusCode === StatusCodes.ServiceUnavailable &&
       this.failoverRetryCount >= this.maxServiceUnavailableRetryCount
     ) {
       return false;
     }
-    //add check on retry
     if (this.failoverRetryCount >= this.maxRetryAttemptCount) {
       return false;
     }
@@ -76,8 +72,36 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
       return false;
     }
     this.failoverRetryCount++;
-    retryContext.retryCount++;
+    if (!(await this.isFailoverCountWithinEndpointLimits(readRequest))) {
+      return false;
+    }
     retryContext.retryLocationIndex = this.failoverRetryCount;
+
+    return true;
+  }
+
+  private async isFailoverCountWithinEndpointLimits(readRequest: boolean) {
+    const preferredLocationsCount = this.globalEndpointManager.preferredLocationsCount;
+    if (preferredLocationsCount !== 0 && this.failoverRetryCount >= preferredLocationsCount) {
+      return false;
+    }
+    if (preferredLocationsCount !== 0) {
+      if (this.failoverRetryCount >= preferredLocationsCount) {
+        return false;
+      }
+    } else {
+      if (readRequest) {
+        const getReadEndpoints = await this.globalEndpointManager.getReadEndpoints();
+        if (this.failoverRetryCount >= getReadEndpoints.length) {
+          return false;
+        }
+      } else {
+        const getWriteEndpoints = await this.globalEndpointManager.getWriteEndpoints();
+        if (this.failoverRetryCount >= getWriteEndpoints.length) {
+          return false;
+        }
+      }
+    }
     return true;
   }
 }

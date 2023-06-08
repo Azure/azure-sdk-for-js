@@ -73,6 +73,8 @@ describe("GlobalEndpointManager", function () {
         await gem.resolveServiceEndpoint(ResourceType.item, OperationType.Read),
         "https://test-eastus2.documents.azure.com:443/"
       );
+
+      assert.equal(gem.preferredLocationsCount, 2);
     });
 
     it("should allow you to pass a normalized preferred location", async function () {

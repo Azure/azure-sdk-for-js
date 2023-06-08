@@ -10,6 +10,7 @@ import { ErrorResponse } from "../../../src/request/ErrorResponse";
 import { RetryContext } from "../../../src/retry/RetryContext";
 import { StatusCodes } from "../../../src/common/statusCodes";
 import { getEmptyCosmosDiagnostics } from "../../../src/CosmosDiagnostics";
+import { TimeoutErrorCode } from "../../../src/request/TimeoutError";
 
 describe("TimeoutFailoverRetryPolicy", function () {
   const databaseAccountBody: any = {
@@ -42,6 +43,7 @@ describe("TimeoutFailoverRetryPolicy", function () {
       connectionPolicy: {
         enableEndpointDiscovery: true,
         preferredLocations: ["East US 2", "West US 2"],
+        useMultipleWriteLocations: true,
       },
     },
     async () => {
@@ -55,6 +57,9 @@ describe("TimeoutFailoverRetryPolicy", function () {
   );
 
   let retryPolicy: TimeoutFailoverRetryPolicy;
+  let retryCtx: RetryContext;
+  let timeoutErr: ErrorResponse;
+  let locEndpoint: string;
 
   beforeEach(async function () {
     retryPolicy = new TimeoutFailoverRetryPolicy(
@@ -65,6 +70,14 @@ describe("TimeoutFailoverRetryPolicy", function () {
       OperationType.Read,
       true
     );
+    retryCtx = { retryCount: 2 };
+    timeoutErr = {
+      statusCode: TimeoutErrorCode,
+      name: "timeout",
+      message: "error",
+      diagnostics: getEmptyCosmosDiagnostics(),
+    };
+    locEndpoint = "endpoint";
   });
 
   it("should determine if retry should occur correctly", async function () {
@@ -72,22 +85,166 @@ describe("TimeoutFailoverRetryPolicy", function () {
     const retryContext: RetryContext | undefined = undefined;
     const locationEndpoint: string | undefined = undefined;
 
+    //Test case 1: err, retryContext, locationEndpoint are undefined
     assert.equal(await retryPolicy.shouldRetry(err, retryContext, locationEndpoint), false);
+    //Test case 2: err is null
     assert.equal(await retryPolicy.shouldRetry(null, retryContext, locationEndpoint), false);
+    //Test case 3: locationEndpoint is defined, err, retryContext are undefined
     assert.equal(await retryPolicy.shouldRetry(err, retryContext, "locationEndpoint"), false);
-
+  });
+  it("should not retry when timeout error but the request is not valid for timeout error", async function () {
+    const retryPolicy_post = new TimeoutFailoverRetryPolicy(
+      gem,
+      headers,
+      HTTPMethod.post,
+      ResourceType.item,
+      OperationType.Read,
+      true
+    );
+    assert.equal(
+      await retryPolicy_post.shouldRetry(timeoutErr, retryCtx, "locationEndpoint"),
+      false
+    );
+  });
+  it("should not retry when Endpoint discovery is disabled", async function () {
+    const retryPolicy_endpointDiscoveryDisabled = new TimeoutFailoverRetryPolicy(
+      gem,
+      headers,
+      HTTPMethod.get,
+      ResourceType.item,
+      OperationType.Read,
+      false
+    );
+    assert.equal(
+      await retryPolicy_endpointDiscoveryDisabled.shouldRetry(
+        timeoutErr,
+        retryCtx,
+        "locationEndpoint"
+      ),
+      false
+    );
+  });
+  it("should not retry when maxServiceUnavailableRetryCount exceeded", async function () {
     const serviceUnavailableErr: ErrorResponse = {
       statusCode: StatusCodes.ServiceUnavailable,
       name: "service unavailable",
       message: "error",
       diagnostics: getEmptyCosmosDiagnostics(),
     };
-    const retryCtx: RetryContext = { retryCount: 2 };
-    const locEndpoint: string = "endpoint";
+
+    // valid case
     assert.equal(await retryPolicy.shouldRetry(serviceUnavailableErr, retryCtx, locEndpoint), true);
 
-    //test maxServiceUnavailableRetryCount making value to 2
+    //test maxServiceUnavailableRetryCount exceeded
     await retryPolicy.shouldRetry(serviceUnavailableErr, retryCtx, locEndpoint);
-    assert.equal(retryPolicy.shouldRetry(serviceUnavailableErr, retryCtx, locEndpoint), false);
+    assert.equal(
+      await retryPolicy.shouldRetry(serviceUnavailableErr, retryCtx, locEndpoint),
+      false
+    );
+  });
+  it("should not retry when Maximum retry attempt count exceeded", async function () {
+    const retryPolicy_maxRetryAttemptCount = new TimeoutFailoverRetryPolicy(
+      gem,
+      headers,
+      HTTPMethod.get,
+      ResourceType.item,
+      OperationType.Read,
+      true
+    );
+    // update maximum number of retries to 1
+    (retryPolicy_maxRetryAttemptCount as any).maxRetryAttemptCount = 1;
+
+    for (let i = 0; i < 1; i++) {
+      assert.equal(
+        await retryPolicy_maxRetryAttemptCount.shouldRetry(timeoutErr, retryCtx, locEndpoint),
+        true
+      );
+    }
+    assert.equal(
+      await retryPolicy_maxRetryAttemptCount.shouldRetry(timeoutErr, retryCtx, locEndpoint),
+      false
+    );
+  });
+  it("should not retry when multiple write locations are not allowed", async function () {
+    const gem_test = new GlobalEndpointManager(
+      {
+        endpoint: "https://test.documents.azure.com:443/",
+        key: "masterKey",
+        connectionPolicy: {
+          enableEndpointDiscovery: true,
+          preferredLocations: ["East US 2", "West US 2"],
+          useMultipleWriteLocations: false,
+        },
+      },
+      async () => {
+        const response: ResourceResponse<DatabaseAccount> = new ResourceResponse(
+          new DatabaseAccount(databaseAccountBody, headers),
+          headers,
+          200
+        );
+        return response;
+      }
+    );
+    const retryPolicy_multipleWriteLocationsDisabled = new TimeoutFailoverRetryPolicy(
+      gem_test,
+      headers,
+      HTTPMethod.get,
+      ResourceType.item,
+      OperationType.Create,
+      true
+    );
+    assert.equal(
+      await retryPolicy_multipleWriteLocationsDisabled.shouldRetry(
+        timeoutErr,
+        retryCtx,
+        locEndpoint
+      ),
+      false
+    );
+  });
+  it("should not retry when failover count exceeds the number of preferred read endpoints", async function () {
+    assert.equal(await retryPolicy.shouldRetry(timeoutErr, retryCtx, locEndpoint), true);
+
+    assert.equal(await retryPolicy.shouldRetry(timeoutErr, retryCtx, locEndpoint), false);
+  });
+  it("should not retry when prefered locations are not defined and failover count exceeds the number of read", async function () {
+    const gem_test2 = new GlobalEndpointManager(
+      {
+        endpoint: "https://test.documents.azure.com:443/",
+        key: "masterKey",
+        connectionPolicy: {
+          enableEndpointDiscovery: true,
+          useMultipleWriteLocations: false,
+        },
+      },
+      async () => {
+        const response: ResourceResponse<DatabaseAccount> = new ResourceResponse(
+          new DatabaseAccount(databaseAccountBody, headers),
+          headers,
+          200
+        );
+        return response;
+      }
+    );
+    const retryPolicy_preferedLocationsNotDefined = new TimeoutFailoverRetryPolicy(
+      gem_test2,
+      headers,
+      HTTPMethod.get,
+      ResourceType.item,
+      OperationType.Read,
+      true
+    );
+    //initialising redable locations
+    await gem_test2.resolveServiceEndpoint(ResourceType.item, OperationType.Read);
+
+    assert.equal(
+      await retryPolicy_preferedLocationsNotDefined.shouldRetry(timeoutErr, retryCtx, locEndpoint),
+      true
+    );
+    // retry count breached as only 2 endpoints were available
+    assert.equal(
+      await retryPolicy_preferedLocationsNotDefined.shouldRetry(timeoutErr, retryCtx, locEndpoint),
+      false
+    );
   });
 });
