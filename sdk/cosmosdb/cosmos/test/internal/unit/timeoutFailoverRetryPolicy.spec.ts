@@ -151,10 +151,8 @@ describe("TimeoutFailoverRetryPolicy", function () {
       OperationType.Read,
       true
     );
-    // update maximum number of retries to 1
-    (retryPolicy_maxRetryAttemptCount as any).maxRetryAttemptCount = 1;
 
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < 120; i++) {
       assert.equal(
         await retryPolicy_maxRetryAttemptCount.shouldRetry(timeoutErr, retryCtx, locEndpoint),
         true
@@ -202,12 +200,7 @@ describe("TimeoutFailoverRetryPolicy", function () {
       false
     );
   });
-  it("should not retry when failover count exceeds the number of preferred read endpoints", async function () {
-    assert.equal(await retryPolicy.shouldRetry(timeoutErr, retryCtx, locEndpoint), true);
-
-    assert.equal(await retryPolicy.shouldRetry(timeoutErr, retryCtx, locEndpoint), false);
-  });
-  it("should not retry when prefered locations are not defined and failover count exceeds the number of read", async function () {
+  it("should retry when prefered locations are not defined and failover count exceeds the number of read", async function () {
     const gem_test2 = new GlobalEndpointManager(
       {
         endpoint: "https://test.documents.azure.com:443/",
@@ -236,11 +229,16 @@ describe("TimeoutFailoverRetryPolicy", function () {
     );
     //initialising redable locations
     await gem_test2.resolveServiceEndpoint(ResourceType.item, OperationType.Read);
-
-    assert.equal(
-      await retryPolicy_preferedLocationsNotDefined.shouldRetry(timeoutErr, retryCtx, locEndpoint),
-      true
-    );
+    for (let i = 0; i < 120; i++) {
+      assert.equal(
+        await retryPolicy_preferedLocationsNotDefined.shouldRetry(
+          timeoutErr,
+          retryCtx,
+          locEndpoint
+        ),
+        true
+      );
+    }
     // retry count breached as only 2 endpoints were available
     assert.equal(
       await retryPolicy_preferedLocationsNotDefined.shouldRetry(timeoutErr, retryCtx, locEndpoint),
