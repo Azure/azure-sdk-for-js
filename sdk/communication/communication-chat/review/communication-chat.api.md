@@ -163,7 +163,7 @@ export class ChatThreadClient {
     sendTypingNotification(options?: SendTypingNotificationOptions): Promise<boolean>;
     readonly threadId: string;
     updateMessage(messageId: string, options?: UpdateMessageOptions): Promise<void>;
-    updateMetadata(metadata: Record<string, string>, options?: UpdateMetadataOptions): Promise<void>;
+    updateProperties(options?: UpdatePropertiesOptions): Promise<void>;
     updateTopic(topic: string, options?: UpdateTopicOptions): Promise<void>;
 }
 
@@ -314,7 +314,9 @@ export interface UpdateMessageOptions extends OperationOptions {
 }
 
 // @public
-export interface UpdateMetadataOptions extends OperationOptions {
+export interface UpdatePropertiesOptions extends OperationOptions {
+    metadata?: Record<string, string>;
+    topic?: string;
 }
 
 // @public

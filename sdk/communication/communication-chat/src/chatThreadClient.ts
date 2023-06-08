@@ -45,7 +45,7 @@ import {
   SendTypingNotificationOptions,
   UpdateMessageOptions,
   UpdateTopicOptions,
-  UpdateMetadataOptions
+  UpdatePropertiesOptions
 } from "./models/options";
 import { ChatApiClient } from "./generated/src";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
@@ -130,18 +130,17 @@ export class ChatThreadClient {
   }
 
   /**
-   * Updates a thread's metadata.
-   * @param metadata - The metadata needs to be updated to.
+   * Updates a thread's properties.
    * @param options - Operation options.
    */
-  public updateMetadata(metadata: Record<string, string>, options: UpdateMetadataOptions = {}): Promise<void> {
+  public updateProperties(options: UpdatePropertiesOptions = {}): Promise<void> {
     return tracingClient.withSpan(
-      "ChatThreadClient-UpdateMetadata",
+      "ChatThreadClient-UpdateProperties",
       options,
       async (updatedOptions) => {
         await this.client.chatThread.updateChatThreadProperties(
           this.threadId,
-          { topic: metadata['1'] },
+          { topic: options.topic },
           updatedOptions
         );
       }

@@ -35,7 +35,12 @@ export interface UpdateTopicOptions extends OperationOptions { }
 /**
  * Options to update a chat thread.
  */
-export interface UpdateMetadataOptions extends OperationOptions { }
+export interface UpdatePropertiesOptions extends OperationOptions {
+  /** Thread topic. */
+  topic?: string;
+  /** Thread metadata. */
+  metadata?: Record<string, string>;
+}
 
 /**
  * Options to get chat threads.
