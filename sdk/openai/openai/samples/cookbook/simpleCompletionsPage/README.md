@@ -1,6 +1,6 @@
 This is a simple browser page demonstrating the completions API using the Azure OpenAI JS SDK.
 
-To run, after installing webpack and webpack-cli globally:
+To run:
 1.
 ```
 npm install
