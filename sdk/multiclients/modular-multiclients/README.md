@@ -1,4 +1,4 @@
-# Multi REST client library for JavaScript
+# Modular with Multi client library for JavaScript
 
 Multi Client Service
 
