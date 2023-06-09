@@ -21,20 +21,21 @@ import {
 import { EventDataInternal, ReceivedEventData, fromRheaMessage } from "./eventData";
 import { EventPosition, getEventPositionFilter } from "./eventPosition";
 import {
-  createLogPrefix,
   createSimpleLogger,
   logErrorStackTrace,
   logObj,
   logger as azureLogger,
   SimpleLogger,
+  createReceiverLogPrefix,
 } from "./logger";
 import { ConnectionContext } from "./connectionContext";
-import { EventHubConsumerOptions } from "./models/private";
+import { PartitionReceiverOptions } from "./models/private";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
 import { createAbortablePromise } from "@azure/core-util";
 import { TimerLoop } from "./util/timerLoop";
 import { getRandomName } from "./util/utils";
 import { withAuth } from "./withAuth";
+import { receiverIdPropertyName } from "./util/constants";
 
 type Writable<T> = {
   -readonly [P in keyof T]: T[P];
@@ -93,6 +94,7 @@ export interface PartitionReceiver {
 interface ConnectOptions {
   abortSignal: AbortSignalLike | undefined;
   timeoutInMs: number;
+  prefetchCount: number;
 }
 
 interface ReceiverState {
@@ -105,14 +107,15 @@ interface ReceiverState {
 export function createReceiver(
   ctx: ConnectionContext,
   consumerGroup: string,
+  consumerId: string,
   partitionId: string,
   eventPosition: EventPosition,
-  options: EventHubConsumerOptions = {}
+  options: PartitionReceiverOptions = {}
 ): PartitionReceiver {
   const address = ctx.config.getReceiverAddress(partitionId, consumerGroup);
   const name = getRandomName(address);
   const audience = ctx.config.getReceiverAudience(partitionId, consumerGroup);
-  const logPrefix = createLogPrefix(ctx.connectionId, "Receiver", name);
+  const logPrefix = createReceiverLogPrefix(consumerId, ctx.connectionId, partitionId);
   const logger = createSimpleLogger(azureLogger, logPrefix);
   const queue: ReceivedEventData[] = [];
   const state: ReceiverState = {
@@ -153,7 +156,7 @@ export function createReceiver(
       logger.verbose(`is open? -> ${isOpen}`);
       return isOpen;
     },
-    async connect({ abortSignal, timeoutInMs }: ConnectOptions): Promise<void> {
+    async connect({ abortSignal, timeoutInMs, prefetchCount }: ConnectOptions): Promise<void> {
       if (state.isConnecting || obj.isOpen()) {
         return;
       }
@@ -164,12 +167,14 @@ export function createReceiver(
         state.authLoop = await withAuth(
           () =>
             setupLink(
+              consumerId,
               ctx,
               name,
               address,
               obj,
               state,
               queue,
+              prefetchCount,
               eventPosition,
               logger,
               options,
@@ -211,9 +216,7 @@ export function createReceiver(
           cleanupBeforeAbort();
           return Promise.reject(new AbortError(StandardAbortMessage));
         }
-        return obj.isClosed || ctx.wasConnectionCloseCalled
-          ? Promise.resolve(queue.splice(0))
-          : eventsToRetrieveCount === 0
+        return obj.isClosed || ctx.wasConnectionCloseCalled || eventsToRetrieveCount === 0
           ? Promise.resolve(queue.splice(0, maxMessageCount))
           : new Promise<void>((resolve, reject) => {
               obj._onError = reject;
@@ -221,16 +224,11 @@ export function createReceiver(
                 .connect({
                   abortSignal,
                   timeoutInMs: getRetryAttemptTimeoutInMs(options.retryOptions),
+                  prefetchCount: options.prefetchCount ?? maxMessageCount * 3,
                 })
                 .then(() => {
-                  if (addCredits(state.link, eventsToRetrieveCount) > 0) {
-                    return logger.verbose(
-                      `setting the wait timer for ${maxWaitTimeInSeconds} seconds`
-                    );
-                  } else return;
-                })
-                .then(() =>
-                  waitForEvents(
+                  logger.verbose(`setting the wait timer for ${maxWaitTimeInSeconds} seconds`);
+                  return waitForEvents(
                     maxMessageCount,
                     maxWaitTimeInSeconds * 1000,
                     qReadIntervalInMs,
@@ -252,8 +250,8 @@ export function createReceiver(
                           `no messages received when max wait time in seconds ${maxWaitTimeInSeconds} is over`
                         ),
                     }
-                  )
-                )
+                  );
+                })
                 .catch(reject)
                 .then(resolve);
             })
@@ -415,14 +413,6 @@ function setEventProps(eventProps: LastEnqueuedEventProperties, data: EventDataI
   eventProps.retrievedOn = data.retrievalTime;
 }
 
-function addCredits(receiver: Link | undefined, eventsToRetrieveCount: number): number {
-  const creditsToAdd = eventsToRetrieveCount - (receiver?.credit ?? 0);
-  if (creditsToAdd > 0) {
-    receiver?.addCredit(creditsToAdd);
-  }
-  return creditsToAdd;
-}
-
 function clearHandlers(obj: WritableReceiver): void {
   obj._onError = undefined;
 }
@@ -431,7 +421,7 @@ function onMessage(
   context: EventContext,
   obj: WritableReceiver,
   queue: ReceivedEventData[],
-  options: EventHubConsumerOptions
+  options: PartitionReceiverOptions
 ): void {
   if (!context.message) {
     return;
@@ -508,22 +498,28 @@ async function onSessionClose(
 }
 
 function createRheaOptions(
+  consumerId: string,
   name: string,
   address: string,
   obj: PartitionReceiver,
   state: ReceiverState,
   queue: ReceivedEventData[],
+  prefetchCount: number,
   eventPosition: EventPosition,
   logger: SimpleLogger,
-  options: EventHubConsumerOptions
+  options: PartitionReceiverOptions
 ): RheaReceiverOptions {
-  const rheaOptions: RheaReceiverOptions & { source: Source } = {
+  const rheaOptions: RheaReceiverOptions & { source: Source; properties: Record<string, any> } = {
     name,
     autoaccept: true,
+    target: consumerId,
     source: {
       address,
     },
-    credit_window: 0,
+    credit_window: prefetchCount,
+    properties: {
+      [receiverIdPropertyName]: consumerId,
+    },
     onClose: (context) => onClose(context, state, logger),
     onSessionClose: (context) => onSessionClose(context, state, logger),
     onError: (context) => onError(context, obj, state.link, logger),
@@ -532,9 +528,7 @@ function createRheaOptions(
   };
   const ownerLevel = options.ownerLevel;
   if (typeof ownerLevel === "number") {
-    rheaOptions.properties = {
-      [Constants.attachEpoch]: types.wrap_long(ownerLevel),
-    };
+    rheaOptions.properties[Constants.attachEpoch] = types.wrap_long(ownerLevel);
   }
   if (options.trackLastEnqueuedEventProperties) {
     rheaOptions.desired_capabilities = Constants.enableReceiverRuntimeMetricName;
@@ -549,23 +543,27 @@ function createRheaOptions(
 }
 
 async function setupLink(
+  consumerId: string,
   ctx: ConnectionContext,
   name: string,
   address: string,
   obj: PartitionReceiver,
   state: ReceiverState,
   queue: ReceivedEventData[],
+  prefetchCount: number,
   eventPosition: EventPosition,
   logger: SimpleLogger,
-  options: EventHubConsumerOptions,
+  options: PartitionReceiverOptions,
   abortSignal?: AbortSignalLike
 ): Promise<void> {
   const rheaOptions = createRheaOptions(
+    consumerId,
     name,
     address,
     obj,
     state,
     queue,
+    prefetchCount,
     eventPosition,
     logger,
     options

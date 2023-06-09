@@ -22,26 +22,28 @@ export function logErrorStackTrace(error: unknown): void {
 }
 
 /**
- * Creates a logger that includes the connectionId, sender or receiver name, and
- * client type.
  * @internal
  */
-export function createLogPrefix(
-  connectionId?: string,
-  type?: "Sender" | "Receiver" | "Management",
-  name?: string
+export function createReceiverLogPrefix(
+  consumerId: string,
+  connectionId: string,
+  partitionId: string
 ): string {
-  const parts: string[] = [];
-  if (connectionId) {
-    parts.push(`[${connectionId}]`);
-  }
-  if (type) {
-    parts.push(type);
-  }
-  if (name) {
-    parts.push(name);
-  }
-  return parts.join(" ");
+  return `[${connectionId}] Receiver P${partitionId}-${consumerId}`;
+}
+
+/**
+ * @internal
+ */
+export function createSenderLogPrefix(senderId: string, connectionId: string): string {
+  return `[${connectionId}] Sender ${senderId}`;
+}
+
+/**
+ * @internal
+ */
+export function createManagementLogPrefix(connectionId: string): string {
+  return `[${connectionId}] Management`;
 }
 
 /**
