@@ -13,6 +13,9 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 
+/**
+ * This an example to show how to use Bar Rest Level Sub Client to create a Resource.
+ */
 async function main() {
   const client = createMyMulticlient("<endpoint>");
   const result = await client.path("/cadl-bar/create-with-headers").put();

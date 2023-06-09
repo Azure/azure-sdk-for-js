@@ -13,7 +13,9 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 
-
+/**
+ * This is an example to show how to use the Default High Level Client to create a Resource.
+ */
 async function main() {
   const client = new FooClient("<endpoint>");
   const resource: Resource = await client.createOrUpdate("", "");

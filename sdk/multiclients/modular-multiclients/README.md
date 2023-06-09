@@ -43,6 +43,159 @@ AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 
 ## Troubleshooting
 
+## Examples
+
+The following section shows you how to create a Resource with; 
+1. Default High Level Client.
+1. Bar High Level Sub Client.
+1. Foo High Level Sub Client.
+1. Bar Modular Sub Client,
+1. Foo Modular Sub Client.
+1. Bar Rest Level Sub Client.
+1. Foo Rest Level Sub Client.
+
+- [Default High Level Client](./samples-dev/createOrUpdateWithHLCWithDefaultClient.ts)
+
+```typescript
+import { FooClient, Resource } from "@msinternal/multiclient";
+import * as dotenv from "dotenv";
+
+dotenv.config();
+
+/**
+ * This is an example to show how to use the Default High Level Client to create a Resource.
+ */
+async function main() {
+  const client = new FooClient("<endpoint>");
+  const resource: Resource = await client.createOrUpdate("", "");
+  console.log(resource);
+}
+
+main().catch(console.error);
+```
+
+- [Bar High Level Sub Client](./samples-dev/createOrUpdateWithHLCWithBarSubClient.ts)
+
+```typescript
+import { BarClient, Resource } from "@msinternal/multiclient/bar";
+import * as dotenv from "dotenv";
+
+dotenv.config();
+
+/**
+ * This is an example to show how to use Bar High Level Sub Client to create a Resource
+ */
+async function main() {
+  const client = new BarClient("<endpoint>");
+  const resource: Resource = await client.createWithHeaders();
+  console.log(resource);
+}
+
+main().catch(console.error);
+```
+
+- [Foo High Level Sub Client](./samples-dev/createOrUpdateWithHLCWithFooSubClient.ts)
+
+```typescript
+import { FooClient, Resource } from "@msinternal/multiclient/foo";
+import * as dotenv from "dotenv";
+
+dotenv.config();
+
+/**
+ * This is an example to show how to use Foo High Level Sub Client to create a Resource.
+ */
+async function main() {
+  const client = new FooClient("<endpoint>");
+  const resource: Resource = await client.createOrUpdate("", "");
+  console.log(resource);
+}
+
+main().catch(console.error);
+```
+
+- [Foo Modular Sub Client](./samples-dev/createOrUpdateWithModularFooSubClient.ts)
+
+```typescript
+import { Resource, createFoo, createOrUpdate } from "@msinternal/multiclient/foo/api";
+import * as dotenv from "dotenv";
+
+dotenv.config();
+
+/**
+ * This an example to show how to use Foo Modular Sub Client to create a Resource.
+ */
+async function main() {
+  const context = createFoo("<endpoint>");
+  const resource: Resource = await createOrUpdate(context, "", "");
+  console.log(resource);
+}
+
+main().catch(console.error);
+```
+
+- [Bar Modular Sub Client](./samples-dev/createOrUpdateWithModularBarSubClient.ts)
+
+```typescript
+import { Resource, createBar, createWithHeaders } from "@msinternal/multiclient/bar/api";
+import * as dotenv from "dotenv";
+
+dotenv.config();
+
+/**
+ * This an example to show how to use Bar Modular Sub Client to create a Resource.
+ */
+async function main() {
+  const context = createBar("<endpoint>");
+  const resource: Resource = await createWithHeaders(context);
+  console.log(resource);
+}
+```
+
+- [Foo Rest Level Sub Client](./samples-dev/createOrUpdateWithRestWithFooSubClient.ts)
+
+```typescript
+import createMyMulticlient, { isUnexpected } from "@msinternal/multiclient/foo/rest";
+import * as dotenv from "dotenv";
+
+dotenv.config();
+
+/**
+ * This an example to show how to use Foo Rest Level Sub Client to create a Resource.
+ */
+async function main() {
+  const client = createMyMulticlient("<endpoint>");
+  const result = await client.path("/cadl-foo/resources/{name}", "").put({body: {
+    type: ""
+  }})
+  if (!isUnexpected(result)) {
+    throw result.body;
+  }
+  console.log(result.body);
+}
+
+main().catch(console.error);
+```
+
+- [Bar Rest Level Sub Client](./samples-dev/createOrUpdateWithRestWithBarSubClient.ts)
+
+```typescript
+import createMyMulticlient from "@msinternal/multiclient/bar/rest";
+import * as dotenv from "dotenv";
+
+dotenv.config();
+
+/**
+ * This an example to show how to use Bar Rest Level Sub Client to create a Resource.
+ */
+async function main() {
+  const client = createMyMulticlient("<endpoint>");
+  const result = await client.path("/cadl-bar/create-with-headers").put();
+  console.log(result.body);
+}
+
+main().catch(console.error);
+```
 ### Logging
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:

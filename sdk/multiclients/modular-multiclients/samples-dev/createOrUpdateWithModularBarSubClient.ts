@@ -13,6 +13,9 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 
+/**
+ * This an example to show how to use Bar Modular Sub Client to create a Resource.
+ */
 async function main() {
   const context = createBar("<endpoint>");
   const resource: Resource = await createWithHeaders(context);

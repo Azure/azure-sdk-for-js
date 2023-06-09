@@ -13,6 +13,9 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 
+/**
+ * This an example to show how to use Foo Modular Sub Client to create a Resource.
+ */
 async function main() {
   const context = createFoo("<endpoint>");
   const resource: Resource = await createOrUpdate(context, "", "");
