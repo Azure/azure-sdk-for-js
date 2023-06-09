@@ -22,11 +22,11 @@ import {
   SenderOptions,
 } from "rhea-promise";
 import {
-  createLogPrefix,
   logErrorStackTrace,
   createSimpleLogger,
   logger,
   SimpleLogger,
+  createManagementLogPrefix,
 } from "./logger";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -120,10 +120,6 @@ export class ManagementClient {
    */
   private _mgmtReqResLink?: RequestResponseLink;
   /**
-   * The unique name for the entity (mostly a guid).
-   */
-  private readonly name: string;
-  /**
    * The address in the following form:
    * `"$management"`.
    */
@@ -152,10 +148,9 @@ export class ManagementClient {
    */
   constructor(context: ConnectionContext, { address, audience }: ManagementClientOptions = {}) {
     this.address = address ?? Constants.management;
-    this.name = this.address;
     this.audience = audience ?? context.config.getManagementAudience();
     this._context = context;
-    const logPrefix = createLogPrefix(this._context.connectionId, "Management", this.name);
+    const logPrefix = createManagementLogPrefix(this._context.connectionId);
     this.logger = createSimpleLogger(logger, logPrefix);
     this.entityPath = context.config.entityPath as string;
   }

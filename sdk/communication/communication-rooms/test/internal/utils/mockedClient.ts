@@ -57,7 +57,7 @@ export const mockListRoomsResultWithNextLink: RestModel.RoomsListResponse = {
       validUntil: new Date("2022-08-25T18:06:06Z"),
     },
   ],
-  nextLink: "http://localhost/rooms?nextLink=abcdefgh&api-version=2023-03-31-preview",
+  nextLink: "http://localhost/rooms?nextLink=abcdefgh&api-version=2023-06-14",
 };
 
 export const mockListRoomsResultWithoutNextLink: RestModel.RoomsListResponse = {

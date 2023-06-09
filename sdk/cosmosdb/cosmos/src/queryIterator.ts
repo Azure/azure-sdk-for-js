@@ -4,6 +4,7 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { ClientContext } from "./ClientContext";
+import { CosmosDiagnosticContext } from "./CosmosDiagnosticsContext";
 import { getPathFromLink, ResourceType, StatusCodes } from "./common";
 import {
   CosmosHeaders,
@@ -39,6 +40,7 @@ export class QueryIterator<T> {
     private query: SqlQuerySpec | string,
     private options: FeedOptions,
     private fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[],
+    private diagnosticContext: CosmosDiagnosticContext = new CosmosDiagnosticContext(),
     private resourceLink?: string,
     private resourceType?: ResourceType
   ) {
@@ -95,7 +97,8 @@ export class QueryIterator<T> {
       const feedResponse = new FeedResponse<T>(
         response.result,
         response.headers,
-        this.queryExecutionContext.hasMoreResults()
+        this.queryExecutionContext.hasMoreResults(),
+        this.diagnosticContext.resetAndGetDiagnostics()
       );
       if (response.result !== undefined) {
         yield feedResponse;
@@ -159,7 +162,8 @@ export class QueryIterator<T> {
     return new FeedResponse<T>(
       response.result,
       response.headers,
-      this.queryExecutionContext.hasMoreResults()
+      this.queryExecutionContext.hasMoreResults(),
+      this.diagnosticContext.resetAndGetDiagnostics()
     );
   }
 
@@ -170,7 +174,8 @@ export class QueryIterator<T> {
     this.queryPlanPromise = undefined;
     this.queryExecutionContext = new DefaultQueryExecutionContext(
       this.options,
-      this.fetchFunctions
+      this.fetchFunctions,
+      this.diagnosticContext
     );
   }
 
@@ -202,7 +207,8 @@ export class QueryIterator<T> {
     return new FeedResponse(
       this.fetchAllTempResources,
       this.fetchAllLastResHeaders,
-      this.queryExecutionContext.hasMoreResults()
+      this.queryExecutionContext.hasMoreResults(),
+      this.diagnosticContext.resetAndGetDiagnostics()
     );
   }
 
@@ -224,7 +230,8 @@ export class QueryIterator<T> {
       this.resourceLink,
       this.query,
       this.options,
-      queryPlan
+      queryPlan,
+      this.diagnosticContext
     );
   }
 

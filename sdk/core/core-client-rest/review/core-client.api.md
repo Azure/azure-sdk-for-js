@@ -19,6 +19,15 @@ import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export function addCredentialPipelinePolicy(pipeline: Pipeline, baseUrl: string, options?: AddCredentialPipelinePolicyOptions): void;
+
+// @public
+export interface AddCredentialPipelinePolicyOptions {
+    clientOptions?: ClientOptions;
+    credential?: TokenCredential | KeyCredential;
+}
+
+// @public
 export interface AdditionalPolicyConfig {
     policy: PipelinePolicy;
     position: "perCall" | "perRetry";

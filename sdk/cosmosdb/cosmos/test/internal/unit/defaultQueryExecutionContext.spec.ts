@@ -7,6 +7,8 @@ import {
 import { FeedOptions } from "../../../src";
 import assert from "assert";
 import { sleep } from "../../../src/common";
+import { getEmptyCosmosDiagnostics } from "../../../src/CosmosDiagnostics";
+import { CosmosDiagnosticContext } from "../../../src/CosmosDiagnosticsContext";
 
 describe("defaultQueryExecutionContext", function () {
   it("should not buffer items if bufferItems is false", async function () {
@@ -24,6 +26,7 @@ describe("defaultQueryExecutionContext", function () {
           },
         ],
         substatus: 0,
+        diagnostics: getEmptyCosmosDiagnostics(),
       };
     };
 
@@ -31,7 +34,11 @@ describe("defaultQueryExecutionContext", function () {
       bufferItems: false,
     };
 
-    const context = new DefaultQueryExecutionContext(options, fetchFunction);
+    const context = new DefaultQueryExecutionContext(
+      options,
+      fetchFunction,
+      new CosmosDiagnosticContext()
+    );
 
     assert.strictEqual(calledCount, 0, "Nothing should be fetched at this point");
 
@@ -63,6 +70,7 @@ describe("defaultQueryExecutionContext", function () {
           },
         ],
         substatus: 0,
+        diagnostics: getEmptyCosmosDiagnostics(),
       };
     };
 
@@ -70,7 +78,11 @@ describe("defaultQueryExecutionContext", function () {
       bufferItems: true,
     };
 
-    const context = new DefaultQueryExecutionContext(options, fetchFunction);
+    const context = new DefaultQueryExecutionContext(
+      options,
+      fetchFunction,
+      new CosmosDiagnosticContext()
+    );
 
     assert.strictEqual(calledCount, 0, "Nothing should be fetched at this point");
 

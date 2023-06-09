@@ -9,46 +9,46 @@
         "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "73",
+        "Content-Length": "77",
         "Content-Type": "application/json",
         "prefer": "wait=1",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
+        "sec-ch-ua-platform": "\u0022\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "f7589e41-9973-41bb-b92f-e94d6a6e492b",
-        "x-ms-useragent": "azsdk-js-monitor-query/1.0.1 azsdk-js-monitor-log-query/1.0.1 core-rest-pipeline/1.5.1 OS/Win32"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "4dde73f6-8acb-4570-ba62-31111ed48911",
+        "x-ms-useragent": "azsdk-js-monitor-query/1.1.0 azsdk-js-monitor-log-query/1.1.0 core-rest-pipeline/1.10.4 OS"
       },
       "RequestBody": {
-        "query": "range x from 1 to 10000000000 step 1 | count",
-        "timespan": "P24H"
+        "query": "range x from 1 to 10000000000000 step 1 | count",
+        "timespan": "PT24H"
       },
       "StatusCode": 504,
       "ResponseHeaders": {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Expose-Headers": "Retry-After,Age,WWW-Authenticate,x-resource-identities,x-ms-status-location",
         "Connection": "keep-alive",
-        "Content-Length": "191",
+        "Content-Length": "189",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 11 Feb 2022 23:24:42 GMT",
+        "Date": "Thu, 25 May 2023 22:22:40 GMT",
         "Preference-Applied": "wait=1",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Vary": "Accept-Encoding",
-        "Via": "1.1 draft-oms-5565f6c877-hg67w",
+        "Via": "1.1 draft-oms-7487455674-z7pbl",
         "X-Content-Type-Options": "nosniff"
       },
       "ResponseBody": {
         "error": {
           "message": "Gateway timeout",
           "code": "GatewayTimeout",
-          "correlationId": "abcedfc7-51b4-4d7d-9e56-914361437783",
+          "correlationId": "8672a3a2-500e-4ab7-bb5b-78aec7ae7dbb",
           "innererror": {
             "code": "GatewayTimeout",
-            "message": "Kusto query timed out"
+            "message": "ADX query timed out"
           }
         }
       }
