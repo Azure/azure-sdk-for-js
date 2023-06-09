@@ -29,20 +29,20 @@ export interface CreateOrUpdateDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
-export interface GetOperation200Response extends HttpResponse {
+export interface Get200Response extends HttpResponse {
   status: "200";
   body: ResourceOutput;
 }
 
-export interface GetOperationDefaultHeaders {
+export interface GetDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface GetOperationDefaultResponse extends HttpResponse {
+export interface GetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & GetOperationDefaultHeaders;
+  headers: RawHttpHeaders & GetDefaultHeaders;
 }
 
 /** There is no content to send for this request, but the headers may be useful. */

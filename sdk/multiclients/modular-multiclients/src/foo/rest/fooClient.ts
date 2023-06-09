@@ -3,17 +3,17 @@
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { logger } from "../../logger.js";
-import { BarContext } from "./clientDefinitions.js";
+import { FooContext } from "./clientDefinitions.js";
 
 /**
- * Initialize a new instance of `BarContext`
+ * Initialize a new instance of `FooContext`
  * @param endpoint - The parameter endpoint
  * @param options - the parameter for all optional parameters
  */
-export function createClient(
+export default function createClient(
   endpoint: string,
   options: ClientOptions = {}
-): BarContext {
+): FooContext {
   const baseUrl = options.baseUrl ?? `${endpoint}`;
   options.apiVersion = options.apiVersion ?? "1.0.0";
 
@@ -32,7 +32,7 @@ export function createClient(
     },
   };
 
-  const client = getClient(baseUrl, options) as BarContext;
+  const client = getClient(baseUrl, options) as FooContext;
 
   return client;
 }

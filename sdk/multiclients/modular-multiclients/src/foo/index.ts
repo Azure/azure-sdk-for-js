@@ -7,5 +7,5 @@ export {
     CustomPage,
     createFoo, 
     FooClientOptions 
- } from "./foo/api/index.js";
- export { FooClient } from "./foo/FooClient.js";
+ } from "./api/index.js";
+ export { FooClient } from "./FooClient.js";

@@ -4,23 +4,21 @@
 import {
   createFoo,
   FooClientOptions,
-  Client,
+  FooContext,
   Resource,
   CustomPage,
   createOrUpdate,
-  getOperation,
+  get,
   deleteOperation,
   list,
   CreateOrUpdateOptions,
   GetOptions,
   DeleteOptions,
   ListOptions,
-} from "./api/foo/index.js";
-
-export { FooClientOptions } from "./api/foo/FooContext.js";
+} from "./api/index.js";
 
 export class FooClient {
-  private _client: Client.FooContext;
+  private _client: FooContext;
 
   /** Cadl Foo */
   constructor(endpoint: string, options: FooClientOptions = {}) {
@@ -37,15 +35,11 @@ export class FooClient {
   }
 
   /** Gets the details of a resource. */
-  /**
-   *  @fixme get is a reserved word that cannot be used as an operation name. Please add @projectedName(
-   *       "javascript", "<JS-Specific-Name>") to the operation to override the generated name.
-   */
-  getOperation(
+  get(
     name: string,
     options: GetOptions = { requestOptions: {} }
   ): Promise<Resource> {
-    return getOperation(this._client, name, options);
+    return get(this._client, name, options);
   }
 
   /** Deletes a resource. */

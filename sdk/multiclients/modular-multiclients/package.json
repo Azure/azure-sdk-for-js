@@ -5,7 +5,9 @@
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
-  "react-native": { "./dist/index.js": "./dist-esm/src/index.js" },
+  "react-native": {
+    "./dist/index.js": "./dist-esm/src/index.js"
+  },
   "type": "module",
   "exports": {
     ".": {
@@ -13,22 +15,47 @@
       "require": "./dist/index.cjs",
       "import": "./dist-esm/src/index.js"
     },
-    "./api": {
-      "types": "./types/src/api/index.d.ts",
-      "import": "./dist-esm/src/api/index.js"
+    "./bar": {
+      "types": "./types/src/bar/index.d.ts",
+      "import": "./dist-esm/src/bar/index.js"
     },
-    "./rest": {
-      "types": "./types/src/rest/index.d.ts",
-      "import": "./dist-esm/src/rest/index.js"
+    "./foo": {
+      "types": "./types/src/foo/index.d.ts",
+      "import": "./dist-esm/src/foo/index.js"
+    },
+    "./bar/api": {
+      "types": "./types/src/bar/api/index.d.ts",
+      "import": "./dist-esm/src/bar/api/index.js"
+    },
+    "./bar/rest": {
+      "types": "./types/src/bar/rest/index.d.ts",
+      "import": "./dist-esm/src/bar/rest/index.js"
+    },
+    "./foo/api": {
+      "types": "./types/src/foo/api/index.d.ts",
+      "import": "./dist-esm/src/foo/api/index.js"
+    },
+    "./foo/rest": {
+      "types": "./types/src/foo/rest/index.d.ts",
+      "import": "./dist-esm/src/foo/rest/index.js"
     }
   },
   "//metadata": {
     "constantPaths": [
-      { "path": "src/utils/constants.ts", "prefix": "SDK_VERSION" }
+      {
+        "path": "src/utils/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
     ]
   },
   "types": "types/latest/multiclient.d.ts",
-  "typesVersions": { "<3.6": { "*": ["types/3.1/multiclient.d.ts"] } },
+  "typesVersions": {
+    "<3.6": {
+      "*": [
+        "types/3.1/multiclient.d.ts"
+      ]
+    }
+  },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
@@ -64,11 +91,19 @@
     "LICENSE"
   ],
   "repository": "github:Azure/azure-sdk-for-js",
-  "engines": { "node": ">=14.0.0" },
-  "keywords": ["azure", "cloud", "typescript"],
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "keywords": [
+    "azure",
+    "cloud",
+    "typescript"
+  ],
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "bugs": { "url": "https://github.com/Azure/azure-sdk-for-js/issues" },
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/multiclient/multiclient/README.md",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
@@ -117,15 +152,16 @@
     "rollup-plugin-sourcemaps": "^0.6.3",
     "ts-node": "^10.8.1",
     "typescript": "~5.0.0",
-    "util": "^0.12.4"
+    "util": "^0.12.4",
+    "@azure/identity": "^2.0.1"
   },
   "dependencies": {
     "@azure-rest/core-client": "^1.1.2",
     "@azure/core-auth": "^1.4.1",
     "@azure/core-rest-pipeline": "^1.8.1",
     "@azure/core-util": "^1.1.0",
-    "@azure/core-paging": "1.5.0",
     "@azure/logger": "^1.0.3",
-    "tslib": "^2.4.0"
+    "tslib": "^2.4.0",
+    "@azure/core-paging": "^1.5.0"
   }
 }

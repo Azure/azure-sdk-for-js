@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { createFoo, FooClientOptions, Client } from "./FooContext.js";
+export { createFoo, FooClientOptions, FooContext } from "./FooContext.js";
 export { Resource, CustomPage } from "./models.js";
 export {
   createOrUpdate,
-  getOperation,
+  get,
   deleteOperation,
   list,
   CreateOrUpdateOptions,

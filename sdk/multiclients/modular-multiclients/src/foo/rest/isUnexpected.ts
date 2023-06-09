@@ -5,8 +5,8 @@ import {
   CreateOrUpdate200Response,
   CreateOrUpdate201Response,
   CreateOrUpdateDefaultResponse,
-  GetOperation200Response,
-  GetOperationDefaultResponse,
+  Get200Response,
+  GetDefaultResponse,
   DeleteOperation204Response,
   DeleteOperationDefaultResponse,
   List200Response,
@@ -27,8 +27,8 @@ export function isUnexpected(
     | CreateOrUpdateDefaultResponse
 ): response is CreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: GetOperation200Response | GetOperationDefaultResponse
-): response is GetOperationDefaultResponse;
+  response: Get200Response | GetDefaultResponse
+): response is GetDefaultResponse;
 export function isUnexpected(
   response: DeleteOperation204Response | DeleteOperationDefaultResponse
 ): response is DeleteOperationDefaultResponse;
@@ -40,15 +40,15 @@ export function isUnexpected(
     | CreateOrUpdate200Response
     | CreateOrUpdate201Response
     | CreateOrUpdateDefaultResponse
-    | GetOperation200Response
-    | GetOperationDefaultResponse
+    | Get200Response
+    | GetDefaultResponse
     | DeleteOperation204Response
     | DeleteOperationDefaultResponse
     | List200Response
     | ListDefaultResponse
 ): response is
   | CreateOrUpdateDefaultResponse
-  | GetOperationDefaultResponse
+  | GetDefaultResponse
   | DeleteOperationDefaultResponse
   | ListDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];

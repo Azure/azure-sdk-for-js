@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Client } from "../../rest/bar/index.js";
+import { BarContext } from "../../bar/rest/index.js";
 import { StreamableMethod } from "@azure-rest/core-client";
 import { Resource } from "./models.js";
 import { RequestOptions } from "../../common/interfaces.js";
@@ -10,12 +10,12 @@ import {
   GetArray200Response,
   CreateWithHeaders201Response,
   DeleteWithHeaders204Response,
-} from "../../rest/bar/responses.js";
+} from "../rest/responses.js";
 
 export interface GetBinaryOptions extends RequestOptions {}
 
 export function _getBinarySend(
-  context: Client.BarContext,
+  context: BarContext,
   options: GetBinaryOptions = { requestOptions: {} }
 ): StreamableMethod<GetBinary200Response> {
   return context
@@ -23,6 +23,7 @@ export function _getBinarySend(
     .get({
       allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
       skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
+      headers: { ...options.requestOptions?.headers },
     });
 }
 
@@ -34,7 +35,7 @@ export async function _getBinaryDeserialize(
 
 /** */
 export async function getBinary(
-  context: Client.BarContext,
+  context: BarContext,
   options: GetBinaryOptions = { requestOptions: {} }
 ): Promise<any> {
   const result = await _getBinarySend(context, options);
@@ -44,7 +45,7 @@ export async function getBinary(
 export interface GetArrayOptions extends RequestOptions {}
 
 export function _getArraySend(
-  context: Client.BarContext,
+  context: BarContext,
   options: GetArrayOptions = { requestOptions: {} }
 ): StreamableMethod<GetArray200Response> {
   return context
@@ -52,6 +53,7 @@ export function _getArraySend(
     .get({
       allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
       skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
+      headers: { ...options.requestOptions?.headers },
     });
 }
 
@@ -68,7 +70,7 @@ export async function _getArrayDeserialize(
 
 /** */
 export async function getArray(
-  context: Client.BarContext,
+  context: BarContext,
   options: GetArrayOptions = { requestOptions: {} }
 ): Promise<Resource[]> {
   const result = await _getArraySend(context, options);
@@ -78,7 +80,7 @@ export async function getArray(
 export interface CreateWithHeadersOptions extends RequestOptions {}
 
 export function _createWithHeadersSend(
-  context: Client.BarContext,
+  context: BarContext,
   options: CreateWithHeadersOptions = { requestOptions: {} }
 ): StreamableMethod<CreateWithHeaders201Response> {
   return context
@@ -86,6 +88,7 @@ export function _createWithHeadersSend(
     .put({
       allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
       skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
+      headers: { ...options.requestOptions?.headers },
     });
 }
 
@@ -102,7 +105,7 @@ export async function _createWithHeadersDeserialize(
 
 /** */
 export async function createWithHeaders(
-  context: Client.BarContext,
+  context: BarContext,
   options: CreateWithHeadersOptions = { requestOptions: {} }
 ): Promise<Resource> {
   const result = await _createWithHeadersSend(context, options);
@@ -112,7 +115,7 @@ export async function createWithHeaders(
 export interface DeleteWithHeadersOptions extends RequestOptions {}
 
 export function _deleteWithHeadersSend(
-  context: Client.BarContext,
+  context: BarContext,
   options: DeleteWithHeadersOptions = { requestOptions: {} }
 ): StreamableMethod<DeleteWithHeaders204Response> {
   return context
@@ -120,6 +123,7 @@ export function _deleteWithHeadersSend(
     .delete({
       allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
       skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
+      headers: { ...options.requestOptions?.headers },
     });
 }
 
@@ -131,7 +135,7 @@ export async function _deleteWithHeadersDeserialize(
 
 /** */
 export async function deleteWithHeaders(
-  context: Client.BarContext,
+  context: BarContext,
   options: DeleteWithHeadersOptions = { requestOptions: {} }
 ): Promise<void> {
   const result = await _deleteWithHeadersSend(context, options);

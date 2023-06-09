@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { createBar, BarClientOptions, Client } from "./BarContext.js";
-export { Resource, CustomPage } from "./models.js";
+export { createBar, BarClientOptions, BarContext } from "./BarContext.js";
+export { Resource } from "./models.js";
 export {
   getBinary,
   getArray,
