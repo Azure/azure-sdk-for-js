@@ -63,6 +63,7 @@ specifiers:
   '@rush-temp/arm-containerservice': file:./projects/arm-containerservice.tgz
   '@rush-temp/arm-containerservice-1': file:./projects/arm-containerservice-1.tgz
   '@rush-temp/arm-cosmosdb': file:./projects/arm-cosmosdb.tgz
+  '@rush-temp/arm-cosmosdbforpostgresql': file:./projects/arm-cosmosdbforpostgresql.tgz
   '@rush-temp/arm-costmanagement': file:./projects/arm-costmanagement.tgz
   '@rush-temp/arm-customerinsights': file:./projects/arm-customerinsights.tgz
   '@rush-temp/arm-dashboard': file:./projects/arm-dashboard.tgz
@@ -408,6 +409,7 @@ dependencies:
   '@rush-temp/arm-containerservice': file:projects/arm-containerservice.tgz
   '@rush-temp/arm-containerservice-1': file:projects/arm-containerservice-1.tgz
   '@rush-temp/arm-cosmosdb': file:projects/arm-cosmosdb.tgz
+  '@rush-temp/arm-cosmosdbforpostgresql': file:projects/arm-cosmosdbforpostgresql.tgz
   '@rush-temp/arm-costmanagement': file:projects/arm-costmanagement.tgz
   '@rush-temp/arm-customerinsights': file:projects/arm-customerinsights.tgz
   '@rush-temp/arm-dashboard': file:projects/arm-dashboard.tgz
@@ -3832,7 +3834,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230607
+      typescript: 5.2.0-dev.20230608
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8425,8 +8427,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230607:
-    resolution: {integrity: sha512-7Lgk1sNuuYpMNvHuXIMczqhLbJ99RpX3VgokK+Ir4DgliycYNrNGM/daAO38fHkk8n3lg2rP/6U5I545xTJdKA==}
+  /typescript/5.2.0-dev.20230608:
+    resolution: {integrity: sha512-My8VOVNpHAZ693+NgsvD2JXgXg5eosPJcEDzPcme8tU1vs+C6G6liR15r3qd1qSSNjDghmCe014GjWspVBZ7ag==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -10902,6 +10904,34 @@ packages:
   file:projects/arm-cosmosdb.tgz:
     resolution: {integrity: sha512-GhMeA9zGlCN6kjlilaQeXtjhC8JA1lZdFu1sE2qkfdUyTjYbIxzp4+djfZJWdv1zv2fPuIVlsAAsJP29c0ZWrg==, tarball: file:projects/arm-cosmosdb.tgz}
     name: '@rush-temp/arm-cosmosdb'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.35.1_@types+node@14.18.48
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.5
+      '@types/node': 14.18.48
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.1.4
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_6vxqa4pl2c5hli7lcaemfsm5je
+      tslib: 2.5.3
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-cosmosdbforpostgresql.tgz:
+    resolution: {integrity: sha512-EowVyzKtw2e5L97O7X3eCKZWv9KaPB68qspkUP3+silT45RMuZ+fiJbRCoxddOZnWqwxBHO8DB6rMUd6SA3XrA==, tarball: file:projects/arm-cosmosdbforpostgresql.tgz}
+    name: '@rush-temp/arm-cosmosdbforpostgresql'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
@@ -19316,7 +19346,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-Ta2DL1i32tq8YzBuBOpmsMPn5ZwaEkk4UK/PIovIBFkm19A6Pb/TcIsJWYe2IDV6bmz9S4jLLFdRex0krtigYw==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-P71uQ6hYBUOp8sAtiKzvb3oy1eskU0cjAcXH5W5MdCh12E5VENENL6BLv5YCHvt9VelKTdzXOtNw274eP80iAg==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
