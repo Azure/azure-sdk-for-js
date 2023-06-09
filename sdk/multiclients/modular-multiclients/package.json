@@ -15,6 +15,16 @@
       "require": "./dist/index.cjs",
       "import": "./dist-esm/src/index.js"
     },
+    "./api": {
+      "types": "./types/src/api/index.d.ts",
+      "require": "./dist/api/index.cjs",
+      "import": "./dist-esm/src/api/index.js"
+    },
+    "./rest": {
+      "types": "./types/src/rest/index.d.ts",
+      "require": "./dist/rest/index.cjs",
+      "import": "./dist-esm/src/rest/index.js"
+    },
     "./bar": {
       "types": "./types/src/bar/index.d.ts",
       "import": "./dist-esm/src/bar/index.js"

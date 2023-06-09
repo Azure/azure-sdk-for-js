@@ -1,11 +1,11 @@
 export {
-    CreateOrUpdateOptions,
-    GetOptions,
-    DeleteOptions,
-    ListOptions,
-    Resource, 
-    CustomPage,
-    createFoo, 
-    FooClientOptions 
- } from "./foo/api/index.js";
+  CreateOrUpdateOptions,
+  GetOptions,
+  DeleteOptions,
+  ListOptions,
+  Resource, 
+  CustomPage,
+  createFoo, 
+  FooClientOptions 
+ } from "./api/index.js";
  export { FooClient } from "./foo/FooClient.js";

@@ -49,8 +49,10 @@ The following section shows you how to create a Resource with;
 1. Default High Level Client.
 1. Bar High Level Sub Client.
 1. Foo High Level Sub Client.
+1. Default Modular Client.
 1. Bar Modular Sub Client,
 1. Foo Modular Sub Client.
+1. Default Rest Level Client.
 1. Bar Rest Level Sub Client.
 1. Foo Rest Level Sub Client.
 
@@ -114,7 +116,45 @@ async function main() {
 main().catch(console.error);
 ```
 
-- [Foo Modular Sub Client](./samples-dev/createOrUpdateWithModularFooSubClient.ts)
+- [Default Modular Client](./samples-dev/createOrUpdateWithModularWithDefaultClient.ts)
+
+```typescript
+import { Resource, createFoo, createOrUpdate } from "@msinternal/multiclient/api";
+import * as dotenv from "dotenv";
+
+dotenv.config();
+
+/**
+ * This an example to show how to use Foo Modular Sub Client to create a Resource.
+ */
+async function main() {
+  const context = createFoo("<endpoint>");
+  const resource: Resource = await createOrUpdate(context, "", "");
+  console.log(resource);
+}
+
+main().catch(console.error);
+```
+
+- [Bar Modular Sub Client](./samples-dev/createOrUpdateWithModularWithBarSubClient.ts)
+
+```typescript
+import { Resource, createBar, createWithHeaders } from "@msinternal/multiclient/bar/api";
+import * as dotenv from "dotenv";
+
+dotenv.config();
+
+/**
+ * This an example to show how to use Bar Modular Sub Client to create a Resource.
+ */
+async function main() {
+  const context = createBar("<endpoint>");
+  const resource: Resource = await createWithHeaders(context);
+  console.log(resource);
+}
+```
+
+- [Foo Modular Sub Client](./samples-dev/createOrUpdateWithModularWithFooSubClient.ts)
 
 ```typescript
 import { Resource, createFoo, createOrUpdate } from "@msinternal/multiclient/foo/api";
@@ -134,22 +174,52 @@ async function main() {
 main().catch(console.error);
 ```
 
-- [Bar Modular Sub Client](./samples-dev/createOrUpdateWithModularBarSubClient.ts)
+- [Default Rest Level Client](./samples-dev/createOrUpdateWithRestWithDefaultClient.ts)
 
 ```typescript
-import { Resource, createBar, createWithHeaders } from "@msinternal/multiclient/bar/api";
+import createMyMulticlient, { isUnexpected } from "@msinternal/multiclient/rest";
 import * as dotenv from "dotenv";
 
 dotenv.config();
 
 /**
- * This an example to show how to use Bar Modular Sub Client to create a Resource.
+ * This an example to show how to use Foo Rest Level Sub Client to create a Resource.
  */
 async function main() {
-  const context = createBar("<endpoint>");
-  const resource: Resource = await createWithHeaders(context);
-  console.log(resource);
+  const client = createMyMulticlient("<endpoint>");
+  const result = await client.path("/cadl-foo/resources/{name}", "").put({
+    body: {
+      type: "",
+    },
+  });
+  if (!isUnexpected(result)) {
+    throw result.body;
+  }
+  console.log(result.body);
 }
+
+main().catch(console.error);
+
+```
+
+- [Bar Rest Level Sub Client](./samples-dev/createOrUpdateWithRestWithBarSubClient.ts)
+
+```typescript
+import createMyMulticlient from "@msinternal/multiclient/bar/rest";
+import * as dotenv from "dotenv";
+
+dotenv.config();
+
+/**
+ * This an example to show how to use Bar Rest Level Sub Client to create a Resource.
+ */
+async function main() {
+  const client = createMyMulticlient("<endpoint>");
+  const result = await client.path("/cadl-bar/create-with-headers").put();
+  console.log(result.body);
+}
+
+main().catch(console.error);
 ```
 
 - [Foo Rest Level Sub Client](./samples-dev/createOrUpdateWithRestWithFooSubClient.ts)
@@ -177,25 +247,6 @@ async function main() {
 main().catch(console.error);
 ```
 
-- [Bar Rest Level Sub Client](./samples-dev/createOrUpdateWithRestWithBarSubClient.ts)
-
-```typescript
-import createMyMulticlient from "@msinternal/multiclient/bar/rest";
-import * as dotenv from "dotenv";
-
-dotenv.config();
-
-/**
- * This an example to show how to use Bar Rest Level Sub Client to create a Resource.
- */
-async function main() {
-  const client = createMyMulticlient("<endpoint>");
-  const result = await client.path("/cadl-bar/create-with-headers").put();
-  console.log(result.body);
-}
-
-main().catch(console.error);
-```
 ### Logging
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
