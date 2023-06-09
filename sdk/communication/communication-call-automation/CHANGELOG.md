@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0 (2023-05-29)
+## 1.0.0 (2023-06-14)
 Call Automation enables developers to build call workflows. Personalise customer interactions by listening to call events and take actions based on your business logic.
 
 ### Features Added
