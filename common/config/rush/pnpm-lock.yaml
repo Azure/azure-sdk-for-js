@@ -3832,7 +3832,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230607
+      typescript: 5.2.0-dev.20230609
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8282,37 +8282,6 @@ packages:
       yn: 3.1.1
     dev: false
 
-  /ts-node/8.10.2_typescript@5.0.4:
-    resolution: {integrity: sha512-ISJJGgkIpDdBhWVu3jufsWpK3Rzo7bdiIXJjQc0ynKxVOVcg2oIrf2H2cejminGrptVc6q6/uynAHNCuWGbpVA==}
-    engines: {node: '>=6.0.0'}
-    hasBin: true
-    peerDependencies:
-      typescript: '>=2.7'
-    dependencies:
-      arg: 4.1.3
-      diff: 4.0.2
-      make-error: 1.3.6
-      source-map-support: 0.5.21
-      typescript: 5.0.4
-      yn: 3.1.1
-    dev: false
-
-  /ts-node/9.1.1_typescript@5.0.4:
-    resolution: {integrity: sha512-hPlt7ZACERQGf03M253ytLY3dHbGNGrAq9qIHWUY9XHYl1z7wYngSr3OQ5xmui8o2AaxsONxIzjafLUiWBo1Fg==}
-    engines: {node: '>=10.0.0'}
-    hasBin: true
-    peerDependencies:
-      typescript: '>=2.7'
-    dependencies:
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.2
-      make-error: 1.3.6
-      source-map-support: 0.5.21
-      typescript: 5.0.4
-      yn: 3.1.1
-    dev: false
-
   /tsconfig-paths/3.14.2:
     resolution: {integrity: sha512-o/9iXgCYc5L/JxCHPe3Hvh8Q/2xm5Z+p18PESBU6Ff33695QnCHBEjcytY2q19ua7Mbl/DavtBOLq+oG0RCL+g==}
     dependencies:
@@ -8425,8 +8394,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230607:
-    resolution: {integrity: sha512-7Lgk1sNuuYpMNvHuXIMczqhLbJ99RpX3VgokK+Ir4DgliycYNrNGM/daAO38fHkk8n3lg2rP/6U5I545xTJdKA==}
+  /typescript/5.2.0-dev.20230609:
+    resolution: {integrity: sha512-K2ANmDIAXPbor3BkY3Fg8eQAeZwvXNWtrtP280muI0V2S9WRaw/EYgDC08dectU5OUQJ8AvEqEYnRN9Hg4zeEw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -16418,7 +16387,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-prb50jyW9GsjCjgx9WkpKmBDsHhs8dXkF6SDbKuA71mRtRXVVoYOYNunFFcg385NW4gYXvLUsjm2DOCQRgg9dA==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-OnpqhN4aYpb/v/UyKwPpl1Rk6d7ac64TK3UirTTKOzkgYtzcNgxvmzL58c0hXW90maIARCVqb3ZAFG8O20CoVw==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -16455,10 +16424,13 @@ packages:
       rimraf: 3.0.2
       sinon: 9.2.4
       source-map-support: 0.5.21
+      ts-node: 10.9.1_haicren4phfcx6dckkdidh3s3e
       tslib: 2.5.3
       typescript: 5.0.4
       util: 0.12.5
     transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
       - bufferutil
       - debug
       - encoding
@@ -16546,7 +16518,7 @@ packages:
     dev: false
 
   file:projects/core-xml.tgz:
-    resolution: {integrity: sha512-J3rljMfosWnpNmQNKztwDUY7WJt+qc5eOdQCdxfmJl3bOEhri2oQBOFJM9tJXwfTOqRK8J6A4p1IeYaH/IPaoQ==, tarball: file:projects/core-xml.tgz}
+    resolution: {integrity: sha512-/1chY8ykIxbBI8EQhmrfojcuAum55yHvWGN5h1cpW5P/CVPj5LKejlHEGw6Bci1LIwIpzRvaeDrrIy+dGP9YBQ==, tarball: file:projects/core-xml.tgz}
     name: '@rush-temp/core-xml'
     version: 0.0.0
     dependencies:
@@ -17194,7 +17166,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-0dpPRTO8GHBibnX4yglrvmdiuGZs8OlHvyd6li0ItiV4eCcaawtRpDAH7NyTbEJH+rzFAOWjOzoSlpU5qm1tRw==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-LYjLWvFlGXyUn8OW3eAxdbewDjzIvHwM/9kQwj4rSCz4NZHScWupGbn5MkHJcxVprQ3MFNksIHfeAW0vNfNjCA==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
@@ -18071,7 +18043,7 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-S2NbQ2+sFrsKG1wWIPPKxGRpGM2ez5RWAk2x3moh5VM3Ulch7u+/KpGsVkE7zVt8fANiE6hIldepW5jsF8EMog==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-utfE3Go4Mb2GfWN932KfgQUf95d4pTMh5ms/i6Xp1o5gGr0WH5QD8bJo/XnHo+do4Hk8I8bdtbhm3rJRcrAvzg==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
@@ -18127,7 +18099,7 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-pApw1Fk74IA+NjHmuPplbJbaGPMTsXPCUb/lSA0zo8Vq89TylaUHSoCGqLL/ZhCcl5P1kSsz6pClRHTm8JFVLA==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-xUNAFSAi0U7d+4HRlXJmIQ03uWJoc/QzOg2ngrGtD/WtDF0Xd7xq8jITgwM36AQiraGAkcs+E54/qG5qDgsTEQ==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
@@ -18315,7 +18287,7 @@ packages:
     dev: false
 
   file:projects/perf-container-registry.tgz:
-    resolution: {integrity: sha512-lIM9Az6+T1Gok8oesnmr7dwnyJOnFfdVCYHPQHP0bgCQHGlxfOGAZkTCrBJ9eyKrbAV4/OGU/MEavatVOXlARg==, tarball: file:projects/perf-container-registry.tgz}
+    resolution: {integrity: sha512-voSytjZgtDUOc/V0xVC8kgX/GzIKHWlFD4jwyzXCIzg6O+yvH60d4BUTW7hHWTow9zzcUIn1Q4XJxJ+kAPDYbQ==, tarball: file:projects/perf-container-registry.tgz}
     name: '@rush-temp/perf-container-registry'
     version: 0.0.0
     dependencies:
@@ -18324,10 +18296,12 @@ packages:
       eslint: 8.42.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      ts-node: 9.1.1_typescript@5.0.4
+      ts-node: 10.9.1_haicren4phfcx6dckkdidh3s3e
       tslib: 2.5.3
       typescript: 5.0.4
     transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
       - supports-color
     dev: false
 
@@ -19316,7 +19290,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-Ta2DL1i32tq8YzBuBOpmsMPn5ZwaEkk4UK/PIovIBFkm19A6Pb/TcIsJWYe2IDV6bmz9S4jLLFdRex0krtigYw==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-f0RGxZzt5s5rF+1pBkZleSk7bOLQawxz/qvsF4L105R3AjRInegaSSfWfSSf2qk4KLN4poZu3iGkiw7nbKPSnQ==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
@@ -19717,7 +19691,7 @@ packages:
     dev: false
 
   file:projects/template-dpg.tgz:
-    resolution: {integrity: sha512-gTMguqzV+EltzV0iJQAsdQUFwyJJwmXXDJtcgFbdM8LvM024EzBHTGu+jvHgunQH3nDZqvDH5EB39s2Po3Sebw==, tarball: file:projects/template-dpg.tgz}
+    resolution: {integrity: sha512-x0D9xhh3WXHuXoz416FZOsEvN5DVO4LW2/HX9uIg388UPF4c/ozewvws7/M9ZtubglWRV6+9x3WIB//dFlD3PQ==, tarball: file:projects/template-dpg.tgz}
     name: '@rush-temp/template-dpg'
     version: 0.0.0
     dependencies:
@@ -19867,7 +19841,7 @@ packages:
     dev: false
 
   file:projects/test-utils-perf.tgz:
-    resolution: {integrity: sha512-r30Geyf5ATr6WA8P5vo7LlXljx0Fg/lH7iJXIfheDLVIdQF9Hk0ll6ERgjOgeibrxv6gvx1AIheeVpaJzgAgVw==, tarball: file:projects/test-utils-perf.tgz}
+    resolution: {integrity: sha512-gUgGvE4ncePTbxCQAi5NaaB7U5BadGUzuYzOBESjEJ3zp3ggHP1VkQjkmmaS4lOWY5xgDrgmVNoyBkzkqAxyHg==, tarball: file:projects/test-utils-perf.tgz}
     name: '@rush-temp/test-utils-perf'
     version: 0.0.0
     dependencies:
@@ -19885,10 +19859,12 @@ packages:
       node-fetch: 2.6.11
       prettier: 2.8.8
       rimraf: 3.0.2
-      ts-node: 8.10.2_typescript@5.0.4
+      ts-node: 10.9.1_haicren4phfcx6dckkdidh3s3e
       tslib: 2.5.3
       typescript: 5.0.4
     transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
       - bufferutil
       - debug
       - encoding
