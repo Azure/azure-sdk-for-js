@@ -1,5 +1,17 @@
 # Release History
 
+## 4.13.0 (2023-06-08)
+
+### Features Added
+
+- Added new System Events:
+
+  - `Microsoft.ContainerService.ClusterSupportEnded`
+  - `Microsoft.ContainerService.ClusterSupportEnding`
+  - `Microsoft.ContainerService.NodePoolRollingFailed`
+  - `Microsoft.ContainerService.NodePoolRollingStarted`
+  - `Microsoft.ContainerService.NodePoolRollingSucceeded`
+
 ## 4.12.0 (2023-05-17)
 
 - No new changes for this release. This is to update the minor version of the release to indicate the new system events that were added in the `4.11.1` version.
