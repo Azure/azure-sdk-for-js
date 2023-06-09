@@ -30,9 +30,9 @@ export interface AzureMonitorOpenTelemetryOptions {
    */
   enableAutoCollectStandardMetrics?: boolean;
   /**
-   * OpenTelemetry Instrumentations configuration included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4)
+   * OpenTelemetry Instrumentations options included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4)
    */
-  instrumentationConfig?: InstrumentationOptions;
+  instrumentationOptions?: InstrumentationOptions;
 }
 
 /**

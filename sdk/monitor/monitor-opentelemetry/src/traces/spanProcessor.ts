@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
 import { Context } from "@opentelemetry/api";
 import { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { MetricHandler } from "../metrics";
@@ -9,7 +10,11 @@ import { MetricHandler } from "../metrics";
  * @internal
  */
 export class AzureMonitorSpanProcessor implements SpanProcessor {
-  constructor(private readonly _metricHandler: MetricHandler) {}
+  private readonly _metricHandler: MetricHandler;
+
+  constructor(metricHandler: MetricHandler) {
+    this._metricHandler = metricHandler;
+  }
 
   forceFlush(): Promise<void> {
     return Promise.resolve();

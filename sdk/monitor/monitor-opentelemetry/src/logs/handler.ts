@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
 import {
   LoggerProvider,
   LoggerConfig,
@@ -19,16 +20,17 @@ export class LogHandler {
   private _logger: OtelLogger;
   private _exporter: ConsoleLogRecordExporter;
   private _logRecordProcessor: SimpleLogRecordProcessor;
+  private _config: AzureMonitorOpenTelemetryConfig;
+  private _metricHandler?: MetricHandler;
 
   /**
    * Initializes a new instance of the TraceHandler class.
-   * @param _config - Configuration.
+   * @param _config - Distro configuration.
    * @param _metricHandler - MetricHandler.
    */
-  constructor(
-    private _config: AzureMonitorOpenTelemetryConfig,
-    private _metricHandler?: MetricHandler
-  ) {
+  constructor(config: AzureMonitorOpenTelemetryConfig, metricHandler?: MetricHandler) {
+    this._config = config;
+    this._metricHandler = metricHandler;
     const loggerProviderConfig: LoggerProviderConfig = {
       resource: this._config.resource,
     };

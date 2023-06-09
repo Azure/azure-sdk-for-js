@@ -16,7 +16,8 @@ dotenv.config();
 
 const config: AzureMonitorOpenTelemetryOptions = {
   azureMonitorExporterConfig: {
-    connectionString: "<YOUR_CONNECTION_STRING>",
+    connectionString:
+      process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
   },
 };
 const client = new AzureMonitorOpenTelemetryClient(config);
@@ -28,9 +29,6 @@ export async function main() {
   customCounter.add(1);
   customCounter.add(2);
   customCounter.add(3);
-
-  // Flush telemetry
-  //client.flush();
 }
 
 main().catch((error) => {

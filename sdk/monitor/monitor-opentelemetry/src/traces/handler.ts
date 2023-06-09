@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
 import { RequestOptions } from "http";
 import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
 import {
@@ -47,16 +48,17 @@ export class TraceHandler {
   private _postgressInstrumentation?: Instrumentation;
   private _redisInstrumentation?: Instrumentation;
   private _redis4Instrumentation?: Instrumentation;
+  private _config: AzureMonitorOpenTelemetryConfig;
+  private _metricHandler?: MetricHandler;
 
   /**
    * Initializes a new instance of the TraceHandler class.
    * @param _config - Configuration.
    * @param _metricHandler - MetricHandler.
    */
-  constructor(
-    private _config: AzureMonitorOpenTelemetryConfig,
-    private _metricHandler?: MetricHandler
-  ) {
+  constructor(config: AzureMonitorOpenTelemetryConfig, metricHandler?: MetricHandler) {
+    this._config = config;
+    this._metricHandler = metricHandler;
     this._instrumentations = [];
     const aiSampler = new ApplicationInsightsSampler(this._config.samplingRatio);
     const tracerConfig: NodeTracerConfig = {
@@ -142,9 +144,10 @@ export class TraceHandler {
    */
   private _initializeInstrumentations() {
     if (!this._httpInstrumentation) {
-      const httpInstrumentationConfig = this._config.instrumentationConfig
+      const httpinstrumentationOptions = this._config.instrumentationOptions
         .http as HttpInstrumentationConfig;
-      const providedIgnoreOutgoingRequestHook = httpInstrumentationConfig.ignoreOutgoingRequestHook;
+      const providedIgnoreOutgoingRequestHook =
+        httpinstrumentationOptions.ignoreOutgoingRequestHook;
       const mergedIgnoreOutgoingRequestHook: IgnoreOutgoingRequestFunction = (
         request: RequestOptions
       ) => {
@@ -158,43 +161,43 @@ export class TraceHandler {
         }
         return result;
       };
-      httpInstrumentationConfig.ignoreOutgoingRequestHook = mergedIgnoreOutgoingRequestHook;
-      this._httpInstrumentation = new HttpInstrumentation(this._config.instrumentationConfig.http);
+      httpinstrumentationOptions.ignoreOutgoingRequestHook = mergedIgnoreOutgoingRequestHook;
+      this._httpInstrumentation = new HttpInstrumentation(this._config.instrumentationOptions.http);
       this.addInstrumentation(this._httpInstrumentation);
     }
     if (!this._azureSdkInstrumentation) {
       this._azureSdkInstrumentation = createAzureSdkInstrumentation(
-        this._config.instrumentationConfig.azureSdk
+        this._config.instrumentationOptions.azureSdk
       ) as any;
       this.addInstrumentation(this._azureSdkInstrumentation);
     }
     if (!this._mongoDbInstrumentation) {
       this._mongoDbInstrumentation = new MongoDBInstrumentation(
-        this._config.instrumentationConfig.mongoDb
+        this._config.instrumentationOptions.mongoDb
       );
       this.addInstrumentation(this._mongoDbInstrumentation);
     }
     if (!this._mySqlInstrumentation) {
       this._mySqlInstrumentation = new MySQLInstrumentation(
-        this._config.instrumentationConfig.mySql
+        this._config.instrumentationOptions.mySql
       );
       this.addInstrumentation(this._mySqlInstrumentation);
     }
     if (!this._postgressInstrumentation) {
       this._postgressInstrumentation = new PgInstrumentation(
-        this._config.instrumentationConfig.postgreSql
+        this._config.instrumentationOptions.postgreSql
       );
       this.addInstrumentation(this._postgressInstrumentation);
     }
     if (!this._redisInstrumentation) {
       this._redisInstrumentation = new RedisInstrumentation(
-        this._config.instrumentationConfig.redis
+        this._config.instrumentationOptions.redis
       );
       this.addInstrumentation(this._redisInstrumentation);
     }
     if (!this._redis4Instrumentation) {
       this._redis4Instrumentation = new Redis4Instrumentation(
-        this._config.instrumentationConfig.redis4
+        this._config.instrumentationOptions.redis4
       );
       this.addInstrumentation(this._redis4Instrumentation);
     }

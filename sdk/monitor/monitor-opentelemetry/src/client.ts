@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
 import { Meter, TracerProvider } from "@opentelemetry/api";
 import { LoggerProvider, Logger } from "@opentelemetry/sdk-logs";
 import { Tracer } from "@opentelemetry/sdk-trace-base";

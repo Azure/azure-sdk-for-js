@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as fs from "fs";
 import * as path from "path";
 import { AzureMonitorOpenTelemetryOptions, InstrumentationOptions } from "./types";
@@ -28,7 +31,7 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
   /**
    * OpenTelemetry Instrumentations configuration included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4)
    */
-  public instrumentationConfig?: InstrumentationOptions;
+  public instrumentationOptions?: InstrumentationOptions;
 
   private static _instance: JsonConfig;
 
@@ -67,7 +70,7 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
       this.samplingRatio = jsonConfig.samplingRatio;
       this.enableAutoCollectPerformance = jsonConfig.enableAutoCollectPerformance;
       this.enableAutoCollectStandardMetrics = jsonConfig.enableAutoCollectStandardMetrics;
-      this.instrumentationConfig = jsonConfig.instrumentationConfig;
+      this.instrumentationOptions = jsonConfig.instrumentationOptions;
     } catch (err) {
       Logger.getInstance().info("Missing or invalid JSON config file: ", err);
     }

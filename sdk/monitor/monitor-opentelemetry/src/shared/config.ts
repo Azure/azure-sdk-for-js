@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
 import * as os from "os";
 import { Resource } from "@opentelemetry/resources";
 import {
@@ -37,7 +38,7 @@ export class AzureMonitorOpenTelemetryConfig implements AzureMonitorOpenTelemetr
   /**
    * OpenTelemetry Instrumentations configuration included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4)
    */
-  public instrumentationConfig: InstrumentationOptions;
+  public instrumentationOptions: InstrumentationOptions;
 
   private _resource: Resource;
 
@@ -61,7 +62,7 @@ export class AzureMonitorOpenTelemetryConfig implements AzureMonitorOpenTelemetr
     this.enableAutoCollectPerformance = true;
     this.enableAutoCollectStandardMetrics = true;
     this.samplingRatio = 1;
-    this.instrumentationConfig = {
+    this.instrumentationOptions = {
       http: { enabled: true },
       azureSdk: { enabled: false },
       mongoDb: { enabled: false },
@@ -83,7 +84,7 @@ export class AzureMonitorOpenTelemetryConfig implements AzureMonitorOpenTelemetr
       this.enableAutoCollectStandardMetrics =
         options.enableAutoCollectStandardMetrics || this.enableAutoCollectStandardMetrics;
       this.samplingRatio = options.samplingRatio || this.samplingRatio;
-      this.instrumentationConfig = options.instrumentationConfig || this.instrumentationConfig;
+      this.instrumentationOptions = options.instrumentationOptions || this.instrumentationOptions;
       this.resource = options.resource || this.resource;
     }
   }
@@ -105,52 +106,54 @@ export class AzureMonitorOpenTelemetryConfig implements AzureMonitorOpenTelemetr
           : this.enableAutoCollectStandardMetrics;
       this.samplingRatio =
         jsonConfig.samplingRatio !== undefined ? jsonConfig.samplingRatio : this.samplingRatio;
-      if (jsonConfig.instrumentationConfig) {
+      if (jsonConfig.instrumentationOptions) {
         if (
-          jsonConfig.instrumentationConfig.azureSdk &&
-          jsonConfig.instrumentationConfig.azureSdk.enabled !== undefined
+          jsonConfig.instrumentationOptions.azureSdk &&
+          jsonConfig.instrumentationOptions.azureSdk.enabled !== undefined
         ) {
-          this.instrumentationConfig.azureSdk.enabled =
-            jsonConfig.instrumentationConfig.azureSdk.enabled;
+          this.instrumentationOptions.azureSdk.enabled =
+            jsonConfig.instrumentationOptions.azureSdk.enabled;
         }
         if (
-          jsonConfig.instrumentationConfig.http &&
-          jsonConfig.instrumentationConfig.http.enabled !== undefined
+          jsonConfig.instrumentationOptions.http &&
+          jsonConfig.instrumentationOptions.http.enabled !== undefined
         ) {
-          this.instrumentationConfig.http.enabled = jsonConfig.instrumentationConfig.http.enabled;
+          this.instrumentationOptions.http.enabled = jsonConfig.instrumentationOptions.http.enabled;
         }
         if (
-          jsonConfig.instrumentationConfig.mongoDb &&
-          jsonConfig.instrumentationConfig.mongoDb.enabled !== undefined
+          jsonConfig.instrumentationOptions.mongoDb &&
+          jsonConfig.instrumentationOptions.mongoDb.enabled !== undefined
         ) {
-          this.instrumentationConfig.mongoDb.enabled =
-            jsonConfig.instrumentationConfig.mongoDb.enabled;
+          this.instrumentationOptions.mongoDb.enabled =
+            jsonConfig.instrumentationOptions.mongoDb.enabled;
         }
         if (
-          jsonConfig.instrumentationConfig.mySql &&
-          jsonConfig.instrumentationConfig.mySql.enabled !== undefined
+          jsonConfig.instrumentationOptions.mySql &&
+          jsonConfig.instrumentationOptions.mySql.enabled !== undefined
         ) {
-          this.instrumentationConfig.mySql.enabled = jsonConfig.instrumentationConfig.mySql.enabled;
+          this.instrumentationOptions.mySql.enabled =
+            jsonConfig.instrumentationOptions.mySql.enabled;
         }
         if (
-          jsonConfig.instrumentationConfig.postgreSql &&
-          jsonConfig.instrumentationConfig.postgreSql.enabled !== undefined
+          jsonConfig.instrumentationOptions.postgreSql &&
+          jsonConfig.instrumentationOptions.postgreSql.enabled !== undefined
         ) {
-          this.instrumentationConfig.postgreSql.enabled =
-            jsonConfig.instrumentationConfig.postgreSql.enabled;
+          this.instrumentationOptions.postgreSql.enabled =
+            jsonConfig.instrumentationOptions.postgreSql.enabled;
         }
         if (
-          jsonConfig.instrumentationConfig.redis4 &&
-          jsonConfig.instrumentationConfig.redis4.enabled !== undefined
+          jsonConfig.instrumentationOptions.redis4 &&
+          jsonConfig.instrumentationOptions.redis4.enabled !== undefined
         ) {
-          this.instrumentationConfig.redis4.enabled =
-            jsonConfig.instrumentationConfig.redis4.enabled;
+          this.instrumentationOptions.redis4.enabled =
+            jsonConfig.instrumentationOptions.redis4.enabled;
         }
         if (
-          jsonConfig.instrumentationConfig.redis &&
-          jsonConfig.instrumentationConfig.redis.enabled !== undefined
+          jsonConfig.instrumentationOptions.redis &&
+          jsonConfig.instrumentationOptions.redis.enabled !== undefined
         ) {
-          this.instrumentationConfig.redis.enabled = jsonConfig.instrumentationConfig.redis.enabled;
+          this.instrumentationOptions.redis.enabled =
+            jsonConfig.instrumentationOptions.redis.enabled;
         }
       }
     } catch (error) {

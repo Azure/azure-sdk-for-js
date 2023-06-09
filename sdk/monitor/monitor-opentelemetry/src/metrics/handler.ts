@@ -10,8 +10,8 @@ import {
   PeriodicExportingMetricReaderOptions,
 } from "@opentelemetry/sdk-metrics";
 import { AzureMonitorOpenTelemetryConfig } from "../shared/config";
-import { _PerformanceCounterMetrics } from "./performanceCounters";
-import { _StandardMetrics } from "./standardMetrics";
+import { PerformanceCounterMetrics } from "./performanceCounters";
+import { StandardMetrics } from "./standardMetrics";
 
 /**
  * Azure Monitor OpenTelemetry Metric Handler
@@ -22,22 +22,22 @@ export class MetricHandler {
   private _azureExporter: AzureMonitorMetricExporter;
   private _metricReader: PeriodicExportingMetricReader;
   private _meter: Meter;
-  private _perfCounterMetrics?: _PerformanceCounterMetrics;
-  private _standardMetrics?: _StandardMetrics;
+  private _perfCounterMetrics?: PerformanceCounterMetrics;
+  private _standardMetrics?: StandardMetrics;
+  private _config: AzureMonitorOpenTelemetryConfig;
 
   /**
    * Initializes a new instance of the MetricHandler class.
-   * @param _config - Configuration.
+   * @param config - Distro configuration.
+   * @param options - Metric Handler options.
    */
-  constructor(
-    private _config: AzureMonitorOpenTelemetryConfig,
-    options?: { collectionInterval: number }
-  ) {
+  constructor(config: AzureMonitorOpenTelemetryConfig, options?: { collectionInterval: number }) {
+    this._config = config;
     if (this._config.enableAutoCollectStandardMetrics) {
-      this._standardMetrics = new _StandardMetrics(this._config);
+      this._standardMetrics = new StandardMetrics(this._config);
     }
     if (this._config.enableAutoCollectPerformance) {
-      this._perfCounterMetrics = new _PerformanceCounterMetrics(this._config);
+      this._perfCounterMetrics = new PerformanceCounterMetrics(this._config);
     }
     const meterProviderConfig: MeterProviderOptions = {
       resource: this._config.resource,
@@ -70,14 +70,14 @@ export class MetricHandler {
   /**
    *Get StandardMetric handler
    */
-  public getStandardMetrics(): _StandardMetrics | undefined {
+  public getStandardMetrics(): StandardMetrics | undefined {
     return this._standardMetrics;
   }
 
   /**
    *Get PerformanceCounter handler
    */
-  public getPerformanceCounterMetrics(): _PerformanceCounterMetrics | undefined {
+  public getPerformanceCounterMetrics(): PerformanceCounterMetrics | undefined {
     return this._perfCounterMetrics;
   }
 

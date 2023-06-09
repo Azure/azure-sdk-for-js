@@ -32,7 +32,7 @@ export interface AzureMonitorOpenTelemetryOptions {
     azureMonitorExporterConfig?: AzureMonitorExporterOptions;
     enableAutoCollectPerformance?: boolean;
     enableAutoCollectStandardMetrics?: boolean;
-    instrumentationConfig?: InstrumentationOptions;
+    instrumentationOptions?: InstrumentationOptions;
     resource?: Resource;
     samplingRatio?: number;
 }
