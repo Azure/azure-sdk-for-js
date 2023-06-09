@@ -124,6 +124,9 @@ export default createMigration(
       packageJson["scripts"]["unit-test:browser"] = updateKarmaScript(
         packageJson["scripts"]["unit-test:browser"]
       );
+      packageJson["scripts"]["integration-test:browser"] = updateKarmaScript(
+        packageJson["scripts"]["integration-test:browser"]
+      );
 
       await writeFile(packageJsonPath, JSON.stringify(packageJson, null, 2));
 
