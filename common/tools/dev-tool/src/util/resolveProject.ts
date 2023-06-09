@@ -64,6 +64,9 @@ declare global {
     devDependencies: Record<string, string>;
 
     [METADATA_KEY]?: AzureSdkMetadata;
+    mocha?: {
+      loader?: string;
+    };
   }
 }
 

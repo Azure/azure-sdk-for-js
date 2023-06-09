@@ -2,7 +2,7 @@
 // Licensed under the MIT license
 
 import { leafCommand, makeCommandInfo } from "../../framework/command";
-import { isModuleProject } from "../../util/resolveProject";
+import { resolveProject } from "../../util/resolveProject";
 import { runTestsWithProxyTool } from "../../util/testUtils";
 
 export const commandInfo = makeCommandInfo(
@@ -11,9 +11,10 @@ export const commandInfo = makeCommandInfo(
 );
 
 export default leafCommand(commandInfo, async (options) => {
-  const defaultMochaArgs = `${
-    (await isModuleProject()) ? "" : "-r esm "
-  }-r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace`;
+  const packageJson = (await resolveProject()).packageJson;
+  const defaultMochaArgs = `${packageJson.type === "module" ? "" : "-r esm "}${
+    packageJson.mocha?.loader === "ts-node/esm" ? "" : "-r ts-node/register"
+  } --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace`;
   const updatedArgs = options["--"]?.map((opt) =>
     opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt
   );

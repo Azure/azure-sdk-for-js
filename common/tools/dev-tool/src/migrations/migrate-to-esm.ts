@@ -59,7 +59,9 @@ export default createMigration(
     async execute(ctx) {
       const packageJsonPath = path.join(ctx.project.path, "package.json");
 
-      const packageJson = JSON.parse((await readFile(packageJsonPath)).toString("utf-8")) as PackageJsonType
+      const packageJson = JSON.parse(
+        (await readFile(packageJsonPath)).toString("utf-8")
+      ) as PackageJsonType;
 
       // set "type" to "module"
       if (packageJson.type !== "module") {
@@ -79,12 +81,15 @@ export default createMigration(
       updateReactNativeMapping(packageJson, originalMain);
 
       // add export
-      const apiExtractorConf = JSON.parse(((await readFile(path.join(ctx.project.path, "api-extractor.json"))).toString("utf-8"))) as {
-        "dtsRollup": {
-          "publicTrimmedFilePath"?: string
-        }
+      const apiExtractorConf = JSON.parse(
+        (await readFile(path.join(ctx.project.path, "api-extractor.json"))).toString("utf-8")
+      ) as {
+        dtsRollup: {
+          publicTrimmedFilePath?: string;
+        };
       };
-      const rollupDts = apiExtractorConf["dtsRollup"]["publicTrimmedFilePath"] ?? "./types/src/index.d.ts";
+      const rollupDts =
+        apiExtractorConf["dtsRollup"]["publicTrimmedFilePath"] ?? "./types/src/index.d.ts";
       packageJson.export = {
         ".": {
           require: {
@@ -103,15 +108,7 @@ export default createMigration(
       packageJson.files.push("types/3.1/src/");
 
       // add mocha option
-      if (packageJson["scripts"]["unit-test:node"].includes("ts-node/register") ||
-        packageJson["scripts"]["integration-test:node"].includes("ts-node/register")) {
-        packageJson.mocha = {
-          loader: "ts-node/esm",
-        };
-      }
-      // update node test script to remove "-r esm" and "--register ts-node/register"
-      packageJson["scripts"]["unit-test:node"] = updateMochaScript(packageJson["scripts"]["unit-test:node"]);
-      packageJson["scripts"]["integration-test:node"] = updateMochaScript(packageJson["scripts"]["integration-test:node"]);
+      updateMocha(packageJson);
 
       // bump package minor version and update constant occurrances based on config in package.json
       bumpMinorVersion(packageJson, ctx.project.path);
@@ -124,7 +121,9 @@ export default createMigration(
       }
 
       // update browser test script to use the cjs config file
-      packageJson["scripts"]["unit-test:browser"] = updateKarmaScript(packageJson["scripts"]["unit-test:browser"]);
+      packageJson["scripts"]["unit-test:browser"] = updateKarmaScript(
+        packageJson["scripts"]["unit-test:browser"]
+      );
 
       await writeFile(packageJsonPath, JSON.stringify(packageJson, null, 2));
 
@@ -135,12 +134,36 @@ export default createMigration(
 );
 
 function updateReactNativeMapping(packageJson: PackageJsonType, originalMain: string): void {
-  const relativePath = originalMain.startsWith("./") ? originalMain: `./${originalMain}`;
+  const relativePath = originalMain.startsWith("./") ? originalMain : `./${originalMain}`;
   if (packageJson["react-native"] && packageJson["react-native"][relativePath]) {
     const value = packageJson["react-native"][relativePath];
     delete packageJson["react-native"][relativePath];
-    packageJson["react-native"][packageJson.main!.startsWith("./")? packageJson.main! : `./${packageJson.main!}`] = value;
+    packageJson["react-native"][
+      packageJson.main!.startsWith("./") ? packageJson.main! : `./${packageJson.main!}`
+    ] = value;
   }
+}
+
+function updateMocha(packageJson: PackageJsonType) {
+  const unittestScript = packageJson["scripts"]["unit-test:node"];
+  const integrationTestScript = packageJson["scripts"]["integration-test:node"];
+  if (
+    unittestScript.includes("ts-node/register") ||
+    unittestScript.includes("test:node-ts-input") ||
+    integrationTestScript.includes("ts-node/register") ||
+    integrationTestScript.includes("test:node-ts-input")
+  ) {
+    packageJson.mocha = {
+      loader: "ts-node/esm",
+    };
+  }
+  // update node test script to remove "-r esm" and "--register ts-node/register"
+  packageJson["scripts"]["unit-test:node"] = updateMochaScript(
+    packageJson["scripts"]["unit-test:node"]
+  );
+  packageJson["scripts"]["integration-test:node"] = updateMochaScript(
+    packageJson["scripts"]["integration-test:node"]
+  );
 }
 
 function updateMochaScript(script: string): string {
@@ -208,7 +231,7 @@ async function bumpMinorVersion(packageJson: PackageJsonType, projectPath: strin
       for (const pathSpec of packageJson["//metadata"]?.constantPaths ?? []) {
         const target = path.join(projectPath, pathSpec.path);
         const content = (await readFile(target)).toString("utf-8");
-        const regex = new RegExp(`(${pathSpec.prefix}.*?)(${semverRegex.toString()})`, "g")
+        const regex = new RegExp(`(${pathSpec.prefix}.*?)(${semverRegex.toString()})`, "g");
         const updated = content.replace(regex, `$1${newVersion}`);
         if (updated !== content) {
           await writeFile(target, updated);
@@ -217,12 +240,16 @@ async function bumpMinorVersion(packageJson: PackageJsonType, projectPath: strin
       // update CHANGELOG
       const changelogPath = path.join(projectPath, "CHANGELOG.md");
       if (await pathExists(changelogPath)) {
-      const content = (await readFile(changelogPath)).toString("utf-8");
-      const updated = content.replace(`${currentVersion} (Unreleased)`, `${newVersion} (Unreleased)`)
-        .replace("### Other Changes", `### Other Changes
+        const content = (await readFile(changelogPath)).toString("utf-8");
+        const updated = content
+          .replace(`${currentVersion} (Unreleased)`, `${newVersion} (Unreleased)`)
+          .replace(
+            "### Other Changes",
+            `### Other Changes
 
 - Migrate package to ESM and add conditional exports.
-`);
+`
+          );
         await writeFile(changelogPath, updated);
       }
     }
