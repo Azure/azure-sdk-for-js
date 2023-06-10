@@ -630,7 +630,7 @@ export function generatedSearchRequestToPublicSearchRequest<Model extends object
 ): SearchRequest<Model> {
   const { semanticErrorHandling, debug, vector, ...props } = request;
   return {
-    semanticErrorHandling: semanticErrorHandling as `${KnownSemanticErrorHandling}` | undefined,
+    semanticErrorHandlingMode: semanticErrorHandling as `${KnownSemanticErrorHandling}` | undefined,
     debugMode: debug as `${KnownQueryDebugMode}` | undefined,
     vector: convertVectorToPublic<Model>(vector),
     ...props,

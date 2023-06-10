@@ -281,7 +281,7 @@ export interface SearchRequest<TModel extends object = never> {
    * Allows the user to choose whether a semantic call should fail completely (default / current
    * behavior), or to return partial results.
    */
-  semanticErrorHandling?: SemanticErrorHandlingMode;
+  semanticErrorHandlingMode?: SemanticErrorHandlingMode;
   /**
    * Allows the user to set an upper bound on the amount of time it takes for semantic enrichment
    * to finish processing before the request fails.
