@@ -37,7 +37,7 @@ const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "https://eastus.api.cognitive.microsoft.com";
 
 function getPatientDocContent(): string {
-  const content = fs.readFileSync("./example-data/test.txt").toString();
+  const content = fs.readFileSync("./example-data/match_trial_fhir_data.txt").toString();
   return content;
 }
 
