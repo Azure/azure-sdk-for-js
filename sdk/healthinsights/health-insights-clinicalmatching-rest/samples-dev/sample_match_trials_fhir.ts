@@ -147,7 +147,6 @@ export async function main() {
   }*/
   const poller = await getLongRunningPoller(client, initialResponse);
   const res = await poller.pollUntilDone();
-  console.log(res)
   printResults(res);
 }
 
