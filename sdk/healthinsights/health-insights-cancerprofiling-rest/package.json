@@ -99,5 +99,11 @@
   },
   "browser": {
     "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
+  },
+    "//sampleConfiguration": {
+    "productName": "HealthInsightsCancerprifiling",
+    "productSlugs": ["azure"],
+    "disableDocsMs": true,
+    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure-rest/health-insights-cancerprifiling?view=azure-node-preview"
   }
 }
