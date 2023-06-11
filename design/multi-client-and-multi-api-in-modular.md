@@ -441,6 +441,17 @@ src/v4/rest/metadataPolicies
 
 ```
 
+Or should we just have the structure like
+
+```shell
+src/v1
+src/v2
+src/v3
+src/v4
+```
+
+Whenever a new version comes, we will just duplicate the code except pass a older version to the unchanged subclient ?
+
 ## Questions
 
 1. Is there a case where we should be multi-client in RLC but single-client in Modular.  
