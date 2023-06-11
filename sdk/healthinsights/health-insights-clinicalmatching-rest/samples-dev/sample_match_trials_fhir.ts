@@ -21,7 +21,6 @@ import createClient, {
     getLongRunningPoller,
     isUnexpected,
     MatchTrialsBodyParam,
-    MatchTrialsParameters,
     PatientDocument,
     PatientInfo,
     PatientRecord,
@@ -29,7 +28,6 @@ import createClient, {
     TrialMatcherModelConfiguration,
     TrialMatcherResultOutput, TrialMatcherResultsOutput
 } from "../src";
-import {HttpResponse} from "@azure-rest/core-client";
 
 dotenv.config();
 
@@ -39,14 +37,13 @@ const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "https://eastus.api.cognitive.microsoft.com";
 
 function getPatientDocContent(): string {
-  const content = fs.readFileSync("./example-data/match_trial_fhir_data.txt").toString();
+  const content = fs.readFileSync("./example-data/test.txt").toString();
   return content;
 }
 
-function printResults(trialMatcherResult: HttpResponse): void {
-    if (trialMatcherResult.status === "200") {
-      const resultBody = trialMatcherResult.body as TrialMatcherResultOutput;
-      const results = resultBody.results as TrialMatcherResultsOutput;
+function printResults(trialMatcherResult: TrialMatcherResultOutput): void {
+    if (trialMatcherResult.status === "succeeded") {
+      const results = trialMatcherResult.results as TrialMatcherResultsOutput;
       const patients = results.patients;
       for (const patientResult of patients) {
           console.log(`Inferences of Patient ${patientResult.id}`);
@@ -103,7 +100,7 @@ export async function main() {
   };
   const docContent: DocumentContent = {sourceType: "INLINE", value: getPatientDocContent()};
   const patientDataList: PatientDocument = {
-      type: "FHIR_BUNDLE",
+      type: "fhirBundle",
       id: "Consultation-14-Demo",
       content: docContent,
       clinicalType: "CONSULTATION"
@@ -142,12 +139,16 @@ export async function main() {
   };
 
   const initialResponse = await client.path("/trialmatcher/jobs").post(trialMatcherParameter);
-/*  if (isUnexpected(initialResponse)) {
-    throw initialResponse;
-  }*/
   const poller = await getLongRunningPoller(client, initialResponse);
   const res = await poller.pollUntilDone();
-  printResults(res);
+/*  if (isUnexpected(res)) {
+      throw initialResponse;
+  }*/
+    if (res.status == '200') {
+        console.log(res);
+        const resultBody = res.body as TrialMatcherResultOutput;
+        printResults(resultBody);
+  }
 }
 
 main().catch((err) => {

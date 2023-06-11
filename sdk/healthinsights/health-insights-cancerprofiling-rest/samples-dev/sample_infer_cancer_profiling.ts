@@ -12,11 +12,9 @@ import { AzureKeyCredential } from "@azure/core-auth";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-import {HttpResponse} from "@azure-rest/core-client";
 import createClient, {
     DocumentContent,
     getLongRunningPoller, InferCancerProfileBodyParam,
-    InferCancerProfileParameters,
     OncoPhenotypeData,
     OncoPhenotypeModelConfiguration,
     OncoPhenotypeResultOutput,
@@ -32,10 +30,9 @@ dotenv.config();
 const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "https://eastus.api.cognitive.microsoft.com";
 
-function printResults(cancerProfilingResult: HttpResponse): void {
-    if (cancerProfilingResult.status === "200") {
-      const resultBody = cancerProfilingResult.body as OncoPhenotypeResultOutput;
-      const results = resultBody.results as OncoPhenotypeResultsOutput;
+function printResults(cancerProfilingResult: OncoPhenotypeResultOutput): void {
+    if (cancerProfilingResult.status === "succeeded") {
+      const results = cancerProfilingResult.results as OncoPhenotypeResultsOutput;
       const patients = results.patients;
       for (const patientResult of patients) {
           console.log(`Inferences of Patient ${patientResult.id}`);
@@ -194,9 +191,11 @@ export async function main() {
     throw initialResponse;
   }*/
   const poller = await getLongRunningPoller(client, initialResponse);
-  const res = await poller.pollUntilDone();
-  console.log(res)
-  printResults(res);
+  const cancerProfilingResult = await poller.pollUntilDone();
+  if (cancerProfilingResult.status === "200") {
+      const resultBody = cancerProfilingResult.body as OncoPhenotypeResultOutput;
+      printResults(resultBody);
+  }
 }
 
 main().catch((err) => {

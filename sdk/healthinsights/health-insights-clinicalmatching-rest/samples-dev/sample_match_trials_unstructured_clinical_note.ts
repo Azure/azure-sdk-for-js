@@ -27,7 +27,6 @@ import createClient, {
     TrialMatcherResultsOutput
 } from "../src";
 import { AzureKeyCredential } from "@azure/core-auth";
-import {HttpResponse} from "@azure-rest/core-client";
 
 dotenv.config();
 
@@ -36,10 +35,9 @@ dotenv.config();
 const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "https://eastus.api.cognitive.microsoft.com";
 
-function printResults(trialMatcherResult: HttpResponse): void {
-    if (trialMatcherResult.status === "200") {
-      const resultBody = trialMatcherResult.body as TrialMatcherResultOutput;
-      const results = resultBody.results as TrialMatcherResultsOutput;
+function printResults(trialMatcherResult: TrialMatcherResultOutput): void {
+    if (trialMatcherResult.status === "succeeded") {
+      const results = trialMatcherResult.results as TrialMatcherResultsOutput;
       const patients = results.patients;
       for (const patientResult of patients) {
           console.log(`Inferences of Patient ${patientResult.id}`);
@@ -240,7 +238,10 @@ export async function main() {
   }*/
   const poller = await getLongRunningPoller(client, initialResponse);
   const res = await poller.pollUntilDone();
-  printResults(res);
+  if (trialMatcherResult.status === "200") {
+    const resultBody = trialMatcherResult.body as TrialMatcherResultOutput;
+    printResults(resultBody);
+  }
 }
 
 main().catch((err) => {
