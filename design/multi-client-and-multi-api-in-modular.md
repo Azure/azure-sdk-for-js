@@ -450,9 +450,12 @@ src/v4/rest/metadataPolicies
 1. In the Multi-Api case, what if starting from one version, it becomes a Multi-Client.  
 1. Use subpath exports in pure RLC generation.  
    1. Multi-Client  
-      ./rest/account  
-      ./rest/metadataPolicies  
+      @purview/administration/account  
+      @purview/administration/metadataPolicies  
    1. Multi-Api  
+      @azure-rest/maps-search/v1  
+      @azure-rest/maps-search/v2
+      more details see [link](https://teams.microsoft.com/l/message/19:344f6b5b36ba414daa15473942c7477b@thread.skype/1684293866076?tenantId=72f988bf-86f1-41af-91ab-2d7cd011db47&groupId=3e17dcb0-4257-4a30-b843-77f47f1d4121&parentMessageId=1684229932399&teamName=Azure%20SDK&channelName=Language%20%E2%80%93%20JS%E2%80%89%EF%BC%86%E2%80%89TS%20%F0%9F%A5%B7&createdTime=1684293866076)
 1. Default client exports.  
    Not sure if we should add default client, on one hand, it can keep the consistent code structure, and avoid some name conflicts. On the other hand, we will have a complexer of module sub path export.  
 1. Breaking change consideration.  
