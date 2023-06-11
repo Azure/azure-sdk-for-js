@@ -472,3 +472,9 @@ src/v4/rest/metadataPolicies
    1. use subpath export in our own code, [example link](https://github.com/qiaozha/azure-sdk-for-js/commit/7c32e2855988ed89309ca995de19a44d1d27511a)
 1. Dev tool for customization code combination.  
    Not sure if we need any change if the code structure changed.
+1. Package size consideration.  
+   For large RP like network or compute, if we keep the code like this, we will mostly have the same issue as Python used to have.
+1. Documentation in Docs site.  
+1. How to do data analyze for different layer.
+1. Sample generation.  
+   Should we generate all samples for all three layers? see the rest api docs [here](https://learn.microsoft.com/en-us/rest/api/azurerekusto/clusters/create-or-update?tabs=JavaScript)  
