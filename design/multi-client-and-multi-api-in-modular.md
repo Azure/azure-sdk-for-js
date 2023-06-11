@@ -60,9 +60,9 @@ As the first case and the fourth case are not involved with multi-client in both
 let's say we have the loadtesting modular client now, the code structure is like
 
 ```shell
-src/index.ts // the classical client
-src/api // the api layer
-src/rest // the rest layer
+src/index.ts # the classical client
+src/api # the api layer
+src/rest # the rest layer
 ```
 
 As the [TypeSpec definition](https://github.com/Azure/azure-rest-api-specs/blob/feature/loadtesting/specification/loadtestservice/client.tsp), they have two sub client named as LoadTestAdministrationClient and LoadTestRunClient and both of them have the same endpoint AzureLoadTesting.
@@ -70,13 +70,13 @@ As the [TypeSpec definition](https://github.com/Azure/azure-rest-api-specs/blob/
 Our proposed code structure would be:
 
 ```shell
-src/index.ts // the classical client will need to export both the classical sub client for administration and run as well as the models inside both sub clients, which case like commonly used models will probably need to be considered, unless we have a default export, which can be discussed
-src/api // this will need to export the api layer stuff for both administration sub client and run sub client as well as the models. also unless we have a default export, which can be discussed.
-src/administration/index.ts // the sub client of administration classical client
-src/administration/api // the sub client of administration api layer
-src/run/index.ts // the sub client of run classical client
-src/run/api // the sub client of run api layer
-src/rest // the rest layer client
+src/index.ts # the classical client will need to export both the classical sub client for administration and run as well as the models inside both sub clients, which case like commonly used models will probably need to be considered, unless we have a default export, which can be discussed
+src/api # this will need to export the api layer stuff for both administration sub client and run sub client as well as the models. also unless we have a default export, which can be discussed.
+src/administration/index.ts # the sub client of administration classical client
+src/administration/api # the sub client of administration api layer
+src/run/index.ts # the sub client of run classical client
+src/run/api # the sub client of run api layer
+src/rest # the rest layer client
 ```
 
 The exports in the package.json would be
@@ -122,13 +122,13 @@ Please note that in this case, the Client type name for rest level should be the
 As in this case, both @client decorators point to the same endpoint. so if this becomes a multi api. let's say we have a new version v1.
 
 ```shell
-src/index.ts // the classical client will need to export both the classical sub client for administration and run as well as the models inside both sub clients, which case like commonly used models will probably need to be considered, unless we have a default export, which can be discussed
-src/api // this will need to export the api layer stuff for both administration sub client and run sub client as well as the models. also unless we have a default export, which can be discussed.
-src/administration/index.ts // the sub client of administration classical client
-src/administration/api // the sub client of administration api layer
-src/run/index.ts // the sub client of run classical client
-src/run/api // the sub client of run api layer
-src/rest // the rest layer client
+src/index.ts # the classical client will need to export both the classical sub client for administration and run as well as the models inside both sub clients, which case like commonly used models will probably need to be considered, unless we have a default export, which can be discussed
+src/api # this will need to export the api layer stuff for both administration sub client and run sub client as well as the models. also unless we have a default export, which can be discussed.
+src/administration/index.ts # the sub client of administration classical client
+src/administration/api # the sub client of administration api layer
+src/run/index.ts # the sub client of run classical client
+src/run/api # the sub client of run api layer
+src/rest # the rest layer client
 
 src/v1/index.ts 
 src/v1/api
@@ -144,15 +144,15 @@ src/v1/rest
 Let's say we have purview administration client now, the code structure is like
 
 ```shell
-src/index.ts // this will export the two sub classical clients as well as the models involved
-src/api // this will export the two sub api layer operation as well as the models involved
-src/account/index.ts // this will export the account sub classical client
-src/account/api // this will export the account api layer
-src/metadataPolicies/index.ts // this will export metadataPolicies sub classical client
-src/metadataPolicies/api // this will export metadataPolicies sub api layer
-src/rest/index.ts // not sure if we should have this file, this will export both of the account and metadataPolicies rest sub client to the top level, as well as the involved types, which will have the name conflict issue, as what we currently handle it is 
-src/rest/account // this will export the account rest sub client
-src/rest/metadataPolicies // this will export the metadataPolicies rest sub client.
+src/index.ts # this will export the two sub classical clients as well as the models involved
+src/api # this will export the two sub api layer operation as well as the models involved
+src/account/index.ts # this will export the account sub classical client
+src/account/api # this will export the account api layer
+src/metadataPolicies/index.ts # this will export metadataPolicies sub classical client
+src/metadataPolicies/api # this will export metadataPolicies sub api layer
+src/rest/index.ts # not sure if we should have this file, this will export both of the account and metadataPolicies rest sub client to the top level, as well as the involved types, which will have the name conflict issue, as what we currently handle it is 
+src/rest/account # this will export the account rest sub client
+src/rest/metadataPolicies # this will export the metadataPolicies rest sub client.
 ```
 
 and we have the exports in package.json like
@@ -212,9 +212,9 @@ Please note that in this case, the path name in the rest related expports and ap
 See the example for single client,
 
 ```shell
-src/index.ts // the classical client
-src/api // the api layer
-src/rest // the rest layer
+src/index.ts # the classical client
+src/api # the api layer
+src/rest # the rest layer
 ```
 
 when this single client has multi-api. the code structure will be
@@ -238,13 +238,13 @@ src/v2/rest
 This is the multi-client structure,
 
 ```shell
-src/index.ts // the classical client will need to export both the classical sub client for administration and run as well as the models inside both sub clients, which case like commonly used models will probably need to be considered, unless we have a default export, which can be discussed
-src/api // this will need to export the api layer stuff for both administration sub client and run sub client as well as the models. also unless we have a default export, which can be discussed.
-src/administration/index.ts // the sub client of administration classical client
-src/administration/api // the sub client of administration api layer
-src/run/index.ts // the sub client of run classical client
-src/run/api // the sub client of run api layer
-src/rest // the rest layer client
+src/index.ts # the classical client will need to export both the classical sub client for administration and run as well as the models inside both sub clients, which case like commonly used models will probably need to be considered, unless we have a default export, which can be discussed
+src/api # this will need to export the api layer stuff for both administration sub client and run sub client as well as the models. also unless we have a default export, which can be discussed.
+src/administration/index.ts # the sub client of administration classical client
+src/administration/api # the sub client of administration api layer
+src/run/index.ts # the sub client of run classical client
+src/run/api # the sub client of run api layer
+src/rest # the rest layer client
 ```
 
 now, plus multi-api, we have
@@ -285,15 +285,15 @@ In this case, as both of the administration and run sub client are pointing to t
 This is the multi-client structure
 
 ```shell
-src/index.ts // this will export the two sub classical clients as well as the models involved
-src/api // this will export the two sub api layer operation as well as the models involved
-src/account/index.ts // this will export the account sub classical client
-src/account/api // this will export the account api layer
-src/metadataPolicies/index.ts // this will export metadataPolicies sub classical client
-src/metadataPolicies/api // this will export metadataPolicies sub api layer
-src/rest/index.ts // not sure if we should have this file, this will export both of the account and metadataPolicies rest sub client to the top level, as well as the involved types, which will have the name conflict issue, as what we currently handle it is 
-src/rest/account // this will export the account rest sub client
-src/rest/metadataPolicies // this will export the metadataPolicies rest sub client.
+src/index.ts # this will export the two sub classical clients as well as the models involved
+src/api # this will export the two sub api layer operation as well as the models involved
+src/account/index.ts # this will export the account sub classical client
+src/account/api # this will export the account api layer
+src/metadataPolicies/index.ts # this will export metadataPolicies sub classical client
+src/metadataPolicies/api # this will export metadataPolicies sub api layer
+src/rest/index.ts # not sure if we should have this file, this will export both of the account and metadataPolicies rest sub client to the top level, as well as the involved types, which will have the name conflict issue, as what we currently handle it is 
+src/rest/account # this will export the account rest sub client
+src/rest/metadataPolicies # this will export the metadataPolicies rest sub client.
 ```
 
 now plus multi-api,
@@ -302,15 +302,15 @@ first, let's consider that both sub client will have the same version strategy
 
 ```shell
 # the default version of everything could be either v1 or v2
-src/index.ts // this will export the two sub classical clients as well as the models involved
-src/api // this will export the two sub api layer operation as well as the models involved
-src/account/index.ts // this will export the account sub classical client
-src/account/api // this will export the account api layer
-src/metadataPolicies/index.ts // this will export metadataPolicies sub classical client
-src/metadataPolicies/api // this will export metadataPolicies sub api layer
-src/rest/index.ts // not sure if we should have this file, this will export both of the account and metadataPolicies rest sub client to the top level, as well as the involved types, which will have the name conflict issue, as what we currently handle it is 
-src/rest/account // this will export the account rest sub client
-src/rest/metadataPolicies // this will export the metadataPolicies rest sub client.
+src/index.ts # this will export the two sub classical clients as well as the models involved
+src/api # this will export the two sub api layer operation as well as the models involved
+src/account/index.ts # this will export the account sub classical client
+src/account/api # this will export the account api layer
+src/metadataPolicies/index.ts # this will export metadataPolicies sub classical client
+src/metadataPolicies/api # this will export metadataPolicies sub api layer
+src/rest/index.ts # not sure if we should have this file, this will export both of the account and metadataPolicies rest sub client to the top level, as well as the involved types, which will have the name conflict issue, as what we currently handle it is 
+src/rest/account # this will export the account rest sub client
+src/rest/metadataPolicies # this will export the metadataPolicies rest sub client.
 
 # version v1
 src/v1/index.ts 
@@ -339,15 +339,15 @@ Second, let's consider that account has version v1 and v3 and metadataPolicies h
 
 ```shell
 # the default version of everything, This time we will need the customer's input on which one should be treat as default version for account and which one should be treat as default version for metadataPolices.
-src/index.ts // this will export the two sub classical clients as well as the models involved
-src/api // this will export the two sub api layer operation as well as the models involved
-src/account/index.ts // this will export the account sub classical client
-src/account/api // this will export the account api layer
-src/metadataPolicies/index.ts // this will export metadataPolicies sub classical client
-src/metadataPolicies/api // this will export metadataPolicies sub api layer
-src/rest/index.ts // not sure if we should have this file, this will export both of the account and metadataPolicies rest sub client to the top level, as well as the involved types, which will have the name conflict issue, as what we currently handle it is 
-src/rest/account // this will export the account rest sub client
-src/rest/metadataPolicies // this will export the metadataPolicies rest sub client.
+src/index.ts # this will export the two sub classical clients as well as the models involved
+src/api # this will export the two sub api layer operation as well as the models involved
+src/account/index.ts # this will export the account sub classical client
+src/account/api # this will export the account api layer
+src/metadataPolicies/index.ts # this will export metadataPolicies sub classical client
+src/metadataPolicies/api # this will export metadataPolicies sub api layer
+src/rest/index.ts # not sure if we should have this file, this will export both of the account and metadataPolicies rest sub client to the top level, as well as the involved types, which will have the name conflict issue, as what we currently handle it is 
+src/rest/account # this will export the account rest sub client
+src/rest/metadataPolicies # this will export the metadataPolicies rest sub client.
 
 # account version v1 and metadataPolicies v2, In the case, we export default client, here the "v?" should be whatever version the default client has
 src/v?/index.ts 
@@ -376,15 +376,15 @@ Third, let's consider that account has version v1 and v3 and metadataPolicies ha
 
 ```shell
 # the default version of everything, This time we will need the customers input on which one should be treat as default version for account and which one should be treat as default version for metadataPolices.
-src/index.ts // this will export the two sub classical clients as well as the models involved
-src/api // this will export the two sub api layer operation as well as the models involved
-src/account/index.ts // this will export the account sub classical client
-src/account/api // this will export the account api layer
-src/metadataPolicies/index.ts // this will export metadataPolicies sub classical client
-src/metadataPolicies/api // this will export metadataPolicies sub api layer
-src/rest/index.ts // not sure if we should have this file, this will export both of the account and metadataPolicies rest sub client to the top level, as well as the involved types, which will have the name conflict issue, as what we currently handle it is 
-src/rest/account // this will export the account rest sub client
-src/rest/metadataPolicies // this will export the metadataPolicies rest sub client.
+src/index.ts # this will export the two sub classical clients as well as the models involved
+src/api # this will export the two sub api layer operation as well as the models involved
+src/account/index.ts # this will export the account sub classical client
+src/account/api # this will export the account api layer
+src/metadataPolicies/index.ts # this will export metadataPolicies sub classical client
+src/metadataPolicies/api # this will export metadataPolicies sub api layer
+src/rest/index.ts # not sure if we should have this file, this will export both of the account and metadataPolicies rest sub client to the top level, as well as the involved types, which will have the name conflict issue, as what we currently handle it is 
+src/rest/account # this will export the account rest sub client
+src/rest/metadataPolicies # this will export the metadataPolicies rest sub client.
 
 # we have v1 for account, in this case, if we have default exports, we will have to depend on if the default is account, if it is, we will have 
 # src/v1/index.ts 
@@ -445,27 +445,27 @@ src/v4/rest/metadataPolicies
 
 1. Is there a case where we should be multi-client in RLC but single-client in Modular.  
    Not sure if this is a bug [cadl playground link](https://cadlplayground.z22.web.core.windows.net/cadl-azure/?c=aW1wb3J0ICJAdHlwZXNwZWMvcmVzdCI7CskZYXp1cmUtdG9vbHMvyCUtxhVjb3Jl3ytjLWNsaWVudC1nZW5lcmF0b3LINgp1c2luZyBUeXBlU3BlYy5IdHRwO9AVUmVzdMgVQcReLkNvcmXPEsVhR8hg0URWZXJzaW9uaW5nOwoKQHNlcnZpY2UoewogIHRpdGxlOiAiTXVsdGnGRyIsCiAgdsYyOiAiMS4wLjAiLAp9KQpAdXNlRGVwZW5kZW5jeSjHfG9yZchhcy52MV8wX1ByZXZpZXdfMSkKbmFtZXNwYWNlIENhZGwuy2cgewoKLy8gb3DkALRpb24g8ADjCiAgbW9kZWwgUmVzb3VyY2Ug5ACxICBAdmlzaWJpbGl0eSgicmVhZCIpxRhpZDogc3Ry5gDlxSlrZXnGCXNlZ21lbnTEL8ZLc8c02EzkALfKTsQSZGVzY3JpcOQAqj%2FOGuQB58wSfcR%2B7gC6QXJyYXkgaXPJEVtd5QCkQPUBv%2BYBU%2BYCNeUBpegAkCJGb2%2FrAaQgIOcByjrxAV3EH33kAMtAcm91dGUoIi9jYWRsLWZvb%2BUA4UBkb2MoIsQ1IEbHE2ludGVyZuQBqUZvb09w6AFsxilyZWF0ZXMgYSBuZXcg6AFEIG9yIHVwZMYabiBleGlzdOQBwm9uZS7FUyAgY8U5T3JVxSfsAQHGU09yUmVwbGFjZTzIGD7oAbzFeUdldHMgdGhlIGRldGFpbHMgb2YgYekAgchmZ2V0zFtSZWFk11BEZWxl5gDJ0ERkxRrMR8Ys10lMaXPnAJrpAPfIUnPIU2xpc%2B0AmMQ0zE%2FkAip9%2FwOPZW50Mf8DkP8DkP8DkMtoIHvkA5BiaW5hcnn%2FA5ogIEBmcmllbmRseU5hbWUoIugA1zHlAPz%2FA7f%2FA7f%2FA7fcTP8Dt%2F8Dt%2F8Dt%2BcDty8v5AHrcG9uc2Ugd2l0aCBoZWFkZXJz%2FwPP%2FwPP%2FgPPMeoD0OUCf0JhcuYDyO0D3mLHFuoDy0JhcuoDy8gsZ2V0LeYB5ugBTmdldOgDSULFGSgpOiBPa1LoAOcmx0MgIEDmAO0oImNvbnTkBtTkAUYiKSDHD%2BQGcTogImltYWdlL3BuZyLmAWsgIEBib2R5IMQFOiBieXRlc8YZfecB82dldOUBbMR47QF9xyDqAOjlBDct5AF4LecBeOgAxXB15gDFxiNXaXRoSMYhxFXmBG9k%2FADS6QLvLWxvY8UJx1og6gMKTMca6gCmyBLxBCjnAPTHDMQLyjXuAP3pAN3mBIT1AN3GG%2BsEqu8A4E5vQ%2BYBgv8A4v8A4v8A4usEu%2BUAv%2BYEwg%3D%3D)
-1. In the Multi-Client case, what if only one of them become a Multi-Api case.
+1. In the Multi-Client case, what if only one of them become a Multi-Api case.  
    Only applies to cases like purview administration.
-1. In the Multi-Api case, what if starting from one version, it becomes a Multi-Client.
-1. Use subpath exports in pure RLC generation.
-   1. Multi-Client
-      ./rest/account
-      ./rest/metadataPolicies
-   1. Multi-Api
-1. Default client exports.
-   Not sure if we should add default client, on one hand, it can keep the consistent code structure, and avoid some name conflicts. On the other hand, we will have a complexer of module sub path export.
-1. Breaking change consideration.
-   1. RLC is a breaking change, but Modular is not.
-   1. RLC is not a breaking change, but Modular is.
-1. Adding new client
-   1. Migrate from single-client to multi-client.
-   1. Adding new client to existing multi-client.
-1. Adding new api version
-   1. Migrate from single-api to multi-api.
-   1. Adding new api version to existing multi-api.
-1. Commonly used models.
-1. Codegen related questions.
+1. In the Multi-Api case, what if starting from one version, it becomes a Multi-Client.  
+1. Use subpath exports in pure RLC generation.  
+   1. Multi-Client  
+      ./rest/account  
+      ./rest/metadataPolicies  
+   1. Multi-Api  
+1. Default client exports.  
+   Not sure if we should add default client, on one hand, it can keep the consistent code structure, and avoid some name conflicts. On the other hand, we will have a complexer of module sub path export.  
+1. Breaking change consideration.  
+   1. RLC is a breaking change, but Modular is not.  
+   1. RLC is not a breaking change, but Modular is.  
+1. Adding new client  
+   1. Migrate from single-client to multi-client.  
+   1. Adding new client to existing multi-client.  
+1. Adding new api version  
+   1. Migrate from single-api to multi-api.  
+   1. Adding new api version to existing multi-api.  
+1. Commonly used models.  
+1. Codegen related questions.  
    1. use subpath export in our own code, [example link](https://github.com/qiaozha/azure-sdk-for-js/commit/7c32e2855988ed89309ca995de19a44d1d27511a)
-1. Dev tool for customization code combination.
+1. Dev tool for customization code combination.  
    Not sure if we need any change if the code structure changed.
