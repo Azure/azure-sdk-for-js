@@ -16,7 +16,7 @@ interface scenarioCheckpointStoreOptions {
 function sanitizeOptions(args: string[]): Required<scenarioCheckpointStoreOptions> {
   const options = parsedArgs<scenarioCheckpointStoreOptions>(args);
   return {
-    testDurationInMs: options.testDurationInMs || 20 * 24 * 60 * 60 * 1000, // Default = 20 days
+    testDurationInMs: options.testDurationInMs || 2 * 24 * 60 * 60 * 1000, // Default = 2 days
   };
 }
 
