@@ -66,7 +66,7 @@ sdk/
 │  │  │  ├─ public/
 │  │  │  |  ├─ utils/
 │  │  │  |  |  ├─ recordedClient.ts
-│  │  │  |  ├─ clinicalmatching.spec.ts
+│  │  │  |  ├─ sampleTest.spec.ts
 ```
 
 ## Run tests in record mode
