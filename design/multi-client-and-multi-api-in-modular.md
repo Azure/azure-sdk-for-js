@@ -753,7 +753,6 @@ The user experience comparasion between Option 1 and Option 2 in the case that a
 @azure/purview/metadataPolicies/rest
 </pre>
 <pre lang="shell">
-
 # when we add account v1 and metadataPolcies v3
 
 @azure/purview/v1
@@ -772,7 +771,6 @@ The user experience comparasion between Option 1 and Option 2 in the case that a
 @azure/purview/v3/metadataPolicies/rest
 </pre>
 <pre lang="shell">
-
 # when we add account v2 and metadataPolicies v4
 
 @azure/purview/v2
@@ -794,7 +792,6 @@ The user experience comparasion between Option 1 and Option 2 in the case that a
 </td>
 <td>
 <pre lang="shell">
-
 # the default v0 version
 
 @azure/purview
@@ -807,7 +804,8 @@ The user experience comparasion between Option 1 and Option 2 in the case that a
 
 @azure/purview/api/metadataPolicies
 @azure/purview/rest/metadataPolicies
-
+</pre>
+<pre lang="shell">
 # when we add account v1 and metadataPolicies v3
 
 @azure/purview/v1
