@@ -4,7 +4,7 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
-import {createClientTest, createRecorder} from "./utils/recordedClient";
+import {createClient, createRecorder} from "./utils/recordedClient";
 import {
     ClinicalCodedElement,
     ClinicalMatchingClient, ClinicalTrialRegistryFilter, ClinicalTrials, GeographicLocation,
@@ -110,7 +110,7 @@ describe("My test", () => {
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
-    client = await createClientTest(recorder);
+    client = await createClient(recorder);
   });
 
   afterEach(async function () {
@@ -121,6 +121,7 @@ describe("My test", () => {
     const result = await client.path("/trialmatcher/jobs").post(trialMatcherParameter);
     const poller = await getLongRunningPoller(client, result);
     const res = await poller.pollUntilDone();
+    console.log(res)
     assert.equal(res.status, '200');
   });
 });
