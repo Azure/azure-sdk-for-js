@@ -20,7 +20,11 @@
   },
   "types": "core-rest-pipeline.shims.d.ts",
   "typesVersions": {
-    "<3.6": { "core-rest-pipeline.shims.d.ts": ["core-rest-pipeline.shims-3_1.d.ts"] }
+    "<3.6": {
+      "core-rest-pipeline.shims.d.ts": [
+        "core-rest-pipeline.shims-3_1.d.ts"
+      ]
+    }
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -57,21 +61,35 @@
     "README.md"
   ],
   "repository": "github:Azure/azure-sdk-for-js",
-  "keywords": ["azure", "cloud"],
+  "keywords": [
+    "azure",
+    "cloud"
+  ],
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "bugs": { "url": "https://github.com/Azure/azure-sdk-for-js/issues" },
-  "engines": { "node": ">=14.0.0" },
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-rest-pipeline/",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//metadata": {
-    "constantPaths": [{ "path": "src/constants.ts", "prefix": "SDK_VERSION" }],
+    "constantPaths": [
+      {
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
+    ],
     "sampleConfiguration": {
       "skipFolder": true,
       "disableDocsMs": true,
       "productName": "Azure SDK Core",
-      "productSlugs": ["azure"]
+      "productSlugs": [
+        "azure"
+      ]
     },
     "migrationDate": "2023-03-08T18:36:03.000Z"
   },
