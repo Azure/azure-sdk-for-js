@@ -180,14 +180,17 @@ The user experience comparasion between Option 1 and Option 2 for the Purview ca
     <td>
       <pre lang="shell">
 @azure/purview
-
+      </pre>
+      <pre lang="shell">
 @azure/purview/api
 @azure/purview/rest
-
+      </pre>
+      <pre lang="shell">
 @azure/purview/account
 @azure/purview/account/api
 @azure/purview/rest/account
-
+      </pre>
+      <pre lang="shell">
 @azure/purview/metadataPolicies
 @azure/purview/metadataPolicies/api
 @azure/purview/rest/metadataPolicies
@@ -197,16 +200,18 @@ The user experience comparasion between Option 1 and Option 2 for the Purview ca
 <td>
 <pre lang="shell">
 @azure/purview
-
+</pre>
+<pre lang="shell">
 @azure/purview/api
 @azure/purview/rest
-
+</pre>
+<pre lang="shell">
 @azure/purview/api/account
 @azure/purview/rest/account
-
+</pre>
+<pre lang="shell">
 @azure/purview/api/metadataPolicies
 @azure/purview/rest/metadataPolicies
-
 </pre>
 </td>
 
@@ -231,17 +236,18 @@ Default Client (Account)
 @azure/purview
 @azure/purview/api
 @azure/purview/rest
-
+      </pre>
+      <pre lang="shell">
 Sub Client Account
 @azure/purview/account
 @azure/purview/account/api
 @azure/purview/account/rest
-
+      </pre>
+      <pre lang="shell">
 Sub Client MetadataPolicies
 @azure/purview/metadataPolicies
 @azure/purview/metadataPolicies/api
 @azure/purview/metadataPolicies/rest
-
 </pre>
 </td>
 <td>
@@ -250,11 +256,13 @@ Default Client (Account)
 @azure/purview
 @azure/purview/api
 @azure/purview/rest
-
+</pre>
+<pre lang="shell">
 Sub Client Account
 @azure/purview/api/account
 @azure/purview/rest/account
-
+</pre>
+<pre lang="shell">
 Sub Client MetadataPolicies
 @azure/purview/api/metadataPolicies
 @azure/purview/rest/metadataPolicies
@@ -385,35 +393,46 @@ The user experience comparasion between the Option 1 and Option 2 in the load te
     <td>
       <pre lang="shell">
 @azure/loadtesting
-
+      </pre>
+      <pre lang="shell">
 @azure/loadtesting/api
 @azure/loadtesting/rest
-
+      </pre>
+      <pre lang="shell">
 @azure/loadtesting/administration
 @azure/loadtesting/administration/api
-
+      </pre>
+      <pre lang="shell">
 @azure/loadtesting/run
 @azure/loadtesting/run/api
-
+      </pre>
+      <pre lang="shell">
 @azure/loadtesting/v1
-
+      </pre>
+      <pre lang="shell">
 @azure/loadtesting/v1/api
 @azure/loadtesting/v1/rest
-
+      </pre>
+      <pre lang="shell">
 @azure/loadtesting/v1/administration
 @azure/loadtesting/v1/administration/api
-
+      </pre>
+      <pre lang="shell">
 @azure/loadtesting/v1/run
 @azure/loadtesting/v1/run/api
-
+      </pre>
+      <pre lang="shell">
 @azure/loadtesting/v2
-
+      </pre>
+      <pre lang="shell">
 @azure/loadtesting/v2/api
 @azure/loadtesting/v2/rest
-
+      </pre>
+      <pre lang="shell">
 @azure/loadtesting/v2/administration
 @azure/loadtesting/v2/administration/api
-
+      </pre>
+      <pre lang="shell">
 @azure/loadtesting/v2/run
 @azure/loadtesting/v2/run/api
 
@@ -422,29 +441,36 @@ The user experience comparasion between the Option 1 and Option 2 in the load te
 <td>
 <pre lang="shell">
 @azure/loadtesting
-
+</pre>
+<pre lang="shell">
 @azure/loadtesting/api
 @azure/loadtesting/rest
-
+</pre>
+<pre lang="shell">
 @azure/loadtesting/api/administration
 @azure/loadtesting/api/run
-
+</pre>
+<pre lang="shell">
 @azure/loadtesting/v1
-
+</pre>
+<pre lang="shell">
 @azure/loadtesting/v1/api
 @azure/loadtesting/v1/rest
-
+</pre>
+<pre lang="shell">
 @azure/loadtesting/v1/api/administration
 @azure/loadtesting/v1/api/run
-
+</pre>
+<pre lang="shell">
 @azure/loadtesting/v2
-
+</pre>
+<pre lang="shell">
 @azure/loadtesting/v2/api
 @azure/loadtesting/v2/rest
-
+</pre>
+<pre lang="shell">
 @azure/loadtesting/v2/api/administration
 @azure/loadtesting/v2/api/run
-
 </pre>
 </td>
 
@@ -548,7 +574,8 @@ The user experience comparasion between Option 1 and Option 2 in the case that b
 @azure/purview/metadataPolicies
 @azure/purview/metadataPolicies/api
 @azure/purview/metadataPolicies/rest
-
+</pre>
+<pre lang="shell">
 @azure/purview/v1
 
 @azure/purview/v1/api
@@ -561,7 +588,8 @@ The user experience comparasion between Option 1 and Option 2 in the case that b
 @azure/purview/v1/metadataPolicies
 @azure/purview/v1/metadataPolicies/api
 @azure/purview/v1/metadataPolicies/rest
-
+</pre>
+<pre lang="shell">
 @azure/purview/v2
 
 @azure/purview/v2/api
@@ -590,6 +618,8 @@ The user experience comparasion between Option 1 and Option 2 in the case that b
 @azure/purview/api/metadataPolicies
 @azure/purview/rest/metadataPolicies
 
+</pre>
+<pre lang="shell">
 @azure/purview/v1
 
 @azure/purview/v1/api
@@ -601,6 +631,8 @@ The user experience comparasion between Option 1 and Option 2 in the case that b
 @azure/purview/v1/api/metadataPolicies
 @azure/purview/v1/rest/metadataPolicies
 
+</pre>
+<pre lang="shell">
 @azure/purview/v2
 
 @azure/purview/v2/api
@@ -719,6 +751,8 @@ The user experience comparasion between Option 1 and Option 2 in the case that a
 @azure/purview/metadataPolicies
 @azure/purview/metadataPolicies/api
 @azure/purview/metadataPolicies/rest
+</pre>
+<pre lang="shell">
 
 # when we add account v1 and metadataPolcies v3
 
@@ -736,6 +770,10 @@ The user experience comparasion between Option 1 and Option 2 in the case that a
 @azure/purview/v3/metadataPolicies
 @azure/purview/v3/metadataPolicies/api
 @azure/purview/v3/metadataPolicies/rest
+</pre>
+<pre lang="shell">
+
+# when we add account v2 and metadataPolicies v4
 
 @azure/purview/v2
 @azure/purview/v4
@@ -787,6 +825,9 @@ The user experience comparasion between Option 1 and Option 2 in the case that a
 @azure/purview/v3/api/metadataPolicies
 @azure/purview/v3/rest/metadataPolicies
 
+</pre>
+<pre lang="shell">
+# when we add account v2 and metadataPolicies v4
 @azure/purview/v2
 @azure/purview/v4
 
