@@ -5,16 +5,16 @@
 
 This document is going to talk about how we are going to support multi-client and multi-api for our JS next generation library [Modular](https://github.com/Azure/azure-sdk-for-js/blob/main/design/modular-development.md) in our TypeSpec Emitter for Azure Sdk for JavaScript/TypeScript.
 
-As you may know our Modular is composite of classical client layer, api layer and rest layer, and one of our goal is to have portal team to use our libraries with the rest layer, cases like multi-client and multi-api may be uncommon but still valid, if cases like multi-client or multi-api come to us as long as they can be compiled by TypeSpec compiler, we still need to support them. Which means we will need to reach full functionality as much as possible.
+As you may know our Modular is composite of classical client layer, api layer and rest layer. And one of our goal is to have Azure Portal to use our libraries with the rest layer, cases like multi-client and multi-api may be uncommon but still valid, if cases like multi-client or multi-api come to us, as long as they are valid in the perspective of TypeSpec compiler, we will need to support them. Which means we will need to reach full functionality as much as possible.
 
 ## Design Principals
 
 1. N Compilations N packages.  
 This means, we respect the package boundaries that are defined by the client.tsp. if there're N client.tsp files, no matter where those N client.tsp files point to, we will generate N packages.
 1. For RLC, One Client One Service Version  
-This means, in terms of RLC, we only split into multi-client where there're multi endpoints from one compilation. If the multiple sub clients is divided because they are going to have different version evolving strategy, RLC will only honor it when that api version parameter is in the parameterized host. Otherwise, it doesn't make any differences to RLC if it's version v1 or version v2.
+This means, in terms of RLC, we only split it into multi-client where there're multi endpoints from one compilation i.e. the @service decorators. If the multiple sub clients is divided because they are going to have different version evolving strategy, RLC will only honor it when that api version parameter is in the parameterized host. Otherwise, it doesn't make any differences to RLC if it's version v1 or version v2.
 
-## Multi-Client
+## Multi-Client in Modular
 
 ### Identify Scenarios
 
@@ -251,9 +251,60 @@ src/rest/account # this will export the account rest sub client
 src/rest/metadataPolicies # this will export the metadataPolicies rest sub client.
 ```
 
+### Rethinking
+
+Let's compare the original design and the Option 2 from the user experience perspective side by side.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <tr>
+    <th>Original Design</th>
+    <th>Option 2</th>
+  </tr>
+  <tr>
+    <td>
+      <pre lang="shell">
+Default Client (Account)
+@azure/purview
+@azure/purview/api
+@azure/purview/rest
+
+Sub Client Account 
+@azure/purview/account
+@azure/purview/account/api
+@azure/purview/account/rest
+
+Sub Client MetadataPolicies
+@azure/purview/metadataPolicies
+@azure/purview/metadataPolicies/api
+@azure/purview/metadataPolicies/rest
+      </pre>
+    </td>
+    <td>
+      <pre lang="shell">
+Default Client (Account)
+@azure/purview
+@azure/purview/api
+@azure/purview/rest
+
+Sub Client Account 
+@azure/purview/api/account
+@azure/purview/rest/account
+
+Sub Client MetadataPolicies
+@azure/purview/api/metadataPolicies
+@azure/purview/rest/metadataPolicies
+      </pre>
+    </td>
+  </tr>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+After rethinking the user experience, I found that physology behind the two approaches is how we classify our customers. If we go with approach on the left side, this means we think higher of the service user scenarios, If we go with the approach on the right side, this means we think higher of our JS modular libraries' own user scenarios.
+
 Please note that in this case, the path name in the rest related expports and api related path should be same. as we respect the package boundaries defined by it.
 
-## Multi-Api
+## Multi-Api in Modular
 
 ### Single-Client Multi-Api
 
@@ -279,7 +330,7 @@ src/v2/api
 src/v2/rest
 ```
 
-## Multi-Api mixed with Multi-Client
+## Multi-Api mixed with Multi-Client in Modular
 
 ### Multi-Api for LoadTesting case
 
