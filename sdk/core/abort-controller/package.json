@@ -30,7 +30,13 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "types": "./types/src/index.d.ts",
-  "typesVersions": { "<3.6": { "types/src/*": ["types/3.1/*"] } },
+  "typesVersions": {
+    "<3.6": {
+      "types/src/*": [
+        "types/3.1/*"
+      ]
+    }
+  },
   "files": [
     "dist/",
     "dist-esm/src/",
@@ -40,7 +46,9 @@
     "README.md",
     "LICENSE"
   ],
-  "engines": { "node": ">=14.0.0" },
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",
@@ -55,10 +63,14 @@
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "bugs": { "url": "https://github.com/Azure/azure-sdk-for-js/issues" },
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/abort-controller/README.md",
   "sideEffects": false,
-  "dependencies": { "tslib": "^2.2.0" },
+  "dependencies": {
+    "tslib": "^2.2.0"
+  },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
@@ -87,5 +99,7 @@
     "ts-node": "^10.0.0",
     "typescript": "~5.0.0"
   },
-  "//metadata": { "migrationDate": "2023-03-08T18:36:03.000Z" }
+  "//metadata": {
+    "migrationDate": "2023-03-08T18:36:03.000Z"
+  }
 }
