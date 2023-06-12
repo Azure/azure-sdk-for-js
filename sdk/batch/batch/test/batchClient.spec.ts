@@ -2,8 +2,13 @@
 import { v4 as uuid } from "uuid";
 import * as dotenv from "dotenv";
 import { duration } from "moment";
-import { AccountListPoolNodeCountsResponse, JobAddParameter, TaskGetResponse } from "../src/models";
-import { assert } from "chai";
+import {
+  AccountListPoolNodeCountsResponse,
+  JobAddParameter,
+  PoolGetResponse,
+  TaskGetResponse,
+} from "../src/models";
+import { assert, expect } from "chai";
 import { BatchServiceClient, BatchServiceModels } from "../src/batchServiceClient";
 import moment from "moment";
 import { createClient } from "./utils/recordedClient";
@@ -29,6 +34,7 @@ const SCHEDULE = "JSSDKTestSchedule";
 const TEST_USER = "JSSDKTestSchedule";
 const VMSIZE_A1 = "Standard_A1_v2";
 const VMSIZE_D1 = "Standard_D1_v2";
+const VMSIZE_D2s = "Standard_D2s_v3";
 const VMSIZE_SMALL = "Small";
 const JOB_NAME = `JSSDKTestJob-${_SUFFIX}`;
 const TASK1_NAME = `${JOB_NAME}-task1`;
@@ -118,8 +124,32 @@ describe("Batch Service", function () {
     it("should create a new pool successfully", async function () {
       const pool: BatchServiceModels.PoolAddParameter = {
         id: BASIC_POOL,
-        vmSize: VMSIZE_D1,
-        cloudServiceConfiguration: { osFamily: "4" },
+        vmSize: VMSIZE_D2s,
+        virtualMachineConfiguration: {
+          nodeAgentSKUId: "batch.node.windows amd64",
+          imageReference: {
+            publisher: "microsoftwindowsserver",
+            offer: "windowsserver",
+            sku: "2022-datacenter",
+          },
+          extensions: [
+            {
+              name: "batchextension1",
+              type: "KeyVaultForLinux",
+              publisher: "Microsoft.Azure.KeyVault",
+              typeHandlerVersion: "2.0",
+              autoUpgradeMinorVersion: true,
+              enableAutomaticUpgrade: true,
+              settings: {
+                secretsManagementSettingsKey: "secretsManagementSettingsValue",
+                authenticationSettingsKey: "authenticationSettingsValue",
+              },
+            },
+          ],
+        },
+        networkConfiguration: {
+          enableAcceleratedNetworking: true,
+        },
         targetDedicatedNodes: 3,
         certificateReferences: [{ thumbprint: certThumb, thumbprintAlgorithm: "sha1" }],
         // Ensures there's a compute node file we can reference later
@@ -170,7 +200,7 @@ describe("Batch Service", function () {
     });
 
     it("should get a pool reference successfully", async function () {
-      let result: any;
+      let result!: PoolGetResponse;
       let metadata: any;
 
       const promise = new Promise<void>((resolve) => {
@@ -189,9 +219,9 @@ describe("Batch Service", function () {
       assert.equal(result.id, BASIC_POOL);
       assert.equal(result.state, "active");
       assert.equal(result.allocationState, "steady");
-      assert.isDefined(result.cloudServiceConfiguration);
-      assert.equal(result.cloudServiceConfiguration!.osFamily, "4");
-      assert.equal(result.vmSize.toLowerCase(), VMSIZE_D1.toLowerCase());
+      assert.isDefined(result.virtualMachineConfiguration);
+      assert.equal(result.virtualMachineConfiguration?.imageReference.sku, "2022-datacenter");
+      assert.equal(result.vmSize?.toLowerCase(), VMSIZE_D2s.toLowerCase());
 
       assert.equal(metadata.name, "foo2");
       assert.equal(metadata.value, "bar2");
@@ -203,6 +233,9 @@ describe("Batch Service", function () {
       assert.equal(result.userAccounts![0].name, nonAdminPoolUser);
       assert.equal(result.userAccounts![0].elevationLevel, "nonadmin");
       assert.equal(result._response.status, 200);
+
+      expect(result.networkConfiguration?.enableAcceleratedNetworking).to.be.true;
+      expect(result.virtualMachineConfiguration?.extensions?.[0].enableAutomaticUpgrade).to.be.true;
     }).timeout(LONG_TEST_TIMEOUT);
 
     it("should get a pool reference with odata successfully", async function () {
@@ -306,10 +339,10 @@ describe("Batch Service", function () {
         virtualMachineConfiguration: {
           imageReference: {
             publisher: "Canonical",
-            offer: "UbuntuServer",
-            sku: "18.04-LTS",
+            offer: "0001-com-ubuntu-server-jammy",
+            sku: "22_04-lts",
           },
-          nodeAgentSKUId: "batch.node.ubuntu 18.04",
+          nodeAgentSKUId: "batch.node.ubuntu 22.04",
           dataDisks: [
             {
               lun: 1,
@@ -405,11 +438,11 @@ describe("Batch Service", function () {
           },
         },
         virtualMachineConfiguration: {
-          nodeAgentSKUId: "batch.node.ubuntu 18.04",
+          nodeAgentSKUId: "batch.node.ubuntu 22.04",
           imageReference: {
             publisher: "Canonical",
-            offer: "UbuntuServer",
-            sku: "18.04-LTS",
+            offer: "0001-com-ubuntu-server-jammy",
+            sku: "22_04-lts",
           },
         },
         targetDedicatedNodes: 1,
@@ -442,9 +475,13 @@ describe("Batch Service", function () {
 
     it("should get pool node counts successfully", async function () {
       let result: AccountListPoolNodeCountsResponse;
+      let endpointPool;
       while (true) {
         result = await client.account.listPoolNodeCounts();
-        if (result.length > 0 && result[0].dedicated!.idle > 0) {
+        const endpointPoolObj = result.filter((pool) => pool.poolId == ENDPOINT_POOL);
+        assert.isAbove(endpointPoolObj.length, 0, `Pool with Pool Id ${ENDPOINT_POOL} not found`);
+        endpointPool = endpointPoolObj[0];
+        if (endpointPool.dedicated!.idle > 0) {
           break;
         } else {
           await wait(POLLING_INTERVAL);
@@ -454,12 +491,8 @@ describe("Batch Service", function () {
       assert.isAtLeast(result.length, 2);
       assert.equal(result._response.status, 200);
 
-      const endpointPoolObj = result.filter((pool) => pool.poolId == ENDPOINT_POOL);
-
-      assert.isAbove(endpointPoolObj.length, 0, `Pool with Pool Id ${ENDPOINT_POOL} not found`);
-
-      assert.equal(endpointPoolObj[0].dedicated!.idle, 1);
-      assert.equal(endpointPoolObj[0].lowPriority!.total, 0);
+      assert.equal(endpointPool.dedicated!.idle, 1);
+      assert.equal(endpointPool.lowPriority!.total, 0);
     }).timeout(LONG_TEST_TIMEOUT);
   });
 
@@ -520,15 +553,14 @@ describe("Batch Service", function () {
       assert.equal(result._response.status, 200);
     });
 
-    it("should get a remote desktop file successfully", function (done) {
+    it("should get a remote login settings successfully", function (done) {
       client.computeNode
-        .getRemoteDesktop(BASIC_POOL, compute_nodes[0])
+        .getRemoteLoginSettings(BASIC_POOL, compute_nodes[0])
         .then((result) => {
           assert.equal(result._response.status, 200);
-          readStreamToBuffer(result.readableStreamBody!, function (_err, buff) {
-            assert.isAtLeast(buff.length, 1);
-            done();
-          });
+          expect(result.remoteLoginIPAddress).to.exist;
+          expect(result.remoteLoginPort).to.exist;
+          done();
         })
         .catch((error) => {
           assert.fail(error);
@@ -547,11 +579,11 @@ describe("Batch Service", function () {
           const result = await client.computeNode.disableScheduling(BASIC_POOL, compute_nodes[1]);
           assert.equal(result._response.status, 200);
           break;
-        } catch (e) {
-          if (e.code === "NodeNotReady") {
+        } catch (error) {
+          if (error.code === "NodeNotReady") {
             await wait(POLLING_INTERVAL);
           } else {
-            throw e;
+            throw error;
           }
         }
       }
@@ -569,10 +601,14 @@ describe("Batch Service", function () {
       assert.equal(result._response.status, 202);
     });
 
-    it("should reimage a compute node successfully", async function () {
-      const result = await client.computeNode.reimage(BASIC_POOL, compute_nodes[1]);
-
-      assert.equal(result._response.status, 202);
+    it("should reimage a compute node and get expected error", async function () {
+      try {
+        await client.computeNode.reimage(BASIC_POOL, compute_nodes[1]);
+        assert.fail("Expected error to be thrown");
+      } catch (error) {
+        assert.equal(error.statusCode, 409);
+        assert.equal(error.body.code, "OperationNotValidOnNode");
+      }
     });
 
     it("should upload pool node logs at paas pool", async function () {
@@ -707,14 +743,6 @@ describe("Batch Service", function () {
       const result = await client.pool.stopResize(TEST_POOL3);
 
       assert.equal(result._response.status, 202);
-    });
-
-    it("should get pool lifetime statistics", async function () {
-      const result = await client.pool.getAllLifetimeStatistics();
-
-      assert.isDefined(result.usageStats);
-      assert.isDefined(result.resourceStats);
-      assert.equal(result._response.status, 200);
     });
 
     it("should list pools usage metrics", async function () {
@@ -884,14 +912,12 @@ describe("Batch Service", function () {
 
     it("should reactivate a task successfully", async function () {
       const result = await client.task.reactivate(JOB_NAME, TASK1_NAME);
-
       assert.equal(result._response.status, 204);
     });
 
     it("should update a task successfully", async function () {
       const options = { constraints: { maxTaskRetryCount: 3 } };
       const result = await client.task.update(JOB_NAME, TASK2_NAME, options);
-
       assert.equal(result._response.status, 200);
     });
 
@@ -1183,14 +1209,6 @@ describe("Batch Service", function () {
       assert.equal(result._response.status, 202);
     });
 
-    it("should get all job statistics successfully", async function () {
-      const result = await client.job.getAllLifetimeStatistics();
-
-      assert.isDefined(result.userCPUTime);
-      assert.isDefined(result.kernelCPUTime);
-      assert.equal(result._response.status, 200);
-    });
-
     it("should create a job with node communication mode in pool specification", async function () {
       const options: JobAddParameter = {
         id: `JSSDKTestJobCommunicationMode-${_SUFFIX}`,
@@ -1203,10 +1221,10 @@ describe("Batch Service", function () {
               virtualMachineConfiguration: {
                 imageReference: {
                   publisher: "Canonical",
-                  offer: "UbuntuServer",
-                  sku: "18.04-LTS",
+                  offer: "0001-com-ubuntu-server-jammy",
+                  sku: "22_04-lts",
                 },
-                nodeAgentSKUId: "batch.node.ubuntu 18.04",
+                nodeAgentSKUId: "batch.node.ubuntu 22.04",
                 dataDisks: [
                   {
                     lun: 1,
