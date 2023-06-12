@@ -4,15 +4,7 @@
   "sdk-type": "client",
   "version": "2.5.4",
   "description": "Isomorphic client library for supporting long-running operations in node.js and browser.",
-  "tags": [
-    "isomorphic",
-    "browser",
-    "javascript",
-    "node",
-    "microsoft",
-    "lro",
-    "polling"
-  ],
+  "tags": ["isomorphic", "browser", "javascript", "node", "microsoft", "lro", "polling"],
   "keywords": [
     "isomorphic",
     "browser",
@@ -27,43 +19,18 @@
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
   "types": "./types/core-lro.d.ts",
-  "files": [
-    "types/core-lro.d.ts",
-    "dist-esm/src",
-    "dist/",
-    "README.md",
-    "LICENSE"
-  ],
-  "engines": {
-    "node": ">=14.0.0"
-  },
-  "browser": {
-    "os": false,
-    "process": false
-  },
-  "react-native": {
-    "./dist/index.js": "./dist-esm/src/index.js"
-  },
+  "files": ["types/core-lro.d.ts", "dist-esm/src", "dist/", "README.md", "LICENSE"],
+  "engines": { "node": ">=14.0.0" },
+  "browser": { "os": false, "process": false },
+  "react-native": { "./dist/index.js": "./dist-esm/src/index.js" },
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-lro/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
+  "bugs": { "url": "https://github.com/Azure/azure-sdk-for-js/issues" },
   "nyc": {
-    "extension": [
-      ".ts"
-    ],
-    "exclude": [
-      "coverage/**/*",
-      "**/*.d.ts",
-      "**/*.js"
-    ],
-    "reporter": [
-      "text",
-      "html",
-      "cobertura"
-    ],
+    "extension": [".ts"],
+    "exclude": ["coverage/**/*", "**/*.d.ts", "**/*.js"],
+    "reporter": ["text", "html", "cobertura"],
     "all": true
   },
   "scripts": {
@@ -122,5 +89,6 @@
     "rimraf": "^3.0.0",
     "ts-node": "^10.0.0",
     "typescript": "~5.0.0"
-  }
+  },
+  "//metadata": { "migrationDate": "2023-03-03T23:11:30.000Z" }
 }
