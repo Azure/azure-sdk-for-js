@@ -4,26 +4,12 @@
   "sdk-type": "client",
   "version": "1.5.1",
   "description": "Core types for paging async iterable iterators",
-  "tags": [
-    "microsoft",
-    "clientruntime"
-  ],
-  "keywords": [
-    "microsoft",
-    "clientruntime",
-    "azure",
-    "cloud"
-  ],
+  "tags": ["microsoft", "clientruntime"],
+  "keywords": ["microsoft", "clientruntime", "azure", "cloud"],
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "types": "./types/latest/core-paging.d.ts",
-  "typesVersions": {
-    "<3.6": {
-      "types/latest/*": [
-        "types/3.1/*"
-      ]
-    }
-  },
+  "typesVersions": { "<3.6": { "types/latest/*": ["types/3.1/*"] } },
   "files": [
     "types/latest/core-paging.d.ts",
     "types/3.1",
@@ -32,15 +18,11 @@
     "LICENSE",
     "README.md"
   ],
-  "engines": {
-    "node": ">=14.0.0"
-  },
+  "engines": { "node": ">=14.0.0" },
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-paging/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
+  "bugs": { "url": "https://github.com/Azure/azure-sdk-for-js/issues" },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
@@ -67,9 +49,7 @@
   },
   "sideEffects": true,
   "private": false,
-  "dependencies": {
-    "tslib": "^2.2.0"
-  },
+  "dependencies": { "tslib": "^2.2.0" },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
@@ -95,12 +75,13 @@
     "rimraf": "^3.0.0",
     "typescript": "~5.0.0"
   },
-  "//sampleConfiguration": {
-    "skipFolder": true,
-    "disableDocsMs": true,
-    "productName": "Azure SDK Core",
-    "productSlugs": [
-      "azure"
-    ]
+  "//metadata": {
+    "sampleConfiguration": {
+      "skipFolder": true,
+      "disableDocsMs": true,
+      "productName": "Azure SDK Core",
+      "productSlugs": ["azure"]
+    },
+    "migrationDate": "2023-03-03T23:11:30.000Z"
   }
 }
