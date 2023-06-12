@@ -8,7 +8,7 @@ nvm use
 nvm alias default $(node --version)
 
 # Install utilities
-npm install -g @microsoft/rush autorest
+npm install -g @microsoft/rush autorest @typespec/compiler
 rush update
 
 # Install PowerShell. PowerShell is needed for the test proxy asset sync migration scripts,
