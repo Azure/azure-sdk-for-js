@@ -159,6 +159,10 @@ export interface PhoneNumberSearchResult {
   cost: PhoneNumberCost;
   /** The date that this search result expires and phone numbers are no longer on hold. A search result expires in less than 15min, e.g. 2020-11-19T16:31:49.048Z. */
   searchExpiresBy: Date;
+  /** The error code of the search. */
+  errorCode?: number;
+  /** Mapping Error Messages to Codes */
+  error?: Error;
 }
 
 /** The phone number search purchase request. */
@@ -223,6 +227,43 @@ export interface PurchasedPhoneNumbers {
   nextLink?: string;
 }
 
+/** Represents a search request for operator information for the given phone numbers */
+export interface OperatorInformationRequest {
+  /** Phone number(s) whose operator information is being requested */
+  phoneNumbers?: string[];
+}
+
+/** Represents a search result containing operator information associated with the requested phone numbers */
+export interface OperatorInformationResult {
+  /**
+   * Results of a search.
+   * This array will have one entry per requested phone number which will contain the relevant operator information.
+   */
+  values?: OperatorInformation[];
+}
+
+/** Represents metadata about a phone number that is controlled/provided by that phone number's operator. */
+export interface OperatorInformation {
+  /** E.164 formatted string representation of the phone number */
+  phoneNumber?: string;
+  /** Type of service associated with the phone number */
+  numberType?: OperatorNumberType;
+  /** ISO country code associated with the phone number. */
+  isoCountryCode?: string;
+  /** Represents metadata describing the operator of a phone number */
+  operatorDetails?: OperatorDetails;
+}
+
+/** Represents metadata describing the operator of a phone number */
+export interface OperatorDetails {
+  /** Name of the phone operator */
+  name?: string;
+  /** Mobile Network Code */
+  mobileNetworkCode?: string;
+  /** Mobile Country Code */
+  mobileCountryCode?: string;
+}
+
 /** Defines headers for PhoneNumbers_searchAvailablePhoneNumbers operation. */
 export interface PhoneNumbersSearchAvailablePhoneNumbersHeaders {
   /** URL to retrieve the final result after operation completes. */
@@ -283,6 +324,25 @@ export type PhoneNumberCapabilityType =
   | "inbound"
   | "outbound"
   | "inbound+outbound";
+/** Defines values for Error. */
+export type Error =
+  | "NoError"
+  | "UnknownErrorCode"
+  | "OutOfStock"
+  | "AuthorizationDenied"
+  | "MissingAddress"
+  | "InvalidAddress"
+  | "InvalidOfferModel"
+  | "NotEnoughLicenses"
+  | "NoWallet"
+  | "NotEnoughCredit"
+  | "NumbersPartiallyAcquired"
+  | "AllNumbersNotAcquired"
+  | "ReservationExpired"
+  | "PurchaseFailed"
+  | "BillingUnavailable"
+  | "ProvisioningFailed"
+  | "UnknownSearchError";
 /** Defines values for PhoneNumberOperationType. */
 export type PhoneNumberOperationType =
   | "purchase"
@@ -295,6 +355,8 @@ export type PhoneNumberOperationStatus =
   | "running"
   | "succeeded"
   | "failed";
+/** Defines values for OperatorNumberType. */
+export type OperatorNumberType = "unknown" | "other" | "geographic" | "mobile";
 
 /** Optional parameters. */
 export interface PhoneNumbersListAreaCodesOptionalParams
@@ -303,7 +365,7 @@ export interface PhoneNumbersListAreaCodesOptionalParams
   skip?: number;
   /** An optional parameter for how many entries to return, for pagination purposes. The default value is 100. */
   maxPageSize?: number;
-  /** Filter by assignmentType, e.g. User, Application. */
+  /** Filter by assignmentType, e.g. Person, Application. */
   assignmentType?: PhoneNumberAssignmentType;
   /** The name of locality or town in which to search for the area code. This is required if the number type is Geographic. */
   locality?: string;
@@ -463,18 +525,18 @@ export interface PhoneNumbersListPhoneNumbersOptionalParams
 export type PhoneNumbersListPhoneNumbersResponse = PurchasedPhoneNumbers;
 
 /** Optional parameters. */
+export interface PhoneNumbersOperatorInformationSearchOptionalParams
+  extends coreClient.OperationOptions {
+  /** Phone number(s) whose operator information is being requested */
+  phoneNumbers?: string[];
+}
+
+/** Contains response data for the operatorInformationSearch operation. */
+export type PhoneNumbersOperatorInformationSearchResponse = OperatorInformationResult;
+
+/** Optional parameters. */
 export interface PhoneNumbersListAreaCodesNextOptionalParams
   extends coreClient.OperationOptions {
-  /** An optional parameter for how many entries to skip, for pagination purposes. The default value is 0. */
-  skip?: number;
-  /** An optional parameter for how many entries to return, for pagination purposes. The default value is 100. */
-  maxPageSize?: number;
-  /** Filter by assignmentType, e.g. User, Application. */
-  assignmentType?: PhoneNumberAssignmentType;
-  /** The name of locality or town in which to search for the area code. This is required if the number type is Geographic. */
-  locality?: string;
-  /** The name of the state or province in which to search for the area code. */
-  administrativeDivision?: string;
   /** The locale to display in the localized fields in the response. e.g. 'en-US' */
   acceptLanguage?: string;
 }
@@ -485,10 +547,6 @@ export type PhoneNumbersListAreaCodesNextResponse = PhoneNumberAreaCodes;
 /** Optional parameters. */
 export interface PhoneNumbersListAvailableCountriesNextOptionalParams
   extends coreClient.OperationOptions {
-  /** An optional parameter for how many entries to skip, for pagination purposes. The default value is 0. */
-  skip?: number;
-  /** An optional parameter for how many entries to return, for pagination purposes. The default value is 100. */
-  maxPageSize?: number;
   /** The locale to display in the localized fields in the response. e.g. 'en-US' */
   acceptLanguage?: string;
 }
@@ -499,12 +557,6 @@ export type PhoneNumbersListAvailableCountriesNextResponse = PhoneNumberCountrie
 /** Optional parameters. */
 export interface PhoneNumbersListAvailableLocalitiesNextOptionalParams
   extends coreClient.OperationOptions {
-  /** An optional parameter for how many entries to skip, for pagination purposes. The default value is 0. */
-  skip?: number;
-  /** An optional parameter for how many entries to return, for pagination purposes. The default value is 100. */
-  maxPageSize?: number;
-  /** An optional parameter for the name of the state or province in which to search for the area code. */
-  administrativeDivision?: string;
   /** The locale to display in the localized fields in the response. e.g. 'en-US' */
   acceptLanguage?: string;
 }
@@ -515,16 +567,8 @@ export type PhoneNumbersListAvailableLocalitiesNextResponse = PhoneNumberLocalit
 /** Optional parameters. */
 export interface PhoneNumbersListOfferingsNextOptionalParams
   extends coreClient.OperationOptions {
-  /** An optional parameter for how many entries to skip, for pagination purposes. The default value is 0. */
-  skip?: number;
-  /** An optional parameter for how many entries to return, for pagination purposes. The default value is 100. */
-  maxPageSize?: number;
-  /** Filter by assignmentType, e.g. Person, Application. */
-  assignmentType?: PhoneNumberAssignmentType;
   /** The locale to display in the localized fields in the response. e.g. 'en-US' */
   acceptLanguage?: string;
-  /** Filter by numberType, e.g. Geographic, TollFree. */
-  phoneNumberType?: PhoneNumberType;
 }
 
 /** Contains response data for the listOfferingsNext operation. */
@@ -532,12 +576,7 @@ export type PhoneNumbersListOfferingsNextResponse = OfferingsResponse;
 
 /** Optional parameters. */
 export interface PhoneNumbersListPhoneNumbersNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** An optional parameter for how many entries to skip, for pagination purposes. The default value is 0. */
-  skip?: number;
-  /** An optional parameter for how many entries to return, for pagination purposes. The default value is 100. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPhoneNumbersNext operation. */
 export type PhoneNumbersListPhoneNumbersNextResponse = PurchasedPhoneNumbers;
