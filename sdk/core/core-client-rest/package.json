@@ -32,13 +32,26 @@
     "unit-test:node": "mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace  --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
-  "files": ["dist/", "dist-esm/src/", "types/latest/core-client-rest.d.ts", "README.md", "LICENSE"],
+  "files": [
+    "dist/",
+    "dist-esm/src/",
+    "types/latest/core-client-rest.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
   "repository": "github:Azure/azure-sdk-for-js",
-  "keywords": ["azure", "cloud"],
+  "keywords": [
+    "azure",
+    "cloud"
+  ],
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "bugs": { "url": "https://github.com/Azure/azure-sdk-for-js/issues" },
-  "engines": { "node": ">=14.0.0" },
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-client-rest/",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
@@ -76,5 +89,7 @@
     "sinon": "^9.0.2",
     "typescript": "~5.0.0"
   },
-  "//metadata": { "migrationDate": "2023-03-08T18:36:03.000Z" }
+  "//metadata": {
+    "migrationDate": "2023-03-08T18:36:03.000Z"
+  }
 }
