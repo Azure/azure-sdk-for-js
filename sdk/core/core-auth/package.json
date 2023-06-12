@@ -6,13 +6,7 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "types": "./types/latest/core-auth.d.ts",
-  "typesVersions": {
-    "<3.6": {
-      "types/latest/*": [
-        "types/3.1/*"
-      ]
-    }
-  },
+  "typesVersions": { "<3.6": { "types/latest/*": ["types/3.1/*"] } },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
@@ -46,19 +40,11 @@
     "LICENSE"
   ],
   "repository": "github:Azure/azure-sdk-for-js",
-  "keywords": [
-    "azure",
-    "authentication",
-    "cloud"
-  ],
+  "keywords": ["azure", "authentication", "cloud"],
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "engines": {
-    "node": ">=14.0.0"
-  },
+  "bugs": { "url": "https://github.com/Azure/azure-sdk-for-js/issues" },
+  "engines": { "node": ">=14.0.0" },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-auth/README.md",
   "sideEffects": false,
   "dependencies": {
@@ -84,5 +70,6 @@
     "rimraf": "^3.0.0",
     "typescript": "~5.0.0",
     "util": "^0.12.1"
-  }
+  },
+  "//metadata": { "migrationDate": "2023-03-03T23:11:30.000Z" }
 }
