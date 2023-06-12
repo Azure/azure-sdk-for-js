@@ -2,16 +2,20 @@
 
 ## Introduction
 
-This document is going to talk about what the multi-client and multi-api for our JS next generation library [Modular](https://github.com/Azure/azure-sdk-for-js/blob/main/design/modular-development.md) would look like.
-
 As you may know our Modular is composited of classical client layer, api layer and rest layer. And one of our goal is to have Azure Portal to use our libraries with the rest layer, cases like multi-client and multi-api may be uncommon but still valid, if cases like multi-client or multi-api come to us, as long as they are valid in the perspective of TypeSpec compiler, we will need to support them.
+
+This document is going to talk about what the multi-client and multi-api for our JS next generation library [Modular](https://github.com/Azure/azure-sdk-for-js/blob/main/design/modular-development.md) would look like. we wil introduce it from our **_Design Principals_**, **_Eariler Design_**, **_Multi-Client in Modular_**, **_Multi-Api in Modular_** and finally we have some questions that may not be related to multi-client and multi-api but are related with the Modular to discuss.
 
 ## Design Principals
 
-1. N Compilations N packages.  
+1. To generate N packages if we need N TypeSpec Compilations.  
    This means, we respect the package boundaries that are defined by the client.tsp. if there're N client.tsp files, no matter where those N client.tsp files point to, we will generate N packages.
-1. For RLC, One Client One Service Version  
+1. For RLC, Generate only one sub client per each service endpoint.  
    This means, in terms of RLC, we only split it into multi-client where there're multi endpoints from one compilation i.e. the @service decorators. If the multiple sub clients is divided because they are going to have different version evolving strategy, RLC will only honor it when that api version parameter is in the parameterized host. Otherwise, it doesn't make any differences to RLC if it's version v1 or version v2.
+
+- Questions related:
+  1. Is this a valid case where we use different @server decorator to point to the same endpoint.  
+     [cadl playground link](https://cadlplayground.z22.web.core.windows.net/cadl-azure/?c=aW1wb3J0ICJAdHlwZXNwZWMvcmVzdCI7CskZYXp1cmUtdG9vbHMvyCUtxhVjb3Jl3ytjLWNsaWVudC1nZW5lcmF0b3LINgp1c2luZyBUeXBlU3BlYy5IdHRwO9AVUmVzdMgVQcReLkNvcmXPEsVhR8hg0URWZXJzaW9uaW5nOwoKQHNlcnZpY2UoewogIHRpdGxlOiAiTXVsdGnGRyIsCiAgdsYyOiAiMS4wLjAiLAp9KQpAdXNlRGVwZW5kZW5jeSjHfG9yZchhcy52MV8wX1ByZXZpZXdfMSkKQGRvYygixSogSGVhbHRoIEluc2lnaHRzIHByb3ZpZGVzIGFuIEFQSSB0aGF0IOQAnWVzIGnGJSBtb2RlbHMsIOQBSGlmaWMgZm9yyEkmIExpZmUgU2NpZW5jZXMsxkFwZXJmb3JtIGFuYWx5c2nEXmTIayBpbmZlcsUuIHRvIGJlIHVzZWQgYnkgYSBodW1hbi4iKeYBIGVyKAogICJ7ZW5kcG9pbnR9L2jFdecAmHPlASX%2FANj%2FANj%2FANj%2FANj%2FANjxANjkALDkAfEgIOYBk1N1cOQCs2VkIENvZ25pdGl2ZSBT5gIZcyDoAPZzIChwcm90b2NvbMVvaG9zdG5hbWUs5QCvZXhhbXDkAj5odHRwczovL3dlc3R1czIuYXBpLmPIVi5taWNyb3NvZnQuY29tKeQBYuQAhshjOiB1cmzkAJ19CikKxFxzcGFjZSBDYWRsLusClSB7CgovLyBvcOQC4mlvbiDwAxEKIOYBVCBSZXNvdXJjZegA7nZpc2liaWxpdHkoInJlYWTnAIBpZDogc3Ry5gMTxSlrZXnGCXNlZ21lbnTEL8ZLc8c02EzkALfKTsQSZGVzY3JpcOQAqj%2FOGuQEFcwSfcR%2B7gC6QXJyYXkgaXPJEVtd5QCkQPUD7eYDgeYEY%2BUD0%2BgAkCJGb2%2FrA9Ig5QKDaWNlOvEBXcQffeQAy0Byb3V0ZSgiL2NhZGwtZm9v5QDh5gIxxDUgRscTaW50ZXJm5AGpRm9vT3DtAlpDcmVhdOQC%2FiBuZXcg6AFEIG9yIHVwZMYabiBleGlzdOQBwm9uZegCE2PFOU9yVcUn7AEBxlNPclJlcGxhY2U8yBg%2B6AG8xXlHZXRzIHRoZSBkZXRhaWxzIG9mIGHpAIHIZmdldMxbUmVhZNdQRGVsZeYAydBEZMUazEfGLNdJTGlz5wCa6QD3yFJzyFNsaXPtAJjENMxP5AIqff8FvWVudDH%2FBb7%2FBb7%2FBb7%2FBOb%2FBOb%2FBOb%2FBOb%2FBOb%2FBb7%2FBb7%2FANj%2FANj%2FANj%2FANj%2FANj%2FBb7%2FBb7%2FBb7%2FBb7%2FBb7%2FBb7rApYge%2BQFvmJpbmFyef8FyCAgQGZyaWVuZGx5TmFtZSgi6AMFMcV8%2FwXl%2FwXl%2FwXl3Ez%2FBeX%2FBeX%2FBeXnBeUvL%2BQEGXBvbnNlIHdpdGggaGVhZGVyc%2F8F%2FfQF%2FUJhcv8F%2FegBnOoF%2FuUCW0JhcuYF9u0GDGLHFuoF%2BUJhcuoF%2BcgsZ2V0LeYB5ugBTmdldOgFd0LFGSgpOiBPa1LoAOcmx0MgIEDmAO0oImNvbnTkCzDkAUYiKSDHD%2BQKzTogImltYWdlL3BuZyLmAWsgIEBib2R5IMQFOiBieXRlc8YZfecB82dldOUBbMR47QF9xyDqAOjlBmUt5AF4LecBeOgAxXB15gDFxiNXaXRoSMYhxFXmBp1k%2FADS6QLvLWxvY8UJx1og6gMKTMca6gCmyBLxBlbnAPTHDMQLyjXuAP3pAN3mBrL1AN3GG%2BsG2O8A4E5vQ%2BYBgv8A4v8A4v8A4usG6eUAv%2BYG8A%3D%3D)
 
 ## Earlier Design
 
@@ -31,34 +35,38 @@ First, let's consider the mapping between client.tsp file to @client
 1. ~~N client.tsp -> 1 @client~~  
    This essentially means that we have N client.tsp that uses the same one sub client name. which can be equals to the 1 client.tsp -> 1 @client case.
 
-Then, let's consider the mapping between @client and @service.
+Then, let's consider the mapping between @client and endpoint.
 
-1. 1 @client -> 1 @service
-1. ~~1 @client -> N @service~~  
-   This means to use one @client decorator to map to N different service endpoint, which I don't think we can do that.
-1. N @client -> 1 @service
-1. N @client -> N @service
+1. 1 @client -> 1 endpoint
+1. ~~1 @client -> N endpoints~~  
+   This means to use one @client decorator to map to N different service endpoints, which I don't think we can do that.
+1. N @client -> 1 endpoint
+1. N @client -> N endpoints
 
-So the combination from client.tsp to @client then to @service will be:
+So valid scenarios could be tell from the combination from client.tsp to @client then to @service, which are:
 
-1. 1 client.tsp with 1 @client maps to 1 @service  
+1. 1 client.tsp with 1 @client maps to 1 endpoint
    This is the simplest case, It doesn't belong to any multi-client scenario definition.
 
-1. 1 client.tsp with N @client map to 1 @service  
+1. 1 client.tsp with N @client map to 1 endpoint
    In this case, service only has one endpoint, but SDK architects want to logically divide it into multi-client, which RLC is not in the business of, but Modular is in the bussiness of. An example would be Load Testing.
 
-1. 1 client.tsp with N @client map to N @service  
+1. 1 client.tsp with N @client map to N endpoints  
    In this case, service indeed has multiple endpoints, but for some reason they have to group them into one package, which both RLC and Modular are both in the bussiness of. An example would be Purview Administration.
 
-1. N client.tsp with N @client map to 1 @service  
+1. N client.tsp with N @client map to 1 endpoint  
    In this case, service only has one endpoint, but SDK architects want to release it as multiple single-client packages. which doesn't belong to any multi-client scenario definitions. An example would be Health Insights. In this case, RLC will respect the package boundaries defined by client.tsp.
 
-1. ~~N client.tsp with N @client map to N @service~~  
+1. ~~N client.tsp with N @client map to N endpoints~~  
    This one basically equals 1 client.tsp with 1 @client maps to 1 @service.
 
 As the first case and the fourth case are not involved with multi-client in both api Layer and rest Layer, we will only consider the second and the third case where we have will use the example name them as the LoadTesting case and the Purview case.
 
-### LoadTesting case
+- Questions related:
+  1. Is there a case where we should be multi-client in RLC but single-client in Modular.  
+     Not sure if this is a bug [cadl playground link](https://cadlplayground.z22.web.core.windows.net/cadl-azure/?c=aW1wb3J0ICJAdHlwZXNwZWMvcmVzdCI7CskZYXp1cmUtdG9vbHMvyCUtxhVjb3Jl3ytjLWNsaWVudC1nZW5lcmF0b3LINgp1c2luZyBUeXBlU3BlYy5IdHRwO9AVUmVzdMgVQcReLkNvcmXPEsVhR8hg0URWZXJzaW9uaW5nOwoKQHNlcnZpY2UoewogIHRpdGxlOiAiTXVsdGnGRyIsCiAgdsYyOiAiMS4wLjAiLAp9KQpAdXNlRGVwZW5kZW5jeSjHfG9yZchhcy52MV8wX1ByZXZpZXdfMSkKbmFtZXNwYWNlIENhZGwuy2cgewoKLy8gb3DkALRpb24g8ADjCiAgbW9kZWwgUmVzb3VyY2Ug5ACxICBAdmlzaWJpbGl0eSgicmVhZCIpxRhpZDogc3Ry5gDlxSlrZXnGCXNlZ21lbnTEL8ZLc8c02EzkALfKTsQSZGVzY3JpcOQAqj%2FOGuQB58wSfcR%2B7gC6QXJyYXkgaXPJEVtd5QCkQPUBv%2BYBU%2BYCNeUBpegAkCJGb2%2FrAaQgIOcByjrxAV3EH33kAMtAcm91dGUoIi9jYWRsLWZvb%2BUA4UBkb2MoIsQ1IEbHE2ludGVyZuQBqUZvb09w6AFsxilyZWF0ZXMgYSBuZXcg6AFEIG9yIHVwZMYabiBleGlzdOQBwm9uZS7FUyAgY8U5T3JVxSfsAQHGU09yUmVwbGFjZTzIGD7oAbzFeUdldHMgdGhlIGRldGFpbHMgb2YgYekAgchmZ2V0zFtSZWFk11BEZWxl5gDJ0ERkxRrMR8Ys10lMaXPnAJrpAPfIUnPIU2xpc%2B0AmMQ0zE%2FkAip9%2FwOPZW50Mf8DkP8DkP8DkMtoIHvkA5BiaW5hcnn%2FA5ogIEBmcmllbmRseU5hbWUoIugA1zHlAPz%2FA7f%2FA7f%2FA7fcTP8Dt%2F8Dt%2F8Dt%2BcDty8v5AHrcG9uc2Ugd2l0aCBoZWFkZXJz%2FwPP%2FwPP%2FgPPMeoD0OUCf0JhcuYDyO0D3mLHFuoDy0JhcuoDy8gsZ2V0LeYB5ugBTmdldOgDSULFGSgpOiBPa1LoAOcmx0MgIEDmAO0oImNvbnTkBtTkAUYiKSDHD%2BQGcTogImltYWdlL3BuZyLmAWsgIEBib2R5IMQFOiBieXRlc8YZfecB82dldOUBbMR47QF9xyDqAOjlBDct5AF4LecBeOgAxXB15gDFxiNXaXRoSMYhxFXmBG9k%2FADS6QLvLWxvY8UJx1og6gMKTMca6gCmyBLxBCjnAPTHDMQLyjXuAP3pAN3mBIT1AN3GG%2BsEqu8A4E5vQ%2BYBgv8A4v8A4v8A4usEu%2BUAv%2BYEwg%3D%3D)
+
+### LoadTesting Case
 
 let's say we have the loadtesting modular client now, the code structure is like
 
@@ -138,7 +146,7 @@ The user experience comparasion between Option 1 and Option 2 for the LoadTestin
 
 Please note that in this case, the Client type name for rest level should be the title defined in the @service decorator and the client name in the api layer sub client should be what's defined in the @client decorators.
 
-### Purview case
+### Purview Case
 
 Let's say we have purview client now, the code structure is like
 
@@ -180,21 +188,20 @@ The user experience comparasion between Option 1 and Option 2 for the Purview ca
     <td>
       <pre lang="shell">
 @azure/purview
-      </pre>
-      <pre lang="shell">
+</pre>
+<pre lang="shell">
 @azure/purview/api
 @azure/purview/rest
-      </pre>
-      <pre lang="shell">
+</pre>
+<pre lang="shell">
 @azure/purview/account
 @azure/purview/account/api
 @azure/purview/rest/account
-      </pre>
-      <pre lang="shell">
+</pre>
+<pre lang="shell">
 @azure/purview/metadataPolicies
 @azure/purview/metadataPolicies/api
 @azure/purview/rest/metadataPolicies
-
 </pre>
 </td>
 <td>
@@ -218,6 +225,9 @@ The user experience comparasion between Option 1 and Option 2 for the Purview ca
   </tr>
 </table>
 <!-- markdownlint-enable MD033 -->
+
+- Question related:
+  1. what if only one of the sub clients become a multi-api case? only applies to cases like purview.
 
 ### Rethinking
 
@@ -574,6 +584,7 @@ The user experience comparasion between Option 1 and Option 2 in the case that b
 @azure/purview/metadataPolicies
 @azure/purview/metadataPolicies/api
 @azure/purview/metadataPolicies/rest
+
 </pre>
 <pre lang="shell">
 @azure/purview/v1
@@ -588,6 +599,7 @@ The user experience comparasion between Option 1 and Option 2 in the case that b
 @azure/purview/v1/metadataPolicies
 @azure/purview/v1/metadataPolicies/api
 @azure/purview/v1/metadataPolicies/rest
+
 </pre>
 <pre lang="shell">
 @azure/purview/v2
@@ -751,6 +763,7 @@ The user experience comparasion between Option 1 and Option 2 in the case that a
 @azure/purview/metadataPolicies
 @azure/purview/metadataPolicies/api
 @azure/purview/metadataPolicies/rest
+
 </pre>
 <pre lang="shell">
 # when we add account v1 and metadataPolcies v3
@@ -769,6 +782,7 @@ The user experience comparasion between Option 1 and Option 2 in the case that a
 @azure/purview/v3/metadataPolicies
 @azure/purview/v3/metadataPolicies/api
 @azure/purview/v3/metadataPolicies/rest
+
 </pre>
 <pre lang="shell">
 # when we add account v2 and metadataPolicies v4
@@ -804,6 +818,7 @@ The user experience comparasion between Option 1 and Option 2 in the case that a
 
 @azure/purview/api/metadataPolicies
 @azure/purview/rest/metadataPolicies
+
 </pre>
 <pre lang="shell">
 # when we add account v1 and metadataPolicies v3
@@ -984,10 +999,6 @@ Whenever a new version comes, we will just duplicate the code except pass a olde
 
 ## Questions
 
-1. Is there a case where we should be multi-client in RLC but single-client in Modular.  
-   Not sure if this is a bug [cadl playground link](https://cadlplayground.z22.web.core.windows.net/cadl-azure/?c=aW1wb3J0ICJAdHlwZXNwZWMvcmVzdCI7CskZYXp1cmUtdG9vbHMvyCUtxhVjb3Jl3ytjLWNsaWVudC1nZW5lcmF0b3LINgp1c2luZyBUeXBlU3BlYy5IdHRwO9AVUmVzdMgVQcReLkNvcmXPEsVhR8hg0URWZXJzaW9uaW5nOwoKQHNlcnZpY2UoewogIHRpdGxlOiAiTXVsdGnGRyIsCiAgdsYyOiAiMS4wLjAiLAp9KQpAdXNlRGVwZW5kZW5jeSjHfG9yZchhcy52MV8wX1ByZXZpZXdfMSkKbmFtZXNwYWNlIENhZGwuy2cgewoKLy8gb3DkALRpb24g8ADjCiAgbW9kZWwgUmVzb3VyY2Ug5ACxICBAdmlzaWJpbGl0eSgicmVhZCIpxRhpZDogc3Ry5gDlxSlrZXnGCXNlZ21lbnTEL8ZLc8c02EzkALfKTsQSZGVzY3JpcOQAqj%2FOGuQB58wSfcR%2B7gC6QXJyYXkgaXPJEVtd5QCkQPUBv%2BYBU%2BYCNeUBpegAkCJGb2%2FrAaQgIOcByjrxAV3EH33kAMtAcm91dGUoIi9jYWRsLWZvb%2BUA4UBkb2MoIsQ1IEbHE2ludGVyZuQBqUZvb09w6AFsxilyZWF0ZXMgYSBuZXcg6AFEIG9yIHVwZMYabiBleGlzdOQBwm9uZS7FUyAgY8U5T3JVxSfsAQHGU09yUmVwbGFjZTzIGD7oAbzFeUdldHMgdGhlIGRldGFpbHMgb2YgYekAgchmZ2V0zFtSZWFk11BEZWxl5gDJ0ERkxRrMR8Ys10lMaXPnAJrpAPfIUnPIU2xpc%2B0AmMQ0zE%2FkAip9%2FwOPZW50Mf8DkP8DkP8DkMtoIHvkA5BiaW5hcnn%2FA5ogIEBmcmllbmRseU5hbWUoIugA1zHlAPz%2FA7f%2FA7f%2FA7fcTP8Dt%2F8Dt%2F8Dt%2BcDty8v5AHrcG9uc2Ugd2l0aCBoZWFkZXJz%2FwPP%2FwPP%2FgPPMeoD0OUCf0JhcuYDyO0D3mLHFuoDy0JhcuoDy8gsZ2V0LeYB5ugBTmdldOgDSULFGSgpOiBPa1LoAOcmx0MgIEDmAO0oImNvbnTkBtTkAUYiKSDHD%2BQGcTogImltYWdlL3BuZyLmAWsgIEBib2R5IMQFOiBieXRlc8YZfecB82dldOUBbMR47QF9xyDqAOjlBDct5AF4LecBeOgAxXB15gDFxiNXaXRoSMYhxFXmBG9k%2FADS6QLvLWxvY8UJx1og6gMKTMca6gCmyBLxBCjnAPTHDMQLyjXuAP3pAN3mBIT1AN3GG%2BsEqu8A4E5vQ%2BYBgv8A4v8A4v8A4usEu%2BUAv%2BYEwg%3D%3D)
-1. Is this a valid case where we use different @server decorator to point to the same endpoint.  
-   [cadl playground link](https://cadlplayground.z22.web.core.windows.net/cadl-azure/?c=aW1wb3J0ICJAdHlwZXNwZWMvcmVzdCI7CskZYXp1cmUtdG9vbHMvyCUtxhVjb3Jl3ytjLWNsaWVudC1nZW5lcmF0b3LINgp1c2luZyBUeXBlU3BlYy5IdHRwO9AVUmVzdMgVQcReLkNvcmXPEsVhR8hg0URWZXJzaW9uaW5nOwoKQHNlcnZpY2UoewogIHRpdGxlOiAiTXVsdGnGRyIsCiAgdsYyOiAiMS4wLjAiLAp9KQpAdXNlRGVwZW5kZW5jeSjHfG9yZchhcy52MV8wX1ByZXZpZXdfMSkKQGRvYygixSogSGVhbHRoIEluc2lnaHRzIHByb3ZpZGVzIGFuIEFQSSB0aGF0IOQAnWVzIGnGJSBtb2RlbHMsIOQBSGlmaWMgZm9yyEkmIExpZmUgU2NpZW5jZXMsxkFwZXJmb3JtIGFuYWx5c2nEXmTIayBpbmZlcsUuIHRvIGJlIHVzZWQgYnkgYSBodW1hbi4iKeYBIGVyKAogICJ7ZW5kcG9pbnR9L2jFdecAmHPlASX%2FANj%2FANj%2FANj%2FANj%2FANjxANjkALDkAfEgIOYBk1N1cOQCs2VkIENvZ25pdGl2ZSBT5gIZcyDoAPZzIChwcm90b2NvbMVvaG9zdG5hbWUs5QCvZXhhbXDkAj5odHRwczovL3dlc3R1czIuYXBpLmPIVi5taWNyb3NvZnQuY29tKeQBYuQAhshjOiB1cmzkAJ19CikKxFxzcGFjZSBDYWRsLusClSB7CgovLyBvcOQC4mlvbiDwAxEKIOYBVCBSZXNvdXJjZegA7nZpc2liaWxpdHkoInJlYWTnAIBpZDogc3Ry5gMTxSlrZXnGCXNlZ21lbnTEL8ZLc8c02EzkALfKTsQSZGVzY3JpcOQAqj%2FOGuQEFcwSfcR%2B7gC6QXJyYXkgaXPJEVtd5QCkQPUD7eYDgeYEY%2BUD0%2BgAkCJGb2%2FrA9Ig5QKDaWNlOvEBXcQffeQAy0Byb3V0ZSgiL2NhZGwtZm9v5QDh5gIxxDUgRscTaW50ZXJm5AGpRm9vT3DtAlpDcmVhdOQC%2FiBuZXcg6AFEIG9yIHVwZMYabiBleGlzdOQBwm9uZegCE2PFOU9yVcUn7AEBxlNPclJlcGxhY2U8yBg%2B6AG8xXlHZXRzIHRoZSBkZXRhaWxzIG9mIGHpAIHIZmdldMxbUmVhZNdQRGVsZeYAydBEZMUazEfGLNdJTGlz5wCa6QD3yFJzyFNsaXPtAJjENMxP5AIqff8FvWVudDH%2FBb7%2FBb7%2FBb7%2FBOb%2FBOb%2FBOb%2FBOb%2FBOb%2FBb7%2FBb7%2FANj%2FANj%2FANj%2FANj%2FANj%2FBb7%2FBb7%2FBb7%2FBb7%2FBb7%2FBb7rApYge%2BQFvmJpbmFyef8FyCAgQGZyaWVuZGx5TmFtZSgi6AMFMcV8%2FwXl%2FwXl%2FwXl3Ez%2FBeX%2FBeX%2FBeXnBeUvL%2BQEGXBvbnNlIHdpdGggaGVhZGVyc%2F8F%2FfQF%2FUJhcv8F%2FegBnOoF%2FuUCW0JhcuYF9u0GDGLHFuoF%2BUJhcuoF%2BcgsZ2V0LeYB5ugBTmdldOgFd0LFGSgpOiBPa1LoAOcmx0MgIEDmAO0oImNvbnTkCzDkAUYiKSDHD%2BQKzTogImltYWdlL3BuZyLmAWsgIEBib2R5IMQFOiBieXRlc8YZfecB82dldOUBbMR47QF9xyDqAOjlBmUt5AF4LecBeOgAxXB15gDFxiNXaXRoSMYhxFXmBp1k%2FADS6QLvLWxvY8UJx1og6gMKTMca6gCmyBLxBlbnAPTHDMQLyjXuAP3pAN3mBrL1AN3GG%2BsG2O8A4E5vQ%2BYBgv8A4v8A4v8A4usG6eUAv%2BYG8A%3D%3D)
 1. In the Multi-Client case, what if only one of them become a Multi-Api case.  
    Only applies to cases like purview.
 1. In the Multi-Api case, what if starting from one version, it becomes a Multi-Client.
