@@ -5,10 +5,20 @@
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
-  "browser": { "./dist-esm/src/base64.js": "./dist-esm/src/base64.browser.js" },
-  "react-native": { "./dist/index.js": "./dist-esm/src/index.js" },
+  "browser": {
+    "./dist-esm/src/base64.js": "./dist-esm/src/base64.browser.js"
+  },
+  "react-native": {
+    "./dist/index.js": "./dist-esm/src/index.js"
+  },
   "types": "types/latest/core-client.d.ts",
-  "typesVersions": { "<3.6": { "types/latest/*": ["types/3.1/*"] } },
+  "typesVersions": {
+    "<3.6": {
+      "types/latest/*": [
+        "types/3.1/*"
+      ]
+    }
+  },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
@@ -42,11 +52,18 @@
     "LICENSE"
   ],
   "repository": "github:Azure/azure-sdk-for-js",
-  "keywords": ["azure", "cloud"],
+  "keywords": [
+    "azure",
+    "cloud"
+  ],
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "bugs": { "url": "https://github.com/Azure/azure-sdk-for-js/issues" },
-  "engines": { "node": ">=14.0.0" },
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-client/",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
@@ -91,5 +108,7 @@
     "typescript": "~5.0.0",
     "util": "^0.12.1"
   },
-  "//metadata": { "migrationDate": "2023-03-08T18:36:03.000Z" }
+  "//metadata": {
+    "migrationDate": "2023-03-08T18:36:03.000Z"
+  }
 }
