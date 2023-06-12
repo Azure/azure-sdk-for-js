@@ -9,9 +9,8 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter,
-  QueryCollectionFormat
-} from "@azure/core-http";
+  OperationQueryParameter
+} from "@azure/core-client";
 import {
   FileServiceProperties as FileServicePropertiesMapper,
   SharePermission as SharePermissionMapper
@@ -185,7 +184,7 @@ export const include: OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: QueryCollectionFormat.Csv
+  collectionFormat: "CSV"
 };
 
 export const restype1: OperationQueryParameter = {
@@ -205,11 +204,11 @@ export const metadata: OperationParameter = {
   mapper: {
     serializedName: "x-ms-meta",
     xmlName: "x-ms-meta",
+    headerCollectionPrefix: "x-ms-meta-",
     type: {
       name: "Dictionary",
       value: { type: { name: "String" } }
-    },
-    headerCollectionPrefix: "x-ms-meta-"
+    }
   }
 };
 
@@ -430,6 +429,18 @@ export const comp3: OperationQueryParameter = {
     defaultValue: "snapshot",
     isConstant: true,
     serializedName: "comp",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const contentType1: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
     type: {
       name: "String"
     }
@@ -661,7 +672,7 @@ export const include1: OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: QueryCollectionFormat.Csv
+  collectionFormat: "CSV"
 };
 
 export const includeExtendedInfo: OperationParameter = {
@@ -961,7 +972,7 @@ export const fileContentLength1: OperationParameter = {
   }
 };
 
-export const contentType1: OperationParameter = {
+export const contentType2: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
     defaultValue: "application/octet-stream",

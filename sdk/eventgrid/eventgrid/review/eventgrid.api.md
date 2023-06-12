@@ -555,12 +555,37 @@ export type ContainerRegistryImageDeletedEventData = ContainerRegistryEventData 
 export type ContainerRegistryImagePushedEventData = ContainerRegistryEventData & {};
 
 // @public
+export type ContainerServiceClusterSupportEndedEventData = ContainerServiceClusterSupportEventData & {};
+
+// @public
+export type ContainerServiceClusterSupportEndingEventData = ContainerServiceClusterSupportEventData & {};
+
+// @public
+export interface ContainerServiceClusterSupportEventData {
+    kubernetesVersion: string;
+}
+
+// @public
 export interface ContainerServiceNewKubernetesVersionAvailableEventData {
     latestPreviewKubernetesVersion: string;
     latestStableKubernetesVersion: string;
     latestSupportedKubernetesVersion: string;
     lowestMinorKubernetesVersion: string;
 }
+
+// @public
+export interface ContainerServiceNodePoolRollingEventData {
+    nodePoolName: string;
+}
+
+// @public
+export type ContainerServiceNodePoolRollingFailedEventData = ContainerServiceNodePoolRollingEventData & {};
+
+// @public
+export type ContainerServiceNodePoolRollingStartedEventData = ContainerServiceNodePoolRollingEventData & {};
+
+// @public
+export type ContainerServiceNodePoolRollingSucceededEventData = ContainerServiceNodePoolRollingEventData & {};
 
 // @public
 export interface DataBoxCopyCompletedEventData {
@@ -1727,7 +1752,12 @@ export interface SystemEventNameToEventData {
     "Microsoft.ContainerRegistry.ChartPushed": ContainerRegistryChartPushedEventData;
     "Microsoft.ContainerRegistry.ImageDeleted": ContainerRegistryImageDeletedEventData;
     "Microsoft.ContainerRegistry.ImagePushed": ContainerRegistryImagePushedEventData;
+    "Microsoft.ContainerService.ClusterSupportEnded": ContainerServiceClusterSupportEndedEventData;
+    "Microsoft.ContainerService.ClusterSupportEnding": ContainerServiceClusterSupportEndingEventData;
     "Microsoft.ContainerService.NewKubernetesVersionAvailable": ContainerServiceNewKubernetesVersionAvailableEventData;
+    "Microsoft.ContainerService.NodePoolRollingFailed": ContainerServiceNodePoolRollingFailedEventData;
+    "Microsoft.ContainerService.NodePoolRollingStarted": ContainerServiceNodePoolRollingStartedEventData;
+    "Microsoft.ContainerService.NodePoolRollingSucceeded": ContainerServiceNodePoolRollingSucceededEventData;
     "Microsoft.DataBox.CopyCompleted": DataBoxCopyCompletedEventData;
     "Microsoft.DataBox.CopyStarted": DataBoxCopyStartedEventData;
     "Microsoft.DataBox.OrderCompleted": DataBoxOrderCompletedEventData;
