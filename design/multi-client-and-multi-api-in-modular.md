@@ -190,7 +190,7 @@ The user experience comparasion between Option 1 and Option 2 for the Purview ca
 
 @azure/purview/metadataPolicies
 @azure/purview/metadataPolicies/api
-@azure/purview/rest/account
+@azure/purview/rest/metadataPolicies
 
 </pre>
 </td>
