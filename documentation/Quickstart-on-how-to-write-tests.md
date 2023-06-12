@@ -66,7 +66,7 @@ sdk/
 │  │  │  ├─ public/
 │  │  │  |  ├─ utils/
 │  │  │  |  |  ├─ recordedClient.ts
-│  │  │  |  ├─ sampleTest.spec.ts
+│  │  │  |  ├─ clinicalmatching.spec.ts
 ```
 
 ## Run tests in record mode
@@ -205,7 +205,7 @@ At the code structure [section](#code-structure) we described we'll generate sam
 
 This simple test creates a resource and checks that the service handles it correctly in the project `purview-catalog-rest`. Below are the steps:
 
-- Step 1: Create your test file and add one test case with resource creation, here we have purview catalog glossary test file `glossary.spec.ts` and one case named `Should create a glossary`. Or rename the `sampleTest.spec.ts` file and its case `sample test`.
+- Step 1: Create your test file and add one test case with resource creation, here we have purview catalog glossary test file `glossary.spec.ts` and one case named `Should create a glossary`. Or rename the `clinicalmatching.spec.ts` file and its case `sample test`.
 - Step 2: Add the utility method `createClient` in `public/utils/recordedClient.ts` to share the `PurviewCatalogClient` creation.
   - Call `createTestCredential` to init your credential and refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md#aad-and-the-new-noopcredential) for more details
   - Wrap the `option` with test options by calling `recorder.configureClientOptions(options)`
@@ -309,7 +309,7 @@ At the code structure [section](#code-structure) we described if your SDK is gen
 
 Next we'll take the package `@azure/arm-monitor` as an example to guide you how to add your own test case. Below are the steps:
 
-- Step 1: Create your test file and add one test case with resource creation, here we have monitor test file `monitor.spec.ts` and one case named `Should create diagnosticSettings`. Or rename the `sampleTest.spec.ts` file and its case `sample test`.
+- Step 1: Create your test file and add one test case with resource creation, here we have monitor test file `monitor.spec.ts` and one case named `Should create diagnosticSettings`. Or rename the `clinicalmatching.spec.ts` file and its case `sample test`.
 - Step 2: Add declarations for common variables e.g monitor client, its diagnostic name and subscription id.
 - Step 3: Create the monitor client in `beforeEach` and call `client.diagnosticSettings.createOrUpdate` in test case
   - Read the `subscriptionId` from `env`

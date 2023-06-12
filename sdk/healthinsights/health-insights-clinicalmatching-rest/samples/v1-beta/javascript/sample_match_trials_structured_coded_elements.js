@@ -7,44 +7,40 @@
  * @summary detects change points.
  */
 
-import { AzureKeyCredential } from "@azure/core-auth";
+const { AzureKeyCredential } = require("@azure/core-auth");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-import createClient, {
-  ClinicalCodedElement,
-  ClinicalTrialRegistryFilter, ClinicalTrials,
-  GeographicLocation, getLongRunningPoller, MatchTrialsBodyParam,
-  PatientInfo,
-  PatientRecord, TrialMatcherData, TrialMatcherModelConfiguration, TrialMatcherResultOutput, TrialMatcherResultsOutput
-} from "../src";
+const dotenv = require("dotenv");
+const createClient = require("../src").default,
+  { getLongRunningPoller } = require("../src");
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
 
 const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
-const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "https://eastus.api.cognitive.microsoft.com";
+const endpoint =
+  process.env["HEALTH_INSIGHTS_ENDPOINT"] || "https://eastus.api.cognitive.microsoft.com";
 
-function printResults(trialMatcherResult: TrialMatcherResultOutput): void {
-    if (trialMatcherResult.status === "succeeded") {
-      const results = trialMatcherResult.results as TrialMatcherResultsOutput;
-      const patients = results.patients;
-      for (const patientResult of patients) {
-          console.log(`Inferences of Patient ${patientResult.id}`);
-          for (const tmInferences of patientResult.inferences) {
-              console.log(`Trial Id ${tmInferences.id}`);
-              console.log(`Type: ${String(tmInferences.type)}  Value: ${tmInferences.value}`);
-              console.log(`Description ${tmInferences.description}`);
-          }
+function printResults(trialMatcherResult) {
+  if (trialMatcherResult.status === "succeeded") {
+    const results = trialMatcherResult.results;
+    const patients = results.patients;
+    for (const patientResult of patients) {
+      console.log(`Inferences of Patient ${patientResult.id}`);
+      for (const tmInferences of patientResult.inferences) {
+        console.log(`Trial Id ${tmInferences.id}`);
+        console.log(`Type: ${String(tmInferences.type)}  Value: ${tmInferences.value}`);
+        console.log(`Description ${tmInferences.description}`);
       }
+    }
   }
 }
 
-export async function main() {
+async function main() {
   const credential = new AzureKeyCredential(apiKey);
   const client = createClient(endpoint, credential);
 
-  const clinicalInfoList: ClinicalCodedElement[] = [
+  const clinicalInfoList = [
     {
       system: "http://www.nlm.nih.gov/research/umls",
       code: "C0006826",
@@ -107,53 +103,57 @@ export async function main() {
     },
   ];
 
-  const patientInfo: PatientInfo = {
+  const patientInfo = {
     sex: "MALE",
-    birthDate: new Date(1965, 11, 26), // Note: Months are zero-based (11 represents December)
+    birthDate: new Date(1965, 11, 26),
     clinicalInfo: clinicalInfoList,
   };
 
-  const patient1: PatientRecord = {
+  const patient1 = {
     id: "patient_id",
     info: patientInfo,
   };
 
-  const geographicLocation: GeographicLocation = { countryOrRegion: "United States", city: "Gilbert", state: "Arizona" };
-  const registryFilters: ClinicalTrialRegistryFilter = {
+  const geographicLocation = {
+    countryOrRegion: "United States",
+    city: "Gilbert",
+    state: "Arizona",
+  };
+  const registryFilters = {
     conditions: ["Non-small cell lung cancer"],
     phases: ["PHASE1"],
     sources: ["CLINICALTRIALS_GOV"],
-    facilityLocations: [ geographicLocation ],
-    studyTypes: ["INTERVENTIONAL"]
+    facilityLocations: [geographicLocation],
+    studyTypes: ["INTERVENTIONAL"],
   };
 
   // Construct ClinicalTrial instance and attach the registry filter to it.
-  const clinicalTrials: ClinicalTrials = ({
-    registryFilters: [registryFilters]
-  });
+  const clinicalTrials = {
+    registryFilters: [registryFilters],
+  };
 
   // Create TrialMatcherRequest
-  const configuration: TrialMatcherModelConfiguration = {
+  const configuration = {
     clinicalTrials: clinicalTrials,
   };
 
-  const trialMatcherData: TrialMatcherData = {
+  const trialMatcherData = {
     patients: [patient1],
     configuration: configuration,
   };
 
-  const trialMatcherParameter: MatchTrialsBodyParam = {
-    body: trialMatcherData
+  const trialMatcherParameter = {
+    body: trialMatcherData,
   };
 
   const initialResponse = await client.path("/trialmatcher/jobs").post(trialMatcherParameter);
   const poller = await getLongRunningPoller(client, initialResponse);
   const trialMatcherResult = await poller.pollUntilDone();
-/*  if (isUnexpected(trialMatcherResult)) {
-      throw initialResponse;
-    }*/
+  /*  if (isUnexpected(trialMatcherResult)) {
+          throw initialResponse;
+        }*/
   if (trialMatcherResult.status === "200") {
-    const resultBody = trialMatcherResult.body as TrialMatcherResultOutput;
+    const resultBody = trialMatcherResult.body;
     printResults(resultBody);
   }
 }
@@ -161,3 +161,5 @@ export async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

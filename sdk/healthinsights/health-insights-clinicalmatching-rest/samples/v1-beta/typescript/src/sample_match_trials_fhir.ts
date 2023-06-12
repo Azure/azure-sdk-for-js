@@ -19,6 +19,7 @@ import createClient, {
     DocumentContent,
     GeographicLocation,
     getLongRunningPoller,
+    isUnexpected,
     MatchTrialsBodyParam,
     PatientDocument,
     PatientInfo,

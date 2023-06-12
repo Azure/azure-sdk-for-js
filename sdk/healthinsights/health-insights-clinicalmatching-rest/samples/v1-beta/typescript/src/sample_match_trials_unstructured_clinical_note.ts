@@ -16,6 +16,7 @@ import createClient, {
     DocumentContent,
     GeographicLocation,
     getLongRunningPoller,
+    isUnexpected,
     MatchTrialsParameters,
     PatientDocument,
     PatientInfo,
@@ -236,7 +237,7 @@ export async function main() {
     throw initialResponse;
   }*/
   const poller = await getLongRunningPoller(client, initialResponse);
-  const trialMatcherResult = await poller.pollUntilDone();
+  const res = await poller.pollUntilDone();
   if (trialMatcherResult.status === "200") {
     const resultBody = trialMatcherResult.body as TrialMatcherResultOutput;
     printResults(resultBody);

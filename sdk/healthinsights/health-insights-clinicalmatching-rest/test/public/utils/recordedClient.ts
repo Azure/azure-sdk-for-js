@@ -2,13 +2,15 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import {assertEnvironmentVariable, Recorder, RecorderStartOptions} from "@azure-tools/test-recorder";
 import "./env";
+import {AzureKeyCredential} from "@azure/core-auth";
+import createClient, {ClinicalMatchingClient} from "../../../src";
 
 const envSetupForPlayback: Record<string, string> = {
-  ENDPOINT: "https://endpoint",
+  HEALTH_INSIGHTS_ENDPOINT: "https://endpoint",
+  HEALTH_INSIGHTS_KEY: "fake_key",
   AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   SUBSCRIPTION_ID: "azure_subscription_id",
 };
@@ -26,4 +28,11 @@ export async function createRecorder(context: Context): Promise<Recorder> {
   const recorder = new Recorder(context.currentTest);
   await recorder.start(recorderEnvSetup);
   return recorder;
+}
+
+export async function createClientTest(recorder: Recorder): Promise<ClinicalMatchingClient> {
+  const endpoint = assertEnvironmentVariable("HEALTH_INSIGHTS_ENDPOINT");
+  const key = assertEnvironmentVariable("HEALTH_INSIGHTS_KEY");
+  const credential = new AzureKeyCredential(key);
+  return createClient(endpoint, credential, recorder.configureClientOptions({}));
 }
