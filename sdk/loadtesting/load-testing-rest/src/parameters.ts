@@ -98,14 +98,12 @@ export interface CreateOrUpdateAppComponentsMediaTypesParam {
   contentType: "application/merge-patch+json";
 }
 
-export type CreateOrUpdateAppComponentsParameters =
-  CreateOrUpdateAppComponentsMediaTypesParam &
-    CreateOrUpdateAppComponentsBodyParam &
-    RequestParameters;
+export type CreateOrUpdateAppComponentsParameters = CreateOrUpdateAppComponentsMediaTypesParam &
+  CreateOrUpdateAppComponentsBodyParam &
+  RequestParameters;
 export type GetAppComponentsParameters = RequestParameters;
 /** Server metric configuration model. */
-export type TestServerMetricConfigResourceMergeAndPatch =
-  Partial<TestServerMetricConfig>;
+export type TestServerMetricConfigResourceMergeAndPatch = Partial<TestServerMetricConfig>;
 
 export interface CreateOrUpdateServerMetricsConfigBodyParam {
   /** Server metric configuration model. */
@@ -197,8 +195,7 @@ export interface ListMetricDefinitionsQueryParam {
   queryParameters?: ListMetricDefinitionsQueryParamProperties;
 }
 
-export type ListMetricDefinitionsParameters = ListMetricDefinitionsQueryParam &
-  RequestParameters;
+export type ListMetricDefinitionsParameters = ListMetricDefinitionsQueryParam & RequestParameters;
 
 export interface ListMetricsBodyParam {
   /** Metric dimension filter */
@@ -233,8 +230,7 @@ export type ListMetricsParameters = ListMetricsQueryParam &
   ListMetricsBodyParam &
   RequestParameters;
 /** App Component model. */
-export type TestRunAppComponentsResourceMergeAndPatch =
-  Partial<TestRunAppComponents>;
+export type TestRunAppComponentsResourceMergeAndPatch = Partial<TestRunAppComponents>;
 
 export interface CreateOrUpdateAppComponentsBodyParam {
   /** App Component model. */
@@ -245,14 +241,12 @@ export interface CreateOrUpdateAppComponentsMediaTypesParam {
   contentType: "application/merge-patch+json";
 }
 
-export type CreateOrUpdateAppComponentsParameters =
-  CreateOrUpdateAppComponentsMediaTypesParam &
-    CreateOrUpdateAppComponentsBodyParam &
-    RequestParameters;
+export type CreateOrUpdateAppComponentsParameters = CreateOrUpdateAppComponentsMediaTypesParam &
+  CreateOrUpdateAppComponentsBodyParam &
+  RequestParameters;
 export type GetAppComponentsParameters = RequestParameters;
 /** Server metric configuration model. */
-export type TestRunServerMetricConfigResourceMergeAndPatch =
-  Partial<TestRunServerMetricConfig>;
+export type TestRunServerMetricConfigResourceMergeAndPatch = Partial<TestRunServerMetricConfig>;
 
 export interface CreateOrUpdateServerMetricsConfigBodyParam {
   /** Server metric configuration model. */

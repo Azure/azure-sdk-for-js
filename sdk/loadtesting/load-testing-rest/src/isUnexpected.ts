@@ -101,9 +101,7 @@ export function isUnexpected(
   response: ListTestFiles200Response | ListTestFilesDefaultResponse
 ): response is ListTestFilesDefaultResponse;
 export function isUnexpected(
-  response:
-    | CreateOrUpdateAppComponents200Response
-    | CreateOrUpdateAppComponentsDefaultResponse
+  response: CreateOrUpdateAppComponents200Response | CreateOrUpdateAppComponentsDefaultResponse
 ): response is CreateOrUpdateAppComponentsDefaultResponse;
 export function isUnexpected(
   response: GetAppComponents200Response | GetAppComponentsDefaultResponse
@@ -114,9 +112,7 @@ export function isUnexpected(
     | CreateOrUpdateServerMetricsConfigDefaultResponse
 ): response is CreateOrUpdateServerMetricsConfigDefaultResponse;
 export function isUnexpected(
-  response:
-    | GetServerMetricsConfig200Response
-    | GetServerMetricsConfigDefaultResponse
+  response: GetServerMetricsConfig200Response | GetServerMetricsConfigDefaultResponse
 ): response is GetServerMetricsConfigDefaultResponse;
 export function isUnexpected(
   response: GetTestRun200Response | GetTestRunDefaultResponse
@@ -141,22 +137,16 @@ export function isUnexpected(
   response: StopTestRun200Response | StopTestRunDefaultResponse
 ): response is StopTestRunDefaultResponse;
 export function isUnexpected(
-  response:
-    | ListMetricNamespaces200Response
-    | ListMetricNamespacesDefaultResponse
+  response: ListMetricNamespaces200Response | ListMetricNamespacesDefaultResponse
 ): response is ListMetricNamespacesDefaultResponse;
 export function isUnexpected(
-  response:
-    | ListMetricDefinitions200Response
-    | ListMetricDefinitionsDefaultResponse
+  response: ListMetricDefinitions200Response | ListMetricDefinitionsDefaultResponse
 ): response is ListMetricDefinitionsDefaultResponse;
 export function isUnexpected(
   response: ListMetrics200Response | ListMetricsDefaultResponse
 ): response is ListMetricsDefaultResponse;
 export function isUnexpected(
-  response:
-    | CreateOrUpdateAppComponents200Response
-    | CreateOrUpdateAppComponentsDefaultResponse
+  response: CreateOrUpdateAppComponents200Response | CreateOrUpdateAppComponentsDefaultResponse
 ): response is CreateOrUpdateAppComponentsDefaultResponse;
 export function isUnexpected(
   response: GetAppComponents200Response | GetAppComponentsDefaultResponse
@@ -167,9 +157,7 @@ export function isUnexpected(
     | CreateOrUpdateServerMetricsConfigDefaultResponse
 ): response is CreateOrUpdateServerMetricsConfigDefaultResponse;
 export function isUnexpected(
-  response:
-    | GetServerMetricsConfig200Response
-    | GetServerMetricsConfigDefaultResponse
+  response: GetServerMetricsConfig200Response | GetServerMetricsConfigDefaultResponse
 ): response is GetServerMetricsConfigDefaultResponse;
 export function isUnexpected(
   response:
@@ -271,24 +259,17 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (
-      let i = candidateParts.length - 1, j = pathParts.length - 1;
-      i >= 1 && j >= 1;
-      i--, j--
-    ) {
-      if (
-        candidateParts[i]?.startsWith("{") &&
-        candidateParts[i]?.indexOf("}") !== -1
-      ) {
+    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
+      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(
-          `${candidateParts[i]?.slice(start, end)}`
-        ).test(pathParts[j] || "");
+        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
+          pathParts[j] || ""
+        );
 
         if (!isMatched) {
           found = false;

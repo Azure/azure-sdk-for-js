@@ -75,17 +75,13 @@ export interface CreateOrUpdateTest {
   /** Create a new test or update an existing test. */
   patch(
     options: CreateOrUpdateTestParameters
-  ): StreamableMethod<
-    CreateOrUpdateTest200Response | CreateOrUpdateTestDefaultResponse
-  >;
+  ): StreamableMethod<CreateOrUpdateTest200Response | CreateOrUpdateTestDefaultResponse>;
   /** Delete a test by its name. */
   delete(
     options?: DeleteTestParameters
   ): StreamableMethod<DeleteTest204Response | DeleteTestDefaultResponse>;
   /** Get load test details by test name */
-  get(
-    options?: GetTestParameters
-  ): StreamableMethod<GetTest200Response | GetTestDefaultResponse>;
+  get(options?: GetTestParameters): StreamableMethod<GetTest200Response | GetTestDefaultResponse>;
 }
 
 export interface ListTests {
@@ -106,9 +102,7 @@ export interface UploadTestFile {
    */
   put(
     options: UploadTestFileParameters
-  ): StreamableMethod<
-    UploadTestFile200Response | UploadTestFileDefaultResponse
-  >;
+  ): StreamableMethod<UploadTestFile200Response | UploadTestFileDefaultResponse>;
   /** Get test file by the file name. */
   get(
     options?: GetTestFileParameters
@@ -116,9 +110,7 @@ export interface UploadTestFile {
   /** Delete file by the file name for a test */
   delete(
     options?: DeleteTestFileParameters
-  ): StreamableMethod<
-    DeleteTestFile204Response | DeleteTestFileDefaultResponse
-  >;
+  ): StreamableMethod<DeleteTestFile204Response | DeleteTestFileDefaultResponse>;
 }
 
 export interface ListTestFiles {
@@ -133,15 +125,12 @@ export interface CreateOrUpdateAppComponents {
   patch(
     options: CreateOrUpdateAppComponentsParameters
   ): StreamableMethod<
-    | CreateOrUpdateAppComponents200Response
-    | CreateOrUpdateAppComponentsDefaultResponse
+    CreateOrUpdateAppComponents200Response | CreateOrUpdateAppComponentsDefaultResponse
   >;
   /** Get associated app component (collection of azure resources) for the given test. */
   get(
     options?: GetAppComponentsParameters
-  ): StreamableMethod<
-    GetAppComponents200Response | GetAppComponentsDefaultResponse
-  >;
+  ): StreamableMethod<GetAppComponents200Response | GetAppComponentsDefaultResponse>;
 }
 
 export interface CreateOrUpdateServerMetricsConfig {
@@ -149,15 +138,12 @@ export interface CreateOrUpdateServerMetricsConfig {
   patch(
     options: CreateOrUpdateServerMetricsConfigParameters
   ): StreamableMethod<
-    | CreateOrUpdateServerMetricsConfig200Response
-    | CreateOrUpdateServerMetricsConfigDefaultResponse
+    CreateOrUpdateServerMetricsConfig200Response | CreateOrUpdateServerMetricsConfigDefaultResponse
   >;
   /** List server metrics configuration for the given test. */
   get(
     options?: GetServerMetricsConfigParameters
-  ): StreamableMethod<
-    GetServerMetricsConfig200Response | GetServerMetricsConfigDefaultResponse
-  >;
+  ): StreamableMethod<GetServerMetricsConfig200Response | GetServerMetricsConfigDefaultResponse>;
 }
 
 export interface GetTestRun {
@@ -183,9 +169,7 @@ export interface GetTestRunFile {
   /** Get test run file by file name. */
   get(
     options?: GetTestRunFileParameters
-  ): StreamableMethod<
-    GetTestRunFile200Response | GetTestRunFileDefaultResponse
-  >;
+  ): StreamableMethod<GetTestRunFile200Response | GetTestRunFileDefaultResponse>;
 }
 
 export interface ListTestRuns {
@@ -206,18 +190,14 @@ export interface ListMetricNamespaces {
   /** List the metric namespaces for a load test run. */
   get(
     options?: ListMetricNamespacesParameters
-  ): StreamableMethod<
-    ListMetricNamespaces200Response | ListMetricNamespacesDefaultResponse
-  >;
+  ): StreamableMethod<ListMetricNamespaces200Response | ListMetricNamespacesDefaultResponse>;
 }
 
 export interface ListMetricDefinitions {
   /** List the metric definitions for a load test run. */
   get(
     options?: ListMetricDefinitionsParameters
-  ): StreamableMethod<
-    ListMetricDefinitions200Response | ListMetricDefinitionsDefaultResponse
-  >;
+  ): StreamableMethod<ListMetricDefinitions200Response | ListMetricDefinitionsDefaultResponse>;
 }
 
 export interface ListMetrics {
@@ -232,8 +212,7 @@ export interface CreateOrUpdateAppComponents {
   patch(
     options: CreateOrUpdateAppComponentsParameters
   ): StreamableMethod<
-    | CreateOrUpdateAppComponents200Response
-    | CreateOrUpdateAppComponentsDefaultResponse
+    CreateOrUpdateAppComponents200Response | CreateOrUpdateAppComponentsDefaultResponse
   >;
   /**
    * Get associated app component (collection of azure resources) for the given test
@@ -241,9 +220,7 @@ export interface CreateOrUpdateAppComponents {
    */
   get(
     options?: GetAppComponentsParameters
-  ): StreamableMethod<
-    GetAppComponents200Response | GetAppComponentsDefaultResponse
-  >;
+  ): StreamableMethod<GetAppComponents200Response | GetAppComponentsDefaultResponse>;
 }
 
 export interface CreateOrUpdateServerMetricsConfig {
@@ -251,15 +228,12 @@ export interface CreateOrUpdateServerMetricsConfig {
   patch(
     options: CreateOrUpdateServerMetricsConfigParameters
   ): StreamableMethod<
-    | CreateOrUpdateServerMetricsConfig200Response
-    | CreateOrUpdateServerMetricsConfigDefaultResponse
+    CreateOrUpdateServerMetricsConfig200Response | CreateOrUpdateServerMetricsConfigDefaultResponse
   >;
   /** List server metrics configuration for the given test run. */
   get(
     options?: GetServerMetricsConfigParameters
-  ): StreamableMethod<
-    GetServerMetricsConfig200Response | GetServerMetricsConfigDefaultResponse
-  >;
+  ): StreamableMethod<GetServerMetricsConfig200Response | GetServerMetricsConfigDefaultResponse>;
 }
 
 export interface Routes {
@@ -268,18 +242,11 @@ export interface Routes {
   /** Resource for '/tests' has methods for the following verbs: get */
   (path: "/tests"): ListTests;
   /** Resource for '/tests/\{testId\}/files/\{fileName\}' has methods for the following verbs: put, get, delete */
-  (
-    path: "/tests/{testId}/files/{fileName}",
-    testId: string,
-    fileName: string
-  ): UploadTestFile;
+  (path: "/tests/{testId}/files/{fileName}", testId: string, fileName: string): UploadTestFile;
   /** Resource for '/tests/\{testId\}/files' has methods for the following verbs: get */
   (path: "/tests/{testId}/files", testId: string): ListTestFiles;
   /** Resource for '/tests/\{testId\}/app-components' has methods for the following verbs: patch, get */
-  (
-    path: "/tests/{testId}/app-components",
-    testId: string
-  ): CreateOrUpdateAppComponents;
+  (path: "/tests/{testId}/app-components", testId: string): CreateOrUpdateAppComponents;
   /** Resource for '/tests/\{testId\}/server-metrics-config' has methods for the following verbs: patch, get */
   (
     path: "/tests/{testId}/server-metrics-config",
@@ -298,22 +265,13 @@ export interface Routes {
   /** Resource for '/test-runs/\{testRunId\}:stop' has methods for the following verbs: post */
   (path: "/test-runs/{testRunId}:stop", testRunId: string): StopTestRun;
   /** Resource for '/test-runs/\{testRunId\}/metric-namespaces' has methods for the following verbs: get */
-  (
-    path: "/test-runs/{testRunId}/metric-namespaces",
-    testRunId: string
-  ): ListMetricNamespaces;
+  (path: "/test-runs/{testRunId}/metric-namespaces", testRunId: string): ListMetricNamespaces;
   /** Resource for '/test-runs/\{testRunId\}/metric-definitions' has methods for the following verbs: get */
-  (
-    path: "/test-runs/{testRunId}/metric-definitions",
-    testRunId: string
-  ): ListMetricDefinitions;
+  (path: "/test-runs/{testRunId}/metric-definitions", testRunId: string): ListMetricDefinitions;
   /** Resource for '/test-runs/\{testRunId\}/metrics' has methods for the following verbs: post */
   (path: "/test-runs/{testRunId}/metrics", testRunId: string): ListMetrics;
   /** Resource for '/test-runs/\{testRunId\}/app-components' has methods for the following verbs: patch, get */
-  (
-    path: "/test-runs/{testRunId}/app-components",
-    testRunId: string
-  ): CreateOrUpdateAppComponents;
+  (path: "/test-runs/{testRunId}/app-components", testRunId: string): CreateOrUpdateAppComponents;
   /** Resource for '/test-runs/\{testRunId\}/server-metrics-config' has methods for the following verbs: patch, get */
   (
     path: "/test-runs/{testRunId}/server-metrics-config",

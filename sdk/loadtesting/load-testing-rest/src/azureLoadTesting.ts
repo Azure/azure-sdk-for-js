@@ -22,9 +22,7 @@ export default function createClient(
   options = {
     ...options,
     credentials: {
-      scopes: options.credentials?.scopes ?? [
-        "https://cnt-prod.loadtesting.azure.com/.default",
-      ],
+      scopes: options.credentials?.scopes ?? ["https://cnt-prod.loadtesting.azure.com/.default"],
     },
   };
 
@@ -43,11 +41,7 @@ export default function createClient(
     },
   };
 
-  const client = getClient(
-    baseUrl,
-    credentials,
-    options
-  ) as AzureLoadTestingClient;
+  const client = getClient(baseUrl, credentials, options) as AzureLoadTestingClient;
 
   return client;
 }

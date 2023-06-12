@@ -164,8 +164,7 @@ export interface CreateOrUpdateAppComponentsDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface CreateOrUpdateAppComponentsDefaultResponse
-  extends HttpResponse {
+export interface CreateOrUpdateAppComponentsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & CreateOrUpdateAppComponentsDefaultHeaders;
@@ -189,8 +188,7 @@ export interface GetAppComponentsDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
-export interface CreateOrUpdateServerMetricsConfig200Response
-  extends HttpResponse {
+export interface CreateOrUpdateServerMetricsConfig200Response extends HttpResponse {
   status: "200";
   body: TestServerMetricConfigOutput;
 }
@@ -200,8 +198,7 @@ export interface CreateOrUpdateServerMetricsConfigDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface CreateOrUpdateServerMetricsConfigDefaultResponse
-  extends HttpResponse {
+export interface CreateOrUpdateServerMetricsConfigDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & CreateOrUpdateServerMetricsConfigDefaultHeaders;
@@ -411,8 +408,7 @@ export interface CreateOrUpdateAppComponentsDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface CreateOrUpdateAppComponentsDefaultResponse
-  extends HttpResponse {
+export interface CreateOrUpdateAppComponentsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & CreateOrUpdateAppComponentsDefaultHeaders;
@@ -436,8 +432,7 @@ export interface GetAppComponentsDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
-export interface CreateOrUpdateServerMetricsConfig200Response
-  extends HttpResponse {
+export interface CreateOrUpdateServerMetricsConfig200Response extends HttpResponse {
   status: "200";
   body: TestRunServerMetricConfigOutput;
 }
@@ -447,8 +442,7 @@ export interface CreateOrUpdateServerMetricsConfigDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface CreateOrUpdateServerMetricsConfigDefaultResponse
-  extends HttpResponse {
+export interface CreateOrUpdateServerMetricsConfigDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & CreateOrUpdateServerMetricsConfigDefaultHeaders;
