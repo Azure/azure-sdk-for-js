@@ -10,6 +10,11 @@
 
 ### Other Changes
 
+- Improved some error messages: [#26094](https://github.com/Azure/azure-sdk-for-js/pull/26094)
+  - Clarify error when attempting to redirect a request but the recorder has not been started
+  - Forward mismatch error when recording file cannot be found during `start` call in playback mode
+  - Add more descriptive message in the case that the test proxy has not been started before running the tests
+
 ## 3.0.0 (2023-03-07)
 
 ### Features Added

@@ -17,6 +17,7 @@ export {
   OperationWithItem,
   OperationInput,
   BulkOperationType,
+  BulkOperationResponse,
   CreateOperationInput,
   UpsertOperationInput,
   ReplaceOperationInput,

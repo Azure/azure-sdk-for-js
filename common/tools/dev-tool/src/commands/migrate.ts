@@ -263,7 +263,7 @@ async function runMigrations(pending: Migration[], project: ProjectInfo): Promis
         return false;
       }
       case "skipped": {
-        onMigrationSkipped(project, migration);
+        await onMigrationSkipped(project, migration);
         continue;
       }
       default:

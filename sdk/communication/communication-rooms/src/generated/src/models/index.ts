@@ -20,7 +20,7 @@ export interface CreateRoomRequest {
 
 export interface ParticipantProperties {
   /** The role of a room participant. The default value is Attendee. */
-  role?: Role;
+  role: Role;
 }
 
 /** The meeting room. */
@@ -82,7 +82,7 @@ export interface UpdateRoomRequest {
 
 /** A collection of participants in a room. */
 export interface ParticipantsCollection {
-  /** A collection of participants */
+  /** A collection of participants. */
   value: RoomParticipant[];
   /** If there are more participants that can be retrieved, the next link will be populated. */
   nextLink?: string;
