@@ -19,7 +19,82 @@ This document is going to talk about what the multi-client and multi-api for our
 
 ## Earlier Design
 
+```text
+Default Client (ClientA)
+@azure/foo
+@azure/foo/api
+@azure/foo/rest
+
+ClientA
+@azure/foo/clientA
+@azure/foo/clientA/api
+@azure/foo/clientA/rest
+
+ClientB
+@azure/foo/clientB
+@azure/foo/clientB/api
+@azure/foo/clientB/rest
+```
+
+In the case that RLC layer is one client and Api Layer is multi-client, the above design will splitting the RLC client into several parts and provide different sub path exports to it, each will contain a subset of operations related with it even if each of the sub path exports has the same default create client functions. See the below examples of using the sub clients.  
+
+```typescript
+import createMyMulticlient from "@azure/foo/ClientA/rest";
+```
+
+```typescript
+import createMyMulticlient from "@azure/foo/ClientB/rest";
+```
+
+But it will still cause problems because there's no guarantee that the api layer won't call operations across differnt rest level sub client. If such case happens, we will be difficult to do the tree-shaking or even impossible to do that.  
+
+And as our goal is to have Azure Portal to use our RLC libraries, bundle size matters a lot to them. In cases like  we must have subset api layer to call the complete set of rest layer.  
+
+In order to make the RLC layer as a complete set, we will need to put them in the top level `src/rest` folder and just provide the subpath export like `@azure/foo/rest`. But if cases where RLC needs to be designed as a real multi-client case, we will have some folder structure like `src/rest/ClientA`, `src/rest/ClientB` and provide subpath exports like `@azure/foo/rest/ClientA`, `@azure/foo/rest/ClientB`. Otherwise, we will find our RLC code is in a inconsistent place.  
+
+Which leads to two general designs on how to support multi-client modular.  
+
+The first one is to keep remaining part of the classical layer and the api layer as the inital design, just put the rest layer into the `src/rest` folder.  
+
+```text
+Default Client (ClientA)
+@azure/foo
+@azure/foo/api
+@azure/foo/rest
+
+ClientA
+@azure/foo/clientA
+@azure/foo/clientA/api
+@azure/foo/rest/clientA
+
+ClientB
+@azure/foo/clientB
+@azure/foo/clientB/api
+@azure/foo/rest/clientB
+```
+
+THe second one is we also reverse the position of the api layer.  
+
+```text
+Default Client (ClientA)
+@azure/foo
+@azure/foo/api
+@azure/foo/rest
+
+ClientA
+@azure/foo/clientA
+@azure/foo/api/clientA
+@azure/foo/rest/clientA
+
+ClientB
+@azure/foo/clientB
+@azure/foo/api/clientB
+@azure/foo/rest/clientB
+```
+
 ## Multi-Client in Modular
+
+In this part, we will mainly talk about the Multi-Client in Modular. We will start from identifying all the possible client structure scenarios that we might get from TypeSpec, and then pick up those related with multi-client in Modular. After that, I have two proposals Option 1 and Option 2 to show how the multi-client in Modular should look like when we have scenarios like loadtesting case and purview case.  
 
 ### Identify Scenarios
 
@@ -68,23 +143,7 @@ As the first case and the fourth case are not involved with multi-client in both
 
 ### LoadTesting Case
 
-let's say we have the loadtesting modular client now, the code structure is like
-
-```shell
-src/index.ts # the classical client
-src/api # the api layer
-src/rest # the rest layer
-```
-
-The user experience are as
-
-```
-@azure/loadtesting
-@azure/loadtesting/api
-@azure/loadtesting/rest
-```
-
-As the [TypeSpec definition](https://github.com/Azure/azure-rest-api-specs/blob/feature/loadtesting/specification/loadtestservice/client.tsp), they have two sub client named as LoadTestAdministrationClient and LoadTestRunClient and both of them have the same endpoint AzureLoadTesting.
+As the [TypeSpec definition](https://github.com/Azure/azure-rest-api-specs/blob/feature/loadtesting/specification/loadtestservice/client.tsp), they have two sub client named as LoadTestAdministrationClient and LoadTestRunClient and both of them have the same endpoint AzureLoadTesting. In such case, we will have single-client RLC and multi-client api layer and classical client layer.
 
 Our proposed code structure would be:
 
@@ -105,9 +164,11 @@ src/rest # the rest layer client
 ```shell
 src/index.ts # the classical client will need to export both the classical sub client for administration and run as well as the models inside both sub clients, which case like commonly used models will probably need to be considered
 src/api/index.ts # this will need to export the api layer stuff for both administration sub client and run sub client as well as the models. also unless we have a default export, which can be discussed.
-src/api/administration # the sub client of administration api layer
-src/api/run # the sub client of run api layer
 src/rest # the rest layer client
+src/administration # the administration classical sub client
+src/api/administration # the sub client of administration api layer
+src/run # the run classical sub client
+src/api/run # the sub client of run api layer
 ```
 
 The user experience comparasion between Option 1 and Option 2 for the LoadTesting case would be
@@ -135,7 +196,9 @@ The user experience comparasion between Option 1 and Option 2 for the LoadTestin
 @azure/loadtesting
 @azure/loadtesting/api
 @azure/loadtesting/rest
+@azure/loadtesting/administration
 @azure/loadtesting/api/administration
+@azure/loadtesting/run
 @azure/loadtesting/api/run
 </pre>
 </td>
@@ -148,33 +211,7 @@ Please note that in this case, the Client type name for rest level should be the
 
 ### Purview Case
 
-Let's say we have purview client now, the code structure is like
-
-- Option 1:
-
-```shell
-src/index.ts # this will export the two sub classical clients as well as the models involved
-src/api # this will export the two sub api layer operation as well as the models involved
-src/account/index.ts # this will export the account sub classical client
-src/account/api # this will export the account api layer
-src/metadataPolicies/index.ts # this will export metadataPolicies sub classical client
-src/metadataPolicies/api # this will export metadataPolicies sub api layer
-src/rest/index.ts # not sure if we should have this file, this will export both of the account and metadataPolicies rest sub client to the top level, as well as the involved types, which will have the name conflict issue, as what we currently handle it is
-src/rest/account # this will export the account rest sub client
-src/rest/metadataPolicies # this will export the metadataPolicies rest sub client.
-```
-
-- Option 2:
-
-```shell
-src/index.ts # this will export the two sub classical clients as well as the models involved
-src/api/index.ts # this will export the two sub api layer operation as well as the models involved
-src/api/account # this will export the account api layer
-src/api/metadataPolicies # this will export metadataPolicies sub api layer
-src/rest/index.ts # not sure if we should have this file, this will export both of the account and metadataPolicies rest sub client to the top level, as well as the involved types, which will have the name conflict issue, as what we currently handle it is
-src/rest/account # this will export the account rest sub client
-src/rest/metadataPolicies # this will export the metadataPolicies rest sub client.
-```
+In the Purview case, we have different endpoints to different subclients.
 
 The user experience comparasion between Option 1 and Option 2 for the Purview case
 
@@ -188,8 +225,6 @@ The user experience comparasion between Option 1 and Option 2 for the Purview ca
     <td>
       <pre lang="shell">
 @azure/purview
-</pre>
-<pre lang="shell">
 @azure/purview/api
 @azure/purview/rest
 </pre>
@@ -207,16 +242,16 @@ The user experience comparasion between Option 1 and Option 2 for the Purview ca
 <td>
 <pre lang="shell">
 @azure/purview
-</pre>
-<pre lang="shell">
 @azure/purview/api
 @azure/purview/rest
 </pre>
 <pre lang="shell">
+@azure/purview/account
 @azure/purview/api/account
 @azure/purview/rest/account
 </pre>
 <pre lang="shell">
+@azure/purview/metadataPolicies
 @azure/purview/api/metadataPolicies
 @azure/purview/rest/metadataPolicies
 </pre>
@@ -226,7 +261,9 @@ The user experience comparasion between Option 1 and Option 2 for the Purview ca
 </table>
 <!-- markdownlint-enable MD033 -->
 
-- Question related:
+- Questions related:
+  1. Whether to set one sub client as the default client? Or should we just export both of them.
+  1. If we choose to export both of them, we will need to consider about shared models.
   1. what if only one of the sub clients become a multi-api case? only applies to cases like purview.
 
 ### Rethinking
@@ -246,14 +283,14 @@ Default Client (Account)
 @azure/purview
 @azure/purview/api
 @azure/purview/rest
-      </pre>
-      <pre lang="shell">
+</pre>
+<pre lang="shell">
 Sub Client Account
 @azure/purview/account
 @azure/purview/account/api
 @azure/purview/account/rest
-      </pre>
-      <pre lang="shell">
+</pre>
+<pre lang="shell">
 Sub Client MetadataPolicies
 @azure/purview/metadataPolicies
 @azure/purview/metadataPolicies/api
@@ -276,17 +313,15 @@ Sub Client Account
 Sub Client MetadataPolicies
 @azure/purview/api/metadataPolicies
 @azure/purview/rest/metadataPolicies
-
 </pre>
 </td>
-
   </tr>
 </table>
 <!-- markdownlint-enable MD033 -->
 
-After rethinking the user experience, I found that physology behind the two approaches is how we classify our customers. If we go with approach on the left side, this means we think higher of the service user scenarios, If we go with the approach on the right side, this means we think higher of our JS modular libraries' own user scenarios.
+After rethinking the user experience, I think that physology behind the two approaches is how we classify our customers. If we go with approach on the left side, this means we think higher of the service user scenarios, If we go with the approach on the right side, this means we think higher of our JS modular libraries' own user scenarios.
 
-Please note that in this case, the path name in the rest related expports and api related path should be same. as we respect the package boundaries defined by it.
+NOTES: in this case, the path name in the rest related expports and api related path should be same. as we respect the package boundaries defined by it.
 
 ## Multi-Api in Modular
 
@@ -295,6 +330,7 @@ Please note that in this case, the path name in the rest related expports and ap
 See the example for single client,
 
 ```shell
+
 src/index.ts # the classical client
 src/api # the api layer
 src/rest # the rest layer
@@ -488,7 +524,7 @@ The user experience comparasion between the Option 1 and Option 2 in the load te
 </table>
 <!-- markdownlint-enable MD033 -->
 
-**In this case, as both of the administration and run sub client are pointing to the same endpoint, the api version evolve strategy should be the same**
+In this case, as both of the administration and run sub client are pointing to the same endpoint, the api version evolve strategy should be the same
 
 #### Multi-Api For Purview case
 
@@ -496,72 +532,7 @@ In the Purview case, as both sub clients are pointing to different endpoints, th
 
 First, let's consider that both sub client will have the same version strategy
 
-- Option 1:
-
-```shell
-# the default version of everything could be either v1 or v2
-src/index.ts # this will export the two sub classical clients as well as the models involved
-src/api # this will export the two sub api layer operation as well as the models involved
-src/account/index.ts # this will export the account sub classical client
-src/account/api # this will export the account api layer
-src/metadataPolicies/index.ts # this will export metadataPolicies sub classical client
-src/metadataPolicies/api # this will export metadataPolicies sub api layer
-src/rest/index.ts # not sure if we should have this file, this will export both of the account and metadataPolicies rest sub client to the top level, as well as the involved types, which will have the name conflict issue, as what we currently handle it is
-src/rest/account # this will export the account rest sub client
-src/rest/metadataPolicies # this will export the metadataPolicies rest sub client.
-
-# version v1
-src/v1/index.ts
-src/v1/api
-src/v1/account/index.ts
-src/v1/account/api
-src/v1/metadataPolicies/index.ts
-src/v1/metadataPolicies/api
-src/v1/rest/index.ts
-src/v1/rest/account
-src/v1/rest/metadataPolicies
-
-# version v2
-src/v2/index.ts
-src/v2/api
-src/v2/account/index.ts
-src/v2/account/api
-src/v2/metadataPolicies/index.ts
-src/v2/metadataPolicies/api
-src/v2/rest/index.ts
-src/v2/rest/account
-src/v2/rest/metadataPolicies
-```
-
-- Option 2:
-
-```shell
-src/index.ts # this will export the two sub classical clients as well as the models involved
-src/api/index.ts # this will export the two sub api layer operation as well as the models involved
-src/api/account # this will export the account api layer
-src/api/metadataPolicies # this will export metadataPolicies sub api layer
-src/rest/index.ts # not sure if we should have this file, this will export both of the account and metadataPolicies rest sub client to the top level, as well as the involved types, which will have the name conflict issue, as what we currently handle it is
-src/rest/account # this will export the account rest sub client
-src/rest/metadataPolicies # this will export the metadataPolicies rest sub client.
-
-src/v1/index.ts
-src/v1/api/index.ts
-src/v1/api/account
-src/v1/api/metadataPolicies
-src/v1/rest/index.ts
-src/v1/rest/account
-src/v1/rest/metadataPolicies
-
-src/v2/index.ts
-src/v2/api/index.ts
-src/v2/api/account
-src/v2/api/metadataPolicies
-src/v2/rest/index.ts
-src/v2/rest/account
-src/v2/rest/metadataPolicies
-```
-
-The user experience comparasion between Option 1 and Option 2 in the case that both sub clients have the same version strategy would be:
+The user experience comparasion would be:
 
 <!-- markdownlint-disable MD033 -->
 <table>
@@ -572,6 +543,7 @@ The user experience comparasion between Option 1 and Option 2 in the case that b
   <tr>
     <td>
       <pre lang="shell">
+# the default v0 version
 @azure/purview
 
 @azure/purview/api
@@ -587,6 +559,7 @@ The user experience comparasion between Option 1 and Option 2 in the case that b
 
 </pre>
 <pre lang="shell">
+# when add v1
 @azure/purview/v1
 
 @azure/purview/v1/api
@@ -602,6 +575,7 @@ The user experience comparasion between Option 1 and Option 2 in the case that b
 
 </pre>
 <pre lang="shell">
+# when add v2
 @azure/purview/v2
 
 @azure/purview/v2/api
@@ -624,9 +598,11 @@ The user experience comparasion between Option 1 and Option 2 in the case that b
 @azure/purview/api
 @azure/purview/rest
 
+@azure/purview/account
 @azure/purview/api/account
 @azure/purview/rest/account
 
+@azure/purview/metadataPolicies
 @azure/purview/api/metadataPolicies
 @azure/purview/rest/metadataPolicies
 
@@ -637,9 +613,11 @@ The user experience comparasion between Option 1 and Option 2 in the case that b
 @azure/purview/v1/api
 @azure/purview/v1/rest
 
+@azure/purview/v1/account
 @azure/purview/v1/api/account
 @azure/purview/v1/rest/account
 
+@azure/purview/v1/metadataPolicies
 @azure/purview/v1/api/metadataPolicies
 @azure/purview/v1/rest/metadataPolicies
 
@@ -650,96 +628,22 @@ The user experience comparasion between Option 1 and Option 2 in the case that b
 @azure/purview/v2/api
 @azure/purview/v2/rest
 
+@azure/purview/v2/account
 @azure/purview/v2/api/account
 @azure/purview/v2/rest/account
 
+@azure/purview/v2/metadataPolicies
 @azure/purview/v2/api/metadataPolicies
 @azure/purview/v2/rest/metadataPolicies
-
 </pre>
 </td>
-
   </tr>
 </table>
 <!-- markdownlint-enable MD033 -->
 
-Second, let's consider that account has version v1 and v3 and metadataPolicies has version v2 and v4., let's assume v1 and v2 happen the same time, v3 and v4 also happen the same time.
+Second, let's consider that account has version v1 and v3 and metadataPolicies has version v2 and v4., let's assume v1 and v2 happen the same time, v3 and v4 also happen the same time.  
 
-- Option 1:
-
-```shell
-# the default version of everything, This time we will need the customer's input on which one should be treat as default version for account and which one should be treat as default version for metadataPolices.
-src/index.ts # this will export the two sub classical clients as well as the models involved
-src/api # this will export the two sub api layer operation as well as the models involved
-src/account/index.ts # this will export the account sub classical client
-src/account/api # this will export the account api layer
-src/metadataPolicies/index.ts # this will export metadataPolicies sub classical client
-src/metadataPolicies/api # this will export metadataPolicies sub api layer
-src/rest/index.ts # not sure if we should have this file, this will export both of the account and metadataPolicies rest sub client to the top level, as well as the involved types, which will have the name conflict issue, as what we currently handle it is
-src/rest/account # this will export the account rest sub client
-src/rest/metadataPolicies # this will export the metadataPolicies rest sub client.
-
-# account version v1 and metadataPolicies v2, In the case, we export default client, here the "v?" should be whatever version the default client has
-src/v?/index.ts
-src/v?/api
-src/v1/account/index.ts
-src/v1/account/api
-src/v2/metadataPolicies/index.ts
-src/v2/metadataPolicies/api
-src/v?/rest/index.ts
-src/v1/rest/account
-src/v2/rest/metadataPolicies
-
-# account version v3 and metadataPolicies v4, In the case, we export default client, here the "v?" should be whatever the default client has
-src/v?/index.ts
-src/v?/api
-src/v3/account/index.ts
-src/v3/account/api
-src/v4/metadataPolicies/index.ts
-src/v4/metadataPolicies/api
-src/v?/rest/index.ts
-src/v3/rest/account
-src/v4/rest/metadataPolicies
-```
-
-- Option 2:
-
-```shell
-# the default version of everything
-src/index.ts # this will export the two sub classical clients as well as the models involved
-src/api/index.ts # this will export the two sub api layer operation as well as the models involved
-src/api/account # this will export the account api layer
-src/api/metadataPolicies # this will export metadataPolicies sub api layer
-src/rest/index.ts # not sure if we should have this file, this will export both of the account and metadataPolicies rest sub client to the top level, as well as the involved types, which will have the name conflict issue, as what we currently handle it is
-src/rest/account # this will export the account rest sub client
-src/rest/metadataPolicies # this will export the metadataPolicies rest sub client.
-
-# account version v1 and metadataPolicies v2,
-src/v1/index.ts # export ths account sub classical client of v1
-src/v2/index.ts # export the metadataPolicies sub classical client of v2
-src/v1/api/index.ts # export the account sub api layer client of v1
-src/v2/api/index.ts # export the metadataPolicies sub api layer client of v2
-src/v1/api/account
-src/v2/api/metadataPolicies
-src/v1/rest/index.ts # export the account sub rest layer client of v1
-src/v2/rest/index.ts # export the metadataPolicies sub rest layer client of v2
-src/v1/rest/account
-src/v2/rest/metadataPolicies
-
-# account version v3 and metadataPolicies v4
-src/v3/index.ts
-src/v4/index.ts
-src/v3/api/index.ts
-src/v4/api/index.ts
-src/v3/api/account
-src/v4/api/metadataPolicies
-src/v3/rest/index.ts
-src/v4/rest/index.ts
-src/v3/rest/account
-src/v4/rest/metadataPolicies
-```
-
-The user experience comparasion between Option 1 and Option 2 in the case that account has version v1 and v3 and metadataPolicies has version v2 and v4., and let's assume v1 and v2 happen the same time, v3 and v4 also happen the same time.
+The user experience comparasion between Option 1 and Option 2 in this case would be
 
 <!-- markdownlint-disable MD033 -->
 <table>
@@ -813,9 +717,11 @@ The user experience comparasion between Option 1 and Option 2 in the case that a
 @azure/purview/api
 @azure/purview/rest
 
+@azure/purview/account
 @azure/purview/api/account
 @azure/purview/rest/account
 
+@azure/purview/metadataPolicies
 @azure/purview/api/metadataPolicies
 @azure/purview/rest/metadataPolicies
 
@@ -829,12 +735,14 @@ The user experience comparasion between Option 1 and Option 2 in the case that a
 @azure/purview/v1/api
 @azure/purview/v1/rest
 
+@azure/purview/v1/account
 @azure/purview/v1/api/account
 @azure/purview/v1/rest/account
 
 @azure/purview/v3/api
 @azure/purview/v3/rest
 
+@azure/purview/v3/metadataPolicies
 @azure/purview/v3/api/metadataPolicies
 @azure/purview/v3/rest/metadataPolicies
 
@@ -847,12 +755,14 @@ The user experience comparasion between Option 1 and Option 2 in the case that a
 @azure/purview/v2/api
 @azure/purview/v2/rest
 
+@azure/purview/v2/account
 @azure/purview/v2/api/account
 @azure/purview/v2/rest/account
 
 @azure/purview/v4/api
 @azure/purview/v4/rest
 
+@azure/purview/v4/metadataPolicies
 @azure/purview/v4/api/metadataPolicies
 @azure/purview/v4/rest/metadataPolicies
 
@@ -865,128 +775,128 @@ The user experience comparasion between Option 1 and Option 2 in the case that a
 
 Third, let's consider that account has version v1 and v3 and metadataPolicies has version v2 and v4., let's assume the timeline is v1 < v2 < v3 < v4
 
-- Option 1:
+The user experience list would be 
 
-```shell
-# the default version of everything, This time we will need the customers input on which one should be treat as default version for account and which one should be treat as default version for metadataPolices.
-src/index.ts # this will export the two sub classical clients as well as the models involved
-src/api # this will export the two sub api layer operation as well as the models involved
-src/account/index.ts # this will export the account sub classical client
-src/account/api # this will export the account api layer
-src/metadataPolicies/index.ts # this will export metadataPolicies sub classical client
-src/metadataPolicies/api # this will export metadataPolicies sub api layer
-src/rest/index.ts # not sure if we should have this file, this will export both of the account and metadataPolicies rest sub client to the top level, as well as the involved types, which will have the name conflict issue, as what we currently handle it is
-src/rest/account # this will export the account rest sub client
-src/rest/metadataPolicies # this will export the metadataPolicies rest sub client.
+<!-- markdownlint-disable MD033 -->
+<table>
+  <tr>
+    <th>Option 1</th>
+    <th>Option 2</th>
+  </tr>
+  <tr>
+    <td>
+      <pre lang="shell">
+# the default version v0
+@azure/purview
+@azure/purview/api
+@azure/purview/rest
+@azure/purview/account
+@azure/purview/account/api
+@azure/purview/rest/account
+@azure/purview/metadataPolicies
+@azure/purview/metadataPolicies/api
+@azure/purview/rest/metadataPolicies
 
-# we have v1 for account, in this case, if we have default exports, we will have to depend on if the default is account, if it is, we will have
-# src/v1/index.ts
-# src/v1/api and
-# src/v1/rest/index.ts
-# if not, we will remain the same as the previous.
-# src/index.ts
-# src/api
-src/v1/account/index.ts
-src/v1/account/api
-# because this has not been change compare last time will generate exactly the same file as before.
-# src/metadataPolicies/index.ts
-# src/metadataPolicies/api
-# src/rest/index.ts
-src/v1/rest/account
-# src/rest/metadataPolicies
+</pre>
+<pre lang="shell">
+# when we add account v1
+@azure/purview/v1
+@azure/purview/v1/api
+@azure/purview/v1/rest
+@azure/purview/v1/account
+@azure/purview/v1/account/api
+@azure/purview/v1/rest/account
 
-# now we have v2 for metadataPolicies, in this case, we will have the same structure as the previous assumption where v1 and v2 happen the same time.
+</pre>
+<pre lang="shell">
+# when we add account v2
+@azure/purview/v2
+@azure/purview/v2/api
+@azure/purview/v2/rest
+@azure/purview/v2/account
+@azure/purview/v2/account/api
+@azure/purview/v2/rest/account
+</pre>
+<pre lang="shell">
+# when we add metadataPolicies v3
+@azure/purview/v3
+@azure/purview/v3/api
+@azure/purview/v3/rest
+@azure/purview/v3/metadataPolicies
+@azure/purview/v3/metadataPolicies/api
+@azure/purview/v3/rest/metadataPolicies
+</pre>
+<pre lang="shell">
+# when we add metadataPolicies v4
+@azure/purview/v4
+@azure/purview/v4/api
+@azure/purview/v4/rest
+@azure/purview/v4/metadataPolicies
+@azure/purview/v4/metadataPolicies/api
+@azure/purview/v4/rest/metadataPolicies
+</pre>
+</td>
+<td>
+<pre lang="shell">
+# the default v0 version
+@azure/purview
+@azure/purview/api
+@azure/purview/rest
+@azure/purview/account
+@azure/purview/api/account
+@azure/purview/rest/account
+@azure/purview/metadataPolicies
+@azure/purview/api/metadataPolicies
+@azure/purview/rest/metadataPolicies
+</pre>
+<pre lang="shell">
+# when we add account v1
+@azure/purview/v1
+@azure/purview/v1/api
+@azure/purview/v1/rest
+@azure/purview/v1/account
+@azure/purview/v1/api/account
+@azure/purview/v1/rest/account
 
-# account version v1 and metadataPolicies v2, In the case, we export default client, here the "v?" should be whatever version the default client has， if the default client is account, then we already has that in the preview v1 version.
-src/v?/index.ts
-src/v?/api
-# src/v1/account/index.ts
-# src/v1/account/api
-src/v2/metadataPolicies/index.ts
-src/v2/metadataPolicies/api
-src/v?/rest/index.ts
-# src/v1/rest/account
-src/v2/rest/metadataPolicies
+</pre>
+<pre lang="shell">
+# when we add account v2
+@azure/purview/v2
+@azure/purview/v2/api
+@azure/purview/v2/rest
+@azure/purview/v2/account
+@azure/purview/v2/api/account
+@azure/purview/v2/rest/account
 
-# now we have v3 in account, the code structure will be like
-# account version v1, v3 and metadataPolicies v2, In the case, we export default client, here the "v?" should be whatever version the default client has
-src/v?/index.ts
-src/v?/api
-src/v3/account/index.ts
-src/v3/account/api
-# src/v2/metadataPolicies/index.ts
-# src/v2/metadataPolicies/api
-src/v?/rest/index.ts
-src/v3/rest/account
-# src/v2/rest/metadataPolicies
+</pre>
+<pre lang="shell">
+# when we add metadataPolicies v3
+@azure/purview/v3
+@azure/purview/v3/api
+@azure/purview/v3/rest
+@azure/purview/v3/metadataPolicies
+@azure/purview/v3/api/metadataPolicies
+@azure/purview/v3/rest/metadataPolicies
 
-# finally, we have v4 in metadata policy
-# account version v1, v3 and metadataPolicies v2, v4, In the case, we export default client, here the "v?" should be whatever version the default client has
-src/v?/index.ts
-src/v?/api
-# src/v3/account/index.ts
-# src/v3/account/api
-src/v4/metadataPolicies/index.ts
-src/v4/metadataPolicies/api
-src/v?/rest/index.ts
-# src/v3/rest/account
-src/v4/rest/metadataPolicies
+</pre>
+<pre lang="shell">
+# when we add metadataPolicies v4
+@azure/purview/v4
+@azure/purview/v4/api
+@azure/purview/v4/rest
+@azure/purview/v4/metadataPolicies
+@azure/purview/v4/api/metadataPolicies
+@azure/purview/v4/rest/metadataPolicies
 
-```
+</pre>
+</td>
 
-- Option 2:
+  </tr>
+</table>
+<!-- markdownlint-enable MD033 -->
 
-```shell
-# the default version of everything
-src/index.ts # this will export the two sub classical clients as well as the models involved
-src/api/index.ts # this will export the two sub api layer operation as well as the models involved
-src/api/account # this will export the account api layer
-src/api/metadataPolicies # this will export metadataPolicies sub api layer
-src/rest/index.ts # not sure if we should have this file, this will export both of the account and metadataPolicies rest sub client to the top level, as well as the involved types, which will have the name conflict issue, as what we currently handle it is
-src/rest/account # this will export the account rest sub client
-src/rest/metadataPolicies # this will export the metadataPolicies rest sub client.
 
-# we have v1 for account, we will add the following files
-src/v1/index.ts
-src/v1/api/index.ts
-src/v1/api/account
-src/v1/rest/index.ts
-src/v1/rest/account # this will export the account rest sub client of v1
-
-# now we have v2 for metadataPolicies, in this case, we will have the same structure as the previous assumption where v1 and v2 happen the same time.
-
-# account version v1 and metadataPolicies v2, In the case, we export default client, here the "v?" should be whatever version the default client has， if the default client is account, then we already has that in the preview v1 version.
-# account version v1 and metadataPolicies v2,
-# src/v1/index.ts # added by previous version
-src/v2/index.ts # export the metadataPolicies sub classical client of v2
-# src/v1/api/index.ts # export the account sub api layer client of v1
-src/v2/api/index.ts # export the metadataPolicies sub api layer client of v2
-# src/v1/api/account
-src/v2/api/metadataPolicies
-# src/v1/rest/index.ts # export the account sub rest layer client of v1
-src/v2/rest/index.ts # export the metadataPolicies sub rest layer client of v2
-# src/v1/rest/account
-src/v2/rest/metadataPolicies
-
-# now we have v3 in account, the code structure will be like
-# account version v1, v3 and metadataPolicies v2, In the case, we export default client, here the "v?" should be whatever version the default client has
-src/v3/index.ts
-src/v3/api/index.ts
-src/v3/api/account
-src/v3/rest/index.ts
-src/v3/rest/account # this will export the account rest sub client of v1
-
-# finally, we have v4 in metadata policy
-# account version v1, v3 and metadataPolicies v2, v4,
-src/v4/index.ts
-src/v4/api/index.ts
-src/v4/api/metadataPolicies
-src/v4/rest/index.ts
-src/v4/rest/metadataPolicies
-
-```
-
-In the option 1's case, we can also just have the structure like
+Another Option for this case is, we can also just have the structure like
 
 ```shell
 src/v1
