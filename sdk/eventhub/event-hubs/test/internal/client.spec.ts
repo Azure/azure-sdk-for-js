@@ -151,6 +151,17 @@ testWithServiceTypes((serviceVersion) => {
   });
 
   describe("Create EventHubProducerClient", function (): void {
+    it("the identifier options can be set", async function (): Promise<void> {
+      const identifier = "Test1";
+      const client = new EventHubProducerClient(
+        "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=b;SharedAccessKey=c",
+        "my-event-hub-name",
+        {
+          identifier,
+        }
+      );
+      client.identifier.should.equal(identifier, "The client identifier wasn't set correctly");
+    });
     it("throws when no EntityPath in connection string ", function (): void {
       const connectionString = "Endpoint=sb://abc";
       const test = function (): EventHubProducerClient {

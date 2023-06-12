@@ -31,6 +31,7 @@ import { BulkOptions } from "./utils/batch";
 import { sanitizeEndpoint } from "./utils/checkURL";
 import { AzureLogger, createClientLogger } from "@azure/logger";
 import { CosmosDiagnosticContext } from "./CosmosDiagnosticsContext";
+import { MetadataLookUpType } from "./CosmosDiagnostics";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 
@@ -229,13 +230,17 @@ export class ClientContext {
 
   public queryPartitionKeyRanges(
     collectionLink: string,
+    diagnosticContext: CosmosDiagnosticContext,
     query?: string | SqlQuerySpec,
     options?: FeedOptions
   ): QueryIterator<PartitionKeyRange> {
     const path = getPathFromLink(collectionLink, ResourceType.pkranges);
     const id = getIdFromLink(collectionLink);
-    const cb: FetchFunctionCallback = (innerOptions) => {
-      return this.queryFeed({
+    const cb: FetchFunctionCallback = async (
+      innerOptions,
+      diagnosticCtx: CosmosDiagnosticContext
+    ) => {
+      const response = await this.queryFeed({
         path,
         resourceType: ResourceType.pkranges,
         resourceId: id,
@@ -243,8 +248,13 @@ export class ClientContext {
         query,
         options: innerOptions,
       });
+      diagnosticCtx.recordMetaDataLookup(
+        response.diagnostics,
+        MetadataLookUpType.PartitionKeyRangeLookUp
+      );
+      return response;
     };
-    return new QueryIterator<PartitionKeyRange>(this, query, options, cb);
+    return new QueryIterator<PartitionKeyRange>(this, query, options, cb, diagnosticContext);
   }
 
   public async delete<T>({
