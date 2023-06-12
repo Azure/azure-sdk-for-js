@@ -3,7 +3,7 @@
 
 ## Introduction
 
-This document is going to talk about how we are going to support multi-client and multi-api for our JS next generation library [Modular](https://github.com/Azure/azure-sdk-for-js/blob/main/design/modular-development.md) in our TypeSpec Emitter for Azure Sdk for JavaScript/TypeScript.
+This document is going to talk about what is multi-client and multi-api for our JS next generation library [Modular](https://github.com/Azure/azure-sdk-for-js/blob/main/design/modular-development.md) in our TypeSpec Emitter for Azure Sdk for JavaScript/TypeScript.
 
 As you may know our Modular is composite of classical client layer, api layer and rest layer. And one of our goal is to have Azure Portal to use our libraries with the rest layer, cases like multi-client and multi-api may be uncommon but still valid, if cases like multi-client or multi-api come to us, as long as they are valid in the perspective of TypeSpec compiler, we will need to support them. Which means we will need to reach full functionality as much as possible.
 
@@ -13,6 +13,9 @@ As you may know our Modular is composite of classical client layer, api layer an
 This means, we respect the package boundaries that are defined by the client.tsp. if there're N client.tsp files, no matter where those N client.tsp files point to, we will generate N packages.
 1. For RLC, One Client One Service Version  
 This means, in terms of RLC, we only split it into multi-client where there're multi endpoints from one compilation i.e. the @service decorators. If the multiple sub clients is divided because they are going to have different version evolving strategy, RLC will only honor it when that api version parameter is in the parameterized host. Otherwise, it doesn't make any differences to RLC if it's version v1 or version v2.
+
+## Earlier Design
+
 
 ## Multi-Client in Modular
 
