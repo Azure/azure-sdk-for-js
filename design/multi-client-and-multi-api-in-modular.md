@@ -94,8 +94,6 @@ ClientB
 
 ## Multi-Client in Modular
 
-In this part, we will mainly talk about the Multi-Client in Modular. We will start from identifying all the possible client structure scenarios that we might get from TypeSpec, and then pick up those related with multi-client in Modular. After that, I have two proposals Option 1 and Option 2 to show how the multi-client in Modular should look like when we have scenarios like loadtesting case and purview case.  
-
 ### Identify Scenarios
 
 In this context, client.tsp means the entrance for TypeSpec compilation. @client means the defined sub client.
@@ -144,32 +142,6 @@ As the first case and the fourth case are not involved with multi-client in both
 ### LoadTesting Case
 
 As the [TypeSpec definition](https://github.com/Azure/azure-rest-api-specs/blob/feature/loadtesting/specification/loadtestservice/client.tsp), they have two sub client named as LoadTestAdministrationClient and LoadTestRunClient and both of them have the same endpoint AzureLoadTesting. In such case, we will have single-client RLC and multi-client api layer and classical client layer.
-
-Our proposed code structure would be:
-
-- Option 1:
-
-```shell
-src/index.ts # the classical client will need to export both the classical sub client for administration and run as well as the models inside both sub clients, which case like commonly used models will probably need to be considered, unless we have a default export, which can be discussed
-src/api # this will need to export the api layer stuff for both administration sub client and run sub client as well as the models. also unless we have a default export, which can be discussed.
-src/administration/index.ts # the sub client of administration classical client
-src/administration/api # the sub client of administration api layer
-src/run/index.ts # the sub client of run classical client
-src/run/api # the sub client of run api layer
-src/rest # the rest layer client
-```
-
-- Option 2:
-
-```shell
-src/index.ts # the classical client will need to export both the classical sub client for administration and run as well as the models inside both sub clients, which case like commonly used models will probably need to be considered
-src/api/index.ts # this will need to export the api layer stuff for both administration sub client and run sub client as well as the models. also unless we have a default export, which can be discussed.
-src/rest # the rest layer client
-src/administration # the administration classical sub client
-src/api/administration # the sub client of administration api layer
-src/run # the run classical sub client
-src/api/run # the sub client of run api layer
-```
 
 The user experience comparasion between Option 1 and Option 2 for the LoadTesting case would be
 
@@ -264,9 +236,338 @@ The user experience comparasion between Option 1 and Option 2 for the Purview ca
 - Questions related:
   1. Whether to set one sub client as the default client? Or should we just export both of them.
   1. If we choose to export both of them, we will need to consider about shared models.
-  1. what if only one of the sub clients become a multi-api case? only applies to cases like purview.
+  1. how about keep the code as `src/account/api` but export it as `./api/account` in the Option 1.
 
-### Rethinking
+## Multi-Api in Modular
+
+### Single-Client Multi-Api
+
+See the example for single client,
+
+```shell
+
+src/index.ts # the classical client
+src/api # the api layer
+src/rest # the rest layer
+```
+
+when this single client has multi-api. the code structure will be
+
+```shell
+src/index.ts
+src/api
+src/rest
+
+src/v1/index.ts
+src/v1/api
+src/v1/rest
+
+src/v2/index.ts
+src/v2/api
+src/v2/rest
+```
+
+Assuming the package name is called @azure/foo, the user experience for single client when it becomes multi-api would be:
+
+```shell
+@azure/foo
+@azure/foo/api
+@azure/foo/rest
+
+@azure/foo/v1
+@azure/foo/v1/api
+@azure/foo/v1/rest
+
+@azure/foo/v2
+@azure/foo/v2/api
+@azure/foo/v2/rest
+```
+
+### Multi-Client Multi-Api
+
+#### Multi-Api for LoadTesting case
+
+Assuming we have the default version, and we want to add v1, v2 to make it multi-api package,  
+
+In this case, as both of the administration and run sub client are pointing to the same endpoint, the api version evolve strategy should be the same which will just as the same as single clients.
+
+- Questions related:
+  1. Consider cases like [mgmt plane composite tags in SQL](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/sql/resource-manager/readme.md#tag-package-composite-v5). and they want a multi-api library.
+
+#### Multi-Api For Purview case
+
+In the Purview case, as both sub clients are pointing to different endpoints, they are likely to have different version strategy evolving.
+
+First, let's consider that both sub client will have the same version strategy
+
+The user experience would be the same as single client multi-api case.
+
+Second, let's consider that account has version v1 and v2 and metadataPolicies has version v3 and v4., let's assume v1 and v3 happen the same time, v2 and v4 also happen the same time.  
+
+The user experience compairson between Option 1 and Option 2 in this case would be
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <tr>
+    <th>Option 1</th>
+    <th>Option 2</th>
+  </tr>
+  <tr>
+    <td>
+      <pre lang="shell">
+# the default version v0
+@azure/purview
+
+@azure/purview/api
+@azure/purview/rest
+
+@azure/purview/account
+@azure/purview/account/api
+@azure/purview/rest/account
+
+@azure/purview/metadataPolicies
+@azure/purview/metadataPolicies/api
+@azure/purview/rest/metadataPolicies
+
+</pre>
+<pre lang="shell">
+# when we add account v1 and metadataPolcies v2
+
+@azure/purview/v1
+@azure/purview/v3
+
+@azure/purview/v1/api
+@azure/purview/v1/rest
+@azure/purview/v1/account
+@azure/purview/v1/account/api
+@azure/purview/v1/rest/account
+
+@azure/purview/v3/api
+@azure/purview/v3/rest
+@azure/purview/v3/metadataPolicies
+@azure/purview/v3/metadataPolicies/api
+@azure/purview/v3/rest/metadataPolicies
+
+</pre>
+<pre lang="shell">
+# when we add account v2 and metadataPolicies v4
+
+@azure/purview/v2
+@azure/purview/v4
+
+@azure/purview/v2/api
+@azure/purview/v2/rest
+@azure/purview/v2/account
+@azure/purview/v2/account/api
+@azure/purview/v2/rest/account
+
+@azure/purview/v4/api
+@azure/purview/v4/rest
+@azure/purview/v4/metadataPolicies
+@azure/purview/v4/metadataPolicies/api
+@azure/purview/v4/rest/metadataPolicies
+
+</pre>
+</td>
+<td>
+<pre lang="shell">
+# the default v0 version
+
+@azure/purview
+
+@azure/purview/api
+@azure/purview/rest
+
+@azure/purview/account
+@azure/purview/api/account
+@azure/purview/rest/account
+
+@azure/purview/metadataPolicies
+@azure/purview/api/metadataPolicies
+@azure/purview/rest/metadataPolicies
+
+</pre>
+<pre lang="shell">
+# when we add account v1 and metadataPolicies v3
+
+@azure/purview/v1
+@azure/purview/v3
+
+@azure/purview/v1/api
+@azure/purview/v1/rest
+
+@azure/purview/v1/account
+@azure/purview/v1/api/account
+@azure/purview/v1/rest/account
+
+@azure/purview/v3/api
+@azure/purview/v3/rest
+
+@azure/purview/v3/metadataPolicies
+@azure/purview/v3/api/metadataPolicies
+@azure/purview/v3/rest/metadataPolicies
+
+</pre>
+<pre lang="shell">
+# when we add account v2 and metadataPolicies v4
+@azure/purview/v2
+@azure/purview/v4
+
+@azure/purview/v2/api
+@azure/purview/v2/rest
+@azure/purview/v2/account
+@azure/purview/v2/api/account
+@azure/purview/v2/rest/account
+
+@azure/purview/v4/api
+@azure/purview/v4/rest
+@azure/purview/v4/metadataPolicies
+@azure/purview/v4/api/metadataPolicies
+@azure/purview/v4/rest/metadataPolicies
+</pre>
+</td>
+  </tr>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+Third, let's consider that account has version v1 and v3 and metadataPolicies has version v2 and v4., let's assume the timeline is v1 < v2 < v3 < v4
+
+The user experience would be 
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <tr>
+    <th>Option 1</th>
+    <th>Option 2</th>
+  </tr>
+  <tr>
+    <td>
+      <pre lang="shell">
+# the default version v0
+@azure/purview
+@azure/purview/api
+@azure/purview/rest
+@azure/purview/account
+@azure/purview/account/api
+@azure/purview/rest/account
+@azure/purview/metadataPolicies
+@azure/purview/metadataPolicies/api
+@azure/purview/rest/metadataPolicies
+
+</pre>
+<pre lang="shell">
+# when we add account v1
+@azure/purview/v1
+@azure/purview/v1/api
+@azure/purview/v1/rest
+@azure/purview/v1/account
+@azure/purview/v1/account/api
+@azure/purview/v1/rest/account
+
+</pre>
+<pre lang="shell">
+# when we add account v2
+@azure/purview/v2
+@azure/purview/v2/api
+@azure/purview/v2/rest
+@azure/purview/v2/account
+@azure/purview/v2/account/api
+@azure/purview/v2/rest/account
+</pre>
+<pre lang="shell">
+# when we add metadataPolicies v3
+@azure/purview/v3
+@azure/purview/v3/api
+@azure/purview/v3/rest
+@azure/purview/v3/metadataPolicies
+@azure/purview/v3/metadataPolicies/api
+@azure/purview/v3/rest/metadataPolicies
+</pre>
+<pre lang="shell">
+# when we add metadataPolicies v4
+@azure/purview/v4
+@azure/purview/v4/api
+@azure/purview/v4/rest
+@azure/purview/v4/metadataPolicies
+@azure/purview/v4/metadataPolicies/api
+@azure/purview/v4/rest/metadataPolicies
+</pre>
+</td>
+<td>
+<pre lang="shell">
+# the default v0 version
+@azure/purview
+@azure/purview/api
+@azure/purview/rest
+@azure/purview/account
+@azure/purview/api/account
+@azure/purview/rest/account
+@azure/purview/metadataPolicies
+@azure/purview/api/metadataPolicies
+@azure/purview/rest/metadataPolicies
+</pre>
+<pre lang="shell">
+# when we add account v1
+@azure/purview/v1
+@azure/purview/v1/api
+@azure/purview/v1/rest
+@azure/purview/v1/account
+@azure/purview/v1/api/account
+@azure/purview/v1/rest/account
+
+</pre>
+<pre lang="shell">
+# when we add account v2
+@azure/purview/v2
+@azure/purview/v2/api
+@azure/purview/v2/rest
+@azure/purview/v2/account
+@azure/purview/v2/api/account
+@azure/purview/v2/rest/account
+
+</pre>
+<pre lang="shell">
+# when we add metadataPolicies v3
+@azure/purview/v3
+@azure/purview/v3/api
+@azure/purview/v3/rest
+@azure/purview/v3/metadataPolicies
+@azure/purview/v3/api/metadataPolicies
+@azure/purview/v3/rest/metadataPolicies
+
+</pre>
+<pre lang="shell">
+# when we add metadataPolicies v4
+@azure/purview/v4
+@azure/purview/v4/api
+@azure/purview/v4/rest
+@azure/purview/v4/metadataPolicies
+@azure/purview/v4/api/metadataPolicies
+@azure/purview/v4/rest/metadataPolicies
+
+</pre>
+</td>
+
+  </tr>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+Another Option for this case is, we can also just have the structure like
+
+```shell
+src/v1
+src/v2
+src/v3
+src/v4
+```
+
+Whenever a new version comes, we will just duplicate the code except pass a older version to the unchanged subclient.
+
+- Questions related:
+  1. there is no garantee that v2 will come first than v3.
+  1. there are all four versions of the classical client level `@azure/purview` and `@azure/purview/account` and `@azure/purview/metadataPolicies`  
+
+## Rethinking
 
 Let's compare the original design and the Option 2 from the user experience perspective side by side.
 
@@ -319,593 +620,9 @@ Sub Client MetadataPolicies
 </table>
 <!-- markdownlint-enable MD033 -->
 
-After rethinking the user experience, I think that physology behind the two approaches is how we classify our customers. If we go with approach on the left side, this means we think higher of the service user scenarios, If we go with the approach on the right side, this means we think higher of our JS modular libraries' own user scenarios.
+I think that physology behind the two approaches is how we classify our customers. If we go with approach on the left side, this means we think higher of the service user scenarios, If we go with the approach on the right side, this means we think higher of our JS modular libraries' own user scenarios.
 
 NOTES: in this case, the path name in the rest related expports and api related path should be same. as we respect the package boundaries defined by it.
-
-## Multi-Api in Modular
-
-### Single-Client Multi-Api
-
-See the example for single client,
-
-```shell
-
-src/index.ts # the classical client
-src/api # the api layer
-src/rest # the rest layer
-```
-
-when this single client has multi-api. the code structure will be
-
-```shell
-src/index.ts
-src/api
-src/rest
-
-src/v1/index.ts
-src/v1/api
-src/v1/rest
-
-src/v2/index.ts
-src/v2/api
-src/v2/rest
-```
-
-Assuming the package name is called @azure/foo, the user experience for single client when it becomes multi-api would be:
-
-```shell
-@azure/foo
-@azure/foo/api
-@azure/foo/rest
-
-@azure/foo/v1
-@azure/foo/v1/api
-@azure/foo/v1/rest
-
-@azure/foo/v2
-@azure/foo/v2/api
-@azure/foo/v2/rest
-```
-
-### Multi-Client Multi-Api
-
-#### Multi-Api for LoadTesting case
-
-Assuming we have the default version, and we want to add v1, v2 to make it multi-api package, the structure would like:
-
-- Option 1:
-
-```shell
-# default version of everything
-src/index.ts # the classical client will need to export both the classical sub client for administration and run as well as the models inside both sub clients, which case like commonly used models will probably need to be considered, unless we have a default export, which can be discussed
-src/api # this will need to export the api layer stuff for both administration sub client and run sub client as well as the models. also unless we have a default export, which can be discussed.
-src/administration/index.ts # the sub client of administration classical client
-src/administration/api # the sub client of administration api layer
-src/run/index.ts # the sub client of run classical client
-src/run/api # the sub client of run api layer
-src/rest # the rest layer client
-
-# version v1
-src/v1/index.ts
-src/v1/api
-src/v1/administration/index.ts
-src/v1/administration/api
-src/v1/run/index.ts
-src/v1/run/api
-src/v1/rest
-
-# version v2
-src/v2/index.ts
-src/v2/api
-src/v2/administration/index.ts
-src/v2/administration/api
-src/v2/run/index.ts
-src/v2/run/api
-src/v2/rest
-```
-
-- Option 2:
-
-```shell
-src/index.ts # the classical client will need to export both the classical sub client for administration and run as well as the models inside both sub clients, which case like commonly used models will probably need to be considered
-src/api/index.ts # this will need to export the api layer stuff for both administration sub client and run sub client as well as the models. also unless we have a default export, which can be discussed.
-src/api/administration # the sub client of administration api layer
-src/api/run # the sub client of run api layer
-src/rest # the rest layer client
-
-src/v1/index.ts
-src/v1/api/index.ts
-src/v1/api/administration
-src/v1/api/run
-src/v1/rest
-
-src/v2/index.ts
-src/v2/api/index.ts
-src/v2/api/administration
-src/v2/api/run
-src/v2/rest
-```
-
-The user experience comparasion between the Option 1 and Option 2 in the load testing case, when it becomes multi-api
-
-<!-- markdownlint-disable MD033 -->
-<table>
-  <tr>
-    <th>Option 1</th>
-    <th>Option 2</th>
-  </tr>
-  <tr>
-    <td>
-      <pre lang="shell">
-@azure/loadtesting
-      </pre>
-      <pre lang="shell">
-@azure/loadtesting/api
-@azure/loadtesting/rest
-      </pre>
-      <pre lang="shell">
-@azure/loadtesting/administration
-@azure/loadtesting/administration/api
-      </pre>
-      <pre lang="shell">
-@azure/loadtesting/run
-@azure/loadtesting/run/api
-      </pre>
-      <pre lang="shell">
-@azure/loadtesting/v1
-      </pre>
-      <pre lang="shell">
-@azure/loadtesting/v1/api
-@azure/loadtesting/v1/rest
-      </pre>
-      <pre lang="shell">
-@azure/loadtesting/v1/administration
-@azure/loadtesting/v1/administration/api
-      </pre>
-      <pre lang="shell">
-@azure/loadtesting/v1/run
-@azure/loadtesting/v1/run/api
-      </pre>
-      <pre lang="shell">
-@azure/loadtesting/v2
-      </pre>
-      <pre lang="shell">
-@azure/loadtesting/v2/api
-@azure/loadtesting/v2/rest
-      </pre>
-      <pre lang="shell">
-@azure/loadtesting/v2/administration
-@azure/loadtesting/v2/administration/api
-      </pre>
-      <pre lang="shell">
-@azure/loadtesting/v2/run
-@azure/loadtesting/v2/run/api
-
-</pre>
-</td>
-<td>
-<pre lang="shell">
-@azure/loadtesting
-</pre>
-<pre lang="shell">
-@azure/loadtesting/api
-@azure/loadtesting/rest
-</pre>
-<pre lang="shell">
-@azure/loadtesting/api/administration
-@azure/loadtesting/api/run
-</pre>
-<pre lang="shell">
-@azure/loadtesting/v1
-</pre>
-<pre lang="shell">
-@azure/loadtesting/v1/api
-@azure/loadtesting/v1/rest
-</pre>
-<pre lang="shell">
-@azure/loadtesting/v1/api/administration
-@azure/loadtesting/v1/api/run
-</pre>
-<pre lang="shell">
-@azure/loadtesting/v2
-</pre>
-<pre lang="shell">
-@azure/loadtesting/v2/api
-@azure/loadtesting/v2/rest
-</pre>
-<pre lang="shell">
-@azure/loadtesting/v2/api/administration
-@azure/loadtesting/v2/api/run
-</pre>
-</td>
-
-  </tr>
-</table>
-<!-- markdownlint-enable MD033 -->
-
-In this case, as both of the administration and run sub client are pointing to the same endpoint, the api version evolve strategy should be the same
-
-#### Multi-Api For Purview case
-
-In the Purview case, as both sub clients are pointing to different endpoints, they are likely to have different version strategy evolving.
-
-First, let's consider that both sub client will have the same version strategy
-
-The user experience comparasion would be:
-
-<!-- markdownlint-disable MD033 -->
-<table>
-  <tr>
-    <th>Option 1</th>
-    <th>Option 2</th>
-  </tr>
-  <tr>
-    <td>
-      <pre lang="shell">
-# the default v0 version
-@azure/purview
-
-@azure/purview/api
-@azure/purview/rest
-
-@azure/purview/account
-@azure/purview/account/api
-@azure/purview/account/rest
-
-@azure/purview/metadataPolicies
-@azure/purview/metadataPolicies/api
-@azure/purview/metadataPolicies/rest
-
-</pre>
-<pre lang="shell">
-# when add v1
-@azure/purview/v1
-
-@azure/purview/v1/api
-@azure/purview/v1/rest
-
-@azure/purview/v1/account
-@azure/purview/v1/account/api
-@azure/purview/v1/account/rest
-
-@azure/purview/v1/metadataPolicies
-@azure/purview/v1/metadataPolicies/api
-@azure/purview/v1/metadataPolicies/rest
-
-</pre>
-<pre lang="shell">
-# when add v2
-@azure/purview/v2
-
-@azure/purview/v2/api
-@azure/purview/v2/rest
-
-@azure/purview/v2/account
-@azure/purview/v2/account/api
-@azure/purview/v2/account/rest
-
-@azure/purview/v2/metadataPolicies
-@azure/purview/v2/metadataPolicies/api
-@azure/purview/v2/metadataPolicies/rest
-
-</pre>
-</td>
-<td>
-<pre lang="shell">
-@azure/purview
-
-@azure/purview/api
-@azure/purview/rest
-
-@azure/purview/account
-@azure/purview/api/account
-@azure/purview/rest/account
-
-@azure/purview/metadataPolicies
-@azure/purview/api/metadataPolicies
-@azure/purview/rest/metadataPolicies
-
-</pre>
-<pre lang="shell">
-@azure/purview/v1
-
-@azure/purview/v1/api
-@azure/purview/v1/rest
-
-@azure/purview/v1/account
-@azure/purview/v1/api/account
-@azure/purview/v1/rest/account
-
-@azure/purview/v1/metadataPolicies
-@azure/purview/v1/api/metadataPolicies
-@azure/purview/v1/rest/metadataPolicies
-
-</pre>
-<pre lang="shell">
-@azure/purview/v2
-
-@azure/purview/v2/api
-@azure/purview/v2/rest
-
-@azure/purview/v2/account
-@azure/purview/v2/api/account
-@azure/purview/v2/rest/account
-
-@azure/purview/v2/metadataPolicies
-@azure/purview/v2/api/metadataPolicies
-@azure/purview/v2/rest/metadataPolicies
-</pre>
-</td>
-  </tr>
-</table>
-<!-- markdownlint-enable MD033 -->
-
-Second, let's consider that account has version v1 and v3 and metadataPolicies has version v2 and v4., let's assume v1 and v2 happen the same time, v3 and v4 also happen the same time.  
-
-The user experience comparasion between Option 1 and Option 2 in this case would be
-
-<!-- markdownlint-disable MD033 -->
-<table>
-  <tr>
-    <th>Option 1</th>
-    <th>Option 2</th>
-  </tr>
-  <tr>
-    <td>
-      <pre lang="shell">
-# the default version v0
-@azure/purview
-
-@azure/purview/api
-@azure/purview/rest
-
-@azure/purview/account
-@azure/purview/account/api
-@azure/purview/account/rest
-
-@azure/purview/metadataPolicies
-@azure/purview/metadataPolicies/api
-@azure/purview/metadataPolicies/rest
-
-</pre>
-<pre lang="shell">
-# when we add account v1 and metadataPolcies v3
-
-@azure/purview/v1
-@azure/purview/v3
-
-@azure/purview/v1/api
-@azure/purview/v1/rest
-@azure/purview/v1/account
-@azure/purview/v1/account/api
-@azure/purview/v1/account/rest
-
-@azure/purview/v3/api
-@azure/purview/v3/rest
-@azure/purview/v3/metadataPolicies
-@azure/purview/v3/metadataPolicies/api
-@azure/purview/v3/metadataPolicies/rest
-
-</pre>
-<pre lang="shell">
-# when we add account v2 and metadataPolicies v4
-
-@azure/purview/v2
-@azure/purview/v4
-
-@azure/purview/v2/api
-@azure/purview/v2/rest
-@azure/purview/v2/account
-@azure/purview/v2/account/api
-@azure/purview/v2/account/rest
-
-@azure/purview/v4/api
-@azure/purview/v4/rest
-@azure/purview/v4/metadataPolicies
-@azure/purview/v4/metadataPolicies/api
-@azure/purview/v4/metadataPolicies/rest
-
-</pre>
-</td>
-<td>
-<pre lang="shell">
-# the default v0 version
-
-@azure/purview
-
-@azure/purview/api
-@azure/purview/rest
-
-@azure/purview/account
-@azure/purview/api/account
-@azure/purview/rest/account
-
-@azure/purview/metadataPolicies
-@azure/purview/api/metadataPolicies
-@azure/purview/rest/metadataPolicies
-
-</pre>
-<pre lang="shell">
-# when we add account v1 and metadataPolicies v3
-
-@azure/purview/v1
-@azure/purview/v3
-
-@azure/purview/v1/api
-@azure/purview/v1/rest
-
-@azure/purview/v1/account
-@azure/purview/v1/api/account
-@azure/purview/v1/rest/account
-
-@azure/purview/v3/api
-@azure/purview/v3/rest
-
-@azure/purview/v3/metadataPolicies
-@azure/purview/v3/api/metadataPolicies
-@azure/purview/v3/rest/metadataPolicies
-
-</pre>
-<pre lang="shell">
-# when we add account v2 and metadataPolicies v4
-@azure/purview/v2
-@azure/purview/v4
-
-@azure/purview/v2/api
-@azure/purview/v2/rest
-
-@azure/purview/v2/account
-@azure/purview/v2/api/account
-@azure/purview/v2/rest/account
-
-@azure/purview/v4/api
-@azure/purview/v4/rest
-
-@azure/purview/v4/metadataPolicies
-@azure/purview/v4/api/metadataPolicies
-@azure/purview/v4/rest/metadataPolicies
-
-</pre>
-</td>
-
-  </tr>
-</table>
-<!-- markdownlint-enable MD033 -->
-
-Third, let's consider that account has version v1 and v3 and metadataPolicies has version v2 and v4., let's assume the timeline is v1 < v2 < v3 < v4
-
-The user experience list would be 
-
-<!-- markdownlint-disable MD033 -->
-<table>
-  <tr>
-    <th>Option 1</th>
-    <th>Option 2</th>
-  </tr>
-  <tr>
-    <td>
-      <pre lang="shell">
-# the default version v0
-@azure/purview
-@azure/purview/api
-@azure/purview/rest
-@azure/purview/account
-@azure/purview/account/api
-@azure/purview/rest/account
-@azure/purview/metadataPolicies
-@azure/purview/metadataPolicies/api
-@azure/purview/rest/metadataPolicies
-
-</pre>
-<pre lang="shell">
-# when we add account v1
-@azure/purview/v1
-@azure/purview/v1/api
-@azure/purview/v1/rest
-@azure/purview/v1/account
-@azure/purview/v1/account/api
-@azure/purview/v1/rest/account
-
-</pre>
-<pre lang="shell">
-# when we add account v2
-@azure/purview/v2
-@azure/purview/v2/api
-@azure/purview/v2/rest
-@azure/purview/v2/account
-@azure/purview/v2/account/api
-@azure/purview/v2/rest/account
-</pre>
-<pre lang="shell">
-# when we add metadataPolicies v3
-@azure/purview/v3
-@azure/purview/v3/api
-@azure/purview/v3/rest
-@azure/purview/v3/metadataPolicies
-@azure/purview/v3/metadataPolicies/api
-@azure/purview/v3/rest/metadataPolicies
-</pre>
-<pre lang="shell">
-# when we add metadataPolicies v4
-@azure/purview/v4
-@azure/purview/v4/api
-@azure/purview/v4/rest
-@azure/purview/v4/metadataPolicies
-@azure/purview/v4/metadataPolicies/api
-@azure/purview/v4/rest/metadataPolicies
-</pre>
-</td>
-<td>
-<pre lang="shell">
-# the default v0 version
-@azure/purview
-@azure/purview/api
-@azure/purview/rest
-@azure/purview/account
-@azure/purview/api/account
-@azure/purview/rest/account
-@azure/purview/metadataPolicies
-@azure/purview/api/metadataPolicies
-@azure/purview/rest/metadataPolicies
-</pre>
-<pre lang="shell">
-# when we add account v1
-@azure/purview/v1
-@azure/purview/v1/api
-@azure/purview/v1/rest
-@azure/purview/v1/account
-@azure/purview/v1/api/account
-@azure/purview/v1/rest/account
-
-</pre>
-<pre lang="shell">
-# when we add account v2
-@azure/purview/v2
-@azure/purview/v2/api
-@azure/purview/v2/rest
-@azure/purview/v2/account
-@azure/purview/v2/api/account
-@azure/purview/v2/rest/account
-
-</pre>
-<pre lang="shell">
-# when we add metadataPolicies v3
-@azure/purview/v3
-@azure/purview/v3/api
-@azure/purview/v3/rest
-@azure/purview/v3/metadataPolicies
-@azure/purview/v3/api/metadataPolicies
-@azure/purview/v3/rest/metadataPolicies
-
-</pre>
-<pre lang="shell">
-# when we add metadataPolicies v4
-@azure/purview/v4
-@azure/purview/v4/api
-@azure/purview/v4/rest
-@azure/purview/v4/metadataPolicies
-@azure/purview/v4/api/metadataPolicies
-@azure/purview/v4/rest/metadataPolicies
-
-</pre>
-</td>
-
-  </tr>
-</table>
-<!-- markdownlint-enable MD033 -->
-
-
-Another Option for this case is, we can also just have the structure like
-
-```shell
-src/v1
-src/v2
-src/v3
-src/v4
-```
-
-Whenever a new version comes, we will just duplicate the code except pass a older version to the unchanged subclient.
 
 ## Questions
 
@@ -927,10 +644,8 @@ Whenever a new version comes, we will just duplicate the code except pass a olde
    1. RLC is not a breaking change, but Modular is.
 1. Adding new client
    1. Migrate from single-client to multi-client.
-   1. Adding new client to existing multi-client.
 1. Adding new api version
    1. Migrate from single-api to multi-api.
-   1. Adding new api version to existing multi-api.
 1. Commonly used models.
 1. Codegen related questions.
    1. use subpath export in our own code, [example link](https://github.com/qiaozha/azure-sdk-for-js/commit/7c32e2855988ed89309ca995de19a44d1d27511a)
