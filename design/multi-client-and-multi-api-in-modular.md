@@ -4,7 +4,7 @@
 
 This document is going to talk about what the multi-client and multi-api for our JS next generation library [Modular](https://github.com/Azure/azure-sdk-for-js/blob/main/design/modular-development.md) would look like.
 
-As you may know our Modular is composited of classical client layer, api layer and rest layer. And one of our goal is to have Azure Portal to use our libraries with the rest layer, cases like multi-client and multi-api may be uncommon but still valid, if cases like multi-client or multi-api come to us, as long as they are valid in the perspective of TypeSpec compiler, we will need to support them. Which means we will need to reach full functionality as much as possible.
+As you may know our Modular is composited of classical client layer, api layer and rest layer. And one of our goal is to have Azure Portal to use our libraries with the rest layer, cases like multi-client and multi-api may be uncommon but still valid, if cases like multi-client or multi-api come to us, as long as they are valid in the perspective of TypeSpec compiler, we will need to support them.
 
 ## Design Principals
 
@@ -92,18 +92,6 @@ src/run/api # the sub client of run api layer
 src/rest # the rest layer client
 ```
 
-The user experience in this case would be
-
-```
-@azure/loadtesting
-@azure/loadtesting/api
-@azure/loadtesting/rest
-@azure/loadtesting/administration
-@azure/loadtesting/administration/api
-@azure/loadtesting/run
-@azure/loadtesting/run/api
-```
-
 - Option 2:
 
 ```shell
@@ -114,15 +102,39 @@ src/api/run # the sub client of run api layer
 src/rest # the rest layer client
 ```
 
-The user experience in this case would be
+The user experience comparasion between Option 1 and Option 2 for the LoadTesting case would be
 
-```shell
+<!-- markdownlint-disable MD033 -->
+<table>
+  <tr>
+    <th>Option 1</th>
+    <th>Option 2</th>
+  </tr>
+  <tr>
+    <td>
+      <pre lang="shell">
+@azure/loadtesting
+@azure/loadtesting/api
+@azure/loadtesting/rest
+@azure/loadtesting/administration
+@azure/loadtesting/administration/api
+@azure/loadtesting/run
+@azure/loadtesting/run/api
+</pre>
+</td>
+<td>
+<pre lang="shell">
 @azure/loadtesting
 @azure/loadtesting/api
 @azure/loadtesting/rest
 @azure/loadtesting/api/administration
 @azure/loadtesting/api/run
-```
+</pre>
+</td>
+
+  </tr>
+</table>
+<!-- markdownlint-enable MD033 -->
 
 Please note that in this case, the Client type name for rest level should be the title defined in the @service decorator and the client name in the api layer sub client should be what's defined in the @client decorators.
 
@@ -179,6 +191,7 @@ The user experience comparasion between Option 1 and Option 2 for the Purview ca
 @azure/purview/metadataPolicies
 @azure/purview/metadataPolicies/api
 @azure/purview/rest/account
+
 </pre>
 </td>
 <td>
@@ -193,6 +206,7 @@ The user experience comparasion between Option 1 and Option 2 for the Purview ca
 
 @azure/purview/api/metadataPolicies
 @azure/purview/rest/metadataPolicies
+
 </pre>
 </td>
 
@@ -227,6 +241,7 @@ Sub Client MetadataPolicies
 @azure/purview/metadataPolicies
 @azure/purview/metadataPolicies/api
 @azure/purview/metadataPolicies/rest
+
 </pre>
 </td>
 <td>
@@ -243,6 +258,7 @@ Sub Client Account
 Sub Client MetadataPolicies
 @azure/purview/api/metadataPolicies
 @azure/purview/rest/metadataPolicies
+
 </pre>
 </td>
 
@@ -400,6 +416,7 @@ The user experience comparasion between the Option 1 and Option 2 in the load te
 
 @azure/loadtesting/v2/run
 @azure/loadtesting/v2/run/api
+
 </pre>
 </td>
 <td>
@@ -427,6 +444,7 @@ The user experience comparasion between the Option 1 and Option 2 in the load te
 
 @azure/loadtesting/v2/api/administration
 @azure/loadtesting/v2/api/run
+
 </pre>
 </td>
 
@@ -556,6 +574,7 @@ The user experience comparasion between Option 1 and Option 2 in the case that b
 @azure/purview/v2/metadataPolicies
 @azure/purview/v2/metadataPolicies/api
 @azure/purview/v2/metadataPolicies/rest
+
 </pre>
 </td>
 <td>
@@ -592,6 +611,7 @@ The user experience comparasion between Option 1 and Option 2 in the case that b
 
 @azure/purview/v2/api/metadataPolicies
 @azure/purview/v2/rest/metadataPolicies
+
 </pre>
 </td>
 
@@ -731,6 +751,7 @@ The user experience comparasion between Option 1 and Option 2 in the case that a
 @azure/purview/v4/metadataPolicies
 @azure/purview/v4/metadataPolicies/api
 @azure/purview/v4/metadataPolicies/rest
+
 </pre>
 </td>
 <td>
@@ -780,6 +801,7 @@ The user experience comparasion between Option 1 and Option 2 in the case that a
 
 @azure/purview/v4/api/metadataPolicies
 @azure/purview/v4/rest/metadataPolicies
+
 </pre>
 </td>
 
