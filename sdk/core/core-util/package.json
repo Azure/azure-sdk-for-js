@@ -14,13 +14,7 @@
     "./dist-esm/src/uuidUtils.js": "./dist-esm/src/uuidUtils.native.js"
   },
   "types": "types/latest/core-util.d.ts",
-  "typesVersions": {
-    "<3.6": {
-      "types/latest/*": [
-        "types/3.1/*"
-      ]
-    }
-  },
+  "typesVersions": { "<3.6": { "types/latest/*": ["types/3.1/*"] } },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
@@ -54,25 +48,15 @@
     "LICENSE"
   ],
   "repository": "github:Azure/azure-sdk-for-js",
-  "keywords": [
-    "azure",
-    "cloud"
-  ],
+  "keywords": ["azure", "cloud"],
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "engines": {
-    "node": ">=14.0.0"
-  },
+  "bugs": { "url": "https://github.com/Azure/azure-sdk-for-js/issues" },
+  "engines": { "node": ">=14.0.0" },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-util/",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
-  "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
-    "tslib": "^2.2.0"
-  },
+  "dependencies": { "@azure/abort-controller": "^1.0.0", "tslib": "^2.2.0" },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
@@ -104,5 +88,6 @@
     "sinon": "^9.0.2",
     "typescript": "~5.0.0",
     "util": "^0.12.1"
-  }
+  },
+  "//metadata": { "migrationDate": "2023-03-03T23:11:30.000Z" }
 }
