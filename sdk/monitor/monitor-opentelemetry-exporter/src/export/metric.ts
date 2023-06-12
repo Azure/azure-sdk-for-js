@@ -25,18 +25,12 @@ export class AzureMonitorMetricExporter
    */
   private _isShutdown = false;
   /**
-   * Aggregation temporality.
-   */
-  private _aggregationTemporality: AggregationTemporality;
-
-  /**
    * Initializes a new instance of the AzureMonitorMetricExporter class.
    * @param AzureExporterConfig - Exporter configuration.
    */
 
   constructor(options: AzureMonitorExporterOptions = {}) {
     super(options);
-    this._aggregationTemporality = AggregationTemporality.CUMULATIVE;
     diag.debug("AzureMonitorMetricExporter was successfully setup");
   }
 
@@ -76,7 +70,13 @@ export class AzureMonitorMetricExporter
    * Select aggregation temporality
    */
   public selectAggregationTemporality(_instrumentType: InstrumentType): AggregationTemporality {
-    return this._aggregationTemporality;
+    if (
+      _instrumentType == InstrumentType.UP_DOWN_COUNTER ||
+      _instrumentType == InstrumentType.OBSERVABLE_UP_DOWN_COUNTER
+    ) {
+      return AggregationTemporality.CUMULATIVE;
+    }
+    return AggregationTemporality.DELTA;
   }
 
   /**

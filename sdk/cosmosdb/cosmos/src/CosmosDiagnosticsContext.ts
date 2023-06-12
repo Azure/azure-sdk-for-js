@@ -95,6 +95,25 @@ export class CosmosDiagnosticContext {
     this.locationEndpointsContacted.set(location.databaseAccountEndpoint, location);
   }
 
+  public reset(): void {
+    this.requestStartTimeUTCinMs = getCurrentTimestampInMs();
+    this.requestEndTimeUTCinMs = getCurrentTimestampInMs();
+    this.retryStartTimeUTCinMs = 0;
+    this.headers = {};
+    this.retryAttemptNumber = 0;
+    this.failedAttempts = [];
+    this.metadataLookups = [];
+    this.requestPayloadLength = 0;
+    this.responsePayloadLength = 0;
+    this.locationEndpointsContacted = new Map();
+  }
+
+  public resetAndGetDiagnostics(): CosmosDiagnostics {
+    const diagnostic = this.getDiagnostics();
+    this.reset();
+    return diagnostic;
+  }
+
   public getDiagnostics(): CosmosDiagnostics {
     this.recordSessionEnd();
     return new CosmosDiagnostics(
