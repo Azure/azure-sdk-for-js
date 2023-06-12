@@ -4,8 +4,18 @@
   "author": "Microsoft Corporation",
   "version": "3.0.2",
   "description": "Isomorphic client Runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",
-  "tags": ["isomorphic", "browser", "javascript", "node", "microsoft", "autorest", "clientruntime"],
-  "engines": { "node": ">=14.0.0" },
+  "tags": [
+    "isomorphic",
+    "browser",
+    "javascript",
+    "node",
+    "microsoft",
+    "autorest",
+    "clientruntime"
+  ],
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "keywords": [
     "isomorphic",
     "browser",
@@ -20,7 +30,13 @@
   "main": "dist/index.js",
   "module": "./dist-esm/src/index.js",
   "types": "./types/latest/src/index.d.ts",
-  "typesVersions": { "<3.6": { "types/latest/src/*": ["types/3.1/src/*"] } },
+  "typesVersions": {
+    "<3.6": {
+      "types/latest/src/*": [
+        "types/3.1/src/*"
+      ]
+    }
+  },
   "files": [
     "dist/",
     "dist-esm/src/",
@@ -47,7 +63,9 @@
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-http/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
-  "bugs": { "url": "https://github.com/Azure/azure-sdk-for-js/issues" },
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
@@ -74,13 +92,28 @@
   },
   "sideEffects": false,
   "nyc": {
-    "extension": [".ts"],
-    "exclude": ["coverage/**/*", "**/*.d.ts", "**/*.js"],
-    "reporter": ["text", "html", "cobertura"],
+    "extension": [
+      ".ts"
+    ],
+    "exclude": [
+      "coverage/**/*",
+      "**/*.d.ts",
+      "**/*.js"
+    ],
+    "reporter": [
+      "text",
+      "html",
+      "cobertura"
+    ],
     "all": true
   },
   "//metadata": {
-    "constantPaths": [{ "path": "src/util/constants.ts", "prefix": "coreHttpVersion" }],
+    "constantPaths": [
+      {
+        "path": "src/util/constants.ts",
+        "prefix": "coreHttpVersion"
+      }
+    ],
     "migrationDate": "2023-03-08T18:36:03.000Z"
   },
   "dependencies": {
