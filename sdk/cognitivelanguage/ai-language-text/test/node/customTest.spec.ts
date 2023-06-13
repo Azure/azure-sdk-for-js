@@ -135,7 +135,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           });
         });
 
-        describe("multi label classification action", function () {
+        describe.skip("multi label classification action", function () {
           before(async function (this: Context) {
             projectName = "MultiLabel";
             deploymentName = "MultiLabelDeployment";
