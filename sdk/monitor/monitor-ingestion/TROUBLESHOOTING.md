@@ -79,17 +79,14 @@ To resolve this issue:
 
 ### Troubleshooting missing logs
 
-When you send logs to Azure Monitor for ingestion, the request may succeed, but you may not see the data appearing in the designated Log Analytics workspace table as configured in the DCR. To investigate and resolve this issue, ensure the following items:
+When you send logs to Azure Monitor for ingestion, the request may succeed, but you may not see the data appearing in the designated Log Analytics workspace table as configured in the DCR. To investigate and resolve this issue, confirm that:
 
-* Double-check that you're using the correct DCE when creating the `LogsIngestionClient`. Using the wrong endpoint can result in data not being properly sent to the Log Analytics workspace.
+* You're using the correct DCE when creating the `LogsIngestionClient`. Using the wrong endpoint can result in data not being properly sent to the Log Analytics workspace.
+* You're providing the correct DCR ID to the `upload` method. The DCR ID is an immutable identifier that determines the transformation rules applied to the uploaded logs and directs them to the appropriate Log Analytics workspace table.
+* The custom table specified in the DCR exists in the Log Analytics workspace. Ensure that you provide the accurate name of the custom table to the upload method. Mismatched table names can lead to logs not being stored correctly.
+* The logs you're sending adhere to the format expected by the DCR. The data should be in the form of a JSON object or array, structured according to the requirements specified in the DCR. Additionally, it's essential to encode the request body in UTF-8 to avoid any data transmission issues.
 
-* Make sure you provide the correct DCR ID to the `upload` method. The DCR ID is an immutable identifier that determines the transformation rules applied to the uploaded logs and directs them to the appropriate Log Analytics workspace table.
-
-* Verify that the custom table specified in the DCR exists in the Log Analytics workspace. Ensure that you provide the accurate name of the custom table to the upload method. Mismatched table names can lead to logs not being stored correctly.
-
-* Confirm that the logs you're sending adhere to the format expected by the DCR. The data should be in the form of a JSON object or array, structured according to the requirements specified in the DCR. Additionally, it's essential to encode the request body in UTF-8 to avoid any data transmission issues.
-
-* Keep in mind that data ingestion may take some time, especially if you're sending data to a specific table for the first time. In such cases, allow up to 15 minutes for the data to be fully ingested and available for querying and analysis.
+Keep in mind that data ingestion may take some time, especially if you're sending data to a specific table for the first time. In such cases, allow up to 15 minutes for the data to be fully ingested and available for querying and analysis.
 
 ### Troubleshooting slow logs upload
 
