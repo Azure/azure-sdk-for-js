@@ -3,7 +3,7 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { JobQueue, RouterAdministrationClient } from "../../../src";
+import { JobQueue, JobRouterAdministrationClient } from "../../../src";
 import { Context } from "mocha";
 import {
   getDistributionPolicyRequest,
@@ -13,8 +13,8 @@ import {
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { timeoutMs } from "../utils/constants";
 
-describe("RouterClient", function () {
-  let administrationClient: RouterAdministrationClient;
+describe("JobRouterClient", function () {
+  let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;
 
   const testRunId = "recorded-queues";

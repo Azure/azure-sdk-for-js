@@ -4,7 +4,7 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { ClassificationPolicy, RouterAdministrationClient } from "../../../src";
+import { ClassificationPolicy, JobRouterAdministrationClient } from "../../../src";
 import {
   getClassificationPolicyRequest,
   getDistributionPolicyRequest,
@@ -14,8 +14,8 @@ import {
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { timeoutMs } from "../utils/constants";
 
-describe("RouterClient", function () {
-  let administrationClient: RouterAdministrationClient;
+describe("JobRouterClient", function () {
+  let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;
 
   const testRunId = "recorded-c-policies";

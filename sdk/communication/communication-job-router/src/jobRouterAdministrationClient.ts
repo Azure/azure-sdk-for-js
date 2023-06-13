@@ -59,7 +59,7 @@ const isRouterAdministrationClientOptions = (
 /**
  * The client to do router operations
  */
-export class RouterAdministrationClient {
+export class JobRouterAdministrationClient {
   private readonly client: JobRouterApiClient;
 
   /**

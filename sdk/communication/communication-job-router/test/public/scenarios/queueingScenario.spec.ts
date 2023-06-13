@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { RouterAdministrationClient, RouterClient } from "../../../src";
+import { JobRouterAdministrationClient, JobRouterClient } from "../../../src";
 import { Context } from "mocha";
 import {
   getClassificationPolicyCombined,
@@ -25,9 +25,9 @@ import { timeoutMs } from "../utils/constants";
 import { Recorder } from "@azure-tools/test-recorder";
 import { pollForJobQueued, retry } from "../utils/polling";
 
-describe("RouterClient", function () {
-  let client: RouterClient;
-  let administrationClient: RouterAdministrationClient;
+describe("JobRouterClient", function () {
+  let client: JobRouterClient;
+  let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;
 
   const testRunId = "recorded-q-scenario";

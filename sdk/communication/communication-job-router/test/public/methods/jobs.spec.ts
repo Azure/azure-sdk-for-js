@@ -3,7 +3,7 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { RouterAdministrationClient, RouterClient, RouterJob } from "../../../src";
+import { JobRouterAdministrationClient, JobRouterClient, RouterJob } from "../../../src";
 import { Context } from "mocha";
 import {
   getClassificationPolicyRequest,
@@ -16,9 +16,9 @@ import { createRecordedRouterClientWithConnectionString } from "../../internal/u
 import { sleep, timeoutMs } from "../utils/constants";
 import { pollForJobQueued, retry } from "../utils/polling";
 
-describe("RouterClient", function () {
-  let client: RouterClient;
-  let administrationClient: RouterAdministrationClient;
+describe("JobRouterClient", function () {
+  let client: JobRouterClient;
+  let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;
 
   const testRunId = "recorded-jobs";

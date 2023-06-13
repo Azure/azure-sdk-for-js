@@ -57,7 +57,7 @@ const isRouterClientOptions = (options: any): options is RouterClientOptions =>
 /**
  * The client to do router operations
  */
-export class RouterClient {
+export class JobRouterClient {
   private readonly client: JobRouterApiClient;
 
   /**

@@ -36,10 +36,7 @@ export interface RouterClientOptions extends CommonClientOptions {
 /**
  * Options to create router administration client.
  */
-export interface RouterAdministrationClientOptions extends CommonClientOptions {
-  /** The headers to be set on requests **/
-  headers?: { [propertyName: string]: any };
-}
+export interface RouterAdministrationClientOptions extends CommonClientOptions {}
 
 /**
  * Options to create a classification policy.
