@@ -154,6 +154,11 @@ import {
   ApiManagementGatewayApiAddedEventData,
   ApiManagementGatewayApiRemovedEventData,
   HealthcareDicomImageUpdatedEventData,
+  ContainerServiceClusterSupportEndedEventData,
+  ContainerServiceClusterSupportEndingEventData,
+  ContainerServiceNodePoolRollingStartedEventData,
+  ContainerServiceNodePoolRollingSucceededEventData,
+  ContainerServiceNodePoolRollingFailedEventData,
 } from "./generated/models";
 
 import { CloudEvent, EventGridEvent } from "./models";
@@ -472,6 +477,16 @@ export interface SystemEventNameToEventData {
   "Microsoft.ApiManagement.GatewayAPIRemoved": ApiManagementGatewayApiRemovedEventData;
   /** An interface for the event data of a "Microsoft.HealthcareApis.DicomImageUpdated" event. */
   "Microsoft.HealthcareApis.DicomImageUpdated": HealthcareDicomImageUpdatedEventData;
+  /** An interface for the event data of a "Microsoft.ContainerService.ClusterSupportEnded" event. */
+  "Microsoft.ContainerService.ClusterSupportEnded": ContainerServiceClusterSupportEndedEventData;
+  /** An interface for the event data of a "Microsoft.ContainerService.ClusterSupportEnding" event. */
+  "Microsoft.ContainerService.ClusterSupportEnding": ContainerServiceClusterSupportEndingEventData;
+  /** An interface for the event data of a "Microsoft.ContainerService.NodePoolRollingStarted" event. */
+  "Microsoft.ContainerService.NodePoolRollingStarted": ContainerServiceNodePoolRollingStartedEventData;
+  /** An interface for the event data of a "Microsoft.ContainerService.NodePoolRollingSucceeded" event. */
+  "Microsoft.ContainerService.NodePoolRollingSucceeded": ContainerServiceNodePoolRollingSucceededEventData;
+  /** An interface for the event data of a "Microsoft.ContainerService.NodePoolRollingFailed" event. */
+  "Microsoft.ContainerService.NodePoolRollingFailed": ContainerServiceNodePoolRollingFailedEventData;
 }
 
 /**

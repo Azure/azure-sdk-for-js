@@ -2263,6 +2263,18 @@ export interface ContainerServiceNewKubernetesVersionAvailableEventData {
   latestPreviewKubernetesVersion: string;
 }
 
+/** Schema of common properties of cluster support events */
+export interface ContainerServiceClusterSupportEventData {
+  /** The Kubernetes version of the ManagedCluster resource */
+  kubernetesVersion: string;
+}
+
+/** Schema of common properties of node pool rolling events */
+export interface ContainerServiceNodePoolRollingEventData {
+  /** The name of the node pool in the ManagedCluster resource */
+  nodePoolName: string;
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.UserCreated event. */
 export interface ApiManagementUserCreatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
@@ -2685,6 +2697,21 @@ export type AcsSmsReceivedEventData = AcsSmsEventBase & {
   /** The time at which the SMS was received */
   receivedTimestamp: string;
 };
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerService.ClusterSupportEnded event */
+export type ContainerServiceClusterSupportEndedEventData = ContainerServiceClusterSupportEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerService.ClusterSupportEnding event */
+export type ContainerServiceClusterSupportEndingEventData = ContainerServiceClusterSupportEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerService.NodePoolRollingStarted event */
+export type ContainerServiceNodePoolRollingStartedEventData = ContainerServiceNodePoolRollingEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerService.NodePoolRollingSucceeded event */
+export type ContainerServiceNodePoolRollingSucceededEventData = ContainerServiceNodePoolRollingEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerService.NodePoolRollingFailed event */
+export type ContainerServiceNodePoolRollingFailedEventData = ContainerServiceNodePoolRollingEventData & {};
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatMessageReceived event. */
 export type AcsChatMessageReceivedEventData = AcsChatMessageEventBase & {

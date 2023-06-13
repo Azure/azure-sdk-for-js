@@ -4,7 +4,7 @@
 import { JSONObject } from "../queryExecutionContext";
 import { extractPartitionKey } from "../extractPartitionKey";
 import { PartitionKeyDefinition } from "../documents";
-import { RequestOptions } from "..";
+import { CosmosDiagnostics, RequestOptions } from "..";
 import { PatchRequestBody } from "./patch";
 import { v4 } from "uuid";
 import { bodyFromData } from "../request/request";
@@ -26,6 +26,8 @@ export interface Batch {
   indexes: number[];
   operations: Operation[];
 }
+
+export type BulkOperationResponse = OperationResponse[] & { diagnostics: CosmosDiagnostics };
 
 export interface OperationResponse {
   statusCode: number;
