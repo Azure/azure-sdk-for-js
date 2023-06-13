@@ -29,7 +29,7 @@ import {
   ListDistributionPoliciesOptions,
   ListExceptionPoliciesOptions,
   ListQueuesOptions,
-  RouterAdministrationClientOptions,
+  JobRouterAdministrationClientOptions as JobRouterAdministrationClientOptions,
   UpdateClassificationPolicyOptions,
   UpdateDistributionPolicyOptions,
   UpdateExceptionPolicyOptions,
@@ -48,13 +48,13 @@ import { SDK_VERSION } from "./constants";
 import { logger } from "./models/logger";
 
 /**
- * Checks whether the type of a value is {@link RouterAdministrationClientOptions} or not.
+ * Checks whether the type of a value is {@link JobRouterAdministrationClientOptions} or not.
  *
  * @param options - The value being checked.
  */
 const isRouterAdministrationClientOptions = (
   options: any
-): options is RouterAdministrationClientOptions => !!options && !isKeyCredential(options);
+): options is JobRouterAdministrationClientOptions => !!options && !isKeyCredential(options);
 
 /**
  * The client to do router operations
@@ -66,11 +66,11 @@ export class JobRouterAdministrationClient {
    * Initializes a new instance of the RouterClient class.
    * @param connectionString - Connection string to connect to an Azure Communication Service resource.
    *                         Example: "endpoint=https://contoso.eastus.communications.azure.net/;accesskey=secret";
-   * @param routerAdministrationClientOptions - Optional. Options to configure the HTTP pipeline.
+   * @param jobRouterAdministrationClientOptions - Optional. Options to configure the HTTP pipeline.
    */
   constructor(
     connectionString: string,
-    routerAdministrationClientOptions?: RouterAdministrationClientOptions
+    jobRouterAdministrationClientOptions?: JobRouterAdministrationClientOptions
   );
 
   /**
@@ -83,7 +83,7 @@ export class JobRouterAdministrationClient {
   constructor(
     endpoint: string,
     credential: KeyCredential | TokenCredential,
-    routerAdministrationClientOptions?: RouterAdministrationClientOptions
+    routerAdministrationClientOptions?: JobRouterAdministrationClientOptions
   );
 
   /**
@@ -95,7 +95,7 @@ export class JobRouterAdministrationClient {
   constructor(
     endpoint: string,
     credential: CommunicationTokenCredential,
-    routerAdministrationClientOptions?: RouterAdministrationClientOptions
+    routerAdministrationClientOptions?: JobRouterAdministrationClientOptions
   );
 
   /**
@@ -111,8 +111,8 @@ export class JobRouterAdministrationClient {
       | KeyCredential
       | TokenCredential
       | CommunicationTokenCredential
-      | RouterAdministrationClientOptions,
-    maybeOptions: RouterAdministrationClientOptions = {}
+      | JobRouterAdministrationClientOptions,
+    maybeOptions: JobRouterAdministrationClientOptions = {}
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
     const options = isRouterAdministrationClientOptions(credentialOrOptions)

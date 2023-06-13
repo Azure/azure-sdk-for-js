@@ -28,7 +28,7 @@ import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 /**
  * Options to create router client.
  */
-export interface RouterClientOptions extends CommonClientOptions {
+export interface JobRouterClientOptions extends CommonClientOptions {
   /** The headers to be set on requests **/
   headers?: { [propertyName: string]: any };
 }
@@ -36,7 +36,7 @@ export interface RouterClientOptions extends CommonClientOptions {
 /**
  * Options to create router administration client.
  */
-export interface RouterAdministrationClientOptions extends CommonClientOptions {}
+export interface JobRouterAdministrationClientOptions extends CommonClientOptions {}
 
 /**
  * Options to create a classification policy.

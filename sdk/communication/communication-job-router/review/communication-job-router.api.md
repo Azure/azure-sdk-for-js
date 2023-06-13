@@ -332,6 +332,33 @@ export interface JobQueueResponse extends JobQueue {
 }
 
 // @public
+export class JobRouterAdministrationClient {
+    constructor(connectionString: string, routerAdministrationClientOptions?: RouterAdministrationClientOptions);
+    constructor(endpoint: string, credential: KeyCredential | TokenCredential, routerAdministrationClientOptions?: RouterAdministrationClientOptions);
+    constructor(endpoint: string, credential: CommunicationTokenCredential, routerAdministrationClientOptions?: RouterAdministrationClientOptions);
+    createClassificationPolicy(classificationPolicyId: string, options?: CreateClassificationPolicyOptions): Promise<ClassificationPolicyResponse>;
+    createDistributionPolicy(distributionPolicyId: string, options?: CreateDistributionPolicyOptions): Promise<DistributionPolicyResponse>;
+    createExceptionPolicy(exceptionPolicyId: string, options?: CreateExceptionPolicyOptions): Promise<ExceptionPolicyResponse>;
+    createQueue(queueId: string, options?: CreateQueueOptions): Promise<JobQueueResponse>;
+    deleteClassificationPolicy(classificationPolicyId: string, options?: OperationOptions): Promise<void>;
+    deleteDistributionPolicy(distributionPolicyId: string, options?: OperationOptions): Promise<void>;
+    deleteExceptionPolicy(exceptionPolicyId: string, options?: OperationOptions): Promise<void>;
+    deleteQueue(queueId: string, options?: OperationOptions): Promise<void>;
+    getClassificationPolicy(classificationPolicyId: string, options?: OperationOptions): Promise<ClassificationPolicyResponse>;
+    getDistributionPolicy(distributionPolicyId: string, options?: OperationOptions): Promise<DistributionPolicyResponse>;
+    getExceptionPolicy(exceptionPolicyId: string, options?: OperationOptions): Promise<ExceptionPolicyResponse>;
+    getQueue(queueId: string, options?: OperationOptions): Promise<JobQueueResponse>;
+    listClassificationPolicies(options?: ListClassificationPoliciesOptions): PagedAsyncIterableIterator<ClassificationPolicyItem>;
+    listDistributionPolicies(options?: ListDistributionPoliciesOptions): PagedAsyncIterableIterator<DistributionPolicyItem>;
+    listExceptionPolicies(options?: ListExceptionPoliciesOptions): PagedAsyncIterableIterator<ExceptionPolicyItem>;
+    listQueues(options?: ListQueuesOptions): PagedAsyncIterableIterator<JobQueueItem>;
+    updateClassificationPolicy(classificationPolicyId: string, options?: UpdateClassificationPolicyOptions): Promise<ClassificationPolicyResponse>;
+    updateDistributionPolicy(distributionPolicyId: string, options?: UpdateDistributionPolicyOptions): Promise<DistributionPolicyResponse>;
+    updateExceptionPolicy(exceptionPolicyId: string, options?: UpdateExceptionPolicyOptions): Promise<ExceptionPolicyResponse>;
+    updateQueue(queueId: string, options?: UpdateQueueOptions): Promise<JobQueueResponse>;
+}
+
+// @public
 export interface JobRouterAdministrationUpsertClassificationPolicyOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -357,6 +384,34 @@ export interface JobRouterCancelJobActionOptionalParams extends coreClient.Opera
 export type JobRouterCancelJobActionResponse = {
     body: any;
 };
+
+// @public
+export class JobRouterClient {
+    constructor(connectionString: string, routerClientOptions?: RouterClientOptions);
+    constructor(endpoint: string, credential: KeyCredential | TokenCredential, routerClientOptions?: RouterClientOptions);
+    constructor(endpoint: string, credential: CommunicationTokenCredential, routerClientOptions?: RouterClientOptions);
+    acceptJobOffer(workerId: string, offerId: string, options?: OperationOptions): Promise<AcceptJobOfferResult>;
+    cancelJob(jobId: string, options?: CancelJobOptions): Promise<JobRouterCancelJobActionResponse>;
+    closeJob(jobId: string, assignmentId: string, options?: CloseJobOptions): Promise<JobRouterCloseJobActionResponse>;
+    completeJob(jobId: string, assignmentId: string, options?: CompleteJobOptions): Promise<JobRouterCompleteJobActionResponse>;
+    createJob(jobId: string, options?: CreateJobOptions): Promise<RouterJobResponse>;
+    createWorker(workerId: string, options?: CreateWorkerOptions): Promise<RouterWorkerResponse>;
+    declineJobOffer(workerId: string, offerId: string, options?: DeclineJobOfferOptions): Promise<JobRouterDeclineJobActionResponse>;
+    deleteJob(jobId: string, options?: OperationOptions): Promise<void>;
+    deleteWorker(workerId: string, options?: OperationOptions): Promise<void>;
+    deregisterWorker(workerId: string, options?: OperationOptions): Promise<RouterWorkerResponse>;
+    getJob(jobId: string, options?: OperationOptions): Promise<RouterJobResponse>;
+    getQueuePosition(jobId: string, options?: OperationOptions): Promise<JobPositionDetails>;
+    getQueueStatistics(queueId: string, options?: OperationOptions): Promise<QueueStatistics>;
+    getWorker(workerId: string, options?: OperationOptions): Promise<RouterWorkerResponse>;
+    listJobs(options?: ListJobsOptions): PagedAsyncIterableIterator<RouterJobItem>;
+    listWorkers(options?: ListWorkersOptions): PagedAsyncIterableIterator<RouterWorkerItem>;
+    reclassifyJob(jobId: string, options?: ReclassifyJobOptions): Promise<JobRouterReclassifyJobActionResponse>;
+    registerWorker(workerId: string, options?: OperationOptions): Promise<RouterWorkerResponse>;
+    unassignJob(jobId: string, assignmentId: string, options?: OperationOptions): Promise<UnassignJobResult>;
+    updateJob(jobId: string, options?: UpdateJobOptions): Promise<RouterJobResponse>;
+    updateWorker(workerId: string, options?: UpdateWorkerOptions): Promise<RouterWorkerResponse>;
+}
 
 // @public
 export interface JobRouterCloseJobActionOptionalParams extends coreClient.OperationOptions {
@@ -550,65 +605,7 @@ export interface RoundRobinMode extends DistributionMode {
 }
 
 // @public
-export class RouterAdministrationClient {
-    constructor(connectionString: string, routerAdministrationClientOptions?: RouterAdministrationClientOptions);
-    constructor(endpoint: string, credential: KeyCredential | TokenCredential, routerAdministrationClientOptions?: RouterAdministrationClientOptions);
-    constructor(endpoint: string, credential: CommunicationTokenCredential, routerAdministrationClientOptions?: RouterAdministrationClientOptions);
-    createClassificationPolicy(classificationPolicyId: string, options?: CreateClassificationPolicyOptions): Promise<ClassificationPolicyResponse>;
-    createDistributionPolicy(distributionPolicyId: string, options?: CreateDistributionPolicyOptions): Promise<DistributionPolicyResponse>;
-    createExceptionPolicy(exceptionPolicyId: string, options?: CreateExceptionPolicyOptions): Promise<ExceptionPolicyResponse>;
-    createQueue(queueId: string, options?: CreateQueueOptions): Promise<JobQueueResponse>;
-    deleteClassificationPolicy(classificationPolicyId: string, options?: OperationOptions): Promise<void>;
-    deleteDistributionPolicy(distributionPolicyId: string, options?: OperationOptions): Promise<void>;
-    deleteExceptionPolicy(exceptionPolicyId: string, options?: OperationOptions): Promise<void>;
-    deleteQueue(queueId: string, options?: OperationOptions): Promise<void>;
-    getClassificationPolicy(classificationPolicyId: string, options?: OperationOptions): Promise<ClassificationPolicyResponse>;
-    getDistributionPolicy(distributionPolicyId: string, options?: OperationOptions): Promise<DistributionPolicyResponse>;
-    getExceptionPolicy(exceptionPolicyId: string, options?: OperationOptions): Promise<ExceptionPolicyResponse>;
-    getQueue(queueId: string, options?: OperationOptions): Promise<JobQueueResponse>;
-    listClassificationPolicies(options?: ListClassificationPoliciesOptions): PagedAsyncIterableIterator<ClassificationPolicyItem>;
-    listDistributionPolicies(options?: ListDistributionPoliciesOptions): PagedAsyncIterableIterator<DistributionPolicyItem>;
-    listExceptionPolicies(options?: ListExceptionPoliciesOptions): PagedAsyncIterableIterator<ExceptionPolicyItem>;
-    listQueues(options?: ListQueuesOptions): PagedAsyncIterableIterator<JobQueueItem>;
-    updateClassificationPolicy(classificationPolicyId: string, options?: UpdateClassificationPolicyOptions): Promise<ClassificationPolicyResponse>;
-    updateDistributionPolicy(distributionPolicyId: string, options?: UpdateDistributionPolicyOptions): Promise<DistributionPolicyResponse>;
-    updateExceptionPolicy(exceptionPolicyId: string, options?: UpdateExceptionPolicyOptions): Promise<ExceptionPolicyResponse>;
-    updateQueue(queueId: string, options?: UpdateQueueOptions): Promise<JobQueueResponse>;
-}
-
-// @public
 export interface RouterAdministrationClientOptions extends CommonClientOptions {
-    headers?: {
-        [propertyName: string]: any;
-    };
-}
-
-// @public
-export class RouterClient {
-    constructor(connectionString: string, routerClientOptions?: RouterClientOptions);
-    constructor(endpoint: string, credential: KeyCredential | TokenCredential, routerClientOptions?: RouterClientOptions);
-    constructor(endpoint: string, credential: CommunicationTokenCredential, routerClientOptions?: RouterClientOptions);
-    acceptJobOffer(workerId: string, offerId: string, options?: OperationOptions): Promise<AcceptJobOfferResult>;
-    cancelJob(jobId: string, options?: CancelJobOptions): Promise<JobRouterCancelJobActionResponse>;
-    closeJob(jobId: string, assignmentId: string, options?: CloseJobOptions): Promise<JobRouterCloseJobActionResponse>;
-    completeJob(jobId: string, assignmentId: string, options?: CompleteJobOptions): Promise<JobRouterCompleteJobActionResponse>;
-    createJob(jobId: string, options?: CreateJobOptions): Promise<RouterJobResponse>;
-    createWorker(workerId: string, options?: CreateWorkerOptions): Promise<RouterWorkerResponse>;
-    declineJobOffer(workerId: string, offerId: string, options?: DeclineJobOfferOptions): Promise<JobRouterDeclineJobActionResponse>;
-    deleteJob(jobId: string, options?: OperationOptions): Promise<void>;
-    deleteWorker(workerId: string, options?: OperationOptions): Promise<void>;
-    deregisterWorker(workerId: string, options?: OperationOptions): Promise<RouterWorkerResponse>;
-    getJob(jobId: string, options?: OperationOptions): Promise<RouterJobResponse>;
-    getQueuePosition(jobId: string, options?: OperationOptions): Promise<JobPositionDetails>;
-    getQueueStatistics(queueId: string, options?: OperationOptions): Promise<QueueStatistics>;
-    getWorker(workerId: string, options?: OperationOptions): Promise<RouterWorkerResponse>;
-    listJobs(options?: ListJobsOptions): PagedAsyncIterableIterator<RouterJobItem>;
-    listWorkers(options?: ListWorkersOptions): PagedAsyncIterableIterator<RouterWorkerItem>;
-    reclassifyJob(jobId: string, options?: ReclassifyJobOptions): Promise<JobRouterReclassifyJobActionResponse>;
-    registerWorker(workerId: string, options?: OperationOptions): Promise<RouterWorkerResponse>;
-    unassignJob(jobId: string, assignmentId: string, options?: OperationOptions): Promise<UnassignJobResult>;
-    updateJob(jobId: string, options?: UpdateJobOptions): Promise<RouterJobResponse>;
-    updateWorker(workerId: string, options?: UpdateWorkerOptions): Promise<RouterWorkerResponse>;
 }
 
 // @public

@@ -40,18 +40,18 @@ import {
   ListJobsOptions,
   ListWorkersOptions,
   ReclassifyJobOptions,
-  RouterClientOptions,
+  JobRouterClientOptions,
   UpdateJobOptions,
   UpdateWorkerOptions,
 } from "./models/options";
 import { RouterJobResponse, RouterWorkerResponse, UnassignJobResult } from "./models/responses";
 
 /**
- * Checks whether the type of a value is {@link RouterClientOptions} or not.
+ * Checks whether the type of a value is {@link JobRouterClientOptions} or not.
  *
  * @param options - The value being checked.
  */
-const isRouterClientOptions = (options: any): options is RouterClientOptions =>
+const isRouterClientOptions = (options: any): options is JobRouterClientOptions =>
   !!options && !isKeyCredential(options);
 
 /**
@@ -66,7 +66,7 @@ export class JobRouterClient {
    *                         Example: "endpoint=https://contoso.eastus.communications.azure.net/;accesskey=secret";
    * @param routerClientOptions - Optional. Options to configure the HTTP pipeline.
    */
-  constructor(connectionString: string, routerClientOptions?: RouterClientOptions);
+  constructor(connectionString: string, routerClientOptions?: JobRouterClientOptions);
 
   /**
    * Initializes a new instance of the RouterClient class using an Azure KeyCredential.
@@ -78,7 +78,7 @@ export class JobRouterClient {
   constructor(
     endpoint: string,
     credential: KeyCredential | TokenCredential,
-    routerClientOptions?: RouterClientOptions
+    routerClientOptions?: JobRouterClientOptions
   );
 
   /**
@@ -90,7 +90,7 @@ export class JobRouterClient {
   constructor(
     endpoint: string,
     credential: CommunicationTokenCredential,
-    routerClientOptions?: RouterClientOptions
+    routerClientOptions?: JobRouterClientOptions
   );
 
   /**
@@ -106,8 +106,8 @@ export class JobRouterClient {
       | KeyCredential
       | TokenCredential
       | CommunicationTokenCredential
-      | RouterClientOptions,
-    maybeOptions: RouterClientOptions = {}
+      | JobRouterClientOptions,
+    maybeOptions: JobRouterClientOptions = {}
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
     const options = isRouterClientOptions(credentialOrOptions) ? credentialOrOptions : maybeOptions;
