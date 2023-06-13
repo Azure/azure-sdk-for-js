@@ -21,7 +21,7 @@ tracing-info:
 require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/de14cb8751b978b1877597b13292818e80f8c661/specification/synapse/data-plane/readme.md
 use-extension:
   "@autorest/typescript": "latest"
-tag: package-artifacts-composite-v6
+tag: package-artifacts-composite-v7
 
 typescript:
   generate-metadata: false
