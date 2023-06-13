@@ -21,7 +21,7 @@ To troubleshoot issues with the Azure Monitor Ingestion library, it's important 
 This library uses the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger) library for logging. The Azure SDK client libraries for JavaScript allow you to enable logging with one of the following approaches:
 
 - Through the `AZURE_LOG_LEVEL` environment variable
-- At runtime by calling `setLogLevel` in the `@azure/logger` package
+- At runtime by calling `setLogLevel` in the Azure Logger library
 
 #### Logging via environment variable
 
