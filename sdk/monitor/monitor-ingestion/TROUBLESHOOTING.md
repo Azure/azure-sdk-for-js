@@ -41,7 +41,7 @@ dotenv.config({ path: ".env" });
 
 #### Logging using setLogLevel
 
-Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
+Alternatively, logging can be enabled at runtime by calling the Azure Logger library's `setLogLevel` function:
 
 ```ts
 import { setLogLevel } from "@azure/logger";
