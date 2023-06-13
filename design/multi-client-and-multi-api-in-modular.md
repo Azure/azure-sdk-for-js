@@ -4,7 +4,7 @@
 
 As you may know our Modular is composited of classical client layer, api layer and rest layer. And one of our goal is to have Azure Portal to use our libraries with the rest layer, cases like multi-client and multi-api may be uncommon but still valid, if cases like multi-client or multi-api come to us, as long as they are valid in the perspective of TypeSpec compiler, we will need to support them.
 
-This document is going to talk about what the multi-client and multi-api for our JS next generation library [Modular](https://github.com/Azure/azure-sdk-for-js/blob/main/design/modular-development.md) would look like. we wil introduce it from our **_Design Principals_**, **_Eariler Design_**, **_Multi-Client in Modular_**, **_Multi-Api in Modular_** and finally we have some questions that may not be related to multi-client and multi-api but are related with the Modular to discuss.
+This document is going to talk about what the multi-client and multi-api for our JS next generation library [Modular](https://github.com/Azure/azure-sdk-for-js/blob/main/design/modular-development.md) would look like. we will introduce it from our **_Design Principals_**, and how the **_Eariler Design_** looks like and what kinds of problem it might cause, What our **_Proposals_** for the multi-client is, How each proposal looks like in different scenarios of **_Multi-Client in Modular_**, We will also talk about how **_Multi-Api in Modular_** should look like both in single client and multi-client case. Finally, we have some questions that may not be related to multi-client and multi-api but are related with the Modular to discuss.
 
 ## Design Principals
 
@@ -36,7 +36,7 @@ ClientB
 @azure/foo/clientB/rest
 ```
 
-In the case that RLC layer is one client and Api Layer is multi-client, the above design will splitting the RLC client into several parts and provide different sub path exports to it, each will contain a subset of operations related with it even if each of the sub path exports has the same default create client functions. See the below examples of using the sub clients.  
+In the case that RLC layer is one client and Api Layer is multi-client, the above design will splitting the RLC client into several parts and provide different sub path exports to it, each will contain a subset of operations related with it even if each of the sub path exports has the same default create client functions. See the below examples of using the sub clients.
 
 ```typescript
 import createMyMulticlient from "@azure/foo/ClientA/rest";
@@ -46,15 +46,19 @@ import createMyMulticlient from "@azure/foo/ClientA/rest";
 import createMyMulticlient from "@azure/foo/ClientB/rest";
 ```
 
-But it will still cause problems because there's no guarantee that the api layer won't call operations across differnt rest level sub client. If such case happens, we will be difficult to do the tree-shaking or even impossible to do that.  
+But it will still cause problems because there's no guarantee that the api layer won't call operations across differnt rest level sub client. If such case happens, we will be difficult to do the tree-shaking or even impossible to do that.
 
-And as our goal is to have Azure Portal to use our RLC libraries, bundle size matters a lot to them. In cases like  we must have subset api layer to call the complete set of rest layer.  
+And as our goal is to have Azure Portal to use our RLC libraries, bundle size matters a lot to them. In cases like this, we must have subset api layer to call the complete set of rest layer.
 
-In order to make the RLC layer as a complete set, we will need to put them in the top level `src/rest` folder and just provide the subpath export like `@azure/foo/rest`. But if cases where RLC needs to be designed as a real multi-client case, we will have some folder structure like `src/rest/ClientA`, `src/rest/ClientB` and provide subpath exports like `@azure/foo/rest/ClientA`, `@azure/foo/rest/ClientB`. Otherwise, we will find our RLC code is in a inconsistent place.  
+## Proposals
 
-Which leads to two general designs on how to support multi-client modular.  
+In order to make the RLC layer as a complete set, we will need to put them in the top level `src/rest` folder and just provide the subpath export like `@azure/foo/rest`. But if cases like where RLC needs to be designed as a real multi-client come to us, we will have some folder structure like `src/rest/ClientA`, `src/rest/ClientB` and provide subpath exports like `@azure/foo/rest/ClientA`, `@azure/foo/rest/ClientB`. Otherwise, we will find our RLC code is in a inconsistent place.
 
-The first one is to keep remaining part of the classical layer and the api layer as the inital design, just put the rest layer into the `src/rest` folder.  
+Which leads to two general designs on how to support multi-client modular.
+
+### Proposal 1 in Multi-Client
+
+The first one is to keep remaining part of the classical layer and the api layer as the inital design, just put the rest layer into the `src/rest` folder.
 
 ```text
 Default Client (ClientA)
@@ -73,7 +77,9 @@ ClientB
 @azure/foo/rest/clientB
 ```
 
-THe second one is we also reverse the position of the api layer.  
+### Proposal 2 in Multi-Client
+
+THe second one is we also reverse the position of the api layer.
 
 ```text
 Default Client (ClientA)
@@ -98,7 +104,12 @@ ClientB
 
 In this context, client.tsp means the entrance for TypeSpec compilation. @client means the defined sub client.
 
-In order to reach full functionalities, we will need to identify all possible scenarios.
+In order to cover as much cases as possible, we will need to identify all possible scenarios. But if we are trying to do that in the way of summarizing of all the cases we have met, this never ends. Because we don't know if the next one will be using something different, and we will be unprepared. However, we can take from the describe ability that TypeSpec can provide perspective, because as long as the service is described with TypeSpec, it can not go beyond the scope.
+
+**Assumptions**
+
+- Assume different @client decorators can only point to different sub client.
+- Assume different @service or @server decorators can only pointing to different endpoint.
 
 First, let's consider the mapping between client.tsp file to @client
 
@@ -106,7 +117,7 @@ First, let's consider the mapping between client.tsp file to @client
 1. 1 client.tsp -> N @client
 1. N client.tsp -> N @client
 1. ~~N client.tsp -> 1 @client~~  
-   This essentially means that we have N client.tsp that uses the same one sub client name. which can be equals to the 1 client.tsp -> 1 @client case.
+   The last one essentially means that we have N client.tsp that uses the same one @client. which can be equals to the 1 client.tsp -> 1 @client case.
 
 Then, let's consider the mapping between @client and endpoint.
 
@@ -233,10 +244,91 @@ The user experience comparasion between Option 1 and Option 2 for the Purview ca
 </table>
 <!-- markdownlint-enable MD033 -->
 
+_NOTES:_ in this case, the path name in the rest related expports and api related path should be same. as we respect the package boundaries defined by it.
+
 - Questions related:
-  1. Whether to set one sub client as the default client? Or should we just export both of them.
+  1. Whether to set one sub client as the default client or should we just export both of them?  
+     Another concern about default client is, if we use to have both sub clients exported, and now we want to set one set default client, this will be a breaking change. Unless, we don't export anything to the top level at all.
   1. If we choose to export both of them, we will need to consider about shared models.
   1. how about keep the code as `src/account/api` but export it as `./api/account` in the Option 1.
+
+## Rethinking
+
+Let's compare the original design and the Option 2 from the user experience perspective side by side.
+
+<!-- markdownlint-disable MD033 -->
+<table>
+  <tr>
+    <th>Original Design</th>
+    <th>Option 1</th>
+    <th>Option 2</th>
+  </tr>
+  <tr>
+    <td>
+      <pre lang="shell">
+Default Client or Both Exported
+@azure/purview
+@azure/purview/api
+@azure/purview/rest
+</pre>
+<pre lang="shell">
+Sub Client Account
+@azure/purview/account
+@azure/purview/account/api
+@azure/purview/account/rest
+</pre>
+<pre lang="shell">
+Sub Client MetadataPolicies
+@azure/purview/metadataPolicies
+@azure/purview/metadataPolicies/api
+@azure/purview/metadataPolicies/rest
+</pre>
+</td>
+<td>
+<pre lang="shell">
+Default Client or Both Exported
+@azure/purview
+@azure/purview/api
+@azure/purview/rest
+</pre>
+<pre lang="shell">
+Sub Client Account
+@azure/purview/account
+@azure/purview/account/api
+@azure/purview/rest/account
+</pre>
+<pre lang="shell">
+Sub Client MetadataPolicies
+@azure/purview/metadataPolicies
+@azure/purview/metadataPolicies/api
+@azure/purview/rest/metadataPolicies
+</pre>
+</td>
+<td>
+<pre lang="shell">
+Default Client or Both Exported
+@azure/purview
+@azure/purview/api
+@azure/purview/rest
+</pre>
+<pre lang="shell">
+Sub Client Account
+@azure/purview/account
+@azure/purview/api/account
+@azure/purview/rest/account
+</pre>
+<pre lang="shell">
+Sub Client MetadataPolicies
+@azure/purview/metadataPolicies
+@azure/purview/api/metadataPolicies
+@azure/purview/rest/metadataPolicies
+</pre>
+</td>
+  </tr>
+</table>
+<!-- markdownlint-enable MD033 -->
+
+I think that physology behind the two approaches is how we classify our customers. If we go with approach on the left side, this means we think higher of the service user scenarios, If we go with the approach on the right side, this means we think higher of our JS modular libraries' own user scenarios. Compared with the original design and the Option 2, Option 1 is more like a compromise between the two of them.
 
 ## Multi-Api in Modular
 
@@ -283,16 +375,20 @@ Assuming the package name is called @azure/foo, the user experience for single c
 @azure/foo/v2/rest
 ```
 
-### Multi-Client Multi-Api
+- Questions related:
+  1. Should we have the default api version or should we just export everything in the top level?
+     when we generate the code from TypeSpec, we actually don't know which version is newly added.
+
+### Multi-Client in Multi-Api
 
 #### Multi-Api for LoadTesting case
 
-Assuming we have the default version, and we want to add v1, v2 to make it multi-api package,  
+Assuming we have the default version, and we want to add v1, v2 to make it multi-api package,
 
 In this case, as both of the administration and run sub client are pointing to the same endpoint, the api version evolve strategy should be the same which will just as the same as single clients.
 
 - Questions related:
-  1. Consider cases like [mgmt plane composite tags in SQL](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/sql/resource-manager/readme.md#tag-package-composite-v5). and they want a multi-api library.
+  1. Consider cases like [mgmt plane composite tags in SQL](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/sql/resource-manager/readme.md#tag-package-composite-v5). and if a sub client has a new version, and they want to release a new package in a multi-api library of their sub client. Is this allowed ?
 
 #### Multi-Api For Purview case
 
@@ -302,7 +398,7 @@ First, let's consider that both sub client will have the same version strategy
 
 The user experience would be the same as single client multi-api case.
 
-Second, let's consider that account has version v1 and v2 and metadataPolicies has version v3 and v4., let's assume v1 and v3 happen the same time, v2 and v4 also happen the same time.  
+Second, let's consider that account has version v1 and v2 and metadataPolicies has version v3 and v4., let's assume v1 and v3 happen the same time, v2 and v4 also happen the same time.
 
 The user experience compairson between Option 1 and Option 2 in this case would be
 
@@ -424,6 +520,7 @@ The user experience compairson between Option 1 and Option 2 in this case would 
 @azure/purview/v4/metadataPolicies
 @azure/purview/v4/api/metadataPolicies
 @azure/purview/v4/rest/metadataPolicies
+
 </pre>
 </td>
   </tr>
@@ -432,7 +529,7 @@ The user experience compairson between Option 1 and Option 2 in this case would 
 
 Third, let's consider that account has version v1 and v3 and metadataPolicies has version v2 and v4., let's assume the timeline is v1 < v2 < v3 < v4
 
-The user experience would be 
+The user experience would be
 
 <!-- markdownlint-disable MD033 -->
 <table>
@@ -565,64 +662,7 @@ Whenever a new version comes, we will just duplicate the code except pass a olde
 
 - Questions related:
   1. there is no garantee that v2 will come first than v3.
-  1. there are all four versions of the classical client level `@azure/purview` and `@azure/purview/account` and `@azure/purview/metadataPolicies`  
-
-## Rethinking
-
-Let's compare the original design and the Option 2 from the user experience perspective side by side.
-
-<!-- markdownlint-disable MD033 -->
-<table>
-  <tr>
-    <th>Original Design</th>
-    <th>Option 2</th>
-  </tr>
-  <tr>
-    <td>
-      <pre lang="shell">
-Default Client (Account)
-@azure/purview
-@azure/purview/api
-@azure/purview/rest
-</pre>
-<pre lang="shell">
-Sub Client Account
-@azure/purview/account
-@azure/purview/account/api
-@azure/purview/account/rest
-</pre>
-<pre lang="shell">
-Sub Client MetadataPolicies
-@azure/purview/metadataPolicies
-@azure/purview/metadataPolicies/api
-@azure/purview/metadataPolicies/rest
-</pre>
-</td>
-<td>
-<pre lang="shell">
-Default Client (Account)
-@azure/purview
-@azure/purview/api
-@azure/purview/rest
-</pre>
-<pre lang="shell">
-Sub Client Account
-@azure/purview/api/account
-@azure/purview/rest/account
-</pre>
-<pre lang="shell">
-Sub Client MetadataPolicies
-@azure/purview/api/metadataPolicies
-@azure/purview/rest/metadataPolicies
-</pre>
-</td>
-  </tr>
-</table>
-<!-- markdownlint-enable MD033 -->
-
-I think that physology behind the two approaches is how we classify our customers. If we go with approach on the left side, this means we think higher of the service user scenarios, If we go with the approach on the right side, this means we think higher of our JS modular libraries' own user scenarios.
-
-NOTES: in this case, the path name in the rest related expports and api related path should be same. as we respect the package boundaries defined by it.
+  1. there are all four versions of the classical client level `@azure/purview` and `@azure/purview/account` and `@azure/purview/metadataPolicies`
 
 ## Questions
 
