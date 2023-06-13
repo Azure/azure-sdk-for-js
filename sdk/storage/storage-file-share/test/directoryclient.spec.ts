@@ -421,7 +421,7 @@ describe("DirectoryClient", () => {
     }
   });
 
-  it.only("listFilesAndDirectories - with invalid char", async function (this: Context) {
+  it("listFilesAndDirectories - with invalid char", async function (this: Context) {
     if (isBrowser && isLiveMode()) {
       // Skipped for now as the generating new version SAS token is not supported in pipeline yet.
       this.skip();
@@ -1006,7 +1006,7 @@ describe("DirectoryClient", () => {
     }
   });
 
-  it.only("listHandles for directory with Invalid Char should work", async function (this: Context) {
+  it("listHandles for directory with Invalid Char should work", async function (this: Context) {
     if (isBrowser && isLiveMode()) {
       // Skipped for now as the generating new version SAS token is not supported in pipeline yet.
       this.skip();

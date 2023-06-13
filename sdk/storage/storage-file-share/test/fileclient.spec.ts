@@ -883,7 +883,7 @@ describe("FileClient", () => {
     );
   });
 
-  it.only("listHandles for file with Invalid Char should work", async function (this: Context) {
+  it("listHandles for file with Invalid Char should work", async function (this: Context) {
     if (isBrowser && isLiveMode()) {
       // Skipped for now as the generating new version SAS token is not supported in pipeline yet.
       this.skip();
