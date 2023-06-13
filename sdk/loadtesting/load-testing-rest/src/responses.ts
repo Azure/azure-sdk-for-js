@@ -25,6 +25,12 @@ export interface CreateOrUpdateTest200Response extends HttpResponse {
   body: TestOutput;
 }
 
+/** The request has succeeded and a new resource has been created as a result. */
+export interface CreateOrUpdateTest201Response extends HttpResponse {
+  status: "201";
+  body: TestOutput;
+}
+
 export interface CreateOrUpdateTestDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
@@ -86,9 +92,9 @@ export interface ListTestsDefaultResponse extends HttpResponse {
   headers: RawHttpHeaders & ListTestsDefaultHeaders;
 }
 
-/** The request has succeeded. */
-export interface UploadTestFile200Response extends HttpResponse {
-  status: "200";
+/** The request has succeeded and a new resource has been created as a result. */
+export interface UploadTestFile201Response extends HttpResponse {
+  status: "201";
   body: FileInfoOutput;
 }
 
@@ -159,6 +165,12 @@ export interface CreateOrUpdateAppComponents200Response extends HttpResponse {
   body: TestAppComponentsOutput;
 }
 
+/** The request has succeeded and a new resource has been created as a result. */
+export interface CreateOrUpdateAppComponents201Response extends HttpResponse {
+  status: "201";
+  body: TestAppComponentsOutput;
+}
+
 export interface CreateOrUpdateAppComponentsDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
@@ -190,6 +202,12 @@ export interface GetAppComponentsDefaultResponse extends HttpResponse {
 /** The request has succeeded. */
 export interface CreateOrUpdateServerMetricsConfig200Response extends HttpResponse {
   status: "200";
+  body: TestServerMetricConfigOutput;
+}
+
+/** The request has succeeded and a new resource has been created as a result. */
+export interface CreateOrUpdateServerMetricsConfig201Response extends HttpResponse {
+  status: "201";
   body: TestServerMetricConfigOutput;
 }
 
@@ -403,6 +421,12 @@ export interface CreateOrUpdateAppComponents200Response extends HttpResponse {
   body: TestRunAppComponentsOutput;
 }
 
+/** The request has succeeded and a new resource has been created as a result. */
+export interface CreateOrUpdateAppComponents201Response extends HttpResponse {
+  status: "201";
+  body: TestRunAppComponentsOutput;
+}
+
 export interface CreateOrUpdateAppComponentsDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
@@ -434,6 +458,12 @@ export interface GetAppComponentsDefaultResponse extends HttpResponse {
 /** The request has succeeded. */
 export interface CreateOrUpdateServerMetricsConfig200Response extends HttpResponse {
   status: "200";
+  body: TestRunServerMetricConfigOutput;
+}
+
+/** The request has succeeded and a new resource has been created as a result. */
+export interface CreateOrUpdateServerMetricsConfig201Response extends HttpResponse {
+  status: "201";
   body: TestRunServerMetricConfigOutput;
 }
 

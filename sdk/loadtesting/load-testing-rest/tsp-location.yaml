@@ -1,6 +1,6 @@
 repo: MaryGao/azure-rest-api-specs
+commit: ad2ae9ccf328219b5f748e65b0ee244f217b08bf
+directory: specification/loadtestservice
 additionalDirectories:
 - specification/contosowidgetmanager/Contoso.WidgetManager.Shared/
-directory: specification/loadtestservice
-commit: c24f949f436ca0cdb835e298f616591e5d6abe8d
 

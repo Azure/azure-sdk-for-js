@@ -26,6 +26,7 @@ import {
 } from "./parameters";
 import {
   CreateOrUpdateTest200Response,
+  CreateOrUpdateTest201Response,
   CreateOrUpdateTestDefaultResponse,
   DeleteTest204Response,
   DeleteTestDefaultResponse,
@@ -33,7 +34,7 @@ import {
   GetTestDefaultResponse,
   ListTests200Response,
   ListTestsDefaultResponse,
-  UploadTestFile200Response,
+  UploadTestFile201Response,
   UploadTestFileDefaultResponse,
   GetTestFile200Response,
   GetTestFileDefaultResponse,
@@ -42,10 +43,12 @@ import {
   ListTestFiles200Response,
   ListTestFilesDefaultResponse,
   CreateOrUpdateAppComponents200Response,
+  CreateOrUpdateAppComponents201Response,
   CreateOrUpdateAppComponentsDefaultResponse,
   GetAppComponents200Response,
   GetAppComponentsDefaultResponse,
   CreateOrUpdateServerMetricsConfig200Response,
+  CreateOrUpdateServerMetricsConfig201Response,
   CreateOrUpdateServerMetricsConfigDefaultResponse,
   GetServerMetricsConfig200Response,
   GetServerMetricsConfigDefaultResponse,
@@ -75,7 +78,11 @@ export interface CreateOrUpdateTest {
   /** Create a new test or update an existing test. */
   patch(
     options: CreateOrUpdateTestParameters
-  ): StreamableMethod<CreateOrUpdateTest200Response | CreateOrUpdateTestDefaultResponse>;
+  ): StreamableMethod<
+    | CreateOrUpdateTest200Response
+    | CreateOrUpdateTest201Response
+    | CreateOrUpdateTestDefaultResponse
+  >;
   /** Delete a test by its name. */
   delete(
     options?: DeleteTestParameters
@@ -102,7 +109,7 @@ export interface UploadTestFile {
    */
   put(
     options: UploadTestFileParameters
-  ): StreamableMethod<UploadTestFile200Response | UploadTestFileDefaultResponse>;
+  ): StreamableMethod<UploadTestFile201Response | UploadTestFileDefaultResponse>;
   /** Get test file by the file name. */
   get(
     options?: GetTestFileParameters
@@ -125,7 +132,9 @@ export interface CreateOrUpdateAppComponents {
   patch(
     options: CreateOrUpdateAppComponentsParameters
   ): StreamableMethod<
-    CreateOrUpdateAppComponents200Response | CreateOrUpdateAppComponentsDefaultResponse
+    | CreateOrUpdateAppComponents200Response
+    | CreateOrUpdateAppComponents201Response
+    | CreateOrUpdateAppComponentsDefaultResponse
   >;
   /** Get associated app component (collection of azure resources) for the given test. */
   get(
@@ -138,7 +147,9 @@ export interface CreateOrUpdateServerMetricsConfig {
   patch(
     options: CreateOrUpdateServerMetricsConfigParameters
   ): StreamableMethod<
-    CreateOrUpdateServerMetricsConfig200Response | CreateOrUpdateServerMetricsConfigDefaultResponse
+    | CreateOrUpdateServerMetricsConfig200Response
+    | CreateOrUpdateServerMetricsConfig201Response
+    | CreateOrUpdateServerMetricsConfigDefaultResponse
   >;
   /** List server metrics configuration for the given test. */
   get(
@@ -212,7 +223,9 @@ export interface CreateOrUpdateAppComponents {
   patch(
     options: CreateOrUpdateAppComponentsParameters
   ): StreamableMethod<
-    CreateOrUpdateAppComponents200Response | CreateOrUpdateAppComponentsDefaultResponse
+    | CreateOrUpdateAppComponents200Response
+    | CreateOrUpdateAppComponents201Response
+    | CreateOrUpdateAppComponentsDefaultResponse
   >;
   /**
    * Get associated app component (collection of azure resources) for the given test
@@ -228,7 +241,9 @@ export interface CreateOrUpdateServerMetricsConfig {
   patch(
     options: CreateOrUpdateServerMetricsConfigParameters
   ): StreamableMethod<
-    CreateOrUpdateServerMetricsConfig200Response | CreateOrUpdateServerMetricsConfigDefaultResponse
+    | CreateOrUpdateServerMetricsConfig200Response
+    | CreateOrUpdateServerMetricsConfig201Response
+    | CreateOrUpdateServerMetricsConfigDefaultResponse
   >;
   /** List server metrics configuration for the given test run. */
   get(

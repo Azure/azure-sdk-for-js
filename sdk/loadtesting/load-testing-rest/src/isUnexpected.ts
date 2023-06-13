@@ -3,6 +3,7 @@
 
 import {
   CreateOrUpdateTest200Response,
+  CreateOrUpdateTest201Response,
   CreateOrUpdateTestDefaultResponse,
   DeleteTest204Response,
   DeleteTestDefaultResponse,
@@ -10,7 +11,7 @@ import {
   GetTestDefaultResponse,
   ListTests200Response,
   ListTestsDefaultResponse,
-  UploadTestFile200Response,
+  UploadTestFile201Response,
   UploadTestFileDefaultResponse,
   GetTestFile200Response,
   GetTestFileDefaultResponse,
@@ -19,10 +20,12 @@ import {
   ListTestFiles200Response,
   ListTestFilesDefaultResponse,
   CreateOrUpdateAppComponents200Response,
+  CreateOrUpdateAppComponents201Response,
   CreateOrUpdateAppComponentsDefaultResponse,
   GetAppComponents200Response,
   GetAppComponentsDefaultResponse,
   CreateOrUpdateServerMetricsConfig200Response,
+  CreateOrUpdateServerMetricsConfig201Response,
   CreateOrUpdateServerMetricsConfigDefaultResponse,
   GetServerMetricsConfig200Response,
   GetServerMetricsConfigDefaultResponse,
@@ -49,17 +52,17 @@ import {
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
-  "PATCH /tests/{testId}": ["200"],
+  "PATCH /tests/{testId}": ["200", "201"],
   "DELETE /tests/{testId}": ["204"],
   "GET /tests/{testId}": ["200"],
   "GET /tests": ["200"],
-  "PUT /tests/{testId}/files/{fileName}": ["200"],
+  "PUT /tests/{testId}/files/{fileName}": ["201"],
   "GET /tests/{testId}/files/{fileName}": ["200"],
   "DELETE /tests/{testId}/files/{fileName}": ["204"],
   "GET /tests/{testId}/files": ["200"],
-  "PATCH /tests/{testId}/app-components": ["200"],
+  "PATCH /tests/{testId}/app-components": ["200", "201"],
   "GET /tests/{testId}/app-components": ["200"],
-  "PATCH /tests/{testId}/server-metrics-config": ["200"],
+  "PATCH /tests/{testId}/server-metrics-config": ["200", "201"],
   "GET /tests/{testId}/server-metrics-config": ["200"],
   "GET /test-runs/{testRunId}": ["200"],
   "PATCH /test-runs/{testRunId}": ["200", "201"],
@@ -70,14 +73,17 @@ const responseMap: Record<string, string[]> = {
   "GET /test-runs/{testRunId}/metric-namespaces": ["200"],
   "GET /test-runs/{testRunId}/metric-definitions": ["200"],
   "POST /test-runs/{testRunId}/metrics": ["200"],
-  "PATCH /test-runs/{testRunId}/app-components": ["200"],
+  "PATCH /test-runs/{testRunId}/app-components": ["200", "201"],
   "GET /test-runs/{testRunId}/app-components": ["200"],
-  "PATCH /test-runs/{testRunId}/server-metrics-config": ["200"],
+  "PATCH /test-runs/{testRunId}/server-metrics-config": ["200", "201"],
   "GET /test-runs/{testRunId}/server-metrics-config": ["200"],
 };
 
 export function isUnexpected(
-  response: CreateOrUpdateTest200Response | CreateOrUpdateTestDefaultResponse
+  response:
+    | CreateOrUpdateTest200Response
+    | CreateOrUpdateTest201Response
+    | CreateOrUpdateTestDefaultResponse
 ): response is CreateOrUpdateTestDefaultResponse;
 export function isUnexpected(
   response: DeleteTest204Response | DeleteTestDefaultResponse
@@ -89,7 +95,7 @@ export function isUnexpected(
   response: ListTests200Response | ListTestsDefaultResponse
 ): response is ListTestsDefaultResponse;
 export function isUnexpected(
-  response: UploadTestFile200Response | UploadTestFileDefaultResponse
+  response: UploadTestFile201Response | UploadTestFileDefaultResponse
 ): response is UploadTestFileDefaultResponse;
 export function isUnexpected(
   response: GetTestFile200Response | GetTestFileDefaultResponse
@@ -101,7 +107,10 @@ export function isUnexpected(
   response: ListTestFiles200Response | ListTestFilesDefaultResponse
 ): response is ListTestFilesDefaultResponse;
 export function isUnexpected(
-  response: CreateOrUpdateAppComponents200Response | CreateOrUpdateAppComponentsDefaultResponse
+  response:
+    | CreateOrUpdateAppComponents200Response
+    | CreateOrUpdateAppComponents201Response
+    | CreateOrUpdateAppComponentsDefaultResponse
 ): response is CreateOrUpdateAppComponentsDefaultResponse;
 export function isUnexpected(
   response: GetAppComponents200Response | GetAppComponentsDefaultResponse
@@ -109,6 +118,7 @@ export function isUnexpected(
 export function isUnexpected(
   response:
     | CreateOrUpdateServerMetricsConfig200Response
+    | CreateOrUpdateServerMetricsConfig201Response
     | CreateOrUpdateServerMetricsConfigDefaultResponse
 ): response is CreateOrUpdateServerMetricsConfigDefaultResponse;
 export function isUnexpected(
@@ -146,7 +156,10 @@ export function isUnexpected(
   response: ListMetrics200Response | ListMetricsDefaultResponse
 ): response is ListMetricsDefaultResponse;
 export function isUnexpected(
-  response: CreateOrUpdateAppComponents200Response | CreateOrUpdateAppComponentsDefaultResponse
+  response:
+    | CreateOrUpdateAppComponents200Response
+    | CreateOrUpdateAppComponents201Response
+    | CreateOrUpdateAppComponentsDefaultResponse
 ): response is CreateOrUpdateAppComponentsDefaultResponse;
 export function isUnexpected(
   response: GetAppComponents200Response | GetAppComponentsDefaultResponse
@@ -154,6 +167,7 @@ export function isUnexpected(
 export function isUnexpected(
   response:
     | CreateOrUpdateServerMetricsConfig200Response
+    | CreateOrUpdateServerMetricsConfig201Response
     | CreateOrUpdateServerMetricsConfigDefaultResponse
 ): response is CreateOrUpdateServerMetricsConfigDefaultResponse;
 export function isUnexpected(
@@ -162,6 +176,7 @@ export function isUnexpected(
 export function isUnexpected(
   response:
     | CreateOrUpdateTest200Response
+    | CreateOrUpdateTest201Response
     | CreateOrUpdateTestDefaultResponse
     | DeleteTest204Response
     | DeleteTestDefaultResponse
@@ -169,7 +184,7 @@ export function isUnexpected(
     | GetTestDefaultResponse
     | ListTests200Response
     | ListTestsDefaultResponse
-    | UploadTestFile200Response
+    | UploadTestFile201Response
     | UploadTestFileDefaultResponse
     | GetTestFile200Response
     | GetTestFileDefaultResponse
@@ -178,10 +193,12 @@ export function isUnexpected(
     | ListTestFiles200Response
     | ListTestFilesDefaultResponse
     | CreateOrUpdateAppComponents200Response
+    | CreateOrUpdateAppComponents201Response
     | CreateOrUpdateAppComponentsDefaultResponse
     | GetAppComponents200Response
     | GetAppComponentsDefaultResponse
     | CreateOrUpdateServerMetricsConfig200Response
+    | CreateOrUpdateServerMetricsConfig201Response
     | CreateOrUpdateServerMetricsConfigDefaultResponse
     | GetServerMetricsConfig200Response
     | GetServerMetricsConfigDefaultResponse
