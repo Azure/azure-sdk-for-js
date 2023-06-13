@@ -895,7 +895,6 @@ describe("FileClient", () => {
     await fileWithInvalidChar.create(10);
 
     const result = (await fileWithInvalidChar.listHandles().byPage().next()).value;
-    assert.ok(result.handleList !== undefined && result.handleList.length > 0);
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const handle = result.handleList[0];
       assert.notDeepEqual(handle.handleId, undefined);

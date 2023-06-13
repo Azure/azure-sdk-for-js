@@ -3,6 +3,18 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders, createHttpHeaders } from "@azure/core-rest-pipeline";
+import {
+  ListFilesAndDirectoriesSegmentResponse as ListFilesAndDirectoriesSegmentResponseInternal,
+  ListHandlesResponse as ListHandlesResponseInternal,
+  StringEncoded,
+} from "../generated/src/models";
+import {
+  DirectoryItem,
+  FileItem,
+  HandleItem,
+  ListFilesAndDirectoriesSegmentResponse,
+  ListHandlesResponse,
+} from "../generatedModels";
 import { HttpAuthorization } from "../models";
 import { HeaderConstants, PathStylePorts, URLConstants } from "./constants";
 import { isNode } from "@azure/core-util";
@@ -671,4 +683,70 @@ export function assertResponse<T extends object, Headers = undefined, Body = und
   }
 
   throw new TypeError(`Unexpected response object ${response}`);
+}
+
+export function StringEncodedToString(name: StringEncoded): string {
+  if (name.encoded) {
+    return decodeURIComponent(name.content!);
+  } else {
+    return name.content!;
+  }
+}
+
+export function ConvertInternalResponseOfListFiles(
+  internalResponse: ListFilesAndDirectoriesSegmentResponseInternal
+): ListFilesAndDirectoriesSegmentResponse {
+  const wrappedResponse = {
+    ...internalResponse,
+    prefix: undefined,
+    directoryPath: StringEncodedToString({
+      encoded: internalResponse.encoded,
+      content: internalResponse.directoryPath,
+    }),
+    segment: {
+      fileItems: internalResponse.segment.fileItems.map((fileItemInternal) => {
+        const fileItem: FileItem = {
+          ...fileItemInternal,
+          name: StringEncodedToString(fileItemInternal.name),
+        };
+        return fileItem;
+      }),
+      directoryItems: internalResponse.segment.directoryItems.map((directoryItemInternal) => {
+        const directoryItem: DirectoryItem = {
+          ...directoryItemInternal,
+          name: StringEncodedToString(directoryItemInternal.name),
+        };
+        return directoryItem;
+      }),
+    },
+  };
+
+  delete wrappedResponse.encoded;
+
+  const listResponse: ListFilesAndDirectoriesSegmentResponse = wrappedResponse as any;
+
+  if (internalResponse.prefix) {
+    listResponse.prefix = StringEncodedToString(internalResponse.prefix);
+  }
+
+  return listResponse;
+}
+
+export function ConvertInternalResponseOfListHandles(
+  internalResponse: ListHandlesResponseInternal
+): ListHandlesResponse {
+  const wrappedResponse: ListHandlesResponse = {
+    ...internalResponse,
+    handleList: internalResponse.handleList
+      ? internalResponse.handleList.map((handleItemInternal) => {
+          const handleItem: HandleItem = {
+            ...handleItemInternal,
+            path: StringEncodedToString(handleItemInternal.path),
+          };
+          return handleItem;
+        })
+      : undefined,
+  };
+
+  return wrappedResponse;
 }

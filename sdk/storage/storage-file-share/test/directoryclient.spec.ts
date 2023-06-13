@@ -435,8 +435,11 @@ describe("DirectoryClient", () => {
 
     for (let i = 0; i < 3; i++) {
       const subDirClient = dirWithInvalidChar.getDirectoryClient(
-        recorder.variable("dir", getUniqueName(`dir\uFFFE${i}`))
+        recorder.variable(`dir${i}-1`, getUniqueName(`dir\uFFFE${i}-1`))
       );
+      if (await subDirClient.exists()) {
+        await subDirClient.delete();
+      }
       await subDirClient.create();
       subDirClients.push(subDirClient);
       subDirNames.push(subDirClient.name);
@@ -446,7 +449,7 @@ describe("DirectoryClient", () => {
     const subFileNames = [];
     for (let i = 0; i < 3; i++) {
       const subFileClient = dirWithInvalidChar.getFileClient(
-        recorder.variable("file", getUniqueName(`file\uFFFE${i}`))
+        recorder.variable(`file${i}`, getUniqueName(`file\uFFFE${i}`))
       );
       await subFileClient.create(1024);
       subFileClients.push(subFileClient);
