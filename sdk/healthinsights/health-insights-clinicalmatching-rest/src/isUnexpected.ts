@@ -9,8 +9,8 @@ import {
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
-  "POST /trialmatcher/jobs": ["200", "202"],
-  "GET /trialmatcher/jobs": ["200", "202"],
+  "POST /healthinsights/trialmatcher/jobs": ["200", "202"],
+  "GET /healthinsights/trialmatcher/jobs": ["200", "202"],
 };
 
 export function isUnexpected(
@@ -31,6 +31,8 @@ export function isUnexpected(
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;
   const pathDetails = responseMap[`${method} ${url.pathname}`];
+  console.log("**************");
+  console.log(`${method} ${url.pathname}`);
   if (!pathDetails) {
     return true;
   }

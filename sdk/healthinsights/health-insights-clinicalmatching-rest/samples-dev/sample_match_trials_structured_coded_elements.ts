@@ -14,7 +14,7 @@ import * as dotenv from "dotenv";
 import createClient, {
   ClinicalCodedElement,
   ClinicalTrialRegistryFilter, ClinicalTrials,
-  GeographicLocation, getLongRunningPoller, MatchTrialsBodyParam,
+  GeographicLocation, getLongRunningPoller, isUnexpected, MatchTrialsBodyParam,
   PatientInfo,
   PatientRecord, TrialMatcherData, TrialMatcherModelConfiguration, TrialMatcherResultOutput, TrialMatcherResultsOutput
 } from "../src";
@@ -147,15 +147,16 @@ export async function main() {
   };
 
   const initialResponse = await client.path("/trialmatcher/jobs").post(trialMatcherParameter);
+  if (isUnexpected(initialResponse)) {
+    throw initialResponse;
+  }
   const poller = await getLongRunningPoller(client, initialResponse);
   const trialMatcherResult = await poller.pollUntilDone();
-/*  if (isUnexpected(trialMatcherResult)) {
-      throw initialResponse;
-    }*/
-  if (trialMatcherResult.status === "200") {
-    const resultBody = trialMatcherResult.body as TrialMatcherResultOutput;
-    printResults(resultBody);
+  if (isUnexpected(trialMatcherResult)) {
+    throw trialMatcherResult;
   }
+  const resultBody = trialMatcherResult.body as TrialMatcherResultOutput;
+  printResults(resultBody);
 }
 
 main().catch((err) => {

@@ -100,7 +100,7 @@
   "browser": {
     "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
   },
-    "//sampleConfiguration": {
+  "//sampleConfiguration": {
     "productName": "HealthInsightsCancerprifiling",
     "productSlugs": ["azure"],
     "disableDocsMs": true,

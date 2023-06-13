@@ -1,30 +1,29 @@
 # CancerProfiling REST client library for JavaScript
 
-Azure Health Insights provides an API that serves insight models, specific for Health & Life Sciences, that perform analysis and provide inferences to be used by a human.
+[Health Insights](https://review.learn.microsoft.com/en-us/azure/cognitive-services/health-decision-support/overview?branch=main) is an Azure Applied AI Service built with the Azure Cognitive Services Framework, that leverages multiple Cognitive Services, Healthcare API services and other Azure resources.
+The [Cancer Profiling model](https://review.learn.microsoft.com/en-us/azure/cognitive-services/health-decision-support/oncophenotype/overview?branch=main) receives clinical records of oncology patients and outputs cancer staging, such as clinical stage TNM categories and pathologic stage TNM categories as well as tumor site, histology.
 
 **Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library**
 
-Key links:
-
-- [Package (NPM)](https://www.npmjs.com/package/AzureHealthInsights)
-
 ## Getting started
 
-### Currently supported environments
-
-- LTS versions of Node.js
-
 ### Prerequisites
-
+- 
+- LTS versions of Node.js
 - You must have an [Azure subscription](https://azure.microsoft.com/free/) to use this package.
+- An existing Cognitive Services Health Insights instance.
 
-### Install the `AzureHealthInsights` package
+### Install the `@azure-rest/health-insights-cancerprofiling` package
 
-Install the CancerProfiling REST client REST client library for JavaScript with `npm`:
+Install the CancerProfiling REST client library for JavaScript with `npm`:
 
 ```bash
-npm install AzureHealthInsights
+npm install @azure-rest/health-insights-cancerprofiling
 ```
+
+|SDK version|Supported API version of service |
+|-------------|---------------|
+|1.0.0b1 | 2023-03-01-preview|
 
 ### Create and authenticate a `CancerProfilingClient`
 
@@ -40,6 +39,17 @@ can be used to authenticate the client.
 
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables:
 AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
+
+## Key concepts
+
+The Cancer Profiling model allows you to infer cancer attributes such as tumor site, histology, clinical stage TNM categories and pathologic stage TNM categories from unstructured clinical documents.
+
+## Examples
+```typescript
+const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
+const endpoint =
+  process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
+```
 
 ## Troubleshooting
 
