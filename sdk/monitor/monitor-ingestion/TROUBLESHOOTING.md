@@ -18,7 +18,7 @@ This troubleshooting guide contains instructions to diagnose frequently encounte
 
 To troubleshoot issues with the Azure Monitor Ingestion library, it's important to first enable logging to monitor the behavior of the application. The errors and warnings in the logs generally provide useful insights into what went wrong and sometimes include corrective actions to fix issues.
 
-This library uses the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger) library for logging. The Azure SDK client libraries for JavaScript allow you to enable logging with one of the following approaches:
+This library uses the [Azure Logger client library](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger) for logging. The Azure SDK client libraries for JavaScript allow you to enable logging with one of the following approaches:
 
 - Through the `AZURE_LOG_LEVEL` environment variable
 - At runtime by calling `setLogLevel` in the Azure Logger library
