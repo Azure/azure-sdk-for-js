@@ -328,7 +328,7 @@ Sub Client MetadataPolicies
 </table>
 <!-- markdownlint-enable MD033 -->
 
-I think that physology behind the original design and Option 2 is how we classify our customers. If we go with approach on the left side, this means we think higher of the service user scenarios, If we go with the approach on the right side, this means we think higher of our JS modular libraries' own user scenarios. Compared with the original design and the Option 2, Option 1 is more like a compromise between the two of them.
+I think that philosology behind the original design and Option 2 is how we want to classify our customers. If we go with approach on the left side, this means we think higher of the service user scenarios, If we go with the approach on the right side, this means we think higher of our JS modular libraries' own user scenarios. Compared with the original design and the Option 2, Option 1 is more like a compromise between the two of them.
 
 ## Multi-Api in Modular
 
