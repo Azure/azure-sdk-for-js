@@ -15,22 +15,23 @@ import {
 /** Load test model */
 export type TestResourceMergeAndPatch = Partial<Test>;
 
-export interface CreateOrUpdateTestBodyParam {
+export interface LoadTestAdministrationOperationsCreateOrUpdateTestBodyParam {
   /** Load test model */
   body: TestResourceMergeAndPatch;
 }
 
-export interface CreateOrUpdateTestMediaTypesParam {
+export interface LoadTestAdministrationOperationsCreateOrUpdateTestMediaTypesParam {
   contentType: "application/merge-patch+json";
 }
 
-export type CreateOrUpdateTestParameters = CreateOrUpdateTestMediaTypesParam &
-  CreateOrUpdateTestBodyParam &
-  RequestParameters;
-export type DeleteTestParameters = RequestParameters;
-export type GetTestParameters = RequestParameters;
+export type LoadTestAdministrationOperationsCreateOrUpdateTestParameters =
+  LoadTestAdministrationOperationsCreateOrUpdateTestMediaTypesParam &
+    LoadTestAdministrationOperationsCreateOrUpdateTestBodyParam &
+    RequestParameters;
+export type LoadTestAdministrationOperationsDeleteTestParameters = RequestParameters;
+export type LoadTestAdministrationOperationsGetTestParameters = RequestParameters;
 
-export interface ListTestsQueryParamProperties {
+export interface LoadTestAdministrationOperationsListTestsQueryParamProperties {
   /**
    * Sort on the supported fields in (field asc/desc) format. eg:
    * lastModifiedDateTime asc. Supported fields - lastModifiedDateTime
@@ -56,18 +57,19 @@ export interface ListTestsQueryParamProperties {
   maxpagesize?: number;
 }
 
-export interface ListTestsQueryParam {
-  queryParameters?: ListTestsQueryParamProperties;
+export interface LoadTestAdministrationOperationsListTestsQueryParam {
+  queryParameters?: LoadTestAdministrationOperationsListTestsQueryParamProperties;
 }
 
-export type ListTestsParameters = ListTestsQueryParam & RequestParameters;
+export type LoadTestAdministrationOperationsListTestsParameters =
+  LoadTestAdministrationOperationsListTestsQueryParam & RequestParameters;
 
-export interface UploadTestFileBodyParam {
+export interface LoadTestAdministrationOperationsUploadTestFileBodyParam {
   /** The file content as application/octet-stream. */
   body: string;
 }
 
-export interface UploadTestFileQueryParamProperties {
+export interface LoadTestAdministrationOperationsUploadTestFileQueryParamProperties {
   /**
    * File type
    *
@@ -76,59 +78,61 @@ export interface UploadTestFileQueryParamProperties {
   fileType?: string;
 }
 
-export interface UploadTestFileQueryParam {
-  queryParameters?: UploadTestFileQueryParamProperties;
+export interface LoadTestAdministrationOperationsUploadTestFileQueryParam {
+  queryParameters?: LoadTestAdministrationOperationsUploadTestFileQueryParamProperties;
 }
 
-export type UploadTestFileParameters = UploadTestFileQueryParam &
-  UploadTestFileBodyParam &
-  RequestParameters;
-export type GetTestFileParameters = RequestParameters;
-export type DeleteTestFileParameters = RequestParameters;
-export type ListTestFilesParameters = RequestParameters;
+export type LoadTestAdministrationOperationsUploadTestFileParameters =
+  LoadTestAdministrationOperationsUploadTestFileQueryParam &
+    LoadTestAdministrationOperationsUploadTestFileBodyParam &
+    RequestParameters;
+export type LoadTestAdministrationOperationsGetTestFileParameters = RequestParameters;
+export type LoadTestAdministrationOperationsDeleteTestFileParameters = RequestParameters;
+export type LoadTestAdministrationOperationsListTestFilesParameters = RequestParameters;
 /** App Component model. */
 export type TestAppComponentsResourceMergeAndPatch = Partial<TestAppComponents>;
 
-export interface CreateOrUpdateAppComponentsBodyParam {
+export interface LoadTestAdministrationOperationsCreateOrUpdateAppComponentsBodyParam {
   /** App Component model. */
   body: TestAppComponentsResourceMergeAndPatch;
 }
 
-export interface CreateOrUpdateAppComponentsMediaTypesParam {
+export interface LoadTestAdministrationOperationsCreateOrUpdateAppComponentsMediaTypesParam {
   contentType: "application/merge-patch+json";
 }
 
-export type CreateOrUpdateAppComponentsParameters = CreateOrUpdateAppComponentsMediaTypesParam &
-  CreateOrUpdateAppComponentsBodyParam &
-  RequestParameters;
-export type GetAppComponentsParameters = RequestParameters;
+export type LoadTestAdministrationOperationsCreateOrUpdateAppComponentsParameters =
+  LoadTestAdministrationOperationsCreateOrUpdateAppComponentsMediaTypesParam &
+    LoadTestAdministrationOperationsCreateOrUpdateAppComponentsBodyParam &
+    RequestParameters;
+export type LoadTestAdministrationOperationsGetAppComponentsParameters = RequestParameters;
 /** Server metric configuration model. */
 export type TestServerMetricConfigResourceMergeAndPatch = Partial<TestServerMetricConfig>;
 
-export interface CreateOrUpdateServerMetricsConfigBodyParam {
+export interface LoadTestAdministrationOperationsCreateOrUpdateServerMetricsConfigBodyParam {
   /** Server metric configuration model. */
   body: TestServerMetricConfigResourceMergeAndPatch;
 }
 
-export interface CreateOrUpdateServerMetricsConfigMediaTypesParam {
+export interface LoadTestAdministrationOperationsCreateOrUpdateServerMetricsConfigMediaTypesParam {
   contentType: "application/merge-patch+json";
 }
 
-export type CreateOrUpdateServerMetricsConfigParameters =
-  CreateOrUpdateServerMetricsConfigMediaTypesParam &
-    CreateOrUpdateServerMetricsConfigBodyParam &
+export type LoadTestAdministrationOperationsCreateOrUpdateServerMetricsConfigParameters =
+  LoadTestAdministrationOperationsCreateOrUpdateServerMetricsConfigMediaTypesParam &
+    LoadTestAdministrationOperationsCreateOrUpdateServerMetricsConfigBodyParam &
     RequestParameters;
-export type GetServerMetricsConfigParameters = RequestParameters;
-export type GetTestRunParameters = RequestParameters;
+export type LoadTestAdministrationOperationsGetServerMetricsConfigParameters = RequestParameters;
+export type LoadTestRunOperationsGetTestRunParameters = RequestParameters;
 /** The resource instance. */
 export type TestRunResourceMergeAndPatch = Partial<TestRun>;
 
-export interface CreateOrUpdateTestRunBodyParam {
+export interface LoadTestRunOperationsCreateOrUpdateTestRunBodyParam {
   /** The resource instance. */
   body: TestRunResourceMergeAndPatch;
 }
 
-export interface CreateOrUpdateTestRunQueryParamProperties {
+export interface LoadTestRunOperationsCreateOrUpdateTestRunQueryParamProperties {
   /**
    * Existing test run identifier that should be rerun, if this is provided, the
    * test will run with the JMX file, configuration and app components from the
@@ -138,23 +142,24 @@ export interface CreateOrUpdateTestRunQueryParamProperties {
   oldTestRunId?: string;
 }
 
-export interface CreateOrUpdateTestRunQueryParam {
-  queryParameters?: CreateOrUpdateTestRunQueryParamProperties;
+export interface LoadTestRunOperationsCreateOrUpdateTestRunQueryParam {
+  queryParameters?: LoadTestRunOperationsCreateOrUpdateTestRunQueryParamProperties;
 }
 
-export interface CreateOrUpdateTestRunMediaTypesParam {
+export interface LoadTestRunOperationsCreateOrUpdateTestRunMediaTypesParam {
   /** This request has a JSON Merge Patch body. */
   contentType: "application/merge-patch+json";
 }
 
-export type CreateOrUpdateTestRunParameters = CreateOrUpdateTestRunQueryParam &
-  CreateOrUpdateTestRunMediaTypesParam &
-  CreateOrUpdateTestRunBodyParam &
-  RequestParameters;
-export type DeleteTestRunParameters = RequestParameters;
-export type GetTestRunFileParameters = RequestParameters;
+export type LoadTestRunOperationsCreateOrUpdateTestRunParameters =
+  LoadTestRunOperationsCreateOrUpdateTestRunQueryParam &
+    LoadTestRunOperationsCreateOrUpdateTestRunMediaTypesParam &
+    LoadTestRunOperationsCreateOrUpdateTestRunBodyParam &
+    RequestParameters;
+export type LoadTestRunOperationsDeleteTestRunParameters = RequestParameters;
+export type LoadTestRunOperationsGetTestRunFileParameters = RequestParameters;
 
-export interface ListTestRunsQueryParamProperties {
+export interface LoadTestRunOperationsListTestRunsQueryParamProperties {
   /**
    * Sort on the supported fields in (field asc/desc) format. eg: executedDateTime
    * asc. Supported fields - executedDateTime
@@ -178,31 +183,33 @@ export interface ListTestRunsQueryParamProperties {
   maxpagesize?: number;
 }
 
-export interface ListTestRunsQueryParam {
-  queryParameters?: ListTestRunsQueryParamProperties;
+export interface LoadTestRunOperationsListTestRunsQueryParam {
+  queryParameters?: LoadTestRunOperationsListTestRunsQueryParamProperties;
 }
 
-export type ListTestRunsParameters = ListTestRunsQueryParam & RequestParameters;
-export type StopTestRunParameters = RequestParameters;
-export type ListMetricNamespacesParameters = RequestParameters;
+export type LoadTestRunOperationsListTestRunsParameters =
+  LoadTestRunOperationsListTestRunsQueryParam & RequestParameters;
+export type LoadTestRunOperationsStopTestRunParameters = RequestParameters;
+export type LoadTestRunOperationsListMetricNamespacesParameters = RequestParameters;
 
-export interface ListMetricDefinitionsQueryParamProperties {
+export interface LoadTestRunOperationsListMetricDefinitionsQueryParamProperties {
   /** Metric namespace to query metric definitions for. */
   metricNamespace?: string;
 }
 
-export interface ListMetricDefinitionsQueryParam {
-  queryParameters?: ListMetricDefinitionsQueryParamProperties;
+export interface LoadTestRunOperationsListMetricDefinitionsQueryParam {
+  queryParameters?: LoadTestRunOperationsListMetricDefinitionsQueryParamProperties;
 }
 
-export type ListMetricDefinitionsParameters = ListMetricDefinitionsQueryParam & RequestParameters;
+export type LoadTestRunOperationsListMetricDefinitionsParameters =
+  LoadTestRunOperationsListMetricDefinitionsQueryParam & RequestParameters;
 
-export interface ListMetricsBodyParam {
+export interface LoadTestRunOperationsListMetricsBodyParam {
   /** Metric dimension filter */
   body: MetricRequestPayload;
 }
 
-export interface ListMetricsQueryParamProperties {
+export interface LoadTestRunOperationsListMetricsQueryParamProperties {
   /** The aggregation */
   aggregation?: string;
   /**
@@ -222,43 +229,45 @@ export interface ListMetricsQueryParamProperties {
   timespan?: string;
 }
 
-export interface ListMetricsQueryParam {
-  queryParameters?: ListMetricsQueryParamProperties;
+export interface LoadTestRunOperationsListMetricsQueryParam {
+  queryParameters?: LoadTestRunOperationsListMetricsQueryParamProperties;
 }
 
-export type ListMetricsParameters = ListMetricsQueryParam &
-  ListMetricsBodyParam &
-  RequestParameters;
+export type LoadTestRunOperationsListMetricsParameters =
+  LoadTestRunOperationsListMetricsQueryParam &
+    LoadTestRunOperationsListMetricsBodyParam &
+    RequestParameters;
 /** App Component model. */
 export type TestRunAppComponentsResourceMergeAndPatch = Partial<TestRunAppComponents>;
 
-export interface CreateOrUpdateAppComponentsBodyParam {
+export interface LoadTestRunOperationsCreateOrUpdateAppComponentsBodyParam {
   /** App Component model. */
   body: TestRunAppComponentsResourceMergeAndPatch;
 }
 
-export interface CreateOrUpdateAppComponentsMediaTypesParam {
+export interface LoadTestRunOperationsCreateOrUpdateAppComponentsMediaTypesParam {
   contentType: "application/merge-patch+json";
 }
 
-export type CreateOrUpdateAppComponentsParameters = CreateOrUpdateAppComponentsMediaTypesParam &
-  CreateOrUpdateAppComponentsBodyParam &
-  RequestParameters;
-export type GetAppComponentsParameters = RequestParameters;
+export type LoadTestRunOperationsCreateOrUpdateAppComponentsParameters =
+  LoadTestRunOperationsCreateOrUpdateAppComponentsMediaTypesParam &
+    LoadTestRunOperationsCreateOrUpdateAppComponentsBodyParam &
+    RequestParameters;
+export type LoadTestRunOperationsGetAppComponentsParameters = RequestParameters;
 /** Server metric configuration model. */
 export type TestRunServerMetricConfigResourceMergeAndPatch = Partial<TestRunServerMetricConfig>;
 
-export interface CreateOrUpdateServerMetricsConfigBodyParam {
+export interface LoadTestRunOperationsCreateOrUpdateServerMetricsConfigBodyParam {
   /** Server metric configuration model. */
   body: TestRunServerMetricConfigResourceMergeAndPatch;
 }
 
-export interface CreateOrUpdateServerMetricsConfigMediaTypesParam {
+export interface LoadTestRunOperationsCreateOrUpdateServerMetricsConfigMediaTypesParam {
   contentType: "application/merge-patch+json";
 }
 
-export type CreateOrUpdateServerMetricsConfigParameters =
-  CreateOrUpdateServerMetricsConfigMediaTypesParam &
-    CreateOrUpdateServerMetricsConfigBodyParam &
+export type LoadTestRunOperationsCreateOrUpdateServerMetricsConfigParameters =
+  LoadTestRunOperationsCreateOrUpdateServerMetricsConfigMediaTypesParam &
+    LoadTestRunOperationsCreateOrUpdateServerMetricsConfigBodyParam &
     RequestParameters;
-export type GetServerMetricsConfigParameters = RequestParameters;
+export type LoadTestRunOperationsGetServerMetricsConfigParameters = RequestParameters;
