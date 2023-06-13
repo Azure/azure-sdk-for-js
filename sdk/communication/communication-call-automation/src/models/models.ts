@@ -75,6 +75,21 @@ export interface FileSource extends PlaySource {
   readonly kind: "fileSource";
 }
 
+/** The TextSource model. */
+export interface TextSource extends PlaySource {
+  text: string;
+  sourceLocale?: string;
+  voiceGender?: Gender;
+  voiceName?: string;
+  readonly kind: "textSource";
+}
+
+/** The SsmlSource model. */
+export interface SsmlSource extends PlaySource {
+  ssmlText: string;
+  readonly kind: "ssmlSource";
+}
+
 /** A Dtmf Tone. */
 export enum DtmfTone {
   /** Zero */
@@ -111,12 +126,29 @@ export enum DtmfTone {
   Asterisk = "asterisk",
 }
 
+/** A Recognize Choice */
+export interface Choice {
+  /** Identifier for a given choice */
+  label: string;
+  /** List of phrases to recognize */
+  phrases: string[];
+  tone?: DtmfTone;
+}
+
 /** The type of the recognition that the service accepts. */
 export enum RecognizeInputType {
   /** Dtmf */
   Dtmf = "dtmf",
   /** Choices */
   Choices = "choices",
+}
+
+/** Defines values for Gender that the service accepts. */
+export enum Gender {
+  /** Male */
+  Male = "male",
+  /** Female */
+  Female = "female",
 }
 
 /** Call invitee details. */

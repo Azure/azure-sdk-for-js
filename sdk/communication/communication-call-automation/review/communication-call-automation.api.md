@@ -163,8 +163,15 @@ export class CallMedia {
     // Warning: (ae-forgotten-export) The symbol "Tone" needs to be exported by the entry point index.d.ts
     sendDtmf(tones: Tone[], targetParticipant: CommunicationIdentifier, sendDtmfOptions?: SendDtmfOptions): Promise<void>;
     startContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, continuousDtmfRecognitionOptions?: ContinuousDtmfRecognitionOptions): Promise<void>;
-    startRecognizing(targetParticipant: CommunicationIdentifier, maxTonesToCollect: number, recognizeOptions: CallMediaRecognizeDtmfOptions): Promise<void>;
+    startRecognizing(targetParticipant: CommunicationIdentifier, maxTonesToCollect: number, recognizeOptions: CallMediaRecognizeDtmfOptions | CallMediaRecognizeChoiceOptions): Promise<void>;
     stopContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, continuousDtmfRecognitionOptions?: ContinuousDtmfRecognitionOptions): Promise<void>;
+}
+
+// @public
+export interface CallMediaRecognizeChoiceOptions extends CallMediaRecognizeOptions {
+    choices: Choice[];
+    // (undocumented)
+    readonly kind: "callMediaRecognizeChoiceOptions";
 }
 
 // @public
@@ -238,6 +245,14 @@ export interface CallTransferFailed extends Omit<RestCallTransferFailed, "callCo
 export interface ChannelAffinity {
     channel?: number;
     targetParticipant: CommunicationIdentifier;
+}
+
+// @public
+export interface Choice {
+    label: string;
+    phrases: string[];
+    // (undocumented)
+    tone?: DtmfTone;
 }
 
 // @public
@@ -333,6 +348,12 @@ export interface FileSource extends PlaySource {
     readonly kind: "fileSource";
     // (undocumented)
     url: string;
+}
+
+// @public
+export enum Gender {
+    Female = "female",
+    Male = "male"
 }
 
 // @public
@@ -812,6 +833,14 @@ export interface SendDtmfOptions extends OperationOptions {
 }
 
 // @public
+export interface SsmlSource extends PlaySource {
+    // (undocumented)
+    readonly kind: "ssmlSource";
+    // (undocumented)
+    url: string;
+}
+
+// @public
 export interface StartRecordingOptions extends OperationOptions {
     audioChannelParticipantOrdering?: CommunicationIdentifier[];
     callLocator: CallLocator;
@@ -824,6 +853,20 @@ export interface StartRecordingOptions extends OperationOptions {
 
 // @public
 export type StopRecordingOptions = OperationOptions;
+
+// @public
+export interface TextSource extends PlaySource {
+    // (undocumented)
+    readonly kind: "textSource";
+    // (undocumented)
+    sourceLocale?: string;
+    // (undocumented)
+    text: string;
+    // (undocumented)
+    voiceGender?: Gender;
+    // (undocumented)
+    voiceName?: string;
+}
 
 // @public
 export interface ToneInfo extends Omit<RestToneInfo, "sequenceId" | "tone"> {

@@ -41,6 +41,12 @@ directive:
     from: FileSource
     to: FileSourceInternal
 - rename-model:
+    from: TextSource
+    to: TextSourceInternal
+- rename-model:
+    from: SsmlSource
+    to: SsmlSourceInternal
+- rename-model:
     from: PlayOptions
     to: PlayOptionsInternal
 - rename-model:

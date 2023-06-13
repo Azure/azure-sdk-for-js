@@ -8,6 +8,7 @@ import {
   CallRejectReason,
   FileSource,
   DtmfTone,
+  Choice,
   RecordingContent,
   RecordingChannel,
   RecordingFormat,
@@ -30,6 +31,13 @@ export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions
   interToneTimeoutInSeconds?: number;
   stopDtmfTones?: DtmfTone[];
   readonly kind: "callMediaRecognizeDtmfOptions";
+}
+
+/** The recognize configuration specific to Choices. */
+export interface CallMediaRecognizeChoiceOptions extends CallMediaRecognizeOptions {
+  /** The IvR choices for recognize. */
+  choices: Choice[];
+  readonly kind: "callMediaRecognizeChoiceOptions";
 }
 
 /**
