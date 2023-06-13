@@ -124,28 +124,28 @@ console.log(container.id);
 ### Using Partition Keys
 This example shows various types of partition Keys supported.
 ```js
-await container.item("1").read();        // string type
-await container.item(2).read();          // number type
-await container.item(true).read();       // boolean type
-await container.item({}).read();         // None type
-await container.item(undefined).read();  // None type
-await container.item(null).read();       // null type
+await container.item("id", "1").read();        // string type
+await container.item("id", 2).read();          // number type
+await container.item("id", true).read();       // boolean type
+await container.item("id", {}).read();         // None type
+await container.item("id", undefined).read();  // None type
+await container.item("id", null).read();       // null type
 ```
 
 If the Partition Key consists of a single value, it could be supplied either as a lietral value, or an array.
 
 ```js
-await container.item("1").read();
-await container.item(["1"]).read();
+await container.item("id", "1").read();
+await container.item("id", ["1"]).read();
 ```
 
 If the Partition Key consists of more than one values, it should be supplied as an array.
 ```js
-await container.item(["a", "b"]).read();
-await container.item(["a", 2]).read();
-await container.item([{}, {}]).read();
-await container.item(["a", {}]).read();
-await container.item([2, null]).read();
+await container.item("id", ["a", "b"]).read();
+await container.item("id", ["a", 2]).read();
+await container.item("id", [{}, {}]).read();
+await container.item("id", ["a", {}]).read();
+await container.item("id", [2, null]).read();
 
 ```
 
@@ -171,7 +171,7 @@ for (const city of cities) {
 To read a single item from a container, use [Item.read](https://docs.microsoft.com/javascript/api/@azure/cosmos/item?view=azure-node-latest#read-requestoptions-). This is a less expensive operation than using SQL to query by `id`.
 
 ```js
-await container.item("1").read();
+await container.item("1", "1").read();
 ```
 ### CRUD on Container with hierarchical partition key
 

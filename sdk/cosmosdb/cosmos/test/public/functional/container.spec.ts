@@ -173,8 +173,38 @@ describe("Containers", function (this: Suite) {
 
         try {
           await database.containers.create(containerDefinition);
+          assert.fail(
+            `Container Creation should have failed, for partitionkey: ${badPartitionKeyDefinition}`
+          );
         } catch (err: any) {
           assert.equal(err.code, 400);
+        }
+      });
+      it("Path contains anything other than AlphaNumeric + '_'", async function () {
+        // create database
+        const database = await getTestDatabase("container CRUD bad partition key");
+
+        // create a container
+        const badPartitionKeyDefinition = "/id ds";
+
+        const containerDefinition: ContainerRequest = {
+          id: "sample container",
+          indexingPolicy: { indexingMode: IndexingMode.consistent },
+          partitionKey: badPartitionKeyDefinition,
+        };
+
+        try {
+          await database.containers.create(containerDefinition);
+          assert.fail(
+            `Container Creation should have failed, for partitionkey: ${badPartitionKeyDefinition}`
+          );
+        } catch (err: any) {
+          assert.strictEqual(
+            true,
+            err.message.includes(
+              "Partition key paths must contain only valid characters and not contain a trailing slash or wildcard character"
+            )
+          );
         }
       });
       it("Is missing leading '/'", async function () {
@@ -192,7 +222,9 @@ describe("Containers", function (this: Suite) {
 
         try {
           await database.containers.create(containerDefinition);
-          console.log("finish");
+          assert.fail(
+            `Container Creation should have failed, for partitionkey: ${badPartitionKeyDefinition}`
+          );
         } catch (err: any) {
           assert.equal(err.message, "Partition key must start with '/'");
         }
@@ -216,7 +248,9 @@ describe("Containers", function (this: Suite) {
 
         try {
           await database.containers.create(containerDefinition);
-          console.log("finish");
+          assert.fail(
+            `Container Creation should have failed, for partitionkey: ${badPartitionKeyDefinition}`
+          );
         } catch (err: any) {
           assert.strictEqual(
             true,
@@ -439,14 +473,14 @@ describe("createIfNotExists", function () {
     database = await getTestDatabase("containers.createIfNotExists");
   });
 
-  it("should handle container does not exist", async function () {
+  it("create container should work if container does not already exist", async function () {
     const def: ContainerDefinition = { id: "does not exist" };
     const { container } = await database.containers.createIfNotExists(def);
     const { resource: readDef } = await container.read();
     assert.equal(def.id, readDef.id);
   });
 
-  it("should handle container exists", async function () {
+  it("create container should work if container already exists", async function () {
     const def: ContainerDefinition = { id: "does exist" };
     await database.containers.create(def);
 
@@ -455,7 +489,7 @@ describe("createIfNotExists", function () {
     assert.equal(def.id, readDef.id);
   });
 
-  it("should handle container does not exist - hierarchical partitions", async function () {
+  it("create container should work if container does not exist - with hierarchical partitions", async function () {
     const def: ContainerDefinition = {
       id: "does not exist hierarchical partitions",
       partitionKey: {
@@ -469,7 +503,7 @@ describe("createIfNotExists", function () {
     assert.equal(def.id, readDef.id);
   });
 
-  it("should handle container exists  - hierarchical partitions", async function () {
+  it("create container should work if container already exists - with hierarchical partitions", async function () {
     const def: ContainerDefinition = {
       id: "does exist hierarchical partitions",
       partitionKey: {

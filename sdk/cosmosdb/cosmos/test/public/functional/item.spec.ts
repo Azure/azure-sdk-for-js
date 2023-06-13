@@ -578,7 +578,7 @@ describe("bulk/batch item operations", async function () {
           assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`)
         );
       });
-      it("Check case when cumulative size of all operations is greater than threshold", async function () {
+      it("Check case when cumulative size of all operations is greater than threshold - payload size is 5x threshold", async function () {
         const operations: OperationInput[] = [...Array(10).keys()].map(
           () =>
             ({
@@ -594,7 +594,7 @@ describe("bulk/batch item operations", async function () {
           assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`)
         );
       });
-      it("Check case when cumulative size of all operations is greater than threshold", async function () {
+      it("Check case when cumulative size of all operations is greater than threshold - payload size is 25x threshold", async function () {
         const operations: OperationInput[] = [...Array(50).keys()].map(
           () =>
             ({
