@@ -57,7 +57,7 @@ For detailed instructions on how to enable logs, see the [@azure/logger package 
 
 Azure Monitor Ingestion supports Azure Active Directory authentication. Credentials can be passed through the `LogsIngestionClient` constructor. To provide a valid credential, you can use the `@aazure/identity` library. For more information on getting started, see the [README](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-ingestion#authenticate-the-client) of the Azure Monitor Ingestion library. For more information on the various types of credential supported in `@azure/identity`, see the [Azure Identity documentation](https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest).
 
-For more help on troubleshooting authentication errors, see the Azure Identity client library [troubleshooting guide](https://aka.ms/azsdk/js/identity/troubleshoot).
+For more help on troubleshooting authentication errors, see the Azure Identity library [troubleshooting guide](https://aka.ms/azsdk/js/identity/troubleshoot).
 
 ## Troubleshooting logs ingestion
 
