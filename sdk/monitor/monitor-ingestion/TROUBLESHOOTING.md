@@ -51,7 +51,7 @@ setLogLevel("info");
 
 **NOTE**: When logging the body of request and response, ensure they don't contain confidential information. We already sanitize headers like `Authorization` that contain secrets.
 
-For detailed instructions on how to enable logs, see the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
+For detailed instructions on how to enable logs, see the [Azure Logger library docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
 ### Authentication errors
 
