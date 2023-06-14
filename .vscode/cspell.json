@@ -281,7 +281,7 @@
       ]
     },
     {
-      "filename": "sdl/communication/communication-call-automation/review/**/*.md",
+      "filename": "sdk/communication/communication-call-automation/review/**/*.md",
       "words": [
         "ssml",
         "Ssml"
