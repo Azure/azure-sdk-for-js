@@ -16,7 +16,6 @@ import createClient, {
     DocumentContent,
     GeographicLocation,
     getLongRunningPoller,
-    isUnexpected,
     MatchTrialsParameters,
     PatientDocument,
     PatientInfo,
@@ -45,6 +44,14 @@ function printResults(trialMatcherResult: TrialMatcherResultOutput): void {
               console.log(`Trial Id ${tmInferences.id}`);
               console.log(`Type: ${String(tmInferences.type)}  Value: ${tmInferences.value}`);
               console.log(`Description ${tmInferences.description}`);
+          }
+      }
+  }
+    else {
+      const errors = trialMatcherResult.errors;
+      if (errors) {
+          for (const error of errors) {
+              console.log('${error.code} ":" ${error.message}');
           }
       }
   }
@@ -237,7 +244,7 @@ export async function main() {
     throw initialResponse;
   }*/
   const poller = await getLongRunningPoller(client, initialResponse);
-  const res = await poller.pollUntilDone();
+  const trialMatcherResult = await poller.pollUntilDone();
   if (trialMatcherResult.status === "200") {
     const resultBody = trialMatcherResult.body as TrialMatcherResultOutput;
     printResults(resultBody);

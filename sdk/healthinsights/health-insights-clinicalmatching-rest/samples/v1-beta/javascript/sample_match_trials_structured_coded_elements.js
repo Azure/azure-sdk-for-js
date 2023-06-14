@@ -12,7 +12,7 @@ const { AzureKeyCredential } = require("@azure/core-auth");
 // Load the .env file if it exists
 const dotenv = require("dotenv");
 const createClient = require("../src").default,
-  { getLongRunningPoller } = require("../src");
+  { getLongRunningPoller, isUnexpected } = require("../src");
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
@@ -31,6 +31,13 @@ function printResults(trialMatcherResult) {
         console.log(`Trial Id ${tmInferences.id}`);
         console.log(`Type: ${String(tmInferences.type)}  Value: ${tmInferences.value}`);
         console.log(`Description ${tmInferences.description}`);
+      }
+    }
+  } else {
+    const errors = trialMatcherResult.errors;
+    if (errors) {
+      for (const error of errors) {
+        console.log('${error.code} ":" ${error.message}');
       }
     }
   }
@@ -147,15 +154,16 @@ async function main() {
   };
 
   const initialResponse = await client.path("/trialmatcher/jobs").post(trialMatcherParameter);
+  if (isUnexpected(initialResponse)) {
+    throw initialResponse;
+  }
   const poller = await getLongRunningPoller(client, initialResponse);
   const trialMatcherResult = await poller.pollUntilDone();
-  /*  if (isUnexpected(trialMatcherResult)) {
-          throw initialResponse;
-        }*/
-  if (trialMatcherResult.status === "200") {
-    const resultBody = trialMatcherResult.body;
-    printResults(resultBody);
+  if (isUnexpected(trialMatcherResult)) {
+    throw trialMatcherResult;
   }
+  const resultBody = trialMatcherResult.body;
+  printResults(resultBody);
 }
 
 main().catch((err) => {

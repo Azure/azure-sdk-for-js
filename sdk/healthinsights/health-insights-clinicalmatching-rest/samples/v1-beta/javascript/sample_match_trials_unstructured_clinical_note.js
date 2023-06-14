@@ -34,6 +34,13 @@ function printResults(trialMatcherResult) {
         console.log(`Description ${tmInferences.description}`);
       }
     }
+  } else {
+    const errors = trialMatcherResult.errors;
+    if (errors) {
+      for (const error of errors) {
+        console.log('${error.code} ":" ${error.message}');
+      }
+    }
   }
 }
 
@@ -229,7 +236,7 @@ async function main() {
         throw initialResponse;
       }*/
   const poller = await getLongRunningPoller(client, initialResponse);
-  const res = await poller.pollUntilDone();
+  const trialMatcherResult = await poller.pollUntilDone();
   if (trialMatcherResult.status === "200") {
     const resultBody = trialMatcherResult.body;
     printResults(resultBody);

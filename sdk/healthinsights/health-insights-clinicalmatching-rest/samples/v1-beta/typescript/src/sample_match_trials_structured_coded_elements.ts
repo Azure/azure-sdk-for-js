@@ -38,6 +38,14 @@ function printResults(trialMatcherResult: TrialMatcherResultOutput): void {
           }
       }
   }
+  else {
+      const errors = trialMatcherResult.errors;
+      if (errors) {
+          for (const error of errors) {
+              console.log('${error.code} ":" ${error.message}');
+          }
+      }
+  }
 }
 
 export async function main() {
@@ -147,15 +155,16 @@ export async function main() {
   };
 
   const initialResponse = await client.path("/trialmatcher/jobs").post(trialMatcherParameter);
+  if (isUnexpected(initialResponse)) {
+    throw initialResponse;
+  }
   const poller = await getLongRunningPoller(client, initialResponse);
   const trialMatcherResult = await poller.pollUntilDone();
-/*  if (isUnexpected(trialMatcherResult)) {
-      throw initialResponse;
-    }*/
-  if (trialMatcherResult.status === "200") {
-    const resultBody = trialMatcherResult.body as TrialMatcherResultOutput;
-    printResults(resultBody);
+  if (isUnexpected(trialMatcherResult)) {
+    throw trialMatcherResult;
   }
+  const resultBody = trialMatcherResult.body as TrialMatcherResultOutput;
+  printResults(resultBody);
 }
 
 main().catch((err) => {
