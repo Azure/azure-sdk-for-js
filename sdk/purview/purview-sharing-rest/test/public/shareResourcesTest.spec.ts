@@ -22,17 +22,18 @@ describe("Share Resources Operations", () => {
 
   it("List all Share Resources", async function () {
     const response = await client.path("/shareResources").get();
-    const pageData = paginate(client, response);
 
     assert.strictEqual(response.status, "200");
     if (isUnexpected(response)) {
       throw response.body.error;
     }
 
+    const pageData = paginate(client, response);
+
     const result: ShareResourceOutput[] = [];
 
     for await (const item of pageData) {
-      const shareResource = item as ShareResourceOutput;
+      const shareResource = item;
       result.push(shareResource);
     }
 
