@@ -26,26 +26,33 @@ import createClient, {
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
-
-const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "https://eastus.api.cognitive.microsoft.com";
+const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
 
 function printResults(cancerProfilingResult: OncoPhenotypeResultOutput): void {
     if (cancerProfilingResult.status === "succeeded") {
-      const results = cancerProfilingResult.results as OncoPhenotypeResultsOutput;
-      const patients = results.patients;
-      for (const patientResult of patients) {
-          console.log(`Inferences of Patient ${patientResult.id}`);
-          for (const inferences of patientResult.inferences) {
-              console.log(`Clinical Type: ${String(inferences.type)} Value: ${inferences.value}, ConfidenceScore: ${inferences.confidenceScore}`);
-/*              for (const evidence of inferences.evidence) {
-                  let dataEvidence = evidence.patientDataEvidence;
-                  console.log(`Evidence: ${dataEvidence.id} ${dataEvidence.offset} ${dataEvidence.length} ${dataEvidence.text}`);
-              }*/
-          }
-      }
-  }
+        const results = cancerProfilingResult.results as OncoPhenotypeResultsOutput;
+        const patients = results.patients;
+        for (const patientResult of patients) {
+            console.log(`Inferences of Patient ${patientResult.id}`);
+            for (const inferences of patientResult.inferences) {
+                console.log(`Clinical Type: ${String(inferences.type)} Value: ${inferences.value}, ConfidenceScore: ${inferences.confidenceScore}`);
+    /*              for (const evidence of inferences.evidence) {
+                      let dataEvidence = evidence.patientDataEvidence;
+                      console.log(`Evidence: ${dataEvidence.id} ${dataEvidence.offset} ${dataEvidence.length} ${dataEvidence.text}`);
+                  }*/
+            }
+        }
+    } else {
+        const errors = cancerProfilingResult.errors;
+        if (errors) {
+            for (const error of errors) {
+                console.log('${error.code} ":" ${error.message}');
+            }
+        }
+    }
 }
+
 
 export async function main() {
     const credential = new AzureKeyCredential(apiKey);
@@ -186,16 +193,18 @@ export async function main() {
         body: cancerProfilingData
     };
 
-    const initialResponse = await client.path("/oncophenotype/jobs").post(parameters);
-/*  if (isUnexpected(initialResponse)) {
+  const initialResponse = await client.path("/oncophenotype/jobs").post(parameters);
+  /*if (isUnexpected(initialResponse)) {
     throw initialResponse;
   }*/
   const poller = await getLongRunningPoller(client, initialResponse);
   const cancerProfilingResult = await poller.pollUntilDone();
-  if (cancerProfilingResult.status === "200") {
-      const resultBody = cancerProfilingResult.body as OncoPhenotypeResultOutput;
-      printResults(resultBody);
-  }
+  /*if (isUnexpected(cancerProfilingResult)) {
+    throw initialResponse;
+  }*/
+  const resultBody = cancerProfilingResult.body as OncoPhenotypeResultOutput;
+  printResults(resultBody);
+
 }
 
 main().catch((err) => {

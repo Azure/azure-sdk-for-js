@@ -38,6 +38,14 @@ function printResults(trialMatcherResult: TrialMatcherResultOutput): void {
           }
       }
   }
+  else {
+      const errors = trialMatcherResult.errors;
+      if (errors) {
+          for (const error of errors) {
+              console.log('${error.code} ":" ${error.message}');
+          }
+      }
+  }
 }
 
 export async function main() {

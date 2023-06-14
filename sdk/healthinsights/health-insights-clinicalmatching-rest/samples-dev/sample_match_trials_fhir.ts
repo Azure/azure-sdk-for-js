@@ -53,6 +53,14 @@ function printResults(trialMatcherResult: TrialMatcherResultOutput): void {
           }
       }
   }
+    else {
+      const errors = trialMatcherResult.errors;
+      if (errors) {
+          for (const error of errors) {
+              console.log('${error.code} ":" ${error.message}');
+          }
+      }
+  }
 }
 
 export async function main() {
@@ -140,11 +148,11 @@ export async function main() {
   const initialResponse = await client.path("/trialmatcher/jobs").post(trialMatcherParameter);
   const poller = await getLongRunningPoller(client, initialResponse);
   const res = await poller.pollUntilDone();
+
 /*  if (isUnexpected(res)) {
       throw initialResponse;
   }*/
     if (res.status == '200') {
-        console.log(res);
         const resultBody = res.body as TrialMatcherResultOutput;
         printResults(resultBody);
   }

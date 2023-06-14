@@ -45,10 +45,34 @@ AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 The Cancer Profiling model allows you to infer cancer attributes such as tumor site, histology, clinical stage TNM categories and pathologic stage TNM categories from unstructured clinical documents.
 
 ## Examples
+- [Infer Cancer Profiling](#cancer_profiling)
+
 ```typescript
 const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
 const endpoint =
   process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
+
+const poller = await getLongRunningPoller(client, initialResponse);
+  const cancerProfilingResult = await poller.pollUntilDone();
+  if (isUnexpected(cancerProfilingResult)) {
+    throw initialResponse;
+  }
+  const resultBody = cancerProfilingResult.body as OncoPhenotypeResultOutput;
+  
+  if (resultBody.status === "succeeded") {
+      const results = resultBody.results as OncoPhenotypeResultsOutput;
+      const patients = results.patients;
+      for (const patientResult of patients) {
+          console.log(`Inferences of Patient ${patientResult.id}`);
+          for (const inferences of patientResult.inferences) {
+              console.log(`Clinical Type: ${String(inferences.type)} Value: ${inferences.value}, ConfidenceScore: ${inferences.confidenceScore}`);
+              for (const evidence of inferences.evidence) {
+                  let dataEvidence = evidence.patientDataEvidence;
+                  console.log(`Evidence: ${dataEvidence.id} ${dataEvidence.offset} ${dataEvidence.length} ${dataEvidence.text}`);
+              }
+          }
+      }
+  }
 ```
 
 ## Troubleshooting
