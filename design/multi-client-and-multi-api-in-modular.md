@@ -163,7 +163,7 @@ In this context, client.tsp means the entrance for TypeSpec compilation. @client
 
 In order to identify all possible scenarios, I have tried to use combination methodology, you may read the below details part from more context, but the result turns out LoadTesting case and Purview case are all the possible ones.
 
-<details open></summary>How to identify all possible scenarios</summary>
+<details close></summary>How to identify all possible scenarios</summary>
 
 In order to cover as much cases as possible, we will need to identify all possible scenarios. But if we are trying to do that in the way of summarizing of all the cases we have met, this never ends. Because we don't know if the next one will be using something different, and we will be unprepared. However, we can take from the describe ability that TypeSpec can provide perspective, because as long as the service is described with TypeSpec, it can not go beyond the scope.
 
@@ -324,7 +324,7 @@ _NOTES:_ in this case, the path name in the rest related expports and api relate
      Another concern about default client is, if we use to have both sub clients exported, and now we want to set one set default client, this will be a breaking change. Unless, we don't export anything to the top level at all.
   1. If we choose to export both of them, we will need to consider about shared models.
   1. how about keep the code as `src/account/api` but export it as `./api/account` in the Option 1.
-  1. want to confirm about the `src/rest/index.ts`.
+  1. want to confirm about the `src/rest/index.ts` in [Purview](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-administration-rest/src/index.ts) case.
 
 ## Multi-Api in Modular
 
