@@ -6,25 +6,24 @@ As you may know our JS next generation library [Modular](https://github.com/Azur
 
 This document is going to talk about what the multi-client and multi-api for our Modular would look like. we will introduce it from:
 
-1. What's our **_Design Principals_**.
-1. How the **_Eariler Design_** looks like and what kinds of problem it might cause.
-1. What our **_Proposals_** for the multi-client is.
-1. How each proposal looks like in different scenarios of **_Multi-Client in Modular_**
-1. We will also talk about how **_Multi-Api in Modular_** should look like both in single client and multi-client case.
-1. Finally, we have some questions that may not be related to multi-client and multi-api but are related with the Modular to discuss.
+1. Our **_Design Principal_**.
+1. The **_Previous Design_** and its potential issue.
+1. Our **_Proposals_** for the multi-client case.
+1. The **_Comparison of Our Proposals_** in various scenarios of multi-client in modular.
+1. The **_Best Practices for Multi-Api in Modular_**, both for single client and multi-client cases.
+1. Some other issues related to modular that we want to discuss.
 
-## Design Principals
+## Design Principal
 
-1. To generate N packages if we need N times of TypeSpec compilations.  
-   This means, we respect the package boundaries that are defined by the client.tsp. if there're N client.tsp files, no matter where those N client.tsp files point to, we will generate N packages.
-1. For RLC, only generate one sub client per each service endpoint.  
-   This means, in terms of RLC, we only split it into multi-client where there're multi endpoints from one compilation i.e. the @service decorators. If the multiple sub clients is divided because they are going to have different version evolving strategy, RLC will only honor it when that api version parameter is in the parameterized host. Otherwise, it doesn't make any differences to RLC if it's version v1 or version v2. A case in point would be our [RLC for compute management plane](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/compute/arm-compute-rest).
+**_Only one client per service endpoint is allowed for RLC._**  
+This means, in terms of RLC, we only split it into multi-client where there're multi endpoints from one compilation i.e. the @service decorators. If the multiple sub clients is divided because they are going to have different version evolving strategy, RLC will only honor it when that api version parameter is in the parameterized host. Otherwise, it doesn't make any differences to RLC if it's version v1 or version v2. A case in point would be our [RLC for compute management plane](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/compute/arm-compute-rest).
 
 - Questions related:
   1. Is this a valid case where we use different @server decorator to point to the same endpoint.  
      [cadl playground link](https://cadlplayground.z22.web.core.windows.net/cadl-azure/?c=aW1wb3J0ICJAdHlwZXNwZWMvcmVzdCI7CskZYXp1cmUtdG9vbHMvyCUtxhVjb3Jl3ytjLWNsaWVudC1nZW5lcmF0b3LINgp1c2luZyBUeXBlU3BlYy5IdHRwO9AVUmVzdMgVQcReLkNvcmXPEsVhR8hg0URWZXJzaW9uaW5nOwoKQHNlcnZpY2UoewogIHRpdGxlOiAiTXVsdGnGRyIsCiAgdsYyOiAiMS4wLjAiLAp9KQpAdXNlRGVwZW5kZW5jeSjHfG9yZchhcy52MV8wX1ByZXZpZXdfMSkKQGRvYygixSogSGVhbHRoIEluc2lnaHRzIHByb3ZpZGVzIGFuIEFQSSB0aGF0IOQAnWVzIGnGJSBtb2RlbHMsIOQBSGlmaWMgZm9yyEkmIExpZmUgU2NpZW5jZXMsxkFwZXJmb3JtIGFuYWx5c2nEXmTIayBpbmZlcsUuIHRvIGJlIHVzZWQgYnkgYSBodW1hbi4iKeYBIGVyKAogICJ7ZW5kcG9pbnR9L2jFdecAmHPlASX%2FANj%2FANj%2FANj%2FANj%2FANjxANjkALDkAfEgIOYBk1N1cOQCs2VkIENvZ25pdGl2ZSBT5gIZcyDoAPZzIChwcm90b2NvbMVvaG9zdG5hbWUs5QCvZXhhbXDkAj5odHRwczovL3dlc3R1czIuYXBpLmPIVi5taWNyb3NvZnQuY29tKeQBYuQAhshjOiB1cmzkAJ19CikKxFxzcGFjZSBDYWRsLusClSB7CgovLyBvcOQC4mlvbiDwAxEKIOYBVCBSZXNvdXJjZegA7nZpc2liaWxpdHkoInJlYWTnAIBpZDogc3Ry5gMTxSlrZXnGCXNlZ21lbnTEL8ZLc8c02EzkALfKTsQSZGVzY3JpcOQAqj%2FOGuQEFcwSfcR%2B7gC6QXJyYXkgaXPJEVtd5QCkQPUD7eYDgeYEY%2BUD0%2BgAkCJGb2%2FrA9Ig5QKDaWNlOvEBXcQffeQAy0Byb3V0ZSgiL2NhZGwtZm9v5QDh5gIxxDUgRscTaW50ZXJm5AGpRm9vT3DtAlpDcmVhdOQC%2FiBuZXcg6AFEIG9yIHVwZMYabiBleGlzdOQBwm9uZegCE2PFOU9yVcUn7AEBxlNPclJlcGxhY2U8yBg%2B6AG8xXlHZXRzIHRoZSBkZXRhaWxzIG9mIGHpAIHIZmdldMxbUmVhZNdQRGVsZeYAydBEZMUazEfGLNdJTGlz5wCa6QD3yFJzyFNsaXPtAJjENMxP5AIqff8FvWVudDH%2FBb7%2FBb7%2FBb7%2FBOb%2FBOb%2FBOb%2FBOb%2FBOb%2FBb7%2FBb7%2FANj%2FANj%2FANj%2FANj%2FANj%2FBb7%2FBb7%2FBb7%2FBb7%2FBb7%2FBb7rApYge%2BQFvmJpbmFyef8FyCAgQGZyaWVuZGx5TmFtZSgi6AMFMcV8%2FwXl%2FwXl%2FwXl3Ez%2FBeX%2FBeX%2FBeXnBeUvL%2BQEGXBvbnNlIHdpdGggaGVhZGVyc%2F8F%2FfQF%2FUJhcv8F%2FegBnOoF%2FuUCW0JhcuYF9u0GDGLHFuoF%2BUJhcuoF%2BcgsZ2V0LeYB5ugBTmdldOgFd0LFGSgpOiBPa1LoAOcmx0MgIEDmAO0oImNvbnTkCzDkAUYiKSDHD%2BQKzTogImltYWdlL3BuZyLmAWsgIEBib2R5IMQFOiBieXRlc8YZfecB82dldOUBbMR47QF9xyDqAOjlBmUt5AF4LecBeOgAxXB15gDFxiNXaXRoSMYhxFXmBp1k%2FADS6QLvLWxvY8UJx1og6gMKTMca6gCmyBLxBlbnAPTHDMQLyjXuAP3pAN3mBrL1AN3GG%2BsG2O8A4E5vQ%2BYBgv8A4v8A4v8A4usG6eUAv%2BYG8A%3D%3D)
+  1. What's the correct definition of service endpoint?
 
-## Earlier Design
+## Previous Design
 
 ```text
 Default Client or Both Exported
@@ -110,7 +109,7 @@ ClientB
 
 From the above two proposal, I prefer proposal 2, because:
 
-1. It gives me a feeling of consistency.
+1. Option 2 conveys a sense of consistency to me.  
 
    ```text
    Classical Client
@@ -129,12 +128,12 @@ From the above two proposal, I prefer proposal 2, because:
    @azure/foo/rest/clientB
    ```
 
-1. With the Option 2, we tell our customers that both the classical client and the api layer and the rest layer are equally important. This is also align with our concepts about Modular. which are:
+1. Options 2 shows our customers that we value the classical client and the api layer and the rest layer equally. This is also consistent with our modular concepts. which are:
    1. For customers who cares about bundle size very much, they can choose to use rest layer
    1. For customers who cares about bundle size but also would like to have a better user experience with a minimal sacrifice of the bundle size, they can choose to use the api layer.
    1. For customers who are familiar with the classical client, don't want to change their code, and care less about bundle size, they can choose to use the classical client layer.
 1. With the Option 1, `./clientA/api`, it gives me more of a feeling that those are internal apis provided by the clientA.
-1. Psycologically, we have already export the classical client to the top level, if customer is typing `./api`, apparently, he or she wants something different, and if he or she really wants to limit the usage within some sub client, `./api/clientA` is more reasonable to them.
+1. Psycologically, we have already exposed the classical client to the top level, if customer is typing `./api`, apparently, he or she would expect something different, and if he or she really wants to restrict the usage to some sub client, `./api/clientA` would make more sense to them.
 1. From customization perspective, in the case that modular layer is a multi-client case and RLC layer is single-client, and we will need to add some manual code support scenarios accross different sub clients.  
    With Option 2, our code structure would look like:
 
@@ -155,7 +154,7 @@ From the above two proposal, I prefer proposal 2, because:
 
    if we add the manual code in the `src/api` folder, it's kind of weird.
 
-## Multi-Client in Modular
+## Comparison of Our Proposals
 
 ### Identify Scenarios
 
@@ -326,7 +325,7 @@ _NOTES:_ in this case, the path name in the rest related expports and api relate
   1. how about keep the code as `src/account/api` but export it as `./api/account` in the Option 1.
   1. want to confirm about the `src/rest/index.ts` in [Purview](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-administration-rest/src/index.ts) case.
 
-## Multi-Api in Modular
+## Best Practices for Multi-Api in Modular
 
 Some proposed design guideline related with the [multi-api guideline](https://github.com/Azure/azure-sdk/pull/6206/files#diff-392938583d748d4b75dcde737420ce39bb9a2ef56200804841e591b2b777962dR116)
 
