@@ -1,5 +1,24 @@
 # Release History
     
+## 10.1.0-beta.1 (2023-06-14)
+    
+**Features**
+
+  - Added operation FailoverGroups.beginTryPlannedBeforeForcedFailover
+  - Added operation FailoverGroups.beginTryPlannedBeforeForcedFailoverAndWait
+  - Added Interface FailoverGroupsTryPlannedBeforeForcedFailoverHeaders
+  - Added Interface FailoverGroupsTryPlannedBeforeForcedFailoverOptionalParams
+  - Added Type Alias FailoverGroupsTryPlannedBeforeForcedFailoverResponse
+  - Interface ElasticPool has a new optional parameter availabilityZone
+  - Interface ElasticPool has a new optional parameter minCapacity
+  - Interface ElasticPool has a new optional parameter preferredEnclaveType
+  - Interface ElasticPoolUpdate has a new optional parameter availabilityZone
+  - Interface ElasticPoolUpdate has a new optional parameter minCapacity
+  - Interface ElasticPoolUpdate has a new optional parameter preferredEnclaveType
+  - Interface ManagedDatabase has a new optional parameter isLedgerOn
+  - Interface ManagedDatabaseUpdate has a new optional parameter isLedgerOn
+    
+    
 ## 10.0.0 (2023-03-22)
     
 **Features**

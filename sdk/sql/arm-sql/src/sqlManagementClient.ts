@@ -34,7 +34,6 @@ import {
   DeletedServersImpl,
   ElasticPoolOperationsImpl,
   EncryptionProtectorsImpl,
-  FailoverGroupsImpl,
   FirewallRulesImpl,
   InstancePoolsImpl,
   JobAgentsImpl,
@@ -112,7 +111,6 @@ import {
   ServerConnectionPoliciesImpl,
   DistributedAvailabilityGroupsImpl,
   ServerTrustCertificatesImpl,
-  IPv6FirewallRulesImpl,
   EndpointCertificatesImpl,
   ManagedDatabaseSensitivityLabelsImpl,
   ManagedDatabaseRecommendedSensitivityLabelsImpl,
@@ -149,8 +147,8 @@ import {
   VirtualClustersImpl,
   InstanceFailoverGroupsImpl,
   ManagedDatabaseRestoreDetailsImpl,
-  ManagedDatabasesImpl,
   DatabaseEncryptionProtectorsImpl,
+  ManagedDatabasesImpl,
   ManagedInstancesImpl,
   ManagedLedgerDigestUploadsOperationsImpl,
   RecoverableDatabasesImpl,
@@ -158,7 +156,9 @@ import {
   ServerConfigurationOptionsImpl,
   ServersImpl,
   StartStopManagedInstanceSchedulesImpl,
-  TransparentDataEncryptionsImpl
+  TransparentDataEncryptionsImpl,
+  FailoverGroupsImpl,
+  IPv6FirewallRulesImpl
 } from "./operations";
 import {
   DataMaskingPolicies,
@@ -185,7 +185,6 @@ import {
   DeletedServers,
   ElasticPoolOperations,
   EncryptionProtectors,
-  FailoverGroups,
   FirewallRules,
   InstancePools,
   JobAgents,
@@ -263,7 +262,6 @@ import {
   ServerConnectionPolicies,
   DistributedAvailabilityGroups,
   ServerTrustCertificates,
-  IPv6FirewallRules,
   EndpointCertificates,
   ManagedDatabaseSensitivityLabels,
   ManagedDatabaseRecommendedSensitivityLabels,
@@ -300,8 +298,8 @@ import {
   VirtualClusters,
   InstanceFailoverGroups,
   ManagedDatabaseRestoreDetails,
-  ManagedDatabases,
   DatabaseEncryptionProtectors,
+  ManagedDatabases,
   ManagedInstances,
   ManagedLedgerDigestUploadsOperations,
   RecoverableDatabases,
@@ -309,7 +307,9 @@ import {
   ServerConfigurationOptions,
   Servers,
   StartStopManagedInstanceSchedules,
-  TransparentDataEncryptions
+  TransparentDataEncryptions,
+  FailoverGroups,
+  IPv6FirewallRules
 } from "./operationsInterfaces";
 import { SqlManagementClientOptionalParams } from "./models";
 
@@ -344,7 +344,7 @@ export class SqlManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-sql/10.0.0`;
+    const packageDetails = `azsdk-js-arm-sql/10.1.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -435,7 +435,6 @@ export class SqlManagementClient extends coreClient.ServiceClient {
     this.deletedServers = new DeletedServersImpl(this);
     this.elasticPoolOperations = new ElasticPoolOperationsImpl(this);
     this.encryptionProtectors = new EncryptionProtectorsImpl(this);
-    this.failoverGroups = new FailoverGroupsImpl(this);
     this.firewallRules = new FirewallRulesImpl(this);
     this.instancePools = new InstancePoolsImpl(this);
     this.jobAgents = new JobAgentsImpl(this);
@@ -575,7 +574,6 @@ export class SqlManagementClient extends coreClient.ServiceClient {
       this
     );
     this.serverTrustCertificates = new ServerTrustCertificatesImpl(this);
-    this.iPv6FirewallRules = new IPv6FirewallRulesImpl(this);
     this.endpointCertificates = new EndpointCertificatesImpl(this);
     this.managedDatabaseSensitivityLabels = new ManagedDatabaseSensitivityLabelsImpl(
       this
@@ -666,10 +664,10 @@ export class SqlManagementClient extends coreClient.ServiceClient {
     this.managedDatabaseRestoreDetails = new ManagedDatabaseRestoreDetailsImpl(
       this
     );
-    this.managedDatabases = new ManagedDatabasesImpl(this);
     this.databaseEncryptionProtectors = new DatabaseEncryptionProtectorsImpl(
       this
     );
+    this.managedDatabases = new ManagedDatabasesImpl(this);
     this.managedInstances = new ManagedInstancesImpl(this);
     this.managedLedgerDigestUploadsOperations = new ManagedLedgerDigestUploadsOperationsImpl(
       this
@@ -682,6 +680,8 @@ export class SqlManagementClient extends coreClient.ServiceClient {
       this
     );
     this.transparentDataEncryptions = new TransparentDataEncryptionsImpl(this);
+    this.failoverGroups = new FailoverGroupsImpl(this);
+    this.iPv6FirewallRules = new IPv6FirewallRulesImpl(this);
   }
 
   dataMaskingPolicies: DataMaskingPolicies;
@@ -708,7 +708,6 @@ export class SqlManagementClient extends coreClient.ServiceClient {
   deletedServers: DeletedServers;
   elasticPoolOperations: ElasticPoolOperations;
   encryptionProtectors: EncryptionProtectors;
-  failoverGroups: FailoverGroups;
   firewallRules: FirewallRules;
   instancePools: InstancePools;
   jobAgents: JobAgents;
@@ -786,7 +785,6 @@ export class SqlManagementClient extends coreClient.ServiceClient {
   serverConnectionPolicies: ServerConnectionPolicies;
   distributedAvailabilityGroups: DistributedAvailabilityGroups;
   serverTrustCertificates: ServerTrustCertificates;
-  iPv6FirewallRules: IPv6FirewallRules;
   endpointCertificates: EndpointCertificates;
   managedDatabaseSensitivityLabels: ManagedDatabaseSensitivityLabels;
   managedDatabaseRecommendedSensitivityLabels: ManagedDatabaseRecommendedSensitivityLabels;
@@ -823,8 +821,8 @@ export class SqlManagementClient extends coreClient.ServiceClient {
   virtualClusters: VirtualClusters;
   instanceFailoverGroups: InstanceFailoverGroups;
   managedDatabaseRestoreDetails: ManagedDatabaseRestoreDetails;
-  managedDatabases: ManagedDatabases;
   databaseEncryptionProtectors: DatabaseEncryptionProtectors;
+  managedDatabases: ManagedDatabases;
   managedInstances: ManagedInstances;
   managedLedgerDigestUploadsOperations: ManagedLedgerDigestUploadsOperations;
   recoverableDatabases: RecoverableDatabases;
@@ -833,4 +831,6 @@ export class SqlManagementClient extends coreClient.ServiceClient {
   servers: Servers;
   startStopManagedInstanceSchedules: StartStopManagedInstanceSchedules;
   transparentDataEncryptions: TransparentDataEncryptions;
+  failoverGroups: FailoverGroups;
+  iPv6FirewallRules: IPv6FirewallRules;
 }

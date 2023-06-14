@@ -1121,143 +1121,6 @@ export const EncryptionProtectorListResult: coreClient.CompositeMapper = {
   }
 };
 
-export const FailoverGroupReadWriteEndpoint: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "FailoverGroupReadWriteEndpoint",
-    modelProperties: {
-      failoverPolicy: {
-        serializedName: "failoverPolicy",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      failoverWithDataLossGracePeriodMinutes: {
-        serializedName: "failoverWithDataLossGracePeriodMinutes",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const FailoverGroupReadOnlyEndpoint: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "FailoverGroupReadOnlyEndpoint",
-    modelProperties: {
-      failoverPolicy: {
-        serializedName: "failoverPolicy",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PartnerInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PartnerInfo",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      location: {
-        serializedName: "location",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      replicationRole: {
-        serializedName: "replicationRole",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const FailoverGroupUpdate: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "FailoverGroupUpdate",
-    modelProperties: {
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
-      readWriteEndpoint: {
-        serializedName: "properties.readWriteEndpoint",
-        type: {
-          name: "Composite",
-          className: "FailoverGroupReadWriteEndpoint"
-        }
-      },
-      readOnlyEndpoint: {
-        serializedName: "properties.readOnlyEndpoint",
-        type: {
-          name: "Composite",
-          className: "FailoverGroupReadOnlyEndpoint"
-        }
-      },
-      databases: {
-        serializedName: "properties.databases",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const FailoverGroupListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "FailoverGroupListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "FailoverGroup"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const ResourceWithWritableName: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5999,35 +5862,6 @@ export const ServerTrustCertificatesListResult: coreClient.CompositeMapper = {
   }
 };
 
-export const IPv6FirewallRuleListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "IPv6FirewallRuleListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "IPv6FirewallRule"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const EndpointCertificateListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -7317,237 +7151,6 @@ export const ManagedDatabaseRestoreDetailsUnrestorableFileProperties: coreClient
   }
 };
 
-export const ManagedDatabaseListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedDatabaseListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ManagedDatabase"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ManagedDatabaseUpdate: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedDatabaseUpdate",
-    modelProperties: {
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
-      collation: {
-        serializedName: "properties.collation",
-        type: {
-          name: "String"
-        }
-      },
-      status: {
-        serializedName: "properties.status",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      creationDate: {
-        serializedName: "properties.creationDate",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      earliestRestorePoint: {
-        serializedName: "properties.earliestRestorePoint",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      restorePointInTime: {
-        serializedName: "properties.restorePointInTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      defaultSecondaryLocation: {
-        serializedName: "properties.defaultSecondaryLocation",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      catalogCollation: {
-        serializedName: "properties.catalogCollation",
-        type: {
-          name: "String"
-        }
-      },
-      createMode: {
-        serializedName: "properties.createMode",
-        type: {
-          name: "String"
-        }
-      },
-      storageContainerUri: {
-        serializedName: "properties.storageContainerUri",
-        type: {
-          name: "String"
-        }
-      },
-      sourceDatabaseId: {
-        serializedName: "properties.sourceDatabaseId",
-        type: {
-          name: "String"
-        }
-      },
-      crossSubscriptionSourceDatabaseId: {
-        serializedName: "properties.crossSubscriptionSourceDatabaseId",
-        type: {
-          name: "String"
-        }
-      },
-      restorableDroppedDatabaseId: {
-        serializedName: "properties.restorableDroppedDatabaseId",
-        type: {
-          name: "String"
-        }
-      },
-      crossSubscriptionRestorableDroppedDatabaseId: {
-        serializedName:
-          "properties.crossSubscriptionRestorableDroppedDatabaseId",
-        type: {
-          name: "String"
-        }
-      },
-      storageContainerIdentity: {
-        serializedName: "properties.storageContainerIdentity",
-        type: {
-          name: "String"
-        }
-      },
-      storageContainerSasToken: {
-        serializedName: "properties.storageContainerSasToken",
-        type: {
-          name: "String"
-        }
-      },
-      failoverGroupId: {
-        serializedName: "properties.failoverGroupId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      recoverableDatabaseId: {
-        serializedName: "properties.recoverableDatabaseId",
-        type: {
-          name: "String"
-        }
-      },
-      longTermRetentionBackupResourceId: {
-        serializedName: "properties.longTermRetentionBackupResourceId",
-        type: {
-          name: "String"
-        }
-      },
-      autoCompleteRestore: {
-        serializedName: "properties.autoCompleteRestore",
-        type: {
-          name: "Boolean"
-        }
-      },
-      lastBackupName: {
-        serializedName: "properties.lastBackupName",
-        type: {
-          name: "String"
-        }
-      },
-      crossSubscriptionTargetManagedInstanceId: {
-        serializedName: "properties.crossSubscriptionTargetManagedInstanceId",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ManagedDatabaseMoveDefinition: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedDatabaseMoveDefinition",
-    modelProperties: {
-      destinationManagedDatabaseId: {
-        serializedName: "destinationManagedDatabaseId",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const CompleteDatabaseRestoreDefinition: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CompleteDatabaseRestoreDefinition",
-    modelProperties: {
-      lastBackupName: {
-        serializedName: "lastBackupName",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ManagedDatabaseStartMoveDefinition: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedDatabaseStartMoveDefinition",
-    modelProperties: {
-      destinationManagedDatabaseId: {
-        serializedName: "destinationManagedDatabaseId",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      operationMode: {
-        serializedName: "operationMode",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const DatabaseListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -8227,6 +7830,12 @@ export const ElasticPoolUpdate: coreClient.CompositeMapper = {
           name: "Number"
         }
       },
+      minCapacity: {
+        serializedName: "properties.minCapacity",
+        type: {
+          name: "Number"
+        }
+      },
       perDatabaseSettings: {
         serializedName: "properties.perDatabaseSettings",
         type: {
@@ -8256,6 +7865,255 @@ export const ElasticPoolUpdate: coreClient.CompositeMapper = {
         serializedName: "properties.highAvailabilityReplicaCount",
         type: {
           name: "Number"
+        }
+      },
+      preferredEnclaveType: {
+        serializedName: "properties.preferredEnclaveType",
+        type: {
+          name: "String"
+        }
+      },
+      availabilityZone: {
+        serializedName: "properties.availabilityZone",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedDatabaseListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedDatabaseListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedDatabase"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedDatabaseUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedDatabaseUpdate",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      collation: {
+        serializedName: "properties.collation",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "properties.status",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      creationDate: {
+        serializedName: "properties.creationDate",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      earliestRestorePoint: {
+        serializedName: "properties.earliestRestorePoint",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      restorePointInTime: {
+        serializedName: "properties.restorePointInTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      defaultSecondaryLocation: {
+        serializedName: "properties.defaultSecondaryLocation",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      catalogCollation: {
+        serializedName: "properties.catalogCollation",
+        type: {
+          name: "String"
+        }
+      },
+      createMode: {
+        serializedName: "properties.createMode",
+        type: {
+          name: "String"
+        }
+      },
+      storageContainerUri: {
+        serializedName: "properties.storageContainerUri",
+        type: {
+          name: "String"
+        }
+      },
+      sourceDatabaseId: {
+        serializedName: "properties.sourceDatabaseId",
+        type: {
+          name: "String"
+        }
+      },
+      crossSubscriptionSourceDatabaseId: {
+        serializedName: "properties.crossSubscriptionSourceDatabaseId",
+        type: {
+          name: "String"
+        }
+      },
+      restorableDroppedDatabaseId: {
+        serializedName: "properties.restorableDroppedDatabaseId",
+        type: {
+          name: "String"
+        }
+      },
+      crossSubscriptionRestorableDroppedDatabaseId: {
+        serializedName:
+          "properties.crossSubscriptionRestorableDroppedDatabaseId",
+        type: {
+          name: "String"
+        }
+      },
+      storageContainerIdentity: {
+        serializedName: "properties.storageContainerIdentity",
+        type: {
+          name: "String"
+        }
+      },
+      storageContainerSasToken: {
+        serializedName: "properties.storageContainerSasToken",
+        type: {
+          name: "String"
+        }
+      },
+      failoverGroupId: {
+        serializedName: "properties.failoverGroupId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      recoverableDatabaseId: {
+        serializedName: "properties.recoverableDatabaseId",
+        type: {
+          name: "String"
+        }
+      },
+      longTermRetentionBackupResourceId: {
+        serializedName: "properties.longTermRetentionBackupResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      autoCompleteRestore: {
+        serializedName: "properties.autoCompleteRestore",
+        type: {
+          name: "Boolean"
+        }
+      },
+      lastBackupName: {
+        serializedName: "properties.lastBackupName",
+        type: {
+          name: "String"
+        }
+      },
+      crossSubscriptionTargetManagedInstanceId: {
+        serializedName: "properties.crossSubscriptionTargetManagedInstanceId",
+        type: {
+          name: "String"
+        }
+      },
+      isLedgerOn: {
+        serializedName: "properties.isLedgerOn",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedDatabaseMoveDefinition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedDatabaseMoveDefinition",
+    modelProperties: {
+      destinationManagedDatabaseId: {
+        serializedName: "destinationManagedDatabaseId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CompleteDatabaseRestoreDefinition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CompleteDatabaseRestoreDefinition",
+    modelProperties: {
+      lastBackupName: {
+        serializedName: "lastBackupName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedDatabaseStartMoveDefinition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedDatabaseStartMoveDefinition",
+    modelProperties: {
+      destinationManagedDatabaseId: {
+        serializedName: "destinationManagedDatabaseId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      operationMode: {
+        serializedName: "operationMode",
+        type: {
+          name: "String"
         }
       }
     }
@@ -9470,6 +9328,172 @@ export const LogicalDatabaseTransparentDataEncryptionListResult: coreClient.Comp
             type: {
               name: "Composite",
               className: "LogicalDatabaseTransparentDataEncryption"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FailoverGroupListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FailoverGroupListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FailoverGroup"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FailoverGroupReadWriteEndpoint: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FailoverGroupReadWriteEndpoint",
+    modelProperties: {
+      failoverPolicy: {
+        serializedName: "failoverPolicy",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      failoverWithDataLossGracePeriodMinutes: {
+        serializedName: "failoverWithDataLossGracePeriodMinutes",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const FailoverGroupReadOnlyEndpoint: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FailoverGroupReadOnlyEndpoint",
+    modelProperties: {
+      failoverPolicy: {
+        serializedName: "failoverPolicy",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PartnerInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PartnerInfo",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      location: {
+        serializedName: "location",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      replicationRole: {
+        serializedName: "replicationRole",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FailoverGroupUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FailoverGroupUpdate",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      readWriteEndpoint: {
+        serializedName: "properties.readWriteEndpoint",
+        type: {
+          name: "Composite",
+          className: "FailoverGroupReadWriteEndpoint"
+        }
+      },
+      readOnlyEndpoint: {
+        serializedName: "properties.readOnlyEndpoint",
+        type: {
+          name: "Composite",
+          className: "FailoverGroupReadOnlyEndpoint"
+        }
+      },
+      databases: {
+        serializedName: "properties.databases",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const IPv6FirewallRuleListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IPv6FirewallRuleListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IPv6FirewallRule"
             }
           }
         }
@@ -11006,81 +11030,6 @@ export const EncryptionProtector: coreClient.CompositeMapper = {
         serializedName: "properties.autoRotationEnabled",
         type: {
           name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const FailoverGroup: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "FailoverGroup",
-    modelProperties: {
-      ...ProxyResource.type.modelProperties,
-      location: {
-        serializedName: "location",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
-      readWriteEndpoint: {
-        serializedName: "properties.readWriteEndpoint",
-        type: {
-          name: "Composite",
-          className: "FailoverGroupReadWriteEndpoint"
-        }
-      },
-      readOnlyEndpoint: {
-        serializedName: "properties.readOnlyEndpoint",
-        type: {
-          name: "Composite",
-          className: "FailoverGroupReadOnlyEndpoint"
-        }
-      },
-      replicationRole: {
-        serializedName: "properties.replicationRole",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      replicationState: {
-        serializedName: "properties.replicationState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      partnerServers: {
-        serializedName: "properties.partnerServers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PartnerInfo"
-            }
-          }
-        }
-      },
-      databases: {
-        serializedName: "properties.databases",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
         }
       }
     }
@@ -15844,6 +15793,81 @@ export const LogicalDatabaseTransparentDataEncryption: coreClient.CompositeMappe
   }
 };
 
+export const FailoverGroup: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FailoverGroup",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      location: {
+        serializedName: "location",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      readWriteEndpoint: {
+        serializedName: "properties.readWriteEndpoint",
+        type: {
+          name: "Composite",
+          className: "FailoverGroupReadWriteEndpoint"
+        }
+      },
+      readOnlyEndpoint: {
+        serializedName: "properties.readOnlyEndpoint",
+        type: {
+          name: "Composite",
+          className: "FailoverGroupReadOnlyEndpoint"
+        }
+      },
+      replicationRole: {
+        serializedName: "properties.replicationRole",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      replicationState: {
+        serializedName: "properties.replicationState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      partnerServers: {
+        serializedName: "properties.partnerServers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PartnerInfo"
+            }
+          }
+        }
+      },
+      databases: {
+        serializedName: "properties.databases",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const InstancePool: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -15976,148 +16000,6 @@ export const VirtualCluster: coreClient.CompositeMapper = {
               name: "String"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const ManagedDatabase: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedDatabase",
-    modelProperties: {
-      ...TrackedResource.type.modelProperties,
-      collation: {
-        serializedName: "properties.collation",
-        type: {
-          name: "String"
-        }
-      },
-      status: {
-        serializedName: "properties.status",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      creationDate: {
-        serializedName: "properties.creationDate",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      earliestRestorePoint: {
-        serializedName: "properties.earliestRestorePoint",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      restorePointInTime: {
-        serializedName: "properties.restorePointInTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      defaultSecondaryLocation: {
-        serializedName: "properties.defaultSecondaryLocation",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      catalogCollation: {
-        serializedName: "properties.catalogCollation",
-        type: {
-          name: "String"
-        }
-      },
-      createMode: {
-        serializedName: "properties.createMode",
-        type: {
-          name: "String"
-        }
-      },
-      storageContainerUri: {
-        serializedName: "properties.storageContainerUri",
-        type: {
-          name: "String"
-        }
-      },
-      sourceDatabaseId: {
-        serializedName: "properties.sourceDatabaseId",
-        type: {
-          name: "String"
-        }
-      },
-      crossSubscriptionSourceDatabaseId: {
-        serializedName: "properties.crossSubscriptionSourceDatabaseId",
-        type: {
-          name: "String"
-        }
-      },
-      restorableDroppedDatabaseId: {
-        serializedName: "properties.restorableDroppedDatabaseId",
-        type: {
-          name: "String"
-        }
-      },
-      crossSubscriptionRestorableDroppedDatabaseId: {
-        serializedName:
-          "properties.crossSubscriptionRestorableDroppedDatabaseId",
-        type: {
-          name: "String"
-        }
-      },
-      storageContainerIdentity: {
-        serializedName: "properties.storageContainerIdentity",
-        type: {
-          name: "String"
-        }
-      },
-      storageContainerSasToken: {
-        serializedName: "properties.storageContainerSasToken",
-        type: {
-          name: "String"
-        }
-      },
-      failoverGroupId: {
-        serializedName: "properties.failoverGroupId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      recoverableDatabaseId: {
-        serializedName: "properties.recoverableDatabaseId",
-        type: {
-          name: "String"
-        }
-      },
-      longTermRetentionBackupResourceId: {
-        serializedName: "properties.longTermRetentionBackupResourceId",
-        type: {
-          name: "String"
-        }
-      },
-      autoCompleteRestore: {
-        serializedName: "properties.autoCompleteRestore",
-        type: {
-          name: "Boolean"
-        }
-      },
-      lastBackupName: {
-        serializedName: "properties.lastBackupName",
-        type: {
-          name: "String"
-        }
-      },
-      crossSubscriptionTargetManagedInstanceId: {
-        serializedName: "properties.crossSubscriptionTargetManagedInstanceId",
-        type: {
-          name: "String"
         }
       }
     }
@@ -16487,6 +16369,12 @@ export const ElasticPool: coreClient.CompositeMapper = {
           name: "Number"
         }
       },
+      minCapacity: {
+        serializedName: "properties.minCapacity",
+        type: {
+          name: "Number"
+        }
+      },
       perDatabaseSettings: {
         serializedName: "properties.perDatabaseSettings",
         type: {
@@ -16516,6 +16404,166 @@ export const ElasticPool: coreClient.CompositeMapper = {
         serializedName: "properties.highAvailabilityReplicaCount",
         type: {
           name: "Number"
+        }
+      },
+      preferredEnclaveType: {
+        serializedName: "properties.preferredEnclaveType",
+        type: {
+          name: "String"
+        }
+      },
+      availabilityZone: {
+        serializedName: "properties.availabilityZone",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedDatabase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedDatabase",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      collation: {
+        serializedName: "properties.collation",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "properties.status",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      creationDate: {
+        serializedName: "properties.creationDate",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      earliestRestorePoint: {
+        serializedName: "properties.earliestRestorePoint",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      restorePointInTime: {
+        serializedName: "properties.restorePointInTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      defaultSecondaryLocation: {
+        serializedName: "properties.defaultSecondaryLocation",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      catalogCollation: {
+        serializedName: "properties.catalogCollation",
+        type: {
+          name: "String"
+        }
+      },
+      createMode: {
+        serializedName: "properties.createMode",
+        type: {
+          name: "String"
+        }
+      },
+      storageContainerUri: {
+        serializedName: "properties.storageContainerUri",
+        type: {
+          name: "String"
+        }
+      },
+      sourceDatabaseId: {
+        serializedName: "properties.sourceDatabaseId",
+        type: {
+          name: "String"
+        }
+      },
+      crossSubscriptionSourceDatabaseId: {
+        serializedName: "properties.crossSubscriptionSourceDatabaseId",
+        type: {
+          name: "String"
+        }
+      },
+      restorableDroppedDatabaseId: {
+        serializedName: "properties.restorableDroppedDatabaseId",
+        type: {
+          name: "String"
+        }
+      },
+      crossSubscriptionRestorableDroppedDatabaseId: {
+        serializedName:
+          "properties.crossSubscriptionRestorableDroppedDatabaseId",
+        type: {
+          name: "String"
+        }
+      },
+      storageContainerIdentity: {
+        serializedName: "properties.storageContainerIdentity",
+        type: {
+          name: "String"
+        }
+      },
+      storageContainerSasToken: {
+        serializedName: "properties.storageContainerSasToken",
+        type: {
+          name: "String"
+        }
+      },
+      failoverGroupId: {
+        serializedName: "properties.failoverGroupId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      recoverableDatabaseId: {
+        serializedName: "properties.recoverableDatabaseId",
+        type: {
+          name: "String"
+        }
+      },
+      longTermRetentionBackupResourceId: {
+        serializedName: "properties.longTermRetentionBackupResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      autoCompleteRestore: {
+        serializedName: "properties.autoCompleteRestore",
+        type: {
+          name: "Boolean"
+        }
+      },
+      lastBackupName: {
+        serializedName: "properties.lastBackupName",
+        type: {
+          name: "String"
+        }
+      },
+      crossSubscriptionTargetManagedInstanceId: {
+        serializedName: "properties.crossSubscriptionTargetManagedInstanceId",
+        type: {
+          name: "String"
+        }
+      },
+      isLedgerOn: {
+        serializedName: "properties.isLedgerOn",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -16896,6 +16944,21 @@ export const IPv6FirewallRule: coreClient.CompositeMapper = {
       },
       endIPv6Address: {
         serializedName: "properties.endIPv6Address",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FailoverGroupsTryPlannedBeforeForcedFailoverHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FailoverGroupsTryPlannedBeforeForcedFailoverHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
         type: {
           name: "String"
         }
