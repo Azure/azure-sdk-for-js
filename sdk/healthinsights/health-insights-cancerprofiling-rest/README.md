@@ -7,8 +7,12 @@ The [Cancer Profiling model](https://review.learn.microsoft.com/en-us/azure/cogn
 
 ## Getting started
 
+### Currently supported environments
+
+- LTS versions of Node.js
+
 ### Prerequisites
-- 
+
 - LTS versions of Node.js
 - You must have an [Azure subscription](https://azure.microsoft.com/free/) to use this package.
 - An existing Cognitive Services Health Insights instance.
@@ -52,27 +56,37 @@ const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
 const endpoint =
   process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
-const poller = await getLongRunningPoller(client, initialResponse);
-  const cancerProfilingResult = await poller.pollUntilDone();
-  if (isUnexpected(cancerProfilingResult)) {
+const initialResponse = await client.path("/trialmatcher/jobs").post(trialMatcherParameter);
+if (isUnexpected(initialResponse)) {
     throw initialResponse;
-  }
-  const resultBody = cancerProfilingResult.body as OncoPhenotypeResultOutput;
-  
-  if (resultBody.status === "succeeded") {
-      const results = resultBody.results as OncoPhenotypeResultsOutput;
-      const patients = results.patients;
-      for (const patientResult of patients) {
-          console.log(`Inferences of Patient ${patientResult.id}`);
-          for (const inferences of patientResult.inferences) {
-              console.log(`Clinical Type: ${String(inferences.type)} Value: ${inferences.value}, ConfidenceScore: ${inferences.confidenceScore}`);
-              for (const evidence of inferences.evidence) {
-                  let dataEvidence = evidence.patientDataEvidence;
-                  console.log(`Evidence: ${dataEvidence.id} ${dataEvidence.offset} ${dataEvidence.length} ${dataEvidence.text}`);
-              }
-          }
+}
+const poller = await getLongRunningPoller(client, initialResponse);
+const cancerProfilingResult = await poller.pollUntilDone();
+if (isUnexpected(cancerProfilingResult)) {
+    throw cancerProfilingResult;
+}
+const resultBody = cancerProfilingResult.body as OncoPhenotypeResultOutput;
+
+if (resultBody.status === "succeeded") {
+  const results = resultBody.results as TrialMatcherResultsOutput;
+  const patients = results.patients;
+  for (const patientResult of patients) {
+      console.log(`Inferences of Patient ${patientResult.id}`);
+      for (const tmInferences of patientResult.inferences) {
+          console.log(`Trial Id ${tmInferences.id}`);
+          console.log(`Type: ${String(tmInferences.type)}  Value: ${tmInferences.value}`);
+          console.log(`Description ${tmInferences.description}`);
       }
   }
+}
+else {
+  const errors = trialMatcherResult.errors;
+  if (errors) {
+      for (const error of errors) {
+          console.log('${error.code} ":" ${error.message}');
+      }
+  }
+}
 ```
 
 ## Troubleshooting
@@ -88,3 +102,28 @@ setLogLevel("info");
 ```
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
+
+## Next steps
+<!--
+This code sample show common scenario operation with the Azure Health Insights Cancer Profiling library. More samples can be found under the [samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/azure-healthinsights-cancerprofiling/samples/) directory.
+- Infer Cancer Profiling: [sample_infer_cancer_profiling.ts](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/healthinsights/azure-healthinsights-cancerprofiling/samples/sample_infer_cancer_profiling.ts)
+-->
+
+### Additional documentation
+<!--
+For more extensive documentation on Azure Health Insights Cancer Profiling, see the [Cancer Profiling documentation](https://review.learn.microsoft.com/en-us/azure/cognitive-services/health-decision-support/oncophenotype/overview?branch=main) on docs.microsoft.com.
+-->
+
+## Contributing
+
+This project welcomes contributions and suggestions. Most contributions require you to agree to a Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution. For details, visit [cla.microsoft.com][cla].
+
+When you submit a pull request, a CLA-bot will automatically determine whether you need to provide a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions provided by the bot. You will only need to do this once across all repos using our CLA.
+
+This project has adopted the [Microsoft Open Source Code of Conduct][code_of_conduct]. For more information see the [Code of Conduct FAQ][coc_faq] or contact [opencode@microsoft.com][coc_contact] with any additional questions or comments.
+
+<!-- LINKS -->
+[cla]: https://cla.microsoft.com
+[code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
+[coc_faq]: https://opensource.microsoft.com/codeofconduct/faq/
+[coc_contact]: mailto:opencode@microsoft.com

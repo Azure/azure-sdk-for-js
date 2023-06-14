@@ -200,7 +200,7 @@ export async function main() {
   const poller = await getLongRunningPoller(client, initialResponse);
   const cancerProfilingResult = await poller.pollUntilDone();
   /*if (isUnexpected(cancerProfilingResult)) {
-    throw initialResponse;
+    throw cancerProfilingResult;
   }*/
   const resultBody = cancerProfilingResult.body as OncoPhenotypeResultOutput;
   printResults(resultBody);

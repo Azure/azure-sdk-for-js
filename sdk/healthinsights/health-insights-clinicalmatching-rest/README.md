@@ -1,12 +1,9 @@
 # ClinicalMatching REST client library for JavaScript
 
-Azure Health Insights provides an API that serves insight models, specific for Health & Life Sciences, that perform analysis and provide inferences to be used by a human.
+[Health Insights](https://review.learn.microsoft.com/en-us/azure/cognitive-services/health-decision-support/overview?branch=main) is an Azure Applied AI Service built with the Azure Cognitive Services Framework, that leverages multiple Cognitive Services, Healthcare API services and other Azure resources.
+The [Clinical Matching model](https://review.learn.microsoft.com/en-us/azure/cognitive-services/health-decision-support/trial-matcher/overview?branch=main) receives patients data and clinical trials protocols, and provides relevant clinical trials based on eligibility criteria.
 
 **Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library**
-
-Key links:
-
-- [Package (NPM)](https://www.npmjs.com/package/AzureHealthInsights)
 
 ## Getting started
 
@@ -16,15 +13,21 @@ Key links:
 
 ### Prerequisites
 
+- LTS versions of Node.js
 - You must have an [Azure subscription](https://azure.microsoft.com/free/) to use this package.
+- An existing Cognitive Services Health Insights instance.
 
-### Install the `AzureHealthInsights` package
+### Install the `@azure-rest/health-insights-clinicalmatching` package
 
-Install the ClinicalMatching REST client REST client library for JavaScript with `npm`:
+Install the ClinicalMatching REST client library for JavaScript with `npm`:
 
 ```bash
-npm install AzureHealthInsights
+npm install @azure-rest/health-insights-clinicalmatching
 ```
+
+|SDK version|Supported API version of service |
+|-------------|---------------|
+|1.0.0b1 | 2023-03-01-preview|
 
 ### Create and authenticate a `ClinicalMatchingClient`
 
@@ -41,6 +44,52 @@ can be used to authenticate the client.
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables:
 AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 
+## Key concepts
+
+Trial Matcher provides the user of the services two main modes of operation: patients centric and clinical trial centric.
+- On patient centric mode, the Trial Matcher model bases the patient matching on the clinical condition, location, priorities, eligibility criteria, and other criteria that the patient and/or service users may choose to prioritize. The model helps narrow down and prioritize the set of relevant clinical trials to a smaller set of trials to start with, that the specific patient appears to be qualified for.
+- On clinical trial centric, the Trial Matcher is finding a group of patients potentially eligible to a clinical trial. The Trial Matcher narrows down the patients, first filtered on clinical condition and selected clinical observations, and then focuses on those patients who met the baseline criteria, to find the group of patients that appears to be eligible patients to a trial.
+
+## Examples
+
+- [Match Trials - Find potential eligible trials for a patient](#match-trials)
+
+```typescript
+const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
+const endpoint =
+  process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
+
+const initialResponse = await client.path("/trialmatcher/jobs").post(trialMatcherParameter);
+if (isUnexpected(initialResponse)) {
+throw initialResponse;
+}
+const poller = await getLongRunningPoller(client, initialResponse);
+const trialMatcherResult = await poller.pollUntilDone();
+if (isUnexpected(trialMatcherResult)) {
+throw trialMatcherResult;
+}
+const resultBody = trialMatcherResult.body as TrialMatcherResultOutput;
+if (resultBody.status === "succeeded") {
+  const results = resultBody.results as TrialMatcherResultsOutput;
+  const patients = results.patients;
+  for (const patientResult of patients) {
+      console.log(`Inferences of Patient ${patientResult.id}`);
+      for (const tmInferences of patientResult.inferences) {
+          console.log(`Trial Id ${tmInferences.id}`);
+          console.log(`Type: ${String(tmInferences.type)}  Value: ${tmInferences.value}`);
+          console.log(`Description ${tmInferences.description}`);
+      }
+  }
+}
+else {
+  const errors = trialMatcherResult.errors;
+  if (errors) {
+      for (const error of errors) {
+          console.log('${error.code} ":" ${error.message}');
+      }
+  }
+}
+```
 ## Troubleshooting
 
 ### Logging
@@ -54,3 +103,35 @@ setLogLevel("info");
 ```
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
+
+## Next steps
+<!--
+This code sample show common scenario operation with the Azure Health Insights Clinical Matching library. More samples can be found under the [samples](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/healthinsights/azure-healthinsights-clinicalmatching/samples/) directory.
+
+- Match Trials FHIR: [sample_match_trials_fhir.py](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/healthinsights/azure-healthinsights-clinicalmatching/samples/sample_match_trials_fhir.py)
+
+- Match Trials Structured Coded Elements: [sample_match_trials_structured_coded_elements.py](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/healthinsights/azure-healthinsights-clinicalmatching/samples/sample_match_trials_structured_coded_elements.py)
+
+- Match Trials Structured Coded Elements Sync: [sample_match_trials_structured_coded_elements_sync.py](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/healthinsights/azure-healthinsights-clinicalmatching/samples/sample_match_trials_structured_coded_elements_sync.py)
+
+- Match Trials Unstructured Clinical Note: [sample_match_trials_unstructured_clinical_note.py](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/healthinsights/azure-healthinsights-clinicalmatching/samples/sample_match_trials_unstructured_clinical_note.py)
+-->
+
+### Additional documentation
+<!--
+For more extensive documentation on Azure Health Insights Clinical Matching, see the [Clinical Matching documentation](https://review.learn.microsoft.com/en-us/azure/cognitive-services/health-decision-support/trial-matcher/?branch=main) on docs.microsoft.com.
+-->
+
+## Contributing
+
+This project welcomes contributions and suggestions. Most contributions require you to agree to a Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution. For details, visit [cla.microsoft.com][cla].
+
+When you submit a pull request, a CLA-bot will automatically determine whether you need to provide a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions provided by the bot. You will only need to do this once across all repos using our CLA.
+
+This project has adopted the [Microsoft Open Source Code of Conduct][code_of_conduct]. For more information see the [Code of Conduct FAQ][coc_faq] or contact [opencode@microsoft.com][coc_contact] with any additional questions or comments.
+
+<!-- LINKS -->
+[cla]: https://cla.microsoft.com
+[code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
+[coc_faq]: https://opensource.microsoft.com/codeofconduct/faq/
+[coc_contact]: mailto:opencode@microsoft.com
