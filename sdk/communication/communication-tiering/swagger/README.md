@@ -7,7 +7,7 @@
 ```yaml
 package-name: "@azure/communication-tiering"
 description: The tiering client library retrieves limits for each capability (SMS/PSTN Calling/Phone Number purchase) for a specific resource/tier.
-package-version: 1.0.0-beta.0
+package-version: 1.0.0-beta.1
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 input-file: ./swagger.json
@@ -19,7 +19,7 @@ skip-enum-validation: true
 v3: true
 title: Tiering Client
 use-extension:
-  "@autorest/typescript": "6.0.0-rc.1"
+  "@autorest/typescript": "6.0.0"
 tracing-info:
   namespace: "Microsoft.Communication"
   packagePrefix: "Azure.Communication"
