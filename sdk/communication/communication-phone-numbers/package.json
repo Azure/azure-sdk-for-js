@@ -32,7 +32,8 @@
     "test:watch": "npm run test -- --watch --reporter min",
     "unit-test:browser": "dev-tool run test:browser",
     "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "unit-test-case": "dev-tool run test:node-ts-input -- --timeout 1200000 "
   },
   "files": [
     "dist/",

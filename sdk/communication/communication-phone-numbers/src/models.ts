@@ -8,7 +8,7 @@ import {
   PhoneNumbersListAreaCodesOptionalParams,
   PhoneNumberType,
 } from "./generated/src/models/";
-import { SipTrunkHealth } from "./generated/src/siprouting/models";
+import { SipTrunkHealth, SipTrunkRoute } from "./generated/src/siprouting/models";
 
 /**
  * The result of the phone numbers purchase operation.
@@ -165,4 +165,19 @@ export interface SipDomain {
    * Gets or sets enabled flag
    */
   enabled: boolean;
+}
+
+export interface SipRoutingTestRoutesWithNumberOptionalParams extends OperationOptions {
+  /**
+   * Validated Domains.
+   * Map key is domain.
+   */
+  domains?: { [propertyName: string]: SipDomain };
+  /**
+   * SIP trunks for routing calls.
+   * Map key is trunk's FQDN (1-249 characters).
+   */
+  trunks?: { [propertyName: string]: SipTrunk };
+  /** Trunk routes for routing calls. */
+  routes?: SipTrunkRoute[];
 }

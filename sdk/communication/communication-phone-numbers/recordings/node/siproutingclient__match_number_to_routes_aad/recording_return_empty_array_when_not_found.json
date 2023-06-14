@@ -1,0 +1,305 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/sip?api-version=2023-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230517.1 core-rest-pipeline/1.10.4 Node/v16.20.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-deprecated-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview",
+        "api-supported-versions": "2023-03-01, 2023-04-01-preview",
+        "Content-Length": "67",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 08 Jun 2023 10:59:44 GMT",
+        "MS-CV": "mB4gM984vkKTPJpI/zvsdg.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0oLSBZAAAAACZsQpMFZnqS7Ewd2X/kJSzRlJBMjMxMDUwNDE3MDUzAGNjOTI3NThkLTA1ZjctNGFkNi1hYTVlLTBmYTk3MThkODk4NQ==",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "317ms"
+      },
+      "ResponseBody": {
+        "domains": {
+          "tw54f5.net": {
+            "enabled": true
+          }
+        },
+        "trunks": {},
+        "routes": []
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/sip?api-version=2023-04-01-preview",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "132",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230517.1 core-rest-pipeline/1.10.4 Node/v16.20.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized"
+      },
+      "RequestBody": {
+        "trunks": {
+          "test1.tw54f5.net": {
+            "sipSignalingPort": 6001,
+            "enabled": true
+          },
+          "test2.tw54f5.net": {
+            "sipSignalingPort": 6002,
+            "enabled": true
+          }
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-deprecated-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview",
+        "api-supported-versions": "2023-03-01, 2023-04-01-preview",
+        "Content-Length": "186",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 08 Jun 2023 10:59:45 GMT",
+        "MS-CV": "soCKaVEAu0aaW2ybAiBPMw.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0oLSBZAAAAAAoucb6spPASK3BvOQNIhsWRlJBMjMxMDUwNDE3MDUzAGNjOTI3NThkLTA1ZjctNGFkNi1hYTVlLTBmYTk3MThkODk4NQ==",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "1061ms"
+      },
+      "ResponseBody": {
+        "domains": {
+          "tw54f5.net": {
+            "enabled": true
+          }
+        },
+        "trunks": {
+          "test1.tw54f5.net": {
+            "enabled": true,
+            "sipSignalingPort": 6001
+          },
+          "test2.tw54f5.net": {
+            "enabled": true,
+            "sipSignalingPort": 6002
+          }
+        },
+        "routes": []
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/sip?api-version=2023-04-01-preview",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "180",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230517.1 core-rest-pipeline/1.10.4 Node/v16.20.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized"
+      },
+      "RequestBody": {
+        "routes": [
+          {
+            "name": "Us route",
+            "numberPattern": "^\\\u002B1(\\d{10})$",
+            "trunks": [
+              "test1.tw54f5.net"
+            ]
+          },
+          {
+            "name": "Nz route",
+            "numberPattern": "^\\\u002B6(\\d{10})$",
+            "trunks": [
+              "test2.tw54f5.net"
+            ]
+          }
+        ]
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-deprecated-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview",
+        "api-supported-versions": "2023-03-01, 2023-04-01-preview",
+        "Content-Length": "391",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 08 Jun 2023 10:59:46 GMT",
+        "MS-CV": "CG4MvE5jME2wBPfF1JLJQw.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0obSBZAAAAAAsTC9z\u002BcqwSqHAXQEHENTIRlJBMjMxMDUwNDE3MDUzAGNjOTI3NThkLTA1ZjctNGFkNi1hYTVlLTBmYTk3MThkODk4NQ==",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "568ms"
+      },
+      "ResponseBody": {
+        "domains": {
+          "tw54f5.net": {
+            "enabled": true
+          }
+        },
+        "trunks": {
+          "test1.tw54f5.net": {
+            "enabled": true,
+            "sipSignalingPort": 6001
+          },
+          "test2.tw54f5.net": {
+            "enabled": true,
+            "sipSignalingPort": 6002
+          }
+        },
+        "routes": [
+          {
+            "description": null,
+            "name": "Us route",
+            "numberPattern": "^\\\u002B1(\\d{10})$",
+            "trunks": [
+              "test1.tw54f5.net"
+            ]
+          },
+          {
+            "description": null,
+            "name": "Nz route",
+            "numberPattern": "^\\\u002B6(\\d{10})$",
+            "trunks": [
+              "test2.tw54f5.net"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/sip?api-version=2023-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230517.1 core-rest-pipeline/1.10.4 Node/v16.20.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-deprecated-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview",
+        "api-supported-versions": "2023-03-01, 2023-04-01-preview",
+        "Content-Length": "391",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 08 Jun 2023 10:59:46 GMT",
+        "MS-CV": "khS7v4kL1EqQze7XkxM\u002BSg.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0orSBZAAAAABwUUycb3e8TojGwL/GdPMHRlJBMjMxMDUwNDE3MDUzAGNjOTI3NThkLTA1ZjctNGFkNi1hYTVlLTBmYTk3MThkODk4NQ==",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "316ms"
+      },
+      "ResponseBody": {
+        "domains": {
+          "tw54f5.net": {
+            "enabled": true
+          }
+        },
+        "trunks": {
+          "test1.tw54f5.net": {
+            "enabled": true,
+            "sipSignalingPort": 6001
+          },
+          "test2.tw54f5.net": {
+            "enabled": true,
+            "sipSignalingPort": 6002
+          }
+        },
+        "routes": [
+          {
+            "description": null,
+            "name": "Us route",
+            "numberPattern": "^\\\u002B1(\\d{10})$",
+            "trunks": [
+              "test1.tw54f5.net"
+            ]
+          },
+          {
+            "description": null,
+            "name": "Nz route",
+            "numberPattern": "^\\\u002B6(\\d{10})$",
+            "trunks": [
+              "test2.tw54f5.net"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/sip:testRoutesWithNumber?api-version=2023-04-01-preview\u0026targetPhoneNumber=%2B72345678901",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "391",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230517.1 core-rest-pipeline/1.10.4 Node/v16.20.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized"
+      },
+      "RequestBody": {
+        "domains": {
+          "tw54f5.net": {
+            "enabled": true
+          }
+        },
+        "trunks": {
+          "test1.tw54f5.net": {
+            "sipSignalingPort": 6001,
+            "enabled": true
+          },
+          "test2.tw54f5.net": {
+            "sipSignalingPort": 6002,
+            "enabled": true
+          }
+        },
+        "routes": [
+          {
+            "description": null,
+            "name": "Us route",
+            "numberPattern": "^\\\u002B1(\\d{10})$",
+            "trunks": [
+              "test1.tw54f5.net"
+            ]
+          },
+          {
+            "description": null,
+            "name": "Nz route",
+            "numberPattern": "^\\\u002B6(\\d{10})$",
+            "trunks": [
+              "test2.tw54f5.net"
+            ]
+          }
+        ]
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2023-04-01-preview",
+        "Content-Length": "21",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 08 Jun 2023 10:59:47 GMT",
+        "MS-CV": "gPTPdU\u002BYy0Gn8EzlpQnkDw.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0o7SBZAAAAAC5tFycUDSZTIMLW2fP6g\u002BlRlJBMjMxMDUwNDE3MDUzAGNjOTI3NThkLTA1ZjctNGFkNi1hYTVlLTBmYTk3MThkODk4NQ==",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "10ms"
+      },
+      "ResponseBody": {
+        "matchingRoutes": []
+      }
+    }
+  ],
+  "Variables": {
+    "fqdn-1": "test1.tw54f5.net",
+    "fqdn-2": "test2.tw54f5.net"
+  }
+}
