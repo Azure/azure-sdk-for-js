@@ -84,7 +84,7 @@ export interface SipTrunkActivity {
 /** Represents a trunk route for routing calls. */
 export interface SipTrunkRoute {
   /** Gets or sets description of the route. */
-  description?: string;
+  description?: string | null;
   /** Gets or sets name of the route. */
   name: string;
   /**
