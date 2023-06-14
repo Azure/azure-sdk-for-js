@@ -3858,7 +3858,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230612
+      typescript: 5.2.0-dev.20230613
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8421,8 +8421,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230612:
-    resolution: {integrity: sha512-f7THkvy028PZE2G7zoA0hnJZJHjE0u/de8+Izzn4C1Oaz13Lm0ll9fSqcnfTw0JlmIc68YqrwC/z0s8IW0E3Cw==}
+  /typescript/5.2.0-dev.20230613:
+    resolution: {integrity: sha512-76DHxBtq2NDOqhgigPmAEVdBx2IDUi/RGXUAZIx+H1tcoSb38tdN3pq8U1ZaohCqAGH2Jlv/cWRSvRT27D8cxg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -19415,7 +19415,7 @@ packages:
     dev: false
 
   file:projects/storage-queue.tgz:
-    resolution: {integrity: sha512-gx0lTVTkd8sw4IuQpQue9AyPD9VRY5gxPaulhKOvEi0UWRvqbnt8tJ6iUhVibgnCAZGRkSqDwvKhNb9kiQJAAw==, tarball: file:projects/storage-queue.tgz}
+    resolution: {integrity: sha512-Q0bri+ynTJgsge2RC0t1+0Zf8PfAL9+/CRa2llPvyq5uFoMexdRvBv6h+91V1mRjUAcJkDGPfpJNDXRghhRHGw==, tarball: file:projects/storage-queue.tgz}
     name: '@rush-temp/storage-queue'
     version: 0.0.0
     dependencies:
@@ -19426,6 +19426,7 @@ packages:
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.50
+      '@types/uuid': 8.3.4
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.1.4
@@ -19456,6 +19457,7 @@ packages:
       tslib: 2.5.3
       typescript: 5.0.4
       util: 0.12.5
+      uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'

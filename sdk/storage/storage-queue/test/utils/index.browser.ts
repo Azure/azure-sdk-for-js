@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AnonymousCredential } from "../../src/credentials/AnonymousCredential";
-import { newPipeline } from "../../src/Pipeline";
+import { AnonymousCredential } from "../../../storage-blob/src/credentials/AnonymousCredential";
+import { newPipeline } from "../../../storage-blob/src/Pipeline";
 import { QueueServiceClient } from "../../src/QueueServiceClient";
 export * from "./testutils.common";
 
