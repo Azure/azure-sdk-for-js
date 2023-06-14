@@ -622,7 +622,13 @@ export class ClientContext {
 
     const databaseAccount = new DatabaseAccount(result, headers);
 
-    return { result: databaseAccount, headers, diagnostics };
+    return {
+      result: databaseAccount,
+      headers,
+      diagnostics,
+      code: result.code,
+      substatus: result.substatus,
+    };
   }
 
   public getWriteEndpoint(): Promise<string> {
