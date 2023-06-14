@@ -6,7 +6,7 @@ import { ChangeFeedIterator } from "../../ChangeFeedIterator";
 import { ChangeFeedOptions } from "../../ChangeFeedOptions";
 import { ClientContext } from "../../ClientContext";
 import { getIdFromLink, getPathFromLink, isItemResourceValid, ResourceType } from "../../common";
-import { extractPartitionKey } from "../../extractPartitionKey";
+import { extractPartitionKeys } from "../../extractPartitionKey";
 import { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions, Response } from "../../request";
@@ -17,9 +17,7 @@ import { ItemResponse } from "./ItemResponse";
 import {
   Batch,
   isKeyInRange,
-  Operation,
-  getPartitionKeyToHash,
-  decorateOperation,
+  prepareOperations,
   OperationResponse,
   OperationInput,
   BulkOptions,
@@ -27,19 +25,17 @@ import {
   splitBatchBasedOnBodySize,
   BulkOperationResponse,
 } from "../../utils/batch";
-import { hashV1PartitionKey } from "../../utils/hashing/v1";
-import { hashV2PartitionKey } from "../../utils/hashing/v2";
 import { CosmosDiagnosticContext } from "../../CosmosDiagnosticsContext";
 import { readAndRecordPartitionKeyDefinition } from "../ClientUtils";
+import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks";
+import { hashPartitionKey } from "../../utils/hashing/hash";
+import { PartitionKey, PartitionKeyDefinition } from "../../documents";
 
 /**
  * @hidden
  */
 function isChangeFeedOptions(options: unknown): options is ChangeFeedOptions {
-  const optionsType = typeof options;
-  return (
-    options && !(optionsType === "string" || optionsType === "boolean" || optionsType === "number")
-  );
+  return options && !(isPrimitivePartitionKeyValue(options) || Array.isArray(options));
 }
 
 /**
@@ -136,7 +132,7 @@ export class Items {
    * ```
    */
   public readChangeFeed(
-    partitionKey: string | number | boolean,
+    partitionKey: PartitionKey,
     changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<any>;
   /**
@@ -150,7 +146,7 @@ export class Items {
    * @deprecated Use `changeFeed` instead.
    */
   public readChangeFeed<T>(
-    partitionKey: string | number | boolean,
+    partitionKey: PartitionKey,
     changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<T>;
   /**
@@ -159,7 +155,7 @@ export class Items {
    */
   public readChangeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
   public readChangeFeed<T>(
-    partitionKeyOrChangeFeedOptions?: string | number | boolean | ChangeFeedOptions,
+    partitionKeyOrChangeFeedOptions?: PartitionKey | ChangeFeedOptions,
     changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<T> {
     if (isChangeFeedOptions(partitionKeyOrChangeFeedOptions)) {
@@ -181,7 +177,7 @@ export class Items {
    * ```
    */
   public changeFeed(
-    partitionKey: string | number | boolean,
+    partitionKey: PartitionKey,
     changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<any>;
   /**
@@ -192,7 +188,7 @@ export class Items {
    * Create a `ChangeFeedIterator` to iterate over pages of changes
    */
   public changeFeed<T>(
-    partitionKey: string | number | boolean,
+    partitionKey: PartitionKey,
     changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<T>;
   /**
@@ -200,10 +196,10 @@ export class Items {
    */
   public changeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
   public changeFeed<T>(
-    partitionKeyOrChangeFeedOptions?: string | number | boolean | ChangeFeedOptions,
+    partitionKeyOrChangeFeedOptions?: PartitionKey | ChangeFeedOptions,
     changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<T> {
-    let partitionKey: string | number | boolean;
+    let partitionKey: PartitionKey;
     if (!changeFeedOptions && isChangeFeedOptions(partitionKeyOrChangeFeedOptions)) {
       partitionKey = undefined;
       changeFeedOptions = partitionKeyOrChangeFeedOptions;
@@ -278,7 +274,7 @@ export class Items {
     const { diagnosticContext, partitionKeyDefinition } = await readAndRecordPartitionKeyDefinition(
       this.container
     );
-    const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
+    const partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
 
     const err = {};
     if (!isItemResourceValid(body, err)) {
@@ -301,8 +297,8 @@ export class Items {
     const ref = new Item(
       this.container,
       (response.result as any).id,
-      partitionKey,
-      this.clientContext
+      this.clientContext,
+      partitionKey
     );
     return new ItemResponse(
       response.result,
@@ -348,7 +344,7 @@ export class Items {
     const { diagnosticContext, partitionKeyDefinition } = await readAndRecordPartitionKeyDefinition(
       this.container
     );
-    const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
+    const partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
 
     // Generate random document id if the id is missing in the payload and
     // options.disableAutomaticIdGeneration != true
@@ -377,8 +373,8 @@ export class Items {
     const ref = new Item(
       this.container,
       (response.result as any).id,
-      partitionKey,
-      this.clientContext
+      this.clientContext,
+      partitionKey
     );
     return new ItemResponse(
       response.result,
@@ -438,19 +434,8 @@ export class Items {
         operations: [],
       };
     });
-    operations
-      .map((operation) => decorateOperation(operation, partitionKeyDefinition, options))
-      .forEach((operation: Operation, index: number) => {
-        const partitionProp = partitionKeyDefinition.paths[0].replace("/", "");
-        const isV2 = partitionKeyDefinition.version && partitionKeyDefinition.version === 2;
-        const toHashKey = getPartitionKeyToHash(operation, partitionProp);
-        const hashed = isV2 ? hashV2PartitionKey(toHashKey) : hashV1PartitionKey(toHashKey);
-        const batchForKey = batches.find((batch: Batch) => {
-          return isKeyInRange(batch.min, batch.max, hashed);
-        });
-        batchForKey.operations.push(operation);
-        batchForKey.indexes.push(index);
-      });
+
+    this.groupOperationsBasedOnPartitionKey(operations, partitionKeyDefinition, options, batches);
 
     const path = getPathFromLink(this.container.url, ResourceType.item);
 
@@ -482,7 +467,8 @@ export class Items {
             // partition key types as well since we don't support them, so for now we throw
             if (err.code === 410) {
               throw new Error(
-                "Partition key error. Either the partitions have split or an operation has an unsupported partitionKey type"
+                "Partition key error. Either the partitions have split or an operation has an unsupported partitionKey type" +
+                  err.message
               );
             }
             throw new Error(`Bulk request errored with: ${err.message}`);
@@ -492,6 +478,43 @@ export class Items {
     const response: any = orderedResponses;
     response.diagnostics = diagnosticContext.getDiagnostics();
     return response;
+  }
+
+  /**
+   * Function to create batches based of partition key Ranges.
+   * @param operations - operations to group
+   * @param partitionDefinition - PartitionKey definition of container.
+   * @param options - Request options for bulk request.
+   * @param batches - Groups to be filled with operations.
+   */
+  private groupOperationsBasedOnPartitionKey(
+    operations: OperationInput[],
+    partitionDefinition: PartitionKeyDefinition,
+    options: RequestOptions | undefined,
+    batches: Batch[]
+  ) {
+    operations.forEach((operationInput, index: number) => {
+      const { operation, partitionKey } = prepareOperations(
+        operationInput,
+        partitionDefinition,
+        options
+      );
+      const hashed = hashPartitionKey(
+        assertNotUndefined(
+          partitionKey,
+          "undefined value for PartitionKey is not expected during grouping of bulk operations."
+        ),
+        partitionDefinition
+      );
+      const batchForKey = assertNotUndefined(
+        batches.find((batch: Batch) => {
+          return isKeyInRange(batch.min, batch.max, hashed);
+        }),
+        "No suitable Batch found."
+      );
+      batchForKey.operations.push(operation);
+      batchForKey.indexes.push(index);
+    });
   }
 
   /**
@@ -523,7 +546,7 @@ export class Items {
    */
   public async batch(
     operations: OperationInput[],
-    partitionKey: string = "[{}]",
+    partitionKey?: PartitionKey,
     options?: RequestOptions
   ): Promise<Response<OperationResponse[]>> {
     operations.map((operation) => decorateBatchOperation(operation, options));
