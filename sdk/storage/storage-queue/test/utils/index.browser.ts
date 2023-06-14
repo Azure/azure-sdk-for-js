@@ -1,15 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { isLiveMode } from "@azure-tools/test-recorder";
 import { AnonymousCredential } from "../../../storage-blob/src/credentials/AnonymousCredential";
 import { newPipeline } from "../../../storage-blob/src/Pipeline";
 import { QueueServiceClient } from "../../src/QueueServiceClient";
+import { createXhrHttpClient } from "@azure/test-utils";
+import { setTestOnlySetHttpClient } from "../../src/StorageClient";
 export * from "./testutils.common";
 
 export function getGenericQSU(
   accountType: string,
   accountNameSuffix: string = ""
 ): QueueServiceClient {
+  // only needed until we can migrate to test recorder v2
+  if (!isLiveMode()) {
+    setTestOnlySetHttpClient(createXhrHttpClient());
+  }
+
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
 
@@ -28,11 +36,13 @@ export function getGenericQSU(
     accountSAS = accountSAS.startsWith("?") ? accountSAS : `?${accountSAS}`;
   }
 
+  // don't add the test account SAS value.
+  if (accountSAS === "?fakeSasToken") {
+    accountSAS = "";
+  }
+
   const credentials = new AnonymousCredential();
-  const pipeline = newPipeline(credentials, {
-    // Enable logger when debugging
-    // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
-  });
+  const pipeline = newPipeline(credentials);
   const filePrimaryURL = `https://${accountName}${accountNameSuffix}.queue.core.windows.net${accountSAS}`;
   return new QueueServiceClient(filePrimaryURL, pipeline);
 }
@@ -113,6 +123,11 @@ export function getBrowserFile(name: string, size: number): File {
 }
 
 export function getSASConnectionStringFromEnvironment(): string {
+  // only needed until we can migrate to test recorder v2
+  if (!isLiveMode()) {
+    setTestOnlySetHttpClient(createXhrHttpClient());
+  }
+
   const env = (self as any).__env__;
   return `BlobEndpoint=https://${env.ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${
     env.ACCOUNT_NAME

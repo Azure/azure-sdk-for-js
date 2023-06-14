@@ -496,7 +496,7 @@ export class QueueClient extends StorageClient {
       typeof credentialOrPipelineOrQueueName !== "string"
     ) {
       // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
-      // The second paramter is undefined. Use anonymous credential.
+      // The second parameter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
       pipeline = newPipeline(new AnonymousCredential(), options);
     } else if (

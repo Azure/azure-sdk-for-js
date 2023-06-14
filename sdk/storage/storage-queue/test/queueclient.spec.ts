@@ -216,12 +216,7 @@ describe("QueueClient", () => {
           children: [
             {
               name: "Azure.Storage.Queue.QueueClient-getProperties",
-              children: [
-                {
-                  name: "HTTP GET",
-                  children: [],
-                },
-              ],
+              children: [],
             },
           ],
         },
@@ -235,7 +230,7 @@ describe("QueueClient", () => {
 
 describe("QueueClient - Verify Name Properties", () => {
   const queueName = "queueName";
-  const accountName = "myAccount";
+  const accountName = "myaccount";
 
   function verifyNameProperties(url: string, inputAccountName: string, inputQueueName: string) {
     const newClient = new QueueClient(url);

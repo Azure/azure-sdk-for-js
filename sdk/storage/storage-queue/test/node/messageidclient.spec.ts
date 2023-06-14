@@ -6,7 +6,6 @@ import { newPipeline } from "../../src";
 import { getQSU, getConnectionStringFromEnvironment } from "../utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { QueueClient } from "../../src/QueueClient";
-import { StorageSharedKeyCredential } from "../../../storage-blob/src/credentials/StorageSharedKeyCredential";
 import { recorderEnvSetup } from "../utils/index.browser";
 import { Context } from "mocha";
 
@@ -98,8 +97,7 @@ describe("QueueClient messageId methods, Node.js only", () => {
   });
 
   it("can be created with a url and a credential", async () => {
-    const factories = (queueClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = queueClient["credential"];
 
     const eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.messageId);
@@ -119,8 +117,7 @@ describe("QueueClient messageId methods, Node.js only", () => {
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
-    const factories = (queueClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = queueClient["credential"];
 
     const eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.messageId);
@@ -144,8 +141,7 @@ describe("QueueClient messageId methods, Node.js only", () => {
   });
 
   it("can be created with a url and a pipeline", async () => {
-    const factories = (queueClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = queueClient["credential"];
 
     const eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.messageId);
