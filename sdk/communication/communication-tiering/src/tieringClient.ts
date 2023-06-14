@@ -6,7 +6,7 @@ import {
   NumberAllotmentGetAcquiredNumberLimitsOptionalParams,
   TieringGetByResourceIdOptionalParams,
   AcsTier,
-  AssetDetailsModel
+  AssetDetailsModel,
 } from "./models";
 import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
