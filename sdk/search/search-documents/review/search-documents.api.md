@@ -56,7 +56,7 @@ export interface AnswerResult {
 export type Answers = string;
 
 // @public
-export type AnswersType = {
+export type AnswersOptions = {
     answers: "extractive";
     count?: number;
     threshold?: number;
@@ -2506,7 +2506,7 @@ export interface SearchRequest<TModel extends object = never> {
     searchText?: string;
     select?: string;
     semanticConfiguration?: string;
-    semanticErrorHandling?: SemanticErrorHandlingMode;
+    semanticErrorHandlingMode?: SemanticErrorHandlingMode;
     semanticFields?: string;
     semanticMaxWaitInMilliseconds?: number;
     sessionId?: string;
@@ -2518,7 +2518,7 @@ export interface SearchRequest<TModel extends object = never> {
 
 // @public
 export interface SearchRequestOptions<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> {
-    answers?: Answers | AnswersType;
+    answers?: Answers | AnswersOptions;
     captions?: Captions;
     debugMode?: QueryDebugMode;
     facets?: string[];

@@ -52,7 +52,7 @@ export {
   SemanticErrorHandlingMode,
   QueryResultDocumentSemanticFieldState,
   Vector,
-  AnswersType,
+  AnswersOptions,
   DocumentDebugInfo,
   SemanticDebugInfo,
   QueryResultDocumentSemanticField,

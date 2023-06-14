@@ -456,7 +456,7 @@ export interface SearchRequestOptions<
    * This parameter is only valid if the query type is 'semantic'. If set, the query returns answers
    * extracted from key passages in the highest ranked documents.
    */
-  answers?: Answers | AnswersType;
+  answers?: Answers | AnswersOptions;
   /**
    * A value that specifies whether any or all of the search terms must be matched in order to
    * count the document as a match. Possible values include: 'any', 'all'
@@ -1048,7 +1048,7 @@ export type Answers = string;
  * This parameter is only valid if the query type is 'semantic'. If set to `extractive`, the query
  * returns answers extracted from key passages in the highest ranked documents.
  */
-export type AnswersType =
+export type AnswersOptions =
   | {
       /**
        * Extracts answer candidates from the contents of the documents returned in response to a
