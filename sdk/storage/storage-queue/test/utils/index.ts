@@ -72,7 +72,7 @@ export function getSASConnectionStringFromEnvironment(): string {
   const tmr = new Date();
   tmr.setDate(tmr.getDate() + 1);
   const queueServiceClient = getQSU();
-  const sharedKeyCredential = queueServiceClient['credential'];
+  const sharedKeyCredential = queueServiceClient["credential"];
 
   const sas = generateAccountSASQueryParameters(
     {
