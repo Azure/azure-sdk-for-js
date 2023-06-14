@@ -46,7 +46,7 @@ import {
   NarrowedModel,
   SelectArray,
   SearchFieldArray,
-  AnswersType,
+  AnswersOptions,
   SearchRequestOptions,
   Vector,
 } from "./indexModels";
@@ -915,7 +915,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     return orderBy;
   }
 
-  private convertAnswers(answers?: Answers | AnswersType): QueryAnswerType | undefined {
+  private convertAnswers(answers?: Answers | AnswersOptions): QueryAnswerType | undefined {
     if (!answers || typeof answers === "string") {
       return answers;
     }
