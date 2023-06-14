@@ -2,16 +2,22 @@
 
 ## Introduction
 
-As you may know our JS next generation library [Modular](https://github.com/Azure/azure-sdk-for-js/blob/main/design/modular-development.md) is composited of classical client layer, api layer and rest layer. And one of our goal is to have Azure Portal to use our libraries with the rest layer, cases like multi-client and multi-api may be uncommon but still valid, if cases like multi-client or multi-api come to us, as long as they are valid in the perspective of TypeSpec compiler, we will need to support them.
+As you may know our JS next generation library [Modular](https://github.com/Azure/azure-sdk-for-js/blob/main/design/modular-development.md) is composited of classical client layer, api layer and rest layer. And one of our goal is to have Azure Portal to use our libraries with the rest layer, cases like multi-client and multi-api may be uncommon but still valid, if cases like multi-client or multi-api come to us, as long as they are valid in the perspective of TypeSpec compiler, we will need to support them in our rest layer for Portal to adopt, As we will only release one single package for each release, there won't be any independent RLCs, which is why we need to support the multi-client and multi-api in the Modular. 
 
-This document is going to talk about what the multi-client and multi-api for our Modular would look like. we will introduce it from our **_Design Principals_**, and how the **_Eariler Design_** looks like and what kinds of problem it might cause, What our **_Proposals_** for the multi-client is, How each proposal looks like in different scenarios of **_Multi-Client in Modular_**, We will also talk about how **_Multi-Api in Modular_** should look like both in single client and multi-client case. Finally, we have some questions that may not be related to multi-client and multi-api but are related with the Modular to discuss.
+This document is going to talk about what the multi-client and multi-api for our Modular would look like. we will introduce it from:
+1. What's our **_Design Principals_**.
+1. How the **_Eariler Design_** looks like and what kinds of problem it might cause.
+1. What our **_Proposals_** for the multi-client is.
+1. How each proposal looks like in different scenarios of **_Multi-Client in Modular_**  
+1. We will also talk about how **_Multi-Api in Modular_** should look like both in single client and multi-client case. 
+1. Finally, we have some questions that may not be related to multi-client and multi-api but are related with the Modular to discuss.
 
 ## Design Principals
 
 1. To generate N packages if we need N times of TypeSpec compilations.  
    This means, we respect the package boundaries that are defined by the client.tsp. if there're N client.tsp files, no matter where those N client.tsp files point to, we will generate N packages.
-1. For RLC, Generate only one sub client per each service endpoint.  
-   This means, in terms of RLC, we only split it into multi-client where there're multi endpoints from one compilation i.e. the @service decorators. If the multiple sub clients is divided because they are going to have different version evolving strategy, RLC will only honor it when that api version parameter is in the parameterized host. Otherwise, it doesn't make any differences to RLC if it's version v1 or version v2. A case in point would be our [RLC for compute management plane](https://www.npmjs.com/package/@azure-rest/arm-compute).
+1. For RLC, only generate one sub client per each service endpoint.  
+   This means, in terms of RLC, we only split it into multi-client where there're multi endpoints from one compilation i.e. the @service decorators. If the multiple sub clients is divided because they are going to have different version evolving strategy, RLC will only honor it when that api version parameter is in the parameterized host. Otherwise, it doesn't make any differences to RLC if it's version v1 or version v2. A case in point would be our [RLC for compute management plane](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/compute/arm-compute-rest).
 
 - Questions related:
   1. Is this a valid case where we use different @server decorator to point to the same endpoint.  
@@ -128,6 +134,24 @@ From the above two proposal, I prefer proposal 2, because:
    1. For customers who are familiar with the classical client, don't want to change their code, and care less about bundle size, they can choose to use the classical client layer.
 1. With the Option 1, `./clientA/api`, it gives me more of a feeling that those are internal apis provided by the clientA. 
 1. Psycologically, we have already export the classical client to the top level, if customer is typing `./api`, apparently, he or she wants something different, and if he or she really wants to limit the usage within some sub client, `./api/clientA` is more reasonable to them.
+1. From customization perspective, in the case that modular layer is a multi-client case and RLC layer is single-client, and we will need to add some manual code support scenarios accross different sub clients.  
+    With Option 2, our code structure would look like:
+
+    ```text
+    ./src/api
+    ./src/api/clientA 
+    ./src/api/clientB
+    ```
+
+    Then if we add the manual code in the `src/api` folder, it makes sense.   
+    But with Option 1, our code structure would look like:
+
+    ```text
+    ./src/api
+    ./src/clientA/api
+    ./src/clientB/api
+    ```
+    if we add the manual code in the `src/api` folder, it's kind of weird.
 
 ## Multi-Client in Modular
 
@@ -154,7 +178,9 @@ The valid scenarios could be tell from the combination from client.tsp to @clien
 1. ~~N client.tsp with N @client map to N endpoints~~  
    This one basically equals 1 client.tsp with 1 @client maps to 1 @service.
 
-The other cases are invalid and the below part is how we get the result:
+The other cases are invalid and the below part is how we get the result from
+
+<details open></summary>How to identify all possible scenarios</summary>
 
 **Assumptions**
 
@@ -184,6 +210,7 @@ When we combine the mapping between client.tsp to @client and the mapping betwee
 1. 1 client.tsp with N @client map to N endpoints  
 1. N client.tsp with N @client map to 1 endpoint  
 1. N client.tsp with N @client map to N endpoints
+</details>
 
 As the first case and the fourth case are not involved with multi-client in both api Layer and rest Layer, we will only consider the second and the third case where we have will use the example name them as the LoadTesting case and the Purview case.
 
@@ -294,84 +321,6 @@ _NOTES:_ in this case, the path name in the rest related expports and api relate
   1. how about keep the code as `src/account/api` but export it as `./api/account` in the Option 1.
   1. want to confirm about the `src/rest/index.ts`.
 
-## Rethinking
-
-Let's compare the original design and the Proposal 1 and Proposal 2 from the user experience perspective side by side.
-
-<!-- markdownlint-disable MD033 -->
-<table>
-  <tr>
-    <th>Original Design</th>
-    <th>Option 1</th>
-    <th>Option 2</th>
-  </tr>
-  <tr>
-    <td>
-      <pre lang="shell">
-Default Client or Both Exported
-@azure/purview
-@azure/purview/api
-@azure/purview/rest
-</pre>
-<pre lang="shell">
-Sub Client Account
-@azure/purview/account
-@azure/purview/account/api
-@azure/purview/account/rest
-</pre>
-<pre lang="shell">
-Sub Client MetadataPolicies
-@azure/purview/metadataPolicies
-@azure/purview/metadataPolicies/api
-@azure/purview/metadataPolicies/rest
-</pre>
-</td>
-<td>
-<pre lang="shell">
-Default Client or Both Exported
-@azure/purview
-@azure/purview/api
-@azure/purview/rest
-</pre>
-<pre lang="shell">
-Sub Client Account
-@azure/purview/account
-@azure/purview/account/api
-@azure/purview/rest/account
-</pre>
-<pre lang="shell">
-Sub Client MetadataPolicies
-@azure/purview/metadataPolicies
-@azure/purview/metadataPolicies/api
-@azure/purview/rest/metadataPolicies
-</pre>
-</td>
-<td>
-<pre lang="shell">
-Default Client or Both Exported
-@azure/purview
-@azure/purview/api
-@azure/purview/rest
-</pre>
-<pre lang="shell">
-Sub Client Account
-@azure/purview/account
-@azure/purview/api/account
-@azure/purview/rest/account
-</pre>
-<pre lang="shell">
-Sub Client MetadataPolicies
-@azure/purview/metadataPolicies
-@azure/purview/api/metadataPolicies
-@azure/purview/rest/metadataPolicies
-</pre>
-</td>
-  </tr>
-</table>
-<!-- markdownlint-enable MD033 -->
-
-I think that philosology behind the original design and Option 2 is how we want to classify our customers. If we go with approach on the left side, this means we think higher of the service user scenarios, If we go with the approach on the right side, this means we think higher of our JS modular libraries' own user scenarios. Compared with the original design and the Option 2, Option 1 is more like a compromise between the two of them.
-
 ## Multi-Api in Modular
 
 Some proposed design guideline related with the [multi-api guideline](https://github.com/Azure/azure-sdk/pull/6206/files#diff-392938583d748d4b75dcde737420ce39bb9a2ef56200804841e591b2b777962dR116)
@@ -425,7 +374,7 @@ Assuming the package name is called @azure/foo, the user experience for single c
 
 ### Multi-Client in Multi-Api
 
-#### Multi-Api for LoadTesting case
+#### Multi-Api for LoadTesting Case
 
 Assuming we have the default version, and we want to add v1, v2 to make it multi-api package,
 
@@ -434,7 +383,7 @@ In this case, as both of the administration and run sub client are pointing to t
 - Questions related:
   1. Consider cases like [mgmt plane composite tags in SQL](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/sql/resource-manager/readme.md#tag-package-composite-v5). and if a sub client has a new version, and they want to release a new package in a multi-api library of their sub client. Is this allowed ?
 
-#### Multi-Api For Purview case
+#### Multi-Api For Purview Case
 
 In the Purview case, as both sub clients are pointing to different endpoints, they are likely to have different version strategy evolving.
 
@@ -710,9 +659,11 @@ Whenever a new version comes, we will just duplicate the code except pass a olde
 
 ## Questions
 
+1. Codegen related questions.
+   1. use subpath export in our own code, [example link](https://github.com/qiaozha/azure-sdk-for-js/commit/7c32e2855988ed89309ca995de19a44d1d27511a)
+   1. Shared models.
 1. In the Multi-Client case, what if only one of them become a Multi-Api case.  
    Only applies to cases like purview.
-1. In the Multi-Api case, what if starting from one version, it becomes a Multi-Client.
 1. Use subpath exports in pure RLC generation.
    1. Multi-Client  
       @purview/administration/account  
@@ -721,23 +672,14 @@ Whenever a new version comes, we will just duplicate the code except pass a olde
       @azure-rest/maps-search/v1  
       @azure-rest/maps-search/v2
       more details see [link](https://teams.microsoft.com/l/message/19:344f6b5b36ba414daa15473942c7477b@thread.skype/1684293866076?tenantId=72f988bf-86f1-41af-91ab-2d7cd011db47&groupId=3e17dcb0-4257-4a30-b843-77f47f1d4121&parentMessageId=1684229932399&teamName=Azure%20SDK&channelName=Language%20%E2%80%93%20JS%E2%80%89%EF%BC%86%E2%80%89TS%20%F0%9F%A5%B7&createdTime=1684293866076)
-1. Default client exports.  
-   Not sure if we should add default client, on one hand, it can keep the consistent code structure, and avoid some name conflicts. On the other hand, we will have a complexer of module sub path export.
-1. Breaking change consideration.
-   1. RLC is a breaking change, but Modular is not.
-   1. RLC is not a breaking change, but Modular is.
-1. Adding new client
-   1. Migrate from single-client to multi-client.
-1. Adding new api version
-   1. Migrate from single-api to multi-api.
-1. Commonly used models.
-1. Codegen related questions.
-   1. use subpath export in our own code, [example link](https://github.com/qiaozha/azure-sdk-for-js/commit/7c32e2855988ed89309ca995de19a44d1d27511a)
-1. Dev tool for customization code combination.  
-   Not sure if we need any change if the code structure changed.
-1. Package size consideration.  
-   For large RP like network or compute, if we keep the code like this, we will mostly have the same issue as Python used to have.
 1. Documentation in Docs site.
 1. How to do data analyze for different layer.
 1. Sample generation.  
    Should we generate all samples for all three layers? see the rest api docs [here](https://learn.microsoft.com/en-us/rest/api/azurerekusto/clusters/create-or-update?tabs=JavaScript)
+1. Breaking change consideration.
+   1. RLC is a breaking change, but Modular is not.
+   1. RLC is not a breaking change, but Modular is.
+1. Dev tool for customization code combination.  
+   Not sure if we need any change if the code structure changed.
+1. Package size consideration.  
+   For large RP like network or compute, if we keep the code like this, we will mostly have the same issue as Python used to have.
