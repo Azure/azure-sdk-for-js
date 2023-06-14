@@ -24,5 +24,5 @@ export {
   TrialPhoneNumberUsageCalling,
   TrialPhoneNumberUsageSmsBounds,
   TrialPhoneNumberUsageCallingBounds,
-  Paths190FnhrAdministrationResourcesResourceidTelephoneNumberSummaryGetResponses200ContentApplicationJsonSchema,
+  Paths190FnhrAdministrationResourcesResourceidTelephoneNumberSummaryGetResponses200ContentApplicationJsonSchema as AssetDetailsModel,
 } from "./generated/src/models";

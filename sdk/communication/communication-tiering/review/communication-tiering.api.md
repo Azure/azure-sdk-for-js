@@ -33,23 +33,11 @@ export interface AcsTierCapabilitiesCalling {
     outbound?: CallingOutbound[];
 }
 
-// @public (undocumented)
-export const AcsTierCapabilitiesCallingMapper: coreClient.CompositeMapper;
-
-// @public (undocumented)
-export const AcsTierCapabilitiesMappers: coreClient.CompositeMapper;
-
 // @public
 export interface AcsTierCapabilitiesSms {
     inbound?: SmsInbound[];
     outbound?: SmsOutbound[];
 }
-
-// @public (undocumented)
-export const AcsTierCapabilitiesSMSMapper: coreClient.CompositeMapper;
-
-// @public (undocumented)
-export const AcsTierMapper: coreClient.CompositeMapper;
 
 // @public
 export interface AssetDetails {
@@ -61,10 +49,9 @@ export interface AssetDetails {
 }
 
 // @public (undocumented)
-export const AssetDetailsMapper: coreClient.CompositeMapper;
-
-// @public (undocumented)
-export const AssetDetailsResponseMapper: coreClient.CompositeMapper;
+export interface AssetDetailsModel {
+    assetDetails: AssetDetails[];
+}
 
 // @public
 export interface AssetDetailsTierInfo {
@@ -74,9 +61,6 @@ export interface AssetDetailsTierInfo {
     limit?: string;
     scope?: string;
 }
-
-// @public (undocumented)
-export const AssetDetailsTierInfoMapper: coreClient.CompositeMapper;
 
 // @public
 export interface CallingInbound {
@@ -99,12 +83,7 @@ export interface NumberAllotmentGetAcquiredNumberLimitsOptionalParams extends co
 }
 
 // @public
-export type NumberAllotmentGetAcquiredNumberLimitsResponse = Paths190FnhrAdministrationResourcesResourceidTelephoneNumberSummaryGetResponses200ContentApplicationJsonSchema;
-
-// @public (undocumented)
-export interface Paths190FnhrAdministrationResourcesResourceidTelephoneNumberSummaryGetResponses200ContentApplicationJsonSchema {
-    assetDetails: AssetDetails[];
-}
+export type NumberAllotmentGetAcquiredNumberLimitsResponse = AssetDetailsModel;
 
 // @public
 export interface PhoneNumberPurchase {
@@ -134,8 +113,8 @@ export class TieringClient {
     constructor(connectionString: string, options?: TieringClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: TieringClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: TieringClientOptions);
-    getAcquiredNumberLimits(resourceId: string, options?: NumberAllotmentGetAcquiredNumberLimitsOptionalParams): Promise<NumberAllotmentGetAcquiredNumberLimitsResponse>;
-    getTierByResourceId(resourceId: string, options?: TieringGetByResourceIdOptionalParams): Promise<TieringGetByResourceIdResponse>;
+    getAcquiredNumberLimits(resourceId: string, options?: NumberAllotmentGetAcquiredNumberLimitsOptionalParams): Promise<AssetDetailsModel>;
+    getTierByResourceId(resourceId: string, options?: TieringGetByResourceIdOptionalParams): Promise<AcsTier>;
 }
 
 // @public

@@ -4,9 +4,9 @@
 
 import {
   NumberAllotmentGetAcquiredNumberLimitsOptionalParams,
-  NumberAllotmentGetAcquiredNumberLimitsResponse,
-  TieringGetByResourceIdResponse,
   TieringGetByResourceIdOptionalParams,
+  AcsTier,
+  AssetDetailsModel
 } from "./models";
 import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
@@ -91,7 +91,7 @@ export class TieringClient {
   public getAcquiredNumberLimits(
     resourceId: string,
     options: NumberAllotmentGetAcquiredNumberLimitsOptionalParams = {}
-  ): Promise<NumberAllotmentGetAcquiredNumberLimitsResponse> {
+  ): Promise<AssetDetailsModel> {
     return tracingClient.withSpan(
       "numberAllotment.getAcquiredNumberLimits",
       options,
@@ -109,7 +109,7 @@ export class TieringClient {
   public getTierByResourceId(
     resourceId: string,
     options: TieringGetByResourceIdOptionalParams = {}
-  ): Promise<TieringGetByResourceIdResponse> {
+  ): Promise<AcsTier> {
     return tracingClient.withSpan("tiering.getTierByResourceId", options, (updatedOptions) => {
       return this.client.tiering.getByResourceId(resourceId, updatedOptions);
     });
