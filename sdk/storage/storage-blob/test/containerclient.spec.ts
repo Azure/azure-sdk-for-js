@@ -508,6 +508,7 @@ describe("ContainerClient", () => {
       const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.upload("", 0);
       blobClients.push(blobClient);
+      blockBlobClient;
     }
 
     const delimiter = "/";
