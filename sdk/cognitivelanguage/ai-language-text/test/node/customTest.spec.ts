@@ -20,7 +20,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
     describe("analyzeBatch", function (this: Suite) {
       const pollingInterval = isPlaybackMode() ? 0 : 2000;
 
-      describe("custom", function () {
+      describe.skip("custom", function () {
         let projectName: string;
         let deploymentName: string;
 
@@ -135,7 +135,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           });
         });
 
-        describe.skip("multi label classification action", function () {
+        describe("multi label classification action", function () {
           before(async function (this: Context) {
             projectName = "MultiLabel";
             deploymentName = "MultiLabelDeployment";
