@@ -1400,25 +1400,6 @@ describe("bulk/batch item operations", async function () {
             ],
           };
           await runBulkTestDataSet(dataset);
-          // const operations = [
-          //   {
-          //     operationType: BulkOperationType.Create,
-          //     resourceBody: {
-          //       ttl: -10,
-          //       key: "A",
-          //     },
-          //   },
-          //   {
-          //     operationType: BulkOperationType.Create,
-          //     resourceBody: {
-          //       key: "A",
-          //       licenseType: "B",
-          //       id: addEntropy("sifjsiof"),
-          //     },
-          //   },
-          // ];
-          // const response = await v2Container.items.bulk(operations, { continueOnError: true });
-          // assert.strictEqual(response[1].statusCode, 201);
         });
         it("autogenerates IDs for Create operations", async function () {
           const dataset: BulkTestDataSet = {
