@@ -124,7 +124,7 @@ From the above two proposal, I prefer proposal 2, because:
 
 1. With the Option 2, we tell our customers that both the classical client and the api layer and the rest layer are equally important. This is also align with our concepts about Modular. which are:
    1. For customers who cares about bundle size very much, they can choose to use rest layer
-   1. For customers who cares about bundle size but also would like to have a better user experience with a minimal scarefiy of the bundle size, they can choose to use the api layer.
+   1. For customers who cares about bundle size but also would like to have a better user experience with a minimal sacrifice of the bundle size, they can choose to use the api layer.
    1. For customers who are familiar with the classical client, don't want to change their code, and care less about bundle size, they can choose to use the classical client layer.
 1. With the Option 1, `./clientA/api`, it gives me more of a feeling that those are internal apis provided by the clientA. 
 1. Psycologically, we have already export the classical client to the top level, if customer is typing `./api`, apparently, he or she wants something different, and if he or she really wants to limit the usage within some sub client, `./api/clientA` is more reasonable to them.
