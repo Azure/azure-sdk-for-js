@@ -21,7 +21,7 @@ This means, in terms of RLC, we only split it into multi-client where there're m
 - Questions related:
   1. Is this a valid case where we use different @server decorator to point to the same endpoint.  
      [cadl playground link](https://cadlplayground.z22.web.core.windows.net/cadl-azure/?c=aW1wb3J0ICJAdHlwZXNwZWMvcmVzdCI7CskZYXp1cmUtdG9vbHMvyCUtxhVjb3Jl3ytjLWNsaWVudC1nZW5lcmF0b3LINgp1c2luZyBUeXBlU3BlYy5IdHRwO9AVUmVzdMgVQcReLkNvcmXPEsVhR8hg0URWZXJzaW9uaW5nOwoKQHNlcnZpY2UoewogIHRpdGxlOiAiTXVsdGnGRyIsCiAgdsYyOiAiMS4wLjAiLAp9KQpAdXNlRGVwZW5kZW5jeSjHfG9yZchhcy52MV8wX1ByZXZpZXdfMSkKQGRvYygixSogSGVhbHRoIEluc2lnaHRzIHByb3ZpZGVzIGFuIEFQSSB0aGF0IOQAnWVzIGnGJSBtb2RlbHMsIOQBSGlmaWMgZm9yyEkmIExpZmUgU2NpZW5jZXMsxkFwZXJmb3JtIGFuYWx5c2nEXmTIayBpbmZlcsUuIHRvIGJlIHVzZWQgYnkgYSBodW1hbi4iKeYBIGVyKAogICJ7ZW5kcG9pbnR9L2jFdecAmHPlASX%2FANj%2FANj%2FANj%2FANj%2FANjxANjkALDkAfEgIOYBk1N1cOQCs2VkIENvZ25pdGl2ZSBT5gIZcyDoAPZzIChwcm90b2NvbMVvaG9zdG5hbWUs5QCvZXhhbXDkAj5odHRwczovL3dlc3R1czIuYXBpLmPIVi5taWNyb3NvZnQuY29tKeQBYuQAhshjOiB1cmzkAJ19CikKxFxzcGFjZSBDYWRsLusClSB7CgovLyBvcOQC4mlvbiDwAxEKIOYBVCBSZXNvdXJjZegA7nZpc2liaWxpdHkoInJlYWTnAIBpZDogc3Ry5gMTxSlrZXnGCXNlZ21lbnTEL8ZLc8c02EzkALfKTsQSZGVzY3JpcOQAqj%2FOGuQEFcwSfcR%2B7gC6QXJyYXkgaXPJEVtd5QCkQPUD7eYDgeYEY%2BUD0%2BgAkCJGb2%2FrA9Ig5QKDaWNlOvEBXcQffeQAy0Byb3V0ZSgiL2NhZGwtZm9v5QDh5gIxxDUgRscTaW50ZXJm5AGpRm9vT3DtAlpDcmVhdOQC%2FiBuZXcg6AFEIG9yIHVwZMYabiBleGlzdOQBwm9uZegCE2PFOU9yVcUn7AEBxlNPclJlcGxhY2U8yBg%2B6AG8xXlHZXRzIHRoZSBkZXRhaWxzIG9mIGHpAIHIZmdldMxbUmVhZNdQRGVsZeYAydBEZMUazEfGLNdJTGlz5wCa6QD3yFJzyFNsaXPtAJjENMxP5AIqff8FvWVudDH%2FBb7%2FBb7%2FBb7%2FBOb%2FBOb%2FBOb%2FBOb%2FBOb%2FBb7%2FBb7%2FANj%2FANj%2FANj%2FANj%2FANj%2FBb7%2FBb7%2FBb7%2FBb7%2FBb7%2FBb7rApYge%2BQFvmJpbmFyef8FyCAgQGZyaWVuZGx5TmFtZSgi6AMFMcV8%2FwXl%2FwXl%2FwXl3Ez%2FBeX%2FBeX%2FBeXnBeUvL%2BQEGXBvbnNlIHdpdGggaGVhZGVyc%2F8F%2FfQF%2FUJhcv8F%2FegBnOoF%2FuUCW0JhcuYF9u0GDGLHFuoF%2BUJhcuoF%2BcgsZ2V0LeYB5ugBTmdldOgFd0LFGSgpOiBPa1LoAOcmx0MgIEDmAO0oImNvbnTkCzDkAUYiKSDHD%2BQKzTogImltYWdlL3BuZyLmAWsgIEBib2R5IMQFOiBieXRlc8YZfecB82dldOUBbMR47QF9xyDqAOjlBmUt5AF4LecBeOgAxXB15gDFxiNXaXRoSMYhxFXmBp1k%2FADS6QLvLWxvY8UJx1og6gMKTMca6gCmyBLxBlbnAPTHDMQLyjXuAP3pAN3mBrL1AN3GG%2BsG2O8A4E5vQ%2BYBgv8A4v8A4v8A4usG6eUAv%2BYG8A%3D%3D)
-  1. What's the correct definition of service endpoint?
+  1. May need some clarifications of service endpoint?
 
 ## Previous Design
 
@@ -153,6 +153,9 @@ From the above two proposal, I prefer proposal 2, because:
    ```
 
    if we add the manual code in the `src/api` folder, it's kind of weird.
+
+- Questions related:  
+  1. In the second proposal, if we export both sub classical clients to the top level, is it necessary to have `@azure/foo/clientA` and `@azure/foo/clientB` subpath exports? Can we just put the classical client file in the `src` folder then remove this two subpaths?
 
 ## Comparison of Our Proposals
 
