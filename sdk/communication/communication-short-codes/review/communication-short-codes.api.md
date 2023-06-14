@@ -166,10 +166,9 @@ export interface ReviewNote {
 // @public
 export interface ShortCode {
     countryCode?: string;
-    number?: string;
-    numberType?: NumberType;
     programBriefIds?: string[];
     purchaseDate?: Date;
+    senderId?: string;
 }
 
 // @public

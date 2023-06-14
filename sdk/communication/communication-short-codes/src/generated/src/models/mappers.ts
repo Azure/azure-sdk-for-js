@@ -40,14 +40,8 @@ export const ShortCode: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ShortCode",
     modelProperties: {
-      number: {
-        serializedName: "number",
-        type: {
-          name: "String"
-        }
-      },
-      numberType: {
-        serializedName: "numberType",
+      senderId: {
+        serializedName: "senderId",
         type: {
           name: "String"
         }

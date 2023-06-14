@@ -16,12 +16,10 @@ export interface ShortCodes {
   nextLink?: string;
 }
 
-/** Represents a number, ShortCode or AlphaId, acquired in a given country. */
+/** Represents a ShortCode acquired in a given country. */
 export interface ShortCode {
-  /** The value of the ShortCode or the alpha numeric e.g. '555555', 'CONTOSO', etc. */
-  number?: string;
-  /** The type of number e.g. 'ShortCode', 'AlphaId'. */
-  numberType?: NumberType;
+  /** The value of the ShortCode e.g. '555555'. */
+  senderId?: string;
   /** ISO 3166 2-char code representing the country e.g. 'US'. */
   countryCode?: string;
   /** Program Brief Name. */
@@ -315,8 +313,6 @@ export interface ProgramBriefAttachments {
   nextLink?: string;
 }
 
-/** Defines values for NumberType. */
-export type NumberType = "shortCode" | "alphaId";
 /** Defines values for BillingFrequency. */
 export type BillingFrequency = "monthly" | "once";
 /** Defines values for ProgramBriefStatus. */
@@ -327,6 +323,8 @@ export type ProgramBriefStatus =
   | "updateProgramBrief"
   | "draft"
   | "denied";
+/** Defines values for NumberType. */
+export type NumberType = "shortCode" | "alphaId";
 /** Defines values for CallToActionType. */
 export type CallToActionType =
   | "website"

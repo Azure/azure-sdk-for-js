@@ -154,14 +154,14 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Success",
+          "201": {
+            "description": "Created",
             "schema": {
               "$ref": "#/definitions/USProgramBrief"
             }
           },
-          "201": {
-            "description": "Created",
+          "200": {
+            "description": "Success",
             "schema": {
               "$ref": "#/definitions/USProgramBrief"
             }
@@ -404,14 +404,14 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Success",
+          "201": {
+            "description": "Created",
             "schema": {
               "$ref": "#/definitions/ProgramBriefAttachment"
             }
           },
-          "201": {
-            "description": "Created",
+          "200": {
+            "description": "Success",
             "schema": {
               "$ref": "#/definitions/ProgramBriefAttachment"
             }
@@ -963,24 +963,12 @@
       }
     },
     "ShortCode": {
-      "description": "Represents a number, ShortCode or AlphaId, acquired in a given country.",
+      "description": "Represents a ShortCode acquired in a given country.",
       "type": "object",
       "properties": {
-        "number": {
-          "description": "The value of the ShortCode or the alpha numeric e.g. '555555', 'CONTOSO', etc.",
+        "senderId": {
+          "description": "The value of the ShortCode e.g. '555555'.",
           "type": "string"
-        },
-        "numberType": {
-          "description": "The type of number e.g. 'ShortCode', 'AlphaId'.",
-          "enum": [
-            "shortCode",
-            "alphaId"
-          ],
-          "type": "string",
-          "x-ms-enum": {
-            "name": "NumberType",
-            "modelAsString": true
-          }
         },
         "countryCode": {
           "description": "ISO 3166 2-char code representing the country e.g. 'US'.",
