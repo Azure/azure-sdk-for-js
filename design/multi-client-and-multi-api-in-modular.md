@@ -157,7 +157,11 @@ From the above two proposal, I prefer proposal 2, because:
 
 ### Identify Scenarios
 
-In this context, client.tsp means the entrance for TypeSpec compilation. @client means the defined sub client.
+In this context, client.tsp means the entrance for TypeSpec compilation. @client means the defined sub client.  
+
+In order to identify all possible scenarios, I have tried to use combination methodology, you may read the below details part from more context, but the result turns out LoadTesting case and Purview case are all the possible ones.
+
+<details open></summary>How to identify all possible scenarios</summary>
 
 In order to cover as much cases as possible, we will need to identify all possible scenarios. But if we are trying to do that in the way of summarizing of all the cases we have met, this never ends. Because we don't know if the next one will be using something different, and we will be unprepared. However, we can take from the describe ability that TypeSpec can provide perspective, because as long as the service is described with TypeSpec, it can not go beyond the scope.
 
@@ -179,8 +183,6 @@ The valid scenarios could be tell from the combination from client.tsp to @clien
    This one basically equals 1 client.tsp with 1 @client maps to 1 @service.
 
 The other cases are invalid and the below part is how we get the result from
-
-<details open></summary>How to identify all possible scenarios</summary>
 
 **Assumptions**
 
@@ -210,9 +212,10 @@ When we combine the mapping between client.tsp to @client and the mapping betwee
 1. 1 client.tsp with N @client map to N endpoints  
 1. N client.tsp with N @client map to 1 endpoint  
 1. N client.tsp with N @client map to N endpoints
-</details>
 
 As the first case and the fourth case are not involved with multi-client in both api Layer and rest Layer, we will only consider the second and the third case where we have will use the example name them as the LoadTesting case and the Purview case.
+
+</details>
 
 - Questions related:
   1. Is there a case where we should be multi-client in RLC but single-client in Modular.  
