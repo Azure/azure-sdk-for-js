@@ -50,7 +50,9 @@ describe("TimeoutFailoverRetryPolicy", function () {
       const response: ResourceResponse<DatabaseAccount> = new ResourceResponse(
         new DatabaseAccount(databaseAccountBody, headers),
         headers,
-        200
+        200,
+        undefined,
+        undefined
       );
       return response;
     }
@@ -178,7 +180,9 @@ describe("TimeoutFailoverRetryPolicy", function () {
         const response: ResourceResponse<DatabaseAccount> = new ResourceResponse(
           new DatabaseAccount(databaseAccountBody, headers),
           headers,
-          200
+          200,
+          undefined,
+          undefined
         );
         return response;
       }
@@ -214,7 +218,9 @@ describe("TimeoutFailoverRetryPolicy", function () {
         const response: ResourceResponse<DatabaseAccount> = new ResourceResponse(
           new DatabaseAccount(databaseAccountBody, headers),
           headers,
-          200
+          200,
+          undefined,
+          undefined
         );
         return response;
       }
