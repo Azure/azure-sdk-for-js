@@ -2,16 +2,16 @@
 
 ## Introduction
 
-As you may know our Modular is composited of classical client layer, api layer and rest layer. And one of our goal is to have Azure Portal to use our libraries with the rest layer, cases like multi-client and multi-api may be uncommon but still valid, if cases like multi-client or multi-api come to us, as long as they are valid in the perspective of TypeSpec compiler, we will need to support them.
+As you may know our JS next generation library [Modular](https://github.com/Azure/azure-sdk-for-js/blob/main/design/modular-development.md) is composited of classical client layer, api layer and rest layer. And one of our goal is to have Azure Portal to use our libraries with the rest layer, cases like multi-client and multi-api may be uncommon but still valid, if cases like multi-client or multi-api come to us, as long as they are valid in the perspective of TypeSpec compiler, we will need to support them.
 
-This document is going to talk about what the multi-client and multi-api for our JS next generation library [Modular](https://github.com/Azure/azure-sdk-for-js/blob/main/design/modular-development.md) would look like. we will introduce it from our **_Design Principals_**, and how the **_Eariler Design_** looks like and what kinds of problem it might cause, What our **_Proposals_** for the multi-client is, How each proposal looks like in different scenarios of **_Multi-Client in Modular_**, We will also talk about how **_Multi-Api in Modular_** should look like both in single client and multi-client case. Finally, we have some questions that may not be related to multi-client and multi-api but are related with the Modular to discuss.
+This document is going to talk about what the multi-client and multi-api for our Modular would look like. we will introduce it from our **_Design Principals_**, and how the **_Eariler Design_** looks like and what kinds of problem it might cause, What our **_Proposals_** for the multi-client is, How each proposal looks like in different scenarios of **_Multi-Client in Modular_**, We will also talk about how **_Multi-Api in Modular_** should look like both in single client and multi-client case. Finally, we have some questions that may not be related to multi-client and multi-api but are related with the Modular to discuss.
 
 ## Design Principals
 
-1. To generate N packages if we need N TypeSpec Compilations.  
+1. To generate N packages if we need N times of TypeSpec compilations.  
    This means, we respect the package boundaries that are defined by the client.tsp. if there're N client.tsp files, no matter where those N client.tsp files point to, we will generate N packages.
 1. For RLC, Generate only one sub client per each service endpoint.  
-   This means, in terms of RLC, we only split it into multi-client where there're multi endpoints from one compilation i.e. the @service decorators. If the multiple sub clients is divided because they are going to have different version evolving strategy, RLC will only honor it when that api version parameter is in the parameterized host. Otherwise, it doesn't make any differences to RLC if it's version v1 or version v2.
+   This means, in terms of RLC, we only split it into multi-client where there're multi endpoints from one compilation i.e. the @service decorators. If the multiple sub clients is divided because they are going to have different version evolving strategy, RLC will only honor it when that api version parameter is in the parameterized host. Otherwise, it doesn't make any differences to RLC if it's version v1 or version v2. A case in point would be our [RLC for compute management plane](https://www.npmjs.com/package/@azure-rest/arm-compute).
 
 - Questions related:
   1. Is this a valid case where we use different @server decorator to point to the same endpoint.  
@@ -20,7 +20,7 @@ This document is going to talk about what the multi-client and multi-api for our
 ## Earlier Design
 
 ```text
-Default Client (ClientA)
+Default Client or Both Exported
 @azure/foo
 @azure/foo/api
 @azure/foo/rest
@@ -36,7 +36,7 @@ ClientB
 @azure/foo/clientB/rest
 ```
 
-In the case that RLC layer is one client and Api Layer is multi-client, the above design will splitting the RLC client into several parts and provide different sub path exports to it, each will contain a subset of operations related with it even if each of the sub path exports has the same default create client functions. See the below examples of using the sub clients.
+In the case that RLC layer is one client and Api Layer is multi-client, the above design will split the RLC client into several parts and provide different sub path exports to it, each will contain a subset of operations related with it even if each of the sub path exports has the same default create client function. See the below examples of using the sub clients.
 
 ```typescript
 import createMyMulticlient from "@azure/foo/ClientA/rest";
@@ -46,9 +46,12 @@ import createMyMulticlient from "@azure/foo/ClientA/rest";
 import createMyMulticlient from "@azure/foo/ClientB/rest";
 ```
 
-But it will still cause problems because there's no guarantee that the api layer won't call operations across differnt rest level sub client. If such case happens, we will be difficult to do the tree-shaking or even impossible to do that.
+But it will still cause problems because there's no guarantee that the api layer will never call operations across differnt rest level sub client. If such case happens, we will be difficult to do the tree-shaking or even impossible to do that.
 
 And as our goal is to have Azure Portal to use our RLC libraries, bundle size matters a lot to them. In cases like this, we must have subset api layer to call the complete set of rest layer.
+
+- Questions Related:
+  1. Consider a case, where we have sub client A that has all the same api version in the query parameter and sub client B that has mixed api versions in the query parameter, Should we consider the RLC layer as multi-client ?
 
 ## Proposals
 
@@ -61,7 +64,7 @@ Which leads to two general designs on how to support multi-client modular.
 The first one is to keep remaining part of the classical layer and the api layer as the inital design, just put the rest layer into the `src/rest` folder.
 
 ```text
-Default Client (ClientA)
+Default Client or Both Exported
 @azure/foo
 @azure/foo/api
 @azure/foo/rest
@@ -82,7 +85,7 @@ ClientB
 THe second one is we also reverse the position of the api layer.
 
 ```text
-Default Client (ClientA)
+Default Client or Both Exported
 @azure/foo
 @azure/foo/api
 @azure/foo/rest
@@ -98,6 +101,34 @@ ClientB
 @azure/foo/rest/clientB
 ```
 
+From the above two proposal, I prefer proposal 2, because:
+
+1. It gives me a feeling of consistency.
+
+    ```text
+    Classical Client
+    @azure/foo
+    @azure/foo/clientA
+    @azure/foo/clientB
+    
+    Api Layer
+    @azure/foo/api
+    @azure/foo/api/clientA
+    @azure/foo/api/clientB
+    
+    Rest Layer
+    @azure/foo/rest
+    @azure/foo/rest/clientA
+    @azure/foo/rest/clientB
+    ```
+
+1. With the Option 2, we tell our customers that both the classical client and the api layer and the rest layer are equally important. This is also align with our concepts about Modular. which are:
+   1. For customers who cares about bundle size very much, they can choose to use rest layer
+   1. For customers who cares about bundle size but also would like to have a better user experience with a minimal scarefiy of the bundle size, they can choose to use the api layer.
+   1. For customers who are familiar with the classical client, don't want to change their code, and care less about bundle size, they can choose to use the classical client layer.
+1. With the Option 1, `./clientA/api`, it gives me more of a feeling that those are internal apis provided by the clientA. 
+1. Psycologically, we have already export the classical client to the top level, if customer is typing `./api`, apparently, he or she wants something different, and if he or she really wants to limit the usage within some sub client, `./api/clientA` is more reasonable to them.
+
 ## Multi-Client in Modular
 
 ### Identify Scenarios
@@ -105,6 +136,25 @@ ClientB
 In this context, client.tsp means the entrance for TypeSpec compilation. @client means the defined sub client.
 
 In order to cover as much cases as possible, we will need to identify all possible scenarios. But if we are trying to do that in the way of summarizing of all the cases we have met, this never ends. Because we don't know if the next one will be using something different, and we will be unprepared. However, we can take from the describe ability that TypeSpec can provide perspective, because as long as the service is described with TypeSpec, it can not go beyond the scope.
+
+The valid scenarios could be tell from the combination from client.tsp to @client then to @service, which are:
+
+1. 1 client.tsp with 1 @client maps to 1 endpoint
+   This is the simplest case, It doesn't belong to any multi-client scenario definition.
+
+1. 1 client.tsp with N @client map to 1 endpoint
+   In this case, service only has one endpoint, but SDK architects want to logically divide it into multi-client, which RLC is not in the business of, but Modular is in the bussiness of. An example would be Load Testing.
+
+1. 1 client.tsp with N @client map to N endpoints  
+   In this case, service indeed has multiple endpoints, but for some reason they have to group them into one package, which both RLC and Modular are both in the bussiness of. An example would be Purview Administration.
+
+1. N client.tsp with N @client map to 1 endpoint  
+   In this case, service only has one endpoint, but SDK architects want to release it as multiple single-client packages. which doesn't belong to any multi-client scenario definitions. An example would be Health Insights. In this case, RLC will respect the package boundaries defined by client.tsp.
+
+1. ~~N client.tsp with N @client map to N endpoints~~  
+   This one basically equals 1 client.tsp with 1 @client maps to 1 @service.
+
+The other cases are invalid and the below part is how we get the result:
 
 **Assumptions**
 
@@ -127,22 +177,13 @@ Then, let's consider the mapping between @client and endpoint.
 1. N @client -> 1 endpoint
 1. N @client -> N endpoints
 
-So valid scenarios could be tell from the combination from client.tsp to @client then to @service, which are:
+When we combine the mapping between client.tsp to @client and the mapping between @client and service endpoint, we will get this five scenarios.
 
 1. 1 client.tsp with 1 @client maps to 1 endpoint
-   This is the simplest case, It doesn't belong to any multi-client scenario definition.
-
 1. 1 client.tsp with N @client map to 1 endpoint
-   In this case, service only has one endpoint, but SDK architects want to logically divide it into multi-client, which RLC is not in the business of, but Modular is in the bussiness of. An example would be Load Testing.
-
 1. 1 client.tsp with N @client map to N endpoints  
-   In this case, service indeed has multiple endpoints, but for some reason they have to group them into one package, which both RLC and Modular are both in the bussiness of. An example would be Purview Administration.
-
 1. N client.tsp with N @client map to 1 endpoint  
-   In this case, service only has one endpoint, but SDK architects want to release it as multiple single-client packages. which doesn't belong to any multi-client scenario definitions. An example would be Health Insights. In this case, RLC will respect the package boundaries defined by client.tsp.
-
-1. ~~N client.tsp with N @client map to N endpoints~~  
-   This one basically equals 1 client.tsp with 1 @client maps to 1 @service.
+1. N client.tsp with N @client map to N endpoints
 
 As the first case and the fourth case are not involved with multi-client in both api Layer and rest Layer, we will only consider the second and the third case where we have will use the example name them as the LoadTesting case and the Purview case.
 
@@ -152,9 +193,9 @@ As the first case and the fourth case are not involved with multi-client in both
 
 ### LoadTesting Case
 
-As the [TypeSpec definition](https://github.com/Azure/azure-rest-api-specs/blob/feature/loadtesting/specification/loadtestservice/client.tsp), they have two sub client named as LoadTestAdministrationClient and LoadTestRunClient and both of them have the same endpoint AzureLoadTesting. In such case, we will have single-client RLC and multi-client api layer and classical client layer.
+As the [TypeSpec definition](https://github.com/Azure/azure-rest-api-specs/blob/feature/loadtesting/specification/loadtestservice/client.tsp), they have two sub clients named as LoadTestAdministrationClient and LoadTestRunClient and both of them have the same endpoint AzureLoadTesting. In such case, we will have single-client RLC and multi-client api layer and classical client layer.
 
-The user experience comparasion between Option 1 and Option 2 for the LoadTesting case would be
+The user experience comparison between Option 1 and Option 2 for the LoadTesting case would be
 
 <!-- markdownlint-disable MD033 -->
 <table>
@@ -196,7 +237,7 @@ Please note that in this case, the Client type name for rest level should be the
 
 In the Purview case, we have different endpoints to different subclients.
 
-The user experience comparasion between Option 1 and Option 2 for the Purview case
+The user experience comparison between Option 1 and Option 2 for the Purview case
 
 <!-- markdownlint-disable MD033 -->
 <table>
@@ -251,6 +292,7 @@ _NOTES:_ in this case, the path name in the rest related expports and api relate
      Another concern about default client is, if we use to have both sub clients exported, and now we want to set one set default client, this will be a breaking change. Unless, we don't export anything to the top level at all.
   1. If we choose to export both of them, we will need to consider about shared models.
   1. how about keep the code as `src/account/api` but export it as `./api/account` in the Option 1.
+  1. want to confirm about the `src/rest/index.ts`.
 
 ## Rethinking
 
@@ -331,6 +373,8 @@ Sub Client MetadataPolicies
 I think that philosology behind the original design and Option 2 is how we want to classify our customers. If we go with approach on the left side, this means we think higher of the service user scenarios, If we go with the approach on the right side, this means we think higher of our JS modular libraries' own user scenarios. Compared with the original design and the Option 2, Option 1 is more like a compromise between the two of them.
 
 ## Multi-Api in Modular
+
+Some proposed design guideline related with the [multi-api guideline](https://github.com/Azure/azure-sdk/pull/6206/files#diff-392938583d748d4b75dcde737420ce39bb9a2ef56200804841e591b2b777962dR116)
 
 ### Single-Client Multi-Api
 
