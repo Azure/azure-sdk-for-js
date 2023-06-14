@@ -258,12 +258,17 @@ export function extractConnectionStringParts(connectionString: string): Connecti
   } else {
     // SAS connection string
 
-    const accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
+    let accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
     const accountName = getAccountNameFromUrl(queueEndpoint);
     if (!queueEndpoint) {
       throw new Error("Invalid QueueEndpoint in the provided SAS Connection String");
     } else if (!accountSas) {
       throw new Error("Invalid SharedAccessSignature in the provided SAS Connection String");
+    }
+
+    // remove test SAS
+    if (accountSas === "fakeSasToken") {
+      accountSas = "";
     }
 
     return { kind: "SASConnString", url: queueEndpoint, accountName, accountSas };

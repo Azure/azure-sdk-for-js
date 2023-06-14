@@ -5,6 +5,7 @@ import { StorageClient as StorageClientContext } from "./generated/src/";
 import { StorageContextClient } from "./StorageContextClient";
 import {
   Pipeline,
+  StoragePipelineOptions,
   getCoreClientOptions,
   getCredentialFromPipeline,
 } from "../../storage-blob/src/Pipeline";
@@ -94,6 +95,17 @@ export function setTestOnlySetHttpClient(httpClient: HttpClient): void {
  * @internal
  */
 export function getStorageClientContext(url: string, pipeline: Pipeline): StorageClientContext {
+  const pipelineOptions = pipeline.options as StoragePipelineOptions;
+  // Set maximum timeout for queue operations.
+  // This was previously set manually in the retry policy specific to this package.
+  // https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations
+  if (pipelineOptions.retryOptions === undefined) {
+    pipelineOptions.retryOptions = {
+      tryTimeoutInMs: 30 * 1000,
+    };
+  } else if (pipelineOptions.retryOptions.tryTimeoutInMs === undefined) {
+    (pipelineOptions.retryOptions as any).tryTimeoutInMs = 30 * 1000;
+  }
   const coreOptions = getCoreClientOptions(pipeline);
   if (testOnlyHttpClient) {
     coreOptions.httpClient = testOnlyHttpClient;
