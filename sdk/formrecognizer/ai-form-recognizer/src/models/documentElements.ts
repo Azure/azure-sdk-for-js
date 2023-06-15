@@ -166,8 +166,6 @@ export interface DocumentKeyValuePair {
   key: DocumentKeyValueElement;
   /** Field value of the key-value pair. */
   value?: DocumentKeyValueElement;
-  /** Common name of the key-value pair. */
-  commonName?: string;
 
   /** Confidence of correctly extracting the key-value pair. */
   confidence: number;
