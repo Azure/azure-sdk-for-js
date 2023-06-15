@@ -172,20 +172,6 @@ export interface DocumentKeyValuePair {
 }
 
 /**
- * An extracted image. Images are represented as pages, so this type contains the 1-based index of the page containing
- * this image's data as well as the layout information of the image (`span`, `boundingPolygon`) and the confidence
- * value.
- */
-export interface DocumentImage extends HasBoundingPolygon {
-  /** Page number of this image's data. (1-based) */
-  pageNumber: number;
-  /** Location of the image in the reading-order concatenated `content`. */
-  span: DocumentSpan;
-  /** Confidence of correctly extracting the image. */
-  confidence: number;
-}
-
-/**
  * A visual annotation element in the document, such as a check mark or cross.
  */
 export interface DocumentAnnotation extends HasBoundingPolygon {
@@ -273,7 +259,7 @@ export interface DocumentPage {
   /**
    * Extracted formulas from the page.
    *
-   * The `"ocr.formula"` feature must be enabled or this property will be undefined.
+   * The `"formulas"` feature must be enabled or this property will be undefined.
    *
    * See {@link AnalyzeDocumentOptions#features}.
    */

@@ -52,7 +52,6 @@ export interface AnalyzeDocumentOptions<Result = AnalyzeResult<AnalyzedDocument>
     features?: string[];
     locale?: string;
     pages?: string;
-    queryFields?: string[];
 }
 
 // @public
@@ -320,13 +319,6 @@ export interface DocumentFormula extends HasBoundingPolygon {
 
 // @public
 export type DocumentFormulaKind = string;
-
-// @public
-export interface DocumentImage extends HasBoundingPolygon {
-    confidence: number;
-    pageNumber: number;
-    span: DocumentSpan;
-}
 
 // @public
 export interface DocumentIntegerField extends DocumentValueField<number> {
@@ -634,10 +626,12 @@ export type FormRecognizerFeature = (typeof FormRecognizerFeature)[keyof typeof 
 
 // @public (undocumented)
 export const FormRecognizerFeature: {
-    readonly QueryFieldsPremium: "queryFields.premium";
-    readonly OcrFont: "ocr.font";
-    readonly OcrHighResolution: "ocr.highResolution";
-    readonly OcrFormula: "ocr.formula";
+    readonly Fonts: "styleFont";
+    readonly OcrHighResolution: "ocrHighResolution";
+    readonly Formulas: "formulas";
+    readonly Languages: "languages";
+    readonly Barcodes: "barcodes";
+    readonly KeyValuePairs: "keyValuePairs";
 };
 
 // @public

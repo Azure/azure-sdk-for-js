@@ -25,7 +25,6 @@ import {
   DocumentTable,
   DocumentTableCell,
   DocumentWord,
-  DocumentImage,
   DocumentAnnotation,
   DocumentBarcode,
   DocumentFormula,
@@ -46,7 +45,6 @@ declare const documentTableCell: DocumentTableCell;
 declare const documentKeyValueElement: DocumentKeyValueElement;
 declare const document: Document;
 declare const documentPage: DocumentPage;
-declare const documentImage: DocumentImage;
 declare const documentAnnotation: DocumentAnnotation;
 declare const documentBarcode: DocumentBarcode;
 declare const documentFormula: DocumentFormula;
@@ -102,13 +100,11 @@ checkAssign<Omit<Document, "boundingRegions">>(generatedDocument);
 checkAssign<
   Omit<
     DocumentPage,
-    | "images"
     | "words"
     | "selectionMarks"
     | "lines"
     | "annotations"
     | "barcodes"
     | "formulas"
-    | "kind"
   >
 >(generatedDocumentPage);

@@ -313,7 +313,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
         const poller = await client.beginAnalyzeDocumentFromUrl("prebuilt-document", url, {
           ...testPollingOptions,
-          features: [FormRecognizerFeature.OcrFormula],
+          features: [FormRecognizerFeature.Formulas],
         });
 
         const { pages } = await poller.pollUntilDone();
@@ -323,15 +323,14 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.isNotEmpty(pages?.[0].formulas);
       });
 
-      it("with queryFields", async function () {
+      it("with barcodes", async function () {
         const url = makeTestUrl("/Invoice_1.pdf");
 
         const poller = await client.beginAnalyzeDocumentFromUrl(
           PrebuiltModels.GeneralDocument,
           url,
           {
-            queryFields: ["Charges"],
-            features: [FormRecognizerFeature.QueryFieldsPremium],
+            features: [FormRecognizerFeature.Barcodes],
             ...testPollingOptions,
           }
         );
@@ -341,10 +340,6 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.ok(result);
 
         assert.isNotEmpty(result.documents);
-
-        assert.ok(result.documents![0].fields["Charges"]);
-
-        assert.equal(result.documents![0].fields["Charges"].kind, "string");
       });
     });
 
