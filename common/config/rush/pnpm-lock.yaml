@@ -18101,14 +18101,14 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-4itB6tyoC0/5FSUDLTmeVGYlfbFxddGxiksQLroeJBOsMPPI1WG/MiYGnipQXmdc1mEv9h9oYsldlZAVdgrTPA==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-XK0oC93PyW7uZXEuiJ9r56GmgZkMlO03vkEyj4jZxBHazzJki/dNrwzIvpsMVg0Wbu6ROxJk2fM7YnxsspoGFg==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
       '@azure/monitor-opentelemetry-exporter': 1.0.0-beta.11
       '@microsoft/api-extractor': 7.35.0_@types+node@14.18.47
       '@opentelemetry/api': 1.4.1
-      '@opentelemetry/api-logs': 0.39.1
+      '@opentelemetry/api-logs': 0.40.0
       '@opentelemetry/core': 1.14.0_@opentelemetry+api@1.4.1
       '@opentelemetry/exporter-metrics-otlp-http': 0.39.1_@opentelemetry+api@1.4.1
       '@opentelemetry/exporter-trace-otlp-http': 0.39.1_@opentelemetry+api@1.4.1
@@ -18121,7 +18121,7 @@ packages:
       '@opentelemetry/instrumentation-redis-4': 0.34.6_@opentelemetry+api@1.4.1
       '@opentelemetry/otlp-exporter-base': 0.39.1_@opentelemetry+api@1.4.1
       '@opentelemetry/resources': 1.14.0_@opentelemetry+api@1.4.1
-      '@opentelemetry/sdk-logs': 0.39.1_mcbg7hm3nijtxggv62vosf4qd4
+      '@opentelemetry/sdk-logs': 0.40.0_mdf4xmzdwval7qdsjeggqkd7zq
       '@opentelemetry/sdk-metrics': 1.14.0_@opentelemetry+api@1.4.1
       '@opentelemetry/sdk-trace-base': 1.14.0_@opentelemetry+api@1.4.1
       '@opentelemetry/sdk-trace-node': 1.14.0_@opentelemetry+api@1.4.1

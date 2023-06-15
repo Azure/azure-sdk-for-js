@@ -3,7 +3,6 @@
 
 import {
   LoggerProvider,
-  LoggerConfig,
   SimpleLogRecordProcessor,
   Logger as OtelLogger,
   ConsoleLogRecordExporter,
@@ -38,14 +37,7 @@ export class LogHandler {
     this._exporter = new ConsoleLogRecordExporter();
     this._logRecordProcessor = new SimpleLogRecordProcessor(this._exporter);
     this._loggerProvider.addLogRecordProcessor(this._logRecordProcessor);
-    const loggerConfig: LoggerConfig = {
-      includeTraceContext: true,
-    };
-    this._logger = this._loggerProvider.getLogger(
-      "AzureMonitorLogger",
-      undefined,
-      loggerConfig
-    ) as OtelLogger;
+    this._logger = this._loggerProvider.getLogger("AzureMonitorLogger", undefined) as OtelLogger;
     if (this._metricHandler) {
       // TODO: Use metric handler to track standard metrics
     }
