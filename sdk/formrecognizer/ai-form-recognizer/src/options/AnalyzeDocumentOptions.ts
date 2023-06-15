@@ -39,12 +39,12 @@ export const FormRecognizerFeature = {
   Formulas: "formulas",
 
   /** 
-   * Enable the detection of the text content language. 
+   * Enables the detection of the text content language. 
    */
   Languages: "languages",
 
   /**
-   *  Enable the detection of barcodes in the document. 
+   *  Enables the detection of barcodes in the document. 
    */
   Barcodes: "barcodes",
 
