@@ -156,6 +156,7 @@ export class TableServiceClient {
       | TableServiceClientOptions,
     options?: TableServiceClientOptions
   ) {
+    options = { ... options };
     this.url = url;
     const credential = isCredential(credentialOrOptions) ? credentialOrOptions : undefined;
     const clientOptions =
