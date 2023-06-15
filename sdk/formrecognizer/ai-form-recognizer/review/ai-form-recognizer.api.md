@@ -477,8 +477,6 @@ export interface DocumentPage {
     barcodes?: DocumentBarcode[];
     formulas?: DocumentFormula[];
     height?: number;
-    images?: DocumentImage[];
-    kind: DocumentPageKind;
     lines?: DocumentLine[];
     pageNumber: number;
     selectionMarks?: DocumentSelectionMark[];
@@ -487,9 +485,6 @@ export interface DocumentPage {
     width?: number;
     words?: DocumentWord[];
 }
-
-// @public
-export type DocumentPageKind = string;
 
 // @public
 export interface DocumentParagraph {
@@ -732,14 +727,6 @@ export enum KnownDocumentFieldType {
 export enum KnownDocumentFormulaKind {
     Display = "display",
     Inline = "inline"
-}
-
-// @public
-export enum KnownDocumentPageKind {
-    Document = "document",
-    Image = "image",
-    Sheet = "sheet",
-    Slide = "slide"
 }
 
 // @public
