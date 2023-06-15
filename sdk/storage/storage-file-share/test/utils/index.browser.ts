@@ -4,29 +4,23 @@
 import { AnonymousCredential } from "../../../storage-blob/src/credentials/AnonymousCredential";
 import { newPipeline } from "../../../storage-blob/src/Pipeline";
 import { ShareServiceClient } from "../../src/ShareServiceClient";
-import { createXhrHttpClient } from "@azure/test-utils";
-import { isLiveMode } from "@azure-tools/test-recorder";
-import { setTestOnlySetHttpClient } from "../../src/StorageClient";
+import { configureStorageClient } from "./testutils.common";
+import { env, Recorder } from "@azure-tools/test-recorder";
 
 export * from "./testutils.common";
 
 export function getGenericBSU(
+  recorder: Recorder,
   accountType: string,
   accountNameSuffix: string = ""
 ): ShareServiceClient {
-  // only needed until we can migrate to test recorder v2
-  if (!isLiveMode()) {
-    setTestOnlySetHttpClient(createXhrHttpClient());
-  }
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
 
-  const accountName = (self as any).__env__[accountNameEnvVar];
+  const accountName = env[accountNameEnvVar];
+  let accountSAS = env[accountSASEnvVar];
 
-  let accountSAS: string | undefined;
-  accountSAS = (self as any).__env__[accountSASEnvVar];
-
-  if (!accountName || !accountSAS || accountName === "" || accountSAS === "") {
+  if (!accountName || !accountSAS) {
     throw new Error(
       `${accountNameEnvVar} and/or ${accountSASEnvVar} environment variables not specified.`
     );
@@ -36,30 +30,24 @@ export function getGenericBSU(
     accountSAS = accountSAS.startsWith("?") ? accountSAS : `?${accountSAS}`;
   }
 
-  // don't add the test account SAS value.
-  if (accountSAS === "?fakeSasToken") {
-    accountSAS = "";
-  }
-
   const credentials = new AnonymousCredential();
-  const pipeline = newPipeline(credentials, {
-    // Enable logger when debugging
-    // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
-  });
+  const pipeline = newPipeline(credentials);
   const filePrimaryURL = `https://${accountName}${accountNameSuffix}.file.core.windows.net${accountSAS}`;
-  return new ShareServiceClient(filePrimaryURL, pipeline);
+  const client = new ShareServiceClient(filePrimaryURL, pipeline);
+  configureStorageClient(recorder, client);
+  return client;
 }
 
-export function getBSU(): ShareServiceClient {
-  return getGenericBSU("");
+export function getBSU(recorder: Recorder): ShareServiceClient {
+  return getGenericBSU(recorder, "");
 }
 
-export function getAlternateBSU(): ShareServiceClient {
-  return getGenericBSU("SECONDARY_", "-secondary");
+export function getAlternateBSU(recorder: Recorder): ShareServiceClient {
+  return getGenericBSU(recorder, "SECONDARY_", "-secondary");
 }
 
-export function getSoftDeleteBSU(): ShareServiceClient {
-  return getGenericBSU("SOFT_DELETE_");
+export function getSoftDeleteBSU(recorder: Recorder): ShareServiceClient {
+  return getGenericBSU(recorder, "SOFT_DELETE_");
 }
 
 /**
@@ -130,11 +118,7 @@ export function getBrowserFile(name: string, size: number): File {
 }
 
 export function getSASConnectionStringFromEnvironment(): string {
-  if (!isLiveMode()) {
-    setTestOnlySetHttpClient(createXhrHttpClient());
-  }
-  const env = (self as any).__env__;
-  let sasToken: string = env.ACCOUNT_SAS;
+  let sasToken: string = env.ACCOUNT_SAS ?? "";
   // connection string SAS doesn't have the prefix
   if (sasToken && sasToken.startsWith("?")) {
     sasToken = sasToken.slice(1);

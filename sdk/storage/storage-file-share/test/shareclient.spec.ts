@@ -2,10 +2,17 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { getBSU, getSASConnectionStringFromEnvironment, recorderEnvSetup } from "./utils";
+import {
+  getBSU,
+  getSASConnectionStringFromEnvironment,
+  getUniqueName,
+  recorderEnvSetup,
+  uriSanitizers,
+} from "./utils";
 import { ShareClient, ShareServiceClient } from "../src";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
+import { configureStorageClient } from "./utils";
 
 describe("ShareClient", () => {
   let serviceClient: ShareServiceClient;
@@ -15,9 +22,11 @@ describe("ShareClient", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    serviceClient = getBSU();
-    shareName = recorder.getUniqueName("share");
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    serviceClient = getBSU(recorder);
+    shareName = recorder.variable("share", getUniqueName("share"));
     shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();
   });
@@ -42,7 +51,9 @@ describe("ShareClient", () => {
   it("exists", async () => {
     assert.ok(await shareClient.exists());
 
-    const shareClient2 = serviceClient.getShareClient(recorder.getUniqueName(shareName));
+    const shareClient2 = serviceClient.getShareClient(
+      recorder.variable(shareName, getUniqueName(shareName))
+    );
     assert.ok(!(await shareClient2.exists()));
   });
 
@@ -61,7 +72,9 @@ describe("ShareClient", () => {
   });
 
   it("create with all parameters configured", async () => {
-    const shareClient2 = serviceClient.getShareClient(recorder.getUniqueName(shareName));
+    const shareClient2 = serviceClient.getShareClient(
+      recorder.variable(shareName, getUniqueName(shareName))
+    );
     const metadata = { key: "value" };
     await shareClient2.create({ metadata });
     const result = await shareClient2.getProperties();
@@ -69,7 +82,9 @@ describe("ShareClient", () => {
   });
 
   it("createIfNotExists", async () => {
-    const shareClient2 = serviceClient.getShareClient(recorder.getUniqueName(shareName));
+    const shareClient2 = serviceClient.getShareClient(
+      recorder.variable(shareName, getUniqueName(shareName))
+    );
     const res = await shareClient2.createIfNotExists();
     assert.ok(res.succeeded);
 
@@ -86,12 +101,16 @@ describe("ShareClient", () => {
   });
 
   it("deleteIfExists", async () => {
-    const shareClient2 = serviceClient.getShareClient(recorder.getUniqueName(shareName));
+    const shareClient2 = serviceClient.getShareClient(
+      recorder.variable(shareName, getUniqueName(shareName))
+    );
     await shareClient2.create();
     const res = await shareClient2.deleteIfExists();
     assert.ok(res.succeeded);
 
-    const shareClient3 = serviceClient.getShareClient(recorder.getUniqueName(shareName + "3"));
+    const shareClient3 = serviceClient.getShareClient(
+      recorder.variable(shareName + "3", getUniqueName(shareName + "3"))
+    );
     const res2 = await shareClient3.deleteIfExists();
     assert.ok(!res2.succeeded);
     assert.equal(res2.errorCode, "ShareNotFound");
@@ -129,7 +148,7 @@ describe("ShareClient", () => {
   });
 
   it("createDirectory and deleteDirectory", async () => {
-    const dirName = recorder.getUniqueName("directory");
+    const dirName = recorder.variable("directory", getUniqueName("directory"));
     const metadata = { key: "value" };
 
     const { directoryClient } = await shareClient.createDirectory(dirName, { metadata });
@@ -148,7 +167,7 @@ describe("ShareClient", () => {
   });
 
   it("createFile and deleteFile under root directory", async () => {
-    const fileName = recorder.getUniqueName("file");
+    const fileName = recorder.variable("file", getUniqueName("file"));
     const metadata = { key: "value" };
     const { fileClient } = await shareClient.createFile(fileName, 256, { metadata });
     const result = await fileClient.getProperties();
@@ -172,7 +191,8 @@ describe("ShareClient", () => {
   });
 
   it("can be created with a sas connection string and a share name", async () => {
-    const newClient = new ShareClient(getSASConnectionStringFromEnvironment(), shareName);
+    const newClient = new ShareClient(getSASConnectionStringFromEnvironment(recorder), shareName);
+    configureStorageClient(recorder, newClient);
     const result = await newClient.getProperties();
 
     assert.ok(result.etag!.length > 0);
@@ -183,11 +203,12 @@ describe("ShareClient", () => {
   });
 
   it("can be created with a sas connection string and a share name and an option bag", async () => {
-    const newClient = new ShareClient(getSASConnectionStringFromEnvironment(), shareName, {
+    const newClient = new ShareClient(getSASConnectionStringFromEnvironment(recorder), shareName, {
       retryOptions: {
         maxTries: 5,
       },
     });
+    configureStorageClient(recorder, newClient);
     const result = await newClient.getProperties();
 
     assert.ok(result.etag!.length > 0);
@@ -199,7 +220,7 @@ describe("ShareClient", () => {
 
   it("throws error if constructor shareName parameter is empty", async () => {
     try {
-      new ShareClient(getSASConnectionStringFromEnvironment(), "");
+      new ShareClient(getSASConnectionStringFromEnvironment(recorder), "");
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error: any) {
       assert.equal(
@@ -232,7 +253,7 @@ describe("ShareClient", () => {
   });
 
   it("create share specifying accessTier and listShare", async () => {
-    const newShareName = recorder.getUniqueName("newshare");
+    const newShareName = recorder.variable("newshare", getUniqueName("newshare"));
     const newShareClient = serviceClient.getShareClient(newShareName);
     await newShareClient.create({ accessTier: "Hot" });
 

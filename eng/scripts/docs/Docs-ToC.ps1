@@ -44,7 +44,7 @@ function Get-javascript-OnboardedDocsMsPackagesForMoniker($DocRepoLocation, $mon
     if (Test-Path $jsonFile) {
       $onboardedPackages[$packageName] = ConvertFrom-Json (Get-Content $jsonFile -Raw)
     }
-    else{
+    else {
       $onboardedPackages[$packageName] = $null
     }
   }
@@ -53,6 +53,20 @@ function Get-javascript-OnboardedDocsMsPackagesForMoniker($DocRepoLocation, $mon
 }
 
 function GetPackageReadmeName($packageMetadata) {
+  # If there is a metadata json for the package use the DocsMsReadmeName from
+  # the metadata function
+  if ($packageMetadata.PSObject.Members.Name -contains "FileMetadata") {
+    $readmeMetadata = &$GetDocsMsMetadataForPackageFn -PackageInfo $packageMetadata.FileMetadata
+
+    # Packages released outside of our EngSys will have an empty string for 
+    # DirectoryPath which will result in an empty string for DocsMsReadMeName.
+    # In those cases, do not return the empty name and instead use the fallback
+    # logic below.
+    if ($readmeMetadata.DocsMsReadMeName) { 
+      return $readmeMetadata.DocsMsReadMeName
+    }
+  }
+
   # Fallback to get package-level readme name if metadata file info does not exist
   $packageLevelReadmeName = $packageMetadata.Package.Replace('@azure/', '').Replace('@azure-tools/', '').Replace('azure-', '');
 
@@ -61,17 +75,10 @@ function GetPackageReadmeName($packageMetadata) {
     $packageLevelReadmeName = "$($packageMetadata.Package.Replace('@azure-rest/', ''))-rest"
   }
 
-  # If there is a metadata json for the package use the DocsMsReadmeName from
-  # the metadata function
-  if ($packageMetadata.PSObject.Members.Name -contains "FileMetadata") {
-    $readmeMetadata = &$GetDocsMsMetadataForPackageFn -PackageInfo $packageMetadata.FileMetadata
-    $packageLevelReadmeName = $readmeMetadata.DocsMsReadMeName
-  }
   return $packageLevelReadmeName
 }
 
-function Get-javascript-PackageLevelReadme($packageMetadata)
-{
+function Get-javascript-PackageLevelReadme($packageMetadata) {
   return GetPackageReadmeName -packageMetadata $packageMetadata
 }
 

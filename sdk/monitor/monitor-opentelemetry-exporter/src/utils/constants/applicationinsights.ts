@@ -40,7 +40,7 @@ export const ApplicationInsightsAvailabilityName = "Microsoft.ApplicationInsight
 export const ApplicationInsightsEventName = "Microsoft.ApplicationInsights.Event";
 
 export const ApplicationInsightsMessageBaseType = "MessageData";
-export const ApplicationInsightsExceptionBaseType = "TelemetryExceptionData";
+export const ApplicationInsightsExceptionBaseType = "ExceptionData";
 export const ApplicationInsightsPageViewBaseType = "PageViewData";
 export const ApplicationInsightsAvailabilityBaseType = "AvailabilityData";
-export const ApplicationInsightsEventBaseType = "TelemetryEventData";
+export const ApplicationInsightsEventBaseType = "EventData";

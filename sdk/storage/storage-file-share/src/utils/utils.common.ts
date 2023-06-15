@@ -160,17 +160,12 @@ export function extractConnectionStringParts(connectionString: string): Connecti
     };
   } else {
     // SAS connection string
-    let accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
+    const accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
     const accountName = getAccountNameFromUrl(fileEndpoint);
     if (!fileEndpoint) {
       throw new Error("Invalid FileEndpoint in the provided SAS Connection String");
     } else if (!accountSas) {
       throw new Error("Invalid SharedAccessSignature in the provided SAS Connection String");
-    }
-
-    // remove test SAS
-    if (accountSas === "fakeSasToken") {
-      accountSas = "";
     }
 
     return { kind: "SASConnString", url: fileEndpoint, accountName, accountSas };
