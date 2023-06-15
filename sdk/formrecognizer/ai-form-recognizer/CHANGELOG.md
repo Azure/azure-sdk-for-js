@@ -1,5 +1,26 @@
 # Release History
 
+## 4.1.0 (Unreleased)
+
+### Features Added
+
+- `AnalyzeDocumentOptions.features` allows three new features compared to the last beta version:
+  - `barcodes`: enables the detection of barcodes in the document.
+  - `keyValuePairs`: enable the detection of general key value pairs (form fields) in the document.
+  - `languages`: enables the detection of the text content language.
+
+### Breaking Changes
+
+- `DocumentAnalysisClient` and `DocumentModelAdministrationClient` now target service API version `2023-07-31` by default. Version `2023-02-28-preview` is not supported.
+- `AnalyzeDocumentOptions.features` changed the following feature names:
+  - `ocr.highResolution` renamed to `ocrHighResolution`.
+  - `ocr.formula` renamed to `formulas`.
+  - `ocr.font` renamed to `styleFont`.
+- The property `AnalyzeDocumentOptions.queryFields` has been removed.
+- The fields, `kind` and `images`, have been removed from `DocumentPage`.
+  - `DocumentPageKind` and `DocumentImage` types have been removed too.
+- `DocumentKeyValuePair.commonName` has been removed.
+
 ## 4.1.0-beta.1 (2023-04-11)
 
 ### Features Added
