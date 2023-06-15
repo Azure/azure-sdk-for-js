@@ -19541,7 +19541,7 @@ packages:
     dev: false
 
   file:projects/storage-queue.tgz:
-    resolution: {integrity: sha512-gx0lTVTkd8sw4IuQpQue9AyPD9VRY5gxPaulhKOvEi0UWRvqbnt8tJ6iUhVibgnCAZGRkSqDwvKhNb9kiQJAAw==, tarball: file:projects/storage-queue.tgz}
+    resolution: {integrity: sha512-BMjmbuoK2hnEGDWu/6nyNJ7Te39cJkH0V+3Dl0aqMJoGg3eU5PnDxRfLyReKD6qGUF9rSrPEe2F7OJX0y3Jz2g==, tarball: file:projects/storage-queue.tgz}
     name: '@rush-temp/storage-queue'
     version: 0.0.0
     dependencies:
@@ -19552,6 +19552,7 @@ packages:
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.47
+      '@types/uuid': 8.3.4
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
@@ -19582,6 +19583,7 @@ packages:
       tslib: 2.5.2
       typescript: 5.0.4
       util: 0.12.5
+      uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
