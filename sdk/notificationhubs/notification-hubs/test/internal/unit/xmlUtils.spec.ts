@@ -12,12 +12,13 @@ const NOTIFICATION_XML_ERROR = `
 `;
 
 describe("xmlUtils", () => {
-
   describe("parseXMLError", () => {
-
     it("should parse the error", async () => {
       const error = await parseXMLError(NOTIFICATION_XML_ERROR);
-      assert.equal(error, "The HTTP header 'ServiceBusNotification-Format' has an invalid value: 'fcmlegacy'. Allowed values are 'windows', 'apple', 'gcm', 'template', 'adm', or 'windowsphone'.");
+      assert.equal(
+        error,
+        "The HTTP header 'ServiceBusNotification-Format' has an invalid value: 'fcmlegacy'. Allowed values are 'windows', 'apple', 'gcm', 'template', 'adm', or 'windowsphone'."
+      );
     });
   });
 });
