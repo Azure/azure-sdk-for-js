@@ -8,106 +8,68 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** Location list operation response. */
-export interface LocationListResult {
-  /** An array of locations. */
-  value?: Location[];
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface OperationListResult {
+  /**
+   * List of operations supported by the resource provider
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Operation[];
+  /**
+   * URL to get the next set of operation list results (if there are any).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
-/** Location information. */
-export interface Location {
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
   /**
-   * The fully qualified ID of the location. For example, /subscriptions/00000000-0000-0000-0000-000000000000/locations/westus.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The subscription ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subscriptionId?: string;
-  /**
-   * The location name.
+   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * The location type.
+   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly type?: LocationType;
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
   /**
-   * The display name of the location.
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly displayName?: string;
+  readonly origin?: Origin;
   /**
-   * The display name of the location and its region.
+   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly regionalDisplayName?: string;
-  /** Metadata of the location, such as lat/long, paired region, and others. */
-  metadata?: LocationMetadata;
+  readonly actionType?: ActionType;
 }
 
-/** Location metadata information */
-export interface LocationMetadata {
+/** Localized display information for this particular operation. */
+export interface OperationDisplay {
   /**
-   * The type of the region.
+   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly regionType?: RegionType;
+  readonly provider?: string;
   /**
-   * The category of the region.
+   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly regionCategory?: RegionCategory;
+  readonly resource?: string;
   /**
-   * The geography group of the location.
+   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly geographyGroup?: string;
+  readonly operation?: string;
   /**
-   * The longitude of the location.
+   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly longitude?: string;
-  /**
-   * The latitude of the location.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly latitude?: string;
-  /**
-   * The physical location of the Azure location.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly physicalLocation?: string;
-  /** The regions paired to this region. */
-  pairedRegion?: PairedRegion[];
-  /**
-   * The home location of an edge zone.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly homeLocation?: string;
-}
-
-/** Information regarding paired region. */
-export interface PairedRegion {
-  /**
-   * The name of the paired region.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The fully qualified ID of the location. For example, /subscriptions/00000000-0000-0000-0000-000000000000/locations/westus.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The subscription ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subscriptionId?: string;
+  readonly description?: string;
 }
 
 /** An error response for a resource management request. */
@@ -159,10 +121,133 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
+/** Location list operation response. */
+export interface LocationListResult {
+  /** An array of locations. */
+  value?: Location[];
+}
+
+/** Location information. */
+export interface Location {
+  /**
+   * The fully qualified ID of the location. For example, /subscriptions/8d65815f-a5b6-402f-9298-045155da7d74/locations/westus.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The subscription ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionId?: string;
+  /**
+   * The location name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The location type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: LocationType;
+  /**
+   * The display name of the location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * The display name of the location and its region.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly regionalDisplayName?: string;
+  /** Metadata of the location, such as lat/long, paired region, and others. */
+  metadata?: LocationMetadata;
+  /** The availability zone mappings for this region. */
+  availabilityZoneMappings?: AvailabilityZoneMappings[];
+}
+
+/** Location metadata information */
+export interface LocationMetadata {
+  /**
+   * The type of the region.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly regionType?: RegionType;
+  /**
+   * The category of the region.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly regionCategory?: RegionCategory;
+  /**
+   * The geography of the location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly geography?: string;
+  /**
+   * The geography group of the location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly geographyGroup?: string;
+  /**
+   * The longitude of the location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly longitude?: string;
+  /**
+   * The latitude of the location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly latitude?: string;
+  /**
+   * The physical location of the Azure location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly physicalLocation?: string;
+  /** The regions paired to this region. */
+  pairedRegion?: PairedRegion[];
+  /**
+   * The home location of an edge zone.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly homeLocation?: string;
+}
+
+/** Information regarding paired region. */
+export interface PairedRegion {
+  /**
+   * The name of the paired region.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The fully qualified ID of the location. For example, /subscriptions/8d65815f-a5b6-402f-9298-045155da7d74/locations/westus.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The subscription ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionId?: string;
+}
+
+/** Availability zone mappings for the region */
+export interface AvailabilityZoneMappings {
+  /**
+   * The logical zone id for the availability zone
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly logicalZone?: string;
+  /**
+   * The fully qualified physical zone id of availability zone to which logical zone id is mapped to
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly physicalZone?: string;
+}
+
 /** Subscription information. */
 export interface Subscription {
   /**
-   * The fully qualified ID for the subscription. For example, /subscriptions/00000000-0000-0000-0000-000000000000.
+   * The fully qualified ID for the subscription. For example, /subscriptions/8d65815f-a5b6-402f-9298-045155da7d74
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -243,12 +328,12 @@ export interface TenantListResult {
 /** Tenant Id information. */
 export interface TenantIdDescription {
   /**
-   * The fully qualified ID of the tenant. For example, /tenants/00000000-0000-0000-0000-000000000000.
+   * The fully qualified ID of the tenant. For example, /tenants/8d65815f-a5b6-402f-9298-045155da7d74
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
-   * The tenant ID. For example, 00000000-0000-0000-0000-000000000000.
+   * The tenant ID. For example, 8d65815f-a5b6-402f-9298-045155da7d74
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
@@ -294,6 +379,87 @@ export interface TenantIdDescription {
   readonly tenantBrandingLogoUrl?: string;
 }
 
+/** Check zone peers request parameters. */
+export interface CheckZonePeersRequest {
+  /** The Microsoft location. */
+  location?: string;
+  /** The peer Microsoft Azure subscription ID. */
+  subscriptionIds?: string[];
+}
+
+/** Result of the Check zone peers operation. */
+export interface CheckZonePeersResult {
+  /**
+   * The subscription ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionId?: string;
+  /** the location of the subscription. */
+  location?: string;
+  /** The Availability Zones shared by the subscriptions. */
+  availabilityZonePeers?: AvailabilityZonePeers[];
+}
+
+/** List of availability zones shared by the subscriptions. */
+export interface AvailabilityZonePeers {
+  /**
+   * The availabilityZone.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly availabilityZone?: string;
+  /** Details of shared availability zone. */
+  peers?: Peers[];
+}
+
+/** Information about shared availability zone. */
+export interface Peers {
+  /**
+   * The subscription ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionId?: string;
+  /**
+   * The availabilityZone.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly availabilityZone?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponseAutoGenerated {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
 /** Name and Type of the Resource */
 export interface ResourceName {
   /** Name of the resource */
@@ -312,16 +478,31 @@ export interface CheckResourceNameResult {
   status?: ResourceNameStatus;
 }
 
-/** Microsoft.Resources operation */
-export interface Operation {
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface OperationAutoGenerated {
   /** Operation name: {provider}/{resource}/{operation} */
   name?: string;
-  /** The object that represents the operation. */
-  display?: OperationDisplay;
+  /**
+   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplayAutoGenerated;
+  /**
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly origin?: Origin;
+  /**
+   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionType?: ActionType;
 }
 
-/** The object that represents the operation. */
-export interface OperationDisplay {
+/** Localized display information for this particular operation. */
+export interface OperationDisplayAutoGenerated {
   /** Service provider: Microsoft.Resources */
   provider?: string;
   /** Resource on which the operation is performed: Profile, endpoint, etc. */
@@ -332,13 +513,49 @@ export interface OperationDisplay {
   description?: string;
 }
 
-/** Result of the request to list Microsoft.Resources operations. It contains a list of operations and a URL link to get the next set of results. */
-export interface OperationListResult {
-  /** List of Microsoft.Resources operations. */
-  value?: Operation[];
-  /** URL to get the next set of operation list results if there are any. */
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface OperationListResultAutoGenerated {
+  /** List of operations supported by the resource provider */
+  value?: OperationAutoGenerated[];
+  /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string;
 }
+
+/** Known values of {@link Origin} that the service accepts. */
+export enum KnownOrigin {
+  /** User */
+  User = "user",
+  /** System */
+  System = "system",
+  /** UserSystem */
+  UserSystem = "user,system"
+}
+
+/**
+ * Defines values for Origin. \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user** \
+ * **system** \
+ * **user,system**
+ */
+export type Origin = string;
+
+/** Known values of {@link ActionType} that the service accepts. */
+export enum KnownActionType {
+  /** Internal */
+  Internal = "Internal"
+}
+
+/**
+ * Defines values for ActionType. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Internal**
+ */
+export type ActionType = string;
 
 /** Known values of {@link RegionType} that the service accepts. */
 export enum KnownRegionType {
@@ -411,6 +628,20 @@ export type SpendingLimit = "On" | "Off" | "CurrentPeriodOff";
 export type TenantCategory = "Home" | "ProjectedBy" | "ManagedBy";
 
 /** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationListResult;
+
+/** Optional parameters. */
 export interface SubscriptionsListLocationsOptionalParams
   extends coreClient.OperationOptions {
   /** Whether to include extended locations. */
@@ -433,6 +664,13 @@ export interface SubscriptionsListOptionalParams
 
 /** Contains response data for the list operation. */
 export type SubscriptionsListResponse = SubscriptionListResult;
+
+/** Optional parameters. */
+export interface SubscriptionsCheckZonePeersOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkZonePeers operation. */
+export type SubscriptionsCheckZonePeersResponse = CheckZonePeersResult;
 
 /** Optional parameters. */
 export interface SubscriptionsListNextOptionalParams

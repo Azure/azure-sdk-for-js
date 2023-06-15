@@ -41,7 +41,14 @@ export class TraceBasicScenario implements Scenario {
       connectionString: `instrumentationkey=${COMMON_ENVELOPE_PARAMS.instrumentationKey}`,
     });
     this._processor = new FlushSpanProcessor(exporter);
-    const provider = new BasicTracerProvider();
+    const resource = new Resource({
+      "service.name": "testServiceName",
+      "k8s.cluster.name": "testClusterName",
+      "k8s.node.name": "testNodeName",
+      "k8s.namespace.name": "testNamespaceName",
+      "k8s.pod.name": "testPodName",
+    });
+    const provider = new BasicTracerProvider({ resource: resource });
     provider.addSpanProcessor(this._processor);
     provider.register();
   }
@@ -92,6 +99,24 @@ export class TraceBasicScenario implements Scenario {
   }
 
   expectation: Expectation[] = [
+    {
+      ...COMMON_ENVELOPE_PARAMS,
+      name: "_APPRESOURCEPREVIEW_",
+      data: {
+        baseType: "MetricData",
+        baseData: {
+          version: 2,
+          properties: {
+            "service.name": "testServiceName",
+            "k8s.cluster.name": "testClusterName",
+            "k8s.namespace.name": "testNamespaceName",
+            "k8s.node.name": "testNodeName",
+            "k8s.pod.name": "testPodName",
+          },
+        } as any,
+      },
+      children: [],
+    },
     {
       ...COMMON_ENVELOPE_PARAMS,
       name: "Microsoft.ApplicationInsights.Request",

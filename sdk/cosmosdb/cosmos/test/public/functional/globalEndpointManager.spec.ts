@@ -7,6 +7,7 @@ import { OperationType, ResourceType } from "../../../src";
 import * as fakeTimers from "@sinonjs/fake-timers";
 
 import assert from "assert";
+import { getEmptyCosmosDiagnostics } from "../../../src/CosmosDiagnostics";
 
 const locationUnavailabilityExpiratationTime = 6 * 60 * 1000;
 const headers = {
@@ -56,7 +57,8 @@ describe("GlobalEndpointManager", function () {
         const response: ResourceResponse<DatabaseAccount> = new ResourceResponse(
           new DatabaseAccount(databaseAccountBody, headers),
           headers,
-          200
+          200,
+          getEmptyCosmosDiagnostics()
         );
         return response;
       }
@@ -101,7 +103,8 @@ describe("GlobalEndpointManager", function () {
           const response: ResourceResponse<DatabaseAccount> = new ResourceResponse(
             new DatabaseAccount(databaseAccountBody, headers),
             headers,
-            200
+            200,
+            getEmptyCosmosDiagnostics()
           );
           return response;
         }
@@ -128,7 +131,8 @@ describe("GlobalEndpointManager", function () {
           const response: ResourceResponse<DatabaseAccount> = new ResourceResponse(
             new DatabaseAccount(databaseAccountBody, headers),
             headers,
-            200
+            200,
+            getEmptyCosmosDiagnostics()
           );
           return response;
         }
@@ -159,7 +163,8 @@ describe("GlobalEndpointManager", function () {
         const response: ResourceResponse<DatabaseAccount> = new ResourceResponse(
           new DatabaseAccount(databaseAccountBody, headers),
           headers,
-          200
+          200,
+          getEmptyCosmosDiagnostics()
         );
         return response;
       }

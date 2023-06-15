@@ -20,17 +20,15 @@ import {
 /** Interface representing a AvailabilityStatuses. */
 export interface AvailabilityStatuses {
   /**
-   * Lists the current availability status for all the resources in the subscription. Use the nextLink
-   * property in the response to get the next page of availability statuses.
+   * Lists the current availability status for all the resources in the subscription.
    * @param options The options parameters.
    */
   listBySubscriptionId(
     options?: AvailabilityStatusesListBySubscriptionIdOptionalParams
   ): PagedAsyncIterableIterator<AvailabilityStatus>;
   /**
-   * Lists the current availability status for all the resources in the resource group. Use the nextLink
-   * property in the response to get the next page of availability statuses.
-   * @param resourceGroupName The name of the resource group.
+   * Lists the current availability status for all the resources in the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
@@ -38,8 +36,7 @@ export interface AvailabilityStatuses {
     options?: AvailabilityStatusesListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<AvailabilityStatus>;
   /**
-   * Lists all historical availability transitions and impacting events for a single resource. Use the
-   * nextLink property in the response to get the next page of availability status
+   * Lists all historical availability transitions and impacting events for a single resource.
    * @param resourceUri The fully qualified ID of the resource, including the resource name and resource
    *                    type. Currently the API support not nested and one nesting level resource types :
    *                    /subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/{resource-provider-name}/{resource-type}/{resource-name}
