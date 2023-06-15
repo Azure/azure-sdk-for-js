@@ -114,20 +114,17 @@ import {
 
 export class ArtifactsClient extends coreClient.ServiceClient {
   endpoint: string;
-  userAgent: string;
 
   /**
    * Initializes a new instance of the ArtifactsClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param endpoint The workspace development endpoint, for example
    *                 https://myworkspace.dev.azuresynapse.net.
-   * @param userAgent User-Agent request header for servers to identify application
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     endpoint: string,
-    userAgent: string,
     options?: ArtifactsClientOptionalParams
   ) {
     if (credentials === undefined) {
@@ -135,9 +132,6 @@ export class ArtifactsClient extends coreClient.ServiceClient {
     }
     if (endpoint === undefined) {
       throw new Error("'endpoint' cannot be null");
-    }
-    if (userAgent === undefined) {
-      throw new Error("'userAgent' cannot be null");
     }
 
     // Initializing default values for options
@@ -201,7 +195,6 @@ export class ArtifactsClient extends coreClient.ServiceClient {
     }
     // Parameter assignments
     this.endpoint = endpoint;
-    this.userAgent = userAgent;
     this.linkConnectionOperations = new LinkConnectionOperationsImpl(this);
     this.runNotebook = new RunNotebookImpl(this);
     this.kqlScripts = new KqlScriptsImpl(this);
@@ -804,13 +797,8 @@ const executeChangeOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.createArtifactsPayload,
-  queryParameters: [Parameters.apiVersion6],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.userAgent
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -827,13 +815,9 @@ const executeChangeWithValidationOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.createArtifactsPayload,
-  queryParameters: [Parameters.apiVersion6, Parameters.validationType],
+  queryParameters: [Parameters.validationType],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.userAgent
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -854,7 +838,7 @@ const listDatabasesOperationSpec: coreClient.OperationSpec = {
     Parameters.maxPageSize
   ],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept, Parameters.userAgent],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listArtifactsOperationSpec: coreClient.OperationSpec = {
@@ -878,7 +862,7 @@ const listArtifactsOperationSpec: coreClient.OperationSpec = {
     Parameters.databaseName,
     Parameters.artifactType
   ],
-  headerParameters: [Parameters.accept, Parameters.userAgent],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listArtifactsInSchemaByTypeOperationSpec: coreClient.OperationSpec = {
@@ -903,7 +887,7 @@ const listArtifactsInSchemaByTypeOperationSpec: coreClient.OperationSpec = {
     Parameters.artifactType,
     Parameters.schemaName
   ],
-  headerParameters: [Parameters.accept, Parameters.userAgent],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listPartitionInfosForTableOperationSpec: coreClient.OperationSpec = {
@@ -927,7 +911,7 @@ const listPartitionInfosForTableOperationSpec: coreClient.OperationSpec = {
     Parameters.databaseName,
     Parameters.tableName
   ],
-  headerParameters: [Parameters.accept, Parameters.userAgent],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listPartitionInfosForViewOperationSpec: coreClient.OperationSpec = {
@@ -951,7 +935,7 @@ const listPartitionInfosForViewOperationSpec: coreClient.OperationSpec = {
     Parameters.databaseName,
     Parameters.viewName
   ],
-  headerParameters: [Parameters.accept, Parameters.userAgent],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listPartitionInfosForSchemaAndTableOperationSpec: coreClient.OperationSpec = {
@@ -977,7 +961,7 @@ const listPartitionInfosForSchemaAndTableOperationSpec: coreClient.OperationSpec
     Parameters.schemaName,
     Parameters.tableName
   ],
-  headerParameters: [Parameters.accept, Parameters.userAgent],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listPartitionInfosForSchemaAndViewOperationSpec: coreClient.OperationSpec = {
@@ -1003,7 +987,7 @@ const listPartitionInfosForSchemaAndViewOperationSpec: coreClient.OperationSpec 
     Parameters.schemaName,
     Parameters.viewName
   ],
-  headerParameters: [Parameters.accept, Parameters.userAgent],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const getDatabaseOperationSpec: coreClient.OperationSpec = {
@@ -1019,7 +1003,7 @@ const getDatabaseOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion6],
   urlParameters: [Parameters.endpoint, Parameters.databaseName],
-  headerParameters: [Parameters.accept, Parameters.userAgent],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const putDatabaseOperationSpec: coreClient.OperationSpec = {
@@ -1036,11 +1020,7 @@ const putDatabaseOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.createArtifactsPayload1,
   queryParameters: [Parameters.apiVersion6],
   urlParameters: [Parameters.endpoint, Parameters.databaseName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.userAgent
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -1055,7 +1035,7 @@ const deleteDatabaseOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion6],
   urlParameters: [Parameters.endpoint, Parameters.databaseName],
-  headerParameters: [Parameters.accept, Parameters.userAgent],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const getArtifactFromDBOperationSpec: coreClient.OperationSpec = {
@@ -1076,7 +1056,7 @@ const getArtifactFromDBOperationSpec: coreClient.OperationSpec = {
     Parameters.artifactType,
     Parameters.artifactName
   ],
-  headerParameters: [Parameters.accept, Parameters.userAgent],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const putArtifactInDBOperationSpec: coreClient.OperationSpec = {
@@ -1102,11 +1082,7 @@ const putArtifactInDBOperationSpec: coreClient.OperationSpec = {
     Parameters.artifactType,
     Parameters.artifactName
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.userAgent
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -1126,7 +1102,7 @@ const deleteArtifactForDBOperationSpec: coreClient.OperationSpec = {
     Parameters.artifactType,
     Parameters.artifactName
   ],
-  headerParameters: [Parameters.accept, Parameters.userAgent],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const getArtifactFromSchemaOperationSpec: coreClient.OperationSpec = {
@@ -1149,7 +1125,7 @@ const getArtifactFromSchemaOperationSpec: coreClient.OperationSpec = {
     Parameters.schemaName,
     Parameters.artifactName
   ],
-  headerParameters: [Parameters.accept, Parameters.userAgent],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const putArtifactInSchemaOperationSpec: coreClient.OperationSpec = {
@@ -1173,11 +1149,7 @@ const putArtifactInSchemaOperationSpec: coreClient.OperationSpec = {
     Parameters.schemaName,
     Parameters.artifactName
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.userAgent
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -1199,7 +1171,7 @@ const deleteArtifactFromSchemaOperationSpec: coreClient.OperationSpec = {
     Parameters.schemaName,
     Parameters.artifactName
   ],
-  headerParameters: [Parameters.accept, Parameters.userAgent],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const getSyMSOperationStatusOperationSpec: coreClient.OperationSpec = {
@@ -1215,6 +1187,6 @@ const getSyMSOperationStatusOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion6],
   urlParameters: [Parameters.endpoint, Parameters.operationId],
-  headerParameters: [Parameters.accept, Parameters.userAgent],
+  headerParameters: [Parameters.accept],
   serializer
 };

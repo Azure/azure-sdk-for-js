@@ -8279,6 +8279,27 @@ export const AzureMLWebServiceFile: coreClient.CompositeMapper = {
   }
 };
 
+export const SecureInputOutputPolicy: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SecureInputOutputPolicy",
+    modelProperties: {
+      secureInput: {
+        serializedName: "secureInput",
+        type: {
+          name: "Boolean"
+        }
+      },
+      secureOutput: {
+        serializedName: "secureOutput",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const ExecuteDataFlowActivityTypePropertiesCompute: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -24659,6 +24680,13 @@ export const SetVariableActivity: coreClient.CompositeMapper = {
     polymorphicDiscriminator: ControlActivity.type.polymorphicDiscriminator,
     modelProperties: {
       ...ControlActivity.type.modelProperties,
+      policy: {
+        serializedName: "policy",
+        type: {
+          name: "Composite",
+          className: "SecureInputOutputPolicy"
+        }
+      },
       variableName: {
         serializedName: "typeProperties.variableName",
         type: {

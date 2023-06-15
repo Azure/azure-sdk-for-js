@@ -3893,6 +3893,14 @@ export interface AzureMLWebServiceFile {
   linkedServiceName: LinkedServiceReference;
 }
 
+/** Execution policy for an activity that supports secure input and output. */
+export interface SecureInputOutputPolicy {
+  /** When set to true, Input from activity is considered as secure and will not be logged to monitoring. */
+  secureInput?: boolean;
+  /** When set to true, Output from activity is considered as secure and will not be logged to monitoring. */
+  secureOutput?: boolean;
+}
+
 /** Compute properties for data flow activity. */
 export interface ExecuteDataFlowActivityTypePropertiesCompute {
   /** Compute type of the cluster which will execute data flow job. */
@@ -9774,6 +9782,8 @@ export interface FilterActivity extends ControlActivity {
 export interface SetVariableActivity extends ControlActivity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SetVariable";
+  /** Activity policy. */
+  policy?: SecureInputOutputPolicy;
   /** Name of the variable whose value needs to be set. */
   variableName?: string;
   /** Value to be set. Could be a static value or Expression. */

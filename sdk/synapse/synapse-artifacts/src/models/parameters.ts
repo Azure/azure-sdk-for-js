@@ -674,34 +674,23 @@ export const createArtifactsPayload: OperationParameter = {
   mapper: DDLBatchMapper
 };
 
+export const validationType: OperationQueryParameter = {
+  parameterPath: "validationType",
+  mapper: {
+    serializedName: "validationType",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const apiVersion6: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2021-04-01",
     isConstant: true,
     serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const userAgent: OperationParameter = {
-  parameterPath: "userAgent",
-  mapper: {
-    serializedName: "User-Agent",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const validationType: OperationQueryParameter = {
-  parameterPath: "validationType",
-  mapper: {
-    serializedName: "validationType",
-    required: true,
     type: {
       name: "String"
     }
