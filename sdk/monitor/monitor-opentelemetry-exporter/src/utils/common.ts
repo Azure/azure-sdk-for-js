@@ -9,7 +9,7 @@ import {
 } from "@opentelemetry/semantic-conventions";
 import { Tags } from "../types";
 import { getInstance } from "../platform";
-import { KnownContextTagKeys, TelemetryItem as Envelope } from "../generated";
+import { KnownContextTagKeys, TelemetryItem as Envelope, MetricsData } from "../generated";
 import { Resource } from "@opentelemetry/resources";
 import { Attributes } from "@opentelemetry/api";
 
@@ -191,18 +191,20 @@ export function createResourceMetricEnvelope(
     }
     // Only send event when resource attributes are available
     if (Object.keys(resourceAttributes).length > 0) {
+      let baseData: MetricsData = {
+        version: 2,
+        metrics: [{ name: "_APPRESOURCEPREVIEW_", value: 1 }],
+        properties: resourceAttributes,
+      };
       let envelope: Envelope = {
-        name: "_APPRESOURCEPREVIEW_",
+        name: "Microsoft.ApplicationInsights.Metric",
         time: new Date(),
         sampleRate: 100, // Metrics are never sampled
         instrumentationKey: instrumentationKey,
         version: 1,
         data: {
           baseType: "MetricData",
-          baseData: {
-            version: 2,
-            properties: resourceAttributes,
-          },
+          baseData: baseData,
         },
         tags: tags,
       };
