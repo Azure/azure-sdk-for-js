@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { RestError } from "@azure/core-rest-pipeline";
 import {
   DeletedKeyBundle,
   DeletedKeyItem,
@@ -15,6 +16,7 @@ import {
   DeletedKey,
   KeyProperties,
   KeyRotationPolicy,
+  KeyRotationPolicyAction,
   KeyRotationPolicyProperties,
   KeyVaultKey,
 } from "./keysModels";
@@ -120,6 +122,19 @@ export function getKeyPropertiesFromKeyItem(keyItem: KeyItem): KeyProperties {
   return resultObject;
 }
 
+function getNormalizedRotationPolicyAction(actionType: string): KeyRotationPolicyAction {
+  switch (actionType.toLowerCase()) {
+    case "notify":
+      return "Notify";
+    case "rotate":
+      return "Rotate";
+    default:
+      throw new RestError(
+        `Received unexpected key rotation policy action from service: ${actionType}`
+      );
+  }
+}
+
 /**
  * @internal
  */
@@ -158,7 +173,7 @@ export const keyRotationTransformations = {
       expiresIn: generated.attributes?.expiryTime,
       lifetimeActions: generated.lifetimeActions?.map((action) => {
         return {
-          action: action.action!.type!,
+          action: getNormalizedRotationPolicyAction(action.action!.type!),
           timeAfterCreate: action.trigger?.timeAfterCreate,
           timeBeforeExpiry: action.trigger?.timeBeforeExpiry,
         };
