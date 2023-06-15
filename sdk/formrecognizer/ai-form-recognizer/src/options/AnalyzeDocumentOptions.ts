@@ -49,7 +49,7 @@ export const FormRecognizerFeature = {
   Barcodes: "barcodes",
 
   /**
-   *  Enable the detection of general key value pairs (form fields) in the document. 
+   *  Enables the detection of general key value pairs (form fields) in the document. 
    */
   KeyValuePairs: "keyValuePairs",
 } as const;
