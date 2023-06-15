@@ -1,5 +1,17 @@
 # Release History
 
+## 1.0.0-beta.14 (2023-06-15)
+
+### Features Added
+
+- Update OpenTelemetry dependency packages.
+
+### Bugs Fixed
+
+- Fix issues with Breeze events format for new Resource attributes telemetry event
+  and legacy Application Insights events.
+- Metrics Exporter use delta aggregation temporality.
+
 ## 1.0.0-beta.13 (2023-06-06)
 
 ### Features Added
