@@ -16,10 +16,10 @@
   - `ocr.highResolution` renamed to `ocrHighResolution`.
   - `ocr.formula` renamed to `formulas`.
   - `ocr.font` renamed to `styleFont`.
-- The property `AnalyzeDocumentOptions.queryFields` has been removed.
-- The fields, `kind` and `images`, have been removed from `DocumentPage`.
-  - `DocumentPageKind` and `DocumentImage` types have been removed too.
-- `DocumentKeyValuePair.commonName` has been removed.
+- The following fields have been removed
+  - `AnalyzeDocumentOptions.queryFields`
+  - `DocumentPage.kind` and `DocumentPage.images` (`DocumentPageKind` and `DocumentImage` types have been removed too.)
+  - `DocumentKeyValuePair.commonName`
 
 ## 4.1.0-beta.1 (2023-04-11)
 
