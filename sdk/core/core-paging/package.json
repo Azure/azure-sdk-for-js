@@ -95,12 +95,15 @@
     "rimraf": "^3.0.0",
     "typescript": "~5.0.0"
   },
-  "//sampleConfiguration": {
-    "skipFolder": true,
-    "disableDocsMs": true,
-    "productName": "Azure SDK Core",
-    "productSlugs": [
-      "azure"
-    ]
+  "//metadata": {
+    "sampleConfiguration": {
+      "skipFolder": true,
+      "disableDocsMs": true,
+      "productName": "Azure SDK Core",
+      "productSlugs": [
+        "azure"
+      ]
+    },
+    "migrationDate": "2023-03-08T18:36:03.000Z"
   }
 }

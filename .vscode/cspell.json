@@ -113,6 +113,7 @@
     "Rollup",
     "rrggbb",
     "Rtsp",
+    "reoffer",
     "rushx",
     "soundex",
     "southcentralus",
@@ -280,6 +281,13 @@
         "Illumos",
         "mipsle",
         "riscv"
+      ]
+    },
+    {
+      "filename": "sdk/communication/communication-call-automation/review/**/*.md",
+      "words": [
+        "ssml",
+        "Ssml"
       ]
     },
     {

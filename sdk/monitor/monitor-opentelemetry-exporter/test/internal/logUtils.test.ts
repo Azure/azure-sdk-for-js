@@ -149,7 +149,7 @@ describe("logUtils.ts", () => {
         envelope,
         "Microsoft.ApplicationInsights.Exception",
         100,
-        "TelemetryExceptionData",
+        "ExceptionData",
         expectedProperties,
         emptyMeasurements,
         expectedBaseData,
@@ -217,7 +217,7 @@ describe("logUtils.ts", () => {
       const log = new LogRecord(logger, {
         body: JSON.stringify(data),
         attributes: {
-          "_MS.baseType": "TelemetryExceptionData",
+          "_MS.baseType": "ExceptionData",
         },
       });
       const expectedTime = new Date(hrTimeToMilliseconds(log.hrTime));
@@ -249,7 +249,7 @@ describe("logUtils.ts", () => {
         envelope,
         "Microsoft.ApplicationInsights.Exception",
         100,
-        "TelemetryExceptionData",
+        "ExceptionData",
         expectedProperties,
         emptyMeasurements,
         expectedBaseData,
@@ -363,7 +363,7 @@ describe("logUtils.ts", () => {
       const log = new LogRecord(logger, {
         body: JSON.stringify(data),
         attributes: {
-          "_MS.baseType": "TelemetryEventData",
+          "_MS.baseType": "EventData",
         },
       });
       const expectedTime = new Date(hrTimeToMilliseconds(log.hrTime));
@@ -387,7 +387,7 @@ describe("logUtils.ts", () => {
         envelope,
         "Microsoft.ApplicationInsights.Event",
         100,
-        "TelemetryEventData",
+        "EventData",
         expectedProperties,
         emptyMeasurements,
         expectedBaseData,
