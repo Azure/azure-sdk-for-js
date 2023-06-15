@@ -3,7 +3,6 @@
 
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { isNode } from "@azure/core-util";
-import { SpanStatusCode } from "@azure/core-tracing";
 import {
   QueueCreateResponse,
   QueueDeleteResponse,
@@ -34,7 +33,7 @@ import {
 } from "./utils/utils.common";
 import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
-import { createSpan } from "./utils/tracing";
+import { tracingClient } from "./utils/tracing";
 import { QueueClient, QueueCreateOptions, QueueDeleteOptions } from "./QueueClient";
 import { AccountSASPermissions } from "./AccountSASPermissions";
 import { generateAccountSASQueryParameters } from "./AccountSASSignatureValues";
@@ -332,36 +331,27 @@ export class QueueServiceClient extends StorageClient {
     marker?: string,
     options: ServiceListQueuesSegmentOptions = {}
   ): Promise<ServiceListQueuesSegmentResponse> {
-    const { span, updatedOptions } = createSpan("QueueServiceClient-listQueuesSegment", options);
-
     if (options.prefix === "") {
       options.prefix = undefined;
     }
 
-    try {
-      return assertResponse<
-        ServiceListQueuesSegmentHeaders & ListQueuesSegmentResponse,
-        ServiceListQueuesSegmentHeaders,
-        ListQueuesSegmentResponse
-      >(
-        await this.serviceContext.listQueuesSegment({
-          abortSignal: options.abortSignal,
-          marker: marker,
-          maxPageSize: options.maxPageSize,
-          prefix: options.prefix,
-          include: options.include === undefined ? undefined : [options.include],
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "QueueServiceClient-listQueuesSegment",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<
+          ServiceListQueuesSegmentHeaders & ListQueuesSegmentResponse,
+          ServiceListQueuesSegmentHeaders,
+          ListQueuesSegmentResponse
+        >(
+          await this.serviceContext.listQueuesSegment({
+            ...updatedOptions,
+            marker,
+            include: options.include === undefined ? undefined : [options.include],
+          })
+        );
+      }
+    );
   }
 
   /**
@@ -539,27 +529,17 @@ export class QueueServiceClient extends StorageClient {
   public async getProperties(
     options: ServiceGetPropertiesOptions = {}
   ): Promise<ServiceGetPropertiesResponse> {
-    const { span, updatedOptions } = createSpan("QueueServiceClient-getProperties", options);
-    try {
-      return assertResponse<
-        ServiceGetPropertiesHeaders & QueueServiceProperties,
-        ServiceGetPropertiesHeaders,
-        QueueServiceProperties
-      >(
-        await this.serviceContext.getProperties({
-          abortSignal: options.abortSignal,
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "QueueServiceClient-getProperties",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<
+          ServiceGetPropertiesHeaders & QueueServiceProperties,
+          ServiceGetPropertiesHeaders,
+          QueueServiceProperties
+        >(await this.serviceContext.getProperties(updatedOptions));
+      }
+    );
   }
 
   /**
@@ -575,23 +555,15 @@ export class QueueServiceClient extends StorageClient {
     properties: QueueServiceProperties,
     options: ServiceGetPropertiesOptions = {}
   ): Promise<ServiceSetPropertiesResponse> {
-    const { span, updatedOptions } = createSpan("QueueServiceClient-setProperties", options);
-    try {
-      return assertResponse<ServiceSetPropertiesHeaders, ServiceSetPropertiesHeaders>(
-        await this.serviceContext.setProperties(properties, {
-          abortSignal: options.abortSignal,
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "QueueServiceClient-setProperties",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<ServiceSetPropertiesHeaders, ServiceSetPropertiesHeaders>(
+          await this.serviceContext.setProperties(properties, updatedOptions)
+        );
+      }
+    );
   }
 
   /**
@@ -606,27 +578,17 @@ export class QueueServiceClient extends StorageClient {
   public async getStatistics(
     options: ServiceGetStatisticsOptions = {}
   ): Promise<ServiceGetStatisticsResponse> {
-    const { span, updatedOptions } = createSpan("QueueServiceClient-getStatistics", options);
-    try {
-      return assertResponse<
-        ServiceGetStatisticsHeaders & QueueServiceStatistics,
-        ServiceGetStatisticsHeaders,
-        QueueServiceStatistics
-      >(
-        await this.serviceContext.getStatistics({
-          abortSignal: options.abortSignal,
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "QueueServiceClient-getStatistics",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<
+          ServiceGetStatisticsHeaders & QueueServiceStatistics,
+          ServiceGetStatisticsHeaders,
+          QueueServiceStatistics
+        >(await this.serviceContext.getStatistics(updatedOptions));
+      }
+    );
   }
 
   /**
@@ -641,18 +603,13 @@ export class QueueServiceClient extends StorageClient {
     queueName: string,
     options: QueueCreateOptions = {}
   ): Promise<QueueCreateResponse> {
-    const { span, updatedOptions } = createSpan("QueueServiceClient-createQueue", options);
-    try {
-      return await this.getQueueClient(queueName).create(updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "QueueServiceClient-createQueue",
+      options,
+      async (updatedOptions) => {
+        return this.getQueueClient(queueName).create(updatedOptions);
+      }
+    );
   }
 
   /**
@@ -667,18 +624,13 @@ export class QueueServiceClient extends StorageClient {
     queueName: string,
     options: QueueDeleteOptions = {}
   ): Promise<QueueDeleteResponse> {
-    const { span, updatedOptions } = createSpan("QueueServiceClient-deleteQueue", options);
-    try {
-      return await this.getQueueClient(queueName).delete(updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "QueueServiceClient-deleteQueue",
+      options,
+      async (updatedOptions) => {
+        return this.getQueueClient(queueName).delete(updatedOptions);
+      }
+    );
   }
 
   /**
