@@ -20,7 +20,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
     describe("analyzeBatch", function (this: Suite) {
       const pollingInterval = isPlaybackMode() ? 0 : 2000;
 
-      describe.skip("custom", function () {
+      describe("custom", function () {
         let projectName: string;
         let deploymentName: string;
 
