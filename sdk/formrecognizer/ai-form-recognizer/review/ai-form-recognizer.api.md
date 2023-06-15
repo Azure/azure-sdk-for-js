@@ -342,7 +342,6 @@ export interface DocumentKeyValueElement {
 
 // @public
 export interface DocumentKeyValuePair {
-    commonName?: string;
     confidence: number;
     key: DocumentKeyValueElement;
     value?: DocumentKeyValueElement;
