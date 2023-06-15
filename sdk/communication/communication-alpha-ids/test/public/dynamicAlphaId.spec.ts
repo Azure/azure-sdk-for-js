@@ -6,6 +6,7 @@ import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createRecordedClient } from "./utils/recordedClient";
 import { ignoreSubscriptionNotEligibleError } from "./utils/alphaIdClientTestUtils";
+import { assert } from "chai";
 
 describe(`AlphaIdsClient - manage configuration`, function () {
   let recorder: Recorder;
@@ -27,4 +28,11 @@ describe(`AlphaIdsClient - manage configuration`, function () {
     await ignoreSubscriptionNotEligibleError(() => client.upsertConfiguration(false), false);
     await ignoreSubscriptionNotEligibleError(() => client.getConfiguration(), false);
   }).timeout(15000);
+
+  it("can list all dynamic alpha ids countries", async function () {
+    const countries = (await client.getDynamicAlphaIdCountries()).countries;
+    countries?.forEach((countryCode) => {
+      assert.isNotNull(countryCode);
+    })
+  }).timeout(20000);
 });

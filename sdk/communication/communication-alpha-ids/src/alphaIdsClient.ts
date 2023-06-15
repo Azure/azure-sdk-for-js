@@ -2,9 +2,14 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 import {
-  AlphaIdConfiguration,
+  DynamicAlphaIdConfiguration,
   GetConfigurationOptions,
   UpsertConfigurationOptions,
+  ListAlphaIdsOptions,
+  GetDynamicAlphaIdCountriesOptions,
+  GetPreRegisteredAlphaIdCountriesOptions,
+  AlphaId,
+  Countries,
 } from "./models";
 import { isKeyCredential, parseClientArguments } from "@azure/communication-common";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
@@ -13,10 +18,12 @@ import { AlphaIDsClient as AlphaIDsGeneratedClient } from "./generated/src";
 import { createCommunicationAuthPolicy } from "@azure/communication-common";
 import { logger } from "./utils";
 import { tracingClient } from "./generated/src/tracing";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+
 /**
  * Client options used to configure the AlphaIdsClient API requests.
  */
-export interface AlphaIdsClientOptions extends CommonClientOptions {}
+export interface AlphaIdsClientOptions extends CommonClientOptions { }
 
 const isAlphaIdsClientOptions = (options: any): options is AlphaIdsClientOptions =>
   options && !isKeyCredential(options) && !isTokenCredential(options);
@@ -61,12 +68,12 @@ export class AlphaIdsClient {
     this.client.pipeline.addPolicy(authPolicy);
   }
 
-  public getConfiguration(options: GetConfigurationOptions = {}): Promise<AlphaIdConfiguration> {
+  public getConfiguration(options: GetConfigurationOptions = {}): Promise<DynamicAlphaIdConfiguration> {
     return tracingClient.withSpan(
       "AlphaIdsClient-getConfiguration",
       options,
       async (updatedOptions) => {
-        return this.client.alphaIds.getConfiguration(updatedOptions);
+        return this.client.alphaIdsOperations.getDynamicAlphaIdConfiguration(updatedOptions);
       }
     );
   }
@@ -74,13 +81,73 @@ export class AlphaIdsClient {
   public upsertConfiguration(
     enabled: boolean,
     options: UpsertConfigurationOptions = {}
-  ): Promise<AlphaIdConfiguration> {
+  ): Promise<DynamicAlphaIdConfiguration> {
     return tracingClient.withSpan(
       "AlphaIdsClient-upsertConfiguration",
       options,
       async (updatedOptions) => {
-        return this.client.alphaIds.upsertConfiguration(enabled, updatedOptions);
+        return this.client.alphaIdsOperations.upsertDynamicAlphaIdConfiguration(enabled, updatedOptions);
       }
     );
+  }
+
+  public listAlphaIds(
+    options: ListAlphaIdsOptions = {}
+  ): PagedAsyncIterableIterator<AlphaId> {
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "AlphaIdsClient-listAlphaIds",
+      options
+    );
+    try {
+      return this.client.alphaIdsOperations.listAlphaIds(updatedOptions);
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public getDynamicAlphaIdCountries(
+    options: GetDynamicAlphaIdCountriesOptions = {}
+  ): Promise<Countries> {
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "AlphaIdsClient-getDynamicAlphaIdCountries",
+      options
+    );
+    try {
+      return this.client.alphaIdsOperations.getDynamicAlphaIdCountries(updatedOptions);
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public getPreRegisteredAlphaIdCountries(
+    options: GetPreRegisteredAlphaIdCountriesOptions = {}
+  ): Promise<Countries> {
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "AlphaIdsClient-getPreRegisteredAlphaIdCountries",
+      options
+    );
+    try {
+      return this.client.alphaIdsOperations.getPreRegisteredAlphaIdCountries(updatedOptions);
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 }

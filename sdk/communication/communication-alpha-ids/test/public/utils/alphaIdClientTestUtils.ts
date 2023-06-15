@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AlphaIdConfiguration } from "../../../src";
+import { DynamicAlphaIdConfiguration } from "../../../src";
 import { RestError } from "@azure/core-rest-pipeline";
 import { assert } from "chai";
 
 export async function ignoreSubscriptionNotEligibleError(
-  call: () => Promise<AlphaIdConfiguration>,
+  call: () => Promise<DynamicAlphaIdConfiguration>,
   expectedConfiguration: boolean
 ): Promise<void> {
   try {
