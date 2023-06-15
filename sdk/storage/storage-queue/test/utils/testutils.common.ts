@@ -9,6 +9,7 @@ export function isBrowser(): boolean {
 
 const mockAccountName = "fakestorageaccount";
 const mockAccountKey = "aaaaa";
+const mockSas = "fakeSasToken";
 export const recorderEnvSetup: RecorderEnvironmentSetup = {
   replaceableVariables: {
     // Used in record and playback modes
@@ -16,7 +17,7 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     // 2. If the env variables are present in the recordings as plain strings, they will be replaced with the provided values in record mode
     ACCOUNT_NAME: `${mockAccountName}`,
     ACCOUNT_KEY: `${mockAccountKey}`,
-    ACCOUNT_SAS: `${mockAccountKey}`,
+    ACCOUNT_SAS: `${mockSas}`,
     STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
     // Comment following line to skip user delegation key/SAS related cases in record and play
     // which depends on this environment variable
