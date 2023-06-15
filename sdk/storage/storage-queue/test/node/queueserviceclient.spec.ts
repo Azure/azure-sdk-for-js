@@ -5,9 +5,8 @@ import { assert } from "chai";
 import { getQSU, getConnectionStringFromEnvironment } from "../utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { QueueServiceClient } from "../../src/QueueServiceClient";
-import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
 import { newPipeline } from "../../src";
-import { TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { recorderEnvSetup } from "../utils/testutils.common";
 import { Context } from "mocha";
@@ -25,8 +24,7 @@ describe("QueueServiceClient Node.js only", () => {
 
   it("can be created with a url and a credential", async () => {
     const queueServiceClient = getQSU();
-    const factories = (queueServiceClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = queueServiceClient["credential"];
     const newClient = new QueueServiceClient(queueServiceClient.url, credential);
 
     const result = await newClient.getProperties();
@@ -39,8 +37,7 @@ describe("QueueServiceClient Node.js only", () => {
 
   it("can be created with a url and a credential and an option bag", async () => {
     const queueServiceClient = getQSU();
-    const factories = (queueServiceClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = queueServiceClient["credential"];
     const newClient = new QueueServiceClient(queueServiceClient.url, credential, {
       retryOptions: {
         maxTries: 5,
@@ -57,8 +54,7 @@ describe("QueueServiceClient Node.js only", () => {
 
   it("can be created with a url and a pipeline", async () => {
     const queueServiceClient = getQSU();
-    const factories = (queueServiceClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = queueServiceClient["credential"];
     const pipeline = newPipeline(credential);
     const newClient = new QueueServiceClient(queueServiceClient.url, pipeline);
 
