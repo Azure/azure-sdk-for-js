@@ -27,14 +27,18 @@
       }
     ]
   },
-  "schemes": ["https"],
+  "schemes": [
+    "https"
+  ],
   "paths": {
     "/documentModels/{modelId}:analyze": {
       "post": {
         "summary": "Analyze document",
         "description": "Analyzes document with document model.",
         "operationId": "DocumentModels_AnalyzeDocument",
-        "tags": ["Analysis"],
+        "tags": [
+          "Analysis"
+        ],
         "consumes": [
           "application/json",
           "application/octet-stream",
@@ -49,7 +53,9 @@
           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
           "application/vnd.openxmlformats-officedocument.presentationml.presentation"
         ],
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "$ref": "#/parameters/PathDocumentModelId"
@@ -116,9 +122,13 @@
         "summary": "Get analyze result",
         "description": "Gets the result of document analysis.",
         "operationId": "DocumentModels_GetAnalyzeResult",
-        "tags": ["Analysis"],
+        "tags": [
+          "Analysis"
+        ],
         "consumes": [],
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "$ref": "#/parameters/PathDocumentModelId"
@@ -156,9 +166,15 @@
         "summary": "Build document model",
         "description": "Builds a custom document analysis model.",
         "operationId": "DocumentModels_BuildModel",
-        "tags": ["Creation"],
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "tags": [
+          "Creation"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "$ref": "#/parameters/QueryApiVersion"
@@ -204,9 +220,15 @@
         "summary": "Compose document model",
         "description": "Creates a new document model from document types of existing document models.",
         "operationId": "DocumentModels_ComposeModel",
-        "tags": ["Creation"],
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "tags": [
+          "Creation"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "$ref": "#/parameters/QueryApiVersion"
@@ -252,9 +274,15 @@
         "summary": "Generate copy authorization",
         "description": "Generates authorization to copy a document model to this location with specified modelId and optional description.",
         "operationId": "DocumentModels_AuthorizeModelCopy",
-        "tags": ["Creation"],
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "tags": [
+          "Creation"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "$ref": "#/parameters/QueryApiVersion"
@@ -295,9 +323,15 @@
         "summary": "Copy document model",
         "description": "Copies document model to the target resource, region, and modelId.",
         "operationId": "DocumentModels_CopyModelTo",
-        "tags": ["Creation"],
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "tags": [
+          "Creation"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "$ref": "#/parameters/PathDocumentModelId"
@@ -346,9 +380,13 @@
         "summary": "List operations",
         "description": "Lists all operations.",
         "operationId": "Miscellaneous_ListOperations",
-        "tags": ["Operation"],
+        "tags": [
+          "Operation"
+        ],
         "consumes": [],
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "$ref": "#/parameters/QueryApiVersion"
@@ -384,9 +422,13 @@
         "summary": "Get operation",
         "description": "Gets operation info.",
         "operationId": "Miscellaneous_GetOperation",
-        "tags": ["Operation"],
+        "tags": [
+          "Operation"
+        ],
         "consumes": [],
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "$ref": "#/parameters/PathOperationId"
@@ -421,9 +463,13 @@
         "summary": "List document models",
         "description": "List all document models",
         "operationId": "DocumentModels_ListModels",
-        "tags": ["Management"],
+        "tags": [
+          "Management"
+        ],
         "consumes": [],
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "$ref": "#/parameters/QueryApiVersion"
@@ -459,9 +505,13 @@
         "summary": "Get document model",
         "description": "Gets detailed document model information.",
         "operationId": "DocumentModels_GetModel",
-        "tags": ["Management"],
+        "tags": [
+          "Management"
+        ],
         "consumes": [],
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "$ref": "#/parameters/PathDocumentModelId"
@@ -497,9 +547,13 @@
         "summary": "Delete document model",
         "description": "Deletes document model.",
         "operationId": "DocumentModels_DeleteModel",
-        "tags": ["Management"],
+        "tags": [
+          "Management"
+        ],
         "consumes": [],
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "$ref": "#/parameters/PathDocumentModelId"
@@ -531,9 +585,15 @@
         "summary": "Build document classifier",
         "description": "Builds a custom document classifier.",
         "operationId": "DocumentClassifiers_BuildClassifier",
-        "tags": ["Classifier"],
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "tags": [
+          "Classifier"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "$ref": "#/parameters/QueryApiVersion"
@@ -579,9 +639,13 @@
         "summary": "List document classifiers",
         "description": "List all document classifiers.",
         "operationId": "DocumentClassifiers_ListClassifiers",
-        "tags": ["Classifier"],
+        "tags": [
+          "Classifier"
+        ],
         "consumes": [],
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "$ref": "#/parameters/QueryApiVersion"
@@ -617,9 +681,13 @@
         "summary": "Get document classifier",
         "description": "Gets detailed document classifier information.",
         "operationId": "DocumentClassifiers_GetClassifier",
-        "tags": ["Classifier"],
+        "tags": [
+          "Classifier"
+        ],
         "consumes": [],
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "$ref": "#/parameters/PathDocumentClassifierId"
@@ -652,9 +720,13 @@
         "summary": "Delete document classifier",
         "description": "Deletes document classifier.",
         "operationId": "DocumentClassifiers_DeleteClassifier",
-        "tags": ["Classifier"],
+        "tags": [
+          "Classifier"
+        ],
         "consumes": [],
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "$ref": "#/parameters/PathDocumentClassifierId"
@@ -686,7 +758,9 @@
         "summary": "Classify document",
         "description": "Classifies document with document classifier.",
         "operationId": "DocumentClassifiers_ClassifyDocument",
-        "tags": ["Classifier"],
+        "tags": [
+          "Classifier"
+        ],
         "consumes": [
           "application/json",
           "application/octet-stream",
@@ -701,7 +775,9 @@
           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
           "application/vnd.openxmlformats-officedocument.presentationml.presentation"
         ],
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "$ref": "#/parameters/PathDocumentClassifierId"
@@ -753,9 +829,13 @@
         "summary": "Get document classifier result",
         "description": "Gets the result of document classifier.",
         "operationId": "DocumentClassifiers_GetClassifyResult",
-        "tags": ["Classifier"],
+        "tags": [
+          "Classifier"
+        ],
         "consumes": [],
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "$ref": "#/parameters/PathDocumentClassifierId"
@@ -793,9 +873,13 @@
         "summary": "Get resource info",
         "description": "Return information about the current resource.",
         "operationId": "Miscellaneous_GetResourceInfo",
-        "tags": ["Management"],
+        "tags": [
+          "Management"
+        ],
         "consumes": [],
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "$ref": "#/parameters/QueryApiVersion"
@@ -841,7 +925,10 @@
     "BuildDocumentModelRequest": {
       "description": "Request body to build a new custom document model.",
       "type": "object",
-      "required": ["modelId", "buildMode"],
+      "required": [
+        "modelId",
+        "buildMode"
+      ],
       "properties": {
         "modelId": {
           "$ref": "#/definitions/DocumentModelId"
@@ -872,7 +959,10 @@
     "ComposeDocumentModelRequest": {
       "description": "Request body to create a composed document model from component document models.",
       "type": "object",
-      "required": ["modelId", "componentModels"],
+      "required": [
+        "modelId",
+        "componentModels"
+      ],
       "properties": {
         "modelId": {
           "$ref": "#/definitions/DocumentModelId"
@@ -900,7 +990,9 @@
     "ComponentDocumentModelDetails": {
       "description": "A component of a composed document model.",
       "type": "object",
-      "required": ["modelId"],
+      "required": [
+        "modelId"
+      ],
       "properties": {
         "modelId": {
           "$ref": "#/definitions/DocumentModelId"
@@ -910,7 +1002,9 @@
     "AuthorizeCopyRequest": {
       "description": "Request body to authorize document model copy.",
       "type": "object",
-      "required": ["modelId"],
+      "required": [
+        "modelId"
+      ],
       "properties": {
         "modelId": {
           "$ref": "#/definitions/DocumentModelId"
@@ -930,7 +1024,9 @@
     "GetOperationsResponse": {
       "description": "List Operations response object.",
       "type": "object",
-      "required": ["value"],
+      "required": [
+        "value"
+      ],
       "properties": {
         "value": {
           "description": "List of operations.",
@@ -1060,7 +1156,9 @@
     "GetDocumentModelsResponse": {
       "description": "List document models response object.",
       "type": "object",
-      "required": ["value"],
+      "required": [
+        "value"
+      ],
       "properties": {
         "value": {
           "description": "List of document models.",
@@ -1095,7 +1193,10 @@
     "BuildDocumentClassifierRequest": {
       "description": "Request body to build a new custom document classifier.",
       "type": "object",
-      "required": ["classifierId", "docTypes"],
+      "required": [
+        "classifierId",
+        "docTypes"
+      ],
       "properties": {
         "classifierId": {
           "$ref": "#/definitions/DocumentClassifierId"
@@ -1115,7 +1216,9 @@
     "GetDocumentClassifiersResponse": {
       "description": "List document classifiers response object.",
       "type": "object",
-      "required": ["value"],
+      "required": [
+        "value"
+      ],
       "properties": {
         "value": {
           "description": "List of document classifiers.",
@@ -1148,7 +1251,12 @@
     "DocumentClassifierDetails": {
       "description": "Document classifier info.",
       "type": "object",
-      "required": ["classifierId", "createdDateTime", "apiVersion", "docTypes"],
+      "required": [
+        "classifierId",
+        "createdDateTime",
+        "apiVersion",
+        "docTypes"
+      ],
       "properties": {
         "classifierId": {
           "$ref": "#/definitions/DocumentClassifierId"
@@ -1196,7 +1304,10 @@
     "ResourceDetails": {
       "description": "General information regarding the current resource.",
       "type": "object",
-      "required": ["customDocumentModels", "customNeuralDocumentModelBuilds"],
+      "required": [
+        "customDocumentModels",
+        "customNeuralDocumentModelBuilds"
+      ],
       "properties": {
         "customDocumentModels": {
           "$ref": "#/definitions/CustomDocumentModelsDetails"
@@ -1209,7 +1320,10 @@
     "CustomDocumentModelsDetails": {
       "description": "Details regarding custom document models.",
       "type": "object",
-      "required": ["count", "limit"],
+      "required": [
+        "count",
+        "limit"
+      ],
       "properties": {
         "count": {
           "description": "Number of custom document models in the current resource.",
@@ -1226,7 +1340,11 @@
     "QuotaDetails": {
       "description": "Quota used, limit, and next reset date/time.",
       "type": "object",
-      "required": ["used", "quota", "quotaResetDateTime"],
+      "required": [
+        "used",
+        "quota",
+        "quotaResetDateTime"
+      ],
       "properties": {
         "used": {
           "description": "Amount of the resource quota used.",
@@ -1252,7 +1370,9 @@
     "ErrorResponse": {
       "description": "Error response object.",
       "type": "object",
-      "required": ["error"],
+      "required": [
+        "error"
+      ],
       "properties": {
         "error": {
           "$ref": "#/definitions/Error"
@@ -1262,7 +1382,10 @@
     "Error": {
       "description": "Error info.",
       "type": "object",
-      "required": ["code", "message"],
+      "required": [
+        "code",
+        "message"
+      ],
       "properties": {
         "code": {
           "description": "Error code.",
@@ -1291,7 +1414,9 @@
     "InnerError": {
       "description": "Detailed error.",
       "type": "object",
-      "required": ["code"],
+      "required": [
+        "code"
+      ],
       "properties": {
         "code": {
           "description": "Error code.",
@@ -1319,7 +1444,9 @@
     "AzureBlobContentSource": {
       "description": "Azure Blob Storage content.",
       "type": "object",
-      "required": ["containerUrl"],
+      "required": [
+        "containerUrl"
+      ],
       "properties": {
         "containerUrl": {
           "description": "Azure Blob Storage container URL.",
@@ -1335,7 +1462,10 @@
     "AzureBlobFileListSource": {
       "description": "File list in Azure Blob Storage.",
       "type": "object",
-      "required": ["containerUrl", "fileList"],
+      "required": [
+        "containerUrl",
+        "fileList"
+      ],
       "properties": {
         "containerUrl": {
           "description": "Azure Blob Storage container URL.",
@@ -1392,7 +1522,13 @@
     "OperationStatus": {
       "description": "Operation status.",
       "type": "string",
-      "enum": ["notStarted", "running", "failed", "succeeded", "canceled"],
+      "enum": [
+        "notStarted",
+        "running",
+        "failed",
+        "succeeded",
+        "canceled"
+      ],
       "x-ms-enum": {
         "name": "OperationStatus",
         "modelAsString": false,
@@ -1509,7 +1645,10 @@
     "DocumentModelSummary": {
       "description": "Document model summary.",
       "type": "object",
-      "required": ["modelId", "createdDateTime"],
+      "required": [
+        "modelId",
+        "createdDateTime"
+      ],
       "properties": {
         "modelId": {
           "$ref": "#/definitions/DocumentModelId"
@@ -1543,7 +1682,10 @@
     "DocumentModelDetails": {
       "description": "Document model info.",
       "type": "object",
-      "required": ["modelId", "createdDateTime"],
+      "required": [
+        "modelId",
+        "createdDateTime"
+      ],
       "properties": {
         "modelId": {
           "$ref": "#/definitions/DocumentModelId"
@@ -1584,7 +1726,9 @@
     "DocumentTypeDetails": {
       "description": "Document type info.",
       "type": "object",
-      "required": ["fieldSchema"],
+      "required": [
+        "fieldSchema"
+      ],
       "properties": {
         "description": {
           "$ref": "#/definitions/DocumentModelDescription"
@@ -1616,7 +1760,9 @@
     "DocumentFieldSchema": {
       "description": "Description of the field semantic schema using a JSON Schema style syntax.",
       "type": "object",
-      "required": ["type"],
+      "required": [
+        "type"
+      ],
       "properties": {
         "type": {
           "$ref": "#/definitions/DocumentFieldType"
@@ -1645,12 +1791,21 @@
     "AnalyzeResultOperation": {
       "description": "Status and result of the analyze operation.",
       "type": "object",
-      "required": ["status", "createdDateTime", "lastUpdatedDateTime"],
+      "required": [
+        "status",
+        "createdDateTime",
+        "lastUpdatedDateTime"
+      ],
       "properties": {
         "status": {
           "description": "Operation status.",
           "type": "string",
-          "enum": ["notStarted", "running", "failed", "succeeded"],
+          "enum": [
+            "notStarted",
+            "running",
+            "failed",
+            "succeeded"
+          ],
           "x-ms-enum": {
             "name": "AnalyzeResultOperationStatus",
             "modelAsString": false,
@@ -1696,7 +1851,13 @@
     "AnalyzeResult": {
       "description": "Document analysis result.",
       "type": "object",
-      "required": ["apiVersion", "modelId", "stringIndexType", "content", "pages"],
+      "required": [
+        "apiVersion",
+        "modelId",
+        "stringIndexType",
+        "content",
+        "pages"
+      ],
       "properties": {
         "apiVersion": {
           "description": "API version used to produce this result.",
@@ -1768,12 +1929,21 @@
     "DocumentPage": {
       "description": "Content and layout elements extracted from a page from the input.",
       "type": "object",
-      "required": ["kind", "pageNumber", "spans"],
+      "required": [
+        "kind",
+        "pageNumber",
+        "spans"
+      ],
       "properties": {
         "kind": {
           "description": "Kind of document page.",
           "type": "string",
-          "enum": ["document", "sheet", "slide", "image"],
+          "enum": [
+            "document",
+            "sheet",
+            "slide",
+            "image"
+          ],
           "x-ms-enum": {
             "name": "DocumentPageKind",
             "modelAsString": true,
@@ -1823,7 +1993,10 @@
         "unit": {
           "description": "The unit used by the width, height, and polygon properties. For images, the unit is \"pixel\". For PDF, the unit is \"inch\".",
           "type": "string",
-          "enum": ["pixel", "inch"],
+          "enum": [
+            "pixel",
+            "inch"
+          ],
           "x-ms-enum": {
             "name": "LengthUnit",
             "modelAsString": true,
@@ -1900,7 +2073,11 @@
     "DocumentWord": {
       "description": "A word object consisting of a contiguous sequence of characters.  For non-space delimited languages, such as Chinese, Japanese, and Korean, each character is represented as its own word.",
       "type": "object",
-      "required": ["content", "span", "confidence"],
+      "required": [
+        "content",
+        "span",
+        "confidence"
+      ],
       "properties": {
         "content": {
           "description": "Text content of the word.",
@@ -1923,7 +2100,11 @@
     "DocumentSelectionMark": {
       "description": "A selection mark object representing check boxes, radio buttons, and other elements indicating a selection.",
       "type": "object",
-      "required": ["state", "span", "confidence"],
+      "required": [
+        "state",
+        "span",
+        "confidence"
+      ],
       "properties": {
         "state": {
           "description": "State of the selection mark.",
@@ -1946,7 +2127,10 @@
     "DocumentSelectionMarkState": {
       "description": "State of the selection mark.",
       "type": "string",
-      "enum": ["selected", "unselected"],
+      "enum": [
+        "selected",
+        "unselected"
+      ],
       "x-ms-enum": {
         "name": "SelectionMarkState",
         "modelAsString": true,
@@ -1965,7 +2149,10 @@
     "DocumentLine": {
       "description": "A content line object consisting of an adjacent sequence of content elements, such as words and selection marks.",
       "type": "object",
-      "required": ["content", "spans"],
+      "required": [
+        "content",
+        "spans"
+      ],
       "properties": {
         "content": {
           "description": "Concatenated content of the contained elements in reading order.",
@@ -1987,12 +2174,19 @@
     "DocumentAnnotation": {
       "description": "An annotation object that represents a visual annotation in the document, such as checks ✓ and crosses X.",
       "type": "object",
-      "required": ["kind", "polygon", "confidence"],
+      "required": [
+        "kind",
+        "polygon",
+        "confidence"
+      ],
       "properties": {
         "kind": {
           "description": "Annotation kind.",
           "type": "string",
-          "enum": ["check", "cross"],
+          "enum": [
+            "check",
+            "cross"
+          ],
           "x-ms-enum": {
             "name": "DocumentAnnotationKind",
             "modelAsString": true,
@@ -2021,7 +2215,12 @@
     "DocumentBarcode": {
       "description": "A barcode object.",
       "type": "object",
-      "required": ["kind", "value", "span", "confidence"],
+      "required": [
+        "kind",
+        "value",
+        "span",
+        "confidence"
+      ],
       "properties": {
         "kind": {
           "description": "Barcode kind.",
@@ -2141,12 +2340,20 @@
     "DocumentFormula": {
       "description": "A formula object.",
       "type": "object",
-      "required": ["kind", "value", "span", "confidence"],
+      "required": [
+        "kind",
+        "value",
+        "span",
+        "confidence"
+      ],
       "properties": {
         "kind": {
           "description": "Formula kind.",
           "type": "string",
-          "enum": ["inline", "display"],
+          "enum": [
+            "inline",
+            "display"
+          ],
           "x-ms-enum": {
             "name": "DocumentFormulaKind",
             "modelAsString": true,
@@ -2183,7 +2390,11 @@
     "DocumentImage": {
       "description": "An image object detected in the page.",
       "type": "object",
-      "required": ["span", "pageNumber", "confidence"],
+      "required": [
+        "span",
+        "pageNumber",
+        "confidence"
+      ],
       "properties": {
         "polygon": {
           "description": "Bounding polygon of the image.",
@@ -2208,7 +2419,10 @@
     "DocumentParagraph": {
       "description": "A paragraph object consisting with contiguous lines generally with common alignment and spacing.",
       "type": "object",
-      "required": ["content", "spans"],
+      "required": [
+        "content",
+        "spans"
+      ],
       "properties": {
         "role": {
           "description": "Semantic role of the paragraph.",
@@ -2280,7 +2494,12 @@
     "DocumentTable": {
       "description": "A table object consisting table cells arranged in a rectangular layout.",
       "type": "object",
-      "required": ["rowCount", "columnCount", "cells", "spans"],
+      "required": [
+        "rowCount",
+        "columnCount",
+        "cells",
+        "spans"
+      ],
       "properties": {
         "rowCount": {
           "description": "Number of rows in the table.",
@@ -2320,12 +2539,23 @@
     "DocumentTableCell": {
       "description": "An object representing the location and content of a table cell.",
       "type": "object",
-      "required": ["rowIndex", "columnIndex", "content", "spans"],
+      "required": [
+        "rowIndex",
+        "columnIndex",
+        "content",
+        "spans"
+      ],
       "properties": {
         "kind": {
           "description": "Table cell kind.",
           "type": "string",
-          "enum": ["content", "rowHeader", "columnHeader", "stubHead", "description"],
+          "enum": [
+            "content",
+            "rowHeader",
+            "columnHeader",
+            "stubHead",
+            "description"
+          ],
           "default": "content",
           "x-ms-enum": {
             "name": "DocumentTableCellKind",
@@ -2401,7 +2631,10 @@
     "DocumentKeyValuePair": {
       "description": "An object representing a form field with distinct field label (key) and field value (may be empty).",
       "type": "object",
-      "required": ["key", "confidence"],
+      "required": [
+        "key",
+        "confidence"
+      ],
       "properties": {
         "key": {
           "description": "Field label of the key-value pair.",
@@ -2424,7 +2657,10 @@
     "DocumentKeyValueElement": {
       "description": "An object representing the field key or value in a key-value pair.",
       "type": "object",
-      "required": ["content", "spans"],
+      "required": [
+        "content",
+        "spans"
+      ],
       "properties": {
         "content": {
           "description": "Concatenated content of the key-value element in reading order.",
@@ -2449,7 +2685,10 @@
     "DocumentStyle": {
       "description": "An object representing observed text styles.",
       "type": "object",
-      "required": ["spans", "confidence"],
+      "required": [
+        "spans",
+        "confidence"
+      ],
       "properties": {
         "isHandwritten": {
           "description": "Is content handwritten?",
@@ -2462,7 +2701,10 @@
         "fontStyle": {
           "description": "Font style.",
           "type": "string",
-          "enum": ["normal", "italic"],
+          "enum": [
+            "normal",
+            "italic"
+          ],
           "x-ms-enum": {
             "name": "FontStyle",
             "modelAsString": true,
@@ -2481,7 +2723,10 @@
         "fontWeight": {
           "description": "Font weight.",
           "type": "string",
-          "enum": ["normal", "bold"],
+          "enum": [
+            "normal",
+            "bold"
+          ],
           "x-ms-enum": {
             "name": "FontWeight",
             "modelAsString": true,
@@ -2523,7 +2768,11 @@
     "DocumentLanguage": {
       "description": "An object representing the detected language for a given text span.",
       "type": "object",
-      "required": ["locale", "spans", "confidence"],
+      "required": [
+        "locale",
+        "spans",
+        "confidence"
+      ],
       "properties": {
         "locale": {
           "description": "Detected language.  Value may an ISO 639-1 language code (ex. \"en\", \"fr\") or BCP 47 language tag (ex. \"zh-Hans\").",
@@ -2545,7 +2794,11 @@
     "Document": {
       "description": "An object describing the location and semantic content of a document.",
       "type": "object",
-      "required": ["docType", "spans", "confidence"],
+      "required": [
+        "docType",
+        "spans",
+        "confidence"
+      ],
       "properties": {
         "docType": {
           "description": "Document type.",
@@ -2581,7 +2834,9 @@
     "DocumentField": {
       "description": "An object representing the content and location of a field value.",
       "type": "object",
-      "required": ["type"],
+      "required": [
+        "type"
+      ],
       "properties": {
         "type": {
           "description": "Data type of the field value.",
@@ -2621,7 +2876,10 @@
         "valueSignature": {
           "description": "Presence of signature.",
           "type": "string",
-          "enum": ["signed", "unsigned"],
+          "enum": [
+            "signed",
+            "unsigned"
+          ],
           "x-ms-enum": {
             "name": "DocumentSignatureType",
             "modelAsString": true,
@@ -2776,7 +3034,9 @@
     "CurrencyValue": {
       "description": "Currency field value.",
       "type": "object",
-      "required": ["amount"],
+      "required": [
+        "amount"
+      ],
       "properties": {
         "amount": {
           "description": "Currency amount.",
@@ -2868,7 +3128,10 @@
     "DocumentBuildMode": {
       "description": "Custom document model build mode.",
       "type": "string",
-      "enum": ["template", "neural"],
+      "enum": [
+        "template",
+        "neural"
+      ],
       "x-ms-enum": {
         "name": "DocumentBuildMode",
         "modelAsString": true,
@@ -2911,7 +3174,10 @@
     "BoundingRegion": {
       "description": "Bounding polygon on a specific page of the input.",
       "type": "object",
-      "required": ["pageNumber", "polygon"],
+      "required": [
+        "pageNumber",
+        "polygon"
+      ],
       "properties": {
         "pageNumber": {
           "description": "1-based page number of page containing the bounding region.",
@@ -2934,7 +3200,10 @@
     "DocumentSpan": {
       "description": "Contiguous region of the concatenated content property, specified as an offset and length.",
       "type": "object",
-      "required": ["offset", "length"],
+      "required": [
+        "offset",
+        "length"
+      ],
       "properties": {
         "offset": {
           "description": "Zero-based index of the content represented by the span.",
@@ -2953,7 +3222,11 @@
     "StringIndexType": {
       "description": "Method used to compute string offset and length.",
       "type": "string",
-      "enum": ["textElements", "unicodeCodePoint", "utf16CodeUnit"],
+      "enum": [
+        "textElements",
+        "unicodeCodePoint",
+        "utf16CodeUnit"
+      ],
       "x-ms-enum": {
         "name": "StringIndexType",
         "modelAsString": true,
@@ -3059,7 +3332,11 @@
       "required": false,
       "in": "query",
       "type": "string",
-      "enum": ["textElements", "unicodeCodePoint", "utf16CodeUnit"],
+      "enum": [
+        "textElements",
+        "unicodeCodePoint",
+        "utf16CodeUnit"
+      ],
       "x-ms-enum": {
         "name": "StringIndexType",
         "modelAsString": true,
@@ -3089,7 +3366,12 @@
       "in": "query",
       "items": {
         "type": "string",
-        "enum": ["ocr.highResolution", "ocr.formula", "ocr.font", "queryFields.premium"],
+        "enum": [
+          "ocr.highResolution",
+          "ocr.formula",
+          "ocr.font",
+          "queryFields.premium"
+        ],
         "x-ms-enum": {
           "name": "DocumentAnalysisFeature",
           "modelAsString": true,
