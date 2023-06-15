@@ -110,7 +110,7 @@
     "Rollup",
     "rrggbb",
     "Rtsp",
-	"reoffer",
+    "reoffer",
     "rushx",
     "soundex",
     "southcentralus",
@@ -246,7 +246,9 @@
     },
     {
       "filename": "sdk/formrecognizer/ai-form-recognizer/README.md",
-      "words": ["iddocument"]
+      "words": [
+        "iddocument"
+      ]
     },
     {
       "filename": "sdk/formrecognizer/ai-form-recognizer/review/**/*.md",
@@ -276,6 +278,13 @@
         "Illumos",
         "mipsle",
         "riscv"
+      ]
+    },
+    {
+      "filename": "sdk/communication/communication-call-automation/review/**/*.md",
+      "words": [
+        "ssml",
+        "Ssml"
       ]
     },
     {
