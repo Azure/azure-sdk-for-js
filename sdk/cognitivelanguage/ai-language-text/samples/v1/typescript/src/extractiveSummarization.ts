@@ -2,11 +2,10 @@
 // Licensed under the MIT License.
 
 /**
- * This sample program generates a summary of two sentences at max for an article.
+ * This sample program extracts a summary of two sentences at max from an article.
  * For more information, see the feature documentation: {@link https://learn.microsoft.com/azure/cognitive-services/language-service/summarization/overview}
  *
- * @summary generates a summary for an article
- * @azsdk-weight 50
+ * @summary extracts a summary from an article
  */
 
 import {
@@ -38,13 +37,13 @@ const documents = [
 ];
 
 export async function main() {
-  console.log("== Abstractive Summarization Sample ==");
+  console.log("== Extractive Summarization Sample ==");
 
   const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
   const actions: AnalyzeBatchAction[] = [
     {
-      kind: "AbstractiveSummarization",
-      sentenceCount: 2,
+      kind: "ExtractiveSummarization",
+      maxSentenceCount: 2,
     },
   ];
   const poller = await client.beginAnalyzeBatch(actions, documents, "en");
@@ -60,8 +59,8 @@ export async function main() {
   const results = await poller.pollUntilDone();
 
   for await (const actionResult of results) {
-    if (actionResult.kind !== "AbstractiveSummarization") {
-      throw new Error(`Expected abstractive summarization results but got: ${actionResult.kind}`);
+    if (actionResult.kind !== "ExtractiveSummarization") {
+      throw new Error(`Expected extractive summarization results but got: ${actionResult.kind}`);
     }
     if (actionResult.error) {
       const { code, message } = actionResult.error;
@@ -73,10 +72,8 @@ export async function main() {
         const { code, message } = result.error;
         throw new Error(`Unexpected error (${code}): ${message}`);
       }
-      console.log("\t- Summary:");
-      for (const summary of result.summaries) {
-        console.log(summary.text);
-      }
+      console.log("Summary:");
+      console.log(result.sentences.map((sentence) => sentence.text).join("\n"));
     }
   }
 }

@@ -6,7 +6,6 @@
  * For more information, see the feature documentation: {@link https://learn.microsoft.com/azure/cognitive-services/language-service/summarization/overview}
  *
  * @summary generates a summary for an article
- * @azsdk-weight 50
  */
 
 import {

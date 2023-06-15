@@ -2,22 +2,16 @@
 // Licensed under the MIT License.
 
 /**
- * This sample program generates a summary of two sentences at max for an article.
+ * This sample program extracts a summary of two sentences at max from an article.
  * For more information, see the feature documentation: {@link https://learn.microsoft.com/azure/cognitive-services/language-service/summarization/overview}
  *
- * @summary generates a summary for an article
- * @azsdk-weight 50
+ * @summary extracts a summary from an article
  */
 
-import {
-  AnalyzeBatchAction,
-  AzureKeyCredential,
-  TextAnalysisClient,
-} from "@azure/ai-language-text";
+const { AzureKeyCredential, TextAnalysisClient } = require("@azure/ai-language-text");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
@@ -37,14 +31,14 @@ const documents = [
            “Being able to improve healthcare, being able to improve education, economic development is going to improve the quality of life in the communities.”`,
 ];
 
-export async function main() {
-  console.log("== Abstractive Summarization Sample ==");
+async function main() {
+  console.log("== Extractive Summarization Sample ==");
 
   const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
-  const actions: AnalyzeBatchAction[] = [
+  const actions = [
     {
-      kind: "AbstractiveSummarization",
-      sentenceCount: 2,
+      kind: "ExtractiveSummarization",
+      maxSentenceCount: 2,
     },
   ];
   const poller = await client.beginAnalyzeBatch(actions, documents, "en");
@@ -60,8 +54,8 @@ export async function main() {
   const results = await poller.pollUntilDone();
 
   for await (const actionResult of results) {
-    if (actionResult.kind !== "AbstractiveSummarization") {
-      throw new Error(`Expected abstractive summarization results but got: ${actionResult.kind}`);
+    if (actionResult.kind !== "ExtractiveSummarization") {
+      throw new Error(`Expected extractive summarization results but got: ${actionResult.kind}`);
     }
     if (actionResult.error) {
       const { code, message } = actionResult.error;
@@ -73,10 +67,8 @@ export async function main() {
         const { code, message } = result.error;
         throw new Error(`Unexpected error (${code}): ${message}`);
       }
-      console.log("\t- Summary:");
-      for (const summary of result.summaries) {
-        console.log(summary.text);
-      }
+      console.log("Summary:");
+      console.log(result.sentences.map((sentence) => sentence.text).join("\n"));
     }
   }
 }
@@ -84,3 +76,5 @@ export async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };
