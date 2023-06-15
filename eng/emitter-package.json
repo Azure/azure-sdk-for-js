@@ -1,4 +1,5 @@
 {
+  "name": "typescript-emitter-package",
   "main": "dist/src/index.js",
   "dependencies": {
     "@azure-tools/typespec-ts": "0.13.2",
