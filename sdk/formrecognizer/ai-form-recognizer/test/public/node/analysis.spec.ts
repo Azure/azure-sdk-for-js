@@ -324,7 +324,7 @@ matrix([[true, false]] as const, async (useAad) => {
       });
 
       it("with barcodes", async function () {
-        const url = makeTestUrl("/Invoice_1.pdf");
+        const url = makeTestUrl("/barcode2.tif");
 
         const poller = await client.beginAnalyzeDocumentFromUrl(
           PrebuiltModels.GeneralDocument,
