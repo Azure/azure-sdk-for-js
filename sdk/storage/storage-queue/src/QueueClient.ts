@@ -576,10 +576,7 @@ export class QueueClient extends StorageClient {
     const { span, updatedOptions } = createSpan("QueueClient-create", options);
     try {
       return assertResponse<QueueCreateHeaders, QueueCreateHeaders>(
-        await this.queueContext.create({
-          ...updatedOptions,
-          abortSignal: options.abortSignal,
-        })
+        await this.queueContext.create(updatedOptions)
       );
     } catch (e: any) {
       span.setStatus({
