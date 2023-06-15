@@ -54,15 +54,12 @@ export {
   AzureBlobFileListSource,
   AzureBlobContentSource,
   QuotaDetails,
-  DocumentPageKind,
-
   // KnownXYZ enums
   KnownDocumentBuildMode,
   KnownDocumentFieldType,
   KnownDocumentAnnotationKind,
   KnownDocumentBarcodeKind,
   KnownDocumentFormulaKind,
-  KnownDocumentPageKind,
   KnownDocumentSignatureType,
   KnownDocumentTableCellKind,
   KnownFontStyle,

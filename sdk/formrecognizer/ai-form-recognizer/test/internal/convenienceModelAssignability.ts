@@ -11,7 +11,6 @@ import {
   DocumentTable as GeneratedDocumentTable,
   DocumentTableCell as GeneratedDocumentTableCell,
   DocumentWord as GeneratedDocumentWord,
-  DocumentImage as GeneratedDocumentImage,
   DocumentAnnotation as GeneratedDocumentAnnotation,
   DocumentBarcode as GeneratedDocumentBarcode,
   DocumentFormula as GeneratedDocumentFormula,
@@ -55,7 +54,6 @@ declare const documentFormula: DocumentFormula;
 checkAssign<Omit<GeneratedDocumentWord, "polygon">>(word);
 checkAssign<Omit<GeneratedDocumentSelectionMark, "polygon">>(selectionMark);
 checkAssign<Omit<GeneratedDocumentLine, "polygon">>(documentLine);
-checkAssign<Omit<GeneratedDocumentImage, "polygon">>(documentImage);
 checkAssign<Omit<GeneratedDocumentAnnotation, "polygon">>(documentAnnotation);
 checkAssign<Omit<GeneratedDocumentBarcode, "polygon">>(documentBarcode);
 checkAssign<Omit<GeneratedDocumentFormula, "polygon">>(documentFormula);
@@ -84,7 +82,6 @@ declare const generatedDocumentTableCell: GeneratedDocumentTableCell;
 declare const generatedDocumentKeyValueElement: GeneratedDocumentKeyValueElement;
 declare const generatedDocument: GeneratedDocument;
 declare const generatedDocumentPage: GeneratedDocumentPage;
-declare const generatedDocumentImage: GeneratedDocumentImage;
 declare const generatedDocumentAnnotation: GeneratedDocumentAnnotation;
 declare const generatedDocumentBarcode: GeneratedDocumentBarcode;
 declare const generatedDocumentFormula: GeneratedDocumentFormula;
@@ -92,7 +89,6 @@ declare const generatedDocumentFormula: GeneratedDocumentFormula;
 checkAssign<Omit<DocumentWord, "polygon">>(generatedWord);
 checkAssign<Omit<DocumentSelectionMark, "polygon">>(generatedSelectionMark);
 checkAssign<Omit<DocumentLine, "polygon" | "words">>(generatedDocumentLine);
-checkAssign<Omit<DocumentImage, "polygon">>(generatedDocumentImage);
 checkAssign<Omit<DocumentAnnotation, "polygon">>(generatedDocumentAnnotation);
 checkAssign<Omit<DocumentBarcode, "polygon">>(generatedDocumentBarcode);
 checkAssign<Omit<DocumentFormula, "polygon">>(generatedDocumentFormula);
