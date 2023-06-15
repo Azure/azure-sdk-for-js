@@ -33,8 +33,7 @@ describe("Share Resources Operations", () => {
     const result: ShareResourceOutput[] = [];
 
     for await (const item of pageData) {
-      const shareResource = item;
-      result.push(shareResource);
+      result.push(item);
     }
 
     assert.strictEqual(result.length, 2);
