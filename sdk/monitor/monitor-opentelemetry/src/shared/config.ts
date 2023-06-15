@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
 import * as os from "os";
 import { Resource } from "@opentelemetry/resources";
 import {
   AZURE_MONITOR_OPENTELEMETRY_VERSION,
   DEFAULT_ROLE_NAME,
-  IConfig,
-  IInstrumentationsConfig,
+  AzureMonitorOpenTelemetryOptions,
+  InstrumentationOptions,
 } from "./types";
 import { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
 import {
@@ -19,7 +20,7 @@ import { Logger } from "./logging";
 /**
  * Azure Monitor OpenTelemetry Client Configuration
  */
-export class AzureMonitorOpenTelemetryConfig implements IConfig {
+export class AzureMonitorOpenTelemetryConfig implements AzureMonitorOpenTelemetryOptions {
   /** The rate of telemetry items tracked that should be transmitted (Default 1.0) */
   public samplingRatio: number;
   /** Azure Monitor Exporter Configuration */
@@ -35,14 +36,9 @@ export class AzureMonitorOpenTelemetryConfig implements IConfig {
    */
   public enableAutoCollectStandardMetrics: boolean;
   /**
-   * Sets the state of native metrics tracking (disabled by default)
-   * if true and applicationinsights-native-metrics is installed, native metrics will be collected every minute and sent to Azure Monitor
-   */
-  public enableAutoCollectNativeMetrics?: boolean;
-  /**
    * OpenTelemetry Instrumentations configuration included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4)
    */
-  public instrumentations: IInstrumentationsConfig;
+  public instrumentationOptions: InstrumentationOptions;
 
   private _resource: Resource;
 
@@ -60,11 +56,13 @@ export class AzureMonitorOpenTelemetryConfig implements IConfig {
   /**
    * Initializes a new instance of the AzureMonitorOpenTelemetryConfig class.
    */
-  constructor() {
+  constructor(options?: AzureMonitorOpenTelemetryOptions) {
+    // Default values
+    this.azureMonitorExporterConfig = {};
     this.enableAutoCollectPerformance = true;
     this.enableAutoCollectStandardMetrics = true;
     this.samplingRatio = 1;
-    this.instrumentations = {
+    this.instrumentationOptions = {
       http: { enabled: true },
       azureSdk: { enabled: false },
       mongoDb: { enabled: false },
@@ -74,8 +72,21 @@ export class AzureMonitorOpenTelemetryConfig implements IConfig {
       redis4: { enabled: false },
     };
     this._resource = this._getDefaultResource();
-
+    // Merge JSON configuration file if available
     this._mergeConfig();
+    // Check for explicitly passed options when instantiating client
+    // This will take precedence over other settings
+    if (options) {
+      this.azureMonitorExporterConfig =
+        options.azureMonitorExporterConfig || this.azureMonitorExporterConfig;
+      this.enableAutoCollectPerformance =
+        options.enableAutoCollectPerformance || this.enableAutoCollectPerformance;
+      this.enableAutoCollectStandardMetrics =
+        options.enableAutoCollectStandardMetrics || this.enableAutoCollectStandardMetrics;
+      this.samplingRatio = options.samplingRatio || this.samplingRatio;
+      this.instrumentationOptions = options.instrumentationOptions || this.instrumentationOptions;
+      this.resource = options.resource || this.resource;
+    }
   }
 
   private _mergeConfig() {
@@ -95,48 +106,54 @@ export class AzureMonitorOpenTelemetryConfig implements IConfig {
           : this.enableAutoCollectStandardMetrics;
       this.samplingRatio =
         jsonConfig.samplingRatio !== undefined ? jsonConfig.samplingRatio : this.samplingRatio;
-      if (jsonConfig.instrumentations) {
+      if (jsonConfig.instrumentationOptions) {
         if (
-          jsonConfig.instrumentations.azureSdk &&
-          jsonConfig.instrumentations.azureSdk.enabled !== undefined
+          jsonConfig.instrumentationOptions.azureSdk &&
+          jsonConfig.instrumentationOptions.azureSdk.enabled !== undefined
         ) {
-          this.instrumentations.azureSdk.enabled = jsonConfig.instrumentations.azureSdk.enabled;
+          this.instrumentationOptions.azureSdk.enabled =
+            jsonConfig.instrumentationOptions.azureSdk.enabled;
         }
         if (
-          jsonConfig.instrumentations.http &&
-          jsonConfig.instrumentations.http.enabled !== undefined
+          jsonConfig.instrumentationOptions.http &&
+          jsonConfig.instrumentationOptions.http.enabled !== undefined
         ) {
-          this.instrumentations.http.enabled = jsonConfig.instrumentations.http.enabled;
+          this.instrumentationOptions.http.enabled = jsonConfig.instrumentationOptions.http.enabled;
         }
         if (
-          jsonConfig.instrumentations.mongoDb &&
-          jsonConfig.instrumentations.mongoDb.enabled !== undefined
+          jsonConfig.instrumentationOptions.mongoDb &&
+          jsonConfig.instrumentationOptions.mongoDb.enabled !== undefined
         ) {
-          this.instrumentations.mongoDb.enabled = jsonConfig.instrumentations.mongoDb.enabled;
+          this.instrumentationOptions.mongoDb.enabled =
+            jsonConfig.instrumentationOptions.mongoDb.enabled;
         }
         if (
-          jsonConfig.instrumentations.mySql &&
-          jsonConfig.instrumentations.mySql.enabled !== undefined
+          jsonConfig.instrumentationOptions.mySql &&
+          jsonConfig.instrumentationOptions.mySql.enabled !== undefined
         ) {
-          this.instrumentations.mySql.enabled = jsonConfig.instrumentations.mySql.enabled;
+          this.instrumentationOptions.mySql.enabled =
+            jsonConfig.instrumentationOptions.mySql.enabled;
         }
         if (
-          jsonConfig.instrumentations.postgreSql &&
-          jsonConfig.instrumentations.postgreSql.enabled !== undefined
+          jsonConfig.instrumentationOptions.postgreSql &&
+          jsonConfig.instrumentationOptions.postgreSql.enabled !== undefined
         ) {
-          this.instrumentations.postgreSql.enabled = jsonConfig.instrumentations.postgreSql.enabled;
+          this.instrumentationOptions.postgreSql.enabled =
+            jsonConfig.instrumentationOptions.postgreSql.enabled;
         }
         if (
-          jsonConfig.instrumentations.redis4 &&
-          jsonConfig.instrumentations.redis4.enabled !== undefined
+          jsonConfig.instrumentationOptions.redis4 &&
+          jsonConfig.instrumentationOptions.redis4.enabled !== undefined
         ) {
-          this.instrumentations.redis4.enabled = jsonConfig.instrumentations.redis4.enabled;
+          this.instrumentationOptions.redis4.enabled =
+            jsonConfig.instrumentationOptions.redis4.enabled;
         }
         if (
-          jsonConfig.instrumentations.redis &&
-          jsonConfig.instrumentations.redis.enabled !== undefined
+          jsonConfig.instrumentationOptions.redis &&
+          jsonConfig.instrumentationOptions.redis.enabled !== undefined
         ) {
-          this.instrumentations.redis.enabled = jsonConfig.instrumentations.redis.enabled;
+          this.instrumentationOptions.redis.enabled =
+            jsonConfig.instrumentationOptions.redis.enabled;
         }
       }
     } catch (error) {
