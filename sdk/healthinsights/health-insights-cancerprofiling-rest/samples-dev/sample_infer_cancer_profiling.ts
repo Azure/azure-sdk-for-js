@@ -14,7 +14,7 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
 import createClient, {
     DocumentContent,
-    getLongRunningPoller, InferCancerProfileBodyParam,
+    getLongRunningPoller, InferCancerProfileBodyParam, isUnexpected,
     OncoPhenotypeData,
     OncoPhenotypeModelConfiguration,
     OncoPhenotypeResultOutput,
@@ -37,10 +37,10 @@ function printResults(cancerProfilingResult: OncoPhenotypeResultOutput): void {
             console.log(`Inferences of Patient ${patientResult.id}`);
             for (const inferences of patientResult.inferences) {
                 console.log(`Clinical Type: ${String(inferences.type)} Value: ${inferences.value}, ConfidenceScore: ${inferences.confidenceScore}`);
-    /*              for (const evidence of inferences.evidence) {
+                  for (const evidence of inferences.evidence) {
                       let dataEvidence = evidence.patientDataEvidence;
                       console.log(`Evidence: ${dataEvidence.id} ${dataEvidence.offset} ${dataEvidence.length} ${dataEvidence.text}`);
-                  }*/
+                  }
             }
         }
     } else {
@@ -194,14 +194,14 @@ export async function main() {
     };
 
   const initialResponse = await client.path("/oncophenotype/jobs").post(parameters);
-  /*if (isUnexpected(initialResponse)) {
+  if (isUnexpected(initialResponse)) {
     throw initialResponse;
-  }*/
+  }
   const poller = await getLongRunningPoller(client, initialResponse);
   const cancerProfilingResult = await poller.pollUntilDone();
-  /*if (isUnexpected(cancerProfilingResult)) {
+  if (isUnexpected(cancerProfilingResult)) {
     throw cancerProfilingResult;
-  }*/
+  }
   const resultBody = cancerProfilingResult.body as OncoPhenotypeResultOutput;
   printResults(resultBody);
 
