@@ -51,7 +51,6 @@ async function main() {
   // Construct a Token Credential from Identity library, e.g. ClientSecretCredential / ClientCertificateCredential / ManagedIdentityCredential, etc.
   const credential = new DefaultAzureCredential();
 
-  // The scope will be changed for Azure AD Public Preview
   const redisScope = "acca5fbb-b7e4-4009-81f1-37e38fd66d78/.default"
 
   // Fetch an Azure AD token to be used for authentication. This token will be used as the password.
