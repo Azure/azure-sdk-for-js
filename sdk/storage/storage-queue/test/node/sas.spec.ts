@@ -17,18 +17,18 @@ import {
   newPipeline,
 } from "../../src";
 import { SASProtocol } from "../../src/SASQueryParameters";
-import { getQSU } from "../utils/index";
-import { record, delay, Recorder } from "@azure-tools/test-recorder";
-import { recorderEnvSetup } from "../utils/index.browser";
+import { getQSU, getUniqueName, recorderEnvSetup } from "../utils";
+import { delay, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let queueServiceClient: QueueServiceClient;
   let recorder: Recorder;
 
-  beforeEach(function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    queueServiceClient = getQSU();
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    queueServiceClient = getQSU(recorder);
   });
 
   afterEach(async function () {
@@ -36,10 +36,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSASQueryParameters should work", async () => {
-    const now = recorder.newDate("now");
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = recorder.newDate("tmr");
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = queueServiceClient["credential"];
@@ -65,7 +65,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSASQueryParameters should not work with invalid permission", async () => {
-    const tmr = recorder.newDate("tmr");
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = queueServiceClient["credential"];
@@ -97,7 +97,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSASQueryParameters should not work with invalid service", async () => {
-    const tmr = recorder.newDate("tmr");
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = queueServiceClient["credential"];
@@ -129,7 +129,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSASQueryParameters should not work with invalid resource type", async () => {
-    const tmr = recorder.newDate("tmr");
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = queueServiceClient["credential"];
@@ -164,15 +164,15 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateQueueSASQueryParameters should work for queue", async () => {
-    const now = recorder.newDate("now");
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = recorder.newDate("tmr");
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = queueServiceClient["credential"];
 
-    const queueName = recorder.getUniqueName("queue");
+    const queueName = recorder.variable("queue", getUniqueName("queue"));
     const queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();
 
@@ -197,15 +197,15 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateQueueSASQueryParameters should work for messages", async () => {
-    const now = recorder.newDate("now");
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = recorder.newDate("tmr");
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = queueServiceClient["credential"];
 
-    const queueName = recorder.getUniqueName("queue");
+    const queueName = recorder.variable("queue", getUniqueName("queue"));
     const queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();
 
@@ -246,15 +246,15 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateQueueSASQueryParameters should work for queue with access policy", async () => {
-    const now = recorder.newDate("now");
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = recorder.newDate("tmr");
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = queueServiceClient["credential"];
 
-    const queueName = recorder.getUniqueName("queue");
+    const queueName = recorder.variable("queue", getUniqueName("queue"));
     const queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();
 
@@ -307,9 +307,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("QueueServiceClient.generateAccountSasUrl should work", async () => {
-    const now = recorder.newDate("now");
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
-    const tmr = recorder.newDate("tmr");
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = queueServiceClient["credential"];
@@ -344,9 +344,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("QueueServiceClient.generateAccountSasUrl with previous version should work", async () => {
-    const now = recorder.newDate("now");
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
-    const tmr = recorder.newDate("tmr");
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = queueServiceClient["credential"];
@@ -383,14 +383,14 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("QueueClient.generateSasUrl should work", async () => {
-    const now = recorder.newDate("now");
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
-    const tmr = recorder.newDate("tmr");
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = queueServiceClient["credential"];
 
-    const queueName = recorder.getUniqueName("queue");
+    const queueName = recorder.variable("queue", getUniqueName("queue"));
     const queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();
 
