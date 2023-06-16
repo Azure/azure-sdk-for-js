@@ -23,7 +23,7 @@ describe(`TieringClient - Get Acquired Number Limits`, function () {
 
   it("get acquired number limits", async function () {
     // print all acquire number limits
-    const resourceId = env.RESOURCE_ID || "9d787bd6-07fc-4c7b-8e57-17f1fee41298";
+    const resourceId = env.RESOURCE_ID!;
     const acquiredNumberLimits = await client.getAcquiredNumberLimits(resourceId);
     assert.isNotNull(acquiredNumberLimits);
   }).timeout(10000);

@@ -23,7 +23,7 @@ describe(`TieringClient - Get Tier Info`, function () {
 
   it("get tier info", async function () {
     // print all tier info
-    const resourceId = env.RESOURCE_ID || "9d787bd6-07fc-4c7b-8e57-17f1fee41298";
+    const resourceId = env.RESOURCE_ID!;
     const tierInfo = await client.getTierByResourceId(resourceId);
     assert.isNotNull(tierInfo);
   }).timeout(10000);
