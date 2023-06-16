@@ -8,7 +8,7 @@ import {
   isNamedKeyCredential,
   isSASCredential,
   isTokenCredential,
-} from "../src/index";
+} from "../src/index.js";
 import { assert } from "chai";
 
 describe("AzureKeyCredential", () => {

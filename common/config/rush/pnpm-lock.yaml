@@ -16293,7 +16293,7 @@ packages:
     dev: false
 
   file:projects/core-auth.tgz:
-    resolution: {integrity: sha512-5XlCbTtnkYS2nksUo9CbIJVvdjqaeju+gfqrlM+MJxOnPgY1HwNz6NKz2jGfb6/Itw00lCt88caz9Ey4/87XwA==, tarball: file:projects/core-auth.tgz}
+    resolution: {integrity: sha512-rX3FWF1iQsTV6z2N+w3ZVIt6fx4CSWduou2KIrfYMftGKfbE3ahSxOUdlCtKphglMuQTlt76TgC0DqscCwwW2w==, tarball: file:projects/core-auth.tgz}
     name: '@rush-temp/core-auth'
     version: 0.0.0
     dependencies:
@@ -16305,15 +16305,19 @@ packages:
       cross-env: 7.0.3
       downlevel-dts: 0.10.1
       eslint: 8.41.0
+      esm: 3.2.25
       inherits: 2.0.4
       mocha: 7.2.0
       mocha-junit-reporter: 2.2.0_mocha@7.2.0
       prettier: 2.8.8
       rimraf: 3.0.2
+      ts-node: 10.9.1_xqpr4wl3dpgkugiteltq7jdk2q
       tslib: 2.5.2
       typescript: 5.0.4
       util: 0.12.5
     transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
       - supports-color
     dev: false
 

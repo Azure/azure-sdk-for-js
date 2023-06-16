@@ -2,6 +2,15 @@
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
     "declarationDir": "./types",
-    "outDir": "./dist-esm"
+    "outDir": "./dist-esm",
+    "paths": {
+      "@azure/core-auth": ["./src/index.js"]
+    },
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": "."
+  },
+  "ts-node": {
+    "esm": true
   }
 }
