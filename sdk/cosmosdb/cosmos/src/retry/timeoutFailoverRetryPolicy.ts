@@ -8,6 +8,13 @@ import { RetryContext } from "./RetryContext";
 import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
 import { TimeoutErrorCode } from "../request/TimeoutError";
 
+/**
+ * This class TimeoutFailoverRetryPolicy handles retries for read operations
+ * (including data plane,metadata, and query plan) in case of request timeouts
+ * (TimeoutError) or service unavailability (503 status code) by performing failover
+ * and retrying on other regions.
+ * @hidden
+ */
 export class TimeoutFailoverRetryPolicy implements RetryPolicy {
   private maxRetryAttemptCount = 120;
   private maxServiceUnavailableRetryCount = 1;
