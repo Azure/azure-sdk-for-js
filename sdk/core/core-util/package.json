@@ -3,6 +3,7 @@
   "version": "1.3.3",
   "description": "Core library for shared utility methods",
   "sdk-type": "client",
+  "type": "module",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {

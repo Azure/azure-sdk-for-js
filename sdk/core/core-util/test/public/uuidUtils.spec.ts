@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { randomUUID } from "../../src/uuidUtils";
+import { randomUUID } from "../../src/uuidUtils.js";
 
 describe("randomUUID", function () {
   it("should be a valid v4 UUID", function () {

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { utf8ToBytes } from "../../../src/utf8.browser";
+import { utf8ToBytes } from "../../../src/utf8.browser.js";
 
 describe("utf-8", function () {
   describe("utf8ToBytes", function () {

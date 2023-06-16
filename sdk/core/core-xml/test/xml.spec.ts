@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { parseXML, stringifyXML } from "../src";
+import { parseXML, stringifyXML } from "../src/index.js";
 import { assert } from "chai";
 
 describe("XML serializer", function () {

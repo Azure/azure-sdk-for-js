@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { createAbortablePromise } from "./createAbortablePromise";
+import { createAbortablePromise } from "./createAbortablePromise.js";
 
 const StandardAbortMessage = "The delay was aborted.";
 
