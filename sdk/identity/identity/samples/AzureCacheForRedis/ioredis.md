@@ -207,7 +207,7 @@ async function main() {
     let randomTimestamp = randomNumber(120000,300000);
     id = setTimeout(updateToken, ((accessTokenCache.expiresOnTimestamp- randomTimestamp)) - Date.now());
     if(redis){
-      await redis.auth(accessTokenCache.token);
+      await redis.auth(process.env.REDIS_SERVICE_PRINCIPAL_NAME, accessTokenCache.token);
     }
   }
 
