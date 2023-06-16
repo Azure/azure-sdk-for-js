@@ -43,17 +43,25 @@ const callAutomationClient = new CallAutomationClient(endpointUrl);
 
 ### Create Call
 ```JavaScript
-import { CommunicationUserIdentifier } from "@azure/communication-common";
+import { PhoneNumberIdentifier } from "@azure/communication-common";
 import { CallAutomationClient, CallInvite } from '@azure/communication-call-automation';
 
-// target endpoint for ACS User
-const target: CommunicationUserIdentifier = {
-  communicationUserId:
-    "8:acs:...",
-}
+// target number and source number
+const target: PhoneNumberIdentifier =
+{
+    phoneNumber: "+1..."
+};
+const source: PhoneNumberIdentifier =
+{
+    phoneNumber: "+1800..."
+};
 
-// make invitation
-const callInvite:CallInvite = {target};
+// make an invitation
+const invite : CallInvite =
+{
+    targetParticipant: target,
+    sourceCallIdNumber: source
+}
 
 // callback url to recieve callback events
 const callbackUrl = "https://<MY-EVENT-HANDLER-URL>/events";
@@ -74,8 +82,7 @@ const response = callConnection.getCallMedia().playToAll(myFile);
 ## Next steps
 - [Call Automation Overview][overview]
 - [Incoming Call Concept][incomingcall]
-- [Build a customer interaction workflow using Call Automation][build1]
-- [Redirect inbound telephony calls with Call Automation][build2]
+- [Quickstart: Make an outbound call using Call Automation][build5]
 - [Quickstart: Play action][build3]
 - [Quickstart: Recognize action][build4]
 - [Read more about Call Recording in Azure Communication Services][recording1]
@@ -94,9 +101,8 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_powershell]: https://docs.microsoft.com/powershell/module/az.communication/new-azcommunicationservice
 [build_doc]: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Bundling.md
 [incomingcall]: https://learn.microsoft.com/azure/communication-services/concepts/voice-video-calling/incoming-call-notification
-[build1]: https://learn.microsoft.com/azure/communication-services/quickstarts/voice-video-calling/callflows-for-customer-interactions?pivots=programming-language-csha
-[build2]: https://learn.microsoft.com/azure/communication-services/how-tos/call-automation-sdk/redirect-inbound-telephony-calls?pivots=programming-language-csharp
-[build3]: https://learn.microsoft.com/azure/communication-services/quickstarts/voice-video-calling/play-action?pivots=programming-language-csharp
-[build4]: https://learn.microsoft.com/azure/communication-services/quickstarts/voice-video-calling/recognize-action?pivots=programming-language-csharp
+[build3]: https://learn.microsoft.com/azure/communication-services/quickstarts/voice-video-calling/play-action?pivots=programming-language-javascript
+[build4]: https://learn.microsoft.com/azure/communication-services/quickstarts/voice-video-calling/recognize-action?pivots=programming-language-javascript
+[build5]: https://learn.microsoft.com/en-us/azure/communication-services/quickstarts/call-automation/quickstart-make-an-outbound-call?pivots=programming-language-javascript
 [recording1]: https://learn.microsoft.com/azure/communication-services/concepts/voice-video-calling/call-recording
-[recording2]: https://learn.microsoft.com/azure/communication-services/quickstarts/voice-video-calling/get-started-call-recording?pivots=programming-language-csharp
+[recording2]: https://learn.microsoft.com/azure/communication-services/quickstarts/voice-video-calling/get-started-call-recording?pivots=programming-language-javascript
