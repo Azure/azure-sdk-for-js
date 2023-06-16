@@ -57,7 +57,7 @@ const source: PhoneNumberIdentifier =
 };
 
 // make an invitation
-const invite : CallInvite =
+const callInvite : CallInvite =
 {
     targetParticipant: target,
     sourceCallIdNumber: source
