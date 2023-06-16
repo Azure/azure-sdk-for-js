@@ -57,8 +57,6 @@ npx cross-env COMMUNICATION_SAMPLES_CONNECTION_STRING="<communication samples co
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[participantoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-rooms/samples/v1-beta/javascript/participantOperations.js
-[roomoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-rooms/samples/v1-beta/javascript/roomOperations.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-rooms
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecommunicationservicesaccount]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource

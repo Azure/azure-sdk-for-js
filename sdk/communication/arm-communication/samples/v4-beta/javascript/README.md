@@ -71,36 +71,6 @@ npx cross-env COMMUNICATION_SUBSCRIPTION_ID="<communication subscription id>" CO
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
-
-[communicationserviceschecknameavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4-beta/javascript/communicationServicesCheckNameAvailabilitySample.js
-[communicationservicescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4-beta/javascript/communicationServicesCreateOrUpdateSample.js
-[communicationservicesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4-beta/javascript/communicationServicesDeleteSample.js
-[communicationservicesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4-beta/javascript/communicationServicesGetSample.js
-[communicationserviceslinknotificationhubsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4-beta/javascript/communicationServicesLinkNotificationHubSample.js
-[communicationserviceslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4-beta/javascript/communicationServicesListByResourceGroupSample.js
-[communicationserviceslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4-beta/javascript/communicationServicesListBySubscriptionSample.js
-[communicationserviceslistkeyssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4-beta/javascript/communicationServicesListKeysSample.js
-[communicationservicesregeneratekeysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4-beta/javascript/communicationServicesRegenerateKeySample.js
-[communicationservicesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4-beta/javascript/communicationServicesUpdateSample.js
-[domainscancelverificationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4-beta/javascript/domainsCancelVerificationSample.js
-[domainscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4-beta/javascript/domainsCreateOrUpdateSample.js
-[domainsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4-beta/javascript/domainsDeleteSample.js
-[domainsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4-beta/javascript/domainsGetSample.js
-[domainsinitiateverificationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4-beta/javascript/domainsInitiateVerificationSample.js
-[domainslistbyemailserviceresourcesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4-beta/javascript/domainsListByEmailServiceResourceSample.js
-[domainsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4-beta/javascript/domainsUpdateSample.js
-[emailservicescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4-beta/javascript/emailServicesCreateOrUpdateSample.js
-[emailservicesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4-beta/javascript/emailServicesDeleteSample.js
-[emailservicesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4-beta/javascript/emailServicesGetSample.js
-[emailserviceslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4-beta/javascript/emailServicesListByResourceGroupSample.js
-[emailserviceslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4-beta/javascript/emailServicesListBySubscriptionSample.js
-[emailserviceslistverifiedexchangeonlinedomainssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4-beta/javascript/emailServicesListVerifiedExchangeOnlineDomainsSample.js
-[emailservicesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4-beta/javascript/emailServicesUpdateSample.js
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4-beta/javascript/operationsListSample.js
-[senderusernamescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4-beta/javascript/senderUsernamesCreateOrUpdateSample.js
-[senderusernamesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4-beta/javascript/senderUsernamesDeleteSample.js
-[senderusernamesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4-beta/javascript/senderUsernamesGetSample.js
-[senderusernameslistbydomainssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4-beta/javascript/senderUsernamesListByDomainsSample.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-communication?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/arm-communication/README.md
