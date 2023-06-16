@@ -229,62 +229,7 @@ export interface ResourceMetric {
 }
 
 /** Load test run model */
-export interface TestRun {
-  /** Pass fail criteria for a test. */
-  passFailCriteria?: PassFailCriteria;
-  /**
-   * Secrets can be stored in an Azure Key Vault or any other secret store. If the
-   * secret is stored in an Azure Key Vault, the value should be the secret
-   * identifier and the type should be AKV_SECRET_URI. If the secret is stored
-   * elsewhere, the secret value should be provided directly and the type should be
-   * SECRET_VALUE.
-   */
-  secrets?: Record<string, Secret>;
-  /** Certificates metadata */
-  certificate?: CertificateMetadata;
-  /** Environment variables which are defined as a set of <name,value> pairs. */
-  environmentVariables?: Record<string, string>;
-  /** The load test configuration. */
-  loadTestConfiguration?: LoadTestConfiguration;
-  /** Display name of a testRun. */
-  displayName?: string;
-  /** Associated test Id. */
-  testId?: string;
-  /** The test run description. */
-  description?: string;
-}
-
-/** Error details if there is any failure in load test run */
-export interface ErrorDetails {}
-
-/** Test run statistics. */
-export interface TestRunStatistics {}
-
-/** Collection of test run artifacts */
-export interface TestRunArtifacts {
-  /** The output artifacts for the test run. */
-  outputArtifacts?: TestRunOutputArtifacts;
-}
-
-/** The input artifacts for the test run. */
-export interface TestRunInputArtifacts {
-  /** File info */
-  configFileInfo?: FileInfo;
-  /** File info */
-  testScriptFileInfo?: FileInfo;
-  /** File info */
-  userPropFileInfo?: FileInfo;
-  /** File info */
-  inputArtifactsZipFileInfo?: FileInfo;
-}
-
-/** The output artifacts for the test run. */
-export interface TestRunOutputArtifacts {
-  /** File info */
-  resultFileInfo?: FileInfo;
-  /** File info */
-  logsFileInfo?: FileInfo;
-}
+export interface TestRun {}
 
 /** Filters to fetch the set of metric */
 export interface MetricRequestPayload {

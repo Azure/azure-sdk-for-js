@@ -284,138 +284,7 @@ export interface ResourceMetricOutput {
 }
 
 /** Load test run model */
-export interface TestRunOutput {
-  /** Pass fail criteria for a test. */
-  passFailCriteria?: PassFailCriteriaOutput;
-  /**
-   * Secrets can be stored in an Azure Key Vault or any other secret store. If the
-   * secret is stored in an Azure Key Vault, the value should be the secret
-   * identifier and the type should be AKV_SECRET_URI. If the secret is stored
-   * elsewhere, the secret value should be provided directly and the type should be
-   * SECRET_VALUE.
-   */
-  secrets?: Record<string, SecretOutput>;
-  /** Certificates metadata */
-  certificate?: CertificateMetadataOutput;
-  /** Environment variables which are defined as a set of <name,value> pairs. */
-  environmentVariables?: Record<string, string>;
-  /** Error details if there is any failure in load test run */
-  readonly errorDetails?: Array<ErrorDetailsOutput>;
-  /** Test run statistics. */
-  readonly testRunStatistics?: Record<string, TestRunStatisticsOutput>;
-  /** The load test configuration. */
-  loadTestConfiguration?: LoadTestConfigurationOutput;
-  /** Collection of test run artifacts */
-  readonly testArtifacts?: TestRunArtifactsOutput;
-  /**
-   * Test result for pass/Fail criteria used during the test run.
-   *
-   * Possible values: PASSED, NOT_APPLICABLE, FAILED
-   */
-  readonly testResult?: string;
-  /** Number of virtual users, for which test has been run. */
-  readonly virtualUsers?: number;
-  /** Display name of a testRun. */
-  displayName?: string;
-  /** Associated test Id. */
-  testId?: string;
-  /** The test run description. */
-  description?: string;
-  /**
-   * The test run status.
-   *
-   * Possible values: ACCEPTED, NOTSTARTED, PROVISIONING, PROVISIONED, CONFIGURING, CONFIGURED, EXECUTING, EXECUTED, DEPROVISIONING, DEPROVISIONED, DONE, CANCELLING, CANCELLED, FAILED, VALIDATION_SUCCESS, VALIDATION_FAILURE
-   */
-  readonly status?: string;
-  /** The test run start DateTime(ISO 8601 literal format). */
-  readonly startDateTime?: string;
-  /** The test run end DateTime(ISO 8601 literal format). */
-  readonly endDateTime?: string;
-  /** Test run initiated time. */
-  readonly executedDateTime?: string;
-  /** Portal url. */
-  readonly portalUrl?: string;
-  /** Test run duration in milliseconds. */
-  readonly duration?: number;
-  /** Subnet ID on which the load test instances should run. */
-  readonly subnetId?: string;
-  /** The creation datetime(ISO 8601 literal format). */
-  readonly createdDateTime?: string;
-  /** The user that created. */
-  readonly createdBy?: string;
-  /** The last Modified datetime(ISO 8601 literal format). */
-  readonly lastModifiedDateTime?: string;
-  /** The user that last modified. */
-  readonly lastModifiedBy?: string;
-}
-
-/** Error details if there is any failure in load test run */
-export interface ErrorDetailsOutput {
-  /** Error details in case test run was not successfully run. */
-  readonly message?: string;
-}
-
-/** Test run statistics. */
-export interface TestRunStatisticsOutput {
-  /** Transaction name. */
-  readonly transaction?: string;
-  /** Sampler count. */
-  readonly sampleCount?: number;
-  /** Error count. */
-  readonly errorCount?: number;
-  /** Error percentage. */
-  readonly errorPct?: number;
-  /** Mean response time. */
-  readonly meanResTime?: number;
-  /** Median response time. */
-  readonly medianResTime?: number;
-  /** Max response time. */
-  readonly maxResTime?: number;
-  /** Minimum response time. */
-  readonly minResTime?: number;
-  /** 90 percentile response time. */
-  readonly pct1ResTime?: number;
-  /** 95 percentile response time. */
-  readonly pct2ResTime?: number;
-  /** 99 percentile response time. */
-  readonly pct3ResTime?: number;
-  /** Throughput. */
-  readonly throughput?: number;
-  /** Received network bytes. */
-  readonly receivedKBytesPerSec?: number;
-  /** Send network bytes. */
-  readonly sentKBytesPerSec?: number;
-}
-
-/** Collection of test run artifacts */
-export interface TestRunArtifactsOutput {
-  /** The input artifacts for the test run. */
-  readonly inputArtifacts?: TestRunInputArtifactsOutput;
-  /** The output artifacts for the test run. */
-  outputArtifacts?: TestRunOutputArtifactsOutput;
-}
-
-/** The input artifacts for the test run. */
-export interface TestRunInputArtifactsOutput {
-  /** File info */
-  configFileInfo?: FileInfoOutput;
-  /** File info */
-  testScriptFileInfo?: FileInfoOutput;
-  /** File info */
-  userPropFileInfo?: FileInfoOutput;
-  /** File info */
-  inputArtifactsZipFileInfo?: FileInfoOutput;
-  /** Additional supported files for the test run */
-  readonly additionalFileInfo?: Array<FileInfoOutput>;
-}
-
-/** The output artifacts for the test run. */
-export interface TestRunOutputArtifactsOutput {
-  /** File info */
-  resultFileInfo?: FileInfoOutput;
-  /** File info */
-  logsFileInfo?: FileInfoOutput;
-}
+export interface TestRunOutput {}
 
 /** Represents collection of metric namespaces. */
 export interface MetricNamespaceCollectionOutput {
@@ -511,6 +380,10 @@ export interface DimensionValueOutput {
   value?: string;
 }
 
+export interface DimensionValueListOutput {
+  value: Record<string, any>;
+}
+
 /** Test run app component */
 export interface TestRunAppComponentsOutput {
   /**
@@ -559,3 +432,5 @@ export type PagedFileInfoOutput = Paged<FileInfoOutput>;
 export type PagedTestRunOutput = Paged<TestRunOutput>;
 /** The response to a metrics query. */
 export type PagedTimeSeriesElementOutput = Paged<TimeSeriesElementOutput>;
+/** Paged collection of DimensionValueList items */
+export type DimensionValueListListOutput = Paged<DimensionValueListOutput>;
