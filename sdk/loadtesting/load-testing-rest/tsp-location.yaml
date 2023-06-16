@@ -1,5 +1,5 @@
 directory: specification/loadtestservice/LoadTestService
-commit: df614dca899f8b444a28059ad543ca693548be85
-additionalDirectories: []
 repo: MaryGao/azure-rest-api-specs
+additionalDirectories: []
+commit: 98723efb2c54b90700e6c8c56a0d56df3d2843bb
 
