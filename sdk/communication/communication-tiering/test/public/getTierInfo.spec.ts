@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-import { Recorder } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { TieringClient } from "../../src";
 import { assert } from "chai";
 import { createRecordedClient } from "./utils/recordedClient";
@@ -23,7 +23,7 @@ describe(`TieringClient - Get Tier Info`, function () {
 
   it("get tier info", async function () {
     // print all tier info
-    const resourceId = "9d787bd6-07fc-4c7b-8e57-17f1fee41298";
+    const resourceId = env.RESOURCE_ID || "9d787bd6-07fc-4c7b-8e57-17f1fee41298";
     const tierInfo = await client.getTierByResourceId(resourceId);
     assert.isNotNull(tierInfo);
   }).timeout(10000);
