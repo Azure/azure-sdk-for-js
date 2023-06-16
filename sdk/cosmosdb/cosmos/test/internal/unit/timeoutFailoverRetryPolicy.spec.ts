@@ -51,7 +51,7 @@ describe("TimeoutFailoverRetryPolicy", function () {
         new DatabaseAccount(databaseAccountBody, headers),
         headers,
         200,
-        undefined,
+        getEmptyCosmosDiagnostics(),
         undefined
       );
       return response;
@@ -83,14 +83,14 @@ describe("TimeoutFailoverRetryPolicy", function () {
   });
 
   it("should determine if retry should occur correctly", async function () {
-    const err: ErrorResponse | undefined = undefined;
+    const err: ErrorResponse = timeoutErr;
     const retryContext: RetryContext | undefined = undefined;
     const locationEndpoint: string | undefined = undefined;
 
     //Test case 1: err, retryContext, locationEndpoint are undefined
     assert.equal(await retryPolicy.shouldRetry(err, retryContext, locationEndpoint), false);
     //Test case 2: err is null
-    assert.equal(await retryPolicy.shouldRetry(null, retryContext, locationEndpoint), false);
+    assert.equal(await retryPolicy.shouldRetry(err, retryContext, locationEndpoint), false);
     //Test case 3: locationEndpoint is defined, err, retryContext are undefined
     assert.equal(await retryPolicy.shouldRetry(err, retryContext, "locationEndpoint"), false);
   });
@@ -181,7 +181,7 @@ describe("TimeoutFailoverRetryPolicy", function () {
           new DatabaseAccount(databaseAccountBody, headers),
           headers,
           200,
-          undefined,
+          getEmptyCosmosDiagnostics(),
           undefined
         );
         return response;
@@ -219,7 +219,7 @@ describe("TimeoutFailoverRetryPolicy", function () {
           new DatabaseAccount(databaseAccountBody, headers),
           headers,
           200,
-          undefined,
+          getEmptyCosmosDiagnostics(),
           undefined
         );
         return response;

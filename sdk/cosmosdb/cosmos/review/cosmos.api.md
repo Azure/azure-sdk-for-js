@@ -862,9 +862,11 @@ export class GlobalEndpointManager {
     markCurrentLocationUnavailableForRead(endpoint: string): Promise<void>;
     // (undocumented)
     markCurrentLocationUnavailableForWrite(endpoint: string): Promise<void>;
+    // (undocumented)
+    preferredLocationsCount: number;
     refreshEndpointList(): Promise<void>;
     // (undocumented)
-    resolveServiceEndpoint(resourceType: ResourceType, operationType: OperationType, requestContext?: RequestContext): Promise<string>;
+    resolveServiceEndpoint(resourceType: ResourceType, operationType: OperationType, requestContext?: RequestContext, startIndex?: number): Promise<string>;
 }
 
 // @public (undocumented)
