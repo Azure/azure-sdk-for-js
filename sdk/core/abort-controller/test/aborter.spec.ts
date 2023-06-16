@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortController, AbortError, AbortSignal } from "../src";
+import { AbortController, AbortError, AbortSignal } from "../src/index.js";
 import { assert } from "chai";
 
 describe("AbortController", () => {

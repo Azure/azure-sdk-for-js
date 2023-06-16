@@ -9080,7 +9080,7 @@ packages:
     dev: false
 
   file:projects/abort-controller.tgz:
-    resolution: {integrity: sha512-hZvXXmMNrv3DYckZqnci9P94cc0p6K8XHw2ftAf0ZwE928F5CAp69OazEC2vXLU/ihhWk5JwIk860o8CV6rR5A==, tarball: file:projects/abort-controller.tgz}
+    resolution: {integrity: sha512-RlZ2VAc+nxmOsrivpY782qFDNE1H6yNuE79fsViWBYtZf9u2Q619KiI8apuPtaIAzBq/H723NHBZcz1on7EUMg==, tarball: file:projects/abort-controller.tgz}
     name: '@rush-temp/abort-controller'
     version: 0.0.0
     dependencies:
@@ -9092,6 +9092,7 @@ packages:
       cross-env: 7.0.3
       downlevel-dts: 0.10.1
       eslint: 8.41.0
+      esm: 3.2.25
       karma: 6.4.2
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.0
