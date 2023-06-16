@@ -8,13 +8,9 @@ import {
   extractConnectionStringParts,
   isIpEndpointStyle,
 } from "../src/utils/utils.common";
-import { record, Recorder } from "@azure-tools/test-recorder";
-import { recorderEnvSetup } from "./utils";
-import { Context } from "mocha";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 
 describe("Utility Helpers", () => {
-  let recorder: Recorder;
   const protocol = "https";
   const endpointSuffix = "core.windows.net";
   const accountName = "myaccount";
@@ -40,14 +36,6 @@ describe("Utility Helpers", () => {
       "extractConnectionStringParts().accountName is different than expected."
     );
   }
-
-  beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-  });
-
-  afterEach(async function () {
-    await recorder.stop();
-  });
 
   it("sanitizeURL redacts SAS token", () => {
     const url = "https://some.url.com/container/blob?sig=sasstring";
