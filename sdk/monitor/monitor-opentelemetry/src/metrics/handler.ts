@@ -10,9 +10,8 @@ import {
   PeriodicExportingMetricReaderOptions,
 } from "@opentelemetry/sdk-metrics";
 import { AzureMonitorOpenTelemetryConfig } from "../shared/config";
-import { _PerformanceCounterMetrics } from "./performanceCounters";
-import { _StandardMetrics } from "./standardMetrics";
-import { _NativeMetrics } from "./nativeMetrics";
+import { PerformanceCounterMetrics } from "./performanceCounters";
+import { StandardMetrics } from "./standardMetrics";
 
 /**
  * Azure Monitor OpenTelemetry Metric Handler
@@ -23,23 +22,22 @@ export class MetricHandler {
   private _azureExporter: AzureMonitorMetricExporter;
   private _metricReader: PeriodicExportingMetricReader;
   private _meter: Meter;
-  private _perfCounterMetrics?: _PerformanceCounterMetrics;
-  private _standardMetrics?: _StandardMetrics;
-  private _nativeMetrics?: _NativeMetrics;
+  private _perfCounterMetrics?: PerformanceCounterMetrics;
+  private _standardMetrics?: StandardMetrics;
+  private _config: AzureMonitorOpenTelemetryConfig;
 
   /**
    * Initializes a new instance of the MetricHandler class.
-   * @param _config - Configuration.
+   * @param config - Distro configuration.
+   * @param options - Metric Handler options.
    */
-  constructor(private _config: AzureMonitorOpenTelemetryConfig) {
+  constructor(config: AzureMonitorOpenTelemetryConfig, options?: { collectionInterval: number }) {
+    this._config = config;
     if (this._config.enableAutoCollectStandardMetrics) {
-      this._standardMetrics = new _StandardMetrics(this._config);
+      this._standardMetrics = new StandardMetrics(this._config);
     }
     if (this._config.enableAutoCollectPerformance) {
-      this._perfCounterMetrics = new _PerformanceCounterMetrics(this._config);
-    }
-    if (this._config.enableAutoCollectNativeMetrics) {
-      this._nativeMetrics = new _NativeMetrics(this._config);
+      this._perfCounterMetrics = new PerformanceCounterMetrics(this._config);
     }
     const meterProviderConfig: MeterProviderOptions = {
       resource: this._config.resource,
@@ -48,7 +46,7 @@ export class MetricHandler {
     this._azureExporter = new AzureMonitorMetricExporter(this._config.azureMonitorExporterConfig);
     const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._azureExporter as any,
-      exportIntervalMillis: this._collectionInterval,
+      exportIntervalMillis: options?.collectionInterval || this._collectionInterval,
     };
     this._metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
     this._meterProvider.addMetricReader(this._metricReader);
@@ -71,17 +69,15 @@ export class MetricHandler {
 
   /**
    *Get StandardMetric handler
-   * @internal
    */
-  public _getStandardMetrics(): _StandardMetrics | undefined {
+  public getStandardMetrics(): StandardMetrics | undefined {
     return this._standardMetrics;
   }
 
   /**
    *Get PerformanceCounter handler
-   * @internal
    */
-  public _getPerformanceCounterMetrics(): _PerformanceCounterMetrics | undefined {
+  public getPerformanceCounterMetrics(): PerformanceCounterMetrics | undefined {
     return this._perfCounterMetrics;
   }
 
@@ -92,7 +88,6 @@ export class MetricHandler {
     this._meterProvider.shutdown();
     this._perfCounterMetrics?.shutdown();
     this._standardMetrics?.shutdown();
-    this._nativeMetrics?.shutdown();
   }
 
   /**
@@ -102,6 +97,5 @@ export class MetricHandler {
     await this._meterProvider.forceFlush();
     await this._perfCounterMetrics?.flush();
     await this._standardMetrics?.flush();
-    await this._nativeMetrics?.flush();
   }
 }

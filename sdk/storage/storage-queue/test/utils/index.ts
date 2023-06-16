@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
-import { newPipeline } from "../../src/Pipeline";
+import { StorageSharedKeyCredential } from "../../../storage-blob/src/credentials/StorageSharedKeyCredential";
+import { newPipeline } from "../../../storage-blob/src/Pipeline";
 import { QueueServiceClient } from "../../src/QueueServiceClient";
 import {
   generateAccountSASQueryParameters,
@@ -13,10 +13,6 @@ import {
 } from "../../src";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
 import { env } from "@azure-tools/test-recorder";
-
-// Uncomment if need to enable logger when debugging
-// import {HttpPipelineLogLevel} from "../../src"
-// import {ConsoleHttpPipelineLogger} from "./testutils.common"
 
 export function getGenericQSU(
   accountType: string,
@@ -76,9 +72,7 @@ export function getSASConnectionStringFromEnvironment(): string {
   const tmr = new Date();
   tmr.setDate(tmr.getDate() + 1);
   const queueServiceClient = getQSU();
-  // By default, credential is always the last element of pipeline factories
-  const factories = (queueServiceClient as any).pipeline.factories;
-  const sharedKeyCredential = factories[factories.length - 1];
+  const sharedKeyCredential = queueServiceClient["credential"];
 
   const sas = generateAccountSASQueryParameters(
     {
