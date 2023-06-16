@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Instrumenter, TracingClient, TracingContext, TracingSpan } from "../src/interfaces";
+import { Instrumenter, TracingClient, TracingContext, TracingSpan } from "../src/interfaces.js";
 import {
   createDefaultInstrumenter,
   createDefaultTracingSpan,
   useInstrumenter,
-} from "../src/instrumenter";
-import { createTracingContext, knownContextKeys } from "../src/tracingContext";
+} from "../src/instrumenter.js";
+import { createTracingContext, knownContextKeys } from "../src/tracingContext.js";
 import { assert } from "chai";
-import { createTracingClient } from "../src/tracingClient";
+import { createTracingClient } from "../src/tracingClient.js";
 import sinon from "sinon";
 
 describe("TracingClient", () => {

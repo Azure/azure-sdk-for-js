@@ -3,6 +3,7 @@
   "version": "1.0.2",
   "description": "Provides low-level interfaces and helper methods for tracing in Azure SDK",
   "sdk-type": "client",
+  "type": "module",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {},

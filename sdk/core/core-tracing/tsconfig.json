@@ -5,6 +5,9 @@
     "outDir": "./dist-esm",
     "paths": {
       "@azure/core-tracing": ["./src/index"]
-    }
+    },
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": "."
   }
 }
