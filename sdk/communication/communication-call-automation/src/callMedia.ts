@@ -5,6 +5,8 @@ import {
   PlayRequest,
   PlaySourceInternal,
   FileSourceInternal,
+  TextSourceInternal,
+  SsmlSourceInternal,
   KnownPlaySourceType,
   RecognizeRequest,
   KnownRecognizeInputType,
@@ -15,6 +17,7 @@ import {
   ContinuousDtmfRecognitionRequest,
   SendDtmfRequest,
   Tone,
+  SpeechOptions,
 } from "./generated/src";
 
 import { CallMediaImpl } from "./generated/src/operations";
@@ -25,13 +28,16 @@ import {
   serializeCommunicationIdentifier,
 } from "@azure/communication-common";
 
-import { FileSource } from "./models/models";
+import { FileSource, TextSource, SsmlSource } from "./models/models";
 
 import {
   PlayOptions,
   CallMediaRecognizeDtmfOptions,
+  CallMediaRecognizeChoiceOptions,
   ContinuousDtmfRecognitionOptions,
   SendDtmfOptions,
+  CallMediaRecognizeSpeechOptions,
+  CallMediaRecognizeSpeechOrDtmfOptions,
 } from "./models/options";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 
@@ -55,14 +61,37 @@ export class CallMedia {
     this.callMedia = new CallMediaImpl(this.callAutomationApiClient);
   }
 
-  private createPlaySourceInternal(playSource: FileSource): PlaySourceInternal {
-    if (playSource.kind === "fileSource" || playSource.kind === undefined) {
+  private createPlaySourceInternal(
+    playSource: FileSource | TextSource | SsmlSource
+  ): PlaySourceInternal {
+    if (playSource.kind === "fileSource") {
       const fileSource: FileSourceInternal = {
         uri: playSource.url,
       };
       return {
         sourceType: KnownPlaySourceType.File,
         fileSource: fileSource,
+        playSourceId: playSource.playSourceId,
+      };
+    } else if (playSource.kind === "textSource") {
+      const textSource: TextSourceInternal = {
+        text: playSource.text,
+        sourceLocale: playSource.sourceLocale,
+        voiceGender: playSource.voiceGender,
+        voiceName: playSource.voiceName,
+      };
+      return {
+        sourceType: KnownPlaySourceType.Text,
+        textSource: textSource,
+        playSourceId: playSource.playSourceId,
+      };
+    } else if (playSource.kind === "ssmlSource") {
+      const ssmlSource: SsmlSourceInternal = {
+        ssmlText: playSource.ssmlText,
+      };
+      return {
+        sourceType: KnownPlaySourceType.Ssml,
+        ssmlSource: ssmlSource,
         playSourceId: playSource.playSourceId,
       };
     }
@@ -77,7 +106,7 @@ export class CallMedia {
    * @param playOptions - Additional attributes for play.
    */
   public async play(
-    playSource: FileSource,
+    playSource: FileSource | TextSource | SsmlSource,
     playTo: CommunicationIdentifier[],
     playOptions: PlayOptions = { loop: false }
   ): Promise<void> {
@@ -103,7 +132,7 @@ export class CallMedia {
    * @param playOptions - Additional attributes for play.
    */
   public async playToAll(
-    playSource: FileSource,
+    playSource: FileSource | TextSource | SsmlSource,
     playOptions: PlayOptions = { loop: false }
   ): Promise<void> {
     const playRequest: PlayRequest = {
@@ -124,12 +153,13 @@ export class CallMedia {
   private createRecognizeRequest(
     targetParticipant: CommunicationIdentifier,
     maxTonesToCollect: number,
-    recognizeOptions: CallMediaRecognizeDtmfOptions
+    recognizeOptions:
+      | CallMediaRecognizeDtmfOptions
+      | CallMediaRecognizeChoiceOptions
+      | CallMediaRecognizeSpeechOptions
+      | CallMediaRecognizeSpeechOrDtmfOptions
   ): RecognizeRequest {
-    if (
-      recognizeOptions.kind === "callMediaRecognizeDtmfOptions" ||
-      recognizeOptions.kind === undefined
-    ) {
+    if (recognizeOptions.kind === "callMediaRecognizeDtmfOptions") {
       const dtmfOptionsInternal: DtmfOptions = {
         interToneTimeoutInSeconds: recognizeOptions.interToneTimeoutInSeconds
           ? recognizeOptions.interToneTimeoutInSeconds
@@ -154,8 +184,79 @@ export class CallMedia {
         recognizeOptions: recognizeOptionsInternal,
         operationContext: recognizeOptions.operationContext,
       };
+    } else if (recognizeOptions.kind === "callMediaRecognizeChoiceOptions") {
+      const recognizeOptionsInternal: RecognizeOptions = {
+        interruptPrompt: recognizeOptions.interruptPrompt,
+        initialSilenceTimeoutInSeconds: recognizeOptions.initialSilenceTimeoutInSeconds
+          ? recognizeOptions.initialSilenceTimeoutInSeconds
+          : 5,
+        targetParticipant: serializeCommunicationIdentifier(targetParticipant),
+        choices: recognizeOptions.choices,
+      };
+      return {
+        recognizeInputType: KnownRecognizeInputType.Choices,
+        playPrompt: recognizeOptions.playPrompt
+          ? this.createPlaySourceInternal(recognizeOptions.playPrompt)
+          : undefined,
+        interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
+        recognizeOptions: recognizeOptionsInternal,
+        operationContext: recognizeOptions.operationContext,
+      };
+    } else if (recognizeOptions.kind === "callMediaRecognizeSpeechOptions") {
+      const speechOptions: SpeechOptions = {
+        endSilenceTimeoutInMs: recognizeOptions.endSilenceTimeoutInMs
+          ? recognizeOptions.endSilenceTimeoutInMs
+          : 2,
+      };
+      const recognizeOptionsInternal: RecognizeOptions = {
+        interruptPrompt: recognizeOptions.interruptPrompt,
+        initialSilenceTimeoutInSeconds: recognizeOptions.initialSilenceTimeoutInSeconds
+          ? recognizeOptions.initialSilenceTimeoutInSeconds
+          : 5,
+        targetParticipant: serializeCommunicationIdentifier(targetParticipant),
+        speechOptions: speechOptions,
+      };
+      return {
+        recognizeInputType: KnownRecognizeInputType.Speech,
+        playPrompt: recognizeOptions.playPrompt
+          ? this.createPlaySourceInternal(recognizeOptions.playPrompt)
+          : undefined,
+        interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
+        recognizeOptions: recognizeOptionsInternal,
+        operationContext: recognizeOptions.operationContext,
+      };
+    } else if (recognizeOptions.kind === "callMediaRecognizeSpeechOrDtmfOptions") {
+      const dtmfOptionsInternal: DtmfOptions = {
+        interToneTimeoutInSeconds: recognizeOptions.interToneTimeoutInSeconds
+          ? recognizeOptions.interToneTimeoutInSeconds
+          : 2,
+        maxTonesToCollect: maxTonesToCollect,
+        stopTones: recognizeOptions.stopDtmfTones,
+      };
+      const speechOptions: SpeechOptions = {
+        endSilenceTimeoutInMs: recognizeOptions.endSilenceTimeoutInMs
+          ? recognizeOptions.endSilenceTimeoutInMs
+          : 2,
+      };
+      const recognizeOptionsInternal: RecognizeOptions = {
+        interruptPrompt: recognizeOptions.interruptPrompt,
+        initialSilenceTimeoutInSeconds: recognizeOptions.initialSilenceTimeoutInSeconds
+          ? recognizeOptions.initialSilenceTimeoutInSeconds
+          : 5,
+        targetParticipant: serializeCommunicationIdentifier(targetParticipant),
+        speechOptions: speechOptions,
+        dtmfOptions: dtmfOptionsInternal,
+      };
+      return {
+        recognizeInputType: KnownRecognizeInputType.Speech,
+        playPrompt: recognizeOptions.playPrompt
+          ? this.createPlaySourceInternal(recognizeOptions.playPrompt)
+          : undefined,
+        interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
+        recognizeOptions: recognizeOptionsInternal,
+        operationContext: recognizeOptions.operationContext,
+      };
     }
-
     throw new Error("Invalid recognizeOptions");
   }
 
@@ -166,7 +267,11 @@ export class CallMedia {
   public async startRecognizing(
     targetParticipant: CommunicationIdentifier,
     maxTonesToCollect: number,
-    recognizeOptions: CallMediaRecognizeDtmfOptions
+    recognizeOptions:
+      | CallMediaRecognizeDtmfOptions
+      | CallMediaRecognizeChoiceOptions
+      | CallMediaRecognizeSpeechOptions
+      | CallMediaRecognizeSpeechOrDtmfOptions
   ): Promise<void> {
     return this.callMedia.recognize(
       this.callConnectionId,
