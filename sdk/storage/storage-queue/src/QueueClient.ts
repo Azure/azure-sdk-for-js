@@ -1,15 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  HttpResponse,
-  TokenCredential,
-  isTokenCredential,
-  isNode,
-  getDefaultProxySettings,
-  URLBuilder,
-  RequestOptionsBase,
-} from "@azure/core-http";
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { isNode } from "@azure/core-util";
 import { SpanStatusCode } from "@azure/core-tracing";
 import {
   EnqueuedMessage,
@@ -21,34 +14,44 @@ import {
   MessageIdDeleteResponse,
   MessagesClearResponse,
   PeekedMessageItem,
-  QueueCreateResponse,
+  QueueCreateHeaders,
   QueueDeleteResponse,
   QueueGetAccessPolicyHeaders,
   QueueGetPropertiesResponse,
   QueueSetAccessPolicyResponse,
   QueueSetMetadataResponse,
   SignedIdentifierModel,
+  QueueCreateResponse,
+  QueueDeleteHeaders,
+  QueueSetMetadataHeaders,
+  QueueGetPropertiesHeaders,
+  QueueSetAccessPolicyHeaders,
+  MessagesClearHeaders,
+  MessageIdDeleteHeaders,
+  MessageIdUpdateHeaders,
 } from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { Messages, MessageId, Queue } from "./generated/src/operations";
-import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
-import { StorageClient, CommonOptions } from "./StorageClient";
+import { Messages, MessageId, Queue } from "./generated/src/operationsInterfaces";
+import { newPipeline, StoragePipelineOptions, Pipeline } from "../../storage-blob/src/Pipeline";
+import { StorageClient, CommonOptions, getStorageClientContext } from "./StorageClient";
 import {
   appendToURLPath,
   extractConnectionStringParts,
   isIpEndpointStyle,
   truncatedISO8061Date,
-  getStorageClientContext,
   appendToURLQuery,
+  WithResponse,
+  assertResponse,
 } from "./utils/utils.common";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
+import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
 import { Metadata } from "./models";
 import { generateQueueSASQueryParameters } from "./QueueSASSignatureValues";
 import { SasIPRange } from "./SasIPRange";
 import { QueueSASPermissions } from "./QueueSASPermissions";
 import { SASProtocol } from "./SASQueryParameters";
+import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
 
 /**
  * Options to configure {@link QueueClient.create} operation
@@ -163,27 +166,13 @@ export interface SignedIdentifier {
 /**
  * Contains response data for the {@link QueueClient.getAccessPolicy} operation.
  */
-export declare type QueueGetAccessPolicyResponse = {
-  signedIdentifiers: SignedIdentifier[];
-} & QueueGetAccessPolicyHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: QueueGetAccessPolicyHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SignedIdentifierModel[];
-    };
-  };
+export declare type QueueGetAccessPolicyResponse = WithResponse<
+  {
+    signedIdentifiers: SignedIdentifier[];
+  } & QueueGetAccessPolicyHeaders,
+  QueueGetAccessPolicyHeaders,
+  SignedIdentifierModel[]
+>;
 
 /**
  * Options to configure {@link QueueClient.clearMessages} operation
@@ -197,7 +186,7 @@ export interface QueueClearMessagesOptions extends CommonOptions {
 }
 
 /** Optional parameters. */
-export interface MessagesEnqueueOptionalParams extends RequestOptionsBase {
+export interface MessagesEnqueueOptionalParams extends CommonOptions {
   /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -214,7 +203,7 @@ export interface MessagesEnqueueOptionalParams extends RequestOptionsBase {
 export interface QueueSendMessageOptions extends MessagesEnqueueOptionalParams, CommonOptions {}
 
 /** Optional parameters. */
-export interface MessagesDequeueOptionalParams extends RequestOptionsBase {
+export interface MessagesDequeueOptionalParams extends CommonOptions {
   /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -231,7 +220,7 @@ export interface MessagesDequeueOptionalParams extends RequestOptionsBase {
 export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParams, CommonOptions {}
 
 /** Optional parameters. */
-export interface MessagesPeekOptionalParams extends RequestOptionsBase {
+export interface MessagesPeekOptionalParams extends CommonOptions {
   /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -248,51 +237,37 @@ export interface QueuePeekMessagesOptions extends MessagesPeekOptionalParams, Co
 /**
  * Contains the response data for the {@link QueueClient.sendMessage} operation.
  */
-export declare type QueueSendMessageResponse = {
-  /**
-   * The ID of the sent Message.
-   */
-  messageId: string;
-  /**
-   * This value is required to delete the Message.
-   * If deletion fails using this popreceipt then the message has been received
-   * by another client.
-   */
-  popReceipt: string;
-  /**
-   * The time that the message was inserted into the
-   * Queue.
-   */
-  insertedOn: Date;
-  /**
-   * The time that the message will expire and be
-   * automatically deleted.
-   */
-  expiresOn: Date;
-  /**
-   * The time that the message will again become
-   * visible in the Queue.
-   */
-  nextVisibleOn: Date;
-} & MessagesEnqueueHeaders & {
+export declare type QueueSendMessageResponse = WithResponse<
+  {
     /**
-     * The underlying HTTP response.
+     * The ID of the sent Message.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: MessagesEnqueueHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnqueuedMessage[];
-    };
-  };
+    messageId: string;
+    /**
+     * This value is required to delete the Message.
+     * If deletion fails using this popreceipt then the message has been received
+     * by another client.
+     */
+    popReceipt: string;
+    /**
+     * The time that the message was inserted into the
+     * Queue.
+     */
+    insertedOn: Date;
+    /**
+     * The time that the message will expire and be
+     * automatically deleted.
+     */
+    expiresOn: Date;
+    /**
+     * The time that the message will again become
+     * visible in the Queue.
+     */
+    nextVisibleOn: Date;
+  } & MessagesEnqueueHeaders,
+  MessagesEnqueueHeaders,
+  EnqueuedMessage[]
+>;
 
 /**
  * The object returned in the `receivedMessageItems` array when calling {@link QueueClient.receiveMessages}.
@@ -304,52 +279,24 @@ export declare type ReceivedMessageItem = DequeuedMessageItem;
 /**
  * Contains the response data for the {@link QueueClient.receiveMessages} operation.
  */
-export declare type QueueReceiveMessageResponse = {
-  receivedMessageItems: ReceivedMessageItem[];
-} & MessagesDequeueHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: MessagesDequeueHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReceivedMessageItem[];
-    };
-  };
+export declare type QueueReceiveMessageResponse = WithResponse<
+  {
+    receivedMessageItems: ReceivedMessageItem[];
+  } & MessagesDequeueHeaders,
+  MessagesDequeueHeaders,
+  ReceivedMessageItem[]
+>;
 
 /**
  * Contains the response data for the {@link QueueClient.peekMessages} operation.
  */
-export declare type QueuePeekMessagesResponse = {
-  peekedMessageItems: PeekedMessageItem[];
-} & MessagesPeekHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: MessagesPeekHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeekedMessageItem[];
-    };
-  };
+export declare type QueuePeekMessagesResponse = WithResponse<
+  {
+    peekedMessageItems: PeekedMessageItem[];
+  } & MessagesPeekHeaders,
+  MessagesPeekHeaders,
+  PeekedMessageItem[]
+>;
 
 /**
  * Options to configure the {@link QueueClient.deleteMessage} operation
@@ -549,7 +496,7 @@ export class QueueClient extends StorageClient {
       typeof credentialOrPipelineOrQueueName !== "string"
     ) {
       // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
-      // The second paramter is undefined. Use anonymous credential.
+      // The second parameter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
       pipeline = newPipeline(new AnonymousCredential(), options);
     } else if (
@@ -589,7 +536,7 @@ export class QueueClient extends StorageClient {
     }
     super(url, pipeline);
     this._name = this.getQueueNameFromUrl();
-    this.queueContext = new Queue(this.storageClientContext);
+    this.queueContext = this.storageClientContext.queue;
 
     // MessagesContext
     // Build the url with "messages"
@@ -598,7 +545,7 @@ export class QueueClient extends StorageClient {
       ? appendToURLPath(partsOfUrl[0], "messages") + "?" + partsOfUrl[1]
       : appendToURLPath(partsOfUrl[0], "messages");
 
-    this.messagesContext = new Messages(getStorageClientContext(this._messagesUrl, this.pipeline));
+    this.messagesContext = getStorageClientContext(this._messagesUrl, this.pipeline).messages;
   }
 
   private getMessageIdContext(messageId: string): MessageId {
@@ -608,7 +555,7 @@ export class QueueClient extends StorageClient {
       ? appendToURLPath(partsOfUrl[0], messageId) + "?" + partsOfUrl[1]
       : appendToURLPath(partsOfUrl[0], messageId);
 
-    return new MessageId(getStorageClientContext(urlWithMessageId, this.pipeline));
+    return getStorageClientContext(urlWithMessageId, this.pipeline).messageId;
   }
 
   /**
@@ -628,10 +575,9 @@ export class QueueClient extends StorageClient {
   public async create(options: QueueCreateOptions = {}): Promise<QueueCreateResponse> {
     const { span, updatedOptions } = createSpan("QueueClient-create", options);
     try {
-      return await this.queueContext.create({
-        ...updatedOptions,
-        abortSignal: options.abortSignal,
-      });
+      return assertResponse<QueueCreateHeaders, QueueCreateHeaders>(
+        await this.queueContext.create(updatedOptions)
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -750,10 +696,12 @@ export class QueueClient extends StorageClient {
   public async delete(options: QueueDeleteOptions = {}): Promise<QueueDeleteResponse> {
     const { span, updatedOptions } = createSpan("QueueClient-delete", options);
     try {
-      return await this.queueContext.delete({
-        abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions,
-      });
+      return assertResponse<QueueDeleteHeaders, QueueDeleteHeaders>(
+        await this.queueContext.delete({
+          abortSignal: options.abortSignal,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -818,10 +766,12 @@ export class QueueClient extends StorageClient {
   ): Promise<QueueGetPropertiesResponse> {
     const { span, updatedOptions } = createSpan("QueueClient-getProperties", options);
     try {
-      return await this.queueContext.getProperties({
-        abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions,
-      });
+      return assertResponse<QueueGetPropertiesHeaders, QueueGetPropertiesHeaders>(
+        await this.queueContext.getProperties({
+          abortSignal: options.abortSignal,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -850,11 +800,13 @@ export class QueueClient extends StorageClient {
   ): Promise<QueueSetMetadataResponse> {
     const { span, updatedOptions } = createSpan("QueueClient-setMetadata", options);
     try {
-      return await this.queueContext.setMetadata({
-        abortSignal: options.abortSignal,
-        metadata,
-        tracingOptions: updatedOptions.tracingOptions,
-      });
+      return assertResponse<QueueSetMetadataHeaders, QueueSetMetadataHeaders>(
+        await this.queueContext.setMetadata({
+          abortSignal: options.abortSignal,
+          metadata,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -882,10 +834,16 @@ export class QueueClient extends StorageClient {
   ): Promise<QueueGetAccessPolicyResponse> {
     const { span, updatedOptions } = createSpan("QueueClient-getAccessPolicy", options);
     try {
-      const response = await this.queueContext.getAccessPolicy({
-        abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions,
-      });
+      const response = assertResponse<
+        QueueGetAccessPolicyHeaders & SignedIdentifierModel[],
+        QueueGetAccessPolicyHeaders,
+        SignedIdentifierModel[]
+      >(
+        await this.queueContext.getAccessPolicy({
+          abortSignal: options.abortSignal,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
 
       const res: QueueGetAccessPolicyResponse = {
         _response: response._response,
@@ -961,11 +919,13 @@ export class QueueClient extends StorageClient {
         });
       }
 
-      return await this.queueContext.setAccessPolicy({
-        abortSignal: options.abortSignal,
-        queueAcl: acl,
-        tracingOptions: updatedOptions.tracingOptions,
-      });
+      return assertResponse<QueueSetAccessPolicyHeaders, QueueSetAccessPolicyHeaders>(
+        await this.queueContext.setAccessPolicy({
+          abortSignal: options.abortSignal,
+          queueAcl: acl,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -989,10 +949,12 @@ export class QueueClient extends StorageClient {
   ): Promise<QueueClearMessagesResponse> {
     const { span, updatedOptions } = createSpan("QueueClient-clearMessages", options);
     try {
-      return await this.messagesContext.clear({
-        abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions,
-      });
+      return assertResponse<MessagesClearHeaders, MessagesClearHeaders>(
+        await this.messagesContext.clear({
+          abortSignal: options.abortSignal,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1031,11 +993,17 @@ export class QueueClient extends StorageClient {
   ): Promise<QueueSendMessageResponse> {
     const { span, updatedOptions } = createSpan("QueueClient-sendMessage", options);
     try {
-      const response = await this.messagesContext.enqueue(
-        {
-          messageText: messageText,
-        },
-        updatedOptions
+      const response = assertResponse<
+        MessagesEnqueueHeaders & EnqueuedMessage[],
+        MessagesEnqueueHeaders,
+        EnqueuedMessage[]
+      >(
+        await this.messagesContext.enqueue(
+          {
+            messageText: messageText,
+          },
+          updatedOptions
+        )
       );
       const item = response[0];
       return {
@@ -1092,7 +1060,11 @@ export class QueueClient extends StorageClient {
   ): Promise<QueueReceiveMessageResponse> {
     const { span, updatedOptions } = createSpan("QueueClient-receiveMessages", options);
     try {
-      const response = await this.messagesContext.dequeue(updatedOptions);
+      const response = assertResponse<
+        MessagesDequeueHeaders & DequeuedMessageItem[],
+        MessagesDequeueHeaders,
+        DequeuedMessageItem[]
+      >(await this.messagesContext.dequeue(updatedOptions));
 
       const res: QueueReceiveMessageResponse = {
         _response: response._response,
@@ -1139,7 +1111,11 @@ export class QueueClient extends StorageClient {
   ): Promise<QueuePeekMessagesResponse> {
     const { span, updatedOptions } = createSpan("QueueClient-peekMessages", options);
     try {
-      const response = await this.messagesContext.peek(updatedOptions);
+      const response = assertResponse<
+        MessagesPeekHeaders & PeekedMessageItem[],
+        MessagesPeekHeaders,
+        PeekedMessageItem[]
+      >(await this.messagesContext.peek(updatedOptions));
 
       const res: QueuePeekMessagesResponse = {
         _response: response._response,
@@ -1183,10 +1159,12 @@ export class QueueClient extends StorageClient {
   ): Promise<QueueDeleteMessageResponse> {
     const { span, updatedOptions } = createSpan("QueueClient-deleteMessage", options);
     try {
-      return await this.getMessageIdContext(messageId).delete(popReceipt, {
-        abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions,
-      });
+      return assertResponse<MessageIdDeleteHeaders, MessageIdDeleteHeaders>(
+        await this.getMessageIdContext(messageId).delete(popReceipt, {
+          abortSignal: options.abortSignal,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1229,11 +1207,13 @@ export class QueueClient extends StorageClient {
     }
 
     try {
-      return await this.getMessageIdContext(messageId).update(popReceipt, visibilityTimeout || 0, {
-        abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions,
-        queueMessage,
-      });
+      return assertResponse<MessageIdUpdateHeaders, MessageIdUpdateHeaders>(
+        await this.getMessageIdContext(messageId).update(popReceipt, visibilityTimeout || 0, {
+          abortSignal: options.abortSignal,
+          tracingOptions: updatedOptions.tracingOptions,
+          queueMessage,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1254,21 +1234,21 @@ export class QueueClient extends StorageClient {
       // IPv4/IPv6 address hosts, Endpoints - `http://127.0.0.1:10001/devstoreaccount1/myqueue`
       // http://localhost:10001/devstoreaccount1/queuename
 
-      const parsedUrl = URLBuilder.parse(this.url);
+      const parsedUrl = new URL(this.url);
 
-      if (parsedUrl.getHost()!.split(".")[1] === "queue") {
+      if (parsedUrl.hostname.split(".")[1] === "queue") {
         // "https://myaccount.queue.core.windows.net/queuename".
         // .getPath() -> /queuename
-        queueName = parsedUrl.getPath()!.split("/")[1];
+        queueName = parsedUrl.pathname.split("/")[1];
       } else if (isIpEndpointStyle(parsedUrl)) {
         // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/queuename
         // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/queuename
         // .getPath() -> /devstoreaccount1/queuename
-        queueName = parsedUrl.getPath()!.split("/")[2];
+        queueName = parsedUrl.pathname.split("/")[2];
       } else {
         // "https://customdomain.com/queuename".
         // .getPath() -> /queuename
-        queueName = parsedUrl.getPath()!.split("/")[1];
+        queueName = parsedUrl.pathname.split("/")[1];
       }
 
       if (!queueName) {

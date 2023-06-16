@@ -10,11 +10,13 @@ export const DEFAULT_ROLE_NAME = "Web";
 process.env["AZURE_MONITOR_DISTRO_VERSION"] = AZURE_MONITOR_OPENTELEMETRY_VERSION;
 
 /**
- * Azure Monitor OpenTelemetry Configuration interface
+ * Azure Monitor OpenTelemetry Options
  */
-export interface IConfig {
+export interface AzureMonitorOpenTelemetryOptions {
   /** Azure Monitor Exporter Configuration */
   azureMonitorExporterConfig?: AzureMonitorExporterOptions;
+  /** OpenTelemetry Resource */
+  resource?: Resource;
   /** The rate of telemetry items tracked that should be transmitted (Default 1.0) */
   samplingRatio?: number;
   /**
@@ -28,22 +30,15 @@ export interface IConfig {
    */
   enableAutoCollectStandardMetrics?: boolean;
   /**
-   * Sets the state of native metrics tracking (disabled by default)
-   * if true and applicationinsights-native-metrics is installed, native metrics will be collected every minute and sent to Azure Monitor
+   * OpenTelemetry Instrumentations options included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4)
    */
-  enableAutoCollectNativeMetrics?: boolean;
-  /**
-   * OpenTelemetry Instrumentations configuration included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4)
-   */
-  instrumentations?: IInstrumentationsConfig;
-  /** OpenTelemetry Resource */
-  resource?: Resource;
+  instrumentationOptions?: InstrumentationOptions;
 }
 
 /**
  * OpenTelemetry Instrumentations Configuration interface
  */
-export interface IInstrumentationsConfig {
+export interface InstrumentationOptions {
   /** Azure SDK Instrumentation Config */
   azureSdk: InstrumentationConfig;
   /** HTTP Instrumentation Config */

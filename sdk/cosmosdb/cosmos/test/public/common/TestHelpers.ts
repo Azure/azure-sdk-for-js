@@ -6,6 +6,9 @@ import {
   CosmosClient,
   Database,
   DatabaseDefinition,
+  extractPartitionKey,
+  PartitionKey,
+  PartitionKeyDefinition,
   PermissionDefinition,
   RequestOptions,
   Response,
@@ -101,13 +104,11 @@ export async function bulkInsertItems(
 export async function bulkReadItems(
   container: Container,
   documents: any[],
-  partitionKeyProperty: string
+  partitionKeyDef: PartitionKeyDefinition
 ): Promise<void[]> {
   return Promise.all(
     documents.map(async (document) => {
-      const partitionKey = Object.prototype.hasOwnProperty.call(document, partitionKeyProperty)
-        ? document[partitionKeyProperty]
-        : undefined;
+      const partitionKey = extractPartitionKey(document, partitionKeyDef);
 
       // TODO: should we block or do all requests in parallel?
       const { resource: doc } = await container.item(document.id, partitionKey).read();
@@ -119,13 +120,11 @@ export async function bulkReadItems(
 export async function bulkReplaceItems(
   container: Container,
   documents: any[],
-  partitionKeyProperty: string
+  partitionKeyDef: PartitionKeyDefinition
 ): Promise<any[]> {
   return Promise.all(
     documents.map(async (document) => {
-      const partitionKey = Object.prototype.hasOwnProperty.call(document, partitionKeyProperty)
-        ? document[partitionKeyProperty]
-        : undefined;
+      const partitionKey = extractPartitionKey(document, partitionKeyDef);
       const { resource: doc } = await container.item(document.id, partitionKey).replace(document);
       const { _etag: _1, _ts: _2, ...expectedModifiedDocument } = document; // eslint-disable-line @typescript-eslint/no-unused-vars
       const { _etag: _4, _ts: _3, ...actualModifiedDocument } = doc; // eslint-disable-line @typescript-eslint/no-unused-vars
@@ -138,13 +137,11 @@ export async function bulkReplaceItems(
 export async function bulkDeleteItems(
   container: Container,
   documents: any[],
-  partitionKeyProperty: string
+  partitionKeyDef: PartitionKeyDefinition
 ): Promise<void> {
   await Promise.all(
     documents.map(async (document) => {
-      const partitionKey = Object.prototype.hasOwnProperty.call(document, partitionKeyProperty)
-        ? document[partitionKeyProperty]
-        : undefined;
+      const partitionKey = extractPartitionKey(document, partitionKeyDef);
 
       await container.item(document.id, partitionKey).delete();
     })
@@ -154,25 +151,31 @@ export async function bulkDeleteItems(
 export async function bulkQueryItemsWithPartitionKey(
   container: Container,
   documents: any[],
-  partitionKeyPropertyName: string
+  query: string,
+  parameterGenerator: (doc: any) => { name: string; value: any }[]
 ): Promise<void> {
   for (const document of documents) {
-    if (!Object.prototype.hasOwnProperty.call(document, partitionKeyPropertyName)) {
+    const parameters = parameterGenerator(document);
+    const shouldSkip = parameters.reduce(
+      (previous, current) => previous || current["value"] === undefined,
+      false
+    );
+    if (shouldSkip) {
       continue;
     }
-
     const querySpec = {
-      query: "SELECT * FROM root r WHERE r." + partitionKeyPropertyName + "=@key",
-      parameters: [
-        {
-          name: "@key",
-          value: document[partitionKeyPropertyName],
-        },
-      ],
+      query: query,
+      parameters: parameters,
     };
 
     const { resources } = await container.items.query(querySpec).fetchAll();
-    assert.equal(resources.length, 1, "Expected exactly 1 document");
+    assert.equal(
+      resources.length,
+      1,
+      `Expected exactly 1 document, doc: ${JSON.stringify(
+        document
+      )}, query: '${query}', parameters: ${JSON.stringify(parameters)}`
+    );
     assert.equal(JSON.stringify(resources[0]), JSON.stringify(document));
   }
 }
@@ -195,13 +198,14 @@ export async function replaceOrUpsertItem(
   container: Container,
   body: unknown,
   options: RequestOptions,
-  isUpsertTest: boolean
+  isUpsertTest: boolean,
+  partitionKey?: PartitionKey
 ): Promise<ItemResponse<any>> {
   if (isUpsertTest) {
     return container.items.upsert(body, options);
   } else {
     const bodyWithId = body as { id: string };
-    return container.item(bodyWithId.id, undefined).replace(body, options);
+    return container.item(bodyWithId.id, partitionKey).replace(body, options);
   }
 }
 
