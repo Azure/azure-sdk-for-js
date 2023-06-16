@@ -32,6 +32,11 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     private enableEndPointDiscovery: boolean
   ) {}
 
+  /**
+   * Checks if a timeout request is valid for the timeout failover retry policy.
+   * A valid request should be a data plane, metadata, or query plan request.
+   * @returns
+   */
   private isValidRequestForTimeoutError(): boolean {
     const isQuery = Constants.HttpHeaders.IsQuery in this.headers;
     const isQueryPlan = Constants.HttpHeaders.IsQueryPlan in this.headers;
@@ -53,6 +58,7 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     if (!retryContext || !locationEndpoint) {
       return false;
     }
+    // Check if the error is a timeout error (TimeoutErrorCode) and if it is not a valid HTTP network timeout request
     if (err.statusCode === TimeoutErrorCode && !this.isValidRequestForTimeoutError()) {
       return false;
     }
@@ -75,20 +81,32 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     const readRequest = isReadRequest(this.operationType);
 
     if (!canUseMultipleWriteLocations && !readRequest) {
+      // Write requests on single master cannot be retried, no other regions available
       return false;
     }
     this.failoverRetryCount++;
+    // Setting the retryLocationIndex to the next available location for retry.
+    // The retryLocationIndex is determined based on the failoverRetryCount, starting from zero.
     retryContext.retryLocationIndex = await this.findEndpointIndex(this.failoverRetryCount);
     return true;
   }
 
+  /**
+   * Determines index of endpoint to be used for retry based upon failoverRetryCount and avalable locations
+   * @param failoverRetryCount
+   * @returns
+   */
   private async findEndpointIndex(failoverRetryCount: number): Promise<number> {
+    // count of preferred locations specified by user
     const preferredLocationsCount = this.globalEndpointManager.preferredLocationsCount;
     let readRequest = isReadRequest(this.operationType);
     let endpointIndex = 0;
+    // If preferredLocationsCount is not zero, it indicates that the user has specified preferred locations.
     if (preferredLocationsCount !== 0) {
+      // The endpointIndex is set based on the preferred location and the failover retry count.
       endpointIndex = failoverRetryCount % preferredLocationsCount;
     } else {
+      // In the absence of preferred locations, the endpoint selection is based on the failover count and the number of available locations.
       if (readRequest) {
         const getReadEndpoints = await this.globalEndpointManager.getReadEndpoints();
         if (getReadEndpoints && getReadEndpoints.length > 0) {
