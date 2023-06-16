@@ -36,7 +36,7 @@ describe("TimeoutFailoverRetryPolicy", function () {
   };
   const headers = {};
 
-  let gem = new GlobalEndpointManager(
+  const gem = new GlobalEndpointManager(
     {
       endpoint: "https://test.documents.azure.com:443/",
       key: "masterKey",
@@ -87,11 +87,9 @@ describe("TimeoutFailoverRetryPolicy", function () {
     const retryContext: RetryContext | undefined = undefined;
     const locationEndpoint: string | undefined = undefined;
 
-    //Test case 1: err, retryContext, locationEndpoint are undefined
+    // retryContext, locationEndpoint are undefined
     assert.equal(await retryPolicy.shouldRetry(err, retryContext, locationEndpoint), false);
-    //Test case 2: err is null
-    assert.equal(await retryPolicy.shouldRetry(err, retryContext, locationEndpoint), false);
-    //Test case 3: locationEndpoint is defined, err, retryContext are undefined
+    //  retryContext is undefined
     assert.equal(await retryPolicy.shouldRetry(err, retryContext, "locationEndpoint"), false);
   });
   it("should not retry when timeout error but the request is not valid for timeout error", async function () {
@@ -134,10 +132,10 @@ describe("TimeoutFailoverRetryPolicy", function () {
       diagnostics: getEmptyCosmosDiagnostics(),
     };
 
-    // valid case
+    //  valid case
     assert.equal(await retryPolicy.shouldRetry(serviceUnavailableErr, retryCtx, locEndpoint), true);
 
-    //test maxServiceUnavailableRetryCount exceeded
+    //  test maxServiceUnavailableRetryCount exceeded
     await retryPolicy.shouldRetry(serviceUnavailableErr, retryCtx, locEndpoint);
     assert.equal(
       await retryPolicy.shouldRetry(serviceUnavailableErr, retryCtx, locEndpoint),
@@ -233,7 +231,7 @@ describe("TimeoutFailoverRetryPolicy", function () {
       OperationType.Read,
       true
     );
-    //initialising redable locations
+    //  initialising redable locations
     await gem_test2.resolveServiceEndpoint(ResourceType.item, OperationType.Read);
     for (let i = 0; i < 120; i++) {
       assert.equal(
@@ -245,7 +243,7 @@ describe("TimeoutFailoverRetryPolicy", function () {
         true
       );
     }
-    // retry count breached as only 2 endpoints were available
+    //  retry count breached as only 2 endpoints were available
     assert.equal(
       await retryPolicy_preferedLocationsNotDefined.shouldRetry(timeoutErr, retryCtx, locEndpoint),
       false

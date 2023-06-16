@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { RetryPolicy } from "./RetryPolicy";
 import { StatusCodes } from "../common/statusCodes";
 import { GlobalEndpointManager } from "../globalEndpointManager";
@@ -93,13 +95,13 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
 
   /**
    * Determines index of endpoint to be used for retry based upon failoverRetryCount and avalable locations
-   * @param failoverRetryCount
+   * @param failoverRetryCount - count of failovers
    * @returns
    */
   private async findEndpointIndex(failoverRetryCount: number): Promise<number> {
     // count of preferred locations specified by user
     const preferredLocationsCount = this.globalEndpointManager.preferredLocationsCount;
-    let readRequest = isReadRequest(this.operationType);
+    const readRequest = isReadRequest(this.operationType);
     let endpointIndex = 0;
     // If preferredLocationsCount is not zero, it indicates that the user has specified preferred locations.
     if (preferredLocationsCount !== 0) {
