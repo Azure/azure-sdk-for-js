@@ -129,7 +129,7 @@ export type TestCreateOrUpdateServerMetricsConfigParameters =
     TestCreateOrUpdateServerMetricsConfigBodyParam &
     RequestParameters;
 export type TestListServerMetricsConfigParameters = RequestParameters;
-export type TestRunGetParameters = RequestParameters;
+export type TestRunDeleteParameters = RequestParameters;
 /** The resource instance. */
 export type TestRunResourceMergeAndPatch = Partial<TestRun>;
 
@@ -161,7 +161,7 @@ export type TestRunCreateOrUpdateParameters = TestRunCreateOrUpdateQueryParam &
   TestRunCreateOrUpdateMediaTypesParam &
   TestRunCreateOrUpdateBodyParam &
   RequestParameters;
-export type TestRunDeleteParameters = RequestParameters;
+export type TestRunGetParameters = RequestParameters;
 export type TestRunGetFileParameters = RequestParameters;
 
 export interface TestRunListQueryParamProperties {

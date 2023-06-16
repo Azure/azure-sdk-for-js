@@ -14,9 +14,9 @@ import {
   TestListAppComponentsParameters,
   TestCreateOrUpdateServerMetricsConfigParameters,
   TestListServerMetricsConfigParameters,
-  TestRunGetParameters,
-  TestRunCreateOrUpdateParameters,
   TestRunDeleteParameters,
+  TestRunCreateOrUpdateParameters,
+  TestRunGetParameters,
   TestRunGetFileParameters,
   TestRunListParameters,
   TestRunStopParameters,
@@ -57,13 +57,13 @@ import {
   TestCreateOrUpdateServerMetricsConfigDefaultResponse,
   TestListServerMetricsConfig200Response,
   TestListServerMetricsConfigDefaultResponse,
-  TestRunGet200Response,
-  TestRunGetDefaultResponse,
+  TestRunDelete204Response,
+  TestRunDeleteDefaultResponse,
   TestRunCreateOrUpdate200Response,
   TestRunCreateOrUpdate201Response,
   TestRunCreateOrUpdateDefaultResponse,
-  TestRunDelete204Response,
-  TestRunDeleteDefaultResponse,
+  TestRunGet200Response,
+  TestRunGetDefaultResponse,
   TestRunGetFile200Response,
   TestRunGetFileDefaultResponse,
   TestRunList200Response,
@@ -176,11 +176,11 @@ export interface TestCreateOrUpdateServerMetricsConfig {
   >;
 }
 
-export interface TestRunGet {
-  /** Get test run details by name. */
-  get(
-    options?: TestRunGetParameters
-  ): StreamableMethod<TestRunGet200Response | TestRunGetDefaultResponse>;
+export interface TestRunDelete {
+  /** Delete a test run by its name. */
+  delete(
+    options?: TestRunDeleteParameters
+  ): StreamableMethod<TestRunDelete204Response | TestRunDeleteDefaultResponse>;
   /** Create and start a new test run with the given name. */
   patch(
     options: TestRunCreateOrUpdateParameters
@@ -189,10 +189,10 @@ export interface TestRunGet {
     | TestRunCreateOrUpdate201Response
     | TestRunCreateOrUpdateDefaultResponse
   >;
-  /** Delete a test run by its name. */
-  delete(
-    options?: TestRunDeleteParameters
-  ): StreamableMethod<TestRunDelete204Response | TestRunDeleteDefaultResponse>;
+  /** Get test run details by name. */
+  get(
+    options?: TestRunGetParameters
+  ): StreamableMethod<TestRunGet200Response | TestRunGetDefaultResponse>;
 }
 
 export interface TestRunGetFile {
@@ -303,8 +303,8 @@ export interface Routes {
     path: "/tests/{testId}/server-metrics-config",
     testId: string
   ): TestCreateOrUpdateServerMetricsConfig;
-  /** Resource for '/test-runs/\{testRunId\}' has methods for the following verbs: get, patch, delete */
-  (path: "/test-runs/{testRunId}", testRunId: string): TestRunGet;
+  /** Resource for '/test-runs/\{testRunId\}' has methods for the following verbs: delete, patch, get */
+  (path: "/test-runs/{testRunId}", testRunId: string): TestRunDelete;
   /** Resource for '/test-runs/\{testRunId\}/files/\{fileName\}' has methods for the following verbs: get */
   (
     path: "/test-runs/{testRunId}/files/{fileName}",

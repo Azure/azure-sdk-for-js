@@ -240,21 +240,20 @@ export interface TestListServerMetricsConfigDefaultResponse extends HttpResponse
   headers: RawHttpHeaders & TestListServerMetricsConfigDefaultHeaders;
 }
 
-/** The request has succeeded. */
-export interface TestRunGet200Response extends HttpResponse {
-  status: "200";
-  body: TestRunOutput;
+/** There is no content to send for this request, but the headers may be useful. */
+export interface TestRunDelete204Response extends HttpResponse {
+  status: "204";
 }
 
-export interface TestRunGetDefaultHeaders {
+export interface TestRunDeleteDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface TestRunGetDefaultResponse extends HttpResponse {
+export interface TestRunDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & TestRunGetDefaultHeaders;
+  headers: RawHttpHeaders & TestRunDeleteDefaultHeaders;
 }
 
 export interface TestRunCreateOrUpdate200Headers {
@@ -298,20 +297,21 @@ export interface TestRunCreateOrUpdateLogicalResponse extends HttpResponse {
   body: Record<string, any>;
 }
 
-/** There is no content to send for this request, but the headers may be useful. */
-export interface TestRunDelete204Response extends HttpResponse {
-  status: "204";
+/** The request has succeeded. */
+export interface TestRunGet200Response extends HttpResponse {
+  status: "200";
+  body: TestRunOutput;
 }
 
-export interface TestRunDeleteDefaultHeaders {
+export interface TestRunGetDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface TestRunDeleteDefaultResponse extends HttpResponse {
+export interface TestRunGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & TestRunDeleteDefaultHeaders;
+  headers: RawHttpHeaders & TestRunGetDefaultHeaders;
 }
 
 /** The request has succeeded. */

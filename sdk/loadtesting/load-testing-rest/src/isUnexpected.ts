@@ -29,14 +29,14 @@ import {
   TestCreateOrUpdateServerMetricsConfigDefaultResponse,
   TestListServerMetricsConfig200Response,
   TestListServerMetricsConfigDefaultResponse,
-  TestRunGet200Response,
-  TestRunGetDefaultResponse,
+  TestRunDelete204Response,
+  TestRunDeleteDefaultResponse,
   TestRunCreateOrUpdate200Response,
   TestRunCreateOrUpdate201Response,
   TestRunCreateOrUpdateLogicalResponse,
   TestRunCreateOrUpdateDefaultResponse,
-  TestRunDelete204Response,
-  TestRunDeleteDefaultResponse,
+  TestRunGet200Response,
+  TestRunGetDefaultResponse,
   TestRunGetFile200Response,
   TestRunGetFileDefaultResponse,
   TestRunList200Response,
@@ -76,9 +76,9 @@ const responseMap: Record<string, string[]> = {
   "GET /tests/{testId}/app-components": ["200"],
   "PATCH /tests/{testId}/server-metrics-config": ["200", "201"],
   "GET /tests/{testId}/server-metrics-config": ["200"],
-  "GET /test-runs/{testRunId}": ["200"],
-  "PATCH /test-runs/{testRunId}": ["200", "201"],
   "DELETE /test-runs/{testRunId}": ["204"],
+  "PATCH /test-runs/{testRunId}": ["200", "201"],
+  "GET /test-runs/{testRunId}": ["200"],
   "GET /test-runs/{testRunId}/files/{fileName}": ["200"],
   "GET /test-runs": ["200"],
   "POST /test-runs/{testRunId}:stop": ["200"],
@@ -138,8 +138,8 @@ export function isUnexpected(
   response: TestListServerMetricsConfig200Response | TestListServerMetricsConfigDefaultResponse
 ): response is TestListServerMetricsConfigDefaultResponse;
 export function isUnexpected(
-  response: TestRunGet200Response | TestRunGetDefaultResponse
-): response is TestRunGetDefaultResponse;
+  response: TestRunDelete204Response | TestRunDeleteDefaultResponse
+): response is TestRunDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | TestRunCreateOrUpdate200Response
@@ -148,8 +148,8 @@ export function isUnexpected(
     | TestRunCreateOrUpdateDefaultResponse
 ): response is TestRunCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: TestRunDelete204Response | TestRunDeleteDefaultResponse
-): response is TestRunDeleteDefaultResponse;
+  response: TestRunGet200Response | TestRunGetDefaultResponse
+): response is TestRunGetDefaultResponse;
 export function isUnexpected(
   response: TestRunGetFile200Response | TestRunGetFileDefaultResponse
 ): response is TestRunGetFileDefaultResponse;
@@ -222,14 +222,14 @@ export function isUnexpected(
     | TestCreateOrUpdateServerMetricsConfigDefaultResponse
     | TestListServerMetricsConfig200Response
     | TestListServerMetricsConfigDefaultResponse
-    | TestRunGet200Response
-    | TestRunGetDefaultResponse
+    | TestRunDelete204Response
+    | TestRunDeleteDefaultResponse
     | TestRunCreateOrUpdate200Response
     | TestRunCreateOrUpdate201Response
     | TestRunCreateOrUpdateLogicalResponse
     | TestRunCreateOrUpdateDefaultResponse
-    | TestRunDelete204Response
-    | TestRunDeleteDefaultResponse
+    | TestRunGet200Response
+    | TestRunGetDefaultResponse
     | TestRunGetFile200Response
     | TestRunGetFileDefaultResponse
     | TestRunList200Response
@@ -267,9 +267,9 @@ export function isUnexpected(
   | TestListAppComponentsDefaultResponse
   | TestCreateOrUpdateServerMetricsConfigDefaultResponse
   | TestListServerMetricsConfigDefaultResponse
-  | TestRunGetDefaultResponse
-  | TestRunCreateOrUpdateDefaultResponse
   | TestRunDeleteDefaultResponse
+  | TestRunCreateOrUpdateDefaultResponse
+  | TestRunGetDefaultResponse
   | TestRunGetFileDefaultResponse
   | TestRunListDefaultResponse
   | TestRunStopDefaultResponse
