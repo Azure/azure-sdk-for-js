@@ -16,7 +16,7 @@ import { Logger } from "../shared/logging";
  * Azure Monitor Native Metrics
  * @internal
  */
-export class _NativeMetrics {
+export class NativeMetrics {
   private _emitter: any;
   private _handle: NodeJS.Timer | undefined;
   private _collectionInterval = 60000; // 60 seconds
@@ -31,15 +31,15 @@ export class _NativeMetrics {
   private _heapMemoryTotalGauge: ObservableGauge;
   private _heapMemoryUsageGauge: ObservableGauge;
   private _memoryUsageNonHeapGauge: ObservableGauge;
+  private _config: AzureMonitorOpenTelemetryConfig;
 
   /**
    * Initializes a new instance of the NativeMetrics class.
-   * @param _config - Configuration.
+   * @param config - Distro configuration.
+   * @param options - Native Metrics options.
    */
-  constructor(
-    private _config: AzureMonitorOpenTelemetryConfig,
-    options?: { collectionInterval: number }
-  ) {
+  constructor(config: AzureMonitorOpenTelemetryConfig, options?: { collectionInterval: number }) {
+    this._config = config;
     const meterProviderConfig: MeterProviderOptions = {
       resource: this._config.resource,
     };
