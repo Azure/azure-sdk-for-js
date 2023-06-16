@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { getBSU, recorderEnvSetup } from "./utils";
+import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils";
 import { ShareClient, ShareDirectoryClient, FileSystemAttributes } from "../src";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
 import { assert, getYieldedValue } from "@azure/test-utils";
@@ -27,13 +27,23 @@ describe("DirectoryClient", () => {
   fullDirAttributes.noScrubData = true;
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    const serviceClient = getBSU();
-    shareName = recorder.getUniqueName("share");
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
+        },
+        uriSanitizers,
+      },
+      ["record", "playback"]
+    );
+    const serviceClient = getBSU(recorder);
+    shareName = recorder.variable("share", getUniqueName("share"));
     shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();
 
-    dirName = recorder.getUniqueName("dir");
+    dirName = recorder.variable("dir", getUniqueName("dir"));
     dirClient = shareClient.getDirectoryClient(dirName);
 
     defaultDirCreateResp = await dirClient.create();
@@ -53,8 +63,8 @@ describe("DirectoryClient", () => {
   });
 
   it("Get directory client under another directory", async () => {
-    const directoryName1 = recorder.getUniqueName("dir1");
-    const directoryName2 = recorder.getUniqueName("dir2");
+    const directoryName1 = recorder.variable("dir1", getUniqueName("dir1"));
+    const directoryName2 = recorder.variable("dir2", getUniqueName("dir2"));
     const dir1Client = dirClient.getDirectoryClient(directoryName1);
     await dir1Client.create();
 
@@ -67,8 +77,8 @@ describe("DirectoryClient", () => {
   });
 
   it("Get file client under another directory", async () => {
-    const subDirName = recorder.getUniqueName("subdir");
-    const fileName = recorder.getUniqueName("file");
+    const subDirName = recorder.variable("subdir", getUniqueName("subdir"));
+    const fileName = recorder.variable("file", getUniqueName("file"));
     const subDirClient = dirClient.getDirectoryClient(subDirName);
     await subDirClient.create();
 
@@ -112,9 +122,11 @@ describe("DirectoryClient", () => {
   });
 
   it("create with all parameters configured setting filePermissionKey", async () => {
-    const dirClient2 = shareClient.getDirectoryClient(recorder.getUniqueName(dirName));
+    const dirClient2 = shareClient.getDirectoryClient(
+      recorder.variable(dirName, getUniqueName(dirName))
+    );
     const metadata = { key: "value" };
-    const now = recorder.newDate("now");
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
 
     await dirClient2.create({
       metadata: metadata,
@@ -151,9 +163,11 @@ describe("DirectoryClient", () => {
       defaultDirCreateResp.filePermissionKey!
     );
 
-    const dirClient2 = shareClient.getDirectoryClient(recorder.getUniqueName(dirName));
+    const dirClient2 = shareClient.getDirectoryClient(
+      recorder.variable(dirName, getUniqueName(dirName))
+    );
     const metadata = { key: "value" };
-    const now = recorder.newDate("now");
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     await dirClient2.create({
       metadata: metadata,
       creationTime: now,
@@ -187,7 +201,9 @@ describe("DirectoryClient", () => {
     assert.ok(!res.succeeded);
     assert.equal(res.errorCode, "ResourceAlreadyExists");
 
-    const dirClient2 = shareClient.getDirectoryClient(recorder.getUniqueName(dirName));
+    const dirClient2 = shareClient.getDirectoryClient(
+      recorder.variable(dirName, getUniqueName(dirName))
+    );
     const res2 = await dirClient2.createIfNotExists();
     assert.ok(res2.succeeded);
 
@@ -195,7 +211,9 @@ describe("DirectoryClient", () => {
   });
 
   it("deleteIfExists", async () => {
-    const dirClient2 = shareClient.getDirectoryClient(recorder.getUniqueName(dirName));
+    const dirClient2 = shareClient.getDirectoryClient(
+      recorder.variable(dirName, getUniqueName(dirName))
+    );
     const res = await dirClient2.deleteIfExists();
     assert.ok(!res.succeeded);
     assert.equal(res.errorCode, "ResourceNotFound");
@@ -206,7 +224,7 @@ describe("DirectoryClient", () => {
   });
 
   it("deleteIfExists when parent not exists ", async () => {
-    const subDirName = recorder.getUniqueName("subdir");
+    const subDirName = recorder.variable("subdir", getUniqueName("subdir"));
     const dirClient2 = dirClient.getDirectoryClient(subDirName);
     const dirClient3 = dirClient2.getDirectoryClient(subDirName);
     const res = await dirClient3.deleteIfExists();
@@ -216,7 +234,9 @@ describe("DirectoryClient", () => {
 
   it("exists", async () => {
     assert.ok(await dirClient.exists());
-    const dirClient2 = shareClient.getDirectoryClient(recorder.getUniqueName(dirName));
+    const dirClient2 = shareClient.getDirectoryClient(
+      recorder.variable(dirName, getUniqueName(dirName))
+    );
     assert.ok(!(await dirClient2.exists()));
   });
 
@@ -245,7 +265,7 @@ describe("DirectoryClient", () => {
       defaultDirCreateResp.filePermissionKey!
     );
 
-    const now = recorder.newDate("now");
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
 
     await dirClient.setProperties({
       creationTime: now,
@@ -284,14 +304,18 @@ describe("DirectoryClient", () => {
     const subDirClients = [];
 
     for (let i = 0; i < 3; i++) {
-      const subDirClient = dirClient.getDirectoryClient(recorder.getUniqueName(`dir${i}`));
+      const subDirClient = dirClient.getDirectoryClient(
+        recorder.variable(`dir${i}`, getUniqueName(`dir${i}`))
+      );
       await subDirClient.create();
       subDirClients.push(subDirClient);
     }
 
     const subFileClients = [];
     for (let i = 0; i < 3; i++) {
-      const subFileClient = dirClient.getFileClient(recorder.getUniqueName(`file${i}`));
+      const subFileClient = dirClient.getFileClient(
+        recorder.variable(`file${i}`, getUniqueName(`file${i}`))
+      );
       await subFileClient.create(1024);
       subFileClients.push(subFileClient);
     }
@@ -326,14 +350,18 @@ describe("DirectoryClient", () => {
     const subDirClients = [];
 
     for (let i = 0; i < 3; i++) {
-      const subDirClient = dirClient.getDirectoryClient(recorder.getUniqueName(`dir${i}`));
+      const subDirClient = dirClient.getDirectoryClient(
+        recorder.variable(`dir${i}`, getUniqueName(`dir${i}`))
+      );
       await subDirClient.create();
       subDirClients.push(subDirClient);
     }
 
     const subFileClients = [];
     for (let i = 0; i < 3; i++) {
-      const subFileClient = dirClient.getFileClient(recorder.getUniqueName(`file${i}`));
+      const subFileClient = dirClient.getFileClient(
+        recorder.variable(`file${i}`, getUniqueName(`file${i}`))
+      );
       await subFileClient.create(1024);
       subFileClients.push(subFileClient);
     }
@@ -396,10 +424,12 @@ describe("DirectoryClient", () => {
     const subDirClients = [];
     const rootDirClient = shareClient.getDirectoryClient("");
 
-    const prefix = recorder.getUniqueName(`pre${recorder.newDate("now").getTime().toString()}`);
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
+    const variableName = `pre${now.getTime().toString()}`;
+    const prefix = recorder.variable(variableName, getUniqueName(variableName));
     for (let i = 0; i < 3; i++) {
       const subDirClient = rootDirClient.getDirectoryClient(
-        recorder.getUniqueName(`${prefix}dir${i}`)
+        recorder.variable(`${prefix}dir${i}`, getUniqueName(`${prefix}dir${i}`))
       );
       await subDirClient.create();
       subDirClients.push(subDirClient);
@@ -408,7 +438,7 @@ describe("DirectoryClient", () => {
     const subFileClients = [];
     for (let i = 0; i < 3; i++) {
       const subFileClient = rootDirClient.getFileClient(
-        recorder.getUniqueName(`${prefix}file${i}`)
+        recorder.variable(`${prefix}file${i}`, getUniqueName(`${prefix}file${i}`))
       );
       await subFileClient.create(1024);
       subFileClients.push(subFileClient);
@@ -443,11 +473,12 @@ describe("DirectoryClient", () => {
   it("listFilesAndDirectories with all parameters confirgured", async () => {
     const subDirClients = [];
     const rootDirClient = shareClient.getDirectoryClient("");
-
-    const prefix = recorder.getUniqueName(`pre${recorder.newDate("now").getTime().toString()}`);
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
+    const variableName = `pre${now.getTime().toString()}`;
+    const prefix = recorder.variable(variableName, getUniqueName(variableName));
     for (let i = 0; i < 3; i++) {
       const subDirClient = rootDirClient.getDirectoryClient(
-        recorder.getUniqueName(`${prefix}dir${i}`)
+        recorder.variable(`${prefix}dir${i}`, getUniqueName(`${prefix}dir${i}`))
       );
       await subDirClient.create();
       subDirClients.push(subDirClient);
@@ -456,7 +487,7 @@ describe("DirectoryClient", () => {
     const subFileClients = [];
     for (let i = 0; i < 3; i++) {
       const subFileClient = rootDirClient.getFileClient(
-        recorder.getUniqueName(`${prefix}file${i}`)
+        recorder.variable(`${prefix}file${i}`, getUniqueName(`${prefix}file${i}`))
       );
       await subFileClient.create(1024);
       subFileClients.push(subFileClient);
@@ -504,10 +535,12 @@ describe("DirectoryClient", () => {
     const subDirClients = [];
     const rootDirClient = shareClient.getDirectoryClient("");
 
-    const prefix = recorder.getUniqueName(`pre${recorder.newDate("now").getTime().toString()}`);
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
+    const variableName = `pre${now.getTime().toString()}`;
+    const prefix = recorder.variable(variableName, getUniqueName(variableName));
     for (let i = 0; i < 3; i++) {
       const subDirClient = rootDirClient.getDirectoryClient(
-        recorder.getUniqueName(`${prefix}dir${i}`)
+        recorder.variable(`${prefix}dir${i}`, getUniqueName(`${prefix}dir${i}`))
       );
       await subDirClient.create();
       subDirClients.push(subDirClient);
@@ -516,7 +549,7 @@ describe("DirectoryClient", () => {
     const subFileClients = [];
     for (let i = 0; i < 3; i++) {
       const subFileClient = rootDirClient.getFileClient(
-        recorder.getUniqueName(`${prefix}file${i}`)
+        recorder.variable(`${prefix}file${i}`, getUniqueName(`${prefix}file${i}`))
       );
       await subFileClient.create(1024);
       subFileClients.push(subFileClient);
@@ -541,10 +574,12 @@ describe("DirectoryClient", () => {
     const subDirClients = [];
     const rootDirClient = shareClient.getDirectoryClient("");
 
-    const prefix = recorder.getUniqueName(`pre${recorder.newDate("now").getTime().toString()}`);
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
+    const variableName = `pre${now.getTime().toString()}`;
+    const prefix = recorder.variable(variableName, getUniqueName(variableName));
     for (let i = 0; i < 3; i++) {
       const subDirClient = rootDirClient.getDirectoryClient(
-        recorder.getUniqueName(`${prefix}dir${i}`)
+        recorder.variable(`${prefix}dir${i}`, getUniqueName(`${prefix}dir${i}`))
       );
       await subDirClient.create();
       subDirClients.push(subDirClient);
@@ -553,7 +588,7 @@ describe("DirectoryClient", () => {
     const subFileClients = [];
     for (let i = 0; i < 3; i++) {
       const subFileClient = rootDirClient.getFileClient(
-        recorder.getUniqueName(`${prefix}file${i}`)
+        recorder.variable(`${prefix}file${i}`, getUniqueName(`${prefix}file${i}`))
       );
       await subFileClient.create(1024);
       subFileClients.push(subFileClient);
@@ -584,10 +619,12 @@ describe("DirectoryClient", () => {
     const subDirClients = [];
     const rootDirClient = shareClient.getDirectoryClient("");
 
-    const prefix = recorder.getUniqueName(`pre${recorder.newDate("now").getTime().toString()}`);
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
+    const variableName = `pre${now.getTime().toString()}`;
+    const prefix = recorder.variable(variableName, getUniqueName(variableName));
     for (let i = 0; i < 3; i++) {
       const subDirClient = rootDirClient.getDirectoryClient(
-        recorder.getUniqueName(`${prefix}dir${i}`)
+        recorder.variable(`${prefix}dir${i}`, getUniqueName(`${prefix}dir${i}`))
       );
       await subDirClient.create();
       subDirClients.push(subDirClient);
@@ -596,7 +633,7 @@ describe("DirectoryClient", () => {
     const subFileClients = [];
     for (let i = 0; i < 3; i++) {
       const subFileClient = rootDirClient.getFileClient(
-        recorder.getUniqueName(`${prefix}file${i}`)
+        recorder.variable(`${prefix}file${i}`, getUniqueName(`${prefix}file${i}`))
       );
       await subFileClient.create(1024);
       subFileClients.push(subFileClient);
@@ -628,10 +665,12 @@ describe("DirectoryClient", () => {
     const subDirClients = [];
     const rootDirClient = shareClient.getDirectoryClient("");
 
-    const prefix = recorder.getUniqueName(`pre${recorder.newDate("now").getTime().toString()}`);
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
+    const variableName = `pre${now.getTime().toString()}`;
+    const prefix = recorder.variable(variableName, getUniqueName(variableName));
     for (let i = 0; i < 3; i++) {
       const subDirClient = rootDirClient.getDirectoryClient(
-        recorder.getUniqueName(`${prefix}dir${i}`)
+        recorder.variable(`${prefix}dir${i}`, getUniqueName(`${prefix}dir${i}`))
       );
       await subDirClient.create();
       subDirClients.push(subDirClient);
@@ -640,7 +679,7 @@ describe("DirectoryClient", () => {
     const subFileClients = [];
     for (let i = 0; i < 3; i++) {
       const subFileClient = rootDirClient.getFileClient(
-        recorder.getUniqueName(`${prefix}file${i}`)
+        recorder.variable(`${prefix}file${i}`, getUniqueName(`${prefix}file${i}`))
       );
       await subFileClient.create(1024);
       subFileClients.push(subFileClient);
@@ -685,7 +724,7 @@ describe("DirectoryClient", () => {
   });
 
   it("createSubDirectory and deleteSubDirectory", async () => {
-    const directoryName = recorder.getUniqueName("directory");
+    const directoryName = recorder.variable("directory", getUniqueName("directory"));
     const metadata = { key: "value" };
 
     const { directoryClient: subDirClient } = await dirClient.createSubdirectory(directoryName, {
@@ -706,9 +745,9 @@ describe("DirectoryClient", () => {
   });
 
   it("createFile and deleteFile", async () => {
-    const directoryName = recorder.getUniqueName("directory");
+    const directoryName = recorder.variable("directory", getUniqueName("directory"));
     const { directoryClient: subDirClient } = await dirClient.createSubdirectory(directoryName);
-    const fileName = recorder.getUniqueName("file");
+    const fileName = recorder.variable("file", getUniqueName("file"));
     const metadata = { key: "value" };
     const { fileClient } = await subDirClient.createFile(fileName, 256, { metadata });
     const result = await fileClient.getProperties();
@@ -729,12 +768,12 @@ describe("DirectoryClient", () => {
   it("createFile and deleteFile with tracing", async () => {
     await assert.supportsTracing(
       async (options) => {
-        const directoryName = recorder.getUniqueName("directory");
+        const directoryName = recorder.variable("directory", getUniqueName("directory"));
         const { directoryClient: subDirClient } = await dirClient.createSubdirectory(
           directoryName,
           options
         );
-        const fileName = recorder.getUniqueName("file");
+        const fileName = recorder.variable("file", getUniqueName("file"));
         const metadata = { key: "value" };
         const { fileClient } = await subDirClient.createFile(fileName, 256, {
           metadata,
@@ -816,7 +855,7 @@ describe("DirectoryClient", () => {
 
   // STG81
   it("rename", async () => {
-    const destDirName = recorder.getUniqueName("destdir");
+    const destDirName = recorder.variable("destdir", getUniqueName("destdir"));
     const result = await dirClient.rename(destDirName);
     assert.ok(
       result.destinationDirectoryClient.name === destDirName,
@@ -835,7 +874,7 @@ describe("DirectoryClient", () => {
   });
 
   it("rename with metadata", async () => {
-    const destDirName = recorder.getUniqueName("destdir");
+    const destDirName = recorder.variable("destdir", getUniqueName("destdir"));
     const metadata = {
       key1: "vala",
       key2: "valb",
@@ -862,19 +901,22 @@ describe("DirectoryClient", () => {
   });
 
   it("rename to under a different directory", async () => {
-    const sourceParentDirName = recorder.getUniqueName("sourceParentdir");
+    const sourceParentDirName = recorder.variable(
+      "sourceParentdir",
+      getUniqueName("sourceParentdir")
+    );
     const sourceParentDir = shareClient.getDirectoryClient(sourceParentDirName);
     await sourceParentDir.create();
 
-    const sourceDirName = recorder.getUniqueName("sourcedir");
+    const sourceDirName = recorder.variable("sourcedir", getUniqueName("sourcedir"));
     const sourceDir = sourceParentDir.getDirectoryClient(sourceDirName);
     await sourceDir.create();
 
-    const destParentDirName = recorder.getUniqueName("destParentdir");
+    const destParentDirName = recorder.variable("destParentdir", getUniqueName("destParentdir"));
     const destParentDir = shareClient.getDirectoryClient(destParentDirName);
     await destParentDir.create();
 
-    const destDirName = recorder.getUniqueName("destdir");
+    const destDirName = recorder.variable("destdir", getUniqueName("destdir"));
     const destDirPath = destParentDirName + "/" + destDirName;
 
     const result = await sourceDir.rename(destDirPath);
@@ -895,7 +937,7 @@ describe("DirectoryClient", () => {
   });
 
   it("rename - replaceIfExists = true ", async () => {
-    const destDirName = recorder.getUniqueName("destdir");
+    const destDirName = recorder.variable("destdir", getUniqueName("destdir"));
     await shareClient.getDirectoryClient("").getFileClient(destDirName).create(1024);
     const result = await dirClient.rename(destDirName, {
       replaceIfExists: true,
@@ -918,7 +960,7 @@ describe("DirectoryClient", () => {
   });
 
   it("rename - replaceIfExists = false", async () => {
-    const destDirName = recorder.getUniqueName("destdir");
+    const destDirName = recorder.variable("destdir", getUniqueName("destdir"));
     const targetFileClient = shareClient.getDirectoryClient("").getFileClient(destDirName);
     await targetFileClient.create(1024);
     try {
@@ -937,7 +979,7 @@ describe("DirectoryClient", () => {
   });
 
   it("rename - ignoreReadOnly = true", async () => {
-    const destDirName = recorder.getUniqueName("destdir");
+    const destDirName = recorder.variable("destdir", getUniqueName("destdir"));
     const targetFileClient = shareClient.getDirectoryClient("").getFileClient(destDirName);
     await targetFileClient.create(1024, {
       fileAttributes: FileSystemAttributes.parse("ReadOnly"),
@@ -960,7 +1002,7 @@ describe("DirectoryClient", () => {
   });
 
   it("rename - ignoreReadOnly = false", async () => {
-    const destDirName = recorder.getUniqueName("destdir");
+    const destDirName = recorder.variable("destdir", getUniqueName("destdir"));
     const targetFileClient = shareClient.getDirectoryClient("").getFileClient(destDirName);
     await targetFileClient.create(1024, {
       fileAttributes: FileSystemAttributes.parse("ReadOnly"),
@@ -985,7 +1027,7 @@ describe("DirectoryClient", () => {
   });
 
   it("rename - destination leased", async () => {
-    const destDirName = recorder.getUniqueName("destdir");
+    const destDirName = recorder.variable("destdir", getUniqueName("destdir"));
     const targetFileClient = shareClient.getDirectoryClient("").getFileClient(destDirName);
     await targetFileClient.create(1024);
 
@@ -1012,7 +1054,7 @@ describe("DirectoryClient", () => {
   });
 
   it("rename - destination leased - no lease condition", async () => {
-    const destDirName = recorder.getUniqueName("destdir");
+    const destDirName = recorder.variable("destdir", getUniqueName("destdir"));
     const targetFileClient = shareClient.getDirectoryClient("").getFileClient(destDirName);
     await targetFileClient.create(1024);
 
@@ -1035,9 +1077,11 @@ describe("DirectoryClient", () => {
   });
 
   it("rename - Non-ASCII source and destination", async () => {
-    const destDirName = recorder.getUniqueName("汉字. dest ~!@#$%^&()_+`1234567890-={}[];','");
+    const destName = "汉字. dest ~!@#$%^&()_+`1234567890-={}[];','";
+    const destDirName = recorder.variable(destName, getUniqueName(destName));
 
-    const sourceDirName = recorder.getUniqueName("汉字. source ~!@#$%^&()_+`1234567890-={}[];','");
+    const sourceName = "汉字. source ~!@#$%^&()_+`1234567890-={}[];','";
+    const sourceDirName = recorder.variable(sourceName, getUniqueName(sourceName));
     const sourceDirClient = shareClient.getDirectoryClient(sourceDirName);
     await sourceDirClient.create();
 
@@ -1058,11 +1102,11 @@ describe("DirectoryClient", () => {
   });
 
   it("rename - with file permission", async () => {
-    const destDirName = recorder.getUniqueName("destdir");
+    const destDirName = recorder.variable("destdir", getUniqueName("destdir"));
     const filePermission =
       "O:S-1-5-21-2127521184-1604012920-1887927527-21560751G:S-1-5-21-2127521184-1604012920-1887927527-513D:AI(A;;FA;;;SY)(A;;FA;;;BA)(A;;0x1200a9;;;S-1-5-21-397955417-626881126-188441444-3053964)";
 
-    const sourceDirName = recorder.getUniqueName("sourcedir");
+    const sourceDirName = recorder.variable("sourcedir", getUniqueName("sourcedir"));
     const sourceDirClient = shareClient.getDirectoryClient(sourceDirName);
     await sourceDirClient.create();
 
@@ -1087,7 +1131,7 @@ describe("DirectoryClient", () => {
   });
 
   it("rename - SMB properties", async () => {
-    const destDirName = recorder.getUniqueName("destdir");
+    const destDirName = recorder.variable("destdir", getUniqueName("destdir"));
     const filePermission =
       "O:S-1-5-21-2127521184-1604012920-1887927527-21560751G:S-1-5-21-2127521184-1604012920-1887927527-513D:AI(A;;FA;;;SY)(A;;FA;;;BA)(A;;0x1200a9;;;S-1-5-21-397955417-626881126-188441444-3053964)";
     const permissionResponse = await shareClient.createPermission(filePermission);
@@ -1107,7 +1151,7 @@ describe("DirectoryClient", () => {
       fileChangeTime: truncatedISO8061Date(changedTime),
     };
 
-    const sourceDirName = recorder.getUniqueName("sourcedir");
+    const sourceDirName = recorder.variable("sourcedir", getUniqueName("sourcedir"));
     const sourceDirClient = shareClient.getDirectoryClient(sourceDirName);
     await sourceDirClient.create();
 
