@@ -72,8 +72,13 @@ const response = callAutomationClient.createCall(callInvite, callbackUrl);
 
 ### Play Media
 ```JavaScript
-// from callconnection of response above, play media of media file
-const myFile: FileSource[] = [{ uri: "https://<FILE-SOURCE>/<SOME-FILE>.wav" }]
+// from callconnection of response above, play media of filesource
+const myFile: FileSource[] = [
+    {
+        kind: "fileSource",
+        uri: "https://<FILE-SOURCE>/<SOME-FILE>.wav"
+    }
+]
 const response = callConnection.getCallMedia().playToAll(myFile);
 ```
 
