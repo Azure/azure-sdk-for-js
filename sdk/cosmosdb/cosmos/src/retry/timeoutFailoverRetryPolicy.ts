@@ -3,10 +3,9 @@ import { StatusCodes } from "../common/statusCodes";
 import { GlobalEndpointManager } from "../globalEndpointManager";
 import { HTTPMethod, isReadRequest } from "../common";
 import { ErrorResponse } from "../request";
-import { Constants, ResourceType } from "../common/constants";
+import { Constants, OperationType, ResourceType } from "../common/constants";
 import { RetryContext } from "./RetryContext";
 import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
-import { OperationType } from "@azure/cosmos";
 import { TimeoutErrorCode } from "../request/TimeoutError";
 
 export class TimeoutFailoverRetryPolicy implements RetryPolicy {
@@ -85,12 +84,12 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     } else {
       if (readRequest) {
         const getReadEndpoints = await this.globalEndpointManager.getReadEndpoints();
-        if(getReadEndpoints && getReadEndpoints.length > 0) {
+        if (getReadEndpoints && getReadEndpoints.length > 0) {
           endpointIndex = failoverRetryCount % getReadEndpoints.length;
         }
       } else {
         const getWriteEndpoints = await this.globalEndpointManager.getWriteEndpoints();
-        if(getWriteEndpoints && getWriteEndpoints.length > 0) {
+        if (getWriteEndpoints && getWriteEndpoints.length > 0) {
           endpointIndex = failoverRetryCount % getWriteEndpoints.length;
         }
       }
