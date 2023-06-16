@@ -1,0 +1,45 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://fakestorageaccount.queue.core.windows.net/?comp=list\u0026timeout=30",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/xml",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "Origin": "http://localhost:9328",
+        "Referer": "http://localhost:9328/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "5c88f36d-80c7-4504-a24d-e788a4bac5f0",
+        "x-ms-useragent": "azsdk-js-azure-storage-blob/12.13.0 core-rest-pipeline/1.11.1 OS",
+        "x-ms-version": "2021-10-04"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,Content-Type,Cache-Control,Content-Length,Date,Transfer-Encoding",
+        "Cache-Control": "no-cache",
+        "Content-Type": "application/xml",
+        "Date": "Fri, 16 Jun 2023 19:55:42 GMT",
+        "Server": [
+          "Windows-Azure-Queue/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "Transfer-Encoding": "chunked",
+        "x-ms-client-request-id": "5c88f36d-80c7-4504-a24d-e788a4bac5f0",
+        "x-ms-request-id": "6cc81d88-2003-004b-4c8c-a0c192000000",
+        "x-ms-version": "2021-10-04"
+      },
+      "ResponseBody": "\uFEFF\u003C?xml version=\u00221.0\u0022 encoding=\u0022utf-8\u0022?\u003E\u003CEnumerationResults ServiceEndpoint=\u0022https://fakestorageaccount.queue.core.windows.net/\u0022\u003E\u003CQueues\u003E\u003CQueue\u003E\u003CName\u003Equeue168678047403804768\u003C/Name\u003E\u003C/Queue\u003E\u003CQueue\u003E\u003CName\u003Equeue168678050645005631\u003C/Name\u003E\u003C/Queue\u003E\u003CQueue\u003E\u003CName\u003Equeue168678050995208108168678051002108721\u003C/Name\u003E\u003C/Queue\u003E\u003CQueue\u003E\u003CName\u003Equeue168678051060009384\u003C/Name\u003E\u003C/Queue\u003E\u003CQueue\u003E\u003CName\u003Equeue168678054992706832168678055006801349\u003C/Name\u003E\u003C/Queue\u003E\u003CQueue\u003E\u003CName\u003Equeue168678055130903328\u003C/Name\u003E\u003C/Queue\u003E\u003CQueue\u003E\u003CName\u003Equeue168686475863809684\u003C/Name\u003E\u003C/Queue\u003E\u003CQueue\u003E\u003CName\u003Equeue168686479165705909\u003C/Name\u003E\u003C/Queue\u003E\u003CQueue\u003E\u003CName\u003Equeue168686479525901194168686479532902071\u003C/Name\u003E\u003C/Queue\u003E\u003CQueue\u003E\u003CName\u003Equeue168686479595603466\u003C/Name\u003E\u003C/Queue\u003E\u003CQueue\u003E\u003CName\u003Equeue168694397526209638\u003C/Name\u003E\u003C/Queue\u003E\u003CQueue\u003E\u003CName\u003Equeue168694400862809954\u003C/Name\u003E\u003C/Queue\u003E\u003CQueue\u003E\u003CName\u003Equeue168694401226307726168694401233401525\u003C/Name\u003E\u003C/Queue\u003E\u003CQueue\u003E\u003CName\u003Equeue168694401296307528\u003C/Name\u003E\u003C/Queue\u003E\u003CQueue\u003E\u003CName\u003Equeue168694424808408674168694424820506734\u003C/Name\u003E\u003C/Queue\u003E\u003CQueue\u003E\u003CName\u003Equeue168694424928603220\u003C/Name\u003E\u003C/Queue\u003E\u003CQueue\u003E\u003CName\u003Equeue168694430295204629\u003C/Name\u003E\u003C/Queue\u003E\u003CQueue\u003E\u003CName\u003Equeue168694433546502432\u003C/Name\u003E\u003C/Queue\u003E\u003CQueue\u003E\u003CName\u003Equeue168694433905007768168694433911509270\u003C/Name\u003E\u003C/Queue\u003E\u003CQueue\u003E\u003CName\u003Equeue168694433971004238\u003C/Name\u003E\u003C/Queue\u003E\u003CQueue\u003E\u003CName\u003Equeue168694451738302442\u003C/Name\u003E\u003C/Queue\u003E\u003CQueue\u003E\u003CName\u003Equeue168694471788207644\u003C/Name\u003E\u003C/Queue\u003E\u003CQueue\u003E\u003CName\u003Equeue168694475060001920\u003C/Name\u003E\u003C/Queue\u003E\u003CQueue\u003E\u003CName\u003Equeue168694475420009453168694475426301835\u003C/Name\u003E\u003C/Queue\u003E\u003CQueue\u003E\u003CName\u003Equeue168694475486908017\u003C/Name\u003E\u003C/Queue\u003E\u003CQueue\u003E\u003CName\u003Equeue168694491576705954\u003C/Name\u003E\u003C/Queue\u003E\u003CQueue\u003E\u003CName\u003Equeue168694530971502543\u003C/Name\u003E\u003C/Queue\u003E\u003CQueue\u003E\u003CName\u003Equeue168694530994304859\u003C/Name\u003E\u003C/Queue\u003E\u003CQueue\u003E\u003CName\u003Equeue168694531097800885168694531104601252\u003C/Name\u003E\u003C/Queue\u003E\u003CQueue\u003E\u003CName\u003Equeue168694531173501079\u003C/Name\u003E\u003C/Queue\u003E\u003C/Queues\u003E\u003CNextMarker /\u003E\u003C/EnumerationResults\u003E"
+    }
+  ],
+  "Variables": {}
+}
