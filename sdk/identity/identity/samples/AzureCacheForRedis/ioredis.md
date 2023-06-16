@@ -51,8 +51,6 @@ dotenv.config();
 async function main() {
   // Construct a Token Credential from Identity library, e.g. ClientSecretCredential / ClientCertificateCredential / ManagedIdentityCredential, etc.
   const credential = new DefaultAzureCredential();
-
-  // The current scope is for public preview and may change for GA release
   const redisScope = "acca5fbb-b7e4-4009-81f1-37e38fd66d78/.default"
   
   // Fetch an Azure AD token to be used for authentication. This token will be used as the password.
@@ -112,7 +110,6 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 async function returnPassword(credential: TokenCredential) {
-    // The current scope is for public preview and may change for GA release
     const redisScope = "acca5fbb-b7e4-4009-81f1-37e38fd66d78/.default"
 
     // Fetch an Azure AD token to be used for authentication. This token will be used as the password.
@@ -188,7 +185,6 @@ function randomNumber(min, max) {
 }
 
 async function returnPassword(credential: TokenCredential) {
-    // The current scope is for public preview and may change for GA release.
     const redisScope = "acca5fbb-b7e4-4009-81f1-37e38fd66d78/.default"
 
     // Fetch an Azure AD token to be used for authentication. This token will be used as the password.

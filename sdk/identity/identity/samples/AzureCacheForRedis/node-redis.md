@@ -50,7 +50,6 @@ dotenv.config();
 async function main() {
   // Construct a Token Credential from Identity library, e.g. ClientSecretCredential / ClientCertificateCredential / ManagedIdentityCredential, etc.
   const credential = new DefaultAzureCredential();
-
   const redisScope = "acca5fbb-b7e4-4009-81f1-37e38fd66d78/.default"
 
   // Fetch an Azure AD token to be used for authentication. This token will be used as the password.
@@ -62,6 +61,7 @@ async function main() {
     username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
     password: accessToken.token,
     url: `redis://${process.env.REDIS_HOSTNAME}:6380`,
+    pingInterval:100000,
     socket: { 
       tls: true,
       keepAlive: 0 
@@ -110,7 +110,6 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 async function returnPassword(credential: TokenCredential) {
-    // The current scope is for public preview and may change for GA release.
     const redisScope = "acca5fbb-b7e4-4009-81f1-37e38fd66d78/.default"
 
     // Fetch an Azure AD token to be used for authentication. This token will be used as the password.
@@ -126,6 +125,7 @@ async function main() {
     username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
     password: accessToken.token,
     url: `redis://${process.env.REDIS_HOSTNAME}:6380`,
+    pingInterval:100000,
     socket: {
       tls: true,
       keepAlive:0
@@ -149,6 +149,7 @@ async function main() {
           username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
           password: accessToken.token,
           url: `redis://${process.env.REDIS_HOSTNAME}:6380`,
+          pingInterval:100000,
           socket: {
             tls: true,
             keepAlive: 0
@@ -182,7 +183,6 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 async function returnPassword(credential: TokenCredential) {
-    // The current scope is for public preview and may change for GA release.
     const redisScope = "acca5fbb-b7e4-4009-81f1-37e38fd66d78/.default"
 
     // Fetch an Azure AD token to be used for authentication. This token will be used as the password.
@@ -219,6 +219,7 @@ async function main() {
     username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
     password: accessToken.token,
     url: `redis://${process.env.REDIS_HOSTNAME}:6380`,
+    pingInterval:100000,
     socket: {
       tls: true,
       keepAlive:0
@@ -242,9 +243,9 @@ async function main() {
           username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
           password: accessToken.token,
           url: `redis://${process.env.REDIS_HOSTNAME}:6380`,
+          pingInterval:100000,
           socket: {
             tls: true,
-            keepAlive: 0
           },
         });
       }
