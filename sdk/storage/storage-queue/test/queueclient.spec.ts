@@ -7,6 +7,7 @@ import {
   configureStorageClient,
   getUniqueName,
   recorderEnvSetup,
+  uriSanitizers,
 } from "./utils";
 import { QueueClient, QueueServiceClient } from "../src";
 import { assert } from "@azure/test-utils";
@@ -24,6 +25,7 @@ describe("QueueClient", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     queueServiceClient = getQSU(recorder);
     queueName = recorder.variable("queue", getUniqueName("queue"));
     queueClient = queueServiceClient.getQueueClient(queueName);

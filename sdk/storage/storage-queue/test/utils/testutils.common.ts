@@ -52,6 +52,9 @@ export const recorderEnvSetup: RecorderStartOptions = {
     // which depends on this environment variable
     ACCOUNT_TOKEN: `${mockAccountKey}`,
   },
+  sanitizerOptions: {
+    uriSanitizers,
+  },
 };
 
 export function getUniqueName(prefix: string): string {

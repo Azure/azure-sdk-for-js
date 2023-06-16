@@ -6,7 +6,12 @@ import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { QueueClient } from "../src/QueueClient";
 import { Recorder } from "@azure-tools/test-recorder";
 import { extractConnectionStringParts } from "../src/utils/utils.common";
-import { configureStorageClient, getUniqueName, recorderEnvSetup } from "./utils/testutils.common";
+import {
+  configureStorageClient,
+  getUniqueName,
+  recorderEnvSetup,
+  uriSanitizers,
+} from "./utils/testutils.common";
 import { Context } from "mocha";
 
 describe("QueueClient message methods", () => {
@@ -19,6 +24,7 @@ describe("QueueClient message methods", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     const queueServiceClient = getQSU(recorder);
     queueName = recorder.variable("queue", getUniqueName("queue"));
     queueClient = queueServiceClient.getQueueClient(queueName);

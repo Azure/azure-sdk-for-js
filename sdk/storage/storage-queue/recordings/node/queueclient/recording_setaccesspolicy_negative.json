@@ -1,0 +1,97 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://fakestorageaccount.queue.core.windows.net/queue168694475564706677?timeout=30",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/xml",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "User-Agent": "azsdk-js-azure-storage-blob/12.13.0 core-rest-pipeline/1.11.1 Node/v16.20.0 OS/(x64-Linux-5.15.0-1039-azure)",
+        "x-ms-client-request-id": "871428c4-769d-46a0-a2ff-d5194cb40a5a",
+        "x-ms-date": "Fri, 16 Jun 2023 19:45:55 GMT",
+        "x-ms-version": "2021-10-04"
+      },
+      "RequestBody": null,
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Date": "Fri, 16 Jun 2023 19:45:55 GMT",
+        "Server": [
+          "Windows-Azure-Queue/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "x-ms-client-request-id": "871428c4-769d-46a0-a2ff-d5194cb40a5a",
+        "x-ms-request-id": "a58368c1-f003-0058-3d8b-a0e59e000000",
+        "x-ms-version": "2021-10-04"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://fakestorageaccount.queue.core.windows.net/queue168694475564706677?comp=acl\u0026timeout=30",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/xml",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "322",
+        "Content-Type": "application/xml",
+        "User-Agent": "azsdk-js-azure-storage-blob/12.13.0 core-rest-pipeline/1.11.1 Node/v16.20.0 OS/(x64-Linux-5.15.0-1039-azure)",
+        "x-ms-client-request-id": "a7a03a74-45a7-403d-80ee-4c630c63d5d6",
+        "x-ms-date": "Fri, 16 Jun 2023 19:45:55 GMT",
+        "x-ms-version": "2021-10-04"
+      },
+      "RequestBody": "\u003C?xml version=\u00221.0\u0022 encoding=\u0022UTF-8\u0022 standalone=\u0022yes\u0022?\u003E\u003CSignedIdentifiers\u003E\u003CSignedIdentifier\u003E\u003CId\u003E6D97528B-8412-48AE-9DB1-6BF69C9F83A6\u003C/Id\u003E\u003CAccessPolicy\u003E\u003CStart\u003E2017-12-31T11:22:33.4560000Z\u003C/Start\u003E\u003CExpiry\u003E2018-12-31T11:22:33.4560000Z\u003C/Expiry\u003E\u003CPermission\u003Erwdl\u003C/Permission\u003E\u003C/AccessPolicy\u003E\u003C/SignedIdentifier\u003E\u003C/SignedIdentifiers\u003E",
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Content-Length": "294",
+        "Content-Type": "application/xml",
+        "Date": "Fri, 16 Jun 2023 19:45:55 GMT",
+        "Server": [
+          "Windows-Azure-Queue/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "x-ms-client-request-id": "a7a03a74-45a7-403d-80ee-4c630c63d5d6",
+        "x-ms-error-code": "InvalidXmlDocument",
+        "x-ms-request-id": "a58368c7-f003-0058-428b-a0e59e000000",
+        "x-ms-version": "2021-10-04"
+      },
+      "ResponseBody": [
+        "\uFEFF\u003C?xml version=\u00221.0\u0022 encoding=\u0022utf-8\u0022?\u003E\u003CError\u003E\u003CCode\u003EInvalidXmlDocument\u003C/Code\u003E\u003CMessage\u003EXML specified is not syntactically valid.\n",
+        "RequestId:a58368c7-f003-0058-428b-a0e59e000000\n",
+        "Time:2023-06-16T19:45:55.7395592Z\u003C/Message\u003E\u003CLineNumber\u003E0\u003C/LineNumber\u003E\u003CLinePosition\u003E0\u003C/LinePosition\u003E\u003CReason /\u003E\u003C/Error\u003E"
+      ]
+    },
+    {
+      "RequestUri": "https://fakestorageaccount.queue.core.windows.net/queue168694475564706677?timeout=30",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/xml",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-azure-storage-blob/12.13.0 core-rest-pipeline/1.11.1 Node/v16.20.0 OS/(x64-Linux-5.15.0-1039-azure)",
+        "x-ms-client-request-id": "9d25415f-5ec7-4ce5-9fb5-887b128fc779",
+        "x-ms-date": "Fri, 16 Jun 2023 19:45:55 GMT",
+        "x-ms-version": "2021-10-04"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Date": "Fri, 16 Jun 2023 19:45:55 GMT",
+        "Server": [
+          "Windows-Azure-Queue/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "x-ms-client-request-id": "9d25415f-5ec7-4ce5-9fb5-887b128fc779",
+        "x-ms-request-id": "a58368cc-f003-0058-478b-a0e59e000000",
+        "x-ms-version": "2021-10-04"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {
+    "queue": "queue168694475564706677"
+  }
+}

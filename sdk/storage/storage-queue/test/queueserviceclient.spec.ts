@@ -3,7 +3,12 @@
 
 import { assert } from "chai";
 import { QueueServiceClient } from "../src/QueueServiceClient";
-import { getAlternateQSU, getQSU, getSASConnectionStringFromEnvironment } from "./utils";
+import {
+  getAlternateQSU,
+  getQSU,
+  getSASConnectionStringFromEnvironment,
+  uriSanitizers,
+} from "./utils";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure/test-utils";
 import { configureStorageClient, getUniqueName, recorderEnvSetup } from "./utils/index.browser";
@@ -15,6 +20,7 @@ describe("QueueServiceClient", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
   });
 
   afterEach(async function () {
@@ -330,6 +336,7 @@ describe("QueueServiceClient", () => {
     const newClient = QueueServiceClient.fromConnectionString(
       getSASConnectionStringFromEnvironment(recorder)
     );
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
