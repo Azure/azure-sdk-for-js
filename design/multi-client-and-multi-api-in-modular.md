@@ -21,7 +21,7 @@ This document is going to talk about what the multi-client and multi-endpoint fo
 
 ## Definitions of Multi-Client and Multi-Endpoint
 
-**Multi-Client**: refers to a case, where a service has only one endpoint but is logically divided into multiple sub clients because of the services user scenarios or other kind of business justifications. In TypeSpec, it is known to have one @service decorator and multiple @client decorators.
+**Multi-Client**: refers to a case, where a service has only one endpoint but is logically divided into multiple sub clients because of the services user scenarios or other kind of business justifications. In TypeSpec, it is known to have one @service decorator and multiple @client decorators.  
 **Multi-Endpoint**: refers to a case, where a service has multiple endpoints but for some reason it wants to bind these endpoints together to release as one package. In TypeSpec, it is known to have multiple @service decorators and may also have multiple @client decorators along with those @service decorators.
 
 ## Design Principal
