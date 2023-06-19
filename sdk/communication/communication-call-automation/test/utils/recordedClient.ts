@@ -95,7 +95,7 @@ export function parseIdsFromIdentifier(identifier: CommunicationIdentifier): str
     serializeCommunicationIdentifier(identifier);
   assert.isDefined(communicationIdentifierModel?.rawId);
   if (isPhoneNumberIdentifier(identifier)) {
-      return communicationIdentifierModel?.rawId
+    return communicationIdentifierModel?.rawId
       ? removeAllNonChar(encodePhoneNumber(communicationIdentifierModel.rawId))
       : "";
   } else {
@@ -300,7 +300,7 @@ export async function getPhoneNumbers(recorder: Recorder): Promise<string[]> {
     recorder.configureClientOptions({}) as PhoneNumbersClientOptions
   );
   const purchasedPhoneNumbers = phoneNumbersClient.listPurchasedPhoneNumbers();
-  const phoneNumbers: string [] = [];
+  const phoneNumbers: string[] = [];
   for await (const purchasedNumber of purchasedPhoneNumbers) {
     phoneNumbers.push(purchasedNumber.phoneNumber);
   }

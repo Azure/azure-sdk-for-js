@@ -456,19 +456,26 @@ describe("Call Media Client Live Tests", function () {
     const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
     assert.isDefined(callDisconnectedEvent);
   }).timeout(60000);
-  
+
   it("Trigger DTMF actions", async function () {
     testName = this.test?.fullTitle()
       ? this.test?.fullTitle().replace(/ /g, "_")
       : "create_call_and_trigger_dtmf_actions_then_hang_up";
     await loadPersistedEvents(testName);
-    
-    const phoneNumbers = await getPhoneNumbers(recorder);
-    assert.isAtLeast(phoneNumbers.length, 2, "Invalid PSTN setup, test needs at least 2 phone numbers");
-    callerPhoneUser = { phoneNumber: phoneNumbers.pop() as string};
-    receiverPhoneUser = { phoneNumber: phoneNumbers.pop() as string};
 
-    const callInvite: CallInvite = { targetParticipant: receiverPhoneUser, sourceCallIdNumber: callerPhoneUser };
+    const phoneNumbers = await getPhoneNumbers(recorder);
+    assert.isAtLeast(
+      phoneNumbers.length,
+      2,
+      "Invalid PSTN setup, test needs at least 2 phone numbers"
+    );
+    callerPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
+    receiverPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
+
+    const callInvite: CallInvite = {
+      targetParticipant: receiverPhoneUser,
+      sourceCallIdNumber: callerPhoneUser,
+    };
     const uniqueId = await serviceBusWithNewCall(callerPhoneUser, receiverPhoneUser);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
 
@@ -481,26 +488,38 @@ describe("Call Media Client Live Tests", function () {
 
     let answerCallResult;
     if (incomingCallContext) {
-       answerCallResult = await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
+      answerCallResult = await receiverCallAutomationClient.answerCall(
+        incomingCallContext,
+        callBackUrl
+      );
     }
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
-    const receivercallConnectionId : string = answerCallResult?.callConnectionProperties.callConnectionId
+    const receivercallConnectionId: string = answerCallResult?.callConnectionProperties
+      .callConnectionId
       ? answerCallResult?.callConnectionProperties.callConnectionId
       : "";
 
     await callConnection.getCallMedia().startContinuousDtmfRecognition(receiverPhoneUser);
-    
+
     await callConnection.getCallMedia().sendDtmf([DtmfTone.Pound], receiverPhoneUser);
     const sendDtmfCompleted = await waitForEvent("SendDtmfCompleted", callConnectionId, 8000);
     assert.isDefined(sendDtmfCompleted);
 
-    const continuousDtmfRecognitionToneReceivedEvent = await waitForEvent("ContinuousDtmfRecognitionToneReceived", receivercallConnectionId, 8000);
+    const continuousDtmfRecognitionToneReceivedEvent = await waitForEvent(
+      "ContinuousDtmfRecognitionToneReceived",
+      receivercallConnectionId,
+      8000
+    );
     assert.isDefined(continuousDtmfRecognitionToneReceivedEvent);
 
     await callConnection.getCallMedia().stopContinuousDtmfRecognition(receiverPhoneUser);
-    const continuousDtmfRecognitionStopped = await waitForEvent("ContinuousDtmfRecognitionStopped", callConnectionId, 8000);
+    const continuousDtmfRecognitionStopped = await waitForEvent(
+      "ContinuousDtmfRecognitionStopped",
+      callConnectionId,
+      8000
+    );
     assert.isDefined(continuousDtmfRecognitionStopped);
 
     await callConnection.hangUp(true);
