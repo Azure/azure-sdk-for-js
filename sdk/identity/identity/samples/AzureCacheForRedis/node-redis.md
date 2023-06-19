@@ -20,7 +20,7 @@
       "redis": "^4.6.6",
       }
     ```
-- Familiarity with the [node-redis](https://github.com/redis/node-redis) and [Azure Identity for JavaScript](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) client libraries is assumed.
+- Familiarity with the [node-redis](https://github.com/redis/node-redis) and [Azure Identity for JavaScript](https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) client libraries is assumed.
 
 #### Samples Guidance
 
