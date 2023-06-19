@@ -239,6 +239,8 @@ export interface RedisCommonPropertiesRedisConfiguration {
   readonly zonalConfiguration?: string;
   /** Specifies whether the authentication is disabled. Setting this property is highly discouraged from security point of view. */
   authnotrequired?: string;
+  /** SubscriptionId of the storage account for persistence (aof/rdb) using ManagedIdentity. */
+  storageSubscriptionId?: string;
 }
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -440,6 +442,8 @@ export interface ImportRDBParameters {
   files: string[];
   /** Preferred auth method to communicate to storage account used for data archive, specify SAS or ManagedIdentity, default value is SAS */
   preferredDataArchiveAuthMethod?: string;
+  /** Subscription id of the storage container containing files to import using Managed Identity. */
+  storageSubscriptionId?: string;
 }
 
 /** Parameters for Redis export operation. */
@@ -452,6 +456,8 @@ export interface ExportRDBParameters {
   container: string;
   /** Preferred auth method to communicate to storage account used for data archive, specify SAS or ManagedIdentity, default value is SAS */
   preferredDataArchiveAuthMethod?: string;
+  /** Subscription id of the storage container for data to be exported using ManagedIdentity. */
+  storageSubscriptionId?: string;
 }
 
 /** The response of list firewall rules Redis operation. */
