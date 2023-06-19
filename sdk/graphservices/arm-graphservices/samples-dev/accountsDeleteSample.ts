@@ -15,26 +15,26 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Returns list of accounts belonging to a subscription.
+ * This sample demonstrates how to Deletes a account resource.
  *
- * @summary Returns list of accounts belonging to a subscription.
- * x-ms-original-file: specification/graphservicesprod/resource-manager/Microsoft.GraphServices/preview/2022-09-22-preview/examples/Accounts_List_Sub.json
+ * @summary Deletes a account resource.
+ * x-ms-original-file: specification/graphservicesprod/resource-manager/Microsoft.GraphServices/stable/2023-04-13/examples/Accounts_Delete.json
  */
-async function getListOfAccountsBySubscription() {
+async function deleteAccountResource() {
   const subscriptionId =
     process.env["GRAPHSERVICES_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    "11111111-aaaa-1111-bbbb-111111111111";
+  const resourceGroupName =
+    process.env["GRAPHSERVICES_RESOURCE_GROUP"] || "testResourceGroupGRAM";
+  const resourceName = "11111111-aaaa-1111-bbbb-111111111111";
   const credential = new DefaultAzureCredential();
   const client = new GraphServices(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.accounts.listBySubscription()) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  const result = await client.accounts.delete(resourceGroupName, resourceName);
+  console.log(result);
 }
 
 async function main() {
-  getListOfAccountsBySubscription();
+  deleteAccountResource();
 }
 
 main().catch(console.error);

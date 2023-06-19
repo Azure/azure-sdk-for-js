@@ -13,24 +13,31 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Deletes a account resource.
+ * This sample demonstrates how to Create or update account resource.
  *
- * @summary Deletes a account resource.
- * x-ms-original-file: specification/graphservicesprod/resource-manager/Microsoft.GraphServices/preview/2022-09-22-preview/examples/Accounts_Delete.json
+ * @summary Create or update account resource.
+ * x-ms-original-file: specification/graphservicesprod/resource-manager/Microsoft.GraphServices/stable/2023-04-13/examples/Accounts_Create.json
  */
-async function deleteAccountResource() {
+async function createAccountResource() {
   const subscriptionId =
-    process.env["GRAPHSERVICES_SUBSCRIPTION_ID"] || "11111111-aaaa-1111-bbbb-111111111111";
+    process.env["GRAPHSERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["GRAPHSERVICES_RESOURCE_GROUP"] || "testResourceGroupGRAM";
-  const resourceName = "11111111-aaaa-1111-bbbb-111111111111";
+  const resourceName = "11111111-aaaa-1111-bbbb-1111111111111";
+  const accountResource = {
+    properties: { appId: "11111111-aaaa-1111-bbbb-111111111111" },
+  };
   const credential = new DefaultAzureCredential();
   const client = new GraphServices(credential, subscriptionId);
-  const result = await client.account.delete(resourceGroupName, resourceName);
+  const result = await client.accounts.beginCreateAndUpdateAndWait(
+    resourceGroupName,
+    resourceName,
+    accountResource
+  );
   console.log(result);
 }
 
 async function main() {
-  deleteAccountResource();
+  createAccountResource();
 }
 
 main().catch(console.error);

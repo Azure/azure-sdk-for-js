@@ -8,26 +8,26 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { OperationOperations } from "../operationsInterfaces";
+import { Operations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { GraphServices } from "../graphServices";
 import {
   Operation,
-  OperationListNextOptionalParams,
-  OperationListOptionalParams,
-  OperationListResponse,
-  OperationListNextResponse
+  OperationsListNextOptionalParams,
+  OperationsListOptionalParams,
+  OperationsListResponse,
+  OperationsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing OperationOperations operations. */
-export class OperationOperationsImpl implements OperationOperations {
+/** Class containing Operations operations. */
+export class OperationsImpl implements Operations {
   private readonly client: GraphServices;
 
   /**
-   * Initialize a new instance of the class OperationOperations class.
+   * Initialize a new instance of the class Operations class.
    * @param client Reference to the service client
    */
   constructor(client: GraphServices) {
@@ -39,7 +39,7 @@ export class OperationOperationsImpl implements OperationOperations {
    * @param options The options parameters.
    */
   public list(
-    options?: OperationListOptionalParams
+    options?: OperationsListOptionalParams
   ): PagedAsyncIterableIterator<Operation> {
     const iter = this.listPagingAll(options);
     return {
@@ -59,10 +59,10 @@ export class OperationOperationsImpl implements OperationOperations {
   }
 
   private async *listPagingPage(
-    options?: OperationListOptionalParams,
+    options?: OperationsListOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<Operation[]> {
-    let result: OperationListResponse;
+    let result: OperationsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(options);
@@ -81,7 +81,7 @@ export class OperationOperationsImpl implements OperationOperations {
   }
 
   private async *listPagingAll(
-    options?: OperationListOptionalParams
+    options?: OperationsListOptionalParams
   ): AsyncIterableIterator<Operation> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -93,8 +93,8 @@ export class OperationOperationsImpl implements OperationOperations {
    * @param options The options parameters.
    */
   private _list(
-    options?: OperationListOptionalParams
-  ): Promise<OperationListResponse> {
+    options?: OperationsListOptionalParams
+  ): Promise<OperationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -105,8 +105,8 @@ export class OperationOperationsImpl implements OperationOperations {
    */
   private _listNext(
     nextLink: string,
-    options?: OperationListNextOptionalParams
-  ): Promise<OperationListNextResponse> {
+    options?: OperationsListNextOptionalParams
+  ): Promise<OperationsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listNextOperationSpec
