@@ -149,7 +149,7 @@ async function main() {
           username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
           password: accessToken.token,
           url: `redis://${process.env.REDIS_HOSTNAME}:6380`,
-          pingInterval:100000,
+          pingInterval: 100000,
           socket: {
             tls: true,
             keepAlive: 0
