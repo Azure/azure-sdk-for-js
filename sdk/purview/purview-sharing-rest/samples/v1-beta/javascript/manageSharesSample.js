@@ -76,12 +76,14 @@ async function getAllSentShareInvitations(client, sentShareId) {
     .path("/sentShares/{sentShareId}/sentShareInvitations", sentShareId)
     .get();
 
+  if (isUnexpected(initialResponse)) {
+    throw initialResponse.body.error;
+  }
   const pageData = paginate(client, initialResponse);
   const result = [];
 
   for await (const item of pageData) {
-    const invitation = item;
-    invitation && result.push(invitation);
+    result.push(item);
   }
 
   console.log(result);
@@ -95,13 +97,15 @@ async function getAllSentShareInvitations(client, sentShareId) {
  */
 async function getAllShareResources(client) {
   const initialResponse = await client.path("/shareResources").get();
+  if (isUnexpected(initialResponse)) {
+    throw initialResponse.body.error;
+  }
+
   const pageData = paginate(client, initialResponse);
   const result = [];
 
   for await (const item of pageData) {
-    const shareResource = item;
-    shareResource && result.push(shareResource);
-    result.push(shareResource);
+    result.push(item);
   }
 
   console.log(result);

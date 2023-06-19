@@ -99,12 +99,14 @@ async function getAllSentShareInvitations(
     .path("/sentShares/{sentShareId}/sentShareInvitations", sentShareId)
     .get();
 
+  if (isUnexpected(initialResponse)) {
+    throw initialResponse.body.error;
+  }
   const pageData = paginate(client, initialResponse);
   const result: SentShareInvitationOutput[] = [];
 
   for await (const item of pageData) {
-    const invitation = item as SentShareInvitationOutput;
-    invitation && result.push(invitation);
+    result.push(item);
   }
 
   console.log(result);
@@ -116,17 +118,17 @@ async function getAllSentShareInvitations(
  *
  * @summary List share resources
  */
-async function getAllShareResources(
-  client: PurviewSharingClient
-): Promise<ShareResourceOutput[]> {
+async function getAllShareResources(client: PurviewSharingClient): Promise<ShareResourceOutput[]> {
   const initialResponse = await client.path("/shareResources").get();
+  if (isUnexpected(initialResponse)) {
+    throw initialResponse.body.error;
+  }
+
   const pageData = paginate(client, initialResponse);
   const result: ShareResourceOutput[] = [];
-  
+
   for await (const item of pageData) {
-    const shareResource = item as ShareResourceOutput;
-    shareResource && result.push(shareResource);
-    result.push(shareResource);
+    result.push(item);
   }
 
   console.log(result);
