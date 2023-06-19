@@ -300,7 +300,7 @@ export async function getPhoneNumbers(recorder: Recorder): Promise<string[]> {
     recorder.configureClientOptions({}) as PhoneNumbersClientOptions
   );
   const purchasedPhoneNumbers = phoneNumbersClient.listPurchasedPhoneNumbers();
-  let phoneNumbers: string [] = [];
+  const phoneNumbers: string [] = [];
   for await (const purchasedNumber of purchasedPhoneNumbers) {
     phoneNumbers.push(purchasedNumber.phoneNumber);
   }

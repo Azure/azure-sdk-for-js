@@ -463,13 +463,13 @@ describe("Call Media Client Live Tests", function () {
       : "create_call_and_trigger_dtmf_actions_then_hang_up";
     await loadPersistedEvents(testName);
     
-    let phoneNumbers = await getPhoneNumbers(recorder);
+    const phoneNumbers = await getPhoneNumbers(recorder);
     assert.isAtLeast(phoneNumbers.length, 2, "Invalid PSTN setup, test needs at least 2 phone numbers");
     callerPhoneUser = { phoneNumber: phoneNumbers.pop() as string};
     receiverPhoneUser = { phoneNumber: phoneNumbers.pop() as string};
 
     const callInvite: CallInvite = { targetParticipant: receiverPhoneUser, sourceCallIdNumber: callerPhoneUser };
-    let uniqueId = await serviceBusWithNewCall(callerPhoneUser, receiverPhoneUser);
+    const uniqueId = await serviceBusWithNewCall(callerPhoneUser, receiverPhoneUser);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
 
     const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
@@ -488,7 +488,7 @@ describe("Call Media Client Live Tests", function () {
     callConnection = result.callConnection;
     const receivercallConnectionId : string = answerCallResult?.callConnectionProperties.callConnectionId
       ? answerCallResult?.callConnectionProperties.callConnectionId
-      :"";
+      : "";
 
     await callConnection.getCallMedia().startContinuousDtmfRecognition(receiverPhoneUser);
     
