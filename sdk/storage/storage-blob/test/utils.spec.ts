@@ -109,6 +109,67 @@ describe("Utility Helpers", () => {
     );
   });
 
+  it("extractConnectionStringParts parses sas connection string with local domain", async () => {
+    const localDomain = `http://localhost:10000/devstoreaccount1`;
+    const sasConnectionString = `BlobEndpoint=${localDomain};
+    SharedAccessSignature=${sharedAccessSignature}`;
+    const connectionStringParts = extractConnectionStringParts(sasConnectionString);
+    assert.equal(
+      "SASConnString",
+      connectionStringParts.kind,
+      "extractConnectionStringParts().kind is different than expected."
+    );
+    assert.equal(
+      localDomain,
+      connectionStringParts.url,
+      "extractConnectionStringParts().url is different than expected."
+    );
+    assert.equal(
+      "devstoreaccount1",
+      connectionStringParts.accountName,
+      "extractConnectionStringParts().accountName is different than expected."
+    );
+  });
+
+  it("extractConnectionStringParts parses sas connection string with localhost and custom port", async () => {
+    const localDomain = `http://localhost:20000`;
+    const sasConnectionString = `BlobEndpoint=${localDomain};
+    SharedAccessSignature=${sharedAccessSignature}`;
+    try {
+      extractConnectionStringParts(sasConnectionString);
+      assert.fail();
+    } catch (err) {
+      assert.equal(
+        (err as Error).message,
+        "Unable to extract accountName with provided information.",
+        "extractConnectionStringParts() should throw"
+      );
+    }
+  });
+
+  it("extractConnectionStringParts parses sas connection string with custom domain", async () => {
+    const localDomain = `http://host.docker.internal:10000`;
+    const localAccountName = "devstoreaccount1";
+    const sasConnectionString = `BlobEndpoint=${localDomain};
+    SharedAccessSignature=${sharedAccessSignature};AccountName=${localAccountName}`;
+    const connectionStringParts = extractConnectionStringParts(sasConnectionString);
+    assert.equal(
+      "SASConnString",
+      connectionStringParts.kind,
+      "extractConnectionStringParts().kind is different than expected."
+    );
+    assert.equal(
+      localDomain,
+      connectionStringParts.url,
+      "extractConnectionStringParts().url is different than expected."
+    );
+    assert.equal(
+      localAccountName,
+      connectionStringParts.accountName,
+      "extractConnectionStringParts().accountName is different than expected."
+    );
+  });
+
   it("isIpEndpointStyle", async () => {
     assert.equal(
       isIpEndpointStyle(

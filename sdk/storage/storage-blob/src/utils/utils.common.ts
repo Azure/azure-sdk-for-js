@@ -221,7 +221,11 @@ export function extractConnectionStringParts(connectionString: string): Connecti
     // SAS connection string
 
     const accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
-    const accountName = getAccountNameFromUrl(blobEndpoint);
+    let accountName = getValueInConnString(connectionString, "AccountName");
+    // if accountName is empty, try to read it from BlobEndpoint
+    if (!accountName) {
+      accountName = getAccountNameFromUrl(blobEndpoint);
+    }
     if (!blobEndpoint) {
       throw new Error("Invalid BlobEndpoint in the provided SAS Connection String");
     } else if (!accountSas) {
