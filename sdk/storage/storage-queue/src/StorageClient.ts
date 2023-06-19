@@ -13,7 +13,6 @@ import { getAccountNameFromUrl } from "./utils/utils.common";
 import { OperationTracingOptions } from "@azure/core-tracing";
 import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
-import { HttpClient } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
 /**
@@ -82,15 +81,6 @@ export abstract class StorageClient {
  */
 export type ListQueuesIncludeType = "metadata";
 
-let testOnlyHttpClient: HttpClient | undefined;
-/**
- * @internal
- * Set a custom default http client for testing purposes
- */
-export function setTestOnlySetHttpClient(httpClient: HttpClient): void {
-  testOnlyHttpClient = httpClient;
-}
-
 /**
  * @internal
  */
@@ -106,9 +96,5 @@ export function getStorageClientContext(url: string, pipeline: Pipeline): Storag
   } else if (pipelineOptions.retryOptions.tryTimeoutInMs === undefined) {
     (pipelineOptions.retryOptions as any).tryTimeoutInMs = 30 * 1000;
   }
-  const coreOptions = getCoreClientOptions(pipeline);
-  if (testOnlyHttpClient) {
-    coreOptions.httpClient = testOnlyHttpClient;
-  }
-  return new StorageContextClient(url, coreOptions);
+  return new StorageContextClient(url, getCoreClientOptions(pipeline));
 }
