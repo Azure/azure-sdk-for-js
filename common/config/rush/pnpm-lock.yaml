@@ -775,11 +775,11 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.4.0
-      '@azure/core-client': 1.7.2
+      '@azure/core-client': 1.7.3
       '@azure/core-lro': 2.5.3
       '@azure/core-paging': 1.5.0
-      '@azure/core-rest-pipeline': 1.10.3
-      tslib: 2.5.2
+      '@azure/core-rest-pipeline': 1.11.0
+      tslib: 2.5.3
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -4567,7 +4567,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230616
+      typescript: 5.2.0-dev.20230618
     dev: false
 
   /duplexer3/0.1.5:
@@ -10022,8 +10022,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230616:
-    resolution: {integrity: sha512-pprSaAXEPeobRjBGiyipvM7IXY4wSEHq5RiQS2BnDzYAXpfPi9jF5CRHg8QgWxm1KQlAy0JVLfsQI3rlHjDcEQ==}
+  /typescript/5.2.0-dev.20230618:
+    resolution: {integrity: sha512-u/mYXRLwUDy5mtjZAipCNDIyt2PmzbePMB6yy9LFhbZz50EMDR3vhp4qEym3KWXVOfqgp1ZOfpndU0TZefE79A==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -13071,7 +13071,7 @@ packages:
     dev: false
 
   file:projects/arm-deviceprovisioningservices.tgz:
-    resolution: {integrity: sha512-f8QwuEMKpcOSHorHIioP10k7zM06dSb6lz0GwCBitDyk+nMuKOi5b0m6yMXJsnuxY1g410NJ0I2iGbpfo4Y9MA==, tarball: file:projects/arm-deviceprovisioningservices.tgz}
+    resolution: {integrity: sha512-oDpsuFZ/BsriAIGSHayK/wM+WnFDLv94GRaqk6olqCSpq+xvZjQR3vUkUpDnXEMcVUH+p8s8jI6myUSujie4eg==, tarball: file:projects/arm-deviceprovisioningservices.tgz}
     name: '@rush-temp/arm-deviceprovisioningservices'
     version: 0.0.0
     dependencies:
@@ -13086,7 +13086,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.1.4
-      mkdirp: 1.0.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -13628,7 +13628,7 @@ packages:
     dev: false
 
   file:projects/arm-graphservices.tgz:
-    resolution: {integrity: sha512-OW5UhSftXDjAzsPuFQSatE6ea6fn5l43indhtDxbVhhZXlFnRi8RJl0s+Wvq1II1HbuKn9BRFnCFNDO2HgW5Dw==, tarball: file:projects/arm-graphservices.tgz}
+    resolution: {integrity: sha512-BsDttMa+dMVGEqg3XM+2Ukoo02EMGdFKI0TX+vbrf6SJ26kei8DBjJjdFdBiNjNHS9NQHxfzdpSZKXH37ACZtw==, tarball: file:projects/arm-graphservices.tgz}
     name: '@rush-temp/arm-graphservices'
     version: 0.0.0
     dependencies:
@@ -17659,10 +17659,10 @@ packages:
     dependencies:
       '@azure/communication-common': 2.2.0
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.35.1_@types+node@14.18.48
+      '@microsoft/api-extractor': 7.35.4_@types+node@14.18.51
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
-      '@types/node': 14.18.48
+      '@types/node': 14.18.51
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
       chai: 4.3.7
@@ -21143,7 +21143,7 @@ packages:
     dev: false
 
   file:projects/storage-queue.tgz:
-    resolution: {integrity: sha512-BMjmbuoK2hnEGDWu/6nyNJ7Te39cJkH0V+3Dl0aqMJoGg3eU5PnDxRfLyReKD6qGUF9rSrPEe2F7OJX0y3Jz2g==, tarball: file:projects/storage-queue.tgz}
+    resolution: {integrity: sha512-ax+3a9dUOOQQ5rDPec7HZ10/YxuUB2EAwf1i+9gZG+C9jsHyysWutCzgp1Bl8cXbm+7jpqshgoBCdmmeOTZNBg==, tarball: file:projects/storage-queue.tgz}
     name: '@rush-temp/storage-queue'
     version: 0.0.0
     dependencies:

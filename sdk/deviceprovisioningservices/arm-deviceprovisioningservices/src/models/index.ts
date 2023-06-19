@@ -58,7 +58,7 @@ export interface ErrorDetails {
    * The error code.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly code?: string;
+  readonly code?: number;
   /**
    * The HTTP status code.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -194,6 +194,8 @@ export interface IotDpsPropertiesDescription {
    * Indicates if the DPS instance has Data Residency enabled, removing the cross geo-pair disaster recovery.
    */
   enableDataResidency?: boolean;
+  /** Portal endpoint to enable CORS for this provisioning service. */
+  portalOperationsHostName?: string;
 }
 
 /** The IP filter rules for a provisioning Service. */
@@ -303,6 +305,40 @@ export interface IotDpsSkuInfo {
   capacity?: number;
 }
 
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /**
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedIdentity | null;
+  };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
 /** The common properties of an Azure resource. */
 export interface Resource {
   /**
@@ -322,6 +358,10 @@ export interface Resource {
   readonly type?: string;
   /** The resource location. */
   location: string;
+  /** The resource group of the resource. */
+  resourcegroup?: string;
+  /** The subscription id of the resource. */
+  subscriptionid?: string;
   /** The resource tags. */
   tags?: { [propertyName: string]: string };
 }
@@ -519,6 +559,8 @@ export interface ProvisioningServiceDescription extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
+  /** The managed identities for a provisioning service. */
+  identity?: ManagedServiceIdentity;
 }
 
 /** Defines headers for IotDpsResource_deletePrivateEndpointConnection operation. */
@@ -728,6 +770,30 @@ export enum KnownIotDpsSku {
  * **S1**
  */
 export type IotDpsSku = string;
+
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
+}
+
+/**
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned,UserAssigned**
+ */
+export type ManagedServiceIdentityType = string;
 
 /** Known values of {@link NameUnavailabilityReason} that the service accepts. */
 export enum KnownNameUnavailabilityReason {
