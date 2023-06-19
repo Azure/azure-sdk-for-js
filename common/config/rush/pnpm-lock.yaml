@@ -14047,7 +14047,7 @@ packages:
     dev: false
 
   file:projects/arm-rediscache.tgz:
-    resolution: {integrity: sha512-cVPVS4kYq6n83VLO8Cl95K5TkE63nlvYvZeEoUMOp5wGVvwgR+UA8xSlSg1/eMqQ1jeaTuiyHoFa5n+slIYnTw==, tarball: file:projects/arm-rediscache.tgz}
+    resolution: {integrity: sha512-aLmABE2m3DzB0XB8d65m+G423l75QtN8Wf0kAk4nyIt5UbxYeepJBHfIKAQlaYf7D5tQeYrhMYmw4zWHUBTVrQ==, tarball: file:projects/arm-rediscache.tgz}
     name: '@rush-temp/arm-rediscache'
     version: 0.0.0
     dependencies:
@@ -14062,8 +14062,8 @@ packages:
       '@types/node': 14.18.47
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.1.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
