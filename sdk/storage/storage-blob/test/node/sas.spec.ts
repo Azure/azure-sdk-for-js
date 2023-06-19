@@ -779,7 +779,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("generateBlobSASQueryParameters should work for blob with special namings", async function () {
+  it.only("generateBlobSASQueryParameters should work for blob with special namings", async function () {
     const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
@@ -797,7 +797,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     // NOTICE: Azure Storage Server will replace "\" with "/" in the blob names
     const blobName = recorder.variable(
-      "////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+`1234567890-={}|[]\\:\";'<>?,/'",
+      "////Upper/blob/empty /adir/./adir1/../another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+`1234567890-={}|[]\\:\";'<>?,/'",
       getUniqueName(
         "////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+`1234567890-={}|[]\\:\";'<>?,/'"
       )

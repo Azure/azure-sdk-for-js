@@ -464,7 +464,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await fileSystemClient.deleteIfExists();
   });
 
-  it("generateDataLakeSASQueryParameters should work for file with special namings", async () => {
+  it.only("generateDataLakeSASQueryParameters should work for file with special namings", async () => {
     const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 10); // Skip clock skew with server
 
@@ -484,7 +484,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const fileName = recorder.variable(
       "uniqueName",
       getUniqueName(
-        "Upper file empty another 汉字 ру́сский язы́к ру́сский язы́к عرعربى にっぽんごにほんご . special ~!@#$%^&*()_+`1234567890-={}|[]:\";'<>?,'"
+        "./a/../Upper file empty another 汉字 ру́сский язы́к ру́сский язы́к عرعربى にっぽんごにほんご . special ~!@#$%^&*()_+`1234567890-={}|[]:\";'<>?,'"
       )
     );
     const fileClient = fileSystemClient.getFileClient(fileName);

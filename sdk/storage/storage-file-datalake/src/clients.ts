@@ -102,6 +102,7 @@ import {
   appendToURLQuery,
   assertResponse,
   ensureCpkIfSpecified,
+  EscapePath,
   getURLPathAndQuery,
   setURLPath,
   setURLQueries,
@@ -938,7 +939,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
    */
   public getSubdirectoryClient(subdirectoryName: string): DataLakeDirectoryClient {
     return new DataLakeDirectoryClient(
-      appendToURLPath(this.url, encodeURIComponent(subdirectoryName)),
+      appendToURLPath(this.url, EscapePath(subdirectoryName)),
       this.pipeline
     );
   }
@@ -952,7 +953,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
   /* eslint-disable-next-line @azure/azure-sdk/ts-naming-subclients */
   public getFileClient(fileName: string): DataLakeFileClient {
     return new DataLakeFileClient(
-      appendToURLPath(this.url, encodeURIComponent(fileName)),
+      appendToURLPath(this.url, EscapePath(fileName)),
       this.pipeline
     );
   }
