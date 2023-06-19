@@ -162,7 +162,7 @@ export interface PhoneNumberSearchResult {
   /** The error code of the search. */
   errorCode?: number;
   /** Mapping Error Messages to Codes */
-  error?: Error;
+  error?: PhoneNumberSearchResultError;
 }
 
 /** The phone number search purchase request. */
@@ -324,8 +324,8 @@ export type PhoneNumberCapabilityType =
   | "inbound"
   | "outbound"
   | "inbound+outbound";
-/** Defines values for Error. */
-export type Error =
+/** Defines values for PhoneNumberSearchResultError. */
+export type PhoneNumberSearchResultError =
   | "NoError"
   | "UnknownErrorCode"
   | "OutOfStock"

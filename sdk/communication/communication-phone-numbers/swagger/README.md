@@ -63,3 +63,12 @@ directive:
   transform: >
     $["x-ms-client-name"] = "AreaCodeItem";
 ```
+
+### Change a generic error to more specific name
+``` yaml
+directive:
+  from: swagger-document
+  where: $.definitions.PhoneNumberSearchResult.properties.error.x-ms-enum
+  transform: >
+    $["name"] = "PhoneNumberSearchResultError";
+```
