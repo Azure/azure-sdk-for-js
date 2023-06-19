@@ -206,9 +206,9 @@ async function main() {
     let randomTimestamp = randomNumber(120000,300000);
     id = setTimeout(updateToken, ((accessTokenCache.expiresOnTimestamp- randomTimestamp)) - Date.now());
     if(redisClient){
-        console.log("Auth called...")
+        console.log("Auth called...");
         await redisClient.auth({username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
-            password: accessToken.token})
+            password: accessToken.token});
     }
   }
 
