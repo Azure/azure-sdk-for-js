@@ -5,53 +5,40 @@
 ```ts
 
 import { AzureMonitorExporterOptions } from '@azure/monitor-opentelemetry-exporter';
-import { Instrumentation } from '@opentelemetry/instrumentation';
 import { InstrumentationConfig } from '@opentelemetry/instrumentation';
+import { Logger } from '@opentelemetry/sdk-logs';
+import { LoggerProvider } from '@opentelemetry/sdk-logs';
 import { Meter } from '@opentelemetry/api';
 import { MeterProvider } from '@opentelemetry/sdk-metrics';
-import { ReadableSpan } from '@opentelemetry/sdk-trace-base';
 import { Resource } from '@opentelemetry/resources';
-import { Span } from '@opentelemetry/sdk-trace-base';
-import { SpanProcessor } from '@opentelemetry/sdk-trace-base';
 import { Tracer } from '@opentelemetry/sdk-trace-base';
 import { TracerProvider } from '@opentelemetry/api';
 
 // @public
 export class AzureMonitorOpenTelemetryClient {
-    constructor(config?: AzureMonitorOpenTelemetryConfig);
+    constructor(options?: AzureMonitorOpenTelemetryOptions);
     flush(): Promise<void>;
-    getConfig(): AzureMonitorOpenTelemetryConfig;
-    getMetricHandler(): MetricHandler;
-    getTraceHandler(): TraceHandler;
+    getLogger(): Logger;
+    getLoggerProvider(): LoggerProvider;
+    getMeter(): Meter;
+    getMeterProvider(): MeterProvider;
+    getTraceProvider(): TracerProvider;
+    getTracer(): Tracer;
     shutdown(): Promise<void>;
 }
 
 // @public
-export class AzureMonitorOpenTelemetryConfig implements IConfig {
-    constructor();
+export interface AzureMonitorOpenTelemetryOptions {
     azureMonitorExporterConfig?: AzureMonitorExporterOptions;
-    enableAutoCollectNativeMetrics?: boolean;
-    enableAutoCollectPerformance: boolean;
-    enableAutoCollectStandardMetrics: boolean;
-    instrumentations: IInstrumentationsConfig;
-    set resource(resource: Resource);
-    get resource(): Resource;
-    samplingRatio: number;
-}
-
-// @public
-export interface IConfig {
-    azureMonitorExporterConfig?: AzureMonitorExporterOptions;
-    enableAutoCollectNativeMetrics?: boolean;
     enableAutoCollectPerformance?: boolean;
     enableAutoCollectStandardMetrics?: boolean;
-    instrumentations?: IInstrumentationsConfig;
+    instrumentationOptions?: InstrumentationOptions;
     resource?: Resource;
     samplingRatio?: number;
 }
 
 // @public
-export interface IInstrumentationsConfig {
+export interface InstrumentationOptions {
     azureSdk: InstrumentationConfig;
     http: InstrumentationConfig;
     mongoDb: InstrumentationConfig;
@@ -59,52 +46,6 @@ export interface IInstrumentationsConfig {
     postgreSql: InstrumentationConfig;
     redis: InstrumentationConfig;
     redis4: InstrumentationConfig;
-}
-
-// @public
-export class MetricHandler {
-    constructor(_config: AzureMonitorOpenTelemetryConfig);
-    flush(): Promise<void>;
-    getMeter(): Meter;
-    getMeterProvider(): MeterProvider;
-    // @internal
-    _getPerformanceCounterMetrics(): _PerformanceCounterMetrics | undefined;
-    // @internal
-    _getStandardMetrics(): _StandardMetrics | undefined;
-    shutdown(): Promise<void>;
-}
-
-// @internal
-export class _PerformanceCounterMetrics {
-    constructor(_config: AzureMonitorOpenTelemetryConfig, options?: {
-        collectionInterval: number;
-    });
-    flush(): Promise<void>;
-    _recordSpan(span: ReadableSpan): void;
-    shutdown(): void;
-}
-
-// @internal
-export class _StandardMetrics {
-    constructor(_config: AzureMonitorOpenTelemetryConfig, options?: {
-        collectionInterval: number;
-    });
-    flush(): Promise<void>;
-    _markSpanAsProcessed(span: Span): void;
-    _recordSpan(span: ReadableSpan): void;
-    shutdown(): void;
-}
-
-// @public
-export class TraceHandler {
-    constructor(_config: AzureMonitorOpenTelemetryConfig, _metricHandler?: MetricHandler | undefined);
-    addInstrumentation(instrumentation?: Instrumentation): void;
-    addSpanProcessor(spanProcessor: SpanProcessor): void;
-    disableInstrumentations(): void;
-    flush(): Promise<void>;
-    getTracer(): Tracer;
-    getTracerProvider(): TracerProvider;
-    shutdown(): Promise<void>;
 }
 
 // (No @packageDocumentation comment for this package)

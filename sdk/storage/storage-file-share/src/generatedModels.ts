@@ -18,6 +18,7 @@ import {
   FileGetPropertiesHeaders,
   FileGetRangeListHeaders,
   FileListHandlesHeaders,
+  FileProperty,
   FileRenameHeaders,
   FileServiceProperties,
   FileSetHttpHeadersHeaders,
@@ -25,8 +26,6 @@ import {
   FileStartCopyHeaders,
   FileUploadRangeFromURLHeaders,
   FileUploadRangeHeaders,
-  ListFilesAndDirectoriesSegmentResponse,
-  ListHandlesResponse,
   ServiceGetPropertiesHeaders,
   ServiceSetPropertiesHeaders,
   ShareCreateHeaders,
@@ -215,16 +214,13 @@ export type FileRenameResponse = WithResponse<FileRenameHeaders, FileRenameHeade
 export {
   CopyStatusType,
   DeleteSnapshotsOptionType,
-  DirectoryItem,
   FileDownloadHeaders,
   FileDownloadOptionalParams,
   FileGetRangeListHeaders,
-  FileItem,
   FileLastWrittenMode,
   FileServiceProperties,
   FileUploadRangeFromURLOptionalParams,
   PermissionCopyModeType,
-  HandleItem,
   ListSharesIncludeType,
   FileRange as RangeModel,
   ShareGetAccessPolicyHeaders,
@@ -236,10 +232,7 @@ export {
   DirectoryCreateHeaders,
   DirectoryDeleteHeaders,
   DirectoryGetPropertiesHeaders,
-  FilesAndDirectoriesListSegment,
-  ListFilesAndDirectoriesSegmentResponse,
   DirectoryListFilesAndDirectoriesSegmentHeaders,
-  ListHandlesResponse,
   DirectoryRenameHeaders,
   DirectoryListHandlesHeaders,
   DirectorySetMetadataHeaders,
@@ -304,3 +297,70 @@ export type ShareSetQuotaResponse = WithResponse<ShareSetQuotaHeaders, ShareSetQ
  * Defines headers for setQuota operation.
  */
 export type ShareSetQuotaHeaders = ShareSetPropertiesHeaders;
+
+/** A listed file item. */
+export interface FileItem {
+  name: string;
+  fileId?: string;
+  /** File properties. */
+  properties: FileProperty;
+  attributes?: string;
+  permissionKey?: string;
+}
+
+/** A listed directory item. */
+export interface DirectoryItem {
+  name: string;
+  fileId?: string;
+  /** File properties. */
+  properties?: FileProperty;
+  attributes?: string;
+  permissionKey?: string;
+}
+
+/** Abstract for entries that can be listed from Directory. */
+export interface FilesAndDirectoriesListSegment {
+  directoryItems: DirectoryItem[];
+  fileItems: FileItem[];
+}
+
+/** An enumeration of directories and files. */
+export interface ListFilesAndDirectoriesSegmentResponse {
+  serviceEndpoint: string;
+  shareName: string;
+  shareSnapshot?: string;
+  directoryPath: string;
+  prefix: string;
+  marker?: string;
+  maxResults?: number;
+  /** Abstract for entries that can be listed from Directory. */
+  segment: FilesAndDirectoriesListSegment;
+  continuationToken: string;
+  directoryId?: string;
+}
+
+/** A listed Azure Storage handle item. */
+export interface HandleItem {
+  /** XSMB service handle ID */
+  handleId: string;
+  /** File or directory name including full path starting from share root */
+  path: string;
+  /** FileId uniquely identifies the file or directory. */
+  fileId: string;
+  /** ParentId uniquely identifies the parent directory of the object. */
+  parentId?: string;
+  /** SMB session ID in context of which the file handle was opened */
+  sessionId: string;
+  /** Client IP that opened the handle */
+  clientIp: string;
+  /** Time when the session that previously opened the handle has last been reconnected. (UTC) */
+  openTime: Date;
+  /** Time handle was last connected to (UTC) */
+  lastReconnectTime?: Date;
+}
+
+/** An enumeration of handles. */
+export interface ListHandlesResponse {
+  handleList?: HandleItem[];
+  continuationToken: string;
+}

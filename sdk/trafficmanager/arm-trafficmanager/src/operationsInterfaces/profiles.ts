@@ -14,6 +14,8 @@ import {
   CheckTrafficManagerRelativeDnsNameAvailabilityParameters,
   ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityOptionalParams,
   ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityResponse,
+  ProfilesCheckTrafficManagerNameAvailabilityV2OptionalParams,
+  ProfilesCheckTrafficManagerNameAvailabilityV2Response,
   ProfilesGetOptionalParams,
   ProfilesGetResponse,
   ProfilesCreateOrUpdateOptionalParams,
@@ -53,6 +55,16 @@ export interface Profiles {
     parameters: CheckTrafficManagerRelativeDnsNameAvailabilityParameters,
     options?: ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityOptionalParams
   ): Promise<ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityResponse>;
+  /**
+   * Checks the availability of a Traffic Manager Relative DNS name.
+   * @param parameters The Traffic Manager name parameters supplied to the
+   *                   CheckTrafficManagerNameAvailability operation.
+   * @param options The options parameters.
+   */
+  checkTrafficManagerNameAvailabilityV2(
+    parameters: CheckTrafficManagerRelativeDnsNameAvailabilityParameters,
+    options?: ProfilesCheckTrafficManagerNameAvailabilityV2OptionalParams
+  ): Promise<ProfilesCheckTrafficManagerNameAvailabilityV2Response>;
   /**
    * Gets a Traffic Manager profile.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
