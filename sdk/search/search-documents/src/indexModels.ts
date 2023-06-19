@@ -185,7 +185,7 @@ export interface Vector<T extends object> {
   /** The vector representation of a search query. */
   value?: number[];
   /** Number of nearest neighbors to return as top hits. */
-  k?: number;
+  kNearestNeighborsCount?: number;
   /** Vector Fields of type Collection(Edm.Single) to be included in the vector searched. */
   fields?: SearchFieldArray<T>;
 }
@@ -994,7 +994,7 @@ export interface QueryResultDocumentSemanticField {
    * The way the field was used for the semantic enrichment process (fully used, partially used, or unused)
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly state?: QueryResultDocumentSemanticFieldState;
+  readonly state?: SemanticFieldState;
 }
 
 /** Contains debugging information that can be used to further explore your search results. */
@@ -1112,4 +1112,4 @@ export type SemanticErrorHandlingMode = "partial" | "fail";
  *
  * partial: The field was partially used for semantic enrichment.
  */
-export type QueryResultDocumentSemanticFieldState = "used" | "unused" | "partial";
+export type SemanticFieldState = "used" | "unused" | "partial";

@@ -16,7 +16,7 @@ import {
   KnownSemanticPartialResponseType,
   KnownQueryDebugMode,
   KnownSemanticErrorHandling,
-  KnownQueryResultDocumentSemanticFieldState,
+  KnownSemanticFieldState,
 } from "../../src/generated/data";
 import {
   ComplexDataType,
@@ -25,7 +25,7 @@ import {
   SemanticPartialResponseType,
   QueryDebugMode,
   SemanticErrorHandlingMode,
-  QueryResultDocumentSemanticFieldState,
+  SemanticFieldState,
   VectorSearchAlgorithmMetric,
 } from "../../src/index";
 
@@ -43,7 +43,7 @@ type ExpectSemanticPartialResponseReason = `${KnownSemanticPartialResponseReason
 type ExpectSemanticPartialResponseType = `${KnownSemanticPartialResponseType}`;
 type ExpectQueryDebugMode = `${KnownQueryDebugMode}`;
 type ExpectSemanticErrorHandlingMode = `${KnownSemanticErrorHandling}`;
-type ExpectQueryResultDocumentSemanticFieldState = `${KnownQueryResultDocumentSemanticFieldState}`;
+type ExpectSemanticFieldState = `${KnownSemanticFieldState}`;
 type ExpectVectorSearchAlgorithmMetric = `${KnownVectorSearchAlgorithmMetric}`;
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -55,8 +55,8 @@ function fun() {
   const d: IsIdentical<ExpectQueryDebugMode, QueryDebugMode> = "pass";
   const e: IsIdentical<ExpectSemanticErrorHandlingMode, SemanticErrorHandlingMode> = "pass";
   const f: IsIdentical<
-    ExpectQueryResultDocumentSemanticFieldState,
-    QueryResultDocumentSemanticFieldState
+    ExpectSemanticFieldState,
+    SemanticFieldState
   > = "pass";
   const g: IsIdentical<ExpectVectorSearchAlgorithmMetric, VectorSearchAlgorithmMetric> = "pass";
 

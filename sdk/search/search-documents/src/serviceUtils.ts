@@ -59,6 +59,7 @@ import {
 import {
   CharFilter,
   CognitiveServicesAccount,
+  ComplexField,
   DataChangeDetectionPolicy,
   DataDeletionDetectionPolicy,
   LexicalAnalyzer,
@@ -67,6 +68,7 @@ import {
   PatternAnalyzer,
   ScoringProfile,
   SearchField,
+  SearchFieldDataType,
   SearchIndex,
   SearchIndexer,
   SearchIndexerCache,
@@ -281,17 +283,17 @@ export function convertFieldsToPublic(fields: GeneratedSearchField[]): SearchFie
     return fields;
   }
 
-  return fields.map<SearchField>((field) => {
-    let result: SearchField;
+  return fields.map<SearchField>((field): SearchField => {
     if (field.type === "Collection(Edm.ComplexType)" || field.type === "Edm.ComplexType") {
-      return {
+      const result: ComplexField = 
+       {
         name: field.name,
         type: field.type,
-        fields: convertFieldsToPublic(field.fields!),
-        vectorSearchConfiguration: field.vectorSearchConfiguration,
-        dimensions: field.dimensions,
+        fields: convertFieldsToPublic(field.fields!)
       };
+      return result;
     } else {
+      const type: SearchFieldDataType = field.type as SearchFieldDataType;
       const analyzerName: LexicalAnalyzerName | undefined = field.analyzer;
       const searchAnalyzerName: LexicalAnalyzerName | undefined = field.searchAnalyzer;
       const indexAnalyzerName: LexicalAnalyzerName | undefined = field.indexAnalyzer;
@@ -301,17 +303,18 @@ export function convertFieldsToPublic(fields: GeneratedSearchField[]): SearchFie
       const { retrievable, ...restField } = field;
       const hidden = typeof retrievable === "boolean" ? !retrievable : retrievable;
 
-      result = {
+      const result: SimpleField   = {
         ...restField,
+        type,
         hidden,
         analyzerName,
         searchAnalyzerName,
         indexAnalyzerName,
         synonymMapNames,
         normalizerName,
-      } as SimpleField;
+      };
+      return result;
     }
-    return result;
   });
 }
 

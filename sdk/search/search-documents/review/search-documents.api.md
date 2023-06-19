@@ -2033,11 +2033,8 @@ export interface QueryResultDocumentRerankerInput {
 // @public
 export interface QueryResultDocumentSemanticField {
     readonly name?: string;
-    readonly state?: QueryResultDocumentSemanticFieldState;
+    readonly state?: SemanticFieldState;
 }
-
-// @public
-export type QueryResultDocumentSemanticFieldState = "used" | "unused" | "partial";
 
 // @public
 export type QuerySpellerType = string;
@@ -2615,6 +2612,9 @@ export interface SemanticField {
 }
 
 // @public
+export type SemanticFieldState = "used" | "unused" | "partial";
+
+// @public
 export type SemanticPartialResponseReason = "maxWaitExceeded" | "capacityOverloaded" | "transient";
 
 // @public
@@ -2691,7 +2691,6 @@ export type SimilarityAlgorithm = ClassicSimilarity | BM25Similarity;
 // @public
 export interface SimpleField {
     analyzerName?: LexicalAnalyzerName;
-    dimensions?: number;
     facetable?: boolean;
     filterable?: boolean;
     hidden?: boolean;
@@ -2705,6 +2704,7 @@ export interface SimpleField {
     synonymMapNames?: string[];
     type: SearchFieldDataType;
     vectorSearchConfiguration?: string;
+    vectorSearchDimensions?: number;
 }
 
 // @public
@@ -2890,7 +2890,7 @@ export type UploadDocumentsOptions = IndexDocumentsOptions;
 // @public
 export interface Vector<T extends object> {
     fields?: SearchFieldArray<T>;
-    k?: number;
+    kNearestNeighborsCount?: number;
     value?: number[];
 }
 

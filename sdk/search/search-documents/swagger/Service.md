@@ -312,3 +312,26 @@ directive:
   where: $.definitions[?(@['x-ms-discriminator-value'] == "#Microsoft.Skills.Text.NamedEntityRecognitionSkill")]
   transform: $.description += "\n\n@deprecated";
 ```
+
+### Rename Dimensions
+
+ To ensure alignment with `VectorSearchConfiguration` in intellisense and documentation, rename the `Dimensions` to `VectorSearchDimensions`.
+
+```yaml
+directive:
+- from: swagger-document
+  where: $.definitions.SearchField.properties.dimensions
+  transform: $["x-ms-client-name"] = "vectorSearchDimensions";
+```
+
+### Add `arm-id` format for `AuthResourceId`
+
+ Add `"format": "arm-id"` for `AuthResourceId` to generate as [Azure.Core.ResourceIdentifier]
+ (https://learn.microsoft.com/dotnet/api/azure.core.resourceidentifier?view=azure-dotnet).
+
+```yaml
+directive:
+- from: swagger-document
+  where: $.definitions.WebApiSkill.properties.authResourceId
+  transform: $["x-ms-format"] = "arm-id";
+```

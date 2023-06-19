@@ -996,7 +996,7 @@ export interface SimpleField {
   /**
    * The dimensionality of the vector field.
    */
-  dimensions?: number;
+  vectorSearchDimensions?: number;
   /**
    * The name of the vector search algorithm configuration that specifies the algorithm and
    * optional parameters for searching the vector field.

@@ -282,7 +282,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
             {
               type: "Collection(Edm.Single)",
               name: "descriptionVector",
-              dimensions: 1536,
+              vectorSearchDimensions: 1536,
               searchable: true,
               vectorSearchConfiguration: configuration.name,
             },

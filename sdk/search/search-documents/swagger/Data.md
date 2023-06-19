@@ -98,3 +98,22 @@ directive:
     transform: >
       $.required = ['score', 'key', 'text'];
 ```
+
+### Rename Vector property `K`
+```yaml
+directive:
+- from: swagger-document
+  where: $.definitions.Vector.properties.k
+  transform: $["x-ms-client-name"] = "KNearestNeighborsCount";
+```
+
+### Rename QueryResultDocumentSemanticFieldState
+
+ Simplify `QueryResultDocumentSemanticFieldState` name by renaming it to `SemanticFieldState`
+
+```yaml
+directive:
+- from: swagger-document
+  where: $.definitions.QueryResultDocumentSemanticFieldState
+  transform: $["x-ms-enum"].name = "SemanticFieldState";
+```

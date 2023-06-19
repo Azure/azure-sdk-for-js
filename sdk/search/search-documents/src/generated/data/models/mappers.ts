@@ -413,7 +413,7 @@ export const Vector: coreClient.CompositeMapper = {
           }
         }
       },
-      k: {
+      kNearestNeighborsCount: {
         serializedName: "k",
         type: {
           name: "Number"

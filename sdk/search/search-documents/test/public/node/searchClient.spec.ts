@@ -524,7 +524,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         const embedding = embeddings.data[0].embedding;
 
         const searchResults = await searchClient.search("*", {
-          vector: { value: embedding, k: 3, fields: ["vectorDescription"] },
+          vector: { value: embedding, kNearestNeighborsCount: 3, fields: ["vectorDescription"] },
           top: 3,
           select: ["hotelId"],
         });

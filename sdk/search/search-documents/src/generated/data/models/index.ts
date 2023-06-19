@@ -181,7 +181,7 @@ export interface Vector {
   /** The vector representation of a search query. */
   value?: number[];
   /** Number of nearest neighbors to return as top hits. */
-  k?: number;
+  kNearestNeighborsCount?: number;
   /** Vector Fields of type Collection(Edm.Single) to be included in the vector searched. */
   fields?: string;
 }
@@ -276,7 +276,7 @@ export interface QueryResultDocumentSemanticField {
    * The way the field was used for the semantic enrichment process (fully used, partially used, or unused)
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly state?: QueryResultDocumentSemanticFieldState;
+  readonly state?: SemanticFieldState;
 }
 
 /** The raw concatenated strings that were sent to the semantic enrichment process. */
@@ -974,8 +974,8 @@ export enum KnownSemanticPartialResponseType {
  */
 export type SemanticPartialResponseType = string;
 
-/** Known values of {@link QueryResultDocumentSemanticFieldState} that the service accepts. */
-export enum KnownQueryResultDocumentSemanticFieldState {
+/** Known values of {@link SemanticFieldState} that the service accepts. */
+export enum KnownSemanticFieldState {
   /** The field was fully used for semantic enrichment. */
   Used = "used",
   /** The field was not used for semantic enrichment. */
@@ -985,15 +985,15 @@ export enum KnownQueryResultDocumentSemanticFieldState {
 }
 
 /**
- * Defines values for QueryResultDocumentSemanticFieldState. \
- * {@link KnownQueryResultDocumentSemanticFieldState} can be used interchangeably with QueryResultDocumentSemanticFieldState,
+ * Defines values for SemanticFieldState. \
+ * {@link KnownSemanticFieldState} can be used interchangeably with SemanticFieldState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **used**: The field was fully used for semantic enrichment. \
  * **unused**: The field was not used for semantic enrichment. \
  * **partial**: The field was partially used for semantic enrichment.
  */
-export type QueryResultDocumentSemanticFieldState = string;
+export type SemanticFieldState = string;
 /** Defines values for QueryType. */
 export type QueryType = "simple" | "full" | "semantic";
 /** Defines values for SearchMode. */

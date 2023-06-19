@@ -50,7 +50,7 @@ export {
   SemanticPartialResponseType,
   QueryDebugMode,
   SemanticErrorHandlingMode,
-  QueryResultDocumentSemanticFieldState,
+  SemanticFieldState,
   Vector,
   AnswersOptions,
   DocumentDebugInfo,

@@ -1784,7 +1784,7 @@ export const SearchField: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      dimensions: {
+      vectorSearchDimensions: {
         constraints: {
           InclusiveMaximum: 2048,
           InclusiveMinimum: 2

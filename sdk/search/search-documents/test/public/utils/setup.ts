@@ -239,7 +239,7 @@ export async function createIndex(
       type: "Collection(Edm.Single)",
       name: "vectorDescription",
       searchable: true,
-      dimensions: 1536,
+      vectorSearchDimensions: 1536,
       hidden: true,
       vectorSearchConfiguration,
     });
