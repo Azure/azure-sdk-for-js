@@ -76,8 +76,6 @@ import {
   DirectoryDeleteHeaders,
   DirectorySetMetadataHeaders,
   DirectoryListFilesAndDirectoriesSegmentHeaders,
-  ListFilesAndDirectoriesSegmentResponse,
-  ListHandlesResponse,
   DirectoryListHandlesHeaders,
   DirectoryRenameHeaders,
   FileCreateHeaders,
@@ -92,7 +90,11 @@ import {
   FileListHandlesHeaders,
   RawFileDownloadResponse,
 } from "./generatedModels";
-import { FileRenameHeaders } from "./generated/src/models";
+import {
+  FileRenameHeaders,
+  ListFilesAndDirectoriesSegmentResponse as GeneratedListFilesAndDirectoriesSegmentResponse,
+  ListHandlesResponse as GeneratedListHandlesResponse,
+} from "./generated/src/models";
 import { Share, Directory, File } from "./generated/src/operationsInterfaces";
 import {
   newPipeline,
@@ -120,6 +122,8 @@ import {
   setURLPath,
   setURLQueries,
   EscapePath,
+  ConvertInternalResponseOfListFiles,
+  ConvertInternalResponseOfListHandles,
   WithResponse,
   assertResponse,
 } from "./utils/utils.common";
@@ -2261,16 +2265,25 @@ export class ShareDirectoryClient extends StorageClient {
       "ShareDirectoryClient-listFilesAndDirectoriesSegment",
       options,
       async (updatedOptions) => {
-        return assertResponse<
-          DirectoryListFilesAndDirectoriesSegmentHeaders & ListFilesAndDirectoriesSegmentResponse,
+        const rawResponse = assertResponse<
+          DirectoryListFilesAndDirectoriesSegmentHeaders &
+            GeneratedListFilesAndDirectoriesSegmentResponse,
           DirectoryListFilesAndDirectoriesSegmentHeaders,
-          ListFilesAndDirectoriesSegmentResponse
+          GeneratedListFilesAndDirectoriesSegmentResponse
         >(
           await this.context.listFilesAndDirectoriesSegment({
             ...updatedOptions,
             marker,
           })
         );
+        const wrappedResponse: DirectoryListFilesAndDirectoriesSegmentResponse = {
+          ...ConvertInternalResponseOfListFiles(rawResponse),
+          _response: {
+            ...rawResponse._response,
+            parsedBody: ConvertInternalResponseOfListFiles(rawResponse._response.parsedBody),
+          }, // _response is made non-enumerable
+        };
+        return wrappedResponse;
       }
     );
   }
@@ -2444,9 +2457,9 @@ export class ShareDirectoryClient extends StorageClient {
       async (updatedOptions) => {
         marker = marker === "" ? undefined : marker;
         const response = assertResponse<
-          DirectoryListHandlesHeaders & ListHandlesResponse,
+          DirectoryListHandlesHeaders & GeneratedListHandlesResponse,
           DirectoryListHandlesHeaders,
-          ListHandlesResponse
+          GeneratedListHandlesResponse
         >(
           await this.context.listHandles({
             ...updatedOptions,
@@ -2459,7 +2472,15 @@ export class ShareDirectoryClient extends StorageClient {
         if ((response.handleList as any) === "") {
           response.handleList = undefined;
         }
-        return response;
+        const wrappedResponse: DirectoryListHandlesResponse = {
+          ...ConvertInternalResponseOfListHandles(response),
+          _response: {
+            ...response._response,
+            parsedBody: ConvertInternalResponseOfListHandles(response._response.parsedBody),
+          },
+        };
+
+        return wrappedResponse;
       }
     );
   }
@@ -4684,9 +4705,9 @@ export class ShareFileClient extends StorageClient {
       async (updatedOptions) => {
         marker = marker === "" ? undefined : marker;
         const response = assertResponse<
-          FileListHandlesHeaders & ListHandlesResponse,
+          FileListHandlesHeaders & GeneratedListHandlesResponse,
           FileListHandlesHeaders,
-          ListHandlesResponse
+          GeneratedListHandlesResponse
         >(
           await this.context.listHandles({
             ...updatedOptions,
@@ -4699,7 +4720,16 @@ export class ShareFileClient extends StorageClient {
         if ((response.handleList as any) === "") {
           response.handleList = undefined;
         }
-        return response;
+
+        const wrappedResponse: DirectoryListHandlesResponse = {
+          ...ConvertInternalResponseOfListHandles(response),
+          _response: {
+            ...response._response,
+            parsedBody: ConvertInternalResponseOfListHandles(response._response.parsedBody),
+          },
+        };
+
+        return wrappedResponse;
       }
     );
   }

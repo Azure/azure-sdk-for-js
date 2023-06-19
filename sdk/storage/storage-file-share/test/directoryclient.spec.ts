@@ -3,10 +3,11 @@
 
 import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils";
 import { ShareClient, ShareDirectoryClient, FileSystemAttributes } from "../src";
-import { Recorder } from "@azure-tools/test-recorder";
+import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
 import { assert, getYieldedValue } from "@azure/test-utils";
+import { isBrowser } from "@azure/core-util";
 import { Context } from "mocha";
 
 describe("DirectoryClient", () => {
@@ -420,6 +421,187 @@ describe("DirectoryClient", () => {
     }
   });
 
+  it("listFilesAndDirectories - with invalid char", async function (this: Context) {
+    if (isBrowser && isLiveMode()) {
+      // Skipped for now as the generating new version SAS token is not supported in pipeline yet.
+      this.skip();
+    }
+    const subDirClients = [];
+    const subDirNames = [];
+
+    const dirNameWithInvalidChar = recorder.variable("dir1", getUniqueName("dir1\uFFFE"));
+    const dirWithInvalidChar = shareClient.getDirectoryClient(dirNameWithInvalidChar);
+    await dirWithInvalidChar.create();
+
+    for (let i = 0; i < 3; i++) {
+      const subDirClient = dirWithInvalidChar.getDirectoryClient(
+        recorder.variable(`dir${i}-1`, getUniqueName(`dir\uFFFE${i}-1`))
+      );
+      if (await subDirClient.exists()) {
+        await subDirClient.delete();
+      }
+      await subDirClient.create();
+      subDirClients.push(subDirClient);
+      subDirNames.push(subDirClient.name);
+    }
+
+    const subFileClients = [];
+    const subFileNames = [];
+    for (let i = 0; i < 3; i++) {
+      const subFileClient = dirWithInvalidChar.getFileClient(
+        recorder.variable(`file${i}`, getUniqueName(`file\uFFFE${i}`))
+      );
+      await subFileClient.create(1024);
+      subFileClients.push(subFileClient);
+      subFileNames.push(subFileClient.name);
+    }
+
+    // List all
+    let result = (
+      await dirWithInvalidChar
+        .listFilesAndDirectories({
+          prefix: "",
+          includeTimestamps: true,
+          includeEtag: true,
+          includeAttributes: true,
+          includePermissionKey: true,
+          includeExtendedInfo: true,
+        })
+        .byPage()
+        .next()
+    ).value;
+
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(shareClient.url.indexOf(result.shareName));
+    assert.deepStrictEqual(result.continuationToken, "");
+    assert.deepStrictEqual(result.segment.directoryItems.length, subDirClients.length);
+    assert.deepStrictEqual(result.segment.fileItems.length, subFileClients.length);
+    assert.deepStrictEqual(result.directoryPath, dirNameWithInvalidChar);
+
+    let resultDirNames = [];
+    for (const entry of result.segment.directoryItems) {
+      resultDirNames.push(entry.name);
+      assert.ok(entry.fileId);
+      assert.ok(entry.attributes);
+      assert.ok(entry.permissionKey);
+      assert.ok(entry.properties.creationTime);
+      assert.ok(entry.properties.lastAccessTime);
+      assert.ok(entry.properties.changeTime);
+      assert.ok(entry.properties.lastModified);
+      assert.ok(entry.properties.etag);
+    }
+
+    for (const subDirName of subDirNames) {
+      assert.ok(resultDirNames.includes(subDirName));
+    }
+
+    let resultFileNames = [];
+    for (const entry of result.segment.fileItems) {
+      resultFileNames.push(entry.name);
+      assert.ok(entry.fileId);
+      assert.ok(entry.attributes);
+      assert.ok(entry.permissionKey);
+      assert.ok(entry.properties.creationTime);
+      assert.ok(entry.properties.lastAccessTime);
+      assert.ok(entry.properties.changeTime);
+      assert.ok(entry.properties.lastModified);
+      assert.ok(entry.properties.etag);
+    }
+
+    for (const subFileName of subFileNames) {
+      assert.ok(resultFileNames.includes(subFileName));
+    }
+
+    // List with dir prefix
+    result = (
+      await dirWithInvalidChar
+        .listFilesAndDirectories({
+          prefix: "dir\uFFFE",
+          includeTimestamps: true,
+          includeEtag: true,
+          includeAttributes: true,
+          includePermissionKey: true,
+          includeExtendedInfo: true,
+        })
+        .byPage()
+        .next()
+    ).value;
+
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(shareClient.url.indexOf(result.shareName));
+    assert.deepStrictEqual(result.continuationToken, "");
+    assert.deepStrictEqual(result.segment.directoryItems.length, subDirClients.length);
+    assert.deepStrictEqual(result.segment.fileItems.length, 0);
+    assert.deepStrictEqual(result.prefix, "dir\uFFFE");
+    assert.deepStrictEqual(result.directoryPath, dirNameWithInvalidChar);
+
+    resultDirNames = [];
+    for (const entry of result.segment.directoryItems) {
+      resultDirNames.push(entry.name);
+      assert.ok(entry.fileId);
+      assert.ok(entry.attributes);
+      assert.ok(entry.permissionKey);
+      assert.ok(entry.properties.creationTime);
+      assert.ok(entry.properties.lastAccessTime);
+      assert.ok(entry.properties.changeTime);
+      assert.ok(entry.properties.lastModified);
+      assert.ok(entry.properties.etag);
+    }
+
+    for (const subDirName of subDirNames) {
+      assert.ok(resultDirNames.includes(subDirName));
+    }
+
+    // List with file prefix
+    result = (
+      await dirWithInvalidChar
+        .listFilesAndDirectories({
+          prefix: "file\uFFFE",
+          includeTimestamps: true,
+          includeEtag: true,
+          includeAttributes: true,
+          includePermissionKey: true,
+          includeExtendedInfo: true,
+        })
+        .byPage()
+        .next()
+    ).value;
+
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(shareClient.url.indexOf(result.shareName));
+    assert.deepStrictEqual(result.continuationToken, "");
+    assert.deepStrictEqual(result.segment.directoryItems.length, 0);
+    assert.deepStrictEqual(result.segment.fileItems.length, subFileClients.length);
+    assert.deepStrictEqual(result.prefix, "file\uFFFE");
+    assert.deepStrictEqual(result.directoryPath, dirNameWithInvalidChar);
+
+    resultFileNames = [];
+    for (const entry of result.segment.fileItems) {
+      resultFileNames.push(entry.name);
+      assert.ok(entry.fileId);
+      assert.ok(entry.attributes);
+      assert.ok(entry.permissionKey);
+      assert.ok(entry.properties.creationTime);
+      assert.ok(entry.properties.lastAccessTime);
+      assert.ok(entry.properties.changeTime);
+      assert.ok(entry.properties.lastModified);
+      assert.ok(entry.properties.etag);
+    }
+
+    for (const subFileName of subFileNames) {
+      assert.ok(resultFileNames.includes(subFileName));
+    }
+
+    for (const subFile of subFileClients) {
+      await subFile.delete();
+    }
+    for (const subDir of subDirClients) {
+      await subDir.delete();
+    }
+
+    dirWithInvalidChar.delete();
+  });
+
   it("listFilesAndDirectories under root directory", async () => {
     const subDirClients = [];
     const rootDirClient = shareClient.getDirectoryClient("");
@@ -812,6 +994,29 @@ describe("DirectoryClient", () => {
     // TODO: Open or create a handle; Currently can only be done manually; No REST APIs for creating handles
 
     const result = (await dirClient.listHandles().byPage().next()).value;
+
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const handle = result.handleList[0];
+      assert.notDeepEqual(handle.handleId, undefined);
+      assert.notDeepEqual(handle.path, undefined);
+      assert.notDeepEqual(handle.fileId, undefined);
+      assert.notDeepEqual(handle.sessionId, undefined);
+      assert.notDeepEqual(handle.clientIp, undefined);
+      assert.notDeepEqual(handle.openTime, undefined);
+    }
+  });
+
+  it("listHandles for directory with Invalid Char should work", async function (this: Context) {
+    if (isBrowser && isLiveMode()) {
+      // Skipped for now as the generating new version SAS token is not supported in pipeline yet.
+      this.skip();
+    }
+
+    const dirNameWithInvalidChar = recorder.variable("dir2", getUniqueName("dir2\uFFFE"));
+    const dirWithInvalidChar = shareClient.getDirectoryClient(dirNameWithInvalidChar);
+    await dirWithInvalidChar.create();
+
+    const result = (await dirWithInvalidChar.listHandles().byPage().next()).value;
 
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const handle = result.handleList[0];
