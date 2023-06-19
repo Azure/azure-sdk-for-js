@@ -21,19 +21,18 @@ dotenv.config();
  * This sample demonstrates how to Checks the availability of a Traffic Manager Relative DNS name.
  *
  * @summary Checks the availability of a Traffic Manager Relative DNS name.
- * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/NameAvailabilityTest_NameAvailable-POST-example-21.json
+ * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/NameAvailabilityV2Test_NameAvailable-POST-example-21.json
  */
-async function nameAvailabilityTestNameAvailablePost21() {
+async function nameAvailabilityV2TestNameAvailablePost21() {
   const subscriptionId =
-    process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const parameters: CheckTrafficManagerRelativeDnsNameAvailabilityParameters = {
     name: "azsmnet5403",
     type: "microsoft.network/trafficmanagerprofiles"
   };
   const credential = new DefaultAzureCredential();
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
-  const result = await client.profiles.checkTrafficManagerRelativeDnsNameAvailability(
+  const result = await client.profiles.checkTrafficManagerNameAvailabilityV2(
     parameters
   );
   console.log(result);
@@ -43,27 +42,26 @@ async function nameAvailabilityTestNameAvailablePost21() {
  * This sample demonstrates how to Checks the availability of a Traffic Manager Relative DNS name.
  *
  * @summary Checks the availability of a Traffic Manager Relative DNS name.
- * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/NameAvailabilityTest_NameNotAvailable-POST-example-23.json
+ * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/NameAvailabilityV2Test_NameNotAvailable-POST-example-23.json
  */
-async function nameAvailabilityTestNameNotAvailablePost23() {
+async function nameAvailabilityV2TestNameNotAvailablePost23() {
   const subscriptionId =
-    process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const parameters: CheckTrafficManagerRelativeDnsNameAvailabilityParameters = {
     name: "azsmnet4696",
     type: "microsoft.network/trafficmanagerprofiles"
   };
   const credential = new DefaultAzureCredential();
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
-  const result = await client.profiles.checkTrafficManagerRelativeDnsNameAvailability(
+  const result = await client.profiles.checkTrafficManagerNameAvailabilityV2(
     parameters
   );
   console.log(result);
 }
 
 async function main() {
-  nameAvailabilityTestNameAvailablePost21();
-  nameAvailabilityTestNameNotAvailablePost23();
+  nameAvailabilityV2TestNameAvailablePost21();
+  nameAvailabilityV2TestNameNotAvailablePost23();
 }
 
 main().catch(console.error);

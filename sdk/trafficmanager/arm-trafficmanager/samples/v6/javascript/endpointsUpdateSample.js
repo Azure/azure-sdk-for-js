@@ -8,14 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  Endpoint,
-  TrafficManagerManagementClient
-} from "@azure/arm-trafficmanager";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { TrafficManagerManagementClient } = require("@azure/arm-trafficmanager");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Update a Traffic Manager endpoint.
@@ -24,20 +19,17 @@ dotenv.config();
  * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/Endpoint-PATCH-External-Target.json
  */
 async function endpointPatchExternalTarget() {
-  const subscriptionId =
-    process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
-    process.env["TRAFFICMANAGER_RESOURCE_GROUP"] ||
-    "azuresdkfornetautoresttrafficmanager1421";
+    process.env["TRAFFICMANAGER_RESOURCE_GROUP"] || "azuresdkfornetautoresttrafficmanager1421";
   const profileName = "azsmnet6386";
   const endpointType = "ExternalEndpoints";
   const endpointName = "azsmnet7187";
-  const parameters: Endpoint = {
+  const parameters = {
     name: "azsmnet7187",
     type: "Microsoft.Network/trafficManagerProfiles/externalEndpoints",
-    id:
-      "/subscriptions/{subscription-id}/resourceGroups/azuresdkfornetautoresttrafficmanager1421/providers/Microsoft.Network/trafficManagerProfiles/azsmnet6386/externalEndpoints/azsmnet7187",
-    target: "another.foobar.contoso.com"
+    id: "/subscriptions/{subscription-id}/resourceGroups/azuresdkfornetautoresttrafficmanager1421/providers/Microsoft.Network/trafficManagerProfiles/azsmnet6386/externalEndpoints/azsmnet7187",
+    target: "another.foobar.contoso.com",
   };
   const credential = new DefaultAzureCredential();
   const client = new TrafficManagerManagementClient(credential, subscriptionId);

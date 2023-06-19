@@ -15253,7 +15253,7 @@ packages:
     dev: false
 
   file:projects/arm-trafficmanager.tgz:
-    resolution: {integrity: sha512-VDVhgdTaj/qv7sOsn0ez+dmGridJGyoxMu5mUP4hwSplF0Bf5P2A+oITpRzHkGvXv5TUUeSYsZ4uQTTF4NtosA==, tarball: file:projects/arm-trafficmanager.tgz}
+    resolution: {integrity: sha512-wP1cKsJ2inC/B3TxXu7n36FT+xQCqA94swZSowfF6y1SxvMGJyCj7L13fnNt/ZKUAkYK7rvHq54qOkxlFBFEeg==, tarball: file:projects/arm-trafficmanager.tgz}
     name: '@rush-temp/arm-trafficmanager'
     version: 0.0.0
     dependencies:
@@ -15267,7 +15267,8 @@ packages:
       '@types/node': 14.18.47
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.1.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1

@@ -8,11 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { TrafficManagerManagementClient } from "@azure/arm-trafficmanager";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { TrafficManagerManagementClient } = require("@azure/arm-trafficmanager");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets a Traffic Manager profile.
@@ -21,11 +19,9 @@ dotenv.config();
  * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/Profile-GET-WithEndpoints.json
  */
 async function profileGetWithEndpoints() {
-  const subscriptionId =
-    process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
-    process.env["TRAFFICMANAGER_RESOURCE_GROUP"] ||
-    "azuresdkfornetautoresttrafficmanager1323";
+    process.env["TRAFFICMANAGER_RESOURCE_GROUP"] || "azuresdkfornetautoresttrafficmanager1323";
   const profileName = "azuresdkfornetautoresttrafficmanager3880";
   const credential = new DefaultAzureCredential();
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -40,11 +36,9 @@ async function profileGetWithEndpoints() {
  * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/Profile-GET-WithTrafficViewDisabled.json
  */
 async function profileGetWithTrafficViewDisabled() {
-  const subscriptionId =
-    process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
-    process.env["TRAFFICMANAGER_RESOURCE_GROUP"] ||
-    "azuresdkfornetautoresttrafficmanager1323";
+    process.env["TRAFFICMANAGER_RESOURCE_GROUP"] || "azuresdkfornetautoresttrafficmanager1323";
   const profileName = "azuresdkfornetautoresttrafficmanager3880";
   const credential = new DefaultAzureCredential();
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
@@ -59,11 +53,9 @@ async function profileGetWithTrafficViewDisabled() {
  * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/Profile-GET-WithTrafficViewEnabled.json
  */
 async function profileGetWithTrafficViewEnabled() {
-  const subscriptionId =
-    process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
-    process.env["TRAFFICMANAGER_RESOURCE_GROUP"] ||
-    "azuresdkfornetautoresttrafficmanager1323";
+    process.env["TRAFFICMANAGER_RESOURCE_GROUP"] || "azuresdkfornetautoresttrafficmanager1323";
   const profileName = "azuresdkfornetautoresttrafficmanager3880";
   const credential = new DefaultAzureCredential();
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
