@@ -217,9 +217,7 @@
     },
     {
       "filename": "sdk/formrecognizer/ai-form-recognizer/README.md",
-      "words": [
-        "iddocument"
-      ]
+      "words": ["iddocument"]
     },
     {
       "filename": "sdk/formrecognizer/ai-form-recognizer/review/**/*.md",
@@ -244,10 +242,7 @@
     },
     {
       "filename": "sdk/communication/communication-call-automation/review/**/*.md",
-      "words": [
-        "ssml",
-        "Ssml"
-      ]
+      "words": ["ssml", "Ssml"]
     },
     {
       "filename": "sdk/communication/communication-common/review/**/*.md",
