@@ -463,7 +463,7 @@ describe("Call Media Client Live Tests", function () {
       : "create_call_and_trigger_dtmf_actions_then_hang_up";
     await loadPersistedEvents(testName);
     
-    let phoneNumbers = await getPhoneNumbers();
+    let phoneNumbers = await getPhoneNumbers(recorder);
     assert.isAtLeast(phoneNumbers.length, 2, "Invalid PSTN setup, test needs at least 2 phone numbers");
     callerPhoneUser = { phoneNumber: phoneNumbers.pop() as string};
     receiverPhoneUser = { phoneNumber: phoneNumbers.pop() as string};

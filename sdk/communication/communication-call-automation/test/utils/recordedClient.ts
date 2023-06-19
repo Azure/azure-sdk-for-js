@@ -45,7 +45,7 @@ import {
   ServiceBusReceivedMessage,
   ProcessErrorArgs,
 } from "@azure/service-bus";
-import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
+import { PhoneNumbersClient, PhoneNumbersClientOptions } from "@azure/communication-phone-numbers";
 
 if (isNode) {
   dotenv.config();
@@ -294,9 +294,10 @@ export async function loadPersistedEvents(testName: string): Promise<void> {
   }
 }
 
-export async function getPhoneNumbers(): Promise<string[]> {
+export async function getPhoneNumbers(recorder: Recorder): Promise<string[]> {
   const phoneNumbersClient = new PhoneNumbersClient(
-    assertEnvironmentVariable("COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING")
+    assertEnvironmentVariable("COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"),
+    recorder.configureClientOptions({}) as PhoneNumbersClientOptions
   );
   const purchasedPhoneNumbers = phoneNumbersClient.listPurchasedPhoneNumbers();
   let phoneNumbers: string [] = [];
