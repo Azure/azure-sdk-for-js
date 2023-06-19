@@ -20,7 +20,7 @@
       "ioredis": "^5.3.2"
     }
     ```
-- Familiarity with the [ioredis](https://github.com/luin/ioredis) and [Azure Identity for JavaScript](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) client libraries is assumed.
+- Familiarity with the [ioredis](https://github.com/luin/ioredis) and [Azure Identity for JavaScript](https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) client libraries is assumed.
 
 #### Samples Guidance
 
