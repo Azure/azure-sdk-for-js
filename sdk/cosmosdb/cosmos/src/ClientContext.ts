@@ -614,7 +614,7 @@ export class ClientContext {
 
     request.headers = await this.buildHeaders(request);
     // await options.beforeOperation({ endpoint, request, headers: requestHeaders });
-    const { result, headers, diagnostics } = await executePlugins(
+    const { result, headers, code, substatus, diagnostics } = await executePlugins(
       request,
       RequestHandler.request,
       PluginOn.operation
@@ -626,8 +626,8 @@ export class ClientContext {
       result: databaseAccount,
       headers,
       diagnostics,
-      code: result.code,
-      substatus: result.substatus,
+      code: code,
+      substatus: substatus,
     };
   }
 
