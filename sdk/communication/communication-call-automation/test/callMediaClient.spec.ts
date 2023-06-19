@@ -457,7 +457,7 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(callDisconnectedEvent);
   }).timeout(60000);
   
-  it("Trigger DTMF operations", async function () {
+  it("Trigger DTMF actions", async function () {
     testName = this.test?.fullTitle()
       ? this.test?.fullTitle().replace(/ /g, "_")
       : "create_call_and_trigger_dtmf_actions_then_hang_up";
