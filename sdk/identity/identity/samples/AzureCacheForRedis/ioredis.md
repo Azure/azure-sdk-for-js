@@ -16,7 +16,7 @@
 
     ```
     "dependencies": {
-      "@azure/identity": "^3.2.1",
+      "@azure/identity": "^3.2.2",
       "ioredis": "^5.3.2"
     }
     ```
