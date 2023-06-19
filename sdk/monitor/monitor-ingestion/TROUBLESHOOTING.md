@@ -29,15 +29,15 @@ To see a log of HTTP requests and responses:
 
  1. Set the `AZURE_LOG_LEVEL` environment variable to `info` in your *.env* file:
 
-  ```text
-  AZURE_LOG_LEVEL = info
-  ```
+   ```text
+   AZURE_LOG_LEVEL = info
+   ```
 2. Add the following code to the app:
 
-```ts
-import * as dotenv from "dotenv";
-dotenv.config({ path: ".env" });
-```
+   ```ts
+   import * as dotenv from "dotenv";
+   dotenv.config({ path: ".env" });
+   ```
 
 #### Logging using setLogLevel
 
@@ -45,7 +45,6 @@ Alternatively, logging can be enabled at runtime by calling the Azure Logger lib
 
 ```ts
 import { setLogLevel } from "@azure/logger";
-
 setLogLevel("info");
 ```
 

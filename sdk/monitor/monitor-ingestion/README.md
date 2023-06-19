@@ -246,18 +246,6 @@ Logs uploaded using the Monitor Ingestion client library can be retrieved using 
 
 For details on diagnosing various failure scenarios, see our [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/TROUBLESHOOTING.md).
 
-### Logging
-
-Enabling logging may help uncover useful information about failures. To see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
-
-```ts
-import { setLogLevel } from "@azure/logger";
-
-setLogLevel("info");
-```
-
-For detailed instructions on how to enable logs, see the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
-
 ## Next steps
 
 To learn more about Azure Monitor, see the [Azure Monitor service documentation][azure_monitor_overview]. Please take a look at the samples directory for detailed [examples][azure_monitor_samples] on how to use this library.
