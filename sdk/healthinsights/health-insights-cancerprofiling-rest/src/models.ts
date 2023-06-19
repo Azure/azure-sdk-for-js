@@ -6,7 +6,7 @@ export interface OncoPhenotypeData {
   /** The list of patients, including their clinical information and data. */
   patients: Array<PatientRecord>;
   /** Configuration affecting the Onco Phenotype model's inference. */
-  configuration?: object;
+  configuration?: OncoPhenotypeModelConfiguration;
 }
 
 /** A patient record, including their clinical information and data. */
@@ -14,7 +14,7 @@ export interface PatientRecord {
   /** A given identifier for the patient. Has to be unique across all patients in a single request. */
   id: string;
   /** Patient structured information, including demographics and known structured clinical information. */
-  info?: object;
+  info?: PatientInfo;
   /** Patient unstructured clinical data, given as documents. */
   data?: Array<PatientDocument>;
 }
@@ -66,7 +66,7 @@ export interface PatientDocument {
   /** The date and time when the document was created. */
   createdDateTime?: Date | string;
   /** The content of the patient document. */
-  content: object;
+  content: DocumentContent;
 }
 
 /** The content of the patient document. */

@@ -1,0 +1,296 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/healthinsights/trialmatcher/jobs?api-version=2023-03-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "Content-Length": "1296",
+        "Content-Type": "application/json; charset=UTF-8",
+        "ocp-apim-subscription-key": "fake_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "4c1691f8-70a3-4393-aaec-a892cf35a713",
+        "x-ms-useragent": "azsdk-js--rest/1.0.0-beta.1 core-rest-pipeline/1.11.1 OS"
+      },
+      "RequestBody": {
+        "patients": [
+          {
+            "id": "patient_id",
+            "info": {
+              "sex": "MALE",
+              "birthDate": "1965-12-25T22:00:00.000Z",
+              "clinicalInfo": [
+                {
+                  "system": "http://www.nlm.nih.gov/research/umls",
+                  "code": "C0006826",
+                  "name": "Malignant Neoplasms",
+                  "value": "true"
+                },
+                {
+                  "system": "http://www.nlm.nih.gov/research/umls",
+                  "code": "C1512162",
+                  "name": "Eastern Cooperative Oncology Group",
+                  "value": "1"
+                },
+                {
+                  "system": "http://www.nlm.nih.gov/research/umls",
+                  "code": "C0019693",
+                  "name": "HIV Infections",
+                  "value": "false"
+                },
+                {
+                  "system": "http://www.nlm.nih.gov/research/umls",
+                  "code": "C1300072",
+                  "name": "Tumor stage",
+                  "value": "2"
+                },
+                {
+                  "system": "http://www.nlm.nih.gov/research/umls",
+                  "code": "C0019163",
+                  "name": "Hepatitis B",
+                  "value": "false"
+                },
+                {
+                  "system": "http://www.nlm.nih.gov/research/umls",
+                  "code": "C0018802",
+                  "name": "Congestive heart failure",
+                  "value": "true"
+                },
+                {
+                  "system": "http://www.nlm.nih.gov/research/umls",
+                  "code": "C0019196",
+                  "name": "Hepatitis C",
+                  "value": "false"
+                },
+                {
+                  "system": "http://www.nlm.nih.gov/research/umls",
+                  "code": "C0220650",
+                  "name": "Metastatic malignant neoplasm to brain",
+                  "value": "true"
+                }
+              ]
+            }
+          }
+        ],
+        "configuration": {
+          "clinicalTrials": {
+            "registryFilters": [
+              {
+                "conditions": [
+                  "Non-small cell lung cancer"
+                ],
+                "phases": [
+                  "PHASE1"
+                ],
+                "sources": [
+                  "CLINICALTRIALS_GOV"
+                ],
+                "facilityLocations": [
+                  {
+                    "countryOrRegion": "United States",
+                    "city": "Gilbert",
+                    "state": "Arizona"
+                  }
+                ],
+                "studyTypes": [
+                  "INTERVENTIONAL"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "apim-request-id": "dcce8b2e-efbc-4c90-942c-c58d2eac5c29",
+        "Content-Length": "0",
+        "Date": "Tue, 13 Jun 2023 13:35:45 GMT",
+        "operation-location": "https://endpoint/healthinsights/trialmatcher/jobs/0c86f3da-a89a-499b-addb-142844a78408?api-version=2023-03-01-preview",
+        "Retry-After": "1",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "45",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/healthinsights/trialmatcher/jobs/0c86f3da-a89a-499b-addb-142844a78408?api-version=2023-03-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "fake_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "49c03a3d-33c1-4c3d-b465-0cf3078bc996",
+        "x-ms-useragent": "azsdk-js--rest/1.0.0-beta.1 core-rest-pipeline/1.11.1 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "ea646b7e-6694-4d76-a51f-87aca5f8ca49",
+        "Content-Length": "199",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 13 Jun 2023 13:35:46 GMT",
+        "Retry-After": "1",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "17",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": {
+        "jobId": "0c86f3da-a89a-499b-addb-142844a78408",
+        "createdDateTime": "2023-06-13T13:35:45Z",
+        "expirationDateTime": "2023-06-14T13:35:45Z",
+        "lastUpdateDateTime": "2023-06-13T13:35:45Z",
+        "status": "notStarted"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/healthinsights/trialmatcher/jobs/0c86f3da-a89a-499b-addb-142844a78408?api-version=2023-03-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "fake_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "40b888b8-0a49-4b29-b9ef-f69ea5be4c51",
+        "x-ms-useragent": "azsdk-js--rest/1.0.0-beta.1 core-rest-pipeline/1.11.1 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "85a3ff80-3da9-4692-84d3-fbd33ab516f5",
+        "Content-Length": "1748",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 13 Jun 2023 13:35:47 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "20",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": {
+        "results": {
+          "patients": [
+            {
+              "id": "patient_id",
+              "inferences": [
+                {
+                  "type": "trialEligibility",
+                  "id": "NCT04200963",
+                  "source": "clinicaltrials.gov",
+                  "value": "Ineligible",
+                  "confidenceScore": 0.0
+                },
+                {
+                  "type": "trialEligibility",
+                  "id": "NCT05099172",
+                  "source": "clinicaltrials.gov",
+                  "value": "Ineligible",
+                  "confidenceScore": 0.0
+                },
+                {
+                  "type": "trialEligibility",
+                  "id": "NCT04370587",
+                  "source": "clinicaltrials.gov",
+                  "value": "Ineligible",
+                  "confidenceScore": 0.0
+                },
+                {
+                  "type": "trialEligibility",
+                  "id": "NCT02716116",
+                  "source": "clinicaltrials.gov",
+                  "value": "Eligible",
+                  "confidenceScore": 0.0
+                },
+                {
+                  "type": "trialEligibility",
+                  "id": "NCT04476797",
+                  "source": "clinicaltrials.gov",
+                  "value": "Eligible",
+                  "confidenceScore": 0.0
+                },
+                {
+                  "type": "trialEligibility",
+                  "id": "NCT03175224",
+                  "source": "clinicaltrials.gov",
+                  "value": "Eligible",
+                  "confidenceScore": 0.0
+                },
+                {
+                  "type": "trialEligibility",
+                  "id": "NCT05215574",
+                  "source": "clinicaltrials.gov",
+                  "value": "Eligible",
+                  "confidenceScore": 0.0
+                }
+              ],
+              "neededClinicalInfo": [
+                {
+                  "semanticType": "T121",
+                  "category": "MedicationName",
+                  "system": "http://www.nlm.nih.gov/research/umls",
+                  "code": "C4287786",
+                  "name": "EGFR/HER2 Inhibitor TAK-788",
+                  "value": ";EntityType:MedicationName"
+                },
+                {
+                  "semanticType": "T028",
+                  "category": "GeneOrProtein-Variant",
+                  "system": "http://www.nlm.nih.gov/research/umls",
+                  "code": "C1414313",
+                  "name": "EGFR gene",
+                  "value": ";EntityType:GeneOrProtein-Variant"
+                },
+                {
+                  "semanticType": "T121",
+                  "category": "MedicationClass",
+                  "system": "http://www.nlm.nih.gov/research/umls",
+                  "code": "C0038317",
+                  "name": "Steroids",
+                  "value": ";EntityType:MedicationClass"
+                }
+              ]
+            }
+          ],
+          "modelVersion": "2023-03-01-preview",
+          "knowledgeGraphLastUpdateDate": "2023-05-22"
+        },
+        "jobId": "0c86f3da-a89a-499b-addb-142844a78408",
+        "createdDateTime": "2023-06-13T13:35:45Z",
+        "expirationDateTime": "2023-06-14T13:35:45Z",
+        "lastUpdateDateTime": "2023-06-13T13:35:46Z",
+        "status": "succeeded"
+      }
+    }
+  ],
+  "Variables": {}
+}

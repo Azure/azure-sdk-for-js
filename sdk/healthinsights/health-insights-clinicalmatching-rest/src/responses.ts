@@ -37,7 +37,7 @@ export interface MatchTrialsDefaultResponse extends HttpResponse {
   headers: RawHttpHeaders & MatchTrialsDefaultHeaders;
 }
 
-/** The final response for long-running matchTrials operation */
+/** The final response for long-running MatchTrials operation */
 export interface MatchTrialsLogicalResponse extends HttpResponse {
   status: "200";
 }

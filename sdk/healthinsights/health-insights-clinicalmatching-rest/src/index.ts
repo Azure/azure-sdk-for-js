@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import ClinicalMatchingClient from "./clinicalMatchingClient";
+import ClinicalMatching from "./clinicalMatching";
 
-export * from "./clinicalMatchingClient";
+export * from "./clinicalMatching";
 export * from "./parameters";
 export * from "./responses";
 export * from "./clientDefinitions";
@@ -12,4 +12,4 @@ export * from "./models";
 export * from "./outputModels";
 export * from "./pollingHelper";
 
-export default ClinicalMatchingClient;
+export default ClinicalMatching;

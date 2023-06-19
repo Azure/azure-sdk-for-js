@@ -37,7 +37,7 @@ export interface InferCancerProfileDefaultResponse extends HttpResponse {
   headers: RawHttpHeaders & InferCancerProfileDefaultHeaders;
 }
 
-/** The final response for long-running inferCancerProfile operation */
+/** The final response for long-running InferCancerProfile operation */
 export interface InferCancerProfileLogicalResponse extends HttpResponse {
   status: "200";
 }

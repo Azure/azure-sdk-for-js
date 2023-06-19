@@ -6,7 +6,7 @@ export interface TrialMatcherData {
   /** The list of patients, including their clinical information and data. */
   patients: Array<PatientRecord>;
   /** Configuration affecting the Trial Matcher model's inference. */
-  configuration?: object;
+  configuration?: TrialMatcherModelConfiguration;
 }
 
 /** A patient record, including their clinical information and data. */
@@ -14,7 +14,7 @@ export interface PatientRecord {
   /** A given identifier for the patient. Has to be unique across all patients in a single request. */
   id: string;
   /** Patient structured information, including demographics and known structured clinical information. */
-  info?: object;
+  info?: PatientInfo;
   /** Patient unstructured clinical data, given as documents. */
   data?: Array<PatientDocument>;
 }
@@ -66,7 +66,7 @@ export interface PatientDocument {
   /** The date and time when the document was created. */
   createdDateTime?: Date | string;
   /** The content of the patient document. */
-  content: object;
+  content: DocumentContent;
 }
 
 /** The content of the patient document. */
@@ -95,7 +95,7 @@ export interface TrialMatcherModelConfiguration {
    * filters to known clinical trial registries. In case both are given, the
    * resulting trial set is a union of the two sets.
    */
-  clinicalTrials: object;
+  clinicalTrials: ClinicalTrials;
 }
 
 /**
@@ -120,9 +120,9 @@ export interface ClinicalTrialDetails {
   /** The eligibility criteria of the clinical trial (inclusion and exclusion), given as text. */
   eligibilityCriteriaText?: string;
   /** Demographic criteria for a clinical trial. */
-  demographics?: object;
+  demographics?: ClinicalTrialDemographics;
   /** Trial data which is of interest to the potential participant. */
-  metadata: object;
+  metadata: ClinicalTrialMetadata;
 }
 
 /** Demographic criteria for a clinical trial. */
@@ -134,15 +134,15 @@ export interface ClinicalTrialDemographics {
    */
   acceptedSex?: string;
   /** A definition of the range of ages accepted by a clinical trial. Contains a minimum age and/or a maximum age. */
-  acceptedAgeRange?: object;
+  acceptedAgeRange?: AcceptedAgeRange;
 }
 
 /** A definition of the range of ages accepted by a clinical trial. Contains a minimum age and/or a maximum age. */
 export interface AcceptedAgeRange {
   /** A person's age, given as a number (value) and a unit (e.g. years, months) */
-  minimumAge?: object;
+  minimumAge?: AcceptedAge;
   /** A person's age, given as a number (value) and a unit (e.g. years, months) */
-  maximumAge?: object;
+  maximumAge?: AcceptedAge;
 }
 
 /** A person's age, given as a number (value) and a unit (e.g. years, months) */
@@ -290,9 +290,9 @@ export interface GeographicArea {
    */
   type: string;
   /** `GeoJSON` geometry, representing the area circle's center. */
-  geometry: object;
+  geometry: AreaGeometry;
   /** `GeoJSON` object properties. */
-  properties: object;
+  properties: AreaProperties;
 }
 
 /** `GeoJSON` geometry, representing the area circle's center. */

@@ -39,6 +39,7 @@ export function isUnexpected(
 
 function getParametrizedPathSuccess(method: string, path: string): string[] {
   const pathParts = path.split("/");
+
   // Traverse list to match the longest candidate
   // matchedLen: the length of candidate path
   // matchedValue: the matched status code array
@@ -100,6 +101,7 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
       matchedValue = value;
     }
   }
+
   return matchedValue;
 }
 
