@@ -16,11 +16,11 @@
 
     ```
     "dependencies": {
-      "@azure/identity": "^2.0.5",
-      "redis": "^4.1.0"
+      "@azure/identity": "^3.2.2",
+      "redis": "^4.6.6",
       }
     ```
-- Familiarity with the [node-redis](https://github.com/redis/node-redis) and [Azure Identity for JavaScript](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) client libraries is assumed.
+- Familiarity with the [node-redis](https://github.com/redis/node-redis) and [Azure Identity for JavaScript](https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) client libraries is assumed.
 
 #### Samples Guidance
 
@@ -50,9 +50,7 @@ dotenv.config();
 async function main() {
   // Construct a Token Credential from Identity library, e.g. ClientSecretCredential / ClientCertificateCredential / ManagedIdentityCredential, etc.
   const credential = new DefaultAzureCredential();
-
-  // The scope will be changed for Azure AD Public Preview
-  const redisScope = "https://*.cacheinfra.windows.net:10225/appid/.default"
+  const redisScope = "acca5fbb-b7e4-4009-81f1-37e38fd66d78/.default";
 
   // Fetch an Azure AD token to be used for authentication. This token will be used as the password.
   let accessToken = await credential.getToken(redisScope);
@@ -63,6 +61,7 @@ async function main() {
     username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
     password: accessToken.token,
     url: `redis://${process.env.REDIS_HOSTNAME}:6380`,
+    pingInterval: 100000,
     socket: { 
       tls: true,
       keepAlive: 0 
@@ -111,8 +110,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 async function returnPassword(credential: TokenCredential) {
-    // The scope will be changed for Azure AD Public Preview
-    const redisScope = "https://*.cacheinfra.windows.net:10225/appid/.default"
+    const redisScope = "acca5fbb-b7e4-4009-81f1-37e38fd66d78/.default";
 
     // Fetch an Azure AD token to be used for authentication. This token will be used as the password.
     return credential.getToken(redisScope);
@@ -127,6 +125,7 @@ async function main() {
     username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
     password: accessToken.token,
     url: `redis://${process.env.REDIS_HOSTNAME}:6380`,
+    pingInterval: 100000,
     socket: {
       tls: true,
       keepAlive:0
@@ -150,6 +149,7 @@ async function main() {
           username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
           password: accessToken.token,
           url: `redis://${process.env.REDIS_HOSTNAME}:6380`,
+          pingInterval: 100000,
           socket: {
             tls: true,
             keepAlive: 0
@@ -183,11 +183,15 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 async function returnPassword(credential: TokenCredential) {
-    // The scope will be changed for Azure AD Public Preview
-    const redisScope = "https://*.cacheinfra.windows.net:10225/appid/.default"
+    const redisScope = "acca5fbb-b7e4-4009-81f1-37e38fd66d78/.default";
 
     // Fetch an Azure AD token to be used for authentication. This token will be used as the password.
     return credential.getToken(redisScope);
+}
+function randomNumber(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 async function main() {
@@ -195,25 +199,33 @@ async function main() {
   const credential = new DefaultAzureCredential();
   let accessTokenCache: AccessToken | undefined = undefined;
   let id;
+  let redisClient;
 
   async function updateToken() {
     accessTokenCache = await returnPassword(credential);
-    id = setTimeout(updateToken, ((accessTokenCache.expiresOnTimestamp- 120*1000)) - Date.now());
+    let randomTimestamp = randomNumber(120000,300000);
+    id = setTimeout(updateToken, ((accessTokenCache.expiresOnTimestamp- randomTimestamp)) - Date.now());
+    if(redisClient){
+        console.log("Auth called...");
+        await redisClient.auth({username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
+            password: accessToken.token});
+    }
   }
 
   await updateToken();
   let accessToken: AccessToken | undefined = {...accessTokenCache};
   // Create node-redis client and connect to the Azure Cache for Redis over the TLS port using the access token as password.
-  let redisClient = createClient({
+  redisClient = createClient({
     username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
     password: accessToken.token,
     url: `redis://${process.env.REDIS_HOSTNAME}:6380`,
+    pingInterval: 100000,
     socket: {
       tls: true,
       keepAlive:0
     },
   });
-  await redisClient.connect();
+  await redisClient.connect(); 
 
   for (let i = 0; i < 3; i++) {
     try {
@@ -224,16 +236,16 @@ async function main() {
       break;
     } catch (e) {
       console.log("error during redis get", e.toString());
-     if ((accessToken.expiresOnTimestamp <= Date.now())|| (redis.status === "end" || "close") ) {
-      await redis.disconnect();
+     if ((accessToken.expiresOnTimestamp <= Date.now())) {
+      await redisClient.disconnect();
       accessToken = {...accessTokenCache};
       redisClient = createClient({
           username: process.env.REDIS_SERVICE_PRINCIPAL_NAME,
           password: accessToken.token,
           url: `redis://${process.env.REDIS_HOSTNAME}:6380`,
+          pingInterval: 100000,
           socket: {
             tls: true,
-            keepAlive: 0
           },
         });
       }
@@ -254,12 +266,12 @@ main().catch((err) => {
 
 In this error scenario, the username provided and the access token used as password are not compatible. To mitigate this error, navigate to your Azure Cache for Redis resource in the Azure portal. Confirm that:
 
-* In **RBAC Rules**, you've assigned the required role to your user/service principal identity.
+* In **Data Access Configuration**, you've assigned the required role to your user/service principal identity.
 * In **Advanced settings**, the **Azure AD access authorization** box is selected. If not, select it and select the **Save** button.
 
 ##### Permissions not granted / NOPERM Error
 
 In this error scenario, the authentication was successful, but your registered user/service principal is not granted the RBAC permission to perform the action. To mitigate this error, navigate to your Azure Cache for Redis resource in the Azure portal. Confirm that:
 
-* In **RBAC Rules**, you've assigned the appropriate role (Owner, Contributor, Reader) to your user/service principal identity.
+* In **Data Access Configuration**, you've assigned the appropriate role (Owner, Contributor, Reader) to your user/service principal identity.
 * In the event you are using a custom role, ensure the permissions granted under your custom role include the one required for your target action.

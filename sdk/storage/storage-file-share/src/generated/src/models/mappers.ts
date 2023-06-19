@@ -656,6 +656,14 @@ export const ListFilesAndDirectoriesSegmentResponse: coreClient.CompositeMapper 
           name: "String"
         }
       },
+      encoded: {
+        serializedName: "Encoded",
+        xmlName: "Encoded",
+        xmlIsAttribute: true,
+        type: {
+          name: "Boolean"
+        }
+      },
       directoryPath: {
         serializedName: "DirectoryPath",
         required: true,
@@ -667,10 +675,10 @@ export const ListFilesAndDirectoriesSegmentResponse: coreClient.CompositeMapper 
       },
       prefix: {
         serializedName: "Prefix",
-        required: true,
         xmlName: "Prefix",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "StringEncoded"
         }
       },
       marker: {
@@ -706,6 +714,32 @@ export const ListFilesAndDirectoriesSegmentResponse: coreClient.CompositeMapper 
       directoryId: {
         serializedName: "DirectoryId",
         xmlName: "DirectoryId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const StringEncoded: coreClient.CompositeMapper = {
+  serializedName: "StringEncoded",
+  type: {
+    name: "Composite",
+    className: "StringEncoded",
+    modelProperties: {
+      encoded: {
+        serializedName: "Encoded",
+        xmlName: "Encoded",
+        xmlIsAttribute: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      content: {
+        serializedName: "content",
+        xmlName: "content",
+        xmlIsMsText: true,
         type: {
           name: "String"
         }
@@ -764,10 +798,10 @@ export const DirectoryItem: coreClient.CompositeMapper = {
     modelProperties: {
       name: {
         serializedName: "Name",
-        required: true,
         xmlName: "Name",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "StringEncoded"
         }
       },
       fileId: {
@@ -872,10 +906,10 @@ export const FileItem: coreClient.CompositeMapper = {
     modelProperties: {
       name: {
         serializedName: "Name",
-        required: true,
         xmlName: "Name",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "StringEncoded"
         }
       },
       fileId: {
@@ -962,10 +996,10 @@ export const HandleItem: coreClient.CompositeMapper = {
       },
       path: {
         serializedName: "Path",
-        required: true,
         xmlName: "Path",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "StringEncoded"
         }
       },
       fileId: {
