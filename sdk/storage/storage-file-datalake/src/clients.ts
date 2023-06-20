@@ -952,10 +952,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
   // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
   /* eslint-disable-next-line @azure/azure-sdk/ts-naming-subclients */
   public getFileClient(fileName: string): DataLakeFileClient {
-    return new DataLakeFileClient(
-      appendToURLPath(this.url, EscapePath(fileName)),
-      this.pipeline
-    );
+    return new DataLakeFileClient(appendToURLPath(this.url, EscapePath(fileName)), this.pipeline);
   }
 
   /**

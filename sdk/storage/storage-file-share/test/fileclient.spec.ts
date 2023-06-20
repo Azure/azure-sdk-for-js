@@ -177,14 +177,14 @@ describe("FileClient", () => {
     await fileClient.uploadRange(content, fileSize - content.length, content.length);
   });
 
-  it.only("create file - name with directory dots", async () => {
+  it("create file - name with directory dots", async () => {
     const fileBaseName = recorder.variable("filename", getUniqueName("filename"));
     const fileNameWithDots = "./a/../" + fileBaseName;
     const fileClientWithDirDots = dirClient.getFileClient(fileNameWithDots);
     await fileClientWithDirDots.create(content.length);
 
     let foundFile = false;
-    for await (const fileItem of dirClient.listFilesAndDirectories({prefix: fileBaseName})){
+    for await (const fileItem of dirClient.listFilesAndDirectories({ prefix: fileBaseName })) {
       if (fileItem.name === fileBaseName && fileItem.kind === "file") {
         foundFile = true;
       }
@@ -195,11 +195,15 @@ describe("FileClient", () => {
     await fileClientWithDirDots.delete();
 
     const fileShouldInRootDir = "./a/../../" + fileBaseName;
-    const fileClientShouldInRootDir = shareClient.getDirectoryClient("anydir").getFileClient(fileShouldInRootDir);
+    const fileClientShouldInRootDir = shareClient
+      .getDirectoryClient("anydir")
+      .getFileClient(fileShouldInRootDir);
     await fileClientShouldInRootDir.create(content.length);
 
     foundFile = false;
-    for await (const fileItem of shareClient.getDirectoryClient("").listFilesAndDirectories({prefix: fileBaseName})){
+    for await (const fileItem of shareClient
+      .getDirectoryClient("")
+      .listFilesAndDirectories({ prefix: fileBaseName })) {
       if (fileItem.name === fileBaseName && fileItem.kind === "file") {
         foundFile = true;
       }
@@ -210,14 +214,14 @@ describe("FileClient", () => {
     await fileClientShouldInRootDir.delete();
   });
 
-  it.only("create directory - name with directory dots", async () => {
+  it("create directory - name with directory dots", async () => {
     const dirBaseName = recorder.variable("dirname1", getUniqueName("dirname1"));
     const dirNameWithDots = "./a/../" + dirBaseName;
     const dirClientWithDirDots = dirClient.getDirectoryClient(dirNameWithDots);
     await dirClientWithDirDots.create();
 
     let foundDir = false;
-    for await (const fileItem of dirClient.listFilesAndDirectories({prefix: dirBaseName})){
+    for await (const fileItem of dirClient.listFilesAndDirectories({ prefix: dirBaseName })) {
       if (fileItem.name === dirBaseName && fileItem.kind === "directory") {
         foundDir = true;
       }
@@ -228,11 +232,15 @@ describe("FileClient", () => {
     await dirClientWithDirDots.delete();
 
     const dirShouldInRootDir = "./a/../../" + dirBaseName;
-    const dirClientShouldInRootDir = shareClient.getDirectoryClient("anydir").getDirectoryClient(dirShouldInRootDir);
+    const dirClientShouldInRootDir = shareClient
+      .getDirectoryClient("anydir")
+      .getDirectoryClient(dirShouldInRootDir);
     await dirClientShouldInRootDir.create();
 
     foundDir = false;
-    for await (const fileItem of shareClient.getDirectoryClient("").listFilesAndDirectories({prefix: dirBaseName})){
+    for await (const fileItem of shareClient
+      .getDirectoryClient("")
+      .listFilesAndDirectories({ prefix: dirBaseName })) {
       if (fileItem.name === dirBaseName && fileItem.kind === "directory") {
         foundDir = true;
       }

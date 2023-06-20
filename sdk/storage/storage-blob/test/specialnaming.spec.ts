@@ -2,7 +2,13 @@
 // Licensed under the MIT license.
 
 import { BlockBlobClient, BlobServiceClient } from "../src";
-import { getBSU, getRecorderUniqueVariable, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/index";
+import {
+  getBSU,
+  getRecorderUniqueVariable,
+  getUniqueName,
+  recorderEnvSetup,
+  uriSanitizers,
+} from "./utils/index";
 import { assert } from "chai";
 import { appendToURLPath, EscapePath } from "../src/utils/utils.common";
 import { Recorder } from "@azure-tools/test-recorder";
@@ -126,7 +132,10 @@ describe("Special Naming Tests", () => {
   });
 
   it("Should work with special container and blob names with dots in blobname", async () => {
-    const blobName: string = recorder.variable("blobNameWithDots", getUniqueName("/blobname/./blobname1/../blobname2/blobname3"));
+    const blobName: string = recorder.variable(
+      "blobNameWithDots",
+      getUniqueName("/blobname/./blobname1/../blobname2/blobname3")
+    );
     const blockBlobClient = new BlockBlobClient(
       appendToURLPath(containerClient.url, blobName),
       (containerClient as any).pipeline
