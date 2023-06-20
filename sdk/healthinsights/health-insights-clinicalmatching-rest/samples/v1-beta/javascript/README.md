@@ -45,10 +45,11 @@ npx cross-env HEALTH_INSIGHTS_API_KEY="<health insights api key>" HEALTH_INSIGHT
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
-
+<!--
 [sample_match_trials_fhir]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-clinicalmatching-rest/samples/v1-beta/javascript/sample_match_trials_fhir.js
 [sample_match_trials_structured_coded_elements]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-clinicalmatching-rest/samples/v1-beta/javascript/sample_match_trials_structured_coded_elements.js
 [sample_match_trials_unstructured_clinical_note]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-clinicalmatching-rest/samples/v1-beta/javascript/sample_match_trials_unstructured_clinical_note.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/health-insights-clinicalmatching?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-clinicalmatching-rest/README.md
+-->

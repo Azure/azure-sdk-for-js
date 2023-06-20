@@ -43,8 +43,9 @@ npx cross-env HEALTH_INSIGHTS_ENDPOINT="<health insights endpoint>" HEALTH_INSIG
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
-
+<!--
 [sample_infer_cancer_profiling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-cancerprofiling-rest/samples/v1-beta/javascript/sample_infer_cancer_profiling.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/health-insights-cancerprifiling?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-cancerprofiling-rest/README.md
+-->
