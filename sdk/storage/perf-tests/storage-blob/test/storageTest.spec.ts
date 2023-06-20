@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { generateUuid } from "@azure/core-http";
+import { randomUUID } from "@azure/core-util";
 import { PerfTest, getEnvVar } from "@azure/test-utils-perf";
 import {
   BlobServiceClient,
@@ -18,7 +18,7 @@ export abstract class StorageBlobTest<TOptions> extends PerfTest<TOptions> {
   blobServiceClient: BlobServiceClient;
   containerClient: ContainerClient;
   sharedKeyCredential: StorageSharedKeyCredential;
-  static containerName = generateUuid();
+  static containerName = randomUUID();
 
   constructor() {
     super();
