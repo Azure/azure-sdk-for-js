@@ -198,6 +198,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     }
 
     this.publicApp = new msalNode.PublicClientApplication(this.msalConfig);
+
     if (this.getAssertion) {
       this.msalConfig.auth.clientAssertion = await this.getAssertion();
     }
