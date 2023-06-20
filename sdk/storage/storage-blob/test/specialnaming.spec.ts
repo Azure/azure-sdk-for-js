@@ -125,7 +125,7 @@ describe("Special Naming Tests", () => {
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
-  it.only("Should work with special container and blob names with dots in blobname", async () => {
+  it("Should work with special container and blob names with dots in blobname", async () => {
     const blobName: string = recorder.variable("blobNameWithDots", getUniqueName("/blobname/./blobname1/../blobname2/blobname3"));
     const blockBlobClient = new BlockBlobClient(
       appendToURLPath(containerClient.url, blobName),

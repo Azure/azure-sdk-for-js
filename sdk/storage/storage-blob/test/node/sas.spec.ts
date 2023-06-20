@@ -779,7 +779,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it.only("generateBlobSASQueryParameters should work for blob with special namings", async function () {
+  it("generateBlobSASQueryParameters should work for blob with special namings", async function () {
     const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
