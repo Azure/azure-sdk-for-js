@@ -1097,11 +1097,6 @@ packages:
     engines: {node: '>=0.8.0'}
     dev: false
 
-  /@azure/msal-common/9.1.1:
-    resolution: {integrity: sha512-we9xR8lvu47fF0h+J8KyXoRy9+G/fPzm3QEa2TrdR3jaVS3LKAyE2qyMuUkNdbVkvzl8Zr9f7l+IUSP22HeqXw==}
-    engines: {node: '>=0.8.0'}
-    dev: false
-
   /@azure/msal-node-extensions/1.0.0-alpha.25:
     resolution: {integrity: sha512-7pOUdE2OZO2omA1DBAJhVGHJo8laqw+x5JgV/XLzyogapduAzps3lbM/G3VV+VuEb0KG1QHkpaOF/6eftPssKw==}
     engines: {node: '>=10'}
@@ -18947,12 +18942,12 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-LYjLWvFlGXyUn8OW3eAxdbewDjzIvHwM/9kQwj4rSCz4NZHScWupGbn5MkHJcxVprQ3MFNksIHfeAW0vNfNjCA==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-0ZL4m1d/xrtCI4h6UEjF4BN6z5EpPMOzCQylzyWugxddB3AtSWXQ/JWOCAWanQGXZv86d1Wa0lT82suCNXQydA==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
       '@azure/msal-browser': 2.37.1
-      '@azure/msal-common': 9.1.1
+      '@azure/msal-common': 13.1.0
       '@azure/msal-node': 1.17.3
       '@microsoft/api-extractor': 7.35.4_@types+node@14.18.51
       '@types/chai': 4.3.5
@@ -20089,7 +20084,7 @@ packages:
     dev: false
 
   file:projects/perf-core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-Cw/Ue/Jzbd0UYz4MdnuhB90v+wqrxWlqMF9PYWoyoep4gHNhsr/WmNCE7A4MMJKfX+Qnvdt0GHQdDaaUH7NE/w==, tarball: file:projects/perf-core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-Z/EIj7GJ8QD6L7TB1BeRIUdFBcmN3PLudTevcBNR3dgi6/vWc+aMwMuDei7HrGUn+Vdfuzy/c8pff5BUZ275vQ==, tarball: file:projects/perf-core-rest-pipeline.tgz}
     name: '@rush-temp/perf-core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -20367,7 +20362,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-blob.tgz:
-    resolution: {integrity: sha512-I5cV6+Pv+BuamP0+znxTH2AZMf8K25vDCXRjGVoLxtgCNjaoxEYLw7Uh1+/AElvwxrI7CGWz2BqL1pGVz56xqw==, tarball: file:projects/perf-storage-blob.tgz}
+    resolution: {integrity: sha512-GQn60ISXjoIIEUrQNqa90inNHA66zJsSYjsMss/eoqiJqMw4HBjcoIkLzACGFMu3hLEFXpjugvmA1hSxgYrx+g==, tarball: file:projects/perf-storage-blob.tgz}
     name: '@rush-temp/perf-storage-blob'
     version: 0.0.0
     dependencies:
@@ -21623,7 +21618,7 @@ packages:
     dev: false
 
   file:projects/test-utils-perf.tgz:
-    resolution: {integrity: sha512-gUgGvE4ncePTbxCQAi5NaaB7U5BadGUzuYzOBESjEJ3zp3ggHP1VkQjkmmaS4lOWY5xgDrgmVNoyBkzkqAxyHg==, tarball: file:projects/test-utils-perf.tgz}
+    resolution: {integrity: sha512-0cylZRxJVtosYyCnGzaG8S8aRNJZDwLvajT7xEkj1+Xordr1N4osHkbTXJ0DoOpGtT7/O7t1JaL/cxWDn+52AQ==, tarball: file:projects/test-utils-perf.tgz}
     name: '@rush-temp/test-utils-perf'
     version: 0.0.0
     dependencies:
