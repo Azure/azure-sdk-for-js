@@ -5,11 +5,9 @@ import { JsonSerializerOptions, MessageAdapter, MessageContent } from "./models"
 import { KnownSchemaFormats, SchemaDescription, SchemaRegistry } from "@azure/schema-registry";
 import { isMessageContent } from "./utility";
 import {
-  AjvValidator,
   CacheEntry,
   cache,
   getCacheByDefinition,
-  getCacheById,
   getSchemaObject,
 } from "./cache";
 import { SchemaObject } from "ajv";
@@ -54,10 +52,6 @@ export class JsonSerializer<MessageT = MessageContent> {
    */
   async serialize(value: unknown, schema: string): Promise<MessageT> {
     const entry = await this.getSchemaId(schema);
-    wrapError(
-      () => (entry.validator(value)),
-      `Json validation failed. See 'cause' for more details. Schema ID: ${entry.id}`
-    );
     const data = wrapError(
       () => encoder.encode(JSON.stringify(value)),
       `Json serialization failed. See 'cause' for more details. Schema ID: ${entry.id}`
@@ -91,34 +85,11 @@ export class JsonSerializer<MessageT = MessageContent> {
   async deserialize(message: MessageT): Promise<unknown> {
     const { data, contentType } = convertMessage(message, this.messageAdapter);
     const schemaId = getSchemaId(contentType);
-    const validator = await this.getSchemaById(schemaId);
     const returnedMessage = wrapError(
       () => JSON.parse(decoder.decode(data)),
       `Json deserialization failed with schema ID (${schemaId}). See 'cause' for more details.`
     );
-    wrapError(
-      () => validator(returnedMessage),
-      `Json validation failed with schema ID (${schemaId}). See 'cause' for more details.`
-    );
     return returnedMessage;
-  }
-
-  private async getSchemaById(schemaId: string): Promise<AjvValidator> {
-    const cached = getCacheById(schemaId);
-    if (cached) {
-      return cached;
-    }
-    const schemaResponse = await this.registry.getSchema(schemaId);
-    if (!schemaResponse) {
-      throw new Error(`Schema with ID '${schemaId}' not found.`);
-    }
-
-    if (!schemaResponse.properties.format.match(/^json$/i)) {
-      throw new Error(
-        `Schema with ID '${schemaResponse.properties.id}' has format '${schemaResponse.properties.format}', not 'json'.`
-      );
-    }
-    return cache(schemaId, schemaResponse.definition).validator;
   }
 
   private async getSchemaId(definition: string): Promise<CacheEntry> {
@@ -156,7 +127,7 @@ export class JsonSerializer<MessageT = MessageContent> {
       }
     }
 
-    return cache(id, definition, schemaObj);
+    return cache(id, definition);
   }
 }
 
