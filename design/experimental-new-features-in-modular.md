@@ -21,6 +21,19 @@
    1. If a feature goes GA, we shall refresh all the packages that has the experimented feature, or just refresh all the packages based on release requirement?
    1. If a feature goes withdraw, we shall refresh all the packages that has the experiment feature?
 
+1. **Feature collisions**
+   1. Is it possible that one feature may have part of the code collisions with the other feature?
+   1. Is it possible that experimental features may have part of the code collisions with the stable code?
+   1. What if a feature requires a more newer version of dependencies libraries ? like a newer version of typescript or azure core related libraries?  
+     Should we use something like the below if such case happens ? or should we just use the latest?
+
+   ```json
+   "dependencies": {
+      "@azure-rest/map-search-v1": "npm:@azure-rest/map-search@^1.0.0",
+      "@azure-rest/map-search-v2": "npm:@azure-rest/map-search@^2.0.0"
+    } 
+   ```
+
 1. **Sub client picking strategy**  
 In the multi-client and multi-endpoint cases,  
 _Questions_:
