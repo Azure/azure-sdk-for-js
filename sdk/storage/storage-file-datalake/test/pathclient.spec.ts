@@ -774,7 +774,7 @@ describe("DataLakePathClient", () => {
 
     await tempFileClient.append(body, 0, body.length, {
       proposedLeaseId: leaseId,
-      leaseDuration: 15,
+      leaseDurationInSeconds: 15,
       leaseAction: "acquire",
     });
 
@@ -835,7 +835,7 @@ describe("DataLakePathClient", () => {
     }
     await tempFileClient.append(body, 0, body.length, {
       conditions: { leaseId: leaseId },
-      leaseDuration: 15,
+      leaseDurationInSeconds: 15,
       leaseAction: "auto-renew",
     });
 
@@ -904,7 +904,7 @@ describe("DataLakePathClient", () => {
 
     await tempFileClient.flush(body.length * 2, {
       proposedLeaseId: leaseId,
-      leaseDuration: 15,
+      leaseDurationInSeconds: 15,
       leaseAction: "acquire",
     });
 
@@ -959,7 +959,7 @@ describe("DataLakePathClient", () => {
 
     await tempFileClient.flush(body.length * 2, {
       conditions: { leaseId: leaseId },
-      leaseDuration: 15,
+      leaseDurationInSeconds: 15,
       leaseAction: "auto-renew",
     });
 
