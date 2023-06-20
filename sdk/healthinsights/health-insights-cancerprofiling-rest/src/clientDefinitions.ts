@@ -25,6 +25,6 @@ export interface Routes {
   (path: "/oncophenotype/jobs"): InferCancerProfile;
 }
 
-export type CancerProfilingClient = Client & {
+export type CancerProfilingRestClient = Client & {
   path: Routes;
 };

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import CancerProfiling from "./cancerProfiling";
+import CancerProfilingRest from "./cancerProfilingRest";
 
-export * from "./cancerProfiling";
+export * from "./cancerProfilingRest";
 export * from "./parameters";
 export * from "./responses";
 export * from "./clientDefinitions";
@@ -12,4 +12,4 @@ export * from "./models";
 export * from "./outputModels";
 export * from "./pollingHelper";
 
-export default CancerProfiling;
+export default CancerProfilingRest;

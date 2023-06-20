@@ -23,6 +23,6 @@ export interface Routes {
   (path: "/trialmatcher/jobs"): MatchTrials;
 }
 
-export type ClinicalMatchingClient = Client & {
+export type ClinicalMatchingRestClient = Client & {
   path: Routes;
 };
