@@ -6,11 +6,11 @@ import { KnownSchemaFormats, SchemaDescription, SchemaRegistry } from "@azure/sc
 import { isMessageContent } from "./utility";
 import {
   CacheEntry,
+  SchemaObject,
   cache,
   getCacheByDefinition,
   getSchemaObject,
 } from "./cache";
-import { SchemaObject } from "ajv";
 import { errorWithCause, wrapError } from "./errors";
 
 const jsonMimeType = "application/json";

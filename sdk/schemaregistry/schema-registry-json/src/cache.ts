@@ -42,9 +42,17 @@ export function cache(schema: string, id: string): CacheEntry {
   return entry;
 }
 
-export function getSchemaObject(schema: string): object {
+export function getSchemaObject(schema: string): SchemaObject {
   return wrapError(
     () => JSON.parse(schema),
     `Parsing Json schema failed:\n\n\t${schema}\n\nSee 'cause' for more details.`
   );
+}
+
+export interface SchemaObject {
+  id?: string;
+  $id?: string;
+  $schema?: string;
+  $async?: false;
+  [x: string]: any;
 }
