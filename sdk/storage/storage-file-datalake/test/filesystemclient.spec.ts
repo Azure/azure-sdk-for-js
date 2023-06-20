@@ -1029,7 +1029,7 @@ describe("DataLakeFileSystemClient with soft delete", () => {
     await directoryUndeleteResponse.pathClient.delete();
   });
 
-  it.only("Undelete file and directory - with directory dots", async () => {
+  it("Undelete file and directory - with directory dots", async () => {
     const fileBaseName = recorder.variable("file", getUniqueName(`file`));
     const fileClient = fileSystemClient.getFileClient(fileBaseName);
     await fileClient.create();
