@@ -39,7 +39,7 @@ export class TraceHandler {
   private _spanProcessor: BatchSpanProcessor;
   private _tracerProvider: NodeTracerProvider;
   private _tracer: Tracer;
-  private _exporter: AzureMonitorTraceExporter;
+  private _azureExporter: AzureMonitorTraceExporter;
   private _instrumentations: Instrumentation[];
   private _httpInstrumentation?: Instrumentation;
   private _azureSdkInstrumentation?: Instrumentation;
@@ -67,14 +67,14 @@ export class TraceHandler {
       forceFlushTimeoutMillis: 30000,
     };
     this._tracerProvider = new NodeTracerProvider(tracerConfig);
-    this._exporter = new AzureMonitorTraceExporter(this._config.azureMonitorExporterConfig);
+    this._azureExporter = new AzureMonitorTraceExporter(this._config.azureMonitorExporterConfig);
     const bufferConfig: BufferConfig = {
       maxExportBatchSize: 512,
       scheduledDelayMillis: 5000,
       exportTimeoutMillis: 30000,
       maxQueueSize: 2048,
     };
-    this._spanProcessor = new BatchSpanProcessor(this._exporter, bufferConfig);
+    this._spanProcessor = new BatchSpanProcessor(this._azureExporter, bufferConfig);
     this._tracerProvider.addSpanProcessor(this._spanProcessor);
 
     this._tracerProvider.register();

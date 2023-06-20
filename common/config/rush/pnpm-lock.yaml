@@ -3970,7 +3970,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230615
+      typescript: 5.2.0-dev.20230616
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8538,8 +8538,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230615:
-    resolution: {integrity: sha512-SdfFJrVM+chzZhLGs4On2LYaG/1DD2vr5hMCA1OwYUOompO+U6ljnHMQT5DAu8Bx2Ku5ZBBv53QnKK7WBrH2lA==}
+  /typescript/5.2.0-dev.20230616:
+    resolution: {integrity: sha512-pprSaAXEPeobRjBGiyipvM7IXY4wSEHq5RiQS2BnDzYAXpfPi9jF5CRHg8QgWxm1KQlAy0JVLfsQI3rlHjDcEQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -18101,7 +18101,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-XK0oC93PyW7uZXEuiJ9r56GmgZkMlO03vkEyj4jZxBHazzJki/dNrwzIvpsMVg0Wbu6ROxJk2fM7YnxsspoGFg==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-+CuXueuShsPkeTx5w1c/3PFgtrpQExDNRXS4s+1xvdyl6WtH10rGPpqZc4ORfd7cKNx7V/64vGFy6kQYCdsAog==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -18128,6 +18128,7 @@ packages:
       '@opentelemetry/semantic-conventions': 1.14.0
       '@types/mocha': 7.0.2
       '@types/node': 14.18.47
+      '@types/sinon': 10.0.15
       dotenv: 16.0.3
       eslint: 8.41.0
       eslint-plugin-node: 11.1.0_eslint@8.41.0
