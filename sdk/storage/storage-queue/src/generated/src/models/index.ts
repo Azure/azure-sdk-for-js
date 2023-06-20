@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
+import * as coreHttpCompat from "@azure/core-http-compat";
 
 /** Storage Service Properties. */
 export interface QueueServiceProperties {
@@ -515,63 +516,120 @@ export interface MessageIdDeleteExceptionHeaders {
 }
 
 /** Known values of {@link StorageErrorCode} that the service accepts. */
-export const enum KnownStorageErrorCode {
+export enum KnownStorageErrorCode {
+  /** AccountAlreadyExists */
   AccountAlreadyExists = "AccountAlreadyExists",
+  /** AccountBeingCreated */
   AccountBeingCreated = "AccountBeingCreated",
+  /** AccountIsDisabled */
   AccountIsDisabled = "AccountIsDisabled",
+  /** AuthenticationFailed */
   AuthenticationFailed = "AuthenticationFailed",
+  /** AuthorizationFailure */
   AuthorizationFailure = "AuthorizationFailure",
+  /** ConditionHeadersNotSupported */
   ConditionHeadersNotSupported = "ConditionHeadersNotSupported",
+  /** ConditionNotMet */
   ConditionNotMet = "ConditionNotMet",
+  /** EmptyMetadataKey */
   EmptyMetadataKey = "EmptyMetadataKey",
+  /** InsufficientAccountPermissions */
   InsufficientAccountPermissions = "InsufficientAccountPermissions",
+  /** InternalError */
   InternalError = "InternalError",
+  /** InvalidAuthenticationInfo */
   InvalidAuthenticationInfo = "InvalidAuthenticationInfo",
+  /** InvalidHeaderValue */
   InvalidHeaderValue = "InvalidHeaderValue",
+  /** InvalidHttpVerb */
   InvalidHttpVerb = "InvalidHttpVerb",
+  /** InvalidInput */
   InvalidInput = "InvalidInput",
+  /** InvalidMd5 */
   InvalidMd5 = "InvalidMd5",
+  /** InvalidMetadata */
   InvalidMetadata = "InvalidMetadata",
+  /** InvalidQueryParameterValue */
   InvalidQueryParameterValue = "InvalidQueryParameterValue",
+  /** InvalidRange */
   InvalidRange = "InvalidRange",
+  /** InvalidResourceName */
   InvalidResourceName = "InvalidResourceName",
+  /** InvalidUri */
   InvalidUri = "InvalidUri",
+  /** InvalidXmlDocument */
   InvalidXmlDocument = "InvalidXmlDocument",
+  /** InvalidXmlNodeValue */
   InvalidXmlNodeValue = "InvalidXmlNodeValue",
+  /** Md5Mismatch */
   Md5Mismatch = "Md5Mismatch",
+  /** MetadataTooLarge */
   MetadataTooLarge = "MetadataTooLarge",
+  /** MissingContentLengthHeader */
   MissingContentLengthHeader = "MissingContentLengthHeader",
+  /** MissingRequiredQueryParameter */
   MissingRequiredQueryParameter = "MissingRequiredQueryParameter",
+  /** MissingRequiredHeader */
   MissingRequiredHeader = "MissingRequiredHeader",
+  /** MissingRequiredXmlNode */
   MissingRequiredXmlNode = "MissingRequiredXmlNode",
+  /** MultipleConditionHeadersNotSupported */
   MultipleConditionHeadersNotSupported = "MultipleConditionHeadersNotSupported",
+  /** OperationTimedOut */
   OperationTimedOut = "OperationTimedOut",
+  /** OutOfRangeInput */
   OutOfRangeInput = "OutOfRangeInput",
+  /** OutOfRangeQueryParameterValue */
   OutOfRangeQueryParameterValue = "OutOfRangeQueryParameterValue",
+  /** RequestBodyTooLarge */
   RequestBodyTooLarge = "RequestBodyTooLarge",
+  /** ResourceTypeMismatch */
   ResourceTypeMismatch = "ResourceTypeMismatch",
+  /** RequestUrlFailedToParse */
   RequestUrlFailedToParse = "RequestUrlFailedToParse",
+  /** ResourceAlreadyExists */
   ResourceAlreadyExists = "ResourceAlreadyExists",
+  /** ResourceNotFound */
   ResourceNotFound = "ResourceNotFound",
+  /** ServerBusy */
   ServerBusy = "ServerBusy",
+  /** UnsupportedHeader */
   UnsupportedHeader = "UnsupportedHeader",
+  /** UnsupportedXmlNode */
   UnsupportedXmlNode = "UnsupportedXmlNode",
+  /** UnsupportedQueryParameter */
   UnsupportedQueryParameter = "UnsupportedQueryParameter",
+  /** UnsupportedHttpVerb */
   UnsupportedHttpVerb = "UnsupportedHttpVerb",
+  /** InvalidMarker */
   InvalidMarker = "InvalidMarker",
+  /** MessageNotFound */
   MessageNotFound = "MessageNotFound",
+  /** MessageTooLarge */
   MessageTooLarge = "MessageTooLarge",
+  /** PopReceiptMismatch */
   PopReceiptMismatch = "PopReceiptMismatch",
+  /** QueueAlreadyExists */
   QueueAlreadyExists = "QueueAlreadyExists",
+  /** QueueBeingDeleted */
   QueueBeingDeleted = "QueueBeingDeleted",
+  /** QueueDisabled */
   QueueDisabled = "QueueDisabled",
+  /** QueueNotEmpty */
   QueueNotEmpty = "QueueNotEmpty",
+  /** QueueNotFound */
   QueueNotFound = "QueueNotFound",
+  /** AuthorizationSourceIPMismatch */
   AuthorizationSourceIPMismatch = "AuthorizationSourceIPMismatch",
+  /** AuthorizationProtocolMismatch */
   AuthorizationProtocolMismatch = "AuthorizationProtocolMismatch",
+  /** AuthorizationPermissionMismatch */
   AuthorizationPermissionMismatch = "AuthorizationPermissionMismatch",
+  /** AuthorizationServiceMismatch */
   AuthorizationServiceMismatch = "AuthorizationServiceMismatch",
+  /** AuthorizationResourceTypeMismatch */
   AuthorizationResourceTypeMismatch = "AuthorizationResourceTypeMismatch",
+  /** FeatureVersionMismatch */
   FeatureVersionMismatch = "FeatureVersionMismatch"
 }
 
@@ -579,7 +637,7 @@ export const enum KnownStorageErrorCode {
  * Defines values for StorageErrorCode. \
  * {@link KnownStorageErrorCode} can be used interchangeably with StorageErrorCode,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **AccountAlreadyExists** \
  * **AccountBeingCreated** \
  * **AccountIsDisabled** \
@@ -644,7 +702,7 @@ export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
 
 /** Optional parameters. */
 export interface ServiceSetPropertiesOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -652,17 +710,11 @@ export interface ServiceSetPropertiesOptionalParams
 }
 
 /** Contains response data for the setProperties operation. */
-export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: ServiceSetPropertiesHeaders;
-  };
-};
+export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders;
 
 /** Optional parameters. */
 export interface ServiceGetPropertiesOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -671,22 +723,11 @@ export interface ServiceGetPropertiesOptionalParams
 
 /** Contains response data for the getProperties operation. */
 export type ServiceGetPropertiesResponse = ServiceGetPropertiesHeaders &
-  QueueServiceProperties & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: QueueServiceProperties;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: ServiceGetPropertiesHeaders;
-    };
-  };
+  QueueServiceProperties;
 
 /** Optional parameters. */
 export interface ServiceGetStatisticsOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -695,22 +736,11 @@ export interface ServiceGetStatisticsOptionalParams
 
 /** Contains response data for the getStatistics operation. */
 export type ServiceGetStatisticsResponse = ServiceGetStatisticsHeaders &
-  QueueServiceStatistics & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: QueueServiceStatistics;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: ServiceGetStatisticsHeaders;
-    };
-  };
+  QueueServiceStatistics;
 
 /** Optional parameters. */
 export interface ServiceListQueuesSegmentOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -727,21 +757,10 @@ export interface ServiceListQueuesSegmentOptionalParams
 
 /** Contains response data for the listQueuesSegment operation. */
 export type ServiceListQueuesSegmentResponse = ServiceListQueuesSegmentHeaders &
-  ListQueuesSegmentResponse & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: ListQueuesSegmentResponse;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: ServiceListQueuesSegmentHeaders;
-    };
-  };
+  ListQueuesSegmentResponse;
 
 /** Optional parameters. */
-export interface QueueCreateOptionalParams extends coreHttp.OperationOptions {
+export interface QueueCreateOptionalParams extends coreClient.OperationOptions {
   /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -751,16 +770,10 @@ export interface QueueCreateOptionalParams extends coreHttp.OperationOptions {
 }
 
 /** Contains response data for the create operation. */
-export type QueueCreateResponse = QueueCreateHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: QueueCreateHeaders;
-  };
-};
+export type QueueCreateResponse = QueueCreateHeaders;
 
 /** Optional parameters. */
-export interface QueueDeleteOptionalParams extends coreHttp.OperationOptions {
+export interface QueueDeleteOptionalParams extends coreClient.OperationOptions {
   /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -768,17 +781,11 @@ export interface QueueDeleteOptionalParams extends coreHttp.OperationOptions {
 }
 
 /** Contains response data for the delete operation. */
-export type QueueDeleteResponse = QueueDeleteHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: QueueDeleteHeaders;
-  };
-};
+export type QueueDeleteResponse = QueueDeleteHeaders;
 
 /** Optional parameters. */
 export interface QueueGetPropertiesOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -786,17 +793,11 @@ export interface QueueGetPropertiesOptionalParams
 }
 
 /** Contains response data for the getProperties operation. */
-export type QueueGetPropertiesResponse = QueueGetPropertiesHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: QueueGetPropertiesHeaders;
-  };
-};
+export type QueueGetPropertiesResponse = QueueGetPropertiesHeaders;
 
 /** Optional parameters. */
 export interface QueueSetMetadataOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -806,17 +807,11 @@ export interface QueueSetMetadataOptionalParams
 }
 
 /** Contains response data for the setMetadata operation. */
-export type QueueSetMetadataResponse = QueueSetMetadataHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: QueueSetMetadataHeaders;
-  };
-};
+export type QueueSetMetadataResponse = QueueSetMetadataHeaders;
 
 /** Optional parameters. */
 export interface QueueGetAccessPolicyOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -825,22 +820,11 @@ export interface QueueGetAccessPolicyOptionalParams
 
 /** Contains response data for the getAccessPolicy operation. */
 export type QueueGetAccessPolicyResponse = QueueGetAccessPolicyHeaders &
-  SignedIdentifier[] & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: SignedIdentifier[];
-      /** The parsed HTTP response headers. */
-      parsedHeaders: QueueGetAccessPolicyHeaders;
-    };
-  };
+  SignedIdentifier[];
 
 /** Optional parameters. */
 export interface QueueSetAccessPolicyOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -850,17 +834,11 @@ export interface QueueSetAccessPolicyOptionalParams
 }
 
 /** Contains response data for the setAccessPolicy operation. */
-export type QueueSetAccessPolicyResponse = QueueSetAccessPolicyHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: QueueSetAccessPolicyHeaders;
-  };
-};
+export type QueueSetAccessPolicyResponse = QueueSetAccessPolicyHeaders;
 
 /** Optional parameters. */
 export interface MessagesDequeueOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -873,21 +851,11 @@ export interface MessagesDequeueOptionalParams
 
 /** Contains response data for the dequeue operation. */
 export type MessagesDequeueResponse = MessagesDequeueHeaders &
-  DequeuedMessageItem[] & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: DequeuedMessageItem[];
-      /** The parsed HTTP response headers. */
-      parsedHeaders: MessagesDequeueHeaders;
-    };
-  };
+  DequeuedMessageItem[];
 
 /** Optional parameters. */
-export interface MessagesClearOptionalParams extends coreHttp.OperationOptions {
+export interface MessagesClearOptionalParams
+  extends coreClient.OperationOptions {
   /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -895,17 +863,11 @@ export interface MessagesClearOptionalParams extends coreHttp.OperationOptions {
 }
 
 /** Contains response data for the clear operation. */
-export type MessagesClearResponse = MessagesClearHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: MessagesClearHeaders;
-  };
-};
+export type MessagesClearResponse = MessagesClearHeaders;
 
 /** Optional parameters. */
 export interface MessagesEnqueueOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -918,21 +880,11 @@ export interface MessagesEnqueueOptionalParams
 
 /** Contains response data for the enqueue operation. */
 export type MessagesEnqueueResponse = MessagesEnqueueHeaders &
-  EnqueuedMessage[] & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: EnqueuedMessage[];
-      /** The parsed HTTP response headers. */
-      parsedHeaders: MessagesEnqueueHeaders;
-    };
-  };
+  EnqueuedMessage[];
 
 /** Optional parameters. */
-export interface MessagesPeekOptionalParams extends coreHttp.OperationOptions {
+export interface MessagesPeekOptionalParams
+  extends coreClient.OperationOptions {
   /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -942,23 +894,11 @@ export interface MessagesPeekOptionalParams extends coreHttp.OperationOptions {
 }
 
 /** Contains response data for the peek operation. */
-export type MessagesPeekResponse = MessagesPeekHeaders &
-  PeekedMessageItem[] & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: PeekedMessageItem[];
-      /** The parsed HTTP response headers. */
-      parsedHeaders: MessagesPeekHeaders;
-    };
-  };
+export type MessagesPeekResponse = MessagesPeekHeaders & PeekedMessageItem[];
 
 /** Optional parameters. */
 export interface MessageIdUpdateOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -968,17 +908,11 @@ export interface MessageIdUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type MessageIdUpdateResponse = MessageIdUpdateHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: MessageIdUpdateHeaders;
-  };
-};
+export type MessageIdUpdateResponse = MessageIdUpdateHeaders;
 
 /** Optional parameters. */
 export interface MessageIdDeleteOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting Timeouts for Queue Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -986,17 +920,11 @@ export interface MessageIdDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type MessageIdDeleteResponse = MessageIdDeleteHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: MessageIdDeleteHeaders;
-  };
-};
+export type MessageIdDeleteResponse = MessageIdDeleteHeaders;
 
 /** Optional parameters. */
 export interface StorageClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+  extends coreHttpCompat.ExtendedServiceClientOptions {
   /** Specifies the version of the operation to use for this request. */
   version?: string;
   /** Overrides client endpoint. */

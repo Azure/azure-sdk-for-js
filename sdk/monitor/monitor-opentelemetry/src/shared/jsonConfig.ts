@@ -1,6 +1,9 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as fs from "fs";
 import * as path from "path";
-import { IConfig, IInstrumentationsConfig } from "./types";
+import { AzureMonitorOpenTelemetryOptions, InstrumentationOptions } from "./types";
 import { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
 import { Logger } from "./logging";
 
@@ -10,7 +13,7 @@ const ENV_CONFIGURATION_FILE = "APPLICATIONINSIGHTS_CONFIGURATION_FILE";
  * Azure Monitor OpenTelemetry Client Configuration through JSON File
  * @internal
  */
-export class JsonConfig implements IConfig {
+export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
   /** The rate of telemetry items tracked that should be transmitted (Default 1.0) */
   public samplingRatio?: number;
   /** Azure Monitor Exporter Configuration */
@@ -28,7 +31,7 @@ export class JsonConfig implements IConfig {
   /**
    * OpenTelemetry Instrumentations configuration included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4)
    */
-  public instrumentations?: IInstrumentationsConfig;
+  public instrumentationOptions?: InstrumentationOptions;
 
   private static _instance: JsonConfig;
 
@@ -60,12 +63,14 @@ export class JsonConfig implements IConfig {
       }
     }
     try {
-      const jsonConfig: IConfig = JSON.parse(fs.readFileSync(tempDir, "utf8"));
+      const jsonConfig: AzureMonitorOpenTelemetryOptions = JSON.parse(
+        fs.readFileSync(tempDir, "utf8")
+      );
       this.azureMonitorExporterConfig = jsonConfig.azureMonitorExporterConfig;
       this.samplingRatio = jsonConfig.samplingRatio;
       this.enableAutoCollectPerformance = jsonConfig.enableAutoCollectPerformance;
       this.enableAutoCollectStandardMetrics = jsonConfig.enableAutoCollectStandardMetrics;
-      this.instrumentations = jsonConfig.instrumentations;
+      this.instrumentationOptions = jsonConfig.instrumentationOptions;
     } catch (err) {
       Logger.getInstance().info("Missing or invalid JSON config file: ", err);
     }

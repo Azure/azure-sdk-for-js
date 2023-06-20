@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortController } from "@azure/abort-controller";
-import { isNode } from "@azure/core-util";
+import { isNode, isBrowser } from "@azure/core-util";
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { assert } from "@azure/test-utils";
@@ -881,6 +881,29 @@ describe("FileClient", () => {
       { closedHandlesCount: 0, closeFailureCount: 0 },
       "Error in forceCloseAllHandles"
     );
+  });
+
+  it("listHandles for file with Invalid Char should work", async function (this: Context) {
+    if (isBrowser && isLiveMode()) {
+      // Skipped for now as the generating new version SAS token is not supported in pipeline yet.
+      this.skip();
+    }
+    const fileNameWithInvalidChar = recorder.variable("file", getUniqueName("file\uFFFE"));
+    const fileWithInvalidChar = shareClient
+      .getDirectoryClient("")
+      .getFileClient(fileNameWithInvalidChar);
+    await fileWithInvalidChar.create(10);
+
+    const result = (await fileWithInvalidChar.listHandles().byPage().next()).value;
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const handle = result.handleList[0];
+      assert.notDeepEqual(handle.handleId, undefined);
+      assert.notDeepEqual(handle.path, undefined);
+      assert.notDeepEqual(handle.fileId, undefined);
+      assert.notDeepEqual(handle.sessionId, undefined);
+      assert.notDeepEqual(handle.clientIp, undefined);
+      assert.notDeepEqual(handle.openTime, undefined);
+    }
   });
 
   it("forceCloseHandle should work", async function () {

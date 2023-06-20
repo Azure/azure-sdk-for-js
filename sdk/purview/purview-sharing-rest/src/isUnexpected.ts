@@ -36,6 +36,8 @@ import {
   SentSharesDeleteSentShareInvitationDefaultResponse,
   SentSharesNotifyUserSentShareInvitation200Response,
   SentSharesNotifyUserSentShareInvitationDefaultResponse,
+  ShareResourcesGetAllShareResources200Response,
+  ShareResourcesGetAllShareResourcesDefaultResponse,
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
@@ -55,6 +57,7 @@ const responseMap: Record<string, string[]> = {
   "PUT /sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}": ["201"],
   "DELETE /sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}": ["202"],
   "POST /sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}:notify": ["200"],
+  "GET /shareResources": ["200"],
 };
 
 export function isUnexpected(
@@ -135,6 +138,11 @@ export function isUnexpected(
 ): response is SentSharesNotifyUserSentShareInvitationDefaultResponse;
 export function isUnexpected(
   response:
+    | ShareResourcesGetAllShareResources200Response
+    | ShareResourcesGetAllShareResourcesDefaultResponse
+): response is ShareResourcesGetAllShareResourcesDefaultResponse;
+export function isUnexpected(
+  response:
     | ReceivedSharesGetReceivedShare200Response
     | ReceivedSharesGetReceivedShareDefaultResponse
     | ReceivedSharesCreateOrReplace200Response
@@ -169,6 +177,8 @@ export function isUnexpected(
     | SentSharesDeleteSentShareInvitationDefaultResponse
     | SentSharesNotifyUserSentShareInvitation200Response
     | SentSharesNotifyUserSentShareInvitationDefaultResponse
+    | ShareResourcesGetAllShareResources200Response
+    | ShareResourcesGetAllShareResourcesDefaultResponse
 ): response is
   | ReceivedSharesGetReceivedShareDefaultResponse
   | ReceivedSharesCreateOrReplaceDefaultResponse
@@ -185,7 +195,8 @@ export function isUnexpected(
   | SentSharesGetSentShareInvitationDefaultResponse
   | SentSharesCreateSentShareInvitationDefaultResponse
   | SentSharesDeleteSentShareInvitationDefaultResponse
-  | SentSharesNotifyUserSentShareInvitationDefaultResponse {
+  | SentSharesNotifyUserSentShareInvitationDefaultResponse
+  | ShareResourcesGetAllShareResourcesDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;
