@@ -6,10 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { Messages } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { StorageClientContext } from "../storageClientContext";
+import { StorageClient } from "../storageClient";
 import {
   MessagesDequeueOptionalParams,
   MessagesDequeueResponse,
@@ -22,15 +23,15 @@ import {
   MessagesPeekResponse
 } from "../models";
 
-/** Class representing a Messages. */
-export class Messages {
-  private readonly client: StorageClientContext;
+/** Class containing Messages operations. */
+export class MessagesImpl implements Messages {
+  private readonly client: StorageClient;
 
   /**
    * Initialize a new instance of the class Messages class.
    * @param client Reference to the service client
    */
-  constructor(client: StorageClientContext) {
+  constructor(client: StorageClient) {
     this.client = client;
   }
 
@@ -41,13 +42,7 @@ export class Messages {
   dequeue(
     options?: MessagesDequeueOptionalParams
   ): Promise<MessagesDequeueResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      dequeueOperationSpec
-    ) as Promise<MessagesDequeueResponse>;
+    return this.client.sendOperationRequest({ options }, dequeueOperationSpec);
   }
 
   /**
@@ -55,13 +50,7 @@ export class Messages {
    * @param options The options parameters.
    */
   clear(options?: MessagesClearOptionalParams): Promise<MessagesClearResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      clearOperationSpec
-    ) as Promise<MessagesClearResponse>;
+    return this.client.sendOperationRequest({ options }, clearOperationSpec);
   }
 
   /**
@@ -76,14 +65,10 @@ export class Messages {
     queueMessage: QueueMessage,
     options?: MessagesEnqueueOptionalParams
   ): Promise<MessagesEnqueueResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      queueMessage,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { queueMessage, options },
       enqueueOperationSpec
-    ) as Promise<MessagesEnqueueResponse>;
+    );
   }
 
   /**
@@ -92,19 +77,13 @@ export class Messages {
    * @param options The options parameters.
    */
   peek(options?: MessagesPeekOptionalParams): Promise<MessagesPeekResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      peekOperationSpec
-    ) as Promise<MessagesPeekResponse>;
+    return this.client.sendOperationRequest({ options }, peekOperationSpec);
   }
 }
 // Operation Specifications
-const xmlSerializer = new coreHttp.Serializer(Mappers, /* isXml */ true);
+const xmlSerializer = coreClient.createSerializer(Mappers, /* isXml */ true);
 
-const dequeueOperationSpec: coreHttp.OperationSpec = {
+const dequeueOperationSpec: coreClient.OperationSpec = {
   path: "/{queueName}/messages",
   httpMethod: "GET",
   responses: {
@@ -142,7 +121,7 @@ const dequeueOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const clearOperationSpec: coreHttp.OperationSpec = {
+const clearOperationSpec: coreClient.OperationSpec = {
   path: "/{queueName}/messages",
   httpMethod: "DELETE",
   responses: {
@@ -164,7 +143,7 @@ const clearOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const enqueueOperationSpec: coreHttp.OperationSpec = {
+const enqueueOperationSpec: coreClient.OperationSpec = {
   path: "/{queueName}/messages",
   httpMethod: "POST",
   responses: {
@@ -204,7 +183,7 @@ const enqueueOperationSpec: coreHttp.OperationSpec = {
   mediaType: "xml",
   serializer: xmlSerializer
 };
-const peekOperationSpec: coreHttp.OperationSpec = {
+const peekOperationSpec: coreClient.OperationSpec = {
   path: "/{queueName}/messages",
   httpMethod: "GET",
   responses: {

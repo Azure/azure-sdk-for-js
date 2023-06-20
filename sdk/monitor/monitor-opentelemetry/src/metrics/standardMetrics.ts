@@ -16,16 +16,16 @@ import {
   SemanticResourceAttributes,
 } from "@opentelemetry/semantic-conventions";
 import {
-  IMetricDependencyDimensions,
-  IMetricRequestDimensions,
-  IStandardMetricBaseDimensions,
+  MetricDependencyDimensions,
+  MetricRequestDimensions,
+  StandardMetricBaseDimensions,
 } from "./types";
 
 /**
  * Azure Monitor Standard Metrics
  * @internal
  */
-export class _StandardMetrics {
+export class StandardMetrics {
   private _collectionInterval = 60000; // 60 seconds
   private _meterProvider: MeterProvider;
   private _azureExporter: AzureMonitorMetricExporter;
@@ -33,15 +33,15 @@ export class _StandardMetrics {
   private _meter: Meter;
   private _incomingRequestDurationHistogram: Histogram;
   private _outgoingRequestDurationHistogram: Histogram;
+  private _config: AzureMonitorOpenTelemetryConfig;
 
   /**
    * Initializes a new instance of the StandardMetrics class.
-   * @param _config - Configuration.
+   * @param config - Distro configuration.
+   * @param options - Standard Metrics options.
    */
-  constructor(
-    private _config: AzureMonitorOpenTelemetryConfig,
-    options?: { collectionInterval: number }
-  ) {
+  constructor(config: AzureMonitorOpenTelemetryConfig, options?: { collectionInterval: number }) {
+    this._config = config;
     const meterProviderConfig: MeterProviderOptions = {
       resource: this._config.resource,
     };
@@ -80,7 +80,7 @@ export class _StandardMetrics {
    * Add extra attributes to Span so Ingestion doesn't aggregate the data again
    * @internal
    */
-  public _markSpanAsProcessed(span: Span): void {
+  public markSpanAsProcessed(span: Span): void {
     if (this._config.enableAutoCollectStandardMetrics) {
       if (span.kind === SpanKind.CLIENT) {
         span.setAttributes({
@@ -98,7 +98,7 @@ export class _StandardMetrics {
    * Record Span metrics
    * @internal
    */
-  public _recordSpan(span: ReadableSpan): void {
+  public recordSpan(span: ReadableSpan): void {
     const durationMs = span.duration[0];
     if (span.kind === SpanKind.SERVER) {
       this._incomingRequestDurationHistogram.record(durationMs, this._getRequestDimensions(span));
@@ -111,7 +111,7 @@ export class _StandardMetrics {
   }
 
   private _getRequestDimensions(span: ReadableSpan): Attributes {
-    const dimensions: IMetricRequestDimensions = this._getBaseDimensions(span);
+    const dimensions: MetricRequestDimensions = this._getBaseDimensions(span);
     dimensions.metricId = "requests/duration";
     const statusCode = String(span.attributes["http.status_code"]);
     dimensions.requestResultCode = statusCode;
@@ -120,7 +120,7 @@ export class _StandardMetrics {
   }
 
   private _getDependencyDimensions(span: ReadableSpan): Attributes {
-    const dimensions: IMetricDependencyDimensions = this._getBaseDimensions(span);
+    const dimensions: MetricDependencyDimensions = this._getBaseDimensions(span);
     dimensions.metricId = "dependencies/duration";
     const statusCode = String(span.attributes["http.status_code"]);
     dimensions.dependencyTarget = this._getDependencyTarget(span.attributes);
@@ -130,8 +130,8 @@ export class _StandardMetrics {
     return dimensions as Attributes;
   }
 
-  private _getBaseDimensions(span: ReadableSpan): IStandardMetricBaseDimensions {
-    const dimensions: IStandardMetricBaseDimensions = {};
+  private _getBaseDimensions(span: ReadableSpan): StandardMetricBaseDimensions {
+    const dimensions: StandardMetricBaseDimensions = {};
     dimensions.IsAutocollected = "True";
     if (span.resource) {
       const spanResourceAttributes = span.resource.attributes;

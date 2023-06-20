@@ -64,6 +64,14 @@ export interface CallLocator {
   kind: CallLocatorType;
 }
 
+/** Defines values for Gender that the service accepts. */
+export enum Gender {
+  /** Male */
+  Male = "male",
+  /** Female */
+  Female = "female",
+}
+
 /** The PlaySource model. */
 export interface PlaySource {
   playSourceId?: string;
@@ -73,6 +81,21 @@ export interface PlaySource {
 export interface FileSource extends PlaySource {
   url: string;
   readonly kind: "fileSource";
+}
+
+/** The TextSource model. */
+export interface TextSource extends PlaySource {
+  text: string;
+  sourceLocale?: string;
+  voiceGender?: Gender;
+  voiceName?: string;
+  readonly kind: "textSource";
+}
+
+/** The SsmlSource model. */
+export interface SsmlSource extends PlaySource {
+  ssmlText: string;
+  readonly kind: "ssmlSource";
 }
 
 /** A Dtmf Tone. */
@@ -109,6 +132,15 @@ export enum DtmfTone {
   Pound = "pound",
   /** Asterisk */
   Asterisk = "asterisk",
+}
+
+/** A Recognize Choice */
+export interface Choice {
+  /** Identifier for a given choice */
+  label: string;
+  /** List of phrases to recognize */
+  phrases: string[];
+  tone?: DtmfTone;
 }
 
 /** The type of the recognition that the service accepts. */
