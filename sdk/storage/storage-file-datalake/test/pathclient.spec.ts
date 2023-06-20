@@ -50,7 +50,7 @@ describe("DataLakePathClient", () => {
     await recorder.stop();
   });
 
-  it.only("DataLakeFileClient create file path with directory dots", async () => {
+  it("DataLakeFileClient create file path with directory dots", async () => {
     const fileBaseName = recorder.variable("filename", getUniqueName("filename"));
     const fileNameWithDots = "./adir/../anotherdir/.././" + fileBaseName;
 
@@ -67,7 +67,7 @@ describe("DataLakePathClient", () => {
     assert.ok(foundFile, "The file should have been created.");
   });
 
-  it.only("DataLakeDirectoryClient create directory path with directory dots", async () => {
+  it("DataLakeDirectoryClient create directory path with directory dots", async () => {
     const subDirName = recorder.variable("dirname", getUniqueName("dirname"));
     const subDirNameWithDots = "./adir/.././anotherdir/.././" + subDirName;
     const subDirClient = fileSystemClient.getDirectoryClient(subDirNameWithDots);
@@ -84,7 +84,7 @@ describe("DataLakePathClient", () => {
     assert.ok(foundSubDir, "The directory should have been created.");
   });
 
-  it.only("DataLakeFileClient create file path with directory dots under a dir", async () => {
+  it("DataLakeFileClient create file path with directory dots under a dir", async () => {
     const dirName = recorder.variable("dirname", getUniqueName("dirname"));
     const dirClient = fileSystemClient.getDirectoryClient(dirName);
     await dirClient.create();
@@ -120,7 +120,7 @@ describe("DataLakePathClient", () => {
     assert.ok(foundFile, "The file should have been created.");
   });
 
-  it.only("DataLakeDirectoryClient create directory path with directory dots under a dir", async () => {
+  it("DataLakeDirectoryClient create directory path with directory dots under a dir", async () => {
     const dirName = recorder.variable("dirname", getUniqueName("dirname"));
     const dirClient = fileSystemClient.getDirectoryClient(dirName);
     await dirClient.create();

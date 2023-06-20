@@ -464,7 +464,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await fileSystemClient.deleteIfExists();
   });
 
-  it.only("generateDataLakeSASQueryParameters should work for file with special namings", async () => {
+  it("generateDataLakeSASQueryParameters should work for file with special namings", async () => {
     const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 10); // Skip clock skew with server
 
