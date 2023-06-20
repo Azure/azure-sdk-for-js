@@ -22,6 +22,9 @@ import {
   CommunicationUserIdentifier,
   CommunicationIdentifier,
   serializeCommunicationIdentifier,
+  isPhoneNumberIdentifier,
+  createIdentifierFromRawId,
+  CommunicationIdentifierKind,
 } from "@azure/communication-common";
 import {
   CallAutomationClient,
@@ -42,6 +45,7 @@ import {
   ServiceBusReceivedMessage,
   ProcessErrorArgs,
 } from "@azure/service-bus";
+import { PhoneNumbersClient, PhoneNumbersClientOptions } from "@azure/communication-phone-numbers";
 
 if (isNode) {
   dotenv.config();
@@ -81,13 +85,24 @@ function removeAllNonChar(input: string): string {
   return input.replace(regex, "");
 }
 
+function encodePhoneNumber(input: string): string {
+  // Enocding + to UTF-16 to match unique id with Service bus queue
+  return input.replace("+", "\\u002B");
+}
+
 export function parseIdsFromIdentifier(identifier: CommunicationIdentifier): string {
   const communicationIdentifierModel: CommunicationIdentifierModel =
     serializeCommunicationIdentifier(identifier);
   assert.isDefined(communicationIdentifierModel?.rawId);
-  return communicationIdentifierModel?.rawId
-    ? removeAllNonChar(communicationIdentifierModel.rawId)
-    : "";
+  if (isPhoneNumberIdentifier(identifier)) {
+    return communicationIdentifierModel?.rawId
+      ? removeAllNonChar(encodePhoneNumber(communicationIdentifierModel.rawId))
+      : "";
+  } else {
+    return communicationIdentifierModel?.rawId
+      ? removeAllNonChar(communicationIdentifierModel.rawId)
+      : "";
+  }
 }
 
 function createServiceBusClient(): ServiceBusClient {
@@ -138,9 +153,9 @@ export function createCallAutomationClient(
 async function eventBodyHandler(body: any): Promise<void> {
   if (body.incomingCallContext) {
     const incomingCallContext: string = body.incomingCallContext;
-    const callerRawId: string = body.from.rawId;
-    const calleeRawId: string = body.to.rawId;
-    const key: string = removeAllNonChar(callerRawId + calleeRawId);
+    const callerRawId: CommunicationIdentifierKind = createIdentifierFromRawId(body.from.rawId);
+    const calleeRawId: CommunicationIdentifierKind = createIdentifierFromRawId(body.to.rawId);
+    const key: string = parseIdsFromIdentifier(callerRawId) + parseIdsFromIdentifier(calleeRawId);
     incomingCallContexts.set(key, incomingCallContext);
   } else {
     const event: CallAutomationEvent = await parseCallAutomationEvent(body);
@@ -277,4 +292,17 @@ export async function loadPersistedEvents(testName: string): Promise<void> {
       await eventBodyHandler(event);
     });
   }
+}
+
+export async function getPhoneNumbers(recorder: Recorder): Promise<string[]> {
+  const phoneNumbersClient = new PhoneNumbersClient(
+    assertEnvironmentVariable("COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"),
+    recorder.configureClientOptions({}) as PhoneNumbersClientOptions
+  );
+  const purchasedPhoneNumbers = phoneNumbersClient.listPurchasedPhoneNumbers();
+  const phoneNumbers: string[] = [];
+  for await (const purchasedNumber of purchasedPhoneNumbers) {
+    phoneNumbers.push(purchasedNumber.phoneNumber);
+  }
+  return phoneNumbers;
 }

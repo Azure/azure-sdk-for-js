@@ -8,12 +8,13 @@ import { Recorder } from "@azure-tools/test-recorder";
 import {
   CommunicationIdentifier,
   CommunicationUserIdentifier,
+  PhoneNumberIdentifier,
   serializeCommunicationIdentifier,
 } from "@azure/communication-common";
 
 // Parent directory imports
 import { CallMedia } from "../src/callMedia";
-import { FileSource, TextSource, SsmlSource, Choice } from "../src/models/models";
+import { FileSource, TextSource, SsmlSource, Choice, DtmfTone } from "../src/models/models";
 import {
   CallMediaRecognizeDtmfOptions,
   CallMediaRecognizeChoiceOptions,
@@ -40,6 +41,7 @@ import {
   loadPersistedEvents,
   persistEvents,
   fileSourceUrl,
+  getPhoneNumbers,
 } from "./utils/recordedClient";
 import sinon from "sinon";
 import { assert } from "chai";
@@ -306,6 +308,8 @@ describe("Call Media Client Live Tests", function () {
   let callConnection: CallConnection;
   let testUser: CommunicationUserIdentifier;
   let testUser2: CommunicationUserIdentifier;
+  let callerPhoneUser: PhoneNumberIdentifier;
+  let receiverPhoneUser: PhoneNumberIdentifier;
   let testName: string;
 
   beforeEach(async function (this: Context) {
@@ -447,6 +451,76 @@ describe("Call Media Client Live Tests", function () {
 
     const playCanceledEvent = await waitForEvent("PlayCanceled", callConnectionId, 20000);
     assert.isDefined(playCanceledEvent);
+
+    await callConnection.hangUp(true);
+    const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
+    assert.isDefined(callDisconnectedEvent);
+  }).timeout(60000);
+
+  it("Trigger DTMF actions", async function () {
+    testName = this.test?.fullTitle()
+      ? this.test?.fullTitle().replace(/ /g, "_")
+      : "create_call_and_trigger_dtmf_actions_then_hang_up";
+    await loadPersistedEvents(testName);
+
+    const phoneNumbers = await getPhoneNumbers(recorder);
+    assert.isAtLeast(
+      phoneNumbers.length,
+      2,
+      "Invalid PSTN setup, test needs at least 2 phone numbers"
+    );
+    callerPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
+    receiverPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
+
+    const callInvite: CallInvite = {
+      targetParticipant: receiverPhoneUser,
+      sourceCallIdNumber: callerPhoneUser,
+    };
+    const uniqueId = await serviceBusWithNewCall(callerPhoneUser, receiverPhoneUser);
+    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+
+    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
+    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 30000);
+    const callConnectionId: string = result.callConnectionProperties.callConnectionId
+      ? result.callConnectionProperties.callConnectionId
+      : "";
+    assert.isDefined(incomingCallContext);
+
+    let answerCallResult;
+    if (incomingCallContext) {
+      answerCallResult = await receiverCallAutomationClient.answerCall(
+        incomingCallContext,
+        callBackUrl
+      );
+    }
+    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+    assert.isDefined(callConnectedEvent);
+    callConnection = result.callConnection;
+    const receivercallConnectionId: string = answerCallResult?.callConnectionProperties
+      .callConnectionId
+      ? answerCallResult?.callConnectionProperties.callConnectionId
+      : "";
+
+    await callConnection.getCallMedia().startContinuousDtmfRecognition(receiverPhoneUser);
+
+    await callConnection.getCallMedia().sendDtmf([DtmfTone.Pound], receiverPhoneUser);
+    const sendDtmfCompleted = await waitForEvent("SendDtmfCompleted", callConnectionId, 8000);
+    assert.isDefined(sendDtmfCompleted);
+
+    const continuousDtmfRecognitionToneReceivedEvent = await waitForEvent(
+      "ContinuousDtmfRecognitionToneReceived",
+      receivercallConnectionId,
+      8000
+    );
+    assert.isDefined(continuousDtmfRecognitionToneReceivedEvent);
+
+    await callConnection.getCallMedia().stopContinuousDtmfRecognition(receiverPhoneUser);
+    const continuousDtmfRecognitionStopped = await waitForEvent(
+      "ContinuousDtmfRecognitionStopped",
+      callConnectionId,
+      8000
+    );
+    assert.isDefined(continuousDtmfRecognitionStopped);
 
     await callConnection.hangUp(true);
     const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);

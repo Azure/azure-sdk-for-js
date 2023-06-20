@@ -2,11 +2,11 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure StorageCacheManagement client.
 
-A Storage Cache provides scalable caching service for NAS clients, serving data from either NFSv3 or Blob at-rest storage (referred to as "Storage Targets"). These operations allow you to manage Caches.
+Azure Managed Lustre provides a fully managed Lustre® file system, integrated with Blob storage, for use on demand. These operations create and manage Azure Managed Lustre file systems.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storagecache/arm-storagecache) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-storagecache) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-storagecache?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-storagecache) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
