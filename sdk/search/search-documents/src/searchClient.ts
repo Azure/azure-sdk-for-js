@@ -286,8 +286,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     suggesterName: string,
     options: AutocompleteOptions<TModel> = {}
   ): Promise<AutocompleteResult> {
-    const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
-    const { searchFields, ...nonFieldOptions } = restOptions;
+    const { searchFields, ...nonFieldOptions } = options;
     const fullOptions: AutocompleteRequest = {
       searchText: searchText,
       suggesterName: suggesterName,
@@ -303,7 +302,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       throw new RangeError("suggesterName must be provided.");
     }
 
-    const { span, updatedOptions } = createSpan("SearchClient-autocomplete", operationOptions);
+    const { span, updatedOptions } = createSpan("SearchClient-autocomplete", options);
 
     try {
       const result = await this.client.documents.autocompletePost(fullOptions, updatedOptions);
@@ -324,7 +323,6 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     options: SearchOptions<TModel, Fields> = {},
     nextPageParameters: SearchRequest<TModel> = {}
   ): Promise<SearchDocumentsPageResult<TModel, Fields>> {
-    const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
     const {
       select,
       searchFields,
@@ -336,7 +334,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       semanticErrorHandlingMode,
       debugMode,
       ...nonFieldOptions
-    } = restOptions as SearchRequestOptions<TModel, Fields>;
+    } = options;
     const fullOptions: GeneratedSearchRequest = {
       ...nonFieldOptions,
       ...nextPageParameters,
@@ -351,7 +349,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       debug: debugMode,
     };
 
-    const { span, updatedOptions } = createSpan("SearchClient-searchDocuments", operationOptions);
+    const { span, updatedOptions } = createSpan("SearchClient-searchDocuments", options);
 
     try {
       const result = await this.client.documents.searchPost(
@@ -570,8 +568,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     suggesterName: string,
     options: SuggestOptions<TModel, Fields> = {}
   ): Promise<SuggestDocumentsResult<TModel, Fields>> {
-    const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
-    const { select, searchFields, orderBy, ...nonFieldOptions } = restOptions;
+    const { select, searchFields, orderBy, ...nonFieldOptions } = options;
     const fullOptions: SuggestRequest = {
       searchText: searchText,
       suggesterName: suggesterName,
@@ -589,7 +586,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       throw new RangeError("suggesterName must be provided.");
     }
 
-    const { span, updatedOptions } = createSpan("SearchClient-suggest", operationOptions);
+    const { span, updatedOptions } = createSpan("SearchClient-suggest", options);
 
     try {
       const result = await this.client.documents.suggestPost(fullOptions, updatedOptions);
@@ -857,25 +854,6 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     } catch (e: any) {
       throw new Error(`Corrupted or invalid continuation token: ${decodedToken}`);
     }
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-shadow
-  private extractOperationOptions<T extends OperationOptions>(
-    obj: T
-  ): {
-    operationOptions: OperationOptions;
-    restOptions: any;
-  } {
-    const { abortSignal, requestOptions, tracingOptions, ...restOptions } = obj;
-
-    return {
-      operationOptions: {
-        abortSignal,
-        requestOptions,
-        tracingOptions,
-      },
-      restOptions,
-    };
   }
 
   private convertSelect<Fields extends SelectFields<TModel>>(
