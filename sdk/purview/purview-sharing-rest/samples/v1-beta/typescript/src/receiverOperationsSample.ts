@@ -28,12 +28,15 @@ async function getAllDetachedReceivedShares(): Promise<InPlaceReceivedShareOutpu
   const client = createPurviewSharingClient(endpoint, credential);
 
   const initialResponse = await client.path("/receivedShares/detached").get();
+  if (isUnexpected(initialResponse)) {
+    throw initialResponse.body.error;
+  }
+
   const pageData = paginate(client, initialResponse);
 
   const result: InPlaceReceivedShareOutput[] = [];
   for await (const item of pageData) {
-    const receivedShare = item as InPlaceReceivedShareOutput;
-    receivedShare && result.push(receivedShare);
+    result.push(item);
   }
   console.log(result);
 

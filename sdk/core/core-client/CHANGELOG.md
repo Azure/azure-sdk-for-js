@@ -1,5 +1,15 @@
 # Release History
 
+## 1.7.4 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.7.3 (2023-06-01)
 
 ### Other Changes
