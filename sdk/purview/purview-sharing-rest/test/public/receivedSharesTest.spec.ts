@@ -18,7 +18,7 @@ describe("Received Shares Operations", () => {
   let recorder: Recorder;
   let client: PurviewSharingClient;
 
-  let receivedShareId = "";
+  let receivedShareId = "206016dd-fd49-420c-9545-9663badda4e3";
   const pollingIntervalMs = 30000;
 
   beforeEach(async function (this: Context) {

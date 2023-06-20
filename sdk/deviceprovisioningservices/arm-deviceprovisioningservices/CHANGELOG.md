@@ -1,15 +1,23 @@
 # Release History
+    
+## 6.0.0-beta.1 (2023-06-07)
+    
+**Features**
 
-## 5.1.1 (Unreleased)
+  - Added Interface ManagedServiceIdentity
+  - Added Interface UserAssignedIdentity
+  - Added Type Alias ManagedServiceIdentityType
+  - Interface IotDpsPropertiesDescription has a new optional parameter portalOperationsHostName
+  - Interface ProvisioningServiceDescription has a new optional parameter identity
+  - Interface Resource has a new optional parameter resourcegroup
+  - Interface Resource has a new optional parameter subscriptionid
+  - Added Enum KnownManagedServiceIdentityType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Type of parameter code of interface ErrorDetails is changed from string to number
+    
+    
 ## 5.1.0 (2023-01-05)
     
 **Features**

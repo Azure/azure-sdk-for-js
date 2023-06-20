@@ -24,13 +24,12 @@ import { SemanticAttributes } from "@opentelemetry/semantic-conventions";
  * Azure Monitor Performance Counter Metrics
  * @internal
  */
-export class _PerformanceCounterMetrics {
+export class PerformanceCounterMetrics {
   private _collectionInterval = 60000; // 60 seconds
   private _meterProvider: MeterProvider;
   private _azureExporter: AzureMonitorMetricExporter;
   private _metricReader: PeriodicExportingMetricReader;
   private _meter: Meter;
-
   private _requestRateGauge: ObservableGauge;
   private _requestRateGaugeCallback: ObservableCallback;
   private _requestFailureRateGauge: ObservableGauge;
@@ -40,15 +39,15 @@ export class _PerformanceCounterMetrics {
   private _intervalExecutionTime = 0;
   private _lastRequestRate: { count: number; time: number; executionInterval: number };
   private _lastFailureRequestRate: { count: number; time: number; executionInterval: number };
+  private _config: AzureMonitorOpenTelemetryConfig;
 
   /**
    * Initializes a new instance of the PerformanceCounterMetrics class.
-   * @param _config - Configuration.
+   * @param config - Distro configuration.
+   * @param options - Preformance Counters options.
    */
-  constructor(
-    private _config: AzureMonitorOpenTelemetryConfig,
-    options?: { collectionInterval: number }
-  ) {
+  constructor(config: AzureMonitorOpenTelemetryConfig, options?: { collectionInterval: number }) {
+    this._config = config;
     const meterProviderConfig: MeterProviderOptions = {
       resource: this._config.resource,
     };
@@ -105,9 +104,8 @@ export class _PerformanceCounterMetrics {
 
   /**
    * Record Span metrics
-   * @internal
    */
-  public _recordSpan(span: ReadableSpan): void {
+  public recordSpan(span: ReadableSpan): void {
     if (span.kind !== SpanKind.SERVER) {
       return;
     }

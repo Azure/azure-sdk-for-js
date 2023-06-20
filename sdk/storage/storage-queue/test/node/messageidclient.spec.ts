@@ -3,11 +3,15 @@
 
 import { assert } from "chai";
 import { newPipeline } from "../../src";
-import { getQSU, getConnectionStringFromEnvironment } from "../utils";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import {
+  getQSU,
+  getConnectionStringFromEnvironment,
+  configureStorageClient,
+  getUniqueName,
+  recorderEnvSetup,
+} from "../utils";
+import { Recorder } from "@azure-tools/test-recorder";
 import { QueueClient } from "../../src/QueueClient";
-import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
-import { recorderEnvSetup } from "../utils/index.browser";
 import { Context } from "mocha";
 
 describe("QueueClient messageId methods, Node.js only", () => {
@@ -18,9 +22,10 @@ describe("QueueClient messageId methods, Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    const queueServiceClient = getQSU();
-    queueName = recorder.getUniqueName("queue");
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    const queueServiceClient = getQSU(recorder);
+    queueName = recorder.variable("queue", getUniqueName("queue"));
     queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();
   });
@@ -98,14 +103,14 @@ describe("QueueClient messageId methods, Node.js only", () => {
   });
 
   it("can be created with a url and a credential", async () => {
-    const factories = (queueClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = queueClient["credential"];
 
     const eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
 
     const newClient = new QueueClient(queueClient.url, credential);
+    configureStorageClient(recorder, newClient);
     await newClient.updateMessage(
       eResult.messageId,
       eResult.popReceipt,
@@ -119,8 +124,7 @@ describe("QueueClient messageId methods, Node.js only", () => {
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
-    const factories = (queueClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = queueClient["credential"];
 
     const eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.messageId);
@@ -131,6 +135,7 @@ describe("QueueClient messageId methods, Node.js only", () => {
         maxTries: 5,
       },
     });
+    configureStorageClient(recorder, newClient);
     await newClient.updateMessage(
       eResult.messageId,
       eResult.popReceipt,
@@ -144,8 +149,7 @@ describe("QueueClient messageId methods, Node.js only", () => {
   });
 
   it("can be created with a url and a pipeline", async () => {
-    const factories = (queueClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = queueClient["credential"];
 
     const eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.messageId);
@@ -153,6 +157,7 @@ describe("QueueClient messageId methods, Node.js only", () => {
 
     const pipeline = newPipeline(credential);
     const newClient = new QueueClient(queueClient.url, pipeline);
+    configureStorageClient(recorder, newClient);
     await newClient.updateMessage(
       eResult.messageId,
       eResult.popReceipt,
@@ -171,6 +176,7 @@ describe("QueueClient messageId methods, Node.js only", () => {
     assert.ok(eResult.popReceipt);
 
     const newClient = new QueueClient(getConnectionStringFromEnvironment(), queueClient.name);
+    configureStorageClient(recorder, newClient);
     await newClient.updateMessage(
       eResult.messageId,
       eResult.popReceipt,
@@ -193,6 +199,7 @@ describe("QueueClient messageId methods, Node.js only", () => {
         maxTries: 5,
       },
     });
+    configureStorageClient(recorder, newClient);
     await newClient.updateMessage(
       eResult.messageId,
       eResult.popReceipt,
