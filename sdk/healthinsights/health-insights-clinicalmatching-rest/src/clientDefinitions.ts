@@ -13,9 +13,7 @@ export interface MatchTrials {
   /** Creates a Trial Matcher job with the given request body. */
   post(
     options?: MatchTrialsParameters
-  ): StreamableMethod<
-    MatchTrials200Response | MatchTrials202Response | MatchTrialsDefaultResponse
-  >;
+  ): StreamableMethod<MatchTrials200Response | MatchTrials202Response | MatchTrialsDefaultResponse>;
 }
 
 export interface Routes {

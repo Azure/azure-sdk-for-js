@@ -2,10 +2,14 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-import { assertEnvironmentVariable, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import {
+  assertEnvironmentVariable,
+  Recorder,
+  RecorderStartOptions,
+} from "@azure-tools/test-recorder";
 import "./env";
-import {AzureKeyCredential} from "@azure/core-auth";
-import CancerProfiling, {CancerProfilingRestClient} from "../../../src";
+import { AzureKeyCredential } from "@azure/core-auth";
+import CancerProfiling, { CancerProfilingRestClient } from "../../../src";
 
 const envSetupForPlayback: Record<string, string> = {
   HEALTH_INSIGHTS_ENDPOINT: "https://endpoint",
