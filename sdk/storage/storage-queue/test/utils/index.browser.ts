@@ -1,24 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AnonymousCredential } from "../../src/credentials/AnonymousCredential";
-import { newPipeline } from "../../src/Pipeline";
+import { Recorder, env } from "@azure-tools/test-recorder";
+import { AnonymousCredential } from "../../../storage-blob/src/credentials/AnonymousCredential";
+import { newPipeline } from "../../../storage-blob/src/Pipeline";
 import { QueueServiceClient } from "../../src/QueueServiceClient";
+import { configureStorageClient } from "./testutils.common";
 export * from "./testutils.common";
 
 export function getGenericQSU(
+  recorder: Recorder,
   accountType: string,
   accountNameSuffix: string = ""
 ): QueueServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
 
-  const accountName = (self as any).__env__[accountNameEnvVar];
+  const accountName = env[accountNameEnvVar];
 
   let accountSAS: string | undefined;
-  accountSAS = (self as any).__env__[accountSASEnvVar];
+  accountSAS = env[accountSASEnvVar];
 
-  if (!accountName || !accountSAS || accountName === "" || accountSAS === "") {
+  if (!accountName || !accountSAS) {
     throw new Error(
       `${accountNameEnvVar} and/or ${accountSASEnvVar} environment variables not specified.`
     );
@@ -29,20 +32,19 @@ export function getGenericQSU(
   }
 
   const credentials = new AnonymousCredential();
-  const pipeline = newPipeline(credentials, {
-    // Enable logger when debugging
-    // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
-  });
+  const pipeline = newPipeline(credentials);
   const filePrimaryURL = `https://${accountName}${accountNameSuffix}.queue.core.windows.net${accountSAS}`;
-  return new QueueServiceClient(filePrimaryURL, pipeline);
+  const client = new QueueServiceClient(filePrimaryURL, pipeline);
+  configureStorageClient(recorder, client);
+  return client;
 }
 
-export function getQSU(): QueueServiceClient {
-  return getGenericQSU("");
+export function getQSU(recorder: Recorder): QueueServiceClient {
+  return getGenericQSU(recorder, "");
 }
 
-export function getAlternateQSU(): QueueServiceClient {
-  return getGenericQSU("SECONDARY_", "-secondary");
+export function getAlternateQSU(recorder: Recorder): QueueServiceClient {
+  return getGenericQSU(recorder, "SECONDARY_", "-secondary");
 }
 
 /**
@@ -113,14 +115,11 @@ export function getBrowserFile(name: string, size: number): File {
 }
 
 export function getSASConnectionStringFromEnvironment(): string {
-  const env = (self as any).__env__;
-  return `BlobEndpoint=https://${env.ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${
-    env.ACCOUNT_NAME
-  }.queue.core.windows.net/;FileEndpoint=https://${
-    env.ACCOUNT_NAME
-  }.file.core.windows.net/;TableEndpoint=https://${
-    env.ACCOUNT_NAME
-  }.table.core.windows.net/;SharedAccessSignature=${env.ACCOUNT_SAS.substring(1)}`;
-  // env.ACCOUNT_SAS.substring(1) - to remove the `?` in ACCOUNT_SAS
-  // SAS Connection String doesn't have `?` in the `SharedAccessSignature`
+  let sasToken: string = env.ACCOUNT_SAS ?? "";
+  // connection string SAS doesn't have the prefix
+  if (sasToken && sasToken.startsWith("?")) {
+    sasToken = sasToken.slice(1);
+  }
+
+  return `BlobEndpoint=https://${env.ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${env.ACCOUNT_NAME}.queue.core.windows.net/;FileEndpoint=https://${env.ACCOUNT_NAME}.file.core.windows.net/;TableEndpoint=https://${env.ACCOUNT_NAME}.table.core.windows.net/;SharedAccessSignature=${sasToken}`;
 }

@@ -25,6 +25,7 @@ import { Offer, OfferDefinition } from "../Offer";
 import { OfferResponse } from "../Offer/OfferResponse";
 import { Resource } from "../Resource";
 import { getEmptyCosmosDiagnostics } from "../../CosmosDiagnostics";
+import { CosmosDiagnosticContext } from "../../CosmosDiagnosticsContext";
 
 /**
  * Operations for reading, replacing, or deleting a specific, existing container by id.
@@ -109,7 +110,7 @@ export class Container {
    * `const {body: replacedItem} = await container.item("<item id>", "<partition key value>").replace({id: "<item id>", title: "Updated post", authorID: 5});`
    */
   public item(id: string, partitionKeyValue?: PartitionKey): Item {
-    return new Item(this, id, partitionKeyValue, this.clientContext);
+    return new Item(this, id, this.clientContext, partitionKeyValue);
   }
 
   /**
@@ -266,7 +267,12 @@ export class Container {
 
   public readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange> {
     feedOptions = feedOptions || {};
-    return this.clientContext.queryPartitionKeyRanges(this.url, undefined, feedOptions);
+    return this.clientContext.queryPartitionKeyRanges(
+      this.url,
+      new CosmosDiagnosticContext(),
+      undefined,
+      feedOptions
+    );
   }
 
   /**

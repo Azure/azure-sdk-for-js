@@ -19,3 +19,4 @@ https://docs.microsoft.com/javascript/api/@azure/arm-baremetalinfrastructure
 https://docs.microsoft.com/javascript/api/@azure/arm-baremetalinfrastructure?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-qumulo
 https://docs.microsoft.com/javascript/api/@azure/arm-qumulo?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-containerservicefleet?view=azure-node-preview

@@ -13,7 +13,13 @@ import { Constants, HTTPMethod, OperationType, ResourceType } from "./common/con
 import { getIdFromLink, getPathFromLink, parseLink } from "./common/helper";
 import { StatusCodes, SubStatusCodes } from "./common/statusCodes";
 import { Agent, CosmosClientOptions } from "./CosmosClientOptions";
-import { ConnectionPolicy, ConsistencyLevel, DatabaseAccount, PartitionKey } from "./documents";
+import {
+  ConnectionPolicy,
+  ConsistencyLevel,
+  DatabaseAccount,
+  PartitionKey,
+  convertToInternalPartitionKey,
+} from "./documents";
 import { GlobalEndpointManager } from "./globalEndpointManager";
 import { PluginConfig, PluginOn, executePlugins } from "./plugins/Plugin";
 import { FetchFunctionCallback, SqlQuerySpec } from "./queryExecutionContext";
@@ -31,6 +37,7 @@ import { BulkOptions } from "./utils/batch";
 import { sanitizeEndpoint } from "./utils/checkURL";
 import { AzureLogger, createClientLogger } from "@azure/logger";
 import { CosmosDiagnosticContext } from "./CosmosDiagnosticsContext";
+import { MetadataLookUpType } from "./CosmosDiagnostics";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 
@@ -229,13 +236,17 @@ export class ClientContext {
 
   public queryPartitionKeyRanges(
     collectionLink: string,
+    diagnosticContext: CosmosDiagnosticContext,
     query?: string | SqlQuerySpec,
     options?: FeedOptions
   ): QueryIterator<PartitionKeyRange> {
     const path = getPathFromLink(collectionLink, ResourceType.pkranges);
     const id = getIdFromLink(collectionLink);
-    const cb: FetchFunctionCallback = (innerOptions) => {
-      return this.queryFeed({
+    const cb: FetchFunctionCallback = async (
+      innerOptions,
+      diagnosticCtx: CosmosDiagnosticContext
+    ) => {
+      const response = await this.queryFeed({
         path,
         resourceType: ResourceType.pkranges,
         resourceId: id,
@@ -243,8 +254,13 @@ export class ClientContext {
         query,
         options: innerOptions,
       });
+      diagnosticCtx.recordMetaDataLookup(
+        response.diagnostics,
+        MetadataLookUpType.PartitionKeyRangeLookUp
+      );
+      return response;
     };
-    return new QueryIterator<PartitionKeyRange>(this, query, options, cb);
+    return new QueryIterator<PartitionKeyRange>(this, query, options, cb, diagnosticContext);
   }
 
   public async delete<T>({
@@ -641,7 +657,7 @@ export class ClientContext {
   }: {
     body: T;
     path: string;
-    partitionKey: string;
+    partitionKey: PartitionKey;
     resourceId: string;
     options?: RequestOptions;
     diagnosticContext?: CosmosDiagnosticContext;
@@ -803,12 +819,16 @@ export class ClientContext {
       options: requestContext.options,
       partitionKeyRangeId: requestContext.partitionKeyRangeId,
       useMultipleWriteLocations: this.connectionPolicy.useMultipleWriteLocations,
-      partitionKey: requestContext.partitionKey,
+      partitionKey:
+        requestContext.partitionKey !== undefined
+          ? convertToInternalPartitionKey(requestContext.partitionKey)
+          : undefined, // TODO: Move this check from here to PartitionKey
     });
   }
 
   /**
-   * Returns collection of properties which are derived from the context for Request Creation
+   * Returns collection of properties which are derived from the context for Request Creation.
+   * These properties have client wide scope, as opposed to request specific scope.
    * @returns
    */
   private getContextDerivedPropsForRequestCreation(diagnosticContext: CosmosDiagnosticContext): {
