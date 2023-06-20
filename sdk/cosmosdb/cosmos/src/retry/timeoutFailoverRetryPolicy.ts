@@ -89,7 +89,7 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     this.failoverRetryCount++;
     // Setting the retryLocationIndex to the next available location for retry.
     // The retryLocationIndex is determined based on the failoverRetryCount, starting from zero.
-    retryContext.retryLocationIndex = await this.findEndpointIndex(this.failoverRetryCount);
+    retryContext.retryLocationServerIndex = await this.findEndpointIndex(this.failoverRetryCount);
     return true;
   }
 

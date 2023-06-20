@@ -77,12 +77,12 @@ export async function execute({
     requestContext.client.clearSessionToken(requestContext.path);
     delete requestContext.headers["x-ms-session-token"];
   }
-  if (retryContext && retryContext.retryLocationIndex) {
+  if (retryContext && retryContext.retryLocationServerIndex) {
     requestContext.endpoint = await requestContext.globalEndpointManager.resolveServiceEndpoint(
       requestContext.resourceType,
       requestContext.operationType,
       requestContext,
-      retryContext.retryLocationIndex
+      retryContext.retryLocationServerIndex
     );
   } else {
     requestContext.endpoint = await requestContext.globalEndpointManager.resolveServiceEndpoint(
