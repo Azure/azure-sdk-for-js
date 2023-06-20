@@ -49,4 +49,10 @@ directive:
 - rename-model:
     from: RecognizeInputType
     to: RecognizeInputTypeInternal
+- rename-model:
+    from: TextSource
+    to: TextSourceInternal
+- rename-model:
+    from: SsmlSource
+    to: SsmlSourceInternal
 ```

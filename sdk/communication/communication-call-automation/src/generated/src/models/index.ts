@@ -193,9 +193,9 @@ export interface PlaySourceInternal {
   /** Defines the file source info to be used for play */
   fileSource?: FileSourceInternal;
   /** Defines the text source info to be used for play */
-  textSource?: TextSource;
+  textSource?: TextSourceInternal;
   /** Defines the ssml(Speech Synthesis Markup Language) source info to be used for play */
-  ssmlSource?: SsmlSource;
+  ssmlSource?: SsmlSourceInternal;
 }
 
 export interface FileSourceInternal {
@@ -203,7 +203,7 @@ export interface FileSourceInternal {
   uri: string;
 }
 
-export interface TextSource {
+export interface TextSourceInternal {
   /** Text for the cognitive service to be played */
   text: string;
   /**
@@ -220,7 +220,7 @@ export interface TextSource {
   voiceName?: string;
 }
 
-export interface SsmlSource {
+export interface SsmlSourceInternal {
   /** Ssml string for the cognitive service to be played */
   ssmlText: string;
 }

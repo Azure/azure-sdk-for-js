@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export interface IStandardMetricBaseDimensions {
+export interface StandardMetricBaseDimensions {
   metricId?: string;
   cloudRoleInstance?: string;
   cloudRoleName?: string;
   IsAutocollected?: string;
 }
 
-export interface IMetricRequestDimensions extends IStandardMetricBaseDimensions {
+export interface MetricRequestDimensions extends StandardMetricBaseDimensions {
   requestSuccess?: string;
   requestResultCode?: string;
 }
 
-export interface IMetricDependencyDimensions extends IStandardMetricBaseDimensions {
+export interface MetricDependencyDimensions extends StandardMetricBaseDimensions {
   dependencyType?: string;
   dependencyTarget?: string;
   dependencySuccess?: string;

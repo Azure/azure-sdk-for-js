@@ -1,49 +1,60 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import { Pipeline } from "@azure/core-rest-pipeline";
+import { StorageClient } from "../../src/StorageClient";
+
+type UriSanitizers = Required<RecorderStartOptions>["sanitizerOptions"]["uriSanitizers"];
 
 export function isBrowser(): boolean {
   return typeof self !== "undefined";
 }
 
+export function configureStorageClient(recorder: Recorder, client: StorageClient): void {
+  const options = recorder.configureClientOptions({});
+
+  const pipeline: Pipeline = client["storageClientContext"].pipeline;
+  for (const { policy } of options.additionalPolicies ?? []) {
+    pipeline.addPolicy(policy, { afterPhase: "Sign", afterPolicies: ["injectorPolicy"] });
+  }
+}
+
+function getUriSanitizerForQueryParam(paramName: string) {
+  return {
+    regex: true,
+    target: `http.+\\?([^&=]+=[^&=]+&)*(?<param>${paramName}=[^&=]+&?)`,
+    groupForReplace: "param",
+    value: "",
+  };
+}
+
 const mockAccountName = "fakestorageaccount";
 const mockAccountKey = "aaaaa";
-export const recorderEnvSetup: RecorderEnvironmentSetup = {
-  replaceableVariables: {
+const mockSas =
+  "?sv=2015-04-05&ss=bfqt&srt=sco&sp=rwdlacup&se=2023-01-31T18%3A51%3A40.0000000Z&sig=foobar";
+const sasParams = ["se", "sig", "sip", "sp", "spr", "srt", "ss", "sr", "st", "sv"];
+if (isBrowser()) {
+  sasParams.push("_");
+}
+
+export const uriSanitizers: UriSanitizers = sasParams.map(getUriSanitizerForQueryParam);
+export const recorderEnvSetup: RecorderStartOptions = {
+  envSetupForPlayback: {
     // Used in record and playback modes
     // 1. The key-value pairs will be used as the environment variables in playback mode
     // 2. If the env variables are present in the recordings as plain strings, they will be replaced with the provided values in record mode
     ACCOUNT_NAME: `${mockAccountName}`,
     ACCOUNT_KEY: `${mockAccountKey}`,
-    ACCOUNT_SAS: `${mockAccountKey}`,
+    ACCOUNT_SAS: `${mockSas}`,
     STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
     // Comment following line to skip user delegation key/SAS related cases in record and play
     // which depends on this environment variable
     ACCOUNT_TOKEN: `${mockAccountKey}`,
   },
-  customizationsOnRecordings: [
-    // Used in record mode
-    // Array of callback functions can be provided to customize the generated recordings in record mode
-    // `sig` param of SAS Token is being filtered here
-    (recording: string): string =>
-      recording.replace(
-        new RegExp(env.ACCOUNT_SAS.match("(.*)&sig=(.*)")[2], "g"),
-        `${mockAccountKey}`
-      ),
-  ],
-  // SAS token may contain sensitive information
-  queryParametersToSkip: [
-    // Used in record and playback modes
-    "se",
-    "sig",
-    "sp",
-    "spr",
-    "srt",
-    "ss",
-    "st",
-    "sv",
-  ],
+  sanitizerOptions: {
+    uriSanitizers,
+  },
 };
 
 export function getUniqueName(prefix: string): string {
