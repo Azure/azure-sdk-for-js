@@ -29,7 +29,7 @@ npm install @azure-rest/health-insights-cancerprofiling
 |-------------|---------------|
 |1.0.0b1 | 2023-03-01-preview|
 
-### Create and authenticate a `CancerProfilingClient`
+### Create and authenticate a `CancerProfilingRestClient`
 
 To use an [Azure Active Directory (AAD) token credential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token),
 provide an instance of the desired credential type obtained from the
@@ -56,10 +56,11 @@ const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
 const endpoint =
   process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
-const initialResponse = await client.path("/trialmatcher/jobs").post(trialMatcherParameter);
+const initialResponse = await client.path("/oncophenotype/jobs").post(parameters);
 if (isUnexpected(initialResponse)) {
     throw initialResponse;
 }
+    
 const poller = await getLongRunningPoller(client, initialResponse);
 const cancerProfilingResult = await poller.pollUntilDone();
 if (isUnexpected(cancerProfilingResult)) {
@@ -67,25 +68,31 @@ if (isUnexpected(cancerProfilingResult)) {
 }
 const resultBody = cancerProfilingResult.body as OncoPhenotypeResultOutput;
 
-if (resultBody.status === "succeeded") {
-  const results = resultBody.results as TrialMatcherResultsOutput;
-  const patients = results.patients;
-  for (const patientResult of patients) {
-      console.log(`Inferences of Patient ${patientResult.id}`);
-      for (const tmInferences of patientResult.inferences) {
-          console.log(`Trial Id ${tmInferences.id}`);
-          console.log(`Type: ${String(tmInferences.type)}  Value: ${tmInferences.value}`);
-          console.log(`Description ${tmInferences.description}`);
-      }
-  }
-}
-else {
-  const errors = trialMatcherResult.errors;
-  if (errors) {
-      for (const error of errors) {
-          console.log('${error.code} ":" ${error.message}');
-      }
-  }
+if (cancerProfilingResult.status === "succeeded") {
+    const results = cancerProfilingResult.results as OncoPhenotypeResultsOutput;
+    const patients = results.patients;
+    for (const patientResult of patients) {
+        console.log(`Inferences of Patient ${patientResult.id}`);
+        for (const inferences of patientResult.inferences) {
+            console.log(`Clinical Type: ${String(inferences.type)} Value: ${inferences.value}, ConfidenceScore: ${inferences.confidenceScore}`);
+            if (inferences.evidence != undefined) {
+                for (const evidence of inferences.evidence) {
+                    if (evidence.patientDataEvidence != undefined)
+                    {
+                        let dataEvidence = evidence.patientDataEvidence;
+                        console.log(`Evidence: ${dataEvidence.id} ${dataEvidence.offset} ${dataEvidence.length} ${dataEvidence.text}`);
+                    }
+                }
+            }
+        }
+    }
+} else {
+    const errors = cancerProfilingResult.errors;
+    if (errors) {
+        for (const error of errors) {
+          console.log(error.code, ":", error.message);
+        }
+    }
 }
 ```
 

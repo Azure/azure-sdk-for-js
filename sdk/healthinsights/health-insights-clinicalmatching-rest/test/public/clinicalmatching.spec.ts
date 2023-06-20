@@ -7,7 +7,7 @@ import { Context } from "mocha";
 import {createClient, createRecorder} from "./utils/recordedClient";
 import {
     ClinicalCodedElement,
-    ClinicalMatchingClient, ClinicalTrialRegistryFilter, ClinicalTrials, GeographicLocation,
+    ClinicalMatchingRestClient, ClinicalTrialRegistryFilter, ClinicalTrials, GeographicLocation,
     getLongRunningPoller,
     MatchTrialsBodyParam,
     PatientInfo, PatientRecord, TrialMatcherData, TrialMatcherModelConfiguration
@@ -105,7 +105,7 @@ const clinicalInfoList: ClinicalCodedElement[] = [
 
 describe("My test", () => {
   let recorder: Recorder;
-  let client: ClinicalMatchingClient;
+  let client: ClinicalMatchingRestClient;
 
 
   beforeEach(async function (this: Context) {

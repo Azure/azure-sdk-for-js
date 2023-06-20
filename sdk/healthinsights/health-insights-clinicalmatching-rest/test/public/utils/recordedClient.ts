@@ -5,7 +5,7 @@ import { Context } from "mocha";
 import { assertEnvironmentVariable, Recorder, RecorderStartOptions} from "@azure-tools/test-recorder";
 import "./env";
 import {AzureKeyCredential} from "@azure/core-auth";
-import ClinicalMatching, {ClinicalMatchingClient} from "../../../src";
+import ClinicalMatching, {ClinicalMatchingRestClient} from "../../../src";
 
 const envSetupForPlayback: Record<string, string> = {
   HEALTH_INSIGHTS_ENDPOINT: "https://endpoint",
@@ -30,7 +30,7 @@ export async function createRecorder(context: Context): Promise<Recorder> {
   return recorder;
 }
 
-export async function createClient(recorder: Recorder): Promise<ClinicalMatchingClient> {
+export async function createClient(recorder: Recorder): Promise<ClinicalMatchingRestClient> {
   const endpoint = assertEnvironmentVariable("HEALTH_INSIGHTS_ENDPOINT");
   const key = assertEnvironmentVariable("HEALTH_INSIGHTS_KEY");
   const credential = new AzureKeyCredential(key);

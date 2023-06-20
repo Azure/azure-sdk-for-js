@@ -13,7 +13,7 @@ const { AzureKeyCredential } = require("@azure/core-auth");
 // Load the .env file if it exists
 const dotenv = require("dotenv");
 const createClient = require("../src").default,
-  { getLongRunningPoller } = require("../src");
+  { getLongRunningPoller, isUnexpected } = require("../src");
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
@@ -33,17 +33,23 @@ function printResults(cancerProfilingResult) {
             inferences.confidenceScore
           }`
         );
-        /*              for (const evidence of inferences.evidence) {
-                                  let dataEvidence = evidence.patientDataEvidence;
-                                  console.log(`Evidence: ${dataEvidence.id} ${dataEvidence.offset} ${dataEvidence.length} ${dataEvidence.text}`);
-                              }*/
+        if (inferences.evidence != undefined) {
+          for (const evidence of inferences.evidence) {
+            if (evidence.patientDataEvidence != undefined) {
+              let dataEvidence = evidence.patientDataEvidence;
+              console.log(
+                `Evidence: ${dataEvidence.id} ${dataEvidence.offset} ${dataEvidence.length} ${dataEvidence.text}`
+              );
+            }
+          }
+        }
       }
     }
   } else {
     const errors = cancerProfilingResult.errors;
     if (errors) {
       for (const error of errors) {
-        console.log('${error.code} ":" ${error.message}');
+        console.log(error.code, ":", error.message);
       }
     }
   }
@@ -189,14 +195,14 @@ async function main() {
   };
 
   const initialResponse = await client.path("/oncophenotype/jobs").post(parameters);
-  /*if (isUnexpected(initialResponse)) {
-      throw initialResponse;
-    }*/
+  if (isUnexpected(initialResponse)) {
+    throw initialResponse;
+  }
   const poller = await getLongRunningPoller(client, initialResponse);
   const cancerProfilingResult = await poller.pollUntilDone();
-  /*if (isUnexpected(cancerProfilingResult)) {
-      throw cancerProfilingResult;
-    }*/
+  if (isUnexpected(cancerProfilingResult)) {
+    throw cancerProfilingResult;
+  }
   const resultBody = cancerProfilingResult.body;
   printResults(resultBody);
 }

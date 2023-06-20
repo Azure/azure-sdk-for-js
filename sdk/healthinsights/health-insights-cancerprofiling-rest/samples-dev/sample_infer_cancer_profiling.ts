@@ -37,17 +37,22 @@ function printResults(cancerProfilingResult: OncoPhenotypeResultOutput): void {
             console.log(`Inferences of Patient ${patientResult.id}`);
             for (const inferences of patientResult.inferences) {
                 console.log(`Clinical Type: ${String(inferences.type)} Value: ${inferences.value}, ConfidenceScore: ${inferences.confidenceScore}`);
-                  for (const evidence of inferences.evidence) {
-                      let dataEvidence = evidence.patientDataEvidence;
-                      console.log(`Evidence: ${dataEvidence.id} ${dataEvidence.offset} ${dataEvidence.length} ${dataEvidence.text}`);
-                  }
+                if (inferences.evidence != undefined) {
+                    for (const evidence of inferences.evidence) {
+                        if (evidence.patientDataEvidence != undefined)
+                        {
+                            let dataEvidence = evidence.patientDataEvidence;
+                            console.log(`Evidence: ${dataEvidence.id} ${dataEvidence.offset} ${dataEvidence.length} ${dataEvidence.text}`);
+                        }
+                    }
+                }
             }
         }
     } else {
         const errors = cancerProfilingResult.errors;
         if (errors) {
             for (const error of errors) {
-                console.log('${error.code} ":" ${error.message}');
+              console.log(error.code, ":", error.message);
             }
         }
     }

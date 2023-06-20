@@ -94,7 +94,7 @@
   },
   "//metadata": {
     "constantPaths": [
-      { "path": "src/clinicalMatchingClient.ts", "prefix": "userAgentInfo" }
+      { "path": "src/clinicalMatchingRest.ts", "prefix": "userAgentInfo" }
     ]
   },
   "browser": {

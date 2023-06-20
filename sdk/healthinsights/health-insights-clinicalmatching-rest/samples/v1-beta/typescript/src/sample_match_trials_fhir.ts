@@ -57,7 +57,7 @@ function printResults(trialMatcherResult: TrialMatcherResultOutput): void {
       const errors = trialMatcherResult.errors;
       if (errors) {
           for (const error of errors) {
-              console.log('${error.code} ":" ${error.message}');
+              console.log(error.code, ":", error.message);
           }
       }
   }

@@ -25,8 +25,8 @@ export interface AcceptedAge {
 
 // @public
 export interface AcceptedAgeRange {
-    maximumAge?: object;
-    minimumAge?: object;
+    maximumAge?: AcceptedAge;
+    minimumAge?: AcceptedAge;
 }
 
 // @public
@@ -58,7 +58,7 @@ export interface ClinicalCodedElementOutput {
 }
 
 // @public (undocumented)
-export type ClinicalMatchingClient = Client & {
+export type ClinicalMatchingRestClient = Client & {
     path: Routes;
 };
 
@@ -72,16 +72,16 @@ export interface ClinicalNoteEvidenceOutput {
 
 // @public
 export interface ClinicalTrialDemographics {
-    acceptedAgeRange?: object;
+    acceptedAgeRange?: AcceptedAgeRange;
     acceptedSex?: string;
 }
 
 // @public
 export interface ClinicalTrialDetails {
-    demographics?: object;
+    demographics?: ClinicalTrialDemographics;
     eligibilityCriteriaText?: string;
     id: string;
-    metadata: object;
+    metadata: ClinicalTrialMetadata;
 }
 
 // @public
@@ -158,7 +158,7 @@ export interface ContactDetailsOutput {
 }
 
 // @public
-function createClient(endpoint: string, credentials: KeyCredential, options?: ClientOptions): ClinicalMatchingClient;
+function createClient(endpoint: string, credentials: KeyCredential, options?: ClientOptions): ClinicalMatchingRestClient;
 export default createClient;
 
 // @public
@@ -170,7 +170,7 @@ export interface DocumentContent {
 // @public
 export interface ErrorModelOutput {
     code: string;
-    details: Array<ErrorModelOutput>;
+    details?: Array<ErrorModelOutput>;
     innererror?: InnerErrorOutput;
     message: string;
     target?: string;
@@ -188,8 +188,8 @@ export interface ExtendedClinicalCodedElementOutput {
 
 // @public
 export interface GeographicArea {
-    geometry: object;
-    properties: object;
+    geometry: AreaGeometry;
+    properties: AreaProperties;
     type: string;
 }
 
@@ -205,7 +205,7 @@ export function getLongRunningPoller<TResult extends MatchTrialsLogicalResponse 
 
 // @public
 export interface InnerErrorOutput {
-    code: string;
+    code?: string;
     innererror?: InnerErrorOutput;
 }
 
@@ -285,7 +285,7 @@ export type MatchTrialsParameters = MatchTrialsHeaderParam & MatchTrialsBodyPara
 // @public
 export interface PatientDocument {
     clinicalType?: string;
-    content: object;
+    content: DocumentContent;
     createdDateTime?: Date | string;
     id: string;
     language?: string;
@@ -303,7 +303,7 @@ export interface PatientInfo {
 export interface PatientRecord {
     data?: Array<PatientDocument>;
     id: string;
-    info?: object;
+    info?: PatientInfo;
 }
 
 // @public (undocumented)
@@ -313,7 +313,7 @@ export interface Routes {
 
 // @public
 export interface TrialMatcherData {
-    configuration?: object;
+    configuration?: TrialMatcherModelConfiguration;
     patients: Array<PatientRecord>;
 }
 
@@ -339,7 +339,7 @@ export interface TrialMatcherInferenceOutput {
 
 // @public
 export interface TrialMatcherModelConfiguration {
-    clinicalTrials: object;
+    clinicalTrials: ClinicalTrials;
     includeEvidence?: boolean;
     verbose?: boolean;
 }

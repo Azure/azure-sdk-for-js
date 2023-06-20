@@ -6,7 +6,7 @@ import { assert } from "chai";
 import {createClient, createRecorder} from "./utils/recordedClient";
 import { Context } from "mocha";
 import {
-  CancerProfilingClient, DocumentContent, InferCancerProfileBodyParam,
+  CancerProfilingRestClient, DocumentContent, InferCancerProfileBodyParam,
   OncoPhenotypeData,
   getLongRunningPoller,
   OncoPhenotypeModelConfiguration,
@@ -118,7 +118,7 @@ const patientInfo: PatientInfo = {
 
 describe("My test", () => {
   let recorder: Recorder;
-  let client: CancerProfilingClient;
+  let client: CancerProfilingRestClient;
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);

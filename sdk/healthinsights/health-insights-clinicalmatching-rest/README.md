@@ -29,7 +29,7 @@ npm install @azure-rest/health-insights-clinicalmatching
 |-------------|---------------|
 |1.0.0b1 | 2023-03-01-preview|
 
-### Create and authenticate a `ClinicalMatchingClient`
+### Create and authenticate a `ClinicalMatchingRestClient`
 
 To use an [Azure Active Directory (AAD) token credential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token),
 provide an instance of the desired credential type obtained from the

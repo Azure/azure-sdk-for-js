@@ -18,7 +18,7 @@ import { SimplePollerLike } from '@azure/core-lro';
 import { StreamableMethod } from '@azure-rest/core-client';
 
 // @public (undocumented)
-export type CancerProfilingClient = Client & {
+export type CancerProfilingRestClient = Client & {
     path: Routes;
 };
 
@@ -47,7 +47,7 @@ export interface ClinicalNoteEvidenceOutput {
 }
 
 // @public
-function createClient(endpoint: string, credentials: KeyCredential, options?: ClientOptions): CancerProfilingClient;
+function createClient(endpoint: string, credentials: KeyCredential, options?: ClientOptions): CancerProfilingRestClient;
 export default createClient;
 
 // @public
@@ -59,7 +59,7 @@ export interface DocumentContent {
 // @public
 export interface ErrorModelOutput {
     code: string;
-    details: Array<ErrorModelOutput>;
+    details?: Array<ErrorModelOutput>;
     innererror?: InnerErrorOutput;
     message: string;
     target?: string;
@@ -147,7 +147,7 @@ export interface InferenceEvidenceOutput {
 
 // @public
 export interface InnerErrorOutput {
-    code: string;
+    code?: string;
     innererror?: InnerErrorOutput;
 }
 
@@ -156,7 +156,7 @@ export function isUnexpected(response: InferCancerProfile200Response | InferCanc
 
 // @public
 export interface OncoPhenotypeData {
-    configuration?: object;
+    configuration?: OncoPhenotypeModelConfiguration;
     patients: Array<PatientRecord>;
 }
 
@@ -204,7 +204,7 @@ export interface OncoPhenotypeResultsOutput {
 // @public
 export interface PatientDocument {
     clinicalType?: string;
-    content: object;
+    content: DocumentContent;
     createdDateTime?: Date | string;
     id: string;
     language?: string;
@@ -222,7 +222,7 @@ export interface PatientInfo {
 export interface PatientRecord {
     data?: Array<PatientDocument>;
     id: string;
-    info?: object;
+    info?: PatientInfo;
 }
 
 // @public (undocumented)

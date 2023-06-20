@@ -94,7 +94,7 @@
   },
   "//metadata": {
     "constantPaths": [
-      { "path": "src/cancerProfilingClient.ts", "prefix": "userAgentInfo" }
+      { "path": "src/cancerProfilingRest.ts", "prefix": "userAgentInfo" }
     ]
   },
   "browser": {
