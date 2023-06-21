@@ -18,13 +18,15 @@ import {
   AvailabilityGroupListenersImpl,
   OperationsImpl,
   SqlVirtualMachineGroupsImpl,
-  SqlVirtualMachinesImpl
+  SqlVirtualMachinesImpl,
+  SqlVirtualMachineTroubleshootImpl
 } from "./operations";
 import {
   AvailabilityGroupListeners,
   Operations,
   SqlVirtualMachineGroups,
-  SqlVirtualMachines
+  SqlVirtualMachines,
+  SqlVirtualMachineTroubleshoot
 } from "./operationsInterfaces";
 import { SqlVirtualMachineManagementClientOptionalParams } from "./models";
 
@@ -113,11 +115,14 @@ export class SqlVirtualMachineManagementClient extends coreClient.ServiceClient 
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-07-01-preview";
+    this.apiVersion = options.apiVersion || "2022-08-01-preview";
     this.availabilityGroupListeners = new AvailabilityGroupListenersImpl(this);
     this.operations = new OperationsImpl(this);
     this.sqlVirtualMachineGroups = new SqlVirtualMachineGroupsImpl(this);
     this.sqlVirtualMachines = new SqlVirtualMachinesImpl(this);
+    this.sqlVirtualMachineTroubleshoot = new SqlVirtualMachineTroubleshootImpl(
+      this
+    );
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -153,4 +158,5 @@ export class SqlVirtualMachineManagementClient extends coreClient.ServiceClient 
   operations: Operations;
   sqlVirtualMachineGroups: SqlVirtualMachineGroups;
   sqlVirtualMachines: SqlVirtualMachines;
+  sqlVirtualMachineTroubleshoot: SqlVirtualMachineTroubleshoot;
 }

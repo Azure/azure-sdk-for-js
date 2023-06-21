@@ -16397,7 +16397,7 @@ packages:
     dev: false
 
   file:projects/arm-sqlvirtualmachine.tgz:
-    resolution: {integrity: sha512-Gy5lwEOdexSJPVh9mY1Nq/F0G2wlR0t0rbqVkfTSb9XTVxXW88951lWx5XROE9Ux/imdaPs3CJ5j3YslJo2JEw==, tarball: file:projects/arm-sqlvirtualmachine.tgz}
+    resolution: {integrity: sha512-Y4qOyqaC9IcRR9408CJoB0ocVKbRja40ZxxYHyhg7R2Vjpn5Ws8CkuyXaP6dj4YpRPNitYpcye72xPtSirsGbg==, tarball: file:projects/arm-sqlvirtualmachine.tgz}
     name: '@rush-temp/arm-sqlvirtualmachine'
     version: 0.0.0
     dependencies:
@@ -16411,8 +16411,8 @@ packages:
       '@types/node': 14.18.51
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
