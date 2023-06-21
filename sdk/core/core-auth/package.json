@@ -4,14 +4,22 @@
   "description": "Provides low-level interfaces and helper methods for authentication in Azure SDK",
   "sdk-type": "client",
   "type": "module",
-  "main": "dist/index.js",
-  "module": "dist-esm/src/index.js",
-  "types": "./types/latest/core-auth.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist-esm/src/index.js",
+  "types": "./types/src/index.d.ts",
   "typesVersions": {
     "<3.6": {
       "types/latest/*": [
         "types/3.1/*"
       ]
+    }
+  },
+  "exports": {
+    ".": {
+      "types": "./types/src/index.d.ts",
+      "types@<3.6": "./types/3.1/core-auth.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist-esm/src/index.js"
     }
   },
   "scripts": {
@@ -41,8 +49,9 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/latest/core-auth.d.ts",
-    "types/3.1",
+    "types/src",
+    "types/latest/",
+    "types/3.1/",
     "README.md",
     "LICENSE"
   ],

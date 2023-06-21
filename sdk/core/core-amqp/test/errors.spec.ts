@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as Errors from "../src/errors";
+import * as Errors from "../src/errors.js";
 import * as chai from "chai";
 import { AbortError } from "@azure/abort-controller";
 

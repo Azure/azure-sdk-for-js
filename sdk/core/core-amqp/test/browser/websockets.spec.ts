@@ -3,7 +3,7 @@
 
 import * as chai from "chai";
 const should = chai.should();
-import { ConnectionConfig, ConnectionContextBase } from "../../src";
+import { ConnectionConfig, ConnectionContextBase } from "../../src/index.js";
 
 describe("ConnectionContextBase (browser)", function () {
   it("should default to using a websocket", async () => {

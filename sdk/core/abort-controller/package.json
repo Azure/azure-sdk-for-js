@@ -4,8 +4,15 @@
   "version": "1.1.1",
   "description": "Microsoft Azure SDK for JavaScript - Aborter",
   "type": "module",
-  "main": "./dist/index.js",
-  "module": "dist-esm/src/index.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist-esm/src/index.js",
+  "exports": {
+    ".": {
+      "types": "./types/src/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist-esm/src/index.js"
+    }
+  },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",

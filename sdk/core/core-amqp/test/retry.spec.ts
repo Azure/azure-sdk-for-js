@@ -11,7 +11,7 @@ import {
   delay,
   retry,
   translate,
-} from "../src";
+} from "../src/index.js";
 import { AbortController } from "@azure/abort-controller";
 import debugModule from "debug";
 

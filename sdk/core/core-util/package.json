@@ -4,8 +4,8 @@
   "description": "Core library for shared utility methods",
   "sdk-type": "client",
   "type": "module",
-  "main": "dist/index.js",
-  "module": "dist-esm/src/index.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist-esm/src/index.js",
   "browser": {
     "./dist-esm/src/sha256.js": "./dist-esm/src/sha256.browser.js",
     "./dist-esm/src/uuidUtils.js": "./dist-esm/src/uuidUtils.browser.js"
@@ -20,6 +20,14 @@
       "types/latest/*": [
         "types/3.1/*"
       ]
+    }
+  },
+  "exports": {
+    ".": {
+      "types": "./types/latest/src/index.d.ts",
+      "types@<3.6": "./types/3.1/src/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist-esm/src/index.js"
     }
   },
   "scripts": {
@@ -49,8 +57,8 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/latest/core-util.d.ts",
-    "types/3.1/core-util.d.ts",
+    "types/latest/",
+    "types/3.1/",
     "README.md",
     "LICENSE"
   ],
@@ -71,7 +79,7 @@
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/abort-controller": "^1.1.0",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
@@ -79,11 +87,11 @@
     "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.4",
-    "@types/mocha": "^7.0.2",
+    "@types/mocha": "^10.0.1",
     "@types/node": "^14.0.0",
     "@types/sinon": "^10.0.15",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "chai": "^4.2.0",
+    "chai": "^4.3.7",
     "chai-as-promised": "^7.1.1",
     "downlevel-dts": "^0.10.0",
     "cross-env": "^7.0.2",
@@ -99,7 +107,7 @@
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
-    "mocha": "^7.1.1",
+    "mocha": "^10.2.0",
     "mocha-junit-reporter": "^2.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",

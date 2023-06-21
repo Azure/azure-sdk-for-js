@@ -4,7 +4,7 @@
     "declarationDir": "./types",
     "outDir": "./dist-esm",
     "paths": {
-      "@azure/core-abort-controller": ["./src/index.js"]
+      "@azure/abort-controller": ["./src/index.js"]
     },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",

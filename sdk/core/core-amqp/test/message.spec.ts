@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as chai from "chai";
-import { AmqpMessageHeader, AmqpMessageProperties } from "../src";
+import { AmqpMessageHeader, AmqpMessageProperties } from "../src/index.js";
 import {
   MessageHeader as RheaMessageHeader,
   MessageProperties as RheaMessageProperties,

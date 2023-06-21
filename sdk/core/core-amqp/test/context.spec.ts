@@ -3,7 +3,7 @@
 
 import * as chai from "chai";
 const should = chai.should();
-import { CbsClient, ConnectionConfig, ConnectionContextBase } from "../src";
+import { CbsClient, ConnectionConfig, ConnectionContextBase } from "../src/index.js";
 import { Connection } from "rhea-promise";
 import { ConnectionOptions as TlsConnectionOptions } from "tls";
 
