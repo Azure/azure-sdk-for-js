@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fix all clients adding one or more duplicate user agents. [#]()
+
 ### Other Changes
 
 ## 12.0.0-beta.1 (2023-05-09)
