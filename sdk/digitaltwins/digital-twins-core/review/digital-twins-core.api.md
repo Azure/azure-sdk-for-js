@@ -40,26 +40,36 @@ export interface DigitalTwinsAddRelationshipOptionalParams extends coreClient.Op
 }
 
 // @public
-export type DigitalTwinsAddRelationshipResponse = DigitalTwinsAddRelationshipHeaders & Record<string, unknown>;
+export type DigitalTwinsAddRelationshipResponse = DigitalTwinsAddRelationshipHeaders & {
+    [propertyName: string]: any;
+};
 
 // @public
-export type DigitalTwinsAddResponse = DigitalTwinsAddHeaders & Record<string, unknown>;
+export type DigitalTwinsAddResponse = DigitalTwinsAddHeaders & {
+    [propertyName: string]: any;
+};
 
 // @public
 export class DigitalTwinsClient {
     constructor(endpointUrl: string, credential: TokenCredential, options?: DigitalTwinsClientOptions);
+    cancelImportJob(importJobId: string, options?: OperationOptions): Promise<ImportJob>;
     createModels(dtdlModels: Array<Record<string, unknown>>, options?: OperationOptions): Promise<DigitalTwinModelsAddResponse>;
     decomissionModel(modelId: string, options?: OperationOptions): Promise<void>;
     deleteDigitalTwin(digitalTwinId: string, options?: DigitalTwinsDeleteOptionalParams): Promise<void>;
     deleteEventRoute(eventRouteId: string, options?: OperationOptions): Promise<void>;
+    deleteImportJob(importJobId: string, options?: OperationOptions): Promise<void>;
     deleteModel(modelId: string, options?: OperationOptions): Promise<void>;
     deleteRelationship(digitalTwinId: string, relationshipId: string, options?: DigitalTwinsDeleteRelationshipOptionalParams): Promise<void>;
     getComponent(digitalTwinId: string, componentName: string, options?: OperationOptions): Promise<DigitalTwinsGetComponentResponse>;
     getDigitalTwin(digitalTwinId: string, options?: OperationOptions): Promise<DigitalTwinsGetByIdResponse>;
     getEventRoute(eventRouteId: string, options?: OperationOptions): Promise<EventRoutesGetByIdResponse>;
+    // Warning: (ae-forgotten-export) The symbol "ImportJob" needs to be exported by the entry point index.d.ts
+    getImportJob(importJobId: string, options?: OperationOptions): Promise<ImportJob>;
     getModel(modelId: string, options?: GetModelOptions): Promise<DigitalTwinModelsGetByIdResponse>;
     getRelationship(digitalTwinId: string, relationshipId: string, options?: OperationOptions): Promise<DigitalTwinsGetRelationshipByIdResponse>;
     listEventRoutes(options?: ListEventRoutesOptions): PagedAsyncIterableIterator<EventRoute>;
+    // Warning: (ae-forgotten-export) The symbol "ImportJobsListOptionalParams" needs to be exported by the entry point index.d.ts
+    listImportJobs(options?: ImportJobsListOptionalParams): PagedAsyncIterableIterator<ImportJob>;
     listIncomingRelationships(digitalTwinId: string, options?: ListIncomingRelationshipsOptions): PagedAsyncIterableIterator<IncomingRelationship>;
     listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<DigitalTwinsModelData>;
     listRelationships(digitalTwinId: string, options?: ListRelationshipsOptions): PagedAsyncIterableIterator<Record<string, unknown>>;
@@ -71,6 +81,7 @@ export class DigitalTwinsClient {
     updateRelationship(digitalTwinId: string, relationshipId: string, jsonPatch: Array<Record<string, unknown>>, options?: DigitalTwinsUpdateRelationshipOptionalParams): Promise<DigitalTwinsUpdateRelationshipResponse>;
     upsertDigitalTwin(digitalTwinId: string, digitalTwinJson: string, options?: DigitalTwinsAddOptionalParams): Promise<DigitalTwinsAddResponse>;
     upsertEventRoute(eventRouteId: string, endpointId: string, filter: string, options?: OperationOptions): Promise<void>;
+    upsertImportJob(importJobId: string, inputBlobUri: string, outputBlobUri: string, options?: OperationOptions): Promise<ImportJob>;
     upsertRelationship(digitalTwinId: string, relationshipId: string, relationship: Record<string, unknown>, options?: DigitalTwinsAddRelationshipOptionalParams): Promise<DigitalTwinsAddRelationshipResponse>;
 }
 
@@ -94,7 +105,9 @@ export interface DigitalTwinsGetByIdHeaders {
 }
 
 // @public
-export type DigitalTwinsGetByIdResponse = DigitalTwinsGetByIdHeaders & Record<string, unknown>;
+export type DigitalTwinsGetByIdResponse = DigitalTwinsGetByIdHeaders & {
+    [propertyName: string]: any;
+};
 
 // @public
 export interface DigitalTwinsGetComponentHeaders {
@@ -102,7 +115,9 @@ export interface DigitalTwinsGetComponentHeaders {
 }
 
 // @public
-export type DigitalTwinsGetComponentResponse = DigitalTwinsGetComponentHeaders & Record<string, unknown>;
+export type DigitalTwinsGetComponentResponse = DigitalTwinsGetComponentHeaders & {
+    [propertyName: string]: any;
+};
 
 // @public
 export interface DigitalTwinsGetRelationshipByIdHeaders {
@@ -110,7 +125,9 @@ export interface DigitalTwinsGetRelationshipByIdHeaders {
 }
 
 // @public
-export type DigitalTwinsGetRelationshipByIdResponse = DigitalTwinsGetRelationshipByIdHeaders & Record<string, unknown>;
+export type DigitalTwinsGetRelationshipByIdResponse = DigitalTwinsGetRelationshipByIdHeaders & {
+    [propertyName: string]: any;
+};
 
 // @public
 export type DigitalTwinsListIncomingRelationshipsResponse = IncomingRelationshipCollection;
@@ -181,7 +198,7 @@ export interface EventRoute {
 // @public
 export interface EventRouteCollection {
     nextLink?: string;
-    value?: EventRoute[];
+    value: EventRoute[];
 }
 
 // @public
@@ -207,7 +224,7 @@ export interface IncomingRelationship {
 export interface IncomingRelationshipCollection {
     nextLink?: string;
     // (undocumented)
-    value?: IncomingRelationship[];
+    value: IncomingRelationship[];
 }
 
 // @public
@@ -234,7 +251,7 @@ export interface ListRelationshipsOptions extends coreClient.OperationOptions {
 // @public
 export interface PagedDigitalTwinsModelDataCollection {
     nextLink?: string;
-    value?: DigitalTwinsModelData[];
+    value: DigitalTwinsModelData[];
 }
 
 // @public
@@ -248,7 +265,7 @@ export type QueryQueryTwinsResponse = QueryQueryTwinsHeaders & QueryResult;
 // @public
 export interface QueryResult {
     continuationToken?: string;
-    value?: Record<string, unknown>[];
+    value: Record<string, unknown>[];
 }
 
 // @public
@@ -265,7 +282,7 @@ export interface QueryTwinsOptions extends coreClient.OperationOptions {
 // @public
 export interface RelationshipCollection {
     nextLink?: string;
-    value?: Record<string, unknown>[];
+    value: Record<string, unknown>[];
 }
 
 // (No @packageDocumentation comment for this package)
