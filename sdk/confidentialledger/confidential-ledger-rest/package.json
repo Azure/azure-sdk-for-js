@@ -50,17 +50,13 @@
     "disableDocsMs": true,
     "apiRefLink": "https://docs.microsoft.com/azure/confidential-ledger"
   },
-  "browser": {
-    "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js",
-    "./dist-esm/src/certificatePolicy.js": "./dist-esm/src/certificatePolicy.browser.js"
-  },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:browser": "tsc -p . && dev-tool run bundle",
-    "build:node": "tsc -p . && dev-tool run bundle",
+    "build:browser": "echo \"Browser is not supported.\" && exit 0",
+    "build:node": "tsc -p . && dev-tool run bundle --browser-test=false",
     "build:samples": "echo Obsolete.",
-    "build:test": "tsc -p . && dev-tool run bundle",
-    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local",
+    "build:test": "tsc -p . && dev-tool run bundle --browser-test=false",
+    "build": "npm run clean && tsc -p . && dev-tool run bundle --browser-test=false && api-extractor run --local",
     "build:debug": "tsc -p . && dev-tool run bundle && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-browser dist-esm test-dist temp types *.tgz *.log",
@@ -68,7 +64,7 @@
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript swagger/README.md && rushx format",
-    "integration-test:browser": "echo skip",
+    "integration-test:browser": "echo \"Browser is not supported.\" && exit 0",
     "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace \"dist-esm/test/{,!(browser)/**/}*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
@@ -77,7 +73,7 @@
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test",
-    "unit-test:browser": "echo skip",
+    "unit-test:browser": "echo \"Browser is not supported.\" && exit 0",
     "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },

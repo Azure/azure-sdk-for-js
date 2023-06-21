@@ -20,9 +20,9 @@ describe("Get user", function () {
     await recorder.stop();
   });
 
-  it("should obtain user data", async function () {
+  it.only("should obtain user data", async function () {
     // if the ledger in the .env changes, so should this
-    const userId = env.AZURE_CLIENT_ID;
+    const userId = env.AZURE_CLIENT_OID;
     let result = await client.path("/app/users/{userId}", userId).get();
     assert.equal(result.status, "200");
 

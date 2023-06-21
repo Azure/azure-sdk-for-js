@@ -7,15 +7,13 @@ param ledgerName string = 'tssdkci-${uniqueString(resourceGroup().id)}'
 // https://docs.microsoft.com/en-us/azure/azure-resource-manager/bicep/bicep-functions-string#uniquestring
 // Prepend a string to easy identification + ledger name must start with a letter.
 
-@description('Oid of the user')
-param principalId string = 'ec667af1-0642-45f0-be8a-b76758a35dde'
-
 @description('Location for all resources.')
 param location string = 'EastUS'
 // Explicitly set a region due to regional restrictions e.g. ACL is not currently available in westus
 
 param tenantId string
-param testApplicationId string
+// Unlike most permissions, we need the Oid for the test app
+param testApplicationOid string
 
 var ledgerUri = 'https://${ledgerName}.confidential-ledger.azure.com'
 
@@ -26,12 +24,8 @@ resource baseName_resource 'Microsoft.ConfidentialLedger/ledgers@2020-12-01-prev
     ledgerType: 'Public'
     aadBasedSecurityPrincipals: [
       {
-        principalId: principalId
+        principalId: testApplicationOid
         tenantId: tenantId
-        ledgerRoleName: 'Administrator'
-      }
-      {
-        principalId: testApplicationId
         ledgerRoleName: 'Administrator'
       }
     ]
