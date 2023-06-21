@@ -19,7 +19,7 @@ export default function testCases(): void {
 
     assert.lengthOf(results, 1, "must return as many results as there were recipients");
     assertIsSuccessResult(results[0], validToNumber);
-  }).timeout(4000);
+  }).timeout(5000);
 
   it("can send an SMS message with options passed in", async function (this: Context) {
     const fromNumber = env.AZURE_PHONE_NUMBER as string;
