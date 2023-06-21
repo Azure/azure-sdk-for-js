@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Fix all clients adding one or more duplicate user agents. [#]()
+- Fix all clients adding one or more duplicate user agents. [#26298](https://github.com/Azure/azure-sdk-for-js/pull/26298)
 
 ### Other Changes
 
