@@ -53,6 +53,5 @@ export interface SchemaObject {
   id?: string;
   $id?: string;
   $schema?: string;
-  $async?: false;
   [x: string]: any;
 }
