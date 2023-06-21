@@ -4,11 +4,11 @@
 
 ### Features Added
 
-- Changed `TokenCredential` to use native crypto libraries.  This changes the signature from `getToken` from being sync to async.
+- Changed `TokenProvider` to use native crypto libraries.  This changes the signature from `getToken` from being sync to async.
 
 ### Breaking Changes
 
-- The `TokenCredential` and the `getToken` method has been changed to be async as it uses the underlying native crypto which is async.
+- The `TokenProvider` and the `getToken` method has been changed to be async as it uses the underlying native crypto which is async.
 
 ### Bugs Fixed
 
