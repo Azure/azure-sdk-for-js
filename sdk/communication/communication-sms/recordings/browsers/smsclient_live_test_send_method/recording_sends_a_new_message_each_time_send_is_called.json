@@ -6,23 +6,22 @@
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Length": "251",
         "Content-Type": "application/json",
         "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
+        "sec-ch-ua": "\u0022Not.A/Brand\u0022;v=\u00228\u0022, \u0022Chromium\u0022;v=\u0022114\u0022, \u0022HeadlessChrome\u0022;v=\u0022114\u0022",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
+        "sec-ch-ua-platform": "\u0022Windows\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "e08986bf-2f53-4c65-a108-31c6fbbe2476",
-        "x-ms-content-sha256": "hvNMhWHUURrd8BxQqe03W9neabV8IjzXt/AWxs6sEvM=",
-        "x-ms-date": "Mon, 25 Apr 2022 01:04:31 GMT",
-        "x-ms-useragent": "azsdk-js-communication-sms/1.2.0-beta.1 core-rest-pipeline/1.8.0 OS/Win32"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/114.0.5735.133 Safari/537.36",
+        "x-ms-client-request-id": "0281abc7-f94e-4b8e-a3f1-06efd2c76862",
+        "x-ms-content-sha256": "CCNcubflkFWMdn0Yf3wROwo5QhvG2\u002B664Cd1Y/Igm1I=",
+        "x-ms-date": "Wed, 21 Jun 2023 14:28:04 GMT",
+        "x-ms-useragent": "azsdk-js-communication-sms/1.2.0-beta.2 core-rest-pipeline/1.11.1 OS/Windows"
       },
       "RequestBody": {
         "from": "\u002B14255550123",
@@ -42,20 +41,20 @@
       "StatusCode": 202,
       "ResponseHeaders": {
         "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07",
+        "Content-Length": "184",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 25 Apr 2022 01:04:31 GMT",
-        "MS-CV": "HAZBQAbbW0yBEDUuAI3DbQ.0",
+        "Date": "Wed, 21 Jun 2023 14:28:04 GMT",
+        "MS-CV": "qbbOc5MJAEGMI8ykgIHuzA.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0n/NlYgAAAADif8K7HNqrSZ/tkpOr3n5\u002BV1NURURHRTA4MTUAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "09AiTZAAAAAAhqP4MeDCjQr\u002BjkPWVXNVUSEVMMDFFREdFMjAxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "542ms"
+        "X-Processing-Time": "263ms"
       },
       "ResponseBody": {
         "value": [
           {
             "to": "\u002B14255550123",
-            "messageId": "Outgoing_20220425010431df8d1ff2-e7d0-4d8e-b385-ae8eeaffa4ac_noam",
+            "messageId": "Outgoing_2023062114280487387710-c9b8-49ab-816a-9d2b8b0fa24b_noam",
             "httpStatusCode": 202,
             "repeatabilityResult": "accepted",
             "successful": true
@@ -69,23 +68,22 @@
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Length": "251",
         "Content-Type": "application/json",
         "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
+        "sec-ch-ua": "\u0022Not.A/Brand\u0022;v=\u00228\u0022, \u0022Chromium\u0022;v=\u0022114\u0022, \u0022HeadlessChrome\u0022;v=\u0022114\u0022",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
+        "sec-ch-ua-platform": "\u0022Windows\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "b254891e-a268-463c-9541-5b37b0a1a231",
-        "x-ms-content-sha256": "ttqDLHlY\u002BpmkOLT1pMNKcW5wcLCvauvGu2IDZtDPbUs=",
-        "x-ms-date": "Mon, 25 Apr 2022 01:04:31 GMT",
-        "x-ms-useragent": "azsdk-js-communication-sms/1.2.0-beta.1 core-rest-pipeline/1.8.0 OS/Win32"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/114.0.5735.133 Safari/537.36",
+        "x-ms-client-request-id": "8716b1f1-71dd-4a27-9b45-ad9172d3c87a",
+        "x-ms-content-sha256": "B0wwiZ8j5bkLYLglcuXt1xRnQ7yIVdTgWkGwm6R/OWw=",
+        "x-ms-date": "Wed, 21 Jun 2023 14:28:04 GMT",
+        "x-ms-useragent": "azsdk-js-communication-sms/1.2.0-beta.2 core-rest-pipeline/1.11.1 OS/Windows"
       },
       "RequestBody": {
         "from": "\u002B14255550123",
@@ -105,20 +103,20 @@
       "StatusCode": 202,
       "ResponseHeaders": {
         "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07",
+        "Content-Length": "184",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 25 Apr 2022 01:04:32 GMT",
-        "MS-CV": "aaUuXtFKC0mdtiKxssaibw.0",
+        "Date": "Wed, 21 Jun 2023 14:28:05 GMT",
+        "MS-CV": "6fNQ8Q3uFEC9Ntfdy\u002Badjw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0n/NlYgAAAACNqo72b/wRQa6Gs7XVxRW2V1NURURHRTA4MTUAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "09QiTZAAAAABP7X3nCSs2TYDoUo5qZ7qsSEVMMDFFREdFMjAxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "501ms"
+        "X-Processing-Time": "277ms"
       },
       "ResponseBody": {
         "value": [
           {
             "to": "\u002B14255550123",
-            "messageId": "Outgoing_20220425010432ebb40a8a-7624-4c21-a36f-d919ee1f64dc_noam",
+            "messageId": "Outgoing_2023062114280512c5b715-d118-45cb-8d29-e8c7d26de416_noam",
             "httpStatusCode": 202,
             "repeatabilityResult": "accepted",
             "successful": true
