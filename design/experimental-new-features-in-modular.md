@@ -1,4 +1,8 @@
-# Design on shipping experimental new features in Modular
+# Shipping experimental new features in Modular
+
+## Background
+
+As the Azure SDK for JavaScript continues to evolve, it is important for us to have a dedicated space to ship experimental features within our own client or language. By providing a separate subpath export for experimental features alongside with the regular release of Modular, we can gather valuable feedback from our customers who have tried these new features. This approach enables us to receive early insights and iterate on the experimental features while ensuring that our mainline releases remain stable and reliable.
 
 ## Questions
 
@@ -43,7 +47,31 @@ _Questions_:
     1. Is it allowed to have manual customization in the experimental part?
     1. Is this possible that we may have a customization scenario that involves both the stable code and experimental code?
 
-## Preview with single client
+
+1. **SDK version strategy**  
+  Should we allow pure experimental feature releases?  
+    1. a preview api version  --- 1.0.0-beta.1
+    1. ~~a new experimental feature --- 1.0.0-beta.2~~  
+    1. a new preview api version --- 1.0.0-beta.3  
+    1. ~~a new experimental features --- 1.0.0-beta.4~~  
+    1. a new stable api version --- 1.0.0 will need to replace  
+    1. ~~a new experimental features --- 1.1.0-beta.1 ?~~
+    1. a new preview api version ---  1.1.0-beta.2 ?
+
+## Design Considerations
+
+1. Experimental features may have changes over the original code structure.
+1. Experimental features may need to change some common dependencies.
+1. Api version picking strategy: latest GA version go to the stable code and latest preview version go to the vnext code.
+1. Features life cycle.
+
+## Proposal
+
+The proposed approach is to add a separate subpath export on top of the existing Azure JavaScript Modular. This involves introducing a new subpath export structure that is distinct from the original modules. For example, we can utilize a `vnext` subpath, such as `@azure/foo/vnext`, `@azure/foo/vnext/api`, and `@azure/foo/vnext/rest`, to signify the experimental nature of these features. By incorporating this new subpath export, we establish a clear separation between the stable modules and the experimental features, allowing developers to opt-in and access the experimental functionality while maintaining the integrity of the original Modular structure.
+
+## Proposal with single client
+
+In the case of single-client,
 
 <!-- markdownlint-disable MD033 -->
 <table>
@@ -74,7 +102,7 @@ _Questions_:
 
 1. In the case that both the stable code and vnext code are using the same api-versions and we don't have features related with RLC, @azure/foo/rest and @azure/foo/vnext/rest would be exactly the same, is it okay ?
 
-## Preview with multi-client
+## Proposal with multi-client
 
 <!-- markdownlint-disable MD033 -->
 <table>
@@ -128,7 +156,7 @@ _Questions_:
 @azure/foo/vnext/clientA/api
 ```
 
-## Preview with multi-endpoint
+## Proposal with multi-endpoint
 
 <!-- markdownlint-disable MD033 -->
 <table>
