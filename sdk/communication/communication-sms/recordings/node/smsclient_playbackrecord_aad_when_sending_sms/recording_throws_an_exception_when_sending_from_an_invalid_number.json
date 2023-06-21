@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "253",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-communication-sms/1.2.0-beta.1 core-rest-pipeline/1.8.0 Node/v14.17.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "5cb10264-a62f-4dea-b1b1-23e62b16f482"
+        "User-Agent": "azsdk-js-communication-sms/1.2.0-beta.2 core-rest-pipeline/1.11.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "b5b76a94-7298-47bc-8f9a-a0a4a15e05f4"
       },
       "RequestBody": {
         "from": "\u002B1425555012345",
@@ -28,21 +28,23 @@
           "tag": "SMS_LIVE_TEST"
         }
       },
-      "StatusCode": 400,
+      "StatusCode": 401,
       "ResponseHeaders": {
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 25 Apr 2022 01:03:59 GMT",
-        "MS-CV": "ZSBTP97vPkGztb/6bjFldw.0",
+        "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07",
+        "Content-Type": "application/json",
+        "Date": "Wed, 21 Jun 2023 10:28:05 GMT",
+        "MS-CV": "3P2YrRuIrEqPSd0o/eL45Q.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0f/NlYgAAAACtBuSTLhy2QrUYxY2wyOjmV1NURURHRTA4MTUAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0ttCSZAAAAACxzJbXyDteR65\u002BKQfn0IOwSEVMMDFFREdFMjAwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "11ms"
+        "X-Processing-Time": "18ms"
       },
       "ResponseBody": {
-        "From": [
-          "Invalid from phone number format."
-        ]
+        "error": {
+          "code": "Unauthorized",
+          "message": ""
+        }
       }
     }
   ],
