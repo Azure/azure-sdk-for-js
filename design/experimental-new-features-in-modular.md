@@ -49,8 +49,7 @@ _Questions_:
 <table>
   <tr>
     <th>Original</th>
-    <th>Proposal 1</th>
-    <th>Proposal 2</th>
+    <th>Proposal</th>
   </tr>
   <tr>
     <td>
@@ -67,13 +66,6 @@ _Questions_:
 @azure/foo/vnext/rest
 </pre>
 </td>
-<td>
-<pre lang="typescript">
-@azure/foo/vnext
-@azure/foo/api/vnext
-@azure/foo/rest/vnext
-</pre>
-</td>
   </tr>
 </table>
 <!-- markdownlint-enable MD033 -->
@@ -88,9 +80,7 @@ _Questions_:
 <table>
   <tr>
     <th>Original</th>
-    <th>Proposal 1</th>
-    <th>Proposal 2</th>
-    <th>Proposal 3</th>
+    <th>Proposal</th>
   </tr>
   <tr>
     <td>
@@ -123,36 +113,6 @@ _Questions_:
 @azure/foo/vnext/clientB/api
 </pre>
 </td>
-<td>
-<pre lang="typescript">
-@azure/foo/vnext
-@azure/foo/vnext/api
-@azure/foo/vnext/rest
-</pre>
-<pre lang="typescript">
-@azure/foo/clientA/vnext
-@azure/foo/clientA/vnext/api
-</pre>
-<pre lang="typescript">
-@azure/foo/clientB/vnext
-@azure/foo/clientB/vnext/api
-</pre>
-</td>
-<td>
-<pre lang="typescript">
-@azure/foo/vnext
-@azure/foo/api/vnext
-@azure/foo/rest/vnext
-</pre>
-<pre lang="typescript">
-@azure/foo/clientA/vnext
-@azure/foo/clientA/api/vnext
-</pre>
-<pre lang="typescript">
-@azure/foo/clientB/vnext
-@azure/foo/clientB/api/vnext
-</pre>
-</td>
   </tr>
 </table>
 <!-- markdownlint-enable MD033 -->
@@ -174,9 +134,7 @@ _Questions_:
 <table>
   <tr>
     <th>Original</th>
-    <th>Proposal 1</th>
-    <th>Proposal 2</th>
-    <th>Proposal 3</th>
+    <th>Proposal</th>
   </tr>
   <tr>
     <td>
@@ -211,39 +169,6 @@ _Questions_:
 @azure/foo/vnext/clientB
 @azure/foo/vnext/clientB/api
 @azure/foo/vnext/rest/clientA
-</pre>
-<td>
-<pre lang="typescript">
-@azure/foo/vnext
-@azure/foo/vnext/api
-@azure/foo/vnext/rest
-</pre>
-<pre lang="typescript">
-@azure/foo/clientA/vnext
-@azure/foo/clientA/vnext/api
-@azure/foo/clientA/vnext/rest
-</pre>
-<pre lang="typescript">
-@azure/foo/clientB/vnext
-@azure/foo/clientB/vnext/api
-@azure/foo/clientB/vnext/rest
-</pre>
-</td>
-<td>
-<pre lang="typescript">
-@azure/foo/vnext
-@azure/foo/api/vnext
-@azure/foo/rest/vnext
-</pre>
-<pre lang="typescript">
-@azure/foo/clientA/vnext
-@azure/foo/clientA/api/vnext
-@azure/foo/rest/clientA/vnext
-</pre>
-<pre lang="typescript">
-@azure/foo/clientB/vnext
-@azure/foo/clientB/api/vnext
-@azure/foo/rest/clientB/vnext
 </pre>
 </td>
   </tr>
