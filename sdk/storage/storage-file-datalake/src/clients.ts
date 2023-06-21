@@ -102,7 +102,6 @@ import {
   appendToURLQuery,
   assertResponse,
   ensureCpkIfSpecified,
-  EscapePath,
   getURLPathAndQuery,
   setURLPath,
   setURLQueries,
@@ -939,7 +938,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
    */
   public getSubdirectoryClient(subdirectoryName: string): DataLakeDirectoryClient {
     return new DataLakeDirectoryClient(
-      appendToURLPath(this.url, EscapePath(subdirectoryName)),
+      appendToURLPath(this.url, encodeURIComponent(subdirectoryName)),
       this.pipeline
     );
   }
@@ -952,7 +951,10 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
   // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
   /* eslint-disable-next-line @azure/azure-sdk/ts-naming-subclients */
   public getFileClient(fileName: string): DataLakeFileClient {
-    return new DataLakeFileClient(appendToURLPath(this.url, EscapePath(fileName)), this.pipeline);
+    return new DataLakeFileClient(
+      appendToURLPath(this.url, encodeURIComponent(fileName)),
+      this.pipeline
+    );
   }
 
   /**
