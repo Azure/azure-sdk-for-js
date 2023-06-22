@@ -74,14 +74,14 @@ function testSearchPick() {
   const e2: SearchPick<Model, NarrowedModelFields> = {} as NarrowedModel;
 
   const f: Equals<SearchPick<object, any>, object> = "pass";
-  const h: Equals<SearchPick<object, string>, object> = "pass";
-  const i: Equals<SearchPick<object, ModelFields>, object> = "pass";
+  const g: Equals<SearchPick<object, string>, object> = "pass";
+  const h: Equals<SearchPick<object, ModelFields>, object> = "pass";
   // @ts-expect-error
-  const j: Equals<SearchPick<Model, string>, Model> = "fail";
+  const i: Equals<SearchPick<Model, string>, Model> = "fail";
   // @ts-expect-error
-  const k: Equals<SearchPick<Model, unknown>, Model> = "pass";
+  const j: Equals<SearchPick<Model, unknown>, Model> = "pass";
 
-  return [a, b, c, d1, d2, e1, e2, f, g, h, i, j, k];
+  return [a, b, c, d1, d2, e1, e2, f, g, h, i, j];
 }
 
 // @ts-expect-error
