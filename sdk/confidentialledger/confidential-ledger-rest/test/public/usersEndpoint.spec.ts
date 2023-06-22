@@ -26,7 +26,7 @@ describe("Get user", function () {
     if (!userId) {
       this.skip();
     }
-    let result = await client.path("/app/users/{userId}", userId).get();
+    const result = await client.path("/app/users/{userId}", userId).get();
     assert.equal(result.status, "200");
 
     if (isUnexpected(result)) {
