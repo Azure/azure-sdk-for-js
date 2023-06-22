@@ -22,7 +22,7 @@ describe("Get user", function () {
 
   it("should obtain user data", async function () {
     // If using a test app, it needs to be the oid.
-    const userId = env.AZURE_CLIENT_OID ?? env.AZURE_CLIENT_ID ?? "";
+    const userId = env.AZURE_CLIENT_OID;
     if (!userId) {
       this.skip();
     }

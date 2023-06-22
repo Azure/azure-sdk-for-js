@@ -32,6 +32,7 @@ resource baseName_resource 'Microsoft.ConfidentialLedger/ledgers@2020-12-01-prev
   }
 }
 
+output CONFIDENTIALLEDGER_CLIENT_OID string = testApplicationOid
 output LEDGER_NAME string = ledgerName
 output LEDGERURI string = ledgerUri
 output IDENTITY_SERVICE_URL string = 'https://identity.confidential-ledger.core.azure.com'
