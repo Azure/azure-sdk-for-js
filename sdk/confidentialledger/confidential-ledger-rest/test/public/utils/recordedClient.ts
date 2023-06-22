@@ -15,7 +15,7 @@ const replaceableVariables: { [k: string]: string } = {
   LEDGER_NAME: "test-ledger",
 };
 
-export async function createClient(): Promise<ConfidentialLedgerClient> {
+export async function createClient(recorder: Recorder): Promise<ConfidentialLedgerClient> {
   const clientCredential = createTestCredential();
 
   const { ledgerIdentityCertificate } = await getLedgerIdentity(
@@ -26,7 +26,8 @@ export async function createClient(): Promise<ConfidentialLedgerClient> {
   return ConfidentialLedger(
     assertEnvironmentVariable("LEDGER_URI"),
     ledgerIdentityCertificate,
-    clientCredential
+    clientCredential,
+    recorder.configureClientOptions({})
   );
 }
 

@@ -20,7 +20,7 @@ describe("Post transaction", function () {
   beforeEach(async function (this: Context) {
     contentBody = "typescript post test";
     recorder = await createRecorder(this);
-    client = await createClient();
+    client = await createClient(recorder);
   });
 
   afterEach(async function () {

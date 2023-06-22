@@ -20,7 +20,7 @@ describe("Range query should be successful", function () {
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
-    client = await createClient();
+    client = await createClient(recorder);
   });
 
   afterEach(async function () {
