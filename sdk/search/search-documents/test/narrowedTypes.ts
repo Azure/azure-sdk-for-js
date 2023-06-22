@@ -176,32 +176,26 @@ function testNarrowedModel() {
 
 // @ts-ignore
 function testSelectArray() {
-  const a: Equals<SelectArray<never>, string[] | readonly string[]> = "pass";
-  const b: Equals<SelectArray<"field1">, Array<"field1"> | Readonly<Array<"field1">>> = "pass";
-  const c: Equals<
-    SelectArray<"field1" | "field2">,
-    Array<"field1" | "field2"> | Readonly<Array<"field1" | "field2">>
-  > = "pass";
+  const a: Equals<SelectArray<never>, readonly string[]> = "pass";
+  const b: Equals<SelectArray<"field1">, readonly "field1"[]> = "pass";
+  const c: Equals<SelectArray<"field1" | "field2">, readonly ("field1" | "field2")[]> = "pass";
 
   // @ts-ignore
-  const d: Equals<SelectArray<any>, string[] | readonly string[]> = "fail";
+  const d: Equals<SelectArray<any>, readonly string[]> = "fail";
   // @ts-ignore
-  const e: Equals<SelectArray<unknown>, string[] | readonly string[]> = "fail";
+  const e: Equals<SelectArray<unknown>, readonly string[]> = "fail";
   return [a, b, c, d, e];
 }
 
 // @ts-ignore
 function testSearchFieldArray() {
-  const a: Equals<SearchFieldArray<object>, string[] | readonly string[]> = "pass";
-  const b: Equals<
-    SearchFieldArray<Model>,
-    Array<ModelFields> | Readonly<Array<ModelFields>>
-  > = "pass";
-  const c: Equals<SearchFieldArray<never>, string[] | readonly string[]> = "pass";
-  const d: Equals<SearchFieldArray<any>, string[] | readonly string[]> = "pass";
+  const a: Equals<SearchFieldArray<object>, readonly string[]> = "pass";
+  const b: Equals<SearchFieldArray<Model>, readonly ModelFields[]> = "pass";
+  const c: Equals<SearchFieldArray<never>, readonly string[]> = "pass";
+  const d: Equals<SearchFieldArray<any>, readonly string[]> = "pass";
 
   // @ts-ignore
-  const e: Equals<SearchFieldArray<unknown>, string[] | readonly string[]> = "pass";
+  const e: Equals<SearchFieldArray<unknown>, readonly string[]> = "pass";
 
   return [a, b, c, d, e];
 }
