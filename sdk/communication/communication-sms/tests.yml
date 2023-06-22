@@ -24,3 +24,5 @@ stages:
       Clouds: Public,Int
       TestResourceDirectories:
         - communication/test-resources/
+      EnvVars:
+        - TEST_MODE=LIVE
