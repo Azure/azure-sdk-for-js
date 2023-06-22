@@ -78,21 +78,15 @@ const serializer = new JsonSerializer(client, {
 });
 
 // Example Json schema
-const schema = JSON.stringify(
-  $schema: "https://json-schema.org/draft/2020-12/schema",
-  $id: "score",
-  description: "A score",
-  type: "object",
-  properties: {
-    score: {
-      type: "integer",
-    },
-  },
-  required: ["score"]
-);
+const schema = JSON.stringify({
+  type: "record",
+  name: "Rating",
+  namespace: "my.example",
+  fields: [{ name: "score", type: "int" }],
+});
 
 // Example value that matches the Json schema above
-const value = { score: 42 };
+const value = { name: "Bob" };
 
 // Serialize value to a message
 const message = await serializer.serialize(value, schema);
