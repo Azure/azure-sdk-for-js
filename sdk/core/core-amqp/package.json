@@ -2,7 +2,7 @@
   "name": "@azure/core-amqp",
   "sdk-type": "client",
   "type": "module",
-  "version": "3.3.1",
+  "version": "4.0.0",
   "description": "Common library for amqp based azure sdks like @azure/event-hubs.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -23,6 +23,7 @@
   },
   "browser": {
     "./dist-esm/src/util/checkNetworkConnection.js": "./dist-esm/src/util/checkNetworkConnection.browser.js",
+    "./dist-esm/src/util/hmacSha256.js": "./dist-esm/src/util/hmacSha256.browser.js",
     "./dist-esm/src/util/runtimeInfo.js": "./dist-esm/src/util/runtimeInfo.browser.js",
     "buffer": "buffer"
   },
@@ -87,7 +88,6 @@
     "@azure/logger": "^1.0.0",
     "buffer": "^6.0.0",
     "events": "^3.0.0",
-    "jssha": "^3.3.0",
     "process": "^0.11.10",
     "rhea": "^3.0.0",
     "rhea-promise": "^3.0.0",

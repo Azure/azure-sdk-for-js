@@ -1141,6 +1141,10 @@ export interface FileReadOptions extends CommonOptions {
 
 export interface FileReadHeaders {
   lastModified?: Date;
+  /**
+   * Returns the date and time the file was created.
+   */
+  createdOn?: Date;
   metadata?: Metadata;
   contentLength?: number;
   contentType?: string;
@@ -1201,7 +1205,7 @@ export interface FileAppendOptions extends CommonOptions {
   /**
    * The lease duration is required to acquire a lease, and specifies the duration of the lease in seconds.  The lease duration must be between 15 and 60 seconds or -1 for infinite lease.
    * */
-  leaseDuration?: number;
+  leaseDurationInSeconds?: number;
   /**
    * Optional. If "acquire" it will acquire the lease. If "auto-renew" it will renew the lease. If "release" it will release the lease only on flush. If "acquire-release" it will acquire & complete the operation & release the lease once operation is done.
    * */
@@ -1225,7 +1229,7 @@ export interface FileFlushOptions extends CommonOptions {
   /**
    * The lease duration is required to acquire a lease, and specifies the duration of the lease in seconds.  The lease duration must be between 15 and 60 seconds or -1 for infinite lease.
    */
-  leaseDuration?: number;
+  leaseDurationInSeconds?: number;
   /**
    * Optional. If "acquire" it will acquire the lease. If "auto-renew" it will renew the lease. If "release" it will release the lease only on flush. If "acquire-release" it will acquire & complete the operation & release the lease once operation is done.
    */

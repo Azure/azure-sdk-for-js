@@ -6,8 +6,8 @@ import { AbortController } from "@azure/abort-controller";
 
 import { QueueClient } from "../src/QueueClient";
 import { getQSU } from "./utils";
-import { recorderEnvSetup } from "./utils/testutils.common";
-import { Recorder, record } from "@azure-tools/test-recorder";
+import { getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/testutils.common";
+import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
 describe("Aborter", () => {
@@ -17,9 +17,11 @@ describe("Aborter", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    const queueServiceClient = getQSU();
-    queueName = recorder.getUniqueName("queue");
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    const queueServiceClient = getQSU(recorder);
+    queueName = recorder.variable("queue", getUniqueName("queue"));
     queueClient = queueServiceClient.getQueueClient(queueName);
   });
 

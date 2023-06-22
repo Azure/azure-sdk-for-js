@@ -1,32 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isLiveMode } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { AnonymousCredential } from "../../../storage-blob/src/credentials/AnonymousCredential";
 import { newPipeline } from "../../../storage-blob/src/Pipeline";
 import { QueueServiceClient } from "../../src/QueueServiceClient";
-import { createXhrHttpClient } from "@azure/test-utils";
-import { setTestOnlySetHttpClient } from "../../src/StorageClient";
+import { configureStorageClient } from "./testutils.common";
 export * from "./testutils.common";
 
 export function getGenericQSU(
+  recorder: Recorder,
   accountType: string,
   accountNameSuffix: string = ""
 ): QueueServiceClient {
-  // only needed until we can migrate to test recorder v2
-  if (!isLiveMode()) {
-    setTestOnlySetHttpClient(createXhrHttpClient());
-  }
-
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
 
-  const accountName = (self as any).__env__[accountNameEnvVar];
+  const accountName = env[accountNameEnvVar];
 
   let accountSAS: string | undefined;
-  accountSAS = (self as any).__env__[accountSASEnvVar];
+  accountSAS = env[accountSASEnvVar];
 
-  if (!accountName || !accountSAS || accountName === "" || accountSAS === "") {
+  if (!accountName || !accountSAS) {
     throw new Error(
       `${accountNameEnvVar} and/or ${accountSASEnvVar} environment variables not specified.`
     );
@@ -36,23 +31,20 @@ export function getGenericQSU(
     accountSAS = accountSAS.startsWith("?") ? accountSAS : `?${accountSAS}`;
   }
 
-  // don't add the test account SAS value.
-  if (accountSAS === "?fakeSasToken") {
-    accountSAS = "";
-  }
-
   const credentials = new AnonymousCredential();
   const pipeline = newPipeline(credentials);
   const filePrimaryURL = `https://${accountName}${accountNameSuffix}.queue.core.windows.net${accountSAS}`;
-  return new QueueServiceClient(filePrimaryURL, pipeline);
+  const client = new QueueServiceClient(filePrimaryURL, pipeline);
+  configureStorageClient(recorder, client);
+  return client;
 }
 
-export function getQSU(): QueueServiceClient {
-  return getGenericQSU("");
+export function getQSU(recorder: Recorder): QueueServiceClient {
+  return getGenericQSU(recorder, "");
 }
 
-export function getAlternateQSU(): QueueServiceClient {
-  return getGenericQSU("SECONDARY_", "-secondary");
+export function getAlternateQSU(recorder: Recorder): QueueServiceClient {
+  return getGenericQSU(recorder, "SECONDARY_", "-secondary");
 }
 
 /**
@@ -123,13 +115,7 @@ export function getBrowserFile(name: string, size: number): File {
 }
 
 export function getSASConnectionStringFromEnvironment(): string {
-  // only needed until we can migrate to test recorder v2
-  if (!isLiveMode()) {
-    setTestOnlySetHttpClient(createXhrHttpClient());
-  }
-
-  const env = (self as any).__env__;
-  let sasToken: string = env.ACCOUNT_SAS;
+  let sasToken: string = env.ACCOUNT_SAS ?? "";
   // connection string SAS doesn't have the prefix
   if (sasToken && sasToken.startsWith("?")) {
     sasToken = sasToken.slice(1);

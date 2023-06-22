@@ -7,6 +7,8 @@ import {
   MediaStreamingConfiguration,
   CallRejectReason,
   FileSource,
+  TextSource,
+  SsmlSource,
   DtmfTone,
   Choice,
   RecordingContent,
@@ -18,7 +20,7 @@ import {
 
 /** Options to configure the recognize operation. */
 export interface CallMediaRecognizeOptions extends OperationOptions {
-  playPrompt?: FileSource;
+  playPrompt?: FileSource | TextSource | SsmlSource;
   interruptCallMediaOperation?: boolean;
   stopCurrentOperations?: boolean;
   operationContext?: string;

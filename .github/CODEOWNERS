@@ -104,10 +104,10 @@
 /sdk/containerregistry/ @jeremymeng @timovv
 
 # PRLabel: %Cosmos
-/sdk/cosmosdb/ @kushagraThapar @kirankumarkolli @abkolant-MSFT
+/sdk/cosmosdb/ @kushagraThapar @kirankumarkolli @abkolant-MSFT @simorenoh @v1k1
 
 # ServiceLabel: %Cosmos %Service Attention
-#/<NotInRepo>/ @sajeetharan @abkolant-MSFT @pjohari-ms
+#/<NotInRepo>/ @sajeetharan @abkolant-MSFT @pjohari-ms @simorenoh @v1k1
 
 # PRLabel: %Digital Twins
 /sdk/digitaltwins/ @sjiherzig @johngallardo @olivakar
