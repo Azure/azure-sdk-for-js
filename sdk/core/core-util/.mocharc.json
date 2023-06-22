@@ -5,8 +5,5 @@
   "timeout": "1200000",
   "loader": "ts-node/esm",
   "fullTrace": true,
-  "node-option": [
-    "experimental-specifier-resolution=node",
-    "loader=ts-node/esm"
-  ]
+  "node-option": ["experimental-specifier-resolution=node", "loader=ts-node/esm"]
 }
