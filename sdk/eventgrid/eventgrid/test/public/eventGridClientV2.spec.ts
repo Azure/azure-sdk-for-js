@@ -14,6 +14,21 @@ import { createRecordedV2Client } from "./utils/recordedClient";
 import { expect } from "chai";
 
 /* eslint no-constant-condition: "off" */
+async function clearMessages(
+  client: EventGridClient,
+  topicName: string,
+  eventSubscripionName: string
+): Promise<void> {
+  // Clear any messages that may be available in the topic.
+  while (true) {
+    const receivedResult: ReceiveResult<ApiManagementGatewayCreatedEventData> =
+      await client.receiveCloudEvents(topicName, eventSubscripionName);
+    if (!receivedResult || receivedResult.value.length === 0) break;
+    const lockToken = receivedResult.value[0].brokerProperties.lockToken;
+    await client.acknowledgeCloudEvents([lockToken], topicName, eventSubscripionName);
+  }
+}
+
 describe("Event Grid Client V2", function (this: Suite) {
   let recorder: Recorder;
   let client: EventGridClient;
@@ -31,26 +46,11 @@ describe("Event Grid Client V2", function (this: Suite) {
     eventSubscripionName = env["EVENT_SUBSCRIPTION_NAME"] ?? "testsubscription1";
     topicName = env["TOPIC_NAME"] ?? "testtopic1";
     maxDeliveryCount = env["MAX_DELIVERY_COUNT"] ? parseInt(env["MAX_DELIVERY_COUNT"]) : 5;
-
-    // Clear any messages that may be available in the topic.
-    while (true) {
-      const receivedResult: ReceiveResult<ApiManagementGatewayCreatedEventData> =
-        await client.receiveCloudEvents(topicName, eventSubscripionName);
-      if (!receivedResult || receivedResult.value.length === 0) break;
-      const lockToken = receivedResult.value[0].brokerProperties.lockToken;
-      await client.acknowledgeCloudEvents([lockToken], topicName, eventSubscripionName);
-    }
+    await clearMessages(client, topicName, eventSubscripionName);
   });
 
   afterEach(async function () {
-    // Clear any messages that may be available in the topic.
-    while (true) {
-      const receivedResult: ReceiveResult<ApiManagementGatewayCreatedEventData> =
-        await client.receiveCloudEvents(topicName, eventSubscripionName);
-      if (!receivedResult || receivedResult.value.length === 0) break;
-      const lockToken = receivedResult.value[0].brokerProperties.lockToken;
-      await client.acknowledgeCloudEvents([lockToken], topicName, eventSubscripionName);
-    }
+    await clearMessages(client, topicName, eventSubscripionName);
     await recorder.stop();
   });
 
@@ -138,7 +138,7 @@ describe("Event Grid Client V2", function (this: Suite) {
         (counter > maxDeliveryCount && receiveResult.value.length !== 0) ||
         (counter < maxDeliveryCount && receiveResult.value.length === 0)
       ) {
-        assert.equal(true, false);
+        assert.fail("Max Delivery Count exceeded/has not reached");
       }
 
       if (counter > maxDeliveryCount && receiveResult.value.length === 0) {
@@ -148,8 +148,6 @@ describe("Event Grid Client V2", function (this: Suite) {
       const lockToken = receiveResult.value[0].brokerProperties.lockToken;
       await client.releaseCloudEvents([lockToken], topicName, eventSubscripionName);
     }
-
-    assert.equal(true, true);
   });
 
   it("rejects a cloud event", async () => {

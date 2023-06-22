@@ -56,7 +56,7 @@ module.exports = function (config) {
       "EVENT_GRID_V2_KEY",
       "EVENT_SUBSCRIPTION_NAME",
       "TOPIC_NAME",
-      "MAX_DELIVERY_COUNT"
+      "MAX_DELIVERY_COUNT",
     ],
 
     // test results reporter to use
