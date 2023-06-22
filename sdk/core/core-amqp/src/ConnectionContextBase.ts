@@ -18,23 +18,12 @@ import { ConnectionConfig } from "./connectionConfig/connectionConfig.js";
 import { Constants } from "./util/constants.js";
 import { isNode } from "./util/utils.js";
 
-/**
- * @interal
- */
 interface Window {
-  WebSocket: WebSocket
+  WebSocket: WebSocket;
 }
 
-/**
- * @interal
- */
-interface WebSocket {
+interface WebSocket {}
 
-}
-
-/**
- * @interal
- */
 declare const self: Window;
 
 /**

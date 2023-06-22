@@ -7,23 +7,12 @@ import { isDefined, isObjectWithProperties } from "@azure/core-util";
 import { isNode, isNumber, isString } from "../src/util/utils.js";
 import { isError } from "@azure/core-util";
 
-/**
- * @interal
- */
 interface Window {
-  WebSocket: WebSocket
+  WebSocket: WebSocket;
 }
 
-/**
- * @interal
- */
-interface WebSocket {
+interface WebSocket {}
 
-}
-
-/**
- * @interal
- */
 declare const self: Window;
 
 /**

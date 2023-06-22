@@ -28,29 +28,10 @@ interface BunGlobal {
 }
 
 // eslint-disable-next-line @azure/azure-sdk/ts-no-window
-/**
- * @internal
- */
 declare const window: Window;
-
-/**
- * @internal
- */
 declare const self: DedicatedWorkerGlobalScope;
-
-/**
- * @internal
- */
 declare const Deno: DenoGlobal;
-
-/**
- * @internal
- */
 declare const Bun: BunGlobal;
-
-/**
- * @internal
- */
 declare const navigator: Navigator;
 
 /**
