@@ -24,29 +24,6 @@ export interface RecordedV2Client {
   recorder: Recorder;
 }
 
-export async function createRecordedV2Client(
-  currentTest: Test | undefined,
-  endpointEnv: string,
-  apiKeyEnv: string,
-  options: {
-    additionalPolicies?: AdditionalPolicyConfig[];
-  } = {}
-): Promise<RecordedV2Client> {
-  const recorder = new Recorder(currentTest);
-  await recorder.start(recorderOptions);
-
-  return {
-    client: new EventGridClient(
-      assertEnvironmentVariable(endpointEnv),
-      new AzureKeyCredential(assertEnvironmentVariable(apiKeyEnv)),
-      recorder.configureClientOptions({
-        additionalPolicies: options.additionalPolicies,
-      })
-    ),
-    recorder,
-  };
-}
-
 const envSetupForPlayback: { [k: string]: string } = {
   EVENT_GRID_EVENT_GRID_SCHEMA_API_KEY: "api_key",
   EVENT_GRID_EVENT_GRID_SCHEMA_ENDPOINT: "https://endpoint/api/events",
@@ -98,6 +75,29 @@ export async function createRecordedClient<T extends InputSchema>(
         ? removeApiEventsSuffix(assertEnvironmentVariable(endpointEnv))
         : assertEnvironmentVariable(endpointEnv),
       eventSchema,
+      new AzureKeyCredential(assertEnvironmentVariable(apiKeyEnv)),
+      recorder.configureClientOptions({
+        additionalPolicies: options.additionalPolicies,
+      })
+    ),
+    recorder,
+  };
+}
+
+export async function createRecordedV2Client(
+  currentTest: Test | undefined,
+  endpointEnv: string,
+  apiKeyEnv: string,
+  options: {
+    additionalPolicies?: AdditionalPolicyConfig[];
+  } = {}
+): Promise<RecordedV2Client> {
+  const recorder = new Recorder(currentTest);
+  await recorder.start(recorderOptions);
+
+  return {
+    client: new EventGridClient(
+      assertEnvironmentVariable(endpointEnv),
       new AzureKeyCredential(assertEnvironmentVariable(apiKeyEnv)),
       recorder.configureClientOptions({
         additionalPolicies: options.additionalPolicies,

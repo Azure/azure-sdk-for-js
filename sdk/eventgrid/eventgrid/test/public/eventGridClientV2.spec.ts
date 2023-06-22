@@ -13,6 +13,7 @@ import {
 import { createRecordedV2Client } from "./utils/recordedClient";
 import { expect } from "chai";
 
+/* eslint no-constant-condition: "off" */
 describe("Event Grid Client V2", function (this: Suite) {
   let recorder: Recorder;
   let client: EventGridClient;
@@ -35,7 +36,7 @@ describe("Event Grid Client V2", function (this: Suite) {
     while (true) {
       const receivedResult: ReceiveResult<ApiManagementGatewayCreatedEventData> =
         await client.receiveCloudEvents(topicName, eventSubscripionName);
-      if (!receivedResult || receivedResult.value.length == 0) break;
+      if (!receivedResult || receivedResult.value.length === 0) break;
       const lockToken = receivedResult.value[0].brokerProperties.lockToken;
       await client.acknowledgeCloudEvents([lockToken], topicName, eventSubscripionName);
     }
@@ -46,7 +47,7 @@ describe("Event Grid Client V2", function (this: Suite) {
     while (true) {
       const receivedResult: ReceiveResult<ApiManagementGatewayCreatedEventData> =
         await client.receiveCloudEvents(topicName, eventSubscripionName);
-      if (!receivedResult || receivedResult.value.length == 0) break;
+      if (!receivedResult || receivedResult.value.length === 0) break;
       const lockToken = receivedResult.value[0].brokerProperties.lockToken;
       await client.acknowledgeCloudEvents([lockToken], topicName, eventSubscripionName);
     }
@@ -134,13 +135,13 @@ describe("Event Grid Client V2", function (this: Suite) {
         await client.receiveCloudEvents(topicName, eventSubscripionName);
 
       if (
-        (counter > maxDeliveryCount && receiveResult.value.length != 0) ||
-        (counter < maxDeliveryCount && receiveResult.value.length == 0)
+        (counter > maxDeliveryCount && receiveResult.value.length !== 0) ||
+        (counter < maxDeliveryCount && receiveResult.value.length === 0)
       ) {
         assert.equal(true, false);
       }
 
-      if (counter > maxDeliveryCount && receiveResult.value.length == 0) {
+      if (counter > maxDeliveryCount && receiveResult.value.length === 0) {
         break;
       }
 
