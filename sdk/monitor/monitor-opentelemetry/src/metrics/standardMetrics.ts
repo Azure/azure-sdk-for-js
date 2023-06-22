@@ -58,17 +58,23 @@ export class StandardMetrics {
     this._metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
     this._meterProvider.addMetricReader(this._metricReader);
     this._meter = this._meterProvider.getMeter("AzureMonitorStandardMetricsMeter");
-    this._incomingRequestDurationHistogram = this._meter.createHistogram("REQUEST_DURATION", {
-      valueType: ValueType.DOUBLE,
-    });
-    this._outgoingRequestDurationHistogram = this._meter.createHistogram("DEPENDENCY_DURATION", {
-      valueType: ValueType.DOUBLE,
-    });
+    this._incomingRequestDurationHistogram = this._meter.createHistogram(
+      "azureMonitor.http.requestDuration",
+      {
+        valueType: ValueType.DOUBLE,
+      }
+    );
+    this._outgoingRequestDurationHistogram = this._meter.createHistogram(
+      "azureMonitor.http.dependencyDuration",
+      {
+        valueType: ValueType.DOUBLE,
+      }
+    );
 
-    this._exceptionsCounter = this._meter.createCounter("EXCEPTION_COUNT", {
+    this._exceptionsCounter = this._meter.createCounter("azureMonitor.exceptionCount", {
       valueType: ValueType.INT,
     });
-    this._tracesCounter = this._meter.createCounter("TRACE_COUNT", {
+    this._tracesCounter = this._meter.createCounter("azureMonitor.traceCount", {
       valueType: ValueType.INT,
     });
   }
