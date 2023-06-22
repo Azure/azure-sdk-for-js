@@ -17,17 +17,23 @@ declare global {
     extractable: boolean;
     usages: string[];
   }
-  
+
   function btoa(input: string): string;
 }
 
 declare const globalThis: {
   crypto: {
     subtle: {
-      importKey(format: string, keyData: Uint8Array, algorithm: HmacImportParams, extractable: boolean, usages: string[]): Promise<CryptoKey>;
+      importKey(
+        format: string,
+        keyData: Uint8Array,
+        algorithm: HmacImportParams,
+        extractable: boolean,
+        usages: string[]
+      ): Promise<CryptoKey>;
       sign(algorithm: HmacImportParams, key: CryptoKey, data: Uint8Array): Promise<ArrayBuffer>;
     };
-  }
+  };
 };
 
 export async function signString(key: string, toSign: string): Promise<string> {

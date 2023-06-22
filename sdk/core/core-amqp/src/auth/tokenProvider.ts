@@ -83,7 +83,7 @@ export class SasTokenProviderImpl implements SasTokenProvider {
    */
   async getToken(audience: string): Promise<AccessToken> {
     if (isNamedKeyCredential(this._credential)) {
-      return await createToken(
+      return createToken(
         this._credential.name,
         this._credential.key,
         Math.floor(Date.now() / 1000) + 3600,
@@ -106,11 +106,15 @@ export class SasTokenProviderImpl implements SasTokenProvider {
  * @param audience - The audience for which the token is desired.
  * @internal
  */
-async function createToken(keyName: string, key: string, expiry: number, audience: string): Promise<AccessToken> {
+async function createToken(
+  keyName: string,
+  key: string,
+  expiry: number,
+  audience: string
+): Promise<AccessToken> {
   audience = encodeURIComponent(audience);
   keyName = encodeURIComponent(keyName);
   const stringToSign = audience + "\n" + expiry;
-
 
   const sig = await signString(key, stringToSign);
   return {
