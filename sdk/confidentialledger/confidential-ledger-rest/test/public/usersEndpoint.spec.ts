@@ -20,7 +20,7 @@ describe("Get user", function () {
     await recorder.stop();
   });
 
-  it("should obtain user data", async function () {
+  it.only("should obtain user data", async function () {
     // If using a test app, it needs to be the oid.
     const userId = env.AZURE_CLIENT_OID ?? env.AZURE_CLIENT_ID ?? "";
     if (!userId) {

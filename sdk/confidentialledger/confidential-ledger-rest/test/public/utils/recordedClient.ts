@@ -14,6 +14,7 @@ import { Context } from "mocha";
 const replaceableVariables: { [k: string]: string } = {
   LEDGER_URI: "https://test-ledger.confidential-ledger.azure.com",
   AZURE_CLIENT_ID: "azure_client_id",
+  AZURE_CLIENT_OID: "azure_client_oid",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   IDENTITY_SERVICE_URL: "https://identity.confidential-ledger.core.azure.com",
@@ -52,9 +53,19 @@ export async function createClient(recorder: Recorder): Promise<ConfidentialLedg
 export async function createRecorder(context: Context): Promise<Recorder> {
   const ledgerIdentityCertificate = await getledgerIdentityCertificate();
   const recorder = new Recorder(context.currentTest);
+  const uriSanitizers = [];
+  if (env.AZURE_CLIENT_OID) {
+    uriSanitizers.push({
+      target: env.AZURE_CLIENT_OID,
+      value: replaceableVariables["AZURE_CLIENT_OID"],
+    });
+  }
   await recorder.start({
     tlsValidationCert: ledgerIdentityCertificate,
     envSetupForPlayback: replaceableVariables,
+    sanitizerOptions: {
+      uriSanitizers,
+    },
   });
   return recorder;
 }
