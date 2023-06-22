@@ -443,7 +443,7 @@ export class ContainerAppsImpl implements ContainerApps {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/containerApps",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.App/containerApps",
   httpMethod: "GET",
   responses: {
     200: {
@@ -460,7 +460,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/containerApps",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps",
   httpMethod: "GET",
   responses: {
     200: {
