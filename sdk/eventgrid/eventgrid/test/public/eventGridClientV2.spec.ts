@@ -20,12 +20,12 @@ async function clearMessages(
   eventSubscripionName: string
 ): Promise<void> {
   // Clear any messages that may be available in the topic.
-  while (true) {
-    const receivedResult: ReceiveResult<ApiManagementGatewayCreatedEventData> =
-      await client.receiveCloudEvents(topicName, eventSubscripionName);
-    if (!receivedResult || receivedResult.value.length === 0) break;
+  let receivedResult: ReceiveResult<ApiManagementGatewayCreatedEventData> =
+    await client.receiveCloudEvents(topicName, eventSubscripionName);
+  while (receivedResult && receivedResult.value.length > 0) {
     const lockToken = receivedResult.value[0].brokerProperties.lockToken;
     await client.acknowledgeCloudEvents([lockToken], topicName, eventSubscripionName);
+    receivedResult = await client.receiveCloudEvents(topicName, eventSubscripionName);
   }
 }
 
