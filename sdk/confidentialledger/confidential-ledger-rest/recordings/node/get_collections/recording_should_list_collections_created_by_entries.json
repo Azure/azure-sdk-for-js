@@ -1,0 +1,380 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://test-ledger.confidential-ledger.azure.com/app/transactions?collectionId=collection0168745951985003203\u0026api-version=2022-05-13",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "37",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-confidential-ledger-rest/1.0.1 core-rest-pipeline/1.11.1 Node/v16.20.0 OS/(x64-Linux-5.15.0-1039-azure)",
+        "x-ms-client-request-id": "7d7ba1ae-a83a-4004-8886-68f5a463f9d0"
+      },
+      "RequestBody": {
+        "contents": "entry for collection 0"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "48",
+        "Content-Type": "application/json",
+        "x-ms-ccf-transaction-id": "2.6540",
+        "x-ms-client-request-id": "7d7ba1ae-a83a-4004-8886-68f5a463f9d0",
+        "x-ms-request-id": "1736404718"
+      },
+      "ResponseBody": {
+        "collectionId": "collection0168745951985003203"
+      }
+    },
+    {
+      "RequestUri": "https://test-ledger.confidential-ledger.azure.com/app/transactions?collectionId=collection1168745952047708514\u0026api-version=2022-05-13",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "37",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-confidential-ledger-rest/1.0.1 core-rest-pipeline/1.11.1 Node/v16.20.0 OS/(x64-Linux-5.15.0-1039-azure)",
+        "x-ms-client-request-id": "5ed1ce75-602a-44ba-a08a-c660096c54d5"
+      },
+      "RequestBody": {
+        "contents": "entry for collection 1"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "48",
+        "Content-Type": "application/json",
+        "x-ms-ccf-transaction-id": "2.6541",
+        "x-ms-client-request-id": "5ed1ce75-602a-44ba-a08a-c660096c54d5",
+        "x-ms-request-id": "1556558470"
+      },
+      "ResponseBody": {
+        "collectionId": "collection1168745952047708514"
+      }
+    },
+    {
+      "RequestUri": "https://test-ledger.confidential-ledger.azure.com/app/transactions?collectionId=collection2168745952054609920\u0026api-version=2022-05-13",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "37",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-confidential-ledger-rest/1.0.1 core-rest-pipeline/1.11.1 Node/v16.20.0 OS/(x64-Linux-5.15.0-1039-azure)",
+        "x-ms-client-request-id": "377d2f0d-3243-44b1-b563-6c32ccc78899"
+      },
+      "RequestBody": {
+        "contents": "entry for collection 2"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "48",
+        "Content-Type": "application/json",
+        "x-ms-ccf-transaction-id": "2.6542",
+        "x-ms-client-request-id": "377d2f0d-3243-44b1-b563-6c32ccc78899",
+        "x-ms-request-id": "1042700960"
+      },
+      "ResponseBody": {
+        "collectionId": "collection2168745952054609920"
+      }
+    },
+    {
+      "RequestUri": "https://test-ledger.confidential-ledger.azure.com/app/transactions?collectionId=collection3168745952061902311\u0026api-version=2022-05-13",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "37",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-confidential-ledger-rest/1.0.1 core-rest-pipeline/1.11.1 Node/v16.20.0 OS/(x64-Linux-5.15.0-1039-azure)",
+        "x-ms-client-request-id": "24d63935-47dc-42a8-b310-03872aa13462"
+      },
+      "RequestBody": {
+        "contents": "entry for collection 3"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "48",
+        "Content-Type": "application/json",
+        "x-ms-ccf-transaction-id": "2.6543",
+        "x-ms-client-request-id": "24d63935-47dc-42a8-b310-03872aa13462",
+        "x-ms-request-id": "1701593302"
+      },
+      "ResponseBody": {
+        "collectionId": "collection3168745952061902311"
+      }
+    },
+    {
+      "RequestUri": "https://test-ledger.confidential-ledger.azure.com/app/transactions?collectionId=collection4168745952073309235\u0026api-version=2022-05-13",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "37",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-confidential-ledger-rest/1.0.1 core-rest-pipeline/1.11.1 Node/v16.20.0 OS/(x64-Linux-5.15.0-1039-azure)",
+        "x-ms-client-request-id": "b488cde5-4860-4933-ba12-8ea5c2e57ae9"
+      },
+      "RequestBody": {
+        "contents": "entry for collection 4"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "48",
+        "Content-Type": "application/json",
+        "x-ms-ccf-transaction-id": "2.6544",
+        "x-ms-client-request-id": "b488cde5-4860-4933-ba12-8ea5c2e57ae9",
+        "x-ms-request-id": "1112305598"
+      },
+      "ResponseBody": {
+        "collectionId": "collection4168745952073309235"
+      }
+    },
+    {
+      "RequestUri": "https://test-ledger.confidential-ledger.azure.com/app/collections?api-version=2022-05-13",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-confidential-ledger-rest/1.0.1 core-rest-pipeline/1.11.1 Node/v16.20.0 OS/(x64-Linux-5.15.0-1039-azure)",
+        "x-ms-client-request-id": "2ab03773-7dd1-4b51-9f35-293e2aa96314"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "3288",
+        "Content-Type": "application/json",
+        "x-ms-ccf-transaction-id": "2.6544",
+        "x-ms-client-request-id": "2ab03773-7dd1-4b51-9f35-293e2aa96314",
+        "x-ms-request-id": "574053608"
+      },
+      "ResponseBody": {
+        "collections": [
+          {
+            "collectionId": "pagedCollection168745315822902875"
+          },
+          {
+            "collectionId": "collectionPost:0168745897262302023"
+          },
+          {
+            "collectionId": "collectionPost:0168745667992903896"
+          },
+          {
+            "collectionId": "collection1168745952047708514"
+          },
+          {
+            "collectionId": "collection4168745667298003616"
+          },
+          {
+            "collectionId": "pagedCollection168745375320203168"
+          },
+          {
+            "collectionId": "pagedCollection168745406227009840"
+          },
+          {
+            "collectionId": "collection2168745492297306188"
+          },
+          {
+            "collectionId": "4"
+          },
+          {
+            "collectionId": "collection1168745498565407316"
+          },
+          {
+            "collectionId": "collection4168745732555007338"
+          },
+          {
+            "collectionId": "pagedCollection168745492341201378"
+          },
+          {
+            "collectionId": "pagedCollection168745383884807706"
+          },
+          {
+            "collectionId": "3"
+          },
+          {
+            "collectionId": "collection4168745717819302665"
+          },
+          {
+            "collectionId": "collectionPost:0168745499263403752"
+          },
+          {
+            "collectionId": "collection1168745667246200636"
+          },
+          {
+            "collectionId": "pagedCollection168745435666108099"
+          },
+          {
+            "collectionId": "pagedCollection168745484446802445"
+          },
+          {
+            "collectionId": "pagedCollection168745339114809096"
+          },
+          {
+            "collectionId": "pagedCollection168745393486703362"
+          },
+          {
+            "collectionId": "collectionPost:0168745733346402340"
+          },
+          {
+            "collectionId": "collection4168745492311802872"
+          },
+          {
+            "collectionId": "pagedCollection168745379368609776"
+          },
+          {
+            "collectionId": "collection3168745717807109003"
+          },
+          {
+            "collectionId": "collection4168745896460302925"
+          },
+          {
+            "collectionId": "collection4168745952073309235"
+          },
+          {
+            "collectionId": "collection1168745492285801311"
+          },
+          {
+            "collectionId": "pagedCollection168745717848100440"
+          },
+          {
+            "collectionId": "pagedCollection168745306397605060"
+          },
+          {
+            "collectionId": "collection0168745951985003203"
+          },
+          {
+            "collectionId": "collection2168745732521502251"
+          },
+          {
+            "collectionId": "collection3168745896443705657"
+          },
+          {
+            "collectionId": "collection2168745667263500876"
+          },
+          {
+            "collectionId": "collection0168745492228304000"
+          },
+          {
+            "collectionId": "0"
+          },
+          {
+            "collectionId": "collection3168745498591301024"
+          },
+          {
+            "collectionId": "collection3168745732538109376"
+          },
+          {
+            "collectionId": "collection2168745952054609920"
+          },
+          {
+            "collectionId": "collection1168745732508508217"
+          },
+          {
+            "collectionId": "pagedCollection168745449091206606"
+          },
+          {
+            "collectionId": "collection0168745732442902350"
+          },
+          {
+            "collectionId": "collection0168745498492208546"
+          },
+          {
+            "collectionId": "pagedCollection168745732595108565"
+          },
+          {
+            "collectionId": "pagedCollection168745896498909536"
+          },
+          {
+            "collectionId": "collection2168745498579509610"
+          },
+          {
+            "collectionId": "collectionPost:0168745718445502311"
+          },
+          {
+            "collectionId": "subledger:0"
+          },
+          {
+            "collectionId": "collection3168745952061902311"
+          },
+          {
+            "collectionId": "collection1168745717782800395"
+          },
+          {
+            "collectionId": "1"
+          },
+          {
+            "collectionId": "pagedCollection168745487857701030"
+          },
+          {
+            "collectionId": "pagedCollection168745490148908535"
+          },
+          {
+            "collectionId": "collection4168745498603209846"
+          },
+          {
+            "collectionId": "collection3168745492304607248"
+          },
+          {
+            "collectionId": "collection0168745717727705192"
+          },
+          {
+            "collectionId": "2"
+          },
+          {
+            "collectionId": "pagedCollection168745667339009361"
+          },
+          {
+            "collectionId": "collection0168745896343204895"
+          },
+          {
+            "collectionId": "collectionPost:0168745492958307743"
+          },
+          {
+            "collectionId": "collection1168745896413505576"
+          },
+          {
+            "collectionId": "pagedCollection168745426301406690"
+          },
+          {
+            "collectionId": "collection0168745667173907587"
+          },
+          {
+            "collectionId": "pagedCollection168745498630008205"
+          },
+          {
+            "collectionId": "collectionPost:0"
+          },
+          {
+            "collectionId": "collection2168745896430908280"
+          },
+          {
+            "collectionId": "collection3168745667280102047"
+          },
+          {
+            "collectionId": "collection2168745717795007406"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {
+    "collection0": "collection0168745951985003203",
+    "collection1": "collection1168745952047708514",
+    "collection2": "collection2168745952054609920",
+    "collection3": "collection3168745952061902311",
+    "collection4": "collection4168745952073309235"
+  }
+}

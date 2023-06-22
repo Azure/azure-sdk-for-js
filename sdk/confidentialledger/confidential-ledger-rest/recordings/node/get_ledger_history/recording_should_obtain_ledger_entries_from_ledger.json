@@ -1,0 +1,57 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://test-ledger.confidential-ledger.azure.com/app/transactions?api-version=2022-05-13",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-confidential-ledger-rest/1.0.1 core-rest-pipeline/1.11.1 Node/v16.20.0 OS/(x64-Linux-5.15.0-1039-azure)",
+        "x-ms-client-request-id": "edd4f1c5-551c-4c90-9fe2-63a73b40fcb9"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "146",
+        "Content-Type": "application/json",
+        "x-ms-ccf-transaction-id": "2.6568",
+        "x-ms-client-request-id": "edd4f1c5-551c-4c90-9fe2-63a73b40fcb9",
+        "x-ms-request-id": "1332252677"
+      },
+      "ResponseBody": {
+        "entries": [],
+        "nextLink": "/app/transactions?api-version=2022-05-13\u0026collectionId=subledger:0\u0026fromTransactionId=2.1",
+        "state": "Loading"
+      }
+    },
+    {
+      "RequestUri": "https://test-ledger.confidential-ledger.azure.com/app/transactions/current?api-version=2022-05-13",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-confidential-ledger-rest/1.0.1 core-rest-pipeline/1.11.1 Node/v16.20.0 OS/(x64-Linux-5.15.0-1039-azure)",
+        "x-ms-client-request-id": "8c61398d-5100-4b2d-89c5-ada20bacad63"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "89",
+        "Content-Type": "application/json",
+        "x-ms-ccf-transaction-id": "2.6568",
+        "x-ms-client-request-id": "8c61398d-5100-4b2d-89c5-ada20bacad63",
+        "x-ms-request-id": "2019680556"
+      },
+      "ResponseBody": {
+        "collectionId": "subledger:0",
+        "contents": "typescript post test",
+        "transactionId": "2.6536"
+      }
+    }
+  ],
+  "Variables": {}
+}

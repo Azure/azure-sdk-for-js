@@ -1,0 +1,86 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://test-ledger.confidential-ledger.azure.com/app/transactions?collectionId=collectionPost%3A0168745952718107989\u0026api-version=2022-05-13",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "37",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-confidential-ledger-rest/1.0.1 core-rest-pipeline/1.11.1 Node/v16.20.0 OS/(x64-Linux-5.15.0-1039-azure)",
+        "x-ms-client-request-id": "560c666d-7f84-4089-8335-54296b71bb0a"
+      },
+      "RequestBody": {
+        "contents": "post ledger entry test"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "53",
+        "Content-Type": "application/json",
+        "x-ms-ccf-transaction-id": "2.6571",
+        "x-ms-client-request-id": "560c666d-7f84-4089-8335-54296b71bb0a",
+        "x-ms-request-id": "952611969"
+      },
+      "ResponseBody": {
+        "collectionId": "collectionPost:0168745952718107989"
+      }
+    },
+    {
+      "RequestUri": "https://test-ledger.confidential-ledger.azure.com/app/transactions/2.6571/status?api-version=2022-05-13",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-confidential-ledger-rest/1.0.1 core-rest-pipeline/1.11.1 Node/v16.20.0 OS/(x64-Linux-5.15.0-1039-azure)",
+        "x-ms-client-request-id": "a97aa692-78dd-4077-9205-e62970efdb0e"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "44",
+        "Content-Type": "application/json",
+        "x-ms-ccf-transaction-id": "2.6571",
+        "x-ms-client-request-id": "a97aa692-78dd-4077-9205-e62970efdb0e",
+        "x-ms-request-id": "650210508"
+      },
+      "ResponseBody": {
+        "state": "Pending",
+        "transactionId": "2.6571"
+      }
+    },
+    {
+      "RequestUri": "https://test-ledger.confidential-ledger.azure.com/app/transactions/2.6571/receipt?api-version=2022-05-13",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-confidential-ledger-rest/1.0.1 core-rest-pipeline/1.11.1 Node/v16.20.0 OS/(x64-Linux-5.15.0-1039-azure)",
+        "x-ms-client-request-id": "5f4d4724-d6e3-4011-81b6-9804f2ff5695"
+      },
+      "RequestBody": null,
+      "StatusCode": 406,
+      "ResponseHeaders": {
+        "Content-Length": "195",
+        "Content-Type": "application/json",
+        "x-ms-client-request-id": "5f4d4724-d6e3-4011-81b6-9804f2ff5695",
+        "x-ms-request-id": "1129464431"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "UncommittedLedgerEntry",
+          "message": "The specified transaction (2.6571) is not committed yet, please wait until the service reports a committed transaction ID at least as high."
+        }
+      }
+    }
+  ],
+  "Variables": {
+    "collectionPost:0": "collectionPost:0168745952718107989"
+  }
+}

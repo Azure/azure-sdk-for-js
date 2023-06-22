@@ -1,0 +1,34 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://test-ledger.confidential-ledger.azure.com/app/governance/members?api-version=2022-05-13",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-confidential-ledger-rest/1.0.1 core-rest-pipeline/1.11.1 Node/v16.20.0 OS/(x64-Linux-5.15.0-1039-azure)",
+        "x-ms-client-request-id": "a63e7672-5379-4924-9ff3-800cf9401262"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "860",
+        "Content-Type": "application/json",
+        "x-ms-ccf-transaction-id": "2.6539",
+        "x-ms-client-request-id": "a63e7672-5379-4924-9ff3-800cf9401262",
+        "x-ms-request-id": "184678895"
+      },
+      "ResponseBody": {
+        "members": [
+          {
+            "certificate": "-----BEGIN CERTIFICATE-----\nMIIB\u002BDCCAX2gAwIBAgIQcn6mRxhPSfOfL3hUGDaJsTAKBggqhkjOPQQDAzAgMR4w\nHAYDVQQDExVDQ0YgR292ZXJub3IgSWRlbnRpdHkwHhcNMjMwNjIxMTk1MjA5WhcN\nMjMwOTIxMjAwMjA5WjAgMR4wHAYDVQQDExVDQ0YgR292ZXJub3IgSWRlbnRpdHkw\ndjAQBgcqhkjOPQIBBgUrgQQAIgNiAAQdAUCQbTWGsOoHCENhsxeWOYx3aVUJFwb3\nwym1x3MpeKYxsCQy9MWgLF8VYMceaO/JvMXvEb19FQxr1CHLFlkk92iuHGFYYtvZ\nOBUZf9wBoBdQd\u002BhXJps3xGK/j72RQuGjfDB6MA4GA1UdDwEB/wQEAwIHgDAJBgNV\nHRMEAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAfBgNVHSMEGDAW\ngBQnyR2frxrch8SQWKo89Q/HupWdezAdBgNVHQ4EFgQUJ8kdn68a3IfEkFiqPPUP\nx7qVnXswCgYIKoZIzj0EAwMDaQAwZgIxANSyShqyPThyDitg4afGaQAey9SMZqf1\nkKsaIHx5Ayo0DFuntaX6b3OOfhesJRu4yQIxAIFu8BWMRHBXs4g\u002BUpwokdMBe7oK\nLH8y0mHrW9tyIaSHvZlJFTrWBNC4Savxa/LqpQ==\n-----END CERTIFICATE-----",
+            "id": "7b02084671ece17a0186f164f37e207592c1e3822daa55103793092e8c23ad00"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

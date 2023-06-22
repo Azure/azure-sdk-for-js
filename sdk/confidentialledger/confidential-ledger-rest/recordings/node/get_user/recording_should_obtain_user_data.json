@@ -1,0 +1,30 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://test-ledger.confidential-ledger.azure.com/app/users/6696d1bc-6012-47da-8556-ab4c747999c9?api-version=2022-05-13",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-confidential-ledger-rest/1.0.1 core-rest-pipeline/1.11.1 Node/v16.20.0 OS/(x64-Linux-5.15.0-1039-azure)",
+        "x-ms-client-request-id": "00637c9c-6ff1-410e-a172-a37e1f1cabc5"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "80",
+        "Content-Type": "application/json",
+        "x-ms-ccf-transaction-id": "2.6572",
+        "x-ms-client-request-id": "00637c9c-6ff1-410e-a172-a37e1f1cabc5",
+        "x-ms-request-id": "1269071668"
+      },
+      "ResponseBody": {
+        "assignedRole": "Administrator",
+        "userId": "6696d1bc-6012-47da-8556-ab4c747999c9"
+      }
+    }
+  ],
+  "Variables": {}
+}

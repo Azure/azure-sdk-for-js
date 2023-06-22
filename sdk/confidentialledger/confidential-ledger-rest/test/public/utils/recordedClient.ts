@@ -2,26 +2,39 @@
 // Licensed under the MIT license.
 
 import ConfidentialLedger, { ConfidentialLedgerClient, getLedgerIdentity } from "../../../src";
-import { Recorder, env, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import {
+  Recorder,
+  env,
+  assertEnvironmentVariable,
+  isPlaybackMode,
+} from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { Context } from "mocha";
 
 const replaceableVariables: { [k: string]: string } = {
-  LEDGER_URI: "https://test-ledger.confidential-ledger.azure.com/",
+  LEDGER_URI: "https://test-ledger.confidential-ledger.azure.com",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  IDENTITY_SERVICE_URL: "https://identity.confidential-ledger.core.azure.com/",
+  IDENTITY_SERVICE_URL: "https://identity.confidential-ledger.core.azure.com",
   LEDGER_NAME: "test-ledger",
 };
 
-export async function createClient(recorder: Recorder): Promise<ConfidentialLedgerClient> {
-  const clientCredential = createTestCredential();
-
+export async function getledgerIdentityCertificate(): Promise<string> {
+  if (isPlaybackMode()) {
+    return "";
+  }
   const { ledgerIdentityCertificate } = await getLedgerIdentity(
     assertEnvironmentVariable("LEDGER_NAME"),
     env.IDENTITY_SERVICE_URL
   );
+  return ledgerIdentityCertificate;
+}
+
+export async function createClient(recorder: Recorder): Promise<ConfidentialLedgerClient> {
+  const clientCredential = createTestCredential();
+
+  const ledgerIdentityCertificate = await getledgerIdentityCertificate();
 
   return ConfidentialLedger(
     assertEnvironmentVariable("LEDGER_URI"),
@@ -37,8 +50,10 @@ export async function createClient(recorder: Recorder): Promise<ConfidentialLedg
  * read before they are being used.
  */
 export async function createRecorder(context: Context): Promise<Recorder> {
+  const ledgerIdentityCertificate = await getledgerIdentityCertificate();
   const recorder = new Recorder(context.currentTest);
   await recorder.start({
+    tlsValidationCert: ledgerIdentityCertificate,
     envSetupForPlayback: replaceableVariables,
   });
   return recorder;
