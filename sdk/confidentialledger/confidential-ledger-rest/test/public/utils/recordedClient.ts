@@ -1,59 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/// <reference lib="esnext.asynciterable" />
-
-import "./env";
-
 import ConfidentialLedger, { ConfidentialLedgerClient, getLedgerIdentity } from "../../../src";
-import { Recorder, RecorderEnvironmentSetup, env, record } from "@azure-tools/test-recorder";
-
+import { Recorder, env, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { Context } from "mocha";
-import { ClientSecretCredential } from "@azure/identity";
 
 const replaceableVariables: { [k: string]: string } = {
-  LEDGER_URI: "https://emily-java-sdk-tests.confidential-ledger.azure.com/",
+  LEDGER_URI: "https://test-ledger.confidential-ledger.azure.com/",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  LEDGER_IDENTITY: "FAKE_CERT",
   IDENTITY_SERVICE_URL: "https://identity.confidential-ledger.core.azure.com/",
-  USER_ID: "00000000-0000-0000-0000-000000000000",
-  // we need this dummy variable since the test environment doesn't have access to local .env files
-  LEDGER_NAME: "emily-java-sdk-tests",
-};
-
-export const environmentSetup: RecorderEnvironmentSetup = {
-  replaceableVariables,
-  customizationsOnRecordings: [
-    (recording: string): string =>
-      recording.replace(/"access_token"\s?:\s?"[^"]*"/g, `"access_token":"access_token"`),
-    // If we put ENDPOINT in replaceableVariables above, it will not capture
-    // the endpoint string used with nock, which will be expanded to
-    // https://<endpoint>:443/ and therefore will not match, so we have to do
-    // this instead.
-    (recording: string): string => {
-      const replaced = recording.replace("endpoint:443", "endpoint");
-
-      return replaced;
-    },
-  ],
-  queryParametersToSkip: [],
+  LEDGER_NAME: "test-ledger",
 };
 
 export async function createClient(): Promise<ConfidentialLedgerClient> {
-  const clientCredential = new ClientSecretCredential(
-    env.AZURE_TENANT_ID,
-    env.AZURE_CLIENT_ID,
-    env.AZURE_CLIENT_SECRET
-  );
+  const clientCredential = createTestCredential();
 
   const { ledgerIdentityCertificate } = await getLedgerIdentity(
-    env.LEDGER_NAME,
-    env.IDENTITY_SERVICE_URL ? env.IDENTITY_SERVICE_URL : null
+    assertEnvironmentVariable("LEDGER_NAME"),
+    env.IDENTITY_SERVICE_URL
   );
 
-  return ConfidentialLedger(env.LEDGER_URI, ledgerIdentityCertificate, clientCredential);
+  return ConfidentialLedger(
+    assertEnvironmentVariable("LEDGER_URI"),
+    ledgerIdentityCertificate,
+    clientCredential
+  );
 }
 
 /**
@@ -61,6 +35,20 @@ export async function createClient(): Promise<ConfidentialLedgerClient> {
  * Should be called first in the test suite to make sure environment variables are
  * read before they are being used.
  */
-export function createRecorder(context: Context): Recorder {
-  return record(context, environmentSetup);
+export async function createRecorder(context: Context): Promise<Recorder> {
+  const recorder = new Recorder(context.currentTest);
+  await recorder.start({
+    envSetupForPlayback: replaceableVariables,
+  });
+  return recorder;
+}
+
+export function getUniqueName(prefix: string): string {
+  return `${prefix}${new Date().getTime()}${Math.floor(Math.random() * 10000)
+    .toString()
+    .padStart(5, "00000")}`;
+}
+
+export function getRecorderUniqueVariable(recorder: Recorder, name: string): string {
+  return recorder.variable(name, getUniqueName(name));
 }

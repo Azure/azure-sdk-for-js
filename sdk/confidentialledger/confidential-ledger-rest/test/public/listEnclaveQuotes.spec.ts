@@ -12,7 +12,7 @@ describe("List Enclaves", function () {
   let client: ConfidentialLedgerClient;
 
   beforeEach(async function (this: Context) {
-    recorder = createRecorder(this);
+    recorder = await createRecorder(this);
     client = await createClient();
   });
 
