@@ -8,6 +8,25 @@ import { isNode, isNumber, isString } from "../src/util/utils.js";
 import { isError } from "@azure/core-util";
 
 /**
+ * @interal
+ */
+interface Window {
+  WebSocket: WebSocket
+}
+
+/**
+ * @interal
+ */
+interface WebSocket {
+
+}
+
+/**
+ * @interal
+ */
+declare const self: Window;
+
+/**
  * Maps the conditions to the numeric AMQP Response status codes.
  * @internal
  */

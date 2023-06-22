@@ -19,6 +19,25 @@ import { Constants } from "./util/constants.js";
 import { isNode } from "./util/utils.js";
 
 /**
+ * @interal
+ */
+interface Window {
+  WebSocket: WebSocket
+}
+
+/**
+ * @interal
+ */
+interface WebSocket {
+
+}
+
+/**
+ * @interal
+ */
+declare const self: Window;
+
+/**
  * Provides contextual information like the underlying amqp connection, cbs session, tokenProvider,
  * Connection config, data transformer, etc.
  */

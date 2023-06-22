@@ -1,40 +1,57 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-declare global {
-  interface Window {
-    document: unknown;
-  }
-
-  interface DedicatedWorkerGlobalScope {
-    constructor: {
-      name: string;
-    };
-
-    importScripts: (...paths: string[]) => void;
-  }
-
-  interface Navigator {
-    product: string;
-  }
-
-  interface DenoGlobal {
-    version: {
-      deno: string;
-    };
-  }
-
-  interface BunGlobal {
-    version: string;
-  }
-
-  // eslint-disable-next-line @azure/azure-sdk/ts-no-window
-  const window: Window;
-  const self: DedicatedWorkerGlobalScope;
-  const Deno: DenoGlobal;
-  const Bun: BunGlobal;
-  const navigator: Navigator;
+interface Window {
+  document: unknown;
 }
+
+interface DedicatedWorkerGlobalScope {
+  constructor: {
+    name: string;
+  };
+
+  importScripts: (...paths: string[]) => void;
+}
+
+interface Navigator {
+  product: string;
+}
+
+interface DenoGlobal {
+  version: {
+    deno: string;
+  };
+}
+
+interface BunGlobal {
+  version: string;
+}
+
+// eslint-disable-next-line @azure/azure-sdk/ts-no-window
+/**
+ * @internal
+ */
+declare const window: Window;
+
+/**
+ * @internal
+ */
+declare const self: DedicatedWorkerGlobalScope;
+
+/**
+ * @internal
+ */
+declare const Deno: DenoGlobal;
+
+/**
+ * @internal
+ */
+declare const Bun: BunGlobal;
+
+/**
+ * @internal
+ */
+declare const navigator: Navigator;
 
 /**
  * A constant that indicates whether the environment the code is running is a Web Browser.
