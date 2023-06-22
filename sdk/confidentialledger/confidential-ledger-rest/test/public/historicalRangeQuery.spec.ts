@@ -28,6 +28,25 @@ describe("Range query should be successful", function () {
   });
 
   it("should paginate queries", async function () {
+    async function getTransactionStatus(transactionId: string) {
+      const status = await client
+        .path("/app/transactions/{transactionId}/status", transactionId)
+        .get();
+
+      if (isUnexpected(status)) {
+        throw new Error("Unexpected status for transaction");
+      }
+
+      return status.body;
+    }
+
+    async function waitForTransactionToCommit(transactionId: string) {
+      let status = await getTransactionStatus(transactionId);
+      while (status.state !== "Committed") {
+        status = await getTransactionStatus(transactionId);
+      }
+    }
+
     const messagesToSend = 20;
 
     const collectionId = getRecorderUniqueVariable(recorder, `pagedCollection`);
@@ -50,25 +69,6 @@ describe("Range query should be successful", function () {
       }
 
       const transactionId = result.headers["x-ms-ccf-transaction-id"] ?? "";
-
-      async function getTransactionStatus(transactionId: string) {
-        const status = await client
-          .path("/app/transactions/{transactionId}/status", transactionId)
-          .get();
-
-        if (isUnexpected(status)) {
-          throw new Error("Unexpected status for transaction");
-        }
-
-        return status.body;
-      }
-
-      async function waitForTransactionToCommit(transactionId: string) {
-        let status = await getTransactionStatus(transactionId);
-        while (status.state !== "Committed") {
-          status = await getTransactionStatus(transactionId);
-        }
-      }
 
       await waitForTransactionToCommit(transactionId);
     }
