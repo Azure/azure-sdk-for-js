@@ -771,6 +771,13 @@ export const VaultProperties: coreClient.CompositeMapper = {
           className: "MonitoringSettings"
         }
       },
+      restoreSettings: {
+        serializedName: "restoreSettings",
+        type: {
+          name: "Composite",
+          className: "RestoreSettings"
+        }
+      },
       redundancySettings: {
         serializedName: "redundancySettings",
         type: {
@@ -1146,6 +1153,37 @@ export const ClassicAlertSettings: coreClient.CompositeMapper = {
     modelProperties: {
       alertsForCriticalOperations: {
         serializedName: "alertsForCriticalOperations",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RestoreSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestoreSettings",
+    modelProperties: {
+      crossSubscriptionRestoreSettings: {
+        serializedName: "crossSubscriptionRestoreSettings",
+        type: {
+          name: "Composite",
+          className: "CrossSubscriptionRestoreSettings"
+        }
+      }
+    }
+  }
+};
+
+export const CrossSubscriptionRestoreSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CrossSubscriptionRestoreSettings",
+    modelProperties: {
+      crossSubscriptionRestoreState: {
+        serializedName: "crossSubscriptionRestoreState",
         type: {
           name: "String"
         }

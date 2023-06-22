@@ -1,14 +1,10 @@
 # Release History
 
-## 1.3.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.3.4 (2023-06-20)
 
 ### Other Changes
+
+- Bump dependency `fast-xml-parser` version to `^4.2.4` to address security issue https://security.snyk.io/vuln/SNYK-JS-FASTXMLPARSER-5668858
 
 ## 1.3.3 (2023-03-02)
 
