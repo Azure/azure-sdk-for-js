@@ -1,14 +1,12 @@
 # Release History
 
-## 3.2.3 (Unreleased)
+## 3.2.3 (2023-06-20)
 
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
+### Bug Fixes
+ - Dependency Upgrades of MSAL libraries to the latest versions for incorporating underlying [bug fix](https://github.com/AzureAD/microsoft-authentication-library-for-js/issues/4879#issuecomment-1462949837) to resolve [this issue](https://github.com/Azure/azure-sdk-for-js/issues/23331).
 ### Other Changes
+#### Behavioral breaking change
+- Moved `AzureDeveloperCliCredential` to the end of the `DefaultAzureCredential` chain.
 
 ## 3.2.2 (2023-05-15)
 
