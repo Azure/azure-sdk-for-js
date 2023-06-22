@@ -1,5 +1,11 @@
 # Release History
 
+## 4.13.0-beta.2 (2023-06-26)
+
+### Bugs Fixed
+
+- Fixed a bug with `publishCloudEvents` API. To add the elements to the array, `push` method should be called instead of `concat` method.
+
 ## 4.13.0-beta.1 (2023-05-22)
 
 ### Features Added
