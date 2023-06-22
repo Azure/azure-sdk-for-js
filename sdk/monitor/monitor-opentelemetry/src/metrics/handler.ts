@@ -12,6 +12,8 @@ import {
 import { AzureMonitorOpenTelemetryConfig } from "../shared/config";
 import { PerformanceCounterMetrics } from "./performanceCounters";
 import { StandardMetrics } from "./standardMetrics";
+import { ReadableSpan, Span } from "@opentelemetry/sdk-trace-base";
+import { LogRecord } from "@opentelemetry/sdk-logs";
 
 /**
  * Azure Monitor OpenTelemetry Metric Handler
@@ -67,18 +69,17 @@ export class MetricHandler {
     return this._meter;
   }
 
-  /**
-   *Get StandardMetric handler
-   */
-  public getStandardMetrics(): StandardMetrics | undefined {
-    return this._standardMetrics;
+  public markSpanAsProcessed(span: Span): void {
+    this._standardMetrics?.markSpanAsProcessed(span);
   }
 
-  /**
-   *Get PerformanceCounter handler
-   */
-  public getPerformanceCounterMetrics(): PerformanceCounterMetrics | undefined {
-    return this._perfCounterMetrics;
+  public recordSpan(span: ReadableSpan): void {
+    this._standardMetrics?.recordSpan(span);
+    this._perfCounterMetrics?.recordSpan(span);
+  }
+
+  public recordLog(logRecord: LogRecord): void {
+    this._standardMetrics?.recordLog(logRecord);
   }
 
   /**

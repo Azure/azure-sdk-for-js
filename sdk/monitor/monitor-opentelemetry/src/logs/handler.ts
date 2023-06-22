@@ -10,6 +10,7 @@ import {
 import { LoggerProviderConfig } from "@opentelemetry/sdk-logs/build/src/types";
 import { AzureMonitorOpenTelemetryConfig } from "../shared/config";
 import { MetricHandler } from "../metrics/handler";
+import { AzureLogRecordProcessor } from "./logRecordProcessor";
 
 /**
  * Azure Monitor OpenTelemetry Log Handler
@@ -21,13 +22,14 @@ export class LogHandler {
   private _logRecordProcessor: SimpleLogRecordProcessor;
   private _config: AzureMonitorOpenTelemetryConfig;
   private _metricHandler?: MetricHandler;
+  private _azureLogProccessor: AzureLogRecordProcessor;
 
   /**
    * Initializes a new instance of the TraceHandler class.
    * @param _config - Distro configuration.
    * @param _metricHandler - MetricHandler.
    */
-  constructor(config: AzureMonitorOpenTelemetryConfig, metricHandler?: MetricHandler) {
+  constructor(config: AzureMonitorOpenTelemetryConfig, metricHandler: MetricHandler) {
     this._config = config;
     this._metricHandler = metricHandler;
     const loggerProviderConfig: LoggerProviderConfig = {
@@ -37,10 +39,9 @@ export class LogHandler {
     this._exporter = new ConsoleLogRecordExporter();
     this._logRecordProcessor = new SimpleLogRecordProcessor(this._exporter);
     this._loggerProvider.addLogRecordProcessor(this._logRecordProcessor);
+    this._azureLogProccessor = new AzureLogRecordProcessor(this._metricHandler);
+    this._loggerProvider.addLogRecordProcessor(this._azureLogProccessor);
     this._logger = this._loggerProvider.getLogger("AzureMonitorLogger", undefined) as OtelLogger;
-    if (this._metricHandler) {
-      // TODO: Use metric handler to track standard metrics
-    }
   }
 
   /**
