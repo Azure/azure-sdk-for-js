@@ -193,7 +193,7 @@ export interface CallMediaRecognizeOptions extends OperationOptions {
     // (undocumented)
     operationContext?: string;
     // (undocumented)
-    playPrompt?: FileSource;
+    playPrompt?: FileSource | TextSource | SsmlSource;
     // (undocumented)
     stopCurrentOperations?: boolean;
 }

@@ -296,6 +296,36 @@ export interface AccountsListBySubscriptionOptionalParams
 export type AccountsListBySubscriptionResponse = AccountResourceList;
 
 /** Optional parameters. */
+export interface AccountsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AccountsGetResponse = AccountResource;
+
+/** Optional parameters. */
+export interface AccountsCreateAndUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createAndUpdate operation. */
+export type AccountsCreateAndUpdateResponse = AccountResource;
+
+/** Optional parameters. */
+export interface AccountsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type AccountsUpdateResponse = AccountResource;
+
+/** Optional parameters. */
+export interface AccountsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
 export interface AccountsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -310,47 +340,18 @@ export interface AccountsListBySubscriptionNextOptionalParams
 export type AccountsListBySubscriptionNextResponse = AccountResourceList;
 
 /** Optional parameters. */
-export interface AccountGetOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type AccountGetResponse = AccountResource;
-
-/** Optional parameters. */
-export interface AccountCreateAndUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createAndUpdate operation. */
-export type AccountCreateAndUpdateResponse = AccountResource;
-
-/** Optional parameters. */
-export interface AccountUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type AccountUpdateResponse = AccountResource;
-
-/** Optional parameters. */
-export interface AccountDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface OperationListOptionalParams
+export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type OperationListResponse = OperationListResult;
+export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OperationListNextOptionalParams
+export interface OperationsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type OperationListNextResponse = OperationListResult;
+export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface GraphServicesOptionalParams

@@ -456,6 +456,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-tools/communication-tiering",
+      "projectFolder": "sdk/communication/communication-tiering",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-tools/communication-alpha-ids",
       "projectFolder": "sdk/communication/communication-alpha-ids",
       "versionPolicyName": "client"
@@ -2006,6 +2011,16 @@
     {
       "packageName": "@azure/arm-qumulo",
       "projectFolder": "sdk/liftrqumulo/arm-qumulo",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-containerservicefleet",
+      "projectFolder": "sdk/containerservice/arm-containerservicefleet",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-cosmosdbforpostgresql",
+      "projectFolder": "sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql",
       "versionPolicyName": "management"
     }
   ]
