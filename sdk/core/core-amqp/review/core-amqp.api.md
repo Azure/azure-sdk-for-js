@@ -551,7 +551,7 @@ export interface RetryOptions {
 
 // @public
 export interface SasTokenProvider {
-    getToken(audience: string): AccessToken;
+    getToken(audience: string): Promise<AccessToken>;
     isSasTokenProvider: true;
 }
 
