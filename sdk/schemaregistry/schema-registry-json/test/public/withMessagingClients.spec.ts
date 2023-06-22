@@ -18,7 +18,6 @@ import { JsonSerializer, MessageAdapter } from "../../src";
 import { EventData, createEventDataAdapter } from "@azure/event-hubs";
 import { MessagingTestClient } from "./clients/models";
 import { assert } from "chai";
-import { assertError } from "./utils/assertError";
 import { createEventHubsClient } from "./clients/eventHubs";
 import { createMockedMessagingClient } from "./clients/mocked";
 import { createTestSerializer } from "./utils/mockedSerializer";
@@ -36,13 +35,10 @@ interface ScenariosTestInfo<T> {
    * Each unit test correspond to one of the scenarios below
    */
   createScenario1Client: () => MessagingTestClient<T>;
-  createScenario2Client: () => MessagingTestClient<T>;
-  createScenario3Client: () => MessagingTestClient<T>;
-  createScenario4Client: () => MessagingTestClient<T>;
 }
 
 describe("With messaging clients", function () {
-  const eventHubsConnectionString = env.EVENTHUB_AVRO_CONNECTION_STRING || "";
+  const eventHubsConnectionString = env.EVENTHUB_JSON_CONNECTION_STRING || "";
   const eventHubName = env.EVENTHUB_NAME || "";
   const alreadyEnqueued = env.CROSS_LANGUAGE !== undefined;
 
@@ -72,28 +68,9 @@ describe("With messaging clients", function () {
       createEventHubsTestClient({
         eventHubName: "scenario_1",
       }),
-    createScenario2Client: () =>
-      createEventHubsTestClient({
-        eventHubName: "scenario_2",
-      }),
-    createScenario3Client: () =>
-      createEventHubsTestClient({
-        eventHubName: "scenario_3",
-      }),
-    createScenario4Client: () =>
-      createEventHubsTestClient({
-        eventHubName: "scenario_4",
-      }),
   };
   matrix([[eventDataTestInfo]] as const, async (testInfo: ScenariosTestInfo<any>) => {
-    const {
-      messageAdapter,
-      messagingServiceName,
-      createScenario1Client,
-      createScenario2Client,
-      createScenario3Client,
-      createScenario4Client,
-    } = testInfo;
+    const { messageAdapter, messagingServiceName, createScenario1Client } = testInfo;
     describe(messagingServiceName, async function () {
       let recorder: Recorder;
       let serializer: JsonSerializer<any>;
@@ -103,13 +80,11 @@ describe("With messaging clients", function () {
         value: unknown;
         writerSchema: string;
         processMessage: (p: Promise<unknown>) => Promise<void>;
-        readerSchema?: string;
         eventCount?: number;
       }): Promise<void> {
         const {
           client,
           value,
-          readerSchema,
           processMessage,
           writerSchema,
           /**
@@ -136,11 +111,7 @@ describe("With messaging clients", function () {
           eventCount,
         })) {
           try {
-            await processMessage(
-              serializer.deserialize(receivedMessage, {
-                schema: readerSchema,
-              })
-            );
+            await processMessage(serializer.deserialize(receivedMessage));
           } catch (e: any) {
             errors.push({
               error: e as Error,
@@ -169,131 +140,49 @@ describe("With messaging clients", function () {
         });
       });
 
-      it("Test schema with fields of type int/string/boolean/float/bytes", async () => {
+      it("Test schema with fields of type string/boolean/number/array/object", async () => {
         const writerSchema = JSON.stringify({
-          name: "RecordWithFieldTypes",
-          namespace: "interop.json",
-          type: "record",
-          fields: [
-            { name: "name", type: "string" },
-            { name: "age", type: "int" },
-            { name: "married", type: "boolean" },
-            { name: "height", type: "float" },
-            { name: "randb", type: "bytes" },
-          ],
+          $schema: "http://json-schema.org/draft-04/schema#",
+          $id: "1",
+          title: "Product",
+          description: "A product from Acme's catalog",
+          type: "object",
+          properties: {
+            name: {
+              type: "string",
+              description: "The name of the student",
+            },
+            age: {
+              type: "integer",
+              description: "The age of the student",
+            },
+            sibling: {
+              type: "boolean",
+              description: "Whether the student has any sibling",
+            },
+            friend: {
+              type: "array",
+              description: "The names of friends the student plays with",
+            },
+            class: {
+              type: "object",
+              description: "The subject the student studies",
+            },
+          },
+          required: ["name", "age", "sibling", "friend", "class"],
         });
         const value = {
           name: "Ben",
           age: 3,
-          married: false,
-          height: 13.5,
-          randb: Buffer.from("\u00FF"),
+          sibling: false,
+          friend: ["Bob", "Anne"],
+          class: { subject: "math", type: "morning" },
         };
         await roundtrip({
           client: createScenario1Client(),
           value,
           writerSchema,
           processMessage: async (p: Promise<unknown>) => assert.deepStrictEqual(await p, value),
-        });
-      });
-
-      it("Serialize with `Schema`. Deserialize with `Reader Schema`, which is the original schema with a field removed.", async () => {
-        const writerSchema = JSON.stringify({
-          namespace: "interop.json",
-          type: "record",
-          name: "ReaderSchema",
-          fields: [
-            { name: "name", type: "string" },
-            { name: "favorite_number", type: ["int", "null"] },
-            { name: "favorite_color", type: ["string", "null"] },
-          ],
-        });
-        const readerSchema = JSON.stringify({
-          namespace: "interop.json",
-          type: "record",
-          name: "ReaderSchema",
-          fields: [
-            { name: "name", type: "string" },
-            { name: "favorite_number", type: ["int", "null"] },
-          ],
-        });
-        const value = { name: "Ben", favorite_number: 7, favorite_color: "red" };
-        await roundtrip({
-          client: createScenario2Client(),
-          value,
-          writerSchema,
-          readerSchema,
-          processMessage: async (p: Promise<unknown>) =>
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            assert.deepStrictEqual(await p, (({ favorite_color, ...rest }) => rest)(value)),
-        });
-      });
-
-      it("Serialize with `Schema`. Deserialize with `Reader Schema`, which is the original schema with a field added.", async () => {
-        const writerSchema = JSON.stringify({
-          namespace: "interop.json",
-          type: "record",
-          name: "ReaderSchema",
-          fields: [
-            { name: "name", type: "string" },
-            { name: "favorite_number", type: ["int", "null"] },
-            { name: "favorite_color", type: ["string", "null"] },
-          ],
-        });
-        const readerSchema = JSON.stringify({
-          namespace: "interop.json",
-          type: "record",
-          name: "ReaderSchema",
-          fields: [
-            { name: "name", type: "string" },
-            { name: "favorite_number", type: ["int", "null"] },
-            { name: "favorite_color", type: ["string", "null"] },
-            { name: "favorite_city", type: ["string", "null"], default: "Redmond" },
-          ],
-        });
-        const value = { name: "Ben", favorite_number: 7, favorite_color: "red" };
-        await roundtrip({
-          client: createScenario3Client(),
-          value,
-          writerSchema,
-          readerSchema,
-          processMessage: async (p: Promise<unknown>) =>
-            assert.deepStrictEqual(await p, { ...value, favorite_city: "Redmond" }),
-        });
-      });
-
-      it("Serialize with `Schema`. Deserialize with `Reader Schema`, which is the original schema with a field (with no default value) added.", async () => {
-        const writerSchema = JSON.stringify({
-          namespace: "interop.json",
-          type: "record",
-          name: "ReaderSchema",
-          fields: [
-            { name: "name", type: "string" },
-            { name: "favorite_number", type: ["int", "null"] },
-            { name: "favorite_color", type: ["string", "null"] },
-          ],
-        });
-        const readerSchema = JSON.stringify({
-          namespace: "interop.json",
-          type: "record",
-          name: "ReaderSchema",
-          fields: [
-            { name: "name", type: "string" },
-            { name: "favorite_number", type: ["int", "null"] },
-            { name: "favorite_color", type: ["string", "null"] },
-            { name: "favorite_city", type: ["string", "null"] },
-          ],
-        });
-        const value = { name: "Ben", favorite_number: 7, favorite_color: "red" };
-        await roundtrip({
-          client: createScenario4Client(),
-          value,
-          writerSchema,
-          readerSchema,
-          processMessage: async (p: Promise<unknown>) =>
-            assertError(p, {
-              causeMessage: /no matching field for default-less/,
-            }),
         });
       });
     });
