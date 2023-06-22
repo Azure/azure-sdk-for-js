@@ -25,4 +25,4 @@ stages:
       TestResourceDirectories:
         - communication/test-resources/
       EnvVars:
-        - TEST_MODE=LIVE
+        TEST_MODE: LIVE
