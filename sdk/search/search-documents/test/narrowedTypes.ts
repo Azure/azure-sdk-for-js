@@ -50,20 +50,20 @@ type NarrowedModel = {
 
 type NarrowedModelFields = "key" | "a" | "b/a" | "d/b";
 
-// @ts-ignore
+// @ts-expect-error
 function testSelectFields() {
   const a: Equals<SelectFields<never>, string> = "pass";
   const b: Equals<SelectFields<any>, string> = "pass";
   const c: Equals<SelectFields<object>, string> = "pass";
   const d: Equals<SelectFields<Model>, ModelFields> = "pass";
 
-  // @ts-ignore
+  // @ts-expect-error
   const e: Equals<SelectFields<unknown>, string> = "pass";
 
   return [a, b, c, d, e];
 }
 
-// @ts-ignore
+// @ts-expect-error
 function testSearchPick() {
   const a: Equals<SearchPick<object, never>, object> = "pass";
   const b: Equals<SearchPick<Model, any>, Model> = "pass";
@@ -73,23 +73,18 @@ function testSearchPick() {
   const e1: NarrowedModel = {} as SearchPick<Model, NarrowedModelFields>;
   const e2: SearchPick<Model, NarrowedModelFields> = {} as NarrowedModel;
 
-  // @ts-ignore
-  const f: Equals<SearchPick<object, any>, object> = "fail";
-  // @ts-ignore
-  const g: Equals<SearchPick<object, unknown>, object> = "fail";
-  // @ts-ignore
-  const h: Equals<SearchPick<object, string>, object> = "fail";
-  // @ts-ignore
-  const i: Equals<SearchPick<object, ModelFields>, object> = "fail";
-  // @ts-ignore
+  const f: Equals<SearchPick<object, any>, object> = "pass";
+  const h: Equals<SearchPick<object, string>, object> = "pass";
+  const i: Equals<SearchPick<object, ModelFields>, object> = "pass";
+  // @ts-expect-error
   const j: Equals<SearchPick<Model, string>, Model> = "fail";
-  // @ts-ignore
+  // @ts-expect-error
   const k: Equals<SearchPick<Model, unknown>, Model> = "pass";
 
   return [a, b, c, d1, d2, e1, e2, f, g, h, i, j, k];
 }
 
-// @ts-ignore
+// @ts-expect-error
 function testNarrowedModel() {
   const a1: GenericNarrowedModel<Model, NarrowedModelFields> = {} as NarrowedModel;
   const a2: NarrowedModel = {} as GenericNarrowedModel<Model, NarrowedModelFields>;
@@ -120,22 +115,22 @@ function testNarrowedModel() {
   const u: Equals<SuggestNarrowedModel<Model, never>, { key?: string }> = "pass";
   const v: Equals<SuggestNarrowedModel<Model, any>, Model> = "pass";
 
-  // @ts-ignore
+  // @ts-expect-error
   const w: Equals<GenericNarrowedModel<object, unknown>, object> = "fail";
-  // @ts-ignore
+  // @ts-expect-error
   const x: Equals<GenericNarrowedModel<never, unknown>, never> = "fail";
-  // @ts-ignore
+  // @ts-expect-error
   const y: Equals<GenericNarrowedModel<Model, unknown>, Model> = "fail";
-  // @ts-ignore
+  // @ts-expect-error
   const z: Equals<GenericNarrowedModel<Model, string>, Model> = "fail";
 
-  // @ts-ignore
+  // @ts-expect-error
   const aa: Equals<SuggestNarrowedModel<never, unknown>, never> = "fail";
-  // @ts-ignore
+  // @ts-expect-error
   const ab: Equals<SuggestNarrowedModel<object, unknown>, object> = "fail";
-  // @ts-ignore
+  // @ts-expect-error
   const ac: Equals<SuggestNarrowedModel<Model, unknown>, Model> = "fail";
-  // @ts-ignore
+  // @ts-expect-error
   const ad: Equals<SuggestNarrowedModel<Model, string>, Model> = "fail";
 
   return [
@@ -174,33 +169,33 @@ function testNarrowedModel() {
   ];
 }
 
-// @ts-ignore
+// @ts-expect-error
 function testSelectArray() {
   const a: Equals<SelectArray<never>, readonly string[]> = "pass";
   const b: Equals<SelectArray<"field1">, readonly "field1"[]> = "pass";
   const c: Equals<SelectArray<"field1" | "field2">, readonly ("field1" | "field2")[]> = "pass";
 
-  // @ts-ignore
+  // @ts-expect-error
   const d: Equals<SelectArray<any>, readonly string[]> = "fail";
-  // @ts-ignore
+  // @ts-expect-error
   const e: Equals<SelectArray<unknown>, readonly string[]> = "fail";
   return [a, b, c, d, e];
 }
 
-// @ts-ignore
+// @ts-expect-error
 function testSearchFieldArray() {
   const a: Equals<SearchFieldArray<object>, readonly string[]> = "pass";
   const b: Equals<SearchFieldArray<Model>, readonly ModelFields[]> = "pass";
   const c: Equals<SearchFieldArray<never>, readonly string[]> = "pass";
   const d: Equals<SearchFieldArray<any>, readonly string[]> = "pass";
 
-  // @ts-ignore
+  // @ts-expect-error
   const e: Equals<SearchFieldArray<unknown>, readonly string[]> = "pass";
 
   return [a, b, c, d, e];
 }
 
-// @ts-ignore
+// @ts-expect-error
 function testNarrowedClient() {
   const client = new SearchClient<Model>("azure", "sdk", "js" as any, {});
 
@@ -216,7 +211,7 @@ function testNarrowedClient() {
           key?: string;
         }
       > = "pass";
-      // @ts-ignore
+      // @ts-expect-error
       const b = result.document.a;
       return [a, b];
     }
@@ -245,7 +240,7 @@ function testNarrowedClient() {
     for await (const result of select2.results) {
       const a1: (typeof result)["document"] = {} as NarrowedModel;
       const a2: NarrowedModel = {} as (typeof result)["document"];
-      // @ts-ignore
+      // @ts-expect-error
       const b = result.document.c;
       suppressUnusedWarning.push(a1);
       suppressUnusedWarning.push(a2);
@@ -254,7 +249,7 @@ function testNarrowedClient() {
     for await (const result of select3.results) {
       const a1: (typeof result)["document"] = {} as NarrowedModel;
       const a2: NarrowedModel = {} as (typeof result)["document"];
-      // @ts-ignore
+      // @ts-expect-error
       const b = result.document.c;
       suppressUnusedWarning.push(a1);
       suppressUnusedWarning.push(a2);
@@ -312,7 +307,7 @@ function testNarrowedClient() {
     for await (const result of select2.results) {
       const a1: (typeof result)["document"] = {} as NarrowedModel;
       const a2: NarrowedModel = {} as (typeof result)["document"];
-      // @ts-ignore
+      // @ts-expect-error
       const b = result.document.c;
       suppressUnusedWarning.push(a1);
       suppressUnusedWarning.push(a2);
@@ -321,7 +316,7 @@ function testNarrowedClient() {
     for await (const result of select3.results) {
       const a1: (typeof result)["document"] = {} as NarrowedModel;
       const a2: NarrowedModel = {} as (typeof result)["document"];
-      // @ts-ignore
+      // @ts-expect-error
       const b = result.document.c;
       suppressUnusedWarning.push(a1);
       suppressUnusedWarning.push(a2);
@@ -331,7 +326,7 @@ function testNarrowedClient() {
   };
 }
 
-// @ts-ignore
+// @ts-expect-error
 function testWideClient() {
   const client = new SearchClient("azure", "sdk", "js" as any, {});
 

@@ -89,7 +89,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         });
         for await (const result of response.results) {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
+          // @ts-expect-error
           result.document.category = "";
         }
       }
