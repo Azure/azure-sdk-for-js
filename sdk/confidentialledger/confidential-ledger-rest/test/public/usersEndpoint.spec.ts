@@ -28,7 +28,6 @@ describe("Get user", function () {
     }
     let result = await client.path("/app/users/{userId}", userId).get();
     assert.equal(result.status, "200");
-    console.log(result);
 
     if (isUnexpected(result)) {
       throw result.body;
