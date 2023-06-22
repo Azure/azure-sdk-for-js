@@ -9,7 +9,7 @@ import { getDistributionPolicyRequest } from "../utils/testData";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { timeoutMs } from "../utils/constants";
 
-describe("JobRouterClient", function () {
+describe("RouterClient", function () {
   let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;
 

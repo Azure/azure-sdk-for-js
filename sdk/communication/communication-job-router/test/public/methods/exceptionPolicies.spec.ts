@@ -9,7 +9,7 @@ import { Context } from "mocha";
 import { getExceptionPolicyRequest } from "../utils/testData";
 import { timeoutMs } from "../utils/constants";
 
-describe("JobRouterClient", function () {
+describe("RouterClient", function () {
   let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;
 
