@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   UpgradeNotification,
   RedisListUpgradeNotificationsOptionalParams,
@@ -94,7 +94,7 @@ export interface Redis {
     parameters: RedisCreateParameters,
     options?: RedisCreateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<RedisCreateResponse>, RedisCreateResponse>
+    SimplePollerLike<OperationState<RedisCreateResponse>, RedisCreateResponse>
   >;
   /**
    * Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
@@ -122,7 +122,7 @@ export interface Redis {
     parameters: RedisUpdateParameters,
     options?: RedisUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<RedisUpdateResponse>, RedisUpdateResponse>
+    SimplePollerLike<OperationState<RedisUpdateResponse>, RedisUpdateResponse>
   >;
   /**
    * Update an existing Redis cache.
@@ -147,7 +147,7 @@ export interface Redis {
     resourceGroupName: string,
     name: string,
     options?: RedisDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Redis cache.
    * @param resourceGroupName The name of the resource group.
@@ -222,7 +222,7 @@ export interface Redis {
     name: string,
     parameters: ImportRDBParameters,
     options?: RedisImportDataOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Import data into Redis cache.
    * @param resourceGroupName The name of the resource group.
@@ -248,7 +248,7 @@ export interface Redis {
     name: string,
     parameters: ExportRDBParameters,
     options?: RedisExportDataOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Export data from the redis cache to blobs in a container.
    * @param resourceGroupName The name of the resource group.

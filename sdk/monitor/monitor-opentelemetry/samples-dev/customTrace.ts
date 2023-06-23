@@ -8,19 +8,24 @@
 import * as opentelemetry from "@opentelemetry/api";
 import {
   AzureMonitorOpenTelemetryClient,
-  AzureMonitorOpenTelemetryConfig,
+  AzureMonitorOpenTelemetryOptions,
 } from "@azure/monitor-opentelemetry";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
 
-let config = new AzureMonitorOpenTelemetryConfig();
+const config: AzureMonitorOpenTelemetryOptions = {
+  azureMonitorExporterConfig: {
+    connectionString:
+      process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
+  },
+};
 const client = new AzureMonitorOpenTelemetryClient(config);
 
 export async function main() {
   // Ge Tracer and create Span
-  const tracer = client.getTraceHandler().getTracer();
+  const tracer = client.getTracer();
   // Create a span. A span must be closed.
   const parentSpan = tracer.startSpan("main");
   for (let i = 0; i < 10; i += 1) {
@@ -30,14 +35,14 @@ export async function main() {
   parentSpan.end();
 
   // flush and close the connection.
-  client.getTraceHandler().flush();
+  client.flush();
 }
 
 function doWork(parent: opentelemetry.Span) {
   // Start another span. In this example, the main method already started a
   // span, so that'll be the parent span, and this will be a child span.
   const ctx = opentelemetry.trace.setSpan(opentelemetry.context.active(), parent);
-  const span = client.getTraceHandler().getTracer().startSpan("doWork", undefined, ctx);
+  const span = client.getTracer().startSpan("doWork", undefined, ctx);
 
   // simulate some random work.
   for (let i = 0; i <= Math.floor(Math.random() * 40000000); i += 1) {

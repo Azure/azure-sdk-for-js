@@ -95,7 +95,7 @@ export class ClientContext {
     batch<T>({ body, path, partitionKey, resourceId, options, diagnosticContext, }: {
         body: T;
         path: string;
-        partitionKey: string;
+        partitionKey: PartitionKey;
         resourceId: string;
         options?: RequestOptions;
         diagnosticContext?: CosmosDiagnosticContext;
@@ -627,7 +627,7 @@ export interface CreateOperationInput {
     // (undocumented)
     operationType: typeof BulkOperationType.Create;
     // (undocumented)
-    partitionKey?: string | number | null | Record<string, unknown> | undefined;
+    partitionKey?: PartitionKey;
     // (undocumented)
     resourceBody: JSONObject;
 }
@@ -737,7 +737,7 @@ export interface DeleteOperationInput {
     // (undocumented)
     operationType: typeof BulkOperationType.Delete;
     // (undocumented)
-    partitionKey?: string | number | null | Record<string, unknown> | undefined;
+    partitionKey?: PartitionKey;
 }
 
 // @public (undocumented)
@@ -779,8 +779,10 @@ export type ExistingKeyOperation = {
     path: string;
 };
 
-// @public (undocumented)
-export function extractPartitionKey(document: unknown, partitionKeyDefinition: PartitionKeyDefinition): PartitionKey[];
+// Warning: (ae-forgotten-export) The symbol "PartitionKeyInternal" needs to be exported by the entry point index.d.ts
+//
+// @public
+export function extractPartitionKey(document: unknown, partitionKeyDefinition?: PartitionKeyDefinition): PartitionKeyInternal | undefined;
 
 // @public
 export interface FailedRequestAttemptDiagnostic {
@@ -811,7 +813,7 @@ export interface FeedOptions extends SharedOptions {
     forceQueryPlan?: boolean;
     maxDegreeOfParallelism?: number;
     maxItemCount?: number;
-    partitionKey?: any;
+    partitionKey?: PartitionKey;
     populateIndexMetrics?: boolean;
     populateQueryMetrics?: boolean;
     useIncrementalFeed?: boolean;
@@ -936,7 +938,7 @@ export enum IndexKind {
 
 // @public
 export class Item {
-    constructor(container: Container, id: string, partitionKey: PartitionKey, clientContext: ClientContext);
+    constructor(container: Container, id: string, clientContext: ClientContext, partitionKey?: PartitionKey);
     // (undocumented)
     readonly container: Container;
     delete<T extends ItemDefinition = any>(options?: RequestOptions): Promise<ItemResponse<T>>;
@@ -966,11 +968,11 @@ export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T &
 // @public
 export class Items {
     constructor(container: Container, clientContext: ClientContext);
-    batch(operations: OperationInput[], partitionKey?: string, options?: RequestOptions): Promise<Response_2<OperationResponse[]>>;
+    batch(operations: OperationInput[], partitionKey?: PartitionKey, options?: RequestOptions): Promise<Response_2<OperationResponse[]>>;
     bulk(operations: OperationInput[], bulkOptions?: BulkOptions, options?: RequestOptions): Promise<BulkOperationResponse>;
-    changeFeed(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
+    changeFeed(partitionKey: PartitionKey, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
-    changeFeed<T>(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
+    changeFeed<T>(partitionKey: PartitionKey, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
     changeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
     // (undocumented)
     readonly container: Container;
@@ -980,11 +982,11 @@ export class Items {
     readAll(options?: FeedOptions): QueryIterator<ItemDefinition>;
     readAll<T extends ItemDefinition>(options?: FeedOptions): QueryIterator<T>;
     // @deprecated
-    readChangeFeed(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
+    readChangeFeed(partitionKey: PartitionKey, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     // @deprecated
     readChangeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     // @deprecated
-    readChangeFeed<T>(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
+    readChangeFeed<T>(partitionKey: PartitionKey, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
     // @deprecated
     readChangeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
     upsert(body: unknown, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
@@ -1048,6 +1050,14 @@ export enum MetadataLookUpType {
 
 // @public
 export type Next<T> = (context: RequestContext) => Promise<Response_2<T>>;
+
+// @public
+export type NonePartitionKeyType = {
+    [K in any]: never;
+};
+
+// @public
+export type NullPartitionKeyType = null;
 
 // @public
 export class Offer {
@@ -1171,15 +1181,32 @@ export interface PartitionedQueryExecutionInfo {
     queryRanges: QueryRange[];
 }
 
-// @public (undocumented)
-export type PartitionKey = PartitionKeyDefinition | string | number | unknown;
+// @public
+export type PartitionKey = PrimitivePartitionKeyValue | PrimitivePartitionKeyValue[];
 
 // @public (undocumented)
 export interface PartitionKeyDefinition {
+    kind?: PartitionKeyKind;
     paths: string[];
     // (undocumented)
     systemKey?: boolean;
-    version?: number;
+    version?: PartitionKeyDefinitionVersion;
+}
+
+// @public
+export enum PartitionKeyDefinitionVersion {
+    // (undocumented)
+    V1 = 1,
+    // (undocumented)
+    V2 = 2
+}
+
+// @public
+export enum PartitionKeyKind {
+    // (undocumented)
+    Hash = "Hash",
+    // (undocumented)
+    MultiHash = "MultiHash"
 }
 
 // @public (undocumented)
@@ -1224,7 +1251,7 @@ export interface PatchOperationInput {
     // (undocumented)
     operationType: typeof BulkOperationType.Patch;
     // (undocumented)
-    partitionKey?: string | number | null | Record<string, unknown> | undefined;
+    partitionKey?: PartitionKey;
     // (undocumented)
     resourceBody: PatchRequestBody;
 }
@@ -1312,6 +1339,9 @@ export enum PluginOn {
     operation = "operation",
     request = "request"
 }
+
+// @public
+export type PrimitivePartitionKeyValue = string | number | boolean | NullPartitionKeyType | NonePartitionKeyType;
 
 // @public (undocumented)
 export interface QueryInfo {
@@ -1478,7 +1508,7 @@ export interface ReadOperationInput {
     // (undocumented)
     operationType: typeof BulkOperationType.Read;
     // (undocumented)
-    partitionKey?: string | number | boolean | null | Record<string, unknown> | undefined;
+    partitionKey?: PartitionKey;
 }
 
 // @public (undocumented)
@@ -1504,7 +1534,7 @@ export interface ReplaceOperationInput {
     // (undocumented)
     operationType: typeof BulkOperationType.Replace;
     // (undocumented)
-    partitionKey?: string | number | null | Record<string, unknown> | undefined;
+    partitionKey?: PartitionKey;
     // (undocumented)
     resourceBody: JSONObject;
 }
@@ -2124,7 +2154,7 @@ export interface UpsertOperationInput {
     // (undocumented)
     operationType: typeof BulkOperationType.Upsert;
     // (undocumented)
-    partitionKey?: string | number | null | Record<string, unknown> | undefined;
+    partitionKey?: PartitionKey;
     // (undocumented)
     resourceBody: JSONObject;
 }
@@ -2211,7 +2241,7 @@ export class Users {
 
 // Warnings were encountered during analysis:
 //
-// src/ClientContext.ts:91:5 - (ae-forgotten-export) The symbol "CosmosDiagnosticContext" needs to be exported by the entry point index.d.ts
+// src/ClientContext.ts:97:5 - (ae-forgotten-export) The symbol "CosmosDiagnosticContext" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

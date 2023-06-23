@@ -541,6 +541,7 @@ export interface BlobDownloadHeaders {
     copySource?: string;
     copyStatus?: CopyStatusType;
     copyStatusDescription?: string;
+    createdOn?: Date;
     date?: Date;
     encryptionKeySha256?: string;
     encryptionScope?: string;
@@ -2180,6 +2181,12 @@ export interface HttpResponse {
 
 // @public
 export function isPipelineLike(pipeline: unknown): pipeline is PipelineLike;
+
+// @public
+export enum KnownEncryptionAlgorithmType {
+    // (undocumented)
+    AES256 = "AES256"
+}
 
 // @public
 export interface Lease {

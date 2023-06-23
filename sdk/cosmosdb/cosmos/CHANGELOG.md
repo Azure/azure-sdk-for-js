@@ -1,9 +1,10 @@
 # Release History
 
-## 3.17.4 (Unreleased)
+## 4.0.0 (Unreleased)
 
 ### Features Added
 - Retries for system timeouts (Timeout error) and service unavailability (503). [#26039] (https://github.com/Azure/azure-sdk-for-js/pull/26039)
+- Added support for hierarchical partitions.
 
 ### Breaking Changes
 
