@@ -5,31 +5,41 @@ import { OperationOptions } from "@azure/core-client";
 import {
   AlphaIdsGetAlphaIdsOptionalParams,
   AlphaIdsGetDynamicAlphaIdCountriesOptionalParams,
-  AlphaIdsGetPreRegisteredAlphaIdCountriesOptionalParams
+  AlphaIdsGetPreRegisteredAlphaIdCountriesOptionalParams,
 } from ".";
 /**
  * Additional options for the Get Alpha ID Configuration request.
  */
-export interface GetConfigurationOptions extends OperationOptions { }
+export interface GetConfigurationOptions extends OperationOptions {}
 
 /**
  * Additional options for the ListAlphaIds request.
  */
-export interface ListAlphaIdsOptions extends AlphaIdsGetAlphaIdsOptionalParams { }
+export interface ListAlphaIdsOptions extends AlphaIdsGetAlphaIdsOptionalParams {}
 
 /**
  * Additional options for the GetDynamicAlphaIdCountries request.
  */
-export interface GetDynamicAlphaIdCountriesOptions extends AlphaIdsGetDynamicAlphaIdCountriesOptionalParams { }
+export interface GetDynamicAlphaIdCountriesOptions
+  extends AlphaIdsGetDynamicAlphaIdCountriesOptionalParams {}
 
 /**
  * Additional options for the GetPreRegisteredAlphaIdCountries request.
  */
-export interface GetPreRegisteredAlphaIdCountriesOptions extends AlphaIdsGetPreRegisteredAlphaIdCountriesOptionalParams { }
+export interface GetPreRegisteredAlphaIdCountriesOptions
+  extends AlphaIdsGetPreRegisteredAlphaIdCountriesOptionalParams {}
 
 /**
  * Additional options for the Upsert Alpha ID Configuration request.
  */
-export interface UpsertConfigurationOptions extends OperationOptions { }
+export interface UpsertConfigurationOptions extends OperationOptions {}
 
-export { DynamicAlphaIdConfiguration, AlphaIds, AlphaId, AlphaIdsGetAlphaIdsOptionalParams, AlphaIdsGetDynamicAlphaIdCountriesOptionalParams, AlphaIdsGetPreRegisteredAlphaIdCountriesOptionalParams, Countries } from "./generated/src/models/";
+export {
+  DynamicAlphaIdConfiguration,
+  AlphaIds,
+  AlphaId,
+  AlphaIdsGetAlphaIdsOptionalParams,
+  AlphaIdsGetDynamicAlphaIdCountriesOptionalParams,
+  AlphaIdsGetPreRegisteredAlphaIdCountriesOptionalParams,
+  Countries,
+} from "./generated/src/models/";

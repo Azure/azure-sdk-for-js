@@ -41,7 +41,6 @@ describe(`AlphaIdsClient - Preregistered Alpha Ids Operations`, function () {
     const countries = (await client.getPreRegisteredAlphaIdCountries()).countries;
     countries?.forEach((countryCode) => {
       assert.isNotNull(countryCode);
-    })
+    });
   }).timeout(20000);
-
 });

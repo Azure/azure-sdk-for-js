@@ -23,7 +23,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 /**
  * Client options used to configure the AlphaIdsClient API requests.
  */
-export interface AlphaIdsClientOptions extends CommonClientOptions { }
+export interface AlphaIdsClientOptions extends CommonClientOptions {}
 
 const isAlphaIdsClientOptions = (options: any): options is AlphaIdsClientOptions =>
   options && !isKeyCredential(options) && !isTokenCredential(options);
@@ -68,7 +68,9 @@ export class AlphaIdsClient {
     this.client.pipeline.addPolicy(authPolicy);
   }
 
-  public getConfiguration(options: GetConfigurationOptions = {}): Promise<DynamicAlphaIdConfiguration> {
+  public getConfiguration(
+    options: GetConfigurationOptions = {}
+  ): Promise<DynamicAlphaIdConfiguration> {
     return tracingClient.withSpan(
       "AlphaIdsClient-getConfiguration",
       options,
@@ -86,14 +88,15 @@ export class AlphaIdsClient {
       "AlphaIdsClient-upsertConfiguration",
       options,
       async (updatedOptions) => {
-        return this.client.alphaIdsOperations.upsertDynamicAlphaIdConfiguration(enabled, updatedOptions);
+        return this.client.alphaIdsOperations.upsertDynamicAlphaIdConfiguration(
+          enabled,
+          updatedOptions
+        );
       }
     );
   }
 
-  public listAlphaIds(
-    options: ListAlphaIdsOptions = {}
-  ): PagedAsyncIterableIterator<AlphaId> {
+  public listAlphaIds(options: ListAlphaIdsOptions = {}): PagedAsyncIterableIterator<AlphaId> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "AlphaIdsClient-listAlphaIds",
       options

@@ -33,6 +33,6 @@ describe(`AlphaIdsClient - manage configuration`, function () {
     const countries = (await client.getDynamicAlphaIdCountries()).countries;
     countries?.forEach((countryCode) => {
       assert.isNotNull(countryCode);
-    })
+    });
   }).timeout(20000);
 });
