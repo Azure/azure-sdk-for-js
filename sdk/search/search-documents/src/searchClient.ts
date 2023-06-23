@@ -8,7 +8,6 @@ import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { SearchClient as GeneratedClient } from "./generated/data/searchClient";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
-import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 import {
   AutocompleteRequest,
@@ -152,16 +151,6 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
   ) {
     this.endpoint = endpoint;
     this.indexName = indexName;
-
-    const libInfo = `azsdk-js-search-documents/${SDK_VERSION}`;
-    if (!options.userAgentOptions) {
-      options.userAgentOptions = {};
-    }
-    if (options.userAgentOptions.userAgentPrefix) {
-      options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      options.userAgentOptions.userAgentPrefix = libInfo;
-    }
 
     const internalClientPipelineOptions: InternalClientPipelineOptions = {
       ...options,
