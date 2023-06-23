@@ -18147,19 +18147,20 @@ packages:
     dev: false
 
   file:projects/core-client-1.tgz:
-    resolution: {integrity: sha512-5sHkrEPMCuYAzDKF7v5HqW4Kka4vNYDwuXRwg9kKvIMBIldLK4zhiwZuGeMdx8zZADm13ihuZ2cxtlz0M6Db1A==, tarball: file:projects/core-client-1.tgz}
+    resolution: {integrity: sha512-5xO3UD/2suSpMUpH8fvIZO3y6N8xTGq7ijAlMq4yapo3Mnleg5FV3kyReyq2gZD2fRkMoAUoPHE3WjNKRsUL5w==, tarball: file:projects/core-client-1.tgz}
     name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.36.0_@types+node@14.18.51
       '@types/chai': 4.3.5
-      '@types/mocha': 7.0.2
+      '@types/mocha': 10.0.1
       '@types/node': 14.18.51
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       chai: 4.3.7
       cross-env: 7.0.3
       downlevel-dts: 0.10.1
       eslint: 8.43.0
+      esm: 3.2.25
       inherits: 2.0.4
       karma: 6.4.2
       karma-chrome-launcher: 3.2.0
@@ -18169,12 +18170,12 @@ packages:
       karma-junit-reporter: 2.0.1_karma@6.4.2
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5_karma@6.4.2
-      karma-sourcemap-loader: 0.3.8
-      mocha: 7.2.0
-      mocha-junit-reporter: 2.2.0_mocha@7.2.0
+      karma-sourcemap-loader: 0.4.0
+      mocha: 10.2.0
+      mocha-junit-reporter: 2.2.0_mocha@10.2.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       ts-node: 10.9.1_ykytbakkcjqkydq5sioaimsynm
       tslib: 2.5.3
       typescript: 5.0.4
@@ -18379,7 +18380,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-OnpqhN4aYpb/v/UyKwPpl1Rk6d7ac64TK3UirTTKOzkgYtzcNgxvmzL58c0hXW90maIARCVqb3ZAFG8O20CoVw==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-ZeX1Bwd51guq866RZk/BeeyfBMCAGEF//w6eR23Sv7naqWMnr4CNKX7BP2dXD4oq9EsFBTSZesntYIKvyzf8dQ==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -18387,15 +18388,16 @@ packages:
       '@opentelemetry/api': 1.4.1
       '@types/chai': 4.3.5
       '@types/chai-as-promised': 7.1.5
-      '@types/mocha': 7.0.2
+      '@types/mocha': 10.0.1
       '@types/node': 14.18.51
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       '@types/uuid': 8.3.4
       chai: 4.3.7
       chai-as-promised: 7.1.1_chai@4.3.7
       cross-env: 7.0.3
       downlevel-dts: 0.10.1
       eslint: 8.43.0
+      esm: 3.2.25
       form-data: 4.0.0
       http-proxy-agent: 5.0.0
       https-proxy-agent: 5.0.1
@@ -18409,12 +18411,12 @@ packages:
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5_karma@6.4.2
       karma-sourcemap-loader: 0.3.8
-      mocha: 7.2.0
-      mocha-junit-reporter: 2.2.0_mocha@7.2.0
+      mocha: 10.2.0
+      mocha-junit-reporter: 2.2.0_mocha@10.2.0
       prettier: 2.8.8
       puppeteer: 19.11.1_typescript@5.0.4
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       source-map-support: 0.5.21
       ts-node: 10.9.1_ykytbakkcjqkydq5sioaimsynm
       tslib: 2.5.3

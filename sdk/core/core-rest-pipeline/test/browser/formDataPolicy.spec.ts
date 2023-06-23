@@ -9,7 +9,7 @@ import {
   createHttpHeaders,
   createPipelineRequest,
   formDataPolicy,
-} from "../../src";
+} from "../../src/index.js";
 
 describe("formDataPolicy", function () {
   afterEach(function () {

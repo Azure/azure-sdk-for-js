@@ -3,6 +3,7 @@
   "version": "1.7.4",
   "description": "Core library for interfacing with AutoRest generated code",
   "sdk-type": "client",
+  "type": "module",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
@@ -17,6 +18,14 @@
       "types/latest/*": [
         "types/3.1/*"
       ]
+    }
+  },
+  "exports": {
+    ".": {
+      "types": "./types/latest/core-client.d.ts",
+      "types@<3.6": "./types/3.1/core-client.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist-esm/src/index.js"
     }
   },
   "scripts": {
@@ -39,8 +48,8 @@
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
-    "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "cross-env TS_NODE_FILES=true mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 50000 --full-trace  --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\"",
+    "unit-test:browser": "karma start karma.conf.cjs --single-run",
+    "unit-test:node": "mocha --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
@@ -79,31 +88,32 @@
   "devDependencies": {
     "@azure/core-xml": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
-    "@types/chai": "^4.1.6",
-    "@types/mocha": "^7.0.2",
+    "@types/chai": "^4.3.5",
+    "@types/mocha": "^10.0.1",
     "@types/node": "^14.0.0",
-    "@types/sinon": "^9.0.4",
+    "@types/sinon": "^10.0.15",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/dev-tool": "^1.0.0",
-    "chai": "^4.2.0",
+    "chai": "^4.3.7",
     "downlevel-dts": "^0.10.0",
     "cross-env": "^7.0.2",
     "eslint": "^8.0.0",
+    "esm": "^3.2.25",
     "inherits": "^2.0.3",
-    "karma": "^6.2.0",
-    "karma-chrome-launcher": "^3.0.0",
+    "karma": "^6.4.2",
+    "karma-chrome-launcher": "^3.2.0",
     "karma-coverage": "^2.0.0",
     "karma-env-preprocessor": "^0.1.1",
     "karma-firefox-launcher": "^1.1.0",
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
-    "karma-sourcemap-loader": "^0.3.8",
-    "mocha": "^7.1.1",
-    "mocha-junit-reporter": "^2.0.0",
-    "prettier": "^2.5.1",
+    "karma-sourcemap-loader": "^0.4.0",
+    "mocha": "^10.2.0",
+    "mocha-junit-reporter": "^2.2.0",
+    "prettier": "^2.8.8",
     "rimraf": "^3.0.0",
-    "sinon": "^9.0.2",
+    "sinon": "^15.2.0",
     "ts-node": "^10.0.0",
     "typescript": "~5.0.0",
     "util": "^0.12.1"

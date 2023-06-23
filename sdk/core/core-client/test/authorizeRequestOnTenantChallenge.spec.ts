@@ -5,7 +5,7 @@ import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy, createHttpHeaders } from "@azure/core-rest-pipeline";
 
 import { assert } from "chai";
-import { authorizeRequestOnTenantChallenge } from "../src";
+import { authorizeRequestOnTenantChallenge } from "../src/index.js";
 import sinon from "sinon";
 
 describe("storageBearerTokenChallengeAuthenticationPolicy", function () {

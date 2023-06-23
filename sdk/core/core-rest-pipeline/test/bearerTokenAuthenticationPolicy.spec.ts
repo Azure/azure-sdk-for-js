@@ -11,8 +11,8 @@ import {
   bearerTokenAuthenticationPolicy,
   createHttpHeaders,
   createPipelineRequest,
-} from "../src";
-import { DEFAULT_CYCLER_OPTIONS } from "../src/util/tokenCycler";
+} from "../src/index.js";
+import { DEFAULT_CYCLER_OPTIONS } from "../src/util/tokenCycler.js";
 
 const { refreshWindowInMs: defaultRefreshWindow } = DEFAULT_CYCLER_OPTIONS;
 
@@ -30,7 +30,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     const mockToken = "token";
     const tokenScopes = ["scope1", "scope2"];
     const fakeGetToken = sinon.fake.returns(
-      Promise.resolve({ token: mockToken, expiresOn: new Date() })
+      Promise.resolve({ token: mockToken, expiresOnTimestamp: +new Date() })
     );
     const mockCredential: TokenCredential = {
       getToken: fakeGetToken,

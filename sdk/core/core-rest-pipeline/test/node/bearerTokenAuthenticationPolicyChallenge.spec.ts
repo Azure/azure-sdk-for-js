@@ -12,7 +12,7 @@ import {
   createEmptyPipeline,
   createHttpHeaders,
   createPipelineRequest,
-} from "../../src";
+} from "../../src/index.js";
 import { TextDecoder } from "util";
 
 export interface TestChallenge {

@@ -8,9 +8,9 @@ import {
   PipelineRequest,
   PipelineResponse,
   TransferProgressEvent,
-} from "./interfaces";
-import { RestError } from "./restError";
-import { createHttpHeaders } from "./httpHeaders";
+} from "./interfaces.js";
+import { RestError } from "./restError.js";
+import { createHttpHeaders } from "./httpHeaders.js";
 
 /**
  * Checks if the body is a NodeReadable stream which is not supported in Browsers
@@ -106,7 +106,10 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
 /**
  * Creates a pipeline response from a Fetch response;
  */
-async function buildPipelineResponse(httpResponse: Response, request: PipelineRequest) {
+async function buildPipelineResponse(
+  httpResponse: Response,
+  request: PipelineRequest
+): Promise<PipelineResponse> {
   const headers = buildPipelineHeaders(httpResponse);
   const response: PipelineResponse = {
     request,
@@ -182,6 +185,7 @@ function setupAbortSignal(request: PipelineRequest): {
 /**
  * Gets the specific error
  */
+// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 function getError(e: RestError, request: PipelineRequest): RestError {
   if (e && e?.name === "AbortError") {
     return e;
@@ -196,7 +200,7 @@ function getError(e: RestError, request: PipelineRequest): RestError {
 /**
  * Converts PipelineRequest headers to Fetch headers
  */
-function buildFetchHeaders(pipelineHeaders: PipelineHeaders) {
+function buildFetchHeaders(pipelineHeaders: PipelineHeaders): Headers {
   const headers = new Headers();
   for (const [name, value] of pipelineHeaders) {
     headers.append(name, value);
@@ -214,7 +218,17 @@ function buildPipelineHeaders(httpResponse: Response): PipelineHeaders {
   return responseHeaders;
 }
 
-function buildRequestBody(request: PipelineRequest) {
+type BuildRequestBodyResponse =
+  | string
+  | Blob
+  | ReadableStream<Uint8Array>
+  | ArrayBuffer
+  | ArrayBufferView
+  | FormData
+  | null
+  | undefined;
+
+function buildRequestBody(request: PipelineRequest): BuildRequestBodyResponse {
   const body = typeof request.body === "function" ? request.body() : request.body;
   if (isNodeReadableStream(body)) {
     throw new Error("Node streams are not supported in browser environment.");

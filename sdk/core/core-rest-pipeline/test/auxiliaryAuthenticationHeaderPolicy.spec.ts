@@ -11,8 +11,8 @@ import {
   auxiliaryAuthenticationHeaderPolicy,
   createHttpHeaders,
   createPipelineRequest,
-} from "../src";
-import { DEFAULT_CYCLER_OPTIONS } from "../src/util/tokenCycler";
+} from "../src/index.js";
+import { DEFAULT_CYCLER_OPTIONS } from "../src/util/tokenCycler.js";
 
 const { refreshWindowInMs: defaultRefreshWindow } = DEFAULT_CYCLER_OPTIONS;
 
@@ -30,7 +30,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
     const mockToken = "token";
     const tokenScopes = ["scope1", "scope2"];
     const fakeGetToken = sinon.fake.returns(
-      Promise.resolve({ token: mockToken, expiresOn: new Date() })
+      Promise.resolve({ token: mockToken, expiresOnTimestamp: +new Date() })
     );
     const mockCredential: TokenCredential = {
       getToken: fakeGetToken,
@@ -66,10 +66,10 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
       mockToken2 = "token2";
     const tokenScopes = ["scope1", "scope2"];
     const fakeGetToken1 = sinon.fake.returns(
-      Promise.resolve({ token: mockToken1, expiresOn: new Date() })
+      Promise.resolve({ token: mockToken1, expiresOnTimestamp: +new Date() })
     );
     const fakeGetToken2 = sinon.fake.returns(
-      Promise.resolve({ token: mockToken2, expiresOn: new Date() })
+      Promise.resolve({ token: mockToken2, expiresOnTimestamp: +new Date() })
     );
     const mockCredential1: TokenCredential = {
       getToken: fakeGetToken1,
@@ -215,10 +215,10 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
   it("should not add auxiliary header if all tokens are invalid", async function () {
     const tokenScopes = ["scope1", "scope2"];
     const fakeGetToken1 = sinon.fake.returns(
-      Promise.resolve({ token: null, expiresOn: new Date() })
+      Promise.resolve({ token: null!, expiresOnTimestamp: +new Date() })
     );
     const fakeGetToken2 = sinon.fake.returns(
-      Promise.resolve({ token: null, expiresOn: new Date() })
+      Promise.resolve({ token: null!, expiresOnTimestamp: +new Date() })
     );
     const mockCredential1: TokenCredential = {
       getToken: fakeGetToken1,

@@ -8,9 +8,9 @@ import {
   PipelineRequest,
   PipelineResponse,
   TransferProgressEvent,
-} from "./interfaces";
-import { createHttpHeaders } from "./httpHeaders";
-import { RestError } from "./restError";
+} from "./interfaces.js";
+import { createHttpHeaders } from "./httpHeaders.js";
+import { RestError } from "./restError.js";
 
 function isNodeReadableStream(body: any): body is NodeJS.ReadableStream {
   return body && typeof body.pipe === "function";

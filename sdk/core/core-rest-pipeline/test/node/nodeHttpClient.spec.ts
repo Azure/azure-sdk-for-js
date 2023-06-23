@@ -8,7 +8,7 @@ import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
 import * as https from "https";
 import * as http from "http";
 import { AbortController } from "@azure/abort-controller";
-import { createDefaultHttpClient, createPipelineRequest } from "../../src";
+import { createDefaultHttpClient, createPipelineRequest } from "../../src/index.js";
 
 class FakeResponse extends PassThrough {
   public statusCode?: number;
@@ -381,7 +381,7 @@ describe("NodeHttpClient", function () {
     });
     stubbedHttpsRequest.returns(writable);
 
-    const body = () => {
+    const body = (): PassThrough => {
       const stream = new PassThrough();
       stream.write(requestText);
       stream.end();

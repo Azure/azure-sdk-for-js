@@ -6,7 +6,13 @@
     "paths": {
       "@azure/core-rest-pipeline": ["./src/index"]
     },
-    "lib": ["dom", "dom.iterable"]
+    "lib": ["dom", "dom.iterable"],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": "."
+  },
+  "ts-node": {
+    "esm": true
   },
   "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }
