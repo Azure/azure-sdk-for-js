@@ -20,6 +20,8 @@ import {
 
 import { JSONValue } from "./models"
 
+export { UnassignJobResult } from "../generated/src/models"
+
 export interface RouterJobResponse extends RouterJob {
   readonly id: string;
 }
