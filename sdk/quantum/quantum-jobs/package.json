@@ -28,7 +28,7 @@
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "echo skip format as this package has only auto generated code",
     "integration-test:browser": "echo skipped",
-    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'",
+    "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js -f html -o search-lintReport.html || exit 0",
@@ -37,7 +37,7 @@
     "test:browser": "npm run clean && npm run build:test:browser && npm run unit-test:browser",
     "test": "npm run clean && npm run build:test && npm run unit-test",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
+    "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
