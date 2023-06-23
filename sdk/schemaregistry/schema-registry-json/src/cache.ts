@@ -56,8 +56,6 @@ export function getSchemaObject(schema: string): SchemaObject {
 }
 
 export interface SchemaObject {
-  id?: string;
   $id?: string;
   $schema?: string;
-  [x: string]: any;
 }
