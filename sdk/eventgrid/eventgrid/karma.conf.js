@@ -52,6 +52,11 @@ module.exports = function (config) {
       "EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT",
       "EVENT_GRID_CLOUD_EVENT_SCHEMA_API_KEY",
       "RECORDINGS_RELATIVE_PATH",
+      "EVENT_GRID_V2_ENDPOINT",
+      "EVENT_GRID_V2_KEY",
+      "EVENT_SUBSCRIPTION_NAME",
+      "TOPIC_NAME",
+      "MAX_DELIVERY_COUNT",
     ],
 
     // test results reporter to use

@@ -9,13 +9,18 @@ import {
   RecorderStartOptions,
 } from "@azure-tools/test-recorder";
 
-import { EventGridPublisherClient, InputSchema } from "../../../src";
+import { EventGridPublisherClient, InputSchema, EventGridClient } from "../../../src";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { AdditionalPolicyConfig } from "@azure/core-client";
 import { FindReplaceSanitizer } from "@azure-tools/test-recorder/types/src/utils/utils";
 
 export interface RecordedClient<T extends InputSchema> {
   client: EventGridPublisherClient<T>;
+  recorder: Recorder;
+}
+
+export interface RecordedV2Client {
+  client: EventGridClient;
   recorder: Recorder;
 }
 
@@ -26,6 +31,8 @@ const envSetupForPlayback: { [k: string]: string } = {
   EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT: "https://endpoint/api/events",
   EVENT_GRID_CUSTOM_SCHEMA_API_KEY: "api_key",
   EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT: "https://endpoint/api/events",
+  EVENT_GRID_V2_ENDPOINT: "https://endpoint",
+  EVENT_GRID_V2_KEY: "api_key",
 };
 
 /**
@@ -68,6 +75,29 @@ export async function createRecordedClient<T extends InputSchema>(
         ? removeApiEventsSuffix(assertEnvironmentVariable(endpointEnv))
         : assertEnvironmentVariable(endpointEnv),
       eventSchema,
+      new AzureKeyCredential(assertEnvironmentVariable(apiKeyEnv)),
+      recorder.configureClientOptions({
+        additionalPolicies: options.additionalPolicies,
+      })
+    ),
+    recorder,
+  };
+}
+
+export async function createRecordedV2Client(
+  currentTest: Test | undefined,
+  endpointEnv: string,
+  apiKeyEnv: string,
+  options: {
+    additionalPolicies?: AdditionalPolicyConfig[];
+  } = {}
+): Promise<RecordedV2Client> {
+  const recorder = new Recorder(currentTest);
+  await recorder.start(recorderOptions);
+
+  return {
+    client: new EventGridClient(
+      assertEnvironmentVariable(endpointEnv),
       new AzureKeyCredential(assertEnvironmentVariable(apiKeyEnv)),
       recorder.configureClientOptions({
         additionalPolicies: options.additionalPolicies,
