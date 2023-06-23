@@ -111,7 +111,7 @@ describe("RetryPolicy", function () {
       diagnostics: getEmptyCosmosDiagnostics(),
     };
     it("when 1st region endpoint becomes unseriviceable", async function () {
-      let lastEndpointCalled: string[] = [];
+      const lastEndpointCalled: string[] = [];
       const responses = [
         databaseAccountResponse,
         collectionResponse,
@@ -138,7 +138,7 @@ describe("RetryPolicy", function () {
     });
 
     it("when both region endpoint becomes unseriviceable", async function () {
-      let lastEndpointCalled: string[] = [];
+      const lastEndpointCalled: string[] = [];
       const responses = [
         databaseAccountResponse,
         collectionResponse,
@@ -205,7 +205,7 @@ describe("RetryPolicy", function () {
         endpoint,
         key: masterKey,
       };
-      let lastEndpointCalled: string[] = [];
+      const lastEndpointCalled: string[] = [];
       const plugins = getPlugins(responses, lastEndpointCalled);
       const client = new CosmosClient({ ...options, plugins } as any);
       await client.database("foo").container("foo").item("foo", undefined).read();
@@ -228,7 +228,7 @@ describe("RetryPolicy", function () {
     });
 
     it("timeout error thrown when retry count exceeds 120", async function () {
-      let lastEndpointCalled: string[] = [];
+      const lastEndpointCalled: string[] = [];
       const responses = [
         databaseAccountResponse,
         collectionResponse,
