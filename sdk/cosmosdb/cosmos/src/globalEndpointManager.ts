@@ -113,7 +113,7 @@ export class GlobalEndpointManager {
     resourceType: ResourceType,
     operationType: OperationType,
     requestContext?: RequestContext,
-    startServiceEndpointtIndex: number = 0 // Represents the starting index for selecting servers.
+    startServiceEndpointIndex: number = 0 // Represents the starting index for selecting servers.
   ): Promise<string> {
     // If endpoint discovery is disabled, always use the user provided endpoint
     if (!this.options.connectionPolicy.enableEndpointDiscovery) {
@@ -148,9 +148,9 @@ export class GlobalEndpointManager {
     if (
       this.preferredLocations &&
       this.preferredLocations.length > 0 &&
-      startServiceEndpointtIndex < this.preferredLocations.length
+      startServiceEndpointIndex < this.preferredLocations.length
     ) {
-      for (let i = startServiceEndpointtIndex; i < this.preferredLocations.length; i++) {
+      for (let i = startServiceEndpointIndex; i < this.preferredLocations.length; i++) {
         const preferredLocation = this.preferredLocations[i];
         location = locations.find(
           (loc) =>
@@ -166,9 +166,9 @@ export class GlobalEndpointManager {
     // If no preferred locations or one did not match, just grab the first one that is available
     if (!location) {
       const startIndexValid =
-        startServiceEndpointtIndex >= 0 && startServiceEndpointtIndex < locations.length;
+        startServiceEndpointIndex >= 0 && startServiceEndpointIndex < locations.length;
       const locationsToSearch = startIndexValid
-        ? locations.slice(startServiceEndpointtIndex)
+        ? locations.slice(startServiceEndpointIndex)
         : locations;
       location = locationsToSearch.find((loc) => {
         return loc.unavailable !== true;

@@ -866,7 +866,7 @@ export class GlobalEndpointManager {
     preferredLocationsCount: number;
     refreshEndpointList(): Promise<void>;
     // (undocumented)
-    resolveServiceEndpoint(resourceType: ResourceType, operationType: OperationType, requestContext?: RequestContext, startServiceEndpointtIndex?: number): Promise<string>;
+    resolveServiceEndpoint(resourceType: ResourceType, operationType: OperationType, requestContext?: RequestContext, startServiceEndpointIndex?: number): Promise<string>;
 }
 
 // @public (undocumented)
