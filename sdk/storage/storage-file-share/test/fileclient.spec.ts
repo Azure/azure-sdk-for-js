@@ -1873,7 +1873,7 @@ describe.only("FileClient - OAuth", () => {
   });
 });
 
-describe.only("FileClient - AllowTrailingDots - True", () => {
+describe("FileClient - AllowTrailingDots - True", () => {
   let shareName: string;
   let shareClient: ShareClient;
   let dirName: string;
@@ -1890,7 +1890,7 @@ describe.only("FileClient - AllowTrailingDots - True", () => {
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
-          headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
+          headersForRemoval: ["x-ms-file-rename-source"],
         },
         uriSanitizers,
       },
@@ -2249,7 +2249,7 @@ describe.only("FileClient - AllowTrailingDots - True", () => {
   });
 });
 
-describe.only("FileClient - AllowTrailingDots - False", () => {
+describe("FileClient - AllowTrailingDots - False", () => {
   let shareName: string;
   let shareClient: ShareClient;
   let dirName: string;
@@ -2266,7 +2266,7 @@ describe.only("FileClient - AllowTrailingDots - False", () => {
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
-          headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
+          headersForRemoval: ["x-ms-file-rename-source"],
         },
         uriSanitizers,
       },
@@ -2629,7 +2629,7 @@ describe.only("FileClient - AllowTrailingDots - False", () => {
   });
 });
 
-describe.only("FileClient - AllowTrailingDots - Default", () => {
+describe("FileClient - AllowTrailingDots - Default", () => {
   let shareName: string;
   let shareClient: ShareClient;
   let dirName: string;
@@ -2646,7 +2646,7 @@ describe.only("FileClient - AllowTrailingDots - Default", () => {
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
-          headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
+          headersForRemoval: ["x-ms-file-rename-source"],
         },
         uriSanitizers,
       },

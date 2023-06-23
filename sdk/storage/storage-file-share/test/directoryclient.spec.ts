@@ -1497,6 +1497,7 @@ describe.only("DirectoryClient - OAuth", () => {
       },
       ["record", "playback"]
     );
+    shareName = recorder.variable("share", getUniqueName("share"));
     shareClientWithKeyCredential = getBSU(recorder).getShareClient(shareName);
     await shareClientWithKeyCredential.create();
 
@@ -1523,7 +1524,7 @@ describe.only("DirectoryClient - OAuth", () => {
   });
 
   afterEach(async function () {
-    await shareClient.delete();
+    await shareClient?.delete();
     await recorder.stop();
   });
 
@@ -1783,7 +1784,7 @@ describe.only("DirectoryClient - OAuth", () => {
   });
 });
 
-describe.only("DirectoryClient - AllowingTrailingDots - True", () => {
+describe("DirectoryClient - AllowingTrailingDots - True", () => {
   let shareName: string;
   let shareClient: ShareClient;
   let dirName: string;
@@ -2026,7 +2027,7 @@ describe.only("DirectoryClient - AllowingTrailingDots - True", () => {
   });
 });
 
-describe.only("DirectoryClient - AllowingTrailingDots - False", () => {
+describe("DirectoryClient - AllowingTrailingDots - False", () => {
   let shareName: string;
   let shareClient: ShareClient;
   let dirName: string;
@@ -2301,7 +2302,7 @@ describe.only("DirectoryClient - AllowingTrailingDots - False", () => {
   });
 });
 
-describe.only("DirectoryClient - AllowingTrailingDots - Default", () => {
+describe("DirectoryClient - AllowingTrailingDots - Default", () => {
   let shareName: string;
   let shareClient: ShareClient;
   let dirName: string;

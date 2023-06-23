@@ -60,7 +60,7 @@ export const recorderEnvSetup: RecorderStartOptions = {
   },
   sanitizerOptions: {
     removeHeaderSanitizer: {
-      headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
+      headersForRemoval: ["x-ms-file-rename-source"],
     },
     uriSanitizers,
   },
