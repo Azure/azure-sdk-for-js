@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fix a regression of missing `getToken` calls when renewing tokens.
+
 ### Other Changes
 
 ## 5.11.0 (2023-06-08)
