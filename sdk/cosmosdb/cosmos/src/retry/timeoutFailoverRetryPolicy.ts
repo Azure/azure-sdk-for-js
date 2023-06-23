@@ -4,7 +4,6 @@ import { RetryPolicy } from "./RetryPolicy";
 import { StatusCodes } from "../common/statusCodes";
 import { GlobalEndpointManager } from "../globalEndpointManager";
 import { HTTPMethod, isReadRequest } from "../common";
-import { ErrorResponse } from "../request";
 import { Constants, OperationType, ResourceType } from "../common/constants";
 import { RetryContext } from "./RetryContext";
 import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
@@ -49,26 +48,25 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
   }
 
   public async shouldRetry(
-    err: ErrorResponse,
+    err: any,
     retryContext?: RetryContext,
     locationEndpoint?: string
   ): Promise<boolean> {
     if (!err) {
       return false;
     }
-
     if (!retryContext || !locationEndpoint) {
       return false;
     }
     // Check if the error is a timeout error (TimeoutErrorCode) and if it is not a valid HTTP network timeout request
-    if (err.statusCode === TimeoutErrorCode && !this.isValidRequestForTimeoutError()) {
+    if (err.code === TimeoutErrorCode && !this.isValidRequestForTimeoutError()) {
       return false;
     }
     if (!this.enableEndPointDiscovery) {
       return false;
     }
     if (
-      err.statusCode === StatusCodes.ServiceUnavailable &&
+      err.code === StatusCodes.ServiceUnavailable &&
       this.failoverRetryCount >= this.maxServiceUnavailableRetryCount
     ) {
       return false;

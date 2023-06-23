@@ -10,7 +10,7 @@ import { ErrorResponse } from "../../../src/request/ErrorResponse";
 import { RetryContext } from "../../../src/retry/RetryContext";
 import { StatusCodes } from "../../../src/common/statusCodes";
 import { getEmptyCosmosDiagnostics } from "../../../src/CosmosDiagnostics";
-import { TimeoutErrorCode } from "../../../src/request/TimeoutError";
+import { TimeoutError } from "../../../src/request/TimeoutError";
 
 describe("TimeoutFailoverRetryPolicy", function () {
   const databaseAccountBody: any = {
@@ -60,7 +60,7 @@ describe("TimeoutFailoverRetryPolicy", function () {
 
   let retryPolicy: TimeoutFailoverRetryPolicy;
   let retryCtx: RetryContext;
-  let timeoutErr: ErrorResponse;
+  let timeoutErr: TimeoutError;
   let locEndpoint: string;
 
   beforeEach(async function () {
@@ -73,17 +73,12 @@ describe("TimeoutFailoverRetryPolicy", function () {
       true
     );
     retryCtx = { retryCount: 2 };
-    timeoutErr = {
-      statusCode: TimeoutErrorCode,
-      name: "timeout",
-      message: "error",
-      diagnostics: getEmptyCosmosDiagnostics(),
-    };
+    timeoutErr = new TimeoutError();
     locEndpoint = "endpoint";
   });
 
   it("should determine if retry should occur correctly", async function () {
-    const err: ErrorResponse = timeoutErr;
+    const err: Error = timeoutErr;
     const retryContext: RetryContext | undefined = undefined;
     const locationEndpoint: string | undefined = undefined;
 
@@ -126,7 +121,7 @@ describe("TimeoutFailoverRetryPolicy", function () {
   });
   it("should not retry when maxServiceUnavailableRetryCount exceeded", async function () {
     const serviceUnavailableErr: ErrorResponse = {
-      statusCode: StatusCodes.ServiceUnavailable,
+      code: StatusCodes.ServiceUnavailable,
       name: "service unavailable",
       message: "error",
       diagnostics: getEmptyCosmosDiagnostics(),
