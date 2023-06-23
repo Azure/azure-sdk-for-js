@@ -4734,7 +4734,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230622
+      typescript: 5.2.0-dev.20230623
     dev: false
 
   /duplexer3/0.1.5:
@@ -10289,8 +10289,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230622:
-    resolution: {integrity: sha512-rVTuiLuyezBKAEAvkvDRvO/tA+nk5DXwnWk3vpKXzDtuv7JJ22iBPkehusg9m5AQ6To+ZJ7+mFJ+mNE6yPr9zQ==}
+  /typescript/5.2.0-dev.20230623:
+    resolution: {integrity: sha512-IduDyLpZBJFdoFuHAXj0QfHwkT6GXtkki03deolpXnPG4R+wiVZGIyyzdS0lfVbFCVejcINPxxBs7ce6E5mp+A==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -10919,7 +10919,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       downlevel-dts: 0.10.1
-      eslint: 8.43.0
+      eslint: 8.41.0
       esm: 3.2.25
       karma: 6.4.2
       karma-chrome-launcher: 3.2.0
@@ -18180,9 +18180,9 @@ packages:
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@rollup/plugin-replace': 5.0.2_rollup@2.79.1
       '@types/chai': 4.3.5
-      '@types/debug': 4.1.8
+      '@types/debug': 4.1.7
       '@types/mocha': 10.0.1
-      '@types/node': 14.18.51
+      '@types/node': 14.18.47
       '@types/sinon': 10.0.15
       '@types/ws': 7.4.7
       buffer: 6.0.3
@@ -18190,7 +18190,7 @@ packages:
       cross-env: 7.0.3
       debug: 4.3.4
       downlevel-dts: 0.10.1
-      eslint: 8.43.0
+      eslint: 8.41.0
       esm: 3.2.25
       events: 3.3.0
       jssha: 3.3.0
@@ -18208,10 +18208,10 @@ packages:
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.6.3_ljfryqei6aq3wnzlbhhwgmxvcu
+      rollup-plugin-sourcemaps: 0.6.3_ehqevut6loiv2j3zjuhqc62mru
       sinon: 15.2.0
-      ts-node: 10.9.1_ykytbakkcjqkydq5sioaimsynm
-      tslib: 2.5.3
+      ts-node: 10.9.1_xqpr4wl3dpgkugiteltq7jdk2q
+      tslib: 2.5.2
       typescript: 5.0.4
       util: 0.12.5
       ws: 8.13.0
@@ -18236,15 +18236,15 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       downlevel-dts: 0.10.1
-      eslint: 8.43.0
+      eslint: 8.41.0
       esm: 3.2.25
       inherits: 2.0.4
       mocha: 7.2.0
       mocha-junit-reporter: 2.2.0_mocha@7.2.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      ts-node: 10.9.1_ykytbakkcjqkydq5sioaimsynm
-      tslib: 2.5.3
+      ts-node: 10.9.1_xqpr4wl3dpgkugiteltq7jdk2q
+      tslib: 2.5.2
       typescript: 5.0.4
       util: 0.12.5
     transitivePeerDependencies:
@@ -18261,12 +18261,12 @@ packages:
       '@microsoft/api-extractor': 7.35.0_@types+node@14.18.47
       '@types/chai': 4.3.5
       '@types/mocha': 10.0.1
-      '@types/node': 14.18.51
+      '@types/node': 14.18.47
       '@types/sinon': 10.0.15
       chai: 4.3.7
       cross-env: 7.0.3
       downlevel-dts: 0.10.1
-      eslint: 8.43.0
+      eslint: 8.41.0
       esm: 3.2.25
       inherits: 2.0.4
       karma: 6.4.2
@@ -18283,8 +18283,8 @@ packages:
       prettier: 2.8.8
       rimraf: 3.0.2
       sinon: 15.2.0
-      ts-node: 10.9.1_ykytbakkcjqkydq5sioaimsynm
-      tslib: 2.5.3
+      ts-node: 10.9.1_xqpr4wl3dpgkugiteltq7jdk2q
+      tslib: 2.5.2
       typescript: 5.0.4
       util: 0.12.5
     transitivePeerDependencies:
@@ -18496,14 +18496,14 @@ packages:
       '@types/chai': 4.3.5
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 10.0.1
-      '@types/node': 14.18.51
+      '@types/node': 14.18.47
       '@types/sinon': 10.0.15
       '@types/uuid': 8.3.4
       chai: 4.3.7
       chai-as-promised: 7.1.1_chai@4.3.7
       cross-env: 7.0.3
       downlevel-dts: 0.10.1
-      eslint: 8.43.0
+      eslint: 8.41.0
       esm: 3.2.25
       form-data: 4.0.0
       http-proxy-agent: 5.0.0
@@ -18547,11 +18547,11 @@ packages:
       '@microsoft/api-extractor': 7.35.0_@types+node@14.18.47
       '@types/chai': 4.3.5
       '@types/mocha': 10.0.1
-      '@types/node': 14.18.51
+      '@types/node': 14.18.47
       '@types/sinon': 10.0.15
       chai: 4.3.7
       cross-env: 7.0.3
-      eslint: 8.43.0
+      eslint: 8.41.0
       esm: 3.2.25
       inherits: 2.0.4
       karma: 6.4.2
@@ -18568,8 +18568,8 @@ packages:
       prettier: 2.8.8
       rimraf: 3.0.2
       sinon: 15.2.0
-      ts-node: 10.9.1_ykytbakkcjqkydq5sioaimsynm
-      tslib: 2.5.3
+      ts-node: 10.9.1_xqpr4wl3dpgkugiteltq7jdk2q
+      tslib: 2.5.2
       typescript: 5.0.4
       util: 0.12.5
     transitivePeerDependencies:
@@ -18590,13 +18590,13 @@ packages:
       '@types/chai': 4.3.5
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 10.0.1
-      '@types/node': 14.18.51
+      '@types/node': 14.18.47
       '@types/sinon': 10.0.15
       chai: 4.3.7
       chai-as-promised: 7.1.1_chai@4.3.7
       cross-env: 7.0.3
       downlevel-dts: 0.10.1
-      eslint: 8.43.0
+      eslint: 8.41.0
       esm: 3.2.25
       inherits: 2.0.4
       karma: 6.4.2
@@ -18613,8 +18613,8 @@ packages:
       prettier: 2.8.8
       rimraf: 3.0.2
       sinon: 15.2.0
-      ts-node: 10.9.1_ykytbakkcjqkydq5sioaimsynm
-      tslib: 2.5.3
+      ts-node: 10.9.1_xqpr4wl3dpgkugiteltq7jdk2q
+      tslib: 2.5.2
       typescript: 5.0.4
       util: 0.12.5
     transitivePeerDependencies:
@@ -18640,7 +18640,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       downlevel-dts: 0.10.1
-      eslint: 8.43.0
+      eslint: 8.41.0
       esm: 3.2.25
       fast-xml-parser: 4.2.4
       inherits: 2.0.4
@@ -19652,15 +19652,15 @@ packages:
     dev: false
 
   file:projects/logger.tgz:
-    resolution: {integrity: sha512-dRX6QntOdMFFxYjDlD0+XZqlUcUrikt0pijXKn/YvU1JG2Nzj3KpraZ4q2eqHiLKw0BcOz/PQCmf9j17rvEceg==, tarball: file:projects/logger.tgz}
+    resolution: {integrity: sha512-k6C0Ic5q4c7q0zwOP7cDA8jXqV7g27baphCJRKk42uRyfeJi8czNOcd00J7T5sQzFZnRceVf6ddujPTlyFbsTw==, tarball: file:projects/logger.tgz}
     name: '@rush-temp/logger'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.35.0_@types+node@14.18.47
       '@types/chai': 4.3.5
-      '@types/mocha': 7.0.2
+      '@types/mocha': 10.0.1
       '@types/node': 14.18.47
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
@@ -19674,13 +19674,13 @@ packages:
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5_karma@6.4.2
       karma-sourcemap-loader: 0.3.8
-      mocha: 7.2.0
-      mocha-junit-reporter: 2.2.0_mocha@7.2.0
+      mocha: 10.2.0
+      mocha-junit-reporter: 2.2.0_mocha@10.2.0
       nyc: 15.1.0
       prettier: 2.8.8
       puppeteer: 19.11.1_typescript@5.0.4
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       ts-node: 10.9.1_xqpr4wl3dpgkugiteltq7jdk2q
       tslib: 2.5.2
       typescript: 5.0.4

@@ -3,7 +3,13 @@
   "compilerOptions": {
     "outDir": "./dist-esm",
     "declarationDir": "./types",
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": "."
+  },
+  "ts-node": {
+    "esm": true
   },
   "exclude": ["node_modules", "./types/**/*.d.ts", "./samples/**/*.ts"],
   "include": ["./src/**/*.ts", "./test/**/*.ts"]
