@@ -292,6 +292,8 @@ export class ShareServiceClient extends StorageClient {
    *                            pipeline, or provide a customized pipeline.
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
+  // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
   constructor(url: string, pipeline: Pipeline, options?: ShareClientOptions);
   constructor(
     url: string,

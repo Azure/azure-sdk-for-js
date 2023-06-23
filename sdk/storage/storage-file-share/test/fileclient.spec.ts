@@ -7,7 +7,13 @@ import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { assert } from "@azure/test-utils";
 
-import { FileStartCopyOptions, ShareClient, ShareDirectoryClient, ShareFileClient, ShareServiceClient } from "../src";
+import {
+  FileStartCopyOptions,
+  ShareClient,
+  ShareDirectoryClient,
+  ShareFileClient,
+  ShareServiceClient,
+} from "../src";
 import { FileSystemAttributes } from "../src/FileSystemAttributes";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { FILE_MAX_SIZE_BYTES } from "../src/utils/constants";
