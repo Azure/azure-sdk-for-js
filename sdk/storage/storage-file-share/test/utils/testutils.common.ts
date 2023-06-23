@@ -80,7 +80,6 @@ export function base64decode(encodedString: string): string {
   return isBrowser ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
 }
 
-
 /**
  * A TokenCredential that always returns the given token. This class can be
  * used when the access token is already known or can be retrieved from an

@@ -252,7 +252,11 @@ export class ShareServiceClient extends StorageClient {
       }
     } else if (extractedCreds.kind === "SASConnString") {
       const pipeline = newPipeline(new AnonymousCredential(), options);
-      return new ShareServiceClient(extractedCreds.url + "?" + extractedCreds.accountSas, pipeline, options);
+      return new ShareServiceClient(
+        extractedCreds.url + "?" + extractedCreds.accountSas,
+        pipeline,
+        options
+      );
     } else {
       throw new Error(
         "Connection string must be either an Account connection string or a SAS connection string"
@@ -291,7 +295,11 @@ export class ShareServiceClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline, options?: ShareClientOptions);
   constructor(
     url: string,
-    credentialOrPipeline?: AnonymousCredential | StorageSharedKeyCredential | TokenCredential | Pipeline,
+    credentialOrPipeline?:
+      | AnonymousCredential
+      | StorageSharedKeyCredential
+      | TokenCredential
+      | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: ShareClientOptions
@@ -299,9 +307,10 @@ export class ShareServiceClient extends StorageClient {
     let pipeline: Pipeline;
     if (credentialOrPipeline instanceof Pipeline) {
       pipeline = credentialOrPipeline;
-    } else if (credentialOrPipeline instanceof Credential ||
+    } else if (
+      credentialOrPipeline instanceof Credential ||
       isTokenCredential(credentialOrPipeline)
-              ) {
+    ) {
       pipeline = newPipeline(credentialOrPipeline, options);
     } else {
       // The second parameter is undefined. Use anonymous credential.
@@ -328,7 +337,11 @@ export class ShareServiceClient extends StorageClient {
    * ```
    */
   public getShareClient(shareName: string): ShareClient {
-    return new ShareClient(appendToURLPath(this.url, shareName), this.pipeline, this.shareClientConfig);
+    return new ShareClient(
+      appendToURLPath(this.url, shareName),
+      this.pipeline,
+      this.shareClientConfig
+    );
   }
 
   /**

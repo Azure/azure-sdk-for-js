@@ -4,9 +4,7 @@ import { FileSystemAttributes } from "./FileSystemAttributes";
 import { truncatedISO8061Date } from "./utils/utils.common";
 import { logger } from "./log";
 import { ShareTokenIntent } from "./generatedModels";
-import {
-  StoragePipelineOptions,
-} from "../../storage-blob/src/Pipeline";
+import { StoragePipelineOptions } from "../../storage-blob/src/Pipeline";
 
 export interface Metadata {
   [propertyName: string]: string;
