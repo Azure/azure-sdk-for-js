@@ -12,8 +12,8 @@ import {
 import { ExportResultCode } from "@opentelemetry/core";
 import { LoggerProvider, LogRecord, Logger } from "@opentelemetry/sdk-logs";
 import { Resource } from "@opentelemetry/resources";
-import { StandardMetrics } from "../../../src/metrics/standardMetrics";
-import { AzureMonitorOpenTelemetryConfig } from "../../../src/shared";
+import { StandardMetrics } from "../../../../src/metrics/standardMetrics";
+import { AzureMonitorOpenTelemetryConfig } from "../../../../src/shared";
 
 describe("#StandardMetricsHandler", () => {
   let exportStub: sinon.SinonStub;

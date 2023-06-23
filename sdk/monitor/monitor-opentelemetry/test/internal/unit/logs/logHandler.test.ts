@@ -6,10 +6,10 @@ import sinon from "sinon";
 import { trace, context, isValidTraceId, isValidSpanId } from "@opentelemetry/api";
 import { LogRecord as APILogRecord } from "@opentelemetry/api-logs";
 import { ExportResultCode } from "@opentelemetry/core";
-import { LogHandler } from "../../../src/logs";
-import { MetricHandler } from "../../../src/metrics";
-import { TraceHandler } from "../../../src/traces";
-import { AzureMonitorOpenTelemetryConfig } from "../../../src/shared";
+import { LogHandler } from "../../../../src/logs";
+import { MetricHandler } from "../../../../src/metrics";
+import { TraceHandler } from "../../../../src/traces";
+import { AzureMonitorOpenTelemetryConfig } from "../../../../src/shared";
 
 describe("LogHandler", () => {
   let sandbox: sinon.SinonSandbox;

@@ -5,9 +5,9 @@ import * as assert from "assert";
 import * as sinon from "sinon";
 import { ExportResultCode } from "@opentelemetry/core";
 
-import { TraceHandler } from "../../../src/traces";
-import { MetricHandler } from "../../../src/metrics";
-import { AzureMonitorOpenTelemetryConfig } from "../../../src/shared";
+import { TraceHandler } from "../../../../src/traces";
+import { MetricHandler } from "../../../../src/metrics";
+import { AzureMonitorOpenTelemetryConfig } from "../../../../src/shared";
 import { HttpInstrumentationConfig } from "@opentelemetry/instrumentation-http";
 import { ReadableSpan, SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { Span } from "@opentelemetry/api";

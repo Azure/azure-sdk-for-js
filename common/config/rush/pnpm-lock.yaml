@@ -4695,7 +4695,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230622
+      typescript: 5.2.0-dev.20230623
     dev: false
 
   /duplexer3/0.1.5:
@@ -10149,8 +10149,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230622:
-    resolution: {integrity: sha512-rVTuiLuyezBKAEAvkvDRvO/tA+nk5DXwnWk3vpKXzDtuv7JJ22iBPkehusg9m5AQ6To+ZJ7+mFJ+mNE6yPr9zQ==}
+  /typescript/5.2.0-dev.20230623:
+    resolution: {integrity: sha512-IduDyLpZBJFdoFuHAXj0QfHwkT6GXtkki03deolpXnPG4R+wiVZGIyyzdS0lfVbFCVejcINPxxBs7ce6E5mp+A==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -19892,10 +19892,11 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-+CuXueuShsPkeTx5w1c/3PFgtrpQExDNRXS4s+1xvdyl6WtH10rGPpqZc4ORfd7cKNx7V/64vGFy6kQYCdsAog==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-U6oNE8zhwGOaMkbgb5KFzgBUIz7VSXpPqIhJ49AJ3Z3KyurQFQR/NrAjq+qvQcuwaEE0Tyu4HP7V4OC8VcwBvQ==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
+      '@azure/functions': 3.5.1
       '@azure/monitor-opentelemetry-exporter': 1.0.0-beta.11
       '@microsoft/api-extractor': 7.35.0_@types+node@14.18.47
       '@opentelemetry/api': 1.4.1
