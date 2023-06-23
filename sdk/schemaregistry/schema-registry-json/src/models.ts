@@ -57,7 +57,7 @@ export interface JsonSerializerOptions<MessageT> {
  */
 export interface DeserializeOptions {
   /**
-   * Validate the value against the schema
+   * Validate the value against the schema. Raise an error if the validation is not successful.
    */
-  validate?: (message: string, schema: string) => boolean;
+  validate?: (message: string, schema: string) => void;
 }
