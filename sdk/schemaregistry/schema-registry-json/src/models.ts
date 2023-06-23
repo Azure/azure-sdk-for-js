@@ -51,3 +51,13 @@ export interface JsonSerializerOptions<MessageT> {
    */
   messageAdapter?: MessageAdapter<MessageT>;
 }
+
+/**
+ * The options to the deserialize method.
+ */
+export interface DeserializeOptions {
+  /**
+   * Validate the value against the schema
+   */
+  validate?: (message: string, schema: string) => boolean;
+}
