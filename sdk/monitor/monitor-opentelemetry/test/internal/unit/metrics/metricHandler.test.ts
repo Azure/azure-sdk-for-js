@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { MetricHandler } from "../../../src/metrics";
-import { AzureMonitorOpenTelemetryConfig } from "../../../src/shared";
+import { MetricHandler } from "../../../../src/metrics";
+import { AzureMonitorOpenTelemetryConfig } from "../../../../src/shared";
 
 describe("MetricHandler", () => {
   let _config: AzureMonitorOpenTelemetryConfig;
