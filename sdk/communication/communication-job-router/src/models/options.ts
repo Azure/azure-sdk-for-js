@@ -37,7 +37,7 @@ export interface JobRouterClientOptions extends CommonClientOptions {
 /**
  * Options to create router administration client.
  */
-export interface JobRouterAdministrationClientOptions extends CommonClientOptions { }
+export interface JobRouterAdministrationClientOptions extends CommonClientOptions {}
 
 /**
  * Options to create a classification policy.

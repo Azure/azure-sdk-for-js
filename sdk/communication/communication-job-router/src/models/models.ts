@@ -10,14 +10,14 @@ import {
   StaticRule as StaticRuleGenerated,
   ReclassifyExceptionAction as ReclassifyExceptionActionGenerated,
   JobRouterReclassifyJobActionOptionalParams as JobRouterReclassifyJobActionOptionalParamsGenerated,
-} from '../generated/src/models'
+} from "../generated/src/models";
 
 /* Safer types to use instead of any */
 export type JSONValue = boolean | number | string | null | JSONArray | JSONObject;
 export interface JSONObject {
   [key: string]: JSONValue;
 }
-export interface JSONArray extends ArrayLike<JSONValue> { }
+export interface JSONArray extends ArrayLike<JSONValue> {}
 
 /** A unit of work to be routed */
 export interface RouterJob extends Omit<RouterJobGenerated, "labels" | "tags"> {
@@ -30,7 +30,7 @@ export interface RouterJob extends Omit<RouterJobGenerated, "labels" | "tags"> {
 /** Describes a condition that must be met against a set of labels for worker selection */
 export interface WorkerSelector extends Omit<WorkerSelectorGenerated, "value"> {
   /** The value to compare against the actual label value with the given operator */
-  value?: JSONValue
+  value?: JSONValue;
 }
 
 /** A queue that can contain jobs to be routed. */
@@ -40,7 +40,8 @@ export interface JobQueue extends Omit<JobQueueGenerated, "labels"> {
 }
 
 /** An entity for jobs to be routed to */
-export interface RouterWorker extends Omit<RouterWorkerGenerated, "queueAssignments" | "labels" | "tags"> {
+export interface RouterWorker
+  extends Omit<RouterWorkerGenerated, "queueAssignments" | "labels" | "tags"> {
   /** The queue(s) that this worker can receive work from. */
   queueAssignments?: JSONObject;
   /** A set of key/value pairs that are identifying attributes used by the rules engines to make decisions. */
@@ -62,13 +63,15 @@ export interface StaticRule extends Omit<StaticRuleGenerated, "value"> {
 }
 
 /** An action that modifies labels on a job and then reclassifies it */
-export interface ReclassifyExceptionAction extends Omit<ReclassifyExceptionActionGenerated, "labelsToUpsert"> {
+export interface ReclassifyExceptionAction
+  extends Omit<ReclassifyExceptionActionGenerated, "labelsToUpsert"> {
   /** (optional) Dictionary containing the labels to update (or add if not existing) in key-value pairs */
   lablabelsToUpsertels?: JSONObject;
 }
 
 /** Contains response data for the reclassifyJobAction operation. */
-export interface JobRouterReclassifyJobActionOptionalParams extends Omit<JobRouterReclassifyJobActionOptionalParamsGenerated, "body"> {
+export interface JobRouterReclassifyJobActionOptionalParams
+  extends Omit<JobRouterReclassifyJobActionOptionalParamsGenerated, "body"> {
   /** The parsed response body. */
   body?: JSONValue;
 }
