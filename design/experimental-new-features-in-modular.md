@@ -1,4 +1,4 @@
-# Shipping experimental new features in Modular
+# Shipping Experimental New Features in Modular
 
 ## Background
 
@@ -98,7 +98,7 @@ In the case of single-client,
 <!-- markdownlint-disable MD033 -->
 <table>
   <tr>
-    <th>Stale</th>
+    <th>Stable</th>
     <th>Experimental</th>
   </tr>
   <tr>
