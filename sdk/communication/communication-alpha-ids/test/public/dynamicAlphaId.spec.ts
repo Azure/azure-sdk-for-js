@@ -23,10 +23,22 @@ describe(`AlphaIdsClient - manage configuration`, function () {
   });
 
   it("can manage configuration", async function () {
-    await ignoreSubscriptionNotEligibleError(() => client.upsertConfiguration(true), true);
-    await ignoreSubscriptionNotEligibleError(() => client.getConfiguration(), true);
-    await ignoreSubscriptionNotEligibleError(() => client.upsertConfiguration(false), false);
-    await ignoreSubscriptionNotEligibleError(() => client.getConfiguration(), false);
+    await ignoreSubscriptionNotEligibleError(
+      (operationOptions) => client.upsertConfiguration(true, operationOptions),
+      true
+    );
+    await ignoreSubscriptionNotEligibleError(
+      (operationOptions) => client.getConfiguration(operationOptions),
+      true
+    );
+    await ignoreSubscriptionNotEligibleError(
+      (operationOptions) => client.upsertConfiguration(false, operationOptions),
+      false
+    );
+    await ignoreSubscriptionNotEligibleError(
+      (operationOptions) => client.getConfiguration(operationOptions),
+      false
+    );
   }).timeout(15000);
 
   it("can list all dynamic alpha ids countries", async function () {
