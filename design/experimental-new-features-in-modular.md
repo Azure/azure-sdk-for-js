@@ -160,7 +160,6 @@ In the case of single-client,
       <pre lang="typescript">
 @azure/foo
 @azure/foo/api
-@azure/foo/rest
 </pre>
 <pre lang="typescript">
 @azure/foo/clientA
@@ -177,7 +176,6 @@ In the case of single-client,
 <pre lang="typescript">
 @azure/foo/vnext
 @azure/foo/vnext/api
-@azure/foo/vnext/rest
 </pre>
 <pre lang="typescript">
 @azure/foo/vnext/clientA
