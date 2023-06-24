@@ -2,7 +2,7 @@
 
 ## Background
 
-As the Azure SDK for JavaScript continues to evolve, it is important for us to have a dedicated space to ship experimental features within our own client or language. By providing a separate subpath export for experimental features alongside with the regular release of Modular, we can gather valuable feedback from our customers who have tried these new features. This approach enables us to receive early insights and iterate on the experimental features while ensuring that our mainline releases remain stable and reliable.
+As the Azure SDK for JavaScript continues to evolve, it is important for us to have a dedicated space to ship experimental/preview features for service team or for our own client or language. By providing a separate subpath export for experimental features alongside with the regular release of Modular, we can gather valuable feedback from our customers who have tried these new features. This approach enables us to receive early insights and iterate on the experimental features while ensuring that our mainline releases remain stable and reliable.
 
 ## Questions
 
@@ -58,26 +58,21 @@ _Questions_:
     1. ~~a new experimental features --- 1.1.0-beta.1 ?~~
     1. a new preview api version ---  1.1.0-beta.2 ?
 
-## Design Considerations
-
-1. Experimental features may have changes over the original code structure.
-1. Experimental features may need to change some common dependencies.
-1. Api version picking strategy: latest GA version go to the stable code and latest preview version go to the vnext code.
-1. Features life cycle.
+**_Notes_**: Experimental features could be either client side features or service preview features.  
 
 ## Proposal
 
 The proposed approach is to add a separate subpath export on top of the existing Azure JavaScript Modular. This involves introducing a new subpath export structure that is distinct from the original modules. For example, we can utilize a `vnext` subpath, such as `@azure/foo/vnext`, `@azure/foo/vnext/api`, and `@azure/foo/vnext/rest`, to signify the experimental nature of these features. By incorporating this new subpath export, we establish a clear separation between the stable modules and the experimental features, allowing developers to opt-in and access the experimental functionality while maintaining the integrity of the original Modular structure.
 
-## Proposal with single client
+### Proposal with single client
 
 In the case of single-client,
 
 <!-- markdownlint-disable MD033 -->
 <table>
   <tr>
-    <th>Original</th>
-    <th>Proposal</th>
+    <th>Stable</th>
+    <th>Experimental</th>
   </tr>
   <tr>
     <td>
@@ -98,17 +93,13 @@ In the case of single-client,
 </table>
 <!-- markdownlint-enable MD033 -->
 
-_Questions_:  
-
-1. In the case that both the stable code and vnext code are using the same api-versions and we don't have features related with RLC, @azure/foo/rest and @azure/foo/vnext/rest would be exactly the same, is it okay ?
-
-## Proposal with multi-client
+### Proposal with multi-client
 
 <!-- markdownlint-disable MD033 -->
 <table>
   <tr>
-    <th>Original</th>
-    <th>Proposal</th>
+    <th>Stale</th>
+    <th>Experimental</th>
   </tr>
   <tr>
     <td>
@@ -145,7 +136,7 @@ _Questions_:
 </table>
 <!-- markdownlint-enable MD033 -->
 
-## Preview with part of the multi-client ?
+### Preview with part of the multi-client ?
 
 ```text
 @azure/foo/vnext
@@ -156,13 +147,13 @@ _Questions_:
 @azure/foo/vnext/clientA/api
 ```
 
-## Proposal with multi-endpoint
+### Proposal with multi-endpoint
 
 <!-- markdownlint-disable MD033 -->
 <table>
   <tr>
-    <th>Original</th>
-    <th>Proposal</th>
+    <th>Stable</th>
+    <th>Experimental</th>
   </tr>
   <tr>
     <td>
@@ -202,3 +193,50 @@ _Questions_:
   </tr>
 </table>
 <!-- markdownlint-enable MD033 -->
+
+## Lifecycle of Experimental SubPath Export
+
+1. **Preview Service Features**: If we are currently previewing service features without any corresponding client-side features, the experimental subpath export will be removed once the service feature reaches GA or is deprecated.
+
+1. **Preview Client-Side Features with Stable Service API**: If we are currently previewing client-side features that rely on a stable service API version, the experimental subpath export will be removed once we decide to promote the client-side feature to GA or deprecate it.
+
+1. **Preview Client-Side Features with Preview Service API**: If we are currently previewing client-side features that depend on a preview service API version, the experimental subpath export will be retained unless both the client-side feature and the service API version reach GA or are deprecated.
+
+It is important to note that the lifecycle of experimental features on the service API side depends entirely on the service team. However, scenarios where a service feature remains in preview for an extended period without any official announcements regarding its GA status or deprecation are worth to think about.
+
+For experimental features on client side new features, it depends on how complex we want to design it.
+
+## Client-Side Experimental Features Considerations
+
+1. **Features Opt-in Design with Codegen**: Evaluate whether the code generation process can be designed to facilitate easy opt-in for new experimental features. which involves the following considerations:  
+   1. Features picking strategy.
+   1. Features lifecycle management.
+   1. Features relativity.
+   1. Features onboard process.
+  As currently our codegen is not designed as features based, if we decide to make it straightforward for us or developers to enable experimental features as they like. it will be important for us to have a good opt-in design in our codegen.
+
+1. **Complexity of Experimental Features**: Consider the complexity of experimental features could involve the following aspects:
+   1. Features complexity of themself.
+   1. Codegen's complexity of implementing them.
+   1. Potential impact on the overall codebase.
+   1. User experience impact.
+
+1. **Changes to Code Structure**: It's important to note that some features may require code structure change compared with the non-experimental code. For instance, in the context of the current track2 SDK, Modular itself can be considered an experimental feature. This implies that within the same packages, the stable code and experimental code may exhibit different code structures.
+
+1. **Impact on Common Dependencies**: It's very likely that experimental features can rely on newer common dependencies used by the stable code. If such case happens, we should:
+   1. Assess whether any changes or additions to these dependencies are necessary to support the experimental features.
+   1. Use one latest version of the common dependencies as much as possible.
+   1. Carefully manage versioning and dependency resolution to avoid conflicts and maintain compatibility with other components.
+
+1. **Feature Lifecycle**: Define a clear lifecycle for experimental features to manage their development, evaluation, and potential promotion to stable features. This includes stages such as:
+   1. Initial Experimentation
+   1. Feedback Gathering
+   1. Evaluation, Iteration
+   1. Eventual Inclusion or Retirement of Features.
+   1. Establish feedback mechanisms and collaborate with users and contributors to ensure continuous improvement and alignment with evolving needs.
+
+By considering these design considerations, we can effectively manage the complexity, integration, and lifecycle of experimental features in the codegen implementation, fostering innovation while maintaining the stability and maintainability of the SDK codebase.
+
+## Conclusion
+
+In conclusion, this design review highlights the idea of shipping experimental features in the Azure SDK for JavaScript and outlines the expectations and considerations associated with them. It emphasizes the importance of providing a separate space for experimentation and gathering user feedback. The review also addresses the considerations for client-side experimental features and their potential impact on the code generation process. By adhering to these design principles, we can effectively incorporate and refine experimental features, ensuring a stable development experience while promoting innovation and user collaboration within the Azure SDK for JavaScript.
