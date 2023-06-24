@@ -55,6 +55,11 @@ export class PerformanceCounterMetrics {
     speed: number;
     times: { user: number; nice: number; sys: number; idle: number; irq: number };
   }[];
+  private _lastCpusProcess: {
+    model: string;
+    speed: number;
+    times: { user: number; nice: number; sys: number; idle: number; irq: number };
+  }[];
 
   /**
    * Initializes a new instance of the PerformanceCounterMetrics class.
@@ -63,6 +68,17 @@ export class PerformanceCounterMetrics {
    */
   constructor(config: AzureMonitorOpenTelemetryConfig, options?: { collectionInterval: number }) {
     this._config = config;
+    this._lastCpus = os.cpus();
+    this._lastCpusProcess = os.cpus();
+    this._lastAppCpuUsage = (process as any).cpuUsage();
+    this._lastHrtime = process.hrtime();
+
+    this._lastRequestRate = {
+      count: this._totalCount,
+      time: +new Date(),
+      executionInterval: this._intervalExecutionTime,
+    };
+
     const meterProviderConfig: MeterProviderOptions = {
       resource: this._config.resource,
     };
@@ -112,16 +128,6 @@ export class PerformanceCounterMetrics {
         valueType: ValueType.DOUBLE,
       }
     );
-
-    this._lastCpus = os.cpus();
-    this._lastAppCpuUsage = (process as any).cpuUsage();
-    this._lastHrtime = process.hrtime();
-
-    this._lastRequestRate = {
-      count: this._totalCount,
-      time: +new Date(),
-      executionInterval: this._intervalExecutionTime,
-    };
 
     // Add callbacks
     this._requestRateGaugeCallback = this._getRequestRate.bind(this);
@@ -195,7 +201,7 @@ export class PerformanceCounterMetrics {
     observableResult.observe(os.freemem());
   }
 
-  private _getTotalCombinedCpu(cpus: os.CpuInfo[]) {
+  private _getTotalCombinedCpu(cpus: os.CpuInfo[], lastCpus: os.CpuInfo[]) {
     let totalUser = 0;
     let totalSys = 0;
     let totalNice = 0;
@@ -203,26 +209,31 @@ export class PerformanceCounterMetrics {
     let totalIrq = 0;
     for (let i = 0; !!cpus && i < cpus.length; i++) {
       const cpu = cpus[i];
-      const lastCpu = this._lastCpus[i];
+      const lastCpu = lastCpus[i];
       const times = cpu.times;
       const lastTimes = lastCpu.times;
       // user cpu time (or) % CPU time spent in user space
-      const user = times.user - lastTimes.user || 0;
+      let user = times.user - lastTimes.user;
+      user = user > 0 ? user : 0; // Avoid negative values
       totalUser += user;
       // system cpu time (or) % CPU time spent in kernel space
-      const sys = times.sys - lastTimes.sys || 0;
+      let sys = times.sys - lastTimes.sys;
+      sys = sys > 0 ? sys : 0; // Avoid negative values
       totalSys += sys;
       // user nice cpu time (or) % CPU time spent on low priority processes
-      const nice = times.nice - lastTimes.nice || 0;
+      let nice = times.nice - lastTimes.nice;
+      nice = nice > 0 ? nice : 0; // Avoid negative values
       totalNice += nice;
       // idle cpu time (or) % CPU time spent idle
-      const idle = times.idle - lastTimes.idle || 0;
+      let idle = times.idle - lastTimes.idle;
+      idle = idle > 0 ? idle : 0; // Avoid negative values
       totalIdle += idle;
       // irq (or) % CPU time spent servicing/handling hardware interrupts
-      const irq = times.irq - lastTimes.irq || 0;
+      let irq = times.irq - lastTimes.irq;
+      irq = irq > 0 ? irq : 0; // Avoid negative values
       totalIrq += irq;
     }
-    const combinedTotal = totalUser + totalSys + totalNice + totalIdle + totalIrq || 1;
+    const combinedTotal = totalUser + totalSys + totalNice + totalIdle + totalIrq;
     return {
       combinedTotal: combinedTotal,
       totalUser: totalUser,
@@ -235,9 +246,12 @@ export class PerformanceCounterMetrics {
     // to find the delta since the last measurement
     const cpus = os.cpus();
     if (cpus && cpus.length && this._lastCpus && cpus.length === this._lastCpus.length) {
-      const cpuTotals = this._getTotalCombinedCpu(cpus);
+      const cpuTotals = this._getTotalCombinedCpu(cpus, this._lastCpus);
+
       const value =
-        ((cpuTotals.combinedTotal - cpuTotals.totalIdle) / cpuTotals.combinedTotal) * 100;
+        cpuTotals.combinedTotal > 0
+          ? ((cpuTotals.combinedTotal - cpuTotals.totalIdle) / cpuTotals.combinedTotal) * 100
+          : 0;
       observableResult.observe(value);
     }
     this._lastCpus = cpus;
@@ -247,7 +261,12 @@ export class PerformanceCounterMetrics {
     // this reports total ms spent in each category since the OS was booted, to calculate percent it is necessary
     // to find the delta since the last measurement
     const cpus = os.cpus();
-    if (cpus && cpus.length && this._lastCpus && cpus.length === this._lastCpus.length) {
+    if (
+      cpus &&
+      cpus.length &&
+      this._lastCpusProcess &&
+      cpus.length === this._lastCpusProcess.length
+    ) {
       // Calculate % of total cpu time (user + system) this App Process used (Only supported by node v6.1.0+)
       let appCpuPercent: number | undefined = undefined;
       const appCpuUsage = (process as any).cpuUsage();
@@ -266,10 +285,10 @@ export class PerformanceCounterMetrics {
       // Set previous
       this._lastAppCpuUsage = appCpuUsage;
       this._lastHrtime = hrtime;
-      const cpuTotals = this._getTotalCombinedCpu(cpus);
+      const cpuTotals = this._getTotalCombinedCpu(cpus, this._lastCpusProcess);
       const value = appCpuPercent || (cpuTotals.totalUser / cpuTotals.combinedTotal) * 100;
       observableResult.observe(value);
     }
-    this._lastCpus = cpus;
+    this._lastCpusProcess = cpus;
   }
 }
