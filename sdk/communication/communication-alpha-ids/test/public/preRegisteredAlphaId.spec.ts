@@ -22,20 +22,22 @@ describe(`AlphaIdsClient - Preregistered Alpha Ids Operations`, function () {
   });
 
   it("can list all pre-registered alpha ids", async function () {
+    let totalItems = 0;
     for await (const alphaId of client.listAlphaIds()) {
+      totalItems++;
       assert.isNotNull(alphaId.value);
     }
-  }).timeout(20000);
 
-  it("can list all pre-registered alpha ids, by Page", async function () {
-    const pages = client.listAlphaIds().byPage();
+    // now test using pagination
+    const itemsPerPage = totalItems > 1 ? Math.floor(totalItems / 2) : 1;
+    const pages = client.listAlphaIds({ top: itemsPerPage }).byPage();
     for await (const page of pages) {
       // loop over each item in the page
       for (const alphaId of page) {
         assert.isNotNull(alphaId.value);
       }
     }
-  }).timeout(20000);
+  }).timeout(40000);
 
   it("can list all pre-registered alpha ids countries", async function () {
     const countries = (await client.getPreRegisteredAlphaIdCountries()).countries;
