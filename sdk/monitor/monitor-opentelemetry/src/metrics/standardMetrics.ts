@@ -9,8 +9,8 @@ import {
 } from "@opentelemetry/sdk-metrics";
 import { AzureMonitorOpenTelemetryConfig } from "../shared/config";
 import { AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
-import { Attributes, Histogram, Meter, SpanKind, ValueType } from "@opentelemetry/api";
-import { ReadableSpan, Span } from "@opentelemetry/sdk-trace-base";
+import { Attributes, Counter, Histogram, Meter, SpanKind, ValueType } from "@opentelemetry/api";
+import { ReadableSpan, Span, TimedEvent } from "@opentelemetry/sdk-trace-base";
 import {
   SemanticAttributes,
   SemanticResourceAttributes,
@@ -20,12 +20,15 @@ import {
   MetricRequestDimensions,
   StandardMetricBaseDimensions,
 } from "./types";
+import { LogRecord } from "@opentelemetry/sdk-logs";
+import { Resource } from "@opentelemetry/resources";
 
 /**
  * Azure Monitor Standard Metrics
  * @internal
  */
 export class StandardMetrics {
+  private _config: AzureMonitorOpenTelemetryConfig;
   private _collectionInterval = 60000; // 60 seconds
   private _meterProvider: MeterProvider;
   private _azureExporter: AzureMonitorMetricExporter;
@@ -33,7 +36,8 @@ export class StandardMetrics {
   private _meter: Meter;
   private _incomingRequestDurationHistogram: Histogram;
   private _outgoingRequestDurationHistogram: Histogram;
-  private _config: AzureMonitorOpenTelemetryConfig;
+  private _exceptionsCounter: Counter;
+  private _tracesCounter: Counter;
 
   /**
    * Initializes a new instance of the StandardMetrics class.
@@ -54,11 +58,24 @@ export class StandardMetrics {
     this._metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
     this._meterProvider.addMetricReader(this._metricReader);
     this._meter = this._meterProvider.getMeter("AzureMonitorStandardMetricsMeter");
-    this._incomingRequestDurationHistogram = this._meter.createHistogram("REQUEST_DURATION", {
-      valueType: ValueType.DOUBLE,
+    this._incomingRequestDurationHistogram = this._meter.createHistogram(
+      "azureMonitor.http.requestDuration",
+      {
+        valueType: ValueType.DOUBLE,
+      }
+    );
+    this._outgoingRequestDurationHistogram = this._meter.createHistogram(
+      "azureMonitor.http.dependencyDuration",
+      {
+        valueType: ValueType.DOUBLE,
+      }
+    );
+
+    this._exceptionsCounter = this._meter.createCounter("azureMonitor.exceptionCount", {
+      valueType: ValueType.INT,
     });
-    this._outgoingRequestDurationHistogram = this._meter.createHistogram("DEPENDENCY_DURATION", {
-      valueType: ValueType.DOUBLE,
+    this._tracesCounter = this._meter.createCounter("azureMonitor.traceCount", {
+      valueType: ValueType.INT,
     });
   }
 
@@ -108,10 +125,36 @@ export class StandardMetrics {
         this._getDependencyDimensions(span)
       );
     }
+    if (span.events) {
+      span.events.forEach((event: TimedEvent) => {
+        event.attributes = event.attributes || {};
+        if (event.name === "exception") {
+          event.attributes["_MS.ProcessedByMetricExtractors"] = "(Name:'Exceptions', Ver:'1.1')";
+          this._exceptionsCounter.add(1, this._getExceptionDimensions(span.resource));
+        } else {
+          event.attributes["_MS.ProcessedByMetricExtractors"] = "(Name:'Traces', Ver:'1.1')";
+          this._tracesCounter.add(1, this._getTraceDimensions(span.resource));
+        }
+      });
+    }
+  }
+
+  /**
+   * Record LogRecord metrics, add attribute so data is not aggregated again in ingestion
+   * @internal
+   */
+  public recordLog(logRecord: LogRecord): void {
+    if (this._isExceptionTelemetry(logRecord)) {
+      logRecord.setAttribute("_MS.ProcessedByMetricExtractors", "(Name:'Exceptions', Ver:'1.1')");
+      this._exceptionsCounter.add(1, this._getExceptionDimensions(logRecord.resource));
+    } else if (this._isTraceTelemetry(logRecord)) {
+      logRecord.setAttribute("_MS.ProcessedByMetricExtractors", "(Name:'Traces', Ver:'1.1')");
+      this._tracesCounter.add(1, this._getTraceDimensions(logRecord.resource));
+    }
   }
 
   private _getRequestDimensions(span: ReadableSpan): Attributes {
-    const dimensions: MetricRequestDimensions = this._getBaseDimensions(span);
+    const dimensions: MetricRequestDimensions = this._getBaseDimensions(span.resource);
     dimensions.metricId = "requests/duration";
     const statusCode = String(span.attributes["http.status_code"]);
     dimensions.requestResultCode = statusCode;
@@ -120,7 +163,7 @@ export class StandardMetrics {
   }
 
   private _getDependencyDimensions(span: ReadableSpan): Attributes {
-    const dimensions: MetricDependencyDimensions = this._getBaseDimensions(span);
+    const dimensions: MetricDependencyDimensions = this._getBaseDimensions(span.resource);
     dimensions.metricId = "dependencies/duration";
     const statusCode = String(span.attributes["http.status_code"]);
     dimensions.dependencyTarget = this._getDependencyTarget(span.attributes);
@@ -130,11 +173,23 @@ export class StandardMetrics {
     return dimensions as Attributes;
   }
 
-  private _getBaseDimensions(span: ReadableSpan): StandardMetricBaseDimensions {
+  private _getExceptionDimensions(resource: Resource): Attributes {
+    const dimensions: StandardMetricBaseDimensions = this._getBaseDimensions(resource);
+    dimensions.metricId = "exceptions/count";
+    return dimensions as Attributes;
+  }
+
+  private _getTraceDimensions(resource: Resource): Attributes {
+    const dimensions: StandardMetricBaseDimensions = this._getBaseDimensions(resource);
+    dimensions.metricId = "traces/count";
+    return dimensions as Attributes;
+  }
+
+  private _getBaseDimensions(resource: Resource): StandardMetricBaseDimensions {
     const dimensions: StandardMetricBaseDimensions = {};
     dimensions.IsAutocollected = "True";
-    if (span.resource) {
-      const spanResourceAttributes = span.resource.attributes;
+    if (resource) {
+      const spanResourceAttributes = resource.attributes;
       const serviceName = spanResourceAttributes[SemanticResourceAttributes.SERVICE_NAME];
       const serviceNamespace = spanResourceAttributes[SemanticResourceAttributes.SERVICE_NAMESPACE];
       if (serviceName) {
@@ -172,5 +227,33 @@ export class StandardMetrics {
       return String(netPeerIp);
     }
     return "";
+  }
+
+  private _isExceptionTelemetry(logRecord: LogRecord) {
+    const baseType = logRecord.attributes["_MS.baseType"];
+    // If Application Insights Legacy logs
+    if (baseType && baseType === "ExceptionData") {
+      return true;
+    } else if (
+      logRecord.attributes[SemanticAttributes.EXCEPTION_MESSAGE] ||
+      logRecord.attributes[SemanticAttributes.EXCEPTION_TYPE]
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  private _isTraceTelemetry(logRecord: LogRecord) {
+    const baseType = logRecord.attributes["_MS.baseType"];
+    // If Application Insights Legacy logs
+    if (baseType && baseType === "MessageData") {
+      return true;
+    } else if (
+      !logRecord.attributes[SemanticAttributes.EXCEPTION_MESSAGE] &&
+      !logRecord.attributes[SemanticAttributes.EXCEPTION_TYPE]
+    ) {
+      return true;
+    }
+    return false;
   }
 }

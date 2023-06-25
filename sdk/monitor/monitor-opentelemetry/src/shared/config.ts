@@ -1,19 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as os from "os";
-import { Resource } from "@opentelemetry/resources";
 import {
-  AZURE_MONITOR_OPENTELEMETRY_VERSION,
-  DEFAULT_ROLE_NAME,
-  AzureMonitorOpenTelemetryOptions,
-  InstrumentationOptions,
-} from "./types";
+  Resource,
+  ResourceDetectionConfig,
+  detectResourcesSync,
+  envDetectorSync,
+} from "@opentelemetry/resources";
+import { AzureMonitorOpenTelemetryOptions, InstrumentationOptions } from "./types";
 import { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
-import {
-  SemanticResourceAttributes,
-  TelemetrySdkLanguageValues,
-} from "@opentelemetry/semantic-conventions";
 import { JsonConfig } from "./jsonConfig";
 import { Logger } from "./logging";
 
@@ -24,7 +19,7 @@ export class AzureMonitorOpenTelemetryConfig implements AzureMonitorOpenTelemetr
   /** The rate of telemetry items tracked that should be transmitted (Default 1.0) */
   public samplingRatio: number;
   /** Azure Monitor Exporter Configuration */
-  public azureMonitorExporterConfig?: AzureMonitorExporterOptions;
+  public azureMonitorExporterConfig: AzureMonitorExporterOptions;
   /**
    * Sets the state of performance tracking (enabled by default)
    * if true performance counters will be collected every second and sent to Azure Monitor
@@ -162,21 +157,13 @@ export class AzureMonitorOpenTelemetryConfig implements AzureMonitorOpenTelemetr
   }
 
   private _getDefaultResource(): Resource {
-    const resource = Resource.EMPTY;
-    resource.attributes[SemanticResourceAttributes.SERVICE_NAME] = DEFAULT_ROLE_NAME;
-    if (process.env.WEBSITE_SITE_NAME) {
-      // Azure Web apps and Functions
-      resource.attributes[SemanticResourceAttributes.SERVICE_NAME] = process.env.WEBSITE_SITE_NAME;
-    }
-    resource.attributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID] = os && os.hostname();
-    if (process.env.WEBSITE_INSTANCE_ID) {
-      resource.attributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID] =
-        process.env.WEBSITE_INSTANCE_ID;
-    }
-    const sdkVersion = AZURE_MONITOR_OPENTELEMETRY_VERSION;
-    resource.attributes[SemanticResourceAttributes.TELEMETRY_SDK_LANGUAGE] =
-      TelemetrySdkLanguageValues.NODEJS;
-    resource.attributes[SemanticResourceAttributes.TELEMETRY_SDK_VERSION] = `node:${sdkVersion}`;
+    let resource = Resource.default();
+    // Load resource attributes from env
+    const detectResourceConfig: ResourceDetectionConfig = {
+      detectors: [envDetectorSync],
+    };
+    const envResource = detectResourcesSync(detectResourceConfig);
+    resource = resource.merge(envResource);
     return resource;
   }
 }

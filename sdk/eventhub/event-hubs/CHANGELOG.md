@@ -1,14 +1,10 @@
 # Release History
 
-## 5.11.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 5.11.1 (2023-06-23)
 
 ### Bugs Fixed
 
-### Other Changes
+- Fix a regression of missing `getToken` calls when renewing tokens.
 
 ## 5.11.0 (2023-06-08)
 

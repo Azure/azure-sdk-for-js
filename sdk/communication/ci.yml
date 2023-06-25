@@ -61,3 +61,7 @@ extends:
         safeName: azuretoolscommunicationrecipientverification
         skipPublishDocMs: true
         skipPublishDocGithubIo: true
+      - name: azure-tools-communication-tiering
+        safeName: azuretoolscommunicationtiering
+        skipPublishDocMs: true
+        skipPublishDocGithubIo: true
