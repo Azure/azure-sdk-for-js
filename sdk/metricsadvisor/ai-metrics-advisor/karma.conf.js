@@ -25,7 +25,7 @@ module.exports = function (config) {
       "karma-env-preprocessor",
       "karma-coverage",
       "karma-sourcemap-loader",
-      "karma-junit-reporter"
+      "karma-junit-reporter",
     ],
 
     // list of files / patterns to load in the browser
