@@ -3,7 +3,7 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { InternalClientPipelineOptions, OperationOptions } from "@azure/core-client";
+import { InternalClientPipelineOptions } from "@azure/core-client";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { SearchClient as GeneratedClient } from "./generated/data/searchClient";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
@@ -47,7 +47,6 @@ import {
   SelectArray,
   SearchFieldArray,
   AnswersOptions,
-  SearchRequestOptions,
   Vector,
 } from "./indexModels";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
@@ -509,13 +508,8 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     try {
       const pageResult = await this.searchDocuments(searchText, updatedOptions);
 
-      const { count, coverage, facets, answers } = pageResult;
-
       return {
-        count,
-        coverage,
-        facets,
-        answers,
+        ...pageResult,
         results: this.listSearchResults(pageResult, searchText, updatedOptions),
       };
     } catch (e: any) {
