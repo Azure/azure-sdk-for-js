@@ -325,7 +325,12 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
         updatedOptions
       );
 
-      const { results, nextLink, nextPageParameters, ...restResult } = result;
+      const {
+        results,
+        nextLink,
+        nextPageParameters: resultNextPageParameters,
+        ...restResult
+      } = result;
 
       const modifiedResults = utils.generatedSearchResultToPublicSearchResult<TModel, Fields>(
         results
@@ -334,7 +339,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       const converted: SearchDocumentsPageResult<TModel, Fields> = {
         ...restResult,
         results: modifiedResults,
-        continuationToken: this.encodeContinuationToken(nextLink, nextPageParameters),
+        continuationToken: this.encodeContinuationToken(nextLink, resultNextPageParameters),
       };
 
       return deserialize<SearchDocumentsPageResult<TModel, Fields>>(converted);
