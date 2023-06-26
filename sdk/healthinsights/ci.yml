@@ -8,8 +8,7 @@ trigger:
       - hotfix/*
   paths:
     include:
-      - sdk/healthinsights/health-insights-cancerprofiling
-      - sdk/healthinsights/health-insights-clinicalmatching
+      - sdk/healthinsights
 
 pr:
   branches:
@@ -22,8 +21,7 @@ pr:
       - feature/v4
   paths:
     include:
-      - sdk/healthinsights/health-insights-cancerprofiling
-      - sdk/healthinsights/health-insights-clinicalmatching
+      - sdk/healthinsights
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
