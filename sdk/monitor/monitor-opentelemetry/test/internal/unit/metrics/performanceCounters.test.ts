@@ -70,12 +70,18 @@ describe("PerformanceCounterMetricsHandler", () => {
       assert.deepStrictEqual(metrics[3].descriptor.name, "\\Memory\\Available Bytes");
       assert.ok(metrics[3].dataPoints[0].value > 0, "Wrong available bytes value");
       assert.deepStrictEqual(metrics[4].descriptor.name, "\\Processor(_Total)\\% Processor Time");
-      assert.ok(metrics[4].dataPoints[0].value > 0 && metrics[4].dataPoints[0].value < 100, "Wrong Processor Time value");
+      assert.ok(
+        metrics[4].dataPoints[0].value > 0 && metrics[4].dataPoints[0].value < 100,
+        "Wrong Processor Time value"
+      );
       assert.deepStrictEqual(
         metrics[5].descriptor.name,
         "\\Process(??APP_WIN32_PROC??)\\% Processor Time"
       );
-      assert.ok(metrics[5].dataPoints[0].value > 0 && metrics[5].dataPoints[0].value < 100, "Wrong Process Time value");
+      assert.ok(
+        metrics[5].dataPoints[0].value > 0 && metrics[5].dataPoints[0].value < 100,
+        "Wrong Process Time value"
+      );
     });
 
     it("should not collect when disabled", async () => {
