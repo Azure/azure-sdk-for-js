@@ -21,13 +21,11 @@ export class AzureMonitorSpanProcessor implements SpanProcessor {
   }
 
   onStart(span: Span, _context: Context): void {
-    this._metricHandler.getStandardMetrics()?.markSpanAsProcessed(span);
+    this._metricHandler.markSpanAsProcessed(span);
   }
 
   onEnd(span: ReadableSpan): void {
-    // Record duration metrics
-    this._metricHandler.getStandardMetrics()?.recordSpan(span);
-    this._metricHandler.getPerformanceCounterMetrics()?.recordSpan(span);
+    this._metricHandler.recordSpan(span);
   }
 
   shutdown(): Promise<void> {

@@ -29,7 +29,7 @@ const envSetupForPlayback: { [k: string]: string } = {
   AZURE_CLIENT_ID: "SomeClientId",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "SomeTenantId",
-  RESOURCE_ID: "9d787bd6-07fc-4c7b-8e57-17f1fee41298"
+  RESOURCE_ID: "9d787bd6-07fc-4c7b-8e57-17f1fee41298",
 };
 
 export const recorderOptions: RecorderStartOptions = {
