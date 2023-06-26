@@ -232,6 +232,7 @@ export interface OperationRequestOptions {
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     shouldDeserialize?: boolean | ((response: PipelineResponse) => boolean);
+    skipEncoding?: boolean;
     timeout?: number;
 }
 
