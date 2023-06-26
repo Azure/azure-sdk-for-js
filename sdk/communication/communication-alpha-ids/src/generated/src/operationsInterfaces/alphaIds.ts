@@ -21,8 +21,8 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a AlphaIdsOperations. */
-export interface AlphaIdsOperations {
+/** Interface representing a AlphaIds. */
+export interface AlphaIds {
   /**
    * Gets the list of alpha ids for the current resource.
    * @param options The options parameters.

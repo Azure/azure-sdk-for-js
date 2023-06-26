@@ -20,12 +20,6 @@ export interface AlphaId {
     value?: string;
 }
 
-// @public
-export interface AlphaIds {
-    alphaIds?: AlphaId[];
-    nextLink?: string;
-}
-
 // @public (undocumented)
 export class AlphaIdsClient {
     constructor(connectionString: string, options?: AlphaIdsClientOptions);
@@ -36,9 +30,9 @@ export class AlphaIdsClient {
     // (undocumented)
     getDynamicAlphaIdConfiguration(options?: GetConfigurationOptions): Promise<DynamicAlphaIdConfiguration>;
     // (undocumented)
-    getDynamicAlphaIdCountries(options?: GetDynamicAlphaIdCountriesOptions): Promise<Countries>;
+    getDynamicAlphaIdCountries(options?: GetDynamicAlphaIdCountriesOptions): Promise<SupportedCountries>;
     // (undocumented)
-    getPreRegisteredAlphaIdCountries(options?: GetPreRegisteredAlphaIdCountriesOptions): Promise<Countries>;
+    getPreRegisteredAlphaIdCountries(options?: GetPreRegisteredAlphaIdCountriesOptions): Promise<SupportedCountries>;
     // (undocumented)
     upsertDynamicAlphaIdConfiguration(enabled: boolean, options?: UpsertConfigurationOptions): Promise<DynamicAlphaIdConfiguration>;
 }
@@ -62,11 +56,6 @@ export interface AlphaIdsGetPreRegisteredAlphaIdCountriesOptionalParams extends 
 }
 
 // @public
-export interface Countries {
-    countries?: string[];
-}
-
-// @public
 export interface DynamicAlphaIdConfiguration {
     enabled: boolean;
 }
@@ -85,6 +74,11 @@ export interface GetPreRegisteredAlphaIdCountriesOptions extends AlphaIdsGetPreR
 
 // @public
 export interface ListAlphaIdsOptions extends AlphaIdsGetAlphaIdsOptionalParams {
+}
+
+// @public
+export interface SupportedCountries {
+    countries?: string[];
 }
 
 // @public

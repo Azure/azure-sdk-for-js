@@ -36,10 +36,9 @@ export interface UpsertConfigurationOptions extends OperationOptions {}
 
 export {
   DynamicAlphaIdConfiguration,
-  AlphaIds,
   AlphaId,
   AlphaIdsGetAlphaIdsOptionalParams,
   AlphaIdsGetDynamicAlphaIdCountriesOptionalParams,
   AlphaIdsGetPreRegisteredAlphaIdCountriesOptionalParams,
-  Countries,
+  SupportedCountries,
 } from "./generated/src/models/";

@@ -8,10 +8,10 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const AlphaIds: coreClient.CompositeMapper = {
+export const AcquiredAlphaIds: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AlphaIds",
+    className: "AcquiredAlphaIds",
     modelProperties: {
       alphaIds: {
         serializedName: "alphaIds",
@@ -144,10 +144,10 @@ export const DynamicAlphaIdConfiguration: coreClient.CompositeMapper = {
   }
 };
 
-export const Countries: coreClient.CompositeMapper = {
+export const SupportedCountries: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Countries",
+    className: "SupportedCountries",
     modelProperties: {
       countries: {
         serializedName: "countries",

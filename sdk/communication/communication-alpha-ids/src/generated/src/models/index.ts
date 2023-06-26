@@ -9,7 +9,7 @@
 import * as coreClient from "@azure/core-client";
 
 /** A wrapper for a list of alpha id entities. */
-export interface AlphaIds {
+export interface AcquiredAlphaIds {
   /** List of alpha ids. */
   alphaIds?: AlphaId[];
   /** Represents the URL link to the next page. */
@@ -67,7 +67,7 @@ export interface DynamicAlphaIdConfiguration {
 }
 
 /** A wrapper for a list of countries. */
-export interface Countries {
+export interface SupportedCountries {
   /** List of conutries supporting alpha ids. */
   countries?: string[];
 }
@@ -82,7 +82,7 @@ export interface AlphaIdsGetAlphaIdsOptionalParams
 }
 
 /** Contains response data for the getAlphaIds operation. */
-export type AlphaIdsGetAlphaIdsResponse = AlphaIds;
+export type AlphaIdsGetAlphaIdsResponse = AcquiredAlphaIds;
 
 /** Optional parameters. */
 export interface AlphaIdsGetDynamicAlphaIdConfigurationOptionalParams
@@ -103,21 +103,21 @@ export interface AlphaIdsGetDynamicAlphaIdCountriesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDynamicAlphaIdCountries operation. */
-export type AlphaIdsGetDynamicAlphaIdCountriesResponse = Countries;
+export type AlphaIdsGetDynamicAlphaIdCountriesResponse = SupportedCountries;
 
 /** Optional parameters. */
 export interface AlphaIdsGetPreRegisteredAlphaIdCountriesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getPreRegisteredAlphaIdCountries operation. */
-export type AlphaIdsGetPreRegisteredAlphaIdCountriesResponse = Countries;
+export type AlphaIdsGetPreRegisteredAlphaIdCountriesResponse = SupportedCountries;
 
 /** Optional parameters. */
 export interface AlphaIdsGetAlphaIdsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAlphaIdsNext operation. */
-export type AlphaIdsGetAlphaIdsNextResponse = AlphaIds;
+export type AlphaIdsGetAlphaIdsNextResponse = AcquiredAlphaIds;
 
 /** Optional parameters. */
 export interface AlphaIDsClientOptionalParams

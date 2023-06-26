@@ -9,7 +9,7 @@
 import { tracingClient } from "../tracing";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { AlphaIdsOperations } from "../operationsInterfaces";
+import { AlphaIds } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -31,12 +31,12 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing AlphaIdsOperations operations. */
-export class AlphaIdsOperationsImpl implements AlphaIdsOperations {
+/** Class containing AlphaIds operations. */
+export class AlphaIdsImpl implements AlphaIds {
   private readonly client: AlphaIDsClient;
 
   /**
-   * Initialize a new instance of the class AlphaIdsOperations class.
+   * Initialize a new instance of the class AlphaIds class.
    * @param client Reference to the service client
    */
   constructor(client: AlphaIDsClient) {
@@ -223,7 +223,7 @@ const getAlphaIdsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AlphaIds
+      bodyMapper: Mappers.AcquiredAlphaIds
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -276,7 +276,7 @@ const getDynamicAlphaIdCountriesOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Countries
+      bodyMapper: Mappers.SupportedCountries
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -292,7 +292,7 @@ const getPreRegisteredAlphaIdCountriesOperationSpec: coreClient.OperationSpec = 
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Countries
+      bodyMapper: Mappers.SupportedCountries
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -308,7 +308,7 @@ const getAlphaIdsNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AlphaIds
+      bodyMapper: Mappers.AcquiredAlphaIds
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse

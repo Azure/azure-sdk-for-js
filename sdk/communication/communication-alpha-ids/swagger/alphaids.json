@@ -41,7 +41,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/AlphaIds"
+              "$ref": "#/definitions/AcquiredAlphaIds"
             }
           },
           "default": {
@@ -162,7 +162,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/Countries"
+              "$ref": "#/definitions/SupportedCountries"
             }
           },
           "default": {
@@ -198,7 +198,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/Countries"
+              "$ref": "#/definitions/SupportedCountries"
             }
           },
           "default": {
@@ -217,6 +217,23 @@
     }
   },
   "definitions": {
+    "AcquiredAlphaIds": {
+      "description": "A wrapper for a list of alpha id entities.",
+      "type": "object",
+      "properties": {
+        "alphaIds": {
+          "description": "List of alpha ids.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AlphaId"
+          }
+        },
+        "nextLink": {
+          "description": "Represents the URL link to the next page.",
+          "type": "string"
+        }
+      }
+    },
     "AlphaId": {
       "description": "Represents an AlphaId acquired in a given country.",
       "type": "object",
@@ -236,36 +253,6 @@
         }
       }
     },
-    "AlphaIds": {
-      "description": "A wrapper for a list of alpha id entities.",
-      "type": "object",
-      "properties": {
-        "alphaIds": {
-          "description": "List of alpha ids.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/AlphaId"
-          }
-        },
-        "nextLink": {
-          "description": "Represents the URL link to the next page.",
-          "type": "string"
-        }
-      }
-    },
-    "Countries": {
-      "description": "A wrapper for a list of countries.",
-      "type": "object",
-      "properties": {
-        "countries": {
-          "description": "List of conutries supporting alpha ids.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
     "DynamicAlphaIdConfiguration": {
       "description": "<br>Represents a collection of settings for configuring Dynamic Alpha ID support for a specific resource.\r\n<br>\r\n            Initially, Alpha IDs were restricted to customers that had valid use cases for them, so this configuration could be leveraged to enable its usage.\r\n            ",
       "required": [
@@ -279,6 +266,20 @@
         }
       }
     },
+    "SupportedCountries": {
+      "description": "A wrapper for a list of countries.",
+      "type": "object",
+      "properties": {
+        "countries": {
+          "description": "List of conutries supporting alpha ids.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    
     "CommunicationErrorResponse": {
       "description": "The Communication Services error.",
       "type": "object",

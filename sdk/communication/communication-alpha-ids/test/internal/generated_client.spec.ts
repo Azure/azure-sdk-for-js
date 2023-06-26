@@ -109,7 +109,7 @@ describe("AlphaIdsGeneratedClient - constructor", function () {
     );
 
     const spy = sinon.spy(mockHttpClient, "sendRequest");
-    await client.alphaIdsOperations.upsertDynamicAlphaIdConfiguration(true);
+    await client.alphaIds.upsertDynamicAlphaIdConfiguration(true);
     sinon.assert.calledOnce(spy);
   });
 });

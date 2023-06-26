@@ -9,7 +9,7 @@ import {
   GetDynamicAlphaIdCountriesOptions,
   GetPreRegisteredAlphaIdCountriesOptions,
   AlphaId,
-  Countries,
+  SupportedCountries,
 } from "./models";
 import { isKeyCredential, parseClientArguments } from "@azure/communication-common";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
@@ -75,7 +75,7 @@ export class AlphaIdsClient {
       "AlphaIdsClient-getConfiguration",
       options,
       async (updatedOptions) => {
-        return this.client.alphaIdsOperations.getDynamicAlphaIdConfiguration(updatedOptions);
+        return this.client.alphaIds.getDynamicAlphaIdConfiguration(updatedOptions);
       }
     );
   }
@@ -88,10 +88,7 @@ export class AlphaIdsClient {
       "AlphaIdsClient-upsertConfiguration",
       options,
       async (updatedOptions) => {
-        return this.client.alphaIdsOperations.upsertDynamicAlphaIdConfiguration(
-          enabled,
-          updatedOptions
-        );
+        return this.client.alphaIds.upsertDynamicAlphaIdConfiguration(enabled, updatedOptions);
       }
     );
   }
@@ -102,7 +99,7 @@ export class AlphaIdsClient {
       options
     );
     try {
-      return this.client.alphaIdsOperations.listAlphaIds(updatedOptions);
+      return this.client.alphaIds.listAlphaIds(updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -116,13 +113,13 @@ export class AlphaIdsClient {
 
   public getDynamicAlphaIdCountries(
     options: GetDynamicAlphaIdCountriesOptions = {}
-  ): Promise<Countries> {
+  ): Promise<SupportedCountries> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "AlphaIdsClient-getDynamicAlphaIdCountries",
       options
     );
     try {
-      return this.client.alphaIdsOperations.getDynamicAlphaIdCountries(updatedOptions);
+      return this.client.alphaIds.getDynamicAlphaIdCountries(updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -136,13 +133,13 @@ export class AlphaIdsClient {
 
   public getPreRegisteredAlphaIdCountries(
     options: GetPreRegisteredAlphaIdCountriesOptions = {}
-  ): Promise<Countries> {
+  ): Promise<SupportedCountries> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "AlphaIdsClient-getPreRegisteredAlphaIdCountries",
       options
     );
     try {
-      return this.client.alphaIdsOperations.getPreRegisteredAlphaIdCountries(updatedOptions);
+      return this.client.alphaIds.getPreRegisteredAlphaIdCountries(updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",

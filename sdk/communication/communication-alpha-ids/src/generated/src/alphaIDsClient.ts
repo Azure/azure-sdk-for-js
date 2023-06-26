@@ -12,8 +12,8 @@ import {
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import { AlphaIdsOperationsImpl } from "./operations";
-import { AlphaIdsOperations } from "./operationsInterfaces";
+import { AlphaIdsImpl } from "./operations";
+import { AlphaIds } from "./operationsInterfaces";
 import { AlphaIDsClientOptionalParams } from "./models";
 
 export class AlphaIDsClient extends coreClient.ServiceClient {
@@ -58,7 +58,7 @@ export class AlphaIDsClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.apiVersion = options.apiVersion || "2023-07-12";
-    this.alphaIdsOperations = new AlphaIdsOperationsImpl(this);
+    this.alphaIds = new AlphaIdsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -90,5 +90,5 @@ export class AlphaIDsClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  alphaIdsOperations: AlphaIdsOperations;
+  alphaIds: AlphaIds;
 }
