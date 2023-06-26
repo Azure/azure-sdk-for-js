@@ -6,6 +6,7 @@ As the Azure SDK for JavaScript continues to evolve, it is important for us to h
 
 ## Questions
 
+<details close>
 1. **Version picking strategy**  
   One latest GA + One latest preview version.  
   If the latest preview version < latest GA version, then we will use latest GA version as the experiment version.  
@@ -56,7 +57,9 @@ _Questions_:
     1. ~~a new experimental features --- 1.0.0-beta.4~~  
     1. a new stable api version --- 1.0.0 will need to replace  
     1. ~~a new experimental features --- 1.1.0-beta.1 ?~~
-    1. a new preview api version ---  1.1.0-beta.2 ?
+    1. a new preview api version ---  1.1.0-beta.2 ?  
+
+</details>
 
 **_Notes_**: Experimental features could be either client side features or service preview features.  
 
