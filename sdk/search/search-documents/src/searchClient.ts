@@ -8,7 +8,6 @@ import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { SearchClient as GeneratedClient } from "./generated/data/searchClient";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
-import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 import {
   AutocompleteRequest,
@@ -163,16 +162,6 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     this.endpoint = endpoint;
     this.indexName = indexName;
 
-    const libInfo = `azsdk-js-search-documents/${SDK_VERSION}`;
-    if (!options.userAgentOptions) {
-      options.userAgentOptions = {};
-    }
-    if (options.userAgentOptions.userAgentPrefix) {
-      options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      options.userAgentOptions.userAgentPrefix = libInfo;
-    }
-
     const internalClientPipelineOptions: InternalClientPipelineOptions = {
       ...options,
       ...{
@@ -323,19 +312,19 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     nextPageParameters: SearchRequest<TModel> = {}
   ): Promise<SearchDocumentsPageResult<TModel, Fields>> {
     const {
-      select,
       searchFields,
-      orderBy,
       semanticFields,
-      vector,
+      select,
+      orderBy,
       includeTotalCount,
+      vector,
       answers,
       semanticErrorHandlingMode,
       debugMode,
-      ...nonFieldOptions
+      ...restOptions
     } = options;
     const fullOptions: GeneratedSearchRequest = {
-      ...nonFieldOptions,
+      ...restOptions,
       ...nextPageParameters,
       searchFields: this.convertSearchFields(searchFields),
       semanticFields: this.convertSemanticFields(semanticFields),
@@ -361,13 +350,11 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
 
       const {
         results,
-        count,
-        coverage,
-        facets,
-        answers: answerResult,
+        nextLink,
+        nextPageParameters,
         semanticPartialResponseReason,
         semanticPartialResponseType,
-        nextLink,
+        ...restResult
       } = result;
 
       const modifiedResults = utils.generatedSearchResultToPublicSearchResult<TModel, Fields>(
@@ -375,20 +362,17 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       );
 
       const converted: SearchDocumentsPageResult<TModel, Fields> = {
+        ...restResult,
         results: modifiedResults,
-        count,
-        coverage,
-        facets,
-        answers: answerResult,
         semanticPartialResponseReason:
           semanticPartialResponseReason as `${KnownSemanticPartialResponseReason}`,
         semanticPartialResponseType:
           semanticPartialResponseType as `${KnownSemanticPartialResponseType}`,
         continuationToken: this.encodeContinuationToken(
           nextLink,
-          result.nextPageParameters
-            ? utils.generatedSearchRequestToPublicSearchRequest(result.nextPageParameters)
-            : result.nextPageParameters
+          nextPageParameters
+            ? utils.generatedSearchRequestToPublicSearchRequest(nextPageParameters)
+            : nextPageParameters
         ),
       };
 

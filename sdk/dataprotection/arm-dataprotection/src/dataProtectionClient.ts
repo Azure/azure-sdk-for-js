@@ -31,7 +31,8 @@ import {
   ExportJobsImpl,
   ExportJobsOperationResultImpl,
   DeletedBackupInstancesImpl,
-  ResourceGuardsImpl
+  ResourceGuardsImpl,
+  DppResourceGuardProxyImpl
 } from "./operations";
 import {
   BackupVaults,
@@ -50,7 +51,8 @@ import {
   ExportJobs,
   ExportJobsOperationResult,
   DeletedBackupInstances,
-  ResourceGuards
+  ResourceGuards,
+  DppResourceGuardProxy
 } from "./operationsInterfaces";
 import { DataProtectionClientOptionalParams } from "./models";
 
@@ -86,7 +88,7 @@ export class DataProtectionClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-dataprotection/1.0.1`;
+    const packageDetails = `azsdk-js-arm-dataprotection/1.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -163,6 +165,7 @@ export class DataProtectionClient extends coreClient.ServiceClient {
     this.exportJobsOperationResult = new ExportJobsOperationResultImpl(this);
     this.deletedBackupInstances = new DeletedBackupInstancesImpl(this);
     this.resourceGuards = new ResourceGuardsImpl(this);
+    this.dppResourceGuardProxy = new DppResourceGuardProxyImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -211,4 +214,5 @@ export class DataProtectionClient extends coreClient.ServiceClient {
   exportJobsOperationResult: ExportJobsOperationResult;
   deletedBackupInstances: DeletedBackupInstances;
   resourceGuards: ResourceGuards;
+  dppResourceGuardProxy: DppResourceGuardProxy;
 }

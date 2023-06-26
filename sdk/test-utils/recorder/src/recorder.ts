@@ -235,7 +235,10 @@ export class Recorder {
       if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient")) {
         logger.verbose("[Recorder#start] Setting redirect mode");
         try {
-          await setRecordingOptions(Recorder.url, this.httpClient, { handleRedirects: !isNode });
+          await setRecordingOptions(Recorder.url, this.httpClient, {
+            handleRedirects: !isNode,
+            tlsValidationCert: options.tlsValidationCert,
+          });
         } catch (e) {
           if (isRestError(e) && e.message.includes("ECONNREFUSED")) {
             throw new RecorderError(
