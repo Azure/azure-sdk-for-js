@@ -140,7 +140,9 @@
     "USUK",
     "Vertica",
     "westus",
-    "Xiaomi"
+    "Xiaomi",
+    "Onco",
+    "oncophenotype"
   ],
   "allowCompoundWords": true,
   "overrides": [
