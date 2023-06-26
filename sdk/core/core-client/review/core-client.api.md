@@ -223,7 +223,9 @@ export interface OperationRequestInfo {
 
 // @public
 export interface OperationRequestOptions {
+    accept?: string;
     allowInsecureConnection?: boolean;
+    contentType?: string;
     customHeaders?: {
         [key: string]: string;
     };

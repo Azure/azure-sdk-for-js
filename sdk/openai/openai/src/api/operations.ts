@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { StreamableMethod } from "@azure-rest/core-client";
-import { RequestOptions } from "../common/interfaces.js";
+import { OperationOptions } from "@azure/core-client";
 import {
   ChatChoiceOutput,
   ChoiceOutput,
@@ -16,8 +16,9 @@ import {
   isUnexpected,
 } from "../rest/index.js";
 import { ChatCompletions, ChatMessage, Completions, Embeddings } from "./models.js";
+import { deserializeOperationOptions } from "./requestOptionDeserializer.js";
 
-export interface GetEmbeddingsOptions extends RequestOptions {
+export interface GetEmbeddingsOptions extends OperationOptions {
   /**
    * An identifier for the caller or end user of the operation. This may be used for tracking
    * or rate-limiting purposes.
@@ -31,7 +32,7 @@ export interface GetEmbeddingsOptions extends RequestOptions {
   model?: string;
 }
 
-export interface GetCompletionsOptions extends RequestOptions {
+export interface GetCompletionsOptions extends OperationOptions {
   /** The maximum number of tokens to generate. */
   maxTokens?: number;
   /**
@@ -116,7 +117,7 @@ export interface GetCompletionsOptions extends RequestOptions {
   model?: string;
 }
 
-export interface GetChatCompletionsOptions extends RequestOptions {
+export interface GetChatCompletionsOptions extends OperationOptions {
   /** The maximum number of tokens to generate. */
   maxTokens?: number;
   /**
@@ -189,9 +190,7 @@ export function _getEmbeddingsSend(
   options: GetEmbeddingsOptions = { requestOptions: {} }
 ): StreamableMethod<GetEmbeddings200Response | GetEmbeddingsDefaultResponse> {
   return context.path("/deployments/{deploymentId}/embeddings", deploymentId).post({
-    allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
-    skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
-    headers: { ...options.requestOptions?.headers },
+    ...deserializeOperationOptions(options),
     body: { user: options?.user, model: options?.model, input: input },
   });
 }
@@ -233,9 +232,7 @@ export function _getCompletionsSend(
   options: GetCompletionsOptions = { requestOptions: {} }
 ): StreamableMethod<GetCompletions200Response | GetCompletionsDefaultResponse> {
   return context.path("/deployments/{deploymentId}/completions", deploymentId).post({
-    allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
-    skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
-    headers: { ...options.requestOptions?.headers },
+    ...deserializeOperationOptions(options),
     body: {
       prompt: prompt,
       max_tokens: options?.maxTokens,
@@ -310,9 +307,7 @@ export function _getChatCompletionsSend(
   options: GetChatCompletionsOptions = { requestOptions: {} }
 ): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse> {
   return context.path("/deployments/{deploymentId}/chat/completions", deploymentId).post({
-    allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
-    skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
-    headers: { ...options.requestOptions?.headers },
+    ...deserializeOperationOptions(options),
     body: {
       messages: messages,
       max_tokens: options?.maxTokens,
