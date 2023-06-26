@@ -31,6 +31,9 @@ import {
   RemoveParticipantRequest,
   CallConnectionRemoveParticipantOptionalParams,
   CallConnectionRemoveParticipantResponse,
+  MuteParticipantsRequest,
+  CallConnectionMuteOptionalParams,
+  CallConnectionMuteResponse,
   CallConnectionGetParticipantOptionalParams,
   CallConnectionGetParticipantResponse,
   CallConnectionGetParticipantsNextResponse
@@ -231,6 +234,23 @@ export class CallConnectionImpl implements CallConnection {
   }
 
   /**
+   * Mute participants from the call using identifier.
+   * @param callConnectionId The call connection id.
+   * @param muteParticipantsRequest The participants to be muted from the call.
+   * @param options The options parameters.
+   */
+  mute(
+    callConnectionId: string,
+    muteParticipantsRequest: MuteParticipantsRequest,
+    options?: CallConnectionMuteOptionalParams
+  ): Promise<CallConnectionMuteResponse> {
+    return this.client.sendOperationRequest(
+      { callConnectionId, muteParticipantsRequest, options },
+      muteOperationSpec
+    );
+  }
+
+  /**
    * Get participant from a call.
    * @param callConnectionId The call connection Id
    * @param participantRawId Raw id of the participant to retrieve.
@@ -389,6 +409,29 @@ const removeParticipantOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.removeParticipantRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.repeatabilityRequestID,
+    Parameters.repeatabilityFirstSent
+  ],
+  mediaType: "json",
+  serializer
+};
+const muteOperationSpec: coreClient.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}/participants:mute",
+  httpMethod: "POST",
+  responses: {
+    202: {
+      bodyMapper: Mappers.MuteParticipantsResponse
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  requestBody: Parameters.muteParticipantsRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [

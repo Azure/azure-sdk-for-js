@@ -23,6 +23,9 @@ import {
   RemoveParticipantRequest,
   CallConnectionRemoveParticipantOptionalParams,
   CallConnectionRemoveParticipantResponse,
+  MuteParticipantsRequest,
+  CallConnectionMuteOptionalParams,
+  CallConnectionMuteResponse,
   CallConnectionGetParticipantOptionalParams,
   CallConnectionGetParticipantResponse
 } from "../models";
@@ -100,6 +103,17 @@ export interface CallConnection {
     removeParticipantRequest: RemoveParticipantRequest,
     options?: CallConnectionRemoveParticipantOptionalParams
   ): Promise<CallConnectionRemoveParticipantResponse>;
+  /**
+   * Mute participants from the call using identifier.
+   * @param callConnectionId The call connection id.
+   * @param muteParticipantsRequest The participants to be muted from the call.
+   * @param options The options parameters.
+   */
+  mute(
+    callConnectionId: string,
+    muteParticipantsRequest: MuteParticipantsRequest,
+    options?: CallConnectionMuteOptionalParams
+  ): Promise<CallConnectionMuteResponse>;
   /**
    * Get participant from a call.
    * @param callConnectionId The call connection Id
