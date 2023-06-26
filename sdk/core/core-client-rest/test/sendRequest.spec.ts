@@ -332,4 +332,23 @@ describe("sendRequest", () => {
       body: "test",
     });
   });
+
+  it("should have timeout option", async () => {
+    const mockPipeline: Pipeline = createEmptyPipeline();
+    mockPipeline.sendRequest = async (_client, request) => {
+      const contentType = request.headers.get("content-type");
+      assert.equal(contentType, "application/json");
+      const timeout = request.timeout;
+      assert.equal(timeout, 120);
+      return {
+        headers: createHttpHeaders(),
+      } as PipelineResponse;
+    };
+
+    await sendRequest("GET", mockBaseUrl, mockPipeline, {
+      contentType: "application/json",
+      timeout: 120,
+      body: "test",
+    });
+  });
 });

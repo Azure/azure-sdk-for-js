@@ -9,8 +9,11 @@ import {
   PipelinePolicy,
   PipelineRequest,
   RawHttpHeaders,
+  TransferProgressEvent,
 } from "@azure/core-rest-pipeline";
 import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { OperationTracingOptions } from "@azure/core-tracing";
 
 /**
  * Shape of the default request parameters, this may be overriden by the specific
@@ -48,6 +51,37 @@ export type RequestParameters = {
    * Path parameters for custom the base url
    */
   pathParameters?: Record<string, any>;
+
+  /**
+   * User defined custom request headers that
+   * will be applied before the request is sent.
+   */
+  customHeaders?: { [key: string]: string };
+
+  /**
+   * The number of milliseconds a request can take before automatically being terminated.
+   */
+  timeout?: number;
+
+  /**
+   * Callback which fires upon upload progress.
+   */
+  onUploadProgress?: (progress: TransferProgressEvent) => void;
+
+  /**
+   * Callback which fires upon download progress.
+   */
+  onDownloadProgress?: (progress: TransferProgressEvent) => void;
+
+  /**
+   * The signal which can be used to abort requests.
+   */
+  abortSignal?: AbortSignalLike;
+
+  /**
+   * Options used when tracing is enabled.
+   */
+  tracingOptions?: OperationTracingOptions;
 };
 
 /**

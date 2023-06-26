@@ -37,6 +37,39 @@ export async function sendRequest(
 ): Promise<HttpResponse> {
   const httpClient = customHttpClient ?? getCachedDefaultHttpsClient();
   const request = buildPipelineRequest(method, url, options);
+  if (options) {
+    if (options.timeout) {
+      request.timeout = options.timeout;
+    }
+
+    if (options.onUploadProgress) {
+      request.onUploadProgress = options.onUploadProgress;
+    }
+
+    if (options.onDownloadProgress) {
+      request.onDownloadProgress = options.onDownloadProgress;
+    }
+
+    if (options.allowInsecureConnection) {
+      request.allowInsecureConnection = true;
+    }
+
+    if (options.abortSignal) {
+      request.abortSignal = options.abortSignal;
+    }
+
+    if (options.tracingOptions) {
+      request.tracingOptions = options.tracingOptions;
+    }
+
+    const customHeaders = options?.customHeaders;
+    if (customHeaders) {
+      for (const customHeaderName of Object.keys(customHeaders)) {
+        request.headers.set(customHeaderName, customHeaders[customHeaderName]);
+      }
+    }
+  }
+  
   const response = await pipeline.sendRequest(httpClient, request);
   const rawHeaders: RawHttpHeaders = response.headers.toJSON();
 
