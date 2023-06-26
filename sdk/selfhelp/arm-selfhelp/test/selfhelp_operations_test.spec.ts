@@ -65,9 +65,18 @@ describe("help test", () => {
       {
         checkNameAvailabilityRequest: {
           name: "sampleName",
-          type: "Microsoft.Help/diagnostics"
+          // type: "Microsoft.Help/diagnostics"
+          type: "diagnostics"
         }
       });
+  });
+
+  it("selfhelp operation test", async function () {
+    const resArray = new Array();
+    for await (let item of client.operations.list()) {
+      resArray.push(item);
+    }
+    assert.notEqual(resArray.length, 0)
   });
 
 })

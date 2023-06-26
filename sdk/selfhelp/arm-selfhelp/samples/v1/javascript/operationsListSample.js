@@ -8,17 +8,15 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { HelpRP } from "@azure/arm-selfhelp";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { HelpRP } = require("@azure/arm-selfhelp");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Returns list of operations.
  *
  * @summary Returns list of operations.
- * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/preview/2023-01-01-preview/examples/ListOperations.json
+ * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/stable/2023-06-01/examples/ListOperations.json
  */
 async function listAllOperations() {
   const credential = new DefaultAzureCredential();

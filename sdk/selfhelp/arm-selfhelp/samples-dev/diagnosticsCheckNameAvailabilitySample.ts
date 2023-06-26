@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to This API is used to check the uniqueness of a resource name used for a diagnostic check.
  *
  * @summary This API is used to check the uniqueness of a resource name used for a diagnostic check.
- * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/preview/2023-01-01-preview/examples/CheckNameAvailabilityForDiagnosticWhenNameIsAvailable.json
+ * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/stable/2023-06-01/examples/CheckNameAvailabilityForDiagnosticWhenNameIsAvailable.json
  */
 async function exampleWhenNameIsAvailableForADiagnosticResource() {
   const scope = "subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6";
@@ -43,7 +43,7 @@ async function exampleWhenNameIsAvailableForADiagnosticResource() {
  * This sample demonstrates how to This API is used to check the uniqueness of a resource name used for a diagnostic check.
  *
  * @summary This API is used to check the uniqueness of a resource name used for a diagnostic check.
- * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/preview/2023-01-01-preview/examples/CheckNameAvailabilityForDiagnosticWhenNameIsNotAvailable.json
+ * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/stable/2023-06-01/examples/CheckNameAvailabilityForDiagnosticWhenNameIsNotAvailable.json
  */
 async function exampleWhenNameIsNotAvailableForADiagnosticResource() {
   const scope = "subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6";
