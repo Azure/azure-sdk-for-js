@@ -5,10 +5,9 @@ import { AlphaIdsClient } from "../../src";
 import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createRecordedClient } from "./utils/recordedClient";
-import { assertAlphaDynamicConfiguration } from "./utils/alphaIdClientTestUtils";
 import { assert } from "chai";
-
-const sleep = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
+import { FullOperationResponse, OperationOptions } from "@azure/core-client";
+import { DynamicAlphaIdConfiguration } from "../../src";
 
 describe(`AlphaIdsClient - manage configuration`, function () {
   let recorder: Recorder;
@@ -25,25 +24,31 @@ describe(`AlphaIdsClient - manage configuration`, function () {
   });
 
   it("can manage configuration", async function () {
-    await assertAlphaDynamicConfiguration(
-      (operationOptions) => client.upsertDynamicAlphaIdConfiguration(true, operationOptions),
-      true
+    let configuration: DynamicAlphaIdConfiguration;
+    let configurationResponse: FullOperationResponse | undefined;
+    const getConfigurationRequest: OperationOptions = {
+      onResponse: (response) => {
+        configurationResponse = response;
+      },
+    };
+
+    configuration = await client.upsertDynamicAlphaIdConfiguration(true, getConfigurationRequest);
+    assert.isOk(configuration);
+    assert.isTrue(
+      configuration.enabled,
+      `The expected configuration: true is different than the received configuration: false
+       CV: ${configurationResponse?.headers.get("MS-CV")}`
     );
-    // wait 1s to get the updated configuration
-    await sleep(1000);
-    await assertAlphaDynamicConfiguration(
-      (operationOptions) => client.getDynamicAlphaIdConfiguration(operationOptions),
-      true
-    );
-    await assertAlphaDynamicConfiguration(
-      (operationOptions) => client.upsertDynamicAlphaIdConfiguration(false, operationOptions),
-      false
-    );
-    // wait 1s to get the updated configuration
-    await sleep(1000);
-    await assertAlphaDynamicConfiguration(
-      (operationOptions) => client.getDynamicAlphaIdConfiguration(operationOptions),
-      false
+
+    configuration = await client.getDynamicAlphaIdConfiguration(getConfigurationRequest);
+    assert.isOk(configuration);
+
+    configuration = await client.upsertDynamicAlphaIdConfiguration(false, getConfigurationRequest);
+    assert.isOk(configuration);
+    assert.isFalse(
+      configuration.enabled,
+      `The expected configuration: false is different than the received configuration: true 
+       CV: ${configurationResponse?.headers.get("MS-CV")}`
     );
   }).timeout(15000);
 
