@@ -351,7 +351,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       const {
         results,
         nextLink,
-        nextPageParameters,
+        nextPageParameters: resultNextPageParameters,
         semanticPartialResponseReason,
         semanticPartialResponseType,
         ...restResult
@@ -370,9 +370,9 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
           semanticPartialResponseType as `${KnownSemanticPartialResponseType}`,
         continuationToken: this.encodeContinuationToken(
           nextLink,
-          nextPageParameters
-            ? utils.generatedSearchRequestToPublicSearchRequest(nextPageParameters)
-            : nextPageParameters
+          resultNextPageParameters
+            ? utils.generatedSearchRequestToPublicSearchRequest(resultNextPageParameters)
+            : resultNextPageParameters
         ),
       };
 

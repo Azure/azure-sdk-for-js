@@ -285,11 +285,10 @@ export function convertFieldsToPublic(fields: GeneratedSearchField[]): SearchFie
 
   return fields.map<SearchField>((field): SearchField => {
     if (field.type === "Collection(Edm.ComplexType)" || field.type === "Edm.ComplexType") {
-      const result: ComplexField = 
-       {
+      const result: ComplexField = {
         name: field.name,
         type: field.type,
-        fields: convertFieldsToPublic(field.fields!)
+        fields: convertFieldsToPublic(field.fields!),
       };
       return result;
     } else {
@@ -303,7 +302,7 @@ export function convertFieldsToPublic(fields: GeneratedSearchField[]): SearchFie
       const { retrievable, ...restField } = field;
       const hidden = typeof retrievable === "boolean" ? !retrievable : retrievable;
 
-      const result: SimpleField   = {
+      const result: SimpleField = {
         ...restField,
         type,
         hidden,

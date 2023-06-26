@@ -54,10 +54,7 @@ function fun() {
   const c: IsIdentical<ExpectSemanticPartialResponseType, SemanticPartialResponseType> = "pass";
   const d: IsIdentical<ExpectQueryDebugMode, QueryDebugMode> = "pass";
   const e: IsIdentical<ExpectSemanticErrorHandlingMode, SemanticErrorHandlingMode> = "pass";
-  const f: IsIdentical<
-    ExpectSemanticFieldState,
-    SemanticFieldState
-  > = "pass";
+  const f: IsIdentical<ExpectSemanticFieldState, SemanticFieldState> = "pass";
   const g: IsIdentical<ExpectVectorSearchAlgorithmMetric, VectorSearchAlgorithmMetric> = "pass";
 
   return [a, b, c, d, e, f, g];
