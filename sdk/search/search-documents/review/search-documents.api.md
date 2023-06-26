@@ -2152,7 +2152,7 @@ export interface SearchDocumentsResultBase {
 export type SearchField = SimpleField | ComplexField;
 
 // @public
-export type SearchFieldArray<Model extends object = object> = (<T>() => T extends Model ? true : false) extends <T>() => T extends object ? true : false ? string[] | Readonly<string[]> : SelectFields<Model>[] | Readonly<SelectFields<Model>[]>;
+export type SearchFieldArray<Model extends object = object> = (<T>() => T extends Model ? true : false) extends <T>() => T extends object ? true : false ? readonly string[] : readonly SelectFields<Model>[];
 
 // @public
 export type SearchFieldDataType = "Edm.String" | "Edm.Int32" | "Edm.Int64" | "Edm.Double" | "Edm.Boolean" | "Edm.DateTimeOffset" | "Edm.GeographyPoint" | "Collection(Edm.String)" | "Collection(Edm.Int32)" | "Collection(Edm.Int64)" | "Collection(Edm.Double)" | "Collection(Edm.Boolean)" | "Collection(Edm.DateTimeOffset)" | "Collection(Edm.GeographyPoint)" | "Collection(Edm.Single)";
@@ -2581,7 +2581,7 @@ export interface SearchSuggester {
 }
 
 // @public
-export type SelectArray<Fields = never> = [string] extends [Fields] ? Fields[] | Readonly<Fields[]> : (<T>() => T extends Fields ? true : false) extends <T>() => T extends never ? true : false ? string[] | Readonly<string[]> : Fields[] | Readonly<Fields[]>;
+export type SelectArray<Fields = never> = [string] extends [Fields] ? readonly Fields[] : (<T>() => T extends Fields ? true : false) extends <T>() => T extends never ? true : false ? readonly string[] : readonly Fields[];
 
 // @public
 export type SelectFields<Model extends object> = (<T>() => T extends Model ? true : false) extends <T>() => T extends never ? true : false ? string : (<T>() => T extends Model ? true : false) extends <T>() => T extends any ? true : false ? string : (<T>() => T extends Model ? true : false) extends <T>() => T extends object ? true : false ? string : Model extends Array<infer Elem> ? Elem extends object ? SelectFields<Elem> : never : {
