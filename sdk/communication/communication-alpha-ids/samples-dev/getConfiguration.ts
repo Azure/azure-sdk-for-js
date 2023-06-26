@@ -26,7 +26,8 @@ export async function main() {
 
   try {
     // get the applied configuration for the current resource
-    const configuration: DynamicAlphaIdConfiguration = await client.getConfiguration();
+    const configuration: DynamicAlphaIdConfiguration =
+      await client.getDynamicAlphaIdConfiguration();
     usageIsEnabled = configuration.enabled;
   } catch (error) {
     // 403 errors also mean that the usage is disallowed

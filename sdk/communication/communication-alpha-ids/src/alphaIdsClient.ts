@@ -68,7 +68,7 @@ export class AlphaIdsClient {
     this.client.pipeline.addPolicy(authPolicy);
   }
 
-  public getConfiguration(
+  public getDynamicAlphaIdConfiguration(
     options: GetConfigurationOptions = {}
   ): Promise<DynamicAlphaIdConfiguration> {
     return tracingClient.withSpan(
@@ -80,7 +80,7 @@ export class AlphaIdsClient {
     );
   }
 
-  public upsertConfiguration(
+  public upsertDynamicAlphaIdConfiguration(
     enabled: boolean,
     options: UpsertConfigurationOptions = {}
   ): Promise<DynamicAlphaIdConfiguration> {
@@ -96,7 +96,7 @@ export class AlphaIdsClient {
     );
   }
 
-  public listAlphaIds(options: ListAlphaIdsOptions = {}): PagedAsyncIterableIterator<AlphaId> {
+  public getAlphaIds(options: ListAlphaIdsOptions = {}): PagedAsyncIterableIterator<AlphaId> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "AlphaIdsClient-listAlphaIds",
       options

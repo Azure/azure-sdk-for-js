@@ -5,8 +5,10 @@ import { AlphaIdsClient } from "../../src";
 import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createRecordedClient } from "./utils/recordedClient";
-import { ignoreSubscriptionNotEligibleError } from "./utils/alphaIdClientTestUtils";
+import { assertAlphaDynamicConfiguration } from "./utils/alphaIdClientTestUtils";
 import { assert } from "chai";
+
+const sleep = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
 
 describe(`AlphaIdsClient - manage configuration`, function () {
   let recorder: Recorder;
@@ -23,20 +25,24 @@ describe(`AlphaIdsClient - manage configuration`, function () {
   });
 
   it("can manage configuration", async function () {
-    await ignoreSubscriptionNotEligibleError(
-      (operationOptions) => client.upsertConfiguration(true, operationOptions),
+    await assertAlphaDynamicConfiguration(
+      (operationOptions) => client.upsertDynamicAlphaIdConfiguration(true, operationOptions),
       true
     );
-    await ignoreSubscriptionNotEligibleError(
-      (operationOptions) => client.getConfiguration(operationOptions),
+    // wait 1s to get the updated configuration
+    await sleep(1000);
+    await assertAlphaDynamicConfiguration(
+      (operationOptions) => client.getDynamicAlphaIdConfiguration(operationOptions),
       true
     );
-    await ignoreSubscriptionNotEligibleError(
-      (operationOptions) => client.upsertConfiguration(false, operationOptions),
+    await assertAlphaDynamicConfiguration(
+      (operationOptions) => client.upsertDynamicAlphaIdConfiguration(false, operationOptions),
       false
     );
-    await ignoreSubscriptionNotEligibleError(
-      (operationOptions) => client.getConfiguration(operationOptions),
+    // wait 1s to get the updated configuration
+    await sleep(1000);
+    await assertAlphaDynamicConfiguration(
+      (operationOptions) => client.getDynamicAlphaIdConfiguration(operationOptions),
       false
     );
   }).timeout(15000);

@@ -32,15 +32,15 @@ export class AlphaIdsClient {
     constructor(endpoint: string, credential: KeyCredential, options?: AlphaIdsClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: AlphaIdsClientOptions);
     // (undocumented)
-    getConfiguration(options?: GetConfigurationOptions): Promise<DynamicAlphaIdConfiguration>;
+    getAlphaIds(options?: ListAlphaIdsOptions): PagedAsyncIterableIterator<AlphaId>;
+    // (undocumented)
+    getDynamicAlphaIdConfiguration(options?: GetConfigurationOptions): Promise<DynamicAlphaIdConfiguration>;
     // (undocumented)
     getDynamicAlphaIdCountries(options?: GetDynamicAlphaIdCountriesOptions): Promise<Countries>;
     // (undocumented)
     getPreRegisteredAlphaIdCountries(options?: GetPreRegisteredAlphaIdCountriesOptions): Promise<Countries>;
     // (undocumented)
-    listAlphaIds(options?: ListAlphaIdsOptions): PagedAsyncIterableIterator<AlphaId>;
-    // (undocumented)
-    upsertConfiguration(enabled: boolean, options?: UpsertConfigurationOptions): Promise<DynamicAlphaIdConfiguration>;
+    upsertDynamicAlphaIdConfiguration(enabled: boolean, options?: UpsertConfigurationOptions): Promise<DynamicAlphaIdConfiguration>;
 }
 
 // @public
