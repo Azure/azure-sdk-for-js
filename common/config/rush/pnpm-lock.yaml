@@ -129,6 +129,7 @@ specifiers:
   '@rush-temp/arm-machinelearningcompute': file:./projects/arm-machinelearningcompute.tgz
   '@rush-temp/arm-machinelearningexperimentation': file:./projects/arm-machinelearningexperimentation.tgz
   '@rush-temp/arm-managedapplications': file:./projects/arm-managedapplications.tgz
+  '@rush-temp/arm-managednetworkfabric': file:./projects/arm-managednetworkfabric.tgz
   '@rush-temp/arm-managementgroups': file:./projects/arm-managementgroups.tgz
   '@rush-temp/arm-managementpartner': file:./projects/arm-managementpartner.tgz
   '@rush-temp/arm-maps': file:./projects/arm-maps.tgz
@@ -477,6 +478,7 @@ dependencies:
   '@rush-temp/arm-machinelearningcompute': file:projects/arm-machinelearningcompute.tgz
   '@rush-temp/arm-machinelearningexperimentation': file:projects/arm-machinelearningexperimentation.tgz
   '@rush-temp/arm-managedapplications': file:projects/arm-managedapplications.tgz
+  '@rush-temp/arm-managednetworkfabric': file:projects/arm-managednetworkfabric.tgz
   '@rush-temp/arm-managementgroups': file:projects/arm-managementgroups.tgz
   '@rush-temp/arm-managementpartner': file:projects/arm-managementpartner.tgz
   '@rush-temp/arm-maps': file:projects/arm-maps.tgz
@@ -4695,7 +4697,7 @@ packages:
     dependencies:
       semver: 7.5.1
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230623
+      typescript: 5.2.0-dev.20230625
     dev: false
 
   /duplexer3/0.1.5:
@@ -10149,8 +10151,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230623:
-    resolution: {integrity: sha512-IduDyLpZBJFdoFuHAXj0QfHwkT6GXtkki03deolpXnPG4R+wiVZGIyyzdS0lfVbFCVejcINPxxBs7ce6E5mp+A==}
+  /typescript/5.2.0-dev.20230625:
+    resolution: {integrity: sha512-WMaChlTzClBshpE4Btm2fnl2W2Rr3LmC5ZrngUCWO78/ZVdJdbctSBWDcrqI8caZLHQmHwcW3GYedZX2OJoaUg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -14555,6 +14557,34 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-managednetworkfabric.tgz:
+    resolution: {integrity: sha512-BgCsPYcWq6HXwmCa/JuGi00Xdjbz5FjmcAeUgn8ZniG5XTKxC2owZCiqKIGtNj3JIrVrxinTm4z1oUtte2hRwA==, tarball: file:projects/arm-managednetworkfabric.tgz}
+    name: '@rush-temp/arm-managednetworkfabric'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.35.0_@types+node@14.18.47
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.5
+      '@types/node': 14.18.47
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.0.3
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_ehqevut6loiv2j3zjuhqc62mru
+      tslib: 2.5.2
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   file:projects/arm-managementgroups.tgz:
     resolution: {integrity: sha512-ziQJ20/rsbG0/jBi+jIoa6Oj2M4Pa1uprt43/dy9jZd9cKGyaj90MC/XCiDErWwRzV+NbGQmkPJgcZCxjnA/IQ==, tarball: file:projects/arm-managementgroups.tgz}
     name: '@rush-temp/arm-managementgroups'
@@ -17923,7 +17953,7 @@ packages:
     dev: false
 
   file:projects/confidential-ledger.tgz:
-    resolution: {integrity: sha512-PFGdQJmKd/QIjnd0o3Yn9afHedMAGR/QPrL0HYCL/SvYVppbLhNmfiuCh3jAD0Pa7hz1M+JzTERWStBWCzQ2gg==, tarball: file:projects/confidential-ledger.tgz}
+    resolution: {integrity: sha512-cxXcoP19Ey/WDN+gBSbUX3c4qEjxEUb6xCNwYTPweJiPZyNoVpDzkkix60JgoGdj1A61jeMzvp5j7RhDXunoXg==, tarball: file:projects/confidential-ledger.tgz}
     name: '@rush-temp/confidential-ledger'
     version: 0.0.0
     dependencies:
@@ -17959,11 +17989,7 @@ packages:
       tslib: 2.5.2
       typescript: 5.0.4
     transitivePeerDependencies:
-      - bufferutil
-      - debug
-      - encoding
       - supports-color
-      - utf-8-validate
     dev: false
 
   file:projects/container-registry.tgz:

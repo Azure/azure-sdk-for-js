@@ -1,0 +1,2000 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.ManagedNetworkFabric/operations?api-version=2023-02-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-managednetworkfabric/1.0.0-beta.1 core-rest-pipeline/1.11.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "3e95d3d4-5389-4949-857d-dbd0125e845b"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 26 Jun 2023 06:31:54 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "9d46c964-660d-4bf4-a6f8-d0816612e07a",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-tenant-reads": "11999",
+        "x-ms-request-id": "3e3fdaa3-d43c-4c7b-8872-eae8c73442c8",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230626T063155Z:9d46c964-660d-4bf4-a6f8-d0816612e07a"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "name": "Microsoft.ManagedNetworkFabric/Operations/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "Operations",
+              "operation": "read_Operations",
+              "description": "read Operations"
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkFabricControllers/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkFabricControllers",
+              "operation": "NetworkFabricControllers_Get",
+              "description": "Shows the provisioning status of Network Fabric Controller."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkFabricControllers/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkFabricControllers",
+              "operation": "NetworkFabricControllers_Create",
+              "description": "Creates a Network Fabric Controller."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkFabricControllers/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkFabricControllers",
+              "operation": "NetworkFabricControllers_Delete",
+              "description": "Deletes the Network Fabric Controller resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkFabricControllers/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkFabricControllers",
+              "operation": "NetworkFabricControllers_Update",
+              "description": "Updates are currently not supported for the Network Fabric Controller resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkFabricControllers/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkFabricControllers",
+              "operation": "NetworkFabricControllers_ListByResourceGroup",
+              "description": "Lists all the NetworkFabricControllers thats available in the resource group."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkFabricControllers/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkFabricControllers",
+              "operation": "NetworkFabricControllers_ListBySubscription",
+              "description": "Lists all the NetworkFabricControllers by subscription."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkFabricControllers/enableWorkloadManagementNetwork/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkFabricControllers",
+              "operation": "NetworkFabricControllers_enableWorkloadManagementNetwork",
+              "description": "Enables the workloadManagementNetwork (Tenant Network)."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkFabricControllers/disableWorkloadManagementNetwork/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkFabricControllers",
+              "operation": "NetworkFabricControllers_disableWorkloadManagementNetwork",
+              "description": "Disables the workloadManagementNetwork (Tenant Network)."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/Locations/OperationStatuses/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "Locations/OperationStatuses",
+              "operation": "read_OperationStatuses",
+              "description": "read OperationStatuses"
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/Locations/OperationStatuses/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "Locations/OperationStatuses",
+              "operation": "write_OperationStatuses",
+              "description": "write OperationStatuses"
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkFabrics/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkFabrics",
+              "operation": "NetworkFabrics_Get",
+              "description": "Get Network Fabric resource details."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkFabrics/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkFabrics",
+              "operation": "NetworkFabrics_Create",
+              "description": "Create Network Fabric resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkFabrics/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkFabrics",
+              "operation": "NetworkFabrics_Delete",
+              "description": "Delete Network Fabric resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkFabrics/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkFabrics",
+              "operation": "NetworkFabrics_Update",
+              "description": "Update certain properties of the Network Fabric resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkFabrics/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkFabrics",
+              "operation": "NetworkFabrics_ListByResourceGroup",
+              "description": "List all the Network Fabric resources in the given resource group."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkFabrics/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkFabrics",
+              "operation": "NetworkFabrics_ListBySubscription",
+              "description": "List all the Network Fabric resources in the given subscription."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkFabrics/validateConfiguration/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkFabrics",
+              "operation": "NetworkFabrics_validateConfiguration",
+              "description": "Validates the current configuration to ensure the provision action succeeds."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkFabrics/provision/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkFabrics",
+              "operation": "NetworkFabrics_provision",
+              "description": "Provisions the underlying resources in the given Network Fabric instance."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkFabrics/deprovision/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkFabrics",
+              "operation": "NetworkFabrics_deprovision",
+              "description": "Deprovisions the underlying resources in the given Network Fabric instance."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkFabrics/restoreConfig/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkFabrics",
+              "operation": "NetworkFabrics_restoreConfig",
+              "description": "Restores the configuration to last known good config."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkFabrics/upgrade/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkFabrics",
+              "operation": "NetworkFabrics_upgrade",
+              "description": "Upgrades the underlying resources in the given Network Fabric Instance."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkFabrics/getManagementNetworkConfigurationStatus/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkFabrics",
+              "operation": "NetworkFabrics_getManagementNetworkConfigurationStatus",
+              "description": "Updates the status of the ManagementNetworkConfiguration."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkFabrics/enableNniLayer2/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkFabrics",
+              "operation": "NetworkFabrics_enableNniLayer2",
+              "description": "Enables layer 2 configuration for the given Network Fabric."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkFabrics/enableNniLayer3/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkFabrics",
+              "operation": "NetworkFabrics_enableNniLayer3",
+              "description": "Enables layer 3 configuration for the given Network Fabric."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkFabrics/disableNniLayer2/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkFabrics",
+              "operation": "NetworkFabrics_disableNniLayer2",
+              "description": "Disables layer 2 configuration for the given Network Fabric."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkFabrics/disableNniLayer3/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkFabrics",
+              "operation": "NetworkFabrics_disableNniLayer3",
+              "description": "Disables layer 3 configuration for the given Network Fabric."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkFabrics/getNniStatus/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkFabrics",
+              "operation": "NetworkFabrics_getNniStatus",
+              "description": "Provides the Nni status of layer2 and layer3 networks for the given Network Fabric"
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkRacks/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkRacks",
+              "operation": "NetworkRacks_Get",
+              "description": "Get Network Rack resource details."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkRacks/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkRacks",
+              "operation": "NetworkRacks_Create",
+              "description": "Create Network Rack resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkRacks/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkRacks",
+              "operation": "NetworkRacks_Delete",
+              "description": "Delete Network Rack resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkRacks/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkRacks",
+              "operation": "NetworkRacks_Update",
+              "description": "Update certain properties of the Network Rack resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkRacks/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkRacks",
+              "operation": "NetworkRacks_ListByResourceGroup",
+              "description": "List all Network Rack resources in the given resource group."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkRacks/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkRacks",
+              "operation": "NetworkRacks_ListBySubscription",
+              "description": "List all Network Rack resources in the given subscription"
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkDevices/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkDevices",
+              "operation": "NetworkDevices_Get",
+              "description": "Get the Network Device resource details."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkDevices/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkDevices",
+              "operation": "NetworkDevices_Create",
+              "description": "Create a Network Device resource"
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkDevices/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkDevices",
+              "operation": "NetworkDevices_Delete",
+              "description": "Delete the Network Device resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkDevices/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkDevices",
+              "operation": "NetworkDevices_Update",
+              "description": "Update certain properties of the Network Device resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkDevices/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkDevices",
+              "operation": "NetworkDevices_ListByResourceGroup",
+              "description": "List all the Network Device resources in a given resource group."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkDevices/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkDevices",
+              "operation": "NetworkDevices_ListBySubscription",
+              "description": "List all the Network Device resources in a given subscription."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkDevices/reboot/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkDevices",
+              "operation": "NetworkDevices_reboot",
+              "description": "Reboot the Network Device."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkDevices/restoreConfig/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkDevices",
+              "operation": "NetworkDevices_restoreConfig",
+              "description": "Restore the configuration of the Network Device resource to last known good configuration."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkDevices/updateVersion/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkDevices",
+              "operation": "NetworkDevices_updateVersion",
+              "description": "Update the SKU version of the Network Device resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkDevices/generateSupportPackage/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkDevices",
+              "operation": "NetworkDevices_generateSupportPackage",
+              "description": "Generate Support Package for the given Network Device."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkDevices/updatePowerCycle/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkDevices",
+              "operation": "NetworkDevices_updatePowerCycle",
+              "description": "Update PDU power cycle of the Network Device."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkDevices/getStatus/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkDevices",
+              "operation": "NetworkDevices_getStatus",
+              "description": "Get the running status of the Network Device."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkDevices/getStaticInterfaceMaps/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkDevices",
+              "operation": "NetworkDevices_getStaticInterfaceMaps",
+              "description": "Get the static interface maps for the given Network Device."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkDevices/getDynamicInterfaceMaps/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkDevices",
+              "operation": "NetworkDevices_getDynamicInterfaceMaps",
+              "description": "Get the dynamic interface maps for the given Network Device."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkDevices/networkInterfaces/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkDevices/networkInterfaces",
+              "operation": "NetworkInterfaces_Get",
+              "description": "Get the Network Interface resource details."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkDevices/networkInterfaces/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkDevices/networkInterfaces",
+              "operation": "NetworkInterfaces_Create",
+              "description": "Create a Network Interface resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkDevices/networkInterfaces/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkDevices/networkInterfaces",
+              "operation": "NetworkInterfaces_Delete",
+              "description": "Delete the Network Interface resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkDevices/networkInterfaces/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkDevices/networkInterfaces",
+              "operation": "NetworkInterfaces_Update",
+              "description": "Update certain properties of the Network Interface resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkDevices/networkInterfaces/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkDevices/networkInterfaces",
+              "operation": "NetworkInterfaces_List",
+              "description": "List all the Network Interface resources in a given resource group."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkDevices/networkInterfaces/getStatus/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkDevices/networkInterfaces",
+              "operation": "NetworkInterfaces_getStatus",
+              "description": "Get the running status of the Network Interface."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkDevices/networkInterfaces/updateAdminState/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkDevices/networkInterfaces",
+              "operation": "NetworkInterfaces_updateAdminState",
+              "description": "Update the admin state of the Network Interface."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkDevices/networkInterfaces/updateAdministrativeState/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkDevices/networkInterfaces",
+              "operation": "NetworkInterfaces_updateAdministrativeState",
+              "description": "Update the admin state of the Network Interface."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l2IsolationDomains/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l2IsolationDomains",
+              "operation": "L2IsolationDomains_Get",
+              "description": "Implements L2 Isolation Domain GET method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l2IsolationDomains/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l2IsolationDomains",
+              "operation": "L2IsolationDomains_Create",
+              "description": "Creates layer 2 network connectivity between compute nodes within a rack and across racks.The configuration is applied on the devices only after the isolation domain is enabled."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l2IsolationDomains/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l2IsolationDomains",
+              "operation": "L2IsolationDomains_Delete",
+              "description": "Deletes layer 2 connectivity between compute nodes by managed by named L2 Isolation name."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l2IsolationDomains/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l2IsolationDomains",
+              "operation": "L2IsolationDomains_Update",
+              "description": "API to update certain properties of the L2 Isolation Domain resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l2IsolationDomains/updateAdministrativeState/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l2IsolationDomains",
+              "operation": "L2IsolationDomains_updateAdministrativeState",
+              "description": "Enables isolation domain across the fabric or on specified racks."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l2IsolationDomains/clearArpTable/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l2IsolationDomains",
+              "operation": "L2IsolationDomains_clearArpTable",
+              "description": "Clears ARP tables for this Isolation Domain."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l2IsolationDomains/clearNeighborTable/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l2IsolationDomains",
+              "operation": "L2IsolationDomains_clearNeighborTable",
+              "description": "Clears IPv6 neighbors for this Isolation Domain."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l2IsolationDomains/getArpEntries/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l2IsolationDomains",
+              "operation": "L2IsolationDomains_getArpEntries",
+              "description": "Clears IPv6 neighbors for this Isolation Domain."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l2IsolationDomains/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l2IsolationDomains",
+              "operation": "L2IsolationDomains_ListByResourceGroup",
+              "description": "Displays L2IsolationDomains list by resource group GET method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l2IsolationDomains/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l2IsolationDomains",
+              "operation": "L2IsolationDomains_ListBySubscription",
+              "description": "Displays L2IsolationDomains list by subscription GET method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains",
+              "operation": "L3IsolationDomains_Get",
+              "description": "Retrieves details of this L3 Isolation Domain."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains",
+              "operation": "L3IsolationDomains_Create",
+              "description": "Create isolation domain resources for layer 3 connectivity between compute nodes and for communication with external services .This configuration is applied on the devices only after the creation of networks is completed and isolation domain is enabled. "
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains",
+              "operation": "L3IsolationDomains_Delete",
+              "description": "Deletes layer 3 connectivity between compute nodes by managed by named L3 Isolation name."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains",
+              "operation": "L3IsolationDomains_Update",
+              "description": "API to update certain properties of the L3 Isolation Domain resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains",
+              "operation": "L3IsolationDomains_ListByResourceGroup",
+              "description": "Displays L3IsolationDomains list by resource group GET method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains",
+              "operation": "L3IsolationDomains_ListBySubscription",
+              "description": "Displays L3IsolationDomains list by subscription GET method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/updateAdminState/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains",
+              "operation": "L3IsolationDomains_updateAdminState",
+              "description": "Enables racks for this Isolation Domain."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/updateAdministrativeState/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains",
+              "operation": "L3IsolationDomains_updateAdministrativeState",
+              "description": "Enables racks for this Isolation Domain."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/updateOptionBAdminState/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains",
+              "operation": "L3IsolationDomains_updateOptionBAdminState",
+              "description": "Update administrative state of option B on CE devices"
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/updateOptionBAdministrativeState/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains",
+              "operation": "L3IsolationDomains_updateOptionBAdministrativeState",
+              "description": "Update administrative state of option B on CE devices"
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/clearArpTable/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains",
+              "operation": "L3IsolationDomains_clearArpTable",
+              "description": "Clears ARP tables for this Isolation Domain."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/clearNeighborTable/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains",
+              "operation": "L3IsolationDomains_clearNeighborTable",
+              "description": "Clears IPv6 neighbor tables for this Isolation Domain."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/accessControlLists/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "accessControlLists",
+              "operation": "AccessControlLists_Get",
+              "description": "Implements Access Control List GET method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/accessControlLists/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "accessControlLists",
+              "operation": "AccessControlLists_Create",
+              "description": "Implements Access Control List PUT method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/accessControlLists/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "accessControlLists",
+              "operation": "AccessControlLists_Delete",
+              "description": "Implements Access Control List DELETE method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/accessControlLists/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "accessControlLists",
+              "operation": "AccessControlLists_Update",
+              "description": "API to update certain properties of the Access Control List resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/accessControlLists/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "accessControlLists",
+              "operation": "AccessControlLists_ListByResourceGroup",
+              "description": "Implements AccessControlLists list by resource group GET method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/accessControlLists/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "accessControlLists",
+              "operation": "AccessControlLists_ListBySubscription",
+              "description": "Implements AccessControlLists list by subscription GET method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/ipCommunityLists/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "ipCommunityLists",
+              "operation": "IpCommunityLists_Get",
+              "description": "Implements Ip Community List GET method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/ipCommunityLists/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "ipCommunityLists",
+              "operation": "IpCommunityLists_Create",
+              "description": "Implements Ip Community List PUT method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/ipCommunityLists/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "ipCommunityLists",
+              "operation": "IpCommunityLists_Delete",
+              "description": "Implements Ip Community List DELETE method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/ipCommunityLists/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "ipCommunityLists",
+              "operation": "IpCommunityLists_Update",
+              "description": "API to update certain properties of the Ip Community List resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/ipCommunityLists/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "ipCommunityLists",
+              "operation": "IpCommunityLists_ListByResourceGroup",
+              "description": "Implements IpCommunityLists list by resource group GET method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/ipCommunityLists/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "ipCommunityLists",
+              "operation": "IpCommunityLists_ListBySubscription",
+              "description": "Implements IpCommunityLists list by subscription GET method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/ipPrefixLists/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "ipPrefixLists",
+              "operation": "IpPrefixLists_Get",
+              "description": "Implements Ip Prefix List GET method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/ipPrefixLists/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "ipPrefixLists",
+              "operation": "IpPrefixLists_Create",
+              "description": "Implements Ip Prefix List PUT method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/ipPrefixLists/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "ipPrefixLists",
+              "operation": "IpPrefixLists_Delete",
+              "description": "Implements Ip Prefix List DELETE method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/ipPrefixLists/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "ipPrefixLists",
+              "operation": "IpPrefixLists_Update",
+              "description": "API to update certain properties of the Ip Prefix List resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/ipPrefixLists/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "ipPrefixLists",
+              "operation": "IpPrefixLists_ListByResourceGroup",
+              "description": "Implements IpPrefixLists list by resource group GET method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/ipPrefixLists/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "ipPrefixLists",
+              "operation": "IpPrefixLists_ListBySubscription",
+              "description": "Implements IpPrefixLists list by subscription GET method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/routePolicies/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "routePolicies",
+              "operation": "RoutePolicies_Get",
+              "description": "Implements Route Policy GET method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/routePolicies/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "routePolicies",
+              "operation": "RoutePolicies_Create",
+              "description": "Implements Route Policy PUT method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/routePolicies/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "routePolicies",
+              "operation": "RoutePolicies_Delete",
+              "description": "Implements Route Policy DELETE method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/routePolicies/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "routePolicies",
+              "operation": "RoutePolicies_Update",
+              "description": "API to update certain properties of the Route Policy resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/routePolicies/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "routePolicies",
+              "operation": "RoutePolicies_ListByResourceGroup",
+              "description": "Implements RoutePolicies list by resource group GET method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/routePolicies/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "routePolicies",
+              "operation": "RoutePolicies_ListBySubscription",
+              "description": "Implements RoutePolicies list by subscription GET method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/externalNetworks/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains/externalNetworks",
+              "operation": "ExternalNetworks_Get",
+              "description": "Implements ExternalNetworks GET method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/externalNetworks/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains/externalNetworks",
+              "operation": "ExternalNetworks_Create",
+              "description": "Creates ExternalNetwork PUT method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/externalNetworks/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains/externalNetworks",
+              "operation": "ExternalNetworks_Delete",
+              "description": "Implements ExternalNetworks DELETE method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/externalNetworks/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains/externalNetworks",
+              "operation": "ExternalNetworks_Update",
+              "description": "API to update certain properties of the ExternalNetworks resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/externalNetworks/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains/externalNetworks",
+              "operation": "ExternalNetworks_List",
+              "description": "Implements External Networks list by resource group GET method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/externalNetworks/updateAdminState/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains/externalNetworks",
+              "operation": "ExternalNetworks_updateAdminState",
+              "description": "Executes update operation to enable or disable administrative State for externalNetwork."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/externalNetworks/updateAdministrativeState/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains/externalNetworks",
+              "operation": "ExternalNetworks_updateAdministrativeState",
+              "description": "Executes update operation to enable or disable administrative State for externalNetwork."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/externalNetworks/updateBgpState/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains/externalNetworks",
+              "operation": "ExternalNetworks_updateBgpState",
+              "description": "Update BGP for externalNetwork."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/externalNetworks/updateBgpAdministrativeState/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains/externalNetworks",
+              "operation": "ExternalNetworks_updateBgpAdministrativeState",
+              "description": "Update BGP for externalNetwork."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/externalNetworks/updateBfdForBgpAdministrativeState/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains/externalNetworks",
+              "operation": "ExternalNetworks_updateBfdForBgpAdministrativeState",
+              "description": "Update BfdForBgp for externalNetwork."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/externalNetworks/updateBfdForBgpState/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains/externalNetworks",
+              "operation": "ExternalNetworks_updateBfdForBgpState",
+              "description": "Update BfdForBgp for externalNetwork."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/externalNetworks/clearIpv6Neighbors/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains/externalNetworks",
+              "operation": "ExternalNetworks_clearIpv6Neighbors",
+              "description": "clearIpv6Neighbors for externalNetwork."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/externalNetworks/clearArpEntries/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains/externalNetworks",
+              "operation": "ExternalNetworks_clearArpEntries",
+              "description": "clearArpEntries for externalNetwork."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/internalNetworks/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains/internalNetworks",
+              "operation": "InternalNetworks_Get",
+              "description": "Gets a InternalNetworks."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/internalNetworks/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains/internalNetworks",
+              "operation": "InternalNetworks_Create",
+              "description": "Creates InternalNetwork PUT method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/internalNetworks/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains/internalNetworks",
+              "operation": "InternalNetworks_Delete",
+              "description": "Implements InternalNetworks DELETE method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/internalNetworks/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains/internalNetworks",
+              "operation": "InternalNetworks_Update",
+              "description": "Updates a InternalNetworks."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/internalNetworks/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains/internalNetworks",
+              "operation": "InternalNetworks_List",
+              "description": "Displays InternalNetworks list by resource group GET method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/internalNetworks/updateAdminState/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains/internalNetworks",
+              "operation": "InternalNetworks_updateAdminState",
+              "description": "Update Administrative state of  InternalNetworks on resources referred by their resource ids."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/internalNetworks/updateAdministrativeState/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains/internalNetworks",
+              "operation": "InternalNetworks_updateAdministrativeState",
+              "description": "Update Administrative state of  InternalNetworks on resources referred by their resource ids."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/internalNetworks/updateBgpState/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains/internalNetworks",
+              "operation": "InternalNetworks_updateBgpState",
+              "description": "Update BGP state for internalNetwork. Allowed only on edge devices."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/internalNetworks/updateBgpAdministrativeState/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains/internalNetworks",
+              "operation": "InternalNetworks_updateBgpAdministrativeState",
+              "description": "Update BGP state for internalNetwork. Allowed only on edge devices."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/internalNetworks/updateBfdForBgpAdministrativeState/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains/internalNetworks",
+              "operation": "InternalNetworks_updateBfdForBgpAdministrativeState",
+              "description": "Update BfdForBgp for internalNetwork."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/internalNetworks/updateBfdForBgpState/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains/internalNetworks",
+              "operation": "InternalNetworks_updateBfdForBgpState",
+              "description": "Update BfdForBgp for internalNetwork."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/internalNetworks/clearIpv6Neighbors/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains/internalNetworks",
+              "operation": "InternalNetworks_clearIpv6Neighbors",
+              "description": "clearIpv6Neighbors for internalNetwork."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/internalNetworks/clearArpEntries/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains/internalNetworks",
+              "operation": "InternalNetworks_clearArpEntries",
+              "description": "clearArpEntries for internalNetwork."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/internalNetworks/updateBfdForStaticRouteAdministrativeState/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains/internalNetworks",
+              "operation": "InternalNetworks_updateBfdForStaticRouteAdministrativeState",
+              "description": "Update BfdForStaticRoutes for internalNetwork."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3IsolationDomains/internalNetworks/updateBfdForStaticRoutesState/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3IsolationDomains/internalNetworks",
+              "operation": "InternalNetworks_updateBfdForStaticRoutesState",
+              "description": "Update BfdForStaticRoutes for internalNetwork."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/register/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "Microsoft.ManagedNetworkFabric",
+              "operation": "Register the Microsoft.ManagedNetworkFabric",
+              "description": "Register the subscription for Microsoft.ManagedNetworkFabric"
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/unregister/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "Microsoft.ManagedNetworkFabric",
+              "operation": "Unregister the Microsoft.ManagedNetworkFabric",
+              "description": "Unregister the subscription for Microsoft.ManagedNetworkFabric"
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkfabrics/nfadevices/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkfabrics/nfadevices",
+              "operation": "NfaDevices_Get",
+              "description": "Get the NfaDevices resource details."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkfabrics/nfadevices/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkfabrics/nfadevices",
+              "operation": "NfaDevices_Create",
+              "description": "Create a NfaDevice resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkfabrics/nfadevices/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkfabrics/nfadevices",
+              "operation": "NfaDevices_Delete",
+              "description": "Delete the NfaDevice resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkfabrics/fileinjects/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkfabrics/fileinjects",
+              "operation": "FileInjects_Get",
+              "description": "Get the FileInject resource details."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkfabrics/fileinjects/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkfabrics/fileinjects",
+              "operation": "FileInjects_Create",
+              "description": "Create a FileInject resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkfabrics/fileinjects/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkfabrics/fileinjects",
+              "operation": "FileInjects_Delete",
+              "description": "Delete the FileInject resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkfabrics/ocrawconfigs/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkfabrics/ocrawconfigs",
+              "operation": "OcRawConfigs_Get",
+              "description": "Get the OcRawConfig resource details."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkfabrics/ocrawconfigs/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkfabrics/ocrawconfigs",
+              "operation": "OcRawConfigs_Create",
+              "description": "Create a OcRawConfig resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkfabrics/ocrawconfigs/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkfabrics/ocrawconfigs",
+              "operation": "OcRawConfigs_Delete",
+              "description": "Delete the OcRawConfig resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkfabrics/sshcommands/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkfabrics/sshcommands",
+              "operation": "SSHCommands_Get",
+              "description": "Get the SSHCommand resource details."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkfabrics/sshcommands/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkfabrics/sshcommands",
+              "operation": "SSHCommands_Create",
+              "description": "Create a SSHCommand resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkfabrics/sshcommands/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkfabrics/sshcommands",
+              "operation": "SSHCommands_Delete",
+              "description": "Delete the SSHCommand resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkfabrics/gnoioperations/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkfabrics/gnoioperations",
+              "operation": "GNOIOperations_Get",
+              "description": "Get the GNOIOperation resource details."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkfabrics/gnoioperations/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkfabrics/gnoioperations",
+              "operation": "GNOIOperations_Create",
+              "description": "Create a GNOIOperation resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkfabrics/gnoioperations/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkfabrics/gnoioperations",
+              "operation": "GNOIOperations_Delete",
+              "description": "Delete the GNOIOperation resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkfabrics/networkfabricinfos/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkfabrics/networkfabricinfos",
+              "operation": "NetworkFabricInfos_Get",
+              "description": "Get the NetworkFabricInfo resource details."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkfabrics/networkfabricinfos/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkfabrics/networkfabricinfos",
+              "operation": "NetworkFabricInfos_Create",
+              "description": "Create a NetworkFabricInfo resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkfabrics/networkfabricinfos/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkfabrics/networkfabricinfos",
+              "operation": "NetworkFabricInfos_Delete",
+              "description": "Delete the NetworkFabricInfo resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkfabrics/networkclouds2s/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkfabrics/networkclouds2s",
+              "operation": "NetworkCloudS2S_Get",
+              "description": "Get the NetworkCloudS2S resource details."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkfabrics/networkclouds2s/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkfabrics/networkclouds2s",
+              "operation": "NetworkCloudS2S_Create",
+              "description": "Create a NetworkCloudS2S resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkfabrics/networkclouds2s/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkfabrics/networkclouds2s",
+              "operation": "NetworkCloudS2S_Delete",
+              "description": "Delete the NetworkCloudS2S resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l2isolationdomains/networkclouds2s/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l2isolationdomains/networkclouds2s",
+              "operation": "NetworkCloudS2S_Get",
+              "description": "Get the NetworkCloudS2S resource details."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l2isolationdomains/networkclouds2s/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l2isolationdomains/networkclouds2s",
+              "operation": "NetworkCloudS2S_Create",
+              "description": "Create a NetworkCloudS2S resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l2isolationdomains/networkclouds2s/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l2isolationdomains/networkclouds2s",
+              "operation": "NetworkCloudS2S_Delete",
+              "description": "Delete the NetworkCloudS2S resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3isolationdomains/networkclouds2s/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3isolationdomains/networkclouds2s",
+              "operation": "NetworkCloudS2S_Get",
+              "description": "Get the NetworkCloudS2S resource details."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3isolationdomains/networkclouds2s/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3isolationdomains/networkclouds2s",
+              "operation": "NetworkCloudS2S_Create",
+              "description": "Create a NetworkCloudS2S resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3isolationdomains/networkclouds2s/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3isolationdomains/networkclouds2s",
+              "operation": "NetworkCloudS2S_Delete",
+              "description": "Delete the NetworkCloudS2S resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkfabriccontrollers/networkcloudcontrollers/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkfabriccontrollers/networkcloudcontrollers",
+              "operation": "NetworkCloudControllers_Get",
+              "description": "Get the NetworkCloudController resource details."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkfabriccontrollers/networkcloudcontrollers/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkfabriccontrollers/networkcloudcontrollers",
+              "operation": "NetworkCloudControllers_Create",
+              "description": "Create a NetworkCloudController resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkfabriccontrollers/networkcloudcontrollers/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkfabriccontrollers/networkcloudcontrollers",
+              "operation": "NetworkCloudControllers_Delete",
+              "description": "Delete the NetworkCloudController resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkfabriccontrollers/gateway/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkfabriccontrollers/gateway",
+              "operation": "Gateway_Get",
+              "description": "Get the Gateway resource details."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkfabriccontrollers/gateway/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkfabriccontrollers/gateway",
+              "operation": "Gateway_Create",
+              "description": "Create a Gateway resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkfabriccontrollers/gateway/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkfabriccontrollers/gateway",
+              "operation": "Gateway_Delete",
+              "description": "Delete the Gateway resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkfabriccontrollers/networkcloudcontrollers/assignRole/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkfabriccontrollers/networkcloudcontrollers",
+              "operation": "NetworkCloudControllers_assignRole",
+              "description": "Assigns role to the network fabric controller managed resource group resources."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l2isolationdomains/l2isolationdomaininfos/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l2isolationdomains/l2isolationdomaininfos",
+              "operation": "L2isolationDomainInfos_Get",
+              "description": "Get the l2isolationdomaininfos resource details."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l2isolationdomains/l2isolationdomaininfos/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l2isolationdomains/l2isolationdomaininfos",
+              "operation": "L2isolationDomainInfos_Create",
+              "description": "Create a L2isolationDomainInfos resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l2isolationdomains/l2isolationdomaininfos/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l2isolationdomains/l2isolationdomaininfos",
+              "operation": "L2isolationDomainInfos_Delete",
+              "description": "Delete the L2isolationDomainInfos resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3isolationdomains/l3isolationdomaininfos/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3isolationdomains/l3isolationdomaininfos",
+              "operation": "L3isolationDomainInfos_Get",
+              "description": "Get the L3isolationDomainInfos resource details."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3isolationdomains/l3isolationdomaininfos/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3isolationdomains/l3isolationdomaininfos",
+              "operation": "L3isolationDomainInfos_Create",
+              "description": "Create a L3isolationDomainInfos resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/l3isolationdomains/l3isolationdomaininfos/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "l3isolationdomains/l3isolationdomaininfos",
+              "operation": "L3isolationDomainInfos_Delete",
+              "description": "Delete the L3isolationDomainInfos resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkFabrics/networkToNetworkInterconnects/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkFabrics/networkToNetworkInterconnects",
+              "operation": "NetworkToNetworkInterconnects_Get",
+              "description": "Implements NetworkToNetworkInterconnects GET method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkFabrics/networkToNetworkInterconnects/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkFabrics/networkToNetworkInterconnects",
+              "operation": "NetworkToNetworkInterconnects_Create",
+              "description": "Configuration used to setup CE-PE connectivity PUT Method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkFabrics/networkToNetworkInterconnects/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkFabrics/networkToNetworkInterconnects",
+              "operation": "NetworkToNetworkInterconnects_Delete",
+              "description": "Implements NetworkToNetworkInterconnects DELETE method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/ipCommunities/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "ipCommunities",
+              "operation": "IpCommunities_Get",
+              "description": "Implements an IP Community GET method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/ipCommunities/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "ipCommunities",
+              "operation": "IpCommunities_Create",
+              "description": "Implements an IP Community PUT method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/ipCommunities/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "ipCommunities",
+              "operation": "IpCommunities_Delete",
+              "description": "Implements IP Community DELETE method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/ipCommunities/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "ipCommunities",
+              "operation": "IpCommunities_Update",
+              "description": "API to update certain properties of the IP Community resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/ipCommunities/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "ipCommunities",
+              "operation": "IpCommunities_ListByResourceGroup",
+              "description": "Implements IpCommunities list by resource group GET method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/ipCommunities/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "ipCommunities",
+              "operation": "IpCommunities_ListBySubscription",
+              "description": "Implements IpCommunities list by subscription GET method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/ipExtendedCommunities/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "ipExtendedCommunities",
+              "operation": "IpExtendedCommunities_Get",
+              "description": "Implements IP Extended Community GET method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/ipExtendedCommunities/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "ipExtendedCommunities",
+              "operation": "IpExtendedCommunities_Create",
+              "description": "Implements IP Extended Community PUT method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/ipExtendedCommunities/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "ipExtendedCommunities",
+              "operation": "IpExtendedCommunities_Delete",
+              "description": "Implements IP Extended Community DELETE method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/ipExtendedCommunities/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "ipExtendedCommunities",
+              "operation": "IpExtendedCommunities_Update",
+              "description": "API to update certain properties of the IP Extended Community resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/ipExtendedCommunities/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "ipExtendedCommunities",
+              "operation": "IpExtendedCommunities_ListByResourceGroup",
+              "description": "Implements IpExtendedCommunities list by resource group GET method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/ipExtendedCommunities/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "ipExtendedCommunities",
+              "operation": "IpExtendedCommunities_ListBySubscription",
+              "description": "Implements IpExtendedCommunities list by subscription GET method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/ipPrefixes/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "ipPrefixes",
+              "operation": "IpPrefixes_Get",
+              "description": "Implements IP Prefix GET method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/ipPrefixes/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "ipPrefixes",
+              "operation": "IpPrefixes_Create",
+              "description": "Implements IP Prefix PUT method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/ipPrefixes/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "ipPrefixes",
+              "operation": "IpPrefixes_Delete",
+              "description": "Implements IP Prefix DELETE method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/ipPrefixes/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "ipPrefixes",
+              "operation": "IpPrefixes_Update",
+              "description": "API to update certain properties of the IP Prefix resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/ipPrefixes/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "ipPrefixes",
+              "operation": "IpPrefixes_ListByResourceGroup",
+              "description": "Implements IpPrefixes list by resource group GET method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/ipPrefixes/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "ipPrefixes",
+              "operation": "IpPrefixes_ListBySubscription",
+              "description": "Implements IpPrefixes list by subscription GET method."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkfabrics/gnoimaintenances/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkfabrics/gnoimaintenances",
+              "operation": "GNOIMaintenances_Get",
+              "description": "Get the GNOIMaintenance resource details."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkfabrics/gnoimaintenances/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkfabrics/gnoimaintenances",
+              "operation": "GNOIMaintenances_Create",
+              "description": "Create a GNOIMaintenance resource."
+            }
+          },
+          {
+            "name": "Microsoft.ManagedNetworkFabric/networkfabrics/gnoimaintenances/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.ManagedNetworkFabric",
+              "resource": "networkfabrics/gnoimaintenances",
+              "operation": "GNOIMaintenances_Delete",
+              "description": "Delete the GNOIMaintenance resource."
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}
