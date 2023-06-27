@@ -3035,234 +3035,6 @@ export interface ManagedServerDnsAliasAcquisition {
   oldManagedServerDnsAliasResourceId: string;
 }
 
-/** A list of SQL Vulnerability Assessments baseline set. */
-export interface DatabaseSqlVulnerabilityAssessmentBaselineSetListResult {
-  /**
-   * Array of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: DatabaseSqlVulnerabilityAssessmentBaselineSet[];
-  /**
-   * Link to retrieve next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** A list of SQL Vulnerability Assessments rule baseline. */
-export interface DatabaseSqlVulnerabilityAssessmentRuleBaselineListResult {
-  /**
-   * Array of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: DatabaseSqlVulnerabilityAssessmentRuleBaseline[];
-  /**
-   * Link to retrieve next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** A list of vulnerability assessment scan results. */
-export interface SQLVulnerabilityAssessmentScanListResult {
-  /**
-   * Array of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: SqlVulnerabilityAssessmentScanResults[];
-  /**
-   * Link to retrieve next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** SQL Vulnerability Assessment remediation Details. */
-export interface Remediation {
-  /**
-   * SQL Vulnerability Assessment remediation description.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
-  /**
-   * SQL Vulnerability Assessment remediation script.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly scripts?: string[];
-  /**
-   * SQL Vulnerability Assessment is remediation automated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly automated?: boolean;
-  /**
-   * SQL Vulnerability Assessment optional link to remediate in Azure Portal.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly portalLink?: string;
-}
-
-/** SQL Vulnerability Assessment baseline adjusted results */
-export interface BaselineAdjustedResult {
-  /**
-   * SQL Vulnerability Assessment baseline details
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly baseline?: Baseline;
-  /**
-   * SQL Vulnerability Assessment baseline status
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: RuleStatus;
-  /**
-   * SQL Vulnerability Assessment results that are not in baseline
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultsNotInBaseline?: string[][];
-  /**
-   * SQL Vulnerability Assessment results that are in baseline.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultsOnlyInBaseline?: string[][];
-}
-
-/** SQL Vulnerability Assessment baseline Details */
-export interface Baseline {
-  /**
-   * SQL Vulnerability Assessment baseline expected results
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly expectedResults?: string[][];
-  /**
-   * SQL Vulnerability Assessment baseline update time (UTC)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly updatedTime?: Date;
-}
-
-/** SQL Vulnerability Assessment rule metadata details. */
-export interface VaRule {
-  /**
-   * SQL Vulnerability Assessment rule Id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ruleId?: string;
-  /**
-   * SQL Vulnerability Assessment rule severity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly severity?: RuleSeverity;
-  /**
-   * SQL Vulnerability Assessment rule category.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly category?: string;
-  /**
-   * SQL Vulnerability Assessment rule type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ruleType?: RuleType;
-  /**
-   * SQL Vulnerability Assessment rule title.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly title?: string;
-  /**
-   * SQL Vulnerability Assessment rule description.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
-  /**
-   * SQL Vulnerability Assessment rule rationale.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly rationale?: string;
-  /**
-   * SQL Vulnerability Assessment rule query details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly queryCheck?: QueryCheck;
-  /**
-   * SQL Vulnerability Assessment benchmark references.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly benchmarkReferences?: BenchmarkReference[];
-}
-
-/** SQL Vulnerability Assessment query check object. */
-export interface QueryCheck {
-  /**
-   * SQL Vulnerability Assessment rule query.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly query?: string;
-  /**
-   * SQL Vulnerability Assessment query expected result.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly expectedResult?: string[][];
-  /**
-   * SQL Vulnerability Assessment column names of query expected result.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly columnNames?: string[];
-}
-
-/** SQL Vulnerability Assessment benchmark reference */
-export interface BenchmarkReference {
-  /**
-   * SQL Vulnerability Assessment benchmark name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly benchmark?: string;
-  /**
-   * SQL Vulnerability Assessment benchmark reference.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly reference?: string;
-}
-
-/** A list of vulnerability assessment scan records. */
-export interface SqlVulnerabilityAssessmentScanRecordListResult {
-  /**
-   * Array of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: SqlVulnerabilityAssessmentScanRecord[];
-  /**
-   * Link to retrieve next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Properties of a vulnerability assessment scan error. */
-export interface SqlVulnerabilityAssessmentScanError {
-  /**
-   * The error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-}
-
-/** A list of SQL Vulnerability Assessments. */
-export interface SqlVulnerabilityAssessmentListResult {
-  /**
-   * Array of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: SqlVulnerabilityAssessment[];
-  /**
-   * Link to retrieve next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
 /** A list of the managed database's Advanced Threat Protection settings. */
 export interface ManagedDatabaseAdvancedThreatProtectionListResult {
   /**
@@ -4577,6 +4349,234 @@ export interface IPv6FirewallRuleListResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly value?: IPv6FirewallRule[];
+  /**
+   * Link to retrieve next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** A list of SQL Vulnerability Assessments baseline set. */
+export interface DatabaseSqlVulnerabilityAssessmentBaselineSetListResult {
+  /**
+   * Array of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: DatabaseSqlVulnerabilityAssessmentBaselineSet[];
+  /**
+   * Link to retrieve next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** A list of SQL Vulnerability Assessments rule baseline. */
+export interface DatabaseSqlVulnerabilityAssessmentRuleBaselineListResult {
+  /**
+   * Array of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: DatabaseSqlVulnerabilityAssessmentRuleBaseline[];
+  /**
+   * Link to retrieve next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** A list of vulnerability assessment scan results. */
+export interface SQLVulnerabilityAssessmentScanListResult {
+  /**
+   * Array of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: SqlVulnerabilityAssessmentScanResults[];
+  /**
+   * Link to retrieve next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** SQL Vulnerability Assessment remediation Details. */
+export interface Remediation {
+  /**
+   * SQL Vulnerability Assessment remediation description.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * SQL Vulnerability Assessment remediation script.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly scripts?: string[];
+  /**
+   * SQL Vulnerability Assessment is remediation automated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly automated?: boolean;
+  /**
+   * SQL Vulnerability Assessment optional link to remediate in Azure Portal.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly portalLink?: string;
+}
+
+/** SQL Vulnerability Assessment baseline adjusted results */
+export interface BaselineAdjustedResult {
+  /**
+   * SQL Vulnerability Assessment baseline details
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly baseline?: Baseline;
+  /**
+   * SQL Vulnerability Assessment baseline status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: RuleStatus;
+  /**
+   * SQL Vulnerability Assessment results that are not in baseline
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultsNotInBaseline?: string[][];
+  /**
+   * SQL Vulnerability Assessment results that are in baseline.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultsOnlyInBaseline?: string[][];
+}
+
+/** SQL Vulnerability Assessment baseline Details */
+export interface Baseline {
+  /**
+   * SQL Vulnerability Assessment baseline expected results
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expectedResults?: string[][];
+  /**
+   * SQL Vulnerability Assessment baseline update time (UTC)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedTime?: Date;
+}
+
+/** SQL Vulnerability Assessment rule metadata details. */
+export interface VaRule {
+  /**
+   * SQL Vulnerability Assessment rule Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ruleId?: string;
+  /**
+   * SQL Vulnerability Assessment rule severity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly severity?: RuleSeverity;
+  /**
+   * SQL Vulnerability Assessment rule category.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly category?: string;
+  /**
+   * SQL Vulnerability Assessment rule type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ruleType?: RuleType;
+  /**
+   * SQL Vulnerability Assessment rule title.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly title?: string;
+  /**
+   * SQL Vulnerability Assessment rule description.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * SQL Vulnerability Assessment rule rationale.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rationale?: string;
+  /**
+   * SQL Vulnerability Assessment rule query details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly queryCheck?: QueryCheck;
+  /**
+   * SQL Vulnerability Assessment benchmark references.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly benchmarkReferences?: BenchmarkReference[];
+}
+
+/** SQL Vulnerability Assessment query check object. */
+export interface QueryCheck {
+  /**
+   * SQL Vulnerability Assessment rule query.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly query?: string;
+  /**
+   * SQL Vulnerability Assessment query expected result.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expectedResult?: string[][];
+  /**
+   * SQL Vulnerability Assessment column names of query expected result.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly columnNames?: string[];
+}
+
+/** SQL Vulnerability Assessment benchmark reference */
+export interface BenchmarkReference {
+  /**
+   * SQL Vulnerability Assessment benchmark name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly benchmark?: string;
+  /**
+   * SQL Vulnerability Assessment benchmark reference.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reference?: string;
+}
+
+/** A list of vulnerability assessment scan records. */
+export interface SqlVulnerabilityAssessmentScanRecordListResult {
+  /**
+   * Array of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: SqlVulnerabilityAssessmentScanRecord[];
+  /**
+   * Link to retrieve next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Properties of a vulnerability assessment scan error. */
+export interface SqlVulnerabilityAssessmentScanError {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+}
+
+/** A list of SQL Vulnerability Assessments. */
+export interface SqlVulnerabilityAssessmentListResult {
+  /**
+   * Array of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: SqlVulnerabilityAssessment[];
   /**
    * Link to retrieve next page of results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -7405,206 +7405,6 @@ export interface ManagedServerDnsAlias extends ProxyResource {
   readonly publicAzureDnsRecord?: string;
 }
 
-/** A database sql vulnerability assessment baseline set. */
-export interface DatabaseSqlVulnerabilityAssessmentBaselineSet
-  extends ProxyResource {
-  /**
-   * SystemData of DatabaseSqlVulnerabilityAssessmentBaselineSetResource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** The baseline set result */
-  results?: { [propertyName: string]: string[][] };
-}
-
-/** A database sql vulnerability assessment rule baseline list input. */
-export interface DatabaseSqlVulnerabilityAssessmentRuleBaselineListInput
-  extends ProxyResource {
-  /**
-   * SystemData of DatabaseSqlVulnerabilityAssessmentRuleBaselineListInputResource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** The latest scan flag */
-  latestScan?: boolean;
-  /** The rule baseline result list */
-  results?: { [propertyName: string]: string[][] };
-}
-
-/** A database sql vulnerability assessment rule baseline. */
-export interface DatabaseSqlVulnerabilityAssessmentRuleBaseline
-  extends ProxyResource {
-  /**
-   * SystemData of DatabaseSqlVulnerabilityAssessmentRuleBaselineResource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** The rule baseline result */
-  results?: string[][];
-}
-
-/** A database sql vulnerability assessment rule baseline input. */
-export interface DatabaseSqlVulnerabilityAssessmentRuleBaselineInput
-  extends ProxyResource {
-  /**
-   * SystemData of DatabaseSqlVulnerabilityAssessmentRuleBaselineInputResource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** The latest scan flag */
-  latestScan?: boolean;
-  /** The rule baseline result */
-  results?: string[][];
-}
-
-export interface SqlVulnerabilityAssessmentScanResults extends ProxyResource {
-  /**
-   * SystemData of AdvancedThreatProtectionResource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /**
-   * SQL Vulnerability Assessment rule Id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ruleId?: string;
-  /**
-   * SQL Vulnerability Assessment rule result status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: RuleStatus;
-  /**
-   * SQL Vulnerability Assessment error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly errorMessage?: string;
-  /**
-   * SQL Vulnerability Assessment is the query results trimmed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isTrimmed?: boolean;
-  /**
-   * SQL Vulnerability Assessment query results that was run.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly queryResults?: string[][];
-  /**
-   * SQL Vulnerability Assessment the remediation details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly remediation?: Remediation;
-  /**
-   * SQL Vulnerability Assessment rule result adjusted with baseline.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly baselineAdjustedResult?: BaselineAdjustedResult;
-  /**
-   * SQL Vulnerability Assessment rule metadata.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ruleMetadata?: VaRule;
-}
-
-/** A vulnerability assessment scan record. */
-export interface SqlVulnerabilityAssessmentScanRecord extends ProxyResource {
-  /**
-   * SystemData of SqlVulnerabilityAssessmentScanRecordResource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /**
-   * The scan ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly scanId?: string;
-  /**
-   * The scan trigger type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly triggerType?: VulnerabilityAssessmentScanTriggerType;
-  /**
-   * The scan status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: VulnerabilityAssessmentScanState;
-  /**
-   * The scan start time (UTC).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startTime?: Date;
-  /**
-   * The scan end time (UTC).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endTime?: Date;
-  /**
-   * The scan errors.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly errors?: SqlVulnerabilityAssessmentScanError[];
-  /**
-   * The server name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly server?: string;
-  /**
-   * The database name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly database?: string;
-  /**
-   * The SQL version.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sqlVersion?: string;
-  /**
-   * The number of failed rules with high severity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly highSeverityFailedRulesCount?: number;
-  /**
-   * The number of failed rules with medium severity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly mediumSeverityFailedRulesCount?: number;
-  /**
-   * The number of failed rules with low severity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lowSeverityFailedRulesCount?: number;
-  /**
-   * The number of total passed rules.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly totalPassedRulesCount?: number;
-  /**
-   * The number of total failed rules.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly totalFailedRulesCount?: number;
-  /**
-   * The number of total rules assessed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly totalRulesCount?: number;
-  /**
-   * Baseline created for this database, and has one or more rules.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isBaselineApplied?: boolean;
-}
-
-/** A SQL Vulnerability Assessment. */
-export interface SqlVulnerabilityAssessment extends ProxyResource {
-  /**
-   * SystemData of SqlVulnerabilityAssessmentResource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** Specifies the state of the SQL Vulnerability Assessment, whether it is enabled or disabled or a state has not been applied yet on the specific database or server. */
-  state?: SqlVulnerabilityAssessmentState;
-}
-
 /** A managed database Advanced Threat Protection. */
 export interface ManagedDatabaseAdvancedThreatProtection extends ProxyResource {
   /**
@@ -8191,6 +7991,211 @@ export interface FailoverGroup extends ProxyResource {
   partnerServers?: PartnerInfo[];
   /** List of databases in the failover group. */
   databases?: string[];
+}
+
+/** A database sql vulnerability assessment baseline set. */
+export interface DatabaseSqlVulnerabilityAssessmentBaselineSet
+  extends ProxyResource {
+  /**
+   * SystemData of DatabaseSqlVulnerabilityAssessmentBaselineSetResource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** The baseline set result */
+  results?: { [propertyName: string]: string[][] };
+}
+
+/** A database sql vulnerability assessment rule baseline list input. */
+export interface DatabaseSqlVulnerabilityAssessmentRuleBaselineListInput
+  extends ProxyResource {
+  /**
+   * SystemData of DatabaseSqlVulnerabilityAssessmentRuleBaselineListInputResource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** The latest scan flag */
+  latestScan?: boolean;
+  /** The rule baseline result list */
+  results?: { [propertyName: string]: string[][] };
+}
+
+/** A database sql vulnerability assessment rule baseline. */
+export interface DatabaseSqlVulnerabilityAssessmentRuleBaseline
+  extends ProxyResource {
+  /**
+   * SystemData of DatabaseSqlVulnerabilityAssessmentRuleBaselineResource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** The rule baseline result */
+  results?: string[][];
+}
+
+/** A database sql vulnerability assessment rule baseline input. */
+export interface DatabaseSqlVulnerabilityAssessmentRuleBaselineInput
+  extends ProxyResource {
+  /**
+   * SystemData of DatabaseSqlVulnerabilityAssessmentRuleBaselineInputResource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** The latest scan flag */
+  latestScan?: boolean;
+  /** The rule baseline result */
+  results?: string[][];
+}
+
+export interface SqlVulnerabilityAssessmentScanResults extends ProxyResource {
+  /**
+   * SystemData of AdvancedThreatProtectionResource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * SQL Vulnerability Assessment rule Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ruleId?: string;
+  /**
+   * SQL Vulnerability Assessment rule result status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: RuleStatus;
+  /**
+   * SQL Vulnerability Assessment error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorMessage?: string;
+  /**
+   * SQL Vulnerability Assessment is the query results trimmed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isTrimmed?: boolean;
+  /**
+   * SQL Vulnerability Assessment query results that was run.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly queryResults?: string[][];
+  /**
+   * SQL Vulnerability Assessment the remediation details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly remediation?: Remediation;
+  /**
+   * SQL Vulnerability Assessment rule result adjusted with baseline.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly baselineAdjustedResult?: BaselineAdjustedResult;
+  /**
+   * SQL Vulnerability Assessment rule metadata.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ruleMetadata?: VaRule;
+}
+
+/** A vulnerability assessment scan record. */
+export interface SqlVulnerabilityAssessmentScanRecord extends ProxyResource {
+  /**
+   * SystemData of SqlVulnerabilityAssessmentScanRecordResource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * The scan ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly scanId?: string;
+  /**
+   * The scan trigger type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly triggerType?: VulnerabilityAssessmentScanTriggerType;
+  /**
+   * The scan status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: VulnerabilityAssessmentScanState;
+  /**
+   * The scan start time (UTC).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: Date;
+  /**
+   * The scan end time (UTC).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTime?: Date;
+  /**
+   * The scan errors.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: SqlVulnerabilityAssessmentScanError[];
+  /**
+   * The server name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly server?: string;
+  /**
+   * The database name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly database?: string;
+  /**
+   * The SQL version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sqlVersion?: string;
+  /**
+   * The number of failed rules with high severity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly highSeverityFailedRulesCount?: number;
+  /**
+   * The number of failed rules with medium severity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly mediumSeverityFailedRulesCount?: number;
+  /**
+   * The number of failed rules with low severity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lowSeverityFailedRulesCount?: number;
+  /**
+   * The number of total passed rules.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalPassedRulesCount?: number;
+  /**
+   * The number of total failed rules.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalFailedRulesCount?: number;
+  /**
+   * The number of total rules assessed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalRulesCount?: number;
+  /**
+   * Baseline created for this database, and has one or more rules.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isBaselineApplied?: boolean;
+  /**
+   * The last scan time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastScanTime?: Date;
+}
+
+/** A SQL Vulnerability Assessment. */
+export interface SqlVulnerabilityAssessment extends ProxyResource {
+  /**
+   * SystemData of SqlVulnerabilityAssessmentResource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Specifies the state of the SQL Vulnerability Assessment, whether it is enabled or disabled or a state has not been applied yet on the specific database or server. */
+  state?: SqlVulnerabilityAssessmentState;
 }
 
 /** An Azure SQL instance pool. */
@@ -10341,123 +10346,6 @@ export enum KnownAdvancedThreatProtectionName {
  */
 export type AdvancedThreatProtectionName = string;
 
-/** Known values of {@link BaselineName} that the service accepts. */
-export enum KnownBaselineName {
-  /** Default */
-  Default = "default"
-}
-
-/**
- * Defines values for BaselineName. \
- * {@link KnownBaselineName} can be used interchangeably with BaselineName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **default**
- */
-export type BaselineName = string;
-
-/** Known values of {@link SQLVulnerabilityAssessmentName} that the service accepts. */
-export enum KnownSQLVulnerabilityAssessmentName {
-  /** Default */
-  Default = "default"
-}
-
-/**
- * Defines values for SQLVulnerabilityAssessmentName. \
- * {@link KnownSQLVulnerabilityAssessmentName} can be used interchangeably with SQLVulnerabilityAssessmentName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **default**
- */
-export type SQLVulnerabilityAssessmentName = string;
-
-/** Known values of {@link RuleStatus} that the service accepts. */
-export enum KnownRuleStatus {
-  /** NonFinding */
-  NonFinding = "NonFinding",
-  /** Finding */
-  Finding = "Finding",
-  /** InternalError */
-  InternalError = "InternalError"
-}
-
-/**
- * Defines values for RuleStatus. \
- * {@link KnownRuleStatus} can be used interchangeably with RuleStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NonFinding** \
- * **Finding** \
- * **InternalError**
- */
-export type RuleStatus = string;
-
-/** Known values of {@link RuleSeverity} that the service accepts. */
-export enum KnownRuleSeverity {
-  /** High */
-  High = "High",
-  /** Medium */
-  Medium = "Medium",
-  /** Low */
-  Low = "Low",
-  /** Informational */
-  Informational = "Informational",
-  /** Obsolete */
-  Obsolete = "Obsolete"
-}
-
-/**
- * Defines values for RuleSeverity. \
- * {@link KnownRuleSeverity} can be used interchangeably with RuleSeverity,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **High** \
- * **Medium** \
- * **Low** \
- * **Informational** \
- * **Obsolete**
- */
-export type RuleSeverity = string;
-
-/** Known values of {@link RuleType} that the service accepts. */
-export enum KnownRuleType {
-  /** Binary */
-  Binary = "Binary",
-  /** BaselineExpected */
-  BaselineExpected = "BaselineExpected",
-  /** PositiveList */
-  PositiveList = "PositiveList",
-  /** NegativeList */
-  NegativeList = "NegativeList"
-}
-
-/**
- * Defines values for RuleType. \
- * {@link KnownRuleType} can be used interchangeably with RuleType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Binary** \
- * **BaselineExpected** \
- * **PositiveList** \
- * **NegativeList**
- */
-export type RuleType = string;
-
-/** Known values of {@link SqlVulnerabilityAssessmentName} that the service accepts. */
-export enum KnownSqlVulnerabilityAssessmentName {
-  /** Default */
-  Default = "default"
-}
-
-/**
- * Defines values for SqlVulnerabilityAssessmentName. \
- * {@link KnownSqlVulnerabilityAssessmentName} can be used interchangeably with SqlVulnerabilityAssessmentName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **default**
- */
-export type SqlVulnerabilityAssessmentName = string;
-
 /** Known values of {@link ReplicationState} that the service accepts. */
 export enum KnownReplicationState {
   /** Pending */
@@ -11460,6 +11348,108 @@ export enum KnownFailoverGroupReplicationRole {
  */
 export type FailoverGroupReplicationRole = string;
 
+/** Known values of {@link BaselineName} that the service accepts. */
+export enum KnownBaselineName {
+  /** Default */
+  Default = "default"
+}
+
+/**
+ * Defines values for BaselineName. \
+ * {@link KnownBaselineName} can be used interchangeably with BaselineName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **default**
+ */
+export type BaselineName = string;
+
+/** Known values of {@link SqlVulnerabilityAssessmentName} that the service accepts. */
+export enum KnownSqlVulnerabilityAssessmentName {
+  /** Default */
+  Default = "default"
+}
+
+/**
+ * Defines values for SqlVulnerabilityAssessmentName. \
+ * {@link KnownSqlVulnerabilityAssessmentName} can be used interchangeably with SqlVulnerabilityAssessmentName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **default**
+ */
+export type SqlVulnerabilityAssessmentName = string;
+
+/** Known values of {@link RuleStatus} that the service accepts. */
+export enum KnownRuleStatus {
+  /** NonFinding */
+  NonFinding = "NonFinding",
+  /** Finding */
+  Finding = "Finding",
+  /** InternalError */
+  InternalError = "InternalError"
+}
+
+/**
+ * Defines values for RuleStatus. \
+ * {@link KnownRuleStatus} can be used interchangeably with RuleStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NonFinding** \
+ * **Finding** \
+ * **InternalError**
+ */
+export type RuleStatus = string;
+
+/** Known values of {@link RuleSeverity} that the service accepts. */
+export enum KnownRuleSeverity {
+  /** High */
+  High = "High",
+  /** Medium */
+  Medium = "Medium",
+  /** Low */
+  Low = "Low",
+  /** Informational */
+  Informational = "Informational",
+  /** Obsolete */
+  Obsolete = "Obsolete"
+}
+
+/**
+ * Defines values for RuleSeverity. \
+ * {@link KnownRuleSeverity} can be used interchangeably with RuleSeverity,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **High** \
+ * **Medium** \
+ * **Low** \
+ * **Informational** \
+ * **Obsolete**
+ */
+export type RuleSeverity = string;
+
+/** Known values of {@link RuleType} that the service accepts. */
+export enum KnownRuleType {
+  /** Binary */
+  Binary = "Binary",
+  /** BaselineExpected */
+  BaselineExpected = "BaselineExpected",
+  /** PositiveList */
+  PositiveList = "PositiveList",
+  /** NegativeList */
+  NegativeList = "NegativeList"
+}
+
+/**
+ * Defines values for RuleType. \
+ * {@link KnownRuleType} can be used interchangeably with RuleType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Binary** \
+ * **BaselineExpected** \
+ * **PositiveList** \
+ * **NegativeList**
+ */
+export type RuleType = string;
+
 /** Known values of {@link ServiceObjectiveName} that the service accepts. */
 export enum KnownServiceObjectiveName {
   /** System */
@@ -11763,8 +11753,6 @@ export type SensitivityLabelUpdateKind = "set" | "remove";
 export type RecommendedSensitivityLabelUpdateKind = "enable" | "disable";
 /** Defines values for AdvancedThreatProtectionState. */
 export type AdvancedThreatProtectionState = "New" | "Enabled" | "Disabled";
-/** Defines values for SqlVulnerabilityAssessmentState. */
-export type SqlVulnerabilityAssessmentState = "Enabled" | "Disabled";
 /** Defines values for ReplicationRole. */
 export type ReplicationRole =
   | "Primary"
@@ -11774,6 +11762,8 @@ export type ReplicationRole =
   | "Copy";
 /** Defines values for CheckNameAvailabilityReason. */
 export type CheckNameAvailabilityReason = "Invalid" | "AlreadyExists";
+/** Defines values for SqlVulnerabilityAssessmentState. */
+export type SqlVulnerabilityAssessmentState = "Enabled" | "Disabled";
 
 /** Optional parameters. */
 export interface DataMaskingPoliciesCreateOrUpdateOptionalParams
@@ -15948,138 +15938,6 @@ export interface ManagedServerDnsAliasesListByManagedInstanceNextOptionalParams
 export type ManagedServerDnsAliasesListByManagedInstanceNextResponse = ManagedServerDnsAliasListResult;
 
 /** Optional parameters. */
-export interface DatabaseSqlVulnerabilityAssessmentBaselinesListBySqlVulnerabilityAssessmentOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySqlVulnerabilityAssessment operation. */
-export type DatabaseSqlVulnerabilityAssessmentBaselinesListBySqlVulnerabilityAssessmentResponse = DatabaseSqlVulnerabilityAssessmentBaselineSetListResult;
-
-/** Optional parameters. */
-export interface DatabaseSqlVulnerabilityAssessmentBaselinesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type DatabaseSqlVulnerabilityAssessmentBaselinesGetResponse = DatabaseSqlVulnerabilityAssessmentBaselineSet;
-
-/** Optional parameters. */
-export interface DatabaseSqlVulnerabilityAssessmentBaselinesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type DatabaseSqlVulnerabilityAssessmentBaselinesCreateOrUpdateResponse = DatabaseSqlVulnerabilityAssessmentBaselineSet;
-
-/** Optional parameters. */
-export interface DatabaseSqlVulnerabilityAssessmentBaselinesListBySqlVulnerabilityAssessmentNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySqlVulnerabilityAssessmentNext operation. */
-export type DatabaseSqlVulnerabilityAssessmentBaselinesListBySqlVulnerabilityAssessmentNextResponse = DatabaseSqlVulnerabilityAssessmentBaselineSetListResult;
-
-/** Optional parameters. */
-export interface DatabaseSqlVulnerabilityAssessmentExecuteScanExecuteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface DatabaseSqlVulnerabilityAssessmentRuleBaselinesListByBaselineOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByBaseline operation. */
-export type DatabaseSqlVulnerabilityAssessmentRuleBaselinesListByBaselineResponse = DatabaseSqlVulnerabilityAssessmentRuleBaselineListResult;
-
-/** Optional parameters. */
-export interface DatabaseSqlVulnerabilityAssessmentRuleBaselinesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type DatabaseSqlVulnerabilityAssessmentRuleBaselinesGetResponse = DatabaseSqlVulnerabilityAssessmentRuleBaseline;
-
-/** Optional parameters. */
-export interface DatabaseSqlVulnerabilityAssessmentRuleBaselinesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type DatabaseSqlVulnerabilityAssessmentRuleBaselinesCreateOrUpdateResponse = DatabaseSqlVulnerabilityAssessmentRuleBaseline;
-
-/** Optional parameters. */
-export interface DatabaseSqlVulnerabilityAssessmentRuleBaselinesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface DatabaseSqlVulnerabilityAssessmentRuleBaselinesListByBaselineNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByBaselineNext operation. */
-export type DatabaseSqlVulnerabilityAssessmentRuleBaselinesListByBaselineNextResponse = DatabaseSqlVulnerabilityAssessmentRuleBaselineListResult;
-
-/** Optional parameters. */
-export interface DatabaseSqlVulnerabilityAssessmentScanResultListByScanOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByScan operation. */
-export type DatabaseSqlVulnerabilityAssessmentScanResultListByScanResponse = SQLVulnerabilityAssessmentScanListResult;
-
-/** Optional parameters. */
-export interface DatabaseSqlVulnerabilityAssessmentScanResultGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type DatabaseSqlVulnerabilityAssessmentScanResultGetResponse = SqlVulnerabilityAssessmentScanResults;
-
-/** Optional parameters. */
-export interface DatabaseSqlVulnerabilityAssessmentScanResultListByScanNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByScanNext operation. */
-export type DatabaseSqlVulnerabilityAssessmentScanResultListByScanNextResponse = SQLVulnerabilityAssessmentScanListResult;
-
-/** Optional parameters. */
-export interface DatabaseSqlVulnerabilityAssessmentScansListBySqlVulnerabilityAssessmentsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySqlVulnerabilityAssessments operation. */
-export type DatabaseSqlVulnerabilityAssessmentScansListBySqlVulnerabilityAssessmentsResponse = SqlVulnerabilityAssessmentScanRecordListResult;
-
-/** Optional parameters. */
-export interface DatabaseSqlVulnerabilityAssessmentScansGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type DatabaseSqlVulnerabilityAssessmentScansGetResponse = SqlVulnerabilityAssessmentScanRecord;
-
-/** Optional parameters. */
-export interface DatabaseSqlVulnerabilityAssessmentScansListBySqlVulnerabilityAssessmentsNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySqlVulnerabilityAssessmentsNext operation. */
-export type DatabaseSqlVulnerabilityAssessmentScansListBySqlVulnerabilityAssessmentsNextResponse = SqlVulnerabilityAssessmentScanRecordListResult;
-
-/** Optional parameters. */
-export interface DatabaseSqlVulnerabilityAssessmentsSettingsListByDatabaseOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByDatabase operation. */
-export type DatabaseSqlVulnerabilityAssessmentsSettingsListByDatabaseResponse = SqlVulnerabilityAssessmentListResult;
-
-/** Optional parameters. */
-export interface DatabaseSqlVulnerabilityAssessmentsSettingsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type DatabaseSqlVulnerabilityAssessmentsSettingsGetResponse = SqlVulnerabilityAssessment;
-
-/** Optional parameters. */
-export interface DatabaseSqlVulnerabilityAssessmentsSettingsListByDatabaseNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByDatabaseNext operation. */
-export type DatabaseSqlVulnerabilityAssessmentsSettingsListByDatabaseNextResponse = SqlVulnerabilityAssessmentListResult;
-
-/** Optional parameters. */
 export interface ManagedDatabaseAdvancedThreatProtectionSettingsListByDatabaseOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -16207,149 +16065,6 @@ export interface ReplicationLinksListByServerNextOptionalParams
 
 /** Contains response data for the listByServerNext operation. */
 export type ReplicationLinksListByServerNextResponse = ReplicationLinkListResult;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentBaselineListBySqlVulnerabilityAssessmentOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySqlVulnerabilityAssessment operation. */
-export type SqlVulnerabilityAssessmentBaselineListBySqlVulnerabilityAssessmentResponse = DatabaseSqlVulnerabilityAssessmentBaselineSetListResult;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentBaselineGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SqlVulnerabilityAssessmentBaselineGetResponse = DatabaseSqlVulnerabilityAssessmentBaselineSet;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentBaselineListBySqlVulnerabilityAssessmentNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySqlVulnerabilityAssessmentNext operation. */
-export type SqlVulnerabilityAssessmentBaselineListBySqlVulnerabilityAssessmentNextResponse = DatabaseSqlVulnerabilityAssessmentBaselineSetListResult;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentBaselinesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type SqlVulnerabilityAssessmentBaselinesCreateOrUpdateResponse = DatabaseSqlVulnerabilityAssessmentBaselineSet;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentExecuteScanExecuteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentRuleBaselineListByBaselineOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByBaseline operation. */
-export type SqlVulnerabilityAssessmentRuleBaselineListByBaselineResponse = DatabaseSqlVulnerabilityAssessmentRuleBaselineListResult;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentRuleBaselineGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SqlVulnerabilityAssessmentRuleBaselineGetResponse = DatabaseSqlVulnerabilityAssessmentRuleBaseline;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentRuleBaselineCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type SqlVulnerabilityAssessmentRuleBaselineCreateOrUpdateResponse = DatabaseSqlVulnerabilityAssessmentRuleBaseline;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentRuleBaselineListByBaselineNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByBaselineNext operation. */
-export type SqlVulnerabilityAssessmentRuleBaselineListByBaselineNextResponse = DatabaseSqlVulnerabilityAssessmentRuleBaselineListResult;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentRuleBaselinesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentScanResultListByScanOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByScan operation. */
-export type SqlVulnerabilityAssessmentScanResultListByScanResponse = SQLVulnerabilityAssessmentScanListResult;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentScanResultGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SqlVulnerabilityAssessmentScanResultGetResponse = SqlVulnerabilityAssessmentScanResults;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentScanResultListByScanNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByScanNext operation. */
-export type SqlVulnerabilityAssessmentScanResultListByScanNextResponse = SQLVulnerabilityAssessmentScanListResult;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentScansListBySqlVulnerabilityAssessmentsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySqlVulnerabilityAssessments operation. */
-export type SqlVulnerabilityAssessmentScansListBySqlVulnerabilityAssessmentsResponse = SqlVulnerabilityAssessmentScanRecordListResult;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentScansGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SqlVulnerabilityAssessmentScansGetResponse = SqlVulnerabilityAssessmentScanRecord;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentScansListBySqlVulnerabilityAssessmentsNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySqlVulnerabilityAssessmentsNext operation. */
-export type SqlVulnerabilityAssessmentScansListBySqlVulnerabilityAssessmentsNextResponse = SqlVulnerabilityAssessmentScanRecordListResult;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentsSettingsListByServerOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByServer operation. */
-export type SqlVulnerabilityAssessmentsSettingsListByServerResponse = SqlVulnerabilityAssessmentListResult;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentsSettingsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SqlVulnerabilityAssessmentsSettingsGetResponse = SqlVulnerabilityAssessment;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentsSettingsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type SqlVulnerabilityAssessmentsSettingsCreateOrUpdateResponse = SqlVulnerabilityAssessment;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentsSettingsListByServerNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByServerNext operation. */
-export type SqlVulnerabilityAssessmentsSettingsListByServerNextResponse = SqlVulnerabilityAssessmentListResult;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ManagedDatabaseMoveOperationsListByLocationOptionalParams
@@ -17275,6 +16990,281 @@ export interface IPv6FirewallRulesListByServerNextOptionalParams
 
 /** Contains response data for the listByServerNext operation. */
 export type IPv6FirewallRulesListByServerNextResponse = IPv6FirewallRuleListResult;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentBaselineListBySqlVulnerabilityAssessmentOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySqlVulnerabilityAssessment operation. */
+export type SqlVulnerabilityAssessmentBaselineListBySqlVulnerabilityAssessmentResponse = DatabaseSqlVulnerabilityAssessmentBaselineSetListResult;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentBaselineGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SqlVulnerabilityAssessmentBaselineGetResponse = DatabaseSqlVulnerabilityAssessmentBaselineSet;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentBaselineListBySqlVulnerabilityAssessmentNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySqlVulnerabilityAssessmentNext operation. */
+export type SqlVulnerabilityAssessmentBaselineListBySqlVulnerabilityAssessmentNextResponse = DatabaseSqlVulnerabilityAssessmentBaselineSetListResult;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentBaselinesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SqlVulnerabilityAssessmentBaselinesCreateOrUpdateResponse = DatabaseSqlVulnerabilityAssessmentBaselineSet;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentExecuteScanExecuteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentRuleBaselineListByBaselineOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByBaseline operation. */
+export type SqlVulnerabilityAssessmentRuleBaselineListByBaselineResponse = DatabaseSqlVulnerabilityAssessmentRuleBaselineListResult;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentRuleBaselineGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SqlVulnerabilityAssessmentRuleBaselineGetResponse = DatabaseSqlVulnerabilityAssessmentRuleBaseline;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentRuleBaselineCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SqlVulnerabilityAssessmentRuleBaselineCreateOrUpdateResponse = DatabaseSqlVulnerabilityAssessmentRuleBaseline;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentRuleBaselineListByBaselineNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByBaselineNext operation. */
+export type SqlVulnerabilityAssessmentRuleBaselineListByBaselineNextResponse = DatabaseSqlVulnerabilityAssessmentRuleBaselineListResult;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentRuleBaselinesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentScanResultListByScanOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByScan operation. */
+export type SqlVulnerabilityAssessmentScanResultListByScanResponse = SQLVulnerabilityAssessmentScanListResult;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentScanResultGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SqlVulnerabilityAssessmentScanResultGetResponse = SqlVulnerabilityAssessmentScanResults;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentScanResultListByScanNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByScanNext operation. */
+export type SqlVulnerabilityAssessmentScanResultListByScanNextResponse = SQLVulnerabilityAssessmentScanListResult;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentScansListBySqlVulnerabilityAssessmentsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySqlVulnerabilityAssessments operation. */
+export type SqlVulnerabilityAssessmentScansListBySqlVulnerabilityAssessmentsResponse = SqlVulnerabilityAssessmentScanRecordListResult;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentScansGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SqlVulnerabilityAssessmentScansGetResponse = SqlVulnerabilityAssessmentScanRecord;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentScansListBySqlVulnerabilityAssessmentsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySqlVulnerabilityAssessmentsNext operation. */
+export type SqlVulnerabilityAssessmentScansListBySqlVulnerabilityAssessmentsNextResponse = SqlVulnerabilityAssessmentScanRecordListResult;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentsSettingsListByServerOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServer operation. */
+export type SqlVulnerabilityAssessmentsSettingsListByServerResponse = SqlVulnerabilityAssessmentListResult;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentsSettingsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SqlVulnerabilityAssessmentsSettingsGetResponse = SqlVulnerabilityAssessment;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentsSettingsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SqlVulnerabilityAssessmentsSettingsCreateOrUpdateResponse = SqlVulnerabilityAssessment;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentsSettingsListByServerNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServerNext operation. */
+export type SqlVulnerabilityAssessmentsSettingsListByServerNextResponse = SqlVulnerabilityAssessmentListResult;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface DatabaseSqlVulnerabilityAssessmentBaselinesListBySqlVulnerabilityAssessmentOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySqlVulnerabilityAssessment operation. */
+export type DatabaseSqlVulnerabilityAssessmentBaselinesListBySqlVulnerabilityAssessmentResponse = DatabaseSqlVulnerabilityAssessmentBaselineSetListResult;
+
+/** Optional parameters. */
+export interface DatabaseSqlVulnerabilityAssessmentBaselinesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DatabaseSqlVulnerabilityAssessmentBaselinesGetResponse = DatabaseSqlVulnerabilityAssessmentBaselineSet;
+
+/** Optional parameters. */
+export interface DatabaseSqlVulnerabilityAssessmentBaselinesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type DatabaseSqlVulnerabilityAssessmentBaselinesCreateOrUpdateResponse = DatabaseSqlVulnerabilityAssessmentBaselineSet;
+
+/** Optional parameters. */
+export interface DatabaseSqlVulnerabilityAssessmentBaselinesListBySqlVulnerabilityAssessmentNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySqlVulnerabilityAssessmentNext operation. */
+export type DatabaseSqlVulnerabilityAssessmentBaselinesListBySqlVulnerabilityAssessmentNextResponse = DatabaseSqlVulnerabilityAssessmentBaselineSetListResult;
+
+/** Optional parameters. */
+export interface DatabaseSqlVulnerabilityAssessmentExecuteScanExecuteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface DatabaseSqlVulnerabilityAssessmentRuleBaselinesListByBaselineOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByBaseline operation. */
+export type DatabaseSqlVulnerabilityAssessmentRuleBaselinesListByBaselineResponse = DatabaseSqlVulnerabilityAssessmentRuleBaselineListResult;
+
+/** Optional parameters. */
+export interface DatabaseSqlVulnerabilityAssessmentRuleBaselinesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DatabaseSqlVulnerabilityAssessmentRuleBaselinesGetResponse = DatabaseSqlVulnerabilityAssessmentRuleBaseline;
+
+/** Optional parameters. */
+export interface DatabaseSqlVulnerabilityAssessmentRuleBaselinesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type DatabaseSqlVulnerabilityAssessmentRuleBaselinesCreateOrUpdateResponse = DatabaseSqlVulnerabilityAssessmentRuleBaseline;
+
+/** Optional parameters. */
+export interface DatabaseSqlVulnerabilityAssessmentRuleBaselinesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface DatabaseSqlVulnerabilityAssessmentRuleBaselinesListByBaselineNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByBaselineNext operation. */
+export type DatabaseSqlVulnerabilityAssessmentRuleBaselinesListByBaselineNextResponse = DatabaseSqlVulnerabilityAssessmentRuleBaselineListResult;
+
+/** Optional parameters. */
+export interface DatabaseSqlVulnerabilityAssessmentScanResultListByScanOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByScan operation. */
+export type DatabaseSqlVulnerabilityAssessmentScanResultListByScanResponse = SQLVulnerabilityAssessmentScanListResult;
+
+/** Optional parameters. */
+export interface DatabaseSqlVulnerabilityAssessmentScanResultGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DatabaseSqlVulnerabilityAssessmentScanResultGetResponse = SqlVulnerabilityAssessmentScanResults;
+
+/** Optional parameters. */
+export interface DatabaseSqlVulnerabilityAssessmentScanResultListByScanNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByScanNext operation. */
+export type DatabaseSqlVulnerabilityAssessmentScanResultListByScanNextResponse = SQLVulnerabilityAssessmentScanListResult;
+
+/** Optional parameters. */
+export interface DatabaseSqlVulnerabilityAssessmentScansListBySqlVulnerabilityAssessmentsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySqlVulnerabilityAssessments operation. */
+export type DatabaseSqlVulnerabilityAssessmentScansListBySqlVulnerabilityAssessmentsResponse = SqlVulnerabilityAssessmentScanRecordListResult;
+
+/** Optional parameters. */
+export interface DatabaseSqlVulnerabilityAssessmentScansGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DatabaseSqlVulnerabilityAssessmentScansGetResponse = SqlVulnerabilityAssessmentScanRecord;
+
+/** Optional parameters. */
+export interface DatabaseSqlVulnerabilityAssessmentScansListBySqlVulnerabilityAssessmentsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySqlVulnerabilityAssessmentsNext operation. */
+export type DatabaseSqlVulnerabilityAssessmentScansListBySqlVulnerabilityAssessmentsNextResponse = SqlVulnerabilityAssessmentScanRecordListResult;
+
+/** Optional parameters. */
+export interface DatabaseSqlVulnerabilityAssessmentsSettingsListByDatabaseOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByDatabase operation. */
+export type DatabaseSqlVulnerabilityAssessmentsSettingsListByDatabaseResponse = SqlVulnerabilityAssessmentListResult;
+
+/** Optional parameters. */
+export interface DatabaseSqlVulnerabilityAssessmentsSettingsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DatabaseSqlVulnerabilityAssessmentsSettingsGetResponse = SqlVulnerabilityAssessment;
+
+/** Optional parameters. */
+export interface DatabaseSqlVulnerabilityAssessmentsSettingsListByDatabaseNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByDatabaseNext operation. */
+export type DatabaseSqlVulnerabilityAssessmentsSettingsListByDatabaseNextResponse = SqlVulnerabilityAssessmentListResult;
 
 /** Optional parameters. */
 export interface SqlManagementClientOptionalParams

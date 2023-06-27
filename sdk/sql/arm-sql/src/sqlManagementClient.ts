@@ -123,24 +123,9 @@ import {
   DatabaseAdvancedThreatProtectionSettingsImpl,
   ServerAdvancedThreatProtectionSettingsImpl,
   ManagedServerDnsAliasesImpl,
-  DatabaseSqlVulnerabilityAssessmentBaselinesImpl,
-  DatabaseSqlVulnerabilityAssessmentExecuteScanImpl,
-  DatabaseSqlVulnerabilityAssessmentRuleBaselinesImpl,
-  DatabaseSqlVulnerabilityAssessmentScanResultImpl,
-  DatabaseSqlVulnerabilityAssessmentScansImpl,
-  DatabaseSqlVulnerabilityAssessmentsSettingsImpl,
   ManagedDatabaseAdvancedThreatProtectionSettingsImpl,
   ManagedInstanceAdvancedThreatProtectionSettingsImpl,
   ReplicationLinksImpl,
-  SqlVulnerabilityAssessmentBaselineImpl,
-  SqlVulnerabilityAssessmentBaselinesImpl,
-  SqlVulnerabilityAssessmentExecuteScanImpl,
-  SqlVulnerabilityAssessmentRuleBaselineImpl,
-  SqlVulnerabilityAssessmentRuleBaselinesImpl,
-  SqlVulnerabilityAssessmentScanResultImpl,
-  SqlVulnerabilityAssessmentScansImpl,
-  SqlVulnerabilityAssessmentsSettingsImpl,
-  SqlVulnerabilityAssessmentsImpl,
   ManagedDatabaseMoveOperationsImpl,
   ManagedInstanceDtcsImpl,
   SynapseLinkWorkspacesImpl,
@@ -158,7 +143,22 @@ import {
   StartStopManagedInstanceSchedulesImpl,
   TransparentDataEncryptionsImpl,
   FailoverGroupsImpl,
-  IPv6FirewallRulesImpl
+  IPv6FirewallRulesImpl,
+  SqlVulnerabilityAssessmentBaselineImpl,
+  SqlVulnerabilityAssessmentBaselinesImpl,
+  SqlVulnerabilityAssessmentExecuteScanImpl,
+  SqlVulnerabilityAssessmentRuleBaselineImpl,
+  SqlVulnerabilityAssessmentRuleBaselinesImpl,
+  SqlVulnerabilityAssessmentScanResultImpl,
+  SqlVulnerabilityAssessmentScansImpl,
+  SqlVulnerabilityAssessmentsSettingsImpl,
+  SqlVulnerabilityAssessmentsImpl,
+  DatabaseSqlVulnerabilityAssessmentBaselinesImpl,
+  DatabaseSqlVulnerabilityAssessmentExecuteScanImpl,
+  DatabaseSqlVulnerabilityAssessmentRuleBaselinesImpl,
+  DatabaseSqlVulnerabilityAssessmentScanResultImpl,
+  DatabaseSqlVulnerabilityAssessmentScansImpl,
+  DatabaseSqlVulnerabilityAssessmentsSettingsImpl
 } from "./operations";
 import {
   DataMaskingPolicies,
@@ -274,24 +274,9 @@ import {
   DatabaseAdvancedThreatProtectionSettings,
   ServerAdvancedThreatProtectionSettings,
   ManagedServerDnsAliases,
-  DatabaseSqlVulnerabilityAssessmentBaselines,
-  DatabaseSqlVulnerabilityAssessmentExecuteScan,
-  DatabaseSqlVulnerabilityAssessmentRuleBaselines,
-  DatabaseSqlVulnerabilityAssessmentScanResult,
-  DatabaseSqlVulnerabilityAssessmentScans,
-  DatabaseSqlVulnerabilityAssessmentsSettings,
   ManagedDatabaseAdvancedThreatProtectionSettings,
   ManagedInstanceAdvancedThreatProtectionSettings,
   ReplicationLinks,
-  SqlVulnerabilityAssessmentBaseline,
-  SqlVulnerabilityAssessmentBaselines,
-  SqlVulnerabilityAssessmentExecuteScan,
-  SqlVulnerabilityAssessmentRuleBaseline,
-  SqlVulnerabilityAssessmentRuleBaselines,
-  SqlVulnerabilityAssessmentScanResult,
-  SqlVulnerabilityAssessmentScans,
-  SqlVulnerabilityAssessmentsSettings,
-  SqlVulnerabilityAssessments,
   ManagedDatabaseMoveOperations,
   ManagedInstanceDtcs,
   SynapseLinkWorkspaces,
@@ -309,7 +294,22 @@ import {
   StartStopManagedInstanceSchedules,
   TransparentDataEncryptions,
   FailoverGroups,
-  IPv6FirewallRules
+  IPv6FirewallRules,
+  SqlVulnerabilityAssessmentBaseline,
+  SqlVulnerabilityAssessmentBaselines,
+  SqlVulnerabilityAssessmentExecuteScan,
+  SqlVulnerabilityAssessmentRuleBaseline,
+  SqlVulnerabilityAssessmentRuleBaselines,
+  SqlVulnerabilityAssessmentScanResult,
+  SqlVulnerabilityAssessmentScans,
+  SqlVulnerabilityAssessmentsSettings,
+  SqlVulnerabilityAssessments,
+  DatabaseSqlVulnerabilityAssessmentBaselines,
+  DatabaseSqlVulnerabilityAssessmentExecuteScan,
+  DatabaseSqlVulnerabilityAssessmentRuleBaselines,
+  DatabaseSqlVulnerabilityAssessmentScanResult,
+  DatabaseSqlVulnerabilityAssessmentScans,
+  DatabaseSqlVulnerabilityAssessmentsSettings
 } from "./operationsInterfaces";
 import { SqlManagementClientOptionalParams } from "./models";
 
@@ -344,7 +344,7 @@ export class SqlManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-sql/10.1.0`;
+    const packageDetails = `azsdk-js-arm-sql/11.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -602,24 +602,6 @@ export class SqlManagementClient extends coreClient.ServiceClient {
       this
     );
     this.managedServerDnsAliases = new ManagedServerDnsAliasesImpl(this);
-    this.databaseSqlVulnerabilityAssessmentBaselines = new DatabaseSqlVulnerabilityAssessmentBaselinesImpl(
-      this
-    );
-    this.databaseSqlVulnerabilityAssessmentExecuteScan = new DatabaseSqlVulnerabilityAssessmentExecuteScanImpl(
-      this
-    );
-    this.databaseSqlVulnerabilityAssessmentRuleBaselines = new DatabaseSqlVulnerabilityAssessmentRuleBaselinesImpl(
-      this
-    );
-    this.databaseSqlVulnerabilityAssessmentScanResult = new DatabaseSqlVulnerabilityAssessmentScanResultImpl(
-      this
-    );
-    this.databaseSqlVulnerabilityAssessmentScans = new DatabaseSqlVulnerabilityAssessmentScansImpl(
-      this
-    );
-    this.databaseSqlVulnerabilityAssessmentsSettings = new DatabaseSqlVulnerabilityAssessmentsSettingsImpl(
-      this
-    );
     this.managedDatabaseAdvancedThreatProtectionSettings = new ManagedDatabaseAdvancedThreatProtectionSettingsImpl(
       this
     );
@@ -627,33 +609,6 @@ export class SqlManagementClient extends coreClient.ServiceClient {
       this
     );
     this.replicationLinks = new ReplicationLinksImpl(this);
-    this.sqlVulnerabilityAssessmentBaseline = new SqlVulnerabilityAssessmentBaselineImpl(
-      this
-    );
-    this.sqlVulnerabilityAssessmentBaselines = new SqlVulnerabilityAssessmentBaselinesImpl(
-      this
-    );
-    this.sqlVulnerabilityAssessmentExecuteScan = new SqlVulnerabilityAssessmentExecuteScanImpl(
-      this
-    );
-    this.sqlVulnerabilityAssessmentRuleBaseline = new SqlVulnerabilityAssessmentRuleBaselineImpl(
-      this
-    );
-    this.sqlVulnerabilityAssessmentRuleBaselines = new SqlVulnerabilityAssessmentRuleBaselinesImpl(
-      this
-    );
-    this.sqlVulnerabilityAssessmentScanResult = new SqlVulnerabilityAssessmentScanResultImpl(
-      this
-    );
-    this.sqlVulnerabilityAssessmentScans = new SqlVulnerabilityAssessmentScansImpl(
-      this
-    );
-    this.sqlVulnerabilityAssessmentsSettings = new SqlVulnerabilityAssessmentsSettingsImpl(
-      this
-    );
-    this.sqlVulnerabilityAssessments = new SqlVulnerabilityAssessmentsImpl(
-      this
-    );
     this.managedDatabaseMoveOperations = new ManagedDatabaseMoveOperationsImpl(
       this
     );
@@ -682,6 +637,51 @@ export class SqlManagementClient extends coreClient.ServiceClient {
     this.transparentDataEncryptions = new TransparentDataEncryptionsImpl(this);
     this.failoverGroups = new FailoverGroupsImpl(this);
     this.iPv6FirewallRules = new IPv6FirewallRulesImpl(this);
+    this.sqlVulnerabilityAssessmentBaseline = new SqlVulnerabilityAssessmentBaselineImpl(
+      this
+    );
+    this.sqlVulnerabilityAssessmentBaselines = new SqlVulnerabilityAssessmentBaselinesImpl(
+      this
+    );
+    this.sqlVulnerabilityAssessmentExecuteScan = new SqlVulnerabilityAssessmentExecuteScanImpl(
+      this
+    );
+    this.sqlVulnerabilityAssessmentRuleBaseline = new SqlVulnerabilityAssessmentRuleBaselineImpl(
+      this
+    );
+    this.sqlVulnerabilityAssessmentRuleBaselines = new SqlVulnerabilityAssessmentRuleBaselinesImpl(
+      this
+    );
+    this.sqlVulnerabilityAssessmentScanResult = new SqlVulnerabilityAssessmentScanResultImpl(
+      this
+    );
+    this.sqlVulnerabilityAssessmentScans = new SqlVulnerabilityAssessmentScansImpl(
+      this
+    );
+    this.sqlVulnerabilityAssessmentsSettings = new SqlVulnerabilityAssessmentsSettingsImpl(
+      this
+    );
+    this.sqlVulnerabilityAssessments = new SqlVulnerabilityAssessmentsImpl(
+      this
+    );
+    this.databaseSqlVulnerabilityAssessmentBaselines = new DatabaseSqlVulnerabilityAssessmentBaselinesImpl(
+      this
+    );
+    this.databaseSqlVulnerabilityAssessmentExecuteScan = new DatabaseSqlVulnerabilityAssessmentExecuteScanImpl(
+      this
+    );
+    this.databaseSqlVulnerabilityAssessmentRuleBaselines = new DatabaseSqlVulnerabilityAssessmentRuleBaselinesImpl(
+      this
+    );
+    this.databaseSqlVulnerabilityAssessmentScanResult = new DatabaseSqlVulnerabilityAssessmentScanResultImpl(
+      this
+    );
+    this.databaseSqlVulnerabilityAssessmentScans = new DatabaseSqlVulnerabilityAssessmentScansImpl(
+      this
+    );
+    this.databaseSqlVulnerabilityAssessmentsSettings = new DatabaseSqlVulnerabilityAssessmentsSettingsImpl(
+      this
+    );
   }
 
   dataMaskingPolicies: DataMaskingPolicies;
@@ -797,24 +797,9 @@ export class SqlManagementClient extends coreClient.ServiceClient {
   databaseAdvancedThreatProtectionSettings: DatabaseAdvancedThreatProtectionSettings;
   serverAdvancedThreatProtectionSettings: ServerAdvancedThreatProtectionSettings;
   managedServerDnsAliases: ManagedServerDnsAliases;
-  databaseSqlVulnerabilityAssessmentBaselines: DatabaseSqlVulnerabilityAssessmentBaselines;
-  databaseSqlVulnerabilityAssessmentExecuteScan: DatabaseSqlVulnerabilityAssessmentExecuteScan;
-  databaseSqlVulnerabilityAssessmentRuleBaselines: DatabaseSqlVulnerabilityAssessmentRuleBaselines;
-  databaseSqlVulnerabilityAssessmentScanResult: DatabaseSqlVulnerabilityAssessmentScanResult;
-  databaseSqlVulnerabilityAssessmentScans: DatabaseSqlVulnerabilityAssessmentScans;
-  databaseSqlVulnerabilityAssessmentsSettings: DatabaseSqlVulnerabilityAssessmentsSettings;
   managedDatabaseAdvancedThreatProtectionSettings: ManagedDatabaseAdvancedThreatProtectionSettings;
   managedInstanceAdvancedThreatProtectionSettings: ManagedInstanceAdvancedThreatProtectionSettings;
   replicationLinks: ReplicationLinks;
-  sqlVulnerabilityAssessmentBaseline: SqlVulnerabilityAssessmentBaseline;
-  sqlVulnerabilityAssessmentBaselines: SqlVulnerabilityAssessmentBaselines;
-  sqlVulnerabilityAssessmentExecuteScan: SqlVulnerabilityAssessmentExecuteScan;
-  sqlVulnerabilityAssessmentRuleBaseline: SqlVulnerabilityAssessmentRuleBaseline;
-  sqlVulnerabilityAssessmentRuleBaselines: SqlVulnerabilityAssessmentRuleBaselines;
-  sqlVulnerabilityAssessmentScanResult: SqlVulnerabilityAssessmentScanResult;
-  sqlVulnerabilityAssessmentScans: SqlVulnerabilityAssessmentScans;
-  sqlVulnerabilityAssessmentsSettings: SqlVulnerabilityAssessmentsSettings;
-  sqlVulnerabilityAssessments: SqlVulnerabilityAssessments;
   managedDatabaseMoveOperations: ManagedDatabaseMoveOperations;
   managedInstanceDtcs: ManagedInstanceDtcs;
   synapseLinkWorkspaces: SynapseLinkWorkspaces;
@@ -833,4 +818,19 @@ export class SqlManagementClient extends coreClient.ServiceClient {
   transparentDataEncryptions: TransparentDataEncryptions;
   failoverGroups: FailoverGroups;
   iPv6FirewallRules: IPv6FirewallRules;
+  sqlVulnerabilityAssessmentBaseline: SqlVulnerabilityAssessmentBaseline;
+  sqlVulnerabilityAssessmentBaselines: SqlVulnerabilityAssessmentBaselines;
+  sqlVulnerabilityAssessmentExecuteScan: SqlVulnerabilityAssessmentExecuteScan;
+  sqlVulnerabilityAssessmentRuleBaseline: SqlVulnerabilityAssessmentRuleBaseline;
+  sqlVulnerabilityAssessmentRuleBaselines: SqlVulnerabilityAssessmentRuleBaselines;
+  sqlVulnerabilityAssessmentScanResult: SqlVulnerabilityAssessmentScanResult;
+  sqlVulnerabilityAssessmentScans: SqlVulnerabilityAssessmentScans;
+  sqlVulnerabilityAssessmentsSettings: SqlVulnerabilityAssessmentsSettings;
+  sqlVulnerabilityAssessments: SqlVulnerabilityAssessments;
+  databaseSqlVulnerabilityAssessmentBaselines: DatabaseSqlVulnerabilityAssessmentBaselines;
+  databaseSqlVulnerabilityAssessmentExecuteScan: DatabaseSqlVulnerabilityAssessmentExecuteScan;
+  databaseSqlVulnerabilityAssessmentRuleBaselines: DatabaseSqlVulnerabilityAssessmentRuleBaselines;
+  databaseSqlVulnerabilityAssessmentScanResult: DatabaseSqlVulnerabilityAssessmentScanResult;
+  databaseSqlVulnerabilityAssessmentScans: DatabaseSqlVulnerabilityAssessmentScans;
+  databaseSqlVulnerabilityAssessmentsSettings: DatabaseSqlVulnerabilityAssessmentsSettings;
 }
