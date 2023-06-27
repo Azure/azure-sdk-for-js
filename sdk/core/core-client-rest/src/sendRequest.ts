@@ -61,13 +61,6 @@ export async function sendRequest(
     if (options.tracingOptions) {
       request.tracingOptions = options.tracingOptions;
     }
-
-    const customHeaders = options?.customHeaders;
-    if (customHeaders) {
-      for (const customHeaderName of Object.keys(customHeaders)) {
-        request.headers.set(customHeaderName, customHeaders[customHeaderName]);
-      }
-    }
   }
   
   const response = await pipeline.sendRequest(httpClient, request);

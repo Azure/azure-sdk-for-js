@@ -129,9 +129,6 @@ export type RequestParameters = {
     allowInsecureConnection?: boolean;
     skipUrlEncoding?: boolean;
     pathParameters?: Record<string, any>;
-    customHeaders?: {
-        [key: string]: string;
-    };
     timeout?: number;
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     onDownloadProgress?: (progress: TransferProgressEvent) => void;

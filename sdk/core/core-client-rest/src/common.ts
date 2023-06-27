@@ -53,12 +53,6 @@ export type RequestParameters = {
   pathParameters?: Record<string, any>;
 
   /**
-   * User defined custom request headers that
-   * will be applied before the request is sent.
-   */
-  customHeaders?: { [key: string]: string };
-
-  /**
    * The number of milliseconds a request can take before automatically being terminated.
    */
   timeout?: number;
