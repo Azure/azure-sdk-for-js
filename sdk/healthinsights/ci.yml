@@ -27,7 +27,7 @@ extends:
   parameters:
     ServiceDirectory: healthinsights
     Artifacts:
-      - name: health-insights-cancerprofiling
-        safeName: healthinsightscancerprofiling
-      - name: health-insights-clinicalmatching
-        safeName: healthinsightsclinicalmatching
+      - name: azure-rest-health-insights-cancerprofiling
+        safeName: azureresthealthinsightscancerprofiling
+      - name: azure-rest-health-insights-clinicalmatching
+        safeName: azureresthealthinsightsclinicalmatching
