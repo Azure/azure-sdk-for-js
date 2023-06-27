@@ -1,13 +1,12 @@
-import cjs from "@rollup/plugin-commonjs";
-import inject from "@rollup/plugin-inject";
-import json from "@rollup/plugin-json";
-import multiEntry from "@rollup/plugin-multi-entry";
-import nodeResolve from "@rollup/plugin-node-resolve";
-import replace from "@rollup/plugin-replace";
-import shim from "rollup-plugin-shim";
-import sourcemaps from "rollup-plugin-sourcemaps";
-import typescript from "@rollup/plugin-typescript";
-import { makeConfig, makeBrowserTestConfig } from "@azure/dev-tool/shared-config/rollup";
+const cjs = require("@rollup/plugin-commonjs");
+const inject = require("@rollup/plugin-inject");
+const json = require("@rollup/plugin-json");
+const multiEntry = require("@rollup/plugin-multi-entry");
+const nodeResolve = require("@rollup/plugin-node-resolve");
+const replace = require("@rollup/plugin-replace");
+const shim = require("rollup-plugin-shim");
+const typescript = require("@rollup/plugin-typescript");
+const { makeConfig, makeBrowserTestConfig } = require("@azure/dev-tool/shared-config/rollup");
 
 const inputs = makeConfig(require("./package.json"));
 
@@ -25,7 +24,6 @@ function makeBrowserTestConfigPatch() {
     typescript({
       exclude: ["test/**/*.spec.ts"],
     }),
-    sourcemaps(),
     replace({
       preventAssignment: true,
       delimiters: ["", ""],

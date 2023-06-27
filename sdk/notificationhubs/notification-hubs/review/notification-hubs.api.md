@@ -109,16 +109,21 @@ export interface AppleInstallation extends DeviceTokenInstallation {
 // @public
 export interface AppleNativeMessage extends Record<string, any> {
     "content-available"?: number;
+    "content-state": Record<string, any>;
+    "dismissal-date": number;
     "filter-criteria"?: string;
     "interruption-level"?: "passive" | "active" | "time-sensitive" | "critical";
     "mutable-content"?: number;
     "relevance-score"?: number;
+    "stale-date"?: number;
     "target-content-id"?: string;
     "thread-id"?: string;
     alert?: string | AppleAlert;
     badge?: number;
     category?: string;
+    events?: string;
     sound?: string | AppleCriticalSound;
+    timestamp?: number;
 }
 
 // @public
