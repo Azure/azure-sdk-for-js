@@ -56,7 +56,7 @@ export interface GroupByAliasToAggregateType {
 }
 
 export class ErrorResponse extends Error {
-  code?: number;
+  code?: number | string;
   substatus?: number;
   body?: ErrorBody;
   headers?: CosmosHeaders;
@@ -64,5 +64,5 @@ export class ErrorResponse extends Error {
   retryAfterInMs?: number;
   retryAfterInMilliseconds?: number;
   [key: string]: any;
-  diagnostics: CosmosDiagnostics;
+  diagnostics?: CosmosDiagnostics;
 }

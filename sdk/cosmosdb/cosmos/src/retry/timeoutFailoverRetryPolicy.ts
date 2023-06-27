@@ -8,6 +8,7 @@ import { Constants, OperationType, ResourceType } from "../common/constants";
 import { RetryContext } from "./RetryContext";
 import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
 import { TimeoutErrorCode } from "../request/TimeoutError";
+import { ErrorResponse } from "../request";
 
 /**
  * This class TimeoutFailoverRetryPolicy handles retries for read operations
@@ -48,7 +49,7 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
   }
 
   public async shouldRetry(
-    err: any,
+    err: ErrorResponse,
     retryContext?: RetryContext,
     locationEndpoint?: string
   ): Promise<boolean> {

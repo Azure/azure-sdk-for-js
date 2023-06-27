@@ -759,9 +759,9 @@ export class ErrorResponse extends Error {
     // (undocumented)
     body?: ErrorBody;
     // (undocumented)
-    code?: number;
+    code?: number | string;
     // (undocumented)
-    diagnostics: CosmosDiagnostics;
+    diagnostics?: CosmosDiagnostics;
     // (undocumented)
     headers?: CosmosHeaders;
     // (undocumented)

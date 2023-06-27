@@ -78,7 +78,7 @@ describe("TimeoutFailoverRetryPolicy", function () {
   });
 
   it("should determine if retry should occur correctly", async function () {
-    const err: Error = timeoutErr;
+    const err: ErrorResponse = timeoutErr;
     const retryContext: RetryContext | undefined = undefined;
     const locationEndpoint: string | undefined = undefined;
 
