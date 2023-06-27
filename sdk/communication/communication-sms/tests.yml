@@ -20,7 +20,7 @@ stages:
             - $(sub-config-communication-int-test-resources-common)
             - $(sub-config-communication-int-test-resources-js)
           MatrixFilters:
-            - TestType=^(?!(browser|sample)).*
+            - TestType=^(?!browser).*
       Clouds: Public,Int
       TestResourceDirectories:
         - communication/test-resources/
