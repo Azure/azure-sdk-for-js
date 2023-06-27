@@ -12,7 +12,7 @@ import { Hotel } from "./interfaces";
 export const WAIT_TIME = 4000;
 
 export const documentKeyRetriever: (document: Hotel) => string = (document: Hotel): string => {
-  return document.hotelId;
+  return document.hotelId!;
 };
 
 /**
