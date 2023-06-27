@@ -71,6 +71,15 @@ async function main() {
 
   console.log(`Deleting room with id: ${roomId}...`);
 
+  // list available rooms
+  console.log("List all active rooms");
+  const listRooms = await roomsClient.listRooms();
+  for await (const roomModel of listRooms) {
+    printRoom(roomModel);
+  }
+
+  console.log("Successfully list all active rooms.");
+
   // deletes the specified room
   await roomsClient.deleteRoom(roomId);
 
