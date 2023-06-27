@@ -58,7 +58,7 @@ describe("managednetworkfabric test", () => {
     await recorder.stop();
   });
 
-  it("accessControlLists create test", async function () {
+  it.skip("accessControlLists create test", async function () {
     const res = await client.accessControlLists.create(
       resourceGroup,
       resourcename,
@@ -80,13 +80,13 @@ describe("managednetworkfabric test", () => {
     assert.equal(res.name, resourcename);
   });
 
-  it("accessControlLists get test", async function () {
+  it.skip("accessControlLists get test", async function () {
     const res = await client.accessControlLists.get(resourceGroup,
       resourcename);
     assert.equal(res.name, resourcename);
   });
 
-  it("accessControlLists list test", async function () {
+  it.skip("accessControlLists list test", async function () {
     const resArray = new Array();
     for await (let item of client.accessControlLists.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
@@ -94,7 +94,7 @@ describe("managednetworkfabric test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("accessControlLists delete test", async function () {
+  it.skip("accessControlLists delete test", async function () {
     const resArray = new Array();
     const res = await client.accessControlLists.delete(resourceGroup, resourcename
     )
@@ -104,7 +104,7 @@ describe("managednetworkfabric test", () => {
     assert.equal(resArray.length, 0);
   });
 
-  it.only("operation list test", async function () {
+  it("operation list test", async function () {
     const resArray = new Array();
     for await (let item of client.operations.list()) {
       resArray.push(item);
