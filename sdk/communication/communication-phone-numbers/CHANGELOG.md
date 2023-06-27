@@ -1,5 +1,8 @@
 # Release History
 
+## 1.3.0-alpha.20230626.1 (2023-06-26)
+- Added support for matchNumberToRoutes
+
 ## 1.3.0-alpha.20230517.1 (2023-05-17)
 - Added support for the API version 2023-04-01-preview.
 - Renamed sip Patch operation to Update operation
