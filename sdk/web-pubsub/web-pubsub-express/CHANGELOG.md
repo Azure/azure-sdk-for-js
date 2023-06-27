@@ -1,14 +1,10 @@
 # Release History
 
-## 1.0.5 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.0.5 (2023-06-28)
 
 ### Other Changes
+
+- Remove the abuse protection check since the service always validates the request
 
 ## 1.0.4 (2023-04-03)
 
