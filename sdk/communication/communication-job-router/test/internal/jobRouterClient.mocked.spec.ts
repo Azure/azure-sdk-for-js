@@ -3,7 +3,7 @@
 
 import sinon from "sinon";
 import { AzureCommunicationTokenCredential } from "@azure/communication-common";
-import { RouterClient } from "../../src";
+import { JobRouterClient } from "../../src";
 import { baseUri, generateToken } from "../public/utils/connection";
 
 describe("[Mocked] RouterClient", async function () {
@@ -12,6 +12,6 @@ describe("[Mocked] RouterClient", async function () {
   });
 
   it("can instantiate", async function () {
-    new RouterClient(baseUri, new AzureCommunicationTokenCredential(generateToken()));
+    new JobRouterClient(baseUri, new AzureCommunicationTokenCredential(generateToken()));
   });
 });

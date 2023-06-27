@@ -4,5 +4,5 @@
 export * from "./models/options";
 export * from "./models/models";
 export * from "./models/responses";
-export * from "./routerClient";
-export * from "./routerAdministrationClient";
+export * from "./jobRouterClient";
+export * from "./jobRouterAdministrationClient";

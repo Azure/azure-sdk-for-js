@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import { ExceptionPolicy, RouterAdministrationClient } from "../../../src";
+import { ExceptionPolicy, JobRouterAdministrationClient } from "../../../src";
 import { assert } from "chai";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { Context } from "mocha";
@@ -10,7 +10,7 @@ import { getExceptionPolicyRequest } from "../utils/testData";
 import { timeoutMs } from "../utils/constants";
 
 describe("RouterClient", function () {
-  let administrationClient: RouterAdministrationClient;
+  let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;
 
   const testRunId = "recorded-e-policies";
