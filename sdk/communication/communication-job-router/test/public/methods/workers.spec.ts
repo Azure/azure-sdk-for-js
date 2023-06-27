@@ -4,7 +4,7 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { RouterAdministrationClient, RouterClient, RouterWorker } from "../../../src";
+import { JobRouterAdministrationClient, JobRouterClient, RouterWorker } from "../../../src";
 import {
   getDistributionPolicyRequest,
   getExceptionPolicyRequest,
@@ -15,8 +15,8 @@ import { createRecordedRouterClientWithConnectionString } from "../../internal/u
 import { sleep, timeoutMs } from "../utils/constants";
 
 describe("RouterClient", function () {
-  let client: RouterClient;
-  let administrationClient: RouterAdministrationClient;
+  let client: JobRouterClient;
+  let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;
 
   const testRunId = "recorded-workers";
