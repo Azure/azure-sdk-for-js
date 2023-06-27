@@ -18,7 +18,7 @@
   },
   "exports": {
     ".": {
-      "types": "./types/latest/src/index.d.ts",
+      "types": "./types/src/index.d.ts",
       "require": "./dist/index.cjs",
       "import": "./dist-esm/src/index.js",
       "browser": "./dist-esm/src/log.browser.js"
@@ -48,10 +48,10 @@
     "unit-test:node": "mocha --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
-  "types": "./types/logger.d.ts",
   "files": [
     "dist/",
     "dist-esm/src/",
+    "types/src",
     "types/logger.d.ts",
     "README.md",
     "LICENSE"
@@ -90,6 +90,7 @@
     "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
     "eslint": "^8.4.3",
+    "esm": "^3.2.25",
     "karma": "^6.4.2",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",

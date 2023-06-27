@@ -2,6 +2,7 @@
   "name": "@azure/core-paging",
   "author": "Microsoft Corporation",
   "sdk-type": "client",
+  "type": "module",
   "version": "1.5.1",
   "description": "Core types for paging async iterable iterators",
   "tags": [
@@ -24,9 +25,18 @@
       ]
     }
   },
+  "exports": {
+    ".": {
+      "types": "./types/latest/src/index.d.ts",
+      "types@<3.6": "./types/3.1/src/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist-esm/src/index.js"
+    }
+  },
   "files": [
     "types/latest/core-paging.d.ts",
     "types/3.1",
+    "types/src",
     "dist/",
     "dist-esm/src/",
     "LICENSE",
@@ -61,8 +71,8 @@
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
-    "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 50000 --full-trace  --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\"",
+    "unit-test:browser": "karma start karma.conf.cjs --single-run",
+    "unit-test:node": "mocha --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": true,
@@ -74,25 +84,27 @@
     "@azure/dev-tool": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@types/chai": "^4.1.6",
-    "@types/mocha": "^7.0.2",
+    "@types/chai": "^4.3.5",
+    "@types/mocha": "^10.0.1",
     "@types/node": "^14.0.0",
-    "chai": "^4.2.0",
+    "chai": "^4.3.7",
     "downlevel-dts": "^0.10.0",
-    "eslint": "^8.0.0",
-    "karma": "^6.2.0",
-    "karma-chrome-launcher": "^3.0.0",
-    "karma-coverage": "^2.0.0",
+    "eslint": "^8.43.0",
+    "esm": "^3.2.25",
+    "karma": "^6.4.2",
+    "karma-chrome-launcher": "^3.2.0",
+    "karma-coverage": "^2.2.1",
     "karma-env-preprocessor": "^0.1.1",
     "karma-firefox-launcher": "^1.1.0",
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
-    "karma-sourcemap-loader": "^0.3.8",
-    "mocha": "^7.1.1",
-    "mocha-junit-reporter": "^2.0.0",
-    "prettier": "^2.5.1",
+    "karma-sourcemap-loader": "^0.4.0",
+    "mocha": "^10.2.0",
+    "mocha-junit-reporter": "^2.2.0",
+    "prettier": "^2.8.8",
     "rimraf": "^3.0.0",
+    "ts-node": "^10.9.1",
     "typescript": "~5.0.0"
   },
   "//metadata": {

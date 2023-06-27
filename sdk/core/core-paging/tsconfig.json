@@ -5,7 +5,13 @@
     "declarationDir": "./types/latest",
     "paths": {
       "@azure/core-paging": ["./src/index"]
-    }
+    },
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": "."
+  },
+  "ts-node": {
+    "esm": true
   },
   "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

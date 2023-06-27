@@ -3,7 +3,7 @@
 
 import path from "path";
 import fs from "fs";
-import { RecorderError } from "./utils";
+import { RecorderError } from "./utils.js";
 
 /**
  * Replace backslashes in a path with forward slashes so they are not treated as escape characters

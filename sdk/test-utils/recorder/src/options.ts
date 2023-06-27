@@ -1,6 +1,6 @@
 import { createHttpHeaders, createPipelineRequest, HttpClient } from "@azure/core-rest-pipeline";
-import { paths } from "./utils/paths";
-import { RecorderError } from "./utils/utils";
+import { paths } from "./utils/paths.js";
+import { RecorderError } from "./utils/utils.js";
 
 export type RecordingOptions = {
   handleRedirects?: boolean;

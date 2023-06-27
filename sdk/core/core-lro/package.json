@@ -2,8 +2,17 @@
   "name": "@azure/core-lro",
   "author": "Microsoft Corporation",
   "sdk-type": "client",
+  "type": "module",
   "version": "2.5.4",
   "description": "Isomorphic client library for supporting long-running operations in node.js and browser.",
+  "exports": {
+    ".": {
+      "types": "./types/latest/src/index.d.ts",
+      "types@<3.6": "./types/3.1/src/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist-esm/src/index.js"
+    }
+  },
   "tags": [
     "isomorphic",
     "browser",
@@ -86,8 +95,8 @@
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "cross-env TS_NODE_FILES=true TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"commonjs\\\"}\" nyc mocha -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace  --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\""
+    "unit-test:browser": "karma start karma.config.cjs --single-run",
+    "unit-test:node": "mocha --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\""
   },
   "sideEffects": false,
   "dependencies": {
@@ -102,11 +111,12 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/test-utils": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
-    "@types/mocha": "^7.0.2",
+    "@types/mocha": "^10.0.1",
     "@types/node": "^14.0.0",
     "cross-env": "^7.0.2",
-    "eslint": "^8.0.0",
-    "karma": "^6.2.0",
+    "eslint": "^8.43.0",
+    "esm": "^3.2.25",
+    "karma": "^6.4.2",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-env-preprocessor": "^0.1.1",
@@ -115,12 +125,12 @@
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
-    "mocha": "^7.1.1",
-    "mocha-junit-reporter": "^2.0.0",
+    "mocha": "^10.2.0",
+    "mocha-junit-reporter": "^2.2.0",
     "nyc": "^15.0.0",
-    "prettier": "^2.5.1",
+    "prettier": "^2.8.8",
     "rimraf": "^3.0.0",
-    "ts-node": "^10.0.0",
+    "ts-node": "^10.9.1",
     "typescript": "~5.0.0"
   },
   "//metadata": {

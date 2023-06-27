@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isPlaybackMode } from "./utils";
+import { isPlaybackMode } from "./utils.js";
 
 /**
  * Usage - `await delay(<milliseconds>)`
