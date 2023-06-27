@@ -2166,6 +2166,17 @@ export const scanResultId: OperationURLParameter = {
   }
 };
 
+export const vulnerabilityAssessmentName2: OperationURLParameter = {
+  parameterPath: "vulnerabilityAssessmentName",
+  mapper: {
+    serializedName: "vulnerabilityAssessmentName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const parameters105: OperationParameter = {
   parameterPath: "parameters",
   mapper: SqlVulnerabilityAssessmentMapper

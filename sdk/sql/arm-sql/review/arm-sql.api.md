@@ -1095,8 +1095,8 @@ export type DatabaseSqlVulnerabilityAssessmentRuleBaselinesListByBaselineRespons
 
 // @public
 export interface DatabaseSqlVulnerabilityAssessmentScanResult {
-    get(resourceGroupName: string, serverName: string, databaseName: string, vulnerabilityAssessmentName: SqlVulnerabilityAssessmentName, scanId: string, scanResultId: string, options?: DatabaseSqlVulnerabilityAssessmentScanResultGetOptionalParams): Promise<DatabaseSqlVulnerabilityAssessmentScanResultGetResponse>;
-    listByScan(resourceGroupName: string, serverName: string, databaseName: string, vulnerabilityAssessmentName: SqlVulnerabilityAssessmentName, scanId: string, options?: DatabaseSqlVulnerabilityAssessmentScanResultListByScanOptionalParams): PagedAsyncIterableIterator<SqlVulnerabilityAssessmentScanResults>;
+    get(resourceGroupName: string, serverName: string, databaseName: string, vulnerabilityAssessmentName: SQLVulnerabilityAssessmentName, scanId: string, scanResultId: string, options?: DatabaseSqlVulnerabilityAssessmentScanResultGetOptionalParams): Promise<DatabaseSqlVulnerabilityAssessmentScanResultGetResponse>;
+    listByScan(resourceGroupName: string, serverName: string, databaseName: string, vulnerabilityAssessmentName: SQLVulnerabilityAssessmentName, scanId: string, options?: DatabaseSqlVulnerabilityAssessmentScanResultListByScanOptionalParams): PagedAsyncIterableIterator<SqlVulnerabilityAssessmentScanResults>;
 }
 
 // @public
@@ -4337,6 +4337,11 @@ export enum KnownShortTermRetentionPolicyName {
 export enum KnownSqlAgentConfigurationPropertiesState {
     Disabled = "Disabled",
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownSQLVulnerabilityAssessmentName {
+    Default = "default"
 }
 
 // @public
@@ -9993,6 +9998,9 @@ export interface SqlVulnerabilityAssessmentListResult {
 }
 
 // @public
+export type SQLVulnerabilityAssessmentName = string;
+
+// @public
 export type SqlVulnerabilityAssessmentName = string;
 
 // @public
@@ -10086,8 +10094,8 @@ export interface SqlVulnerabilityAssessmentScanRecordListResult {
 
 // @public
 export interface SqlVulnerabilityAssessmentScanResult {
-    get(resourceGroupName: string, serverName: string, vulnerabilityAssessmentName: SqlVulnerabilityAssessmentName, scanId: string, scanResultId: string, options?: SqlVulnerabilityAssessmentScanResultGetOptionalParams): Promise<SqlVulnerabilityAssessmentScanResultGetResponse>;
-    listByScan(resourceGroupName: string, serverName: string, vulnerabilityAssessmentName: SqlVulnerabilityAssessmentName, scanId: string, options?: SqlVulnerabilityAssessmentScanResultListByScanOptionalParams): PagedAsyncIterableIterator<SqlVulnerabilityAssessmentScanResults>;
+    get(resourceGroupName: string, serverName: string, vulnerabilityAssessmentName: SQLVulnerabilityAssessmentName, scanId: string, scanResultId: string, options?: SqlVulnerabilityAssessmentScanResultGetOptionalParams): Promise<SqlVulnerabilityAssessmentScanResultGetResponse>;
+    listByScan(resourceGroupName: string, serverName: string, vulnerabilityAssessmentName: SQLVulnerabilityAssessmentName, scanId: string, options?: SqlVulnerabilityAssessmentScanResultListByScanOptionalParams): PagedAsyncIterableIterator<SqlVulnerabilityAssessmentScanResults>;
 }
 
 // @public

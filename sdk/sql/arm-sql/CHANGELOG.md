@@ -1,6 +1,6 @@
 # Release History
     
-## 11.0.0 (2023-06-27)
+## 10.1.0 (2023-06-27)
     
 **Features**
 
@@ -18,14 +18,6 @@
   - Interface ManagedDatabase has a new optional parameter isLedgerOn
   - Interface ManagedDatabaseUpdate has a new optional parameter isLedgerOn
   - Interface SqlVulnerabilityAssessmentScanRecord has a new optional parameter lastScanTime
-
-**Breaking Changes**
-
-  - Operation DatabaseSqlVulnerabilityAssessmentScanResult.get has a new signature
-  - Operation DatabaseSqlVulnerabilityAssessmentScanResult.listByScan has a new signature
-  - Operation SqlVulnerabilityAssessmentScanResult.get has a new signature
-  - Operation SqlVulnerabilityAssessmentScanResult.listByScan has a new signature
-  - Removed Enum KnownSQLVulnerabilityAssessmentName
     
     
 ## 10.0.0 (2023-03-22)

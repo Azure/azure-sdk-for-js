@@ -11363,20 +11363,20 @@ export enum KnownBaselineName {
  */
 export type BaselineName = string;
 
-/** Known values of {@link SqlVulnerabilityAssessmentName} that the service accepts. */
-export enum KnownSqlVulnerabilityAssessmentName {
+/** Known values of {@link SQLVulnerabilityAssessmentName} that the service accepts. */
+export enum KnownSQLVulnerabilityAssessmentName {
   /** Default */
   Default = "default"
 }
 
 /**
- * Defines values for SqlVulnerabilityAssessmentName. \
- * {@link KnownSqlVulnerabilityAssessmentName} can be used interchangeably with SqlVulnerabilityAssessmentName,
+ * Defines values for SQLVulnerabilityAssessmentName. \
+ * {@link KnownSQLVulnerabilityAssessmentName} can be used interchangeably with SQLVulnerabilityAssessmentName,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **default**
  */
-export type SqlVulnerabilityAssessmentName = string;
+export type SQLVulnerabilityAssessmentName = string;
 
 /** Known values of {@link RuleStatus} that the service accepts. */
 export enum KnownRuleStatus {
@@ -11449,6 +11449,21 @@ export enum KnownRuleType {
  * **NegativeList**
  */
 export type RuleType = string;
+
+/** Known values of {@link SqlVulnerabilityAssessmentName} that the service accepts. */
+export enum KnownSqlVulnerabilityAssessmentName {
+  /** Default */
+  Default = "default"
+}
+
+/**
+ * Defines values for SqlVulnerabilityAssessmentName. \
+ * {@link KnownSqlVulnerabilityAssessmentName} can be used interchangeably with SqlVulnerabilityAssessmentName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **default**
+ */
+export type SqlVulnerabilityAssessmentName = string;
 
 /** Known values of {@link ServiceObjectiveName} that the service accepts. */
 export enum KnownServiceObjectiveName {
