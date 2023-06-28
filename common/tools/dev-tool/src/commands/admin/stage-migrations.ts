@@ -124,6 +124,9 @@ export default leafCommand(
         );
 
         if (!passSucceeded) {
+          log.error(
+            `Failed to migrate '${project.packageName}' in service folder '${serviceFolder}'.`
+          );
           failed = true;
           anyServiceFolderFailed = true;
         }
