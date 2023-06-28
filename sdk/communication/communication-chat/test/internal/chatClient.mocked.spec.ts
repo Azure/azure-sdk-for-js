@@ -40,7 +40,11 @@ describe("[Mocked] ChatClient", async function () {
     const customizedVersion = `2021-03-07`;
     const mockHttpClient = generateHttpClient(201, mockCreateThreadResult);
     const options = { apiVersion: customizedVersion, httpClient: mockHttpClient };
-    chatClient = new ChatClient(baseUri, new AzureCommunicationTokenCredential(generateToken()), options as ChatClientOptions);
+    chatClient = new ChatClient(
+      baseUri,
+      new AzureCommunicationTokenCredential(generateToken()),
+      options as ChatClientOptions
+    );
 
     const spy = sinon.spy(mockHttpClient, "sendRequest");
     await chatClient.createChatThread({ topic: mockThread.topic });
