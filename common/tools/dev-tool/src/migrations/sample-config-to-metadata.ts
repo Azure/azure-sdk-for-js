@@ -9,9 +9,7 @@ import { createMigration } from "../util/migrations";
 import { AzureSdkMetadata, METADATA_KEY } from "../util/resolveProject";
 import { SampleConfiguration } from "../util/samples/configuration";
 
-import * as prettier from "prettier";
-
-import prettierConfiguration from "../../../eslint-plugin-azure-sdk/prettier.json";
+import { format } from "../util/prettier";
 
 export default createMigration(
   "sample_configuration_metadata",
@@ -49,13 +47,7 @@ export default createMigration(
 
         delete packageJson["//sampleConfiguration"];
 
-        await writeFile(
-          packageJsonPath,
-          prettier.format(JSON.stringify(packageJson, null, 2), {
-            ...(prettierConfiguration as prettier.Options),
-            parser: "json",
-          })
-        );
+        await writeFile(packageJsonPath, format(JSON.stringify(packageJson, null, 2), "json"));
       }
     },
   }
