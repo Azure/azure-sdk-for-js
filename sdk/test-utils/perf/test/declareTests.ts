@@ -5,7 +5,6 @@ import { NoOp } from "./noop.spec";
 import { OptionsTest } from "./options.spec";
 import { SetupCleanupTest } from "./setupCleanup.spec";
 import { Exception } from "./exception.spec";
-import { PerfPolicyTest } from "./perfPolicy.spec";
 import { SleepTest } from "./sleep.spec";
 import { NodeFetchTest } from "./nodeFetch.spec";
 import { MockReceiverTest } from "./batch/mockReceiverTest.spec";
@@ -31,10 +30,6 @@ const tests: TestDefinition[] = [
   {
     testClass: OptionsTest,
     options: "--req some-string",
-  },
-  {
-    testClass: PerfPolicyTest,
-    options: "--url http://bing.com/",
   },
   MockReceiverTest,
   MockEventReceiverTest,

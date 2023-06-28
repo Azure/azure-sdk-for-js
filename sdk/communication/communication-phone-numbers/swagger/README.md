@@ -21,6 +21,7 @@ title: Phone Numbers Client
 v3: true
 use-extension:
   "@autorest/typescript": "latest"
+use-legacy-lro: true
 tracing-info:
   namespace: "Microsoft.Communication"
   packagePrefix: "Azure.Communication"

@@ -94,7 +94,7 @@ export interface CommonEventProcessorOptions
  * ```
  * @internal
  */
-export interface EventHubConsumerOptions {
+export interface PartitionReceiverOptions {
   /**
    * The owner level associated with an exclusive consumer.
    *
@@ -125,6 +125,10 @@ export interface EventHubConsumerOptions {
    * prefer to work directly with the bytes present in the message body than have the client attempt to parse it.
    */
   skipParsingBodyAsJson?: boolean;
+  /**
+   * The count of events requested eagerly and queued without regard to whether a read was requested.
+   */
+  prefetchCount?: number;
 }
 
 /**

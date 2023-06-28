@@ -62,7 +62,7 @@
 /sdk/attestation/ @LarryOsterman @deyaaeldeen @anilba06 @gkostal
 
 # PRLabel: %Batch
-/sdk/batch/ @dpwatrous @paterasMSFT @zfengms @NickKouds @deyaaeldeen
+/sdk/batch/ @jingjlii @wanghoppe @dpwatrous @NickKouds @deyaaeldeen
 
 # PRLabel: %Communication
 /sdk/communication/
@@ -104,10 +104,10 @@
 /sdk/containerregistry/ @jeremymeng @timovv
 
 # PRLabel: %Cosmos
-/sdk/cosmosdb/ @kushagraThapar @kirankumarkolli @abkolant-MSFT
+/sdk/cosmosdb/ @kushagraThapar @kirankumarkolli @abkolant-MSFT @simorenoh @v1k1
 
 # ServiceLabel: %Cosmos %Service Attention
-#/<NotInRepo>/ @sajeetharan @abkolant-MSFT @pjohari-ms
+#/<NotInRepo>/ @sajeetharan @abkolant-MSFT @pjohari-ms @simorenoh @v1k1
 
 # PRLabel: %Digital Twins
 /sdk/digitaltwins/ @sjiherzig @johngallardo @olivakar
@@ -168,6 +168,9 @@
 # PRLabel: %Cognitive - Language
 /sdk/cognitivelanguage/ @minhanh-phan @deyaaeldeen
 
+# PRLabel: %OpenAI
+/sdk/openai/ @deyaaeldeen @minhanh-phan
+
 # PRLabel: %Schema Registry
 /sdk/schemaregistry/ @deyaaeldeen
 
@@ -181,7 +184,7 @@
 /sdk/search/ @dgetu @xirzec
 
 # PRLabel: %Mixed Reality
-/sdk/mixedreality/ @craigktreasure
+/sdk/mixedreality/ @RamonArguelles
 
 # PRLabel: %Remote Rendering
 /sdk/remoterendering/ @FlorianBorn71
@@ -863,8 +866,10 @@
 /sdk/dnsresolver/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Monitor
-/sdk/monitor/ @hectorhdzg @JacksonWeber
-/sdk/monitor/monitor-query/ @KarishmaGhiya
+/sdk/monitor/monitor-ingestion/ @KarishmaGhiya @sarangan12 
+/sdk/monitor/monitor-opentelemetry @hectorhdzg @JacksonWeber
+/sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @JacksonWeber
+/sdk/monitor/monitor-query/ @KarishmaGhiya @sarangan12 
 
 # ServiceLabel: %AAD %Service Attention
 #/<NotInRepo>/          @adamedx

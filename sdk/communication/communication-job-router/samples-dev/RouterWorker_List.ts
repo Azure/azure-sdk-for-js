@@ -3,7 +3,7 @@
 /**
  * @summary router worker crud
  */
-import { RouterClient, RouterWorkerItem } from "@azure/communication-job-router";
+import { JobRouterClient, RouterWorkerItem } from "@azure/communication-job-router";
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
@@ -12,17 +12,16 @@ dotenv.config();
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
-
 // List exception policies
 async function listRouterWorkers(): Promise<void> {
   // Create the Router Client
-  const routerClient: RouterClient = new RouterClient(connectionString);
+  const routerClient: JobRouterClient = new JobRouterClient(connectionString);
 
   let pagesCount = 1;
   const maxPageSize = 3;
   const receivedPagedItems: RouterWorkerItem[] = [];
 
-  for await (const page of routerClient.listWorkers( { maxPageSize: maxPageSize }).byPage()) {
+  for await (const page of routerClient.listWorkers({ maxPageSize: maxPageSize }).byPage()) {
     ++pagesCount;
     console.log("page: " + pagesCount);
     for (const policy of page) {
@@ -34,7 +33,6 @@ async function listRouterWorkers(): Promise<void> {
     let pageSize = receivedPagedItems.length;
     assert.isAtMost(pageSize, maxPageSize);
   }
-
-};
+}
 
 listRouterWorkers().catch(console.error);

@@ -62,7 +62,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-11-11-preview",
+    defaultValue: "2023-04-01",
     isConstant: true,
     serializedName: "api-version",
     type: {

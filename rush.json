@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */ {
+ */{
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -23,7 +23,7 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "7.26.0",
+  "pnpmVersion": "7.32.2",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
   /**
@@ -381,6 +381,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/openai",
+      "projectFolder": "sdk/openai/openai",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/ai-metrics-advisor",
       "projectFolder": "sdk/metricsadvisor/ai-metrics-advisor",
       "versionPolicyName": "client"
@@ -448,6 +453,11 @@
     {
       "packageName": "@azure-tools/communication-recipient-verification",
       "projectFolder": "sdk/communication/communication-recipient-verification",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-tools/communication-tiering",
+      "projectFolder": "sdk/communication/communication-tiering",
       "versionPolicyName": "client"
     },
     {
@@ -533,6 +543,11 @@
     {
       "packageName": "@azure/cosmos",
       "projectFolder": "sdk/cosmosdb/cosmos",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/monitor-opentelemetry",
+      "projectFolder": "sdk/monitor/monitor-opentelemetry",
       "versionPolicyName": "client"
     },
     {
@@ -751,6 +766,11 @@
     {
       "packageName": "@azure/template",
       "projectFolder": "sdk/template/template",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/template-dpg",
+      "projectFolder": "sdk/template/template-dpg",
       "versionPolicyName": "client"
     },
     {
@@ -1939,11 +1959,6 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure/arm-liftrqumulo",
-      "projectFolder": "sdk/liftrqumulo/arm-liftrqumulo",
-      "versionPolicyName": "management"
-    },
-    {
       "packageName": "@azure/arm-storagemover",
       "projectFolder": "sdk/storagemover/arm-storagemover",
       "versionPolicyName": "management"
@@ -1971,6 +1986,46 @@
     {
       "packageName": "@azure/arm-paloaltonetworksngfw",
       "projectFolder": "sdk/paloaltonetworksngfw/arm-paloaltonetworksngfw",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-selfhelp",
+      "projectFolder": "sdk/selfhelp/arm-selfhelp",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-costmanagement",
+      "projectFolder": "sdk/cost-management/arm-costmanagement",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-networkcloud",
+      "projectFolder": "sdk/networkcloud/arm-networkcloud",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-baremetalinfrastructure",
+      "projectFolder": "sdk/baremetalinfrastructure/arm-baremetalinfrastructure",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-qumulo",
+      "projectFolder": "sdk/liftrqumulo/arm-qumulo",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-containerservicefleet",
+      "projectFolder": "sdk/containerservice/arm-containerservicefleet",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-cosmosdbforpostgresql",
+      "projectFolder": "sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-managednetworkfabric",
+      "projectFolder": "sdk/managednetworkfabric/arm-managednetworkfabric",
       "versionPolicyName": "management"
     }
   ]

@@ -3,9 +3,7 @@
 
 import {
   AnalyzeBatchActionNames,
-  KnownHealthcareDocumentType,
   KnownExtractiveSummarizationOrderingCriteria,
-  KnownFhirVersion,
   KnownPiiEntityCategory,
   KnownPiiEntityDomain,
   KnownStringIndexType,
@@ -29,11 +27,9 @@ import {
   expectation18,
   expectation19,
   expectation20,
-  expectation21,
   expectation22,
   expectation23,
   expectation24,
-  expectation25,
   expectation26,
   expectation27,
   expectation28,
@@ -44,29 +40,16 @@ import {
   expectation7,
   expectation8,
   expectation9,
-  expectation33,
-  expectation32,
   expectation30,
   expectation31,
-  expectation71,
 } from "./expectations";
-import { windows365ArticlePart1, windows365ArticlePart2 } from "./inputs";
+import { authModes, windows365ArticlePart1, windows365ArticlePart2 } from "./inputs";
 
-const FIXME1 = {
-  // FIXME: remove this check when the service updates its message
-  excludedAdditionalProps: ["message"],
-};
-
-const FIXME2 = {
-  // FIXME: remove this check when the service returns warnings in document results, see https://dev.azure.com/msazure/Cognitive%20Services/_workitems/edit/15772270
-  excludedAdditionalProps: ["warnings"],
-};
-
-const excludedFHIRProperties = ["reference", "id", "fullUrl", "value", "date", "period"];
 const excludedSummarizationProperties = {
   excludedAdditionalProps: ["text", "rankScore", "offset", "length"],
 };
-matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
+
+matrix(authModes, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
     let recorder: Recorder;
     let client: TextAnalysisClient;
@@ -114,32 +97,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             );
 
             await assertActionsResults(await poller.pollUntilDone(), expectation3);
-          });
-
-          // FIXME: add the input for the VolumeResolution once the service is consistent
-          it("entity recognition with resolution", async function () {
-            const docs = [
-              /* "The dog is 14 inches tall and weighs 20 lbs. It is 5 years old.", */
-              "This is the first aircraft of its kind. It can fly at over 1,300 meter per second and carry 65-80 passengers.",
-              "The apartment is 840 sqft. and it has 2 bedrooms. It costs 2,000 US dollars per month and will be available on 11/01/2022.",
-              /* "Mix 1 cup of sugar. Bake for approximately 60 minutes in an oven preheated to 350 degrees F.", */
-              "They retrieved 200 terabytes of data between October 24th, 2022 and October 28th, 2022.",
-            ];
-            const poller = await client.beginAnalyzeBatch(
-              [
-                {
-                  kind: AnalyzeBatchActionNames.EntityRecognition,
-                  modelVersion: "2022-10-01-preview",
-                },
-              ],
-              docs,
-              "en",
-              {
-                updateIntervalInMs: pollingInterval,
-              }
-            );
-
-            await assertActionsResults(await poller.pollUntilDone(), expectation33);
           });
 
           it("key phrase extraction", async function () {
@@ -305,55 +262,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             await assertActionsResults(await poller.pollUntilDone(), expectation20);
           });
 
-          it("healthcare with fhir", async function () {
-            const docs = [
-              "Patient does not suffer from high blood pressure.",
-              "Prescribed 100mg ibuprofen, taken twice daily.",
-              "Baby not likely to have Meningitis. in case of fever in the mother, consider Penicillin for the baby too.",
-            ];
-            const poller = await client.beginAnalyzeBatch(
-              [
-                {
-                  kind: AnalyzeBatchActionNames.Healthcare,
-                  fhirVersion: KnownFhirVersion["4.0.1"],
-                },
-              ],
-              docs,
-              "en",
-              {
-                updateIntervalInMs: pollingInterval,
-              }
-            );
-            await assertActionsResults(await poller.pollUntilDone(), expectation25, {
-              excludedAdditionalProps: excludedFHIRProperties,
-            });
-          });
-
-          it("healthcare with known documents type", async function () {
-            const docs = [
-              "The patient is a 54-year-old gentleman with a history of progressive angina over the past several months.",
-              "Prescribed 100mg ibuprofen, taken twice daily.",
-              "Patient does not suffer from high blood pressure.",
-            ];
-            const poller = await client.beginAnalyzeBatch(
-              [
-                {
-                  kind: AnalyzeBatchActionNames.Healthcare,
-                  fhirVersion: KnownFhirVersion["4.0.1"],
-                  documentType: KnownHealthcareDocumentType.DischargeSummary,
-                },
-              ],
-              docs,
-              "en",
-              {
-                updateIntervalInMs: pollingInterval,
-              }
-            );
-            await assertActionsResults(await poller.pollUntilDone(), expectation32, {
-              excludedAdditionalProps: excludedFHIRProperties,
-            });
-          });
-
           it("extractive summarization", async function () {
             const docs = [windows365ArticlePart1, windows365ArticlePart2];
             const poller = await client.beginAnalyzeBatch(
@@ -463,7 +371,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               }
             );
             await assertActionsResults(await poller.pollUntilDone(), expectation30, {
-              ...FIXME2,
               ...excludedSummarizationProperties,
             });
           });
@@ -484,7 +391,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               }
             );
             await assertActionsResults(await poller.pollUntilDone(), expectation31, {
-              ...FIXME2,
               ...excludedSummarizationProperties,
             });
           });
@@ -619,28 +525,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               }
             );
           });
-
-          // TODO: Unskip when hear back from service team on 'DocumentTruncated' warning
-          it.skip("big document causes a warning", async function () {
-            let text = "";
-            for (let i = 0; i < 5121; ++i) {
-              text = text + "x";
-            }
-            const docs = [text];
-            const poller = await client.beginAnalyzeBatch(
-              [
-                {
-                  kind: AnalyzeBatchActionNames.Healthcare,
-                },
-              ],
-              docs,
-              "en",
-              {
-                updateIntervalInMs: pollingInterval,
-              }
-            );
-            await assertActionsResults(await poller.pollUntilDone(), expectation21, FIXME1);
-          });
         });
 
         it("unique multiple actions per type are allowed", async function () {
@@ -696,7 +580,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionsResults(await poller.pollUntilDone(), expectation10, FIXME1);
+          await assertActionsResults(await poller.pollUntilDone(), expectation10);
         });
 
         it("all documents with errors and multiple actions", async function () {
@@ -730,7 +614,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionsResults(await poller.pollUntilDone(), expectation11, FIXME1);
+          await assertActionsResults(await poller.pollUntilDone(), expectation11);
         });
 
         it("output order is same as the input's one with multiple actions", async function () {
@@ -885,43 +769,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           await assertActionsResults(await poller.pollUntilDone(), expectation15);
         });
 
-        // TODO: Unskip when hear back from service team on 'isLanguageDefaulted' property
-        it.skip("whole batch input with auto language detection", async function () {
-          const docs = [
-            "I will go to the park.",
-            "Este es un document escrito en Español.",
-            "猫は幸せ",
-          ];
-          const poller = await client.beginAnalyzeBatch(
-            [
-              {
-                kind: AnalyzeBatchActionNames.EntityRecognition,
-              },
-              {
-                kind: AnalyzeBatchActionNames.PiiEntityRecognition,
-              },
-              {
-                kind: AnalyzeBatchActionNames.SentimentAnalysis,
-              },
-              {
-                kind: AnalyzeBatchActionNames.KeyPhraseExtraction,
-              },
-              {
-                kind: AnalyzeBatchActionNames.EntityLinking,
-              },
-              {
-                kind: AnalyzeBatchActionNames.Healthcare,
-              },
-            ],
-            docs,
-            "auto",
-            {
-              updateIntervalInMs: pollingInterval,
-            }
-          );
-          await assertActionsResults(await poller.pollUntilDone(), expectation71);
-        });
-
         it("invalid language hint", async function () {
           const docs = ["This should fail because we're passing in an invalid language hint"];
           const poller = await client.beginAnalyzeBatch(
@@ -942,7 +789,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             }
           );
-          await assertActionsResults(await poller.pollUntilDone(), expectation16, FIXME1);
+          await assertActionsResults(await poller.pollUntilDone(), expectation16);
         });
 
         it("paged results with custom page size", async function () {
@@ -1086,7 +933,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
         });
 
         describe("stringIndexType", function () {
-          it("family emoji wit skin tone modifier", async function () {
+          it("family emoji with skin tone modifier", async function () {
             const docs = ["👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987"];
             const poller = await client.beginAnalyzeBatch(
               [
@@ -1104,7 +951,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             await assertActionsResults(await poller.pollUntilDone(), expectation18);
           });
 
-          it("family emoji wit skin tone modifier with Utf16CodeUnit", async function () {
+          it("family emoji with skin tone modifier with Utf16CodeUnit", async function () {
             const docs = ["👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen"];
             const poller = await client.beginAnalyzeBatch(
               [
@@ -1122,7 +969,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             await assertActionsResults(await poller.pollUntilDone(), expectation22);
           });
 
-          it("family emoji wit skin tone modifier with UnicodeCodePoint", async function () {
+          it("family emoji with skin tone modifier with UnicodeCodePoint", async function () {
             const docs = ["👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen"];
             const poller = await client.beginAnalyzeBatch(
               [

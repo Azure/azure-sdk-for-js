@@ -93,7 +93,13 @@ export class Database {
       resourceId: id,
       options,
     });
-    return new DatabaseResponse(response.result, response.headers, response.code, this);
+    return new DatabaseResponse(
+      response.result,
+      response.headers,
+      response.code,
+      this,
+      response.diagnostics
+    );
   }
 
   /** Delete the given Database. */
@@ -106,7 +112,13 @@ export class Database {
       resourceId: id,
       options,
     });
-    return new DatabaseResponse(response.result, response.headers, response.code, this);
+    return new DatabaseResponse(
+      response.result,
+      response.headers,
+      response.code,
+      this,
+      response.diagnostics
+    );
   }
 
   /**
@@ -127,6 +139,12 @@ export class Database {
     const offer = response.result[0]
       ? new Offer(this.client, response.result[0].id, this.clientContext)
       : undefined;
-    return new OfferResponse(response.result[0], response.headers, response.code, offer);
+    return new OfferResponse(
+      response.result[0],
+      response.headers,
+      response.code,
+      response.diagnostics,
+      offer
+    );
   }
 }

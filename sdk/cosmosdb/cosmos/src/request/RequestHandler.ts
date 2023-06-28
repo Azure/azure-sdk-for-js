@@ -18,6 +18,7 @@ import { Response as CosmosResponse } from "./Response";
 import { TimeoutError } from "./TimeoutError";
 import { getCachedDefaultHttpClient } from "../utils/cachedClient";
 import { AzureLogger, createClientLogger } from "@azure/logger";
+import { CosmosDiagnostics } from "../CosmosDiagnostics";
 
 const logger: AzureLogger = createClientLogger("RequestHandler");
 
@@ -33,6 +34,7 @@ async function httpRequest(requestContext: RequestContext): Promise<{
   result: any;
   code: number;
   substatus: number;
+  diagnostics: CosmosDiagnostics;
 }> {
   const controller = new AbortController();
   const signal = controller.signal;
@@ -57,6 +59,7 @@ async function httpRequest(requestContext: RequestContext): Promise<{
 
   if (requestContext.body) {
     requestContext.body = bodyFromData(requestContext.body);
+    requestContext.diagnosticContext.recordRequestPayload(requestContext.body);
   }
 
   const httpsClient = getCachedDefaultHttpClient();
@@ -103,6 +106,7 @@ async function httpRequest(requestContext: RequestContext): Promise<{
       ? null
       : JSON.parse(response.bodyAsText);
   const headers = response.headers.toJSON();
+  requestContext.diagnosticContext.recordResponseStats(result, reqHeaders);
 
   const substatus = headers[Constants.HttpHeaders.SubStatus]
     ? parseInt(headers[Constants.HttpHeaders.SubStatus], 10)
@@ -110,7 +114,7 @@ async function httpRequest(requestContext: RequestContext): Promise<{
 
   if (response.status >= 400) {
     const errorResponse: ErrorResponse = new ErrorResponse(result.message);
-
+    errorResponse.diagnostics = requestContext.diagnosticContext.getDiagnostics();
     logger.warning(
       response.status +
         " " +
@@ -149,6 +153,7 @@ async function httpRequest(requestContext: RequestContext): Promise<{
     result,
     code: response.status,
     substatus,
+    diagnostics: requestContext.diagnosticContext.getDiagnostics(),
   };
 }
 

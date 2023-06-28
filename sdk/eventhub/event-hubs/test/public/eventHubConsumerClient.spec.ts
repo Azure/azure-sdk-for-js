@@ -96,6 +96,21 @@ testWithServiceTypes((serviceVersion) => {
         clients = [];
       });
 
+      describe("client options", function (): void {
+        it("the identifier option can be set", async function (): Promise<void> {
+          const identifier = "Test1";
+          const client = new EventHubConsumerClient(
+            EventHubConsumerClient.defaultConsumerGroupName,
+            service.connectionString,
+            service.path,
+            {
+              identifier,
+            }
+          );
+          client.identifier.should.equal(identifier, "The client identifier wasn't set correctly");
+        });
+      });
+
       describe("#close()", function (): void {
         it("stops any actively running subscriptions", async function (): Promise<void> {
           const client = new EventHubConsumerClient(

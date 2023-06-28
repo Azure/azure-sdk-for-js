@@ -2,7 +2,7 @@
   "name": "@azure/core-lro",
   "author": "Microsoft Corporation",
   "sdk-type": "client",
-  "version": "2.5.3",
+  "version": "2.5.4",
   "description": "Isomorphic client library for supporting long-running operations in node.js and browser.",
   "tags": [
     "isomorphic",
@@ -122,5 +122,8 @@
     "rimraf": "^3.0.0",
     "ts-node": "^10.0.0",
     "typescript": "~5.0.0"
+  },
+  "//metadata": {
+    "migrationDate": "2023-03-08T18:36:03.000Z"
   }
 }
