@@ -3,7 +3,7 @@
 
 import sinon from "sinon";
 import { assert, expect } from "chai";
-import { ChatClient, CreateChatThreadRequest } from "../../src";
+import { ChatClient, ChatClientOptions, CreateChatThreadRequest } from "../../src";
 import * as RestModel from "../../src/generated/src/models";
 import { apiVersion } from "../../src/generated/src/models/parameters";
 import { baseUri, generateToken } from "../public/utils/connectionUtils";
@@ -24,6 +24,9 @@ const API_VERSION = apiVersion.mapper.defaultValue;
 
 describe("[Mocked] ChatClient", async function () {
   let chatClient: ChatClient;
+  let listener: () => {
+    // Intentionally empty listener for testing purposes
+  };
 
   afterEach(function () {
     sinon.restore();
@@ -31,6 +34,11 @@ describe("[Mocked] ChatClient", async function () {
 
   it("can instantiate", async function () {
     new ChatClient(baseUri, new AzureCommunicationTokenCredential(generateToken()));
+  });
+
+  it("can instantiate with custom api version policy", function () {
+    const options = { apiVersion: "2021-03-07" };
+    new ChatClient(baseUri, new AzureCommunicationTokenCredential(generateToken()), options as ChatClientOptions);
   });
 
   it("makes successful create thread request", async function () {
@@ -97,7 +105,7 @@ describe("[Mocked] ChatClient", async function () {
     chatClient = createChatClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
-    let chatThreadsIterator = chatClient.listChatThreads({ maxPageSize: 2 });
+    const chatThreadsIterator = chatClient.listChatThreads({ maxPageSize: 2 });
 
     let count = 0;
     // loop over each page
@@ -172,7 +180,7 @@ describe("[Mocked] ChatClient", async function () {
     }
 
     try {
-      chatClient.off("chatMessageReceived", () => {});
+      chatClient.off("chatMessageReceived", listener);
       throw new Error("Error is expected.");
     } catch (error) {
       expect(error).to.be.an.instanceof(Error);
@@ -188,7 +196,7 @@ describe("[Mocked] ChatClient", async function () {
     }
 
     try {
-      chatClient.on("chatMessageReceived", () => {});
+      chatClient.on("chatMessageReceived", listener);
       throw new Error("Error is expected.");
     } catch (error) {
       expect(error).to.be.an.instanceof(Error);
@@ -204,7 +212,7 @@ describe("[Mocked] ChatClient", async function () {
     }
 
     try {
-      chatClient.on("chatMessageEdited", () => {});
+      chatClient.on("chatMessageEdited", listener);
       throw new Error("Error is expected.");
     } catch (error) {
       expect(error).to.be.an.instanceof(Error);
@@ -220,7 +228,7 @@ describe("[Mocked] ChatClient", async function () {
     }
 
     try {
-      chatClient.on("chatMessageDeleted", () => {});
+      chatClient.on("chatMessageDeleted", listener);
       throw new Error("Error is expected.");
     } catch (error) {
       expect(error).to.be.an.instanceof(Error);
@@ -236,7 +244,7 @@ describe("[Mocked] ChatClient", async function () {
     }
 
     try {
-      chatClient.on("typingIndicatorReceived", () => {});
+      chatClient.on("typingIndicatorReceived", listener);
       throw new Error("Error is expected.");
     } catch (error) {
       expect(error).to.be.an.instanceof(Error);
@@ -252,7 +260,7 @@ describe("[Mocked] ChatClient", async function () {
     }
 
     try {
-      chatClient.on("readReceiptReceived", () => {});
+      chatClient.on("readReceiptReceived", listener);
       throw new Error("Error is expected.");
     } catch (error) {
       expect(error).to.be.an.instanceof(Error);
@@ -268,7 +276,7 @@ describe("[Mocked] ChatClient", async function () {
     }
 
     try {
-      chatClient.on("chatThreadCreated", () => {});
+      chatClient.on("chatThreadCreated", listener);
       throw new Error("Error is expected.");
     } catch (error) {
       expect(error).to.be.an.instanceof(Error);
@@ -284,7 +292,7 @@ describe("[Mocked] ChatClient", async function () {
     }
 
     try {
-      chatClient.on("chatThreadDeleted", () => {});
+      chatClient.on("chatThreadDeleted", listener);
       throw new Error("Error is expected.");
     } catch (error) {
       expect(error).to.be.an.instanceof(Error);
@@ -300,7 +308,7 @@ describe("[Mocked] ChatClient", async function () {
     }
 
     try {
-      chatClient.on("chatThreadPropertiesUpdated", () => {});
+      chatClient.on("chatThreadPropertiesUpdated", listener);
       throw new Error("Error is expected.");
     } catch (error) {
       expect(error).to.be.an.instanceof(Error);
@@ -316,7 +324,7 @@ describe("[Mocked] ChatClient", async function () {
     }
 
     try {
-      chatClient.on("participantsAdded", () => {});
+      chatClient.on("participantsAdded", listener);
       throw new Error("Error is expected.");
     } catch (error) {
       expect(error).to.be.an.instanceof(Error);
@@ -332,7 +340,7 @@ describe("[Mocked] ChatClient", async function () {
     }
 
     try {
-      chatClient.on("participantsRemoved", () => {});
+      chatClient.on("participantsRemoved", listener);
       throw new Error("Error is expected.");
     } catch (error) {
       expect(error).to.be.an.instanceof(Error);
