@@ -117,7 +117,6 @@ describe("[Mocked] ChatClient", async function () {
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
     const chatThreadsIterator = chatClient.listChatThreads({ maxPageSize: 2 });
-
     let count = 0;
     // loop over each page
     for await (const page of chatThreadsIterator.byPage()) {
