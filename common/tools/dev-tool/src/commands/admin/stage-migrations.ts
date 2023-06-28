@@ -94,7 +94,7 @@ export default leafCommand(
     for (const serviceFolder of serviceList) {
       const projects = await getProjects(serviceFolder);
 
-      log.info(`Migrating ${serviceFolder}...`);
+      log.info(`Migrating service folder '${serviceFolder}'...`);
 
       const serviceBranchName = `${cleanBranchBase}/${serviceFolder}/${id}`;
 
@@ -110,7 +110,7 @@ export default leafCommand(
       let failed = false;
 
       for (const project of projects) {
-        console.log("Migrating", project.packageName);
+        log.info(`Migrating project ${project.packageName}`);
 
         const migrationReports = await runUnattendedMigrationPass(
           path.resolve(root, project.projectFolder)
