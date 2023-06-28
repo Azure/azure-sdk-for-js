@@ -242,6 +242,9 @@ export interface DocumentClassifierBuildOperationDetails extends OperationDetail
 }
 
 // @public
+export type DocumentClassifierContentSource = AzureBlobContentSource | AzureBlobFileListSource;
+
+// @public
 export interface DocumentClassifierDetails {
     apiVersion: string;
     classifierId: string;
@@ -366,9 +369,10 @@ export class DocumentModelAdministrationClient {
     constructor(endpoint: string, credential: KeyCredential, options?: DocumentModelAdministrationClientOptions);
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: DocumentModelAdministrationClientOptions);
     beginBuildDocumentClassifier(classifierId: string, docTypes: {
-        [docType: string]: ClassifierDocumentTypeDetails;
+        [docType: string]: DocumentClassifierContentSource;
     }, options?: BeginBuildDocumentClassifierOptions): Promise<DocumentClassifierPoller>;
     beginBuildDocumentModel(modelId: string, containerUrl: string, buildMode: DocumentModelBuildMode, options?: BeginBuildDocumentModelOptions): Promise<DocumentModelPoller>;
+    beginBuildDocumentModel(modelId: string, contentSource: DocumentModelContentSource, buildMode: DocumentModelBuildMode, options?: BeginBuildDocumentModelOptions): Promise<DocumentModelPoller>;
     beginComposeDocumentModel(modelId: string, componentModelIds: Iterable<string>, options?: BeginComposeDocumentModelOptions): Promise<DocumentModelPoller>;
     beginCopyModelTo(sourceModelId: string, authorization: CopyAuthorization, options?: BeginCopyModelOptions): Promise<DocumentModelPoller>;
     deleteDocumentClassifier(classifierId: string, options?: OperationOptions): Promise<void>;
@@ -407,6 +411,9 @@ export interface DocumentModelComposeOperationDetails extends OperationDetails {
     kind: "documentModelCompose";
     result?: DocumentModelDetails;
 }
+
+// @public
+export type DocumentModelContentSource = AzureBlobContentSource | AzureBlobFileListSource;
 
 // @public
 export interface DocumentModelCopyToOperationDetails extends OperationDetails {
@@ -610,10 +617,9 @@ export type FormRecognizerApiVersion = (typeof FormRecognizerApiVersion)[keyof t
 
 // @public
 export const FormRecognizerApiVersion: {
-    readonly Latest: "2023-02-28-preview";
-    readonly Stable: "2022-08-31";
+    readonly Latest: "2023-07-31";
+    readonly Stable: "2023-07-31";
     readonly "2022-08-31": "2022-08-31";
-    readonly "2023-02-28-preview": "2023-02-28-preview";
 };
 
 // @public

@@ -51,8 +51,6 @@ export {
   DocumentAnnotationKind,
   DocumentBarcodeKind,
   DocumentFormulaKind,
-  AzureBlobFileListSource,
-  AzureBlobContentSource,
   QuotaDetails,
   // KnownXYZ enums
   KnownDocumentBuildMode,
