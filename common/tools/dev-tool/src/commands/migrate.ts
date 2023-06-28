@@ -242,10 +242,10 @@ export async function runUnattendedMigrationPass(projectPath: string): Promise<M
 
     switch (exitState.kind) {
       case "success":
-        await onMigrationSuccess(project, migration);
+        await onMigrationSuccess(project, migration, /* quiet */ true);
         break;
       case "skipped":
-        await onMigrationSkipped(project, migration);
+        await onMigrationSkipped(project, migration, /* quiet */ true);
         break;
       default:
         await abortMigration(project, /* quiet */ true);
@@ -348,24 +348,32 @@ async function runMigrations(pending: Migration[], project: ProjectInfo): Promis
  * @param project - the project to apply the migration succeeded state to
  * @param migration - the migration that succeeded
  */
-async function onMigrationSuccess(project: ProjectInfo, migration: Migration) {
+async function onMigrationSuccess(
+  project: ProjectInfo,
+  migration: Migration,
+  quiet: boolean = false
+) {
   await updateMigrationDate(project, migration);
 
   await git.commitAll(`${project.name}: applied migration '${migration.id}'`);
 
-  log.success(`Migration '${migration.id}' applied successfully.`);
+  !quiet && log.success(`Migration '${migration.id}' applied successfully.`);
 }
 
 /**
  * Updates the repo after a migration was skipped. This includes updating the migration date in the package.json and
  * making a ceremonial commit (even though only the migration date will have changed).
  */
-async function onMigrationSkipped(project: ProjectInfo, migration: Migration) {
+async function onMigrationSkipped(
+  project: ProjectInfo,
+  migration: Migration,
+  quiet: boolean = false
+) {
   await updateMigrationDate(project, migration);
 
-  await git.commitAll(`dev-tool: skipped migration '${migration.id}'`);
+  await git.commitAll(`${project.name}: skipped migration '${migration.id}'`);
 
-  log.info(`Skipped migration '${migration.id}'. This package is not eligible.`);
+  !quiet && log.info(`Skipped migration '${migration.id}'. This package is not eligible.`);
 }
 
 /**
