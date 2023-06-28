@@ -8,6 +8,7 @@ import {
   PipelineOptions,
   PipelinePolicy,
   PipelineRequest,
+  PipelineResponse,
   RawHttpHeaders,
   TransferProgressEvent,
 } from "@azure/core-rest-pipeline";
@@ -76,7 +77,107 @@ export type RequestParameters = {
    * Options used when tracing is enabled.
    */
   tracingOptions?: OperationTracingOptions;
+
+  /**
+   * A function to be called each time a response is received from the server
+   * while performing the requested operation.
+   * May be called multiple times.
+   */
+  onResponse?: RawResponseCallback;
 };
+
+/**
+ * A function to be called each time a response is received from the server
+ * while performing the requested operation.
+ * May be called multiple times.
+ */
+export type RawResponseCallback = (
+  rawResponse: FullOperationResponse,
+  flatResponse: unknown,
+  error?: unknown
+) => void;
+
+/**
+ * The base options type for all operations.
+ */
+export interface OperationOptions {
+  /**
+   * The signal which can be used to abort requests.
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Options used when creating and sending HTTP requests for this operation.
+   */
+  requestOptions?: OperationRequestOptions;
+  /**
+   * Options used when tracing is enabled.
+   */
+  tracingOptions?: OperationTracingOptions;
+
+  /**
+   * A function to be called each time a response is received from the server
+   * while performing the requested operation.
+   * May be called multiple times.
+   */
+  onResponse?: RawResponseCallback;
+}
+
+/**
+ * Wrapper object for http request and response. Deserialized object is stored in
+ * the `parsedBody` property when the response body is received in JSON or XML.
+ */
+export interface FullOperationResponse extends PipelineResponse {
+  /**
+   * The parsed HTTP response headers.
+   */
+  parsedHeaders?: { [key: string]: unknown };
+
+  /**
+   * The response body as parsed JSON or XML.
+   */
+  parsedBody?: any;
+
+  /**
+   * The request that generated the response.
+   */
+  request: PipelineRequest;
+}
+
+/**
+ * Options used when creating and sending HTTP requests for this operation.
+ */
+export interface OperationRequestOptions {
+  /**
+   * User defined custom request headers that
+   * will be applied before the request is sent.
+   */
+  customHeaders?: { [key: string]: string };
+
+  /**
+   * The number of milliseconds a request can take before automatically being terminated.
+   */
+  timeout?: number;
+
+  /**
+   * Callback which fires upon upload progress.
+   */
+  onUploadProgress?: (progress: TransferProgressEvent) => void;
+
+  /**
+   * Callback which fires upon download progress.
+   */
+  onDownloadProgress?: (progress: TransferProgressEvent) => void;
+
+  /**
+   * Set to true if the request is sent over HTTP instead of HTTPS
+   */
+  allowInsecureConnection?: boolean;
+
+  /** 
+   * Set to true if you want to skip encoding the path parameters 
+   */
+  skipUrlEncoding?: boolean;
+}
 
 /**
  * Type to use with pathUnchecked, overrides the body type to any to allow flexibility

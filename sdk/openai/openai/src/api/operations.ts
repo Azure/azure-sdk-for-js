@@ -1,8 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { StreamableMethod } from "@azure-rest/core-client";
-import { OperationOptions } from "@azure/core-client";
+import {
+  StreamableMethod,
+  operationOptionsToRequestParameters,
+  OperationOptions,
+} from "@azure-rest/core-client";
 import {
   ChatChoiceOutput,
   ChoiceOutput,
@@ -16,7 +19,6 @@ import {
   isUnexpected,
 } from "../rest/index.js";
 import { ChatCompletions, ChatMessage, Completions, Embeddings } from "./models.js";
-import { deserializeOperationOptions } from "./requestOptionDeserializer.js";
 
 export interface GetEmbeddingsOptions extends OperationOptions {
   /**
@@ -190,7 +192,7 @@ export function _getEmbeddingsSend(
   options: GetEmbeddingsOptions = { requestOptions: {} }
 ): StreamableMethod<GetEmbeddings200Response | GetEmbeddingsDefaultResponse> {
   return context.path("/deployments/{deploymentId}/embeddings", deploymentId).post({
-    ...deserializeOperationOptions(options),
+    ...operationOptionsToRequestParameters(options),
     body: { user: options?.user, model: options?.model, input: input },
   });
 }
@@ -232,7 +234,7 @@ export function _getCompletionsSend(
   options: GetCompletionsOptions = { requestOptions: {} }
 ): StreamableMethod<GetCompletions200Response | GetCompletionsDefaultResponse> {
   return context.path("/deployments/{deploymentId}/completions", deploymentId).post({
-    ...deserializeOperationOptions(options),
+    ...operationOptionsToRequestParameters(options),
     body: {
       prompt: prompt,
       max_tokens: options?.maxTokens,
@@ -307,7 +309,7 @@ export function _getChatCompletionsSend(
   options: GetChatCompletionsOptions = { requestOptions: {} }
 ): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse> {
   return context.path("/deployments/{deploymentId}/chat/completions", deploymentId).post({
-    ...deserializeOperationOptions(options),
+    ...operationOptionsToRequestParameters(options),
     body: {
       messages: messages,
       max_tokens: options?.maxTokens,

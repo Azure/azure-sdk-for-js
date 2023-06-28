@@ -1,17 +1,15 @@
-import { OperationOptions } from "@azure/core-client";
-import { RequestParameters } from "@azure-rest/core-client";
+import { OperationOptions, RequestParameters } from "./common";
 
-export function deserializeOperationOptions(options: OperationOptions): RequestParameters {
+export function operationOptionsToRequestParameters(options: OperationOptions): RequestParameters {
   return {
     allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
-    skipUrlEncoding: options.requestOptions?.skipEncoding,
     timeout: options.requestOptions?.timeout,
+    skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
     abortSignal: options.abortSignal,
     onUploadProgress: options.requestOptions?.onUploadProgress,
     onDownloadProgress: options.requestOptions?.onDownloadProgress,
     tracingOptions: options.tracingOptions,
-    accept: options.requestOptions?.accept ?? "application/json",
-    contentType: options.requestOptions?.contentType ?? "application/json",
     headers: { ...options.requestOptions?.customHeaders },
+    onResponse: options.onResponse,
   };
 }

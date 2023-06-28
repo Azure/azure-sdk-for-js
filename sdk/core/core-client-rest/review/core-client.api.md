@@ -15,6 +15,7 @@ import { Pipeline } from '@azure/core-rest-pipeline';
 import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { PipelinePolicy } from '@azure/core-rest-pipeline';
 import { PipelineRequest } from '@azure/core-rest-pipeline';
+import { PipelineResponse } from '@azure/core-rest-pipeline';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
@@ -75,6 +76,15 @@ export interface ErrorResponse {
 }
 
 // @public
+export interface FullOperationResponse extends PipelineResponse {
+    parsedBody?: any;
+    parsedHeaders?: {
+        [key: string]: unknown;
+    };
+    request: PipelineRequest;
+}
+
+// @public
 export function getClient(baseUrl: string, options?: ClientOptions): Client;
 
 // @public
@@ -105,6 +115,29 @@ export interface InnerError {
 }
 
 // @public
+export interface OperationOptions {
+    abortSignal?: AbortSignalLike;
+    onResponse?: RawResponseCallback;
+    requestOptions?: OperationRequestOptions;
+    tracingOptions?: OperationTracingOptions;
+}
+
+// @public (undocumented)
+export function operationOptionsToRequestParameters(options: OperationOptions): RequestParameters;
+
+// @public
+export interface OperationRequestOptions {
+    allowInsecureConnection?: boolean;
+    customHeaders?: {
+        [key: string]: string;
+    };
+    onDownloadProgress?: (progress: TransferProgressEvent) => void;
+    onUploadProgress?: (progress: TransferProgressEvent) => void;
+    skipUrlEncoding?: boolean;
+    timeout?: number;
+}
+
+// @public
 export type PathParameters<TRoute extends string> = TRoute extends `${infer _Head}/{${infer _Param}}${infer Tail}` ? [
 pathParameter: string,
 ...pathParameters: PathParameters<Tail>
@@ -118,6 +151,9 @@ export type PathUnchecked = <TPath extends string>(path: TPath, ...args: PathPar
 export type PathUncheckedResponse = HttpResponse & {
     body: any;
 };
+
+// @public
+export type RawResponseCallback = (rawResponse: FullOperationResponse, flatResponse: unknown, error?: unknown) => void;
 
 // @public
 export type RequestParameters = {
@@ -134,6 +170,7 @@ export type RequestParameters = {
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
     abortSignal?: AbortSignalLike;
     tracingOptions?: OperationTracingOptions;
+    onResponse?: RawResponseCallback;
 };
 
 // @public

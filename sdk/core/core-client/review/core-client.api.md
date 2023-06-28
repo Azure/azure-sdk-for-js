@@ -223,16 +223,13 @@ export interface OperationRequestInfo {
 
 // @public
 export interface OperationRequestOptions {
-    accept?: string;
     allowInsecureConnection?: boolean;
-    contentType?: string;
     customHeaders?: {
         [key: string]: string;
     };
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     shouldDeserialize?: boolean | ((response: PipelineResponse) => boolean);
-    skipEncoding?: boolean;
     timeout?: number;
 }
 

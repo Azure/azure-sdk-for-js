@@ -156,21 +156,6 @@ export interface OperationRequestOptions {
    * Set to true if the request is sent over HTTP instead of HTTPS
    */
   allowInsecureConnection?: boolean;
-  /**
-   * Whether or not to skip encoding the query parameter's value before adding it to the URL.
-   */
-  skipEncoding?: boolean;
-  /**
-   * Sets the accept header to send to the service
-   * defaults to 'application/json'. If also a header "accept" is set
-   * this property will take precedence.
-   */
-  accept?: string;
-  /**
-   * Set an explicit content-type to send with the request. If also a header "content-type" is set
-   * this property will take precedence.
-   */
-  contentType?: string;
 }
 
 /**
