@@ -192,3 +192,19 @@ export interface DownloadRecordingOptions extends OperationOptions {
   /** Max content length in bytes. */
   length?: number;
 }
+
+/**
+ * Options to continuous Dtmf recognition.
+ */
+export interface ContinuousDtmfRecognitionOptions extends OperationOptions {
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+}
+
+/**
+ * Options to send Dtmf tone.
+ */
+export interface SendDtmfOptions extends OperationOptions {
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+}
