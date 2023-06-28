@@ -6,25 +6,22 @@
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
-import { RouterClient } from "@azure/communication-job-router";
+import { JobRouterClient } from "@azure/communication-job-router";
 dotenv.config();
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
-
 
 // Get a router jobQueue's statistics
 
 async function getJobQueueStatistics(): Promise<void> {
   // Create the Router Client
-  const routerClient: RouterClient = new RouterClient(connectionString);
+  const routerClient: JobRouterClient = new JobRouterClient(connectionString);
 
-  const entityId = "router-jobQueue-123"
-
+  const entityId = "router-jobQueue-123";
 
   const result = await routerClient.getQueueStatistics(entityId);
 
   console.log("router jobQueue: " + result);
-
-};
+}
 
 getJobQueueStatistics().catch(console.error);

@@ -95,24 +95,24 @@ export default leafCommand(commandInfo, async (options) => {
     return false;
   } else {
     // Handle submodes
-    if (!!options.list) {
+    if (options.list) {
       printMigrations(listPendingMigrations(migrationDate), options.quiet);
 
       return true;
-    } else if (!!options["list-applied"]) {
+    } else if (options["list-applied"]) {
       printMigrations(listAppliedMigrations(migrationDate), options.quiet);
 
       return true;
-    } else if (!!options.has) {
+    } else if (options.has) {
       try {
         process.exit(areMigrationsApplied(options.has, migrationDate, options.quiet) ? 0 : 1);
       } catch (e) {
         log.error((e as Error).message);
         return false;
       }
-    } else if (!!options.abort) {
+    } else if (options.abort) {
       return await abortMigration(project);
-    } else if (!!options.continue) {
+    } else if (options.continue) {
       return await continueMigration(project);
     } else {
       throw new Error("Unreachable state: no migration submode reached.");
@@ -326,7 +326,7 @@ async function runMigrations(pending: Migration[], project: ProjectInfo): Promis
         return false;
       }
       case "skipped": {
-        onMigrationSkipped(project, migration);
+        await onMigrationSkipped(project, migration);
         continue;
       }
       default:
@@ -506,7 +506,8 @@ async function continueMigration(project: ProjectInfo): Promise<boolean> {
     }
     case "skipped":
       panic("unreachable: resumed migration should not be skipped");
-
+    // panic() calls process.exit
+    // eslint-disable-next-line no-fallthrough
     default:
       unreachable(state);
   }

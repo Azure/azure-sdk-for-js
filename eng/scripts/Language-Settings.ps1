@@ -10,10 +10,8 @@ $PackageRepositoryUri = "https://www.npmjs.com/package"
 
 . "$PSScriptRoot/docs/Docs-ToC.ps1"
 
-function Confirm-NodeInstallation
-{
-  if (!(Get-Command npm -ErrorAction SilentlyContinue))
-  {
+function Confirm-NodeInstallation {
+  if (!(Get-Command npm -ErrorAction SilentlyContinue)) {
     LogError "Could not locate npm. Install NodeJS (includes npm and npx) https://nodejs.org/en/download"
     exit 1
   }
@@ -121,7 +119,10 @@ function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory) {
 }
 
 function Get-javascript-DocsMsMetadataForPackage($PackageInfo) { 
-  $docsReadmeName = Split-Path -Path $PackageInfo.DirectoryPath -Leaf
+  $docsReadmeName = "" 
+  if ($PackageInfo.DirectoryPath) { 
+    $docsReadmeName = Split-Path -Path $PackageInfo.DirectoryPath -Leaf
+  }
   Write-Host "Docs.ms Readme name: $($docsReadmeName)"
   New-Object PSObject -Property @{ 
     DocsMsReadMeName      = $docsReadmeName

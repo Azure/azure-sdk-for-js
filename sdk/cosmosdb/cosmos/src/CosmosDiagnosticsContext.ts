@@ -26,7 +26,7 @@ export class CosmosDiagnosticContext {
   private requestEndTimeUTCinMs: number;
   private retryStartTimeUTCinMs: number;
   private headers: CosmosHeaders = {};
-  private retryAttempNumber: number;
+  private retryAttemptNumber: number;
   private failedAttempts: FailedRequestAttemptDiagnostic[] = [];
   private metadataLookups: MetadataLookUpDiagnostic[] = [];
   private requestPayloadLength: number;
@@ -51,13 +51,13 @@ export class CosmosDiagnosticContext {
   public recordFailedAttempt(statusCode: string): void {
     const attempt: FailedRequestAttemptDiagnostic = {
       id: v4(),
-      attemptNumber: this.retryAttempNumber,
+      attemptNumber: this.retryAttemptNumber,
       startTimeUTCInMs: this.retryStartTimeUTCinMs,
       endTimeUTCInMs: getCurrentTimestampInMs(),
       statusCode,
     };
     this.retryStartTimeUTCinMs = getCurrentTimestampInMs();
-    this.retryAttempNumber++;
+    this.retryAttemptNumber++;
     this.failedAttempts.push(attempt);
   }
 
@@ -95,6 +95,25 @@ export class CosmosDiagnosticContext {
     this.locationEndpointsContacted.set(location.databaseAccountEndpoint, location);
   }
 
+  public reset(): void {
+    this.requestStartTimeUTCinMs = getCurrentTimestampInMs();
+    this.requestEndTimeUTCinMs = getCurrentTimestampInMs();
+    this.retryStartTimeUTCinMs = 0;
+    this.headers = {};
+    this.retryAttemptNumber = 0;
+    this.failedAttempts = [];
+    this.metadataLookups = [];
+    this.requestPayloadLength = 0;
+    this.responsePayloadLength = 0;
+    this.locationEndpointsContacted = new Map();
+  }
+
+  public resetAndGetDiagnostics(): CosmosDiagnostics {
+    const diagnostic = this.getDiagnostics();
+    this.reset();
+    return diagnostic;
+  }
+
   public getDiagnostics(): CosmosDiagnostics {
     this.recordSessionEnd();
     return new CosmosDiagnostics(
@@ -110,8 +129,8 @@ export class CosmosDiagnosticContext {
         retryDiagnostics: {
           failedAttempts: [...this.failedAttempts],
         },
-        requestPayloadLength: this.requestPayloadLength,
-        responsePayloadLength: this.responsePayloadLength,
+        requestPayloadLengthInBytes: this.requestPayloadLength,
+        responsePayloadLengthInBytes: this.responsePayloadLength,
       },
       this
     );

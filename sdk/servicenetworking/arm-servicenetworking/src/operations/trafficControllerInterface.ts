@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ServiceNetworkingManagementClient } from "../serviceNetworkingManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   TrafficController,
   TrafficControllerInterfaceListBySubscriptionNextOptionalParams,
@@ -230,8 +234,8 @@ export class TrafficControllerInterfaceImpl
     resource: TrafficController,
     options?: TrafficControllerInterfaceCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TrafficControllerInterfaceCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<TrafficControllerInterfaceCreateOrUpdateResponse>,
       TrafficControllerInterfaceCreateOrUpdateResponse
     >
   > {
@@ -241,7 +245,7 @@ export class TrafficControllerInterfaceImpl
     ): Promise<TrafficControllerInterfaceCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -274,15 +278,18 @@ export class TrafficControllerInterfaceImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, trafficControllerName, resource, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, trafficControllerName, resource, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      TrafficControllerInterfaceCreateOrUpdateResponse,
+      OperationState<TrafficControllerInterfaceCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -339,14 +346,14 @@ export class TrafficControllerInterfaceImpl
     resourceGroupName: string,
     trafficControllerName: string,
     options?: TrafficControllerInterfaceDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -379,15 +386,15 @@ export class TrafficControllerInterfaceImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, trafficControllerName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, trafficControllerName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;

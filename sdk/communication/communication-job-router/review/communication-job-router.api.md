@@ -85,14 +85,16 @@ export interface CompleteJobOptions extends JobRouterCompleteJobActionOptionalPa
 export interface ConditionalQueueSelectorAttachment extends QueueSelectorAttachment {
     condition: RouterRuleUnion;
     kind: "conditional";
-    labelSelectors: QueueSelector[];
+    // Warning: (ae-forgotten-export) The symbol "QueueSelector_2" needs to be exported by the entry point index.d.ts
+    labelSelectors: QueueSelector_2[];
 }
 
 // @public
 export interface ConditionalWorkerSelectorAttachment extends WorkerSelectorAttachment {
     condition: RouterRuleUnion;
     kind: "conditional";
-    labelSelectors: WorkerSelector[];
+    // Warning: (ae-forgotten-export) The symbol "WorkerSelector_2" needs to be exported by the entry point index.d.ts
+    labelSelectors: WorkerSelector_2[];
 }
 
 // @public
@@ -125,27 +127,23 @@ export interface CreateJobOptions extends JobRouterUpsertJobOptionalParams {
     channelReference?: string;
     classificationPolicyId?: string;
     dispositionCode?: string;
-    labels?: {
-        [propertyName: string]: any;
-    };
+    labels?: JSONObject;
     notes?: {
         [propertyName: string]: string;
     };
     priority?: number;
     queueId?: string;
-    requestedWorkerSelectors?: WorkerSelector[];
-    tags?: {
-        [propertyName: string]: any;
-    };
+    requestedWorkerSelectors?: WorkerSelector_2[];
+    scheduledTimeUtc?: Date;
+    tags?: JSONObject;
+    unavailableForMatching?: boolean;
 }
 
 // @public
 export interface CreateQueueOptions extends JobRouterAdministrationUpsertQueueOptionalParams {
     distributionPolicyId?: string;
     exceptionPolicyId?: string;
-    labels?: {
-        [propertyName: string]: any;
-    };
+    labels?: JSONObject;
     name?: string;
 }
 
@@ -155,16 +153,20 @@ export interface CreateWorkerOptions extends JobRouterUpsertWorkerOptionalParams
     channelConfigurations?: {
         [propertyName: string]: ChannelConfiguration;
     };
-    labels?: {
-        [propertyName: string]: any;
-    };
-    queueAssignments?: {
-        [propertyName: string]: Record<string, unknown>;
-    };
-    tags?: {
-        [propertyName: string]: any;
-    };
+    labels?: JSONObject;
+    queueAssignments?: JSONObject;
+    tags?: JSONObject;
     totalCapacity?: number;
+}
+
+// @public
+export interface DeclineJobOfferOptions extends JobRouterDeclineJobActionOptionalParams {
+    reofferTimeUtc?: Date;
+}
+
+// @public
+export interface DeclineJobOfferRequest {
+    reofferTimeUtc?: Date;
 }
 
 // @public
@@ -208,8 +210,10 @@ export interface ExceptionAction {
     kind: "cancel" | "manual-reclassify" | "reclassify";
 }
 
+// Warning: (ae-forgotten-export) The symbol "ReclassifyExceptionAction_2" needs to be exported by the entry point index.d.ts
+//
 // @public (undocumented)
-export type ExceptionActionUnion = ExceptionAction | CancelExceptionAction | ManualReclassifyExceptionAction | ReclassifyExceptionAction;
+export type ExceptionActionUnion = ExceptionAction | CancelExceptionAction | ManualReclassifyExceptionAction | ReclassifyExceptionAction_2;
 
 // @public
 export interface ExceptionPolicy {
@@ -296,27 +300,54 @@ export interface JobPositionDetails {
     queueLength: number;
 }
 
+// Warning: (ae-forgotten-export) The symbol "JobQueue_2" needs to be exported by the entry point index.d.ts
+//
 // @public
-export interface JobQueue {
-    distributionPolicyId?: string;
-    exceptionPolicyId?: string;
-    readonly id?: string;
-    labels?: {
-        [propertyName: string]: any;
-    };
-    name?: string;
+export interface JobQueue extends Omit<JobQueue_2, "labels"> {
+    labels?: JSONObject;
 }
 
 // @public
 export interface JobQueueItem {
     etag?: string;
-    jobQueue?: JobQueue;
+    jobQueue?: JobQueue_2;
 }
 
 // @public (undocumented)
-export interface JobQueueResponse extends JobQueue {
+export interface JobQueueResponse extends JobQueue_2 {
     // (undocumented)
     readonly id: string;
+}
+
+// @public
+export class JobRouterAdministrationClient {
+    constructor(connectionString: string, jobRouterAdministrationClientOptions?: JobRouterAdministrationClientOptions);
+    constructor(endpoint: string, credential: KeyCredential | TokenCredential, routerAdministrationClientOptions?: JobRouterAdministrationClientOptions);
+    constructor(endpoint: string, credential: CommunicationTokenCredential, routerAdministrationClientOptions?: JobRouterAdministrationClientOptions);
+    createClassificationPolicy(classificationPolicyId: string, options?: CreateClassificationPolicyOptions): Promise<ClassificationPolicyResponse>;
+    createDistributionPolicy(distributionPolicyId: string, options?: CreateDistributionPolicyOptions): Promise<DistributionPolicyResponse>;
+    createExceptionPolicy(exceptionPolicyId: string, options?: CreateExceptionPolicyOptions): Promise<ExceptionPolicyResponse>;
+    createQueue(queueId: string, options?: CreateQueueOptions): Promise<JobQueueResponse>;
+    deleteClassificationPolicy(classificationPolicyId: string, options?: OperationOptions): Promise<void>;
+    deleteDistributionPolicy(distributionPolicyId: string, options?: OperationOptions): Promise<void>;
+    deleteExceptionPolicy(exceptionPolicyId: string, options?: OperationOptions): Promise<void>;
+    deleteQueue(queueId: string, options?: OperationOptions): Promise<void>;
+    getClassificationPolicy(classificationPolicyId: string, options?: OperationOptions): Promise<ClassificationPolicyResponse>;
+    getDistributionPolicy(distributionPolicyId: string, options?: OperationOptions): Promise<DistributionPolicyResponse>;
+    getExceptionPolicy(exceptionPolicyId: string, options?: OperationOptions): Promise<ExceptionPolicyResponse>;
+    getQueue(queueId: string, options?: OperationOptions): Promise<JobQueueResponse>;
+    listClassificationPolicies(options?: ListClassificationPoliciesOptions): PagedAsyncIterableIterator<ClassificationPolicyItem>;
+    listDistributionPolicies(options?: ListDistributionPoliciesOptions): PagedAsyncIterableIterator<DistributionPolicyItem>;
+    listExceptionPolicies(options?: ListExceptionPoliciesOptions): PagedAsyncIterableIterator<ExceptionPolicyItem>;
+    listQueues(options?: ListQueuesOptions): PagedAsyncIterableIterator<JobQueueItem>;
+    updateClassificationPolicy(classificationPolicyId: string, options?: UpdateClassificationPolicyOptions): Promise<ClassificationPolicyResponse>;
+    updateDistributionPolicy(distributionPolicyId: string, options?: UpdateDistributionPolicyOptions): Promise<DistributionPolicyResponse>;
+    updateExceptionPolicy(exceptionPolicyId: string, options?: UpdateExceptionPolicyOptions): Promise<ExceptionPolicyResponse>;
+    updateQueue(queueId: string, options?: UpdateQueueOptions): Promise<JobQueueResponse>;
+}
+
+// @public
+export interface JobRouterAdministrationClientOptions extends CommonClientOptions {
 }
 
 // @public
@@ -341,8 +372,49 @@ export interface JobRouterCancelJobActionOptionalParams extends coreClient.Opera
     note?: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "JobRouterCancelJobActionResponse_2" needs to be exported by the entry point index.d.ts
+//
 // @public
-export type JobRouterCancelJobActionResponse = Record<string, unknown>;
+export interface JobRouterCancelJobActionResponse extends Omit<JobRouterCancelJobActionResponse_2, "body"> {
+    body?: JSONValue;
+}
+
+// @public
+export class JobRouterClient {
+    constructor(connectionString: string, routerClientOptions?: JobRouterClientOptions);
+    constructor(endpoint: string, credential: KeyCredential | TokenCredential, routerClientOptions?: JobRouterClientOptions);
+    constructor(endpoint: string, credential: CommunicationTokenCredential, routerClientOptions?: JobRouterClientOptions);
+    acceptJobOffer(workerId: string, offerId: string, options?: OperationOptions): Promise<AcceptJobOfferResult>;
+    cancelJob(jobId: string, options?: CancelJobOptions): Promise<JobRouterCancelJobActionResponse_2>;
+    // Warning: (ae-forgotten-export) The symbol "JobRouterCloseJobActionResponse_2" needs to be exported by the entry point index.d.ts
+    closeJob(jobId: string, assignmentId: string, options?: CloseJobOptions): Promise<JobRouterCloseJobActionResponse_2>;
+    // Warning: (ae-forgotten-export) The symbol "JobRouterCompleteJobActionResponse_2" needs to be exported by the entry point index.d.ts
+    completeJob(jobId: string, assignmentId: string, options?: CompleteJobOptions): Promise<JobRouterCompleteJobActionResponse_2>;
+    createJob(jobId: string, options?: CreateJobOptions): Promise<RouterJobResponse>;
+    createWorker(workerId: string, options?: CreateWorkerOptions): Promise<RouterWorkerResponse>;
+    // Warning: (ae-forgotten-export) The symbol "JobRouterDeclineJobActionResponse_2" needs to be exported by the entry point index.d.ts
+    declineJobOffer(workerId: string, offerId: string, options?: DeclineJobOfferOptions): Promise<JobRouterDeclineJobActionResponse_2>;
+    deleteJob(jobId: string, options?: OperationOptions): Promise<void>;
+    deleteWorker(workerId: string, options?: OperationOptions): Promise<void>;
+    deregisterWorker(workerId: string, options?: OperationOptions): Promise<RouterWorkerResponse>;
+    getJob(jobId: string, options?: OperationOptions): Promise<RouterJobResponse>;
+    getQueuePosition(jobId: string, options?: OperationOptions): Promise<JobPositionDetails>;
+    getQueueStatistics(queueId: string, options?: OperationOptions): Promise<QueueStatistics>;
+    getWorker(workerId: string, options?: OperationOptions): Promise<RouterWorkerResponse>;
+    listJobs(options?: ListJobsOptions): PagedAsyncIterableIterator<RouterJobItem>;
+    listWorkers(options?: ListWorkersOptions): PagedAsyncIterableIterator<RouterWorkerItem>;
+    // Warning: (ae-forgotten-export) The symbol "JobRouterReclassifyJobActionResponse_2" needs to be exported by the entry point index.d.ts
+    reclassifyJob(jobId: string, options?: ReclassifyJobOptions): Promise<JobRouterReclassifyJobActionResponse_2>;
+    registerWorker(workerId: string, options?: OperationOptions): Promise<RouterWorkerResponse>;
+    unassignJob(jobId: string, assignmentId: string, options?: OperationOptions): Promise<UnassignJobResult>;
+    updateJob(jobId: string, options?: UpdateJobOptions): Promise<RouterJobResponse>;
+    updateWorker(workerId: string, options?: UpdateWorkerOptions): Promise<RouterWorkerResponse>;
+}
+
+// @public
+export interface JobRouterClientOptions extends CommonClientOptions {
+    headers?: JSONObject;
+}
 
 // @public
 export interface JobRouterCloseJobActionOptionalParams extends coreClient.OperationOptions {
@@ -352,7 +424,9 @@ export interface JobRouterCloseJobActionOptionalParams extends coreClient.Operat
 }
 
 // @public
-export type JobRouterCloseJobActionResponse = Record<string, unknown>;
+export interface JobRouterCloseJobActionResponse extends Omit<JobRouterCloseJobActionResponse_2, "body"> {
+    body?: JSONValue;
+}
 
 // @public
 export interface JobRouterCompleteJobActionOptionalParams extends coreClient.OperationOptions {
@@ -360,18 +434,31 @@ export interface JobRouterCompleteJobActionOptionalParams extends coreClient.Ope
 }
 
 // @public
-export type JobRouterCompleteJobActionResponse = Record<string, unknown>;
-
-// @public
-export type JobRouterDeclineJobActionResponse = Record<string, unknown>;
-
-// @public
-export interface JobRouterReclassifyJobActionOptionalParams extends coreClient.OperationOptions {
-    reclassifyJobRequest?: Record<string, unknown>;
+export interface JobRouterCompleteJobActionResponse extends Omit<JobRouterCompleteJobActionResponse_2, "body"> {
+    body?: JSONValue;
 }
 
 // @public
-export type JobRouterReclassifyJobActionResponse = Record<string, unknown>;
+export interface JobRouterDeclineJobActionOptionalParams extends coreClient.OperationOptions {
+    declineJobOfferRequest?: DeclineJobOfferRequest;
+}
+
+// @public
+export interface JobRouterDeclineJobActionResponse extends Omit<JobRouterDeclineJobActionResponse_2, "body"> {
+    body?: JSONValue;
+}
+
+// Warning: (ae-forgotten-export) The symbol "JobRouterReclassifyJobActionOptionalParams_2" needs to be exported by the entry point index.d.ts
+//
+// @public
+export interface JobRouterReclassifyJobActionOptionalParams extends Omit<JobRouterReclassifyJobActionOptionalParams_2, "body"> {
+    body?: JSONValue;
+}
+
+// @public
+export interface JobRouterReclassifyJobActionResponse extends Omit<JobRouterReclassifyJobActionResponse_2, "body"> {
+    body?: JSONValue;
+}
 
 // @public
 export interface JobRouterUpsertJobOptionalParams extends coreClient.OperationOptions {
@@ -382,14 +469,20 @@ export interface JobRouterUpsertWorkerOptionalParams extends coreClient.Operatio
 }
 
 // @public
-export type JobStateSelector = "all" | "pendingClassification" | "queued" | "assigned" | "completed" | "closed" | "cancelled" | "classificationFailed" | "active";
+export type JobStateSelector = "all" | "pendingClassification" | "queued" | "assigned" | "completed" | "closed" | "cancelled" | "classificationFailed" | "created" | "pendingSchedule" | "scheduled" | "scheduleFailed" | "waitingForActivation" | "active";
 
-// @public
-export enum KnownRouterWorkerState {
-    Active = "active",
-    Draining = "draining",
-    Inactive = "inactive"
+// @public (undocumented)
+export interface JSONArray extends ArrayLike<JSONValue> {
 }
+
+// @public (undocumented)
+export interface JSONObject {
+    // (undocumented)
+    [key: string]: JSONValue;
+}
+
+// @public (undocumented)
+export type JSONValue = boolean | number | string | null | JSONArray | JSONObject;
 
 // @public
 export type LabelOperator = "equal" | "notEqual" | "lessThan" | "lessThanEqual" | "greaterThan" | "greaterThanEqual";
@@ -416,6 +509,8 @@ export interface ListJobsOptions extends OperationOptions {
     jobStateSelector?: JobStateSelector;
     maxPageSize?: number;
     queueId?: string;
+    scheduledAfter?: Date;
+    scheduledBefore?: Date;
 }
 
 // @public
@@ -447,7 +542,7 @@ export interface ManualReclassifyExceptionAction extends ExceptionAction {
     kind: "manual-reclassify";
     priority?: number;
     queueId?: string;
-    workerSelectors?: WorkerSelector[];
+    workerSelectors?: WorkerSelector_2[];
 }
 
 // @public
@@ -478,10 +573,8 @@ export interface QueueLengthExceptionTrigger extends JobExceptionTrigger {
 }
 
 // @public
-export interface QueueSelector {
-    key: string;
-    labelOperator: LabelOperator;
-    value?: Record<string, unknown>;
+export interface QueueSelector extends Omit<QueueSelector_2, "value"> {
+    value?: JSONValue;
 }
 
 // @public
@@ -504,22 +597,18 @@ export interface QueueStatistics {
 
 // @public
 export interface QueueWeightedAllocation {
-    labelSelectors: QueueSelector[];
+    labelSelectors: QueueSelector_2[];
     weight: number;
 }
 
 // @public
-export interface ReclassifyExceptionAction extends ExceptionAction {
-    classificationPolicyId?: string;
-    kind: "reclassify";
-    labelsToUpsert?: {
-        [propertyName: string]: any;
-    };
+export interface ReclassifyExceptionAction extends Omit<ReclassifyExceptionAction_2, "labelsToUpsert"> {
+    lablabelsToUpsertels?: JSONObject;
 }
 
 // @public
-export interface ReclassifyJobOptions extends JobRouterReclassifyJobActionOptionalParams {
-    reclassifyJobRequest?: Record<string, unknown>;
+export interface ReclassifyJobOptions extends JobRouterReclassifyJobActionOptionalParams_2 {
+    reclassifyJobRequest?: JSONObject;
 }
 
 // @public
@@ -527,162 +616,62 @@ export interface RoundRobinMode extends DistributionMode {
     kind: "round-robin";
 }
 
+// Warning: (ae-forgotten-export) The symbol "RouterJob_2" needs to be exported by the entry point index.d.ts
+//
 // @public
-export class RouterAdministrationClient {
-    constructor(connectionString: string, routerAdministrationClientOptions?: RouterAdministrationClientOptions);
-    constructor(endpoint: string, credential: KeyCredential | TokenCredential, routerAdministrationClientOptions?: RouterAdministrationClientOptions);
-    constructor(endpoint: string, credential: CommunicationTokenCredential, routerAdministrationClientOptions?: RouterAdministrationClientOptions);
-    createClassificationPolicy(classificationPolicyId: string, options?: CreateClassificationPolicyOptions): Promise<ClassificationPolicyResponse>;
-    createDistributionPolicy(distributionPolicyId: string, options?: CreateDistributionPolicyOptions): Promise<DistributionPolicyResponse>;
-    createExceptionPolicy(exceptionPolicyId: string, options?: CreateExceptionPolicyOptions): Promise<ExceptionPolicyResponse>;
-    createQueue(queueId: string, options?: CreateQueueOptions): Promise<JobQueueResponse>;
-    deleteClassificationPolicy(classificationPolicyId: string, options?: OperationOptions): Promise<void>;
-    deleteDistributionPolicy(distributionPolicyId: string, options?: OperationOptions): Promise<void>;
-    deleteExceptionPolicy(exceptionPolicyId: string, options?: OperationOptions): Promise<void>;
-    deleteQueue(queueId: string, options?: OperationOptions): Promise<void>;
-    getClassificationPolicy(classificationPolicyId: string, options?: OperationOptions): Promise<ClassificationPolicyResponse>;
-    getDistributionPolicy(distributionPolicyId: string, options?: OperationOptions): Promise<DistributionPolicyResponse>;
-    getExceptionPolicy(exceptionPolicyId: string, options?: OperationOptions): Promise<ExceptionPolicyResponse>;
-    getQueue(queueId: string, options?: OperationOptions): Promise<JobQueueResponse>;
-    listClassificationPolicies(options?: ListClassificationPoliciesOptions): PagedAsyncIterableIterator<ClassificationPolicyItem>;
-    listDistributionPolicies(options?: ListDistributionPoliciesOptions): PagedAsyncIterableIterator<DistributionPolicyItem>;
-    listExceptionPolicies(options?: ListExceptionPoliciesOptions): PagedAsyncIterableIterator<ExceptionPolicyItem>;
-    listQueues(options?: ListQueuesOptions): PagedAsyncIterableIterator<JobQueueItem>;
-    updateClassificationPolicy(classificationPolicyId: string, options?: UpdateClassificationPolicyOptions): Promise<ClassificationPolicyResponse>;
-    updateDistributionPolicy(distributionPolicyId: string, options?: UpdateDistributionPolicyOptions): Promise<DistributionPolicyResponse>;
-    updateExceptionPolicy(exceptionPolicyId: string, options?: UpdateExceptionPolicyOptions): Promise<ExceptionPolicyResponse>;
-    updateQueue(queueId: string, options?: UpdateQueueOptions): Promise<JobQueueResponse>;
-}
-
-// @public
-export interface RouterAdministrationClientOptions extends CommonClientOptions {
-    headers?: {
-        [propertyName: string]: any;
-    };
-}
-
-// @public
-export class RouterClient {
-    constructor(connectionString: string, routerClientOptions?: RouterClientOptions);
-    constructor(endpoint: string, credential: KeyCredential | TokenCredential, routerClientOptions?: RouterClientOptions);
-    constructor(endpoint: string, credential: CommunicationTokenCredential, routerClientOptions?: RouterClientOptions);
-    acceptJobOffer(workerId: string, offerId: string, options?: OperationOptions): Promise<AcceptJobOfferResult>;
-    cancelJob(jobId: string, options?: CancelJobOptions): Promise<JobRouterCancelJobActionResponse>;
-    closeJob(jobId: string, assignmentId: string, options?: CloseJobOptions): Promise<JobRouterCloseJobActionResponse>;
-    completeJob(jobId: string, assignmentId: string, options?: CompleteJobOptions): Promise<JobRouterCompleteJobActionResponse>;
-    createJob(jobId: string, options?: CreateJobOptions): Promise<RouterJobResponse>;
-    createWorker(workerId: string, options?: CreateWorkerOptions): Promise<RouterWorkerResponse>;
-    declineJobOffer(workerId: string, offerId: string, options?: OperationOptions): Promise<JobRouterDeclineJobActionResponse>;
-    deleteJob(jobId: string, options?: OperationOptions): Promise<void>;
-    deleteWorker(workerId: string, options?: OperationOptions): Promise<void>;
-    deregisterWorker(workerId: string, options?: OperationOptions): Promise<RouterWorkerResponse>;
-    getJob(jobId: string, options?: OperationOptions): Promise<RouterJobResponse>;
-    getQueuePosition(jobId: string, options?: OperationOptions): Promise<JobPositionDetails>;
-    getQueueStatistics(queueId: string, options?: OperationOptions): Promise<QueueStatistics>;
-    getWorker(workerId: string, options?: OperationOptions): Promise<RouterWorkerResponse>;
-    listJobs(options?: ListJobsOptions): PagedAsyncIterableIterator<RouterJobItem>;
-    listWorkers(options?: ListWorkersOptions): PagedAsyncIterableIterator<RouterWorkerItem>;
-    reclassifyJob(jobId: string, options?: ReclassifyJobOptions): Promise<JobRouterReclassifyJobActionResponse>;
-    registerWorker(workerId: string, options?: OperationOptions): Promise<RouterWorkerResponse>;
-    unassignJob(jobId: string, assignmentId: string, options?: OperationOptions): Promise<UnassignJobResult>;
-    updateJob(jobId: string, options?: UpdateJobOptions): Promise<RouterJobResponse>;
-    updateWorker(workerId: string, options?: UpdateWorkerOptions): Promise<RouterWorkerResponse>;
-}
-
-// @public
-export interface RouterClientOptions extends CommonClientOptions {
-    headers?: {
-        [propertyName: string]: any;
-    };
-}
-
-// @public
-export interface RouterJob {
-    readonly assignments?: {
-        [propertyName: string]: JobAssignment;
-    };
-    readonly attachedWorkerSelectors?: WorkerSelector[];
-    channelId?: string;
-    channelReference?: string;
-    classificationPolicyId?: string;
-    dispositionCode?: string;
-    readonly enqueueTimeUtc?: Date;
-    readonly id?: string;
-    readonly jobStatus?: RouterJobStatus;
-    labels?: {
-        [propertyName: string]: any;
-    };
-    notes?: {
-        [propertyName: string]: string;
-    };
-    priority?: number;
-    queueId?: string;
-    requestedWorkerSelectors?: WorkerSelector[];
-    tags?: {
-        [propertyName: string]: any;
-    };
+export interface RouterJob extends Omit<RouterJob_2, "labels" | "tags"> {
+    labels?: JSONObject;
+    tags?: JSONObject;
 }
 
 // @public
 export interface RouterJobItem {
     etag?: string;
-    routerJob?: RouterJob;
+    routerJob?: RouterJob_2;
 }
 
 // @public (undocumented)
-export interface RouterJobResponse extends RouterJob {
+export interface RouterJobResponse extends RouterJob_2 {
     // (undocumented)
     readonly id: string;
 }
 
 // @public
-export type RouterJobStatus = "pendingClassification" | "queued" | "assigned" | "completed" | "closed" | "cancelled" | "classificationFailed" | "created";
+export type RouterJobStatus = "pendingClassification" | "queued" | "assigned" | "completed" | "closed" | "cancelled" | "classificationFailed" | "created" | "pendingSchedule" | "scheduled" | "scheduleFailed" | "waitingForActivation";
 
 // @public
 export interface RouterRule {
     kind: "direct-map-rule" | "expression-rule" | "azure-function-rule" | "static-rule" | "webhook-rule";
 }
 
+// Warning: (ae-forgotten-export) The symbol "StaticRule_2" needs to be exported by the entry point index.d.ts
+//
 // @public (undocumented)
-export type RouterRuleUnion = RouterRule | DirectMapRule | ExpressionRule | FunctionRule | StaticRule | WebhookRule;
+export type RouterRuleUnion = RouterRule | DirectMapRule | ExpressionRule | FunctionRule | StaticRule_2 | WebhookRule;
 
+// Warning: (ae-forgotten-export) The symbol "RouterWorker_2" needs to be exported by the entry point index.d.ts
+//
 // @public
-export interface RouterWorker {
-    readonly assignedJobs?: WorkerAssignment[];
-    availableForOffers?: boolean;
-    channelConfigurations?: {
-        [propertyName: string]: ChannelConfiguration;
-    };
-    readonly id?: string;
-    labels?: {
-        [propertyName: string]: any;
-    };
-    readonly loadRatio?: number;
-    readonly offers?: JobOffer[];
-    queueAssignments?: {
-        [propertyName: string]: Record<string, unknown>;
-    };
-    readonly state?: RouterWorkerState;
-    tags?: {
-        [propertyName: string]: any;
-    };
-    totalCapacity?: number;
+export interface RouterWorker extends Omit<RouterWorker_2, "queueAssignments" | "labels" | "tags"> {
+    labels?: JSONObject;
+    queueAssignments?: JSONObject;
+    tags?: JSONObject;
 }
 
 // @public
 export interface RouterWorkerItem {
     etag?: string;
-    routerWorker?: RouterWorker;
+    routerWorker?: RouterWorker_2;
 }
 
 // @public (undocumented)
-export interface RouterWorkerResponse extends RouterWorker {
+export interface RouterWorkerResponse extends RouterWorker_2 {
     // (undocumented)
     readonly id: string;
 }
 
 // @public
-export type RouterWorkerState = string;
+export type RouterWorkerState = "active" | "draining" | "inactive";
 
 // @public
 export interface RuleEngineQueueSelectorAttachment extends QueueSelectorAttachment {
@@ -710,19 +699,18 @@ export type ScoringRuleParameterSelector = "jobLabels" | "workerSelectors";
 // @public
 export interface StaticQueueSelectorAttachment extends QueueSelectorAttachment {
     kind: "static";
-    labelSelector: QueueSelector;
+    labelSelector: QueueSelector_2;
 }
 
 // @public
-export interface StaticRule extends RouterRule {
-    kind: "static-rule";
-    value?: Record<string, unknown>;
+export interface StaticRule extends Omit<StaticRule_2, "value"> {
+    value?: JSONValue;
 }
 
 // @public
 export interface StaticWorkerSelectorAttachment extends WorkerSelectorAttachment {
     kind: "static";
-    labelSelector: WorkerSelector;
+    labelSelector: WorkerSelector_2;
 }
 
 // @public
@@ -761,27 +749,23 @@ export interface UpdateJobOptions extends JobRouterUpsertJobOptionalParams {
     channelReference?: string;
     classificationPolicyId?: string;
     dispositionCode?: string;
-    labels?: {
-        [propertyName: string]: any;
-    };
+    labels?: JSONObject;
     notes?: {
         [propertyName: string]: string;
     };
     priority?: number;
     queueId?: string;
-    requestedWorkerSelectors?: WorkerSelector[];
-    tags?: {
-        [propertyName: string]: any;
-    };
+    requestedWorkerSelectors?: WorkerSelector_2[];
+    scheduledTimeUtc?: Date;
+    tags?: JSONObject;
+    unavailableForMatching?: boolean;
 }
 
 // @public
 export interface UpdateQueueOptions extends JobRouterAdministrationUpsertQueueOptionalParams {
     distributionPolicyId?: string;
     exceptionPolicyId?: string;
-    labels?: {
-        [propertyName: string]: any;
-    };
+    labels?: JSONObject;
     name?: string;
 }
 
@@ -791,15 +775,9 @@ export interface UpdateWorkerOptions extends JobRouterUpsertWorkerOptionalParams
     channelConfigurations?: {
         [propertyName: string]: ChannelConfiguration;
     };
-    labels?: {
-        [propertyName: string]: any;
-    };
-    queueAssignments?: {
-        [propertyName: string]: Record<string, unknown>;
-    };
-    tags?: {
-        [propertyName: string]: any;
-    };
+    labels?: JSONObject;
+    queueAssignments?: JSONObject;
+    tags?: JSONObject;
     totalCapacity?: number;
 }
 
@@ -838,14 +816,8 @@ export interface WorkerAssignment {
 }
 
 // @public
-export interface WorkerSelector {
-    expedite?: boolean;
-    readonly expireTime?: Date;
-    key: string;
-    labelOperator: LabelOperator;
-    readonly state?: WorkerSelectorState;
-    ttlSeconds?: number;
-    value?: Record<string, unknown>;
+export interface WorkerSelector extends Omit<WorkerSelector_2, "value"> {
+    value?: JSONValue;
 }
 
 // @public
@@ -864,7 +836,7 @@ export type WorkerStateSelector = "active" | "draining" | "inactive" | "all";
 
 // @public
 export interface WorkerWeightedAllocation {
-    labelSelectors: WorkerSelector[];
+    labelSelectors: WorkerSelector_2[];
     weight: number;
 }
 

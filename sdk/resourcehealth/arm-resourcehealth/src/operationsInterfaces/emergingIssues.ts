@@ -10,6 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   EmergingIssuesGetResult,
   EmergingIssuesListOptionalParams,
+  IssueNameParameter,
   EmergingIssuesGetOptionalParams,
   EmergingIssuesGetResponse
 } from "../models";
@@ -26,9 +27,11 @@ export interface EmergingIssues {
   ): PagedAsyncIterableIterator<EmergingIssuesGetResult>;
   /**
    * Gets Azure services' emerging issues.
+   * @param issueName The name of the emerging issue.
    * @param options The options parameters.
    */
   get(
+    issueName: IssueNameParameter,
     options?: EmergingIssuesGetOptionalParams
   ): Promise<EmergingIssuesGetResponse>;
 }

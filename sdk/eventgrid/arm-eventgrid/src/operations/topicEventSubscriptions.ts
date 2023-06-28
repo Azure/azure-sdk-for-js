@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { EventGridManagementClient } from "../eventGridManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   EventSubscription,
   TopicEventSubscriptionsListNextOptionalParams,
@@ -127,7 +131,7 @@ export class TopicEventSubscriptionsImpl implements TopicEventSubscriptions {
   /**
    * Get all delivery attributes for an event subscription for topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param topicName Name of the domain topic.
+   * @param topicName Name of the topic.
    * @param eventSubscriptionName Name of the event subscription.
    * @param options The options parameters.
    */
@@ -146,7 +150,7 @@ export class TopicEventSubscriptionsImpl implements TopicEventSubscriptions {
   /**
    * Get properties of an event subscription of a topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param topicName Name of the partner topic.
+   * @param topicName Name of the topic.
    * @param eventSubscriptionName Name of the event subscription to be found. Event subscription names
    *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
    * @param options The options parameters.
@@ -180,8 +184,8 @@ export class TopicEventSubscriptionsImpl implements TopicEventSubscriptions {
     eventSubscriptionInfo: EventSubscription,
     options?: TopicEventSubscriptionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TopicEventSubscriptionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<TopicEventSubscriptionsCreateOrUpdateResponse>,
       TopicEventSubscriptionsCreateOrUpdateResponse
     >
   > {
@@ -191,7 +195,7 @@ export class TopicEventSubscriptionsImpl implements TopicEventSubscriptions {
     ): Promise<TopicEventSubscriptionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -224,19 +228,22 @@ export class TopicEventSubscriptionsImpl implements TopicEventSubscriptions {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         topicName,
         eventSubscriptionName,
         eventSubscriptionInfo,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      TopicEventSubscriptionsCreateOrUpdateResponse,
+      OperationState<TopicEventSubscriptionsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -283,14 +290,14 @@ export class TopicEventSubscriptionsImpl implements TopicEventSubscriptions {
     topicName: string,
     eventSubscriptionName: string,
     options?: TopicEventSubscriptionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -323,13 +330,13 @@ export class TopicEventSubscriptionsImpl implements TopicEventSubscriptions {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, topicName, eventSubscriptionName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, topicName, eventSubscriptionName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -374,8 +381,8 @@ export class TopicEventSubscriptionsImpl implements TopicEventSubscriptions {
     eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters,
     options?: TopicEventSubscriptionsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TopicEventSubscriptionsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<TopicEventSubscriptionsUpdateResponse>,
       TopicEventSubscriptionsUpdateResponse
     >
   > {
@@ -385,7 +392,7 @@ export class TopicEventSubscriptionsImpl implements TopicEventSubscriptions {
     ): Promise<TopicEventSubscriptionsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -418,19 +425,22 @@ export class TopicEventSubscriptionsImpl implements TopicEventSubscriptions {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         topicName,
         eventSubscriptionName,
         eventSubscriptionUpdateParameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      TopicEventSubscriptionsUpdateResponse,
+      OperationState<TopicEventSubscriptionsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

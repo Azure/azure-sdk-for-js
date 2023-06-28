@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DevBoxDefinition,
   DevBoxDefinitionsListByDevCenterOptionalParams,
@@ -77,8 +77,8 @@ export interface DevBoxDefinitions {
     body: DevBoxDefinition,
     options?: DevBoxDefinitionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DevBoxDefinitionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DevBoxDefinitionsCreateOrUpdateResponse>,
       DevBoxDefinitionsCreateOrUpdateResponse
     >
   >;
@@ -112,8 +112,8 @@ export interface DevBoxDefinitions {
     body: DevBoxDefinitionUpdate,
     options?: DevBoxDefinitionsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DevBoxDefinitionsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DevBoxDefinitionsUpdateResponse>,
       DevBoxDefinitionsUpdateResponse
     >
   >;
@@ -144,7 +144,7 @@ export interface DevBoxDefinitions {
     devCenterName: string,
     devBoxDefinitionName: string,
     options?: DevBoxDefinitionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Dev Box definition
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

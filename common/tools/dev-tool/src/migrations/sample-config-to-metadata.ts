@@ -51,7 +51,10 @@ export default createMigration(
 
         await writeFile(
           packageJsonPath,
-          prettier.format(JSON.stringify(packageJson, null, 2), { parser: "json" })
+          prettier.format(JSON.stringify(packageJson, null, 2), {
+            ...(prettierConfiguration as prettier.Options),
+            parser: "json",
+          })
         );
       }
     },

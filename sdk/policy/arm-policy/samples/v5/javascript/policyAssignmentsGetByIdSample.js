@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { PolicyClient } = require("@azure/arm-policy");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to The operation retrieves the policy assignment with the given ID. Policy assignment IDs have this format: '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/getPolicyAssignmentById.json
  */
 async function retrieveAPolicyAssignmentById() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const policyAssignmentId =
     "providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage";
   const credential = new DefaultAzureCredential();
@@ -26,8 +28,6 @@ async function retrieveAPolicyAssignmentById() {
   const result = await client.policyAssignments.getById(policyAssignmentId);
   console.log(result);
 }
-
-retrieveAPolicyAssignmentById().catch(console.error);
 
 /**
  * This sample demonstrates how to The operation retrieves the policy assignment with the given ID. Policy assignment IDs have this format: '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'.
@@ -36,7 +36,8 @@ retrieveAPolicyAssignmentById().catch(console.error);
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/getPolicyAssignmentWithIdentityById.json
  */
 async function retrieveAPolicyAssignmentWithAManagedIdentityById() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const policyAssignmentId =
     "providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policyAssignments/LowCostStorage";
   const credential = new DefaultAzureCredential();
@@ -45,4 +46,9 @@ async function retrieveAPolicyAssignmentWithAManagedIdentityById() {
   console.log(result);
 }
 
-retrieveAPolicyAssignmentWithAManagedIdentityById().catch(console.error);
+async function main() {
+  retrieveAPolicyAssignmentById();
+  retrieveAPolicyAssignmentWithAManagedIdentityById();
+}
+
+main().catch(console.error);

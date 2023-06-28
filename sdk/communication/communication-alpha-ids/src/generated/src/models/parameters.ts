@@ -11,7 +11,7 @@ import {
   OperationURLParameter,
   OperationQueryParameter
 } from "@azure/core-client";
-import { AlphaIdConfiguration as AlphaIdConfigurationMapper } from "../models/mappers";
+import { DynamicAlphaIdConfiguration as DynamicAlphaIdConfigurationMapper } from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -37,10 +37,32 @@ export const endpoint: OperationURLParameter = {
   skipEncoding: true
 };
 
+export const skip: OperationQueryParameter = {
+  parameterPath: ["options", "skip"],
+  mapper: {
+    defaultValue: 0,
+    serializedName: "skip",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const top: OperationQueryParameter = {
+  parameterPath: ["options", "top"],
+  mapper: {
+    defaultValue: 100,
+    serializedName: "top",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-09-26-preview",
+    defaultValue: "2023-07-12",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -63,5 +85,17 @@ export const contentType: OperationParameter = {
 
 export const enabled: OperationParameter = {
   parameterPath: "enabled",
-  mapper: AlphaIdConfigurationMapper
+  mapper: DynamicAlphaIdConfigurationMapper
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
 };

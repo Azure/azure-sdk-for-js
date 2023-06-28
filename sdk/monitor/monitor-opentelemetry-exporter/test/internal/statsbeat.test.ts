@@ -5,7 +5,7 @@ import * as assert from "assert";
 import { ExportResult, ExportResultCode } from "@opentelemetry/core";
 import { failedBreezeResponse, successfulBreezeResponse } from "../utils/breezeTestUtils";
 import { AzureMonitorBaseExporter } from "../../src/index";
-import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants";
+import { DEFAULT_BREEZE_ENDPOINT, ENV_DISABLE_STATSBEAT } from "../../src/Declarations/Constants";
 import { TelemetryItem as Envelope } from "../../src/generated";
 import nock from "nock";
 import { NetworkStatsbeatMetrics } from "../../src/export/statsbeat/networkStatsbeatMetrics";
@@ -365,6 +365,16 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         delete process.env.STATSBEAT_INSTRUMENTATIONS;
         delete process.env.STATSBEAT_FEATURES;
         delete process.env.LONG_INTERVAL_EXPORT_MILLIS;
+      });
+    });
+
+    describe("Disable Statsbeat", () => {
+      it("should disable statsbeat when the environement variable is set", () => {
+        process.env[ENV_DISABLE_STATSBEAT] = "true";
+        const exporter = new TestExporter();
+        assert.ok(!exporter["_networkStatsbeatMetrics"]);
+        assert.ok(!exporter["_longIntervalStatsbeatMetrics"]);
+        delete process.env[ENV_DISABLE_STATSBEAT];
       });
     });
   });

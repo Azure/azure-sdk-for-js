@@ -537,10 +537,11 @@ describe("LogsQueryClient live tests - server timeout", function () {
   // query has timed out on purpose.
   it("serverTimeoutInSeconds", async function (this: Context) {
     try {
+      const randomLimit = Math.round((Math.random() + 1) * 10000000000000);
       await logsClient.queryWorkspace(
         monitorWorkspaceId,
         // slow query suggested by Pavel.
-        "range x from 1 to 10000000000 step 1 | count",
+        `range x from 1 to ${randomLimit} step 1 | count`,
         {
           duration: Durations.twentyFourHours,
         },

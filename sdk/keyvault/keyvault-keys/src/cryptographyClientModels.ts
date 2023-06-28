@@ -372,11 +372,16 @@ export type DecryptParameters =
  * The key may be an identifier (URL) to a KeyVault key, the actual KeyVault key,
  * or a local-only JsonWebKey.
  *
- * If an identifier is used, it will be exchanged for a {@link KeyVaultKey} during the first operation call.
+ * If an identifier is used, an attempt will be made to exchange it for a {@link KeyVaultKey} during the first operation call. If this attempt fails, the identifier
+ * will become a remote-only identifier and the {@link CryptographyClient} will only be able to perform remote operations.
  */
 export type CryptographyClientKey =
   | {
       kind: "identifier";
+      value: string;
+    }
+  | {
+      kind: "remoteOnlyIdentifier";
       value: string;
     }
   | {

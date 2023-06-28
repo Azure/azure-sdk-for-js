@@ -4,16 +4,23 @@ import { RecorderError } from "./utils/utils";
 
 export type RecordingOptions = {
   handleRedirects?: boolean;
+  tlsValidationCert?: string;
 };
 
 export async function setRecordingOptions(
   recorderUrl: string,
   httpClient: HttpClient,
-  { handleRedirects }: RecordingOptions
+  { handleRedirects, tlsValidationCert }: RecordingOptions
 ) {
-  const body = JSON.stringify({
+  const rawBody: Record<string, any> = {
     HandleRedirects: handleRedirects,
-  });
+  };
+  if (tlsValidationCert) {
+    rawBody.Transport = {
+      TLSValidationCert: tlsValidationCert,
+    };
+  }
+  const body = JSON.stringify(rawBody);
 
   const request = createPipelineRequest({
     url: `${recorderUrl}${paths.admin}${paths.setRecordingOptions}`,

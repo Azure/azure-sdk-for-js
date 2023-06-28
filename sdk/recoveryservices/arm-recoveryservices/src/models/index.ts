@@ -327,6 +327,8 @@ export interface VaultProperties {
   publicNetworkAccess?: PublicNetworkAccess;
   /** Monitoring Settings of the vault */
   monitoringSettings?: MonitoringSettings;
+  /** Restore Settings of the vault */
+  restoreSettings?: RestoreSettings;
   /** The redundancy Settings of a Vault */
   redundancySettings?: VaultPropertiesRedundancySettings;
   /** Security Settings of the vault */
@@ -529,6 +531,17 @@ export interface AzureMonitorAlertSettings {
 /** Settings for classic alerts */
 export interface ClassicAlertSettings {
   alertsForCriticalOperations?: AlertsState;
+}
+
+/** Restore Settings  of the vault */
+export interface RestoreSettings {
+  /** Settings for CrossSubscriptionRestore */
+  crossSubscriptionRestoreSettings?: CrossSubscriptionRestoreSettings;
+}
+
+/** Settings for Cross Subscription Restore Settings */
+export interface CrossSubscriptionRestoreSettings {
+  crossSubscriptionRestoreState?: CrossSubscriptionRestoreState;
 }
 
 /** The redundancy Settings of a Vault */
@@ -1108,6 +1121,27 @@ export enum KnownAlertsState {
  * **Disabled**
  */
 export type AlertsState = string;
+
+/** Known values of {@link CrossSubscriptionRestoreState} that the service accepts. */
+export enum KnownCrossSubscriptionRestoreState {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** PermanentlyDisabled */
+  PermanentlyDisabled = "PermanentlyDisabled"
+}
+
+/**
+ * Defines values for CrossSubscriptionRestoreState. \
+ * {@link KnownCrossSubscriptionRestoreState} can be used interchangeably with CrossSubscriptionRestoreState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled** \
+ * **PermanentlyDisabled**
+ */
+export type CrossSubscriptionRestoreState = string;
 
 /** Known values of {@link StandardTierStorageRedundancy} that the service accepts. */
 export enum KnownStandardTierStorageRedundancy {

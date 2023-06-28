@@ -292,7 +292,7 @@ function _getStateFilePath(): string {
       }
     }
     case "linux": {
-      let base =
+      const base =
         process.env.XDG_STATE_HOME ??
         path.join(
           process.env.HOME ?? `/home/${process.env.USER ?? userInfo().username}/`,
@@ -599,8 +599,11 @@ export async function updateMigrationDate(
   const packageJson = JSON.parse((await readFile(packageJsonPath)).toString("utf-8"));
 
   // Defensively check that the current date in package.json is undefined or older than the new date.
+  if (!packageJson[METADATA_KEY]) {
+    packageJson[METADATA_KEY] = {};
+  }
   if (
-    packageJson[METADATA_KEY]?.migrationDate &&
+    packageJson[METADATA_KEY].migrationDate &&
     new Date(packageJson[METADATA_KEY].migrationDate) >= migration.date
   ) {
     panic(`${project.name} is being migrated to an older version than the current version.`);

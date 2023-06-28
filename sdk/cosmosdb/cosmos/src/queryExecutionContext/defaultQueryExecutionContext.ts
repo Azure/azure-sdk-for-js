@@ -6,10 +6,15 @@ import { ClientSideMetrics, QueryMetrics } from "../queryMetrics";
 import { FeedOptions, Response } from "../request";
 import { getInitialHeader } from "./headerUtils";
 import { ExecutionContext } from "./index";
+import { CosmosDiagnosticContext } from "../CosmosDiagnosticsContext";
+import { getEmptyCosmosDiagnostics } from "../CosmosDiagnostics";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 /** @hidden */
-export type FetchFunctionCallback = (options: FeedOptions) => Promise<Response<any>>;
+export type FetchFunctionCallback = (
+  options: FeedOptions,
+  diagnosticContext: CosmosDiagnosticContext
+) => Promise<Response<any>>;
 
 /** @hidden */
 enum STATES {
@@ -45,7 +50,8 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
    */
   constructor(
     options: FeedOptions,
-    fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[]
+    fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[],
+    private diagnosticContext: CosmosDiagnosticContext
   ) {
     this.resources = [];
     this.currentIndex = 0;
@@ -73,24 +79,29 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
       return {
         result: this.resources[this.currentIndex],
         headers: getInitialHeader(),
+        diagnostics: getEmptyCosmosDiagnostics(),
       };
     }
 
     if (this._canFetchMore()) {
-      const { result: resources, headers } = await this.fetchMore();
+      const { result: resources, headers, diagnostics } = await this.fetchMore();
       this.resources = resources;
       if (this.resources.length === 0) {
         if (!this.continuationToken && this.currentPartitionIndex >= this.fetchFunctions.length) {
           this.state = DefaultQueryExecutionContext.STATES.ended;
-          return { result: undefined, headers };
+          return { result: undefined, headers, diagnostics };
         } else {
           return this.current();
         }
       }
-      return { result: this.resources[this.currentIndex], headers };
+      return { result: this.resources[this.currentIndex], headers, diagnostics };
     } else {
       this.state = DefaultQueryExecutionContext.STATES.ended;
-      return { result: undefined, headers: getInitialHeader() };
+      return {
+        result: undefined,
+        headers: getInitialHeader(),
+        diagnostics: getEmptyCosmosDiagnostics(),
+      };
     }
   }
 
@@ -114,7 +125,11 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
    */
   public async fetchMore(): Promise<Response<any>> {
     if (this.currentPartitionIndex >= this.fetchFunctions.length) {
-      return { headers: getInitialHeader(), result: undefined };
+      return {
+        headers: getInitialHeader(),
+        result: undefined,
+        diagnostics: getEmptyCosmosDiagnostics(),
+      };
     }
 
     // Keep to the original continuation and to restore the value after fetchFunction call
@@ -123,11 +138,16 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
 
     // Return undefined if there is no more results
     if (this.currentPartitionIndex >= this.fetchFunctions.length) {
-      return { headers: getInitialHeader(), result: undefined };
+      return {
+        headers: getInitialHeader(),
+        result: undefined,
+        diagnostics: getEmptyCosmosDiagnostics(),
+      };
     }
 
     let resources;
     let responseHeaders;
+    let diagnostics;
     try {
       let p: Promise<Response<any>>;
       if (this.nextFetchFunction !== undefined) {
@@ -136,11 +156,12 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
         this.nextFetchFunction = undefined;
       } else {
         logger.verbose("using fresh fetch");
-        p = this.fetchFunctions[this.currentPartitionIndex](this.options);
+        p = this.fetchFunctions[this.currentPartitionIndex](this.options, this.diagnosticContext);
       }
       const response = await p;
       resources = response.result;
       responseHeaders = response.headers;
+      diagnostics = response.diagnostics;
 
       this.continuationToken = responseHeaders[Constants.HttpHeaders.Continuation];
       if (!this.continuationToken) {
@@ -150,7 +171,10 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
       if (this.options && this.options.bufferItems === true) {
         const fetchFunction = this.fetchFunctions[this.currentPartitionIndex];
         this.nextFetchFunction = fetchFunction
-          ? fetchFunction({ ...this.options, continuationToken: this.continuationToken })
+          ? fetchFunction(
+              { ...this.options, continuationToken: this.continuationToken },
+              this.diagnosticContext
+            )
           : undefined;
       }
     } catch (err: any) {
@@ -196,7 +220,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
       responseHeaders[Constants.HttpHeaders.QueryMetrics]["0"] = queryMetrics;
     }
 
-    return { result: resources, headers: responseHeaders };
+    return { result: resources, headers: responseHeaders, diagnostics };
   }
 
   private _canFetchMore(): boolean {
