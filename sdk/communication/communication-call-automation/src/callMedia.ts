@@ -248,7 +248,7 @@ export class CallMedia {
         dtmfOptions: dtmfOptionsInternal,
       };
       return {
-        recognizeInputType: KnownRecognizeInputType.Speech,
+        recognizeInputType: KnownRecognizeInputType.SpeechOrDtmf,
         playPrompt: recognizeOptions.playPrompt
           ? this.createPlaySourceInternal(recognizeOptions.playPrompt)
           : undefined,

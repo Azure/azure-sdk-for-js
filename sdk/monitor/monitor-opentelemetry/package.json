@@ -86,6 +86,7 @@
     "typescript": "~5.0.0"
   },
   "dependencies": {
+    "@azure/functions": "^3.2.0",
     "@azure/monitor-opentelemetry-exporter": "1.0.0-beta.11",
     "@azure/opentelemetry-instrumentation-azure-sdk": "^1.0.0-beta.3",
     "@opentelemetry/api": "^1.4.1",

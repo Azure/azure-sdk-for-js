@@ -289,6 +289,10 @@ export interface RecorderStartOptions {
    * Generated recordings are updated by the "proxy-tool" based on the sanitizer options provided.
    */
   sanitizerOptions?: SanitizerOptions;
+  /**
+   * When a service uses a custom SSL certificate to communicate with the client.
+   */
+  tlsValidationCert?: string;
 }
 
 /**

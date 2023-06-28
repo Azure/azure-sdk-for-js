@@ -31,6 +31,7 @@ import { AzureMonitorOpenTelemetryConfig } from "../shared/config";
 import { MetricHandler } from "../metrics/handler";
 import { ignoreOutgoingRequestHook } from "../utils/common";
 import { AzureMonitorSpanProcessor } from "./spanProcessor";
+import { AzureFunctionsHook } from "./azureFnHook";
 
 /**
  * Azure Monitor OpenTelemetry Trace Handler
@@ -50,6 +51,7 @@ export class TraceHandler {
   private _redis4Instrumentation?: Instrumentation;
   private _config: AzureMonitorOpenTelemetryConfig;
   private _metricHandler?: MetricHandler;
+  private _azureFunctionsHook: AzureFunctionsHook;
 
   /**
    * Initializes a new instance of the TraceHandler class.
@@ -83,6 +85,7 @@ export class TraceHandler {
       const azureSpanProcessor = new AzureMonitorSpanProcessor(this._metricHandler);
       this._tracerProvider.addSpanProcessor(azureSpanProcessor);
     }
+    this._azureFunctionsHook = new AzureFunctionsHook();
     this._initializeInstrumentations();
   }
 
@@ -105,6 +108,7 @@ export class TraceHandler {
    */
   public async shutdown(): Promise<void> {
     await this._tracerProvider.shutdown();
+    this._azureFunctionsHook.shutdown();
   }
 
   /**

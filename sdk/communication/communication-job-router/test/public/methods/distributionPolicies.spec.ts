@@ -4,13 +4,13 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { DistributionPolicy, RouterAdministrationClient } from "../../../src";
+import { DistributionPolicy, JobRouterAdministrationClient } from "../../../src";
 import { getDistributionPolicyRequest } from "../utils/testData";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { timeoutMs } from "../utils/constants";
 
 describe("RouterClient", function () {
-  let administrationClient: RouterAdministrationClient;
+  let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;
 
   const testRunId = "recorded-d-policies";

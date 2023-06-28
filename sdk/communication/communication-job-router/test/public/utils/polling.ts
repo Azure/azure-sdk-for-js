@@ -2,9 +2,12 @@
 // Licensed under the MIT license.
 
 import { JobAssignment, JobOffer, RouterJob, RouterWorker } from "../../../src/generated/src";
-import { RouterClient } from "../../../src/routerClient";
+import { JobRouterClient } from "../../../src/jobRouterClient";
 
-export async function pollForJobOffer(workerId: string, client: RouterClient): Promise<JobOffer> {
+export async function pollForJobOffer(
+  workerId: string,
+  client: JobRouterClient
+): Promise<JobOffer> {
   let worker: RouterWorker = {};
   while (worker.offers?.length === undefined || worker.offers.length < 1) {
     worker = await client.getWorker(workerId);
@@ -15,7 +18,7 @@ export async function pollForJobOffer(workerId: string, client: RouterClient): P
 
 export async function pollForJobAssignment(
   jobId: string,
-  client: RouterClient
+  client: JobRouterClient
 ): Promise<JobAssignment> {
   let job: RouterJob = {};
   while (job.assignments === undefined || Object.keys(job.assignments).length < 1) {
@@ -25,7 +28,7 @@ export async function pollForJobAssignment(
   return Object.values(job.assignments)[0];
 }
 
-export async function pollForJobQueued(jobId: string, client: RouterClient): Promise<RouterJob> {
+export async function pollForJobQueued(jobId: string, client: JobRouterClient): Promise<RouterJob> {
   let job: RouterJob = {};
   while (job.jobStatus !== "queued") {
     job = await client.getJob(jobId);
@@ -34,7 +37,10 @@ export async function pollForJobQueued(jobId: string, client: RouterClient): Pro
   return job;
 }
 
-export async function pollForJobCancelled(jobId: string, client: RouterClient): Promise<RouterJob> {
+export async function pollForJobCancelled(
+  jobId: string,
+  client: JobRouterClient
+): Promise<RouterJob> {
   let job: RouterJob = {};
   while (job.jobStatus !== "cancelled") {
     job = await client.getJob(jobId);

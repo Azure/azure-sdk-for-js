@@ -22,8 +22,12 @@ import {
   MongoDbDataFeedSource,
   UnknownDataFeedSource,
 } from "../../src";
-import { createRecordedAdminClient, makeCredential, testEnv } from "./util/recordedClients";
-import { Recorder } from "@azure-tools/test-recorder";
+import {
+  createRecordedAdminClient,
+  getRecorderUniqueVariable,
+  makeCredential,
+} from "./util/recordedClients";
+import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { fakeTestSecretPlaceholder, getYieldedValue, matrix } from "@azure/test-utils";
 
 matrix([[true, false]] as const, async (useAad) => {
@@ -45,46 +49,46 @@ matrix([[true, false]] as const, async (useAad) => {
       let datalakeGenFeedName: string;
       let logAnalyticsFeedName: string;
 
-      beforeEach(function (this: Context) {
-        ({ recorder, client } = createRecordedAdminClient(this, makeCredential(useAad)));
+      beforeEach(async function (this: Context) {
+        ({ recorder, client } = await createRecordedAdminClient(this, makeCredential(useAad)));
         if (recorder && !feedName) {
-          feedName = recorder.getUniqueName("js-test-datafeed-");
+          feedName = getRecorderUniqueVariable(recorder, "js-test-datafeed-");
         }
         if (recorder && !appInsightsFeedName) {
-          appInsightsFeedName = recorder.getUniqueName("js-test-appInsightsFeed-");
+          appInsightsFeedName = getRecorderUniqueVariable(recorder, "js-test-appInsightsFeed-");
         }
         if (recorder && !sqlServerFeedName) {
-          sqlServerFeedName = recorder.getUniqueName("js-test-sqlServerFeed-");
+          sqlServerFeedName = getRecorderUniqueVariable(recorder, "js-test-sqlServerFeed-");
         }
         if (recorder && !cosmosFeedName) {
-          cosmosFeedName = recorder.getUniqueName("js-test-cosmosFeed-");
+          cosmosFeedName = getRecorderUniqueVariable(recorder, "js-test-cosmosFeed-");
         }
         if (recorder && !dataExplorerFeedName) {
-          dataExplorerFeedName = recorder.getUniqueName("js-test-dataExplorerFeed-");
+          dataExplorerFeedName = getRecorderUniqueVariable(recorder, "js-test-dataExplorerFeed-");
         }
         if (recorder && !azureTableFeedName) {
-          azureTableFeedName = recorder.getUniqueName("js-test-tableFeed-");
+          azureTableFeedName = getRecorderUniqueVariable(recorder, "js-test-tableFeed-");
         }
         if (recorder && !eventHubsFeedName) {
-          eventHubsFeedName = recorder.getUniqueName("js-test-eventhubRequestFeed-");
+          eventHubsFeedName = getRecorderUniqueVariable(recorder, "js-test-eventhubRequestFeed-");
         }
         if (recorder && !logAnalyticsFeedName) {
-          logAnalyticsFeedName = recorder.getUniqueName("js-test-logAnalyticsFeed-");
+          logAnalyticsFeedName = getRecorderUniqueVariable(recorder, "js-test-logAnalyticsFeed-");
         }
         if (recorder && !influxDbFeedName) {
-          influxDbFeedName = recorder.getUniqueName("js-test-influxdbFeed-");
+          influxDbFeedName = getRecorderUniqueVariable(recorder, "js-test-influxdbFeed-");
         }
         if (recorder && !mongoDbFeedName) {
-          mongoDbFeedName = recorder.getUniqueName("js-test-mongoDbFeed-");
+          mongoDbFeedName = getRecorderUniqueVariable(recorder, "js-test-mongoDbFeed-");
         }
         if (recorder && !mySqlFeedName) {
-          mySqlFeedName = recorder.getUniqueName("js-test-mySqlFeed-");
+          mySqlFeedName = getRecorderUniqueVariable(recorder, "js-test-mySqlFeed-");
         }
         if (recorder && !postgreSqlFeedName) {
-          postgreSqlFeedName = recorder.getUniqueName("js-test-postgreSqlFeed-");
+          postgreSqlFeedName = getRecorderUniqueVariable(recorder, "js-test-postgreSqlFeed-");
         }
         if (recorder && !datalakeGenFeedName) {
-          datalakeGenFeedName = recorder.getUniqueName("js-test-dataLakeGenFeed-");
+          datalakeGenFeedName = getRecorderUniqueVariable(recorder, "js-test-dataLakeGenFeed-");
         }
       });
 
@@ -158,16 +162,18 @@ matrix([[true, false]] as const, async (useAad) => {
           // accessing environment variables here so they are already replaced by test env ones
           const expectedSource: DataFeedSource = {
             dataSourceType: "AzureBlob",
-            connectionString: testEnv.METRICS_ADVISOR_AZURE_BLOB_CONNECTION_STRING,
+            connectionString: assertEnvironmentVariable(
+              "METRICS_ADVISOR_AZURE_BLOB_CONNECTION_STRING"
+            ),
             container: "adsample",
-            blobTemplate: testEnv.METRICS_ADVISOR_AZURE_BLOB_TEMPLATE,
+            blobTemplate: assertEnvironmentVariable("METRICS_ADVISOR_AZURE_BLOB_TEMPLATE"),
             authenticationType: "Basic",
           };
           const expectedSourceByService = {
             dataSourceType: "AzureBlob",
             connectionString: undefined,
             container: "adsample",
-            blobTemplate: testEnv.METRICS_ADVISOR_AZURE_BLOB_TEMPLATE,
+            blobTemplate: assertEnvironmentVariable("METRICS_ADVISOR_AZURE_BLOB_TEMPLATE"),
             authenticationType: "Basic",
           } as unknown as DataFeedSource;
           const feed = {
@@ -268,7 +274,7 @@ matrix([[true, false]] as const, async (useAad) => {
             dataSourceType: "AzureBlob",
             container: "adsample",
             connectionString: undefined,
-            blobTemplate: testEnv.METRICS_ADVISOR_AZURE_BLOB_TEMPLATE,
+            blobTemplate: assertEnvironmentVariable("METRICS_ADVISOR_AZURE_BLOB_TEMPLATE"),
             authenticationType: "Basic",
           } as unknown as AzureBlobDataFeedSource;
 
@@ -329,7 +335,7 @@ matrix([[true, false]] as const, async (useAad) => {
             source: {
               ...expectedSourceParameter,
             },
-            name: recorder.getUniqueName("Updated-Azure-Blob-data-feed-"),
+            name: getRecorderUniqueVariable(recorder, "Updated-Azure-Blob-data-feed-"),
             schema: {
               timestampColumn: "UpdatedTimestampeColumn",
             },
@@ -374,8 +380,10 @@ matrix([[true, false]] as const, async (useAad) => {
             dataSourceType: "AzureApplicationInsights",
             azureCloud: "Azure",
             authenticationType: "Basic",
-            applicationId: testEnv.METRICS_ADVISOR_AZURE_APPINSIGHTS_APPLICATION_ID,
-            apiKey: testEnv.METRICS_ADVISOR_AZURE_APPINSIGHTS_API_KEY,
+            applicationId: assertEnvironmentVariable(
+              "METRICS_ADVISOR_AZURE_APPINSIGHTS_APPLICATION_ID"
+            ),
+            apiKey: assertEnvironmentVariable("METRICS_ADVISOR_AZURE_APPINSIGHTS_API_KEY"),
             query:
               "let gran=60m; let starttime=datetime(@StartTime); let endtime=starttime + gran; requests | where timestamp >= starttime and timestamp < endtime | summarize request_count = count(), duration_avg_ms = avg(duration), duration_95th_ms = percentile(duration, 95), duration_max_ms = max(duration) by resultCode",
           };
@@ -395,7 +403,7 @@ matrix([[true, false]] as const, async (useAad) => {
             assert.equal(actual.source.azureCloud, "Azure");
             assert.equal(
               actual.source.applicationId,
-              testEnv.METRICS_ADVISOR_AZURE_APPINSIGHTS_APPLICATION_ID
+              assertEnvironmentVariable("METRICS_ADVISOR_AZURE_APPINSIGHTS_APPLICATION_ID")
             );
             assert.equal(actual.source.apiKey, undefined);
             assert.equal(
@@ -408,7 +416,9 @@ matrix([[true, false]] as const, async (useAad) => {
         it("creates an Azure SQL Server Feed", async () => {
           const expectedSource: DataFeedSource = {
             dataSourceType: "SqlServer",
-            connectionString: testEnv.METRICS_ADVISOR_AZURE_SQL_SERVER_CONNECTION_STRING,
+            connectionString: assertEnvironmentVariable(
+              "METRICS_ADVISOR_AZURE_SQL_SERVER_CONNECTION_STRING"
+            ),
             query: "select * from adsample2 where Timestamp = @StartTime",
             authenticationType: "Basic",
           };
@@ -716,8 +726,8 @@ matrix([[true, false]] as const, async (useAad) => {
           const expectedSource: AzureEventHubsDataFeedSource = {
             dataSourceType: "AzureEventHubs",
             authenticationType: "Basic",
-            connectionString: testEnv.METRICS_EVENTHUB_CONNECTION_STRING,
-            consumerGroup: testEnv.METRICS_EVENTHUB_CONSUMER_GROUP,
+            connectionString: assertEnvironmentVariable("METRICS_EVENTHUB_CONNECTION_STRING"),
+            consumerGroup: assertEnvironmentVariable("METRICS_EVENTHUB_CONSUMER_GROUP"),
           };
           const actual = await client.createDataFeed({
             name: eventHubsFeedName,
