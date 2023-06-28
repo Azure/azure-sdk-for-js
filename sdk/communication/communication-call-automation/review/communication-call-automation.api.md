@@ -151,8 +151,8 @@ export type CallLocatorType = "serverCallLocator" | "groupCallLocator";
 export class CallMedia {
     constructor(callConnectionId: string, endpoint: string, credential: KeyCredential | TokenCredential, options?: CallAutomationApiClientOptionalParams);
     cancelAllOperations(): Promise<void>;
-    play(playSources: FileSource[], playTo: CommunicationIdentifier[], playOptions?: PlayOptions): Promise<void>;
-    playToAll(playSources: FileSource[], playOptions?: PlayOptions): Promise<void>;
+    play(playSources: FileSource[] | TextSource[] | SsmlSource[], playTo: CommunicationIdentifier[], playOptions?: PlayOptions): Promise<void>;
+    playToAll(playSources: FileSource[] | TextSource[] | SsmlSource[], playOptions?: PlayOptions): Promise<void>;
     // Warning: (ae-forgotten-export) The symbol "Tone" needs to be exported by the entry point index.d.ts
     sendDtmf(tones: Tone[], targetParticipant: CommunicationIdentifier, sendDtmfOptions?: SendDtmfOptions): Promise<void>;
     startContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, continuousDtmfRecognitionOptions?: ContinuousDtmfRecognitionOptions): Promise<void>;
@@ -319,6 +319,12 @@ export interface FileSource extends PlaySource {
     readonly kind: "fileSource";
     // (undocumented)
     url: string;
+}
+
+// @public
+export enum Gender {
+    Female = "female",
+    Male = "male"
 }
 
 // @public
@@ -759,6 +765,14 @@ export interface SendDtmfOptions extends OperationOptions {
 }
 
 // @public
+export interface SsmlSource extends PlaySource {
+    // (undocumented)
+    readonly kind: "ssmlSource";
+    // (undocumented)
+    ssmlText: string;
+}
+
+// @public
 export interface StartRecordingOptions extends OperationOptions {
     audioChannelParticipantOrdering?: CommunicationIdentifier[];
     callLocator: CallLocator;
@@ -771,6 +785,20 @@ export interface StartRecordingOptions extends OperationOptions {
 
 // @public
 export type StopRecordingOptions = OperationOptions;
+
+// @public
+export interface TextSource extends PlaySource {
+    // (undocumented)
+    readonly kind: "textSource";
+    // (undocumented)
+    sourceLocale?: string;
+    // (undocumented)
+    text: string;
+    // (undocumented)
+    voiceGender?: Gender;
+    // (undocumented)
+    voiceName?: string;
+}
 
 // @public
 export interface ToneInfo extends Omit<RestToneInfo, "sequenceId" | "tone"> {

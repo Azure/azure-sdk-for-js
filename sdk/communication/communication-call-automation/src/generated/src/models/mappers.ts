@@ -515,14 +515,14 @@ export const PlaySourceInternal: coreClient.CompositeMapper = {
         serializedName: "textSource",
         type: {
           name: "Composite",
-          className: "TextSource"
+          className: "TextSourceInternal"
         }
       },
       ssmlSource: {
         serializedName: "ssmlSource",
         type: {
           name: "Composite",
-          className: "SsmlSource"
+          className: "SsmlSourceInternal"
         }
       }
     }
@@ -545,10 +545,10 @@ export const FileSourceInternal: coreClient.CompositeMapper = {
   }
 };
 
-export const TextSource: coreClient.CompositeMapper = {
+export const TextSourceInternal: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "TextSource",
+    className: "TextSourceInternal",
     modelProperties: {
       text: {
         serializedName: "text",
@@ -579,10 +579,10 @@ export const TextSource: coreClient.CompositeMapper = {
   }
 };
 
-export const SsmlSource: coreClient.CompositeMapper = {
+export const SsmlSourceInternal: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SsmlSource",
+    className: "SsmlSourceInternal",
     modelProperties: {
       ssmlText: {
         serializedName: "ssmlText",

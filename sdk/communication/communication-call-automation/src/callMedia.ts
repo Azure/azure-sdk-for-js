@@ -4,6 +4,8 @@
 import {
   PlayRequest,
   PlaySourceInternal,
+  TextSourceInternal,
+  SsmlSourceInternal,
   FileSourceInternal,
   KnownPlaySourceType,
   RecognizeRequest,
@@ -25,9 +27,9 @@ import {
   serializeCommunicationIdentifier,
 } from "@azure/communication-common";
 
-import { FileSource } from "./models/models";
+import { FileSource, SsmlSource, TextSource } from "./models/models";
 
-import { 
+import {
   PlayOptions,
   CallMediaRecognizeDtmfOptions,
   ContinuousDtmfRecognitionOptions,
@@ -55,7 +57,9 @@ export class CallMedia {
     this.callMedia = new CallMediaImpl(this.callAutomationApiClient);
   }
 
-  private createPlaySourceInternal(playSource: FileSource): PlaySourceInternal {
+  private createPlaySourceInternal(
+    playSource: FileSource | TextSource | SsmlSource
+  ): PlaySourceInternal {
     if (playSource.kind === "fileSource" || playSource.kind === undefined) {
       const fileSource: FileSourceInternal = {
         uri: playSource.url,
@@ -63,6 +67,27 @@ export class CallMedia {
       return {
         kind: KnownPlaySourceType.File,
         file: fileSource,
+        playSourceCacheId: playSource.playsourcacheid,
+      };
+    } else if (playSource.kind === "textSource") {
+      const textSource: TextSourceInternal = {
+        text: playSource.text,
+        sourceLocale: playSource.sourceLocale,
+        voiceGender: playSource.voiceGender,
+        voiceName: playSource.voiceName,
+      };
+      return {
+        kind: KnownPlaySourceType.Text,
+        textSource: textSource,
+        playSourceCacheId: playSource.playsourcacheid,
+      };
+    } else if (playSource.kind === "ssmlSource") {
+      const ssmlSource: SsmlSourceInternal = {
+        ssmlText: playSource.ssmlText,
+      };
+      return {
+        kind: KnownPlaySourceType.Ssml,
+        ssmlSource: ssmlSource,
         playSourceCacheId: playSource.playsourcacheid,
       };
     }
@@ -77,7 +102,7 @@ export class CallMedia {
    * @param playOptions - Additional attributes for play.
    */
   public async play(
-    playSources: FileSource[],
+    playSources: FileSource[] | TextSource[] | SsmlSource[],
     playTo: CommunicationIdentifier[],
     playOptions: PlayOptions = { loop: false }
   ): Promise<void> {
@@ -103,7 +128,7 @@ export class CallMedia {
    * @param playOptions - Additional attributes for play.
    */
   public async playToAll(
-    playSources: FileSource[],
+    playSources: FileSource[] | TextSource[] | SsmlSource[],
     playOptions: PlayOptions = { loop: false }
   ): Promise<void> {
     const playRequest: PlayRequest = {

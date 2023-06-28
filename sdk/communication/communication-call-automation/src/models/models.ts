@@ -55,6 +55,14 @@ export interface CallLocator {
   kind: CallLocatorType;
 }
 
+/** Defines values for Gender that the service accepts. */
+export enum Gender {
+  /** Male */
+  Male = "male",
+  /** Female */
+  Female = "female",
+}
+
 /** The PlaySource model. */
 export interface PlaySource {
   playsourcacheid?: string;
@@ -64,6 +72,21 @@ export interface PlaySource {
 export interface FileSource extends PlaySource {
   url: string;
   readonly kind: "fileSource";
+}
+
+/** The TextSource model. */
+export interface TextSource extends PlaySource {
+  text: string;
+  sourceLocale?: string;
+  voiceGender?: Gender;
+  voiceName?: string;
+  readonly kind: "textSource";
+}
+
+/** The SsmlSource model. */
+export interface SsmlSource extends PlaySource {
+  ssmlText: string;
+  readonly kind: "ssmlSource";
 }
 
 /** A Dtmf Tone. */
