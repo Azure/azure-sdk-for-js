@@ -256,11 +256,7 @@ export class CallAutomationClient {
     callbackUrl: string,
     options: AnswerCallOptions = {}
   ): Promise<AnswerCallResult> {
-    const {
-      azureCognitiveServicesEndpointUrl,
-      operationContext,
-      ...operationOptions
-    } = options;
+    const { azureCognitiveServicesEndpointUrl, operationContext, ...operationOptions } = options;
     const request: AnswerCallRequest = {
       incomingCallContext,
       azureCognitiveServicesEndpointUrl,

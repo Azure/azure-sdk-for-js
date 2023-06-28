@@ -45,10 +45,7 @@ import {
   ServiceBusReceivedMessage,
   ProcessErrorArgs,
 } from "@azure/service-bus";
-import { 
-  PhoneNumbersClient,
-  PhoneNumbersClientOptions 
-} from "@azure/communication-phone-numbers";
+import { PhoneNumbersClient, PhoneNumbersClientOptions } from "@azure/communication-phone-numbers";
 
 if (isNode) {
   dotenv.config();

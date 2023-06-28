@@ -14,10 +14,7 @@ import {
 
 // Parent directory imports
 import { CallMedia } from "../src/callMedia";
-import {
-  DtmfTone,
-  FileSource,
-} from "../src/models/models";
+import { DtmfTone, FileSource } from "../src/models/models";
 import {
   CallMediaRecognizeDtmfOptions,
   CallAutomationClient,
