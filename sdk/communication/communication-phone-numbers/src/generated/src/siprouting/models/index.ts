@@ -129,7 +129,7 @@ export interface SipRoutingError {
 /** Represents a SIP configuration update. */
 export interface SipConfigurationUpdate {
   /**
-   * Domains that will be validated and used.
+   * Domains that will be used.
    * Map key is domain.
    */
   domains?: { [propertyName: string]: DomainPatch | null };
@@ -143,7 +143,7 @@ export interface SipConfigurationUpdate {
 }
 
 /**
- * Represents Domain that will be validated and used.
+ * Represents Domain that will be used.
  * Map key is domain.
  */
 export interface DomainPatch {
@@ -217,7 +217,7 @@ export type SipRoutingGetResponse = SipConfiguration;
 export interface SipRoutingUpdateOptionalParams
   extends coreClient.OperationOptions {
   /**
-   * Domains that will be validated and used.
+   * Domains that will be used.
    * Map key is domain.
    */
   domains?: { [propertyName: string]: DomainPatch | null };
