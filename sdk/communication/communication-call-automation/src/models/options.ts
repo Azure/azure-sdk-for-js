@@ -44,12 +44,16 @@ export interface CreateCallOptions extends OperationOptions {
   sourceDisplayName?: string;
   /** The operation context. */
   operationContext?: string;
+  /** The Azure cognitive services end point url. */
+  azureCognitiveServicesEndpointUrl?: string;
 }
 
 /**
  * Options to answer a call.
  */
 export interface AnswerCallOptions extends OperationOptions {
+  /** The Azure cognitive services end point url. */
+  azureCognitiveServicesEndpointUrl?: string;
   /** The operation context. */
   operationContext?: string;
 }

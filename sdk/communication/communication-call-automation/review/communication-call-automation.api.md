@@ -49,6 +49,7 @@ export interface AddParticipantSucceeded extends Omit<RestAddParticipantSucceede
 
 // @public
 export interface AnswerCallOptions extends OperationOptions {
+    azureCognitiveServicesEndpointUrl?: string;
     operationContext?: string;
 }
 
@@ -230,6 +231,7 @@ export interface ChannelAffinity {
 
 // @public
 export interface CreateCallOptions extends OperationOptions {
+    azureCognitiveServicesEndpointUrl?: string;
     operationContext?: string;
     sourceCallIdNumber?: PhoneNumberIdentifier;
     sourceDisplayName?: string;
