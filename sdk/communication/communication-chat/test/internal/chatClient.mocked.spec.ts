@@ -36,9 +36,16 @@ describe("[Mocked] ChatClient", async function () {
     new ChatClient(baseUri, new AzureCommunicationTokenCredential(generateToken()));
   });
 
-  it("can instantiate with custom api version policy", function () {
-    const options = { apiVersion: "2021-03-07" };
-    new ChatClient(baseUri, new AzureCommunicationTokenCredential(generateToken()), options as ChatClientOptions);
+  it("can instantiate with custom api version policy", async function () {
+    const customizedVersion = `2021-03-07`;
+    const mockHttpClient = generateHttpClient(201, mockCreateThreadResult);
+    const options = { apiVersion: customizedVersion, httpClient: mockHttpClient };
+    chatClient = new ChatClient(baseUri, new AzureCommunicationTokenCredential(generateToken()), options as ChatClientOptions);
+
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    await chatClient.createChatThread({ topic: mockThread.topic });
+    const request = spy.getCall(0).args[0];
+    assert.equal(request.url, `${baseUri}/chat/threads?api-version=${customizedVersion}`);
   });
 
   it("makes successful create thread request", async function () {
