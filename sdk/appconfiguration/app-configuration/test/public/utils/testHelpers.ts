@@ -78,9 +78,7 @@ export function getTokenAuthenticationCredential(): CredsAndEndpoint {
   };
 }
 
-export function createAppConfigurationClientForTests<
-  Options extends AppConfigurationClientOptions = AppConfigurationClientOptions
->(options?: Options): AppConfigurationClient {
+export function createAppConfigurationClientForTests(options?: AppConfigurationClientOptions): AppConfigurationClient {
   const connectionString = env["APPCONFIG_CONNECTION_STRING"];
 
   if (connectionString == null) {

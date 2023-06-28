@@ -66,7 +66,7 @@ describe("AppConfigurationClient snapshot", () => {
       await client.archiveSnapshot(newSnapshot);
     });
 
-    it("service will throw error when try to create a snapshot of the same name", async () => {
+    it("service throws error when tried to create a snapshot with same name", async () => {
       // creating a new snapshot
       newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1);
       assertEqualSnapshot(newSnapshot, snapshot1);
@@ -102,8 +102,8 @@ describe("AppConfigurationClient snapshot", () => {
     });
   });
 
-  describe("listConfigurationSettings for Snapshot", () => {
-    it("list a snapshot configuration setting", async () => {
+  describe("listConfigurationSettings of a Snapshot", () => {
+    it("list configuration settings", async () => {
       // creating a new snapshot
       newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1);
 
@@ -111,7 +111,7 @@ describe("AppConfigurationClient snapshot", () => {
       await client.setConfigurationSetting({ ...filter1, value: "value2" });
 
       // getting the configuration settting of the snapshot
-      const snapshotConfigurationSettings = await client.listConfigurationSettingsForSnapshot(
+      const snapshotConfigurationSettings = client.listConfigurationSettingsForSnapshot(
         newSnapshot.name
       );
 
@@ -179,12 +179,12 @@ describe("AppConfigurationClient snapshot", () => {
 
   // Error with the list functions currently
   describe("listSnapshots", () => {
-    it("list all snapshot with ready filter", async function () {
-      const list = await client.listSnapshots();
+    it("list all snapshots with ready filter", async function () {
+      const list = client.listSnapshots();
       for await (const snapshot of list) {
         await client.archiveSnapshot(snapshot);
       }
-      const readyList = await client.listSnapshots({ statusFilter: ["ready"] });
+      const readyList = client.listSnapshots({ statusFilter: ["ready"] });
       let num = 0;
       for await (const snapshot of readyList) {
         assert.equal(snapshot, undefined, "There should be no snapshot in ready status");
