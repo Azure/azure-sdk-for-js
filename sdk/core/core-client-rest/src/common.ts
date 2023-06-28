@@ -10,6 +10,7 @@ import {
   PipelineRequest,
   PipelineResponse,
   RawHttpHeaders,
+  RequestBodyType,
   TransferProgressEvent,
 } from "@azure/core-rest-pipeline";
 import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
@@ -93,9 +94,29 @@ export type RequestParameters = {
  */
 export type RawResponseCallback = (
   rawResponse: FullOperationResponse,
-  flatResponse: unknown,
   error?: unknown
 ) => void;
+
+/**
+ * Wrapper object for http request and response. Deserialized object is stored in
+ * the `parsedBody` property when the response body is received in JSON or XML.
+ */
+export interface FullOperationResponse extends PipelineResponse {
+  /**
+   * The parsed HTTP response headers.
+   */
+  rawHeaders?: RawHttpHeaders;
+
+  /**
+   * The response body as parsed JSON or XML.
+   */
+  parsedBody?: RequestBodyType;
+
+  /**
+   * The request that generated the response.
+   */
+  request: PipelineRequest;
+}
 
 /**
  * The base options type for all operations.
@@ -120,27 +141,6 @@ export interface OperationOptions {
    * May be called multiple times.
    */
   onResponse?: RawResponseCallback;
-}
-
-/**
- * Wrapper object for http request and response. Deserialized object is stored in
- * the `parsedBody` property when the response body is received in JSON or XML.
- */
-export interface FullOperationResponse extends PipelineResponse {
-  /**
-   * The parsed HTTP response headers.
-   */
-  parsedHeaders?: { [key: string]: unknown };
-
-  /**
-   * The response body as parsed JSON or XML.
-   */
-  parsedBody?: any;
-
-  /**
-   * The request that generated the response.
-   */
-  request: PipelineRequest;
 }
 
 /**

@@ -64,9 +64,14 @@ export async function sendRequest(
   }
   
   const response = await pipeline.sendRequest(httpClient, request);
+
   const rawHeaders: RawHttpHeaders = response.headers.toJSON();
 
   const parsedBody: RequestBodyType | undefined = getResponseBody(response);
+
+  if (options?.onResponse) {
+    options.onResponse({...response, request, rawHeaders, parsedBody});
+  }
 
   return {
     request,

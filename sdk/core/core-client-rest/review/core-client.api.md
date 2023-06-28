@@ -18,6 +18,7 @@ import { PipelineRequest } from '@azure/core-rest-pipeline';
 import { PipelineResponse } from '@azure/core-rest-pipeline';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
+import { RequestBodyType } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 import { TransferProgressEvent } from '@azure/core-rest-pipeline';
@@ -77,10 +78,8 @@ export interface ErrorResponse {
 
 // @public
 export interface FullOperationResponse extends PipelineResponse {
-    parsedBody?: any;
-    parsedHeaders?: {
-        [key: string]: unknown;
-    };
+    parsedBody?: RequestBodyType;
+    rawHeaders?: RawHttpHeaders;
     request: PipelineRequest;
 }
 
@@ -153,7 +152,7 @@ export type PathUncheckedResponse = HttpResponse & {
 };
 
 // @public
-export type RawResponseCallback = (rawResponse: FullOperationResponse, flatResponse: unknown, error?: unknown) => void;
+export type RawResponseCallback = (rawResponse: FullOperationResponse, error?: unknown) => void;
 
 // @public
 export type RequestParameters = {
