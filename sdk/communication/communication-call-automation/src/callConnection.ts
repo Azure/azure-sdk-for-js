@@ -11,6 +11,7 @@ import {
   CallAutomationApiClient,
   CallAutomationApiClientOptionalParams,
   RemoveParticipantRequest,
+  MuteParticipantsRequest,
   TransferToParticipantRequest,
 } from "./generated/src";
 import { CallConnectionImpl } from "./generated/src/operations";
@@ -21,6 +22,7 @@ import {
   GetParticipantOptions,
   HangUpOptions,
   RemoveParticipantsOption,
+  MuteParticipantsOption,
   TransferCallToParticipantOptions,
 } from "./models/options";
 import {
@@ -28,6 +30,7 @@ import {
   TransferCallResult,
   AddParticipantResult,
   RemoveParticipantResult,
+  MuteParticipantsResult,
 } from "./models/responses";
 import {
   callParticipantConverter,
@@ -252,5 +255,34 @@ export class CallConnection {
       ...result,
     };
     return removeParticipantsResult;
+  }
+
+  /**
+   * Mute participants from the call.
+   *
+   * @param participant - Participant to be muted from the call.
+   */
+  public async muteParticipants(
+    participant: CommunicationIdentifier,
+    options: MuteParticipantsOption = {}
+  ): Promise<MuteParticipantsResult> {
+    const muteParticipantsRequest: MuteParticipantsRequest = {
+      targetParticipants: [communicationIdentifierModelConverter(participant)],
+      operationContext: options.operationContext,
+    };
+    const optionsInternal = {
+      ...options,
+      repeatabilityFirstSent: new Date(),
+      repeatabilityRequestID: uuidv4(),
+    };
+    const result = await this.callConnection.mute(
+      this.callConnectionId,
+      muteParticipantsRequest,
+      optionsInternal
+    );
+    const muteParticipantsResult: MuteParticipantsResult = {
+      ...result,
+    };
+    return muteParticipantsResult;
   }
 }
