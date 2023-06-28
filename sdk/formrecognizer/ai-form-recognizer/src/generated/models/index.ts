@@ -96,8 +96,6 @@ export interface AnalyzeResult {
 
 /** Content and layout elements extracted from a page from the input. */
 export interface DocumentPage {
-  /** Kind of document page. */
-  kind?: DocumentPageKind;
   /** 1-based page number in the input document. */
   pageNumber: number;
   /** The general orientation of the content in clockwise direction, measured in degrees between (-180, 180]. */
@@ -122,8 +120,6 @@ export interface DocumentPage {
   barcodes?: DocumentBarcode[];
   /** Extracted formulas from the page. */
   formulas?: DocumentFormula[];
-  /** Extracted images from the page. */
-  images?: DocumentImage[];
 }
 
 /** Contiguous region of the concatenated content property, specified as an offset and length. */
@@ -206,18 +202,6 @@ export interface DocumentFormula {
   confidence: number;
 }
 
-/** An image object detected in the page. */
-export interface DocumentImage {
-  /** Bounding polygon of the image. */
-  polygon?: number[];
-  /** Location of the image in the reading order concatenated content. */
-  span: DocumentSpan;
-  /** 1-based page number of the page that contains the image. */
-  pageNumber: number;
-  /** Confidence of correctly identifying the image. */
-  confidence: number;
-}
-
 /** A paragraph object consisting with contiguous lines generally with common alignment and spacing. */
 export interface DocumentParagraph {
   /** Semantic role of the paragraph. */
@@ -278,8 +262,6 @@ export interface DocumentKeyValuePair {
   key: DocumentKeyValueElement;
   /** Field value of the key-value pair. */
   value?: DocumentKeyValueElement;
-  /** Common name of the key-value pair. */
-  commonName?: string;
   /** Confidence of correctly extracting the key-value pair. */
   confidence: number;
 }
@@ -796,13 +778,17 @@ export type StringIndexType = string;
 /** Known values of {@link DocumentAnalysisFeature} that the service accepts. */
 export enum KnownDocumentAnalysisFeature {
   /** Perform OCR at a higher resolution to handle documents with fine print. */
-  OcrHighResolution = "ocr.highResolution",
-  /** Enable the detection of mathematical expressions the document. */
-  OcrFormula = "ocr.formula",
+  OcrHighResolution = "ocrHighResolution",
+  /** Enable the detection of the text content language. */
+  Languages = "languages",
+  /** Enable the detection of barcodes in the document. */
+  Barcodes = "barcodes",
+  /** Enable the detection of mathematical expressions in the document. */
+  Formulas = "formulas",
+  /** Enable the detection of general key value pairs (form fields) in the document. */
+  KeyValuePairs = "keyValuePairs",
   /** Enable the recognition of various font styles. */
-  OcrFont = "ocr.font",
-  /** Enable extraction of additional fields via the queryFields query parameter. */
-  QueryFieldsPremium = "queryFields.premium"
+  StyleFont = "styleFont"
 }
 
 /**
@@ -810,36 +796,14 @@ export enum KnownDocumentAnalysisFeature {
  * {@link KnownDocumentAnalysisFeature} can be used interchangeably with DocumentAnalysisFeature,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **ocr.highResolution**: Perform OCR at a higher resolution to handle documents with fine print. \
- * **ocr.formula**: Enable the detection of mathematical expressions the document. \
- * **ocr.font**: Enable the recognition of various font styles. \
- * **queryFields.premium**: Enable extraction of additional fields via the queryFields query parameter.
+ * **ocrHighResolution**: Perform OCR at a higher resolution to handle documents with fine print. \
+ * **languages**: Enable the detection of the text content language. \
+ * **barcodes**: Enable the detection of barcodes in the document. \
+ * **formulas**: Enable the detection of mathematical expressions in the document. \
+ * **keyValuePairs**: Enable the detection of general key value pairs (form fields) in the document. \
+ * **styleFont**: Enable the recognition of various font styles.
  */
 export type DocumentAnalysisFeature = string;
-
-/** Known values of {@link DocumentPageKind} that the service accepts. */
-export enum KnownDocumentPageKind {
-  /** A page from a PDF or image file.  All content from Office/HTML files is represented as a single page. */
-  Document = "document",
-  /** A sheet from a spreadsheet. */
-  Sheet = "sheet",
-  /** A slide from a presentation. */
-  Slide = "slide",
-  /** An embedded image from an Office/HTML file. */
-  Image = "image"
-}
-
-/**
- * Defines values for DocumentPageKind. \
- * {@link KnownDocumentPageKind} can be used interchangeably with DocumentPageKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **document**: A page from a PDF or image file.  All content from Office\/HTML files is represented as a single page. \
- * **sheet**: A sheet from a spreadsheet. \
- * **slide**: A slide from a presentation. \
- * **image**: An embedded image from an Office\/HTML file.
- */
-export type DocumentPageKind = string;
 
 /** Known values of {@link LengthUnit} that the service accepts. */
 export enum KnownLengthUnit {
@@ -1222,8 +1186,6 @@ export interface DocumentModelsAnalyzeDocument$binaryOptionalParams
   locale?: string;
   /** List of optional analysis features. */
   features?: DocumentAnalysisFeature[];
-  /** List of additional fields to extract.  Ex. "NumberOfGuests,StoreNumber" */
-  queryFields?: string[];
 }
 
 /** Optional parameters. */
@@ -1237,8 +1199,6 @@ export interface DocumentModelsAnalyzeDocument$textOptionalParams
   locale?: string;
   /** List of optional analysis features. */
   features?: DocumentAnalysisFeature[];
-  /** List of additional fields to extract.  Ex. "NumberOfGuests,StoreNumber" */
-  queryFields?: string[];
 }
 
 /** Optional parameters. */
@@ -1252,8 +1212,6 @@ export interface DocumentModelsAnalyzeDocument$jsonOptionalParams
   locale?: string;
   /** List of optional analysis features. */
   features?: DocumentAnalysisFeature[];
-  /** List of additional fields to extract.  Ex. "NumberOfGuests,StoreNumber" */
-  queryFields?: string[];
 }
 
 /** Contains response data for the analyzeDocument operation. */

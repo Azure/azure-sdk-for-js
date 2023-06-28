@@ -36,6 +36,5 @@ export {
   DocumentPage,
   DocumentAnnotation,
   DocumentBarcode,
-  DocumentFormula,
-  DocumentImage,
+  DocumentFormula
 } from "./documentElements";

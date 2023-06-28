@@ -28,7 +28,6 @@ import {
   DocumentLine,
   DocumentParagraph,
   DocumentFormula,
-  DocumentImage,
 } from "../models/documentElements";
 import {
   Document as GeneratedDocument,
@@ -217,7 +216,6 @@ export function toDocumentLineFromGenerated(
 export function toDocumentPageFromGenerated(generated: GeneratedDocumentPage): DocumentPage {
   return {
     ...generated,
-    kind: generated.kind ?? "document",
     lines: generated.lines?.map((line) => toDocumentLineFromGenerated(line, generated)),
     selectionMarks: generated.selectionMarks?.map((mark) => ({
       ...mark,
@@ -239,12 +237,6 @@ export function toDocumentPageFromGenerated(generated: GeneratedDocumentPage): D
       (formula): DocumentFormula => ({
         ...formula,
         polygon: toBoundingPolygon(formula.polygon),
-      })
-    ),
-    images: generated.images?.map(
-      (image): DocumentImage => ({
-        ...image,
-        polygon: toBoundingPolygon(image.polygon),
       })
     ),
   };
@@ -410,7 +402,7 @@ export interface AnalysisOperationDefinition<Result = AnalyzeResult> {
   transformResult: (primitiveResult: GeneratedAnalyzeResult) => Result;
   initialModelId: string;
   options: PollerOptions<DocumentAnalysisPollOperationState<Result>> &
-    AnalyzeDocumentOptions<Result>;
+  AnalyzeDocumentOptions<Result>;
 }
 
 /**

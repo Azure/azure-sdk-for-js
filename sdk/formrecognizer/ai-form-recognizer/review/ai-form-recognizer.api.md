@@ -52,7 +52,6 @@ export interface AnalyzeDocumentOptions<Result = AnalyzeResult<AnalyzedDocument>
     features?: string[];
     locale?: string;
     pages?: string;
-    queryFields?: string[];
 }
 
 // @public
@@ -322,13 +321,6 @@ export interface DocumentFormula extends HasBoundingPolygon {
 export type DocumentFormulaKind = string;
 
 // @public
-export interface DocumentImage extends HasBoundingPolygon {
-    confidence: number;
-    pageNumber: number;
-    span: DocumentSpan;
-}
-
-// @public
 export interface DocumentIntegerField extends DocumentValueField<number> {
     kind: "integer";
 }
@@ -342,7 +334,6 @@ export interface DocumentKeyValueElement {
 
 // @public
 export interface DocumentKeyValuePair {
-    commonName?: string;
     confidence: number;
     key: DocumentKeyValueElement;
     value?: DocumentKeyValueElement;
@@ -477,8 +468,6 @@ export interface DocumentPage {
     barcodes?: DocumentBarcode[];
     formulas?: DocumentFormula[];
     height?: number;
-    images?: DocumentImage[];
-    kind: DocumentPageKind;
     lines?: DocumentLine[];
     pageNumber: number;
     selectionMarks?: DocumentSelectionMark[];
@@ -487,9 +476,6 @@ export interface DocumentPage {
     width?: number;
     words?: DocumentWord[];
 }
-
-// @public
-export type DocumentPageKind = string;
 
 // @public
 export interface DocumentParagraph {
@@ -640,10 +626,12 @@ export type FormRecognizerFeature = (typeof FormRecognizerFeature)[keyof typeof 
 
 // @public (undocumented)
 export const FormRecognizerFeature: {
-    readonly QueryFieldsPremium: "queryFields.premium";
-    readonly OcrFont: "ocr.font";
-    readonly OcrHighResolution: "ocr.highResolution";
-    readonly OcrFormula: "ocr.formula";
+    readonly Fonts: "styleFont";
+    readonly OcrHighResolution: "ocrHighResolution";
+    readonly Formulas: "formulas";
+    readonly Languages: "languages";
+    readonly Barcodes: "barcodes";
+    readonly KeyValuePairs: "keyValuePairs";
 };
 
 // @public
@@ -732,14 +720,6 @@ export enum KnownDocumentFieldType {
 export enum KnownDocumentFormulaKind {
     Display = "display",
     Inline = "inline"
-}
-
-// @public
-export enum KnownDocumentPageKind {
-    Document = "document",
-    Image = "image",
-    Sheet = "sheet",
-    Slide = "slide"
 }
 
 // @public

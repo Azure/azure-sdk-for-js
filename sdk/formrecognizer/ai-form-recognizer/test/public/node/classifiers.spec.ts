@@ -124,7 +124,6 @@ matrix([[true, false]] as const, async (useAad) => {
 
       // Additionally check that the pages aren't empty and that there are some common fields set
       assert.isNotEmpty(result.pages);
-      assert.ok(result.pages![0].kind);
       assert.ok(result.pages![0].pageNumber);
       assert.isDefined(result.pages![0].angle);
       assert.ok(result.pages![0].height);

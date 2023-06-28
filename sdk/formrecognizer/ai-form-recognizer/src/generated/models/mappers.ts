@@ -297,12 +297,6 @@ export const DocumentPage: coreClient.CompositeMapper = {
     name: "Composite",
     className: "DocumentPage",
     modelProperties: {
-      kind: {
-        serializedName: "kind",
-        type: {
-          name: "String"
-        }
-      },
       pageNumber: {
         constraints: {
           InclusiveMinimum: 1
@@ -428,18 +422,6 @@ export const DocumentPage: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "DocumentFormula"
-            }
-          }
-        }
-      },
-      images: {
-        serializedName: "images",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DocumentImage"
             }
           }
         }
@@ -768,57 +750,6 @@ export const DocumentFormula: coreClient.CompositeMapper = {
   }
 };
 
-export const DocumentImage: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DocumentImage",
-    modelProperties: {
-      polygon: {
-        serializedName: "polygon",
-        type: {
-          name: "Sequence",
-          element: {
-            constraints: {
-              InclusiveMinimum: 0
-            },
-            type: {
-              name: "Number"
-            }
-          }
-        }
-      },
-      span: {
-        serializedName: "span",
-        type: {
-          name: "Composite",
-          className: "DocumentSpan"
-        }
-      },
-      pageNumber: {
-        constraints: {
-          InclusiveMinimum: 1
-        },
-        serializedName: "pageNumber",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
-      confidence: {
-        constraints: {
-          InclusiveMaximum: 1,
-          InclusiveMinimum: 0
-        },
-        serializedName: "confidence",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
 export const DocumentParagraph: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1066,12 +997,6 @@ export const DocumentKeyValuePair: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DocumentKeyValueElement"
-        }
-      },
-      commonName: {
-        serializedName: "commonName",
-        type: {
-          name: "String"
         }
       },
       confidence: {
