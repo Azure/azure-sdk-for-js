@@ -64,14 +64,14 @@ export class AzureMonitorOpenTelemetryClient {
    *Get OpenTelemetry MeterProvider
    */
   public getMeterProvider(): MeterProvider {
-    return this._metricHandler.getMeterProvider();
+    return this._metricHandler.getCustomMetricsMeterProvider();
   }
 
   /**
    *Get OpenTelemetry Meter
    */
   public getMeter(): Meter {
-    return this._metricHandler.getMeter();
+    return this._metricHandler.getCustomMetricsMeter();
   }
 
   /**

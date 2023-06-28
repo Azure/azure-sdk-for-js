@@ -163,10 +163,10 @@
 /sdk/test-utils/ @HarshaNalluru @timovv
 
 # PRLabel: %Cognitive - Text Analytics
-/sdk/textanalytics/ @minhanh-phan @deyaaeldeen @witemple-msft
+/sdk/textanalytics/ @quentinRobinson @wangyuantao @minhanh-phan @deyaaeldeen @witemple-msft
 
 # PRLabel: %Cognitive - Language
-/sdk/cognitivelanguage/ @minhanh-phan @deyaaeldeen
+/sdk/cognitivelanguage/ @quentinRobinson @wangyuantao @minhanh-phan @deyaaeldeen
 
 # PRLabel: %OpenAI
 /sdk/openai/ @deyaaeldeen @minhanh-phan

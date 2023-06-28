@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AzureMonitorLogExporter } from "@azure/monitor-opentelemetry-exporter";
 import {
   LoggerProvider,
   SimpleLogRecordProcessor,
   Logger as OtelLogger,
-  ConsoleLogRecordExporter,
 } from "@opentelemetry/sdk-logs";
 import { LoggerProviderConfig } from "@opentelemetry/sdk-logs/build/src/types";
 import { AzureMonitorOpenTelemetryConfig } from "../shared/config";
@@ -18,7 +18,7 @@ import { AzureLogRecordProcessor } from "./logRecordProcessor";
 export class LogHandler {
   private _loggerProvider: LoggerProvider;
   private _logger: OtelLogger;
-  private _exporter: ConsoleLogRecordExporter;
+  private _azureExporter: AzureMonitorLogExporter;
   private _logRecordProcessor: SimpleLogRecordProcessor;
   private _config: AzureMonitorOpenTelemetryConfig;
   private _metricHandler?: MetricHandler;
@@ -36,8 +36,8 @@ export class LogHandler {
       resource: this._config.resource,
     };
     this._loggerProvider = new LoggerProvider(loggerProviderConfig);
-    this._exporter = new ConsoleLogRecordExporter();
-    this._logRecordProcessor = new SimpleLogRecordProcessor(this._exporter);
+    this._azureExporter = new AzureMonitorLogExporter(this._config.azureMonitorExporterConfig);
+    this._logRecordProcessor = new SimpleLogRecordProcessor(this._azureExporter);
     this._loggerProvider.addLogRecordProcessor(this._logRecordProcessor);
     this._azureLogProccessor = new AzureLogRecordProcessor(this._metricHandler);
     this._loggerProvider.addLogRecordProcessor(this._azureLogProccessor);
