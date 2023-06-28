@@ -43,7 +43,7 @@ export async function getProjects(service?: string) {
 
   return service
     ? rushJson.projects.filter((p: { projectFolder: string }) =>
-        p.projectFolder.startsWith(`sdk/${service}`)
+        p.projectFolder.startsWith(`sdk/${service}/`)
       )
     : rushJson.projects;
 }
