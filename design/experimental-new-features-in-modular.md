@@ -66,7 +66,7 @@ _Questions_:
 
 **_Experimental Features_**: Experimental features could be either client side features or service preview features or both.  
 **_Api version picking strategy_**: The api version we choose to generate the experimental code is latest preview, if there's a latest newer GA version, then we will use that GA version when there are some client side features under experiment or preview.  
-**_Client side features_**: The client side features should be some innovative ideas or some new proposals which is meant to improve SDK user experience or performance. Features like LRO or Paging are considered as to reach full functionalities. should not be treated as experimental features.  
+**_Client side features_**: The client side features should be some innovative ideas or some new proposals which is meant to improve SDK user experience or performance. Features like LRO or Paging are considered as to reach full functionalities. should not be treated as experimental features. it should not happen very often.  
 
 ## Proposal
 
@@ -213,6 +213,8 @@ It is important to note that the lifecycle of experimental features on the servi
 For experimental features on client side new features, it depends on how complex we want to design it.
 
 ## Client-Side Experimental Features Considerations
+
+1. **Experimental Features frequency**: How common will the client-side experimental features happens will have impact on how complex we want to design it in the codegen side.
 
 1. **Features Opt-in Design with Codegen**: Evaluate whether the code generation process can be designed to facilitate easy opt-in for new experimental features. which involves the following considerations:  
    1. Features picking strategy.
