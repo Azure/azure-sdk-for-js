@@ -102,7 +102,7 @@ export default leafCommand(commandInfo, async ({ "service-list": serviceListPath
 
   await git.checkout(workingBranch);
 
-  log.info(manifest);
+  log.info(JSON.stringify(manifest, null, 2));
 
   return true;
 });
