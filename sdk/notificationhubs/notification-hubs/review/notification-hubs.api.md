@@ -145,7 +145,7 @@ export interface AppleNotification extends JsonNotification {
 }
 
 // @public
-export interface AppleNotificationCommon {
+export interface AppleNotificationParams {
     body: string;
     headers?: AppleHeaders;
 }
@@ -308,7 +308,7 @@ export function createAdmTemplateRegistrationDescription(description: AdmTemplat
 export function createAppleInstallation(installation: DeviceTokenInstallation): AppleInstallation;
 
 // @public
-export function createAppleNotification(notification: AppleNotificationCommon): AppleNotification;
+export function createAppleNotification(notification: AppleNotificationParams): AppleNotification;
 
 // @public
 export function createAppleNotificationBody(nativeMessage: AppleNativeMessage): string;
@@ -368,7 +368,7 @@ export function createTagExpression(tags: string[]): string;
 export function createTemplateNotification(notification: NotificationCommon): TemplateNotification;
 
 // @public
-export function createWindowsBadgeNotification(notification: WnsNotificationCommon): WindowsNotification;
+export function createWindowsBadgeNotification(notification: WnsNotificationParams): WindowsNotification;
 
 // @public
 export function createWindowsBadgeNotificationBody(nativeMessage: WindowsBadgeNativeMessage): string;
@@ -377,10 +377,10 @@ export function createWindowsBadgeNotificationBody(nativeMessage: WindowsBadgeNa
 export function createWindowsInstallation(installation: DeviceTokenInstallation): WindowsInstallation;
 
 // @public
-export function createWindowsNotification(notification: WnsNotificationCommon): WindowsNotification;
+export function createWindowsNotification(notification: WnsNotificationParams): WindowsNotification;
 
 // @public
-export function createWindowsRawNotification(notification: NotificationCommon): WindowsNotification;
+export function createWindowsRawNotification(notification: WnsNotificationParams): WindowsNotification;
 
 // @public
 export function createWindowsRegistrationDescription(description: WindowsRegistrationDescriptionCommon): WindowsRegistrationDescription;
@@ -389,10 +389,10 @@ export function createWindowsRegistrationDescription(description: WindowsRegistr
 export function createWindowsTemplateRegistrationDescription(description: WindowsTemplateRegistrationDescriptionCommon): WindowsTemplateRegistrationDescription;
 
 // @public
-export function createWindowsTileNotification(notification: NotificationCommon): WindowsNotification;
+export function createWindowsTileNotification(notification: WnsNotificationParams): WindowsNotification;
 
 // @public
-export function createWindowsToastNotification(notification: NotificationCommon): WindowsNotification;
+export function createWindowsToastNotification(notification: WnsNotificationParams): WindowsNotification;
 
 // @public
 export function createXiaomiInstallation(installation: DeviceTokenInstallation): XiaomiInstallation;
@@ -847,7 +847,7 @@ export interface WindowsTemplateRegistrationDescriptionCommon extends WindowsReg
 }
 
 // @public
-export interface WnsNotificationCommon {
+export interface WnsNotificationParams {
     body: string;
     headers?: WindowsHeaders;
 }

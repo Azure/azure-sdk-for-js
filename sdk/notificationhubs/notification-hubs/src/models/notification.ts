@@ -42,7 +42,7 @@ export interface AppleNotification extends JsonNotification {
 /**
  * Represents an Apple notification that can be sent to a device.
  */
-export interface AppleNotificationCommon {
+export interface AppleNotificationParams {
   /**
    * The body for the push notification.
    */
@@ -59,7 +59,7 @@ export interface AppleNotificationCommon {
  * @param notification - A partial message used to create a message for Apple.
  * @returns A newly created Apple.
  */
-export function createAppleNotification(notification: AppleNotificationCommon): AppleNotification {
+export function createAppleNotification(notification: AppleNotificationParams): AppleNotification {
   return {
     ...notification,
     platform: "apple",
@@ -230,7 +230,7 @@ export interface WindowsNotification extends NotificationCommon {
 /**
  * Represents a WNS notification that can be sent to a device.
  */
-export interface WnsNotificationCommon {
+export interface WnsNotificationParams {
   /**
    * The body for the push notification.
    */
@@ -248,7 +248,7 @@ export interface WnsNotificationCommon {
  * @returns A newly created WNS message.
  */
 export function createWindowsNotification(
-  notification: WnsNotificationCommon
+  notification: WnsNotificationParams
 ): WindowsNotification {
   if (notification?.headers && notification.headers["X-WNS-Type"]) {
     const wnsType = notification.headers["X-WNS-Type"];
@@ -275,7 +275,7 @@ export function createWindowsNotification(
  * @returns A newly created WNS badge.
  */
 export function createWindowsBadgeNotification(
-  notification: WnsNotificationCommon
+  notification: WnsNotificationParams
 ): WindowsNotification {
   const result: WindowsNotification = {
     ...notification,
@@ -300,7 +300,7 @@ export function createWindowsBadgeNotification(
  * @returns A newly created WNS tile.
  */
 export function createWindowsTileNotification(
-  notification: NotificationCommon
+  notification: WnsNotificationParams
 ): WindowsNotification {
   const result: WindowsNotification = {
     ...notification,
@@ -325,7 +325,7 @@ export function createWindowsTileNotification(
  * @returns A newly created WNS toast.
  */
 export function createWindowsToastNotification(
-  notification: NotificationCommon
+  notification: WnsNotificationParams
 ): WindowsNotification {
   const result: WindowsNotification = {
     ...notification,
@@ -350,7 +350,7 @@ export function createWindowsToastNotification(
  * @returns A newly created WNS message using XML.
  */
 export function createWindowsRawNotification(
-  notification: NotificationCommon
+  notification: WnsNotificationParams
 ): WindowsNotification {
   const result: WindowsNotification = {
     ...notification,

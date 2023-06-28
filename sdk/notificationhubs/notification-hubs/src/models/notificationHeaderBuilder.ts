@@ -20,7 +20,7 @@ export type ApnsPushTypes =
  */
 export interface AppleHeaders extends Record<string, any> {
   /**
-   * The value of this header must accurately reflect the contents of your notification’s payload. 
+   * The value of this header must accurately reflect the contents of your notification’s payload.
    */
   "apns-push-type"?: ApnsPushTypes;
   /**
@@ -36,11 +36,11 @@ export interface AppleHeaders extends Record<string, any> {
    */
   "apns-priority"?: "5" | "10";
   /**
-   * The topic for the notification. In general, the topic is your app’s bundle ID/app ID. 
+   * The topic for the notification. In general, the topic is your app’s bundle ID/app ID.
    */
   "apns-topic"?: string;
   /**
-   * An identifier you use to merge multiple notifications into a single notification for the user. 
+   * An identifier you use to merge multiple notifications into a single notification for the user.
    */
   "apns-collapse-id"?: string;
 }
