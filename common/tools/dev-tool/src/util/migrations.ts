@@ -606,7 +606,7 @@ export async function updateMigrationDate(
     panic(`${project.name} is being migrated to an older version than the current version.`);
   }
 
-  packageJson[METADATA_KEY].migrationDate = migration.date.toISOString();
+  (packageJson[METADATA_KEY] ??= {}).migrationDate = migration.date.toISOString();
 
   // Format the file with prettier
   const contents = prettier.format(JSON.stringify(packageJson), {
