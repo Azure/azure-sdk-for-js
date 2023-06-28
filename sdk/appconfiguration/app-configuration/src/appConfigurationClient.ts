@@ -8,6 +8,8 @@ import {
   AddConfigurationSettingOptions,
   AddConfigurationSettingParam,
   AddConfigurationSettingResponse,
+  AppConfigurationApiVersion,
+  AppConfigurationClientOptions,
   ConfigurationSetting,
   ConfigurationSettingId,
   CreateSnapshotOptions,
@@ -47,7 +49,7 @@ import {
   GetSnapshotsResponse,
   Snapshot,
 } from "./generated/src/models";
-import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
+import { InternalClientPipelineOptions } from "@azure/core-client";
 import { PagedAsyncIterableIterator, PagedResult, getPagedAsyncIterator } from "@azure/core-paging";
 import {
   PipelinePolicy,
@@ -79,7 +81,6 @@ import { tracingClient } from "./internal/tracing";
 import { logger } from "./logger";
 import { OperationState, SimplePollerLike } from "@azure/core-lro";
 
-const apiVersion = "2022-11-01-preview";
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
 const deserializationContentTypes = {
   json: [
@@ -93,11 +94,6 @@ const deserializationContentTypes = {
     "application/json",
   ],
 };
-
-/**
- * Provides configuration options for AppConfigurationClient.
- */
-export interface AppConfigurationClientOptions extends CommonClientOptions {}
 
 /**
  * Provides internal configuration options for AppConfigurationClient.
@@ -182,7 +178,7 @@ export class AppConfigurationClient {
     this._syncTokens = appConfigOptions.syncTokens || new SyncTokens();
     this.client = new AppConfiguration(
       appConfigEndpoint,
-      apiVersion,
+      options?.apiVersion || AppConfigurationApiVersion.Latest,
       internalClientPipelineOptions
     );
     this.client.pipeline.addPolicy(authPolicy, { phase: "Sign" });
@@ -335,24 +331,24 @@ export class AppConfigurationClient {
     options: ListConfigurationSettingsOptions = {}
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
     const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
-      {
-        firstPageLink: undefined,
-        getPage: async (pageLink: string | undefined) => {
-          const response = await this.sendConfigurationSettingsRequest(options, pageLink);
-          const currentResponse = {
-            ...response,
-            items: response.items != null ? response.items?.map(transformKeyValue) : [],
-            continuationToken: response.nextLink
-              ? extractAfterTokenFromNextLink(response.nextLink)
-              : undefined,
-          };
-          return {
-            page: currentResponse,
-            nextPageLink: currentResponse.continuationToken,
-          };
-        },
-        toElements: (page) => page.items,
-      };
+    {
+      firstPageLink: undefined,
+      getPage: async (pageLink: string | undefined) => {
+        const response = await this.sendConfigurationSettingsRequest(options, pageLink);
+        const currentResponse = {
+          ...response,
+          items: response.items != null ? response.items?.map(transformKeyValue) : [],
+          continuationToken: response.nextLink
+            ? extractAfterTokenFromNextLink(response.nextLink)
+            : undefined,
+        };
+        return {
+          page: currentResponse,
+          nextPageLink: currentResponse.continuationToken,
+        };
+      },
+      toElements: (page) => page.items,
+    };
     return getPagedAsyncIterator(pagedResult);
   }
 
@@ -371,27 +367,27 @@ export class AppConfigurationClient {
     options: ListSettingsSnapshotsOptions = {}
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
     const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
-      {
-        firstPageLink: undefined,
-        getPage: async (pageLink: string | undefined) => {
-          const response = await this.sendConfigurationSettingsRequest(
-            { snapshotName, ...options },
-            pageLink
-          );
-          const currentResponse = {
-            ...response,
-            items: response.items != null ? response.items?.map(transformKeyValue) : [],
-            continuationToken: response.nextLink
-              ? extractAfterTokenFromNextLink(response.nextLink)
-              : undefined,
-          };
-          return {
-            page: currentResponse,
-            nextPageLink: currentResponse.continuationToken,
-          };
-        },
-        toElements: (page) => page.items,
-      };
+    {
+      firstPageLink: undefined,
+      getPage: async (pageLink: string | undefined) => {
+        const response = await this.sendConfigurationSettingsRequest(
+          { snapshotName, ...options },
+          pageLink
+        );
+        const currentResponse = {
+          ...response,
+          items: response.items != null ? response.items?.map(transformKeyValue) : [],
+          continuationToken: response.nextLink
+            ? extractAfterTokenFromNextLink(response.nextLink)
+            : undefined,
+        };
+        return {
+          page: currentResponse,
+          nextPageLink: currentResponse.continuationToken,
+        };
+      },
+      toElements: (page) => page.items,
+    };
     return getPagedAsyncIterator(pagedResult);
   }
 
