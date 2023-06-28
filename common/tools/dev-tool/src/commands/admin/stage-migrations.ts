@@ -11,8 +11,7 @@ import * as git from "../../util/git";
 import { resolveRoot } from "../../util/resolveProject";
 import { createPrinter } from "../../util/printer";
 import { getProjects } from "./list/packages";
-import { runUnattendedMigrationPass } from "../migrate";
-import { MigrationExitState } from "../../util/migrations";
+import { MigrationReport, runUnattendedMigrationPass } from "../migrate";
 
 const log = createPrinter("stage-migrations");
 
@@ -44,7 +43,7 @@ export interface MigrationManifest {
 
 export interface ServiceManifestEntry {
   serviceBranch: string;
-  projects: { [packageName: string]: MigrationExitState };
+  projects: { [packageName: string]: MigrationReport[] };
 }
 
 export default leafCommand(
@@ -90,6 +89,8 @@ export default leafCommand(
 
     const manifest: MigrationManifest = {};
 
+    let anyServiceFolderFailed = false;
+
     for (const serviceFolder of serviceList) {
       const projects = await getProjects(serviceFolder);
 
@@ -106,14 +107,30 @@ export default leafCommand(
 
       // Start a migration pass for each project in the service folder.
 
+      let failed = false;
+
       for (const project of projects) {
         console.log("Migrating", project.packageName);
 
-        const exitState = await runUnattendedMigrationPass(
+        const migrationReports = await runUnattendedMigrationPass(
           path.resolve(root, project.projectFolder)
         );
 
-        manifest[serviceFolder].projects[project.packageName] = exitState;
+        manifest[serviceFolder].projects[project.packageName] = migrationReports;
+
+        // The pass succeeded if the last migration in the reports is a success or skip.
+        const passSucceeded = ["success", "skipped"].includes(
+          migrationReports[migrationReports.length - 1].exitState.kind
+        );
+
+        if (!passSucceeded) {
+          failed = true;
+          anyServiceFolderFailed = true;
+        }
+      }
+
+      if (failed) {
+        log.error(`Failed to migrate ${serviceFolder}.`);
       }
 
       await git.checkout(cleanBranchName);
@@ -125,6 +142,17 @@ export default leafCommand(
       output || path.resolve(root, `manifest-${cleanBranchBase.split("/").join("_")}.json`);
 
     await writeFile(manifestOutputPath, JSON.stringify(manifest, null, 2));
+
+    log.info(`Migration manifest written to ${manifestOutputPath}`);
+
+    if (anyServiceFolderFailed) {
+      log.error(
+        "Some service folders failed to migrate. Please check the migration manifest for details."
+      );
+      return false;
+    } else {
+      log.success("All service folders migrated successfully.");
+    }
 
     return true;
   }

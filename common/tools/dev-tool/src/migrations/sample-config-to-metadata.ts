@@ -15,8 +15,11 @@ export default createMigration(
   "moves the `//sampleConfiguration` package.json field to the '//metadata' field",
   {
     async isApplicable(ctx) {
-      // This migration is only applicable to client packages.
-      return ctx.project.packageJson["sdk-type"] === "client";
+      // This migration is only applicable to client packages that have an existing sample configuration
+      return (
+        ctx.project.packageJson["sdk-type"] === "client" &&
+        ctx.project.packageJson["//sampleConfiguration"] !== undefined
+      );
     },
 
     async validate(ctx) {
@@ -33,11 +36,12 @@ export default createMigration(
 
       const packageJson = JSON.parse((await readFile(packageJsonPath)).toString("utf-8")) as {
         "//sampleConfiguration"?: SampleConfiguration;
-        [METADATA_KEY]: AzureSdkMetadata;
+        [METADATA_KEY]?: AzureSdkMetadata;
       };
 
       if (packageJson["//sampleConfiguration"]) {
-        packageJson[METADATA_KEY].sampleConfiguration = packageJson["//sampleConfiguration"];
+        (packageJson[METADATA_KEY] ??= {} as AzureSdkMetadata).sampleConfiguration =
+          packageJson["//sampleConfiguration"];
 
         delete packageJson["//sampleConfiguration"];
 

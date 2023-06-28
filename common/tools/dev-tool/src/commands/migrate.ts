@@ -193,6 +193,17 @@ function areMigrationsApplied(
   return result;
 }
 
+export interface MigrationReport {
+  /**
+   * The migration that was attempted.
+   */
+  migration: Migration;
+  /**
+   * The exit state of the migration.
+   */
+  exitState: MigrationExitState;
+}
+
 /**
  * Begins an unattended migration pass.
  *
@@ -202,7 +213,7 @@ function areMigrationsApplied(
  * @param projectPath - the path to the project to run the migrations on
  * @returns a migration exit state indicating the state of the last attempted migration
  */
-export async function runUnattendedMigrationPass(projectPath: string): Promise<MigrationExitState> {
+export async function runUnattendedMigrationPass(projectPath: string): Promise<MigrationReport[]> {
   const project = await resolveProject(projectPath);
 
   // Initialize the migration system. We do this here to avoid loading potentially large amounts of modules when not
@@ -222,10 +233,12 @@ export async function runUnattendedMigrationPass(projectPath: string): Promise<M
     throw new Error("Cannot run unattended migrations while a migration is currently suspended.");
   }
 
-  let exitState: MigrationExitState = { kind: "success" };
+  const output = [];
 
   for (const migration of listPendingMigrations(migrationDate)) {
-    exitState = await runMigration(project, migration);
+    const exitState = await runMigration(project, migration);
+
+    output.push({ migration, exitState });
 
     switch (exitState.kind) {
       case "success":
@@ -236,11 +249,11 @@ export async function runUnattendedMigrationPass(projectPath: string): Promise<M
         break;
       default:
         await abortMigration(project, /* quiet */ true);
-        return exitState;
+        return output;
     }
   }
 
-  return exitState;
+  return output;
 }
 
 /**
