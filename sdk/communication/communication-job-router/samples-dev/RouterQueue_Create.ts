@@ -4,7 +4,7 @@
  * @summary job queue crud
  */
 import {
-  JobQueue,
+  RouterQueue,
   DistributionPolicy,
   JobRouterAdministrationClient,
 } from "@azure/communication-job-router";
@@ -30,7 +30,7 @@ async function createJobQueue(): Promise<void> {
       maxConcurrentOffers: 1,
       bypassSelectors: false,
     },
-    offerTtlSeconds: 15,
+    offerExpiresAfterSeconds: 15,
   };
   await routerAdministrationClient.createDistributionPolicy(
     distributionPolicyId,
@@ -38,7 +38,7 @@ async function createJobQueue(): Promise<void> {
   );
 
   const queueId = "queue-123";
-  const request: JobQueue = {
+  const request: RouterQueue = {
     id: "queue-123",
     distributionPolicyId: distributionPolicyId,
     name: "Main",

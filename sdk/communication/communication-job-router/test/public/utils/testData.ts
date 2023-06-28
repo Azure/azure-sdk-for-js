@@ -8,9 +8,9 @@ import {
   ExceptionPolicy,
   ExceptionRule,
   ExpressionRule,
-  JobQueue,
+  RouterQueue,
   PassThroughQueueSelectorAttachment,
-  QueueSelector,
+  RouterQueueSelector,
   RouterJob,
   RouterWorker,
   StaticQueueSelectorAttachment,
@@ -46,7 +46,7 @@ const isFrench: ExpressionRule = {
   expression: `If(job.Language = "${french}", true, false)`,
 };
 
-function getQueueIdSelector(guid: string): QueueSelector {
+function getQueueIdSelector(guid: string): RouterQueueSelector {
   return {
     key: "Id",
     labelOperator: "equal",
@@ -54,19 +54,19 @@ function getQueueIdSelector(guid: string): QueueSelector {
   };
 }
 
-const queueDoesNotExistSelector: QueueSelector = {
+const queueDoesNotExistSelector: RouterQueueSelector = {
   key: "Id",
   labelOperator: "equal",
   value: { queueDoesNotExist: "queueDoesNotExist" },
 };
 
-const englishSelector: QueueSelector = {
+const englishSelector: RouterQueueSelector = {
   key: "Language",
   labelOperator: "equal",
   value: english,
 };
 
-const frenchSelector: QueueSelector = {
+const frenchSelector: RouterQueueSelector = {
   key: "Language",
   labelOperator: "equal",
   value: french,
@@ -74,7 +74,7 @@ const frenchSelector: QueueSelector = {
 
 const staticQueueDoesNotExistSelector: StaticQueueSelectorAttachment = {
   kind: "static",
-  labelSelector: queueDoesNotExistSelector,
+  queueSelector: queueDoesNotExistSelector,
 };
 
 const passThroughRegionSelector: PassThroughQueueSelectorAttachment = {
@@ -93,23 +93,23 @@ function getConditionalProductSelector(guid: string): ConditionalQueueSelectorAt
   return {
     kind: "conditional",
     condition: isO365,
-    labelSelectors: [getQueueIdSelector(guid)],
+    queueSelectors: [getQueueIdSelector(guid)],
   };
 }
 
 const conditionalEnglishSelector: ConditionalQueueSelectorAttachment = {
   kind: "conditional",
   condition: isEnglish,
-  labelSelectors: [englishSelector],
+  queueSelectors: [englishSelector],
 };
 
 const conditionalFrenchSelector: ConditionalQueueSelectorAttachment = {
   kind: "conditional",
   condition: isFrench,
-  labelSelectors: [frenchSelector],
+  queueSelectors: [frenchSelector],
 };
 
-export function getQueueEnglish(guid: string): JobQueue {
+export function getQueueEnglish(guid: string): RouterQueue {
   return {
     id: `${queueId}-english-${guid}`,
     name: `${queueId}-english-${guid}`,
@@ -118,7 +118,7 @@ export function getQueueEnglish(guid: string): JobQueue {
   };
 }
 
-export function getQueueFrench(guid: string): JobQueue {
+export function getQueueFrench(guid: string): RouterQueue {
   return {
     id: `${queueId}-french-${guid}`,
     name: `${queueId}-french-${guid}`,
@@ -219,7 +219,7 @@ export function getJobFrench(guid: string): RouterJob {
 
 export interface QueueRequest {
   queueId: string;
-  queueRequest: JobQueue;
+  queueRequest: RouterQueue;
 }
 export function getQueueRequest(guid: string): QueueRequest {
   const id = `${queueId}-${guid}`;
@@ -317,7 +317,7 @@ export function getDistributionPolicyRequest(guid: string): DistributionPolicyRe
     distributionPolicyRequest: {
       id,
       name: distributionPolicyId,
-      offerTtlSeconds: 60,
+      offerExpiresAfterSeconds: 60,
       mode: {
         kind: "longest-idle",
         minConcurrentOffers: 1,

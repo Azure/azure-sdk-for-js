@@ -3,7 +3,7 @@
 /**
  * @summary job queue crud
  */
-import { JobQueueResponse, JobRouterAdministrationClient } from "@azure/communication-job-router";
+import { RouterQueueResponse, JobRouterAdministrationClient } from "@azure/communication-job-router";
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
@@ -17,7 +17,7 @@ async function updateJobQueue(): Promise<void> {
   const routerAdministrationClient: JobRouterAdministrationClient =
     new JobRouterAdministrationClient(connectionString);
 
-  const request: JobQueueResponse = {
+  const request: RouterQueueResponse = {
     id: "queue-123",
     distributionPolicyId: "distribution-policy-123",
     name: "MainNewName",

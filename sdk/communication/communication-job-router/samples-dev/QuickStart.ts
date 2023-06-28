@@ -5,7 +5,7 @@
  */
 import {
   DistributionPolicy,
-  JobQueue,
+  RouterQueue,
   RouterJob,
   JobRouterAdministrationClient,
   JobRouterClient,
@@ -34,7 +34,7 @@ async function quickStart(): Promise<void> {
       maxConcurrentOffers: 1,
       bypassSelectors: false,
     },
-    offerTtlSeconds: 15,
+    offerExpiresAfterSeconds: 15,
   };
   await routerAdministrationClient.createDistributionPolicy(
     distributionPolicyId,
@@ -43,7 +43,7 @@ async function quickStart(): Promise<void> {
 
   // Create a Queue
   const queueId = "queue-123";
-  const queueRequest: JobQueue = {
+  const queueRequest: RouterQueue = {
     id: "queue-123",
     distributionPolicyId: distributionPolicyId,
     name: "Main",
@@ -104,12 +104,12 @@ async function quickStart(): Promise<void> {
   // fetching the offer id
   var jobOffer = workerResult.offers![0];
 
-  var offerId = jobOffer.id; // `OfferId` can be retrieved directly from consuming event from Event grid
+  var offerId = jobOffer.offerId; // `OfferId` can be retrieved directly from consuming event from Event grid
 
   // accepting the offer sent to `worker-1`
   var acceptJobOfferResult = await routerClient.acceptJobOffer(workerRequest.id, offerId);
 
-  console.log(`Offer: ${jobOffer.id} sent to worker: ${workerRequest.id} has been accepted`);
+  console.log(`Offer: ${jobOffer.offerId} sent to worker: ${workerRequest.id} has been accepted`);
   console.log(
     `Job has been assigned to worker: ${workerRequest.id} with assignment: ${acceptJobOfferResult.assignmentId}`
   );
@@ -117,10 +117,9 @@ async function quickStart(): Promise<void> {
   // verify job assignment is populated when querying job
   var updatedJob = await routerClient.getJob(jobId);
   console.log(`Job assignment has been successful: 
-  ${
-    updatedJob.jobStatus == "assigned" &&
+  ${updatedJob.status == "assigned" &&
     updatedJob.assignments!.hasOwnProperty(acceptJobOfferResult.assignmentId)
-  }`);
+    }`);
 
   // Completing a job
   // Once the worker is done with the job, the worker has to mark the job as `completed`.
@@ -152,7 +151,7 @@ async function quickStart(): Promise<void> {
   await delay(2000);
 
   updatedJob = await routerClient.getJob(jobId);
-  console.log(`Updated job status: ${updatedJob.jobStatus == "closed"}`);
+  console.log(`Updated job status: ${updatedJob.status == "closed"}`);
 }
 
 function delay(ms: number) {

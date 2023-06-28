@@ -3,7 +3,7 @@
 /**
  * @summary job queue crud
  */
-import { JobQueueItem, JobRouterAdministrationClient } from "@azure/communication-job-router";
+import { RouterQueueItem, JobRouterAdministrationClient } from "@azure/communication-job-router";
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
@@ -20,17 +20,17 @@ async function listJobQueues(): Promise<void> {
 
   let pagesCount = 1;
   const maxPageSize = 3;
-  const receivedPagedItems: JobQueueItem[] = [];
+  const receivedPagedItems: RouterQueueItem[] = [];
 
   for await (const page of routerAdministrationClient
-    .listQueues({ maxPageSize: maxPageSize })
+    .listQueues({ maxpagesize: maxPageSize })
     .byPage()) {
     ++pagesCount;
     console.log("page: " + pagesCount);
     for (const queue of page) {
-      if (queue.jobQueue) {
+      if (queue.queue) {
         receivedPagedItems.push(queue);
-        console.log("Listing router jobQueue with id: " + queue.jobQueue.id);
+        console.log("Listing router jobQueue with id: " + queue.queue.id);
       }
     }
     let pageSize = receivedPagedItems.length;

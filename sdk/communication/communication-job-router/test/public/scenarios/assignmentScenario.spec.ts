@@ -11,8 +11,8 @@ import {
 } from "../utils/testData";
 import { assert } from "chai";
 import {
-  JobAssignment,
-  JobOffer,
+  RouterJobAssignment,
+  RouterJobOffer,
   JobRouterAdministrationClient,
   JobRouterClient,
 } from "../../../src";
@@ -72,20 +72,20 @@ describe("RouterClient", function () {
     it("should complete assignment scenario", async () => {
       await client.createJob(jobId, jobRequest);
 
-      const offer: JobOffer = await pollForJobOffer(workerId, client);
+      const offer: RouterJobOffer = await pollForJobOffer(workerId, client);
       assert.isTrue(offer.jobId === jobId);
       assert.equal(offer.capacityCost, 1);
-      assert.isNotNull(offer.offerTimeUtc);
-      assert.isNotNull(offer.expiryTimeUtc);
+      assert.isNotNull(offer.offeredAt);
+      assert.isNotNull(offer.expiresAt);
 
-      const acceptOfferResponse = await client.acceptJobOffer(workerId, offer.id!);
+      const acceptOfferResponse = await client.acceptJobOffer(workerId, offer.offerId!);
       assert.equal(acceptOfferResponse.jobId, jobId);
       assert.equal(acceptOfferResponse.workerId, workerId);
 
-      const assignment: JobAssignment = await pollForJobAssignment(jobId, client);
-      assert.isNotNull(assignment.assignTime);
-      assert.isNotNull(assignment.completeTime);
-      assert.isNotNull(assignment.closeTime);
+      const assignment: RouterJobAssignment = await pollForJobAssignment(jobId, client);
+      assert.isNotNull(assignment.assignedAt);
+      assert.isNotNull(assignment.completedAt);
+      assert.isNotNull(assignment.closedAt);
       assert.equal(assignment.workerId, workerId);
 
       const completeJobResponse = await client.completeJob(jobId, acceptOfferResponse.assignmentId);

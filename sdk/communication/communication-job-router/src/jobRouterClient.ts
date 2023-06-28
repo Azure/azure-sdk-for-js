@@ -16,7 +16,7 @@ import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { SDK_VERSION } from "./constants";
 import {
   AcceptJobOfferResult,
-  JobPositionDetails,
+  RouterJobPositionDetails,
   JobRouterApiClient,
   JobRouterCancelJobActionResponse,
   JobRouterCloseJobActionResponse,
@@ -25,7 +25,7 @@ import {
   JobRouterListJobsOptionalParams,
   JobRouterListWorkersOptionalParams,
   JobRouterReclassifyJobActionResponse,
-  QueueStatistics,
+  RouterQueueStatistics,
   RouterJobItem,
   RouterWorkerItem,
 } from "./generated/src";
@@ -187,7 +187,7 @@ export class JobRouterClient {
    */
   public listJobs(options: ListJobsOptions = {}): PagedAsyncIterableIterator<RouterJobItem> {
     const listOptions = <JobRouterListJobsOptionalParams>options;
-    listOptions.maxPageSize = options.maxPageSize;
+    listOptions.maxpagesize = options.maxpagesize;
     listOptions.status = options.jobStateSelector;
     return this.client.jobRouter.listJobs(listOptions);
   }
@@ -201,7 +201,7 @@ export class JobRouterClient {
   public async getQueuePosition(
     jobId: string,
     options: OperationOptions = {}
-  ): Promise<JobPositionDetails> {
+  ): Promise<RouterJobPositionDetails> {
     return this.client.jobRouter.getInQueuePosition(jobId, options);
   }
 
@@ -310,9 +310,9 @@ export class JobRouterClient {
     offerId: string,
     options: DeclineJobOfferOptions = {}
   ): Promise<JobRouterDeclineJobActionResponse> {
-    if (options.reofferTimeUtc) {
+    if (options.retryOfferAt) {
       options.declineJobOfferRequest = {
-        reofferTimeUtc: options.reofferTimeUtc,
+        retryOfferAt: options.retryOfferAt,
       };
     }
     return this.client.jobRouter.declineJobAction(workerId, offerId, options);
@@ -405,7 +405,7 @@ export class JobRouterClient {
     options: ListWorkersOptions = {}
   ): PagedAsyncIterableIterator<RouterWorkerItem> {
     const listOptions = <JobRouterListWorkersOptionalParams>options;
-    listOptions.maxPageSize = options.maxPageSize;
+    listOptions.maxpagesize = options.maxpagesize;
     return this.client.jobRouter.listWorkers(listOptions);
   }
 
@@ -428,7 +428,7 @@ export class JobRouterClient {
   public async getQueueStatistics(
     queueId: string,
     options: OperationOptions = {}
-  ): Promise<QueueStatistics> {
+  ): Promise<RouterQueueStatistics> {
     return this.client.jobRouter.getQueueStatistics(queueId, options);
   }
 }

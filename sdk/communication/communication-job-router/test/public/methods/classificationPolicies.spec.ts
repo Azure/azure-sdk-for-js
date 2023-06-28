@@ -89,7 +89,7 @@ describe("RouterClient", function () {
     it("should list classification policies", async function () {
       const result: ClassificationPolicy[] = [];
       for await (const policy of administrationClient.listClassificationPolicies({
-        maxPageSize: 20,
+        maxpagesize: 20,
       })) {
         result.push(policy.classificationPolicy!);
       }

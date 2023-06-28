@@ -68,7 +68,7 @@ describe("RouterClient", function () {
       await client.cancelJob(jobId, { dispositionCode });
       const result = await pollForJobCancelled(jobId, client);
 
-      assert.equal(result.jobStatus, "cancelled");
+      assert.equal(result.status, "cancelled");
       assert.equal(result.dispositionCode, dispositionCode);
     }).timeout(timeoutMs);
   });

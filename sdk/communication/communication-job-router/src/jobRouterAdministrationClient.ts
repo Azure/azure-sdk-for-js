@@ -13,7 +13,7 @@ import {
   ClassificationPolicyItem,
   DistributionPolicyItem,
   ExceptionPolicyItem,
-  JobQueueItem,
+  RouterQueueItem,
   JobRouterAdministrationListClassificationPoliciesOptionalParams,
   JobRouterAdministrationListDistributionPoliciesOptionalParams,
   JobRouterAdministrationListExceptionPoliciesOptionalParams,
@@ -39,7 +39,7 @@ import {
   ClassificationPolicyResponse,
   DistributionPolicyResponse,
   ExceptionPolicyResponse,
-  JobQueueResponse,
+  RouterQueueResponse,
 } from "./models/responses";
 import { OperationOptions } from "@azure/core-client";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
@@ -191,7 +191,7 @@ export class JobRouterAdministrationClient {
     options: ListClassificationPoliciesOptions = {}
   ): PagedAsyncIterableIterator<ClassificationPolicyItem> {
     const listOptions = <JobRouterAdministrationListClassificationPoliciesOptionalParams>options;
-    listOptions.maxPageSize = options.maxPageSize;
+    listOptions.maxpagesize = options.maxpagesize;
     return this.client.jobRouterAdministration.listClassificationPolicies(listOptions);
   }
 
@@ -272,7 +272,7 @@ export class JobRouterAdministrationClient {
     options: ListDistributionPoliciesOptions = {}
   ): PagedAsyncIterableIterator<DistributionPolicyItem> {
     const listOptions = <JobRouterAdministrationListDistributionPoliciesOptionalParams>options;
-    listOptions.maxPageSize = options.maxPageSize;
+    listOptions.maxpagesize = options.maxpagesize;
     return this.client.jobRouterAdministration.listDistributionPolicies(listOptions);
   }
 
@@ -353,7 +353,7 @@ export class JobRouterAdministrationClient {
     options: ListExceptionPoliciesOptions = {}
   ): PagedAsyncIterableIterator<ExceptionPolicyItem> {
     const listOptions = <JobRouterAdministrationListExceptionPoliciesOptionalParams>options;
-    listOptions.maxPageSize = options.maxPageSize;
+    listOptions.maxpagesize = options.maxpagesize;
     return this.client.jobRouterAdministration.listExceptionPolicies(listOptions);
   }
 
@@ -396,14 +396,14 @@ export class JobRouterAdministrationClient {
   public async createQueue(
     queueId: string,
     options: CreateQueueOptions = {}
-  ): Promise<JobQueueResponse> {
-    const queueModel = <JobQueueResponse>options;
+  ): Promise<RouterQueueResponse> {
+    const queueModel = <RouterQueueResponse>options;
     const queue = await this.client.jobRouterAdministration.upsertQueue(
       queueId,
-      <JobQueueResponse>queueModel,
+      <RouterQueueResponse>queueModel,
       options
     );
-    return <JobQueueResponse>queue;
+    return <RouterQueueResponse>queue;
   }
 
   /**
@@ -415,23 +415,23 @@ export class JobRouterAdministrationClient {
   public async updateQueue(
     queueId: string,
     options: UpdateQueueOptions = {}
-  ): Promise<JobQueueResponse> {
+  ): Promise<RouterQueueResponse> {
     const queueModel = options;
     const queue = await this.client.jobRouterAdministration.upsertQueue(
       queueId,
-      <JobQueueResponse>queueModel,
+      <RouterQueueResponse>queueModel,
       options
     );
-    return <JobQueueResponse>queue;
+    return <RouterQueueResponse>queue;
   }
 
   /**
    * Gets the list of queues.
    * @param options - List queues options.
    */
-  public listQueues(options: ListQueuesOptions = {}): PagedAsyncIterableIterator<JobQueueItem> {
+  public listQueues(options: ListQueuesOptions = {}): PagedAsyncIterableIterator<RouterQueueItem> {
     const listOptions = <JobRouterAdministrationListQueuesOptionalParams>options;
-    listOptions.maxPageSize = options.maxPageSize;
+    listOptions.maxpagesize = options.maxpagesize;
     return this.client.jobRouterAdministration.listQueues(listOptions);
   }
 
@@ -444,9 +444,9 @@ export class JobRouterAdministrationClient {
   public async getQueue(
     queueId: string,
     options: OperationOptions = {}
-  ): Promise<JobQueueResponse> {
+  ): Promise<RouterQueueResponse> {
     const queue = await this.client.jobRouterAdministration.getQueue(queueId, options);
-    return <JobQueueResponse>queue;
+    return <RouterQueueResponse>queue;
   }
 
   /**
