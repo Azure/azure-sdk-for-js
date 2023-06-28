@@ -7,6 +7,7 @@ As the Azure SDK for JavaScript continues to evolve, it is important for us to h
 ## Questions
 
 <details close>
+
 1. **Version picking strategy**  
   One latest GA + One latest preview version.  
   If the latest preview version < latest GA version, then we will use latest GA version as the experiment version.  
@@ -55,17 +56,21 @@ _Questions_:
     1. ~~a new experimental feature --- 1.0.0-beta.2~~  
     1. a new preview api version --- 1.0.0-beta.3  
     1. ~~a new experimental features --- 1.0.0-beta.4~~  
-    1. a new stable api version --- 1.0.0 will need to replace  
+    1. a new stable api version --- 1.0.0 will need to replace the api version in the experimental code.  
     1. ~~a new experimental features --- 1.1.0-beta.1 ?~~
     1. a new preview api version ---  1.1.0-beta.2 ?  
 
 </details>
 
-**_Notes_**: Experimental features could be either client side features or service preview features.  
+## Key Takeaways
+
+**_Experimental Features_**: Experimental features could be either client side features or service preview features or both.  
+**_Api version picking strategy_**: The api version we choose to generate the experimental code is latest preview, if there's a latest newer GA version, then we will use that GA version when there are some client side features under experiment or preview.  
+**_Client side features_**: The client side features should be some innovative ideas or some new proposals which is meant to improve SDK user experience or performance. Features like LRO or Paging are considered as to reach full functionalities. should not be treated as experimental features.  
 
 ## Proposal
 
-The proposed approach is to add a separate subpath export on top of the existing Azure JavaScript Modular. This involves introducing a new subpath export structure that is distinct from the original modules. For example, we can utilize a `vnext` subpath, such as `@azure/foo/vnext`, `@azure/foo/vnext/api`, and `@azure/foo/vnext/rest`, to signify the experimental nature of these features. By incorporating this new subpath export, we establish a clear separation between the stable modules and the experimental features, allowing developers to opt-in and access the experimental functionality while maintaining the integrity of the original Modular structure.
+The proposed approach is to add a separate subpath export on top of the existing Azure JavaScript Modular. This involves introducing a new subpath export structure that is distinct from the original modules. For example, we can utilize a `vnext` subpath, such as `@azure/foo/vnext`, `@azure/foo/vnext/api`, and `@azure/foo/vnext/rest`, to signify the experimental nature of these features. By incorporating this new subpath export, we establish a clear boundary between the stable modules and the experimental features, allowing developers to opt-in and access the experimental functionality while maintaining the integrity of the original Modular structure.
 
 ### Proposal with single client
 
@@ -212,7 +217,7 @@ For experimental features on client side new features, it depends on how complex
 1. **Features Opt-in Design with Codegen**: Evaluate whether the code generation process can be designed to facilitate easy opt-in for new experimental features. which involves the following considerations:  
    1. Features picking strategy.
    1. Features lifecycle management.
-   1. Features relativity.
+   1. Features independencies.
    1. Features onboard process.
   As currently our codegen is not designed as features based, if we decide to make it straightforward for us or developers to enable experimental features as they like. it will be important for us to have a good opt-in design in our codegen.
 
@@ -222,7 +227,7 @@ For experimental features on client side new features, it depends on how complex
    1. Potential impact on the overall codebase.
    1. User experience impact.
 
-1. **Changes to Code Structure**: It's important to note that some features may require code structure change compared with the non-experimental code. For instance, in the context of the current track2 SDK, Modular itself can be considered an experimental feature. This implies that within the same packages, the stable code and experimental code may exhibit different code structures.
+1. **Changes to Code Structure**: It's important to note that some features may require code structure change compared with the non-experimental code. For instance, in the context of the current track2 SDK, Modular itself can be considered an experimental feature. This implies that within the same packages, the stable code and experimental code may provide very different code structures or user experience.
 
 1. **Impact on Common Dependencies**: It's very likely that experimental features can rely on newer common dependencies used by the stable code. If such case happens, we should:
    1. Assess whether any changes or additions to these dependencies are necessary to support the experimental features.
