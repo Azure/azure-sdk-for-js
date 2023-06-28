@@ -171,17 +171,17 @@ export interface AppleNativeMessage extends Record<string, any> {
   "content-state": Record<string, any>;
 
   /**
-   * The UNIX timestamp that marks the time when you send the remote notification that updates or ends a Live Activity. 
+   * The UNIX timestamp that marks the time when you send the remote notification that updates or ends a Live Activity.
    */
   timestamp?: number;
 
   /**
-   * The string that describes whether you update or end an ongoing Live Activity with the remote push notification. To update the Live Activity, use update. To end the Live Activity, use end. 
+   * The string that describes whether you update or end an ongoing Live Activity with the remote push notification. To update the Live Activity, use update. To end the Live Activity, use end.
    */
   events?: string;
 
   /**
-   * The UNIX timestamp that represents the date at which the system ends a Live Activity and removes it from the Dynamic Island and the Lock Screen. 
+   * The UNIX timestamp that represents the date at which the system ends a Live Activity and removes it from the Dynamic Island and the Lock Screen.
    */
   "dismissal-date": number;
 }

@@ -2,9 +2,10 @@
 // Licensed under the MIT license.
 
 import * as Constants from "../utils/constants.js";
+import { AppleHeaders, WindowsHeaders } from "./notificationHeaderBuilder.js";
 
 /**
- * Represents a notification hub.
+ * Represents a notification that can be sent to a device.
  */
 export interface NotificationCommon {
   /**
@@ -15,7 +16,7 @@ export interface NotificationCommon {
   /**
    * The headers to include for the push notification.
    */
-  headers?: Record<string, string>;
+  headers?: Record<string, any>;
 }
 
 /**
@@ -39,11 +40,26 @@ export interface AppleNotification extends JsonNotification {
 }
 
 /**
+ * Represents an Apple notification that can be sent to a device.
+ */
+export interface AppleNotificationCommon {
+  /**
+   * The body for the push notification.
+   */
+  body: string;
+
+  /**
+   * The headers to include for the push notification.
+   */
+  headers?: AppleHeaders;
+}
+
+/**
  * Creates a notification to send to an Apple device.
  * @param notification - A partial message used to create a message for Apple.
  * @returns A newly created Apple.
  */
-export function createAppleNotification(notification: NotificationCommon): AppleNotification {
+export function createAppleNotification(notification: AppleNotificationCommon): AppleNotification {
   return {
     ...notification,
     platform: "apple",
@@ -212,12 +228,54 @@ export interface WindowsNotification extends NotificationCommon {
 }
 
 /**
+ * Represents a WNS notification that can be sent to a device.
+ */
+export interface WnsNotificationCommon {
+  /**
+   * The body for the push notification.
+   */
+  body: string;
+
+  /**
+   * The headers to include for the push notification.
+   */
+  headers?: WindowsHeaders;
+}
+
+/**
+ * Creates a notification to send to WNS.
+ * @param notification - The WNS notification to send.
+ * @returns A newly created WNS message.
+ */
+export function createWindowsNotification(
+  notification: WnsNotificationCommon
+): WindowsNotification {
+  if (notification?.headers && notification.headers["X-WNS-Type"]) {
+    const wnsType = notification.headers["X-WNS-Type"];
+    switch (wnsType) {
+      case Constants.WNS_TOAST:
+        return createWindowsToastNotification(notification);
+      case Constants.WNS_TITLE:
+        return createWindowsTileNotification(notification);
+      case Constants.WNS_BADGE:
+        return createWindowsBadgeNotification(notification);
+      case Constants.WNS_RAW:
+        return createWindowsRawNotification(notification);
+      default:
+        throw new Error(`Invalid WNS type: ${wnsType}`);
+    }
+  } else {
+    throw new Error(`Missing WNS type in headers`);
+  }
+}
+
+/**
  * Creates a badge message to send to WNS.
  * @param notification - A partial message used to create a badge message for WNS.
  * @returns A newly created WNS badge.
  */
 export function createWindowsBadgeNotification(
-  notification: NotificationCommon
+  notification: WnsNotificationCommon
 ): WindowsNotification {
   const result: WindowsNotification = {
     ...notification,
@@ -229,7 +287,9 @@ export function createWindowsBadgeNotification(
     result.headers = {};
   }
 
-  result.headers[Constants.WNS_TYPE_NAME] = Constants.WNS_BADGE;
+  if (!result.headers[Constants.WNS_TYPE_NAME]) {
+    result.headers[Constants.WNS_TYPE_NAME] = Constants.WNS_BADGE;
+  }
 
   return result;
 }
@@ -252,7 +312,9 @@ export function createWindowsTileNotification(
     result.headers = {};
   }
 
-  result.headers[Constants.WNS_TYPE_NAME] = Constants.WNS_TITLE;
+  if (!result.headers[Constants.WNS_TYPE_NAME]) {
+    result.headers[Constants.WNS_TYPE_NAME] = Constants.WNS_TITLE;
+  }
 
   return result;
 }
@@ -275,7 +337,9 @@ export function createWindowsToastNotification(
     result.headers = {};
   }
 
-  result.headers[Constants.WNS_TYPE_NAME] = Constants.WNS_TOAST;
+  if (!result.headers[Constants.WNS_TYPE_NAME]) {
+    result.headers[Constants.WNS_TYPE_NAME] = Constants.WNS_TOAST;
+  }
 
   return result;
 }
@@ -298,7 +362,9 @@ export function createWindowsRawNotification(
     result.headers = {};
   }
 
-  result.headers[Constants.WNS_TYPE_NAME] = Constants.WNS_RAW;
+  if (!result.headers[Constants.WNS_TYPE_NAME]) {
+    result.headers[Constants.WNS_TYPE_NAME] = Constants.WNS_RAW;
+  }
 
   return result;
 }
