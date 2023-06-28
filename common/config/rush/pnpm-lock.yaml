@@ -3874,7 +3874,7 @@ packages:
     dependencies:
       semver: 7.5.0
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230502
+      typescript: 5.2.0-dev.20230628
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8184,11 +8184,6 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
-  /strip-json-comments/5.0.0:
-    resolution: {integrity: sha512-V1LGY4UUo0jgwC+ELQ2BNWfPa17TIuwBLg+j1AA/9RPzKINl1lhxVEu2r+ZTTO8aetIsUzE5Qj6LMSBkoGYKKw==}
-    engines: {node: '>=14.16'}
-    dev: false
-
   /strnum/1.0.5:
     resolution: {integrity: sha512-J8bbNyKKXl5qYcR36TIO8W3mVGVHrmmxsd5PAItGkmyzwJvybiw2IVq5nqd0i4LSNSkB/sx9VHllbfFdr9k1JA==}
     dev: false
@@ -8559,8 +8554,14 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230502:
-    resolution: {integrity: sha512-xhGigho37UgtjMkTWMKDtIBV6ElFjcMFdzwTPQ0knTCSJ8tq0ENGsQPeTe0E7Db7mgZYWULEZnzs8KZ8IlHHLQ==}
+  /typescript/5.1.5:
+    resolution: {integrity: sha512-FOH+WN/DQjUvN6WgW+c4Ml3yi0PH+a/8q+kNIfRehv1wLhWONedw85iu+vQ39Wp49IzTJEsZ2lyLXpBF7mkF1g==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: false
+
+  /typescript/5.2.0-dev.20230628:
+    resolution: {integrity: sha512-dWItHqHLu37lksKsUBRDXlnWdI8WVhKQoVRxlv8w2XfbL/jAA6vFeJLtmb6C3pQKm1X0Sl9BFHJgYWdyiN3u9g==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -16734,11 +16735,11 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-nKOqgRv83Ca+C01ePbD7/EOm6E60didslS/OG9AB8TWxIBwdqI+WH7yv424BpmW/IlWV60ebMW5lBeZIxIPU4Q==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-U0MiwjIPZQ5thHiza4IGG71dg/AS4CWj9qKPQRuFdkABriMkyoO9wfCFgSrvMMVMUDKTd8abPvPbvF3su/NfTw==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript/5.0.4
+      '@_ts/max': /typescript/5.1.5
       '@_ts/min': /typescript/4.2.4
       '@microsoft/api-extractor': 7.34.6_@types+node@14.18.43
       '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
@@ -16780,7 +16781,7 @@ packages:
       rollup-plugin-sourcemaps: 0.6.3_mn2f3gd3jpedkkr23obcmzv5eq
       rollup-plugin-visualizer: 5.9.0_rollup@2.79.1
       semver: 7.5.0
-      strip-json-comments: 5.0.0
+      strip-json-comments: 3.1.1
       ts-node: 10.9.1_37cl5ouahn3p3uoosme6w742uy
       tslib: 2.5.0
       typescript: 5.0.4
