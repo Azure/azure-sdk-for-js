@@ -96,16 +96,16 @@ export type RawResponseCallback = (rawResponse: FullOperationResponse, error?: u
 
 /**
  * Wrapper object for http request and response. Deserialized object is stored in
- * the `parsedBody` property when the response body is received in JSON or XML.
+ * the `parsedBody` property when the response body is received in JSON.
  */
 export interface FullOperationResponse extends PipelineResponse {
   /**
-   * The parsed HTTP response headers.
+   * The raw HTTP response headers.
    */
   rawHeaders?: RawHttpHeaders;
 
   /**
-   * The response body as parsed JSON or XML.
+   * The response body as parsed JSON.
    */
   parsedBody?: RequestBodyType;
 

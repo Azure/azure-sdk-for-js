@@ -3,6 +3,11 @@
 
 import { OperationOptions, RequestParameters } from "./common";
 
+/**
+ * Helper function to convert OperationOptions to RequestParameters
+ * @param options the options that are used by Modular layer to send the request
+ * @returns the result of the conversion in RequestParameters of RLC layer
+ */
 export function operationOptionsToRequestParameters(options: OperationOptions): RequestParameters {
   return {
     allowInsecureConnection: options.requestOptions?.allowInsecureConnection,

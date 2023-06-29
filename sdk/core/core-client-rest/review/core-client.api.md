@@ -121,7 +121,7 @@ export interface OperationOptions {
     tracingOptions?: OperationTracingOptions;
 }
 
-// @public (undocumented)
+// @public
 export function operationOptionsToRequestParameters(options: OperationOptions): RequestParameters;
 
 // @public
