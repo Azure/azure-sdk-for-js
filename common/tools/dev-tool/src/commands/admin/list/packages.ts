@@ -3,6 +3,13 @@
 
 import { leafCommand, makeCommandInfo } from "../../../framework/command";
 
+import path from "path";
+import { resolveRoot } from "../../../util/resolveProject";
+
+import { readFile } from "fs/promises";
+
+import stripJsonComments from "strip-json-comments";
+
 export const commandInfo = makeCommandInfo("packages", "list packages defined in the monorepo", {
   paths: {
     description: "list relative paths instead of package names",
@@ -18,13 +25,6 @@ export const commandInfo = makeCommandInfo("packages", "list packages defined in
   },
 });
 
-import path from "path";
-import { resolveRoot } from "../../../util/resolveProject";
-
-import { readFile } from "fs/promises";
-
-import stripJsonComments from "strip-json-comments";
-
 let _rushJson: any = undefined;
 
 async function getRushJson(): Promise<any> {
@@ -38,11 +38,25 @@ async function getRushJson(): Promise<any> {
   return (_rushJson = JSON.parse(stripJsonComments(rushJsonText)));
 }
 
-export async function getProjects(service?: string) {
+/**
+ * The shape of a rush.json `projects` entry.
+ */
+export interface RushJsonProject {
+  /**
+   * The name of the package.
+   */
+  packageName: string;
+  /**
+   * The path to the project, relative to the monorepo root.
+   */
+  projectFolder: string;
+}
+
+export async function getProjects(service?: string): Promise<RushJsonProject[]> {
   const rushJson = await getRushJson();
 
   return service
-    ? rushJson.projects.filter((p: { projectFolder: string }) =>
+    ? rushJson.projects.filter((p: RushJsonProject) =>
         p.projectFolder.startsWith(`sdk/${service}/`)
       )
     : rushJson.projects;

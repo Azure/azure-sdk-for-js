@@ -37,13 +37,33 @@ export const commandInfo = makeCommandInfo(
   }
 );
 
+/**
+ * Describes the result of attempting to stage unattended migrations for a set of service folders.
+ */
 export interface MigrationManifest {
+  /**
+   * The manifest entry for a given service folder.
+   */
   [service: string]: ServiceManifestEntry;
 }
 
+/**
+ * Describes the result of attempting to stage unattended migrations for a single service folder.
+ */
 export interface ServiceManifestEntry {
+  /**
+   * The name of the git branch where the migrations are staged.
+   */
   serviceBranch: string;
-  projects: { [packageName: string]: MigrationReport[] };
+  /**
+   * The state of the migration for each project in the service folder.
+   */
+  projects: {
+    /**
+     * The report of all migrations executed on a package.
+     */
+    [packageName: string]: MigrationReport[];
+  };
 }
 
 export default leafCommand(

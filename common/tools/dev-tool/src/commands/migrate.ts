@@ -193,6 +193,9 @@ function areMigrationsApplied(
   return result;
 }
 
+/**
+ * A record containing information about an attempted migration.
+ */
 export interface MigrationReport {
   /**
    * The migration that was attempted.
@@ -352,7 +355,7 @@ async function onMigrationSuccess(
   project: ProjectInfo,
   migration: Migration,
   quiet: boolean = false
-) {
+): Promise<void> {
   await updateMigrationDate(project, migration);
 
   await git.commitAll(`${project.name}: applied migration '${migration.id}'`);

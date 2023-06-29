@@ -17,7 +17,7 @@ import { resolveRoot } from "../../../util/resolveProject";
 
 import { readdir } from "fs/promises";
 
-export async function getServiceFolders(root?: string) {
+export async function getServiceFolders(root?: string): Promise<string[]> {
   root ??= await resolveRoot();
   return (
     await readdir(path.resolve(root, "sdk"), {
