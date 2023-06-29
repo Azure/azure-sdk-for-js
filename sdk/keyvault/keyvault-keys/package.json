@@ -7,15 +7,7 @@
   "description": "Isomorphic client library for Azure KeyVault's keys.",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
-  "keywords": [
-    "node",
-    "azure",
-    "cloud",
-    "typescript",
-    "browser",
-    "isomorphic",
-    "keyvault"
-  ],
+  "keywords": ["node", "azure", "cloud", "typescript", "browser", "isomorphic", "keyvault"],
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -87,20 +79,18 @@
         "path": "swagger/README.md",
         "prefix": "package-version"
       }
-    ]
-  },
-  "//sampleConfiguration": {
-    "productName": "Azure Key Vault Keys",
-    "productSlugs": [
-      "azure",
-      "azure-key-vault"
     ],
-    "requiredResources": {
-      "Azure Key Vault": "https://docs.microsoft.com/azure/key-vault/quick-create-portal"
+    "sampleConfiguration": {
+      "productName": "Azure Key Vault Keys",
+      "productSlugs": ["azure", "azure-key-vault"],
+      "requiredResources": {
+        "Azure Key Vault": "https://docs.microsoft.com/azure/key-vault/quick-create-portal"
+      },
+      "customSnippets": {
+        "prerequisites": "samples-dev/snippets/_prerequisites.md"
+      }
     },
-    "customSnippets": {
-      "prerequisites": "samples-dev/snippets/_prerequisites.md"
-    }
+    "migrationDate": "2023-03-03T23:11:30.000Z"
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
