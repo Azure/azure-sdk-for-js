@@ -148,7 +148,7 @@ export interface OperationRequestOptions {
    * User defined custom request headers that
    * will be applied before the request is sent.
    */
-  headers?: { [key: string]: string };
+  headers?: RawHttpHeadersInput;
 
   /**
    * The number of milliseconds a request can take before automatically being terminated.
