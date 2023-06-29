@@ -46,5 +46,8 @@
     "test:browser": "echo skipped",
     "test:node": "echo skipped",
     "test": "echo skipped"
+  },
+  "//metadata": {
+    "migrationDate": "2023-03-03T23:11:30.000Z"
   }
 }
