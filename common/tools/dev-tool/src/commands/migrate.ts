@@ -371,7 +371,7 @@ async function onMigrationSkipped(
   project: ProjectInfo,
   migration: Migration,
   quiet: boolean = false
-) {
+): Promise<void> {
   await updateMigrationDate(project, migration);
 
   await git.commitAll(`${project.name}: skipped migration '${migration.id}'`);
