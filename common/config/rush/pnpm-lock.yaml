@@ -4593,7 +4593,7 @@ packages:
     dependencies:
       semver: 7.5.3
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230626
+      typescript: 5.2.0-dev.20230628
     dev: false
 
   /duplexer3/0.1.5:
@@ -9865,7 +9865,7 @@ packages:
       yn: 3.1.1
     dev: false
 
-  /ts-node/10.9.1_g2r4mjfcjnxo5xnnqweyvo3ega:
+  /ts-node/10.9.1_m72xuhxrv7ih4n5gqhkie72f4y:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
     peerDependencies:
@@ -9891,7 +9891,7 @@ packages:
       create-require: 1.1.1
       diff: 4.0.2
       make-error: 1.3.6
-      typescript: 5.1.3
+      typescript: 5.1.5
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
     dev: false
@@ -10043,14 +10043,14 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.3:
-    resolution: {integrity: sha512-XH627E9vkeqhlZFQuL+UsyAXEnibT0kWR2FWONlr4sTjvxyJYnyefgrkyECLzM5NenmKzRAy2rR/OlYLA1HkZw==}
+  /typescript/5.1.5:
+    resolution: {integrity: sha512-FOH+WN/DQjUvN6WgW+c4Ml3yi0PH+a/8q+kNIfRehv1wLhWONedw85iu+vQ39Wp49IzTJEsZ2lyLXpBF7mkF1g==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230626:
-    resolution: {integrity: sha512-MmurzQnoX0UktODKysxRRp8b5ebqqq5ZFZWclebZOZ3yMj1PQG5Ulb3q6m2kG1fyGoc8yuMpMitasVoAUWW2Ug==}
+  /typescript/5.2.0-dev.20230628:
+    resolution: {integrity: sha512-dWItHqHLu37lksKsUBRDXlnWdI8WVhKQoVRxlv8w2XfbL/jAA6vFeJLtmb6C3pQKm1X0Sl9BFHJgYWdyiN3u9g==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -10977,7 +10977,7 @@ packages:
     dev: false
 
   file:projects/ai-metrics-advisor.tgz:
-    resolution: {integrity: sha512-80MuxlSzg7HPX2BfPg9RpOHuJ09+BQJRN1xSfuCAww/lcN8p76ccSbUUBMeCsbB/0c5DgD4/6teJn7Bt+cbvQQ==, tarball: file:projects/ai-metrics-advisor.tgz}
+    resolution: {integrity: sha512-znBeEiUeD3LOrq9nUn5B4KwF0641M2/xk6MKuR2J1Ux3Z76ZYZEtIXYyWcZRY70tk13PSEtMoYO222FiHKrDCw==, tarball: file:projects/ai-metrics-advisor.tgz}
     name: '@rush-temp/ai-metrics-advisor'
     version: 0.0.0
     dependencies:
@@ -11020,7 +11020,6 @@ packages:
       - '@swc/wasm'
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -18500,11 +18499,11 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-C2x+fPK8AaV2/GRbIfnNfzsXBeNa5KDKEHLq7tP6+P/rrXVCZ/sLk8a5f++pZ1lOcrkuvWVNOC/3jCPkSfR9Eg==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-L9XoJWsHCXscBVFkbT0brWNjYcv6TP/k3JtbIgTcs1c1h/x4fUx2m9u8tVY/747rOCBlsv3yo/bjTfEYsnQM7Q==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript/5.1.3
+      '@_ts/max': /typescript/5.1.5
       '@_ts/min': /typescript/4.2.4
       '@microsoft/api-extractor': 7.36.0_@types+node@14.18.51
       '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
@@ -18546,8 +18545,9 @@ packages:
       rollup-plugin-sourcemaps: 0.6.3_ljfryqei6aq3wnzlbhhwgmxvcu
       rollup-plugin-visualizer: 5.9.2_rollup@2.79.1
       semver: 7.5.3
+      strip-json-comments: 3.1.1
       ts-morph: 18.0.0
-      ts-node: 10.9.1_g2r4mjfcjnxo5xnnqweyvo3ega
+      ts-node: 10.9.1_m72xuhxrv7ih4n5gqhkie72f4y
       tslib: 2.5.3
       typescript: 5.0.4
       yaml: 2.3.1
