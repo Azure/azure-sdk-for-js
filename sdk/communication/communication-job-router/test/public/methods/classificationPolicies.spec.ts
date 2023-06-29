@@ -14,7 +14,7 @@ import {
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { timeoutMs } from "../utils/constants";
 
-describe("RouterClient", function () {
+describe("JobRouterClient", function () {
   let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;
 

@@ -21,7 +21,7 @@ import { createRecordedRouterClientWithConnectionString } from "../../internal/u
 import { sleep, timeoutMs } from "../utils/constants";
 import { pollForJobQueued, retry } from "../utils/polling";
 
-describe("RouterClient", function () {
+describe("JobRouterClient", function () {
   let client: JobRouterClient;
   let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;

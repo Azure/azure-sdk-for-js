@@ -25,7 +25,7 @@ import { timeoutMs } from "../utils/constants";
 import { Recorder } from "@azure-tools/test-recorder";
 import { pollForJobQueued, retry } from "../utils/polling";
 
-describe("RouterClient", function () {
+describe("JobRouterClient", function () {
   let client: JobRouterClient;
   let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;
