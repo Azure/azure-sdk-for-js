@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update a ClientEncryptionKey. This API is meant to be invoked via tools such as the Azure Powershell (instead of directly).
  *
  * @summary Create or update a ClientEncryptionKey. This API is meant to be invoked via tools such as the Azure Powershell (instead of directly).
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBSqlClientEncryptionKeyCreateUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBSqlClientEncryptionKeyCreateUpdate.json
  */
 async function cosmosDbClientEncryptionKeyCreateUpdate() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subId";
@@ -35,7 +35,7 @@ async function cosmosDbClientEncryptionKeyCreateUpdate() {
         value: "AzureKeyVault Key URL",
       },
       wrappedDataEncryptionKey: Buffer.from(
-        "This is actually an array of bytes. This request/response is being presented as a string for readability in the example"
+        "VGhpcyBpcyBhY3R1YWxseSBhbiBhcnJheSBvZiBieXRlcy4gVGhpcyByZXF1ZXN0L3Jlc3BvbnNlIGlzIGJlaW5nIHByZXNlbnRlZCBhcyBhIHN0cmluZyBmb3IgcmVhZGFiaWxpdHkgaW4gdGhlIGV4YW1wbGU="
       ),
     },
   };

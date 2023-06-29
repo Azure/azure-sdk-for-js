@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the database with the given name.
  *
  * @summary Deletes the database with the given name.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDatabasesDelete.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoDatabasesDelete.json
  */
 async function kustoDatabasesDelete() {
   const subscriptionId =

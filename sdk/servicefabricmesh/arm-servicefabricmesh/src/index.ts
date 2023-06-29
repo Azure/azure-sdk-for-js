@@ -7,6 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
+export { getContinuationToken } from "./pagingHelper";
 export * from "./models";
 export { ServiceFabricMeshManagementClient } from "./serviceFabricMeshManagementClient";
 export * from "./operationsInterfaces";

@@ -30,6 +30,7 @@ matrix([[true, false]], async function (useAad) {
       const locality = await availableLocalities.next();
       const request: PhoneNumbersListAreaCodesOptionalParams = {
         locality: locality.value.localizedName,
+        administrativeDivision: locality.value.administrativeDivision.abbreviatedName,
       };
       const areaCodes = await client.listAvailableGeographicAreaCodes("US", request);
       for await (const areaCode of areaCodes) {

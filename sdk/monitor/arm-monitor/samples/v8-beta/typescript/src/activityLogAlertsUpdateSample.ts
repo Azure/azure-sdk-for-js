@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { AlertRulePatchObject, MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates 'tags' and 'enabled' fields in an existing Alert rule. This method is used to update the Alert rule tags, and to enable or disable the Alert rule. To update other fields use CreateOrUpdate operation.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2020-10-01/examples/ActivityLogAlertRule_Update.json
  */
 async function patchAnActivityLogAlertRule() {
-  const subscriptionId = "187f412d-1758-44d9-b052-169e2564721d";
-  const resourceGroupName = "MyResourceGroup";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] ||
+    "187f412d-1758-44d9-b052-169e2564721d";
+  const resourceGroupName =
+    process.env["MONITOR_RESOURCE_GROUP"] || "MyResourceGroup";
   const activityLogAlertName = "SampleActivityLogAlertRule";
   const activityLogAlertRulePatch: AlertRulePatchObject = {
     enabled: false,
@@ -35,4 +41,8 @@ async function patchAnActivityLogAlertRule() {
   console.log(result);
 }
 
-patchAnActivityLogAlertRule().catch(console.error);
+async function main() {
+  patchAnActivityLogAlertRule();
+}
+
+main().catch(console.error);

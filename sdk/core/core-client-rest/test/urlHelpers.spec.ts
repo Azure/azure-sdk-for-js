@@ -89,6 +89,14 @@ describe("urlHelpers", () => {
     assert.equal(result, `https://example.org/foo?existing=hey&foo=1&bar=two`);
   });
 
+  it("should build url with parenthesis", () => {
+    const path = "/certificates(thumbprintAlgorithm={thumbprintAlgorithm},thumbprint={thumbprint})";
+    const parameters = ["foo", "bar"];
+    const result = buildRequestUrl(mockBaseUrl, path, parameters);
+
+    assert.equal(result, `${mockBaseUrl}/certificates(thumbprintAlgorithm=foo,thumbprint=bar)`);
+  });
+
   it("should build url with array queries", () => {
     const testArray = ["ArrayQuery1", "begin!*'();:@ &=+$,/?#[]end", null as any, ""] as string[];
     let result = buildRequestUrl(mockBaseUrl, "/foo?existing=hey", [], {

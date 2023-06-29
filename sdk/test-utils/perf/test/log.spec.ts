@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { PerfTest } from "../src";
-import { delay } from "@azure/core-http";
+import { delay } from "@azure/core-util";
 
 /**
  * Used for logging every step and property of the perf test

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { VMwareCloudSimple } = require("@azure/arm-vmwarecloudsimple");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create dedicate cloud service
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/vmwarecloudsimple/resource-manager/Microsoft.VMwareCloudSimple/stable/2019-04-01/examples/CreateDedicatedCloudService.json
  */
 async function createDedicatedCloudService() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId = process.env["VMWARECLOUDSIMPLE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["VMWARECLOUDSIMPLE_RESOURCE_GROUP"] || "myResourceGroup";
   const dedicatedCloudServiceName = "myService";
   const dedicatedCloudServiceRequest = {
     gatewaySubnet: "10.0.0.0",
@@ -35,4 +36,8 @@ async function createDedicatedCloudService() {
   console.log(result);
 }
 
-createDedicatedCloudService().catch(console.error);
+async function main() {
+  createDedicatedCloudService();
+}
+
+main().catch(console.error);

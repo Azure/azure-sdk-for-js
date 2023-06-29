@@ -6,20 +6,27 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { SqlVirtualMachineGroups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SqlVirtualMachineManagementClient } from "../sqlVirtualMachineManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   SqlVirtualMachineGroup,
   SqlVirtualMachineGroupsListByResourceGroupNextOptionalParams,
   SqlVirtualMachineGroupsListByResourceGroupOptionalParams,
+  SqlVirtualMachineGroupsListByResourceGroupResponse,
   SqlVirtualMachineGroupsListNextOptionalParams,
   SqlVirtualMachineGroupsListOptionalParams,
+  SqlVirtualMachineGroupsListResponse,
   SqlVirtualMachineGroupsGetOptionalParams,
   SqlVirtualMachineGroupsGetResponse,
   SqlVirtualMachineGroupsCreateOrUpdateOptionalParams,
@@ -28,8 +35,6 @@ import {
   SqlVirtualMachineGroupUpdate,
   SqlVirtualMachineGroupsUpdateOptionalParams,
   SqlVirtualMachineGroupsUpdateResponse,
-  SqlVirtualMachineGroupsListByResourceGroupResponse,
-  SqlVirtualMachineGroupsListResponse,
   SqlVirtualMachineGroupsListByResourceGroupNextResponse,
   SqlVirtualMachineGroupsListNextResponse
 } from "../models";
@@ -65,19 +70,33 @@ export class SqlVirtualMachineGroupsImpl implements SqlVirtualMachineGroups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: SqlVirtualMachineGroupsListByResourceGroupOptionalParams
+    options?: SqlVirtualMachineGroupsListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SqlVirtualMachineGroup[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SqlVirtualMachineGroupsListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -85,7 +104,9 @@ export class SqlVirtualMachineGroupsImpl implements SqlVirtualMachineGroups {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -116,22 +137,34 @@ export class SqlVirtualMachineGroupsImpl implements SqlVirtualMachineGroups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: SqlVirtualMachineGroupsListOptionalParams
+    options?: SqlVirtualMachineGroupsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SqlVirtualMachineGroup[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SqlVirtualMachineGroupsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -175,8 +208,8 @@ export class SqlVirtualMachineGroupsImpl implements SqlVirtualMachineGroups {
     parameters: SqlVirtualMachineGroup,
     options?: SqlVirtualMachineGroupsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlVirtualMachineGroupsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SqlVirtualMachineGroupsCreateOrUpdateResponse>,
       SqlVirtualMachineGroupsCreateOrUpdateResponse
     >
   > {
@@ -186,7 +219,7 @@ export class SqlVirtualMachineGroupsImpl implements SqlVirtualMachineGroups {
     ): Promise<SqlVirtualMachineGroupsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -219,14 +252,23 @@ export class SqlVirtualMachineGroupsImpl implements SqlVirtualMachineGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, sqlVirtualMachineGroupName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        sqlVirtualMachineGroupName,
+        parameters,
+        options
+      },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SqlVirtualMachineGroupsCreateOrUpdateResponse,
+      OperationState<SqlVirtualMachineGroupsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -266,14 +308,14 @@ export class SqlVirtualMachineGroupsImpl implements SqlVirtualMachineGroups {
     resourceGroupName: string,
     sqlVirtualMachineGroupName: string,
     options?: SqlVirtualMachineGroupsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -306,14 +348,15 @@ export class SqlVirtualMachineGroupsImpl implements SqlVirtualMachineGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, sqlVirtualMachineGroupName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, sqlVirtualMachineGroupName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -353,8 +396,8 @@ export class SqlVirtualMachineGroupsImpl implements SqlVirtualMachineGroups {
     parameters: SqlVirtualMachineGroupUpdate,
     options?: SqlVirtualMachineGroupsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlVirtualMachineGroupsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SqlVirtualMachineGroupsUpdateResponse>,
       SqlVirtualMachineGroupsUpdateResponse
     >
   > {
@@ -364,7 +407,7 @@ export class SqlVirtualMachineGroupsImpl implements SqlVirtualMachineGroups {
     ): Promise<SqlVirtualMachineGroupsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -397,14 +440,23 @@ export class SqlVirtualMachineGroupsImpl implements SqlVirtualMachineGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, sqlVirtualMachineGroupName, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        sqlVirtualMachineGroupName,
+        parameters,
+        options
+      },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SqlVirtualMachineGroupsUpdateResponse,
+      OperationState<SqlVirtualMachineGroupsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -503,7 +555,9 @@ const getOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.SqlVirtualMachineGroup
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -532,7 +586,9 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.SqlVirtualMachineGroup
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -550,7 +606,15 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups/{sqlVirtualMachineGroupName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -558,6 +622,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.sqlVirtualMachineGroupName,
     Parameters.subscriptionId
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
@@ -577,7 +642,9 @@ const updateOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.SqlVirtualMachineGroup
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
@@ -599,7 +666,9 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.SqlVirtualMachineGroupListResult
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -618,7 +687,9 @@ const listOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.SqlVirtualMachineGroupListResult
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
@@ -632,9 +703,10 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.SqlVirtualMachineGroupListResult
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -651,9 +723,10 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.SqlVirtualMachineGroupListResult
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Fetches Operation Result for Prepare Data Move
  *
  * @summary Fetches Operation Result for Prepare Data Move
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/BackupDataMove/PrepareDataMoveOperationResult_Get.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/BackupDataMove/PrepareDataMoveOperationResult_Get.json
  */
 async function getOperationResultForPrepareDataMove() {
   const subscriptionId =

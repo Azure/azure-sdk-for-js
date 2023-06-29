@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Returns the specified data collection endpoint.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-09-01-preview/examples/DataCollectionEndpointsGet.json
  */
 async function getDataCollectionEndpoint() {
-  const subscriptionId = "703362b3-f278-4e4b-9179-c76eaf41ffc2";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] ||
+    "703362b3-f278-4e4b-9179-c76eaf41ffc2";
+  const resourceGroupName =
+    process.env["MONITOR_RESOURCE_GROUP"] || "myResourceGroup";
   const dataCollectionEndpointName = "myCollectionEndpoint";
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
@@ -30,4 +36,8 @@ async function getDataCollectionEndpoint() {
   console.log(result);
 }
 
-getDataCollectionEndpoint().catch(console.error);
+async function main() {
+  getDataCollectionEndpoint();
+}
+
+main().catch(console.error);

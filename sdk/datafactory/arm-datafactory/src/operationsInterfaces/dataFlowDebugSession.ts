@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DataFlowDebugSessionInfo,
   DataFlowDebugSessionQueryByFactoryOptionalParams,
@@ -51,8 +51,8 @@ export interface DataFlowDebugSession {
     request: CreateDataFlowDebugSessionRequest,
     options?: DataFlowDebugSessionCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DataFlowDebugSessionCreateResponse>,
+    SimplePollerLike<
+      OperationState<DataFlowDebugSessionCreateResponse>,
       DataFlowDebugSessionCreateResponse
     >
   >;
@@ -108,8 +108,8 @@ export interface DataFlowDebugSession {
     request: DataFlowDebugCommandRequest,
     options?: DataFlowDebugSessionExecuteCommandOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DataFlowDebugSessionExecuteCommandResponse>,
+    SimplePollerLike<
+      OperationState<DataFlowDebugSessionExecuteCommandResponse>,
       DataFlowDebugSessionExecuteCommandResponse
     >
   >;

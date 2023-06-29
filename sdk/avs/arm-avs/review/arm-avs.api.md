@@ -563,6 +563,9 @@ export interface ExpressRouteAuthorizationList {
 export type ExpressRouteAuthorizationProvisioningState = string;
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface GlobalReachConnection extends Resource {
     readonly addressPrefix?: string;
     authorizationKey?: string;

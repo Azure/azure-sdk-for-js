@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Checks that the data connection parameters are valid.
  *
  * @summary Checks that the data connection parameters are valid.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDataConnectionEventGridValidationAsync.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoDataConnectionEventGridValidationAsync.json
  */
 async function kustoDataConnectionEventGridValidation() {
   const subscriptionId =
@@ -60,7 +60,7 @@ async function kustoDataConnectionEventGridValidation() {
  * This sample demonstrates how to Checks that the data connection parameters are valid.
  *
  * @summary Checks that the data connection parameters are valid.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDataConnectionValidationAsync.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoDataConnectionValidationAsync.json
  */
 async function kustoDataConnectionValidation() {
   const subscriptionId =

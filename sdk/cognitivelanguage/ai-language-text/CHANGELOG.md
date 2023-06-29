@@ -1,14 +1,34 @@
 # Release History
 
-## 1.1.0-beta.2 (Unreleased)
+## 1.1.0 (2023-06-15)
 
 ### Features Added
 
+- Added more values to enum class: `KnownHealthcareEntityCategory` and `KnownRelationType`.
+
 ### Breaking Changes
 
-### Bugs Fixed
+> These changes do not impact the API of stable versions such as 1.0.0.
+> Only code written agaisnt a beta version such as 1.1.0-beta.1 will be affected.
 
-### Other Changes
+Remove the following features added in the "2022-10-01-preview" API - version "1.1.0-beta.1"
+
+- Dynamic Classification feature from the `analyze` method 
+- Entity resolution in entity recognition 
+- FHIR in `beginAnalyzeBatch`
+- Automatic language detection in `beginAnalyzeBatch`
+
+## 1.1.0-beta.2 (2023-03-07)
+
+### Features Added
+
+- Add support for logging API warnings that are part of warn-text response headers.
+- Add support for `partiallySucceeded` status and parse action error pointers.
+- Change `AbstractiveSummarizationAction` property from `maxSentenceCount` to `sentenceCount`.
+
+### Breaking Changes
+
+- Remove `defaultLanguage` from the `BeginAnalyzeBatchOptions` interface.
 
 ## 1.1.0-beta.1 (2022-11-17)
 

@@ -1,16 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 
 import { AppendBlobClient, ContainerClient } from "../src";
 import {
   bodyToString,
+  configureBlobStorageClient,
   getBSU,
   getSASConnectionStringFromEnvironment,
+  getUniqueName,
   recorderEnvSetup,
+  uriSanitizers,
 } from "./utils";
 
 describe("AppendBlobClient", () => {
@@ -22,12 +25,18 @@ describe("AppendBlobClient", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    const blobServiceClient = getBSU();
-    containerName = recorder.getUniqueName("container");
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    // make sure we add the sanitizers on playback for SAS strings
+    await recorder.addSanitizers(
+      { uriSanitizers, removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source"] } },
+      ["record", "playback"]
+    );
+    const blobServiceClient = getBSU(recorder);
+    containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
-    blobName = recorder.getUniqueName("blob");
+    blobName = recorder.variable("blob", getUniqueName("blob"));
     appendBlobClient = containerClient.getAppendBlobClient(blobName);
   });
 
@@ -36,12 +45,12 @@ describe("AppendBlobClient", () => {
     await recorder.stop();
   });
 
-  it("create with default parameters", async () => {
+  it("create with default parameters", async function () {
     await appendBlobClient.create();
     await appendBlobClient.download(0);
   });
 
-  it("create with parameters configured", async () => {
+  it("create with parameters configured", async function () {
     const options = {
       blobHTTPHeaders: {
         blobCacheControl: "blobCacheControl",
@@ -66,7 +75,7 @@ describe("AppendBlobClient", () => {
     assert.equal(properties.metadata!.key2, options.metadata.key2);
   });
 
-  it("createIfNotExists", async () => {
+  it("createIfNotExists", async function () {
     const res = await appendBlobClient.createIfNotExists();
     assert.ok(res.succeeded);
     assert.ok(res.etag);
@@ -76,7 +85,7 @@ describe("AppendBlobClient", () => {
     assert.equal(res2.errorCode, "BlobAlreadyExists");
   });
 
-  it("appendBlock", async () => {
+  it("appendBlock", async function () {
     await appendBlobClient.create();
 
     const content = "Hello World!";
@@ -87,7 +96,7 @@ describe("AppendBlobClient", () => {
     assert.equal(downloadResponse.contentLength!, content.length);
   });
 
-  it("appendBlock with progress report", async () => {
+  it("appendBlock with progress report", async function () {
     await appendBlobClient.create();
 
     const content = "Hello World!";
@@ -102,20 +111,21 @@ describe("AppendBlobClient", () => {
     assert.equal(downloadResponse.contentLength!, content.length);
   });
 
-  it("can be created with a sas connection string", async () => {
+  it("can be created with a sas connection string", async function () {
     const newClient = new AppendBlobClient(
-      getSASConnectionStringFromEnvironment(),
+      getSASConnectionStringFromEnvironment(recorder),
       containerName,
       blobName
     );
+    configureBlobStorageClient(recorder, newClient);
 
     await newClient.create();
     await newClient.download();
   });
 
-  it("throws error if constructor containerName parameter is empty", async () => {
+  it("throws error if constructor containerName parameter is empty", async function () {
     try {
-      new AppendBlobClient(getSASConnectionStringFromEnvironment(), "", "blobName");
+      new AppendBlobClient(getSASConnectionStringFromEnvironment(recorder), "", "blobName");
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error: any) {
       assert.equal(
@@ -126,10 +136,10 @@ describe("AppendBlobClient", () => {
     }
   });
 
-  it("throws error if constructor blobName parameter is empty", async () => {
+  it("throws error if constructor blobName parameter is empty", async function () {
     try {
       // tslint:disable-next-line: no-unused-expression
-      new AppendBlobClient(getSASConnectionStringFromEnvironment(), "containerName", "");
+      new AppendBlobClient(getSASConnectionStringFromEnvironment(recorder), "containerName", "");
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error: any) {
       assert.equal(
@@ -140,7 +150,7 @@ describe("AppendBlobClient", () => {
     }
   });
 
-  it("appendBlock with invalid CRC64 should fail", async () => {
+  it("appendBlock with invalid CRC64 should fail", async function () {
     await appendBlobClient.create();
 
     const content = "Hello World!";
@@ -169,7 +179,7 @@ describe("AppendBlobClient", () => {
     assert.ok(exceptionCaught);
   });
 
-  it("Seal append blob", async () => {
+  it("Seal append blob", async function () {
     await appendBlobClient.create();
     await appendBlobClient.seal();
 
@@ -184,11 +194,13 @@ describe("AppendBlobClient", () => {
     }
   });
 
-  it("Copy seal blob", async () => {
+  it("Copy seal blob", async function () {
     await appendBlobClient.create();
     await appendBlobClient.seal();
 
-    let destBlobClient = containerClient.getAppendBlobClient(recorder.getUniqueName("copiedblob1"));
+    let destBlobClient = containerClient.getAppendBlobClient(
+      recorder.variable("copiedblob1", getUniqueName("copiedblob1"))
+    );
     await (
       await destBlobClient.beginCopyFromURL(appendBlobClient.url, {
         sealBlob: false,
@@ -197,12 +209,16 @@ describe("AppendBlobClient", () => {
     let properties = await destBlobClient.getProperties();
     assert.deepStrictEqual(properties.isSealed, undefined);
 
-    destBlobClient = containerClient.getAppendBlobClient(recorder.getUniqueName("copiedblob2"));
+    destBlobClient = containerClient.getAppendBlobClient(
+      recorder.variable("copiedblob2", getUniqueName("copiedblob2"))
+    );
     await (await destBlobClient.beginCopyFromURL(appendBlobClient.url, {})).pollUntilDone();
     properties = await destBlobClient.getProperties();
     assert.deepStrictEqual(properties.isSealed, true);
 
-    destBlobClient = containerClient.getAppendBlobClient(recorder.getUniqueName("copiedblob3"));
+    destBlobClient = containerClient.getAppendBlobClient(
+      recorder.variable("copiedblob3", getUniqueName("copiedblob3"))
+    );
     await (
       await destBlobClient.beginCopyFromURL(appendBlobClient.url, {
         sealBlob: true,

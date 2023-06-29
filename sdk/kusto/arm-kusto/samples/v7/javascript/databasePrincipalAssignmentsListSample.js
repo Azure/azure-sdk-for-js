@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all Kusto cluster database principalAssignments.
  *
  * @summary Lists all Kusto cluster database principalAssignments.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDatabasePrincipalAssignmentsList.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoDatabasePrincipalAssignmentsList.json
  */
 async function kustoPrincipalAssignmentsList() {
   const subscriptionId =

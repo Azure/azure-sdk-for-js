@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { Portal } from "@azure/arm-portal";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets list of the tenant configurations.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/portal/resource-manager/Microsoft.Portal/preview/2020-09-01-preview/examples/TenantConfiguration/GetListOfTenantConfigurations.json
  */
 async function getListOfTenantConfigurations() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["PORTAL_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new Portal(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +33,8 @@ async function getListOfTenantConfigurations() {
   console.log(resArray);
 }
 
-getListOfTenantConfigurations().catch(console.error);
+async function main() {
+  getListOfTenantConfigurations();
+}
+
+main().catch(console.error);

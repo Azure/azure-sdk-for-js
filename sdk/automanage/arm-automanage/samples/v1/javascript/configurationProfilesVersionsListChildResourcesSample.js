@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AutomanageClient } = require("@azure/arm-automanage");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Retrieve a list of configuration profile version for a configuration profile
@@ -18,9 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/listConfigurationProfileVersions.json
  */
 async function listConfigurationProfileVersionsByConfigurationProfile() {
-  const subscriptionId = "mySubscriptionId";
+  const subscriptionId = process.env["AUTOMANAGE_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const configurationProfileName = "customConfigurationProfile";
-  const resourceGroupName = "myResourceGroupName";
+  const resourceGroupName = process.env["AUTOMANAGE_RESOURCE_GROUP"] || "myResourceGroupName";
   const credential = new DefaultAzureCredential();
   const client = new AutomanageClient(credential, subscriptionId);
   const resArray = new Array();
@@ -33,4 +34,8 @@ async function listConfigurationProfileVersionsByConfigurationProfile() {
   console.log(resArray);
 }
 
-listConfigurationProfileVersionsByConfigurationProfile().catch(console.error);
+async function main() {
+  listConfigurationProfileVersionsByConfigurationProfile();
+}
+
+main().catch(console.error);

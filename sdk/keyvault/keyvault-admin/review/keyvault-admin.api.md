@@ -20,7 +20,7 @@ export interface AccessControlClientOptions extends CommonClientOptions {
 }
 
 // @public
-export interface BooleanKeyVaultSetting extends KeyVaultSettingCommon {
+export interface BooleanKeyVaultSetting extends KeyVaultSetting {
     kind: "boolean";
     value: boolean;
 }
@@ -48,6 +48,9 @@ export interface GetRoleDefinitionOptions extends OperationOptions {
 // @public
 export interface GetSettingOptions extends OperationOptions {
 }
+
+// @public
+export function isBooleanSetting(setting: KeyVaultSetting): setting is BooleanKeyVaultSetting;
 
 // @public
 export class KeyVaultAccessControlClient {
@@ -177,11 +180,10 @@ export interface KeyVaultSelectiveKeyRestoreResult {
 }
 
 // @public
-export type KeyVaultSetting = UnknownKeyVaultSetting | BooleanKeyVaultSetting;
-
-// @public
-export interface KeyVaultSettingCommon {
+export interface KeyVaultSetting {
+    kind?: string;
     name: string;
+    value: unknown;
 }
 
 // @public
@@ -189,7 +191,7 @@ export class KeyVaultSettingsClient {
     constructor(vaultUrl: string, credential: TokenCredential, options?: SettingsClientOptions);
     getSetting(settingName: string, options?: GetSettingOptions): Promise<KeyVaultSetting>;
     getSettings(options?: ListSettingsOptions): Promise<ListSettingsResponse>;
-    updateSetting(settingName: string, value: boolean, options?: UpdateSettingOptions): Promise<KeyVaultSetting>;
+    updateSetting(setting: KeyVaultSetting, options?: UpdateSettingOptions): Promise<KeyVaultSetting>;
     readonly vaultUrl: string;
 }
 
@@ -238,7 +240,7 @@ export enum KnownKeyVaultRoleScope {
 }
 
 // @public
-export const LATEST_API_VERSION = "7.4-preview.1";
+export const LATEST_API_VERSION = "7.4";
 
 // @public
 export interface ListRoleAssignmentsOptions extends OperationOptions {
@@ -286,13 +288,7 @@ export interface SettingsClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type SUPPORTED_API_VERSIONS = "7.2" | "7.3" | "7.4-preview.1";
-
-// @public
-export interface UnknownKeyVaultSetting extends KeyVaultSettingCommon {
-    kind?: never;
-    value: unknown;
-}
+export type SUPPORTED_API_VERSIONS = "7.2" | "7.3" | "7.4";
 
 // @public
 export interface UpdateSettingOptions extends OperationOptions {

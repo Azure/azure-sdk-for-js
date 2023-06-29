@@ -18,13 +18,15 @@ import {
   AvailabilityGroupListenersImpl,
   OperationsImpl,
   SqlVirtualMachineGroupsImpl,
-  SqlVirtualMachinesImpl
+  SqlVirtualMachinesImpl,
+  SqlVirtualMachineTroubleshootImpl
 } from "./operations";
 import {
   AvailabilityGroupListeners,
   Operations,
   SqlVirtualMachineGroups,
-  SqlVirtualMachines
+  SqlVirtualMachines,
+  SqlVirtualMachineTroubleshoot
 } from "./operationsInterfaces";
 import { SqlVirtualMachineManagementClientOptionalParams } from "./models";
 
@@ -60,22 +62,19 @@ export class SqlVirtualMachineManagementClient extends coreClient.ServiceClient 
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-sqlvirtualmachine/5.0.0-beta.7`;
+    const packageDetails = `azsdk-js-arm-sqlvirtualmachine/5.0.0-beta.9`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
-    if (!options.credentialScopes) {
-      options.credentialScopes = ["https://management.azure.com/.default"];
-    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
+      endpoint:
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
@@ -101,7 +100,9 @@ export class SqlVirtualMachineManagementClient extends coreClient.ServiceClient 
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
-          scopes: `${optionsWithDefaults.credentialScopes}`,
+          scopes:
+            optionsWithDefaults.credentialScopes ??
+            `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
               coreClient.authorizeRequestOnClaimChallenge
@@ -114,11 +115,14 @@ export class SqlVirtualMachineManagementClient extends coreClient.ServiceClient 
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-07-01-preview";
+    this.apiVersion = options.apiVersion || "2022-08-01-preview";
     this.availabilityGroupListeners = new AvailabilityGroupListenersImpl(this);
     this.operations = new OperationsImpl(this);
     this.sqlVirtualMachineGroups = new SqlVirtualMachineGroupsImpl(this);
     this.sqlVirtualMachines = new SqlVirtualMachinesImpl(this);
+    this.sqlVirtualMachineTroubleshoot = new SqlVirtualMachineTroubleshootImpl(
+      this
+    );
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -154,4 +158,5 @@ export class SqlVirtualMachineManagementClient extends coreClient.ServiceClient 
   operations: Operations;
   sqlVirtualMachineGroups: SqlVirtualMachineGroups;
   sqlVirtualMachines: SqlVirtualMachines;
+  sqlVirtualMachineTroubleshoot: SqlVirtualMachineTroubleshoot;
 }

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SecurityInsights } = require("@azure/arm-securityinsight");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get Insights and Activities for an entity.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetQueries.json
  */
 async function getEntityQuery() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const entityId = "e1d3d618-e11f-478b-98e3-bb381539a8e1";
   const kind = "Insight";
@@ -29,4 +31,8 @@ async function getEntityQuery() {
   console.log(result);
 }
 
-getEntityQuery().catch(console.error);
+async function main() {
+  getEntityQuery();
+}
+
+main().catch(console.error);

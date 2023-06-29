@@ -484,13 +484,6 @@ const listByServiceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion,
-    Parameters.expandCommentsAttachments
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

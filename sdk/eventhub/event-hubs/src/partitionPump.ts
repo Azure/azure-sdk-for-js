@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import { TracingSpanOptions, TracingSpanLink } from "@azure/core-tracing";
-import { logErrorStackTrace, logger } from "./log";
+import { logErrorStackTrace, logger } from "./logger";
 import { AbortController } from "@azure/abort-controller";
 import { CloseReason } from "./models/public";
 import { CommonEventProcessorOptions } from "./models/private";
 import { ConnectionContext } from "./connectionContext";
 import { EventHubConnectionConfig } from "./eventhubConnectionConfig";
-import { EventHubReceiver } from "./eventHubReceiver";
+import { createReceiver, PartitionReceiver } from "./partitionReceiver";
 import { EventPosition } from "./eventPosition";
 import { MessagingError } from "@azure/core-amqp";
 import { PartitionProcessor } from "./partitionProcessor";
@@ -22,7 +22,7 @@ import { extractSpanContextFromEventData } from "./diagnostics/instrumentEventDa
 export class PartitionPump {
   private _partitionProcessor: PartitionProcessor;
   private _processorOptions: CommonEventProcessorOptions;
-  private _receiver: EventHubReceiver | undefined;
+  private _receiver: PartitionReceiver | undefined;
   private _isReceiving: boolean = false;
   private _isStopped: boolean = false;
   private _abortController: AbortController;
@@ -45,9 +45,9 @@ export class PartitionPump {
     this._isReceiving = true;
     try {
       await this._partitionProcessor.initialize();
-    } catch (err: any) {
+    } catch (err) {
       // swallow the error from the user-defined code
-      this._partitionProcessor.processError(err);
+      this._partitionProcessor.processError(err as Error);
     }
 
     // this is intentionally not await'd - the _receiveEvents loop will continue to
@@ -59,7 +59,7 @@ export class PartitionPump {
   }
 
   /**
-   * Creates a new `EventHubReceiver` and replaces any existing receiver.
+   * Creates a new `PartitionReceiver` and replaces any existing receiver.
    * @param partitionId - The partition the receiver should read messages from.
    * @param lastSeenSequenceNumber - The sequence number to begin receiving messages from (exclusive).
    * If `-1`, then the PartitionPump's startPosition will be used instead.
@@ -67,7 +67,7 @@ export class PartitionPump {
   private _setOrReplaceReceiver(
     partitionId: string,
     lastSeenSequenceNumber: number
-  ): EventHubReceiver {
+  ): PartitionReceiver {
     // Determine what the new EventPosition should be.
     // If this PartitionPump has received events, we'll start from the last
     // seen sequenceNumber (exclusive).
@@ -81,9 +81,10 @@ export class PartitionPump {
         : this._startPosition;
 
     // Set or replace the PartitionPump's receiver.
-    this._receiver = new EventHubReceiver(
+    this._receiver = createReceiver(
       this._context,
       this._partitionProcessor.consumerGroup,
+      this._partitionProcessor.eventProcessorId,
       partitionId,
       currentEventPosition,
       {
@@ -91,6 +92,7 @@ export class PartitionPump {
         trackLastEnqueuedEventProperties: this._processorOptions.trackLastEnqueuedEventProperties,
         retryOptions: this._processorOptions.retryOptions,
         skipParsingBodyAsJson: this._processorOptions.skipParsingBodyAsJson,
+        prefetchCount: this._processorOptions.prefetchCount,
       }
     );
 
@@ -150,8 +152,8 @@ export class PartitionPump {
         logErrorStackTrace(err);
         // forward error to user's processError and swallow errors they may throw
         try {
-          await this._partitionProcessor.processError(err);
-        } catch (errorFromUser: any) {
+          await this._partitionProcessor.processError(err as Error);
+        } catch (errorFromUser) {
           // Using verbose over warning because this error is swallowed.
           logger.verbose("An error was thrown by user's processError method: ", errorFromUser);
         }
@@ -166,7 +168,7 @@ export class PartitionPump {
             }
             // this will close the pump and will break us out of the while loop
             return await this.stop(CloseReason.Shutdown);
-          } catch (errorFromStop: any) {
+          } catch (errorFromStop) {
             // Using verbose over warning because this error is swallowed.
             logger.verbose(
               `An error occurred while closing the receiver with reason ${CloseReason.Shutdown}: `,
@@ -189,10 +191,7 @@ export class PartitionPump {
       // otherwise the receiver will remove the listener on the abortSignal
       // before it has a chance to be emitted.
       this._abortController.abort();
-
-      if (this._receiver) {
-        await this._receiver.close();
-      }
+      await this._receiver?.close();
       await this._partitionProcessor.close(reason);
     } catch (err: any) {
       logger.warning(`An error occurred while closing the receiver: ${err?.name}: ${err?.message}`);
@@ -225,6 +224,6 @@ export function toProcessingSpanOptions(
   return {
     spanLinks,
     spanKind: "consumer",
-    ...toSpanOptions(eventHubProperties),
+    ...toSpanOptions(eventHubProperties, "process"),
   };
 }

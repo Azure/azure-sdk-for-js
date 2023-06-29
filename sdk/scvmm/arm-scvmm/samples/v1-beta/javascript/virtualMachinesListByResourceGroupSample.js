@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { Scvmm } = require("@azure/arm-scvmm");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List of VirtualMachines in a resource group.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/preview/2020-06-05-preview/examples/ListVirtualMachinesByResourceGroup.json
  */
 async function listVirtualMachinesByResourceGroup() {
-  const subscriptionId = "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["SCVMM_SUBSCRIPTION_ID"] || "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
+  const resourceGroupName = process.env["SCVMM_RESOURCE_GROUP"] || "testrg";
   const credential = new DefaultAzureCredential();
   const client = new Scvmm(credential, subscriptionId);
   const resArray = new Array();
@@ -29,4 +31,8 @@ async function listVirtualMachinesByResourceGroup() {
   console.log(resArray);
 }
 
-listVirtualMachinesByResourceGroup().catch(console.error);
+async function main() {
+  listVirtualMachinesByResourceGroup();
+}
+
+main().catch(console.error);

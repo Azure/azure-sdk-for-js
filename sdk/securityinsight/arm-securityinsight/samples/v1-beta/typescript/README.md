@@ -158,7 +158,7 @@ node dist/actionsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node dist/actionsCreateOrUpdateSample.js
+npx cross-env SECURITYINSIGHT_SUBSCRIPTION_ID="<securityinsight subscription id>" SECURITYINSIGHT_RESOURCE_GROUP="<securityinsight resource group>" node dist/actionsCreateOrUpdateSample.js
 ```
 
 ## Next Steps

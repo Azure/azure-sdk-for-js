@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates a database script.
  *
  * @summary Updates a database script.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoScriptsUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoScriptsUpdate.json
  */
 async function kustoScriptsUpdate() {
   const subscriptionId =

@@ -1,6 +1,18 @@
 # Release History
 
-## 11.3.0-beta.9 (Unreleased)
+## 12.0.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fix all clients adding one or more duplicate user agents. [#26298](https://github.com/Azure/azure-sdk-for-js/pull/26298)
+
+### Other Changes
+
+## 12.0.0-beta.1 (2023-05-09)
 
 ### Features Added
 
@@ -9,12 +21,44 @@
 ### Breaking Changes
 
 - Update `SearchIndexerDataNoneIdentity.odatatype`. [#23495](https://github.com/Azure/azure-sdk-for-js/pull/23495)
+- Fix `SearchClient.getDocument` returning documents that contain fields which were not selected [#23627](https://github.com/Azure/azure-sdk-for-js/pull/23627)
+- Add type narrowing to returned documents [#23627](https://github.com/Azure/azure-sdk-for-js/pull/23627)
+  - Add breaking type parameters to these types:
+    - `AutocompleteOptions`
+    - `AutocompleteRequest`
+    - `GetDocumentOptions`
+    - `SearchIterator`
+    - `SearchOptions`
+    - `SearchRequestOptions`
+    - `SuggestOptions`
+    - `SuggestRequest`
 
 ### Bugs Fixed
 
+- Allow nested field names to be specified in `select` and `searchFields` options [#23627](https://github.com/Azure/azure-sdk-for-js/pull/23627)
+  - Affects these types:
+    - `AutocompleteRequest`
+    - `SearchRequestOptions`
+    - `SuggestRequest`
 - Fix discarded user-defined `onResponse` callback [#24479](https://github.com/Azure/azure-sdk-for-js/pull/24479)
+- Fix ISO8601 deserialization [#25801](https://github.com/Azure/azure-sdk-for-js/pull/25801)
 
 ### Other Changes
+
+- Add `object` type constraint to `IndexDocumentsClient` and its dependencies [#23627](https://github.com/Azure/azure-sdk-for-js/pull/23627)
+
+  - Affects these types:
+    - `IndexDocumentsClient`
+    - `SearchClient`
+    - `SearchDocumentsPageResult`
+    - `SearchDocumentsResult`
+    - `SearchIndexClient.getSearchClient`
+    - `SearchIndexingBufferedSender`
+    - `SearchResult`
+    - `SuggestDocumentsResult`
+    - `SuggestResult`
+
+- Add deprecation warning to `EntityRecognitionSkill` and `SentimentSkill` [#25686](https://github.com/Azure/azure-sdk-for-js/pull/25686)
 
 ## 11.3.0-beta.8 (2022-09-06)
 

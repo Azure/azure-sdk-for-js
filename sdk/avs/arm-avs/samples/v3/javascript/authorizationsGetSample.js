@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AzureVMwareSolutionAPI } = require("@azure/arm-avs");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get an ExpressRoute Circuit Authorization by name in a private cloud
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/Authorizations_Get.json
  */
 async function authorizationsGet() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "group1";
+  const subscriptionId =
+    process.env["AVS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["AVS_RESOURCE_GROUP"] || "group1";
   const privateCloudName = "cloud1";
   const authorizationName = "authorization1";
   const credential = new DefaultAzureCredential();
@@ -32,4 +34,8 @@ async function authorizationsGet() {
   console.log(result);
 }
 
-authorizationsGet().catch(console.error);
+async function main() {
+  authorizationsGet();
+}
+
+main().catch(console.error);

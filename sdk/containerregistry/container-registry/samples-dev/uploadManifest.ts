@@ -6,14 +6,9 @@
  * @azsdk-weight 3
  */
 
-import {
-  ContainerRegistryBlobClient,
-  KnownContainerRegistryAudience,
-  OciManifest,
-} from "@azure/container-registry";
+import { ContainerRegistryContentClient, OciImageManifest } from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
-import { Readable } from "stream";
 dotenv.config();
 
 async function main() {
@@ -21,17 +16,14 @@ async function main() {
   // where "myregistryname" is the actual name of your registry
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
   const repository = process.env.CONTAINER_REGISTRY_REPOSITORY || "library/hello-world";
-  const client = new ContainerRegistryBlobClient(
+  const client = new ContainerRegistryContentClient(
     endpoint,
     repository,
-    new DefaultAzureCredential(),
-    {
-      audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
-    }
+    new DefaultAzureCredential()
   );
 
   const layer = Buffer.from("Hello, world");
-  const { digest: layerDigest } = await client.uploadBlob(() => Readable.from(layer));
+  const { digest: layerDigest, sizeInBytes: layerSize } = await client.uploadBlob(layer);
 
   const config = Buffer.from(
     JSON.stringify({
@@ -44,29 +36,29 @@ async function main() {
     })
   );
 
-  const { digest: configDigest } = await client.uploadBlob(() => Readable.from(config));
+  const { digest: configDigest, sizeInBytes: configSize } = await client.uploadBlob(config);
 
-  const manifest: OciManifest = {
+  const manifest: OciImageManifest = {
     schemaVersion: 2,
     config: {
       mediaType: "application/vnd.oci.image.config.v1+json",
       digest: configDigest,
-      size: config.byteLength,
+      size: configSize,
     },
     layers: [
       {
         mediaType: "application/vnd.oci.image.layer.v1.tar",
         digest: layerDigest,
-        size: layer.byteLength,
+        size: layerSize,
         annotations: {
-          title: "artifact.txt",
+          "org.opencontainers.image.title": "artifact.txt",
         },
       },
     ],
   };
 
   // A manifest can be given a tag when uploading.
-  await client.uploadManifest(manifest, { tag: "1.0.0" });
+  await client.setManifest(manifest, { tag: "1.0.0" });
 }
 
 main().catch((err) => {

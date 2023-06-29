@@ -103,7 +103,7 @@ The operations done by the `KeyVaultBackupClient` may take as much time as neede
 
 The `KeyVaultBackupClient` offers three methods that execute long running operations:
 
-- `beginBackup`, starts generating a backup of an Azure Key Vault on the specified Storage Blob account.
+- `beginBackup`, starts generating a backup of an Azure Key Vault Managed HSM on the specified Storage Blob account.
 - `beginRestore`, starts restoring all key materials using the SAS token pointing to a previously stored Azure Blob storage backup folder.
 - `beginSelectiveRestore`, starts restoring all key versions of a given key using user supplied SAS token pointing to a previously stored Azure Blob storage backup folder.
 

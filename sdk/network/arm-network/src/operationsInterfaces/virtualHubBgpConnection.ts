@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualHubBgpConnectionGetOptionalParams,
   VirtualHubBgpConnectionGetResponse,
@@ -47,8 +47,8 @@ export interface VirtualHubBgpConnection {
     parameters: BgpConnection,
     options?: VirtualHubBgpConnectionCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualHubBgpConnectionCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualHubBgpConnectionCreateOrUpdateResponse>,
       VirtualHubBgpConnectionCreateOrUpdateResponse
     >
   >;
@@ -80,7 +80,7 @@ export interface VirtualHubBgpConnection {
     virtualHubName: string,
     connectionName: string,
     options?: VirtualHubBgpConnectionDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a VirtualHubBgpConnection.
    * @param resourceGroupName The resource group name of the VirtualHubBgpConnection.

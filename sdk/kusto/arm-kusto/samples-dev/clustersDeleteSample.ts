@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a Kusto cluster.
  *
  * @summary Deletes a Kusto cluster.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoClustersDelete.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoClustersDelete.json
  */
 async function kustoClustersDelete() {
   const subscriptionId =

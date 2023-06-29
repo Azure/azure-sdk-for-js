@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { DscNodeOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,13 +17,13 @@ import {
   DscNode,
   DscNodeListByAutomationAccountNextOptionalParams,
   DscNodeListByAutomationAccountOptionalParams,
+  DscNodeListByAutomationAccountResponse,
   DscNodeDeleteOptionalParams,
   DscNodeGetOptionalParams,
   DscNodeGetResponse,
   DscNodeUpdateParameters,
   DscNodeUpdateOptionalParams,
   DscNodeUpdateResponse,
-  DscNodeListByAutomationAccountResponse,
   DscNodeListByAutomationAccountNextResponse
 } from "../models";
 
@@ -62,11 +63,15 @@ export class DscNodeOperationsImpl implements DscNodeOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByAutomationAccountPagingPage(
           resourceGroupName,
           automationAccountName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -75,15 +80,22 @@ export class DscNodeOperationsImpl implements DscNodeOperations {
   private async *listByAutomationAccountPagingPage(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: DscNodeListByAutomationAccountOptionalParams
+    options?: DscNodeListByAutomationAccountOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DscNode[]> {
-    let result = await this._listByAutomationAccount(
-      resourceGroupName,
-      automationAccountName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DscNodeListByAutomationAccountResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByAutomationAccount(
+        resourceGroupName,
+        automationAccountName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByAutomationAccountNext(
         resourceGroupName,
@@ -92,7 +104,9 @@ export class DscNodeOperationsImpl implements DscNodeOperations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -323,13 +337,6 @@ const listByAutomationAccountNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.skip,
-    Parameters.top,
-    Parameters.inlinecount
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -7,14 +7,14 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SyncDatabaseIdProperties,
   SyncGroupsListSyncDatabaseIdsOptionalParams,
   SyncFullSchemaProperties,
   SyncGroupsListHubSchemasOptionalParams,
   SyncGroupLogProperties,
-  Enum60,
+  SyncGroupsType,
   SyncGroupsListLogsOptionalParams,
   SyncGroup,
   SyncGroupsListByDatabaseOptionalParams,
@@ -77,7 +77,7 @@ export interface SyncGroups {
     syncGroupName: string,
     startTime: string,
     endTime: string,
-    typeParam: Enum60,
+    typeParam: SyncGroupsType,
     options?: SyncGroupsListLogsOptionalParams
   ): PagedAsyncIterableIterator<SyncGroupLogProperties>;
   /**
@@ -109,7 +109,7 @@ export interface SyncGroups {
     databaseName: string,
     syncGroupName: string,
     options?: SyncGroupsRefreshHubSchemaOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Refreshes a hub database schema.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -192,8 +192,8 @@ export interface SyncGroups {
     parameters: SyncGroup,
     options?: SyncGroupsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SyncGroupsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SyncGroupsCreateOrUpdateResponse>,
       SyncGroupsCreateOrUpdateResponse
     >
   >;
@@ -230,7 +230,7 @@ export interface SyncGroups {
     databaseName: string,
     syncGroupName: string,
     options?: SyncGroupsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a sync group.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -265,8 +265,8 @@ export interface SyncGroups {
     parameters: SyncGroup,
     options?: SyncGroupsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SyncGroupsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SyncGroupsUpdateResponse>,
       SyncGroupsUpdateResponse
     >
   >;

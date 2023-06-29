@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { DataLakePathClient } from "../clients";
-import { Path } from "../generated/src/operations";
-import { Pipeline } from "../Pipeline";
+import { PathOperationsImpl as Path } from "../generated/src/operations";
+import { Pipeline } from "@azure/storage-blob";
 
 /**
  * A PathClientInternal represents a URL to the Azure Storage path (directory or file) to

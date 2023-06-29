@@ -50,7 +50,7 @@ export class GeneratedClient extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-ai-language-text/1.1.0-beta.1`;
+    const packageDetails = `azsdk-js-ai-language-text/1.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -62,14 +62,14 @@ export class GeneratedClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint ?? options.baseUri ?? "{Endpoint}/language"
+      endpoint: options.endpoint ?? options.baseUri ?? "{Endpoint}/language"
     };
     super(optionsWithDefaults);
     // Parameter assignments
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2022-10-01-preview";
+    this.apiVersion = options.apiVersion || "2023-04-01";
     this.analyzeText = new AnalyzeTextImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }

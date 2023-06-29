@@ -195,6 +195,9 @@ export interface ErrorResponseBody {
     target?: string;
 }
 
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
+
 // @public (undocumented)
 export interface IdentityProperties {
     readonly principalId?: string;

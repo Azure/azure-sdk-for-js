@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { EventCategories } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -47,16 +47,21 @@ export class EventCategoriesImpl implements EventCategories {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: EventCategoriesListOptionalParams
+    options?: EventCategoriesListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<LocalizableString[]> {
-    let result = await this._list(options);
+    let result: EventCategoriesListResponse;
+    result = await this._list(options);
     yield result.value || [];
   }
 

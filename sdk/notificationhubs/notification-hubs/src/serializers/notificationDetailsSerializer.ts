@@ -39,6 +39,11 @@ export async function parseNotificationDetails(bodyText: string): Promise<Notifi
     fcmOutcomeCounts = parseOutcomeCounts(notificationDetails["GcmOutcomeCounts"]["Outcome"]);
   }
 
+  let xiaomiOutcomeCounts: NotificationOutcome[] | undefined;
+  if (isDefined(notificationDetails["XiaomiOutcomeCounts"])) {
+    xiaomiOutcomeCounts = parseOutcomeCounts(notificationDetails["XiaomiOutcomeCounts"]["Outcome"]);
+  }
+
   let wnsOutcomeCounts: NotificationOutcome[] | undefined;
   if (isDefined(notificationDetails["WnsOutcomeCounts"])) {
     wnsOutcomeCounts = parseOutcomeCounts(notificationDetails["WnsOutcomeCounts"]["Outcome"]);
@@ -58,6 +63,7 @@ export async function parseNotificationDetails(bodyText: string): Promise<Notifi
     admOutcomeCounts,
     baiduOutcomeCounts,
     fcmOutcomeCounts,
+    xiaomiOutcomeCounts,
     wnsOutcomeCounts,
   };
 }

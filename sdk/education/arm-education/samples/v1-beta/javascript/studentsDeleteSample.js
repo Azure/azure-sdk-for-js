@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { EducationManagementClient } = require("@azure/arm-education");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Delete the specified student based on the student alias.
@@ -33,4 +34,8 @@ async function deleteLab() {
   console.log(result);
 }
 
-deleteLab().catch(console.error);
+async function main() {
+  deleteLab();
+}
+
+main().catch(console.error);

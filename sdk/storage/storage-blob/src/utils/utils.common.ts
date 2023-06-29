@@ -97,10 +97,6 @@ import { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
  * @param url -
  */
 export function escapeURLPath(url: string): string {
-  // workaround an issue with the v1 test recorder
-  if (url.endsWith("?")) {
-    url = url.substring(0, url.length - 1);
-  }
   const urlParsed = new URL(url);
 
   let path = urlParsed.pathname;
@@ -233,11 +229,6 @@ export function extractConnectionStringParts(connectionString: string): Connecti
       throw new Error("Invalid BlobEndpoint in the provided SAS Connection String");
     } else if (!accountSas) {
       throw new Error("Invalid SharedAccessSignature in the provided SAS Connection String");
-    }
-
-    // remove test SAS
-    if (accountSas === "fakeSasToken") {
-      accountSas = "";
     }
 
     // client constructors assume accountSas does *not* start with ?

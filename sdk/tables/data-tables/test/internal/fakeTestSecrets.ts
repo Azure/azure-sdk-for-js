@@ -19,3 +19,7 @@ export const expectedSas6 =
   "sv=2019-02-02&ss=t&srt=sco&se=2021-12-12T01%3A00%3A00Z&sp=da&sig=TmE8AOQFacynVIVR5ljBYqY3Y3K6olfdDMLl09iRvvs%3D";
 export const expectedSas7 =
   "sv=2019-02-02&ss=t&srt=sco&se=2022-12-12T00%3A00%3A00Z&sp=rl&sig=y42pmN9E%2FgA2O3nGn25lx%2B%2BqQmhvh0WqFi4%2BkOPitwA%3D";
+export const expectedSas8 =
+  "sv=2019-02-02&se=2021-12-12T01%3A00%3A00Z&sp=r&sig=FmE9Q8KiLIJUxmY2k8NHCSwApy2Y1VY17Mls1dIIJcI%3D&tn=testTable&srk=1&spk=P1";
+export const expectedSas9 =
+  "sv=2019-02-02&se=2021-12-12T01%3A00%3A00Z&sp=r&sig=h0xXlQhXumE5Litei9gWdY3ECCORubPLUFqcbWa6Tus%3D&tn=testTable&epk=P1&erk=1";

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AzureVMwareSolutionAPI } = require("@azure/arm-avs");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Update a private cloud
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/PrivateClouds_Update.json
  */
 async function privateCloudsUpdate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "group1";
+  const subscriptionId =
+    process.env["AVS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["AVS_RESOURCE_GROUP"] || "group1";
   const privateCloudName = "cloud1";
   const privateCloudUpdate = {
     encryption: {
@@ -43,8 +45,6 @@ async function privateCloudsUpdate() {
   console.log(result);
 }
 
-privateCloudsUpdate().catch(console.error);
-
 /**
  * This sample demonstrates how to Update a private cloud
  *
@@ -52,8 +52,9 @@ privateCloudsUpdate().catch(console.error);
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/PrivateClouds_Update_Stretched.json
  */
 async function privateCloudsUpdateStretched() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "group1";
+  const subscriptionId =
+    process.env["AVS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["AVS_RESOURCE_GROUP"] || "group1";
   const privateCloudName = "cloud1";
   const privateCloudUpdate = {
     managementCluster: { clusterSize: 4 },
@@ -68,4 +69,9 @@ async function privateCloudsUpdateStretched() {
   console.log(result);
 }
 
-privateCloudsUpdateStretched().catch(console.error);
+async function main() {
+  privateCloudsUpdate();
+  privateCloudsUpdateStretched();
+}
+
+main().catch(console.error);

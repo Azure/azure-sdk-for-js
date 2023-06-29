@@ -692,6 +692,33 @@ export const EmailServiceResourceList: coreClient.CompositeMapper = {
   }
 };
 
+export const SenderUsernameResourceCollection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SenderUsernameResourceCollection",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SenderUsernameResource"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const NameAvailabilityParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -726,6 +753,16 @@ export const TrackedResource: coreClient.CompositeMapper = {
   }
 };
 
+export const ProxyResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProxyResource",
+    modelProperties: {
+      ...Resource.type.modelProperties
+    }
+  }
+};
+
 export const CommunicationServiceResourceUpdate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -753,13 +790,6 @@ export const UpdateDomainRequestParameters: coreClient.CompositeMapper = {
     className: "UpdateDomainRequestParameters",
     modelProperties: {
       ...TaggedResource.type.modelProperties,
-      validSenderUsernames: {
-        serializedName: "properties.validSenderUsernames",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
       userEngagementTracking: {
         serializedName: "properties.userEngagementTracking",
         type: {
@@ -896,13 +926,6 @@ export const DomainResource: coreClient.CompositeMapper = {
           className: "DomainPropertiesVerificationRecords"
         }
       },
-      validSenderUsernames: {
-        serializedName: "properties.validSenderUsernames",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
       userEngagementTracking: {
         serializedName: "properties.userEngagementTracking",
         type: {
@@ -936,13 +959,34 @@ export const EmailServiceResource: coreClient.CompositeMapper = {
   }
 };
 
-export const CommunicationServicesUpdateHeaders: coreClient.CompositeMapper = {
+export const SenderUsernameResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CommunicationServicesUpdateHeaders",
+    className: "SenderUsernameResource",
     modelProperties: {
-      azureAsyncOperation: {
-        serializedName: "azure-asyncoperation",
+      ...ProxyResource.type.modelProperties,
+      dataLocation: {
+        serializedName: "properties.dataLocation",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      username: {
+        serializedName: "properties.username",
+        type: {
+          name: "String"
+        }
+      },
+      displayName: {
+        serializedName: "properties.displayName",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
         type: {
           name: "String"
         }

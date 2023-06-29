@@ -16,7 +16,31 @@ require("dotenv").config();
  * This sample demonstrates how to Returns a data connection.
  *
  * @summary Returns a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDataConnectionsEventGridGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoDataConnectionsCosmosDbGet.json
+ */
+async function kustoDataConnectionsCosmosDbGet() {
+  const subscriptionId =
+    process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
+  const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
+  const clusterName = "kustoCluster";
+  const databaseName = "KustoDatabase1";
+  const dataConnectionName = "dataConnectionTest";
+  const credential = new DefaultAzureCredential();
+  const client = new KustoManagementClient(credential, subscriptionId);
+  const result = await client.dataConnections.get(
+    resourceGroupName,
+    clusterName,
+    databaseName,
+    dataConnectionName
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Returns a data connection.
+ *
+ * @summary Returns a data connection.
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoDataConnectionsEventGridGet.json
  */
 async function kustoDataConnectionsEventGridGet() {
   const subscriptionId =
@@ -40,7 +64,7 @@ async function kustoDataConnectionsEventGridGet() {
  * This sample demonstrates how to Returns a data connection.
  *
  * @summary Returns a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDataConnectionsGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoDataConnectionsGet.json
  */
 async function kustoDataConnectionsGet() {
   const subscriptionId =
@@ -61,6 +85,7 @@ async function kustoDataConnectionsGet() {
 }
 
 async function main() {
+  kustoDataConnectionsCosmosDbGet();
   kustoDataConnectionsEventGridGet();
   kustoDataConnectionsGet();
 }

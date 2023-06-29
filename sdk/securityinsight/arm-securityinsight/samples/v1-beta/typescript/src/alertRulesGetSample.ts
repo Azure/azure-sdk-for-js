@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the alert rule.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/alertRules/GetFusionAlertRule.json
  */
 async function getAFusionAlertRule() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const ruleId = "myFirstFusionRule";
   const credential = new DefaultAzureCredential();
@@ -32,8 +38,6 @@ async function getAFusionAlertRule() {
   console.log(result);
 }
 
-getAFusionAlertRule().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets the alert rule.
  *
@@ -41,8 +45,11 @@ getAFusionAlertRule().catch(console.error);
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/alertRules/GetMicrosoftSecurityIncidentCreationAlertRule.json
  */
 async function getAMicrosoftSecurityIncidentCreationRule() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const ruleId = "microsoftSecurityIncidentCreationRuleExample";
   const credential = new DefaultAzureCredential();
@@ -55,8 +62,6 @@ async function getAMicrosoftSecurityIncidentCreationRule() {
   console.log(result);
 }
 
-getAMicrosoftSecurityIncidentCreationRule().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets the alert rule.
  *
@@ -64,8 +69,11 @@ getAMicrosoftSecurityIncidentCreationRule().catch(console.error);
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/alertRules/GetScheduledAlertRule.json
  */
 async function getAScheduledAlertRule() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const ruleId = "73e01a99-5cd7-4139-a149-9f2736ff2ab5";
   const credential = new DefaultAzureCredential();
@@ -77,8 +85,6 @@ async function getAScheduledAlertRule() {
   );
   console.log(result);
 }
-
-getAScheduledAlertRule().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets the alert rule.
@@ -87,8 +93,11 @@ getAScheduledAlertRule().catch(console.error);
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/alertRules/GetNrtAlertRule.json
  */
 async function getAnNrtAlertRule() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const ruleId = "73e01a99-5cd7-4139-a149-9f2736ff2ab5";
   const credential = new DefaultAzureCredential();
@@ -101,4 +110,11 @@ async function getAnNrtAlertRule() {
   console.log(result);
 }
 
-getAnNrtAlertRule().catch(console.error);
+async function main() {
+  getAFusionAlertRule();
+  getAMicrosoftSecurityIncidentCreationRule();
+  getAScheduledAlertRule();
+  getAnNrtAlertRule();
+}
+
+main().catch(console.error);

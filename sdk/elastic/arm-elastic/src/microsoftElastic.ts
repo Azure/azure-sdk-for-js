@@ -17,6 +17,7 @@ import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
   MonitorsImpl,
+  ElasticVersionsImpl,
   MonitoredResourcesImpl,
   DeploymentInfoImpl,
   ExternalUserImpl,
@@ -33,11 +34,13 @@ import {
   AssociateTrafficFilterImpl,
   DetachAndDeleteTrafficFilterImpl,
   DetachTrafficFilterImpl,
-  TrafficFiltersImpl
+  TrafficFiltersImpl,
+  OrganizationsImpl
 } from "./operations";
 import {
   Operations,
   Monitors,
+  ElasticVersions,
   MonitoredResources,
   DeploymentInfo,
   ExternalUser,
@@ -54,7 +57,8 @@ import {
   AssociateTrafficFilter,
   DetachAndDeleteTrafficFilter,
   DetachTrafficFilter,
-  TrafficFilters
+  TrafficFilters,
+  Organizations
 } from "./operationsInterfaces";
 import { MicrosoftElasticOptionalParams } from "./models";
 
@@ -91,7 +95,7 @@ export class MicrosoftElastic extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-elastic/1.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-elastic/1.0.0-beta.3`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -144,9 +148,10 @@ export class MicrosoftElastic extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-07-01-preview";
+    this.apiVersion = options.apiVersion || "2023-02-01-preview";
     this.operations = new OperationsImpl(this);
     this.monitors = new MonitorsImpl(this);
+    this.elasticVersions = new ElasticVersionsImpl(this);
     this.monitoredResources = new MonitoredResourcesImpl(this);
     this.deploymentInfo = new DeploymentInfoImpl(this);
     this.externalUser = new ExternalUserImpl(this);
@@ -168,6 +173,7 @@ export class MicrosoftElastic extends coreClient.ServiceClient {
     );
     this.detachTrafficFilter = new DetachTrafficFilterImpl(this);
     this.trafficFilters = new TrafficFiltersImpl(this);
+    this.organizations = new OrganizationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -201,6 +207,7 @@ export class MicrosoftElastic extends coreClient.ServiceClient {
 
   operations: Operations;
   monitors: Monitors;
+  elasticVersions: ElasticVersions;
   monitoredResources: MonitoredResources;
   deploymentInfo: DeploymentInfo;
   externalUser: ExternalUser;
@@ -218,4 +225,5 @@ export class MicrosoftElastic extends coreClient.ServiceClient {
   detachAndDeleteTrafficFilter: DetachAndDeleteTrafficFilter;
   detachTrafficFilter: DetachTrafficFilter;
   trafficFilters: TrafficFilters;
+  organizations: Organizations;
 }

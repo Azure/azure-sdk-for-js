@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SecurityInsights } = require("@azure/arm-securityinsight");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create or update a Watchlist and its Watchlist Items (bulk creation, e.g. through text/csv content type). To create a Watchlist and its Items, we should call this endpoint with either rawContent or a valid SAR URI and contentType properties. The rawContent is mainly used for small watchlist (content size below 3.8 MB). The SAS URI enables the creation of large watchlist, where the content size can go up to 500 MB. The status of processing such large file can be polled through the URL returned in Azure-AsyncOperation header.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/watchlists/CreateWatchlistAndWatchlistItems.json
  */
 async function createsOrUpdatesAWatchlistAndBulkCreatesWatchlistItems() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const watchlistAlias = "highValueAsset";
   const watchlist = {
@@ -45,8 +47,6 @@ async function createsOrUpdatesAWatchlistAndBulkCreatesWatchlistItems() {
   console.log(result);
 }
 
-createsOrUpdatesAWatchlistAndBulkCreatesWatchlistItems().catch(console.error);
-
 /**
  * This sample demonstrates how to Create or update a Watchlist and its Watchlist Items (bulk creation, e.g. through text/csv content type). To create a Watchlist and its Items, we should call this endpoint with either rawContent or a valid SAR URI and contentType properties. The rawContent is mainly used for small watchlist (content size below 3.8 MB). The SAS URI enables the creation of large watchlist, where the content size can go up to 500 MB. The status of processing such large file can be polled through the URL returned in Azure-AsyncOperation header.
  *
@@ -54,8 +54,9 @@ createsOrUpdatesAWatchlistAndBulkCreatesWatchlistItems().catch(console.error);
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/watchlists/CreateWatchlist.json
  */
 async function createsOrUpdatesAWatchlist() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const watchlistAlias = "highValueAsset";
   const watchlist = {
@@ -78,4 +79,9 @@ async function createsOrUpdatesAWatchlist() {
   console.log(result);
 }
 
-createsOrUpdatesAWatchlist().catch(console.error);
+async function main() {
+  createsOrUpdatesAWatchlistAndBulkCreatesWatchlistItems();
+  createsOrUpdatesAWatchlist();
+}
+
+main().catch(console.error);

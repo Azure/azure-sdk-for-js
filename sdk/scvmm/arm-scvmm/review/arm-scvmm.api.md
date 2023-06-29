@@ -271,6 +271,9 @@ export interface ExtendedLocation {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface HardwareProfile {
     cpuCount?: number;
     dynamicMemoryEnabled?: DynamicMemoryEnabled;

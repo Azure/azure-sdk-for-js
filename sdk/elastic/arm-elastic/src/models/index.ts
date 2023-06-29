@@ -128,6 +128,8 @@ export interface MonitorProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly liftrResourcePreference?: number;
+  /** Flag to determine if User API Key has to be generated and shared. */
+  generateApiKey?: boolean;
 }
 
 /** Elastic Resource Properties. */
@@ -256,6 +258,26 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
+/** List of elastic versions available in a region. */
+export interface ElasticVersionsListResponse {
+  /** Results of a list operation. */
+  value?: ElasticVersionListFormat[];
+  /** Link to the next set of results, if any. */
+  nextLink?: string;
+}
+
+/** Elastic Version List Format */
+export interface ElasticVersionListFormat {
+  /** Elastic Version Properties */
+  properties?: ElasticVersionListProperties;
+}
+
+/** Elastic Version Properties */
+export interface ElasticVersionListProperties {
+  /** Available elastic version of the given region */
+  version?: string;
+}
+
 /** Monitor resource update parameters. */
 export interface ElasticMonitorResourceUpdateParameters {
   /** elastic monitor resource tags. */
@@ -302,6 +324,32 @@ export interface DeploymentInfoResponse {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly diskCapacity?: string;
+  /**
+   * Deployment URL of the elasticsearch in Elastic cloud deployment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deploymentUrl?: string;
+  /**
+   * Marketplace SaaS Info of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly marketplaceSaasInfo?: MarketplaceSaaSInfo;
+}
+
+/** Marketplace SAAS Info of the resource. */
+export interface MarketplaceSaaSInfo {
+  /** Marketplace Subscription */
+  marketplaceSubscription?: MarketplaceSaaSInfoMarketplaceSubscription;
+  /** Marketplace Subscription Details: SAAS Name */
+  marketplaceName?: string;
+  /** Marketplace Subscription Details: Resource URI */
+  marketplaceResourceId?: string;
+}
+
+/** Marketplace Subscription */
+export interface MarketplaceSaaSInfoMarketplaceSubscription {
+  /** Marketplace Subscription Id. This is a GUID-formatted string. */
+  id?: string;
 }
 
 /** The properties of the request required for creating user on elastic side */
@@ -471,6 +519,22 @@ export interface ElasticTrafficFilterRule {
   azureEndpointName?: string;
   /** Id of the elastic filter rule */
   id?: string;
+}
+
+/** Email Id of the User Organization, of which the API Key must be returned */
+export interface UserEmailId {
+  /** The User email Id */
+  emailId?: string;
+}
+
+/** The User Api Key created for the Organization associated with the User Email Id that was passed in the request */
+export interface UserApiKeyResponse {
+  properties?: UserApiKeyResponseProperties;
+}
+
+export interface UserApiKeyResponseProperties {
+  /** The User Api Key Generated based on GenerateApiKey flag. This is applicable for non-Portal clients only. */
+  apiKey?: string;
 }
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
@@ -677,33 +741,6 @@ export enum KnownType {
  */
 export type Type = string;
 
-/** Known values of {@link ApiVersionParameter} that the service accepts. */
-export enum KnownApiVersionParameter {
-  /** TwoThousandTwenty0701Preview */
-  TwoThousandTwenty0701Preview = "2020-07-01-preview",
-  /** TwoThousandTwenty0701 */
-  TwoThousandTwenty0701 = "2020-07-01",
-  /** TwoThousandTwentyOne0901Preview */
-  TwoThousandTwentyOne0901Preview = "2021-09-01-preview",
-  /** TwoThousandTwentyOne1001Preview */
-  TwoThousandTwentyOne1001Preview = "2021-10-01-preview",
-  /** TwoThousandTwentyTwo0505Preview */
-  TwoThousandTwentyTwo0505Preview = "2022-05-05-preview"
-}
-
-/**
- * Defines values for ApiVersionParameter. \
- * {@link KnownApiVersionParameter} can be used interchangeably with ApiVersionParameter,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **2020-07-01-preview** \
- * **2020-07-01** \
- * **2021-09-01-preview** \
- * **2021-10-01-preview** \
- * **2022-05-05-preview**
- */
-export type ApiVersionParameter = string;
-
 /** Optional parameters. */
 export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
@@ -785,6 +822,20 @@ export interface MonitorsListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type MonitorsListByResourceGroupNextResponse = ElasticMonitorResourceListResponse;
+
+/** Optional parameters. */
+export interface ElasticVersionsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ElasticVersionsListOperationResponse = ElasticVersionsListResponse;
+
+/** Optional parameters. */
+export interface ElasticVersionsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ElasticVersionsListNextResponse = ElasticVersionsListResponse;
 
 /** Optional parameters. */
 export interface MonitoredResourcesListOptionalParams
@@ -979,6 +1030,16 @@ export interface TrafficFiltersDeleteOptionalParams
   /** Ruleset Id of the filter */
   rulesetId?: string;
 }
+
+/** Optional parameters. */
+export interface OrganizationsGetApiKeyOptionalParams
+  extends coreClient.OperationOptions {
+  /** Email Id parameter of the User Organization, of which the API Key must be returned */
+  body?: UserEmailId;
+}
+
+/** Contains response data for the getApiKey operation. */
+export type OrganizationsGetApiKeyResponse = UserApiKeyResponse;
 
 /** Optional parameters. */
 export interface MicrosoftElasticOptionalParams

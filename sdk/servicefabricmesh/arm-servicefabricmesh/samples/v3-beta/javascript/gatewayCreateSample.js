@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ServiceFabricMeshManagementClient } = require("@azure/arm-servicefabricmesh");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates a gateway resource with the specified name, description and properties. If a gateway resource with the same name exists, then it is updated with the specified description and properties. Use gateway resources to create a gateway for public connectivity for services within your application.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/servicefabricmesh/resource-manager/Microsoft.ServiceFabricMesh/preview/2018-09-01-preview/examples/gateways/create_update.json
  */
 async function createOrUpdateGateway() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "sbz_demo";
+  const subscriptionId =
+    process.env["SERVICEFABRICMESH_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["SERVICEFABRICMESH_RESOURCE_GROUP"] || "sbz_demo";
   const gatewayResourceName = "sampleGateway";
   const gatewayResourceDescription = {
     description: "Service Fabric Mesh sample gateway.",
@@ -74,4 +76,8 @@ async function createOrUpdateGateway() {
   console.log(result);
 }
 
-createOrUpdateGateway().catch(console.error);
+async function main() {
+  createOrUpdateGateway();
+}
+
+main().catch(console.error);

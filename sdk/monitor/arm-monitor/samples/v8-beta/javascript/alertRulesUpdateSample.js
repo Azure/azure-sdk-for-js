@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { MonitorClient } = require("@azure/arm-monitor");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Updates an existing classic metric AlertRuleResource. To update other fields use the CreateOrUpdate method.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2016-03-01/examples/patchAlertRule.json
  */
 async function patchAnAlertRule() {
-  const subscriptionId = "b67f7fec-69fc-4974-9099-a26bd6ffeda3";
-  const resourceGroupName = "Rac46PostSwapRG";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "b67f7fec-69fc-4974-9099-a26bd6ffeda3";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "Rac46PostSwapRG";
   const ruleName = "chiricutin";
   const alertRulesResource = {
     name: "chiricutin",
@@ -49,4 +51,8 @@ async function patchAnAlertRule() {
   console.log(result);
 }
 
-patchAnAlertRule().catch(console.error);
+async function main() {
+  patchAnAlertRule();
+}
+
+main().catch(console.error);

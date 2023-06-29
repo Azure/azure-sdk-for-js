@@ -4,7 +4,6 @@
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { InternalClientPipelineOptions } from "@azure/core-client";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { SDK_VERSION } from "./constants";
 import { SearchIndexerStatus } from "./generated/service/models";
 import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";
 import { logger } from "./logger";
@@ -115,16 +114,6 @@ export class SearchIndexerClient {
   ) {
     this.endpoint = endpoint;
 
-    const libInfo = `azsdk-js-search-documents/${SDK_VERSION}`;
-    if (!options.userAgentOptions) {
-      options.userAgentOptions = {};
-    }
-    if (options.userAgentOptions.userAgentPrefix) {
-      options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      options.userAgentOptions.userAgentPrefix = libInfo;
-    }
-
     const internalClientPipelineOptions: InternalClientPipelineOptions = {
       ...options,
       ...{
@@ -142,21 +131,9 @@ export class SearchIndexerClient {
       },
     };
 
-    if (options.apiVersion) {
-      if (!utils.serviceVersions.includes(options.apiVersion)) {
-        throw new Error(`Invalid Api Version: ${options.apiVersion}`);
-      }
-      this.serviceVersion = options.apiVersion;
-      this.apiVersion = options.apiVersion;
-    }
-
-    if (options.serviceVersion) {
-      if (!utils.serviceVersions.includes(options.serviceVersion)) {
-        throw new Error(`Invalid Service Version: ${options.serviceVersion}`);
-      }
-      this.serviceVersion = options.serviceVersion;
-      this.apiVersion = options.serviceVersion;
-    }
+    this.serviceVersion =
+      options.serviceVersion ?? options.apiVersion ?? utils.defaultServiceVersion;
+    this.apiVersion = this.serviceVersion;
 
     this.client = new GeneratedClient(
       this.endpoint,

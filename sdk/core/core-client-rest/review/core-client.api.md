@@ -8,6 +8,7 @@
 
 import { HttpClient } from '@azure/core-rest-pipeline';
 import { KeyCredential } from '@azure/core-auth';
+import { LogPolicyOptions } from '@azure/core-rest-pipeline';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { PipelinePolicy } from '@azure/core-rest-pipeline';
@@ -16,6 +17,15 @@ import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
+
+// @public
+export function addCredentialPipelinePolicy(pipeline: Pipeline, baseUrl: string, options?: AddCredentialPipelinePolicyOptions): void;
+
+// @public
+export interface AddCredentialPipelinePolicyOptions {
+    clientOptions?: ClientOptions;
+    credential?: TokenCredential | KeyCredential;
+}
 
 // @public
 export interface AdditionalPolicyConfig {
@@ -41,10 +51,25 @@ export type ClientOptions = PipelineOptions & {
     allowInsecureConnection?: boolean;
     additionalPolicies?: AdditionalPolicyConfig[];
     httpClient?: HttpClient;
+    loggingOptions?: LogPolicyOptions;
 };
 
 // @public
 export function createRestError(message: string, response: PathUncheckedResponse): RestError;
+
+// @public
+export interface ErrorModel {
+    code: string;
+    details: Array<ErrorModel>;
+    innererror?: InnerError;
+    message: string;
+    target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error: ErrorModel;
+}
 
 // @public
 export function getClient(baseUrl: string, options?: ClientOptions): Client;
@@ -69,6 +94,12 @@ export type HttpResponse = {
     body: unknown;
     status: string;
 };
+
+// @public
+export interface InnerError {
+    code: string;
+    innererror?: InnerError;
+}
 
 // @public
 export type PathParameters<TRoute extends string> = TRoute extends `${infer _Head}/{${infer _Param}}${infer Tail}` ? [

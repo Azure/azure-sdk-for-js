@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { MessagingTestClient } from "./models";
-import { isLive } from "./../utils/isLive";
+import { isLiveMode } from "@azure-tools/test-recorder";
 
 /**
  * Returns a mocked messaging client that can work in both live and playback modes.
@@ -12,7 +12,7 @@ import { isLive } from "./../utils/isLive";
 export function createMockedMessagingClient<MessageT>(
   createLiveClient: () => MessagingTestClient<MessageT>
 ): MessagingTestClient<MessageT> {
-  if (isLive) {
+  if (isLiveMode()) {
     return createLiveClient();
   }
   const messageBuffer: MessageT[] = [];

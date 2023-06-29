@@ -3,6 +3,8 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 import MapsRender, { positionToTileXY } from "@azure-rest/maps-render";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 /**
  * @summary How to get the map tile and render on the browser.

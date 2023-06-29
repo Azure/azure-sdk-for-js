@@ -4,6 +4,7 @@
 const { AzureKeyCredential } = require("@azure/core-auth");
 const MapsRender = require("@azure-rest/maps-render").default,
   { positionToTileXY } = require("@azure-rest/maps-render");
+require("dotenv").config();
 
 /**
  * @summary How to get the map tile and render on the browser.

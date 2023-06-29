@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { AutomanageClient } from "@azure/arm-automanage";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Retrieve a list of Automanage best practices
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/listBestPracticesByTenant.json
  */
 async function listAutomanageBestPractices() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["AUTOMANAGE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new AutomanageClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +33,8 @@ async function listAutomanageBestPractices() {
   console.log(resArray);
 }
 
-listAutomanageBestPractices().catch(console.error);
+async function main() {
+  listAutomanageBestPractices();
+}
+
+main().catch(console.error);

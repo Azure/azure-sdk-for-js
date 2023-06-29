@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BastionHost,
   BastionHostsListOptionalParams,
@@ -51,7 +51,7 @@ export interface BastionHosts {
     resourceGroupName: string,
     bastionHostName: string,
     options?: BastionHostsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified Bastion Host.
    * @param resourceGroupName The name of the resource group.
@@ -87,8 +87,8 @@ export interface BastionHosts {
     parameters: BastionHost,
     options?: BastionHostsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BastionHostsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BastionHostsCreateOrUpdateResponse>,
       BastionHostsCreateOrUpdateResponse
     >
   >;
@@ -118,8 +118,8 @@ export interface BastionHosts {
     parameters: TagsObject,
     options?: BastionHostsUpdateTagsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BastionHostsUpdateTagsResponse>,
+    SimplePollerLike<
+      OperationState<BastionHostsUpdateTagsResponse>,
       BastionHostsUpdateTagsResponse
     >
   >;

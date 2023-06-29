@@ -1,6 +1,6 @@
 # Release History
 
-## 1.10.2 (Unreleased)
+## 1.11.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,24 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.11.0 (2023-06-01)
+
+### Features Added
+
+- Add a policy `auxiliaryAuthenticationHeaderPolicy` for external tokens to `x-ms-authorization-auxiliary` header. This header will be used when creating a cross-tenant application we may need to handle authentication requests for resources that are in different tenants. [PR #25270](https://github.com/Azure/azure-sdk-for-js/pull/25270)
+
+## 1.10.3 (2023-04-06)
+
+### Other Changes
+
+- Migrate to use core-util UUID helper [PR# 25413](https://github.com/Azure/azure-sdk-for-js/pull/25413)
+
+## 1.10.2 (2023-03-02)
+
+### Bugs Fixed
+
+- Remove oscpu from OS sniffing [PR #24809](https://github.com/Azure/azure-sdk-for-js/pull/24809)
 
 ## 1.10.1 (2023-01-05)
 

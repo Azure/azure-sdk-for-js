@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a Kusto principalAssignment.
  *
  * @summary Deletes a Kusto principalAssignment.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoScriptsDelete.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoScriptsDelete.json
  */
 async function kustoScriptsDelete() {
   const subscriptionId =

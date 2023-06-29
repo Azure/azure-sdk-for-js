@@ -2,8 +2,9 @@
 // Licensed under the MIT License.
 
 const { AzureKeyCredential } = require("@azure/core-auth");
-const { isUnexpected } = require("../src/generated");
-const MapsRender = require("../src/mapsRender").default;
+const { isUnexpected } = require("@azure-rest/maps-render");
+const MapsRender = require("@azure-rest/maps-render").default;
+require("dotenv").config();
 
 /**
  * @summary How to get the copyright caption.

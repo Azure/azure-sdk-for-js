@@ -13,6 +13,9 @@ import {
   AutomanageClient
 } from "@azure/arm-automanage";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates a configuration profile
@@ -21,9 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/updateConfigurationProfile.json
  */
 async function updateConfigurationProfile() {
-  const subscriptionId = "mySubscriptionId";
+  const subscriptionId =
+    process.env["AUTOMANAGE_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const configurationProfileName = "customConfigurationProfile";
-  const resourceGroupName = "myResourceGroupName";
+  const resourceGroupName =
+    process.env["AUTOMANAGE_RESOURCE_GROUP"] || "myResourceGroupName";
   const parameters: ConfigurationProfileUpdate = {
     properties: {
       configuration: {
@@ -50,4 +55,8 @@ async function updateConfigurationProfile() {
   console.log(result);
 }
 
-updateConfigurationProfile().catch(console.error);
+async function main() {
+  updateConfigurationProfile();
+}
+
+main().catch(console.error);

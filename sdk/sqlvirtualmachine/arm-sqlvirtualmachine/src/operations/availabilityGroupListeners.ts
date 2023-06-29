@@ -6,24 +6,29 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { AvailabilityGroupListeners } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SqlVirtualMachineManagementClient } from "../sqlVirtualMachineManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   AvailabilityGroupListener,
   AvailabilityGroupListenersListByGroupNextOptionalParams,
   AvailabilityGroupListenersListByGroupOptionalParams,
+  AvailabilityGroupListenersListByGroupResponse,
   AvailabilityGroupListenersGetOptionalParams,
   AvailabilityGroupListenersGetResponse,
   AvailabilityGroupListenersCreateOrUpdateOptionalParams,
   AvailabilityGroupListenersCreateOrUpdateResponse,
   AvailabilityGroupListenersDeleteOptionalParams,
-  AvailabilityGroupListenersListByGroupResponse,
   AvailabilityGroupListenersListByGroupNextResponse
 } from "../models";
 
@@ -65,11 +70,15 @@ export class AvailabilityGroupListenersImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByGroupPagingPage(
           resourceGroupName,
           sqlVirtualMachineGroupName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -78,15 +87,22 @@ export class AvailabilityGroupListenersImpl
   private async *listByGroupPagingPage(
     resourceGroupName: string,
     sqlVirtualMachineGroupName: string,
-    options?: AvailabilityGroupListenersListByGroupOptionalParams
+    options?: AvailabilityGroupListenersListByGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AvailabilityGroupListener[]> {
-    let result = await this._listByGroup(
-      resourceGroupName,
-      sqlVirtualMachineGroupName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AvailabilityGroupListenersListByGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByGroup(
+        resourceGroupName,
+        sqlVirtualMachineGroupName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByGroupNext(
         resourceGroupName,
@@ -95,7 +111,9 @@ export class AvailabilityGroupListenersImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -154,8 +172,8 @@ export class AvailabilityGroupListenersImpl
     parameters: AvailabilityGroupListener,
     options?: AvailabilityGroupListenersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AvailabilityGroupListenersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AvailabilityGroupListenersCreateOrUpdateResponse>,
       AvailabilityGroupListenersCreateOrUpdateResponse
     >
   > {
@@ -165,7 +183,7 @@ export class AvailabilityGroupListenersImpl
     ): Promise<AvailabilityGroupListenersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -198,20 +216,24 @@ export class AvailabilityGroupListenersImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         sqlVirtualMachineGroupName,
         availabilityGroupListenerName,
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AvailabilityGroupListenersCreateOrUpdateResponse,
+      OperationState<AvailabilityGroupListenersCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -256,14 +278,14 @@ export class AvailabilityGroupListenersImpl
     sqlVirtualMachineGroupName: string,
     availabilityGroupListenerName: string,
     options?: AvailabilityGroupListenersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -296,19 +318,20 @@ export class AvailabilityGroupListenersImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         sqlVirtualMachineGroupName,
         availabilityGroupListenerName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -386,7 +409,9 @@ const getOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.AvailabilityGroupListener
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.expand, Parameters.apiVersion],
   urlParameters: [
@@ -416,7 +441,9 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.AvailabilityGroupListener
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
@@ -435,7 +462,15 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups/{sqlVirtualMachineGroupName}/availabilityGroupListeners/{availabilityGroupListenerName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -444,6 +479,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.availabilityGroupListenerName,
     Parameters.subscriptionId
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listByGroupOperationSpec: coreClient.OperationSpec = {
@@ -454,7 +490,9 @@ const listByGroupOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.AvailabilityGroupListenerListResult
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -473,9 +511,10 @@ const listByGroupNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.AvailabilityGroupListenerListResult
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

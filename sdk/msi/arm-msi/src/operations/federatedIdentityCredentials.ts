@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { FederatedIdentityCredentials } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -41,7 +42,7 @@ export class FederatedIdentityCredentialsImpl
 
   /**
    * Lists all the federated identity credentials under the specified user assigned identity.
-   * @param resourceGroupName The name of the Resource Group to which the identity belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the identity resource.
    * @param options The options parameters.
    */
@@ -58,8 +59,16 @@ export class FederatedIdentityCredentialsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, resourceName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          resourceName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -67,11 +76,18 @@ export class FederatedIdentityCredentialsImpl
   private async *listPagingPage(
     resourceGroupName: string,
     resourceName: string,
-    options?: FederatedIdentityCredentialsListOptionalParams
+    options?: FederatedIdentityCredentialsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<FederatedIdentityCredential[]> {
-    let result = await this._list(resourceGroupName, resourceName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: FederatedIdentityCredentialsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, resourceName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -80,7 +96,9 @@ export class FederatedIdentityCredentialsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -100,7 +118,7 @@ export class FederatedIdentityCredentialsImpl
 
   /**
    * Lists all the federated identity credentials under the specified user assigned identity.
-   * @param resourceGroupName The name of the Resource Group to which the identity belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the identity resource.
    * @param options The options parameters.
    */
@@ -117,7 +135,7 @@ export class FederatedIdentityCredentialsImpl
 
   /**
    * Create or update a federated identity credential under the specified user assigned identity.
-   * @param resourceGroupName The name of the Resource Group to which the identity belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the identity resource.
    * @param federatedIdentityCredentialResourceName The name of the federated identity credential
    *                                                resource.
@@ -145,7 +163,7 @@ export class FederatedIdentityCredentialsImpl
 
   /**
    * Gets the federated identity credential.
-   * @param resourceGroupName The name of the Resource Group to which the identity belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the identity resource.
    * @param federatedIdentityCredentialResourceName The name of the federated identity credential
    *                                                resource.
@@ -170,7 +188,7 @@ export class FederatedIdentityCredentialsImpl
 
   /**
    * Deletes the federated identity credential.
-   * @param resourceGroupName The name of the Resource Group to which the identity belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the identity resource.
    * @param federatedIdentityCredentialResourceName The name of the federated identity credential
    *                                                resource.
@@ -195,7 +213,7 @@ export class FederatedIdentityCredentialsImpl
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the Resource Group to which the identity belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the identity resource.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -235,8 +253,8 @@ const listOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceName,
+    Parameters.resourceGroupName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -261,8 +279,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.resourceName,
+    Parameters.resourceGroupName1,
     Parameters.federatedIdentityCredentialResourceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -285,8 +303,8 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.resourceName,
+    Parameters.resourceGroupName1,
     Parameters.federatedIdentityCredentialResourceName
   ],
   headerParameters: [Parameters.accept],
@@ -307,8 +325,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.resourceName,
+    Parameters.resourceGroupName1,
     Parameters.federatedIdentityCredentialResourceName
   ],
   headerParameters: [Parameters.accept],
@@ -325,17 +343,12 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.skiptoken
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceName,
+    Parameters.resourceGroupName1
   ],
   headerParameters: [Parameters.accept],
   serializer

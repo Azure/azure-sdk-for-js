@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update a Kusto cluster.
  *
  * @summary Create or update a Kusto cluster.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoClustersCreateOrUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoClustersCreateOrUpdate.json
  */
 async function kustoClustersCreateOrUpdate() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function kustoClustersCreateOrUpdate() {
     location: "westus",
     publicIPType: "DualStack",
     publicNetworkAccess: "Enabled",
-    sku: { name: "Standard_L8s", capacity: 2, tier: "Standard" },
+    sku: { name: "Standard_L16as_v3", capacity: 2, tier: "Standard" },
   };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);

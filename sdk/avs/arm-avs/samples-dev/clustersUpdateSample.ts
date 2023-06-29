@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ClusterUpdate, AzureVMwareSolutionAPI } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Update a cluster in a private cloud
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/Clusters_Update.json
  */
 async function clustersUpdate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "group1";
+  const subscriptionId =
+    process.env["AVS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["AVS_RESOURCE_GROUP"] || "group1";
   const privateCloudName = "cloud1";
   const clusterName = "cluster1";
   const clusterUpdate: ClusterUpdate = { clusterSize: 4 };
@@ -34,4 +39,8 @@ async function clustersUpdate() {
   console.log(result);
 }
 
-clustersUpdate().catch(console.error);
+async function main() {
+  clustersUpdate();
+}
+
+main().catch(console.error);

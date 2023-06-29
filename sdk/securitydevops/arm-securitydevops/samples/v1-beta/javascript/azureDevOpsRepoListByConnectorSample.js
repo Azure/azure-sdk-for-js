@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { MicrosoftSecurityDevOps } = require("@azure/arm-securitydevops");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/securitydevops/resource-manager/Microsoft.SecurityDevOps/preview/2022-09-01-preview/examples/AzureDevOpsRepoListByConnector.json
  */
 async function azureDevOpsRepoListByConnector() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "westusrg";
+  const subscriptionId =
+    process.env["SECURITYDEVOPS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["SECURITYDEVOPS_RESOURCE_GROUP"] || "westusrg";
   const azureDevOpsConnectorName = "testconnector";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSecurityDevOps(credential, subscriptionId);
@@ -33,4 +35,8 @@ async function azureDevOpsRepoListByConnector() {
   console.log(resArray);
 }
 
-azureDevOpsRepoListByConnector().catch(console.error);
+async function main() {
+  azureDevOpsRepoListByConnector();
+}
+
+main().catch(console.error);

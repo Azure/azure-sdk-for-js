@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { Scvmm } from "@azure/arm-scvmm";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Implements AvailabilitySet GET method.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/preview/2020-06-05-preview/examples/GetAvailabilitySet.json
  */
 async function getAvailabilitySet() {
-  const subscriptionId = "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["SCVMM_SUBSCRIPTION_ID"] ||
+    "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
+  const resourceGroupName = process.env["SCVMM_RESOURCE_GROUP"] || "testrg";
   const availabilitySetName = "HRAvailabilitySet";
   const credential = new DefaultAzureCredential();
   const client = new Scvmm(credential, subscriptionId);
@@ -30,4 +35,8 @@ async function getAvailabilitySet() {
   console.log(result);
 }
 
-getAvailabilitySet().catch(console.error);
+async function main() {
+  getAvailabilitySet();
+}
+
+main().catch(console.error);

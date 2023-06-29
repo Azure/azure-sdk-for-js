@@ -42,7 +42,7 @@ describe("ResourceLink Trimming of leading and trailing slashes", function (this
 
 describe("Test Query Metrics", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
-  const collectionId = "testCollection2";
+  const collectionId = "testCollection3";
 
   beforeEach(async function () {
     await removeAllDatabases();
@@ -51,7 +51,12 @@ describe("Test Query Metrics", function (this: Suite) {
   it("validate that query metrics are correct for a single partition query", async function () {
     const database = await getTestDatabase("query metrics test db");
 
-    const collectionDefinition = { id: collectionId };
+    const collectionDefinition = {
+      id: collectionId,
+      partitionKey: {
+        paths: ["/pk"],
+      },
+    };
     const collectionOptions = { offerThroughput: 4000 };
 
     const { resource: createdCollectionDef } = await database.containers.create(
@@ -79,7 +84,6 @@ describe("Test Query Metrics", function (this: Suite) {
         // no more results
         break;
       }
-
       assert.notEqual(queryMetrics, null);
     }
   });
@@ -176,5 +180,51 @@ describe("aggregate query over null value", function (this: Suite) {
 
   it("should execute successfully for container with multiple partitions", async function () {
     await aggregateQueryOverNullValue("MultiplePartitons", "MultiplePartitons", 10100);
+  });
+});
+
+describe("Test Index metrics", function (this: Suite) {
+  this.timeout(process.env.MOCHA_TIMEOUT || 20000);
+  const collectionId = "testCollection3";
+
+  beforeEach(async function () {
+    await removeAllDatabases();
+  });
+
+  it("validate that index metrics are correct for a single partition query", async function () {
+    const database = await getTestDatabase("index metrics test db");
+
+    const collectionDefinition = {
+      id: collectionId,
+      partitionKey: {
+        paths: ["/pk"],
+      },
+    };
+    const collectionOptions = { offerThroughput: 4000 };
+
+    const { resource: createdCollectionDef } = await database.containers.create(
+      collectionDefinition,
+      collectionOptions
+    );
+    const createdContainer = database.container(createdCollectionDef.id);
+
+    const doc1 = { id: "myId1", pk: "pk1", name: "test1" };
+    const doc2 = { id: "myId2", pk: "pk2", name: "test2" };
+    const doc3 = { id: "myId3", pk: "pk2", name: "test2" };
+    await createdContainer.items.create(doc1);
+    await createdContainer.items.create(doc2);
+    await createdContainer.items.create(doc3);
+    const query = "SELECT * from " + collectionId + " where " + collectionId + ".name = 'test2'";
+    const queryOptions: FeedOptions = { populateIndexMetrics: true };
+    const queryIterator = createdContainer.items.query(query, queryOptions);
+
+    while (queryIterator.hasMoreResults()) {
+      const { resources: results, indexMetrics } = await queryIterator.fetchNext();
+
+      if (results === undefined) {
+        break;
+      }
+      assert.notEqual(indexMetrics, undefined);
+    }
   });
 });

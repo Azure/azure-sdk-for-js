@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ServiceResource,
   ServiceListOptionalParams,
@@ -48,7 +48,10 @@ export interface Service {
     createUpdateParameters: ServiceResourceCreateUpdateParameters,
     options?: ServiceCreateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<ServiceCreateResponse>, ServiceCreateResponse>
+    SimplePollerLike<
+      OperationState<ServiceCreateResponse>,
+      ServiceCreateResponse
+    >
   >;
   /**
    * Creates a service.
@@ -90,7 +93,7 @@ export interface Service {
     accountName: string,
     serviceName: string,
     options?: ServiceDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes service with the given serviceName.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

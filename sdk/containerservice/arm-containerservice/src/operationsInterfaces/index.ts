@@ -17,5 +17,3 @@ export * from "./snapshots";
 export * from "./managedClusterSnapshots";
 export * from "./trustedAccessRoles";
 export * from "./trustedAccessRoleBindings";
-export * from "./fleets";
-export * from "./fleetMembers";

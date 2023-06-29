@@ -1212,6 +1212,20 @@ export const AzureDataExplorerConnectionProperties: coreClient.CompositeMapper =
           name: "String"
         }
       },
+      adxTwinLifecycleEventsTableName: {
+        serializedName: "adxTwinLifecycleEventsTableName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      adxRelationshipLifecycleEventsTableName: {
+        serializedName: "adxRelationshipLifecycleEventsTableName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
       eventHubEndpointUri: {
         serializedName: "eventHubEndpointUri",
         required: true,
@@ -1236,6 +1250,14 @@ export const AzureDataExplorerConnectionProperties: coreClient.CompositeMapper =
       eventHubConsumerGroup: {
         defaultValue: "$Default",
         serializedName: "eventHubConsumerGroup",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      recordPropertyAndItemRemovals: {
+        defaultValue: "false",
+        serializedName: "recordPropertyAndItemRemovals",
         nullable: true,
         type: {
           name: "String"

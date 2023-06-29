@@ -3,15 +3,11 @@
 
 import { createDefaultHttpClient, HttpClient } from "@azure/core-rest-pipeline";
 
-let _defaultHttpClient = createDefaultHttpClient();
+let _defaultHttpClient: HttpClient;
 
 export function getCachedDefaultHttpClient(): HttpClient {
+  if (!_defaultHttpClient) {
+    _defaultHttpClient = createDefaultHttpClient();
+  }
   return _defaultHttpClient;
-}
-
-/**
- * @internal
- */
-export function _testOnlySetCachedDefaultHttpClient(client: HttpClient): void {
-  _defaultHttpClient = client;
 }

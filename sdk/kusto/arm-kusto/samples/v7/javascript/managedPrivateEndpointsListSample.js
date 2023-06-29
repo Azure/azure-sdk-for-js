@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns the list of managed private endpoints.
  *
  * @summary Returns the list of managed private endpoints.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoManagedPrivateEndpointsList.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoManagedPrivateEndpointsList.json
  */
 async function kustoManagedPrivateEndpointsList() {
   const subscriptionId =

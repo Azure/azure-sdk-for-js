@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { AvailabilityStatuses } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,15 +17,15 @@ import {
   AvailabilityStatus,
   AvailabilityStatusesListBySubscriptionIdNextOptionalParams,
   AvailabilityStatusesListBySubscriptionIdOptionalParams,
+  AvailabilityStatusesListBySubscriptionIdResponse,
   AvailabilityStatusesListByResourceGroupNextOptionalParams,
   AvailabilityStatusesListByResourceGroupOptionalParams,
+  AvailabilityStatusesListByResourceGroupResponse,
   AvailabilityStatusesListNextOptionalParams,
   AvailabilityStatusesListOptionalParams,
-  AvailabilityStatusesListBySubscriptionIdResponse,
-  AvailabilityStatusesListByResourceGroupResponse,
+  AvailabilityStatusesListResponse,
   AvailabilityStatusesGetByResourceOptionalParams,
   AvailabilityStatusesGetByResourceResponse,
-  AvailabilityStatusesListResponse,
   AvailabilityStatusesListBySubscriptionIdNextResponse,
   AvailabilityStatusesListByResourceGroupNextResponse,
   AvailabilityStatusesListNextResponse
@@ -44,8 +45,7 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
   }
 
   /**
-   * Lists the current availability status for all the resources in the subscription. Use the nextLink
-   * property in the response to get the next page of availability statuses.
+   * Lists the current availability status for all the resources in the subscription.
    * @param options The options parameters.
    */
   public listBySubscriptionId(
@@ -59,22 +59,34 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionIdPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionIdPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionIdPagingPage(
-    options?: AvailabilityStatusesListBySubscriptionIdOptionalParams
+    options?: AvailabilityStatusesListBySubscriptionIdOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AvailabilityStatus[]> {
-    let result = await this._listBySubscriptionId(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AvailabilityStatusesListBySubscriptionIdResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscriptionId(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionIdNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -87,9 +99,8 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
   }
 
   /**
-   * Lists the current availability status for all the resources in the resource group. Use the nextLink
-   * property in the response to get the next page of availability statuses.
-   * @param resourceGroupName The name of the resource group.
+   * Lists the current availability status for all the resources in the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -104,19 +115,33 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: AvailabilityStatusesListByResourceGroupOptionalParams
+    options?: AvailabilityStatusesListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AvailabilityStatus[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AvailabilityStatusesListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -124,7 +149,9 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -141,8 +168,7 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
   }
 
   /**
-   * Lists all historical availability transitions and impacting events for a single resource. Use the
-   * nextLink property in the response to get the next page of availability status
+   * Lists all historical availability transitions and impacting events for a single resource.
    * @param resourceUri The fully qualified ID of the resource, including the resource name and resource
    *                    type. Currently the API support not nested and one nesting level resource types :
    *                    /subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/{resource-provider-name}/{resource-type}/{resource-name}
@@ -162,23 +188,35 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceUri, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceUri, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceUri: string,
-    options?: AvailabilityStatusesListOptionalParams
+    options?: AvailabilityStatusesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AvailabilityStatus[]> {
-    let result = await this._list(resourceUri, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AvailabilityStatusesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceUri, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(resourceUri, continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -192,8 +230,7 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
   }
 
   /**
-   * Lists the current availability status for all the resources in the subscription. Use the nextLink
-   * property in the response to get the next page of availability statuses.
+   * Lists the current availability status for all the resources in the subscription.
    * @param options The options parameters.
    */
   private _listBySubscriptionId(
@@ -206,9 +243,8 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
   }
 
   /**
-   * Lists the current availability status for all the resources in the resource group. Use the nextLink
-   * property in the response to get the next page of availability statuses.
-   * @param resourceGroupName The name of the resource group.
+   * Lists the current availability status for all the resources in the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
@@ -241,8 +277,7 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
   }
 
   /**
-   * Lists all historical availability transitions and impacting events for a single resource. Use the
-   * nextLink property in the response to get the next page of availability status
+   * Lists all historical availability transitions and impacting events for a single resource.
    * @param resourceUri The fully qualified ID of the resource, including the resource name and resource
    *                    type. Currently the API support not nested and one nesting level resource types :
    *                    /subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/{resource-provider-name}/{resource-type}/{resource-name}
@@ -277,7 +312,7 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
@@ -415,11 +450,6 @@ const listBySubscriptionIdNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.expand
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -439,11 +469,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.expand
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -464,11 +489,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.expand
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri,

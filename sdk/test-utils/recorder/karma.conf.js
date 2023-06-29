@@ -4,7 +4,6 @@ process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config({ path: "../.env" });
 
 process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
-process.env.RECORDING_ASSETS_PATH = relativeAssetsPath();
 
 module.exports = function (config) {
   config.set({
@@ -19,9 +18,7 @@ module.exports = function (config) {
       "karma-mocha",
       "karma-mocha-reporter",
       "karma-chrome-launcher",
-      "karma-edge-launcher",
       "karma-firefox-launcher",
-      "karma-ie-launcher",
       "karma-env-preprocessor",
       "karma-coverage",
       "karma-sourcemap-loader",
@@ -50,7 +47,7 @@ module.exports = function (config) {
     // inject following environment values into browser testing with window.__env__
     // environment values MUST be exported or set with same console running "karma start"
     // https://www.npmjs.com/package/karma-env-preprocessor
-    envPreprocessor: ["RECORDINGS_RELATIVE_PATH", "PROXY_MANUAL_START", "RECORDING_ASSETS_PATH"],
+    envPreprocessor: ["RECORDINGS_RELATIVE_PATH"],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'

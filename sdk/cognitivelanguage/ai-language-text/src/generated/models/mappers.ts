@@ -169,12 +169,6 @@ export const AnalyzeTextJobsInput: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      defaultLanguage: {
-        serializedName: "defaultLanguage",
-        type: {
-          name: "String"
-        }
-      },
       analysisInput: {
         serializedName: "analysisInput",
         type: {
@@ -439,7 +433,6 @@ export const TextDocumentBatchStatistics: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TextDocumentBatchStatistics",
-    additionalProperties: { type: { name: "Object" } },
     modelProperties: {
       documentCount: {
         serializedName: "documentsCount",
@@ -605,27 +598,6 @@ export const DocumentError: coreClient.CompositeMapper = {
   }
 };
 
-export const BaseResolution: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BaseResolution",
-    uberParent: "BaseResolution",
-    polymorphicDiscriminator: {
-      serializedName: "resolutionKind",
-      clientName: "resolutionKind"
-    },
-    modelProperties: {
-      resolutionKind: {
-        serializedName: "resolutionKind",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const Entity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -752,58 +724,6 @@ export const TextDocumentStatistics: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const DocumentDetectedLanguage: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DocumentDetectedLanguage",
-    modelProperties: {
-      detectedLanguage: {
-        serializedName: "detectedLanguage",
-        type: {
-          name: "Composite",
-          className: "DetectedLanguage"
-        }
-      }
-    }
-  }
-};
-
-export const DetectedLanguage: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DetectedLanguage",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      iso6391Name: {
-        serializedName: "iso6391Name",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      confidenceScore: {
-        serializedName: "confidenceScore",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
-      script: {
-        serializedName: "script",
-        type: {
-          name: "String"
         }
       }
     }
@@ -1025,21 +945,6 @@ export const HealthcareRelationEntity: coreClient.CompositeMapper = {
   }
 };
 
-export const DocumentDetectedLanguageString: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DocumentDetectedLanguageString",
-    modelProperties: {
-      detectedLanguage: {
-        serializedName: "detectedLanguage",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const PreBuiltResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1053,7 +958,7 @@ export const PreBuiltResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "InputError"
+              className: "DocumentError"
             }
           }
         }
@@ -1070,29 +975,6 @@ export const PreBuiltResult: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const InputError: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "InputError",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ErrorModel"
         }
       }
     }
@@ -1454,22 +1336,6 @@ export const Match: coreClient.CompositeMapper = {
   }
 };
 
-export const QuantityResolution: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "QuantityResolution",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
 export const SummarySentence: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1507,6 +1373,36 @@ export const SummarySentence: coreClient.CompositeMapper = {
   }
 };
 
+export const DetectedLanguage: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DetectedLanguage",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      iso6391Name: {
+        serializedName: "iso6391Name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      confidenceScore: {
+        serializedName: "confidenceScore",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const Pagination: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1522,12 +1418,33 @@ export const Pagination: coreClient.CompositeMapper = {
   }
 };
 
+export const JobErrors: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "JobErrors",
+    modelProperties: {
+      errors: {
+        serializedName: "errors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorModel"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const AbstractiveSummarizationTaskParametersBase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AbstractiveSummarizationTaskParametersBase",
     modelProperties: {
-      maxSentenceCount: {
+      sentenceCount: {
         serializedName: "sentenceCount",
         type: {
           name: "Number"
@@ -1557,7 +1474,7 @@ export const AbstractiveSummarizationResultBase: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "AbstractiveSummaryDocumentResultWithDetectedLanguage"
+              className: "AbstractiveSummaryDocumentResult"
             }
           }
         }
@@ -1580,6 +1497,7 @@ export const AbstractiveSummary: coreClient.CompositeMapper = {
       },
       contexts: {
         serializedName: "contexts",
+        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -1779,33 +1697,6 @@ export const AnalyzeTextSentimentAnalysisInput: coreClient.CompositeMapper = {
   }
 };
 
-export const AnalyzeTextDynamicClassificationInput: coreClient.CompositeMapper = {
-  serializedName: "DynamicClassification",
-  type: {
-    name: "Composite",
-    className: "AnalyzeTextDynamicClassificationInput",
-    uberParent: "AnalyzeAction",
-    polymorphicDiscriminator: AnalyzeAction.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...AnalyzeAction.type.modelProperties,
-      analysisInput: {
-        serializedName: "analysisInput",
-        type: {
-          name: "Composite",
-          className: "MultiLanguageAnalysisInput"
-        }
-      },
-      parameters: {
-        serializedName: "parameters",
-        type: {
-          name: "Composite",
-          className: "DynamicClassificationAction"
-        }
-      }
-    }
-  }
-};
-
 export const SentimentTaskResult: coreClient.CompositeMapper = {
   serializedName: "SentimentAnalysisResults",
   type: {
@@ -1932,27 +1823,6 @@ export const LanguageDetectionTaskResult: coreClient.CompositeMapper = {
   }
 };
 
-export const DynamicClassificationTaskResult: coreClient.CompositeMapper = {
-  serializedName: "DynamicClassificationResults",
-  type: {
-    name: "Composite",
-    className: "DynamicClassificationTaskResult",
-    uberParent: "AnalyzeTextTaskResult",
-    polymorphicDiscriminator:
-      AnalyzeTextTaskResult.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...AnalyzeTextTaskResult.type.modelProperties,
-      results: {
-        serializedName: "results",
-        type: {
-          name: "Composite",
-          className: "DynamicClassificationResult"
-        }
-      }
-    }
-  }
-};
-
 export const AnalyzeBatchAction: coreClient.CompositeMapper = {
   serializedName: "AnalyzeBatchAction",
   type: {
@@ -2008,38 +1878,6 @@ export const AnalyzeTextJobState: coreClient.CompositeMapper = {
       ...JobState.type.modelProperties,
       ...TasksState.type.modelProperties,
       ...AnalyzeTextJobStatistics.type.modelProperties
-    }
-  }
-};
-
-export const DocumentRequestStatistics: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DocumentRequestStatistics",
-    additionalProperties: { type: { name: "Object" } },
-    modelProperties: {
-      ...TextDocumentBatchStatistics.type.modelProperties,
-      documentsCount: {
-        serializedName: "documentsCount",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
-      validDocumentsCount: {
-        serializedName: "validDocumentsCount",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
-      erroneousDocumentsCount: {
-        serializedName: "erroneousDocumentsCount",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      }
     }
   }
 };
@@ -2131,421 +1969,6 @@ export const CustomLabelClassificationResult: coreClient.CompositeMapper = {
   }
 };
 
-export const AgeResolution: coreClient.CompositeMapper = {
-  serializedName: "AgeResolution",
-  type: {
-    name: "Composite",
-    className: "AgeResolution",
-    uberParent: "BaseResolution",
-    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...BaseResolution.type.modelProperties,
-      ...QuantityResolution.type.modelProperties,
-      unit: {
-        serializedName: "unit",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const VolumeResolution: coreClient.CompositeMapper = {
-  serializedName: "VolumeResolution",
-  type: {
-    name: "Composite",
-    className: "VolumeResolution",
-    uberParent: "BaseResolution",
-    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...BaseResolution.type.modelProperties,
-      ...QuantityResolution.type.modelProperties,
-      unit: {
-        serializedName: "unit",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SpeedResolution: coreClient.CompositeMapper = {
-  serializedName: "SpeedResolution",
-  type: {
-    name: "Composite",
-    className: "SpeedResolution",
-    uberParent: "BaseResolution",
-    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...BaseResolution.type.modelProperties,
-      ...QuantityResolution.type.modelProperties,
-      unit: {
-        serializedName: "unit",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AreaResolution: coreClient.CompositeMapper = {
-  serializedName: "AreaResolution",
-  type: {
-    name: "Composite",
-    className: "AreaResolution",
-    uberParent: "BaseResolution",
-    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...BaseResolution.type.modelProperties,
-      ...QuantityResolution.type.modelProperties,
-      unit: {
-        serializedName: "unit",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const LengthResolution: coreClient.CompositeMapper = {
-  serializedName: "LengthResolution",
-  type: {
-    name: "Composite",
-    className: "LengthResolution",
-    uberParent: "BaseResolution",
-    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...BaseResolution.type.modelProperties,
-      ...QuantityResolution.type.modelProperties,
-      unit: {
-        serializedName: "unit",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const InformationResolution: coreClient.CompositeMapper = {
-  serializedName: "InformationResolution",
-  type: {
-    name: "Composite",
-    className: "InformationResolution",
-    uberParent: "BaseResolution",
-    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...BaseResolution.type.modelProperties,
-      ...QuantityResolution.type.modelProperties,
-      unit: {
-        serializedName: "unit",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const TemperatureResolution: coreClient.CompositeMapper = {
-  serializedName: "TemperatureResolution",
-  type: {
-    name: "Composite",
-    className: "TemperatureResolution",
-    uberParent: "BaseResolution",
-    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...BaseResolution.type.modelProperties,
-      ...QuantityResolution.type.modelProperties,
-      unit: {
-        serializedName: "unit",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const WeightResolution: coreClient.CompositeMapper = {
-  serializedName: "WeightResolution",
-  type: {
-    name: "Composite",
-    className: "WeightResolution",
-    uberParent: "BaseResolution",
-    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...BaseResolution.type.modelProperties,
-      ...QuantityResolution.type.modelProperties,
-      unit: {
-        serializedName: "unit",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const CurrencyResolution: coreClient.CompositeMapper = {
-  serializedName: "CurrencyResolution",
-  type: {
-    name: "Composite",
-    className: "CurrencyResolution",
-    uberParent: "BaseResolution",
-    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...BaseResolution.type.modelProperties,
-      ...QuantityResolution.type.modelProperties,
-      iso4217: {
-        serializedName: "iso4217",
-        type: {
-          name: "String"
-        }
-      },
-      unit: {
-        serializedName: "unit",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const BooleanResolution: coreClient.CompositeMapper = {
-  serializedName: "BooleanResolution",
-  type: {
-    name: "Composite",
-    className: "BooleanResolution",
-    uberParent: "BaseResolution",
-    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...BaseResolution.type.modelProperties,
-      value: {
-        serializedName: "value",
-        required: true,
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const DateTimeResolution: coreClient.CompositeMapper = {
-  serializedName: "DateTimeResolution",
-  type: {
-    name: "Composite",
-    className: "DateTimeResolution",
-    uberParent: "BaseResolution",
-    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...BaseResolution.type.modelProperties,
-      timex: {
-        serializedName: "timex",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      dateTimeSubKind: {
-        serializedName: "dateTimeSubKind",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      value: {
-        serializedName: "value",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      modifier: {
-        serializedName: "modifier",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const NumberResolution: coreClient.CompositeMapper = {
-  serializedName: "NumberResolution",
-  type: {
-    name: "Composite",
-    className: "NumberResolution",
-    uberParent: "BaseResolution",
-    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...BaseResolution.type.modelProperties,
-      numberKind: {
-        serializedName: "numberKind",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      value: {
-        serializedName: "value",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const OrdinalResolution: coreClient.CompositeMapper = {
-  serializedName: "OrdinalResolution",
-  type: {
-    name: "Composite",
-    className: "OrdinalResolution",
-    uberParent: "BaseResolution",
-    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...BaseResolution.type.modelProperties,
-      offset: {
-        serializedName: "offset",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      relativeTo: {
-        serializedName: "relativeTo",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      value: {
-        serializedName: "value",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const TemporalSpanResolution: coreClient.CompositeMapper = {
-  serializedName: "TemporalSpanResolution",
-  type: {
-    name: "Composite",
-    className: "TemporalSpanResolution",
-    uberParent: "BaseResolution",
-    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...BaseResolution.type.modelProperties,
-      begin: {
-        serializedName: "begin",
-        type: {
-          name: "String"
-        }
-      },
-      end: {
-        serializedName: "end",
-        type: {
-          name: "String"
-        }
-      },
-      duration: {
-        serializedName: "duration",
-        type: {
-          name: "String"
-        }
-      },
-      modifier: {
-        serializedName: "modifier",
-        type: {
-          name: "String"
-        }
-      },
-      timex: {
-        serializedName: "timex",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const NumericRangeResolution: coreClient.CompositeMapper = {
-  serializedName: "NumericRangeResolution",
-  type: {
-    name: "Composite",
-    className: "NumericRangeResolution",
-    uberParent: "BaseResolution",
-    polymorphicDiscriminator: BaseResolution.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...BaseResolution.type.modelProperties,
-      rangeKind: {
-        serializedName: "rangeKind",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      minimum: {
-        serializedName: "minimum",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
-      maximum: {
-        serializedName: "maximum",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const EntityWithResolution: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "EntityWithResolution",
-    modelProperties: {
-      ...Entity.type.modelProperties,
-      resolutions: {
-        serializedName: "resolutions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "BaseResolution"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const EntitiesDocumentResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2560,7 +1983,7 @@ export const EntitiesDocumentResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "EntityWithResolution"
+              className: "Entity"
             }
           }
         }
@@ -2577,29 +2000,6 @@ export const ClassificationDocumentResult: coreClient.CompositeMapper = {
       ...DocumentResult.type.modelProperties,
       classifications: {
         serializedName: "class",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ClassificationCategory"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const DynamicClassificationDocumentResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DynamicClassificationDocumentResult",
-    modelProperties: {
-      ...DocumentResult.type.modelProperties,
-      classifications: {
-        serializedName: "classifications",
         required: true,
         type: {
           name: "Sequence",
@@ -2645,13 +2045,6 @@ export const HealthcareEntitiesDocumentResult: coreClient.CompositeMapper = {
               className: "HealthcareRelation"
             }
           }
-        }
-      },
-      fhirBundle: {
-        serializedName: "fhirBundle",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
         }
       }
     }
@@ -2834,116 +2227,6 @@ export const AbstractiveSummaryDocumentResult: coreClient.CompositeMapper = {
   }
 };
 
-export const CustomEntitiesResultDocumentsItem: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CustomEntitiesResultDocumentsItem",
-    modelProperties: {
-      ...EntitiesDocumentResult.type.modelProperties,
-      ...DocumentDetectedLanguage.type.modelProperties
-    }
-  }
-};
-
-export const CustomLabelClassificationResultDocumentsItem: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CustomLabelClassificationResultDocumentsItem",
-    modelProperties: {
-      ...ClassificationDocumentResult.type.modelProperties,
-      ...DocumentDetectedLanguage.type.modelProperties
-    }
-  }
-};
-
-export const SentimentResponseDocumentsItem: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SentimentResponseDocumentsItem",
-    modelProperties: {
-      ...SentimentDocumentResult.type.modelProperties,
-      ...DocumentDetectedLanguage.type.modelProperties
-    }
-  }
-};
-
-export const EntitiesResultWithDetectedLanguage: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "EntitiesResultWithDetectedLanguage",
-    modelProperties: {
-      ...EntitiesDocumentResult.type.modelProperties,
-      ...DocumentDetectedLanguage.type.modelProperties
-    }
-  }
-};
-
-export const EntityLinkingResultWithDetectedLanguage: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "EntityLinkingResultWithDetectedLanguage",
-    modelProperties: {
-      ...LinkedEntitiesDocumentResult.type.modelProperties,
-      ...DocumentDetectedLanguage.type.modelProperties
-    }
-  }
-};
-
-export const PIIResultWithDetectedLanguage: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PIIResultWithDetectedLanguage",
-    modelProperties: {
-      ...PiiEntitiesDocumentResult.type.modelProperties,
-      ...DocumentDetectedLanguage.type.modelProperties
-    }
-  }
-};
-
-export const ExtractedSummaryDocumentResultWithDetectedLanguage: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ExtractedSummaryDocumentResultWithDetectedLanguage",
-    modelProperties: {
-      ...ExtractedSummaryDocumentResult.type.modelProperties,
-      ...DocumentDetectedLanguage.type.modelProperties
-    }
-  }
-};
-
-export const KeyPhraseResultDocumentsItem: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "KeyPhraseResultDocumentsItem",
-    modelProperties: {
-      ...KeyPhrasesDocumentResult.type.modelProperties,
-      ...DocumentDetectedLanguage.type.modelProperties
-    }
-  }
-};
-
-export const AbstractiveSummaryDocumentResultWithDetectedLanguage: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AbstractiveSummaryDocumentResultWithDetectedLanguage",
-    modelProperties: {
-      ...AbstractiveSummaryDocumentResult.type.modelProperties,
-      ...DocumentDetectedLanguage.type.modelProperties
-    }
-  }
-};
-
-export const HealthcareEntitiesDocumentResultWithDocumentDetectedLanguage: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "HealthcareEntitiesDocumentResultWithDocumentDetectedLanguage",
-    modelProperties: {
-      ...HealthcareEntitiesDocumentResult.type.modelProperties,
-      ...DocumentDetectedLanguageString.type.modelProperties
-    }
-  }
-};
-
 export const HealthcareResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2958,8 +2241,7 @@ export const HealthcareResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className:
-                "HealthcareEntitiesDocumentResultWithDocumentDetectedLanguage"
+              className: "HealthcareResultDocumentsItem"
             }
           }
         }
@@ -3005,7 +2287,7 @@ export const EntitiesResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "EntitiesResultWithDetectedLanguage"
+              className: "EntitiesResultDocumentsItem"
             }
           }
         }
@@ -3028,7 +2310,7 @@ export const EntityLinkingResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "EntityLinkingResultWithDetectedLanguage"
+              className: "EntityLinkingResultDocumentsItem"
             }
           }
         }
@@ -3051,7 +2333,7 @@ export const PiiResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "PIIResultWithDetectedLanguage"
+              className: "PiiResultDocumentsItem"
             }
           }
         }
@@ -3074,7 +2356,7 @@ export const ExtractiveSummarizationResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ExtractedSummaryDocumentResultWithDetectedLanguage"
+              className: "ExtractedSummaryDocumentResult"
             }
           }
         }
@@ -3121,29 +2403,6 @@ export const LanguageDetectionResult: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "LanguageDetectionDocumentResult"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const DynamicClassificationResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DynamicClassificationResult",
-    modelProperties: {
-      ...PreBuiltResult.type.modelProperties,
-      documents: {
-        serializedName: "documents",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DynamicClassificationResultDocumentsItem"
             }
           }
         }
@@ -3741,53 +3000,12 @@ export const SentimentAnalysisAction: coreClient.CompositeMapper = {
   }
 };
 
-export const DynamicClassificationAction: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DynamicClassificationAction",
-    modelProperties: {
-      ...ActionPrebuilt.type.modelProperties,
-      classificationType: {
-        defaultValue: "Multi",
-        serializedName: "classificationType",
-        type: {
-          name: "String"
-        }
-      },
-      categories: {
-        serializedName: "categories",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const HealthcareAction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "HealthcareAction",
     modelProperties: {
       ...ActionPrebuilt.type.modelProperties,
-      fhirVersion: {
-        serializedName: "fhirVersion",
-        type: {
-          name: "String"
-        }
-      },
-      documentType: {
-        serializedName: "documentType",
-        type: {
-          name: "String"
-        }
-      },
       stringIndexType: {
         defaultValue: "Utf16CodeUnit",
         serializedName: "stringIndexType",
@@ -3867,12 +3085,82 @@ export const CustomMultiLabelClassificationAction: coreClient.CompositeMapper = 
   }
 };
 
-export const DynamicClassificationResultDocumentsItem: coreClient.CompositeMapper = {
+export const CustomEntitiesResultDocumentsItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "DynamicClassificationResultDocumentsItem",
+    className: "CustomEntitiesResultDocumentsItem",
     modelProperties: {
-      ...DynamicClassificationDocumentResult.type.modelProperties
+      ...EntitiesDocumentResult.type.modelProperties
+    }
+  }
+};
+
+export const EntitiesResultDocumentsItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EntitiesResultDocumentsItem",
+    modelProperties: {
+      ...EntitiesDocumentResult.type.modelProperties
+    }
+  }
+};
+
+export const CustomLabelClassificationResultDocumentsItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CustomLabelClassificationResultDocumentsItem",
+    modelProperties: {
+      ...ClassificationDocumentResult.type.modelProperties
+    }
+  }
+};
+
+export const HealthcareResultDocumentsItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HealthcareResultDocumentsItem",
+    modelProperties: {
+      ...HealthcareEntitiesDocumentResult.type.modelProperties
+    }
+  }
+};
+
+export const SentimentResponseDocumentsItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SentimentResponseDocumentsItem",
+    modelProperties: {
+      ...SentimentDocumentResult.type.modelProperties
+    }
+  }
+};
+
+export const EntityLinkingResultDocumentsItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EntityLinkingResultDocumentsItem",
+    modelProperties: {
+      ...LinkedEntitiesDocumentResult.type.modelProperties
+    }
+  }
+};
+
+export const PiiResultDocumentsItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PiiResultDocumentsItem",
+    modelProperties: {
+      ...PiiEntitiesDocumentResult.type.modelProperties
+    }
+  }
+};
+
+export const KeyPhraseResultDocumentsItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KeyPhraseResultDocumentsItem",
+    modelProperties: {
+      ...KeyPhrasesDocumentResult.type.modelProperties
     }
   }
 };
@@ -3910,38 +3198,20 @@ export const AnalyzeTextCancelJobHeaders: coreClient.CompositeMapper = {
 export let discriminators = {
   AnalyzeAction: AnalyzeAction,
   AnalyzeTextTaskResult: AnalyzeTextTaskResult,
-  BaseResolution: BaseResolution,
   "AnalyzeAction.EntityLinking": AnalyzeTextEntityLinkingInput,
   "AnalyzeAction.EntityRecognition": AnalyzeTextEntityRecognitionInput,
   "AnalyzeAction.KeyPhraseExtraction": AnalyzeTextKeyPhraseExtractionInput,
   "AnalyzeAction.PiiEntityRecognition": AnalyzeTextPiiEntitiesRecognitionInput,
   "AnalyzeAction.LanguageDetection": AnalyzeTextLanguageDetectionInput,
   "AnalyzeAction.SentimentAnalysis": AnalyzeTextSentimentAnalysisInput,
-  "AnalyzeAction.DynamicClassification": AnalyzeTextDynamicClassificationInput,
   "AnalyzeTextTaskResult.SentimentAnalysisResults": SentimentTaskResult,
   "AnalyzeTextTaskResult.EntityRecognitionResults": EntitiesTaskResult,
   "AnalyzeTextTaskResult.EntityLinkingResults": EntityLinkingTaskResult,
   "AnalyzeTextTaskResult.PiiEntityRecognitionResults": PiiTaskResult,
   "AnalyzeTextTaskResult.KeyPhraseExtractionResults": KeyPhraseTaskResult,
   "AnalyzeTextTaskResult.LanguageDetectionResults": LanguageDetectionTaskResult,
-  "AnalyzeTextTaskResult.DynamicClassificationResults": DynamicClassificationTaskResult,
   "BatchActionState.AnalyzeBatchAction": AnalyzeBatchAction,
   "TaskState.AnalyzeTextLROResult": AnalyzeTextLROResult,
-  "BaseResolution.AgeResolution": AgeResolution,
-  "BaseResolution.VolumeResolution": VolumeResolution,
-  "BaseResolution.SpeedResolution": SpeedResolution,
-  "BaseResolution.AreaResolution": AreaResolution,
-  "BaseResolution.LengthResolution": LengthResolution,
-  "BaseResolution.InformationResolution": InformationResolution,
-  "BaseResolution.TemperatureResolution": TemperatureResolution,
-  "BaseResolution.WeightResolution": WeightResolution,
-  "BaseResolution.CurrencyResolution": CurrencyResolution,
-  "BaseResolution.BooleanResolution": BooleanResolution,
-  "BaseResolution.DateTimeResolution": DateTimeResolution,
-  "BaseResolution.NumberResolution": NumberResolution,
-  "BaseResolution.OrdinalResolution": OrdinalResolution,
-  "BaseResolution.TemporalSpanResolution": TemporalSpanResolution,
-  "BaseResolution.NumericRangeResolution": NumericRangeResolution,
   "AnalyzeBatchAction.CustomEntityRecognition": CustomEntitiesLROTask,
   "AnalyzeBatchAction.CustomSingleLabelClassification": CustomSingleLabelClassificationLROTask,
   "AnalyzeBatchAction.CustomMultiLabelClassification": CustomMultiLabelClassificationLROTask,

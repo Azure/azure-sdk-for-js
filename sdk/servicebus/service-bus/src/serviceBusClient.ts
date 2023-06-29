@@ -372,6 +372,8 @@ export class ServiceBusClient {
       this._connectionContext,
       entityPath,
       receiveMode,
+      options?.skipParsingBodyAsJson ?? false,
+      options?.skipConvertingDate ?? false,
       this._clientOptions.retryOptions
     );
 
@@ -460,6 +462,8 @@ export class ServiceBusClient {
       this._connectionContext,
       entityPath,
       receiveMode,
+      options?.skipParsingBodyAsJson ?? false,
+      options?.skipConvertingDate ?? false,
       this._clientOptions.retryOptions
     );
 

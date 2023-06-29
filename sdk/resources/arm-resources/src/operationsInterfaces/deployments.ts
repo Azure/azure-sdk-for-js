@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DeploymentExtended,
   DeploymentsListAtScopeOptionalParams,
@@ -152,7 +152,7 @@ export interface Deployments {
     scope: string,
     deploymentName: string,
     options?: DeploymentsDeleteAtScopeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * A template deployment that is currently running cannot be deleted. Deleting a template deployment
    * removes the associated deployment operations. This is an asynchronous operation that returns a
@@ -194,8 +194,8 @@ export interface Deployments {
     parameters: Deployment,
     options?: DeploymentsCreateOrUpdateAtScopeOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DeploymentsCreateOrUpdateAtScopeResponse>,
+    SimplePollerLike<
+      OperationState<DeploymentsCreateOrUpdateAtScopeResponse>,
       DeploymentsCreateOrUpdateAtScopeResponse
     >
   >;
@@ -250,8 +250,8 @@ export interface Deployments {
     parameters: Deployment,
     options?: DeploymentsValidateAtScopeOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DeploymentsValidateAtScopeResponse>,
+    SimplePollerLike<
+      OperationState<DeploymentsValidateAtScopeResponse>,
       DeploymentsValidateAtScopeResponse
     >
   >;
@@ -294,7 +294,7 @@ export interface Deployments {
   beginDeleteAtTenantScope(
     deploymentName: string,
     options?: DeploymentsDeleteAtTenantScopeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * A template deployment that is currently running cannot be deleted. Deleting a template deployment
    * removes the associated deployment operations. This is an asynchronous operation that returns a
@@ -330,8 +330,8 @@ export interface Deployments {
     parameters: ScopedDeployment,
     options?: DeploymentsCreateOrUpdateAtTenantScopeOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DeploymentsCreateOrUpdateAtTenantScopeResponse>,
+    SimplePollerLike<
+      OperationState<DeploymentsCreateOrUpdateAtTenantScopeResponse>,
       DeploymentsCreateOrUpdateAtTenantScopeResponse
     >
   >;
@@ -378,8 +378,8 @@ export interface Deployments {
     parameters: ScopedDeployment,
     options?: DeploymentsValidateAtTenantScopeOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DeploymentsValidateAtTenantScopeResponse>,
+    SimplePollerLike<
+      OperationState<DeploymentsValidateAtTenantScopeResponse>,
       DeploymentsValidateAtTenantScopeResponse
     >
   >;
@@ -406,8 +406,8 @@ export interface Deployments {
     parameters: ScopedDeploymentWhatIf,
     options?: DeploymentsWhatIfAtTenantScopeOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DeploymentsWhatIfAtTenantScopeResponse>,
+    SimplePollerLike<
+      OperationState<DeploymentsWhatIfAtTenantScopeResponse>,
       DeploymentsWhatIfAtTenantScopeResponse
     >
   >;
@@ -447,7 +447,7 @@ export interface Deployments {
     groupId: string,
     deploymentName: string,
     options?: DeploymentsDeleteAtManagementGroupScopeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * A template deployment that is currently running cannot be deleted. Deleting a template deployment
    * removes the associated deployment operations. This is an asynchronous operation that returns a
@@ -489,10 +489,8 @@ export interface Deployments {
     parameters: ScopedDeployment,
     options?: DeploymentsCreateOrUpdateAtManagementGroupScopeOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        DeploymentsCreateOrUpdateAtManagementGroupScopeResponse
-      >,
+    SimplePollerLike<
+      OperationState<DeploymentsCreateOrUpdateAtManagementGroupScopeResponse>,
       DeploymentsCreateOrUpdateAtManagementGroupScopeResponse
     >
   >;
@@ -547,8 +545,8 @@ export interface Deployments {
     parameters: ScopedDeployment,
     options?: DeploymentsValidateAtManagementGroupScopeOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DeploymentsValidateAtManagementGroupScopeResponse>,
+    SimplePollerLike<
+      OperationState<DeploymentsValidateAtManagementGroupScopeResponse>,
       DeploymentsValidateAtManagementGroupScopeResponse
     >
   >;
@@ -580,8 +578,8 @@ export interface Deployments {
     parameters: ScopedDeploymentWhatIf,
     options?: DeploymentsWhatIfAtManagementGroupScopeOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DeploymentsWhatIfAtManagementGroupScopeResponse>,
+    SimplePollerLike<
+      OperationState<DeploymentsWhatIfAtManagementGroupScopeResponse>,
       DeploymentsWhatIfAtManagementGroupScopeResponse
     >
   >;
@@ -624,7 +622,7 @@ export interface Deployments {
   beginDeleteAtSubscriptionScope(
     deploymentName: string,
     options?: DeploymentsDeleteAtSubscriptionScopeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * A template deployment that is currently running cannot be deleted. Deleting a template deployment
    * removes the associated deployment operations. This is an asynchronous operation that returns a
@@ -660,8 +658,8 @@ export interface Deployments {
     parameters: Deployment,
     options?: DeploymentsCreateOrUpdateAtSubscriptionScopeOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DeploymentsCreateOrUpdateAtSubscriptionScopeResponse>,
+    SimplePollerLike<
+      OperationState<DeploymentsCreateOrUpdateAtSubscriptionScopeResponse>,
       DeploymentsCreateOrUpdateAtSubscriptionScopeResponse
     >
   >;
@@ -708,8 +706,8 @@ export interface Deployments {
     parameters: Deployment,
     options?: DeploymentsValidateAtSubscriptionScopeOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DeploymentsValidateAtSubscriptionScopeResponse>,
+    SimplePollerLike<
+      OperationState<DeploymentsValidateAtSubscriptionScopeResponse>,
       DeploymentsValidateAtSubscriptionScopeResponse
     >
   >;
@@ -736,8 +734,8 @@ export interface Deployments {
     parameters: DeploymentWhatIf,
     options?: DeploymentsWhatIfAtSubscriptionScopeOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DeploymentsWhatIfAtSubscriptionScopeResponse>,
+    SimplePollerLike<
+      OperationState<DeploymentsWhatIfAtSubscriptionScopeResponse>,
       DeploymentsWhatIfAtSubscriptionScopeResponse
     >
   >;
@@ -779,7 +777,7 @@ export interface Deployments {
     resourceGroupName: string,
     deploymentName: string,
     options?: DeploymentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * A template deployment that is currently running cannot be deleted. Deleting a template deployment
    * removes the associated deployment operations. Deleting a template deployment does not affect the
@@ -825,8 +823,8 @@ export interface Deployments {
     parameters: Deployment,
     options?: DeploymentsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DeploymentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DeploymentsCreateOrUpdateResponse>,
       DeploymentsCreateOrUpdateResponse
     >
   >;
@@ -883,8 +881,8 @@ export interface Deployments {
     parameters: Deployment,
     options?: DeploymentsValidateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DeploymentsValidateResponse>,
+    SimplePollerLike<
+      OperationState<DeploymentsValidateResponse>,
       DeploymentsValidateResponse
     >
   >;
@@ -917,8 +915,8 @@ export interface Deployments {
     parameters: DeploymentWhatIf,
     options?: DeploymentsWhatIfOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DeploymentsWhatIfResponse>,
+    SimplePollerLike<
+      OperationState<DeploymentsWhatIfResponse>,
       DeploymentsWhatIfResponse
     >
   >;

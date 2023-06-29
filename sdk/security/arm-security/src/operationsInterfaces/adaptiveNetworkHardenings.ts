@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AdaptiveNetworkHardening,
   AdaptiveNetworkHardeningsListByExtendedResourceOptionalParams,
@@ -73,7 +73,7 @@ export interface AdaptiveNetworkHardenings {
     adaptiveNetworkHardeningResourceName: string,
     body: AdaptiveNetworkHardeningEnforceRequest,
     options?: AdaptiveNetworkHardeningsEnforceOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Enforces the given rules on the NSG(s) listed in the request
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is

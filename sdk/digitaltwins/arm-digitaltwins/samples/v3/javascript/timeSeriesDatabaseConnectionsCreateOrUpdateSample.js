@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { AzureDigitalTwinsManagementClient } = require("@azure/arm-digitaltwins");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create or update a time series database connection.
  *
  * @summary Create or update a time series database connection.
- * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2022-10-31/examples/TimeSeriesDatabaseConnectionsPut_WithUserIdentity_example.json
+ * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2023-01-31/examples/TimeSeriesDatabaseConnectionsPut_WithUserIdentity_example.json
  */
 async function createOrReplaceATimeSeriesDatabaseConnectionForADigitalTwinsInstanceWithUserAssignedIdentity() {
-  const subscriptionId = "50016170-c839-41ba-a724-51e9df440b9e";
-  const resourceGroupName = "resRg";
+  const subscriptionId =
+    process.env["DIGITALTWINS_SUBSCRIPTION_ID"] || "50016170-c839-41ba-a724-51e9df440b9e";
+  const resourceGroupName = process.env["DIGITALTWINS_RESOURCE_GROUP"] || "resRg";
   const resourceName = "myDigitalTwinsService";
   const timeSeriesDatabaseConnectionName = "myConnection";
   const timeSeriesDatabaseConnectionDescription = {
@@ -52,33 +54,33 @@ async function createOrReplaceATimeSeriesDatabaseConnectionForADigitalTwinsInsta
   console.log(result);
 }
 
-createOrReplaceATimeSeriesDatabaseConnectionForADigitalTwinsInstanceWithUserAssignedIdentity().catch(
-  console.error
-);
-
 /**
  * This sample demonstrates how to Create or update a time series database connection.
  *
  * @summary Create or update a time series database connection.
- * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2022-10-31/examples/TimeSeriesDatabaseConnectionsPut_example.json
+ * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2023-01-31/examples/TimeSeriesDatabaseConnectionsPut_example.json
  */
 async function createOrReplaceATimeSeriesDatabaseConnectionForADigitalTwinsInstance() {
-  const subscriptionId = "50016170-c839-41ba-a724-51e9df440b9e";
-  const resourceGroupName = "resRg";
+  const subscriptionId =
+    process.env["DIGITALTWINS_SUBSCRIPTION_ID"] || "50016170-c839-41ba-a724-51e9df440b9e";
+  const resourceGroupName = process.env["DIGITALTWINS_RESOURCE_GROUP"] || "resRg";
   const resourceName = "myDigitalTwinsService";
   const timeSeriesDatabaseConnectionName = "myConnection";
   const timeSeriesDatabaseConnectionDescription = {
     properties: {
       adxDatabaseName: "myDatabase",
       adxEndpointUri: "https://mycluster.kusto.windows.net",
+      adxRelationshipLifecycleEventsTableName: "myRelationshipLifecycleEventsTable",
       adxResourceId:
         "/subscriptions/c493073e-2460-45ba-a403-f3e0df1e9feg/resourceGroups/testrg/providers/Microsoft.Kusto/clusters/mycluster",
-      adxTableName: "myTable",
+      adxTableName: "myPropertyUpdatesTable",
+      adxTwinLifecycleEventsTableName: "myTwinLifecycleEventsTable",
       connectionType: "AzureDataExplorer",
       eventHubEndpointUri: "sb://myeh.servicebus.windows.net/",
       eventHubEntityPath: "myeh",
       eventHubNamespaceResourceId:
         "/subscriptions/c493073e-2460-45ba-a403-f3e0df1e9feg/resourceGroups/testrg/providers/Microsoft.EventHub/namespaces/myeh",
+      recordPropertyAndItemRemovals: "true",
     },
   };
   const credential = new DefaultAzureCredential();
@@ -92,4 +94,9 @@ async function createOrReplaceATimeSeriesDatabaseConnectionForADigitalTwinsInsta
   console.log(result);
 }
 
-createOrReplaceATimeSeriesDatabaseConnectionForADigitalTwinsInstance().catch(console.error);
+async function main() {
+  createOrReplaceATimeSeriesDatabaseConnectionForADigitalTwinsInstanceWithUserAssignedIdentity();
+  createOrReplaceATimeSeriesDatabaseConnectionForADigitalTwinsInstance();
+}
+
+main().catch(console.error);

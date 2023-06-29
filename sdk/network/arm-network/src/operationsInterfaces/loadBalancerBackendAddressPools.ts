@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BackendAddressPool,
   LoadBalancerBackendAddressPoolsListOptionalParams,
@@ -61,8 +61,8 @@ export interface LoadBalancerBackendAddressPools {
     parameters: BackendAddressPool,
     options?: LoadBalancerBackendAddressPoolsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<LoadBalancerBackendAddressPoolsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<LoadBalancerBackendAddressPoolsCreateOrUpdateResponse>,
       LoadBalancerBackendAddressPoolsCreateOrUpdateResponse
     >
   >;
@@ -94,7 +94,7 @@ export interface LoadBalancerBackendAddressPools {
     loadBalancerName: string,
     backendAddressPoolName: string,
     options?: LoadBalancerBackendAddressPoolsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified load balancer backend address pool.
    * @param resourceGroupName The name of the resource group.

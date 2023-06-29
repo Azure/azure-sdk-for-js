@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SecurityInsights } = require("@azure/arm-securityinsight");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Updates setting.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/settings/UpdateEyesOnSetting.json
  */
 async function updateEyesOnSettings() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const settingsName = "EyesOn";
   const settings = {
@@ -37,4 +39,8 @@ async function updateEyesOnSettings() {
   console.log(result);
 }
 
-updateEyesOnSettings().catch(console.error);
+async function main() {
+  updateEyesOnSettings();
+}
+
+main().catch(console.error);

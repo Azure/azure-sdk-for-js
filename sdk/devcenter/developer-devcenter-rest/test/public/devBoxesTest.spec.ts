@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecordedClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
@@ -15,14 +15,14 @@ import {
 describe("DevCenter Dev Boxes Operations Test", () => {
   let recorder: Recorder;
   let client: AzureDevCenterClient;
-  let tenantId: string;
-  let devCenter: string;
+  let endpoint: string;
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
-    tenantId = env["DEVCENTER_TENANT_ID"] || "<tenant id>";
-    devCenter = env["DEFAULT_DEVCENTER_NAME"] || "sdk-default-devcenter";
-    client = createRecordedClient(recorder, tenantId, devCenter, {
+    endpoint =
+      env["DEVCENTER_ENDPOINT"] ||
+      "https://8ab2df1c-ed88-4946-a8a9-e1bbb3e4d1fd-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com";
+    client = createRecordedClient(recorder, endpoint, {
       allowInsecureConnection: false,
     });
   });
@@ -32,20 +32,13 @@ describe("DevCenter Dev Boxes Operations Test", () => {
   });
 
   it("Create dev box", async function () {
-    // Skip until test proxy recorder bug is fixed https://github.com/Azure/azure-sdk-for-js/issues/23420
-    if (isPlaybackMode()) {
-      this.skip();
-    }
-
     // Build client and fetch required parameters
-    const projectName = env["DEFAULT_PROJECT_NAME"] || "sdk-default-project";
-    const poolName = env["DEFAULT_POOL_NAME"] || "sdk-default-pool";
+    const projectName = env["DEFAULT_PROJECT_NAME"] || "sdk-project-hdhjgzht7tgyq";
+    const poolName = env["DEFAULT_POOL_NAME"] || "sdk-pool-bxwfu4kgo6dz6";
     const devBoxName = "SdkTestDevBox";
     const userId = "me";
 
-    console.log(
-      `Running test for ${tenantId} -- ${devCenter} -- ${projectName} -- ${poolName} -- ${devBoxName}`
-    );
+    console.log(`Running test for ${endpoint} -- ${projectName} -- ${poolName} -- ${devBoxName}`);
 
     const devBoxCreateParameters: DevBoxesCreateDevBoxParameters = {
       contentType: "application/json",

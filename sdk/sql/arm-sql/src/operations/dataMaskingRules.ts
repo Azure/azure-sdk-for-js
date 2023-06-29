@@ -185,7 +185,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.dataMaskingPolicyName,
     Parameters.dataMaskingRuleName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

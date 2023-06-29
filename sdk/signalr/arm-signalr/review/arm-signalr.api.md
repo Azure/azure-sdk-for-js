@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type ACLAction = string;
@@ -447,15 +447,15 @@ export type SharedPrivateLinkResourceStatus = string;
 
 // @public
 export interface SignalR {
-    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, parameters: SignalRResource, options?: SignalRCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SignalRCreateOrUpdateResponse>, SignalRCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, parameters: SignalRResource, options?: SignalRCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SignalRCreateOrUpdateResponse>, SignalRCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, parameters: SignalRResource, options?: SignalRCreateOrUpdateOptionalParams): Promise<SignalRCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, options?: SignalRDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, resourceName: string, options?: SignalRDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, resourceName: string, options?: SignalRDeleteOptionalParams): Promise<void>;
-    beginRegenerateKey(resourceGroupName: string, resourceName: string, parameters: RegenerateKeyParameters, options?: SignalRRegenerateKeyOptionalParams): Promise<PollerLike<PollOperationState<SignalRRegenerateKeyResponse>, SignalRRegenerateKeyResponse>>;
+    beginRegenerateKey(resourceGroupName: string, resourceName: string, parameters: RegenerateKeyParameters, options?: SignalRRegenerateKeyOptionalParams): Promise<SimplePollerLike<OperationState<SignalRRegenerateKeyResponse>, SignalRRegenerateKeyResponse>>;
     beginRegenerateKeyAndWait(resourceGroupName: string, resourceName: string, parameters: RegenerateKeyParameters, options?: SignalRRegenerateKeyOptionalParams): Promise<SignalRRegenerateKeyResponse>;
-    beginRestart(resourceGroupName: string, resourceName: string, options?: SignalRRestartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRestart(resourceGroupName: string, resourceName: string, options?: SignalRRestartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRestartAndWait(resourceGroupName: string, resourceName: string, options?: SignalRRestartOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, resourceName: string, parameters: SignalRResource, options?: SignalRUpdateOptionalParams): Promise<PollerLike<PollOperationState<SignalRUpdateResponse>, SignalRUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, resourceName: string, parameters: SignalRResource, options?: SignalRUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SignalRUpdateResponse>, SignalRUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, resourceName: string, parameters: SignalRResource, options?: SignalRUpdateOptionalParams): Promise<SignalRUpdateResponse>;
     checkNameAvailability(location: string, parameters: NameAvailabilityParameters, options?: SignalRCheckNameAvailabilityOptionalParams): Promise<SignalRCheckNameAvailabilityResponse>;
     get(resourceGroupName: string, resourceName: string, options?: SignalRGetOptionalParams): Promise<SignalRGetResponse>;
@@ -488,7 +488,7 @@ export type SignalRCreateOrUpdateResponse = SignalRResource;
 
 // @public
 export interface SignalRCustomCertificates {
-    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, certificateName: string, parameters: CustomCertificate, options?: SignalRCustomCertificatesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SignalRCustomCertificatesCreateOrUpdateResponse>, SignalRCustomCertificatesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, certificateName: string, parameters: CustomCertificate, options?: SignalRCustomCertificatesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SignalRCustomCertificatesCreateOrUpdateResponse>, SignalRCustomCertificatesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, certificateName: string, parameters: CustomCertificate, options?: SignalRCustomCertificatesCreateOrUpdateOptionalParams): Promise<SignalRCustomCertificatesCreateOrUpdateResponse>;
     delete(resourceGroupName: string, resourceName: string, certificateName: string, options?: SignalRCustomCertificatesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, resourceName: string, certificateName: string, options?: SignalRCustomCertificatesGetOptionalParams): Promise<SignalRCustomCertificatesGetResponse>;
@@ -531,9 +531,9 @@ export type SignalRCustomCertificatesListResponse = CustomCertificateList;
 
 // @public
 export interface SignalRCustomDomains {
-    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, name: string, parameters: CustomDomain, options?: SignalRCustomDomainsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SignalRCustomDomainsCreateOrUpdateResponse>, SignalRCustomDomainsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, name: string, parameters: CustomDomain, options?: SignalRCustomDomainsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SignalRCustomDomainsCreateOrUpdateResponse>, SignalRCustomDomainsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, name: string, parameters: CustomDomain, options?: SignalRCustomDomainsCreateOrUpdateOptionalParams): Promise<SignalRCustomDomainsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, name: string, options?: SignalRCustomDomainsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, resourceName: string, name: string, options?: SignalRCustomDomainsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, resourceName: string, name: string, options?: SignalRCustomDomainsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, resourceName: string, name: string, options?: SignalRCustomDomainsGetOptionalParams): Promise<SignalRCustomDomainsGetResponse>;
     list(resourceGroupName: string, resourceName: string, options?: SignalRCustomDomainsListOptionalParams): PagedAsyncIterableIterator<CustomDomain>;
@@ -690,7 +690,7 @@ export interface SignalRNetworkACLs {
 
 // @public
 export interface SignalRPrivateEndpointConnections {
-    beginDelete(privateEndpointConnectionName: string, resourceGroupName: string, resourceName: string, options?: SignalRPrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(privateEndpointConnectionName: string, resourceGroupName: string, resourceName: string, options?: SignalRPrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(privateEndpointConnectionName: string, resourceGroupName: string, resourceName: string, options?: SignalRPrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
     get(privateEndpointConnectionName: string, resourceGroupName: string, resourceName: string, options?: SignalRPrivateEndpointConnectionsGetOptionalParams): Promise<SignalRPrivateEndpointConnectionsGetResponse>;
     list(resourceGroupName: string, resourceName: string, options?: SignalRPrivateEndpointConnectionsListOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
@@ -804,9 +804,9 @@ export interface SignalRRestartOptionalParams extends coreClient.OperationOption
 
 // @public
 export interface SignalRSharedPrivateLinkResources {
-    beginCreateOrUpdate(sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, parameters: SharedPrivateLinkResource, options?: SignalRSharedPrivateLinkResourcesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse>, SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, parameters: SharedPrivateLinkResource, options?: SignalRSharedPrivateLinkResourcesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse>, SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, parameters: SharedPrivateLinkResource, options?: SignalRSharedPrivateLinkResourcesCreateOrUpdateOptionalParams): Promise<SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse>;
-    beginDelete(sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, options?: SignalRSharedPrivateLinkResourcesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, options?: SignalRSharedPrivateLinkResourcesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, options?: SignalRSharedPrivateLinkResourcesDeleteOptionalParams): Promise<void>;
     get(sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, options?: SignalRSharedPrivateLinkResourcesGetOptionalParams): Promise<SignalRSharedPrivateLinkResourcesGetResponse>;
     list(resourceGroupName: string, resourceName: string, options?: SignalRSharedPrivateLinkResourcesListOptionalParams): PagedAsyncIterableIterator<SharedPrivateLinkResource>;

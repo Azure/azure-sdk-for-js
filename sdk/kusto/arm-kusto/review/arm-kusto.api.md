@@ -165,7 +165,7 @@ export interface Cluster extends TrackedResource {
     readonly etag?: string;
     identity?: Identity;
     keyVaultProperties?: KeyVaultProperties;
-    readonly languageExtensions?: LanguageExtensionsList;
+    languageExtensions?: LanguageExtensionsList;
     optimizedAutoscale?: OptimizedAutoscale;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
@@ -456,7 +456,7 @@ export interface ClusterUpdate extends Resource {
     engineType?: EngineType;
     identity?: Identity;
     keyVaultProperties?: KeyVaultProperties;
-    readonly languageExtensions?: LanguageExtensionsList;
+    languageExtensions?: LanguageExtensionsList;
     location?: string;
     optimizedAutoscale?: OptimizedAutoscale;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
@@ -484,6 +484,20 @@ export interface ComponentsSgqdofSchemasIdentityPropertiesUserassignedidentities
 
 // @public
 export type Compression = string;
+
+// @public
+export interface CosmosDbDataConnection extends DataConnection {
+    cosmosDbAccountResourceId?: string;
+    cosmosDbContainer?: string;
+    cosmosDbDatabase?: string;
+    kind: "CosmosDb";
+    readonly managedIdentityObjectId?: string;
+    managedIdentityResourceId?: string;
+    mappingRuleName?: string;
+    readonly provisioningState?: ProvisioningState;
+    retrievalStartDate?: Date;
+    tableName?: string;
+}
 
 // @public
 export type CreatedByType = string;
@@ -794,7 +808,7 @@ export interface DataConnectionsUpdateOptionalParams extends coreClient.Operatio
 export type DataConnectionsUpdateResponse = DataConnectionUnion;
 
 // @public (undocumented)
-export type DataConnectionUnion = DataConnection | EventHubDataConnection | IotHubDataConnection | EventGridDataConnection;
+export type DataConnectionUnion = DataConnection | EventHubDataConnection | IotHubDataConnection | EventGridDataConnection | CosmosDbDataConnection;
 
 // @public
 export interface DataConnectionValidation {
@@ -1000,6 +1014,8 @@ export enum KnownAzureSkuName {
     StandardL16S = "Standard_L16s",
     StandardL16SV2 = "Standard_L16s_v2",
     StandardL16SV3 = "Standard_L16s_v3",
+    StandardL32AsV3 = "Standard_L32as_v3",
+    StandardL32SV3 = "Standard_L32s_v3",
     StandardL4S = "Standard_L4s",
     StandardL8AsV3 = "Standard_L8as_v3",
     StandardL8S = "Standard_L8s",
@@ -1083,6 +1099,7 @@ export enum KnownDatabaseShareOrigin {
 
 // @public
 export enum KnownDataConnectionKind {
+    CosmosDb = "CosmosDb",
     EventGrid = "EventGrid",
     EventHub = "EventHub",
     IotHub = "IotHub"
@@ -1176,6 +1193,16 @@ export enum KnownKind {
 }
 
 // @public
+export enum KnownLanguageExtensionImageName {
+    Python3108 = "Python3_10_8",
+    Python365 = "Python3_6_5",
+    Python3912 = "Python3_9_12",
+    Python3912IncludeDeepLearning = "Python3_9_12IncludeDeepLearning",
+    // (undocumented)
+    R = "R"
+}
+
+// @public
 export enum KnownLanguageExtensionName {
     Python = "PYTHON",
     // (undocumented)
@@ -1198,6 +1225,7 @@ export enum KnownPrincipalType {
 
 // @public
 export enum KnownProvisioningState {
+    Canceled = "Canceled",
     Creating = "Creating",
     Deleting = "Deleting",
     Failed = "Failed",
@@ -1279,6 +1307,8 @@ export class KustoManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     scripts: Scripts;
     // (undocumented)
+    skus: Skus;
+    // (undocumented)
     subscriptionId: string;
 }
 
@@ -1291,8 +1321,12 @@ export interface KustoManagementClientOptionalParams extends coreClient.ServiceC
 
 // @public
 export interface LanguageExtension {
+    languageExtensionImageName?: LanguageExtensionImageName;
     languageExtensionName?: LanguageExtensionName;
 }
+
+// @public
+export type LanguageExtensionImageName = string;
 
 // @public
 export type LanguageExtensionName = string;
@@ -1643,6 +1677,18 @@ export interface Resource {
 }
 
 // @public
+export interface ResourceSkuCapabilities {
+    readonly name?: string;
+    readonly value?: string;
+}
+
+// @public
+export interface ResourceSkuZoneDetails {
+    readonly capabilities?: ResourceSkuCapabilities[];
+    readonly name?: string[];
+}
+
+// @public
 export interface Script extends ProxyResource {
     continueOnErrors?: boolean;
     forceUpdateTag?: string;
@@ -1745,8 +1791,21 @@ export interface SkuDescriptionList {
 // @public
 export interface SkuLocationInfoItem {
     location: string;
+    zoneDetails?: ResourceSkuZoneDetails[];
     zones?: string[];
 }
+
+// @public
+export interface Skus {
+    list(location: string, options?: SkusListOptionalParams): PagedAsyncIterableIterator<SkuDescription>;
+}
+
+// @public
+export interface SkusListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SkusListResponse = SkuDescriptionList;
 
 // @public
 export type State = string;
@@ -1768,6 +1827,8 @@ export interface SystemData {
 export interface TableLevelSharingProperties {
     externalTablesToExclude?: string[];
     externalTablesToInclude?: string[];
+    functionsToExclude?: string[];
+    functionsToInclude?: string[];
     materializedViewsToExclude?: string[];
     materializedViewsToInclude?: string[];
     tablesToExclude?: string[];

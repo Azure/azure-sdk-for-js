@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { VMwareCloudSimple } = require("@azure/arm-vmwarecloudsimple");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Returns private cloud by its name
@@ -18,7 +19,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/vmwarecloudsimple/resource-manager/Microsoft.VMwareCloudSimple/stable/2019-04-01/examples/GetPrivateCloud.json
  */
 async function getPrivateCloud() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId = process.env["VMWARECLOUDSIMPLE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const pcName = "myPrivateCloud";
   const regionId = "westus2";
   const credential = new DefaultAzureCredential();
@@ -27,4 +28,8 @@ async function getPrivateCloud() {
   console.log(result);
 }
 
-getPrivateCloud().catch(console.error);
+async function main() {
+  getPrivateCloud();
+}
+
+main().catch(console.error);

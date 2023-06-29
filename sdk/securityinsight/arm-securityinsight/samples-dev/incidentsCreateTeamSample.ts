@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { TeamProperties, SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates a Microsoft team to investigate the incident by sharing information and insights between participants.
@@ -18,8 +21,12 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/incidents/CreateTeam.json
  */
 async function createsIncidentTeamsGroup() {
-  const subscriptionId = "9023f5b5-df22-4313-8fbf-b4b75af8a6d9";
-  const resourceGroupName = "ambawolvese5resourcegroup";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "9023f5b5-df22-4313-8fbf-b4b75af8a6d9";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] ||
+    "ambawolvese5resourcegroup";
   const workspaceName = "AmbaE5WestCentralUS";
   const incidentId = "69a30280-6a4c-4aa7-9af0-5d63f335d600";
   const teamProperties: TeamProperties = {
@@ -37,4 +44,8 @@ async function createsIncidentTeamsGroup() {
   console.log(result);
 }
 
-createsIncidentTeamsGroup().catch(console.error);
+async function main() {
+  createsIncidentTeamsGroup();
+}
+
+main().catch(console.error);

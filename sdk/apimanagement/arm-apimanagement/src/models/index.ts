@@ -1054,7 +1054,7 @@ export interface KeyVaultLastAccessStatusContractProperties {
 export interface KeyVaultContractCreateProperties {
   /** Key vault secret identifier for fetching secret. Providing a versioned secret will prevent auto-refresh. This requires API Management service to be configured with aka.ms/apimmsi */
   secretIdentifier?: string;
-  /** SystemAssignedIdentity or UserAssignedIdentity Client Id which will be used to access key vault secret. */
+  /** Null for SystemAssignedIdentity or Client Id for UserAssignedIdentity , which will be used to access key vault secret. */
   identityClientId?: string;
 }
 
@@ -2506,6 +2506,22 @@ export interface RequestReportRecordContract {
   requestSize?: number;
 }
 
+/** The response of the list schema operation. */
+export interface GlobalSchemaCollection {
+  /**
+   * Global Schema Contract value.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: GlobalSchemaContract[];
+  /** Total record count number. */
+  count?: number;
+  /**
+   * Next page link if any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
 /** Paged AccessInformation list representation. */
 export interface TenantSettingsCollection {
   /**
@@ -3109,15 +3125,15 @@ export interface ProductContract extends Resource {
   displayName?: string;
 }
 
-/** Schema Contract details. */
+/** API Schema Contract details. */
 export interface SchemaContract extends Resource {
   /** Must be a valid a media type used in a Content-Type header as defined in the RFC 2616. Media type of the schema document (e.g. application/json, application/xml). </br> - `Swagger` Schema use `application/vnd.ms-azure-apim.swagger.definitions+json` </br> - `WSDL` Schema use `application/vnd.ms-azure-apim.xsd+xml` </br> - `OpenApi` Schema use `application/vnd.oai.openapi.components+json` </br> - `WADL Schema` use `application/vnd.ms-azure-apim.wadl.grammars+xml`. */
   contentType?: string;
   /** Json escaped string defining the document representing the Schema. Used for schemas other than Swagger/OpenAPI. */
   value?: string;
-  /** Types definitions. Used for OpenAPI v2 (Swagger) schemas only, null otherwise. */
+  /** Types definitions. Used for Swagger/OpenAPI v1 schemas only, null otherwise. */
   definitions?: Record<string, unknown>;
-  /** Types definitions. Used for OpenAPI v3 schemas only, null otherwise. */
+  /** Types definitions. Used for Swagger/OpenAPI v2/v3 schemas only, null otherwise. */
   components?: Record<string, unknown>;
 }
 
@@ -3141,6 +3157,8 @@ export interface DiagnosticContract extends Resource {
   verbosity?: Verbosity;
   /** The format of the Operation Name for Application Insights telemetries. Default is Name. */
   operationNameFormat?: OperationNameFormat;
+  /** Emit custom metrics via emit-metric policy. Applicable only to Application Insights diagnostic settings. */
+  metrics?: boolean;
 }
 
 /** Issue Contract details. */
@@ -3753,6 +3771,18 @@ export interface SubscriptionContract extends Resource {
   stateComment?: string;
   /** Determines whether tracing is enabled */
   allowTracing?: boolean;
+}
+
+/** Global Schema Contract details. */
+export interface GlobalSchemaContract extends Resource {
+  /** Schema Type. Immutable. */
+  schemaType?: SchemaType;
+  /** Free-form schema entity description. */
+  description?: string;
+  /** Json-encoded string for non json-based schema. */
+  value?: any;
+  /** Global Schema document object for json-based schema formats(e.g. json schema). */
+  document?: Record<string, unknown>;
 }
 
 /** Tenant Settings. */
@@ -5174,6 +5204,24 @@ export interface ProductPolicyCreateOrUpdateHeaders {
   eTag?: string;
 }
 
+/** Defines headers for GlobalSchema_getEntityTag operation. */
+export interface GlobalSchemaGetEntityTagHeaders {
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+}
+
+/** Defines headers for GlobalSchema_get operation. */
+export interface GlobalSchemaGetHeaders {
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+}
+
+/** Defines headers for GlobalSchema_createOrUpdate operation. */
+export interface GlobalSchemaCreateOrUpdateHeaders {
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+}
+
 /** Defines headers for TenantSettings_get operation. */
 export interface TenantSettingsGetHeaders {
   /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
@@ -6464,6 +6512,24 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
  */
 export type PrivateEndpointConnectionProvisioningState = string;
 
+/** Known values of {@link SchemaType} that the service accepts. */
+export enum KnownSchemaType {
+  /** Xml schema type. */
+  Xml = "xml",
+  /** Json schema type. */
+  Json = "json"
+}
+
+/**
+ * Defines values for SchemaType. \
+ * {@link KnownSchemaType} can be used interchangeably with SchemaType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **xml**: Xml schema type. \
+ * **json**: Json schema type.
+ */
+export type SchemaType = string;
+
 /** Known values of {@link SettingsTypeName} that the service accepts. */
 export enum KnownSettingsTypeName {
   /** Public */
@@ -6670,34 +6736,14 @@ export type ApiListByTagsResponse = TagResourceCollection;
 
 /** Optional parameters. */
 export interface ApiListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| serviceUrl | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| path | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| isCurrent | filter | eq, ne |  |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-  /** Include tags in the response. */
-  tags?: string;
-  /** Include full ApiVersionSet resource in response */
-  expandApiVersionSet?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type ApiListByServiceNextResponse = ApiCollection;
 
 /** Optional parameters. */
 export interface ApiListByTagsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| apiRevision | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| path | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| serviceUrl | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| isCurrent | filter | eq |     |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-  /** Include not tagged APIs. */
-  includeNotTaggedApis?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByTagsNext operation. */
 export type ApiListByTagsNextResponse = TagResourceCollection;
@@ -6718,14 +6764,7 @@ export type ApiRevisionListByServiceResponse = ApiRevisionCollection;
 
 /** Optional parameters. */
 export interface ApiRevisionListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| apiRevision | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type ApiRevisionListByServiceNextResponse = ApiRevisionCollection;
@@ -6783,14 +6822,7 @@ export interface ApiReleaseDeleteOptionalParams
 
 /** Optional parameters. */
 export interface ApiReleaseListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| notes | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type ApiReleaseListByServiceNextResponse = ApiReleaseCollection;
@@ -6851,16 +6883,7 @@ export interface ApiOperationDeleteOptionalParams
 
 /** Optional parameters. */
 export interface ApiOperationListByApiNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| method | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| urlTemplate | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-  /** Include tags in the response. */
-  tags?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByApiNext operation. */
 export type ApiOperationListByApiNextResponse = OperationCollection;
@@ -7072,58 +7095,28 @@ export interface TagDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface TagListByOperationNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByOperationNext operation. */
 export type TagListByOperationNextResponse = TagCollection;
 
 /** Optional parameters. */
 export interface TagListByApiNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByApiNext operation. */
 export type TagListByApiNextResponse = TagCollection;
 
 /** Optional parameters. */
 export interface TagListByProductNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByProductNext operation. */
 export type TagListByProductNextResponse = TagCollection;
 
 /** Optional parameters. */
 export interface TagListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-  /** Scope like 'apis', 'products' or 'apis/{apiId} */
-  scope?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type TagListByServiceNextResponse = TagCollection;
@@ -7144,14 +7137,7 @@ export type ApiProductListByApisResponse = ProductCollection;
 
 /** Optional parameters. */
 export interface ApiProductListByApisNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByApisNext operation. */
 export type ApiProductListByApisNextResponse = ProductCollection;
@@ -7247,14 +7233,7 @@ export interface ApiSchemaDeleteOptionalParams
 
 /** Optional parameters. */
 export interface ApiSchemaListByApiNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| contentType | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByApiNext operation. */
 export type ApiSchemaListByApiNextResponse = SchemaCollection;
@@ -7313,14 +7292,7 @@ export interface ApiDiagnosticDeleteOptionalParams
 
 /** Optional parameters. */
 export interface ApiDiagnosticListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type ApiDiagnosticListByServiceNextResponse = DiagnosticCollection;
@@ -7381,16 +7353,7 @@ export interface ApiIssueDeleteOptionalParams
 
 /** Optional parameters. */
 export interface ApiIssueListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| userId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| state | filter | eq |     |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-  /** Expand the comment attachments. */
-  expandCommentsAttachments?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type ApiIssueListByServiceNextResponse = IssueCollection;
@@ -7441,14 +7404,7 @@ export interface ApiIssueCommentDeleteOptionalParams
 
 /** Optional parameters. */
 export interface ApiIssueCommentListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| userId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type ApiIssueCommentListByServiceNextResponse = IssueCommentCollection;
@@ -7499,14 +7455,7 @@ export interface ApiIssueAttachmentDeleteOptionalParams
 
 /** Optional parameters. */
 export interface ApiIssueAttachmentListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| userId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type ApiIssueAttachmentListByServiceNextResponse = IssueAttachmentCollection;
@@ -7557,14 +7506,7 @@ export interface ApiTagDescriptionDeleteOptionalParams
 
 /** Optional parameters. */
 export interface ApiTagDescriptionListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type ApiTagDescriptionListByServiceNextResponse = TagDescriptionCollection;
@@ -7587,16 +7529,7 @@ export type OperationListByTagsResponse = TagResourceCollection;
 
 /** Optional parameters. */
 export interface OperationListByTagsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| apiName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| method | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| urlTemplate | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-  /** Include not tagged Operations. */
-  includeNotTaggedOperations?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByTagsNext operation. */
 export type OperationListByTagsNextResponse = TagResourceCollection;
@@ -7662,14 +7595,7 @@ export interface ApiVersionSetDeleteOptionalParams
 
 /** Optional parameters. */
 export interface ApiVersionSetListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type ApiVersionSetListByServiceNextResponse = ApiVersionSetCollection;
@@ -7736,14 +7662,7 @@ export type AuthorizationServerListSecretsResponse = AuthorizationServerListSecr
 
 /** Optional parameters. */
 export interface AuthorizationServerListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type AuthorizationServerListByServiceNextResponse = AuthorizationServerCollection;
@@ -7806,14 +7725,7 @@ export interface BackendReconnectOptionalParams
 
 /** Optional parameters. */
 export interface BackendListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| title | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| url | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type BackendListByServiceNextResponse = BackendCollection;
@@ -7867,12 +7779,7 @@ export interface CacheDeleteOptionalParams
 
 /** Optional parameters. */
 export interface CacheListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type CacheListByServiceNextResponse = CacheCollection;
@@ -7933,16 +7840,7 @@ export type CertificateRefreshSecretResponse = CertificateRefreshSecretHeaders &
 
 /** Optional parameters. */
 export interface CertificateListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| subject | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| thumbprint | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| expirationDate | filter | ge, le, eq, ne, gt, lt |     |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-  /** When set to true, the response contains only certificates entities which failed refresh. */
-  isKeyVaultRefreshFailed?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type CertificateListByServiceNextResponse = CertificateCollection;
@@ -8278,14 +8176,7 @@ export interface DiagnosticDeleteOptionalParams
 
 /** Optional parameters. */
 export interface DiagnosticListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type DiagnosticListByServiceNextResponse = DiagnosticCollection;
@@ -8343,14 +8234,7 @@ export interface EmailTemplateDeleteOptionalParams
 
 /** Optional parameters. */
 export interface EmailTemplateListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type EmailTemplateListByServiceNextResponse = EmailTemplateCollection;
@@ -8425,14 +8309,7 @@ export type GatewayGenerateTokenResponse = GatewayTokenContract;
 
 /** Optional parameters. */
 export interface GatewayListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| region | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type GatewayListByServiceNextResponse = GatewayCollection;
@@ -8483,14 +8360,7 @@ export interface GatewayHostnameConfigurationDeleteOptionalParams
 
 /** Optional parameters. */
 export interface GatewayHostnameConfigurationListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| hostname | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type GatewayHostnameConfigurationListByServiceNextResponse = GatewayHostnameConfigurationCollection;
@@ -8532,14 +8402,7 @@ export interface GatewayApiDeleteOptionalParams
 
 /** Optional parameters. */
 export interface GatewayApiListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type GatewayApiListByServiceNextResponse = ApiCollection;
@@ -8590,14 +8453,7 @@ export interface GatewayCertificateAuthorityDeleteOptionalParams
 
 /** Optional parameters. */
 export interface GatewayCertificateAuthorityListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | eq, ne |  |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type GatewayCertificateAuthorityListByServiceNextResponse = GatewayCertificateAuthorityCollection;
@@ -8653,14 +8509,7 @@ export interface GroupDeleteOptionalParams
 
 /** Optional parameters. */
 export interface GroupListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| externalId | filter | eq |     |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type GroupListByServiceNextResponse = GroupCollection;
@@ -8701,14 +8550,7 @@ export interface GroupUserDeleteOptionalParams
 
 /** Optional parameters. */
 export interface GroupUserListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| firstName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| lastName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| email | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| registrationDate | filter | ge, le, eq, ne, gt, lt |     |</br>| note | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type GroupUserListNextResponse = UserCollection;
@@ -8795,14 +8637,7 @@ export type IssueGetResponse = IssueGetHeaders & IssueContract;
 
 /** Optional parameters. */
 export interface IssueListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| apiId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| title | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| authorName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| state | filter | eq |     |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type IssueListByServiceNextResponse = IssueCollection;
@@ -8858,14 +8693,7 @@ export interface LoggerDeleteOptionalParams
 
 /** Optional parameters. */
 export interface LoggerListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| loggerType | filter | eq |     |</br>| resourceId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type LoggerListByServiceNextResponse = LoggerCollection;
@@ -8955,16 +8783,7 @@ export type NamedValueRefreshSecretResponse = NamedValueRefreshSecretHeaders &
 
 /** Optional parameters. */
 export interface NamedValueListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| tags | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith, any, all |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-  /** When set to true, the response contains only named value entities which failed refresh. */
-  isKeyVaultRefreshFailed?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type NamedValueListByServiceNextResponse = NamedValueCollection;
@@ -9014,12 +8833,7 @@ export type NotificationCreateOrUpdateResponse = NotificationContract;
 
 /** Optional parameters. */
 export interface NotificationListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type NotificationListByServiceNextResponse = NotificationCollection;
@@ -9140,14 +8954,7 @@ export type OpenIdConnectProviderListSecretsResponse = OpenIdConnectProviderList
 
 /** Optional parameters. */
 export interface OpenIdConnectProviderListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type OpenIdConnectProviderListByServiceNextResponse = OpenIdConnectProviderCollection;
@@ -9272,22 +9079,7 @@ export type PortalRevisionUpdateResponse = PortalRevisionUpdateHeaders &
 
 /** Optional parameters. */
 export interface PortalRevisionListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /**
-   * | Field       | Supported operators    | Supported functions               |
-   * |-------------|------------------------|-----------------------------------|
-   *
-   * |name | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith|
-   * |description | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith|
-   * |isCurrent | eq, ne |    |
-   *
-   */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type PortalRevisionListByServiceNextResponse = PortalRevisionCollection;
@@ -9516,34 +9308,14 @@ export type ProductListByTagsResponse = TagResourceCollection;
 
 /** Optional parameters. */
 export interface ProductListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| terms | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| state | filter | eq |     |</br>| groups | expand |     |     |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-  /** Products which are part of a specific tag. */
-  tags?: string;
-  /** When set to true, the response contains an array of groups that have visibility to the product. The default is false. */
-  expandGroups?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type ProductListByServiceNextResponse = ProductCollection;
 
 /** Optional parameters. */
 export interface ProductListByTagsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| terms | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| state | filter | eq | substringof, contains, startswith, endswith |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-  /** Include not tagged Products. */
-  includeNotTaggedProducts?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByTagsNext operation. */
 export type ProductListByTagsNextResponse = TagResourceCollection;
@@ -9584,14 +9356,7 @@ export interface ProductApiDeleteOptionalParams
 
 /** Optional parameters. */
 export interface ProductApiListByProductNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| serviceUrl | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| path | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByProductNext operation. */
 export type ProductApiListByProductNextResponse = ApiCollection;
@@ -9632,14 +9397,7 @@ export interface ProductGroupDeleteOptionalParams
 
 /** Optional parameters. */
 export interface ProductGroupListByProductNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt |     |</br>| displayName | filter | eq, ne |     |</br>| description | filter | eq, ne |     |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByProductNext operation. */
 export type ProductGroupListByProductNextResponse = GroupCollection;
@@ -9660,14 +9418,7 @@ export type ProductSubscriptionsListResponse = SubscriptionCollection;
 
 /** Optional parameters. */
 export interface ProductSubscriptionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| stateComment | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| ownerId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| scope | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| userId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| productId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| state | filter | eq |     |</br>| user | expand |     |     |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ProductSubscriptionsListNextResponse = SubscriptionCollection;
@@ -9863,99 +9614,107 @@ export type ReportsListByRequestResponse = RequestReportCollection;
 
 /** Optional parameters. */
 export interface ReportsListByApiNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-  /** OData order by query option. */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByApiNext operation. */
 export type ReportsListByApiNextResponse = ReportCollection;
 
 /** Optional parameters. */
 export interface ReportsListByUserNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-  /** OData order by query option. */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByUserNext operation. */
 export type ReportsListByUserNextResponse = ReportCollection;
 
 /** Optional parameters. */
 export interface ReportsListByOperationNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-  /** OData order by query option. */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByOperationNext operation. */
 export type ReportsListByOperationNextResponse = ReportCollection;
 
 /** Optional parameters. */
 export interface ReportsListByProductNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-  /** OData order by query option. */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByProductNext operation. */
 export type ReportsListByProductNextResponse = ReportCollection;
 
 /** Optional parameters. */
 export interface ReportsListByGeoNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByGeoNext operation. */
 export type ReportsListByGeoNextResponse = ReportCollection;
 
 /** Optional parameters. */
 export interface ReportsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-  /** OData order by query option. */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type ReportsListBySubscriptionNextResponse = ReportCollection;
 
 /** Optional parameters. */
 export interface ReportsListByTimeNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByTimeNext operation. */
+export type ReportsListByTimeNextResponse = ReportCollection;
+
+/** Optional parameters. */
+export interface GlobalSchemaListByServiceOptionalParams
   extends coreClient.OperationOptions {
+  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
+  filter?: string;
   /** Number of records to return. */
   top?: number;
   /** Number of records to skip. */
   skip?: number;
-  /** OData order by query option. */
-  orderby?: string;
 }
 
-/** Contains response data for the listByTimeNext operation. */
-export type ReportsListByTimeNextResponse = ReportCollection;
+/** Contains response data for the listByService operation. */
+export type GlobalSchemaListByServiceResponse = GlobalSchemaCollection;
+
+/** Optional parameters. */
+export interface GlobalSchemaGetEntityTagOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getEntityTag operation. */
+export type GlobalSchemaGetEntityTagResponse = GlobalSchemaGetEntityTagHeaders;
+
+/** Optional parameters. */
+export interface GlobalSchemaGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GlobalSchemaGetResponse = GlobalSchemaGetHeaders &
+  GlobalSchemaContract;
+
+/** Optional parameters. */
+export interface GlobalSchemaCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
+  ifMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type GlobalSchemaCreateOrUpdateResponse = GlobalSchemaCreateOrUpdateHeaders &
+  GlobalSchemaContract;
+
+/** Optional parameters. */
+export interface GlobalSchemaDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface GlobalSchemaListByServiceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServiceNext operation. */
+export type GlobalSchemaListByServiceNextResponse = GlobalSchemaCollection;
 
 /** Optional parameters. */
 export interface TenantSettingsListByServiceOptionalParams
@@ -9977,10 +9736,7 @@ export type TenantSettingsGetResponse = TenantSettingsGetHeaders &
 
 /** Optional parameters. */
 export interface TenantSettingsListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Not used */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type TenantSettingsListByServiceNextResponse = TenantSettingsCollection;
@@ -10086,14 +9842,7 @@ export type SubscriptionListSecretsResponse = SubscriptionListSecretsHeaders &
 
 /** Optional parameters. */
 export interface SubscriptionListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| stateComment | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| ownerId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| scope | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| userId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| productId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| state | filter | eq |     |</br>| user | expand |     |     |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SubscriptionListNextResponse = SubscriptionCollection;
@@ -10114,14 +9863,7 @@ export type TagResourceListByServiceResponse = TagResourceCollection;
 
 /** Optional parameters. */
 export interface TagResourceListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| aid | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| apiName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| apiRevision | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| path | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| serviceUrl | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| method | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| urlTemplate | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| terms | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| state | filter | eq |     |</br>| isCurrent | filter | eq |     |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type TagResourceListByServiceNextResponse = TagResourceCollection;
@@ -10185,10 +9927,7 @@ export type TenantAccessListSecretsResponse = TenantAccessListSecretsHeaders &
 
 /** Optional parameters. */
 export interface TenantAccessListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Not used */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type TenantAccessListByServiceNextResponse = AccessInformationCollection;
@@ -10318,16 +10057,7 @@ export type UserGetSharedAccessTokenResponse = UserTokenResult;
 
 /** Optional parameters. */
 export interface UserListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| firstName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| lastName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| email | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| state | filter | eq |     |</br>| registrationDate | filter | ge, le, eq, ne, gt, lt |     |</br>| note | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| groups | expand |     |     |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-  /** Detailed Group in response. */
-  expandGroups?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type UserListByServiceNextResponse = UserCollection;
@@ -10348,14 +10078,7 @@ export type UserGroupListResponse = GroupCollection;
 
 /** Optional parameters. */
 export interface UserGroupListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|------------------------|-----------------------------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type UserGroupListNextResponse = GroupCollection;
@@ -10384,14 +10107,7 @@ export type UserSubscriptionGetResponse = UserSubscriptionGetHeaders &
 
 /** Optional parameters. */
 export interface UserSubscriptionListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** | Field     |     Usage     |     Supported operators    | Supported functions               |</br>|-------------|------------------------|-----------------------------------|</br>|name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>|displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>|stateComment | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>|ownerId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>|scope | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>|userId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>|productId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type UserSubscriptionListNextResponse = SubscriptionCollection;

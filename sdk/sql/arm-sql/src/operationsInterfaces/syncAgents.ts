@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SyncAgent,
   SyncAgentsListByServerOptionalParams,
@@ -81,8 +81,8 @@ export interface SyncAgents {
     parameters: SyncAgent,
     options?: SyncAgentsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SyncAgentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SyncAgentsCreateOrUpdateResponse>,
       SyncAgentsCreateOrUpdateResponse
     >
   >;
@@ -115,7 +115,7 @@ export interface SyncAgents {
     serverName: string,
     syncAgentName: string,
     options?: SyncAgentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a sync agent.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

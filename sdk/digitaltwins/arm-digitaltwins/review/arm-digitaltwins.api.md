@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type AuthenticationType = string;
@@ -17,13 +17,16 @@ export type AuthenticationType = string;
 export interface AzureDataExplorerConnectionProperties extends TimeSeriesDatabaseConnectionProperties {
     adxDatabaseName: string;
     adxEndpointUri: string;
+    adxRelationshipLifecycleEventsTableName?: string;
     adxResourceId: string;
     adxTableName?: string;
+    adxTwinLifecycleEventsTableName?: string;
     connectionType: "AzureDataExplorer";
     eventHubConsumerGroup?: string;
     eventHubEndpointUri: string;
     eventHubEntityPath: string;
     eventHubNamespaceResourceId: string;
+    recordPropertyAndItemRemovals?: RecordPropertyAndItemRemovals;
 }
 
 // @public (undocumented)
@@ -70,6 +73,9 @@ export interface CheckNameResult {
 }
 
 // @public
+export type CleanupConnectionArtifacts = string;
+
+// @public
 export interface ConnectionProperties {
     groupIds?: string[];
     privateEndpoint?: PrivateEndpoint;
@@ -99,11 +105,11 @@ export type CreatedByType = string;
 
 // @public
 export interface DigitalTwins {
-    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, digitalTwinsCreate: DigitalTwinsDescription, options?: DigitalTwinsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DigitalTwinsCreateOrUpdateResponse>, DigitalTwinsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, digitalTwinsCreate: DigitalTwinsDescription, options?: DigitalTwinsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DigitalTwinsCreateOrUpdateResponse>, DigitalTwinsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, digitalTwinsCreate: DigitalTwinsDescription, options?: DigitalTwinsCreateOrUpdateOptionalParams): Promise<DigitalTwinsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, options?: DigitalTwinsDeleteOptionalParams): Promise<PollerLike<PollOperationState<DigitalTwinsDeleteResponse>, DigitalTwinsDeleteResponse>>;
+    beginDelete(resourceGroupName: string, resourceName: string, options?: DigitalTwinsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<DigitalTwinsDeleteResponse>, DigitalTwinsDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, resourceName: string, options?: DigitalTwinsDeleteOptionalParams): Promise<DigitalTwinsDeleteResponse>;
-    beginUpdate(resourceGroupName: string, resourceName: string, digitalTwinsPatchDescription: DigitalTwinsPatchDescription, options?: DigitalTwinsUpdateOptionalParams): Promise<PollerLike<PollOperationState<DigitalTwinsUpdateResponse>, DigitalTwinsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, resourceName: string, digitalTwinsPatchDescription: DigitalTwinsPatchDescription, options?: DigitalTwinsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DigitalTwinsUpdateResponse>, DigitalTwinsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, resourceName: string, digitalTwinsPatchDescription: DigitalTwinsPatchDescription, options?: DigitalTwinsUpdateOptionalParams): Promise<DigitalTwinsUpdateResponse>;
     checkNameAvailability(location: string, digitalTwinsInstanceCheckName: CheckNameRequest, options?: DigitalTwinsCheckNameAvailabilityOptionalParams): Promise<DigitalTwinsCheckNameAvailabilityResponse>;
     get(resourceGroupName: string, resourceName: string, options?: DigitalTwinsGetOptionalParams): Promise<DigitalTwinsGetResponse>;
@@ -154,9 +160,9 @@ export interface DigitalTwinsDescriptionListResult {
 
 // @public
 export interface DigitalTwinsEndpoint {
-    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, endpointName: string, endpointDescription: DigitalTwinsEndpointResource, options?: DigitalTwinsEndpointCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DigitalTwinsEndpointCreateOrUpdateResponse>, DigitalTwinsEndpointCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, endpointName: string, endpointDescription: DigitalTwinsEndpointResource, options?: DigitalTwinsEndpointCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DigitalTwinsEndpointCreateOrUpdateResponse>, DigitalTwinsEndpointCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, endpointName: string, endpointDescription: DigitalTwinsEndpointResource, options?: DigitalTwinsEndpointCreateOrUpdateOptionalParams): Promise<DigitalTwinsEndpointCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, endpointName: string, options?: DigitalTwinsEndpointDeleteOptionalParams): Promise<PollerLike<PollOperationState<DigitalTwinsEndpointDeleteResponse>, DigitalTwinsEndpointDeleteResponse>>;
+    beginDelete(resourceGroupName: string, resourceName: string, endpointName: string, options?: DigitalTwinsEndpointDeleteOptionalParams): Promise<SimplePollerLike<OperationState<DigitalTwinsEndpointDeleteResponse>, DigitalTwinsEndpointDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, resourceName: string, endpointName: string, options?: DigitalTwinsEndpointDeleteOptionalParams): Promise<DigitalTwinsEndpointDeleteResponse>;
     get(resourceGroupName: string, resourceName: string, endpointName: string, options?: DigitalTwinsEndpointGetOptionalParams): Promise<DigitalTwinsEndpointGetResponse>;
     list(resourceGroupName: string, resourceName: string, options?: DigitalTwinsEndpointListOptionalParams): PagedAsyncIterableIterator<DigitalTwinsEndpointResource>;
@@ -386,6 +392,12 @@ export enum KnownAuthenticationType {
 }
 
 // @public
+export enum KnownCleanupConnectionArtifacts {
+    False = "false",
+    True = "true"
+}
+
+// @public
 export enum KnownConnectionPropertiesProvisioningState {
     Approved = "Approved",
     Disconnected = "Disconnected",
@@ -479,6 +491,12 @@ export enum KnownReason {
 }
 
 // @public
+export enum KnownRecordPropertyAndItemRemovals {
+    False = "false",
+    True = "true"
+}
+
+// @public
 export enum KnownTimeSeriesDatabaseConnectionState {
     Canceled = "Canceled",
     Deleted = "Deleted",
@@ -560,9 +578,9 @@ export interface PrivateEndpointConnection {
 
 // @public
 export interface PrivateEndpointConnections {
-    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>, PrivateEndpointConnectionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>, PrivateEndpointConnectionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
     list(resourceGroupName: string, resourceName: string, options?: PrivateEndpointConnectionsListOptionalParams): Promise<PrivateEndpointConnectionsListResponse>;
@@ -635,6 +653,9 @@ export type PublicNetworkAccess = string;
 export type Reason = string;
 
 // @public
+export type RecordPropertyAndItemRemovals = string;
+
+// @public
 export interface ServiceBus extends DigitalTwinsEndpointResourceProperties {
     endpointType: "ServiceBus";
     endpointUri?: string;
@@ -676,9 +697,9 @@ export type TimeSeriesDatabaseConnectionPropertiesUnion = TimeSeriesDatabaseConn
 
 // @public
 export interface TimeSeriesDatabaseConnections {
-    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, timeSeriesDatabaseConnectionName: string, timeSeriesDatabaseConnectionDescription: TimeSeriesDatabaseConnection, options?: TimeSeriesDatabaseConnectionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<TimeSeriesDatabaseConnectionsCreateOrUpdateResponse>, TimeSeriesDatabaseConnectionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, timeSeriesDatabaseConnectionName: string, timeSeriesDatabaseConnectionDescription: TimeSeriesDatabaseConnection, options?: TimeSeriesDatabaseConnectionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<TimeSeriesDatabaseConnectionsCreateOrUpdateResponse>, TimeSeriesDatabaseConnectionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, timeSeriesDatabaseConnectionName: string, timeSeriesDatabaseConnectionDescription: TimeSeriesDatabaseConnection, options?: TimeSeriesDatabaseConnectionsCreateOrUpdateOptionalParams): Promise<TimeSeriesDatabaseConnectionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, timeSeriesDatabaseConnectionName: string, options?: TimeSeriesDatabaseConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<TimeSeriesDatabaseConnectionsDeleteResponse>, TimeSeriesDatabaseConnectionsDeleteResponse>>;
+    beginDelete(resourceGroupName: string, resourceName: string, timeSeriesDatabaseConnectionName: string, options?: TimeSeriesDatabaseConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<TimeSeriesDatabaseConnectionsDeleteResponse>, TimeSeriesDatabaseConnectionsDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, resourceName: string, timeSeriesDatabaseConnectionName: string, options?: TimeSeriesDatabaseConnectionsDeleteOptionalParams): Promise<TimeSeriesDatabaseConnectionsDeleteResponse>;
     get(resourceGroupName: string, resourceName: string, timeSeriesDatabaseConnectionName: string, options?: TimeSeriesDatabaseConnectionsGetOptionalParams): Promise<TimeSeriesDatabaseConnectionsGetResponse>;
     list(resourceGroupName: string, resourceName: string, options?: TimeSeriesDatabaseConnectionsListOptionalParams): PagedAsyncIterableIterator<TimeSeriesDatabaseConnection>;
@@ -695,6 +716,7 @@ export type TimeSeriesDatabaseConnectionsCreateOrUpdateResponse = TimeSeriesData
 
 // @public
 export interface TimeSeriesDatabaseConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
+    cleanupConnectionArtifacts?: CleanupConnectionArtifacts;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }

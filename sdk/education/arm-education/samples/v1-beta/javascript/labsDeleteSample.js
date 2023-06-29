@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { EducationManagementClient } = require("@azure/arm-education");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Delete a specific lab associated with the provided billing account name, billing profile name, and invoice section name. Note all students must be removed from the lab in order to delete the lab.
@@ -31,4 +32,8 @@ async function deleteLab() {
   console.log(result);
 }
 
-deleteLab().catch(console.error);
+async function main() {
+  deleteLab();
+}
+
+main().catch(console.error);

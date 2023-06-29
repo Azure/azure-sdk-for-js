@@ -86,9 +86,10 @@ async function main() {
             console.log(`\t\t\t- "${role.entity.text}" with the role ${role.name}`);
           }
         }
-        if (result.fhirBundle) {
-          console.log(`FHIR object: ${JSON.stringify(result.fhirBundle, undefined, 2)}`);
-        }
+      }
+
+      if (result.fhirBundle) {
+        console.log(`FHIR object: ${JSON.stringify(result.fhirBundle, undefined, 2)}`);
       }
     }
   }

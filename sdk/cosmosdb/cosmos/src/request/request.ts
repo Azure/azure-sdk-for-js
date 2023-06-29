@@ -3,7 +3,7 @@
 import { setAuthorizationHeader } from "../auth";
 import { Constants, HTTPMethod, jsonStringifyAndEscapeNonASCII, ResourceType } from "../common";
 import { CosmosClientOptions } from "../CosmosClientOptions";
-import { PartitionKey } from "../documents";
+import { PartitionKeyInternal } from "../documents";
 import { CosmosHeaders } from "../queryExecutionContext";
 import { FeedOptions, RequestOptions } from "./index";
 import { defaultLogger } from "../common/logger";
@@ -41,7 +41,7 @@ interface GetHeadersOptions {
   options: RequestOptions & FeedOptions;
   partitionKeyRangeId?: string;
   useMultipleWriteLocations?: boolean;
-  partitionKey?: PartitionKey;
+  partitionKey?: PartitionKeyInternal;
 }
 
 const JsonContentType = "application/json";
@@ -168,9 +168,6 @@ export async function getHeaders({
   }
 
   if (partitionKey !== undefined && !headers[Constants.HttpHeaders.PartitionKey]) {
-    if (partitionKey === null || !Array.isArray(partitionKey)) {
-      partitionKey = [partitionKey as string];
-    }
     headers[Constants.HttpHeaders.PartitionKey] = jsonStringifyAndEscapeNonASCII(partitionKey);
   }
 
@@ -198,6 +195,10 @@ export async function getHeaders({
 
   if (options.disableRUPerMinuteUsage) {
     headers[Constants.HttpHeaders.DisableRUPerMinuteUsage] = true;
+  }
+
+  if (options.populateIndexMetrics) {
+    headers[Constants.HttpHeaders.PopulateIndexMetrics] = options.populateIndexMetrics;
   }
 
   if (

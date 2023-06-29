@@ -1,0 +1,35 @@
+{
+  "name": "@azure-samples/load-testing-js-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Load Testing rest client library samples for JavaScript (Beta)",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/loadtesting/load-testing-rest"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtesting/load-testing-rest",
+  "dependencies": {
+    "@azure-rest/load-testing": "next",
+    "dotenv": "latest",
+    "@azure/abort-controller": "^1.1.1",
+    "@azure/identity": "^2.0.1",
+    "uuid": "^9.0.0"
+  }
+}

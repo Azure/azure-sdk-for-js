@@ -14,6 +14,9 @@ import {
   MicrosoftSecurityDevOps
 } from "@azure/arm-securitydevops";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Patch a monitored GitHub repository.
@@ -22,8 +25,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/securitydevops/resource-manager/Microsoft.SecurityDevOps/preview/2022-09-01-preview/examples/GitHubRepoUpdate.json
  */
 async function gitHubRepoUpdate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "westusrg";
+  const subscriptionId =
+    process.env["SECURITYDEVOPS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["SECURITYDEVOPS_RESOURCE_GROUP"] || "westusrg";
   const gitHubConnectorName = "testconnector";
   const gitHubOwnerName = "Azure";
   const gitHubRepoName = "azure-rest-api-specs";
@@ -41,4 +47,8 @@ async function gitHubRepoUpdate() {
   console.log(result);
 }
 
-gitHubRepoUpdate().catch(console.error);
+async function main() {
+  gitHubRepoUpdate();
+}
+
+main().catch(console.error);

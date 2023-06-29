@@ -287,9 +287,23 @@ export enum KnownPrivateLinkConnectionStatus {
 }
 
 // @public
+export enum KnownPublicNetworkAccess {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    SecuredByPerimeter = "SecuredByPerimeter"
+}
+
+// @public
 export enum KnownPublicNetworkAccessFlag {
     Disabled = "Disabled",
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownTlsVersion {
+    One0 = "1.0",
+    One1 = "1.1",
+    One2 = "1.2"
 }
 
 // @public
@@ -715,6 +729,9 @@ export interface ProxyResource {
 }
 
 // @public
+export type PublicNetworkAccess = string;
+
+// @public
 export type PublicNetworkAccessFlag = string;
 
 // @public
@@ -919,8 +936,11 @@ export interface SBNamespace extends TrackedResource {
     encryption?: Encryption;
     identity?: Identity;
     readonly metricId?: string;
+    minimumTlsVersion?: TlsVersion;
+    premiumMessagingPartitions?: number;
     privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: string;
+    publicNetworkAccess?: PublicNetworkAccess;
     readonly serviceBusEndpoint?: string;
     sku?: SBSku;
     readonly status?: string;
@@ -1160,6 +1180,9 @@ export interface SystemData {
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
 }
+
+// @public
+export type TlsVersion = string;
 
 // @public
 export interface Topics {

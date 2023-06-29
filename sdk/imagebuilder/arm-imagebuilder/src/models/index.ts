@@ -23,12 +23,20 @@ export type ImageTemplateCustomizerUnion =
 export type ImageTemplateInVMValidatorUnion =
   | ImageTemplateInVMValidator
   | ImageTemplateShellValidator
-  | ImageTemplatePowerShellValidator;
+  | ImageTemplatePowerShellValidator
+  | ImageTemplateFileValidator;
 export type ImageTemplateDistributorUnion =
   | ImageTemplateDistributor
   | ImageTemplateManagedImageDistributor
   | ImageTemplateSharedImageDistributor
   | ImageTemplateVhdDistributor;
+export type TriggerPropertiesUnion =
+  | TriggerProperties
+  | SourceImageTriggerProperties;
+export type DistributeVersionerUnion =
+  | DistributeVersioner
+  | DistributeVersionerLatest
+  | DistributeVersionerSource;
 
 /** The result of List image templates operation */
 export interface ImageTemplateListResult {
@@ -52,6 +60,18 @@ export interface ImageTemplateCustomizer {
   name?: string;
 }
 
+/** Specifies optimization to be performed on image. */
+export interface ImageTemplatePropertiesOptimize {
+  /** Optimization is applied on the image for a faster VM boot. */
+  vmBoot?: ImageTemplatePropertiesOptimizeVmBoot;
+}
+
+/** Optimization is applied on the image for a faster VM boot. */
+export interface ImageTemplatePropertiesOptimizeVmBoot {
+  /** Enabling this field will improve VM boot time by optimizing the final customized image output. */
+  state?: VMBootOptimizationState;
+}
+
 /** Configuration options and list of validations to be performed on the resulting image. */
 export interface ImageTemplatePropertiesValidate {
   /** If validation fails and this field is set to false, output image(s) will not be distributed. This is the default behavior. If validation fails and this field is set to true, output image(s) will still be distributed. Please use this option with caution as it may result in bad images being distributed for use. In either case (true or false), the end to end image run will be reported as having failed in case of a validation failure. [Note: This field has no effect if validation succeeds.] */
@@ -65,7 +85,7 @@ export interface ImageTemplatePropertiesValidate {
 /** Describes a unit of in-VM validation of image */
 export interface ImageTemplateInVMValidator {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Shell" | "PowerShell";
+  type: "Shell" | "PowerShell" | "File";
   /** Friendly Name to provide context on what this validation step does */
   name?: string;
 }
@@ -126,20 +146,19 @@ export interface VirtualNetworkConfig {
 export interface ImageTemplateIdentity {
   /** The type of identity used for the image template. The type 'None' will remove any identities from the image template. */
   type?: ResourceIdentityType;
-  /** The list of user identities associated with the image template. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: {
-    [propertyName: string]: ComponentsVrq145SchemasImagetemplateidentityPropertiesUserassignedidentitiesAdditionalproperties;
-  };
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
 }
 
-export interface ComponentsVrq145SchemasImagetemplateidentityPropertiesUserassignedidentitiesAdditionalproperties {
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
   /**
-   * The principal id of user assigned identity.
+   * The principal ID of the assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly principalId?: string;
   /**
-   * The client id of user assigned identity.
+   * The client ID of the assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly clientId?: string;
@@ -219,6 +238,49 @@ export interface RunOutputCollection {
   nextLink?: string;
 }
 
+/** The result of List triggers operation */
+export interface TriggerCollection {
+  /** An array of triggers */
+  value: Trigger[];
+  /** The continuation token. */
+  nextLink?: string;
+}
+
+/** Describes the properties of a trigger */
+export interface TriggerProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "SourceImage";
+  /**
+   * Trigger status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: TriggerStatus;
+  /**
+   * Provisioning state of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** Describes the status of a trigger */
+export interface TriggerStatus {
+  /**
+   * The status code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The detailed status message, including for alerts and error messages.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The time of the status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly time?: Date;
+}
+
 /** Result of the request to list REST API operations. It contains a list of operations and a URL nextLink to get the next set of results. */
 export interface OperationListResult {
   /** The list of operations supported by the resource provider. */
@@ -263,6 +325,22 @@ export interface PlatformImagePurchasePlan {
   planPublisher: string;
 }
 
+/** Describes the target region information. */
+export interface TargetRegion {
+  /** The name of the region. */
+  name: string;
+  /** The number of replicas of the Image Version to be created in this region. Omit to use the default (1). */
+  replicaCount?: number;
+  /** Specifies the storage account type to be used to store the image in this region. Omit to use the default (Standard_LRS). */
+  storageAccountType?: SharedImageStorageAccountType;
+}
+
+/** Describes how to generate new x.y.z version number for distribution. */
+export interface DistributeVersioner {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  scheme: "Latest" | "Source";
+}
+
 /** Describes an image source from [Azure Gallery Images](https://docs.microsoft.com/en-us/rest/api/compute/virtualmachineimages). */
 export interface ImageTemplatePlatformImageSource extends ImageTemplateSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -292,13 +370,18 @@ export interface ImageTemplateManagedImageSource extends ImageTemplateSource {
   imageId: string;
 }
 
-/** Describes an image source that is an image version in a shared image gallery. */
+/** Describes an image source that is an image version in an Azure Compute Gallery or a Direct Shared Gallery. */
 export interface ImageTemplateSharedImageVersionSource
   extends ImageTemplateSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SharedImageVersion";
-  /** ARM resource id of the image version in the shared image gallery */
+  /** ARM resource id of the image version. When image version name is 'latest', the version is evaluated when the image build takes place. */
   imageVersionId: string;
+  /**
+   * Exact ARM resource id of the image version. This readonly field differs from the image version Id in 'imageVersionId' only if the version name specified in 'imageVersionId' field is 'latest'.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly exactVersion?: string;
 }
 
 /** Runs a shell script during the customization phase (Linux). Corresponds to Packer shell provisioner. Exactly one of 'scriptUri' or 'inline' can be specified. */
@@ -402,6 +485,18 @@ export interface ImageTemplatePowerShellValidator
   validExitCodes?: number[];
 }
 
+/** Uploads files required for validation to VMs (Linux, Windows). Corresponds to Packer file provisioner */
+export interface ImageTemplateFileValidator extends ImageTemplateInVMValidator {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "File";
+  /** The URI of the file to be uploaded to the VM for validation. It can be a github link, Azure Storage URI (authorized or SAS), etc */
+  sourceUri?: string;
+  /** SHA256 checksum of the file provided in the sourceUri field above */
+  sha256Checksum?: string;
+  /** The absolute path to a file (with nested directory structures already created) where the file (from sourceUri) will be uploaded to in the VM */
+  destination?: string;
+}
+
 /** Distribute as a Managed Disk Image. */
 export interface ImageTemplateManagedImageDistributor
   extends ImageTemplateDistributor {
@@ -413,25 +508,31 @@ export interface ImageTemplateManagedImageDistributor
   location: string;
 }
 
-/** Distribute via Shared Image Gallery. */
+/** Distribute via Azure Compute Gallery. */
 export interface ImageTemplateSharedImageDistributor
   extends ImageTemplateDistributor {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SharedImage";
-  /** Resource Id of the Shared Image Gallery image */
+  /** Resource Id of the Azure Compute Gallery image */
   galleryImageId: string;
-  /** A list of regions that the image will be replicated to */
-  replicationRegions: string[];
+  /** [Deprecated] A list of regions that the image will be replicated to. This list can be specified only if targetRegions is not specified. This field is deprecated - use targetRegions instead. */
+  replicationRegions?: string[];
   /** Flag that indicates whether created image version should be excluded from latest. Omit to use the default (false). */
   excludeFromLatest?: boolean;
-  /** Storage account type to be used to store the shared image. Omit to use the default (Standard_LRS). */
+  /** [Deprecated] Storage account type to be used to store the shared image. Omit to use the default (Standard_LRS). This field can be specified only if replicationRegions is specified. This field is deprecated - use targetRegions instead. */
   storageAccountType?: SharedImageStorageAccountType;
+  /** The target regions where the distributed Image Version is going to be replicated to. This object supersedes replicationRegions and can be specified only if replicationRegions is not specified. */
+  targetRegions?: TargetRegion[];
+  /** Describes how to generate new x.y.z version number for distribution. */
+  versioning?: DistributeVersionerUnion;
 }
 
 /** Distribute via VHD in a storage account. */
 export interface ImageTemplateVhdDistributor extends ImageTemplateDistributor {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "VHD";
+  /** Optional Azure Storage URI for the distributed VHD blob. Omit to use the default (empty string) in which case VHD would be published to the storage account in the staging resource group. */
+  uri?: string;
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
@@ -445,6 +546,26 @@ export interface TrackedResource extends Resource {
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
+/** Properties of SourceImage kind of trigger */
+export interface SourceImageTriggerProperties extends TriggerProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "SourceImage";
+}
+
+/** Generates version number that will be latest based on existing version numbers. */
+export interface DistributeVersionerLatest extends DistributeVersioner {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  scheme: "Latest";
+  /** Major version for the generated version number. Determine what is "latest" based on versions with this value as the major version. -1 is equivalent to leaving it unset. */
+  major?: number;
+}
+
+/** Generates version number based on version number of source image */
+export interface DistributeVersionerSource extends DistributeVersioner {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  scheme: "Source";
+}
+
 /** Image template is an ARM resource managed by Microsoft.VirtualMachineImages provider */
 export interface ImageTemplate extends TrackedResource {
   /** The identity of the image template, if configured. */
@@ -453,6 +574,8 @@ export interface ImageTemplate extends TrackedResource {
   source?: ImageTemplateSourceUnion;
   /** Specifies the properties used to describe the customization steps of the image, like Image source etc */
   customize?: ImageTemplateCustomizerUnion[];
+  /** Specifies optimization to be performed on image. */
+  optimize?: ImageTemplatePropertiesOptimize;
   /** Configuration options and list of validations to be performed on the resulting image. */
   validate?: ImageTemplatePropertiesValidate;
   /** The distribution targets where the image output needs to go to. */
@@ -472,7 +595,7 @@ export interface ImageTemplate extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastRunStatus?: ImageTemplateLastRunStatus;
-  /** Maximum duration to wait while building the image template (includes all customizations, validations, and distributions). Omit or specify 0 to use the default (4 hours). */
+  /** Maximum duration to wait while building the image template (includes all customizations, optimization, validations, and distributions). Omit or specify 0 to use the default (4 hours). */
   buildTimeoutInMinutes?: number;
   /** Describes how virtual machine is set up to build images */
   vmProfile?: ImageTemplateVmProfile;
@@ -496,6 +619,34 @@ export interface RunOutput extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+}
+
+/** Represents a trigger that can invoke an image template build. */
+export interface Trigger extends ProxyResource {
+  /** The kind of trigger. */
+  kind?: string;
+  /**
+   * Trigger status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: TriggerStatus;
+  /**
+   * Provisioning state of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** Defines headers for VirtualMachineImageTemplates_delete operation. */
+export interface VirtualMachineImageTemplatesDeleteHeaders {
+  /** The URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for Triggers_delete operation. */
+export interface TriggersDeleteHeaders {
+  /** The URI to poll for completion status. */
+  location?: string;
 }
 
 /** Known values of {@link ProvisioningErrorCode} that the service accepts. */
@@ -584,7 +735,9 @@ export enum KnownSharedImageStorageAccountType {
   /** StandardLRS */
   StandardLRS = "Standard_LRS",
   /** StandardZRS */
-  StandardZRS = "Standard_ZRS"
+  StandardZRS = "Standard_ZRS",
+  /** PremiumLRS */
+  PremiumLRS = "Premium_LRS"
 }
 
 /**
@@ -593,16 +746,20 @@ export enum KnownSharedImageStorageAccountType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Standard_LRS** \
- * **Standard_ZRS**
+ * **Standard_ZRS** \
+ * **Premium_LRS**
  */
 export type SharedImageStorageAccountType = string;
+/** Defines values for VMBootOptimizationState. */
+export type VMBootOptimizationState = "Enabled" | "Disabled";
 /** Defines values for ProvisioningState. */
 export type ProvisioningState =
   | "Creating"
   | "Updating"
   | "Succeeded"
   | "Failed"
-  | "Deleting";
+  | "Deleting"
+  | "Canceled";
 /** Defines values for RunState. */
 export type RunState =
   | "Running"
@@ -616,6 +773,7 @@ export type RunSubState =
   | "Queued"
   | "Building"
   | "Customizing"
+  | "Optimizing"
   | "Validating"
   | "Distributing";
 /** Defines values for ResourceIdentityType. */
@@ -727,6 +885,48 @@ export interface VirtualMachineImageTemplatesListRunOutputsNextOptionalParams
 
 /** Contains response data for the listRunOutputsNext operation. */
 export type VirtualMachineImageTemplatesListRunOutputsNextResponse = RunOutputCollection;
+
+/** Optional parameters. */
+export interface TriggersListByImageTemplateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByImageTemplate operation. */
+export type TriggersListByImageTemplateResponse = TriggerCollection;
+
+/** Optional parameters. */
+export interface TriggersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type TriggersGetResponse = Trigger;
+
+/** Optional parameters. */
+export interface TriggersCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type TriggersCreateOrUpdateResponse = Trigger;
+
+/** Optional parameters. */
+export interface TriggersDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface TriggersListByImageTemplateNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByImageTemplateNext operation. */
+export type TriggersListByImageTemplateNextResponse = TriggerCollection;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams

@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { NotificationRequestBody, MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Send test notifications to a set of provided receivers
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/postTestNotificationsAtActionGroupResourceLevel.json
  */
 async function createNotificationsAtResourceGroupLevel() {
-  const subscriptionId = "11111111-1111-1111-1111-111111111111";
-  const resourceGroupName = "TestRgName";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] ||
+    "11111111-1111-1111-1111-111111111111";
+  const resourceGroupName =
+    process.env["MONITOR_RESOURCE_GROUP"] || "TestRgName";
   const actionGroupName = "TestAgName";
   const notificationRequest: NotificationRequestBody = {
     alertType: "budget",
@@ -146,4 +152,8 @@ async function createNotificationsAtResourceGroupLevel() {
   console.log(result);
 }
 
-createNotificationsAtResourceGroupLevel().catch(console.error);
+async function main() {
+  createNotificationsAtResourceGroupLevel();
+}
+
+main().catch(console.error);

@@ -14,6 +14,9 @@ import {
   AzureVMwareSolutionAPI
 } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Return trial status for subscription by region
@@ -22,15 +25,15 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/Locations_CheckTrialAvailability.json
  */
 async function locationsCheckTrialAvailability() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["AVS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const location = "eastus";
   const credential = new DefaultAzureCredential();
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
   const result = await client.locations.checkTrialAvailability(location);
   console.log(result);
 }
-
-locationsCheckTrialAvailability().catch(console.error);
 
 /**
  * This sample demonstrates how to Return trial status for subscription by region
@@ -39,7 +42,9 @@ locationsCheckTrialAvailability().catch(console.error);
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/Locations_CheckTrialAvailabilityWithSku.json
  */
 async function locationsCheckTrialAvailabilityWithSku() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["AVS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const location = "eastus";
   const sku: Sku = { name: "avs52t" };
   const options: LocationsCheckTrialAvailabilityOptionalParams = { sku };
@@ -52,4 +57,9 @@ async function locationsCheckTrialAvailabilityWithSku() {
   console.log(result);
 }
 
-locationsCheckTrialAvailabilityWithSku().catch(console.error);
+async function main() {
+  locationsCheckTrialAvailability();
+  locationsCheckTrialAvailabilityWithSku();
+}
+
+main().catch(console.error);

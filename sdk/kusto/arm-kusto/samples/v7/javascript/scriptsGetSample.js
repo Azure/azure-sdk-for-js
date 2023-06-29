@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a Kusto cluster database script.
  *
  * @summary Gets a Kusto cluster database script.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoScriptsGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoScriptsGet.json
  */
 async function kustoScriptsGet() {
   const subscriptionId =

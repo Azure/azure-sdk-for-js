@@ -10,12 +10,8 @@ import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  ConnectedRegistriesImpl,
-  ExportPipelinesImpl,
   RegistriesImpl,
-  ImportPipelinesImpl,
   OperationsImpl,
-  PipelineRunsImpl,
   PrivateEndpointConnectionsImpl,
   ReplicationsImpl,
   ScopeMapsImpl,
@@ -27,12 +23,8 @@ import {
   TasksImpl
 } from "./operations";
 import {
-  ConnectedRegistries,
-  ExportPipelines,
   Registries,
-  ImportPipelines,
   Operations,
-  PipelineRuns,
   PrivateEndpointConnections,
   Replications,
   ScopeMaps,
@@ -52,7 +44,7 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
   /**
    * Initializes a new instance of the ContainerRegistryManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The Microsoft Azure subscription ID.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
@@ -76,7 +68,7 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-containerregistry/10.1.0-beta.5`;
+    const packageDetails = `azsdk-js-arm-containerregistry/10.1.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -129,12 +121,8 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.connectedRegistries = new ConnectedRegistriesImpl(this);
-    this.exportPipelines = new ExportPipelinesImpl(this);
     this.registries = new RegistriesImpl(this);
-    this.importPipelines = new ImportPipelinesImpl(this);
     this.operations = new OperationsImpl(this);
-    this.pipelineRuns = new PipelineRunsImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.replications = new ReplicationsImpl(this);
     this.scopeMaps = new ScopeMapsImpl(this);
@@ -146,12 +134,8 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
     this.tasks = new TasksImpl(this);
   }
 
-  connectedRegistries: ConnectedRegistries;
-  exportPipelines: ExportPipelines;
   registries: Registries;
-  importPipelines: ImportPipelines;
   operations: Operations;
-  pipelineRuns: PipelineRuns;
   privateEndpointConnections: PrivateEndpointConnections;
   replications: Replications;
   scopeMaps: ScopeMaps;

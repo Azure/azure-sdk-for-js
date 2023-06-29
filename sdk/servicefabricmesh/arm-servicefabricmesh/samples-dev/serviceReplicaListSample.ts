@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ServiceFabricMeshManagementClient } from "@azure/arm-servicefabricmesh";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the information about all replicas of a given service of an application. The information includes the runtime properties of the replica instance.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/servicefabricmesh/resource-manager/Microsoft.ServiceFabricMesh/preview/2018-09-01-preview/examples/applications/services/replicas/list.json
  */
 async function replicasGetAll() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "sbz_demo";
+  const subscriptionId =
+    process.env["SERVICEFABRICMESH_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["SERVICEFABRICMESH_RESOURCE_GROUP"] || "sbz_demo";
   const applicationResourceName = "sampleApplication";
   const serviceResourceName = "helloWorldService";
   const credential = new DefaultAzureCredential();
@@ -38,4 +44,8 @@ async function replicasGetAll() {
   console.log(resArray);
 }
 
-replicasGetAll().catch(console.error);
+async function main() {
+  replicasGetAll();
+}
+
+main().catch(console.error);

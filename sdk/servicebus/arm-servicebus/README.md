@@ -6,7 +6,7 @@ Azure Service Bus client for managing Namespace
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/arm-servicebus) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-servicebus) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-servicebus) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-servicebus?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

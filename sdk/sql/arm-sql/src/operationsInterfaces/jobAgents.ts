@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   JobAgent,
   JobAgentsListByServerOptionalParams,
@@ -66,8 +66,8 @@ export interface JobAgents {
     parameters: JobAgent,
     options?: JobAgentsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<JobAgentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<JobAgentsCreateOrUpdateResponse>,
       JobAgentsCreateOrUpdateResponse
     >
   >;
@@ -100,7 +100,7 @@ export interface JobAgents {
     serverName: string,
     jobAgentName: string,
     options?: JobAgentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a job agent.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -131,8 +131,8 @@ export interface JobAgents {
     parameters: JobAgentUpdate,
     options?: JobAgentsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<JobAgentsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<JobAgentsUpdateResponse>,
       JobAgentsUpdateResponse
     >
   >;

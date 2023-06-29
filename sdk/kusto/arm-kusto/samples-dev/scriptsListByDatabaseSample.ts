@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns the list of database scripts for given database.
  *
  * @summary Returns the list of database scripts for given database.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoScriptsListByDatabase.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoScriptsListByDatabase.json
  */
 async function kustoScriptsList() {
   const subscriptionId =

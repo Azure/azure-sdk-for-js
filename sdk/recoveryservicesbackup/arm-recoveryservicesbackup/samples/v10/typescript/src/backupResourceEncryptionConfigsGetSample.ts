@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Fetches Vault Encryption config.
  *
  * @summary Fetches Vault Encryption config.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/BackupResourceEncryptionConfig_Get.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/BackupResourceEncryptionConfig_Get.json
  */
 async function getVaultEncryptionConfiguration() {
   const subscriptionId =

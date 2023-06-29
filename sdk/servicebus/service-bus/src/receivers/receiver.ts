@@ -439,6 +439,8 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
           associatedLinkName: this._getAssociatedReceiverName(),
           requestName: "receiveDeferredMessages",
           timeoutInMs: this._retryOptions.timeoutInMs,
+          skipParsingBodyAsJson: this.skipParsingBodyAsJson,
+          skipConvertingDate: this.skipConvertingDate,
         });
       return deferredMessages;
     };
@@ -465,6 +467,8 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       associatedLinkName: this._getAssociatedReceiverName(),
       requestName: "peekMessages",
       timeoutInMs: this._retryOptions?.timeoutInMs,
+      skipParsingBodyAsJson: this.skipParsingBodyAsJson,
+      skipConvertingDate: this.skipConvertingDate,
     };
     const peekOperationPromise = async (): Promise<ServiceBusReceivedMessage[]> => {
       if (options.fromSequenceNumber !== undefined) {
@@ -629,6 +633,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
         spanLinks,
         ...toSpanOptions(
           { entityPath: this.entityPath, host: this._context.config.host },
+          "receive",
           "client"
         ),
       }

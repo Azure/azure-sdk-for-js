@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { LinkedServices } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,13 +17,13 @@ import { LroImpl } from "../lroImpl";
 import {
   LinkedService,
   LinkedServicesListByWorkspaceOptionalParams,
+  LinkedServicesListByWorkspaceResponse,
   LinkedServicesCreateOrUpdateOptionalParams,
   LinkedServicesCreateOrUpdateResponse,
   LinkedServicesDeleteOptionalParams,
   LinkedServicesDeleteResponse,
   LinkedServicesGetOptionalParams,
-  LinkedServicesGetResponse,
-  LinkedServicesListByWorkspaceResponse
+  LinkedServicesGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -62,11 +62,15 @@ export class LinkedServicesImpl implements LinkedServices {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByWorkspacePagingPage(
           resourceGroupName,
           workspaceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -75,9 +79,11 @@ export class LinkedServicesImpl implements LinkedServices {
   private async *listByWorkspacePagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: LinkedServicesListByWorkspaceOptionalParams
+    options?: LinkedServicesListByWorkspaceOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<LinkedService[]> {
-    let result = await this._listByWorkspace(
+    let result: LinkedServicesListByWorkspaceResponse;
+    result = await this._listByWorkspace(
       resourceGroupName,
       workspaceName,
       options

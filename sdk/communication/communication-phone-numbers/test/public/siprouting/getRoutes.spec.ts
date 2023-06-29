@@ -7,11 +7,12 @@ import { Context } from "mocha";
 import { SipRoutingClient } from "../../../src";
 
 import { matrix } from "@azure/test-utils";
-import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   clearSipConfiguration,
   createRecordedClient,
   createRecordedClientWithToken,
+  listAllRoutes,
 } from "./utils/recordedClient";
 
 matrix([[true, false]], async function (useAad) {
@@ -38,13 +39,13 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("can retrieve routes", async () => {
-      assert.isArray(await client.getRoutes());
+      assert.isArray(await listAllRoutes(client));
     });
 
     it("can retrieve empty routes", async () => {
       await client.setRoutes([]);
 
-      const routes = await client.getRoutes();
+      const routes = await listAllRoutes(client);
 
       assert.isNotNull(routes);
       assert.isArray(routes);
@@ -68,7 +69,7 @@ matrix([[true, false]], async function (useAad) {
       ];
       await client.setRoutes(expectedRoutes);
 
-      const routes = await client.getRoutes();
+      const routes = await listAllRoutes(client);
 
       assert.isNotNull(routes);
       assert.isArray(routes);

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns the list of databases of the given Kusto cluster.
  *
  * @summary Returns the list of databases of the given Kusto cluster.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDatabasesListByCluster.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoDatabasesListByCluster.json
  */
 async function kustoDatabasesListByCluster() {
   const subscriptionId =

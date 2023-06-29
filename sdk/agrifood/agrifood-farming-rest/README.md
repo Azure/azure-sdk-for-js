@@ -1,16 +1,17 @@
-# Azure FarmBeats REST client library for JavaScript
+# Microsoft Azure Data Manager for Agriculture REST client library for JavaScript
 
-FarmBeats is a B2B PaaS offering from Microsoft that makes it easy for AgriFood companies to build intelligent digital agriculture solutions on Azure. FarmBeats allows users to acquire, aggregate, and process agricultural data from various sources (farm equipment, weather, satellite) without the need to invest in deep data engineering resources.  Customers can build SaaS solutions on top of FarmBeats and leverage first class support for model building to generate insights at scale.
+Microsoft Azure Data Manager for Agriculture is a B2B PaaS offering from Microsoft that makes it easy for AgriFood companies to build intelligent digital agriculture solutions on Azure.Data Manager for Agriculture acquire, aggregate, and process agricultural data from various sources (farm equipment, weather, satellite) without the need to invest in deep data engineering resources.  Customers can build SaaS solutions on top of Data Manager for Agriculture and leverage first class support for model building to generate insights at scale.
 
-Use FarmBeats client library for JavaScript to do the following.
+Use Data Manager for Agriculture client library for JavaScript to do the following.
 
-- Create & update farmers, farms, fields, seasonal fields and boundaries.
+- Create & update parties, farms, fields, seasonal fields and boundaries.
 - Ingest satellite and weather data for areas of interest.
 - Ingest farm operations data covering tilling, planting, harvesting and application of farm inputs.
 
 **Please rely heavily on the [service's documentation][product_documentation] and our [REST client docs][rest_client] to use this library**
 
 Key links:
+
 - [Source code][source_code]
 - [Package (NPM)][npm]
 - [API reference documentation][ref_docs]
@@ -25,17 +26,17 @@ Key links:
 ### Prerequisites
 
 - You must have an [Azure subscription][azure_subscription].
-- AgriFood (FarmBeats) resource - [Install FarmBeats][install_farmbeats]
+- Microsoft Azure Data Manager for Agriculture resource - [Microsoft Azure Data Manager for Agriculture][install_farmbeats]
 
 ### Install the `@azure-rest/agrifood-farming` package
 
-Install the Azure FarmBeats rest client library for JavaScript with `npm`:
+Install the Data Manager for Agriculture rest client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure-rest/agrifood-farming
 ```
 
-### Create and authenticate a `FarmBeats` REST Client
+### Create and authenticate a `Microsoft Azure Data Manager for Agriculture` REST Client
 
 To use an [Azure Active Directory (AAD) token credential][authenticate_with_token],
 provide an instance of the desired credential type obtained from the
@@ -72,12 +73,12 @@ This client is one of our REST clients. We highly recommend you read how to use 
 
 Farm hierarchy is a collection of below entities.
 
-- Farmer - is the custodian of all the agronomic data.
+- Party - is the custodian of all the agronomic data.
 - Farm - is a logical collection of fields and/or seasonal fields. They do not have any area associated with them.
 - Field - is a multi-polygon area. This is expected to be stable across seasons.
 - Seasonal field - is a multi-polygon area. To define a seasonal boundary we need the details of area (boundary), time (season) and crop. New seasonal fields are expected to be created for every growing season.
 - Boundary - is the actual multi-polygon area expressed as a geometry (in geojson). It is normally associated with a field or a seasonal field. Satellite, weather and farm operations data is linked to a boundary.
-- Cascade delete - Agronomic data is stored hierarchically with farmer as the root. The hierarchy includes Farmer -> Farms -> Fields -> Seasonal Fields -> Boundaries -> Associated data (satellite, weather, farm operations). Cascade delete refers to the process of deleting any node and its subtree.
+- Cascade delete - Agronomic data is stored hierarchically with party as the root. The hierarchy includes Party -> Farms -> Fields -> Seasonal Fields -> Boundaries -> Associated data (satellite, weather, farm operations). Cascade delete refers to the process of deleting any node and its subtree.
 
 ### [Scenes][scenes]
 
@@ -89,13 +90,13 @@ Fam operations includes details pertaining to tilling, planting, application of 
 
 ## Examples
 
-### Create a Farmer
+### Create a Party
 
 Once you have authenticated and created the client object as shown in the [Authenticate the client](#create-and-authenticate-a-farmbeats-rest-client)
-section, you can create a farmer within the FarmBeats resource like this:
+section, you can create a party within the Data Manager for Agriculture resource like this:
 
 ```typescript
-import FarmBeats from "@azure-rest/agrifood-farming";
+import FarmBeats, { isUnexpected } from "@azure-rest/agrifood-farming";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const client = FarmBeats(
@@ -103,29 +104,30 @@ const client = FarmBeats(
   new DefaultAzureCredential()
 );
 
-const farmerId = "test_farmer";
-const result = await client.path("/farmers/{farmerId}", farmerId).patch({
+const partyId = "test_party";
+const result = await farmbeatsClient.path("/parties/{partyId}", partyId).patch({
   body: {
-    name: "Contoso Farmer",
-    description: "Your custom farmer description here",
+    name: "Contoso Party",
+    description: "Your custom party description here",
     status: "Active",
-    properties: { foo: "bar", "numeric one": 1, "1": "numeric key" }
+    properties: { foo: "bar", "numeric one": 1, "1": "numeric key" },
   },
   // Set the content-type of the request
-  contentType: "application/merge-patch+json"
+  contentType: "application/merge-patch+json",
 });
 
-if (result.status !== "200" && result.status !== "201") {
+if (isUnexpected(result)) {
   throw result.body.error;
 }
 
-console.log(`Created Farmer: ${result.body.name}`);
+const party = result.body;
+console.log(`Created Party: ${party.name}`);
 ```
 
-### List Farmers
+### List Parties
 
 ```typescript
-import FarmBeats from "@azure-rest/agrifood-farming";
+import FarmBeats, { isUnexpected } from "@azure-rest/agrifood-farming";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const client = FarmBeats(
@@ -133,33 +135,19 @@ const client = FarmBeats(
   new DefaultAzureCredential()
 );
 
-const result = await client.path("/farmers").get();
+const response = await farmbeatsClient.path("/parties").get();
 
-if (result.status !== "200") {
-  throw result.body.error?.message;
+if (isUnexpected(response)) {
+  throw response.body.error;
 }
 
-let farmers: Farmer[] = result.body.value ?? [];
-let skipToken = result.body.skipToken;
+const parties = paginate(farmbeatsClient, response);
 
-// Farmer results may be paginated. In case there are more than one page of farmers
-// the service would return a skipToken that can be used for subsequent request to get
-// the next page of farmers. Here we'll keep calling until the service stops returning a
-// skip token which means that there are no more pages.
-while (skipToken) {
-  const page = await client.path("/farmers").get({ queryParameters: { $skipToken: skipToken } });
-  if (page.status !== "200") {
-    throw page.body.error;
-  }
-
-  farmers.concat(page.body.value ?? []);
-  skipToken = page.body.skipToken;
+// Log each party id
+for await (const party of parties) {
+  const partyOutput = party;
+  console.log(partyOutput.id);
 }
-
-// Lof each farmer id
-farmers.forEach((farmer) => {
-  console.log(farmer.id);
-});
 ```
 
 ### Additional Samples

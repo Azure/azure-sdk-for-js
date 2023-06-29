@@ -57,11 +57,11 @@
     "eslint": "^8.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
-    "typescript": "~4.6.0"
+    "typescript": "~5.0.0"
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "rhea": "^2.0.3",
+    "rhea": "^3.0.0",
     "tslib": "^2.2.0"
   },
   "//sampleConfiguration": {

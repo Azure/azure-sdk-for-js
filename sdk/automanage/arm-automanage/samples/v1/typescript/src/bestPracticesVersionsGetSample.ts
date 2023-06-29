@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { AutomanageClient } from "@azure/arm-automanage";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get information about a Automanage best practice version
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/getBestPracticeVersion.json
  */
 async function getAnAutomanageBestPracticeVersion() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["AUTOMANAGE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const bestPracticeName = "azureBestPracticesProduction";
   const versionName = "version1";
   const credential = new DefaultAzureCredential();
@@ -30,4 +35,8 @@ async function getAnAutomanageBestPracticeVersion() {
   console.log(result);
 }
 
-getAnAutomanageBestPracticeVersion().catch(console.error);
+async function main() {
+  getAnAutomanageBestPracticeVersion();
+}
+
+main().catch(console.error);

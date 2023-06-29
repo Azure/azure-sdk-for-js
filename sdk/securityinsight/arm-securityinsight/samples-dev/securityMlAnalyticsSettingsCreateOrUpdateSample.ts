@@ -13,6 +13,9 @@ import {
   SecurityInsights
 } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates the Security ML Analytics Settings.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/securityMLAnalyticsSettings/CreateAnomalySecurityMLAnalyticsSetting.json
  */
 async function createsOrUpdatesAAnomalySecurityMlAnalyticsSettings() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const settingsResourceName = "f209187f-1d17-4431-94af-c141bf5f23db";
   const securityMLAnalyticsSetting: AnomalySecurityMLAnalyticsSettings = {
@@ -95,4 +101,8 @@ async function createsOrUpdatesAAnomalySecurityMlAnalyticsSettings() {
   console.log(result);
 }
 
-createsOrUpdatesAAnomalySecurityMlAnalyticsSettings().catch(console.error);
+async function main() {
+  createsOrUpdatesAAnomalySecurityMlAnalyticsSettings();
+}
+
+main().catch(console.error);

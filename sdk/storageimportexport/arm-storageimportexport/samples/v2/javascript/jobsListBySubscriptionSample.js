@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { StorageImportExport } = require("@azure/arm-storageimportexport");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Returns all active and completed jobs in a subscription.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/storageimportexport/resource-manager/Microsoft.ImportExport/preview/2021-01-01/examples/ListJobsInSubscription.json
  */
 async function listJobsInASubscription() {
-  const subscriptionId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
+  const subscriptionId =
+    process.env["STORAGEIMPORTEXPORT_SUBSCRIPTION_ID"] || "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
   const credential = new DefaultAzureCredential();
   const client = new StorageImportExport(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +30,8 @@ async function listJobsInASubscription() {
   console.log(resArray);
 }
 
-listJobsInASubscription().catch(console.error);
+async function main() {
+  listJobsInASubscription();
+}
+
+main().catch(console.error);

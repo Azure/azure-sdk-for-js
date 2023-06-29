@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { MonitorClient } = require("@azure/arm-monitor");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Send test notifications to a set of provided receivers
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/postTestNotifications.json
  */
 async function createNotificationsAtSubscriptionLevel() {
-  const subscriptionId = "187f412d-1758-44d9-b052-169e2564721d";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "187f412d-1758-44d9-b052-169e2564721d";
   const notificationRequest = {
     alertType: "budget",
     armRoleReceivers: [
@@ -134,4 +136,8 @@ async function createNotificationsAtSubscriptionLevel() {
   console.log(result);
 }
 
-createNotificationsAtSubscriptionLevel().catch(console.error);
+async function main() {
+  createNotificationsAtSubscriptionLevel();
+}
+
+main().catch(console.error);

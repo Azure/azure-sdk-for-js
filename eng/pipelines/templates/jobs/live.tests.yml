@@ -5,6 +5,9 @@ parameters:
 - name: ServiceDirectory
   type: string
   default: ""
+- name: TestResourceDirectories
+  type: object
+  default:
 - name: EnvVars
   type: object
   default: {}
@@ -70,13 +73,23 @@ jobs:
             SubscriptionConfiguration: ${{ parameters.CloudConfig.SubscriptionConfiguration }}
             SubscriptionConfigurations: ${{ parameters.CloudConfig.SubscriptionConfigurations }}
 
-        - template: /eng/common/TestResources/deploy-test-resources.yml
-          parameters:
-            ${{ if or(parameters.Location, parameters.CloudConfig.Location) }}:
-              Location: ${{ coalesce(parameters.Location, parameters.CloudConfig.Location) }}
-            ServiceDirectory: '${{ parameters.ServiceDirectory }}'
-            SubscriptionConfiguration: $(SubscriptionConfiguration)
-            ArmTemplateParameters: $(ArmTemplateParameters)
+        - ${{ if parameters.TestResourceDirectories }}:
+          - ${{ each directory in parameters.TestResourceDirectories }}:
+            - template: /eng/common/TestResources/deploy-test-resources.yml
+              parameters:
+                ${{ if or(parameters.Location, parameters.CloudConfig.Location) }}:
+                  Location: ${{ coalesce(parameters.Location, parameters.CloudConfig.Location) }}
+                ServiceDirectory: '${{ directory }}'
+                SubscriptionConfiguration: $(SubscriptionConfiguration)
+                ArmTemplateParameters: $(ArmTemplateParameters)
+        - ${{ if not(parameters.TestResourceDirectories) }}:
+          - template: /eng/common/TestResources/deploy-test-resources.yml
+            parameters:
+              ${{ if or(parameters.Location, parameters.CloudConfig.Location) }}:
+                Location: ${{ coalesce(parameters.Location, parameters.CloudConfig.Location) }}
+              ServiceDirectory: '${{ parameters.ServiceDirectory }}'
+              SubscriptionConfiguration: $(SubscriptionConfiguration)
+              ArmTemplateParameters: $(ArmTemplateParameters)
 
       - script: |
           node common/scripts/install-run-rush.js install
@@ -158,10 +171,17 @@ jobs:
         condition: and(succeeded(),eq(variables['TestType'],'sample'))
 
       - ${{ if ne(parameters.ServiceDirectory, '') }}:
-        - template: /eng/common/TestResources/remove-test-resources.yml
-          parameters:
-            ServiceDirectory: "${{ parameters.ServiceDirectory }}"
-            SubscriptionConfiguration: $(SubscriptionConfiguration)
+        - ${{ if parameters.TestResourceDirectories }}:
+          - ${{ each directory in parameters.TestResourceDirectories }}:
+            - template: /eng/common/TestResources/remove-test-resources.yml
+              parameters:
+                ServiceDirectory: "${{ directory }}"
+                SubscriptionConfiguration: $(SubscriptionConfiguration)
+        - ${{ if not(parameters.TestResourceDirectories) }}:
+          - template: /eng/common/TestResources/remove-test-resources.yml
+            parameters:
+              ServiceDirectory: "${{ parameters.ServiceDirectory }}"
+              SubscriptionConfiguration: $(SubscriptionConfiguration)
 
       - task: PublishCodeCoverageResults@1
         displayName: "Publish NodeJs Code Coverage to DevOps"

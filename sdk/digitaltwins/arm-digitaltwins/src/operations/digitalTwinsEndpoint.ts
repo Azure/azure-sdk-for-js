@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureDigitalTwinsManagementClient } from "../azureDigitalTwinsManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DigitalTwinsEndpointResource,
   DigitalTwinsEndpointListNextOptionalParams,
@@ -169,8 +173,8 @@ export class DigitalTwinsEndpointImpl implements DigitalTwinsEndpoint {
     endpointDescription: DigitalTwinsEndpointResource,
     options?: DigitalTwinsEndpointCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DigitalTwinsEndpointCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DigitalTwinsEndpointCreateOrUpdateResponse>,
       DigitalTwinsEndpointCreateOrUpdateResponse
     >
   > {
@@ -180,7 +184,7 @@ export class DigitalTwinsEndpointImpl implements DigitalTwinsEndpoint {
     ): Promise<DigitalTwinsEndpointCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -213,19 +217,22 @@ export class DigitalTwinsEndpointImpl implements DigitalTwinsEndpoint {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         resourceName,
         endpointName,
         endpointDescription,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DigitalTwinsEndpointCreateOrUpdateResponse,
+      OperationState<DigitalTwinsEndpointCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -270,8 +277,8 @@ export class DigitalTwinsEndpointImpl implements DigitalTwinsEndpoint {
     endpointName: string,
     options?: DigitalTwinsEndpointDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DigitalTwinsEndpointDeleteResponse>,
+    SimplePollerLike<
+      OperationState<DigitalTwinsEndpointDeleteResponse>,
       DigitalTwinsEndpointDeleteResponse
     >
   > {
@@ -281,7 +288,7 @@ export class DigitalTwinsEndpointImpl implements DigitalTwinsEndpoint {
     ): Promise<DigitalTwinsEndpointDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -314,13 +321,16 @@ export class DigitalTwinsEndpointImpl implements DigitalTwinsEndpoint {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, resourceName, endpointName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, endpointName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DigitalTwinsEndpointDeleteResponse,
+      OperationState<DigitalTwinsEndpointDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -493,7 +503,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

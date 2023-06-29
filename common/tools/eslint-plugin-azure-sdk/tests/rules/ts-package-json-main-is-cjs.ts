@@ -85,10 +85,8 @@ const examplePackageGood = `{
     "karma": "^4.0.1",
     "karma-chrome-launcher": "^2.2.0",
     "karma-coverage": "^1.1.2",
-    "karma-edge-launcher": "^0.4.2",
     "karma-env-preprocessor": "^0.1.1",
     "karma-firefox-launcher": "^1.1.0",
-    "karma-ie-launcher": "^1.0.0",
     "karma-junit-reporter": "^1.2.0",
     "karma-mocha": "^1.3.0",
     "karma-mocha-reporter": "^2.2.5",
@@ -198,10 +196,8 @@ const examplePackageBad = `{
     "karma": "^4.0.1",
     "karma-chrome-launcher": "^2.2.0",
     "karma-coverage": "^1.1.2",
-    "karma-edge-launcher": "^0.4.2",
     "karma-env-preprocessor": "^0.1.1",
     "karma-firefox-launcher": "^1.1.0",
-    "karma-ie-launcher": "^1.0.0",
     "karma-junit-reporter": "^1.2.0",
     "karma-mocha": "^1.3.0",
     "karma-mocha-reporter": "^2.2.5",
@@ -264,6 +260,16 @@ ruleTester.run("ts-package-json-main-is-cjs", rule, {
       filename: "package.json",
     },
     {
+      // correct format #3
+      code: '{"main": "dist/index.cjs"}',
+      filename: "package.json",
+    },
+    {
+      // correct format #4
+      code: '{"main": "./dist/index.cjs"}',
+      filename: "package.json",
+    },
+    {
       // a full example package.json (taken from https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/package.json with "scripts" removed for testing purposes)
       code: examplePackageGood,
       filename: "package.json",
@@ -300,7 +306,8 @@ ruleTester.run("ts-package-json-main-is-cjs", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "main is set to dist//index.js when it should be set to dist/index.js",
+          message:
+            "main is set to dist//index.js when it should be set to dist/index.js or dist/index.cjs",
         },
       ],
       output: '{"main": "dist/index.js"}',
@@ -310,7 +317,8 @@ ruleTester.run("ts-package-json-main-is-cjs", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "main is set to .dist/index.js when it should be set to dist/index.js",
+          message:
+            "main is set to .dist/index.js when it should be set to dist/index.js or dist/index.cjs",
         },
       ],
       output: '{"main": "dist/index.js"}',
@@ -320,7 +328,8 @@ ruleTester.run("ts-package-json-main-is-cjs", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "main is set to /dist/index.js when it should be set to dist/index.js",
+          message:
+            "main is set to /dist/index.js when it should be set to dist/index.js or dist/index.cjs",
         },
       ],
       output: '{"main": "dist/index.js"}',
@@ -331,7 +340,7 @@ ruleTester.run("ts-package-json-main-is-cjs", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "main is set to dist when it should be set to dist/index.js",
+          message: "main is set to dist when it should be set to dist/index.js or dist/index.cjs",
         },
       ],
       output: '{"main": "dist/index.js"}',
@@ -341,7 +350,8 @@ ruleTester.run("ts-package-json-main-is-cjs", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "main is set to index.js when it should be set to dist/index.js",
+          message:
+            "main is set to index.js when it should be set to dist/index.js or dist/index.cjs",
         },
       ],
       output: '{"main": "dist/index.js"}',
@@ -351,7 +361,8 @@ ruleTester.run("ts-package-json-main-is-cjs", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "main is set to dist/src/index.js when it should be set to dist/index.js",
+          message:
+            "main is set to dist/src/index.js when it should be set to dist/index.js or dist/index.cjs",
         },
       ],
       output: '{"main": "dist/index.js"}',
@@ -362,7 +373,8 @@ ruleTester.run("ts-package-json-main-is-cjs", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "main is set to index.js when it should be set to dist/index.js",
+          message:
+            "main is set to index.js when it should be set to dist/index.js or dist/index.cjs",
         },
       ],
       output: examplePackageGood,

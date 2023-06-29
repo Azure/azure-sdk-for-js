@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SecurityInsights } = require("@azure/arm-securityinsight");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Expand an bookmark
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/bookmarks/expand/PostExpandBookmark.json
  */
 async function expandAnBookmark() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const bookmarkId = "73e01a99-5cd7-4139-a149-9f2736ff2ab5";
   const parameters = {
@@ -38,4 +40,8 @@ async function expandAnBookmark() {
   console.log(result);
 }
 
-expandAnBookmark().catch(console.error);
+async function main() {
+  expandAnBookmark();
+}
+
+main().catch(console.error);

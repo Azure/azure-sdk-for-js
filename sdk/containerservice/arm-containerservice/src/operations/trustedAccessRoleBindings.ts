@@ -283,6 +283,9 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.TrustedAccessRoleBinding
     },
+    201: {
+      bodyMapper: Mappers.TrustedAccessRoleBinding
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }

@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { BitLockerKeys } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -51,8 +51,16 @@ export class BitLockerKeysImpl implements BitLockerKeys {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(jobName, resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          jobName,
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -60,9 +68,11 @@ export class BitLockerKeysImpl implements BitLockerKeys {
   private async *listPagingPage(
     jobName: string,
     resourceGroupName: string,
-    options?: BitLockerKeysListOptionalParams
+    options?: BitLockerKeysListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<DriveBitLockerKey[]> {
-    let result = await this._list(jobName, resourceGroupName, options);
+    let result: BitLockerKeysListResponse;
+    result = await this._list(jobName, resourceGroupName, options);
     yield result.value || [];
   }
 

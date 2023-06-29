@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SecurityCenter } = require("@azure/arm-security");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Update an application control machine group
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2020-01-01/examples/ApplicationWhitelistings/PutAdaptiveApplicationControls_example.json
  */
 async function updateAnApplicationControlMachineGroupByAddingANewApplication() {
-  const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] || "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const ascLocation = "centralus";
   const groupName = "ERELGROUP1";
   const body = {
@@ -113,4 +115,8 @@ async function updateAnApplicationControlMachineGroupByAddingANewApplication() {
   console.log(result);
 }
 
-updateAnApplicationControlMachineGroupByAddingANewApplication().catch(console.error);
+async function main() {
+  updateAnApplicationControlMachineGroupByAddingANewApplication();
+}
+
+main().catch(console.error);

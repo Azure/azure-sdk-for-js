@@ -747,6 +747,52 @@ describe("deserializationPolicy", function () {
       assert.notExists(result.parsedHeaders?.["x-ms-bar"]);
       assert.strictEqual(result.parsedBody.extraProp, "An extra property value");
     });
+
+    it(`json response body with null value`, async function () {
+      const BodyMapper: CompositeMapper = {
+        serializedName: "getproperties-body",
+        type: {
+          name: "Composite",
+          className: "PropertiesBody",
+          modelProperties: {
+            message: {
+              serializedName: "message",
+              type: {
+                name: "String",
+              },
+            },
+            status: {
+              serializedName: "properties.status",
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+      };
+
+      const serializer = createSerializer({ BodyMapper }, false);
+
+      const operationSpec: OperationSpec = {
+        httpMethod: "GET",
+        responses: {
+          200: {
+            bodyMapper: BodyMapper,
+          },
+        },
+        serializer,
+      };
+
+      const result = await getDeserializedResponse({
+        operationSpec,
+        bodyAsText: '{"message": null, "extraProp": "An extra property value", "properties": null}',
+        status: 200,
+      });
+      assert.exists(result);
+      assert.isNull(result.parsedBody.message);
+      assert.isUndefined(result.parsedBody.status);
+      assert.strictEqual(result.parsedBody.extraProp, "An extra property value");
+    });
   });
 });
 

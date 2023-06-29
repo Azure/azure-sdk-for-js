@@ -53,6 +53,8 @@ export interface PoolOutput {
   osType?: "Windows";
   /** Hardware settings for the Dev Boxes created in this pool */
   hardwareProfile?: HardwareProfileOutput;
+  /** Indicates whether hibernate is enabled/disabled or unknown. */
+  hibernateSupport?: "Disabled" | "Enabled";
   /** Storage settings for Dev Box created in this pool */
   storageProfile?: StorageProfileOutput;
   /** Image settings for Dev Boxes create in this pool */
@@ -135,6 +137,8 @@ export interface DevBoxOutput {
   projectName?: string;
   /** The name of the Dev Box pool this machine belongs to. */
   poolName: string;
+  /** Indicates whether hibernate is enabled/disabled or unknown. */
+  hibernateSupport?: "Disabled" | "Enabled";
   /** The current provisioning state of the Dev Box. */
   provisioningState?: string;
   /** The current action state of the Dev Box. This is state is based on previous action performed by user. */
@@ -154,7 +158,7 @@ export interface DevBoxOutput {
   location?: string;
   /** The operating system type of this Dev Box. */
   osType?: "Windows";
-  /** User identifier of the user this vm is assigned to. */
+  /** The AAD object id of the user this Dev Box is assigned to. */
   user?: string;
   /** Information about the Dev Box's hardware resources */
   hardwareProfile?: HardwareProfileOutput;
@@ -184,6 +188,30 @@ export interface RemoteConnectionOutput {
   rdpConnectionUrl?: string;
 }
 
+/** The Upcoming Action list result */
+export interface UpcomingActionsListResultOutput {
+  /** Current page of results */
+  value: Array<UpcomingActionOutput>;
+  /** The URL to get the next set of results. */
+  nextLink?: string;
+}
+
+/** An upcoming Action. */
+export interface UpcomingActionOutput {
+  /** Uniquely identifies the action. */
+  id?: string;
+  /** The action that will be taken. */
+  actionType?: "Stop";
+  /** The reason for this action. */
+  reason?: "Schedule";
+  /** The target time the action will be triggered (UTC). */
+  scheduledTime?: string;
+  /** The original scheduled time for the action (UTC). */
+  originalScheduledTime?: string;
+  /** The id of the resource which triggered this action */
+  sourceId?: string;
+}
+
 /** Results of the environment list operation. */
 export interface EnvironmentListResultOutput {
   /** Current page of results. */
@@ -198,8 +226,8 @@ export interface EnvironmentOutput extends EnvironmentUpdatePropertiesOutput {
   name?: string;
   /** Environment type. */
   environmentType: string;
-  /** Identifier of the owner of this Environment. */
-  owner?: string;
+  /** The AAD object id of the owner of this Environment. */
+  user?: string;
   /** The provisioning state of the environment. */
   provisioningState?: string;
   /** The identifier of the resource group containing the environment's resources. */
@@ -230,32 +258,6 @@ export interface ScheduledTaskOutput {
   enabled?: "Enabled" | "Disabled";
   /** Date/time by which the environment should expire */
   startTime: string;
-}
-
-/** Results of the artifact list operation. */
-export interface ArtifactListResultOutput {
-  /** Current page of results. */
-  value: Array<ArtifactOutput>;
-  /** URL to get the next set of results if there are any. */
-  nextLink?: string;
-}
-
-/** Properties of an Artifact */
-export interface ArtifactOutput {
-  /** Artifact identifier */
-  id?: string;
-  /** Artifact name */
-  name?: string;
-  /** Whether artifact is a directory */
-  isDirectory?: boolean;
-  /** Uri where the file contents can be downloaded */
-  downloadUri?: string;
-  /** Size of file in bytes, if the artifact is a file */
-  fileSize?: number;
-  /** Time the artifact was created */
-  createdTime?: string;
-  /** Time the artifact was last modified */
-  lastModifiedTime?: string;
 }
 
 /** Results of the catalog item list operation. */

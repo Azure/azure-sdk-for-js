@@ -13,6 +13,9 @@ import {
   EducationManagementClient
 } from "@azure/arm-education";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Generate invite code for a lab
@@ -36,4 +39,8 @@ async function createLab() {
   console.log(result);
 }
 
-createLab().catch(console.error);
+async function main() {
+  createLab();
+}
+
+main().catch(console.error);

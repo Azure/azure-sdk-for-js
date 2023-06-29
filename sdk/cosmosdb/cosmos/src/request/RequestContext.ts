@@ -3,6 +3,7 @@
 import { ClientContext } from "../ClientContext";
 import { HTTPMethod, OperationType, ResourceType } from "../common";
 import { Agent } from "../CosmosClientOptions";
+import { CosmosDiagnosticContext } from "../CosmosDiagnosticsContext";
 import { ConnectionPolicy, PartitionKey } from "../documents";
 import { GlobalEndpointManager } from "../globalEndpointManager";
 import { PluginConfig } from "../plugins/Plugin";
@@ -33,4 +34,5 @@ export interface RequestContext {
   plugins: PluginConfig[];
   partitionKey?: PartitionKey;
   pipeline?: Pipeline;
+  diagnosticContext: CosmosDiagnosticContext;
 }

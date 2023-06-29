@@ -50,7 +50,7 @@ export function defaultBrowserMsalConfig(
     auth: {
       clientId: options.clientId!,
       authority,
-      knownAuthorities: getKnownAuthorities(tenantId, authority),
+      knownAuthorities: getKnownAuthorities(tenantId, authority, options.disableInstanceDiscovery),
       // If the users picked redirect as their login style,
       // but they didn't provide a redirectUri,
       // we can try to use the current page we're in as a default value.

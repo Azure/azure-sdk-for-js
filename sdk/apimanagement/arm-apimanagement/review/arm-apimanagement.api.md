@@ -254,9 +254,6 @@ export type ApiDiagnosticGetResponse = ApiDiagnosticGetHeaders & DiagnosticContr
 
 // @public
 export interface ApiDiagnosticListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -413,9 +410,6 @@ export type ApiIssueAttachmentGetResponse = ApiIssueAttachmentGetHeaders & Issue
 
 // @public
 export interface ApiIssueAttachmentListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -483,9 +477,6 @@ export type ApiIssueCommentGetResponse = ApiIssueCommentGetHeaders & IssueCommen
 
 // @public
 export interface ApiIssueCommentListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -545,10 +536,6 @@ export type ApiIssueGetResponse = ApiIssueGetHeaders & IssueContract;
 
 // @public
 export interface ApiIssueListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    expandCommentsAttachments?: boolean;
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -585,11 +572,6 @@ export interface ApiLicenseInformation {
 
 // @public
 export interface ApiListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    expandApiVersionSet?: boolean;
-    filter?: string;
-    skip?: number;
-    tags?: string;
-    top?: number;
 }
 
 // @public
@@ -609,10 +591,6 @@ export type ApiListByServiceResponse = ApiCollection;
 
 // @public
 export interface ApiListByTagsNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    includeNotTaggedApis?: boolean;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -704,6 +682,8 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     gatewayCertificateAuthority: GatewayCertificateAuthority;
     // (undocumented)
     gatewayHostnameConfiguration: GatewayHostnameConfiguration;
+    // (undocumented)
+    globalSchema: GlobalSchema;
     // (undocumented)
     group: Group;
     // (undocumented)
@@ -1311,10 +1291,6 @@ export type ApiOperationGetResponse = ApiOperationGetHeaders & OperationContract
 
 // @public
 export interface ApiOperationListByApiNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    tags?: string;
-    top?: number;
 }
 
 // @public
@@ -1466,9 +1442,6 @@ export interface ApiProduct {
 
 // @public
 export interface ApiProductListByApisNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -1552,9 +1525,6 @@ export type ApiReleaseGetResponse = ApiReleaseGetHeaders & ApiReleaseContract;
 
 // @public
 export interface ApiReleaseListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -1616,9 +1586,6 @@ export interface ApiRevisionInfoContract {
 
 // @public
 export interface ApiRevisionListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -1690,9 +1657,6 @@ export type ApiSchemaGetResponse = ApiSchemaGetHeaders & SchemaContract;
 
 // @public
 export interface ApiSchemaListByApiNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -1760,9 +1724,6 @@ export type ApiTagDescriptionGetResponse = ApiTagDescriptionGetHeaders & TagDesc
 
 // @public
 export interface ApiTagDescriptionListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -1925,9 +1886,6 @@ export type ApiVersionSetGetResponse = ApiVersionSetGetHeaders & ApiVersionSetCo
 
 // @public
 export interface ApiVersionSetListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -2100,9 +2058,6 @@ export type AuthorizationServerGetResponse = AuthorizationServerGetHeaders & Aut
 
 // @public
 export interface AuthorizationServerListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -2289,9 +2244,6 @@ export type BackendGetResponse = BackendGetHeaders & BackendContract;
 
 // @public
 export interface BackendListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -2459,8 +2411,6 @@ export type CacheGetResponse = CacheGetHeaders & CacheContract;
 
 // @public
 export interface CacheListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -2588,10 +2538,6 @@ export interface CertificateInformation {
 
 // @public
 export interface CertificateListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    isKeyVaultRefreshFailed?: boolean;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -2729,7 +2675,7 @@ export type ContentFormat = string;
 
 // @public
 export interface ContentItem {
-    createOrUpdate(resourceGroupName: string, serviceName: string, contentTypeId: string, contentItemId: string, options?: ContentItemCreateOrUpdateOptionalParams): Promise<ContentItemCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, serviceName: string, contentTypeId: string, contentItemId: string, parameters: ContentItemContract, options?: ContentItemCreateOrUpdateOptionalParams): Promise<ContentItemCreateOrUpdateResponse>;
     delete(resourceGroupName: string, serviceName: string, contentTypeId: string, contentItemId: string, ifMatch: string, options?: ContentItemDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, serviceName: string, contentTypeId: string, contentItemId: string, options?: ContentItemGetOptionalParams): Promise<ContentItemGetResponse>;
     getEntityTag(resourceGroupName: string, serviceName: string, contentTypeId: string, contentItemId: string, options?: ContentItemGetEntityTagOptionalParams): Promise<ContentItemGetEntityTagResponse>;
@@ -2806,7 +2752,7 @@ export type ContentItemListByServiceResponse = ContentItemCollection;
 
 // @public
 export interface ContentType {
-    createOrUpdate(resourceGroupName: string, serviceName: string, contentTypeId: string, options?: ContentTypeCreateOrUpdateOptionalParams): Promise<ContentTypeCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, serviceName: string, contentTypeId: string, parameters: ContentTypeContract, options?: ContentTypeCreateOrUpdateOptionalParams): Promise<ContentTypeCreateOrUpdateResponse>;
     delete(resourceGroupName: string, serviceName: string, contentTypeId: string, ifMatch: string, options?: ContentTypeDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, serviceName: string, contentTypeId: string, options?: ContentTypeGetOptionalParams): Promise<ContentTypeGetResponse>;
     listByService(resourceGroupName: string, serviceName: string, options?: ContentTypeListByServiceOptionalParams): PagedAsyncIterableIterator<ContentTypeContract>;
@@ -3020,6 +2966,7 @@ export interface DiagnosticContract extends Resource {
     httpCorrelationProtocol?: HttpCorrelationProtocol;
     logClientIp?: boolean;
     loggerId?: string;
+    metrics?: boolean;
     operationNameFormat?: OperationNameFormat;
     sampling?: SamplingSettings;
     verbosity?: Verbosity;
@@ -3068,9 +3015,6 @@ export type DiagnosticGetResponse = DiagnosticGetHeaders & DiagnosticContract;
 
 // @public
 export interface DiagnosticListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -3163,9 +3107,6 @@ export type EmailTemplateGetResponse = EmailTemplateGetHeaders & EmailTemplateCo
 
 // @public
 export interface EmailTemplateListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -3298,9 +3239,6 @@ export type GatewayApiGetEntityTagResponse = GatewayApiGetEntityTagHeaders;
 
 // @public
 export interface GatewayApiListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -3379,9 +3317,6 @@ export type GatewayCertificateAuthorityGetResponse = GatewayCertificateAuthority
 
 // @public
 export interface GatewayCertificateAuthorityListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -3526,9 +3461,6 @@ export type GatewayHostnameConfigurationGetResponse = GatewayHostnameConfigurati
 
 // @public
 export interface GatewayHostnameConfigurationListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -3557,9 +3489,6 @@ export interface GatewayKeysContract {
 
 // @public
 export interface GatewayListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -3621,6 +3550,91 @@ export interface GenerateSsoUrlResult {
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
+export interface GlobalSchema {
+    beginCreateOrUpdate(resourceGroupName: string, serviceName: string, schemaId: string, parameters: GlobalSchemaContract, options?: GlobalSchemaCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<GlobalSchemaCreateOrUpdateResponse>, GlobalSchemaCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, serviceName: string, schemaId: string, parameters: GlobalSchemaContract, options?: GlobalSchemaCreateOrUpdateOptionalParams): Promise<GlobalSchemaCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, serviceName: string, schemaId: string, ifMatch: string, options?: GlobalSchemaDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, serviceName: string, schemaId: string, options?: GlobalSchemaGetOptionalParams): Promise<GlobalSchemaGetResponse>;
+    getEntityTag(resourceGroupName: string, serviceName: string, schemaId: string, options?: GlobalSchemaGetEntityTagOptionalParams): Promise<GlobalSchemaGetEntityTagResponse>;
+    listByService(resourceGroupName: string, serviceName: string, options?: GlobalSchemaListByServiceOptionalParams): PagedAsyncIterableIterator<GlobalSchemaContract>;
+}
+
+// @public
+export interface GlobalSchemaCollection {
+    count?: number;
+    readonly nextLink?: string;
+    readonly value?: GlobalSchemaContract[];
+}
+
+// @public
+export interface GlobalSchemaContract extends Resource {
+    description?: string;
+    document?: Record<string, unknown>;
+    schemaType?: SchemaType;
+    value?: any;
+}
+
+// @public
+export interface GlobalSchemaCreateOrUpdateHeaders {
+    eTag?: string;
+}
+
+// @public
+export interface GlobalSchemaCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GlobalSchemaCreateOrUpdateResponse = GlobalSchemaCreateOrUpdateHeaders & GlobalSchemaContract;
+
+// @public
+export interface GlobalSchemaDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface GlobalSchemaGetEntityTagHeaders {
+    eTag?: string;
+}
+
+// @public
+export interface GlobalSchemaGetEntityTagOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GlobalSchemaGetEntityTagResponse = GlobalSchemaGetEntityTagHeaders;
+
+// @public
+export interface GlobalSchemaGetHeaders {
+    eTag?: string;
+}
+
+// @public
+export interface GlobalSchemaGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GlobalSchemaGetResponse = GlobalSchemaGetHeaders & GlobalSchemaContract;
+
+// @public
+export interface GlobalSchemaListByServiceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GlobalSchemaListByServiceNextResponse = GlobalSchemaCollection;
+
+// @public
+export interface GlobalSchemaListByServiceOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export type GlobalSchemaListByServiceResponse = GlobalSchemaCollection;
 
 // @public
 export type GrantType = string;
@@ -3711,9 +3725,6 @@ export type GroupGetResponse = GroupGetHeaders & GroupContract;
 
 // @public
 export interface GroupListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -3782,9 +3793,6 @@ export interface GroupUserDeleteOptionalParams extends coreClient.OperationOptio
 
 // @public
 export interface GroupUserListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -4085,9 +4093,6 @@ export type IssueGetResponse = IssueGetHeaders & IssueContract;
 
 // @public
 export interface IssueListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -4487,6 +4492,12 @@ export enum KnownSamplingType {
 }
 
 // @public
+export enum KnownSchemaType {
+    Json = "json",
+    Xml = "xml"
+}
+
+// @public
 export enum KnownSettingsTypeName {
     Public = "public"
 }
@@ -4642,9 +4653,6 @@ export type LoggerGetResponse = LoggerGetHeaders & LoggerContract;
 
 // @public
 export interface LoggerListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -4796,10 +4804,6 @@ export type NamedValueGetResponse = NamedValueGetHeaders & NamedValueContract;
 
 // @public
 export interface NamedValueListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    isKeyVaultRefreshFailed?: boolean;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -4948,8 +4952,6 @@ export type NotificationGetResponse = NotificationContract;
 
 // @public
 export interface NotificationListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -5119,9 +5121,6 @@ export type OpenIdConnectProviderGetResponse = OpenIdConnectProviderGetHeaders &
 
 // @public
 export interface OpenIdConnectProviderListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -5223,10 +5222,6 @@ export interface OperationEntityBaseContract {
 
 // @public
 export interface OperationListByTagsNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    includeNotTaggedOperations?: boolean;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -5557,9 +5552,6 @@ export type PortalRevisionGetResponse = PortalRevisionGetHeaders & PortalRevisio
 
 // @public
 export interface PortalRevisionListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -5788,9 +5780,6 @@ export interface ProductApiDeleteOptionalParams extends coreClient.OperationOpti
 
 // @public
 export interface ProductApiListByProductNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -5911,9 +5900,6 @@ export interface ProductGroupDeleteOptionalParams extends coreClient.OperationOp
 
 // @public
 export interface ProductGroupListByProductNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -5931,11 +5917,6 @@ export type ProductGroupListByProductResponse = GroupCollection;
 
 // @public
 export interface ProductListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    expandGroups?: boolean;
-    filter?: string;
-    skip?: number;
-    tags?: string;
-    top?: number;
 }
 
 // @public
@@ -5955,10 +5936,6 @@ export type ProductListByServiceResponse = ProductCollection;
 
 // @public
 export interface ProductListByTagsNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    includeNotTaggedProducts?: boolean;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -6043,9 +6020,6 @@ export interface ProductSubscriptions {
 
 // @public
 export interface ProductSubscriptionsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -6305,9 +6279,6 @@ export interface Reports {
 
 // @public
 export interface ReportsListByApiNextOptionalParams extends coreClient.OperationOptions {
-    orderby?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -6325,8 +6296,6 @@ export type ReportsListByApiResponse = ReportCollection;
 
 // @public
 export interface ReportsListByGeoNextOptionalParams extends coreClient.OperationOptions {
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -6343,9 +6312,6 @@ export type ReportsListByGeoResponse = ReportCollection;
 
 // @public
 export interface ReportsListByOperationNextOptionalParams extends coreClient.OperationOptions {
-    orderby?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -6363,9 +6329,6 @@ export type ReportsListByOperationResponse = ReportCollection;
 
 // @public
 export interface ReportsListByProductNextOptionalParams extends coreClient.OperationOptions {
-    orderby?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -6392,9 +6355,6 @@ export type ReportsListByRequestResponse = RequestReportCollection;
 
 // @public
 export interface ReportsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    orderby?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -6412,9 +6372,6 @@ export type ReportsListBySubscriptionResponse = ReportCollection;
 
 // @public
 export interface ReportsListByTimeNextOptionalParams extends coreClient.OperationOptions {
-    orderby?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -6432,9 +6389,6 @@ export type ReportsListByTimeResponse = ReportCollection;
 
 // @public
 export interface ReportsListByUserNextOptionalParams extends coreClient.OperationOptions {
-    orderby?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -6578,6 +6532,9 @@ export interface SchemaContract extends Resource {
     definitions?: Record<string, unknown>;
     value?: string;
 }
+
+// @public
+export type SchemaType = string;
 
 // @public
 export type SettingsTypeName = string;
@@ -6787,9 +6744,6 @@ export interface SubscriptionKeysContract {
 
 // @public
 export interface SubscriptionListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -7101,9 +7055,6 @@ export type TagGetResponse = TagGetHeaders & TagContract;
 
 // @public
 export interface TagListByApiNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -7121,9 +7072,6 @@ export type TagListByApiResponse = TagCollection;
 
 // @public
 export interface TagListByOperationNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -7141,9 +7089,6 @@ export type TagListByOperationResponse = TagCollection;
 
 // @public
 export interface TagListByProductNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -7161,10 +7106,6 @@ export type TagListByProductResponse = TagCollection;
 
 // @public
 export interface TagListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    scope?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -7209,9 +7150,6 @@ export interface TagResourceContractProperties {
 
 // @public
 export interface TagResourceListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -7306,7 +7244,6 @@ export interface TenantAccessGitRegenerateSecondaryKeyOptionalParams extends cor
 
 // @public
 export interface TenantAccessListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -7442,7 +7379,6 @@ export type TenantSettingsGetResponse = TenantSettingsGetHeaders & TenantSetting
 
 // @public
 export interface TenantSettingsListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -7615,9 +7551,6 @@ export interface UserGroup {
 
 // @public
 export interface UserGroupListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -7673,10 +7606,6 @@ export interface UserIdentityProperties {
 
 // @public
 export interface UserListByServiceNextOptionalParams extends coreClient.OperationOptions {
-    expandGroups?: boolean;
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -7716,9 +7645,6 @@ export type UserSubscriptionGetResponse = UserSubscriptionGetHeaders & Subscript
 
 // @public
 export interface UserSubscriptionListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public

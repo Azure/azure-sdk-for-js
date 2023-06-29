@@ -1,7 +1,7 @@
 {
   "name": "@azure/core-amqp",
   "sdk-type": "client",
-  "version": "3.2.2",
+  "version": "4.0.0",
   "description": "Common library for amqp based azure sdks like @azure/event-hubs.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -22,6 +22,7 @@
   },
   "browser": {
     "./dist-esm/src/util/checkNetworkConnection.js": "./dist-esm/src/util/checkNetworkConnection.browser.js",
+    "./dist-esm/src/util/hmacSha256.js": "./dist-esm/src/util/hmacSha256.browser.js",
     "./dist-esm/src/util/runtimeInfo.js": "./dist-esm/src/util/runtimeInfo.browser.js",
     "buffer": "buffer"
   },
@@ -77,10 +78,9 @@
     "@azure/logger": "^1.0.0",
     "buffer": "^6.0.0",
     "events": "^3.0.0",
-    "jssha": "^3.1.0",
     "process": "^0.11.10",
-    "rhea": "^2.0.3",
-    "rhea-promise": "^2.1.0",
+    "rhea": "^3.0.0",
+    "rhea-promise": "^3.0.0",
     "tslib": "^2.2.0",
     "util": "^0.12.1"
   },
@@ -88,12 +88,12 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "^7.31.1",
-    "@rollup/plugin-commonjs": "^21.0.1",
-    "@rollup/plugin-inject": "^4.0.0",
-    "@rollup/plugin-json": "^4.0.0",
-    "@rollup/plugin-multi-entry": "^3.0.0",
-    "@rollup/plugin-node-resolve": "^13.0.6",
-    "@rollup/plugin-replace": "^2.2.0",
+    "@rollup/plugin-commonjs": "^24.0.0",
+    "@rollup/plugin-inject": "^5.0.0",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-multi-entry": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^13.1.3",
+    "@rollup/plugin-replace": "^5.0.0",
     "@types/chai": "^4.1.6",
     "@types/debug": "^4.1.4",
     "@types/mocha": "^7.0.2",
@@ -119,7 +119,10 @@
     "rollup-plugin-sourcemaps": "^0.6.3",
     "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~4.8.0",
+    "typescript": "~5.0.0",
     "ws": "^8.2.0"
+  },
+  "//metadata": {
+    "migrationDate": "2023-03-08T18:36:03.000Z"
   }
 }

@@ -25,18 +25,23 @@ import {
   DevBoxesCreateDevBox200Response,
   DevBoxesCreateDevBox201Response,
   DevBoxesCreateDevBoxDefaultResponse,
-  DevBoxesDeleteDevBox200Response,
   DevBoxesDeleteDevBox202Response,
   DevBoxesDeleteDevBox204Response,
   DevBoxesDeleteDevBoxDefaultResponse,
-  DevBoxesStartDevBox200Response,
   DevBoxesStartDevBox202Response,
   DevBoxesStartDevBoxDefaultResponse,
-  DevBoxesStopDevBox200Response,
   DevBoxesStopDevBox202Response,
   DevBoxesStopDevBoxDefaultResponse,
   DevBoxesGetRemoteConnection200Response,
   DevBoxesGetRemoteConnectionDefaultResponse,
+  DevBoxesListUpcomingActions200Response,
+  DevBoxesListUpcomingActionsDefaultResponse,
+  DevBoxesGetUpcomingAction200Response,
+  DevBoxesGetUpcomingActionDefaultResponse,
+  DevBoxesSkipUpcomingAction204Response,
+  DevBoxesSkipUpcomingActionDefaultResponse,
+  DevBoxesDelayUpcomingAction200Response,
+  DevBoxesDelayUpcomingActionDefaultResponse,
   EnvironmentsListEnvironments200Response,
   EnvironmentsListEnvironmentsDefaultResponse,
   EnvironmentsListEnvironmentsByUser200Response,
@@ -55,16 +60,9 @@ import {
   EnvironmentsDeployEnvironmentAction200Response,
   EnvironmentsDeployEnvironmentAction202Response,
   EnvironmentsDeployEnvironmentActionDefaultResponse,
-  EnvironmentsDeleteEnvironmentAction200Response,
-  EnvironmentsDeleteEnvironmentAction202Response,
-  EnvironmentsDeleteEnvironmentActionDefaultResponse,
   EnvironmentsCustomEnvironmentAction200Response,
   EnvironmentsCustomEnvironmentAction202Response,
   EnvironmentsCustomEnvironmentActionDefaultResponse,
-  EnvironmentsListArtifactsByEnvironment200Response,
-  EnvironmentsListArtifactsByEnvironmentDefaultResponse,
-  EnvironmentsListArtifactsByEnvironmentAndPath200Response,
-  EnvironmentsListArtifactsByEnvironmentAndPathDefaultResponse,
   EnvironmentsListCatalogItems200Response,
   EnvironmentsListCatalogItemsDefaultResponse,
   EnvironmentsGetCatalogItem200Response,
@@ -95,27 +93,34 @@ const responseMap: Record<string, string[]> = {
     "201"
   ],
   "DELETE /projects/{projectName}/users/{userId}/devboxes/{devBoxName}": [
-    "200",
     "202",
     "204"
   ],
   "POST /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:start": [
-    "200",
     "202"
   ],
   "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:start": [
-    "200",
     "202"
   ],
   "POST /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:stop": [
-    "200",
     "202"
   ],
   "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:stop": [
-    "200",
     "202"
   ],
   "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}/remoteConnection": [
+    "200"
+  ],
+  "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}/upcomingActions": [
+    "200"
+  ],
+  "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}/upcomingActions/{upcomingActionId}": [
+    "200"
+  ],
+  "POST /projects/{projectName}/users/{userId}/devboxes/{devBoxName}/upcomingActions/{upcomingActionId}:skip": [
+    "204"
+  ],
+  "POST /projects/{projectName}/users/{userId}/devboxes/{devBoxName}/upcomingActions/{upcomingActionId}:delay": [
     "200"
   ],
   "GET /projects/{projectName}/environments": ["200"],
@@ -143,14 +148,6 @@ const responseMap: Record<string, string[]> = {
     "200",
     "202"
   ],
-  "POST /projects/{projectName}/users/{userId}/environments/{environmentName}:delete": [
-    "200",
-    "202"
-  ],
-  "GET /projects/{projectName}/users/{userId}/environments/{environmentName}:delete": [
-    "200",
-    "202"
-  ],
   "POST /projects/{projectName}/users/{userId}/environments/{environmentName}:custom": [
     "200",
     "202"
@@ -158,12 +155,6 @@ const responseMap: Record<string, string[]> = {
   "GET /projects/{projectName}/users/{userId}/environments/{environmentName}:custom": [
     "200",
     "202"
-  ],
-  "GET /projects/{projectName}/users/{userId}/environments/{environmentName}/artifacts": [
-    "200"
-  ],
-  "GET /projects/{projectName}/users/{userId}/environments/{environmentName}/artifacts/{artifactPath}": [
-    "200"
   ],
   "GET /projects/{projectName}/catalogItems": ["200"],
   "GET /projects/{projectName}/catalogItems/{catalogItemId}": ["200"],
@@ -226,28 +217,41 @@ export function isUnexpected(
 ): response is DevBoxesCreateDevBoxDefaultResponse;
 export function isUnexpected(
   response:
-    | DevBoxesDeleteDevBox200Response
     | DevBoxesDeleteDevBox202Response
     | DevBoxesDeleteDevBox204Response
     | DevBoxesDeleteDevBoxDefaultResponse
 ): response is DevBoxesDeleteDevBoxDefaultResponse;
 export function isUnexpected(
-  response:
-    | DevBoxesStartDevBox200Response
-    | DevBoxesStartDevBox202Response
-    | DevBoxesStartDevBoxDefaultResponse
+  response: DevBoxesStartDevBox202Response | DevBoxesStartDevBoxDefaultResponse
 ): response is DevBoxesStartDevBoxDefaultResponse;
 export function isUnexpected(
-  response:
-    | DevBoxesStopDevBox200Response
-    | DevBoxesStopDevBox202Response
-    | DevBoxesStopDevBoxDefaultResponse
+  response: DevBoxesStopDevBox202Response | DevBoxesStopDevBoxDefaultResponse
 ): response is DevBoxesStopDevBoxDefaultResponse;
 export function isUnexpected(
   response:
     | DevBoxesGetRemoteConnection200Response
     | DevBoxesGetRemoteConnectionDefaultResponse
 ): response is DevBoxesGetRemoteConnectionDefaultResponse;
+export function isUnexpected(
+  response:
+    | DevBoxesListUpcomingActions200Response
+    | DevBoxesListUpcomingActionsDefaultResponse
+): response is DevBoxesListUpcomingActionsDefaultResponse;
+export function isUnexpected(
+  response:
+    | DevBoxesGetUpcomingAction200Response
+    | DevBoxesGetUpcomingActionDefaultResponse
+): response is DevBoxesGetUpcomingActionDefaultResponse;
+export function isUnexpected(
+  response:
+    | DevBoxesSkipUpcomingAction204Response
+    | DevBoxesSkipUpcomingActionDefaultResponse
+): response is DevBoxesSkipUpcomingActionDefaultResponse;
+export function isUnexpected(
+  response:
+    | DevBoxesDelayUpcomingAction200Response
+    | DevBoxesDelayUpcomingActionDefaultResponse
+): response is DevBoxesDelayUpcomingActionDefaultResponse;
 export function isUnexpected(
   response:
     | EnvironmentsListEnvironments200Response
@@ -289,26 +293,10 @@ export function isUnexpected(
 ): response is EnvironmentsDeployEnvironmentActionDefaultResponse;
 export function isUnexpected(
   response:
-    | EnvironmentsDeleteEnvironmentAction200Response
-    | EnvironmentsDeleteEnvironmentAction202Response
-    | EnvironmentsDeleteEnvironmentActionDefaultResponse
-): response is EnvironmentsDeleteEnvironmentActionDefaultResponse;
-export function isUnexpected(
-  response:
     | EnvironmentsCustomEnvironmentAction200Response
     | EnvironmentsCustomEnvironmentAction202Response
     | EnvironmentsCustomEnvironmentActionDefaultResponse
 ): response is EnvironmentsCustomEnvironmentActionDefaultResponse;
-export function isUnexpected(
-  response:
-    | EnvironmentsListArtifactsByEnvironment200Response
-    | EnvironmentsListArtifactsByEnvironmentDefaultResponse
-): response is EnvironmentsListArtifactsByEnvironmentDefaultResponse;
-export function isUnexpected(
-  response:
-    | EnvironmentsListArtifactsByEnvironmentAndPath200Response
-    | EnvironmentsListArtifactsByEnvironmentAndPathDefaultResponse
-): response is EnvironmentsListArtifactsByEnvironmentAndPathDefaultResponse;
 export function isUnexpected(
   response:
     | EnvironmentsListCatalogItems200Response
@@ -359,18 +347,23 @@ export function isUnexpected(
     | DevBoxesCreateDevBox200Response
     | DevBoxesCreateDevBox201Response
     | DevBoxesCreateDevBoxDefaultResponse
-    | DevBoxesDeleteDevBox200Response
     | DevBoxesDeleteDevBox202Response
     | DevBoxesDeleteDevBox204Response
     | DevBoxesDeleteDevBoxDefaultResponse
-    | DevBoxesStartDevBox200Response
     | DevBoxesStartDevBox202Response
     | DevBoxesStartDevBoxDefaultResponse
-    | DevBoxesStopDevBox200Response
     | DevBoxesStopDevBox202Response
     | DevBoxesStopDevBoxDefaultResponse
     | DevBoxesGetRemoteConnection200Response
     | DevBoxesGetRemoteConnectionDefaultResponse
+    | DevBoxesListUpcomingActions200Response
+    | DevBoxesListUpcomingActionsDefaultResponse
+    | DevBoxesGetUpcomingAction200Response
+    | DevBoxesGetUpcomingActionDefaultResponse
+    | DevBoxesSkipUpcomingAction204Response
+    | DevBoxesSkipUpcomingActionDefaultResponse
+    | DevBoxesDelayUpcomingAction200Response
+    | DevBoxesDelayUpcomingActionDefaultResponse
     | EnvironmentsListEnvironments200Response
     | EnvironmentsListEnvironmentsDefaultResponse
     | EnvironmentsListEnvironmentsByUser200Response
@@ -389,16 +382,9 @@ export function isUnexpected(
     | EnvironmentsDeployEnvironmentAction200Response
     | EnvironmentsDeployEnvironmentAction202Response
     | EnvironmentsDeployEnvironmentActionDefaultResponse
-    | EnvironmentsDeleteEnvironmentAction200Response
-    | EnvironmentsDeleteEnvironmentAction202Response
-    | EnvironmentsDeleteEnvironmentActionDefaultResponse
     | EnvironmentsCustomEnvironmentAction200Response
     | EnvironmentsCustomEnvironmentAction202Response
     | EnvironmentsCustomEnvironmentActionDefaultResponse
-    | EnvironmentsListArtifactsByEnvironment200Response
-    | EnvironmentsListArtifactsByEnvironmentDefaultResponse
-    | EnvironmentsListArtifactsByEnvironmentAndPath200Response
-    | EnvironmentsListArtifactsByEnvironmentAndPathDefaultResponse
     | EnvironmentsListCatalogItems200Response
     | EnvironmentsListCatalogItemsDefaultResponse
     | EnvironmentsGetCatalogItem200Response
@@ -425,6 +411,10 @@ export function isUnexpected(
   | DevBoxesStartDevBoxDefaultResponse
   | DevBoxesStopDevBoxDefaultResponse
   | DevBoxesGetRemoteConnectionDefaultResponse
+  | DevBoxesListUpcomingActionsDefaultResponse
+  | DevBoxesGetUpcomingActionDefaultResponse
+  | DevBoxesSkipUpcomingActionDefaultResponse
+  | DevBoxesDelayUpcomingActionDefaultResponse
   | EnvironmentsListEnvironmentsDefaultResponse
   | EnvironmentsListEnvironmentsByUserDefaultResponse
   | EnvironmentsGetEnvironmentByUserDefaultResponse
@@ -432,10 +422,7 @@ export function isUnexpected(
   | EnvironmentsUpdateEnvironmentDefaultResponse
   | EnvironmentsDeleteEnvironmentDefaultResponse
   | EnvironmentsDeployEnvironmentActionDefaultResponse
-  | EnvironmentsDeleteEnvironmentActionDefaultResponse
   | EnvironmentsCustomEnvironmentActionDefaultResponse
-  | EnvironmentsListArtifactsByEnvironmentDefaultResponse
-  | EnvironmentsListArtifactsByEnvironmentAndPathDefaultResponse
   | EnvironmentsListCatalogItemsDefaultResponse
   | EnvironmentsGetCatalogItemDefaultResponse
   | EnvironmentsListCatalogItemVersionsDefaultResponse

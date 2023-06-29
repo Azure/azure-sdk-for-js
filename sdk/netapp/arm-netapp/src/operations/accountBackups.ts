@@ -6,14 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { AccountBackups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NetAppManagementClient } from "../netAppManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Backup,
   AccountBackupsListOptionalParams,
@@ -38,7 +42,7 @@ export class AccountBackupsImpl implements AccountBackups {
 
   /**
    * List all Backups for a Netapp Account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -55,8 +59,16 @@ export class AccountBackupsImpl implements AccountBackups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, accountName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          accountName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -64,9 +76,11 @@ export class AccountBackupsImpl implements AccountBackups {
   private async *listPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountBackupsListOptionalParams
+    options?: AccountBackupsListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Backup[]> {
-    let result = await this._list(resourceGroupName, accountName, options);
+    let result: AccountBackupsListResponse;
+    result = await this._list(resourceGroupName, accountName, options);
     yield result.value || [];
   }
 
@@ -86,7 +100,7 @@ export class AccountBackupsImpl implements AccountBackups {
 
   /**
    * List all Backups for a Netapp Account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
@@ -103,7 +117,7 @@ export class AccountBackupsImpl implements AccountBackups {
 
   /**
    * Gets the specified backup for a Netapp Account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupName The name of the backup
    * @param options The options parameters.
@@ -122,7 +136,7 @@ export class AccountBackupsImpl implements AccountBackups {
 
   /**
    * Delete the specified Backup for a Netapp Account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupName The name of the backup
    * @param options The options parameters.
@@ -132,14 +146,14 @@ export class AccountBackupsImpl implements AccountBackups {
     accountName: string,
     backupName: string,
     options?: AccountBackupsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -172,15 +186,15 @@ export class AccountBackupsImpl implements AccountBackups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, backupName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, backupName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -188,7 +202,7 @@ export class AccountBackupsImpl implements AccountBackups {
 
   /**
    * Delete the specified Backup for a Netapp Account
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupName The name of the backup
    * @param options The options parameters.

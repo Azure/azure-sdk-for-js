@@ -31,7 +31,19 @@ describe("AppConfigurationClient", () => {
 
   after(async function (this: Context) {
     if (!isPlaybackMode()) {
-      await deleteEverySetting();
+      try {
+        await deleteEverySetting();
+      } catch (error) {
+        if ((error as { statusCode: number }).statusCode === 404) {
+          // If for some reason, service fails with 404 while deleting, we don't care about it so that we don't count it as a test failure
+          console.log(
+            "delete settings if any(in the after section..) results in an error(404)",
+            error
+          );
+        } else {
+          throw error;
+        }
+      }
     }
   });
 
@@ -858,6 +870,79 @@ describe("AppConfigurationClient", () => {
         });
         await settingsIterator.next();
       });
+    });
+  });
+
+  describe("listConfigSettings", function () {
+    let key1: string;
+    let key2: string;
+    beforeEach(async () => {
+      key1 = recorder.variable(
+        "backslash-zero-label-1",
+        `backslash-zero-label-1-${Math.floor(Math.random() * 900 + 100)}`
+      );
+      key2 = recorder.variable(
+        "backslash-zero-label-2",
+        `backslash-zero-label-2-${Math.floor(Math.random() * 900 + 100)}`
+      );
+      await client.addConfigurationSetting({
+        key: key1,
+        value: "[A] production value",
+      });
+      await client.addConfigurationSetting({
+        key: key2,
+        value: "[A] value",
+      });
+
+      await client.addConfigurationSetting({
+        key: key2,
+        value: "[B] value",
+        label: "with label",
+      });
+    });
+
+    afterEach(async () => {
+      (
+        await toSortedArray(
+          client.listConfigurationSettings({
+            keyFilter: "backslash-zero-label-*",
+          })
+        )
+      ).forEach(async (setting) => {
+        try {
+          await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
+        } catch (_) {
+          /** empty code block */
+        }
+      });
+    });
+
+    it("matches any key without label - `backslash0`", async () => {
+      const byLabelIterator = client.listConfigurationSettings({
+        keyFilter: "backslash-zero-label-*",
+        labelFilter: "\0",
+      });
+      const byLabelSettings = (await toSortedArray(byLabelIterator)).filter((setting) =>
+        [key1, key2].includes(setting.key)
+      );
+      assert.equal(byLabelSettings.length, 2, "got unexpected number of settings");
+      assertEqualSettings(
+        [
+          {
+            key: key1,
+            value: "[A] production value",
+            label: undefined,
+            isReadOnly: false,
+          },
+          {
+            key: key2,
+            value: "[A] value",
+            label: undefined,
+            isReadOnly: false,
+          },
+        ],
+        byLabelSettings
+      );
     });
   });
 

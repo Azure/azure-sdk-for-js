@@ -1,6 +1,6 @@
 # Release History
 
-## 2.5.1 (Unreleased)
+## 2.5.4 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,24 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 2.5.3 (2023-05-04)
+
+### Other Changes
+
+- Include detailed error information in failed polling error messages.
+
+## 2.5.2 (2023-04-06)
+
+### Bugs Fixed
+
+- Change the logging level for unrecognized operation statuses from warning to verbose.
+
+## 2.5.1 (2023-02-02)
+
+### Bugs Fixed
+
+- The operation will be considered failed when an HTTP response error is received and not when any arbitrary error is raised.
 
 ## 2.5.0 (2023-01-10)
 

@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates the properties of an existing Azure Cosmos DB database account.
  *
  * @summary Updates the properties of an existing Azure Cosmos DB database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBDatabaseAccountPatch.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBDatabaseAccountPatch.json
  */
 async function cosmosDbDatabaseAccountPatch() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -46,6 +46,7 @@ async function cosmosDbDatabaseAccountPatch() {
     defaultIdentity: "FirstPartyIdentity",
     diagnosticLogSettings: { enableFullTextQuery: "True" },
     enableAnalyticalStorage: true,
+    enableBurstCapacity: true,
     enableFreeTier: false,
     enablePartitionMerge: true,
     identity: {
@@ -60,6 +61,7 @@ async function cosmosDbDatabaseAccountPatch() {
     ],
     isVirtualNetworkFilterEnabled: true,
     location: "westus",
+    minimalTlsVersion: "Tls",
     networkAclBypass: "AzureServices",
     networkAclBypassResourceIds: [
       "/subscriptions/subId/resourcegroups/rgName/providers/Microsoft.Synapse/workspaces/workspaceName"

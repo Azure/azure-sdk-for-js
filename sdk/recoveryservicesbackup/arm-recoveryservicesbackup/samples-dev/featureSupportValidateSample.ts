@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to It will validate if given feature with resource properties is supported in service
  *
  * @summary It will validate if given feature with resource properties is supported in service
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/BackupFeature_Validate.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/AzureIaasVm/BackupFeature_Validate.json
  */
 async function checkAzureVMBackupFeatureSupport() {
   const subscriptionId =

@@ -9,6 +9,7 @@ import {
   createBrowserNotification,
   createFcmLegacyNotification,
   createTemplateNotification,
+  createXiaomiNotification,
   createWindowsBadgeNotification,
   createWindowsRawNotification,
   createWindowsTileNotification,
@@ -85,6 +86,18 @@ describe("createTemplateNotification", () => {
     assert.equal(notification.contentType, Constants.JSON_CONTENT_TYPE);
     assert.equal(notification.platform, "template");
     assert.equal(notification.body, `{"title":"(Hello title)","body":"Hello"}`);
+  });
+});
+
+describe("createXiaomiNotification", () => {
+  it("should create a Xiaomi message with defaults", () => {
+    const notification = createXiaomiNotification({
+      body: `{"data":{"message":"Hello}}`,
+    });
+
+    assert.equal(notification.contentType, Constants.JSON_CONTENT_TYPE);
+    assert.equal(notification.platform, "xiaomi");
+    assert.equal(notification.body, `{"data":{"message":"Hello}}`);
   });
 });
 

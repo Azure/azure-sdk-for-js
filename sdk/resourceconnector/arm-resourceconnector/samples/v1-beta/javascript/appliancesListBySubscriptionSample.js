@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 const { ResourceConnectorManagementClient } = require("@azure/arm-resourceconnector");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets a list of Appliances in the specified subscription. The operation returns properties of each Appliance
  *
  * @summary Gets a list of Appliances in the specified subscription. The operation returns properties of each Appliance
- * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/preview/2022-04-15-preview/examples/AppliancesListBySubscription.json
+ * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/stable/2022-10-27/examples/AppliancesListBySubscription.json
  */
 async function listAppliancesBySubscription() {
-  const subscriptionId = "11111111-2222-3333-4444-555555555555";
+  const subscriptionId =
+    process.env["RESOURCECONNECTOR_SUBSCRIPTION_ID"] || "11111111-2222-3333-4444-555555555555";
   const credential = new DefaultAzureCredential();
   const client = new ResourceConnectorManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +30,8 @@ async function listAppliancesBySubscription() {
   console.log(resArray);
 }
 
-listAppliancesBySubscription().catch(console.error);
+async function main() {
+  listAppliancesBySubscription();
+}
+
+main().catch(console.error);

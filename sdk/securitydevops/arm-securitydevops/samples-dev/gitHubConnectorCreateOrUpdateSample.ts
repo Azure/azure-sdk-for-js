@@ -13,6 +13,9 @@ import {
   MicrosoftSecurityDevOps
 } from "@azure/arm-securitydevops";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update a monitored GitHub Connector resource.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/securitydevops/resource-manager/Microsoft.SecurityDevOps/preview/2022-09-01-preview/examples/GitHubConnectorCreateOrUpdate.json
  */
 async function gitHubConnectorCreateOrUpdate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "westusrg";
+  const subscriptionId =
+    process.env["SECURITYDEVOPS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["SECURITYDEVOPS_RESOURCE_GROUP"] || "westusrg";
   const gitHubConnectorName = "testconnector";
   const gitHubConnector: GitHubConnector = {
     location: "West US",
@@ -38,4 +44,8 @@ async function gitHubConnectorCreateOrUpdate() {
   console.log(result);
 }
 
-gitHubConnectorCreateOrUpdate().catch(console.error);
+async function main() {
+  gitHubConnectorCreateOrUpdate();
+}
+
+main().catch(console.error);

@@ -13,6 +13,9 @@ import {
   DnsResolverManagementClient
 } from "@azure/arm-dnsresolver";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates a DNS resolver.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/stable/2022-07-01/examples/DnsResolver_Put.json
  */
 async function upsertDnsResolver() {
-  const subscriptionId = "abdd4249-9f34-4cc6-8e42-c2e32110603e";
-  const resourceGroupName = "sampleResourceGroup";
+  const subscriptionId =
+    process.env["DNSRESOLVER_SUBSCRIPTION_ID"] ||
+    "abdd4249-9f34-4cc6-8e42-c2e32110603e";
+  const resourceGroupName =
+    process.env["DNSRESOLVER_RESOURCE_GROUP"] || "sampleResourceGroup";
   const dnsResolverName = "sampleDnsResolver";
   const parameters: DnsResolver = {
     location: "westus2",
@@ -42,4 +48,8 @@ async function upsertDnsResolver() {
   console.log(result);
 }
 
-upsertDnsResolver().catch(console.error);
+async function main() {
+  upsertDnsResolver();
+}
+
+main().catch(console.error);

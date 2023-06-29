@@ -35,8 +35,7 @@ export class VaultExtendedInfoImpl implements VaultExtendedInfo {
 
   /**
    * Get the vault extended info.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the recovery services vault.
    * @param options The options parameters.
    */
@@ -53,8 +52,7 @@ export class VaultExtendedInfoImpl implements VaultExtendedInfo {
 
   /**
    * Create vault extended info.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the recovery services vault.
    * @param resourceExtendedInfoDetails Details of ResourceExtendedInfo
    * @param options The options parameters.
@@ -73,8 +71,7 @@ export class VaultExtendedInfoImpl implements VaultExtendedInfo {
 
   /**
    * Update vault extended info.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the recovery services vault.
    * @param resourceExtendedInfoDetails Details of ResourceExtendedInfo
    * @param options The options parameters.

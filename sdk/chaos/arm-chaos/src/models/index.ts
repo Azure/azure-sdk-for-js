@@ -903,10 +903,7 @@ export type CapabilitiesCreateOrUpdateResponse = Capability;
 
 /** Optional parameters. */
 export interface CapabilitiesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** String that sets the continuation token. */
-  continuationToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type CapabilitiesListNextResponse = CapabilityListResult;
@@ -930,10 +927,7 @@ export type CapabilityTypesGetResponse = CapabilityType;
 
 /** Optional parameters. */
 export interface CapabilityTypesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** String that sets the continuation token. */
-  continuationToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type CapabilityTypesListNextResponse = CapabilityTypeListResult;
@@ -1024,24 +1018,14 @@ export type ExperimentsGetExecutionDetailsResponse = ExperimentExecutionDetails;
 
 /** Optional parameters. */
 export interface ExperimentsListAllNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** String that sets the continuation token. */
-  continuationToken?: string;
-  /** Optional value that indicates whether to filter results based on if the Experiment is currently running. If null, then the results will not be filtered. */
-  running?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAllNext operation. */
 export type ExperimentsListAllNextResponse = ExperimentListResult;
 
 /** Optional parameters. */
 export interface ExperimentsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** String that sets the continuation token. */
-  continuationToken?: string;
-  /** Optional value that indicates whether to filter results based on if the Experiment is currently running. If null, then the results will not be filtered. */
-  running?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ExperimentsListNextResponse = ExperimentListResult;
@@ -1093,10 +1077,7 @@ export type TargetTypesGetResponse = TargetType;
 
 /** Optional parameters. */
 export interface TargetTypesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** String that sets the continuation token. */
-  continuationToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type TargetTypesListNextResponse = TargetTypeListResult;
@@ -1129,10 +1110,7 @@ export type TargetsCreateOrUpdateResponse = Target;
 
 /** Optional parameters. */
 export interface TargetsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** String that sets the continuation token. */
-  continuationToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type TargetsListNextResponse = TargetListResult;

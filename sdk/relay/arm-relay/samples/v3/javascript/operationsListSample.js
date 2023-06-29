@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { RelayAPI } = require("@azure/arm-relay");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists all available Relay REST API operations.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/relay/resource-manager/Microsoft.Relay/stable/2017-04-01/examples/RelayOperations_List.json
  */
 async function relayOperationsList() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RELAY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new RelayAPI(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +30,8 @@ async function relayOperationsList() {
   console.log(resArray);
 }
 
-relayOperationsList().catch(console.error);
+async function main() {
+  relayOperationsList();
+}
+
+main().catch(console.error);

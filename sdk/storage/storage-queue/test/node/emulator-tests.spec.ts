@@ -4,8 +4,13 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 import { QueueClient, QueueServiceClient } from "../../src";
-import { getConnectionStringFromEnvironment, getQSU } from "../utils";
-import { isBrowser, getUniqueName } from "../utils/testutils.common";
+import {
+  getConnectionStringFromEnvironment,
+  getQSU,
+  getUniqueName,
+  recorderEnvSetup,
+} from "../utils";
+import { Recorder, env } from "@azure-tools/test-recorder";
 
 // Expected environment variables to run this test-suite
 // STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true
@@ -13,15 +18,24 @@ describe("Emulator Tests", () => {
   const messageContent = "Hello World";
   let queueName: string;
   let queueClient: QueueClient;
-  const env = isBrowser() ? (self as any).__env__ : process.env;
+  let recorder: Recorder;
   beforeEach(async function (this: Context) {
-    if (!env.STORAGE_CONNECTION_STRING.startsWith("UseDevelopmentStorage=true")) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    if (!(env.STORAGE_CONNECTION_STRING ?? "").startsWith("UseDevelopmentStorage=true")) {
       this.skip();
     }
-    const queueServiceClient = getQSU();
+    const queueServiceClient = getQSU(recorder);
     queueName = getUniqueName("queue");
     queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();
+  });
+
+  afterEach(async function () {
+    if (queueClient) {
+      await queueClient.delete();
+    }
+    await recorder.stop();
   });
 
   it("QueueClient can be created with a connection string and a queue name", async () => {

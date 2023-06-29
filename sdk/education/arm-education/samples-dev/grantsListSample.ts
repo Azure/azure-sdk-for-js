@@ -13,6 +13,9 @@ import {
   EducationManagementClient
 } from "@azure/arm-education";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get details for a specific grant linked to the provided billing account and billing profile.
@@ -38,8 +41,6 @@ async function grantList() {
   console.log(resArray);
 }
 
-grantList().catch(console.error);
-
 /**
  * This sample demonstrates how to Get details for a specific grant linked to the provided billing account and billing profile.
  *
@@ -64,4 +65,9 @@ async function grantListIncludeAllocatedBudget() {
   console.log(resArray);
 }
 
-grantListIncludeAllocatedBudget().catch(console.error);
+async function main() {
+  grantList();
+  grantListIncludeAllocatedBudget();
+}
+
+main().catch(console.error);

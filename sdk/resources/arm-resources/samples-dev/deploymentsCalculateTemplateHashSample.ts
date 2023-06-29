@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ResourceManagementClient } from "@azure/arm-resources";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Calculate the hash of the given template.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/CalculateTemplateHash.json
  */
 async function calculateTemplateHash() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RESOURCES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const template: Record<string, unknown> = {
     $schema:
       "http://schemas.management.azure.com/deploymentTemplate?api-version=2014-04-01-preview",
@@ -40,4 +45,8 @@ async function calculateTemplateHash() {
   console.log(result);
 }
 
-calculateTemplateHash().catch(console.error);
+async function main() {
+  calculateTemplateHash();
+}
+
+main().catch(console.error);

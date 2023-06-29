@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { AlertRuleIncidents } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,9 +15,9 @@ import { MonitorClient } from "../monitorClient";
 import {
   Incident,
   AlertRuleIncidentsListByAlertRuleOptionalParams,
+  AlertRuleIncidentsListByAlertRuleResponse,
   AlertRuleIncidentsGetOptionalParams,
-  AlertRuleIncidentsGetResponse,
-  AlertRuleIncidentsListByAlertRuleResponse
+  AlertRuleIncidentsGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,11 +56,15 @@ export class AlertRuleIncidentsImpl implements AlertRuleIncidents {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByAlertRulePagingPage(
           resourceGroupName,
           ruleName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -69,13 +73,11 @@ export class AlertRuleIncidentsImpl implements AlertRuleIncidents {
   private async *listByAlertRulePagingPage(
     resourceGroupName: string,
     ruleName: string,
-    options?: AlertRuleIncidentsListByAlertRuleOptionalParams
+    options?: AlertRuleIncidentsListByAlertRuleOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Incident[]> {
-    let result = await this._listByAlertRule(
-      resourceGroupName,
-      ruleName,
-      options
-    );
+    let result: AlertRuleIncidentsListByAlertRuleResponse;
+    result = await this._listByAlertRule(resourceGroupName, ruleName, options);
     yield result.value || [];
   }
 

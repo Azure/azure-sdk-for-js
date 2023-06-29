@@ -23,35 +23,9 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "7.26.0",
+  "pnpmVersion": "7.32.2",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
-  /**
-   * Options that are only used when the PNPM package manager is selected
-   */
-  "pnpmOptions": {
-    /**
-     * If true, then Rush will add the "--strict-peer-dependencies" option when invoking PNPM.
-     * This causes "rush install" to fail if there are unsatisfied peer dependencies, which is
-     * an invalid state that can cause build failures or incompatible dependency versions.
-     * (For historical reasons, JavaScript package managers generally do not treat this invalid
-     * state as an error.)
-     *
-     * The default value is false to avoid legacy compatibility issues.
-     * It is strongly recommended to set strictPeerDependencies=true.
-     */
-    "strictPeerDependencies": true,
-    /**
-     * Configures the strategy used to select versions during installation.
-     *
-     * This feature requires PNPM version 3.1 or newer.  It corresponds to the "--resolution-strategy" command-line
-     * option for PNPM.  Possible values are "fast" and "fewer-dependencies".  PNPM's default is "fast", but this may
-     * be incompatible with certain packages, for example the "@types" packages from DefinitelyTyped.  Rush's default
-     * is "fewer-dependencies", which causes PNPM to avoid installing a newer version if an already installed version
-     * can be reused; this is more similar to NPM's algorithm.
-     */
-    "resolutionStrategy": "fewer-dependencies"
-  },
   /**
    * Older releases of the NodeJS engine may be missing features required by your system.
    * Other releases may have bugs.  In particular, the "latest" version will not be a
@@ -352,8 +326,23 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/purview-sharing",
+      "projectFolder": "sdk/purview/purview-sharing-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/purview-workflow",
+      "projectFolder": "sdk/purview/purview-workflow-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/ai-document-translator",
       "projectFolder": "sdk/documenttranslator/ai-document-translator-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/ai-translation-text",
+      "projectFolder": "sdk/translation/ai-translation-text-rest",
       "versionPolicyName": "client"
     },
     {
@@ -387,6 +376,16 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/ai-language-textauthoring",
+      "projectFolder": "sdk/cognitivelanguage/ai-language-textauthoring",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/openai",
+      "projectFolder": "sdk/openai/openai",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/ai-metrics-advisor",
       "projectFolder": "sdk/metricsadvisor/ai-metrics-advisor",
       "versionPolicyName": "client"
@@ -409,6 +408,11 @@
     {
       "packageName": "@azure/quantum-jobs",
       "projectFolder": "sdk/quantum/quantum-jobs",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/communication-call-automation",
+      "projectFolder": "sdk/communication/communication-call-automation",
       "versionPolicyName": "client"
     },
     {
@@ -447,8 +451,23 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-tools/communication-recipient-verification",
+      "projectFolder": "sdk/communication/communication-recipient-verification",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-tools/communication-tiering",
+      "projectFolder": "sdk/communication/communication-tiering",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-tools/communication-alpha-ids",
       "projectFolder": "sdk/communication/communication-alpha-ids",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-tools/communication-toll-free-verification",
+      "projectFolder": "sdk/communication/communication-toll-free-verification",
       "versionPolicyName": "client"
     },
     {
@@ -524,6 +543,11 @@
     {
       "packageName": "@azure/cosmos",
       "projectFolder": "sdk/cosmosdb/cosmos",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/monitor-opentelemetry",
+      "projectFolder": "sdk/monitor/monitor-opentelemetry",
       "versionPolicyName": "client"
     },
     {
@@ -619,11 +643,6 @@
     {
       "packageName": "@azure/maps-common",
       "projectFolder": "sdk/maps/maps-common",
-      "versionPolicyName": "client"
-    },
-    {
-      "packageName": "@azure/maps-search",
-      "projectFolder": "sdk/maps/maps-search",
       "versionPolicyName": "client"
     },
     {
@@ -750,6 +769,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/template-dpg",
+      "projectFolder": "sdk/template/template-dpg",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/eslint-plugin-azure-sdk",
       "projectFolder": "common/tools/eslint-plugin-azure-sdk",
       "versionPolicyName": "utility"
@@ -777,11 +801,6 @@
     {
       "packageName": "@azure/digital-twins-core",
       "projectFolder": "sdk/digitaltwins/digital-twins-core",
-      "versionPolicyName": "client"
-    },
-    {
-      "packageName": "@azure/video-analyzer-edge",
-      "projectFolder": "sdk/videoanalyzer/video-analyzer-edge",
       "versionPolicyName": "client"
     },
     {
@@ -1891,7 +1910,7 @@
     },
     {
       "packageName": "@azure-rest/load-testing",
-      "projectFolder": "sdk/loadtestservice/load-testing-rest",
+      "projectFolder": "sdk/loadtesting/load-testing-rest",
       "versionPolicyName": "client"
     },
     {
@@ -1916,7 +1935,7 @@
     },
     {
       "packageName": "@azure/arm-loadtesting",
-      "projectFolder": "sdk/loadtestservice/arm-loadtesting",
+      "projectFolder": "sdk/loadtesting/arm-loadtesting",
       "versionPolicyName": "management"
     },
     {
@@ -1932,6 +1951,81 @@
     {
       "packageName": "@azure/arm-servicenetworking",
       "projectFolder": "sdk/servicenetworking/arm-servicenetworking",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-dataprotection",
+      "projectFolder": "sdk/dataprotection/arm-dataprotection",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storagemover",
+      "projectFolder": "sdk/storagemover/arm-storagemover",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-voiceservices",
+      "projectFolder": "sdk/voiceservices/arm-voiceservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/web-pubsub-client-protobuf",
+      "projectFolder": "sdk/web-pubsub/web-pubsub-client-protobuf",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-graphservices",
+      "projectFolder": "sdk/graphservices/arm-graphservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-newrelicobservability",
+      "projectFolder": "sdk/newrelicobservability/arm-newrelicobservability",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-paloaltonetworksngfw",
+      "projectFolder": "sdk/paloaltonetworksngfw/arm-paloaltonetworksngfw",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-selfhelp",
+      "projectFolder": "sdk/selfhelp/arm-selfhelp",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-costmanagement",
+      "projectFolder": "sdk/cost-management/arm-costmanagement",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-networkcloud",
+      "projectFolder": "sdk/networkcloud/arm-networkcloud",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-baremetalinfrastructure",
+      "projectFolder": "sdk/baremetalinfrastructure/arm-baremetalinfrastructure",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-qumulo",
+      "projectFolder": "sdk/liftrqumulo/arm-qumulo",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-containerservicefleet",
+      "projectFolder": "sdk/containerservice/arm-containerservicefleet",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-cosmosdbforpostgresql",
+      "projectFolder": "sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-managednetworkfabric",
+      "projectFolder": "sdk/managednetworkfabric/arm-managednetworkfabric",
       "versionPolicyName": "management"
     }
   ]

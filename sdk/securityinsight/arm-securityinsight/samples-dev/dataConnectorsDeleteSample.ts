@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Delete the data connector.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/DeleteAPIPolling.json
  */
 async function deleteAApiPollingDataConnector() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const dataConnectorId = "316ec55e-7138-4d63-ab18-90c8a60fd1c8";
   const credential = new DefaultAzureCredential();
@@ -31,8 +37,6 @@ async function deleteAApiPollingDataConnector() {
   );
   console.log(result);
 }
-
-deleteAApiPollingDataConnector().catch(console.error);
 
 /**
  * This sample demonstrates how to Delete the data connector.
@@ -41,8 +45,11 @@ deleteAApiPollingDataConnector().catch(console.error);
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/DeleteGenericUI.json
  */
 async function deleteAGenericUiDataConnector() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const dataConnectorId = "316ec55e-7138-4d63-ab18-90c8a60fd1c8";
   const credential = new DefaultAzureCredential();
@@ -55,8 +62,6 @@ async function deleteAGenericUiDataConnector() {
   console.log(result);
 }
 
-deleteAGenericUiDataConnector().catch(console.error);
-
 /**
  * This sample demonstrates how to Delete the data connector.
  *
@@ -64,8 +69,11 @@ deleteAGenericUiDataConnector().catch(console.error);
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/DeleteOfficePowerBIDataConnetor.json
  */
 async function deleteAnOfficePowerBiDataConnector() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const dataConnectorId = "73e01a99-5cd7-4139-a149-9f2736ff2ab5";
   const credential = new DefaultAzureCredential();
@@ -77,8 +85,6 @@ async function deleteAnOfficePowerBiDataConnector() {
   );
   console.log(result);
 }
-
-deleteAnOfficePowerBiDataConnector().catch(console.error);
 
 /**
  * This sample demonstrates how to Delete the data connector.
@@ -87,8 +93,11 @@ deleteAnOfficePowerBiDataConnector().catch(console.error);
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/DeleteOffice365ProjectDataConnetor.json
  */
 async function deleteAnOffice365ProjectDataConnector() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const dataConnectorId = "73e01a99-5cd7-4139-a149-9f2736ff2ab5";
   const credential = new DefaultAzureCredential();
@@ -100,8 +109,6 @@ async function deleteAnOffice365ProjectDataConnector() {
   );
   console.log(result);
 }
-
-deleteAnOffice365ProjectDataConnector().catch(console.error);
 
 /**
  * This sample demonstrates how to Delete the data connector.
@@ -110,8 +117,11 @@ deleteAnOffice365ProjectDataConnector().catch(console.error);
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/DeleteOfficeDataConnetor.json
  */
 async function deleteAnOffice365DataConnector() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const dataConnectorId = "73e01a99-5cd7-4139-a149-9f2736ff2ab5";
   const credential = new DefaultAzureCredential();
@@ -124,4 +134,12 @@ async function deleteAnOffice365DataConnector() {
   console.log(result);
 }
 
-deleteAnOffice365DataConnector().catch(console.error);
+async function main() {
+  deleteAApiPollingDataConnector();
+  deleteAGenericUiDataConnector();
+  deleteAnOfficePowerBiDataConnector();
+  deleteAnOffice365ProjectDataConnector();
+  deleteAnOffice365DataConnector();
+}
+
+main().catch(console.error);

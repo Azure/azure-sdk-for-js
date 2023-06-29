@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   GraphResourceGetResults,
   GraphResourcesListGraphsOptionalParams,
@@ -61,8 +61,8 @@ export interface GraphResources {
     createUpdateGraphParameters: GraphResourceCreateUpdateParameters,
     options?: GraphResourcesCreateUpdateGraphOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<GraphResourcesCreateUpdateGraphResponse>,
+    SimplePollerLike<
+      OperationState<GraphResourcesCreateUpdateGraphResponse>,
       GraphResourcesCreateUpdateGraphResponse
     >
   >;
@@ -93,7 +93,7 @@ export interface GraphResources {
     accountName: string,
     graphName: string,
     options?: GraphResourcesDeleteGraphResourceOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing Azure Cosmos DB Graph Resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

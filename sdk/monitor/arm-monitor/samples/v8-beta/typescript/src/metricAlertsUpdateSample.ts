@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { MetricAlertResourcePatch, MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Update an metric alert definition.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/UpdateMetricAlert.json
  */
 async function createOrUpdateAnAlertRule() {
-  const subscriptionId = "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
-  const resourceGroupName = "gigtest";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] ||
+    "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "gigtest";
   const ruleName = "chiricutin";
   const parameters: MetricAlertResourcePatch = {
     description: "This is the description of the rule1",
@@ -37,7 +42,7 @@ async function createOrUpdateAnAlertRule() {
           name: "High_CPU_80",
           criterionType: "StaticThresholdCriterion",
           dimensions: [],
-          metricName: "Processor(_Total)% Processor Time",
+          metricName: "\\Processor(_Total)\\% Processor Time",
           operator: "GreaterThan",
           threshold: 80.5,
           timeAggregation: "Average"
@@ -64,4 +69,8 @@ async function createOrUpdateAnAlertRule() {
   console.log(result);
 }
 
-createOrUpdateAnAlertRule().catch(console.error);
+async function main() {
+  createOrUpdateAnAlertRule();
+}
+
+main().catch(console.error);

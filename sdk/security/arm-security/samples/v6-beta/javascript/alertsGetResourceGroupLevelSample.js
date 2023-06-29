@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SecurityCenter } = require("@azure/arm-security");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get an alert that is associated a resource group or a resource in a resource group
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2022-01-01/examples/Alerts/GetAlertResourceGroupLocation_example.json
  */
 async function getSecurityAlertOnAResourceGroupFromASecurityDataLocation() {
-  const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
-  const resourceGroupName = "myRg1";
+  const subscriptionId =
+    process.env["SECURITY_SUBSCRIPTION_ID"] || "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
+  const resourceGroupName = process.env["SECURITY_RESOURCE_GROUP"] || "myRg1";
   const ascLocation = "westeurope";
   const alertName = "2518298467986649999_4d25bfef-2d77-4a08-adc0-3e35715cc92a";
   const credential = new DefaultAzureCredential();
@@ -32,4 +34,8 @@ async function getSecurityAlertOnAResourceGroupFromASecurityDataLocation() {
   console.log(result);
 }
 
-getSecurityAlertOnAResourceGroupFromASecurityDataLocation().catch(console.error);
+async function main() {
+  getSecurityAlertOnAResourceGroupFromASecurityDataLocation();
+}
+
+main().catch(console.error);

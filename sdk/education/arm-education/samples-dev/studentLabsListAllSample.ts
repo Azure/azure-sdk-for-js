@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { EducationManagementClient } from "@azure/arm-education";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get a list of all labs associated with the caller of the API.
@@ -27,4 +30,8 @@ async function studentLabList() {
   console.log(resArray);
 }
 
-studentLabList().catch(console.error);
+async function main() {
+  studentLabList();
+}
+
+main().catch(console.error);

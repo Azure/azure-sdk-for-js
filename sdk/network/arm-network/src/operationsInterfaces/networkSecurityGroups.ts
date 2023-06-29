@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   NetworkSecurityGroup,
   NetworkSecurityGroupsListAllOptionalParams,
@@ -51,7 +51,7 @@ export interface NetworkSecurityGroups {
     resourceGroupName: string,
     networkSecurityGroupName: string,
     options?: NetworkSecurityGroupsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified network security group.
    * @param resourceGroupName The name of the resource group.
@@ -87,8 +87,8 @@ export interface NetworkSecurityGroups {
     parameters: NetworkSecurityGroup,
     options?: NetworkSecurityGroupsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NetworkSecurityGroupsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<NetworkSecurityGroupsCreateOrUpdateResponse>,
       NetworkSecurityGroupsCreateOrUpdateResponse
     >
   >;

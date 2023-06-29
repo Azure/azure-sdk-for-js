@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update a Kusto cluster.
  *
  * @summary Update a Kusto cluster.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoClustersUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoClustersUpdate.json
  */
 async function kustoClustersUpdate() {
   const subscriptionId =

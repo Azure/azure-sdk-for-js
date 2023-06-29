@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Checks that the databases resource name is valid and is not already in use.
  *
  * @summary Checks that the databases resource name is valid and is not already in use.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDatabasesCheckNameAvailability.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoDatabasesCheckNameAvailability.json
  */
 async function kustoDatabasesCheckNameAvailability() {
   const subscriptionId =

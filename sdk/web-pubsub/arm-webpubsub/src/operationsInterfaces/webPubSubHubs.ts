@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   WebPubSubHub,
   WebPubSubHubsListOptionalParams,
@@ -63,8 +63,8 @@ export interface WebPubSubHubs {
     parameters: WebPubSubHub,
     options?: WebPubSubHubsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<WebPubSubHubsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<WebPubSubHubsCreateOrUpdateResponse>,
       WebPubSubHubsCreateOrUpdateResponse
     >
   >;
@@ -97,7 +97,7 @@ export interface WebPubSubHubs {
     resourceGroupName: string,
     resourceName: string,
     options?: WebPubSubHubsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a hub setting.
    * @param hubName The hub name.

@@ -6,18 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Domains } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CommunicationServiceManagementClient } from "../communicationServiceManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DomainResource,
   DomainsListByEmailServiceResourceNextOptionalParams,
   DomainsListByEmailServiceResourceOptionalParams,
+  DomainsListByEmailServiceResourceResponse,
   DomainsGetOptionalParams,
   DomainsGetResponse,
   DomainsCreateOrUpdateOptionalParams,
@@ -26,7 +32,6 @@ import {
   UpdateDomainRequestParameters,
   DomainsUpdateOptionalParams,
   DomainsUpdateResponse,
-  DomainsListByEmailServiceResourceResponse,
   VerificationParameter,
   DomainsInitiateVerificationOptionalParams,
   DomainsInitiateVerificationResponse,
@@ -71,11 +76,15 @@ export class DomainsImpl implements Domains {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByEmailServiceResourcePagingPage(
           resourceGroupName,
           emailServiceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -84,15 +93,22 @@ export class DomainsImpl implements Domains {
   private async *listByEmailServiceResourcePagingPage(
     resourceGroupName: string,
     emailServiceName: string,
-    options?: DomainsListByEmailServiceResourceOptionalParams
+    options?: DomainsListByEmailServiceResourceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DomainResource[]> {
-    let result = await this._listByEmailServiceResource(
-      resourceGroupName,
-      emailServiceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DomainsListByEmailServiceResourceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByEmailServiceResource(
+        resourceGroupName,
+        emailServiceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByEmailServiceResourceNext(
         resourceGroupName,
@@ -101,7 +117,9 @@ export class DomainsImpl implements Domains {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -154,8 +172,8 @@ export class DomainsImpl implements Domains {
     parameters: DomainResource,
     options?: DomainsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DomainsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DomainsCreateOrUpdateResponse>,
       DomainsCreateOrUpdateResponse
     >
   > {
@@ -165,7 +183,7 @@ export class DomainsImpl implements Domains {
     ): Promise<DomainsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -198,15 +216,24 @@ export class DomainsImpl implements Domains {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, emailServiceName, domainName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        emailServiceName,
+        domainName,
+        parameters,
+        options
+      },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DomainsCreateOrUpdateResponse,
+      OperationState<DomainsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -250,14 +277,14 @@ export class DomainsImpl implements Domains {
     emailServiceName: string,
     domainName: string,
     options?: DomainsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -290,15 +317,15 @@ export class DomainsImpl implements Domains {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, emailServiceName, domainName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, emailServiceName, domainName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -341,7 +368,10 @@ export class DomainsImpl implements Domains {
     parameters: UpdateDomainRequestParameters,
     options?: DomainsUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<DomainsUpdateResponse>, DomainsUpdateResponse>
+    SimplePollerLike<
+      OperationState<DomainsUpdateResponse>,
+      DomainsUpdateResponse
+    >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -349,7 +379,7 @@ export class DomainsImpl implements Domains {
     ): Promise<DomainsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -382,15 +412,24 @@ export class DomainsImpl implements Domains {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, emailServiceName, domainName, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        emailServiceName,
+        domainName,
+        parameters,
+        options
+      },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DomainsUpdateResponse,
+      OperationState<DomainsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -453,8 +492,8 @@ export class DomainsImpl implements Domains {
     parameters: VerificationParameter,
     options?: DomainsInitiateVerificationOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DomainsInitiateVerificationResponse>,
+    SimplePollerLike<
+      OperationState<DomainsInitiateVerificationResponse>,
       DomainsInitiateVerificationResponse
     >
   > {
@@ -464,7 +503,7 @@ export class DomainsImpl implements Domains {
     ): Promise<DomainsInitiateVerificationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -497,15 +536,24 @@ export class DomainsImpl implements Domains {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, emailServiceName, domainName, parameters, options },
-      initiateVerificationOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        emailServiceName,
+        domainName,
+        parameters,
+        options
+      },
+      spec: initiateVerificationOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DomainsInitiateVerificationResponse,
+      OperationState<DomainsInitiateVerificationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -551,8 +599,8 @@ export class DomainsImpl implements Domains {
     parameters: VerificationParameter,
     options?: DomainsCancelVerificationOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DomainsCancelVerificationResponse>,
+    SimplePollerLike<
+      OperationState<DomainsCancelVerificationResponse>,
       DomainsCancelVerificationResponse
     >
   > {
@@ -562,7 +610,7 @@ export class DomainsImpl implements Domains {
     ): Promise<DomainsCancelVerificationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -595,15 +643,24 @@ export class DomainsImpl implements Domains {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, emailServiceName, domainName, parameters, options },
-      cancelVerificationOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        emailServiceName,
+        domainName,
+        parameters,
+        options
+      },
+      spec: cancelVerificationOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DomainsCancelVerificationResponse,
+      OperationState<DomainsCancelVerificationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -873,7 +930,6 @@ const listByEmailServiceResourceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

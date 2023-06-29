@@ -1,6 +1,6 @@
 # Release History
 
-## 4.7.0-beta.2 (Unreleased)
+## 4.7.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,25 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 4.7.1 (2023-06-06)
+
+### Bugs Fixed
+
+- Fixed an issue where cryptographic operations would fail if the client did not have the get permission on the key, even if it had permission for the underlying operation. Issue [#26001](https://github.com/Azure/azure-sdk-for-js/issues/26001); PR [#26016](https://github.com/Azure/azure-sdk-for-js/issues/26016)
+
+## 4.7.0 (2023-03-09)
+
+### Breaking Changes
+
+- Removed support for OKP key types as introduced in 4.7.0-beta.1. These changes are only breaking for customers consuming the 4.7.0-beta.1 API, and do not affect those consuming a stable release such as 4.6.0.
+  - Removed `OKP` and `OKP-HSM` from `KnownKeyTypes`.
+  - Removed `EdDSA` from `KnownSignatureAlgorithms`.
+  - Removed `Ed25519` from `KnownKeyCurveNames`.
+
+### Other Changes
+
+- `KeyClient` and `CryptographyClient` now support service version 7.4 by default.
 
 ## 4.7.0-beta.1 (2022-11-10)
 

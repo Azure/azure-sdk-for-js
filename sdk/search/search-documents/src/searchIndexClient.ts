@@ -6,7 +6,6 @@
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { InternalClientPipelineOptions } from "@azure/core-client";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { SDK_VERSION } from "./constants";
 import { AnalyzeResult } from "./generated/service/models";
 import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";
 import { logger } from "./logger";
@@ -133,18 +132,8 @@ export class SearchIndexClient {
     this.credential = credential;
     this.options = options;
 
-    const libInfo = `azsdk-js-search-documents/${SDK_VERSION}`;
-    if (!options.userAgentOptions) {
-      options.userAgentOptions = {};
-    }
-    if (options.userAgentOptions.userAgentPrefix) {
-      options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      options.userAgentOptions.userAgentPrefix = libInfo;
-    }
-
     const internalClientPipelineOptions: InternalClientPipelineOptions = {
-      ...options,
+      ...this.options,
       ...{
         loggingOptions: {
           logger: logger.info,
@@ -160,21 +149,9 @@ export class SearchIndexClient {
       },
     };
 
-    if (options.apiVersion) {
-      if (!utils.serviceVersions.includes(options.apiVersion)) {
-        throw new Error(`Invalid Api Version: ${options.apiVersion}`);
-      }
-      this.serviceVersion = options.apiVersion;
-      this.apiVersion = options.apiVersion;
-    }
-
-    if (options.serviceVersion) {
-      if (!utils.serviceVersions.includes(options.serviceVersion)) {
-        throw new Error(`Invalid Service Version: ${options.serviceVersion}`);
-      }
-      this.serviceVersion = options.serviceVersion;
-      this.apiVersion = options.serviceVersion;
-    }
+    this.serviceVersion =
+      this.options.serviceVersion ?? this.options.apiVersion ?? utils.defaultServiceVersion;
+    this.apiVersion = this.serviceVersion;
 
     this.client = new GeneratedClient(
       this.endpoint,
@@ -183,8 +160,8 @@ export class SearchIndexClient {
     );
 
     if (isTokenCredential(credential)) {
-      const scope: string = options.audience
-        ? `${options.audience}/.default`
+      const scope: string = this.options.audience
+        ? `${this.options.audience}/.default`
         : `${KnownSearchAudience.AzurePublicCloud}/.default`;
 
       this.client.pipeline.addPolicy(
@@ -812,8 +789,20 @@ export class SearchIndexClient {
    * Retrieves the SearchClient corresponding to this SearchIndexClient
    * @param indexName - Name of the index
    * @param options - SearchClient Options
+   * @typeParam Model - An optional type that represents the documents stored in
+   * the search index. For the best typing experience, all non-key fields should
+   * be marked optional and nullable, and the key property should have the
+   * non-nullable type `string`.
    */
-  public getSearchClient<T>(indexName: string, options?: GetSearchClientOptions): SearchClient<T> {
-    return new SearchClient<T>(this.endpoint, indexName, this.credential, options || this.options);
+  public getSearchClient<Model extends object>(
+    indexName: string,
+    options?: GetSearchClientOptions
+  ): SearchClient<Model> {
+    return new SearchClient<Model>(
+      this.endpoint,
+      indexName,
+      this.credential,
+      options || this.options
+    );
   }
 }

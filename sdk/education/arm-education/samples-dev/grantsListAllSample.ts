@@ -13,6 +13,9 @@ import {
   EducationManagementClient
 } from "@azure/arm-education";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get a list of grants that Microsoft has provided.
@@ -32,8 +35,6 @@ async function grantList() {
   console.log(resArray);
 }
 
-grantList().catch(console.error);
-
 /**
  * This sample demonstrates how to Get a list of grants that Microsoft has provided.
  *
@@ -52,4 +53,9 @@ async function grantListIncludeAllocatedBudget() {
   console.log(resArray);
 }
 
-grantListIncludeAllocatedBudget().catch(console.error);
+async function main() {
+  grantList();
+  grantListIncludeAllocatedBudget();
+}
+
+main().catch(console.error);

@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ManagedServiceIdentityClient } from "@azure/arm-msi";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists all the federated identity credentials under the specified user assigned identity.
@@ -18,8 +21,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/FederatedIdentityCredentialList.json
  */
 async function federatedIdentityCredentialList() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rgName";
+  const subscriptionId = process.env["MSI_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["MSI_RESOURCE_GROUP"] || "rgName";
   const resourceName = "resourceName";
   const credential = new DefaultAzureCredential();
   const client = new ManagedServiceIdentityClient(credential, subscriptionId);
@@ -33,4 +36,8 @@ async function federatedIdentityCredentialList() {
   console.log(resArray);
 }
 
-federatedIdentityCredentialList().catch(console.error);
+async function main() {
+  federatedIdentityCredentialList();
+}
+
+main().catch(console.error);

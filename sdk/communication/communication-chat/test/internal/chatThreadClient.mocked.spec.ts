@@ -29,19 +29,19 @@ import {
 
 const API_VERSION = apiVersion.mapper.defaultValue;
 
-describe("[Mocked] ChatThreadClient", async () => {
+describe("[Mocked] ChatThreadClient", async function () {
   const threadId: string = "threadId";
   let chatThreadClient: ChatThreadClient;
 
-  afterEach(() => {
+  afterEach(function () {
     sinon.restore();
   });
 
-  it("can instantiate", async () => {
+  it("can instantiate", async function () {
     new ChatThreadClient(threadId, baseUri, new AzureCommunicationTokenCredential(generateToken()));
   });
 
-  it("makes successful get properties request", async () => {
+  it("makes successful get properties request", async function () {
     const mockHttpClient = generateHttpClient(200, mockThread);
     chatThreadClient = createChatThreadClient(mockThread.id, mockHttpClient);
 
@@ -68,7 +68,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     assert.equal(request.method, "GET");
   });
 
-  it("makes successful update thread topic", async () => {
+  it("makes successful update thread topic", async function () {
     const mockHttpClient = generateHttpClient(204);
     chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
 
@@ -85,7 +85,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     assert.deepEqual(JSON.parse(request.body as string), { topic: topic });
   });
 
-  it("makes successful send message request", async () => {
+  it("makes successful send message request", async function () {
     const mockHttpClient = generateHttpClient(201, {
       id: mockMessage.id,
     });
@@ -119,7 +119,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     });
   });
 
-  it("makes successful get message request", async () => {
+  it("makes successful get message request", async function () {
     const mockHttpClient = generateHttpClient(200, mockMessage);
     chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
@@ -155,7 +155,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     assert.equal(request.method, "GET");
   });
 
-  it("makes successful list messages request", async () => {
+  it("makes successful list messages request", async function () {
     const { senderCommunicationIdentifier, ...rest } = mockMessage;
 
     const mockResponse: RestModel.ChatMessagesCollection = {
@@ -205,7 +205,42 @@ describe("[Mocked] ChatThreadClient", async () => {
     assert.equal(request.method, "GET");
   });
 
-  it("makes successful update message request", async () => {
+  it("makes successful list messages request by page", async function () {
+    const { senderCommunicationIdentifier, ...rest } = mockMessage;
+
+    const mockResponse: RestModel.ChatMessagesCollection = {
+      value: [mockMessage, mockMessage, mockMessage, mockMessage, mockMessage, { ...rest }],
+    };
+
+    const mockHttpClient = generateHttpClient(200, mockResponse);
+    chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
+
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+
+    const iterator = chatThreadClient.listMessages({ maxPageSize: 2 });
+
+    let count = 0;
+    for await (const page of iterator.byPage()) {
+      // loop over each item in the page
+      for (const info of page) {
+        ++count;
+        assert.isNotNull(info);
+      }
+    }
+
+    sinon.assert.calledOnce(spy);
+    assert.equal(count, mockResponse.value?.length);
+
+    const request = spy.getCall(0).args[0];
+
+    assert.equal(
+      request.url,
+      `${baseUri}/chat/threads/${threadId}/messages?maxPageSize=2&api-version=${API_VERSION}`
+    );
+    assert.equal(request.method, "GET");
+  });
+
+  it("makes successful update message request", async function () {
     const mockHttpClient = generateHttpClient(204);
     chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
@@ -230,7 +265,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     });
   });
 
-  it("makes successful delete message request", async () => {
+  it("makes successful delete message request", async function () {
     const mockHttpClient = generateHttpClient(204);
     chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
@@ -246,7 +281,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     assert.equal(request.method, "DELETE");
   });
 
-  it("makes successful add chat participants request", async () => {
+  it("makes successful add chat participants request", async function () {
     const mockHttpClient = generateHttpClient(201);
     chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
@@ -277,7 +312,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     );
   });
 
-  it("makes successful list chat participants request", async () => {
+  it("makes successful list chat participants request", async function () {
     const mockHttpClient = generateHttpClient(200, {
       value: [mockParticipant],
     });
@@ -309,7 +344,36 @@ describe("[Mocked] ChatThreadClient", async () => {
     assert.equal(request.method, "GET");
   });
 
-  it("makes successful remove chat participant request", async () => {
+  it("makes successful list chat participants request by page", async function () {
+    const mockHttpClient = generateHttpClient(200, {
+      value: [mockParticipant, mockParticipant, mockParticipant],
+    });
+    chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+
+    const iterator = chatThreadClient.listParticipants({ maxPageSize: 2 });
+    let count = 0;
+    for await (const page of iterator.byPage()) {
+      // loop over each item in the page
+      for (const info of page) {
+        ++count;
+        assert.isNotNull(info);
+      }
+    }
+
+    sinon.assert.calledOnce(spy);
+    assert.equal(count, 3);
+
+    const request = spy.getCall(0).args[0];
+
+    assert.equal(
+      request.url,
+      `${baseUri}/chat/threads/${threadId}/participants?maxPageSize=2&api-version=${API_VERSION}`
+    );
+    assert.equal(request.method, "GET");
+  });
+
+  it("makes successful remove chat participant request", async function () {
     const mockHttpClient = generateHttpClient(204);
     chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
@@ -327,7 +391,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     assert.deepEqual(mockParticipant.communicationIdentifier, requestJson);
   });
 
-  it("makes successful sent typing notification request", async () => {
+  it("makes successful sent typing notification request", async function () {
     const mockHttpClient = generateHttpClient(200);
     chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
@@ -344,7 +408,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     assert.equal(request.method, "POST");
   });
 
-  it("makes only one sent typing notification request within 8 secs", async () => {
+  it("makes only one sent typing notification request within 8 secs", async function () {
     const mockHttpClient = generateHttpClient(400);
     chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
@@ -368,7 +432,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     }
   });
 
-  it("makes successful sent typing notification request with sender display name", async () => {
+  it("makes successful sent typing notification request with sender display name", async function () {
     const mockHttpClient = generateHttpClient(200);
     chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
@@ -387,7 +451,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     assert.deepEqual(JSON.parse(request.body as string), options);
   });
 
-  it("makes successful sent read receipt request", async () => {
+  it("makes successful sent read receipt request", async function () {
     const mockHttpClient = generateHttpClient(200);
     chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
@@ -403,7 +467,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     assert.equal(request.method, "POST");
   });
 
-  it("makes successful list read receipts request", async () => {
+  it("makes successful list read receipts request", async function () {
     const mockHttpClient = generateHttpClient(200, {
       value: [mockChatMessageReadReceipt, mockChatMessageReadReceipt],
     });

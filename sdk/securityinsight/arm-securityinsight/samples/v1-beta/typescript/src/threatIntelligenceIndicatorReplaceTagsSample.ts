@@ -13,6 +13,9 @@ import {
   SecurityInsights
 } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Replace tags added to a threat intelligence indicator.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/threatintelligence/ReplaceTagsThreatIntelligence.json
  */
 async function replaceTagsToAThreatIntelligence() {
-  const subscriptionId = "bd794837-4d29-4647-9105-6339bfdb4e6a";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "bd794837-4d29-4647-9105-6339bfdb4e6a";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const name = "d9cd6f0b-96b9-3984-17cd-a779d1e15a93";
   const threatIntelligenceReplaceTags: ThreatIntelligenceIndicatorModel = {
@@ -41,4 +47,8 @@ async function replaceTagsToAThreatIntelligence() {
   console.log(result);
 }
 
-replaceTagsToAThreatIntelligence().catch(console.error);
+async function main() {
+  replaceTagsToAThreatIntelligence();
+}
+
+main().catch(console.error);

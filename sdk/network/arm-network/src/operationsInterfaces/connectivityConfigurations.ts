@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ConnectivityConfiguration,
   ConnectivityConfigurationsListOptionalParams,
@@ -75,7 +75,7 @@ export interface ConnectivityConfigurations {
     networkManagerName: string,
     configurationName: string,
     options?: ConnectivityConfigurationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a network manager connectivity configuration, specified by the resource group, network
    * manager name, and connectivity configuration name

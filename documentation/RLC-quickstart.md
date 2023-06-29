@@ -1,4 +1,4 @@
-Getting Started - Generate the RLC rest-level client libraries with Cadl
+Getting Started - Generate the RLC rest-level client libraries with TypeSpec
 ========================================================================
 
 # Before you start
@@ -27,31 +27,24 @@ We are working on to automatically generate everything right now, but currently 
 
 1. **Add TypeScript emitter dependency in package.json**  
    
-   In Cadl project, modify `package.json` to add dependency for TypeScript emitter, then run `npm install` again to install `@azure-tools/cadl-typescript`.
+   In TypeSpec project, modify `package.json` to add dependency for TypeScript emitter, then run `npm install` again to install `@azure-tools/typespec-ts`.
 
    ```json
    "dependencies": {
      ...
-     "@azure-tools/cadl-typescript": "1.0.0-beta.7"
+     "@azure-tools/typespec-ts": "latest"
    },
    ```
 
-   ---
-   **NOTE**
+2. **Configure TypeScript emitter in tspconfig.yaml**
 
-    It's always recommended to replace the version of emitter cadl-typescript with the latest version you can find in [npmjs.com](https://www.npmjs.com/package/@azure-tools/cadl-typescript) in latest tag.
-
-   ---
-
-1. **Configure TypeScript emitter in cadl-project.yaml**
-
-    In Cadl project, modify (or create) `cadl-project.yaml` and configure the SDK generated, using the emitter options on `@azure-tools/cadl-typescript`
+    In TypeSpec project, modify (or create) `tspconfig.yaml` and configure the SDK generated, using the emitter options on `@azure-tools/typespec-ts`
     
     ```yaml
     emit:
-      - "@azure-tools/cadl-typescript"
+      - "@azure-tools/typespec-ts"
     options:
-      "@azure-tools/cadl-typescript":
+      "@azure-tools/typespec-ts":
         title: Farmbeats
         generateMetadata: true
         generateTest: true
@@ -63,7 +56,7 @@ We are working on to automatically generate everything right now, but currently 
 
     ```
 
-    Here, we need to replace the value in `name`,`description`, `version` in `packageDetails` to **your own service's** package details. Also we have some other options, you could refer to [the link](https://github.com/Azure/autorest.typescript/tree/main/packages/cadl-typescript#emitter-options) for more details.
+    Here, we need to replace the value in `name`,`description`, `version` in `packageDetails` to **your own service's** package details. Also we have some other options, you could refer to [the link](https://github.com/Azure/autorest.typescript/tree/main/packages/typespec-ts#emitter-options) for more details.
 
     ---  
     **NOTE**
@@ -72,7 +65,7 @@ We are working on to automatically generate everything right now, but currently 
 
     --- 
 
-1. **Edit rush.json**  
+3. **Edit rush.json**  
     As the libraries in azure-sdk-for-js repository are managed by rush, you need to add an entry in rush.json under projects section for the first time to make sure it works. For example:
 
     ```
@@ -92,14 +85,14 @@ We are working on to automatically generate everything right now, but currently 
 
     --- 
 
-1. **Run command to generate the SDK**  
+4. **Run command to generate the SDK**  
 
     We need to configure `--output-dir` to put generated code. The output dir contains two parts: the {SDK_REPO_ROOT} and {PROJECT_ROOT}.
     
-    Assume **{SDK_REPO_ROOT}** is `D:/azure-sdk-for-js` and **{PROJECT_ROOT}** is `sdk/agrifood/agrifood-farming-rest` then we could run this command in **your local Cadl project** to generate the SDK: 
+    Assume **{SDK_REPO_ROOT}** is `D:/azure-sdk-for-js` and **{PROJECT_ROOT}** is `sdk/agrifood/agrifood-farming-rest` then we could run this command in **your local TypeSpec project** to generate the SDK: 
 
     ```shell
-    cadl compile . --emit=@azure-tools/cadl-typescript --output-dir=D:/azure-sdk-for-js/sdk/agrifood/agrifood-farming-rest
+    npx tsp compile . --emit=@azure-tools/typespec-ts --output-dir=D:/azure-sdk-for-js/sdk/agrifood/agrifood-farming-rest
     ```
 
     After this finishes, you will see the generated code in `src` folder in your **{PROJECT_ROOT}**.  
@@ -271,7 +264,7 @@ Please notice the Artifacts name should align with your package name. Here the p
 
 # Prepare PR
 
-Cadl emitter can only help you generate SDK code, there is something you need to update manually:
+TypeScript emitter can only help you generate SDK code, there is something you need to update manually:
 
 ## CHANGELOG.md
 
@@ -287,6 +280,14 @@ Please ensure that your test recordings are committed together with your code.
 
 ## Fix CI for PR
 You may meet the CI failures after submitting the PR, so please refer to [Troubleshoot CI Failure](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Troubleshoot-ci-failure.md) to fix it.
+
+## CC dpg-devs for review
+
+Please add below comment in your pr to include dpg-devs to review your pr timely.
+
+```
+cc @Azure/dpg-devs for awareness
+```
 
 # Create API View
 When submitting a PR our pipeline would automatically prepare the API view in [API View Website](https://apiview.dev/). You could see an [example link](https://github.com/Azure/azure-sdk-for-js/pull/23866#issuecomment-1316259448) here. Then you could click the API view link in that comment to know more details.

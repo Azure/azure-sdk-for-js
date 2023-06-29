@@ -18,7 +18,8 @@ import {
   TablesGetOptionalParams,
   TablesGetResponse,
   TablesDeleteOptionalParams,
-  TablesMigrateOptionalParams
+  TablesMigrateOptionalParams,
+  TablesCancelSearchOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -154,5 +155,18 @@ export interface Tables {
     workspaceName: string,
     tableName: string,
     options?: TablesMigrateOptionalParams
+  ): Promise<void>;
+  /**
+   * Cancel a log analytics workspace search results table query run.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param tableName The name of the table.
+   * @param options The options parameters.
+   */
+  cancelSearch(
+    resourceGroupName: string,
+    workspaceName: string,
+    tableName: string,
+    options?: TablesCancelSearchOptionalParams
   ): Promise<void>;
 }

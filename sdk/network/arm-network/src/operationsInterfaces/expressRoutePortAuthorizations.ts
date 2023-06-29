@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ExpressRoutePortAuthorization,
   ExpressRoutePortAuthorizationsListOptionalParams,
@@ -44,7 +44,7 @@ export interface ExpressRoutePortAuthorizations {
     expressRoutePortName: string,
     authorizationName: string,
     options?: ExpressRoutePortAuthorizationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified authorization from the specified express route port.
    * @param resourceGroupName The name of the resource group.
@@ -87,8 +87,8 @@ export interface ExpressRoutePortAuthorizations {
     authorizationParameters: ExpressRoutePortAuthorization,
     options?: ExpressRoutePortAuthorizationsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ExpressRoutePortAuthorizationsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ExpressRoutePortAuthorizationsCreateOrUpdateResponse>,
       ExpressRoutePortAuthorizationsCreateOrUpdateResponse
     >
   >;

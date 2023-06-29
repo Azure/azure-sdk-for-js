@@ -15,7 +15,7 @@ import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AbstractiveSummarizationAction {
-    maxSentenceCount?: number;
+    sentenceCount?: number;
     stringIndexType?: StringIndexType;
 }
 
@@ -40,7 +40,7 @@ export interface AbstractiveSummarizationSuccessResult extends TextAnalysisSucce
 
 // @public
 export interface AbstractiveSummary {
-    contexts?: SummaryContext[];
+    contexts: SummaryContext[];
     text: string;
 }
 
@@ -66,15 +66,6 @@ export interface ActionPrebuilt extends ActionCommon {
 }
 
 // @public
-export interface AgeResolution extends BaseResolution, QuantityResolution {
-    resolutionKind: "AgeResolution";
-    unit: AgeUnit;
-}
-
-// @public
-export type AgeUnit = string;
-
-// @public
 export type AnalyzeActionName = keyof typeof AnalyzeActionNames;
 
 // @public
@@ -85,7 +76,6 @@ export const AnalyzeActionNames: {
     readonly PiiEntityRecognition: "PiiEntityRecognition";
     readonly LanguageDetection: "LanguageDetection";
     readonly SentimentAnalysis: "SentimentAnalysis";
-    readonly DynamicClassification: "DynamicClassification";
 };
 
 // @public
@@ -95,7 +85,6 @@ export type AnalyzeActionParameters<ActionName extends AnalyzeActionName> = {
     PiiEntityRecognition: PiiEntityRecognitionAction;
     KeyPhraseExtraction: KeyPhraseExtractionAction;
     SentimentAnalysis: SentimentAnalysisAction;
-    DynamicClassification: DynamicClassificationAction;
     LanguageDetection: LanguageDetectionAction;
 }[ActionName];
 
@@ -154,18 +143,8 @@ export type AnalyzeResult<ActionName extends AnalyzeActionName> = {
     PiiEntityRecognition: PiiEntityRecognitionResult[];
     KeyPhraseExtraction: KeyPhraseExtractionResult[];
     SentimentAnalysis: SentimentAnalysisResult[];
-    DynamicClassification: DynamicClassificationResult[];
     LanguageDetection: LanguageDetectionResult[];
 }[ActionName];
-
-// @public
-export interface AreaResolution extends BaseResolution, QuantityResolution {
-    resolutionKind: "AreaResolution";
-    unit: AreaUnit;
-}
-
-// @public
-export type AreaUnit = string;
 
 // @public
 export interface AssessmentSentiment {
@@ -178,14 +157,6 @@ export interface AssessmentSentiment {
 }
 
 export { AzureKeyCredential }
-
-// @public
-export interface BaseResolution {
-    resolutionKind: "AgeResolution" | "VolumeResolution" | "SpeedResolution" | "AreaResolution" | "LengthResolution" | "InformationResolution" | "TemperatureResolution" | "WeightResolution" | "CurrencyResolution" | "BooleanResolution" | "DateTimeResolution" | "NumberResolution" | "OrdinalResolution" | "TemporalSpanResolution" | "NumericRangeResolution";
-}
-
-// @public (undocumented)
-export type BaseResolutionUnion = BaseResolution | AgeResolution | VolumeResolution | SpeedResolution | AreaResolution | LengthResolution | InformationResolution | TemperatureResolution | WeightResolution | CurrencyResolution | BooleanResolution | DateTimeResolution | NumberResolution | OrdinalResolution | TemporalSpanResolution | NumericRangeResolution;
 
 // @public
 export interface BatchActionErrorResult<Kind extends AnalyzeBatchActionName> extends BatchActionState<Kind> {
@@ -207,37 +178,19 @@ export interface BatchActionState<Kind extends AnalyzeBatchActionName> {
 export interface BatchActionSuccessResult<T, Kind extends AnalyzeBatchActionName> extends BatchActionState<Kind> {
     readonly completedOn: Date;
     readonly error?: undefined;
-    readonly results: WithDetectedLanguage<T>[];
+    readonly results: T[];
 }
 
 // @public
 export interface BeginAnalyzeBatchOptions extends TextAnalysisOperationOptions {
-    defaultLanguage?: string;
     displayName?: string;
     updateIntervalInMs?: number;
-}
-
-// @public
-export interface BooleanResolution extends BaseResolution {
-    resolutionKind: "BooleanResolution";
-    // (undocumented)
-    value: boolean;
 }
 
 // @public
 export interface ClassificationCategory {
     category: string;
     confidenceScore: number;
-}
-
-// @public
-export type ClassificationType = string;
-
-// @public
-export interface CurrencyResolution extends BaseResolution, QuantityResolution {
-    iso4217?: string;
-    resolutionKind: "CurrencyResolution";
-    unit: string;
 }
 
 // @public
@@ -317,28 +270,10 @@ export interface CustomSingleLabelClassificationSuccessResult extends TextAnalys
 }
 
 // @public
-export interface DateTimeResolution extends BaseResolution {
-    dateTimeSubKind: DateTimeSubKind;
-    modifier?: TemporalModifier;
-    resolutionKind: "DateTimeResolution";
-    timex: string;
-    value: string;
-}
-
-// @public
-export type DateTimeSubKind = string;
-
-// @public
 export interface DetectedLanguage {
     confidenceScore: number;
     iso6391Name: string;
     name: string;
-    script?: ScriptKind;
-}
-
-// @public
-export interface DocumentDetectedLanguage {
-    detectedLanguage?: DetectedLanguage;
 }
 
 // @public
@@ -348,23 +283,6 @@ export type DocumentSentimentLabel = "positive" | "neutral" | "negative" | "mixe
 export interface DocumentWarning {
     code: WarningCode;
     message: string;
-}
-
-// @public
-export interface DynamicClassificationAction extends ActionPrebuilt {
-    categories: string[];
-    classificationType?: ClassificationType;
-}
-
-// @public
-export type DynamicClassificationErrorResult = TextAnalysisErrorResult;
-
-// @public
-export type DynamicClassificationResult = DynamicClassificationSuccessResult | DynamicClassificationErrorResult;
-
-// @public
-export interface DynamicClassificationSuccessResult extends TextAnalysisSuccessResult {
-    readonly classifications: ClassificationCategory[];
 }
 
 // @public
@@ -437,12 +355,7 @@ export type EntityRecognitionResult = EntityRecognitionSuccessResult | EntityRec
 
 // @public
 export interface EntityRecognitionSuccessResult extends TextAnalysisSuccessResult {
-    readonly entities: EntityWithResolution[];
-}
-
-// @public
-export interface EntityWithResolution extends Entity {
-    resolutions?: BaseResolutionUnion[];
+    readonly entities: Entity[];
 }
 
 // @public
@@ -475,12 +388,7 @@ export interface ExtractiveSummarizationSuccessResult extends TextAnalysisSucces
 }
 
 // @public
-export type FhirVersion = string;
-
-// @public
 export interface HealthcareAction extends ActionPrebuilt {
-    documentType?: HealthcareDocumentType;
-    fhirVersion?: FhirVersion;
     stringIndexType?: StringIndexType;
 }
 
@@ -498,9 +406,6 @@ export interface HealthcareBatchAction extends AnalyzeBatchActionCommon, Healthc
 
 // @public
 export type HealthcareBatchResult = ActionMetadata & BatchActionResult<HealthcareResult, "Healthcare">;
-
-// @public
-export type HealthcareDocumentType = string;
 
 // @public
 export interface HealthcareEntity extends Entity {
@@ -539,17 +444,7 @@ export type HealthcareResult = HealthcareSuccessResult | HealthcareErrorResult;
 export interface HealthcareSuccessResult extends TextAnalysisSuccessResult {
     readonly entities: HealthcareEntity[];
     readonly entityRelations: HealthcareEntityRelation[];
-    readonly fhirBundle?: Record<string, any>;
 }
-
-// @public
-export interface InformationResolution extends BaseResolution, QuantityResolution {
-    resolutionKind: "InformationResolution";
-    unit: InformationUnit;
-}
-
-// @public
-export type InformationUnit = string;
 
 // @public
 export interface KeyPhraseExtractionAction extends ActionPrebuilt {
@@ -572,47 +467,6 @@ export type KeyPhraseExtractionResult = KeyPhraseExtractionSuccessResult | KeyPh
 // @public
 export interface KeyPhraseExtractionSuccessResult extends TextAnalysisSuccessResult {
     readonly keyPhrases: string[];
-}
-
-// @public
-export enum KnownAgeUnit {
-    Day = "Day",
-    Month = "Month",
-    Unspecified = "Unspecified",
-    Week = "Week",
-    Year = "Year"
-}
-
-// @public
-export enum KnownAreaUnit {
-    Acre = "Acre",
-    SquareCentimeter = "SquareCentimeter",
-    SquareDecameter = "SquareDecameter",
-    SquareDecimeter = "SquareDecimeter",
-    SquareFoot = "SquareFoot",
-    SquareHectometer = "SquareHectometer",
-    SquareInch = "SquareInch",
-    SquareKilometer = "SquareKilometer",
-    SquareMeter = "SquareMeter",
-    SquareMile = "SquareMile",
-    SquareMillimeter = "SquareMillimeter",
-    SquareYard = "SquareYard",
-    Unspecified = "Unspecified"
-}
-
-// @public
-export enum KnownClassificationType {
-    Multi = "Multi",
-    Single = "Single"
-}
-
-// @public
-export enum KnownDateTimeSubKind {
-    Date = "Date",
-    DateTime = "DateTime",
-    Duration = "Duration",
-    Set = "Set",
-    Time = "Time"
 }
 
 // @public
@@ -644,68 +498,43 @@ export enum KnownExtractiveSummarizationOrderingCriteria {
 }
 
 // @public
-export enum KnownFhirVersion {
-    "4.0.1" = "4.0.1"
-}
-
-// @public
-export enum KnownHealthcareDocumentType {
-    ClinicalTrial = "ClinicalTrial",
-    Consult = "Consult",
-    DischargeSummary = "DischargeSummary",
-    HistoryAndPhysical = "HistoryAndPhysical",
-    Imaging = "Imaging",
-    None = "None",
-    Pathology = "Pathology",
-    ProcedureNote = "ProcedureNote",
-    ProgressNote = "ProgressNote"
-}
-
-// @public
 export enum KnownHealthcareEntityCategory {
     AdministrativeEvent = "AdministrativeEvent",
     Age = "Age",
+    Allergen = "Allergen",
     BodyStructure = "BodyStructure",
     CareEnvironment = "CareEnvironment",
     ConditionQualifier = "ConditionQualifier",
+    ConditionScale = "ConditionScale",
+    Course = "Course",
     Date = "Date",
     Diagnosis = "Diagnosis",
     Direction = "Direction",
     Dosage = "Dosage",
+    Employment = "Employment",
+    Ethnicity = "Ethnicity",
     ExaminationName = "ExaminationName",
+    Expression = "Expression",
     FamilyRelation = "FamilyRelation",
     Frequency = "Frequency",
     Gender = "Gender",
     GeneOrProtein = "GeneOrProtein",
     HealthcareProfession = "HealthcareProfession",
+    LivingStatus = "LivingStatus",
     MeasurementUnit = "MeasurementUnit",
     MeasurementValue = "MeasurementValue",
     MedicationClass = "MedicationClass",
     MedicationForm = "MedicationForm",
     MedicationName = "MedicationName",
     MedicationRoute = "MedicationRoute",
+    MutationType = "MutationType",
     RelationalOperator = "RelationalOperator",
+    SubstanceUse = "SubstanceUse",
+    SubstanceUseAmount = "SubstanceUseAmount",
     SymptomOrSign = "SymptomOrSign",
     Time = "Time",
     TreatmentName = "TreatmentName",
     Variant = "Variant"
-}
-
-// @public
-export enum KnownInformationUnit {
-    Bit = "Bit",
-    Byte = "Byte",
-    Gigabit = "Gigabit",
-    Gigabyte = "Gigabyte",
-    Kilobit = "Kilobit",
-    Kilobyte = "Kilobyte",
-    Megabit = "Megabit",
-    Megabyte = "Megabyte",
-    Petabit = "Petabit",
-    Petabyte = "Petabyte",
-    Terabit = "Terabit",
-    Terabyte = "Terabyte",
-    Unspecified = "Unspecified"
 }
 
 // @public
@@ -724,37 +553,6 @@ export enum KnownInnerErrorCode {
     MissingInputDocuments = "MissingInputDocuments",
     ModelVersionIncorrect = "ModelVersionIncorrect",
     UnsupportedLanguageCode = "UnsupportedLanguageCode"
-}
-
-// @public
-export enum KnownLengthUnit {
-    Centimeter = "Centimeter",
-    Decameter = "Decameter",
-    Decimeter = "Decimeter",
-    Foot = "Foot",
-    Hectometer = "Hectometer",
-    Inch = "Inch",
-    Kilometer = "Kilometer",
-    LightYear = "LightYear",
-    Meter = "Meter",
-    Micrometer = "Micrometer",
-    Mile = "Mile",
-    Millimeter = "Millimeter",
-    Nanometer = "Nanometer",
-    Picometer = "Picometer",
-    Pt = "Pt",
-    Unspecified = "Unspecified",
-    Yard = "Yard"
-}
-
-// @public
-export enum KnownNumberKind {
-    Decimal = "Decimal",
-    Fraction = "Fraction",
-    Integer = "Integer",
-    Percent = "Percent",
-    Power = "Power",
-    Unspecified = "Unspecified"
 }
 
 // @public
@@ -941,33 +739,32 @@ export enum KnownPiiEntityDomain {
 }
 
 // @public
-export enum KnownRangeKind {
-    Age = "Age",
-    Area = "Area",
-    Currency = "Currency",
-    Information = "Information",
-    Length = "Length",
-    Number = "Number",
-    Speed = "Speed",
-    Temperature = "Temperature",
-    Volume = "Volume",
-    Weight = "Weight"
-}
-
-// @public
 export enum KnownRelationType {
     Abbreviation = "Abbreviation",
+    BodySiteOfCondition = "BodySiteOfCondition",
+    BodySiteOfTreatment = "BodySiteOfTreatment",
+    CourseOfCondition = "CourseOfCondition",
+    CourseOfExamination = "CourseOfExamination",
+    CourseOfMedication = "CourseOfMedication",
+    CourseOfTreatment = "CourseOfTreatment",
     DirectionOfBodyStructure = "DirectionOfBodyStructure",
     DirectionOfCondition = "DirectionOfCondition",
     DirectionOfExamination = "DirectionOfExamination",
     DirectionOfTreatment = "DirectionOfTreatment",
     DosageOfMedication = "DosageOfMedication",
+    ExaminationFindsCondition = "ExaminationFindsCondition",
+    ExpressionOfGene = "ExpressionOfGene",
+    ExpressionOfVariant = "ExpressionOfVariant",
     FormOfMedication = "FormOfMedication",
+    FrequencyOfCondition = "FrequencyOfCondition",
     FrequencyOfMedication = "FrequencyOfMedication",
     FrequencyOfTreatment = "FrequencyOfTreatment",
+    MutationTypeOfGene = "MutationTypeOfGene",
+    MutationTypeOfVariant = "MutationTypeOfVariant",
     QualifierOfCondition = "QualifierOfCondition",
     RelationOfExamination = "RelationOfExamination",
     RouteOfMedication = "RouteOfMedication",
+    ScaleOfCondition = "ScaleOfCondition",
     TimeOfCondition = "TimeOfCondition",
     TimeOfEvent = "TimeOfEvent",
     TimeOfExamination = "TimeOfExamination",
@@ -976,56 +773,8 @@ export enum KnownRelationType {
     UnitOfCondition = "UnitOfCondition",
     UnitOfExamination = "UnitOfExamination",
     ValueOfCondition = "ValueOfCondition",
-    ValueOfExamination = "ValueOfExamination"
-}
-
-// @public
-export enum KnownRelativeTo {
-    Current = "Current",
-    End = "End",
-    Start = "Start"
-}
-
-// @public
-export enum KnownResolutionKind {
-    AgeResolution = "AgeResolution",
-    AreaResolution = "AreaResolution",
-    BooleanResolution = "BooleanResolution",
-    CurrencyResolution = "CurrencyResolution",
-    DateTimeResolution = "DateTimeResolution",
-    InformationResolution = "InformationResolution",
-    LengthResolution = "LengthResolution",
-    NumberResolution = "NumberResolution",
-    NumericRangeResolution = "NumericRangeResolution",
-    OrdinalResolution = "OrdinalResolution",
-    SpeedResolution = "SpeedResolution",
-    TemperatureResolution = "TemperatureResolution",
-    TemporalSpanResolution = "TemporalSpanResolution",
-    VolumeResolution = "VolumeResolution",
-    WeightResolution = "WeightResolution"
-}
-
-// @public
-export enum KnownScriptKind {
-    Latin = "Latin"
-}
-
-// @public
-export enum KnownSpeedUnit {
-    CentimeterPerMillisecond = "CentimeterPerMillisecond",
-    FootPerMinute = "FootPerMinute",
-    FootPerSecond = "FootPerSecond",
-    KilometerPerHour = "KilometerPerHour",
-    KilometerPerMillisecond = "KilometerPerMillisecond",
-    KilometerPerMinute = "KilometerPerMinute",
-    KilometerPerSecond = "KilometerPerSecond",
-    Knot = "Knot",
-    MeterPerMillisecond = "MeterPerMillisecond",
-    MeterPerSecond = "MeterPerSecond",
-    MilePerHour = "MilePerHour",
-    Unspecified = "Unspecified",
-    YardPerMinute = "YardPerMinute",
-    YardPerSecond = "YardPerSecond"
+    ValueOfExamination = "ValueOfExamination",
+    VariantOfGene = "VariantOfGene"
 }
 
 // @public
@@ -1033,37 +782,6 @@ export enum KnownStringIndexType {
     TextElementsV8 = "TextElements_v8",
     UnicodeCodePoint = "UnicodeCodePoint",
     Utf16CodeUnit = "Utf16CodeUnit"
-}
-
-// @public
-export enum KnownTemperatureUnit {
-    Celsius = "Celsius",
-    Fahrenheit = "Fahrenheit",
-    Kelvin = "Kelvin",
-    Rankine = "Rankine",
-    Unspecified = "Unspecified"
-}
-
-// @public
-export enum KnownTemporalModifier {
-    After = "After",
-    AfterApprox = "AfterApprox",
-    AfterMid = "AfterMid",
-    AfterStart = "AfterStart",
-    Approx = "Approx",
-    Before = "Before",
-    BeforeApprox = "BeforeApprox",
-    BeforeEnd = "BeforeEnd",
-    BeforeStart = "BeforeStart",
-    End = "End",
-    Less = "Less",
-    Mid = "Mid",
-    More = "More",
-    ReferenceUndefined = "ReferenceUndefined",
-    Since = "Since",
-    SinceEnd = "SinceEnd",
-    Start = "Start",
-    Until = "Until"
 }
 
 // @public
@@ -1100,58 +818,6 @@ export const KnownTextAnalysisErrorCode: {
 };
 
 // @public
-export enum KnownVolumeUnit {
-    Barrel = "Barrel",
-    Bushel = "Bushel",
-    Centiliter = "Centiliter",
-    Cord = "Cord",
-    CubicCentimeter = "CubicCentimeter",
-    CubicFoot = "CubicFoot",
-    CubicInch = "CubicInch",
-    CubicMeter = "CubicMeter",
-    CubicMile = "CubicMile",
-    CubicMillimeter = "CubicMillimeter",
-    CubicYard = "CubicYard",
-    Cup = "Cup",
-    Decaliter = "Decaliter",
-    FluidDram = "FluidDram",
-    FluidOunce = "FluidOunce",
-    Gill = "Gill",
-    Hectoliter = "Hectoliter",
-    Hogshead = "Hogshead",
-    Liter = "Liter",
-    Milliliter = "Milliliter",
-    Minim = "Minim",
-    Peck = "Peck",
-    Pinch = "Pinch",
-    Pint = "Pint",
-    Quart = "Quart",
-    Tablespoon = "Tablespoon",
-    Teaspoon = "Teaspoon",
-    Unspecified = "Unspecified"
-}
-
-// @public
-export enum KnownWeightUnit {
-    Dram = "Dram",
-    Gallon = "Gallon",
-    Grain = "Grain",
-    Gram = "Gram",
-    Kilogram = "Kilogram",
-    LongTonBritish = "LongTonBritish",
-    MetricTon = "MetricTon",
-    Milligram = "Milligram",
-    Ounce = "Ounce",
-    PennyWeight = "PennyWeight",
-    Pound = "Pound",
-    ShortHundredWeightUS = "ShortHundredWeightUS",
-    ShortTonUS = "ShortTonUS",
-    Stone = "Stone",
-    Ton = "Ton",
-    Unspecified = "Unspecified"
-}
-
-// @public
 export interface LanguageDetectionAction extends ActionPrebuilt {
 }
 
@@ -1174,15 +840,6 @@ export interface LanguageDetectionSuccessResult extends TextAnalysisSuccessResul
 }
 
 // @public
-export interface LengthResolution extends BaseResolution, QuantityResolution {
-    resolutionKind: "LengthResolution";
-    unit: LengthUnit;
-}
-
-// @public
-export type LengthUnit = string;
-
-// @public
 export interface LinkedEntity {
     bingEntitySearchApiId?: string;
     dataSource: string;
@@ -1202,35 +859,9 @@ export interface Match {
 }
 
 // @public
-export type NumberKind = string;
-
-// @public
-export interface NumberResolution extends BaseResolution {
-    numberKind: NumberKind;
-    resolutionKind: "NumberResolution";
-    value: number;
-}
-
-// @public
-export interface NumericRangeResolution extends BaseResolution {
-    maximum: number;
-    minimum: number;
-    rangeKind: RangeKind;
-    resolutionKind: "NumericRangeResolution";
-}
-
-// @public
 export interface Opinion {
     readonly assessments: AssessmentSentiment[];
     readonly target: TargetSentiment;
-}
-
-// @public
-export interface OrdinalResolution extends BaseResolution {
-    offset: string;
-    relativeTo: RelativeTo;
-    resolutionKind: "OrdinalResolution";
-    value: string;
 }
 
 // @public
@@ -1275,26 +906,12 @@ export interface PollerLike<TState extends OperationState<TResult>, TResult> ext
 }
 
 // @public
-export interface QuantityResolution {
-    value: number;
-}
-
-// @public
-export type RangeKind = string;
-
-// @public
 export type RelationType = string;
-
-// @public
-export type RelativeTo = string;
 
 // @public
 export interface RestoreAnalyzeBatchPollerOptions extends TextAnalysisOperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type ScriptKind = string;
 
 // @public
 export interface SentenceSentiment {
@@ -1344,15 +961,6 @@ export interface SentimentConfidenceScores {
 }
 
 // @public
-export interface SpeedResolution extends BaseResolution, QuantityResolution {
-    resolutionKind: "SpeedResolution";
-    unit: SpeedUnit;
-}
-
-// @public
-export type SpeedUnit = string;
-
-// @public
 export type StringIndexType = string;
 
 // @public
@@ -1382,28 +990,6 @@ export interface TargetSentiment {
     readonly offset: number;
     readonly sentiment: TokenSentimentLabel;
     readonly text: string;
-}
-
-// @public
-export interface TemperatureResolution extends BaseResolution, QuantityResolution {
-    resolutionKind: "TemperatureResolution";
-    unit: TemperatureUnit;
-}
-
-// @public
-export type TemperatureUnit = string;
-
-// @public
-export type TemporalModifier = string;
-
-// @public
-export interface TemporalSpanResolution extends BaseResolution {
-    begin?: string;
-    duration?: string;
-    end?: string;
-    modifier?: TemporalModifier;
-    resolutionKind: "TemporalSpanResolution";
-    timex?: string;
 }
 
 // @public
@@ -1454,7 +1040,6 @@ export interface TextAnalysisSuccessResult {
 
 // @public
 export interface TextDocumentBatchStatistics {
-    [property: string]: any;
     documentCount: number;
     erroneousDocumentCount: number;
     transactionCount: number;
@@ -1478,29 +1063,6 @@ export interface TextDocumentStatistics {
 export type TokenSentimentLabel = "positive" | "mixed" | "negative";
 
 // @public
-export interface VolumeResolution extends BaseResolution, QuantityResolution {
-    resolutionKind: "VolumeResolution";
-    unit: VolumeUnit;
-}
-
-// @public
-export type VolumeUnit = string;
-
-// @public
 export type WarningCode = string;
-
-// @public
-export interface WeightResolution extends BaseResolution, QuantityResolution {
-    resolutionKind: "WeightResolution";
-    unit: WeightUnit;
-}
-
-// @public
-export type WeightUnit = string;
-
-// @public
-export type WithDetectedLanguage<T> = T & DocumentDetectedLanguage & {
-    isLanguageDefaulted?: boolean;
-};
 
 ```

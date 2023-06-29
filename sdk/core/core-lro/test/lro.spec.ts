@@ -2414,16 +2414,7 @@ matrix(
               messagePattern: /The operation was aborted/,
             }
           );
-          await assertDivergentBehavior({
-            op: poller.pollUntilDone(),
-            throwOnNon2xxResponse,
-            throwing: {
-              messagePattern: /The operation was aborted/,
-            },
-            notThrowing: { result: undefined },
-          });
-          assert.equal(pollCount, 1);
-          assert.ok(poller.isDone());
+          assert.isFalse(poller.isDone());
         });
 
         it("pollUntilDone can be aborted", async () => {
@@ -2470,7 +2461,7 @@ matrix(
             }
           );
           assert.equal(pollCount, 1);
-          assert.ok(poller.isDone());
+          assert.isFalse(poller.isDone());
         });
 
         it("pollUntilDone is aborted when stopPolling() gets called", async () => {
@@ -2516,6 +2507,7 @@ matrix(
            * TODO: revisit this if it becomes an issue.
            */
           assert.equal(pollCount, implName === "createPoller" ? 2 : 1);
+          assert.isFalse(poller.isDone());
         });
       });
       describe("general behavior", function () {
@@ -2600,6 +2592,41 @@ matrix(
             throwOnNon2xxResponse,
           });
           assert.equal(poller.getResult()?.properties?.provisioningState, "Canceled");
+        });
+        it("prints an error message based on the error in the status monitor", async () => {
+          const pollingPath = "/postlocation/retry/succeeded/operationResults/200/";
+          const code = "InvalidRequest";
+          const message = "Bad Request";
+          const body = { status: "Failed", error: { code, message } };
+          await assertDivergentBehavior({
+            op: runLro({
+              routes: [
+                {
+                  method: "POST",
+                  status: 202,
+                  headers: {
+                    "Operation-Location": pollingPath,
+                  },
+                  body: `{"status":"Running"}`,
+                },
+                {
+                  method: "GET",
+                  path: pollingPath,
+                  status: 200,
+                  body: JSON.stringify(body),
+                },
+              ],
+            }),
+            throwOnNon2xxResponse,
+            throwing: {
+              messagePattern: new RegExp(
+                `The long-running operation has failed. ${code}. ${message}`
+              ),
+            },
+            notThrowing: {
+              result: { ...body, statusCode: 200 },
+            },
+          });
         });
       });
     });

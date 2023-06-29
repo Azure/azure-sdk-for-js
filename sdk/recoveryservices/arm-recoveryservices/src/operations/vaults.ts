@@ -6,21 +6,26 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Vaults } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { RecoveryServicesClient } from "../recoveryServicesClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Vault,
   VaultsListBySubscriptionIdNextOptionalParams,
   VaultsListBySubscriptionIdOptionalParams,
+  VaultsListBySubscriptionIdResponse,
   VaultsListByResourceGroupNextOptionalParams,
   VaultsListByResourceGroupOptionalParams,
-  VaultsListBySubscriptionIdResponse,
   VaultsListByResourceGroupResponse,
   VaultsGetOptionalParams,
   VaultsGetResponse,
@@ -62,22 +67,34 @@ export class VaultsImpl implements Vaults {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionIdPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionIdPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionIdPagingPage(
-    options?: VaultsListBySubscriptionIdOptionalParams
+    options?: VaultsListBySubscriptionIdOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Vault[]> {
-    let result = await this._listBySubscriptionId(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VaultsListBySubscriptionIdResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscriptionId(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionIdNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -91,8 +108,7 @@ export class VaultsImpl implements Vaults {
 
   /**
    * Retrieve a list of Vaults.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -107,19 +123,33 @@ export class VaultsImpl implements Vaults {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: VaultsListByResourceGroupOptionalParams
+    options?: VaultsListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Vault[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VaultsListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -127,7 +157,9 @@ export class VaultsImpl implements Vaults {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -158,8 +190,7 @@ export class VaultsImpl implements Vaults {
 
   /**
    * Retrieve a list of Vaults.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
@@ -174,8 +205,7 @@ export class VaultsImpl implements Vaults {
 
   /**
    * Get the Vault details.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the recovery services vault.
    * @param options The options parameters.
    */
@@ -192,8 +222,7 @@ export class VaultsImpl implements Vaults {
 
   /**
    * Creates or updates a Recovery Services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the recovery services vault.
    * @param vault Recovery Services Vault to be created.
    * @param options The options parameters.
@@ -204,8 +233,8 @@ export class VaultsImpl implements Vaults {
     vault: Vault,
     options?: VaultsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VaultsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VaultsCreateOrUpdateResponse>,
       VaultsCreateOrUpdateResponse
     >
   > {
@@ -215,7 +244,7 @@ export class VaultsImpl implements Vaults {
     ): Promise<VaultsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -248,13 +277,16 @@ export class VaultsImpl implements Vaults {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vaultName, vault, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vaultName, vault, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VaultsCreateOrUpdateResponse,
+      OperationState<VaultsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -263,8 +295,7 @@ export class VaultsImpl implements Vaults {
 
   /**
    * Creates or updates a Recovery Services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the recovery services vault.
    * @param vault Recovery Services Vault to be created.
    * @param options The options parameters.
@@ -286,8 +317,7 @@ export class VaultsImpl implements Vaults {
 
   /**
    * Deletes a vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the recovery services vault.
    * @param options The options parameters.
    */
@@ -304,8 +334,7 @@ export class VaultsImpl implements Vaults {
 
   /**
    * Updates the vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the recovery services vault.
    * @param vault Recovery Services Vault to be created.
    * @param options The options parameters.
@@ -316,7 +345,7 @@ export class VaultsImpl implements Vaults {
     vault: PatchVault,
     options?: VaultsUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<VaultsUpdateResponse>, VaultsUpdateResponse>
+    SimplePollerLike<OperationState<VaultsUpdateResponse>, VaultsUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -324,7 +353,7 @@ export class VaultsImpl implements Vaults {
     ): Promise<VaultsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -357,13 +386,16 @@ export class VaultsImpl implements Vaults {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vaultName, vault, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vaultName, vault, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VaultsUpdateResponse,
+      OperationState<VaultsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -372,8 +404,7 @@ export class VaultsImpl implements Vaults {
 
   /**
    * Updates the vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the recovery services vault.
    * @param vault Recovery Services Vault to be created.
    * @param options The options parameters.
@@ -410,8 +441,7 @@ export class VaultsImpl implements Vaults {
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
@@ -586,7 +616,6 @@ const listBySubscriptionIdNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -606,7 +635,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

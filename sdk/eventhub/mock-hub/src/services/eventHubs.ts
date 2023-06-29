@@ -491,16 +491,15 @@ export class MockEventHub implements IMockEventHub {
     if (!delivery) {
       throw new Error("event.context.delivery must be defined");
     }
-
-    const deliverySize = (delivery as { data?: unknown[] })["data"]?.length ?? 0;
+    const messageSize = (event.context as { message?: unknown[] })["message"]?.length ?? 0;
     const maxMessageSize =
       event.context.receiver?.get_option("max_message_size", 1024 * 1024) ?? 1024 * 1024;
-    if (deliverySize >= maxMessageSize) {
+    if (messageSize >= maxMessageSize) {
       delivery.reject({
         condition: "amqp:link:message-size-exceeded",
         description: `The received message (delivery-id:${
           delivery.id
-        }, size:${deliverySize} bytes) exceeds the limit (${
+        }, size:${messageSize} bytes) exceeds the limit (${
           maxMessageSize ?? 1024 * 1024
         } bytes) currently allowed on the link.`,
       });

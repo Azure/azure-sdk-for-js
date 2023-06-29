@@ -28,6 +28,7 @@ export async function assertActionsResults(
         "projectName",
         "confidenceScore",
         "confidenceScores",
+        "failedOn",
         ...excludedAdditionalProps,
       ] as any);
     }

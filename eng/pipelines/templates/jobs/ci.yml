@@ -29,7 +29,9 @@ parameters:
 jobs:
   - job: "Build"
     variables:
-      - template: ../variables/globals.yml
+      Codeql.Enabled: true
+      Codeql.BuildIdentifier: ${{ parameters.ServiceDirectory }}
+      Codeql.SkipTaskAutoInjection: false
 
     pool:
       name: azsdk-pool-mms-ubuntu-2004-general
@@ -51,8 +53,6 @@ jobs:
           IncludeRelease: ${{ parameters.IncludeRelease }}
 
   - job: "Analyze"
-    variables:
-      - template: ../variables/globals.yml
 
     pool:
       name: azsdk-pool-mms-ubuntu-2004-general

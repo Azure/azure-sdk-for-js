@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { Portal } from "@azure/arm-portal";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the Dashboard.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/portal/resource-manager/Microsoft.Portal/preview/2020-09-01-preview/examples/getDashboard.json
  */
 async function getADashboard() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "testRG";
+  const subscriptionId =
+    process.env["PORTAL_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["PORTAL_RESOURCE_GROUP"] || "testRG";
   const dashboardName = "testDashboard";
   const credential = new DefaultAzureCredential();
   const client = new Portal(credential, subscriptionId);
@@ -27,4 +32,8 @@ async function getADashboard() {
   console.log(result);
 }
 
-getADashboard().catch(console.error);
+async function main() {
+  getADashboard();
+}
+
+main().catch(console.error);

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AzureVMwareSolutionAPI } = require("@azure/arm-avs");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create or update a segment by id in a private cloud workload network.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/WorkloadNetworks_UpdateSegments.json
  */
 async function workloadNetworksUpdateSegments() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "group1";
+  const subscriptionId =
+    process.env["AVS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["AVS_RESOURCE_GROUP"] || "group1";
   const privateCloudName = "cloud1";
   const segmentId = "segment1";
   const workloadNetworkSegment = {
@@ -41,4 +43,8 @@ async function workloadNetworksUpdateSegments() {
   console.log(result);
 }
 
-workloadNetworksUpdateSegments().catch(console.error);
+async function main() {
+  workloadNetworksUpdateSegments();
+}
+
+main().catch(console.error);

@@ -12,9 +12,9 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://github.com/Azure/azure-rest-api-specs/blob/527f6d35fb0d85c48210ca0f6f6f42814d63bd33/specification/cognitiveservices/data-plane/Language/preview/2022-10-01-preview/analyzetext.json
+input-file: https://github.com/Azure/azure-rest-api-specs/blob/af1b95f0c8cc5cedc3b224f3d6751eb43b57b43a/specification/cognitiveservices/data-plane/Language/stable/2023-04-01/analyzetext.json
 add-credentials: false
-package-version: 1.1.0-beta.1
+package-version: 1.1.0
 v3: true
 hide-clients: true
 typescript: true
@@ -215,6 +215,13 @@ directive:
       $["x-ms-client-name"] = "includeStatistics";
 
   - from: swagger-document
+    where: $.definitions.AbstractiveSummary.required
+    transform: >
+      if (!$.find((x) => x === "contexts")) {
+          $.push("contexts");
+      }
+
+  - from: swagger-document
     where: $.definitions[*]
     transform: >
       if ($.description && $.description.includes("showStats")) {
@@ -272,6 +279,11 @@ directive:
     where: $.definitions.DocumentWarning.properties.code
     transform: >
       $["x-ms-enum"].name = "WarningCode";
+
+  - from: swagger-document
+    where: $.definitions.AnalyzeTextJobsInput.properties
+    transform: >
+      delete $["defaultLanguage"];
 
   - from: swagger-document
     where: $.definitions.DocumentWarning.properties
@@ -358,10 +370,6 @@ directive:
   - where-model: DynamicClassificationAction
     transform:
       $.description = "Options for a dynamic classification action.";
-  - where-model: AbstractiveSummarizationTaskParametersBase
-    transform:
-      $.properties.sentenceCount.description = "The max number of sentences to be part of the summary.";
-      $.properties.sentenceCount["x-ms-client-name"] = "maxSentenceCount";
   - rename-model:
       from: AbstractiveSummarizationTaskParameters
       to: AbstractiveSummarizationAction

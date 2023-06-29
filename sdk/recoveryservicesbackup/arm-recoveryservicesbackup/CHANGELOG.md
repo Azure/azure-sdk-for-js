@@ -1,6 +1,6 @@
 # Release History
 
-## 10.0.1 (Unreleased)
+## 10.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,23 @@
 
 ### Other Changes
 
+## 10.1.0 (2023-03-10)
+    
+**Features**
+
+  - Added Interface ExtendedLocation
+  - Added Interface SecuredVMDetails
+  - Added Interface TargetDiskNetworkAccessSettings
+  - Added Type Alias TargetDiskNetworkAccessOption
+  - Interface BmsrpQueryObject has a new optional parameter includeSoftDeletedRP
+  - Interface IaasVMRecoveryPoint has a new optional parameter isPrivateAccessEnabledOnAnyDisk
+  - Interface IaasVMRecoveryPoint has a new optional parameter securityType
+  - Interface IaasVMRestoreRequest has a new optional parameter extendedLocation
+  - Interface IaasVMRestoreRequest has a new optional parameter securedVMDetails
+  - Interface IaasVMRestoreRequest has a new optional parameter targetDiskNetworkAccessSettings
+  - Interface RecoveryPointProperties has a new optional parameter isSoftDeleted
+    
+    
 ## 10.0.0 (2023-01-18)
     
 **Features**

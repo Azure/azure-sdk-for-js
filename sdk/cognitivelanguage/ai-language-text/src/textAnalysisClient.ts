@@ -411,10 +411,10 @@ export class TextAnalysisClient {
    *
    * ```js
    * const documents = [<input strings>];
-   * const languageHint = "en";
+   * const languageCode = "en";
    * const categoriesFilter = [KnownPiiCategory.USSocialSecurityNumber];
    * const domainFilter = KnownPiiDomain.Phi;
-   * const results = await client.analyze("PiiEntityRecognition", documents, languageHint, {
+   * const results = await client.analyze("PiiEntityRecognition", documents, languageCode, {
    *   domainFilter, categoriesFilter
    * });
    *
@@ -444,8 +444,7 @@ export class TextAnalysisClient {
    *    about the languages supported for Entity Recognition actions can be
    *    found in {@link https://docs.microsoft.com//azure/cognitive-services/language-service/named-entity-recognition/language-support}.
    *    If set to "auto", the service will automatically infer the language from
-   *    the input text. If that process fails, the value in the `defaultLanguage`
-   *    option will be used.
+   *    the input text.
    * @param options - optional action parameters and settings for the operation
    *
    * @returns an array of results corresponding to the input documents
@@ -578,8 +577,7 @@ export class TextAnalysisClient {
    *    about the languages supported for Entity Recognition actions can be
    *    found in {@link https://docs.microsoft.com//azure/cognitive-services/language-service/named-entity-recognition/language-support}.
    *    If set to "auto", the service will automatically infer the language from
-   *    the input text. If that process fails, the value in the `defaultLanguage`
-   *    option will be used.
+   *    the input text.
    * @param options - optional settings for the operation
    *
    * @returns an array of results corresponding to the input actions
@@ -660,8 +658,8 @@ export class TextAnalysisClient {
     }
 
     if (isStringArray(documents)) {
-      const languageHint = (languageOrOptions as string) ?? this.defaultLanguage;
-      realInputs = convertToTextDocumentInput(documents, languageHint);
+      const languageCode = (languageOrOptions as string) ?? this.defaultLanguage;
+      realInputs = convertToTextDocumentInput(documents, languageCode);
       realOptions = options;
     } else {
       realInputs = documents;

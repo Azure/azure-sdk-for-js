@@ -77,7 +77,7 @@ node dataPolicyManifestsGetByPolicyModeSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node dataPolicyManifestsGetByPolicyModeSample.js
+npx cross-env POLICY_SUBSCRIPTION_ID="<policy subscription id>" node dataPolicyManifestsGetByPolicyModeSample.js
 ```
 
 ## Next Steps

@@ -12,32 +12,32 @@ import {
   JobRouterCancelJobActionOptionalParams,
   JobRouterCloseJobActionOptionalParams,
   JobRouterCompleteJobActionOptionalParams,
+  JobRouterDeclineJobActionOptionalParams,
   JobRouterReclassifyJobActionOptionalParams,
   JobRouterUpsertJobOptionalParams,
   JobRouterUpsertWorkerOptionalParams,
   JobStateSelector,
   QueueSelectorAttachmentUnion,
-  RouterJob,
+  WorkerSelectorAttachmentUnion,
+  RouterRuleUnion,
   WorkerSelector,
   WorkerStateSelector,
 } from "../generated/src";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import { JSONObject } from "./models";
 
 /**
  * Options to create router client.
  */
-export interface RouterClientOptions extends CommonClientOptions {
+export interface JobRouterClientOptions extends CommonClientOptions {
   /** The headers to be set on requests **/
-  headers?: { [propertyName: string]: any };
+  headers?: JSONObject;
 }
 
 /**
  * Options to create router administration client.
  */
-export interface RouterAdministrationClientOptions extends CommonClientOptions {
-  /** The headers to be set on requests **/
-  headers?: { [propertyName: string]: any };
-}
+export interface JobRouterAdministrationClientOptions extends CommonClientOptions {}
 
 /**
  * Options to create a classification policy.
@@ -50,6 +50,10 @@ export interface CreateClassificationPolicyOptions
   fallbackQueueId?: string;
   /** The queue selectors to resolve a queue for a given job. */
   queueSelectors?: QueueSelectorAttachmentUnion[];
+  /** The worker selectors to determine workers that are eligible for a given job. */
+  workerSelectors?: WorkerSelectorAttachmentUnion[];
+  /** Prioritization rule to determine the priority for a given job. */
+  prioritizationRule?: RouterRuleUnion;
 }
 
 /**
@@ -63,6 +67,10 @@ export interface UpdateClassificationPolicyOptions
   fallbackQueueId?: string;
   /** The queue selectors to resolve a queue for a given job. */
   queueSelectors?: QueueSelectorAttachmentUnion[];
+  /** The worker selectors to determine workers that are eligible for a given job. */
+  workerSelectors?: WorkerSelectorAttachmentUnion[];
+  /** Prioritization rule to determine the priority for a given job. */
+  prioritizationRule?: RouterRuleUnion;
 }
 
 /**
@@ -81,8 +89,8 @@ export interface CreateDistributionPolicyOptions
   /** The human readable name of the policy. */
   name?: string;
   /** The expiry time of any offers created under this policy will be governed by the offer time to live. */
-  offerTtlInSeconds?: number;
-  /** Abstract base class for defining a distribution mode */
+  offerTtlSeconds?: number;
+  /** The distribution mode used to distribute offers to workers on this queue. */
   mode?: DistributionModeUnion;
 }
 
@@ -94,8 +102,8 @@ export interface UpdateDistributionPolicyOptions
   /** The human readable name of the policy. */
   name?: string;
   /** The expiry time of any offers created under this policy will be governed by the offer time to live. */
-  offerTtlInSeconds?: number;
-  /** Abstract base class for defining a distribution mode */
+  offerTtlSeconds?: number;
+  /** The distribution mode used to distribute offers to workers on this queue. */
   mode?: DistributionModeUnion;
 }
 
@@ -156,11 +164,18 @@ export interface CreateJobOptions extends JobRouterUpsertJobOptionalParams {
   /** A collection of manually specified label selectors, which a worker must satisfy in order to process this job. */
   requestedWorkerSelectors?: WorkerSelector[];
   /** A set of key/value pairs that are identifying attributes used by the rules engines to make decisions. */
-  labels?: { [propertyName: string]: any };
+  labels?: JSONObject;
   /** A set of non-identifying attributes attached to this job */
-  tags?: { [propertyName: string]: any };
+  tags?: JSONObject;
   /** Notes attached to a job, sorted by timestamp */
   notes?: { [propertyName: string]: string };
+  /**
+   * A flag indicating this job is not ready for being matched with workers.
+   * When set to true, job matching will not be started. If set to false, job matching will start automatically
+   */
+  unavailableForMatching?: boolean;
+  /** If set, job will be scheduled to be enqueued at a given time */
+  scheduledTimeUtc?: Date;
 }
 
 /**
@@ -182,11 +197,18 @@ export interface UpdateJobOptions extends JobRouterUpsertJobOptionalParams {
   /** A collection of manually specified label selectors, which a worker must satisfy in order to process this job. */
   requestedWorkerSelectors?: WorkerSelector[];
   /** A set of key/value pairs that are identifying attributes used by the rules engines to make decisions. */
-  labels?: { [propertyName: string]: any };
+  labels?: JSONObject;
   /** A set of non-identifying attributes attached to this job */
-  tags?: { [propertyName: string]: any };
+  tags?: JSONObject;
   /** Notes attached to a job, sorted by timestamp */
   notes?: { [propertyName: string]: string };
+  /**
+   * A flag indicating this job is ready for being matched with workers.
+   * When set to true, job matching will not be started. If set to false, job matching will start automatically
+   */
+  unavailableForMatching?: boolean;
+  /** If set, job will be scheduled to be enqueued at a given time */
+  scheduledTimeUtc?: Date;
 }
 
 /**
@@ -194,27 +216,7 @@ export interface UpdateJobOptions extends JobRouterUpsertJobOptionalParams {
  */
 export interface ReclassifyJobOptions extends JobRouterReclassifyJobActionOptionalParams {
   /** Request object for reclassifying a job. */
-  reclassifyJobRequest?: Record<string, unknown>;
-}
-
-/**
- * Options to update or insert a job's labels.
- */
-export interface UpdateJobLabelsOptions extends OperationOptions {
-  /** Request model for patching a job */
-  patch?: RouterJob;
-  /** If set to true, will force classification. Defaults to false. */
-  forceClassification?: boolean;
-}
-
-/**
- * Options to update a job's classification.
- */
-export interface UpdateJobClassificationOptions extends OperationOptions {
-  /** Request model for patching a job */
-  patch?: RouterJob;
-  /** If set to true, will force classification. Defaults to false. */
-  forceClassification?: boolean;
+  reclassifyJobRequest?: JSONObject;
 }
 
 /**
@@ -254,6 +256,18 @@ export interface CloseJobOptions extends JobRouterCloseJobActionOptionalParams {
 }
 
 /**
+ * Options to close a job.
+ */
+export interface DeclineJobOfferOptions extends JobRouterDeclineJobActionOptionalParams {
+  /**
+   * If the reoffer time is not provided, then this job will not be re-offered to the worker who declined this job unless
+   * the worker is de-registered and re-registered.  If a reoffer time is provided, then the job will be re-matched to
+   * eligible workers after the reoffer time.  The worker that declined the job will also be eligible for the job at that time.
+   */
+  reofferTimeUtc?: Date;
+}
+
+/**
  * Options to get router jobs.
  */
 export interface ListJobsOptions extends OperationOptions {
@@ -267,6 +281,10 @@ export interface ListJobsOptions extends OperationOptions {
   channelId?: string;
   /** (Optional) If specified, filter jobs by classificationPolicy. */
   classificationPolicyId?: string;
+  /** (Optional) If specified, filter on jobs that was scheduled before or at given timestamp. Range: (-Inf, scheduledBefore] */
+  scheduledBefore?: Date;
+  /** (Optional) If specified, filter on jobs that was scheduled at or after given value. Range: [scheduledAfter, +Inf). */
+  scheduledAfter?: Date;
 }
 
 /**
@@ -274,13 +292,13 @@ export interface ListJobsOptions extends OperationOptions {
  */
 export interface CreateWorkerOptions extends JobRouterUpsertWorkerOptionalParams {
   /** The queue(s) that this worker can receive work from. */
-  queueAssignments?: { [propertyName: string]: Record<string, unknown> };
+  queueAssignments?: JSONObject;
   /** The total capacity score this worker has to manage multiple concurrent jobs. */
   totalCapacity?: number;
   /** A set of key/value pairs that are identifying attributes used by the rules engines to make decisions. */
-  labels?: { [propertyName: string]: any };
+  labels?: JSONObject;
   /** A set of non-identifying attributes attached to this worker. */
-  tags?: { [propertyName: string]: any };
+  tags?: JSONObject;
   /** The channel(s) this worker can handle and their impact on the workers capacity. */
   channelConfigurations?: { [propertyName: string]: ChannelConfiguration };
   /** A flag indicating this worker is open to receive offers or not. */
@@ -292,13 +310,13 @@ export interface CreateWorkerOptions extends JobRouterUpsertWorkerOptionalParams
  */
 export interface UpdateWorkerOptions extends JobRouterUpsertWorkerOptionalParams {
   /** The queue(s) that this worker can receive work from. */
-  queueAssignments?: { [propertyName: string]: Record<string, unknown> };
+  queueAssignments?: JSONObject;
   /** The total capacity score this worker has to manage multiple concurrent jobs. */
   totalCapacity?: number;
   /** A set of key/value pairs that are identifying attributes used by the rules engines to make decisions. */
-  labels?: { [propertyName: string]: any };
+  labels?: JSONObject;
   /** A set of non-identifying attributes attached to this worker. */
-  tags?: { [propertyName: string]: any };
+  tags?: JSONObject;
   /** The channel(s) this worker can handle and their impact on the workers capacity. */
   channelConfigurations?: { [propertyName: string]: ChannelConfiguration };
   /** A flag indicating this worker is open to receive offers or not. */
@@ -333,7 +351,7 @@ export interface CreateQueueOptions extends JobRouterAdministrationUpsertQueueOp
   /** The ID of the distribution policy that will determine how a job is distributed to workers. */
   distributionPolicyId?: string;
   /** A set of key/value pairs that are identifying attributes used by the rules engines to make decisions. */
-  labels?: { [propertyName: string]: any };
+  labels?: JSONObject;
   /** (Optional) The ID of the exception policy that determines various job escalation rules. */
   exceptionPolicyId?: string;
 }
@@ -347,7 +365,7 @@ export interface UpdateQueueOptions extends JobRouterAdministrationUpsertQueueOp
   /** The ID of the distribution policy that will determine how a job is distributed to workers. */
   distributionPolicyId?: string;
   /** A set of key/value pairs that are identifying attributes used by the rules engines to make decisions. */
-  labels?: { [propertyName: string]: any };
+  labels?: JSONObject;
   /** (Optional) The ID of the exception policy that determines various job escalation rules. */
   exceptionPolicyId?: string;
 }

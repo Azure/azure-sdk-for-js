@@ -14,7 +14,10 @@ import { RecoveryServicesClient } from "../recoveryServicesClient";
 import {
   CheckNameAvailabilityParameters,
   RecoveryServicesCheckNameAvailabilityOptionalParams,
-  RecoveryServicesCheckNameAvailabilityResponse
+  RecoveryServicesCheckNameAvailabilityResponse,
+  ResourceCapabilities,
+  RecoveryServicesCapabilitiesOptionalParams,
+  RecoveryServicesCapabilitiesResponse
 } from "../models";
 
 /** Class containing RecoveryServices operations. */
@@ -35,8 +38,7 @@ export class RecoveryServicesImpl implements RecoveryServices {
    * Type
    * or if one or more such resources exist, each of these must be GC'd and their time of deletion be
    * more than 24 Hours Ago
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param location Location of the resource
    * @param input Contains information about Resource type and Resource name
    * @param options The options parameters.
@@ -50,6 +52,23 @@ export class RecoveryServicesImpl implements RecoveryServices {
     return this.client.sendOperationRequest(
       { resourceGroupName, location, input, options },
       checkNameAvailabilityOperationSpec
+    );
+  }
+
+  /**
+   * API to get details about capabilities provided by Microsoft.RecoveryServices RP
+   * @param location Location of the resource
+   * @param input Contains information about Resource type and properties to get capabilities
+   * @param options The options parameters.
+   */
+  capabilities(
+    location: string,
+    input: ResourceCapabilities,
+    options?: RecoveryServicesCapabilitiesOptionalParams
+  ): Promise<RecoveryServicesCapabilitiesResponse> {
+    return this.client.sendOperationRequest(
+      { location, input, options },
+      capabilitiesOperationSpec
     );
   }
 }
@@ -74,6 +93,29 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.location
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
+const capabilitiesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{location}/capabilities",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CapabilitiesResponse
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.input1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.location
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],

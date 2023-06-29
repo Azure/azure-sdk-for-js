@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataFactoryManagementClient } from "../dataFactoryManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   IntegrationRuntimeObjectMetadataRefreshOptionalParams,
   IntegrationRuntimeObjectMetadataRefreshResponse,
@@ -46,8 +50,8 @@ export class IntegrationRuntimeObjectMetadataImpl
     integrationRuntimeName: string,
     options?: IntegrationRuntimeObjectMetadataRefreshOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IntegrationRuntimeObjectMetadataRefreshResponse>,
+    SimplePollerLike<
+      OperationState<IntegrationRuntimeObjectMetadataRefreshResponse>,
       IntegrationRuntimeObjectMetadataRefreshResponse
     >
   > {
@@ -57,7 +61,7 @@ export class IntegrationRuntimeObjectMetadataImpl
     ): Promise<IntegrationRuntimeObjectMetadataRefreshResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -90,13 +94,16 @@ export class IntegrationRuntimeObjectMetadataImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, factoryName, integrationRuntimeName, options },
-      refreshOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, factoryName, integrationRuntimeName, options },
+      spec: refreshOperationSpec
+    });
+    const poller = await createHttpPoller<
+      IntegrationRuntimeObjectMetadataRefreshResponse,
+      OperationState<IntegrationRuntimeObjectMetadataRefreshResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   InstanceFailoverGroup,
   InstanceFailoverGroupsListByLocationNextOptionalParams,
@@ -131,6 +135,24 @@ export class InstanceFailoverGroupsImpl implements InstanceFailoverGroups {
   }
 
   /**
+   * Lists the failover groups in a location.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param locationName The name of the region where the resource is located.
+   * @param options The options parameters.
+   */
+  private _listByLocation(
+    resourceGroupName: string,
+    locationName: string,
+    options?: InstanceFailoverGroupsListByLocationOptionalParams
+  ): Promise<InstanceFailoverGroupsListByLocationResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, locationName, options },
+      listByLocationOperationSpec
+    );
+  }
+
+  /**
    * Gets a failover group.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -166,8 +188,8 @@ export class InstanceFailoverGroupsImpl implements InstanceFailoverGroups {
     parameters: InstanceFailoverGroup,
     options?: InstanceFailoverGroupsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<InstanceFailoverGroupsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<InstanceFailoverGroupsCreateOrUpdateResponse>,
       InstanceFailoverGroupsCreateOrUpdateResponse
     >
   > {
@@ -177,7 +199,7 @@ export class InstanceFailoverGroupsImpl implements InstanceFailoverGroups {
     ): Promise<InstanceFailoverGroupsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -210,19 +232,22 @@ export class InstanceFailoverGroupsImpl implements InstanceFailoverGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         locationName,
         failoverGroupName,
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      InstanceFailoverGroupsCreateOrUpdateResponse,
+      OperationState<InstanceFailoverGroupsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -268,14 +293,14 @@ export class InstanceFailoverGroupsImpl implements InstanceFailoverGroups {
     locationName: string,
     failoverGroupName: string,
     options?: InstanceFailoverGroupsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -308,13 +333,13 @@ export class InstanceFailoverGroupsImpl implements InstanceFailoverGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, locationName, failoverGroupName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, locationName, failoverGroupName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -345,24 +370,6 @@ export class InstanceFailoverGroupsImpl implements InstanceFailoverGroups {
   }
 
   /**
-   * Lists the failover groups in a location.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param locationName The name of the region where the resource is located.
-   * @param options The options parameters.
-   */
-  private _listByLocation(
-    resourceGroupName: string,
-    locationName: string,
-    options?: InstanceFailoverGroupsListByLocationOptionalParams
-  ): Promise<InstanceFailoverGroupsListByLocationResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, locationName, options },
-      listByLocationOperationSpec
-    );
-  }
-
-  /**
    * Fails over from the current primary managed instance to this managed instance.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -376,8 +383,8 @@ export class InstanceFailoverGroupsImpl implements InstanceFailoverGroups {
     failoverGroupName: string,
     options?: InstanceFailoverGroupsFailoverOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<InstanceFailoverGroupsFailoverResponse>,
+    SimplePollerLike<
+      OperationState<InstanceFailoverGroupsFailoverResponse>,
       InstanceFailoverGroupsFailoverResponse
     >
   > {
@@ -387,7 +394,7 @@ export class InstanceFailoverGroupsImpl implements InstanceFailoverGroups {
     ): Promise<InstanceFailoverGroupsFailoverResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -420,13 +427,16 @@ export class InstanceFailoverGroupsImpl implements InstanceFailoverGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, locationName, failoverGroupName, options },
-      failoverOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, locationName, failoverGroupName, options },
+      spec: failoverOperationSpec
+    });
+    const poller = await createHttpPoller<
+      InstanceFailoverGroupsFailoverResponse,
+      OperationState<InstanceFailoverGroupsFailoverResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -471,10 +481,8 @@ export class InstanceFailoverGroupsImpl implements InstanceFailoverGroups {
     failoverGroupName: string,
     options?: InstanceFailoverGroupsForceFailoverAllowDataLossOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        InstanceFailoverGroupsForceFailoverAllowDataLossResponse
-      >,
+    SimplePollerLike<
+      OperationState<InstanceFailoverGroupsForceFailoverAllowDataLossResponse>,
       InstanceFailoverGroupsForceFailoverAllowDataLossResponse
     >
   > {
@@ -484,7 +492,7 @@ export class InstanceFailoverGroupsImpl implements InstanceFailoverGroups {
     ): Promise<InstanceFailoverGroupsForceFailoverAllowDataLossResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -517,13 +525,16 @@ export class InstanceFailoverGroupsImpl implements InstanceFailoverGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, locationName, failoverGroupName, options },
-      forceFailoverAllowDataLossOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, locationName, failoverGroupName, options },
+      spec: forceFailoverAllowDataLossOperationSpec
+    });
+    const poller = await createHttpPoller<
+      InstanceFailoverGroupsForceFailoverAllowDataLossResponse,
+      OperationState<InstanceFailoverGroupsForceFailoverAllowDataLossResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -577,6 +588,26 @@ export class InstanceFailoverGroupsImpl implements InstanceFailoverGroups {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByLocationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/instanceFailoverGroups",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.InstanceFailoverGroupListResult
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion8],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.locationName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/instanceFailoverGroups/{failoverGroupName}",
@@ -587,7 +618,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -617,8 +648,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters27,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters90,
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -626,7 +657,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.locationName,
     Parameters.failoverGroupName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -635,7 +666,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/instanceFailoverGroups/{failoverGroupName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -643,26 +674,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.locationName,
     Parameters.failoverGroupName
   ],
-  serializer
-};
-const listByLocationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/instanceFailoverGroups",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.InstanceFailoverGroupListResult
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion2],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.locationName
-  ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const failoverOperationSpec: coreClient.OperationSpec = {
@@ -684,7 +695,7 @@ const failoverOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -714,7 +725,7 @@ const forceFailoverAllowDataLossOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

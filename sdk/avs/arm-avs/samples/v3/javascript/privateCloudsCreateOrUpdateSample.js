@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AzureVMwareSolutionAPI } = require("@azure/arm-avs");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create or update a private cloud
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/PrivateClouds_CreateOrUpdate.json
  */
 async function privateCloudsCreateOrUpdate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "group1";
+  const subscriptionId =
+    process.env["AVS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["AVS_RESOURCE_GROUP"] || "group1";
   const privateCloudName = "cloud1";
   const privateCloud = {
     identity: { type: "SystemAssigned" },
@@ -39,8 +41,6 @@ async function privateCloudsCreateOrUpdate() {
   console.log(result);
 }
 
-privateCloudsCreateOrUpdate().catch(console.error);
-
 /**
  * This sample demonstrates how to Create or update a private cloud
  *
@@ -48,8 +48,9 @@ privateCloudsCreateOrUpdate().catch(console.error);
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/PrivateClouds_CreateOrUpdate_Stretched.json
  */
 async function privateCloudsCreateOrUpdateStretched() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "group1";
+  const subscriptionId =
+    process.env["AVS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["AVS_RESOURCE_GROUP"] || "group1";
   const privateCloudName = "cloud1";
   const privateCloud = {
     availability: { secondaryZone: 2, strategy: "DualZone", zone: 1 },
@@ -69,4 +70,9 @@ async function privateCloudsCreateOrUpdateStretched() {
   console.log(result);
 }
 
-privateCloudsCreateOrUpdateStretched().catch(console.error);
+async function main() {
+  privateCloudsCreateOrUpdate();
+  privateCloudsCreateOrUpdateStretched();
+}
+
+main().catch(console.error);

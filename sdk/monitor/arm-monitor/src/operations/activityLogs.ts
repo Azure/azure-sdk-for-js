@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ActivityLogs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -62,23 +63,35 @@ export class ActivityLogsImpl implements ActivityLogs {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(filter, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(filter, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     filter: string,
-    options?: ActivityLogsListOptionalParams
+    options?: ActivityLogsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<EventData[]> {
-    let result = await this._list(filter, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listNext(filter, continuationToken, options);
+    let result: ActivityLogsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(filter, options);
+      let page = result.value || [];
       continuationToken = result.nextLink;
-      yield result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -120,29 +133,15 @@ export class ActivityLogsImpl implements ActivityLogs {
 
   /**
    * ListNext
-   * @param filter Reduces the set of data collected.<br>This argument is required and it also requires
-   *               at least the start date/time.<br>The **$filter** argument is very restricted and allows only the
-   *               following patterns.<br>- *List events for a resource group*: $filter=eventTimestamp ge
-   *               '2014-07-16T04:36:37.6407898Z' and eventTimestamp le '2014-07-20T04:36:37.6407898Z' and
-   *               resourceGroupName eq 'resourceGroupName'.<br>- *List events for resource*: $filter=eventTimestamp ge
-   *               '2014-07-16T04:36:37.6407898Z' and eventTimestamp le '2014-07-20T04:36:37.6407898Z' and resourceUri
-   *               eq 'resourceURI'.<br>- *List events for a subscription in a time range*: $filter=eventTimestamp ge
-   *               '2014-07-16T04:36:37.6407898Z' and eventTimestamp le '2014-07-20T04:36:37.6407898Z'.<br>- *List
-   *               events for a resource provider*: $filter=eventTimestamp ge '2014-07-16T04:36:37.6407898Z' and
-   *               eventTimestamp le '2014-07-20T04:36:37.6407898Z' and resourceProvider eq
-   *               'resourceProviderName'.<br>- *List events for a correlation Id*: $filter=eventTimestamp ge
-   *               '2014-07-16T04:36:37.6407898Z' and eventTimestamp le '2014-07-20T04:36:37.6407898Z' and
-   *               correlationId eq 'correlationID'.<br><br>**NOTE**: No other syntax is allowed.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
-    filter: string,
     nextLink: string,
     options?: ActivityLogsListNextOptionalParams
   ): Promise<ActivityLogsListNextResponse> {
     return this.client.sendOperationRequest(
-      { filter, nextLink, options },
+      { nextLink, options },
       listNextOperationSpec
     );
   }
@@ -182,11 +181,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion1,
-    Parameters.filter,
-    Parameters.select
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

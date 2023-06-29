@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AzureMigrateV2 } = require("@azure/arm-migrate");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create or Update VMware collector
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/migrate/resource-manager/Microsoft.Migrate/stable/2019-10-01/examples/VMwareCollectors_Create.json
  */
 async function vMwareCollectorsCreate() {
-  const subscriptionId = "6393a73f-8d55-47ef-b6dd-179b3e0c7910";
-  const resourceGroupName = "abgoyal-westEurope";
+  const subscriptionId =
+    process.env["MIGRATE_SUBSCRIPTION_ID"] || "6393a73f-8d55-47ef-b6dd-179b3e0c7910";
+  const resourceGroupName = process.env["MIGRATE_RESOURCE_GROUP"] || "abgoyal-westEurope";
   const projectName = "abgoyalWEselfhostb72bproject";
   const vmWareCollectorName = "PortalvCenterbc2fcollector";
   const collectorBody = {
@@ -50,4 +52,8 @@ async function vMwareCollectorsCreate() {
   console.log(result);
 }
 
-vMwareCollectorsCreate().catch(console.error);
+async function main() {
+  vMwareCollectorsCreate();
+}
+
+main().catch(console.error);

@@ -17,10 +17,11 @@ model-date-time-as-string: true
 optional-response-headers: true
 v3: true
 disable-async-iterators: true
+core-http-compat-mode: true
 add-credentials: false
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20210223.1"
-package-version: 12.12.0
+  "@autorest/typescript": "6.0.0"
+package-version: 12.20.0
 ```
 
 ## Customizations for Track 2 Generator

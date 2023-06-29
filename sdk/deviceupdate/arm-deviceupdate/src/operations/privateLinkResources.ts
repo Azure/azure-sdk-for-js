@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { PrivateLinkResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -56,11 +56,15 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByAccountPagingPage(
           resourceGroupName,
           accountName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -69,13 +73,11 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   private async *listByAccountPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: PrivateLinkResourcesListByAccountOptionalParams
+    options?: PrivateLinkResourcesListByAccountOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<GroupInformation[]> {
-    let result = await this._listByAccount(
-      resourceGroupName,
-      accountName,
-      options
-    );
+    let result: PrivateLinkResourcesListByAccountResponse;
+    result = await this._listByAccount(resourceGroupName, accountName, options);
     yield result.value || [];
   }
 

@@ -23,7 +23,6 @@ const algorithmToHashAlgorithm: { [s: string]: string } = {
   ES512: "SHA512",
   PS512: "SHA512",
   RS512: "SHA512",
-  EdDSA: "SHA256",
 };
 
 /**

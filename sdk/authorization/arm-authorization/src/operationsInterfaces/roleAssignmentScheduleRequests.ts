@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   RoleAssignmentScheduleRequest,
@@ -15,7 +14,9 @@ import {
   RoleAssignmentScheduleRequestsCreateResponse,
   RoleAssignmentScheduleRequestsGetOptionalParams,
   RoleAssignmentScheduleRequestsGetResponse,
-  RoleAssignmentScheduleRequestsCancelOptionalParams
+  RoleAssignmentScheduleRequestsCancelOptionalParams,
+  RoleAssignmentScheduleRequestsValidateOptionalParams,
+  RoleAssignmentScheduleRequestsValidateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,14 +34,12 @@ export interface RoleAssignmentScheduleRequests {
   /**
    * Creates a role assignment schedule request.
    * @param scope The scope of the role assignment schedule request to create. The scope can be any REST
-   *              resource instance. For example, use
-   *              '/providers/Microsoft.Subscription/subscriptions/{subscription-id}/' for a subscription,
-   *              '/providers/Microsoft.Subscription/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}'
-   *              for a resource group, and
-   *              '/providers/Microsoft.Subscription/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}'
+   *              resource instance. For example, use '/subscriptions/{subscription-id}/' for a subscription,
+   *              '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}' for a resource group, and
+   *              '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}'
    *              for a resource.
-   * @param roleAssignmentScheduleRequestName The name of the role assignment to create. It can be any
-   *                                          valid GUID.
+   * @param roleAssignmentScheduleRequestName A GUID for the role assignment to create. The name must be
+   *                                          unique and different for each role assignment.
    * @param parameters Parameters for the role assignment schedule request.
    * @param options The options parameters.
    */
@@ -73,4 +72,17 @@ export interface RoleAssignmentScheduleRequests {
     roleAssignmentScheduleRequestName: string,
     options?: RoleAssignmentScheduleRequestsCancelOptionalParams
   ): Promise<void>;
+  /**
+   * Validates a new role assignment schedule request.
+   * @param scope The scope of the role assignment request to validate.
+   * @param roleAssignmentScheduleRequestName The name of the role assignment request to validate.
+   * @param parameters Parameters for the role assignment schedule request.
+   * @param options The options parameters.
+   */
+  validate(
+    scope: string,
+    roleAssignmentScheduleRequestName: string,
+    parameters: RoleAssignmentScheduleRequest,
+    options?: RoleAssignmentScheduleRequestsValidateOptionalParams
+  ): Promise<RoleAssignmentScheduleRequestsValidateResponse>;
 }

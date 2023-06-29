@@ -10,6 +10,7 @@ import {
   ResponseBody,
 } from "./models";
 import {
+  LroError,
   OperationConfig,
   OperationStatus,
   RestorableOperationState,
@@ -132,7 +133,7 @@ function transformStatus(inputs: { status: unknown; statusCode: number }): Opera
     case "cancelled":
       return "canceled";
     default: {
-      logger.warning(`LRO: unrecognized operation status: ${status}`);
+      logger.verbose(`LRO: unrecognized operation status: ${status}`);
       return status as OperationStatus;
     }
   }
@@ -169,6 +170,23 @@ export function parseRetryAfter<T>({ rawResponse }: LroResponse<T>): number | un
       : retryAfterInSeconds * 1000;
   }
   return undefined;
+}
+
+export function getErrorFromResponse<T>(response: LroResponse<T>): LroError | undefined {
+  const error = (response.flatResponse as ResponseBody).error;
+  if (!error) {
+    logger.warning(
+      `The long-running operation failed but there is no error property in the response's body`
+    );
+    return;
+  }
+  if (!error.code || !error.message) {
+    logger.warning(
+      `The long-running operation failed but the error property in the response's body doesn't contain code or message`
+    );
+    return;
+  }
+  return error as LroError;
 }
 
 function calculatePollingIntervalFromDate(retryAfterDate: Date): number | undefined {
@@ -292,6 +310,10 @@ export function getResourceLocation<TState>(
   return state.config.resourceLocation;
 }
 
+export function isOperationError(e: Error): boolean {
+  return e.name === "RestError";
+}
+
 /** Polls the long-running operation. */
 export async function pollHttpOperation<TState, TResult>(inputs: {
   lro: LongRunningOperation;
@@ -321,10 +343,12 @@ export async function pollHttpOperation<TState, TResult>(inputs: {
     processResult: processResult
       ? ({ flatResponse }, inputState) => processResult(flatResponse, inputState)
       : ({ flatResponse }) => flatResponse as TResult,
+    getError: getErrorFromResponse,
     updateState,
     getPollingInterval: parseRetryAfter,
     getOperationLocation,
     getOperationStatus,
+    isOperationError,
     getResourceLocation,
     options,
     /**

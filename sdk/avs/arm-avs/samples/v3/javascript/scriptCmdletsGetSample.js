@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AzureVMwareSolutionAPI } = require("@azure/arm-avs");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Return information about a script cmdlet resource in a specific package on a private cloud
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/ScriptCmdlets_Get.json
  */
 async function scriptCmdletsGet() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "group1";
+  const subscriptionId =
+    process.env["AVS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["AVS_RESOURCE_GROUP"] || "group1";
   const privateCloudName = "{privateCloudName}";
   const scriptPackageName = "{scriptPackageName}";
   const scriptCmdletName = "New-ExternalSsoDomain";
@@ -34,4 +36,8 @@ async function scriptCmdletsGet() {
   console.log(result);
 }
 
-scriptCmdletsGet().catch(console.error);
+async function main() {
+  scriptCmdletsGet();
+}
+
+main().catch(console.error);

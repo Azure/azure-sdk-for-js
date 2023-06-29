@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { MonitorClient } = require("@azure/arm-monitor");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deletes a data collection rule.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-09-01-preview/examples/DataCollectionRulesDelete.json
  */
 async function deleteDataCollectionRule() {
-  const subscriptionId = "703362b3-f278-4e4b-9179-c76eaf41ffc2";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "703362b3-f278-4e4b-9179-c76eaf41ffc2";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "myResourceGroup";
   const dataCollectionRuleName = "myCollectionRule";
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
@@ -27,4 +29,8 @@ async function deleteDataCollectionRule() {
   console.log(result);
 }
 
-deleteDataCollectionRule().catch(console.error);
+async function main() {
+  deleteDataCollectionRule();
+}
+
+main().catch(console.error);

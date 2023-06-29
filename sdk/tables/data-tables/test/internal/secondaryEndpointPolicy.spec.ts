@@ -5,8 +5,8 @@ import { assert } from "chai";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { tablesSecondaryEndpointPolicy } from "../../src/secondaryEndpointPolicy";
 
-describe("tablesSecondaryEndpointPolicy", () => {
-  it("should send the request to the secondary endpoint ", async () => {
+describe("tablesSecondaryEndpointPolicy", function () {
+  it("should send the request to the secondary endpoint ", async function () {
     const primaryURL = "https://testaccount.table.core.windows.net/";
     const expectedSecondary = "https://testaccount-secondary.table.core.windows.net/";
 
@@ -23,7 +23,7 @@ describe("tablesSecondaryEndpointPolicy", () => {
     );
   });
 
-  it("should send the request to the primary endpoint when the header is not set", async () => {
+  it("should send the request to the primary endpoint when the header is not set", async function () {
     const primaryURL = "https://testaccount.table.core.windows.net/";
 
     await tablesSecondaryEndpointPolicy.sendRequest(

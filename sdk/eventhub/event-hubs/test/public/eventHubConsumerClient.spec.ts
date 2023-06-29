@@ -96,6 +96,21 @@ testWithServiceTypes((serviceVersion) => {
         clients = [];
       });
 
+      describe("client options", function (): void {
+        it("the identifier option can be set", async function (): Promise<void> {
+          const identifier = "Test1";
+          const client = new EventHubConsumerClient(
+            EventHubConsumerClient.defaultConsumerGroupName,
+            service.connectionString,
+            service.path,
+            {
+              identifier,
+            }
+          );
+          client.identifier.should.equal(identifier, "The client identifier wasn't set correctly");
+        });
+      });
+
       describe("#close()", function (): void {
         it("stops any actively running subscriptions", async function (): Promise<void> {
           const client = new EventHubConsumerClient(
@@ -345,7 +360,7 @@ testWithServiceTypes((serviceVersion) => {
           await loopUntil({
             maxTimes: 10,
             name: "Wait for subscription1 to read from all partitions",
-            timeBetweenRunsMs: 1000,
+            timeBetweenRunsMs: 5000,
             async until() {
               // wait until we've seen processEvents invoked for each partition.
               return (
@@ -376,7 +391,7 @@ testWithServiceTypes((serviceVersion) => {
           await loopUntil({
             maxTimes: 10,
             name: "Wait for subscription2 to read from all partitions and subscription1 to invoke close handlers",
-            timeBetweenRunsMs: 1000,
+            timeBetweenRunsMs: 5000,
             async until() {
               const sub1CloseHandlersCalled = Boolean(
                 partitionIds.filter((id) => {
@@ -393,7 +408,7 @@ testWithServiceTypes((serviceVersion) => {
           await loopUntil({
             maxTimes: 10,
             name: "Wait for subscription1 to recover",
-            timeBetweenRunsMs: 1000,
+            timeBetweenRunsMs: 5000,
             async until() {
               // wait until we've seen an additional processEvent for each partition.
               return (

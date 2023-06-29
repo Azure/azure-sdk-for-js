@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { RegenerateAccessKeyParameters, RelayAPI } from "@azure/arm-relay";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Regenerates the primary or secondary connection strings to the namespace.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/relay/resource-manager/Microsoft.Relay/stable/2017-04-01/examples/NameSpaces/RelayNameSpaceAuthorizationRuleRegenrateKey.json
  */
 async function relayNameSpaceAuthorizationRuleRegenrateKey() {
-  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = "resourcegroup";
+  const subscriptionId =
+    process.env["RELAY_SUBSCRIPTION_ID"] ||
+    "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName =
+    process.env["RELAY_RESOURCE_GROUP"] || "resourcegroup";
   const namespaceName = "example-RelayNamespace-01";
   const authorizationRuleName = "example-RelayAuthRules-01";
   const parameters: RegenerateAccessKeyParameters = { keyType: "PrimaryKey" };
@@ -34,4 +40,8 @@ async function relayNameSpaceAuthorizationRuleRegenrateKey() {
   console.log(result);
 }
 
-relayNameSpaceAuthorizationRuleRegenrateKey().catch(console.error);
+async function main() {
+  relayNameSpaceAuthorizationRuleRegenrateKey();
+}
+
+main().catch(console.error);

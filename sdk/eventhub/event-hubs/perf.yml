@@ -3,6 +3,10 @@ parameters:
   displayName: OperatingSystems (list of operating systems to run)
   type: string
   default: 'Linux'
+- name: LanguageVersion
+  displayName: LanguageVersion (14, 16, 18)
+  type: string
+  default: '18'
 - name: PackageVersions
   displayName: PackageVersions (regex of package versions to run)
   type: string
@@ -27,8 +31,9 @@ parameters:
 extends:
   template: /eng/pipelines/templates/jobs/perf.yml
   parameters:
+    OperatingSystems: ${{ parameters.OperatingSystems }}
     ServiceDirectory: eventhub/event-hubs
-    Services: "^(eventhubs)$"
+    LanguageVersion: ${{ parameters.LanguageVersion }}
     PackageVersions: ${{ parameters.PackageVersions }}
     Tests: ${{ parameters.Tests }}
     Arguments: ${{ parameters.Arguments }}
