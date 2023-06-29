@@ -62,6 +62,8 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
     excludedHeaders: [
       "Accept-Language", // This is env-dependent
       "x-ms-content-sha256", // This is dependent on the current datetime
+      "sec-ch-ua", // This is browser dependent
+      // https://developer.mozilla.org/docs/Web/HTTP/Headers/Sec-CH-UA
     ],
   });
   return recorder;
