@@ -29,13 +29,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "files": [
-    "types/keyvault-admin.d.ts",
-    "dist/",
-    "dist-esm/src",
-    "README.md",
-    "LICENSE"
-  ],
+  "files": ["types/keyvault-admin.d.ts", "dist/", "dist-esm/src", "README.md", "LICENSE"],
   "browser": {
     "os": false,
     "process": false
@@ -83,21 +77,19 @@
         "path": "swagger/README.md",
         "prefix": "package-version"
       }
-    ]
-  },
-  "//sampleConfiguration": {
-    "productName": "Azure Key Vault Administration",
-    "productSlugs": [
-      "azure",
-      "azure-key-vault"
     ],
-    "requiredResources": {
-      "Azure Key Vault": "https://docs.microsoft.com/azure/key-vault/quick-create-portal"
+    "sampleConfiguration": {
+      "productName": "Azure Key Vault Administration",
+      "productSlugs": ["azure", "azure-key-vault"],
+      "requiredResources": {
+        "Azure Key Vault": "https://docs.microsoft.com/azure/key-vault/quick-create-portal"
+      },
+      "customSnippets": {
+        "prerequisites": "samples-dev/snippets/_prerequisites.md"
+      },
+      "skipFolder": true
     },
-    "customSnippets": {
-      "prerequisites": "samples-dev/snippets/_prerequisites.md"
-    },
-    "skipFolder": true
+    "migrationDate": "2023-03-03T23:11:30.000Z"
   },
   "sideEffects": false,
   "dependencies": {
