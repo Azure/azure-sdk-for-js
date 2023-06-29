@@ -1,0 +1,81 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/api/hubs/simplechat/:removeFromGroups?api-version=2023-07-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "60",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-web-pubsub/1.1.3 core-rest-pipeline/1.11.1 Node/v16.14.2 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "b3b3859f-5288-4409-8e80-8e1d43cf9043"
+      },
+      "RequestBody": {
+        "groups": [
+          "group1",
+          "group2"
+        ],
+        "filter": "userId eq \u0027user 1\u0027"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-01, 2022-11-01, 2023-07-01",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "Date": "Thu, 29 Jun 2023 08:48:58 GMT",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/api/hubs/simplechat/:removeFromGroups?api-version=2023-07-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "56",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-web-pubsub/1.1.3 core-rest-pipeline/1.11.1 Node/v16.14.2 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "5ce1a034-87ef-4be5-9eb6-35dea2ca2525"
+      },
+      "RequestBody": {
+        "groups": [
+          "group1",
+          "group2"
+        ],
+        "filter": "invalid filter"
+      },
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Connection": "keep-alive",
+        "Content-Length": "416",
+        "Content-Type": "application/problem\u002Bjson; charset=utf-8",
+        "Date": "Thu, 29 Jun 2023 08:48:58 GMT",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "x-ms-error-code": "Error.BadRequest"
+      },
+      "ResponseBody": {
+        "code": "Error.BadRequest",
+        "message": "Invalid syntax for \u0027invalid filter\u0027: Syntax error at position 14 in \u0027invalid filter\u0027. (Parameter \u0027filter\u0027)",
+        "target": "Filter",
+        "errors": {
+          "Filter": [
+            "Invalid syntax for \u0027invalid filter\u0027: Syntax error at position 14 in \u0027invalid filter\u0027. (Parameter \u0027filter\u0027)"
+          ]
+        },
+        "type": null,
+        "title": "One or more validation errors occurred.",
+        "status": 400,
+        "detail": null,
+        "instance": null,
+        "extensions": {}
+      }
+    }
+  ],
+  "Variables": {}
+}

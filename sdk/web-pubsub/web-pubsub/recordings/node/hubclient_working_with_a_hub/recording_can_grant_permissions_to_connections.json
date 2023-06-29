@@ -1,0 +1,36 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/api/hubs/simplechat/permissions/joinLeaveGroup/connections/xxx?api-version=2023-07-01\u0026targetName=x",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "User-Agent": "azsdk-js-web-pubsub/1.1.3 core-rest-pipeline/1.11.1 Node/v16.14.2 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "5fd79715-8e8d-481e-b0b7-6224c58f45b2"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-01, 2022-11-01, 2023-07-01",
+        "Connection": "keep-alive",
+        "Content-Length": "135",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 29 Jun 2023 08:49:02 GMT",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "x-ms-error-code": "Info.Connection.NotExisted"
+      },
+      "ResponseBody": {
+        "code": "Info.Connection.NotExisted",
+        "message": "Connection \u0060xxx\u0060 is not found.",
+        "target": "Connection",
+        "details": null,
+        "innererror": null
+      }
+    }
+  ],
+  "Variables": {}
+}

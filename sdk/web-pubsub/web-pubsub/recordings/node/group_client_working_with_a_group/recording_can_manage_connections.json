@@ -1,0 +1,57 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/api/hubs/simplechat/groups/group/connections/xxxx?api-version=2023-07-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "User-Agent": "azsdk-js-web-pubsub/1.1.3 core-rest-pipeline/1.11.1 Node/v16.14.2 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "ef57f42f-208f-49c7-9b84-ff8e1d6e77e9"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-01, 2022-11-01, 2023-07-01",
+        "Connection": "keep-alive",
+        "Content-Length": "137",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 29 Jun 2023 08:48:57 GMT",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "x-ms-error-code": "Error.Connection.NotExisted"
+      },
+      "ResponseBody": {
+        "code": "Error.Connection.NotExisted",
+        "message": "Connection \u0060xxxx\u0060 is not found.",
+        "target": "Connection",
+        "details": null,
+        "innererror": null
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/api/hubs/simplechat/groups/group/connections/xxxx?api-version=2023-07-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-web-pubsub/1.1.3 core-rest-pipeline/1.11.1 Node/v16.14.2 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "3ef7a81d-3056-48aa-9e57-b1b0ccdd649a"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-01, 2022-11-01, 2023-07-01",
+        "Connection": "keep-alive",
+        "Date": "Thu, 29 Jun 2023 08:48:57 GMT",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {}
+}

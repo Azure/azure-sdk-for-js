@@ -1,0 +1,80 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/api/hubs/simplechat/users/brian/:send?api-version=2023-07-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "5",
+        "Content-Type": "text/plain",
+        "User-Agent": "azsdk-js-web-pubsub/1.1.3 core-rest-pipeline/1.11.1 Node/v16.14.2 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "13fe6093-015e-4732-801a-c3b79de1d120"
+      },
+      "RequestBody": "hello",
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-01, 2022-11-01, 2023-07-01",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "Date": "Thu, 29 Jun 2023 08:49:01 GMT",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/api/hubs/simplechat/users/brian/:send?api-version=2023-07-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "13",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-web-pubsub/1.1.3 core-rest-pipeline/1.11.1 Node/v16.14.2 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "cf6ae77d-fdfc-41c9-9964-a8e17216bd74"
+      },
+      "RequestBody": {
+        "x": 1,
+        "y": 2
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-01, 2022-11-01, 2023-07-01",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "Date": "Thu, 29 Jun 2023 08:49:01 GMT",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/api/hubs/simplechat/users/brian/:send?api-version=2023-07-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "10",
+        "Content-Type": "application/octet-stream",
+        "User-Agent": "azsdk-js-web-pubsub/1.1.3 core-rest-pipeline/1.11.1 Node/v16.14.2 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "2287641b-e0ad-41e0-9a09-ab09a4ae1c5a"
+      },
+      "RequestBody": "AAAAAAAAAAAAAA==",
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-01, 2022-11-01, 2023-07-01",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "Date": "Thu, 29 Jun 2023 08:49:01 GMT",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {}
+}

@@ -1,0 +1,69 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/api/hubs/simplechat/:send?api-version=2023-07-01\u0026filter=userId%20ne%20%27user1%27\u0026messageTtlSeconds=60",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "5",
+        "Content-Type": "text/plain",
+        "User-Agent": "azsdk-js-web-pubsub/1.1.3 core-rest-pipeline/1.11.1 Node/v16.14.2 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "047acc9e-4887-4ef3-9e18-220156104cbd"
+      },
+      "RequestBody": "hello",
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-01, 2022-11-01, 2023-07-01",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "Date": "Thu, 29 Jun 2023 08:48:59 GMT",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/api/hubs/simplechat/:send?api-version=2023-07-01\u0026filter=invalid%20filter",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "5",
+        "Content-Type": "text/plain",
+        "User-Agent": "azsdk-js-web-pubsub/1.1.3 core-rest-pipeline/1.11.1 Node/v16.14.2 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "4f1c4d18-e452-4545-8321-d5c7964b11a5"
+      },
+      "RequestBody": "hello",
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Connection": "keep-alive",
+        "Content-Length": "416",
+        "Content-Type": "application/problem\u002Bjson; charset=utf-8",
+        "Date": "Thu, 29 Jun 2023 08:48:59 GMT",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "x-ms-error-code": "Error.BadRequest"
+      },
+      "ResponseBody": {
+        "code": "Error.BadRequest",
+        "message": "Invalid syntax for \u0027invalid filter\u0027: Syntax error at position 14 in \u0027invalid filter\u0027. (Parameter \u0027filter\u0027)",
+        "target": "filter",
+        "errors": {
+          "filter": [
+            "Invalid syntax for \u0027invalid filter\u0027: Syntax error at position 14 in \u0027invalid filter\u0027. (Parameter \u0027filter\u0027)"
+          ]
+        },
+        "type": null,
+        "title": "One or more validation errors occurred.",
+        "status": 400,
+        "detail": null,
+        "instance": null,
+        "extensions": {}
+      }
+    }
+  ],
+  "Variables": {}
+}
