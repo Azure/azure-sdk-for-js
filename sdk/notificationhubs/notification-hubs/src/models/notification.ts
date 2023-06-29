@@ -2,7 +2,16 @@
 // Licensed under the MIT license.
 
 import * as Constants from "../utils/constants.js";
+import {
+  AdmNativeMessage,
+  AppleNativeMessage,
+  FirebaseLegacyNativeMessage,
+} from "./notificationBodyBuilder.js";
 import { AppleHeaders, WindowsHeaders } from "./notificationHeaderBuilder.js";
+
+function isString(value: unknown): value is string {
+  return typeof value === "string" || value instanceof String;
+}
 
 /**
  * Represents a notification that can be sent to a device.
@@ -16,7 +25,7 @@ export interface NotificationCommon {
   /**
    * The headers to include for the push notification.
    */
-  headers?: Record<string, any>;
+  headers?: Record<string, string | undefined>;
 }
 
 /**
@@ -46,7 +55,7 @@ export interface AppleNotificationParams {
   /**
    * The body for the push notification.
    */
-  body: string;
+  body: string | AppleNativeMessage;
 
   /**
    * The headers to include for the push notification.
@@ -60,8 +69,11 @@ export interface AppleNotificationParams {
  * @returns A newly created Apple.
  */
 export function createAppleNotification(notification: AppleNotificationParams): AppleNotification {
+  const body = isString(notification.body) ? notification.body : JSON.stringify(notification.body);
+
   return {
     ...notification,
+    body,
     platform: "apple",
     contentType: Constants.JSON_CONTENT_TYPE,
   };
@@ -78,13 +90,31 @@ export interface AdmNotification extends JsonNotification {
 }
 
 /**
+ * Represents an ADM notification that can be sent to a device.
+ */
+export interface AdmNotificationParams {
+  /**
+   * The body for the push notification.
+   */
+  body: string | AdmNativeMessage;
+
+  /**
+   * The headers to include for the push notification.
+   */
+  headers?: Record<string, string | undefined>;
+}
+
+/**
  * Creates a notification to send to an Amazon Device Messaging device.
  * @param notification - A partial message used to create a message for Amazon Device Messaging.
  * @returns A newly created Amazon Device Messaging.
  */
-export function createAdmNotification(notification: NotificationCommon): AdmNotification {
+export function createAdmNotification(notification: AdmNotificationParams): AdmNotification {
+  const body = isString(notification.body) ? notification.body : JSON.stringify(notification.body);
+
   return {
     ...notification,
+    body,
     platform: "adm",
     contentType: Constants.JSON_CONTENT_TYPE,
   };
@@ -147,15 +177,33 @@ export interface FcmLegacyNotification extends JsonNotification {
 }
 
 /**
+ * Represents an Firebase Legacy notification that can be sent to a device.
+ */
+export interface FcmLegacyNotificationParams {
+  /**
+   * The body for the push notification.
+   */
+  body: string | FirebaseLegacyNativeMessage;
+
+  /**
+   * The headers to include for the push notification.
+   */
+  headers?: Record<string, string | undefined>;
+}
+
+/**
  * Creates a notification to send to Firebase.
  * @param notification - A partial message used to create a message for Firebase.
  * @returns A newly created Firebase notification.
  */
 export function createFcmLegacyNotification(
-  notification: NotificationCommon
+  notification: FcmLegacyNotificationParams
 ): FcmLegacyNotification {
+  const body = isString(notification.body) ? notification.body : JSON.stringify(notification.body);
+
   return {
     ...notification,
+    body,
     platform: "gcm",
     contentType: Constants.JSON_CONTENT_TYPE,
   };

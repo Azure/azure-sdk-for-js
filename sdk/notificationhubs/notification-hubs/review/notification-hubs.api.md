@@ -56,6 +56,12 @@ export interface AdmNotification extends JsonNotification {
 }
 
 // @public
+export interface AdmNotificationParams {
+    body: string | AdmNativeMessage;
+    headers?: Record<string, string | undefined>;
+}
+
+// @public
 export interface AdmRegistrationChannel {
     admRegistrationId: string;
     kind: "adm";
@@ -98,32 +104,10 @@ export interface AppleAlert {
 }
 
 // @public
-export interface AppleCriticalSound {
-    critical: number;
-    name: string;
-    volume: number;
-}
-
-// @public
-export interface AppleHeaders extends Record<string, any> {
-    "apns-collapse-id"?: string;
-    "apns-expiration"?: string;
-    "apns-id"?: string;
-    "apns-priority"?: "5" | "10";
-    "apns-push-type"?: ApnsPushTypes;
-    "apns-topic"?: string;
-}
-
-// @public
-export interface AppleInstallation extends DeviceTokenInstallation {
-    platform: "apns";
-}
-
-// @public
-export interface AppleNativeMessage extends Record<string, any> {
+export interface AppleApsNativeMessage extends Record<string, any> {
     "content-available"?: number;
-    "content-state": Record<string, any>;
-    "dismissal-date": number;
+    "content-state"?: Record<string, any>;
+    "dismissal-date"?: number;
     "filter-criteria"?: string;
     "interruption-level"?: "passive" | "active" | "time-sensitive" | "critical";
     "mutable-content"?: number;
@@ -140,13 +124,40 @@ export interface AppleNativeMessage extends Record<string, any> {
 }
 
 // @public
+export interface AppleCriticalSound {
+    critical: number;
+    name: string;
+    volume: number;
+}
+
+// @public
+export interface AppleHeaders extends Record<string, string | undefined> {
+    "apns-collapse-id"?: string;
+    "apns-expiration"?: string;
+    "apns-id"?: string;
+    "apns-priority"?: "5" | "10";
+    "apns-push-type"?: ApnsPushTypes;
+    "apns-topic"?: string;
+}
+
+// @public
+export interface AppleInstallation extends DeviceTokenInstallation {
+    platform: "apns";
+}
+
+// @public
+export interface AppleNativeMessage extends Record<string, any> {
+    "aps"?: AppleApsNativeMessage;
+}
+
+// @public
 export interface AppleNotification extends JsonNotification {
     platform: "apple";
 }
 
 // @public
 export interface AppleNotificationParams {
-    body: string;
+    body: string | AppleNativeMessage;
     headers?: AppleHeaders;
 }
 
@@ -293,7 +304,7 @@ export interface BrowserTemplateRegistrationDescriptionCommon extends BrowserReg
 export function createAdmInstallation(installation: DeviceTokenInstallation): AdmInstallation;
 
 // @public
-export function createAdmNotification(notification: NotificationCommon): AdmNotification;
+export function createAdmNotification(notification: AdmNotificationParams): AdmNotification;
 
 // @public
 export function createAdmNotificationBody(nativeMessage: AdmNativeMessage): string;
@@ -350,7 +361,7 @@ export function createBrowserTemplateRegistrationDescription(description: Browse
 export function createFcmLegacyInstallation(installation: DeviceTokenInstallation): FcmLegacyInstallation;
 
 // @public
-export function createFcmLegacyNotification(notification: NotificationCommon): FcmLegacyNotification;
+export function createFcmLegacyNotification(notification: FcmLegacyNotificationParams): FcmLegacyNotification;
 
 // @public
 export function createFcmLegacyRegistrationDescription(description: GcmRegistrationDescriptionCommon): GcmRegistrationDescription;
@@ -429,6 +440,12 @@ export interface FcmLegacyInstallation extends DeviceTokenInstallation {
 // @public
 export interface FcmLegacyNotification extends JsonNotification {
     platform: "gcm";
+}
+
+// @public
+export interface FcmLegacyNotificationParams {
+    body: string | FirebaseLegacyNativeMessage;
+    headers?: Record<string, string | undefined>;
 }
 
 // @public
@@ -577,7 +594,7 @@ export type Notification = AppleNotification | AdmNotification | BaiduNotificati
 // @public
 export interface NotificationCommon {
     body: string;
-    headers?: Record<string, any>;
+    headers?: Record<string, string | undefined>;
 }
 
 // @public
@@ -805,7 +822,7 @@ export interface WindowsBadgeNativeMessage {
 export type WindowsContentType = "application/xml" | "application/octet-stream";
 
 // @public
-export interface WindowsHeaders extends Record<string, any> {
+export interface WindowsHeaders extends Record<string, string | undefined> {
     "X-WNS-Type"?: WnsTypes;
 }
 
