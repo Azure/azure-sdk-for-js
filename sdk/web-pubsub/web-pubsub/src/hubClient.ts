@@ -131,22 +131,22 @@ export declare interface WebPubSubServiceClientLogOptions {
 /**
  * Options for checking if a connection exists.
  */
-export interface HasConnectionOptions extends OperationOptions { }
+export interface HasConnectionOptions extends OperationOptions {}
 
 /**
  * Options for checking if a group exists.
  */
-export interface HubHasGroupOptions extends OperationOptions { }
+export interface HubHasGroupOptions extends OperationOptions {}
 
 /**
  * Options for checking if a user exists.
  */
-export interface HubHasUserOptions extends OperationOptions { }
+export interface HubHasUserOptions extends OperationOptions {}
 
 /**
  * Options for removing a user from all groups.
  */
-export interface HubRemoveUserFromAllGroupsOptions extends HubCloseConnectionOptions { }
+export interface HubRemoveUserFromAllGroupsOptions extends HubCloseConnectionOptions {}
 
 /**
  * Options for sending a message to a specific connection.
