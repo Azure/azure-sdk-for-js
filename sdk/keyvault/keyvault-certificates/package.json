@@ -7,15 +7,7 @@
   "description": "Isomorphic client library for Azure KeyVault's certificates.",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
-  "keywords": [
-    "node",
-    "azure",
-    "cloud",
-    "typescript",
-    "browser",
-    "isomorphic",
-    "keyvault"
-  ],
+  "keywords": ["node", "azure", "cloud", "typescript", "browser", "isomorphic", "keyvault"],
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -25,13 +17,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "files": [
-    "types/keyvault-certificates.d.ts",
-    "dist/",
-    "dist-esm/src",
-    "README.md",
-    "LICENSE"
-  ],
+  "files": ["types/keyvault-certificates.d.ts", "dist/", "dist-esm/src", "README.md", "LICENSE"],
   "browser": {
     "os": false,
     "process": false
@@ -81,27 +67,25 @@
         "path": "swagger/README.md",
         "prefix": "package-version"
       }
-    ]
-  },
-  "//sampleConfiguration": {
-    "productName": "Azure Key Vault Certificates",
-    "productSlugs": [
-      "azure",
-      "azure-key-vault"
     ],
-    "skip": [
-      "backupAndRestore.js",
-      "listCertificates.js",
-      "mergeCertificate.js",
-      "contacts.js",
-      "deleteAndRecover.js"
-    ],
-    "requiredResources": {
-      "Azure Key Vault": "https://docs.microsoft.com/azure/key-vault/quick-create-portal"
+    "sampleConfiguration": {
+      "productName": "Azure Key Vault Certificates",
+      "productSlugs": ["azure", "azure-key-vault"],
+      "skip": [
+        "backupAndRestore.js",
+        "listCertificates.js",
+        "mergeCertificate.js",
+        "contacts.js",
+        "deleteAndRecover.js"
+      ],
+      "requiredResources": {
+        "Azure Key Vault": "https://docs.microsoft.com/azure/key-vault/quick-create-portal"
+      },
+      "customSnippets": {
+        "prerequisites": "samples-dev/snippets/_prerequisites.md"
+      }
     },
-    "customSnippets": {
-      "prerequisites": "samples-dev/snippets/_prerequisites.md"
-    }
+    "migrationDate": "2023-03-03T23:11:30.000Z"
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
