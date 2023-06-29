@@ -31,22 +31,12 @@
     "unit-test:node": "mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace  --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
-  "files": [
-    "types/keyvault-common.d.ts",
-    "dist/",
-    "dist-esm/src/",
-    "README.md",
-    "LICENSE"
-  ],
+  "files": ["types/keyvault-common.d.ts", "dist/", "dist-esm/src/", "README.md", "LICENSE"],
   "repository": "github:Azure/azure-sdk-for-js",
   "engines": {
     "node": ">=14.0.0"
   },
-  "keywords": [
-    "azure",
-    "cloud",
-    "typescript"
-  ],
+  "keywords": ["azure", "cloud", "typescript"],
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -78,5 +68,8 @@
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
     "typescript": "~5.0.0"
+  },
+  "//metadata": {
+    "migrationDate": "2023-03-03T23:11:30.000Z"
   }
 }
