@@ -8,6 +8,7 @@
 package-name: "@azure/web-pubsub"
 title: GeneratedClient
 description: Web PubSub Client
+generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
