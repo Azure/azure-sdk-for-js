@@ -121,6 +121,10 @@ describe("client working with multiple groups", function () {
     );
   });
 
+  afterEach(async function () {
+    await recorder.stop();
+  });
+
   it("can join multiple groups with filter", async (): Promise<void> => {
     await hubClient.addConnectionsToGroups(["group1", "group2"], "userId eq 'user 1'", {
       onResponse,
