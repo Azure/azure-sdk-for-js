@@ -9,7 +9,7 @@ export function operationOptionsToRequestParameters(options: OperationOptions): 
     onUploadProgress: options.requestOptions?.onUploadProgress,
     onDownloadProgress: options.requestOptions?.onDownloadProgress,
     tracingOptions: options.tracingOptions,
-    headers: { ...options.requestOptions?.customHeaders },
+    headers: { ...options.requestOptions?.headers },
     onResponse: options.onResponse,
   };
 }

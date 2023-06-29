@@ -37,31 +37,6 @@ export async function sendRequest(
 ): Promise<HttpResponse> {
   const httpClient = customHttpClient ?? getCachedDefaultHttpsClient();
   const request = buildPipelineRequest(method, url, options);
-  if (options) {
-    if (options.timeout) {
-      request.timeout = options.timeout;
-    }
-
-    if (options.onUploadProgress) {
-      request.onUploadProgress = options.onUploadProgress;
-    }
-
-    if (options.onDownloadProgress) {
-      request.onDownloadProgress = options.onDownloadProgress;
-    }
-
-    if (options.allowInsecureConnection) {
-      request.allowInsecureConnection = true;
-    }
-
-    if (options.abortSignal) {
-      request.abortSignal = options.abortSignal;
-    }
-
-    if (options.tracingOptions) {
-      request.tracingOptions = options.tracingOptions;
-    }
-  }
   
   const response = await pipeline.sendRequest(httpClient, request);
 
@@ -158,6 +133,11 @@ function buildPipelineRequest(
     formData,
     headers,
     allowInsecureConnection: options.allowInsecureConnection,
+    tracingOptions: options.tracingOptions,
+    abortSignal: options.abortSignal,
+    onUploadProgress: options.onUploadProgress,
+    onDownloadProgress: options.onDownloadProgress,
+    timeout: options.timeout,
     enableBrowserStreams: true,
     streamResponseStatusCodes: options.responseAsStream
       ? new Set([Number.POSITIVE_INFINITY])

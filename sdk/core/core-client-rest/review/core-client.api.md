@@ -127,7 +127,7 @@ export function operationOptionsToRequestParameters(options: OperationOptions): 
 // @public
 export interface OperationRequestOptions {
     allowInsecureConnection?: boolean;
-    customHeaders?: {
+    headers?: {
         [key: string]: string;
     };
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
