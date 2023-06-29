@@ -34,4 +34,5 @@ export {
   GetCompletionsOptions,
   GetEmbeddingsOptions,
 } from "./api/operations.js";
+export { RequestOptions } from "./common/interfaces.js";
 export { OpenAIKeyCredential } from "./OpenAIKeyCredential.js";

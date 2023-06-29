@@ -1,11 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  StreamableMethod,
-  operationOptionsToRequestParameters,
-  OperationOptions,
-} from "@azure-rest/core-client";
+import { StreamableMethod } from "@azure-rest/core-client";
+import { RequestOptions } from "../common/interfaces.js";
 import {
   ChatChoiceOutput,
   ChoiceOutput,
@@ -20,7 +17,7 @@ import {
 } from "../rest/index.js";
 import { ChatCompletions, ChatMessage, Completions, Embeddings } from "./models.js";
 
-export interface GetEmbeddingsOptions extends OperationOptions {
+export interface GetEmbeddingsOptions extends RequestOptions {
   /**
    * An identifier for the caller or end user of the operation. This may be used for tracking
    * or rate-limiting purposes.
@@ -34,7 +31,7 @@ export interface GetEmbeddingsOptions extends OperationOptions {
   model?: string;
 }
 
-export interface GetCompletionsOptions extends OperationOptions {
+export interface GetCompletionsOptions extends RequestOptions {
   /** The maximum number of tokens to generate. */
   maxTokens?: number;
   /**
@@ -119,7 +116,7 @@ export interface GetCompletionsOptions extends OperationOptions {
   model?: string;
 }
 
-export interface GetChatCompletionsOptions extends OperationOptions {
+export interface GetChatCompletionsOptions extends RequestOptions {
   /** The maximum number of tokens to generate. */
   maxTokens?: number;
   /**
@@ -192,7 +189,9 @@ export function _getEmbeddingsSend(
   options: GetEmbeddingsOptions = { requestOptions: {} }
 ): StreamableMethod<GetEmbeddings200Response | GetEmbeddingsDefaultResponse> {
   return context.path("/deployments/{deploymentId}/embeddings", deploymentId).post({
-    ...operationOptionsToRequestParameters(options),
+    allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
+    skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
+    headers: { ...options.requestOptions?.headers },
     body: { user: options?.user, model: options?.model, input: input },
   });
 }
@@ -234,7 +233,9 @@ export function _getCompletionsSend(
   options: GetCompletionsOptions = { requestOptions: {} }
 ): StreamableMethod<GetCompletions200Response | GetCompletionsDefaultResponse> {
   return context.path("/deployments/{deploymentId}/completions", deploymentId).post({
-    ...operationOptionsToRequestParameters(options),
+    allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
+    skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
+    headers: { ...options.requestOptions?.headers },
     body: {
       prompt: prompt,
       max_tokens: options?.maxTokens,
@@ -309,7 +310,9 @@ export function _getChatCompletionsSend(
   options: GetChatCompletionsOptions = { requestOptions: {} }
 ): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse> {
   return context.path("/deployments/{deploymentId}/chat/completions", deploymentId).post({
-    ...operationOptionsToRequestParameters(options),
+    allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
+    skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
+    headers: { ...options.requestOptions?.headers },
     body: {
       messages: messages,
       max_tokens: options?.maxTokens,

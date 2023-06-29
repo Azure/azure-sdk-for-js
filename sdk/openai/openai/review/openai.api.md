@@ -7,7 +7,7 @@
 import { AzureKeyCredential } from '@azure/core-auth';
 import { ClientOptions } from '@azure-rest/core-client';
 import { KeyCredential } from '@azure/core-auth';
-import { OperationOptions } from '@azure-rest/core-client';
+import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 export { AzureKeyCredential }
@@ -90,7 +90,7 @@ export interface EmbeddingsUsage {
 }
 
 // @public (undocumented)
-export interface GetChatCompletionsOptions extends OperationOptions {
+export interface GetChatCompletionsOptions extends RequestOptions {
     frequencyPenalty?: number;
     logitBias?: Record<string, number>;
     maxTokens?: number;
@@ -105,7 +105,7 @@ export interface GetChatCompletionsOptions extends OperationOptions {
 }
 
 // @public (undocumented)
-export interface GetCompletionsOptions extends OperationOptions {
+export interface GetCompletionsOptions extends RequestOptions {
     bestOf?: number;
     echo?: boolean;
     frequencyPenalty?: number;
@@ -123,7 +123,7 @@ export interface GetCompletionsOptions extends OperationOptions {
 }
 
 // @public (undocumented)
-export interface GetEmbeddingsOptions extends OperationOptions {
+export interface GetEmbeddingsOptions extends RequestOptions {
     model?: string;
     user?: string;
 }
@@ -149,6 +149,16 @@ export class OpenAIKeyCredential implements KeyCredential {
     constructor(key: string);
     get key(): string;
     update(newKey: string): void;
+}
+
+// @public (undocumented)
+export interface RequestOptions {
+    // (undocumented)
+    requestOptions?: {
+        headers?: RawHttpHeadersInput;
+        allowInsecureConnection?: boolean;
+        skipUrlEncoding?: boolean;
+    };
 }
 
 ```
