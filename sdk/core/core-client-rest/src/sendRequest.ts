@@ -37,7 +37,7 @@ export async function sendRequest(
 ): Promise<HttpResponse> {
   const httpClient = customHttpClient ?? getCachedDefaultHttpsClient();
   const request = buildPipelineRequest(method, url, options);
-  
+
   const response = await pipeline.sendRequest(httpClient, request);
 
   const rawHeaders: RawHttpHeaders = response.headers.toJSON();
@@ -45,7 +45,7 @@ export async function sendRequest(
   const parsedBody: RequestBodyType | undefined = getResponseBody(response);
 
   if (options?.onResponse) {
-    options.onResponse({...response, request, rawHeaders, parsedBody});
+    options.onResponse({ ...response, request, rawHeaders, parsedBody });
   }
 
   return {

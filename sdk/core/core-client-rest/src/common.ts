@@ -92,10 +92,7 @@ export type RequestParameters = {
  * while performing the requested operation.
  * May be called multiple times.
  */
-export type RawResponseCallback = (
-  rawResponse: FullOperationResponse,
-  error?: unknown
-) => void;
+export type RawResponseCallback = (rawResponse: FullOperationResponse, error?: unknown) => void;
 
 /**
  * Wrapper object for http request and response. Deserialized object is stored in
@@ -173,8 +170,8 @@ export interface OperationRequestOptions {
    */
   allowInsecureConnection?: boolean;
 
-  /** 
-   * Set to true if you want to skip encoding the path parameters 
+  /**
+   * Set to true if you want to skip encoding the path parameters
    */
   skipUrlEncoding?: boolean;
 }
