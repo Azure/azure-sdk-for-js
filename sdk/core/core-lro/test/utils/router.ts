@@ -17,11 +17,11 @@ import {
   State,
   createProcessor,
   generate,
-} from "./utils";
-import { LroEngine, LroResponse, SimplePollerLike, createHttpPoller } from "../../src";
-import { LroResourceLocationConfig, RawResponse, ResponseBody } from "../../src/http/models";
+} from "./utils.js";
+import { LroEngine, LroResponse, SimplePollerLike, createHttpPoller } from "../../src/index.js";
+import { LroResourceLocationConfig, RawResponse, ResponseBody } from "../../src/http/models.js";
 import { AbortError } from "@azure/abort-controller";
-import { createCoreRestPipelineLro } from "./coreRestPipelineLro";
+import { createCoreRestPipelineLro } from "./coreRestPipelineLro.js";
 import { getYieldedValue } from "@azure/test-utils";
 
 /**

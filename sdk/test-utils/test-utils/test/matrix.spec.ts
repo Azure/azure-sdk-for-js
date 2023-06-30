@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import sinon from "sinon";
-import { matrix } from "../src";
+import { matrix } from "../src/index.js";
 
 describe("matrix test support", () => {
   it("should call handler with correct argument", () => {
