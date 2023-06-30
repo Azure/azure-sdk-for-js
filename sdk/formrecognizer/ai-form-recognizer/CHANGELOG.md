@@ -8,6 +8,7 @@
   - `barcodes`: enables the detection of barcodes in the document.
   - `keyValuePairs`: enable the detection of general key value pairs (form fields) in the document.
   - `languages`: enables the detection of the text content language.
+- `beginBuildDocumentModel` has a new overload that accepts a `DocumentModelContentSource` in place of a raw `containerUrl`. This allows training document models using the new Azure Blob file list source (that is already supported by document classifiers). The `DocumentModelContentSource` is an object that contains a `containerUrl` property, and if a `fileList` property is also provided it is interpreted as an Azure Blob file list source. Otherwise it is interpreted as an Azure Blob content source with an optional `prefix` property.
 
 ### Breaking Changes
 
@@ -20,6 +21,7 @@
   - `AnalyzeDocumentOptions.queryFields`
   - `DocumentPage.kind` and `DocumentPage.images` (`DocumentPageKind` and `DocumentImage` types have been removed too.)
   - `DocumentKeyValuePair.commonName`
+- Changed how content sources are provided when creating document classifiers. The type of content source (`azureBlobContentSource` or `azureBlobFileListSource`) is no longer required in the content source input, and the type is now inferred automatically. If a `fileList` property is provided, it is interpreted as a file list source, and otherwise it is interpreted as a blob content source with optional `prefix`.
 
 ## 4.1.0-beta.1 (2023-04-11)
 
