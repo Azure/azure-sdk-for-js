@@ -17,11 +17,11 @@ export type QueueSelectorAttachmentUnion =
   | WeightedAllocationQueueSelectorAttachment;
 export type RouterRuleUnion =
   | RouterRule
-  | DirectMapRule
-  | ExpressionRule
-  | FunctionRule
-  | StaticRule
-  | WebhookRule;
+  | DirectMapRouterRule
+  | ExpressionRouterRule
+  | FunctionRouterRule
+  | StaticRouterRule
+  | WebhookRouterRule;
 export type WorkerSelectorAttachmentUnion =
   | WorkerSelectorAttachment
   | ConditionalWorkerSelectorAttachment
@@ -623,7 +623,7 @@ export interface RouterQueueSelector {
 }
 
 /** Credentials used to access Azure function rule */
-export interface FunctionRuleCredential {
+export interface FunctionRouterRuleCredential {
   /** (Optional) Access key scoped to a particular function */
   functionKey?: string;
   /**
@@ -730,33 +730,33 @@ export interface WeightedAllocationQueueSelectorAttachment
 }
 
 /** A rule that return the same labels as the input labels. */
-export interface DirectMapRule extends RouterRule {
+export interface DirectMapRouterRule extends RouterRule {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "direct-map-rule";
 }
 
 /** A rule providing inline expression rules. */
-export interface ExpressionRule extends RouterRule {
+export interface ExpressionRouterRule extends RouterRule {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "expression-rule";
   /** The expression language to compile to and execute */
-  language?: ExpressionLanguage;
+  language?: ExpressionRouterRuleLanguage;
   /** The string containing the expression to evaluate. Should contain return statement with calculated values. */
   expression: string;
 }
 
 /** A rule providing a binding to an HTTP Triggered Azure Function. */
-export interface FunctionRule extends RouterRule {
+export interface FunctionRouterRule extends RouterRule {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "azure-function-rule";
   /** URL for Azure Function */
   functionUri: string;
   /** Credentials used to access Azure function rule */
-  credential?: FunctionRuleCredential;
+  credential?: FunctionRouterRuleCredential;
 }
 
 /** A rule providing static rules that always return the same result, regardless of input. */
-export interface StaticRule extends RouterRule {
+export interface StaticRouterRule extends RouterRule {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "static-rule";
   /** The static value this rule always returns. */
@@ -764,7 +764,7 @@ export interface StaticRule extends RouterRule {
 }
 
 /** A rule providing a binding to an external web server. */
-export interface WebhookRule extends RouterRule {
+export interface WebhookRouterRule extends RouterRule {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "webhook-rule";
   /** Uri for Authorization Server. */
@@ -1157,20 +1157,20 @@ export enum KnownScoringRuleParameterSelector {
  */
 export type ScoringRuleParameterSelector = string;
 
-/** Known values of {@link ExpressionLanguage} that the service accepts. */
-export enum KnownExpressionLanguage {
+/** Known values of {@link ExpressionRouterRuleLanguage} that the service accepts. */
+export enum KnownExpressionRouterRuleLanguage {
   /** PowerFx */
   PowerFx = "powerFx"
 }
 
 /**
- * Defines values for ExpressionLanguage. \
- * {@link KnownExpressionLanguage} can be used interchangeably with ExpressionLanguage,
+ * Defines values for ExpressionRouterRuleLanguage. \
+ * {@link KnownExpressionRouterRuleLanguage} can be used interchangeably with ExpressionRouterRuleLanguage,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **powerFx**
  */
-export type ExpressionLanguage = string;
+export type ExpressionRouterRuleLanguage = string;
 
 /** Optional parameters. */
 export interface JobRouterAdministrationUpsertClassificationPolicyOptionalParams

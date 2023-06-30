@@ -7,7 +7,7 @@ import {
   RouterQueue as RouterQueueGenerated,
   RouterWorker as RouterWorkerGenerated,
   RouterQueueSelector as RouterQueueSelectorGenerated,
-  StaticRule as StaticRuleGenerated,
+  StaticRouterRule as StaticRouterRuleGenerated,
   ReclassifyExceptionAction as ReclassifyExceptionActionGenerated,
   JobRouterReclassifyJobActionOptionalParams as JobRouterReclassifyJobActionOptionalParamsGenerated,
 } from "../generated/src/models";
@@ -57,7 +57,7 @@ export interface RouterQueueSelector extends Omit<RouterQueueSelectorGenerated, 
 }
 
 /** A rule providing static rules that always return the same result, regardless of input. */
-export interface StaticRule extends Omit<StaticRuleGenerated, "value"> {
+export interface StaticRouterRule extends Omit<StaticRouterRuleGenerated, "value"> {
   /** The static value this rule always returns. */
   value?: JSONValue;
 }
@@ -91,7 +91,7 @@ export {
   ChannelConfiguration,
   RouterWorkerAssignment,
   RouterJobOffer,
-  KnownExpressionLanguage as ExpressionLanguage,
+  KnownExpressionRouterRuleLanguage as ExpressionRouterRuleLanguage,
   KnownRouterWorkerState as RouterWorkerState,
   RouterJobPositionDetails,
   KnownRouterWorkerStateSelector as RouterWorkerStateSelector,
@@ -112,12 +112,12 @@ export {
   ScoringRuleOptions,
   RouterRuleUnion,
   RouterRule,
-  DirectMapRule,
-  ExpressionRule,
-  WebhookRule,
+  DirectMapRouterRule,
+  ExpressionRouterRule,
+  WebhookRouterRule,
   Oauth2ClientCredential,
-  FunctionRule,
-  FunctionRuleCredential,
+  FunctionRouterRule,
+  FunctionRouterRuleCredential,
   ExceptionTriggerUnion,
   ExceptionTrigger,
   QueueLengthExceptionTrigger,

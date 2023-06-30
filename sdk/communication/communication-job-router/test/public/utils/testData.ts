@@ -7,7 +7,7 @@ import {
   DistributionPolicy,
   ExceptionPolicy,
   ExceptionRule,
-  ExpressionRule,
+  ExpressionRouterRule,
   RouterQueue,
   PassThroughQueueSelectorAttachment,
   RouterQueueSelector,
@@ -28,19 +28,19 @@ const region = "NA";
 const english = "EN";
 const french = "FR";
 
-const isO365: ExpressionRule = {
+const isO365: ExpressionRouterRule = {
   kind: "expression-rule",
   language: "powerFx",
   expression: `If(job.Product = "${product}", true, false)`,
 };
 
-const isEnglish: ExpressionRule = {
+const isEnglish: ExpressionRouterRule = {
   kind: "expression-rule",
   language: "powerFx",
   expression: `If(job.Language = "${english}", true, false)`,
 };
 
-const isFrench: ExpressionRule = {
+const isFrench: ExpressionRouterRule = {
   kind: "expression-rule",
   language: "powerFx",
   expression: `If(job.Language = "${french}", true, false)`,

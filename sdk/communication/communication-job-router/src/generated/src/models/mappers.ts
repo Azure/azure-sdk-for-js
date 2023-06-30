@@ -1562,10 +1562,10 @@ export const RouterQueueSelector: coreClient.CompositeMapper = {
   }
 };
 
-export const FunctionRuleCredential: coreClient.CompositeMapper = {
+export const FunctionRouterRuleCredential: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "FunctionRuleCredential",
+    className: "FunctionRouterRuleCredential",
     modelProperties: {
       functionKey: {
         constraints: {
@@ -1817,11 +1817,11 @@ export const WeightedAllocationQueueSelectorAttachment: coreClient.CompositeMapp
   }
 };
 
-export const DirectMapRule: coreClient.CompositeMapper = {
+export const DirectMapRouterRule: coreClient.CompositeMapper = {
   serializedName: "direct-map-rule",
   type: {
     name: "Composite",
-    className: "DirectMapRule",
+    className: "DirectMapRouterRule",
     uberParent: "RouterRule",
     polymorphicDiscriminator: RouterRule.type.polymorphicDiscriminator,
     modelProperties: {
@@ -1830,11 +1830,11 @@ export const DirectMapRule: coreClient.CompositeMapper = {
   }
 };
 
-export const ExpressionRule: coreClient.CompositeMapper = {
+export const ExpressionRouterRule: coreClient.CompositeMapper = {
   serializedName: "expression-rule",
   type: {
     name: "Composite",
-    className: "ExpressionRule",
+    className: "ExpressionRouterRule",
     uberParent: "RouterRule",
     polymorphicDiscriminator: RouterRule.type.polymorphicDiscriminator,
     modelProperties: {
@@ -1859,11 +1859,11 @@ export const ExpressionRule: coreClient.CompositeMapper = {
   }
 };
 
-export const FunctionRule: coreClient.CompositeMapper = {
+export const FunctionRouterRule: coreClient.CompositeMapper = {
   serializedName: "azure-function-rule",
   type: {
     name: "Composite",
-    className: "FunctionRule",
+    className: "FunctionRouterRule",
     uberParent: "RouterRule",
     polymorphicDiscriminator: RouterRule.type.polymorphicDiscriminator,
     modelProperties: {
@@ -1879,18 +1879,18 @@ export const FunctionRule: coreClient.CompositeMapper = {
         serializedName: "credential",
         type: {
           name: "Composite",
-          className: "FunctionRuleCredential"
+          className: "FunctionRouterRuleCredential"
         }
       }
     }
   }
 };
 
-export const StaticRule: coreClient.CompositeMapper = {
+export const StaticRouterRule: coreClient.CompositeMapper = {
   serializedName: "static-rule",
   type: {
     name: "Composite",
-    className: "StaticRule",
+    className: "StaticRouterRule",
     uberParent: "RouterRule",
     polymorphicDiscriminator: RouterRule.type.polymorphicDiscriminator,
     modelProperties: {
@@ -1905,11 +1905,11 @@ export const StaticRule: coreClient.CompositeMapper = {
   }
 };
 
-export const WebhookRule: coreClient.CompositeMapper = {
+export const WebhookRouterRule: coreClient.CompositeMapper = {
   serializedName: "webhook-rule",
   type: {
     name: "Composite",
-    className: "WebhookRule",
+    className: "WebhookRouterRule",
     uberParent: "RouterRule",
     polymorphicDiscriminator: RouterRule.type.polymorphicDiscriminator,
     modelProperties: {
@@ -2282,11 +2282,11 @@ export let discriminators = {
   "QueueSelectorAttachment.rule-engine": RuleEngineQueueSelectorAttachment,
   "QueueSelectorAttachment.static": StaticQueueSelectorAttachment,
   "QueueSelectorAttachment.weighted-allocation-queue-selector": WeightedAllocationQueueSelectorAttachment,
-  "RouterRule.direct-map-rule": DirectMapRule,
-  "RouterRule.expression-rule": ExpressionRule,
-  "RouterRule.azure-function-rule": FunctionRule,
-  "RouterRule.static-rule": StaticRule,
-  "RouterRule.webhook-rule": WebhookRule,
+  "RouterRule.direct-map-rule": DirectMapRouterRule,
+  "RouterRule.expression-rule": ExpressionRouterRule,
+  "RouterRule.azure-function-rule": FunctionRouterRule,
+  "RouterRule.static-rule": StaticRouterRule,
+  "RouterRule.webhook-rule": WebhookRouterRule,
   "WorkerSelectorAttachment.conditional": ConditionalWorkerSelectorAttachment,
   "WorkerSelectorAttachment.pass-through": PassThroughWorkerSelectorAttachment,
   "WorkerSelectorAttachment.rule-engine": RuleEngineWorkerSelectorAttachment,

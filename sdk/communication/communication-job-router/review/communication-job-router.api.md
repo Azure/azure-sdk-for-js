@@ -170,7 +170,7 @@ export interface DeclineJobOfferRequest {
 }
 
 // @public
-export interface DirectMapRule extends RouterRule {
+export interface DirectMapRouterRule extends RouterRule {
     kind: "direct-map-rule";
 }
 
@@ -253,27 +253,27 @@ export interface ExceptionTrigger {
 export type ExceptionTriggerUnion = ExceptionTrigger | QueueLengthExceptionTrigger | WaitTimeExceptionTrigger;
 
 // @public
-export enum ExpressionLanguage {
+export interface ExpressionRouterRule extends RouterRule {
+    expression: string;
+    kind: "expression-rule";
+    // Warning: (ae-forgotten-export) The symbol "ExpressionRouterRuleLanguage_2" needs to be exported by the entry point index.d.ts
+    language?: ExpressionRouterRuleLanguage_2;
+}
+
+// @public
+export enum ExpressionRouterRuleLanguage {
     PowerFx = "powerFx"
 }
 
 // @public
-export interface ExpressionRule extends RouterRule {
-    expression: string;
-    kind: "expression-rule";
-    // Warning: (ae-forgotten-export) The symbol "ExpressionLanguage_2" needs to be exported by the entry point index.d.ts
-    language?: ExpressionLanguage_2;
-}
-
-// @public
-export interface FunctionRule extends RouterRule {
-    credential?: FunctionRuleCredential;
+export interface FunctionRouterRule extends RouterRule {
+    credential?: FunctionRouterRuleCredential;
     functionUri: string;
     kind: "azure-function-rule";
 }
 
 // @public
-export interface FunctionRuleCredential {
+export interface FunctionRouterRuleCredential {
     appKey?: string;
     clientId?: string;
     functionKey?: string;
@@ -709,10 +709,10 @@ export interface RouterRule {
     kind: "direct-map-rule" | "expression-rule" | "azure-function-rule" | "static-rule" | "webhook-rule";
 }
 
-// Warning: (ae-forgotten-export) The symbol "StaticRule_2" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "StaticRouterRule_2" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
-export type RouterRuleUnion = RouterRule | DirectMapRule | ExpressionRule | FunctionRule | StaticRule_2 | WebhookRule;
+export type RouterRuleUnion = RouterRule | DirectMapRouterRule | ExpressionRouterRule | FunctionRouterRule | StaticRouterRule_2 | WebhookRouterRule;
 
 // Warning: (ae-forgotten-export) The symbol "RouterWorker_2" needs to be exported by the entry point index.d.ts
 //
@@ -803,7 +803,7 @@ export interface StaticQueueSelectorAttachment extends QueueSelectorAttachment {
 }
 
 // @public
-export interface StaticRule extends Omit<StaticRule_2, "value"> {
+export interface StaticRouterRule extends Omit<StaticRouterRule_2, "value"> {
     value?: JSONValue;
 }
 
@@ -888,7 +888,7 @@ export interface WaitTimeExceptionTrigger extends ExceptionTrigger {
 }
 
 // @public
-export interface WebhookRule extends RouterRule {
+export interface WebhookRouterRule extends RouterRule {
     authorizationServerUri?: string;
     clientCredential?: Oauth2ClientCredential;
     kind: "webhook-rule";

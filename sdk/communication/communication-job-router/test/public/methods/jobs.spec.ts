@@ -3,11 +3,7 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import {
-  JobRouterAdministrationClient,
-  JobRouterClient,
-  RouterJob,
-} from "../../../src";
+import { JobRouterAdministrationClient, JobRouterClient, RouterJob } from "../../../src";
 import { Context } from "mocha";
 import {
   getClassificationPolicyRequest,
@@ -55,7 +51,9 @@ describe("JobRouterClient", function () {
     this.afterEach(async function (this: Context) {
       await retry(
         async () => {
-          if (this.currentTest?.fullTitle() !== "JobRouterClient Job Operations should delete a job") {
+          if (
+            this.currentTest?.fullTitle() !== "JobRouterClient Job Operations should delete a job"
+          ) {
             const job = await client.getJob(jobId);
             if (job.status !== "cancelled") {
               await client.cancelJob(jobId);
