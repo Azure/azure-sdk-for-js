@@ -5,7 +5,7 @@ import {
   ClassificationPolicy,
   DistributionPolicy,
   ExceptionPolicy,
-  JobQueue,
+  RouterQueue,
   RouterJob,
   RouterWorker,
 } from "../generated/src";
@@ -30,7 +30,7 @@ export interface RouterWorkerResponse extends RouterWorker {
   readonly id: string;
 }
 
-export interface JobQueueResponse extends JobQueue {
+export interface RouterQueueResponse extends RouterQueue {
   readonly id: string;
 }
 

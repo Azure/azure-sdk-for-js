@@ -3,11 +3,11 @@
 
 import {
   RouterJob as RouterJobGenerated,
-  WorkerSelector as WorkerSelectorGenerated,
-  JobQueue as JobQueueGenerated,
+  RouterWorkerSelector as RouterWorkerSelectorGenerated,
+  RouterQueue as RouterQueueGenerated,
   RouterWorker as RouterWorkerGenerated,
-  QueueSelector as QueueSelectorGenerated,
-  StaticRule as StaticRuleGenerated,
+  RouterQueueSelector as RouterQueueSelectorGenerated,
+  StaticRouterRule as StaticRouterRuleGenerated,
   ReclassifyExceptionAction as ReclassifyExceptionActionGenerated,
   JobRouterReclassifyJobActionOptionalParams as JobRouterReclassifyJobActionOptionalParamsGenerated,
 } from "../generated/src/models";
@@ -28,13 +28,13 @@ export interface RouterJob extends Omit<RouterJobGenerated, "labels" | "tags"> {
 }
 
 /** Describes a condition that must be met against a set of labels for worker selection */
-export interface WorkerSelector extends Omit<WorkerSelectorGenerated, "value"> {
+export interface RouterWorkerSelector extends Omit<RouterWorkerSelectorGenerated, "value"> {
   /** The value to compare against the actual label value with the given operator */
   value?: JSONValue;
 }
 
 /** A queue that can contain jobs to be routed. */
-export interface JobQueue extends Omit<JobQueueGenerated, "labels"> {
+export interface RouterQueue extends Omit<RouterQueueGenerated, "labels"> {
   /** A set of key/value pairs that are identifying attributes used by the rules engines to make decisions. */
   labels?: JSONObject;
 }
@@ -51,13 +51,13 @@ export interface RouterWorker
 }
 
 /** Describes a condition that must be met against a set of labels for queue selection */
-export interface QueueSelector extends Omit<QueueSelectorGenerated, "value"> {
+export interface RouterQueueSelector extends Omit<RouterQueueSelectorGenerated, "value"> {
   /** The value to compare against the actual label value with the given operator */
   value?: JSONValue;
 }
 
 /** A rule providing static rules that always return the same result, regardless of input. */
-export interface StaticRule extends Omit<StaticRuleGenerated, "value"> {
+export interface StaticRouterRule extends Omit<StaticRouterRuleGenerated, "value"> {
   /** The static value this rule always returns. */
   value?: JSONValue;
 }
@@ -87,15 +87,17 @@ export {
   ExceptionPolicy,
   ClassificationPolicy,
   ExceptionRule,
-  JobAssignment,
+  RouterJobAssignment,
   ChannelConfiguration,
-  WorkerAssignment,
-  JobOffer,
-  RouterWorkerState,
-  JobPositionDetails,
-  WorkerStateSelector,
-  JobStateSelector,
-  LabelOperator,
+  RouterWorkerAssignment,
+  RouterJobOffer,
+  KnownExpressionRouterRuleLanguage as ExpressionRouterRuleLanguage,
+  KnownRouterWorkerState as RouterWorkerState,
+  RouterJobPositionDetails,
+  KnownRouterWorkerStateSelector as RouterWorkerStateSelector,
+  KnownRouterJobStatusSelector as RouterJobStatusSelector,
+  KnownRouterWorkerSelectorStatus as RouterWorkerSelectorStatus,
+  KnownLabelOperator as LabelOperator,
   DistributionModeUnion,
   DistributionMode,
   BestWorkerMode,
@@ -110,21 +112,21 @@ export {
   ScoringRuleOptions,
   RouterRuleUnion,
   RouterRule,
-  DirectMapRule,
-  ExpressionRule,
-  WebhookRule,
+  DirectMapRouterRule,
+  ExpressionRouterRule,
+  WebhookRouterRule,
   Oauth2ClientCredential,
-  FunctionRule,
-  FunctionRuleCredential,
-  JobExceptionTriggerUnion,
-  JobExceptionTrigger,
+  FunctionRouterRule,
+  FunctionRouterRuleCredential,
+  ExceptionTriggerUnion,
+  ExceptionTrigger,
   QueueLengthExceptionTrigger,
   WaitTimeExceptionTrigger,
   ExceptionAction,
   CancelExceptionAction,
   ManualReclassifyExceptionAction,
   ExceptionActionUnion,
-  ScoringRuleParameterSelector,
+  KnownScoringRuleParameterSelector as ScoringRuleParameterSelector,
   JobRouterUpsertJobOptionalParams,
   JobRouterUpsertWorkerOptionalParams,
   JobRouterDeclineJobActionOptionalParams,
@@ -132,7 +134,7 @@ export {
   ClassificationPolicyItem,
   DistributionPolicyItem,
   ExceptionPolicyItem,
-  JobQueueItem,
+  RouterQueueItem,
   RouterJobItem,
   RouterWorkerItem,
   JobRouterCancelJobActionOptionalParams,
@@ -149,12 +151,13 @@ export {
   WeightedAllocationQueueSelectorAttachment,
   AcceptJobOfferResult,
   UnassignJobResult,
-  RouterJobStatus,
-  WorkerSelectorState,
+  KnownRouterJobStatus as RouterJobStatus,
   ConditionalWorkerSelectorAttachment,
   PassThroughWorkerSelectorAttachment,
   RuleEngineWorkerSelectorAttachment,
   StaticWorkerSelectorAttachment,
   WeightedAllocationWorkerSelectorAttachment,
-  QueueStatistics,
+  RouterQueueStatistics,
+  JobMatchingMode,
+  KnownJobMatchModeType as JobMatchModeType,
 } from "../generated/src/models";

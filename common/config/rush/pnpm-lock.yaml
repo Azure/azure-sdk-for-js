@@ -18630,7 +18630,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-C2x+fPK8AaV2/GRbIfnNfzsXBeNa5KDKEHLq7tP6+P/rrXVCZ/sLk8a5f++pZ1lOcrkuvWVNOC/3jCPkSfR9Eg==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-L9XoJWsHCXscBVFkbT0brWNjYcv6TP/k3JtbIgTcs1c1h/x4fUx2m9u8tVY/747rOCBlsv3yo/bjTfEYsnQM7Q==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
