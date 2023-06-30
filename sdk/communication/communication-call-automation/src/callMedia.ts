@@ -196,6 +196,7 @@ export class CallMedia {
           : 5,
         targetParticipant: serializeCommunicationIdentifier(targetParticipant),
         speechLanguage: recognizeOptions.speechLanguage,
+        speechRecognitionModelEndpointId: recognizeOptions.speechRecognitionModelEndpointId,
         choices: recognizeOptions.choices,
       };
       return {
@@ -220,6 +221,7 @@ export class CallMedia {
           : 5,
         targetParticipant: serializeCommunicationIdentifier(targetParticipant),
         speechLanguage: recognizeOptions.speechLanguage,
+        speechRecognitionModelEndpointId: recognizeOptions.speechRecognitionModelEndpointId,
         speechOptions: speechOptions,
       };
       return {
@@ -252,6 +254,7 @@ export class CallMedia {
         targetParticipant: serializeCommunicationIdentifier(targetParticipant),
         speechOptions: speechOptions,
         speechLanguage: recognizeOptions.speechLanguage,
+        speechRecognitionModelEndpointId: recognizeOptions.speechRecognitionModelEndpointId,
         dtmfOptions: dtmfOptionsInternal,
       };
       return {

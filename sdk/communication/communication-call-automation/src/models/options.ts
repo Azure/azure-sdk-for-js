@@ -40,6 +40,8 @@ export interface CallMediaRecognizeChoiceOptions extends CallMediaRecognizeOptio
   choices: Choice[];
   /** Speech language to be recognized, If not set default is en-US */
   speechLanguage?: string;
+  /** Endpoint where the custom model was deployed. */
+  speechRecognitionModelEndpointId?: string;
   readonly kind: "callMediaRecognizeChoiceOptions";
 }
 
@@ -49,6 +51,8 @@ export interface CallMediaRecognizeSpeechOptions extends CallMediaRecognizeOptio
   endSilenceTimeoutInMs?: number;
   /** Speech language to be recognized, If not set default is en-US */
   speechLanguage?: string;
+  /** Endpoint where the custom model was deployed. */
+  speechRecognitionModelEndpointId?: string;
   readonly kind: "callMediaRecognizeSpeechOptions";
 }
 
@@ -64,6 +68,8 @@ export interface CallMediaRecognizeSpeechOrDtmfOptions extends CallMediaRecogniz
   maxTonesToCollect?: number;
   /** Speech language to be recognized, If not set default is en-US */
   speechLanguage?: string;
+  /** Endpoint where the custom model was deployed. */
+  speechRecognitionModelEndpointId?: string;
   readonly kind: "callMediaRecognizeSpeechOrDtmfOptions";
 }
 
