@@ -147,6 +147,14 @@ export interface RemoveParticipantsOption extends OperationOptions {
 }
 
 /**
+ * Options to mute participants.
+ */
+export interface MuteParticipantsOption extends OperationOptions {
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+}
+
+/**
  * Options to play audio.
  */
 export interface PlayOptions extends OperationOptions {
