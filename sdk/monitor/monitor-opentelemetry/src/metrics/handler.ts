@@ -56,17 +56,31 @@ export class MetricHandler {
   }
 
   /**
-   *Get OpenTelemetry MeterProvider
+   *Get OpenTelemetry MeterProvider for custom metrics
    */
-  public getMeterProvider(): MeterProvider {
+  public getCustomMetricsMeterProvider(): MeterProvider {
     return this._meterProvider;
   }
 
   /**
-   *Get OpenTelemetry Meter
+   *Get OpenTelemetry Meter for custom metrics
    */
-  public getMeter(): Meter {
+  public getCustomMetricsMeter(): Meter {
     return this._meter;
+  }
+
+  /**
+   *Get OpenTelemetry MeterProvider for standard metrics
+   */
+  public getStandardMetricsMeterProvider(): MeterProvider | undefined {
+    return this._standardMetrics?.getMeterProvider();
+  }
+
+  /**
+   *Get OpenTelemetry MeterProvider for performance counter metrics
+   */
+  public getPerfCountersMeterProvider(): MeterProvider | undefined {
+    return this._perfCounterMetrics?.getMeterProvider();
   }
 
   public markSpanAsProcessed(span: Span): void {

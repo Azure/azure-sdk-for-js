@@ -92,7 +92,7 @@
 /sdk/communication/communication-rooms/ @anujissarMS @minnieliu @paolamvhz @Mrayyan @shwali-msft @allchiang-msft
 
 # PRLabel: %Communication - SMS
-/sdk/communication/communication-sms/ @arifibrahim4
+/sdk/communication/communication-sms/ @ozgurcivi-msft @gfeitosa-msft @phermanov-msft @ilyapaliakou-msft
 
 # PRLabel: %Communication - Short Codes
 /sdk/communication/communication-short-codes/ @danielav7
@@ -163,10 +163,10 @@
 /sdk/test-utils/ @HarshaNalluru @timovv
 
 # PRLabel: %Cognitive - Text Analytics
-/sdk/textanalytics/ @minhanh-phan @deyaaeldeen @witemple-msft
+/sdk/textanalytics/ @quentinRobinson @wangyuantao @minhanh-phan @deyaaeldeen @witemple-msft
 
 # PRLabel: %Cognitive - Language
-/sdk/cognitivelanguage/ @minhanh-phan @deyaaeldeen
+/sdk/cognitivelanguage/ @quentinRobinson @wangyuantao @minhanh-phan @deyaaeldeen
 
 # PRLabel: %OpenAI
 /sdk/openai/ @deyaaeldeen @minhanh-phan

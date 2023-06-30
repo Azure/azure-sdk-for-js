@@ -40,7 +40,7 @@ describe("LogHandler", () => {
 
   function createLogHandler(config: AzureMonitorOpenTelemetryConfig, metricHandler: MetricHandler) {
     handler = new LogHandler(config, metricHandler);
-    stub = sinon.stub(handler["_exporter"], "export").callsFake(
+    stub = sinon.stub(handler["_azureExporter"], "export").callsFake(
       (logs: any, resultCallback: any) =>
         new Promise((resolve) => {
           resultCallback({

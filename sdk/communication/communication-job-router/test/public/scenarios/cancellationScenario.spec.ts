@@ -16,7 +16,7 @@ import { createRecordedRouterClientWithConnectionString } from "../../internal/u
 import { pollForJobCancelled, pollForJobQueued } from "../utils/polling";
 import { timeoutMs } from "../utils/constants";
 
-describe("RouterClient", function () {
+describe("JobRouterClient", function () {
   let client: JobRouterClient;
   let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;
@@ -68,7 +68,7 @@ describe("RouterClient", function () {
       await client.cancelJob(jobId, { dispositionCode });
       const result = await pollForJobCancelled(jobId, client);
 
-      assert.equal(result.jobStatus, "cancelled");
+      assert.equal(result.status, "cancelled");
       assert.equal(result.dispositionCode, dispositionCode);
     }).timeout(timeoutMs);
   });

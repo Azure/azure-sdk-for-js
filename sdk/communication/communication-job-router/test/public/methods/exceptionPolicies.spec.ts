@@ -9,7 +9,7 @@ import { Context } from "mocha";
 import { getExceptionPolicyRequest } from "../utils/testData";
 import { timeoutMs } from "../utils/constants";
 
-describe("RouterClient", function () {
+describe("JobRouterClient", function () {
   let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;
 
@@ -60,7 +60,7 @@ describe("RouterClient", function () {
 
     it("should list exception policies", async function () {
       const result: ExceptionPolicy[] = [];
-      for await (const policy of administrationClient.listExceptionPolicies({ maxPageSize: 20 })) {
+      for await (const policy of administrationClient.listExceptionPolicies({ maxpagesize: 20 })) {
         result.push(policy.exceptionPolicy!);
       }
 
