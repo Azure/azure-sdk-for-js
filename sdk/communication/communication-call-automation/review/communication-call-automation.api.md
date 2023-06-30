@@ -154,7 +154,7 @@ export class CallMedia {
     play(playSources: FileSource[] | TextSource[] | SsmlSource[], playTo: CommunicationIdentifier[], playOptions?: PlayOptions): Promise<void>;
     playToAll(playSources: FileSource[] | TextSource[] | SsmlSource[], playOptions?: PlayOptions): Promise<void>;
     // Warning: (ae-forgotten-export) The symbol "Tone" needs to be exported by the entry point index.d.ts
-    sendDtmf(tones: Tone[], targetParticipant: CommunicationIdentifier, sendDtmfOptions?: SendDtmfOptions): Promise<void>;
+    sendDtmf(tones: Tone[], targetParticipant: CommunicationIdentifier, sendDtmfOptions?: SendDtmfOptions): Promise<SendDtmfResult>;
     startContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, continuousDtmfRecognitionOptions?: ContinuousDtmfRecognitionOptions): Promise<void>;
     startRecognizing(targetParticipant: CommunicationIdentifier, recognizeOptions: CallMediaRecognizeDtmfOptions | CallMediaRecognizeChoiceOptions | CallMediaRecognizeSpeechOptions | CallMediaRecognizeSpeechOrDtmfOptions): Promise<void>;
     stopContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, continuousDtmfRecognitionOptions?: ContinuousDtmfRecognitionOptions): Promise<void>;
@@ -166,6 +166,7 @@ export interface CallMediaRecognizeChoiceOptions extends CallMediaRecognizeOptio
     // (undocumented)
     readonly kind: "callMediaRecognizeChoiceOptions";
     speechLanguage?: string;
+    speechRecognitionModelEndpointId?: string;
 }
 
 // @public
@@ -200,6 +201,7 @@ export interface CallMediaRecognizeSpeechOptions extends CallMediaRecognizeOptio
     // (undocumented)
     readonly kind: "callMediaRecognizeSpeechOptions";
     speechLanguage?: string;
+    speechRecognitionModelEndpointId?: string;
 }
 
 // @public
@@ -210,6 +212,7 @@ export interface CallMediaRecognizeSpeechOrDtmfOptions extends CallMediaRecogniz
     readonly kind: "callMediaRecognizeSpeechOrDtmfOptions";
     maxTonesToCollect?: number;
     speechLanguage?: string;
+    speechRecognitionModelEndpointId?: string;
     stopDtmfTones?: DtmfTone[];
 }
 
@@ -800,7 +803,14 @@ export interface SendDtmfOptions extends OperationOptions {
 }
 
 // @public
+export interface SendDtmfResult {
+    operationContext?: string;
+}
+
+// @public
 export interface SsmlSource extends PlaySource {
+    // (undocumented)
+    customVoiceEndpointId?: string;
     // (undocumented)
     readonly kind: "ssmlSource";
     // (undocumented)
@@ -823,6 +833,8 @@ export type StopRecordingOptions = OperationOptions;
 
 // @public
 export interface TextSource extends PlaySource {
+    // (undocumented)
+    customVoiceEndpointId?: string;
     // (undocumented)
     readonly kind: "textSource";
     // (undocumented)
