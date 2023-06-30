@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BatchAccount,
   BatchAccountListOptionalParams,
@@ -98,8 +98,8 @@ export interface BatchAccountOperations {
     parameters: BatchAccountCreateParameters,
     options?: BatchAccountCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BatchAccountCreateResponse>,
+    SimplePollerLike<
+      OperationState<BatchAccountCreateResponse>,
       BatchAccountCreateResponse
     >
   >;
@@ -143,7 +143,7 @@ export interface BatchAccountOperations {
     resourceGroupName: string,
     accountName: string,
     options?: BatchAccountDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified Batch account.
    * @param resourceGroupName The name of the resource group that contains the Batch account.

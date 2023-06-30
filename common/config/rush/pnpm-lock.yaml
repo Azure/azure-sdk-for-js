@@ -2556,12 +2556,6 @@ packages:
       type-detect: 4.0.8
     dev: false
 
-  /@sinonjs/fake-timers/10.0.2:
-    resolution: {integrity: sha512-SwUDyjWnah1AaNl7kxsa7cfLhlTYoiyhDAIgyh+El30YvXs/o7OLXpYH88Zdhyx9JExKrmHDJ+10bwIcY80Jmw==}
-    dependencies:
-      '@sinonjs/commons': 2.0.0
-    dev: false
-
   /@sinonjs/fake-timers/10.3.0:
     resolution: {integrity: sha512-V4BG07kuYSUkTCSBHG8G8TNhM+F19jXFWnQtzj+we8DrkpSBCee9Z3Ms8yiGer/dlmhe35/Xdgyo3/0rQKg7YA==}
     dependencies:
@@ -4593,7 +4587,7 @@ packages:
     dependencies:
       semver: 7.5.3
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230628
+      typescript: 5.2.0-dev.20230629
     dev: false
 
   /duplexer3/0.1.5:
@@ -9865,7 +9859,7 @@ packages:
       yn: 3.1.1
     dev: false
 
-  /ts-node/10.9.1_m72xuhxrv7ih4n5gqhkie72f4y:
+  /ts-node/10.9.1_px3ahiygkmubixvexbbu2qfoza:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
     peerDependencies:
@@ -9891,7 +9885,7 @@ packages:
       create-require: 1.1.1
       diff: 4.0.2
       make-error: 1.3.6
-      typescript: 5.1.5
+      typescript: 5.1.6
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
     dev: false
@@ -10043,14 +10037,14 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.5:
-    resolution: {integrity: sha512-FOH+WN/DQjUvN6WgW+c4Ml3yi0PH+a/8q+kNIfRehv1wLhWONedw85iu+vQ39Wp49IzTJEsZ2lyLXpBF7mkF1g==}
+  /typescript/5.1.6:
+    resolution: {integrity: sha512-zaWCozRZ6DLEWAWFrVDz1H6FVXzUSfTy5FUMWsQlU8Ym5JP9eO4xkTIROFCQvhQf61z6O/G6ugw3SgAnvvm+HA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230628:
-    resolution: {integrity: sha512-dWItHqHLu37lksKsUBRDXlnWdI8WVhKQoVRxlv8w2XfbL/jAA6vFeJLtmb6C3pQKm1X0Sl9BFHJgYWdyiN3u9g==}
+  /typescript/5.2.0-dev.20230629:
+    resolution: {integrity: sha512-/8eGjHX3BI9Cpb2ghyC3qeWD4PTXx7npbvZuKsphLdvFJkbOrKbvmnYGW+3QKs5rREjTq5/0A4IIlp9yCIit0g==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -11908,7 +11902,7 @@ packages:
     dev: false
 
   file:projects/arm-batch.tgz:
-    resolution: {integrity: sha512-2fxbZvesjWy2JPLb6VHPHvCwsZ75ahGZ4aAwTBIWrgTzUUuzHuAit+FCkuYC8ohoyoMgspiLhJqygMy12pDQ9A==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-MQRzbCbv4hc8isw9GqLL4lS40K7UPozFRyR/UcIb0mAa/bgOkBpbPGk1ydZKDqxAyi3qKdkn2II7XKpk0ltPdg==, tarball: file:projects/arm-batch.tgz}
     name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:
@@ -11923,7 +11917,8 @@ packages:
       '@types/node': 14.18.51
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -18039,7 +18034,7 @@ packages:
     dev: false
 
   file:projects/core-client.tgz:
-    resolution: {integrity: sha512-DD1MezAP4ZkP3o8F2g80m0zqnyYXxrvexL35titsE8+UprlOKcrJVMYF++ZUYgMEHrdn0ty6v7tUctmPgqQOwg==, tarball: file:projects/core-client.tgz}
+    resolution: {integrity: sha512-0f6tvrsFDRRLUf6atVFtPIUCMCDCIZDBMFSobCRb25oZ/1UFenVZLZ60MYTTtTswPKJfR3gvlwt4J5JCCACxOg==, tarball: file:projects/core-client.tgz}
     name: '@rush-temp/core-client'
     version: 0.0.0
     dependencies:
@@ -18404,13 +18399,13 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-YFCaW1JpVf6hza6MzlJ9v9wWbgl/C4MG8/RZ7R8D7li+fnhDi9PPZUfaxlPd/on5bdWX+7yK5U2JNVh28jEUXA==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-LJz+1OIFq2SgnmWTitdaXdnVjEhoeYKGPGZpktlZRmqzTYQXHYXuxgNW2wvvJrKUfJ2eKkOnf3P5HFBSCAw2DQ==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.36.0_@types+node@14.18.51
-      '@sinonjs/fake-timers': 10.0.2
+      '@sinonjs/fake-timers': 10.3.0
       '@types/debug': 4.1.8
       '@types/mocha': 7.0.2
       '@types/node': 14.18.51
@@ -18503,7 +18498,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript/5.1.5
+      '@_ts/max': /typescript/5.1.6
       '@_ts/min': /typescript/4.2.4
       '@microsoft/api-extractor': 7.36.0_@types+node@14.18.51
       '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
@@ -18547,7 +18542,7 @@ packages:
       semver: 7.5.3
       strip-json-comments: 3.1.1
       ts-morph: 18.0.0
-      ts-node: 10.9.1_m72xuhxrv7ih4n5gqhkie72f4y
+      ts-node: 10.9.1_px3ahiygkmubixvexbbu2qfoza
       tslib: 2.5.3
       typescript: 5.0.4
       yaml: 2.3.1
@@ -19801,7 +19796,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-U6oNE8zhwGOaMkbgb5KFzgBUIz7VSXpPqIhJ49AJ3Z3KyurQFQR/NrAjq+qvQcuwaEE0Tyu4HP7V4OC8VcwBvQ==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-Il/WauhL+cvhnrtsGg6Y0S99Y38nuVYQQYUoGgYheosAtrxQxgdGkuylHru0Cm81h3PovRW6yg/nBBFLuV4t3A==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
