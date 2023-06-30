@@ -156,8 +156,16 @@ export class CallMedia {
     // Warning: (ae-forgotten-export) The symbol "Tone" needs to be exported by the entry point index.d.ts
     sendDtmf(tones: Tone[], targetParticipant: CommunicationIdentifier, sendDtmfOptions?: SendDtmfOptions): Promise<void>;
     startContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, continuousDtmfRecognitionOptions?: ContinuousDtmfRecognitionOptions): Promise<void>;
-    startRecognizing(targetParticipant: CommunicationIdentifier, maxTonesToCollect: number, recognizeOptions: CallMediaRecognizeDtmfOptions): Promise<void>;
+    startRecognizing(targetParticipant: CommunicationIdentifier, recognizeOptions: CallMediaRecognizeDtmfOptions | CallMediaRecognizeChoiceOptions | CallMediaRecognizeSpeechOptions | CallMediaRecognizeSpeechOrDtmfOptions): Promise<void>;
     stopContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, continuousDtmfRecognitionOptions?: ContinuousDtmfRecognitionOptions): Promise<void>;
+}
+
+// @public
+export interface CallMediaRecognizeChoiceOptions extends CallMediaRecognizeOptions {
+    choices: Choice[];
+    // (undocumented)
+    readonly kind: "callMediaRecognizeChoiceOptions";
+    speechLanguage?: string;
 }
 
 // @public
@@ -166,6 +174,8 @@ export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions
     interToneTimeoutInSeconds?: number;
     // (undocumented)
     readonly kind: "callMediaRecognizeDtmfOptions";
+    // (undocumented)
+    maxTonesToCollect?: number;
     // (undocumented)
     stopDtmfTones?: DtmfTone[];
 }
@@ -181,9 +191,26 @@ export interface CallMediaRecognizeOptions extends OperationOptions {
     // (undocumented)
     operationContext?: string;
     // (undocumented)
-    playPrompt?: FileSource;
+    playPrompt?: FileSource | TextSource | SsmlSource;
+}
+
+// @public
+export interface CallMediaRecognizeSpeechOptions extends CallMediaRecognizeOptions {
+    endSilenceTimeoutInMs?: number;
     // (undocumented)
-    stopCurrentOperations?: boolean;
+    readonly kind: "callMediaRecognizeSpeechOptions";
+    speechLanguage?: string;
+}
+
+// @public
+export interface CallMediaRecognizeSpeechOrDtmfOptions extends CallMediaRecognizeOptions {
+    endSilenceTimeoutInMs?: number;
+    interToneTimeoutInSeconds?: number;
+    // (undocumented)
+    readonly kind: "callMediaRecognizeSpeechOrDtmfOptions";
+    maxTonesToCollect?: number;
+    speechLanguage?: string;
+    stopDtmfTones?: DtmfTone[];
 }
 
 // @public
@@ -231,6 +258,14 @@ export interface CallTransferFailed extends Omit<RestCallTransferFailed, "callCo
 export interface ChannelAffinity {
     channel?: number;
     targetParticipant: CommunicationIdentifier;
+}
+
+// @public
+export interface Choice {
+    label: string;
+    phrases: string[];
+    // (undocumented)
+    tone?: DtmfTone;
 }
 
 // @public

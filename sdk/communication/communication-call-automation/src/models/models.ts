@@ -125,6 +125,15 @@ export enum DtmfTone {
   Asterisk = "asterisk",
 }
 
+/** A Recognize Choice */
+export interface Choice {
+  /** Identifier for a given choice */
+  label: string;
+  /** List of phrases to recognize */
+  phrases: string[];
+  tone?: DtmfTone;
+}
+
 /** The type of the recognition that the service accepts. */
 export enum RecognizeInputType {
   /** Dtmf */

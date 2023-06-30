@@ -17,6 +17,7 @@ import {
   ContinuousDtmfRecognitionRequest,
   SendDtmfRequest,
   Tone,
+  SpeechOptions,
 } from "./generated/src";
 
 import { CallMediaImpl } from "./generated/src/operations";
@@ -32,6 +33,9 @@ import { FileSource, SsmlSource, TextSource } from "./models/models";
 import {
   PlayOptions,
   CallMediaRecognizeDtmfOptions,
+  CallMediaRecognizeChoiceOptions,
+  CallMediaRecognizeSpeechOptions,
+  CallMediaRecognizeSpeechOrDtmfOptions,
   ContinuousDtmfRecognitionOptions,
   SendDtmfOptions,
 } from "./models/options";
@@ -148,8 +152,11 @@ export class CallMedia {
 
   private createRecognizeRequest(
     targetParticipant: CommunicationIdentifier,
-    maxTonesToCollect: number,
-    recognizeOptions: CallMediaRecognizeDtmfOptions
+    recognizeOptions:
+      | CallMediaRecognizeDtmfOptions
+      | CallMediaRecognizeChoiceOptions
+      | CallMediaRecognizeSpeechOptions
+      | CallMediaRecognizeSpeechOrDtmfOptions
   ): RecognizeRequest {
     if (
       recognizeOptions.kind === "callMediaRecognizeDtmfOptions" ||
@@ -159,7 +166,7 @@ export class CallMedia {
         interToneTimeoutInSeconds: recognizeOptions.interToneTimeoutInSeconds
           ? recognizeOptions.interToneTimeoutInSeconds
           : 2,
-        maxTonesToCollect: maxTonesToCollect,
+        maxTonesToCollect: recognizeOptions.maxTonesToCollect,
         stopTones: recognizeOptions.stopDtmfTones,
       };
       const recognizeOptionsInternal: RecognizeOptions = {
@@ -179,6 +186,81 @@ export class CallMedia {
         recognizeOptions: recognizeOptionsInternal,
         operationContext: recognizeOptions.operationContext,
       };
+    } else if (recognizeOptions.kind === "callMediaRecognizeChoiceOptions") {
+      const recognizeOptionsInternal: RecognizeOptions = {
+        interruptPrompt: recognizeOptions.interruptPrompt,
+        initialSilenceTimeoutInSeconds: recognizeOptions.initialSilenceTimeoutInSeconds
+          ? recognizeOptions.initialSilenceTimeoutInSeconds
+          : 5,
+        targetParticipant: serializeCommunicationIdentifier(targetParticipant),
+        speechLanguage: recognizeOptions.speechLanguage,
+        choices: recognizeOptions.choices,
+      };
+      return {
+        recognizeInputType: KnownRecognizeInputType.Choices,
+        playPrompt: recognizeOptions.playPrompt
+          ? this.createPlaySourceInternal(recognizeOptions.playPrompt)
+          : undefined,
+        interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
+        recognizeOptions: recognizeOptionsInternal,
+        operationContext: recognizeOptions.operationContext,
+      };
+    } else if (recognizeOptions.kind === "callMediaRecognizeSpeechOptions") {
+      const speechOptions: SpeechOptions = {
+        endSilenceTimeoutInMs: recognizeOptions.endSilenceTimeoutInMs
+          ? recognizeOptions.endSilenceTimeoutInMs
+          : 2,
+      };
+      const recognizeOptionsInternal: RecognizeOptions = {
+        interruptPrompt: recognizeOptions.interruptPrompt,
+        initialSilenceTimeoutInSeconds: recognizeOptions.initialSilenceTimeoutInSeconds
+          ? recognizeOptions.initialSilenceTimeoutInSeconds
+          : 5,
+        targetParticipant: serializeCommunicationIdentifier(targetParticipant),
+        speechLanguage: recognizeOptions.speechLanguage,
+        speechOptions: speechOptions,
+      };
+      return {
+        recognizeInputType: KnownRecognizeInputType.Speech,
+        playPrompt: recognizeOptions.playPrompt
+          ? this.createPlaySourceInternal(recognizeOptions.playPrompt)
+          : undefined,
+        interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
+        recognizeOptions: recognizeOptionsInternal,
+        operationContext: recognizeOptions.operationContext,
+      };
+    } else if (recognizeOptions.kind === "callMediaRecognizeSpeechOrDtmfOptions") {
+      const dtmfOptionsInternal: DtmfOptions = {
+        interToneTimeoutInSeconds: recognizeOptions.interToneTimeoutInSeconds
+          ? recognizeOptions.interToneTimeoutInSeconds
+          : 2,
+        maxTonesToCollect: recognizeOptions.maxTonesToCollect,
+        stopTones: recognizeOptions.stopDtmfTones,
+      };
+      const speechOptions: SpeechOptions = {
+        endSilenceTimeoutInMs: recognizeOptions.endSilenceTimeoutInMs
+          ? recognizeOptions.endSilenceTimeoutInMs
+          : 2,
+      };
+      const recognizeOptionsInternal: RecognizeOptions = {
+        interruptPrompt: recognizeOptions.interruptPrompt,
+        initialSilenceTimeoutInSeconds: recognizeOptions.initialSilenceTimeoutInSeconds
+          ? recognizeOptions.initialSilenceTimeoutInSeconds
+          : 5,
+        targetParticipant: serializeCommunicationIdentifier(targetParticipant),
+        speechOptions: speechOptions,
+        speechLanguage: recognizeOptions.speechLanguage,
+        dtmfOptions: dtmfOptionsInternal,
+      };
+      return {
+        recognizeInputType: KnownRecognizeInputType.SpeechOrDtmf,
+        playPrompt: recognizeOptions.playPrompt
+          ? this.createPlaySourceInternal(recognizeOptions.playPrompt)
+          : undefined,
+        interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
+        recognizeOptions: recognizeOptionsInternal,
+        operationContext: recognizeOptions.operationContext,
+      };
     }
 
     throw new Error("Invalid recognizeOptions");
@@ -186,16 +268,20 @@ export class CallMedia {
 
   /**
    *  Recognize participant input.
+   *  @param targetParticipant - Target participant.
    *  @param recognizeOptions - Different attributes for recognize.
    * */
   public async startRecognizing(
     targetParticipant: CommunicationIdentifier,
-    maxTonesToCollect: number,
-    recognizeOptions: CallMediaRecognizeDtmfOptions
+    recognizeOptions:
+      | CallMediaRecognizeDtmfOptions
+      | CallMediaRecognizeChoiceOptions
+      | CallMediaRecognizeSpeechOptions
+      | CallMediaRecognizeSpeechOrDtmfOptions
   ): Promise<void> {
     return this.callMedia.recognize(
       this.callConnectionId,
-      this.createRecognizeRequest(targetParticipant, maxTonesToCollect, recognizeOptions),
+      this.createRecognizeRequest(targetParticipant, recognizeOptions),
       {}
     );
   }

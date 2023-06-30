@@ -6,7 +6,10 @@ import { OperationOptions } from "@azure/core-client";
 import {
   CallRejectReason,
   FileSource,
+  TextSource,
+  SsmlSource,
   DtmfTone,
+  Choice,
   RecordingContent,
   RecordingChannel,
   RecordingFormat,
@@ -16,9 +19,8 @@ import {
 
 /** Options to configure the recognize operation. */
 export interface CallMediaRecognizeOptions extends OperationOptions {
-  playPrompt?: FileSource;
+  playPrompt?: FileSource | TextSource | SsmlSource;
   interruptCallMediaOperation?: boolean;
-  stopCurrentOperations?: boolean;
   operationContext?: string;
   interruptPrompt?: boolean;
   initialSilenceTimeoutInSeconds?: number;
@@ -28,7 +30,41 @@ export interface CallMediaRecognizeOptions extends OperationOptions {
 export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions {
   interToneTimeoutInSeconds?: number;
   stopDtmfTones?: DtmfTone[];
+  maxTonesToCollect?: number;
   readonly kind: "callMediaRecognizeDtmfOptions";
+}
+
+/** The recognize configuration specific to Choices. */
+export interface CallMediaRecognizeChoiceOptions extends CallMediaRecognizeOptions {
+  /** The IvR choices for recognize. */
+  choices: Choice[];
+  /** Speech language to be recognized, If not set default is en-US */
+  speechLanguage?: string;
+  readonly kind: "callMediaRecognizeChoiceOptions";
+}
+
+/** The recognize configuration specific to Speech. */
+export interface CallMediaRecognizeSpeechOptions extends CallMediaRecognizeOptions {
+  /** The length of end silence when user stops speaking and cogservice send response. */
+  endSilenceTimeoutInMs?: number;
+  /** Speech language to be recognized, If not set default is en-US */
+  speechLanguage?: string;
+  readonly kind: "callMediaRecognizeSpeechOptions";
+}
+
+/** The recognize configuration for Speech or Dtmf  */
+export interface CallMediaRecognizeSpeechOrDtmfOptions extends CallMediaRecognizeOptions {
+  /** The length of end silence when user stops speaking and cogservice send response. */
+  endSilenceTimeoutInMs?: number;
+  /** Time to wait between DTMF inputs to stop recognizing. */
+  interToneTimeoutInSeconds?: number;
+  /** List of tones that will stop recognizing. */
+  stopDtmfTones?: DtmfTone[];
+  /** Maximum number of DTMF tones to be collected. */
+  maxTonesToCollect?: number;
+  /** Speech language to be recognized, If not set default is en-US */
+  speechLanguage?: string;
+  readonly kind: "callMediaRecognizeSpeechOrDtmfOptions";
 }
 
 /**
