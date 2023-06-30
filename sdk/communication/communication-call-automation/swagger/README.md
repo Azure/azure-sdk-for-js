@@ -13,7 +13,7 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 tag: V2023-06-15-preview
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/cbf3cbc6c3c9502aec42c340bc6a076f3d1899a5/specification/communication/data-plane/CallAutomation/preview/2023-06-15-preview/communicationservicescallautomation.json
-package-version: 1.0.0
+package-version: 1.1.0-beta.1
 model-date-time-as-string: false
 optional-response-headers: true
 typescript: true
