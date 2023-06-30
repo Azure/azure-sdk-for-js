@@ -6,7 +6,7 @@
 import {
   JobRouterAdministrationClient,
   JobRouterClient,
-  JobQueueResponse,
+  RouterQueueResponse,
   RouterJobResponse,
 } from "@azure/communication-job-router";
 
@@ -23,7 +23,7 @@ async function updateRouterJob(): Promise<void> {
   const routerAdministrationClient: JobRouterAdministrationClient =
     new JobRouterAdministrationClient(connectionString);
 
-  const queueRequest: JobQueueResponse = {
+  const queueRequest: RouterQueueResponse = {
     id: "queue-2",
     distributionPolicyId: "distribution-policy-123",
     name: "Main",

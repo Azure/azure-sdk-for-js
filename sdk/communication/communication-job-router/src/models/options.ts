@@ -16,12 +16,12 @@ import {
   JobRouterReclassifyJobActionOptionalParams,
   JobRouterUpsertJobOptionalParams,
   JobRouterUpsertWorkerOptionalParams,
-  JobStateSelector,
+  RouterJobStatusSelector,
   QueueSelectorAttachmentUnion,
   WorkerSelectorAttachmentUnion,
   RouterRuleUnion,
-  WorkerSelector,
-  WorkerStateSelector,
+  RouterWorkerSelector,
+  RouterWorkerStateSelector,
 } from "../generated/src";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { JSONObject } from "./models";
@@ -78,7 +78,7 @@ export interface UpdateClassificationPolicyOptions
  */
 export interface ListClassificationPoliciesOptions extends OperationOptions {
   /** Maximum page size */
-  maxPageSize?: number;
+  maxpagesize?: number;
 }
 
 /**
@@ -89,7 +89,7 @@ export interface CreateDistributionPolicyOptions
   /** The human readable name of the policy. */
   name?: string;
   /** The expiry time of any offers created under this policy will be governed by the offer time to live. */
-  offerTtlSeconds?: number;
+  offerExpiresAfterSeconds?: number;
   /** The distribution mode used to distribute offers to workers on this queue. */
   mode?: DistributionModeUnion;
 }
@@ -102,7 +102,7 @@ export interface UpdateDistributionPolicyOptions
   /** The human readable name of the policy. */
   name?: string;
   /** The expiry time of any offers created under this policy will be governed by the offer time to live. */
-  offerTtlSeconds?: number;
+  offerExpiresAfterSeconds?: number;
   /** The distribution mode used to distribute offers to workers on this queue. */
   mode?: DistributionModeUnion;
 }
@@ -112,7 +112,7 @@ export interface UpdateDistributionPolicyOptions
  */
 export interface ListDistributionPoliciesOptions extends OperationOptions {
   /** Maximum page size */
-  maxPageSize?: number;
+  maxpagesize?: number;
 }
 
 /**
@@ -142,7 +142,7 @@ export interface UpdateExceptionPolicyOptions
  */
 export interface ListExceptionPoliciesOptions extends OperationOptions {
   /** Number of objects to return per page */
-  maxPageSize?: number;
+  maxpagesize?: number;
 }
 
 /**
@@ -162,7 +162,7 @@ export interface CreateJobOptions extends JobRouterUpsertJobOptionalParams {
   /** Reason code for cancelled or closed jobs. */
   dispositionCode?: string;
   /** A collection of manually specified label selectors, which a worker must satisfy in order to process this job. */
-  requestedWorkerSelectors?: WorkerSelector[];
+  requestedWorkerSelectors?: RouterWorkerSelector[];
   /** A set of key/value pairs that are identifying attributes used by the rules engines to make decisions. */
   labels?: JSONObject;
   /** A set of non-identifying attributes attached to this job */
@@ -195,7 +195,7 @@ export interface UpdateJobOptions extends JobRouterUpsertJobOptionalParams {
   /** Reason code for cancelled or closed jobs. */
   dispositionCode?: string;
   /** A collection of manually specified label selectors, which a worker must satisfy in order to process this job. */
-  requestedWorkerSelectors?: WorkerSelector[];
+  requestedWorkerSelectors?: RouterWorkerSelector[];
   /** A set of key/value pairs that are identifying attributes used by the rules engines to make decisions. */
   labels?: JSONObject;
   /** A set of non-identifying attributes attached to this job */
@@ -264,7 +264,7 @@ export interface DeclineJobOfferOptions extends JobRouterDeclineJobActionOptiona
    * the worker is de-registered and re-registered.  If a reoffer time is provided, then the job will be re-matched to
    * eligible workers after the reoffer time.  The worker that declined the job will also be eligible for the job at that time.
    */
-  reofferTimeUtc?: Date;
+  retryOfferAt?: Date;
 }
 
 /**
@@ -272,9 +272,9 @@ export interface DeclineJobOfferOptions extends JobRouterDeclineJobActionOptiona
  */
 export interface ListJobsOptions extends OperationOptions {
   /** Number of objects to return per page */
-  maxPageSize?: number;
+  maxpagesize?: number;
   /** (Optional) If specified, filter jobs by status. */
-  jobStateSelector?: JobStateSelector;
+  jobStateSelector?: RouterJobStatusSelector;
   /** (Optional) If specified, filter jobs by queue. */
   queueId?: string;
   /** (Optional) If specified, filter jobs by channel. */
@@ -328,13 +328,13 @@ export interface UpdateWorkerOptions extends JobRouterUpsertWorkerOptionalParams
  */
 export interface ListWorkersOptions extends OperationOptions {
   /** Number of objects to return per page */
-  maxPageSize?: number;
+  maxpagesize?: number;
   /** (Optional) If specified, select workers who are assigned to this queue */
   queueId?: string;
   /** (Optional) If specified, select workers who have a channel configuration with this channel */
   channelId?: string;
   /** (Optional) If specified, select workers by worker status. */
-  status?: WorkerStateSelector;
+  status?: RouterWorkerStateSelector;
   /**
    * (Optional) If set to true, select only workers who have capacity for the channel specified by `channelId` or for any channel
    *             if `channelId` not specified. If set to false, then will return all workers including workers without any capacity for jobs. Defaults to false.
@@ -375,5 +375,5 @@ export interface UpdateQueueOptions extends JobRouterAdministrationUpsertQueueOp
  */
 export interface ListQueuesOptions extends OperationOptions {
   /** Number of objects to return per page */
-  maxPageSize?: number;
+  maxpagesize?: number;
 }

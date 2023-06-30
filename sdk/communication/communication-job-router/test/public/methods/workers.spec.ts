@@ -14,7 +14,7 @@ import {
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { sleep, timeoutMs } from "../utils/constants";
 
-describe("RouterClient", function () {
+describe("JobRouterClient", function () {
   let client: JobRouterClient;
   let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;
@@ -94,8 +94,8 @@ describe("RouterClient", function () {
 
     it("should list workers", async function () {
       const result: RouterWorker[] = [];
-      for await (const worker of client.listWorkers({ maxPageSize: 20 })) {
-        result.push(worker.routerWorker!);
+      for await (const worker of client.listWorkers({ maxpagesize: 20 })) {
+        result.push(worker.worker!);
       }
 
       assert.isNotEmpty(result);

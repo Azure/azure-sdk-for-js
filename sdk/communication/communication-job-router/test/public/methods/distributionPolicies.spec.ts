@@ -9,7 +9,7 @@ import { getDistributionPolicyRequest } from "../utils/testData";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { timeoutMs } from "../utils/constants";
 
-describe("RouterClient", function () {
+describe("JobRouterClient", function () {
   let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;
 
@@ -47,7 +47,10 @@ describe("RouterClient", function () {
 
       assert.equal(result.id, distributionPolicyId);
       assert.equal(result.name, distributionPolicyRequest.name);
-      assert.equal(result.offerTtlSeconds, distributionPolicyRequest.offerTtlSeconds);
+      assert.equal(
+        result.offerExpiresAfterSeconds,
+        distributionPolicyRequest.offerExpiresAfterSeconds
+      );
       assert.deepEqual(result.mode, distributionPolicyRequest.mode);
     }).timeout(timeoutMs);
 
@@ -66,7 +69,7 @@ describe("RouterClient", function () {
     it("should list distribution policies", async function () {
       const result: DistributionPolicy[] = [];
       for await (const policy of administrationClient.listDistributionPolicies({
-        maxPageSize: 20,
+        maxpagesize: 20,
       })) {
         result.push(policy.distributionPolicy!);
       }

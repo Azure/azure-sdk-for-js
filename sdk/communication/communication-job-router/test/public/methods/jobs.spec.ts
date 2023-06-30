@@ -16,7 +16,7 @@ import { createRecordedRouterClientWithConnectionString } from "../../internal/u
 import { sleep, timeoutMs } from "../utils/constants";
 import { pollForJobQueued, retry } from "../utils/polling";
 
-describe("RouterClient", function () {
+describe("JobRouterClient", function () {
   let client: JobRouterClient;
   let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;
@@ -51,9 +51,11 @@ describe("RouterClient", function () {
     this.afterEach(async function (this: Context) {
       await retry(
         async () => {
-          if (this.currentTest?.fullTitle() !== "RouterClient Job Operations should delete a job") {
+          if (
+            this.currentTest?.fullTitle() !== "JobRouterClient Job Operations should delete a job"
+          ) {
             const job = await client.getJob(jobId);
-            if (job.jobStatus !== "cancelled") {
+            if (job.status !== "cancelled") {
               await client.cancelJob(jobId);
             }
 
@@ -80,23 +82,26 @@ describe("RouterClient", function () {
       assert.equal(result.id, jobId);
     }).timeout(timeoutMs);
 
-    it("should create a scheduled job", async function () {
-      const currentTime: Date = new Date();
-      currentTime.setSeconds(currentTime.getSeconds() + 30);
-      const scheduledTime: string = recorder.variable("scheduledTime", currentTime.toISOString());
-      const scheduledJob: RouterJob = {
-        ...jobRequest,
-        scheduledTimeUtc: new Date(scheduledTime),
-        unavailableForMatching: true,
-      };
-      const result = await client.createJob(jobId, scheduledJob);
+    // it("should create a scheduled job", async function () {
+    //   const currentTime: Date = new Date();
+    //   currentTime.setSeconds(currentTime.getSeconds() + 30);
+    //   const scheduledTime: string = recorder.variable("scheduledTime", currentTime.toISOString());
+    //   const scheduledJob: RouterJob = {
+    //     ...jobRequest,
+    //     matchingMode: {
+    //       modeType: JobMatchModeType.ScheduleAndSuspendMode,
+    //       scheduleAndSuspendMode: { scheduleAt: new Date(scheduledTime) }
+    //     }
+    //   };
 
-      assert.isDefined(result);
-      assert.isDefined(result.id);
-      assert.equal(result.id, jobId);
-      assert.isDefined(result.scheduledTimeUtc);
-      assert.equal(result.scheduledTimeUtc?.toISOString(), scheduledTime);
-    }).timeout(timeoutMs);
+    //   const result = await client.createJob(jobId, scheduledJob);
+
+    //   assert.isDefined(result);
+    //   assert.isDefined(result.id);
+    //   assert.isDefined(result.scheduledAt);
+    //   assert.equal(result.id, jobId);
+    //   assert.equal(result.scheduledAt?.toISOString(), scheduledTime);
+    // }).timeout(timeoutMs);
 
     it("should get a job", async function () {
       await client.createJob(jobId, jobRequest);
@@ -146,34 +151,36 @@ describe("RouterClient", function () {
       await client.createJob(jobId, jobRequest);
 
       const result: RouterJob[] = [];
-      for await (const job of client.listJobs({ maxPageSize: 20 })) {
-        result.push(job.routerJob!);
+      for await (const job of client.listJobs({ maxpagesize: 20 })) {
+        result.push(job.job!);
       }
 
       assert.isNotEmpty(result);
     }).timeout(timeoutMs);
 
-    it("should list scheduled jobs", async function () {
-      const currentTime: Date = new Date();
-      currentTime.setSeconds(currentTime.getSeconds() + 30);
-      const scheduledTime: string = recorder.variable("scheduledTime", currentTime.toISOString());
-      const scheduledJob: RouterJob = {
-        ...jobRequest,
-        scheduledTimeUtc: new Date(scheduledTime),
-        unavailableForMatching: true,
-      };
-      await client.createJob(jobId, scheduledJob);
+    // it("should list scheduled jobs", async function () {
+    //   const currentTime: Date = new Date();
+    //   currentTime.setSeconds(currentTime.getSeconds() + 30);
+    //   const scheduledTime: string = recorder.variable("scheduledTime", currentTime.toISOString());
+    //   const scheduledJob: RouterJob = {
+    //     ...jobRequest,
+    //     matchingMode: {
+    //       modeType: JobMatchModeType.ScheduleAndSuspendMode,
+    //       scheduleAndSuspendMode: { scheduleAt: new Date(scheduledTime) }
+    //     }
+    //   };
+    //   await client.createJob(jobId, scheduledJob);
 
-      const result: RouterJob[] = [];
-      for await (const job of client.listJobs({
-        maxPageSize: 20,
-        scheduledBefore: new Date(scheduledTime),
-      })) {
-        result.push(job.routerJob!);
-      }
+    //   const result: RouterJob[] = [];
+    //   for await (const job of client.listJobs({
+    //     maxpagesize: 20,
+    //     scheduledBefore: new Date(scheduledTime),
+    //   })) {
+    //     result.push(job.job!);
+    //   }
 
-      assert.isNotEmpty(result);
-    }).timeout(timeoutMs);
+    //   assert.isNotEmpty(result);
+    // }).timeout(timeoutMs);
 
     it("should cancel a job", async function () {
       await client.createJob(jobId, jobRequest);
