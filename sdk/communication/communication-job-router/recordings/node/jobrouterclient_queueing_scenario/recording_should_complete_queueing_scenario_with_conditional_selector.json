@@ -1,0 +1,611 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/routing/distributionPolicies/test-d-policy-recorded-q-scenario?api-version=2022-07-18-preview",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "157",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.11.1 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "8eeecbd8-7dfd-44c3-9683-a9b073ffb4db",
+        "x-ms-content-sha256": "iRU4FoF\u002BSHDyek4I2mTj9UxqfsCodrYA4ivTcF4xVFQ=",
+        "x-ms-date": "Fri, 30 Jun 2023 03:32:06 GMT"
+      },
+      "RequestBody": {
+        "name": "test-d-policy",
+        "offerExpiresAfterSeconds": 60,
+        "mode": {
+          "kind": "longest-idle",
+          "minConcurrentOffers": 1,
+          "maxConcurrentOffers": 5,
+          "bypassSelectors": false
+        }
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 30 Jun 2023 03:32:06 GMT",
+        "ETag": "\u00220300c14e-0000-0700-0000-649e4cb70000\u0022",
+        "Last-Modified": "Fri, 30 Jun 2023 03:32:07 GMT",
+        "trace-id": "e4eb3172-e22f-75d1-21c7-c40919d6afea",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0t0yeZAAAAADD2HbSHtYFRLeUthQCvux5WVZSMzExMDAwMTE1MDIxAGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "id": "test-d-policy-recorded-q-scenario",
+        "name": "test-d-policy",
+        "offerExpiresAfterSeconds": 60,
+        "mode": {
+          "kind": "longest-idle",
+          "minConcurrentOffers": 1,
+          "maxConcurrentOffers": 5,
+          "bypassSelectors": false
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/routing/exceptionPolicies/test-e-policy-recorded-q-scenario?api-version=2022-07-18-preview",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "205",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.11.1 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "754eb2b4-fb62-49d5-9866-931ab07b7af4",
+        "x-ms-content-sha256": "DnPGZm8GTFJTh0d1bEHun9/03VZVF0xo\u002BzuWvPJk3V0=",
+        "x-ms-date": "Fri, 30 Jun 2023 03:32:06 GMT"
+      },
+      "RequestBody": {
+        "name": "test-e-policy",
+        "exceptionRules": {
+          "MaxWaitTimeExceededCancel": {
+            "trigger": {
+              "kind": "wait-time",
+              "thresholdSeconds": 10
+            },
+            "actions": {
+              "Cancel": {
+                "kind": "cancel",
+                "note": "wait time exceeded; cancelling"
+              }
+            }
+          }
+        }
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 30 Jun 2023 03:32:06 GMT",
+        "ETag": "\u00220a0079db-0000-0700-0000-649e4cb70000\u0022",
+        "Last-Modified": "Fri, 30 Jun 2023 03:32:07 GMT",
+        "trace-id": "d305e596-5779-b60f-f5d4-eddde98d51d3",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0t0yeZAAAAADNpoH1VxSVSpbWxei5WxMQWVZSMzExMDAwMTE1MDIxAGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "id": "test-e-policy-recorded-q-scenario",
+        "name": "test-e-policy",
+        "exceptionRules": {
+          "MaxWaitTimeExceededCancel": {
+            "trigger": {
+              "kind": "wait-time",
+              "thresholdSeconds": 10
+            },
+            "actions": {
+              "Cancel": {
+                "kind": "cancel",
+                "note": "wait time exceeded; cancelling"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/routing/queues/test-queue-recorded-q-scenario?api-version=2022-07-18-preview",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "148",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.11.1 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "4672248d-3eb3-4c3c-a9d0-312e62aac70a",
+        "x-ms-content-sha256": "NwH/Ht8v7sLdpWRZza3QU9G\u002B6SJxYJBodaA43ghHoPk=",
+        "x-ms-date": "Fri, 30 Jun 2023 03:32:06 GMT"
+      },
+      "RequestBody": {
+        "name": "test-queue",
+        "distributionPolicyId": "test-d-policy-recorded-q-scenario",
+        "labels": {},
+        "exceptionPolicyId": "test-e-policy-recorded-q-scenario"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 30 Jun 2023 03:32:06 GMT",
+        "ETag": "\u002286000f8c-0000-0700-0000-649e4cb70000\u0022",
+        "Last-Modified": "Fri, 30 Jun 2023 03:32:07 GMT",
+        "trace-id": "63e2c0eb-246c-1e03-45df-38faaa495778",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0t0yeZAAAAAAmKmcdQY8yTZVUlVOliWcbWVZSMzExMDAwMTE1MDIxAGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "id": "test-queue-recorded-q-scenario",
+        "name": "test-queue",
+        "distributionPolicyId": "test-d-policy-recorded-q-scenario",
+        "labels": {
+          "Id": "test-queue-recorded-q-scenario"
+        },
+        "exceptionPolicyId": "test-e-policy-recorded-q-scenario"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/routing/classificationPolicies/test-c-policy-conditional-recorded-q-scenario?api-version=2022-07-18-preview",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "376",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.11.1 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "d159d923-b029-4699-8ec3-6687f0331092",
+        "x-ms-content-sha256": "IfpKcBrFNM/cALhA9copkVw0k3Q8EMtQw0eG\u002B/hyZUM=",
+        "x-ms-date": "Fri, 30 Jun 2023 03:32:06 GMT"
+      },
+      "RequestBody": {
+        "name": "test-c-policy-conditional",
+        "fallbackQueueId": "test-queue-recorded-q-scenario",
+        "queueSelectors": [
+          {
+            "kind": "conditional",
+            "condition": {
+              "kind": "expression-rule",
+              "language": "powerFx",
+              "expression": "If(job.Product = \u0022O365\u0022, true, false)"
+            },
+            "queueSelectors": [
+              {
+                "key": "Id",
+                "labelOperator": "equal",
+                "value": {
+                  "test-queue-recorded-q-scenario": "test-queue-recorded-q-scenario"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 30 Jun 2023 03:32:06 GMT",
+        "ETag": "\u00220000dbd8-0000-0700-0000-649e4cb70000\u0022",
+        "Last-Modified": "Fri, 30 Jun 2023 03:32:07 GMT",
+        "trace-id": "0c9abdd1-238c-fa24-2aee-261a51644ec7",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0t0yeZAAAAADQcEyyRDtET5njoG\u002BR6XMiWVZSMzExMDAwMTE1MDIxAGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "id": "test-c-policy-conditional-recorded-q-scenario",
+        "name": "test-c-policy-conditional",
+        "fallbackQueueId": "test-queue-recorded-q-scenario",
+        "queueSelectors": [
+          {
+            "kind": "conditional",
+            "condition": {
+              "kind": "expression-rule",
+              "language": "powerFx",
+              "expression": "If(job.Product = \u0022O365\u0022, true, false)"
+            },
+            "queueSelectors": [
+              {
+                "key": "Id",
+                "labelOperator": "equal",
+                "value": {
+                  "test-queue-recorded-q-scenario": "test-queue-recorded-q-scenario"
+                }
+              }
+            ]
+          }
+        ],
+        "workerSelectors": []
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/routing/jobs/test-job-conditional-recorded-q-scenario?api-version=2022-07-18-preview",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "142",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.11.1 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "8302164b-001e-438b-b8d0-324d2e322c01",
+        "x-ms-content-sha256": "KJ2kvl5o4snufoanFOv7NVn2tCYKkULQrz1vwFyI5Xg=",
+        "x-ms-date": "Fri, 30 Jun 2023 03:32:06 GMT"
+      },
+      "RequestBody": {
+        "channelId": "test-channel",
+        "classificationPolicyId": "test-c-policy-conditional-recorded-q-scenario",
+        "priority": 1,
+        "labels": {
+          "Product": "O365"
+        }
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 30 Jun 2023 03:32:06 GMT",
+        "ETag": "\u002200000000-0000-0000-e057-c9941a79db08\u0022",
+        "Last-Modified": "Fri, 30 Jun 2023 03:32:07 GMT",
+        "trace-id": "585a401e-d387-1523-2b7b-cc1c1b55ae55",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0t0yeZAAAAADr/rWBTp89RpsrKnj2x088WVZSMzExMDAwMTE1MDIxAGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "id": "test-job-conditional-recorded-q-scenario",
+        "status": "pendingClassification",
+        "channelId": "test-channel",
+        "classificationPolicyId": "test-c-policy-conditional-recorded-q-scenario",
+        "priority": 1,
+        "requestedWorkerSelectors": [],
+        "attachedWorkerSelectors": [],
+        "labels": {
+          "Product": "O365"
+        },
+        "assignments": {},
+        "tags": {},
+        "notes": {},
+        "unavailableForMatching": false
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/routing/jobs/test-job-conditional-recorded-q-scenario?api-version=2022-07-18-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.11.1 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "029a76d0-124a-4846-b766-dd11a2a68670",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Fri, 30 Jun 2023 03:32:07 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 30 Jun 2023 03:32:06 GMT",
+        "ETag": "\u002200000000-0000-0000-e057-c9941a79db08\u0022",
+        "Last-Modified": "Fri, 30 Jun 2023 03:32:07 GMT",
+        "trace-id": "cb83bb80-22bb-e6b1-c9b1-46a5251e27d7",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0t0yeZAAAAADfJmH\u002B3PqDQ7lcI\u002BLVGk\u002BOWVZSMzExMDAwMTE1MDIxAGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "id": "test-job-conditional-recorded-q-scenario",
+        "status": "pendingClassification",
+        "channelId": "test-channel",
+        "classificationPolicyId": "test-c-policy-conditional-recorded-q-scenario",
+        "priority": 1,
+        "requestedWorkerSelectors": [],
+        "attachedWorkerSelectors": [],
+        "labels": {
+          "Product": "O365"
+        },
+        "assignments": {},
+        "tags": {},
+        "notes": {},
+        "unavailableForMatching": false
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/routing/jobs/test-job-conditional-recorded-q-scenario?api-version=2022-07-18-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.11.1 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "d734b76a-2273-4189-8694-e8dbf725b85c",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Fri, 30 Jun 2023 03:32:07 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 30 Jun 2023 03:32:07 GMT",
+        "ETag": "\u002200000000-0000-0000-e057-c9941a79db08\u0022",
+        "Last-Modified": "Fri, 30 Jun 2023 03:32:07 GMT",
+        "trace-id": "4041e0e9-1f95-a216-45b1-d925b9f64d57",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0t0yeZAAAAABiovYPK/rHRarIYqoqXgxYWVZSMzExMDAwMTE1MDIxAGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "id": "test-job-conditional-recorded-q-scenario",
+        "status": "pendingClassification",
+        "channelId": "test-channel",
+        "classificationPolicyId": "test-c-policy-conditional-recorded-q-scenario",
+        "priority": 1,
+        "requestedWorkerSelectors": [],
+        "attachedWorkerSelectors": [],
+        "labels": {
+          "Product": "O365"
+        },
+        "assignments": {},
+        "tags": {},
+        "notes": {},
+        "unavailableForMatching": false
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/routing/jobs/test-job-conditional-recorded-q-scenario?api-version=2022-07-18-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.11.1 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "7c8e2275-bd85-49cb-bc7c-fb11e36fb5d3",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Fri, 30 Jun 2023 03:32:07 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 30 Jun 2023 03:32:07 GMT",
+        "ETag": "\u002200000001-0000-0000-764e-df941a79db08\u0022",
+        "Last-Modified": "Fri, 30 Jun 2023 03:32:07 GMT",
+        "trace-id": "70dccf35-9a9b-e92c-6049-6f406b0bdcea",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0t0yeZAAAAADVEEjekOIKSZ9uI8DVM7rNWVZSMzExMDAwMTE1MDIxAGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "id": "test-job-conditional-recorded-q-scenario",
+        "status": "waitingForActivation",
+        "channelId": "test-channel",
+        "classificationPolicyId": "test-c-policy-conditional-recorded-q-scenario",
+        "queueId": "test-queue-recorded-q-scenario",
+        "priority": 1,
+        "requestedWorkerSelectors": [],
+        "attachedWorkerSelectors": [],
+        "labels": {
+          "Product": "O365"
+        },
+        "assignments": {},
+        "tags": {},
+        "notes": {},
+        "unavailableForMatching": false
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/routing/jobs/test-job-conditional-recorded-q-scenario?api-version=2022-07-18-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.11.1 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "f1c568b9-c75b-4512-9da7-8a05c6c66ace",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Fri, 30 Jun 2023 03:32:07 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 30 Jun 2023 03:32:07 GMT",
+        "ETag": "\u002200000002-0000-0000-66e9-e4941a79db08\u0022",
+        "Last-Modified": "Fri, 30 Jun 2023 03:32:07 GMT",
+        "trace-id": "0fe5a4d9-f66d-7b31-0d54-5898d6cf6994",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0t0yeZAAAAADy423HKb3iTpCUlwnDPrrvWVZSMzExMDAwMTE1MDIxAGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "id": "test-job-conditional-recorded-q-scenario",
+        "status": "queued",
+        "enqueuedAt": "2023-06-30T03:32:07.719767\u002B00:00",
+        "channelId": "test-channel",
+        "classificationPolicyId": "test-c-policy-conditional-recorded-q-scenario",
+        "queueId": "test-queue-recorded-q-scenario",
+        "priority": 1,
+        "requestedWorkerSelectors": [],
+        "attachedWorkerSelectors": [],
+        "labels": {
+          "Product": "O365"
+        },
+        "assignments": {},
+        "tags": {},
+        "notes": {},
+        "unavailableForMatching": false
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/routing/jobs/test-job-conditional-recorded-q-scenario:cancel?api-version=2022-07-18-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.11.1 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "b2deb12f-eefb-435e-a47a-eb6ece7ef42f",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Fri, 30 Jun 2023 03:32:07 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 30 Jun 2023 03:32:07 GMT",
+        "trace-id": "bf86a164-41b5-3ac1-d963-06ff6ba133fd",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0t0yeZAAAAABgVdf05eMXTYdJnPr4sg3dWVZSMzExMDAwMTE1MDIxAGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {}
+    },
+    {
+      "RequestUri": "https://endpoint/routing/jobs/test-job-conditional-recorded-q-scenario?api-version=2022-07-18-preview",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.11.1 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "d1f33e19-65e8-416d-bf28-86260cea702b",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Fri, 30 Jun 2023 03:32:07 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Date": "Fri, 30 Jun 2023 03:32:07 GMT",
+        "trace-id": "ad629609-f4da-726c-141b-5c544c7fe48c",
+        "X-Azure-Ref": "0t0yeZAAAAABAsz5i8JtUQqOwsDUUpmhMWVZSMzExMDAwMTE1MDIxAGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/routing/classificationPolicies/test-c-policy-conditional-recorded-q-scenario?api-version=2022-07-18-preview",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.11.1 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "00f9ebd9-68a9-43ce-8d75-66f388894b93",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Fri, 30 Jun 2023 03:32:07 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Date": "Fri, 30 Jun 2023 03:32:07 GMT",
+        "trace-id": "f88e5c86-c235-f578-919c-dfa8058c492a",
+        "X-Azure-Ref": "0uEyeZAAAAABbzSFRWBVbSqn8uRfdnlUVWVZSMzExMDAwMTE1MDIxAGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/routing/queues/test-queue-recorded-q-scenario?api-version=2022-07-18-preview",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.11.1 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "7c802b70-8e1b-4020-a099-825e44a0401a",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Fri, 30 Jun 2023 03:32:07 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Date": "Fri, 30 Jun 2023 03:32:07 GMT",
+        "trace-id": "d29e8d26-418d-4e2d-c6e1-e9bdc7e1a7f7",
+        "X-Azure-Ref": "0uEyeZAAAAAAAXP1Y855JT7lbSuwpVOwFWVZSMzExMDAwMTE1MDIxAGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/routing/exceptionPolicies/test-e-policy-recorded-q-scenario?api-version=2022-07-18-preview",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.11.1 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "3824b3b7-f7c5-4069-b574-d1ab88a79ef6",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Fri, 30 Jun 2023 03:32:07 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Date": "Fri, 30 Jun 2023 03:32:07 GMT",
+        "trace-id": "851e45b3-8588-2385-d0e3-3eb4cd81f8c6",
+        "X-Azure-Ref": "0uEyeZAAAAACfwXzfKozMTb8msCRGSZ8vWVZSMzExMDAwMTE1MDIxAGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/routing/distributionPolicies/test-d-policy-recorded-q-scenario?api-version=2022-07-18-preview",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.11.1 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "db8070ec-0266-4304-b7e7-37c4c2d93f97",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Fri, 30 Jun 2023 03:32:07 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Date": "Fri, 30 Jun 2023 03:32:07 GMT",
+        "trace-id": "2e8924d0-4909-04de-288c-2b4f105cd6ba",
+        "X-Azure-Ref": "0uEyeZAAAAACQ00chwzRNSo\u002B5y\u002BnWfeVtWVZSMzExMDAwMTE1MDIxAGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {}
+}
