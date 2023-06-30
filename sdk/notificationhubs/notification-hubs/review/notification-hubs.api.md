@@ -147,7 +147,7 @@ export interface AppleInstallation extends DeviceTokenInstallation {
 
 // @public
 export interface AppleNativeMessage extends Record<string, any> {
-    "aps"?: AppleApsNativeMessage;
+    aps?: AppleApsNativeMessage;
 }
 
 // @public
