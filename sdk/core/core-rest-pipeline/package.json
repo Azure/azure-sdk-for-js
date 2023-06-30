@@ -19,11 +19,11 @@
     "./dist-esm/src/defaultHttpClient.js": "./dist-esm/src/defaultHttpClient.native.js",
     "./dist-esm/src/util/userAgentPlatform.js": "./dist-esm/src/util/userAgentPlatform.native.js"
   },
-  "types": "core-rest-pipeline.shims.d.ts",
+  "types": "./types/latest/core-rest-pipeline.d.ts",
   "typesVersions": {
     "<3.6": {
       "core-rest-pipeline.shims.d.ts": [
-        "core-rest-pipeline.shims-3_1.d.ts"
+        "./types/3.1/core-rest-pipeline.d.ts"
       ]
     }
   },
