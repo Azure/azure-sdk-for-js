@@ -16,7 +16,8 @@ import {
   CallMediaStartContinuousDtmfRecognitionOptionalParams,
   CallMediaStopContinuousDtmfRecognitionOptionalParams,
   SendDtmfRequest,
-  CallMediaSendDtmfOptionalParams
+  CallMediaSendDtmfOptionalParams,
+  CallMediaSendDtmfResponse
 } from "../models";
 
 /** Interface representing a CallMedia. */
@@ -84,5 +85,5 @@ export interface CallMedia {
     callConnectionId: string,
     sendDtmfRequest: SendDtmfRequest,
     options?: CallMediaSendDtmfOptionalParams
-  ): Promise<void>;
+  ): Promise<CallMediaSendDtmfResponse>;
 }

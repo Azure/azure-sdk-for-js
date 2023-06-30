@@ -574,6 +574,12 @@ export const TextSourceInternal: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      customVoiceEndpointId: {
+        serializedName: "customVoiceEndpointId",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -587,6 +593,12 @@ export const SsmlSourceInternal: coreClient.CompositeMapper = {
       ssmlText: {
         serializedName: "ssmlText",
         required: true,
+        type: {
+          name: "String"
+        }
+      },
+      customVoiceEndpointId: {
+        serializedName: "customVoiceEndpointId",
         type: {
           name: "String"
         }
@@ -683,6 +695,12 @@ export const RecognizeOptions: coreClient.CompositeMapper = {
       },
       speechLanguage: {
         serializedName: "speechLanguage",
+        type: {
+          name: "String"
+        }
+      },
+      speechRecognitionModelEndpointId: {
+        serializedName: "speechRecognitionModelEndpointId",
         type: {
           name: "String"
         }
@@ -848,6 +866,21 @@ export const SendDtmfRequest: coreClient.CompositeMapper = {
           className: "CommunicationIdentifierModel"
         }
       },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SendDtmfResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SendDtmfResponse",
+    modelProperties: {
       operationContext: {
         serializedName: "operationContext",
         type: {

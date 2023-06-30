@@ -212,11 +212,15 @@ export interface TextSourceInternal {
    * Refer to available Text-to-speech voices here: <seealso href="https://learn.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support?tabs=stt-tts" />
    */
   voiceName?: string;
+  /** Endpoint where the custom voice was deployed. */
+  customVoiceEndpointId?: string;
 }
 
 export interface SsmlSourceInternal {
   /** Ssml string for the cognitive service to be played */
   ssmlText: string;
+  /** Endpoint where the custom voice was deployed. */
+  customVoiceEndpointId?: string;
 }
 
 export interface PlayOptionsInternal {
@@ -246,6 +250,8 @@ export interface RecognizeOptions {
   targetParticipant: CommunicationIdentifierModel;
   /** Speech language to be recognized, If not set default is en-US */
   speechLanguage?: string;
+  /** Endpoint where the custom model was deployed. */
+  speechRecognitionModelEndpointId?: string;
   /** Defines configurations for DTMF. */
   dtmfOptions?: DtmfOptions;
   /** Defines Ivr choices for recognize. */
@@ -291,6 +297,11 @@ export interface SendDtmfRequest {
   /** Target participant of send DTMF. */
   targetParticipant: CommunicationIdentifierModel;
   /** The value to identify context of the operation. */
+  operationContext?: string;
+}
+
+export interface SendDtmfResponse {
+  /** The operation context provided by client. */
   operationContext?: string;
 }
 
@@ -1254,7 +1265,15 @@ export interface CallMediaStopContinuousDtmfRecognitionOptionalParams
 
 /** Optional parameters. */
 export interface CallMediaSendDtmfOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
+  repeatabilityRequestID?: string;
+  /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
+  repeatabilityFirstSent?: Date;
+}
+
+/** Contains response data for the sendDtmf operation. */
+export type CallMediaSendDtmfResponse = SendDtmfResponse;
 
 /** Optional parameters. */
 export interface CallRecordingStartRecordingOptionalParams

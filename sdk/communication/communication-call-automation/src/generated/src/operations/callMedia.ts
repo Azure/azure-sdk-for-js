@@ -21,7 +21,8 @@ import {
   CallMediaStartContinuousDtmfRecognitionOptionalParams,
   CallMediaStopContinuousDtmfRecognitionOptionalParams,
   SendDtmfRequest,
-  CallMediaSendDtmfOptionalParams
+  CallMediaSendDtmfOptionalParams,
+  CallMediaSendDtmfResponse
 } from "../models";
 
 /** Class containing CallMedia operations. */
@@ -129,7 +130,7 @@ export class CallMediaImpl implements CallMedia {
     callConnectionId: string,
     sendDtmfRequest: SendDtmfRequest,
     options?: CallMediaSendDtmfOptionalParams
-  ): Promise<void> {
+  ): Promise<CallMediaSendDtmfResponse> {
     return this.client.sendOperationRequest(
       { callConnectionId, sendDtmfRequest, options },
       sendDtmfOperationSpec
@@ -223,7 +224,9 @@ const sendDtmfOperationSpec: coreClient.OperationSpec = {
   path: "/calling/callConnections/{callConnectionId}:sendDtmf",
   httpMethod: "POST",
   responses: {
-    202: {},
+    202: {
+      bodyMapper: Mappers.SendDtmfResponse
+    },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
@@ -231,7 +234,12 @@ const sendDtmfOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.sendDtmfRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.repeatabilityRequestID,
+    Parameters.repeatabilityFirstSent
+  ],
   mediaType: "json",
   serializer
 };
