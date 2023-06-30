@@ -40,6 +40,8 @@ import {
   SendDtmfOptions,
 } from "./models/options";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { SendDtmfResult } from "./models/responses";
+import { v4 as uuidv4 } from "uuid";
 
 /**
  * CallMedia class represents call media related APIs.
@@ -343,12 +345,21 @@ export class CallMedia {
     tones: Tone[],
     targetParticipant: CommunicationIdentifier,
     sendDtmfOptions: SendDtmfOptions = {}
-  ): Promise<void> {
+  ): Promise<SendDtmfResult> {
     const sendDtmfRequest: SendDtmfRequest = {
       tones: tones,
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
       operationContext: sendDtmfOptions.operationContext,
     };
-    return this.callMedia.sendDtmf(this.callConnectionId, sendDtmfRequest, {});
+    const optionsInternal = {
+      ...sendDtmfOptions,
+      repeatabilityFirstSent: new Date(),
+      repeatabilityRequestID: uuidv4(),
+    };
+    const result = await this.callMedia.sendDtmf(this.callConnectionId, sendDtmfRequest, optionsInternal);
+    const sendDtmfResult: SendDtmfResult = {
+      ...result,
+    };
+    return sendDtmfResult;
   }
 }

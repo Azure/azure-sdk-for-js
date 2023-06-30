@@ -68,3 +68,9 @@ export interface RecordingStateResult {
   recordingId: string;
   recordingState: RecordingState;
 }
+
+/** The response payload for sending DTMF tones. */
+export interface SendDtmfResult {
+  /** The operation context provided by client. */
+  operationContext?: string;
+}
