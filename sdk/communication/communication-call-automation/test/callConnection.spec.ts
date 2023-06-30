@@ -441,6 +441,7 @@ describe("CallConnection Live Tests", function () {
     const muteResult = await callConnection.muteParticipants(testUser2);
     assert.isDefined(muteResult);
 
+    await new Promise((resolve) => setTimeout(resolve, 10000));
     const participantsUpdatedEvent = await waitForEvent(
       "ParticipantsUpdated",
       callConnectionId,

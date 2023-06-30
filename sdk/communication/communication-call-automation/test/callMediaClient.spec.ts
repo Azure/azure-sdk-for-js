@@ -121,7 +121,7 @@ describe("CallMedia Unit Tests", async function () {
     const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
     const recognizeOptions: CallMediaRecognizeDtmfOptions = {
       kind: "callMediaRecognizeDtmfOptions",
-      maxTonesToCollect: 5
+      maxTonesToCollect: 5,
     };
 
     await callMedia.startRecognizing(targetParticipant, recognizeOptions);
