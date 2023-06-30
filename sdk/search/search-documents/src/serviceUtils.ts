@@ -482,10 +482,10 @@ export function generatedIndexToPublicIndex(generatedIndex: GeneratedSearchIndex
 }
 
 export function generatedSearchResultToPublicSearchResult<
-  Model extends object,
-  Fields extends SelectFields<Model>
->(results: GeneratedSearchResult[]): SearchResult<Model, Fields>[] {
-  const returnValues: SearchResult<Model, Fields>[] = results.map<SearchResult<Model, Fields>>(
+  TModel extends object,
+  TFields extends SelectFields<TModel>
+>(results: GeneratedSearchResult[]): SearchResult<TModel, TFields>[] {
+  const returnValues: SearchResult<TModel, TFields>[] = results.map<SearchResult<TModel, TFields>>(
     (result) => {
       const { _score, _highlights, rerankerScore, captions, documentDebugInfo, ...restProps } =
         result;
@@ -500,17 +500,17 @@ export function generatedSearchResultToPublicSearchResult<
         document: doc,
         documentDebugInfo,
       };
-      return obj as SearchResult<Model, Fields>;
+      return obj as SearchResult<TModel, TFields>;
     }
   );
   return returnValues;
 }
 
 export function generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<
-  Model extends object,
-  Fields extends SelectFields<Model>
->(searchDocumentsResult: GeneratedSuggestDocumentsResult): SuggestDocumentsResult<Model, Fields> {
-  const results = searchDocumentsResult.results.map<SuggestResult<Model, Fields>>((element) => {
+  TModel extends object,
+  TFields extends SelectFields<TModel>
+>(searchDocumentsResult: GeneratedSuggestDocumentsResult): SuggestDocumentsResult<TModel, TFields> {
+  const results = searchDocumentsResult.results.map<SuggestResult<TModel, TFields>>((element) => {
     const { _text, ...restProps } = element;
 
     const doc: { [key: string]: any } = {
@@ -522,10 +522,10 @@ export function generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<
       document: doc,
     };
 
-    return obj as SuggestResult<Model, Fields>;
+    return obj as SuggestResult<TModel, TFields>;
   });
 
-  const result: SuggestDocumentsResult<Model, Fields> = {
+  const result: SuggestDocumentsResult<TModel, TFields> = {
     results: results,
     coverage: searchDocumentsResult.coverage,
   };
