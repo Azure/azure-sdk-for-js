@@ -14,7 +14,6 @@ import {
   SpanProcessor,
   Tracer,
 } from "@opentelemetry/sdk-trace-base";
-import { TracerProvider } from "@opentelemetry/api";
 import { Instrumentation } from "@opentelemetry/instrumentation";
 import {
   HttpInstrumentation,
@@ -92,7 +91,7 @@ export class TraceHandler {
   /**
    *Get OpenTelemetry TracerProvider
    */
-  public getTracerProvider(): TracerProvider {
+  public getTracerProvider(): NodeTracerProvider {
     return this._tracerProvider;
   }
 
