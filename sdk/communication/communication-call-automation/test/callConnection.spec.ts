@@ -237,7 +237,7 @@ describe("CallConnection Unit Tests", () => {
     promiseResult
       .then((result: MuteParticipantsResult) => {
         assert.isNotNull(result);
-        assert.isTrue(callConnection.removeParticipant.calledWith(target.targetParticipant));
+        assert.isTrue(callConnection.muteParticipants.calledWith(target.targetParticipant));
         assert.equal(result, muteParticipantsResultMock);
         return;
       })
@@ -400,7 +400,7 @@ describe("CallConnection Live Tests", function () {
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
     const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
-    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 10000);
+    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 20000);
     callConnectionId = result.callConnectionProperties.callConnectionId
       ? result.callConnectionProperties.callConnectionId
       : "";
@@ -408,7 +408,7 @@ describe("CallConnection Live Tests", function () {
     if (incomingCallContext) {
       await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
     }
-    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 10000);
+    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
     const testUser3: CommunicationUserIdentifier = await createTestUser(recorder);
@@ -434,21 +434,27 @@ describe("CallConnection Live Tests", function () {
     const participantAddedEvent = await waitForEvent(
       "AddParticipantSucceeded",
       callConnectionId,
-      10000
+      8000
     );
     assert.isDefined(participantAddedEvent);
 
-    const callProperties = await callConnection.getCallConnectionProperties();
-    assert.isDefined(callProperties);
-
-    const muteResult = await callConnection.muteParticipants(testUser3);
+    const muteResult = await callConnection.muteParticipants(testUser2);
     assert.isDefined(muteResult);
 
     const participantsUpdatedEvent = await waitForEvent(
       "ParticipantsUpdated",
       callConnectionId,
-      10000
+      8000
     );
+
     assert.isDefined(participantsUpdatedEvent);
+    let isMuted = false;
+    const participantsUpdatedEventJson = JSON.parse(JSON.stringify(participantsUpdatedEvent));
+    for (const participant of participantsUpdatedEventJson["participants"]) {
+      if (participant["identifier"]["communicationUserId"] === testUser2.communicationUserId) {
+        isMuted = participant["isMuted"];
+      }
+    }
+    assert.isTrue(isMuted);
   }).timeout(90000);
 });
