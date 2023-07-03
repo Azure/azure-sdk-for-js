@@ -11,15 +11,20 @@ However, sometimes we want customers to try the preview feature, so that we can 
 
 **_Experimental Features_**:  
 Experimental features could be either client side features or service preview features or both.  
-**_Api version picking strategy_**: 
+
+**_Api version picking strategy_**:  
 The api version we choose to generate the experimental code is latest preview, if there's a latest newer GA version, then we will use that GA version when there are some client side features under experiment or preview.  
-**_Client side features_**:   
+
+**_Client side features_**:  
 The client side features should be some innovative ideas or some new proposals which is meant to improve SDK user experience or performance. Features like LRO or Paging are considered as to reach full functionalities. should not be treated as experimental features. it should not happen very often.  
+
 **_SDK version policy_**:  
-1. bump minor stable version if preview any service side/client side non-breaking features.
-1. release a major preview version for that preview if preview any service side/client side breaking features. At the same time replace the stable code with preview verison code, remove the subpath export.
+
+1. Bump minor stable version if preview any service side/client side non-breaking features.
 1. Do not bump major version without major version preview.
-1. If a major preview version includes breaking change from both service side features and client side features. And service has GAed the preview features and client side features has not been GAed yet, we will release a new stable major version without subpath export that preview the client side features.
+1. Do not include subpath export in preview packages.
+1. Release a major preview version if we are previewing any service-side/client-side breaking features. At the same time replace the stable code with experimental feature code, remove the subpath export.
+1. If a major preview version includes breaking change from both service side features and client side features. And service has GA the preview features and client side features has not been GA yet, we will release a new stable major version with subpath export that preview the client side features.
 
 ## Proposal
 
