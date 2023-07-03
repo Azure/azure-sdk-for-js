@@ -41,10 +41,10 @@ import {
   ManagedClustersResetServicePrincipalProfileOptionalParams,
   ManagedClusterAADProfile,
   ManagedClustersResetAADProfileOptionalParams,
-  ManagedClustersAbortLatestOperationOptionalParams,
-  ManagedClustersAbortLatestOperationResponse,
   ManagedClustersRotateClusterCertificatesOptionalParams,
   ManagedClustersRotateClusterCertificatesResponse,
+  ManagedClustersAbortLatestOperationOptionalParams,
+  ManagedClustersAbortLatestOperationResponse,
   ManagedClustersRotateServiceAccountSigningKeysOptionalParams,
   ManagedClustersRotateServiceAccountSigningKeysResponse,
   ManagedClustersStopOptionalParams,
@@ -324,37 +324,6 @@ export interface ManagedClusters {
     options?: ManagedClustersResetAADProfileOptionalParams
   ): Promise<void>;
   /**
-   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
-   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
-   * completes before cancellation can take place, an error is returned.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the managed cluster resource.
-   * @param options The options parameters.
-   */
-  beginAbortLatestOperation(
-    resourceGroupName: string,
-    resourceName: string,
-    options?: ManagedClustersAbortLatestOperationOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ManagedClustersAbortLatestOperationResponse>,
-      ManagedClustersAbortLatestOperationResponse
-    >
-  >;
-  /**
-   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
-   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
-   * completes before cancellation can take place, an error is returned.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the managed cluster resource.
-   * @param options The options parameters.
-   */
-  beginAbortLatestOperationAndWait(
-    resourceGroupName: string,
-    resourceName: string,
-    options?: ManagedClustersAbortLatestOperationOptionalParams
-  ): Promise<ManagedClustersAbortLatestOperationResponse>;
-  /**
    * See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more
    * details about rotating managed cluster certificates.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -383,6 +352,37 @@ export interface ManagedClusters {
     resourceName: string,
     options?: ManagedClustersRotateClusterCertificatesOptionalParams
   ): Promise<ManagedClustersRotateClusterCertificatesResponse>;
+  /**
+   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
+   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
+   * completes before cancellation can take place, a 409 error code is returned.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  beginAbortLatestOperation(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersAbortLatestOperationOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedClustersAbortLatestOperationResponse>,
+      ManagedClustersAbortLatestOperationResponse
+    >
+  >;
+  /**
+   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
+   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
+   * completes before cancellation can take place, a 409 error code is returned.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  beginAbortLatestOperationAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersAbortLatestOperationOptionalParams
+  ): Promise<ManagedClustersAbortLatestOperationResponse>;
   /**
    * Rotates the service account signing keys of a managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

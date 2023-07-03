@@ -14,6 +14,3 @@ export * from "./privateEndpointConnections";
 export * from "./privateLinkResources";
 export * from "./resolvePrivateLinkServiceId";
 export * from "./snapshots";
-export * from "./managedClusterSnapshots";
-export * from "./trustedAccessRoles";
-export * from "./trustedAccessRoleBindings";
