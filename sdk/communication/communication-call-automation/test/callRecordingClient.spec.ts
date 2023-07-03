@@ -274,8 +274,8 @@ describe("CallRecording Live Tests", function () {
       .getCallRecording()
       .start(recOptions);
 
-    // Delay for 6 seconds, this is to let the recording state change to active
-    await new Promise((resolve) => setTimeout(resolve, 6000));
+    // Delay for 10 seconds, this is to let the recording state change to active
+    await new Promise((resolve) => setTimeout(resolve, 10000));
     const recStatus = await callerCallAutomationClient
       .getCallRecording()
       .getState(recordingStateResult.recordingId);

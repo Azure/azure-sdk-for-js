@@ -23,6 +23,11 @@ import {
   RecognizeFailed,
   RemoveParticipantSucceeded,
   RemoveParticipantFailed,
+  ContinuousDtmfRecognitionToneReceived,
+  ContinuousDtmfRecognitionToneFailed,
+  ContinuousDtmfRecognitionStopped,
+  SendDtmfCompleted,
+  SendDtmfFailed,
 } from "./models/events";
 
 import { CloudEventMapper } from "./models/mapper";
@@ -99,6 +104,27 @@ export function parseCallAutomationEvent(
       break;
     case "Microsoft.Communication.RecognizeFailed":
       callbackEvent = { kind: "RecognizeFailed" } as RecognizeFailed;
+      break;
+    case "Microsoft.Communication.ContinuousDtmfRecognitionToneReceived":
+      callbackEvent = {
+        kind: "ContinuousDtmfRecognitionToneReceived",
+      } as ContinuousDtmfRecognitionToneReceived;
+      break;
+    case "Microsoft.Communication.ContinuousDtmfRecognitionToneFailed":
+      callbackEvent = {
+        kind: "ContinuousDtmfRecognitionToneFailed",
+      } as ContinuousDtmfRecognitionToneFailed;
+      break;
+    case "Microsoft.Communication.ContinuousDtmfRecognitionStopped":
+      callbackEvent = {
+        kind: "ContinuousDtmfRecognitionStopped",
+      } as ContinuousDtmfRecognitionStopped;
+      break;
+    case "Microsoft.Communication.SendDtmfCompleted":
+      callbackEvent = { kind: "SendDtmfCompleted" } as SendDtmfCompleted;
+      break;
+    case "Microsoft.Communication.SendDtmfFailed":
+      callbackEvent = { kind: "SendDtmfFailed" } as SendDtmfFailed;
       break;
     default:
       throw new TypeError(`Unknown Call Automation Event type: ${eventType}`);

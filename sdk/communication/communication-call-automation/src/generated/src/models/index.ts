@@ -25,6 +25,8 @@ export interface CreateCallRequest {
   operationContext?: string;
   /** The callback URI. */
   callbackUri: string;
+  /** The identifier of the Cognitive Service resource assigned to this call. */
+  azureCognitiveServicesEndpointUrl?: string;
 }
 
 /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
@@ -127,6 +129,8 @@ export interface AnswerCallRequest {
   callbackUri: string;
   /** A customer set value used to track the answering of a call. */
   operationContext?: string;
+  /** The endpoint URL of the Azure Cognitive Services resource attached */
+  azureCognitiveServicesEndpointUrl?: string;
   /** The identifier of the call automation entity which answers the call */
   answeredBy?: CommunicationUserIdentifierModel;
 }
@@ -182,11 +186,41 @@ export interface PlaySourceInternal {
   playSourceCacheId?: string;
   /** Defines the file source info to be used for play */
   file?: FileSourceInternal;
+  /** Defines the text source info to be used for play */
+  textSource?: TextSourceInternal;
+  /** Defines the ssml(Speech Synthesis Markup Language) source info to be used for play */
+  ssmlSource?: SsmlSourceInternal;
 }
 
 export interface FileSourceInternal {
   /** Uri for the audio file to be played */
   uri: string;
+}
+
+export interface TextSourceInternal {
+  /** Text for the cognitive service to be played */
+  text: string;
+  /**
+   * Source language locale to be played
+   * Refer to available locales here: <seealso href="https://learn.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support?tabs=stt-tts" />
+   */
+  sourceLocale?: string;
+  /** Voice gender type */
+  voiceGender?: Gender;
+  /**
+   * Voice name to be played
+   * Refer to available Text-to-speech voices here: <seealso href="https://learn.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support?tabs=stt-tts" />
+   */
+  voiceName?: string;
+  /** Endpoint where the custom voice was deployed. */
+  customVoiceEndpointId?: string;
+}
+
+export interface SsmlSourceInternal {
+  /** Ssml string for the cognitive service to be played */
+  ssmlText: string;
+  /** Endpoint where the custom voice was deployed. */
+  customVoiceEndpointId?: string;
 }
 
 export interface PlayOptionsInternal {
@@ -214,8 +248,16 @@ export interface RecognizeOptions {
   initialSilenceTimeoutInSeconds?: number;
   /** Target participant of DTMF tone recognition. */
   targetParticipant: CommunicationIdentifierModel;
+  /** Speech language to be recognized, If not set default is en-US */
+  speechLanguage?: string;
+  /** Endpoint where the custom model was deployed. */
+  speechRecognitionModelEndpointId?: string;
   /** Defines configurations for DTMF. */
   dtmfOptions?: DtmfOptions;
+  /** Defines Ivr choices for recognize. */
+  choices?: Choice[];
+  /** Defines continuous speech recognition option. */
+  speechOptions?: SpeechOptions;
 }
 
 /** Options for DTMF recognition */
@@ -226,6 +268,41 @@ export interface DtmfOptions {
   maxTonesToCollect?: number;
   /** List of tones that will stop recognizing. */
   stopTones?: Tone[];
+}
+
+export interface Choice {
+  /** Identifier for a given choice */
+  label: string;
+  /** List of phrases to recognize */
+  phrases: string[];
+  tone?: Tone;
+}
+
+/** Options for continuous speech recognition */
+export interface SpeechOptions {
+  /** The length of end silence when user stops speaking and cogservice send response. */
+  endSilenceTimeoutInMs?: number;
+}
+
+export interface ContinuousDtmfRecognitionRequest {
+  /** Defines options for recognition. */
+  targetParticipant: CommunicationIdentifierModel;
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+}
+
+export interface SendDtmfRequest {
+  /** List of tones to be sent to target participant. */
+  tones: Tone[];
+  /** Target participant of send DTMF. */
+  targetParticipant: CommunicationIdentifierModel;
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+}
+
+export interface SendDtmfResponse {
+  /** The operation context provided by client. */
+  operationContext?: string;
 }
 
 /** The response payload for getting participants of the call. */
@@ -285,6 +362,23 @@ export interface RemoveParticipantRequest {
 
 /** The response payload for removing participants of the call. */
 export interface RemoveParticipantResponse {
+  /** The operation context provided by client. */
+  operationContext?: string;
+}
+
+/** The request payload for muting participants from the call. */
+export interface MuteParticipantsRequest {
+  /**
+   * Participants to be muted from the call.
+   * Only ACS Users are supported.
+   */
+  targetParticipants: CommunicationIdentifierModel[];
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+}
+
+/** The response payload for muting participants from the call. */
+export interface MuteParticipantsResponse {
   /** The operation context provided by client. */
   operationContext?: string;
 }
@@ -557,11 +651,34 @@ export interface RecognizeCompleted {
   recognitionType?: RecognitionType;
   /** Defines the result for RecognitionType = Dtmf */
   dtmfResult?: DtmfResult;
+  /** Defines the result for RecognitionType = Choices */
+  choiceResult?: ChoiceResult;
+  /**
+   * Defines the result for RecognitionType = Speech and SpeechOrDtmf
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly speechResult?: SpeechResult;
 }
 
 export interface DtmfResult {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly tones?: Tone[];
+}
+
+export interface ChoiceResult {
+  /** Label is the primary identifier for the choice detected */
+  label?: string;
+  /**
+   * Phrases are set to the value if choice is selected via phrase detection.
+   * If Dtmf input is recognized, then Label will be the identifier for the choice detected and phrases will be set to null
+   */
+  recognizedPhrase?: string;
+}
+
+/** The speech status as a result. */
+export interface SpeechResult {
+  /** The recognized speech in string. */
+  speech?: string;
 }
 
 export interface RecognizeFailed {
@@ -586,6 +703,80 @@ export interface RecognizeCanceled {
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
+}
+
+export interface ContinuousDtmfRecognitionToneFailed {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. */
+  correlationId?: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: ResultInformation;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+}
+
+export interface ContinuousDtmfRecognitionToneReceived {
+  /** Information about Tone. */
+  toneInfo?: ToneInfo;
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId or skype chain ID. */
+  correlationId?: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: ResultInformation;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+}
+
+/** The information about the tone. */
+export interface ToneInfo {
+  /** The sequence id which can be used to determine if the same tone was played multiple times or if any tones were missed. */
+  sequenceId: number;
+  tone: Tone;
+}
+
+export interface ContinuousDtmfRecognitionStopped {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: ResultInformation;
+}
+
+export interface SendDtmfCompleted {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: ResultInformation;
+}
+
+export interface SendDtmfFailed {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: ResultInformation;
 }
 
 /** Known values of {@link CommunicationIdentifierModelKind} that the service accepts. */
@@ -690,7 +881,11 @@ export type CallRejectReason = string;
 /** Known values of {@link PlaySourceType} that the service accepts. */
 export enum KnownPlaySourceType {
   /** File */
-  File = "file"
+  File = "file",
+  /** Text */
+  Text = "text",
+  /** Ssml */
+  Ssml = "ssml"
 }
 
 /**
@@ -698,14 +893,40 @@ export enum KnownPlaySourceType {
  * {@link KnownPlaySourceType} can be used interchangeably with PlaySourceType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **file**
+ * **file** \
+ * **text** \
+ * **ssml**
  */
 export type PlaySourceType = string;
+
+/** Known values of {@link Gender} that the service accepts. */
+export enum KnownGender {
+  /** Male */
+  Male = "male",
+  /** Female */
+  Female = "female"
+}
+
+/**
+ * Defines values for Gender. \
+ * {@link KnownGender} can be used interchangeably with Gender,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **male** \
+ * **female**
+ */
+export type Gender = string;
 
 /** Known values of {@link RecognizeInputType} that the service accepts. */
 export enum KnownRecognizeInputType {
   /** Dtmf */
-  Dtmf = "dtmf"
+  Dtmf = "dtmf",
+  /** Speech */
+  Speech = "speech",
+  /** SpeechOrDtmf */
+  SpeechOrDtmf = "speechOrDtmf",
+  /** Choices */
+  Choices = "choices"
 }
 
 /**
@@ -713,7 +934,10 @@ export enum KnownRecognizeInputType {
  * {@link KnownRecognizeInputType} can be used interchangeably with RecognizeInputType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **dtmf**
+ * **dtmf** \
+ * **speech** \
+ * **speechOrDtmf** \
+ * **choices**
  */
 export type RecognizeInputType = string;
 
@@ -873,7 +1097,11 @@ export type RecordingState = string;
 /** Known values of {@link RecognitionType} that the service accepts. */
 export enum KnownRecognitionType {
   /** Dtmf */
-  Dtmf = "dtmf"
+  Dtmf = "dtmf",
+  /** Speech */
+  Speech = "speech",
+  /** Choices */
+  Choices = "choices"
 }
 
 /**
@@ -881,7 +1109,9 @@ export enum KnownRecognitionType {
  * {@link KnownRecognitionType} can be used interchangeably with RecognitionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **dtmf**
+ * **dtmf** \
+ * **speech** \
+ * **choices**
  */
 export type RecognitionType = string;
 
@@ -988,6 +1218,18 @@ export interface CallConnectionRemoveParticipantOptionalParams
 export type CallConnectionRemoveParticipantResponse = RemoveParticipantResponse;
 
 /** Optional parameters. */
+export interface CallConnectionMuteOptionalParams
+  extends coreClient.OperationOptions {
+  /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
+  repeatabilityRequestID?: string;
+  /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
+  repeatabilityFirstSent?: Date;
+}
+
+/** Contains response data for the mute operation. */
+export type CallConnectionMuteResponse = MuteParticipantsResponse;
+
+/** Optional parameters. */
 export interface CallConnectionGetParticipantOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1012,6 +1254,26 @@ export interface CallMediaCancelAllMediaOperationsOptionalParams
 /** Optional parameters. */
 export interface CallMediaRecognizeOptionalParams
   extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface CallMediaStartContinuousDtmfRecognitionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface CallMediaStopContinuousDtmfRecognitionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface CallMediaSendDtmfOptionalParams
+  extends coreClient.OperationOptions {
+  /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
+  repeatabilityRequestID?: string;
+  /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
+  repeatabilityFirstSent?: Date;
+}
+
+/** Contains response data for the sendDtmf operation. */
+export type CallMediaSendDtmfResponse = SendDtmfResponse;
 
 /** Optional parameters. */
 export interface CallRecordingStartRecordingOptionalParams

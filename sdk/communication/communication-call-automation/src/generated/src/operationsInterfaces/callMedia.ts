@@ -11,7 +11,13 @@ import {
   CallMediaPlayOptionalParams,
   CallMediaCancelAllMediaOperationsOptionalParams,
   RecognizeRequest,
-  CallMediaRecognizeOptionalParams
+  CallMediaRecognizeOptionalParams,
+  ContinuousDtmfRecognitionRequest,
+  CallMediaStartContinuousDtmfRecognitionOptionalParams,
+  CallMediaStopContinuousDtmfRecognitionOptionalParams,
+  SendDtmfRequest,
+  CallMediaSendDtmfOptionalParams,
+  CallMediaSendDtmfResponse
 } from "../models";
 
 /** Interface representing a CallMedia. */
@@ -47,4 +53,37 @@ export interface CallMedia {
     recognizeRequest: RecognizeRequest,
     options?: CallMediaRecognizeOptionalParams
   ): Promise<void>;
+  /**
+   * Start continuous Dtmf recognition by subscribing to tones.
+   * @param callConnectionId The call connection id
+   * @param continuousDtmfRecognitionRequest The continuous recognize request
+   * @param options The options parameters.
+   */
+  startContinuousDtmfRecognition(
+    callConnectionId: string,
+    continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest,
+    options?: CallMediaStartContinuousDtmfRecognitionOptionalParams
+  ): Promise<void>;
+  /**
+   * Stop continuous Dtmf recognition by unsubscribing to tones.
+   * @param callConnectionId The call connection id
+   * @param continuousDtmfRecognitionRequest The continuous recognize request
+   * @param options The options parameters.
+   */
+  stopContinuousDtmfRecognition(
+    callConnectionId: string,
+    continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest,
+    options?: CallMediaStopContinuousDtmfRecognitionOptionalParams
+  ): Promise<void>;
+  /**
+   * Send dtmf tones.
+   * @param callConnectionId The call connection id
+   * @param sendDtmfRequest The send dtmf request
+   * @param options The options parameters.
+   */
+  sendDtmf(
+    callConnectionId: string,
+    sendDtmfRequest: SendDtmfRequest,
+    options?: CallMediaSendDtmfOptionalParams
+  ): Promise<CallMediaSendDtmfResponse>;
 }
