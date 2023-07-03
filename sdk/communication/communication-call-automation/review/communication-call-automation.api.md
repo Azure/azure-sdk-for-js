@@ -99,6 +99,7 @@ export class CallConnection {
     getParticipant(targetParticipant: CommunicationIdentifier, options?: GetParticipantOptions): Promise<CallParticipant>;
     hangUp(isForEveryone: boolean, options?: HangUpOptions): Promise<void>;
     listParticipants(options?: GetParticipantOptions): Promise<ListParticipantsResult>;
+    muteParticipants(participant: CommunicationIdentifier, options?: MuteParticipantsOption): Promise<MuteParticipantsResult>;
     removeParticipant(participant: CommunicationIdentifier, options?: RemoveParticipantsOption): Promise<RemoveParticipantResult>;
     transferCallToParticipant(targetParticipant: CommunicationIdentifier, options?: TransferCallToParticipantOptions): Promise<TransferCallResult>;
 }
@@ -427,6 +428,16 @@ export type MediaStreamingContentType = string;
 
 // @public
 export type MediaStreamingTransportType = string;
+
+// @public
+export interface MuteParticipantsOption extends OperationOptions {
+    operationContext?: string;
+}
+
+// @public
+export interface MuteParticipantsResult {
+    operationContext?: string;
+}
 
 // @public
 export function parseCallAutomationEvent(encodedEvents: string | Record<string, unknown>): CallAutomationEvent;

@@ -40,17 +40,17 @@ export interface AzureMonitorOpenTelemetryOptions {
  */
 export interface InstrumentationOptions {
   /** Azure SDK Instrumentation Config */
-  azureSdk: InstrumentationConfig;
+  azureSdk?: InstrumentationConfig;
   /** HTTP Instrumentation Config */
-  http: InstrumentationConfig;
+  http?: InstrumentationConfig;
   /** MongoDB Instrumentation Config */
-  mongoDb: InstrumentationConfig;
+  mongoDb?: InstrumentationConfig;
   /** MySQL Instrumentation Config */
-  mySql: InstrumentationConfig;
+  mySql?: InstrumentationConfig;
   /** PostgreSql Instrumentation Config */
-  postgreSql: InstrumentationConfig;
+  postgreSql?: InstrumentationConfig;
   /** Redis Instrumentation Config */
-  redis: InstrumentationConfig;
+  redis?: InstrumentationConfig;
   /** Redis4 Instrumentation Config */
-  redis4: InstrumentationConfig;
+  redis4?: InstrumentationConfig;
 }
