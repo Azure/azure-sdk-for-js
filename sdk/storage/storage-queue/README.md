@@ -197,7 +197,7 @@ const queueServiceClient = new QueueServiceClient(
   sharedKeyCredential,
   {
     retryOptions: { maxTries: 4 }, // Retry options
-    telemetry: { value: "BasicSample/V11.0.0" } // Customized telemetry string
+    telemetry: { value: "BasicSample/V11.0.0" }, // Customized telemetry string
   }
 );
 ```
@@ -209,7 +209,7 @@ Also, You can instantiate a `QueueServiceClient` with a shared access signatures
 ```javascript
 const { QueueServiceClient } = require("@azure/storage-queue");
 const account = "<account name>";
-const sas = "<service Shared Access Signature Token>";
+const sas = "<service Shared Access Signature Token started with '?'>";
 const queueServiceClient = new QueueServiceClient(
   `https://${account}.queue.core.windows.net${sas}`
 );

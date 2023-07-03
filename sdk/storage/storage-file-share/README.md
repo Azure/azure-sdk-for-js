@@ -188,7 +188,7 @@ Also, You can instantiate a `ShareServiceClient` with a shared access signatures
 const { ShareServiceClient } = require("@azure/storage-file-share");
 
 const account = "<account name>";
-const sas = "<service Shared Access Signature Token>";
+const sas = "<service Shared Access Signature Token started with '?'>";
 
 const serviceClientWithSAS = new ShareServiceClient(
   `https://${account}.file.core.windows.net${sas}`
@@ -448,7 +448,7 @@ Please refer to the [JavaScript Bundle](#javascript-bundle) section for more inf
 const { ShareServiceClient } = require("@azure/storage-file-share");
 
 const account = "<account name>";
-const sas = "<service Shared Access Signature Token>";
+const sas = "<service Shared Access Signature Token started with a ?>";
 const shareName = "<share name>";
 const fileName = "<file name>";
 

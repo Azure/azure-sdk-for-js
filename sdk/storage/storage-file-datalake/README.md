@@ -171,7 +171,7 @@ Alternatively, selectively import only the types you need:
 ```javascript
 const {
   DataLakeServiceClient,
-  StorageSharedKeyCredential
+  StorageSharedKeyCredential,
 } = require("@azure/storage-file-datalake");
 ```
 
@@ -241,7 +241,7 @@ Alternatively, you instantiate a `DataLakeServiceClient` with a `StorageSharedKe
 ```javascript
 const {
   DataLakeServiceClient,
-  StorageSharedKeyCredential
+  StorageSharedKeyCredential,
 } = require("@azure/storage-file-datalake");
 
 // Enter your storage account name and shared key
@@ -265,7 +265,7 @@ Also, You can instantiate a `DataLakeServiceClient` with a shared access signatu
 const { DataLakeServiceClient } = require("@azure/storage-file-datalake");
 
 const account = "<account name>";
-const sas = "<service Shared Access Signature Token>";
+const sas = "<service Shared Access Signature Token started with '?'>";
 const serviceClientWithSAS = new DataLakeServiceClient(
   `https://${account}.dfs.core.windows.net${sas}`
 );
@@ -522,7 +522,7 @@ main();
 const { DataLakeServiceClient } = require("@azure/storage-file-datalake");
 
 const account = "<account>";
-const sas="<sas token>"
+const sas="<sas token started with '?'>"
 
 const datalakeServiceClient = new DataLakeServiceClient(
   `https://${account}.dfs.core.windows.net${sas}`

@@ -238,7 +238,7 @@ Also, You can instantiate a `BlobServiceClient` with a shared access signatures 
 const { BlobServiceClient } = require("@azure/storage-blob");
 
 const account = "<account name>";
-const sas = "<service Shared Access Signature Token>";
+const sas = "<service Shared Access Signature Token started with '?'>";
 
 const blobServiceClient = new BlobServiceClient(`https://${account}.blob.core.windows.net${sas}`);
 ```
@@ -472,7 +472,7 @@ Please refer to the [JavaScript Bundle](#javascript-bundle) section for more inf
 const { BlobServiceClient } = require("@azure/storage-blob");
 
 const account = "<account name>";
-const sas = "<service Shared Access Signature Token>";
+const sas = "<service Shared Access Signature Token started with a ?>";
 const containerName = "<container name>";
 const blobName = "<blob name>";
 
