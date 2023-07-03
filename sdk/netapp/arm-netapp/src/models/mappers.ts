@@ -1024,6 +1024,13 @@ export const NetAppAccountPatch: coreClient.CompositeMapper = {
           value: { type: { name: "String" } }
         }
       },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedServiceIdentity"
+        }
+      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
@@ -1681,6 +1688,12 @@ export const VolumePatch: coreClient.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      snapshotDirectoryVisible: {
+        serializedName: "properties.snapshotDirectoryVisible",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -1766,6 +1779,142 @@ export const BreakFileLocksRequest: coreClient.CompositeMapper = {
         serializedName: "confirmRunningDisruptiveOperation",
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const GetGroupIdListForLdapUserRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GetGroupIdListForLdapUserRequest",
+    modelProperties: {
+      username: {
+        constraints: {
+          MaxLength: 255,
+          MinLength: 1
+        },
+        serializedName: "username",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const GetGroupIdListForLdapUserResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GetGroupIdListForLdapUserResponse",
+    modelProperties: {
+      groupIdsForLdapUser: {
+        serializedName: "groupIdsForLdapUser",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorDetail",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetail"
+            }
+          }
+        }
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      info: {
+        serializedName: "info",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -3139,6 +3288,13 @@ export const VolumeGroupVolumeProperties: coreClient.CompositeMapper = {
           name: "Number"
         }
       },
+      actualThroughputMibps: {
+        serializedName: "properties.actualThroughputMibps",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
       encryptionKeySource: {
         defaultValue: "Microsoft.NetApp",
         serializedName: "properties.encryptionKeySource",
@@ -3322,6 +3478,14 @@ export const VolumeGroupVolumeProperties: coreClient.CompositeMapper = {
         serializedName: "properties.isLargeVolume",
         type: {
           name: "Boolean"
+        }
+      },
+      originatingResourceId: {
+        serializedName: "properties.originatingResourceId",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -4329,6 +4493,13 @@ export const Volume: coreClient.CompositeMapper = {
           name: "Number"
         }
       },
+      actualThroughputMibps: {
+        serializedName: "properties.actualThroughputMibps",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
       encryptionKeySource: {
         defaultValue: "Microsoft.NetApp",
         serializedName: "properties.encryptionKeySource",
@@ -4513,6 +4684,14 @@ export const Volume: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      originatingResourceId: {
+        serializedName: "properties.originatingResourceId",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -4695,78 +4874,25 @@ export const VolumeQuotaRule: coreClient.CompositeMapper = {
   }
 };
 
-export const BackupPolicyDetails: coreClient.CompositeMapper = {
+export const VolumesBreakFileLocksHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "BackupPolicyDetails",
+    className: "VolumesBreakFileLocksHeaders",
     modelProperties: {
-      ...TrackedResource.type.modelProperties,
-      backupPolicyId: {
-        serializedName: "properties.backupPolicyId",
-        readOnly: true,
+      location: {
+        serializedName: "location",
         type: {
           name: "String"
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      dailyBackupsToKeep: {
-        serializedName: "properties.dailyBackupsToKeep",
-        type: {
-          name: "Number"
-        }
-      },
-      weeklyBackupsToKeep: {
-        serializedName: "properties.weeklyBackupsToKeep",
-        type: {
-          name: "Number"
-        }
-      },
-      monthlyBackupsToKeep: {
-        serializedName: "properties.monthlyBackupsToKeep",
-        type: {
-          name: "Number"
-        }
-      },
-      volumesAssigned: {
-        serializedName: "properties.volumesAssigned",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      enabled: {
-        serializedName: "properties.enabled",
-        type: {
-          name: "Boolean"
-        }
-      },
-      volumeBackups: {
-        serializedName: "properties.volumeBackups",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "VolumeBackups"
-            }
-          }
         }
       }
     }
   }
 };
 
-export const VolumesBreakFileLocksHeaders: coreClient.CompositeMapper = {
+export const VolumesListGetGroupIdListForLdapUserHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "VolumesBreakFileLocksHeaders",
+    className: "VolumesListGetGroupIdListForLdapUserHeaders",
     modelProperties: {
       location: {
         serializedName: "location",
