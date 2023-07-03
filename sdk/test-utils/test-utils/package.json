@@ -4,7 +4,7 @@
   "sdk-type": "utility",
   "type": "module",
   "description": "Test utilities library for the Azure SDK for JavaScript and TypeScript",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist-esm/src/index.js",
   "browser": {
     "./dist-esm/src/global.js": "./dist-esm/src/global.browser.js"

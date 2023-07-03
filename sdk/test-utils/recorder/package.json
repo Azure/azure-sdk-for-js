@@ -4,7 +4,7 @@
   "sdk-type": "utility",
   "type": "module",
   "description": "This library provides interfaces and helper methods to provide recording and playback capabilities for the tests in Azure JS/TS SDKs",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist-esm/src/index.js",
   "types": "./types/src/index.d.ts",
   "browser": {

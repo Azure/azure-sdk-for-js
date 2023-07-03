@@ -4,7 +4,7 @@
   "version": "1.0.5",
   "description": "Microsoft Azure SDK for JavaScript - Logger",
   "type": "module",
-  "main": "./dist/index.js",
+  "main": "./dist/index.cjs",
   "module": "dist-esm/src/index.js",
   "browser": {
     "./dist-esm/src/log.js": "./dist-esm/src/log.browser.js",

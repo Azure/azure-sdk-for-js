@@ -15,7 +15,7 @@
     "azure",
     "cloud"
   ],
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist-esm/src/index.js",
   "types": "./types/latest/core-paging.d.ts",
   "typesVersions": {

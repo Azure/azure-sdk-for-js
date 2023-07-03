@@ -8,9 +8,9 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { createRequestPolicyFactoryPolicy } from "../src/policies/requestPolicyFactoryPolicy";
-import { mutateRequestPolicy, mutateResponsePolicy } from "./mutatePolicies";
-import { cloneRequestPolicy } from "./cloneRequestPolicy";
+import { createRequestPolicyFactoryPolicy } from "../src/policies/requestPolicyFactoryPolicy.js";
+import { mutateRequestPolicy, mutateResponsePolicy } from "./mutatePolicies.js";
+import { cloneRequestPolicy } from "./cloneRequestPolicy.js";
 
 const originalClientRequestSymbol = Symbol.for("@azure/core-client original request");
 
