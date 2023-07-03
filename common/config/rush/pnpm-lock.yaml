@@ -18477,18 +18477,19 @@ packages:
     dev: false
 
   file:projects/core-client.tgz:
-    resolution: {integrity: sha512-0f6tvrsFDRRLUf6atVFtPIUCMCDCIZDBMFSobCRb25oZ/1UFenVZLZ60MYTTtTswPKJfR3gvlwt4J5JCCACxOg==, tarball: file:projects/core-client.tgz}
+    resolution: {integrity: sha512-4+hv00gNFAPA18MEFonm+HEkWRtkEZIeddizXWop04srTsjfjU+iBSKybSuzkSfcl36jVoBpeohoqlc4ueIM0Q==, tarball: file:projects/core-client.tgz}
     name: '@rush-temp/core-client'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.36.0_@types+node@14.18.51
       '@types/chai': 4.3.5
-      '@types/mocha': 7.0.2
+      '@types/mocha': 10.0.1
       '@types/node': 14.18.51
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       chai: 4.3.7
       cross-env: 7.0.3
       eslint: 8.44.0
+      esm: 3.2.25
       inherits: 2.0.4
       karma: 6.4.2
       karma-chrome-launcher: 3.2.0
@@ -18499,14 +18500,17 @@ packages:
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5_karma@6.4.2
       karma-sourcemap-loader: 0.3.8
-      mocha: 7.2.0
-      mocha-junit-reporter: 2.2.0_mocha@7.2.0
+      mocha: 10.2.0
+      mocha-junit-reporter: 2.2.0_mocha@10.2.0
       prettier: 2.8.8
-      rimraf: 3.0.2
-      sinon: 9.2.4
+      rimraf: 5.0.1
+      sinon: 15.2.0
+      ts-node: 10.9.1_ykytbakkcjqkydq5sioaimsynm
       tslib: 2.5.3
       typescript: 5.0.4
     transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
       - bufferutil
       - debug
       - supports-color

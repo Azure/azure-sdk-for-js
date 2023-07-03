@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { getClient } from "../../src/getClient";
+import { getClient } from "../../src/getClient.js";
 import sinon from "sinon";
 
 function createResponse(statusCode: number, body = ""): Response {

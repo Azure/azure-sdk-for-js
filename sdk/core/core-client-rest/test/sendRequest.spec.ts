@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { sendRequest } from "../src/sendRequest";
+import { sendRequest } from "../src/sendRequest.js";
 import { assert } from "chai";
 import {
   Pipeline,
