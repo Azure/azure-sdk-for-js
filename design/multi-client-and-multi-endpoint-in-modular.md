@@ -131,8 +131,8 @@ First, let's consider some common questions about this two design.
    As not all services will have a domain user scenario, sometimes they are equally important to their customers, it will be difficult to pick one between different sub clients as the default client, Also, it's possible that, sometimes one user scenario could be domain scenario, but as time goes by, their behavior could change, the other one may become a domain scenario. As such, we choose to use **named exports** for all sub clients.
 1. **_Shared Models_**  
    In both multi-client and multi-endpoint cases, it's possible that we can have some models are shared by both api layer sub clients, As we will have the same models in both the classical client layer and api layer, we will put those models into `src/clientA/models` and `src/clientB/models` folder, And those shared models will be in `src/models`
-1. **_Manual Customizations_**  
-   It's very likely that we need to do some manual customizations in the classical client layer or the api layer, In the case, the customizations only involve one sub client, we can put the manual code in the `src/clientA` or `src/clientB` folder directly, if we need to have some customizations accross different sub clients, we can put it in the `src/api` folder or `src` folder, depends on which layer we are going to customize.
+1. **_Models Subpath Export_**
+   We want to avoid exporting all our models to the top level, as this would obscure some key information about the API. Instead, we want a separate subpath for models, so that they don’t clutter the API document and can still be imported by customers if needed.
 
 Second, let's consider in the multi-endpoint proposal's case.
 
@@ -210,17 +210,20 @@ With the above initial proposals and the above considerations, we get our finali
 Both Exported
 @azure/foo
 @azure/foo/api
+@azure/foo/models
 @azure/foo/rest
 </pre>
 <pre lang="typescript">
 ClientA
 @azure/foo/clientA
 @azure/foo/clientA/api
+@azure/foo/clientA/models
 </pre>
 <pre lang="typescript">
 ClientB
 @azure/foo/clientB
 @azure/foo/clientB/api
+@azure/foo/clientB/models
 </pre>
 </td>
 <td>
@@ -229,19 +232,16 @@ src
 src/api
 src/rest
 src/models
-// src/customize
 </pre>
 <pre lang="typescript">
 src/clientA
 src/clientA/api
 src/clientA/models
-// src/clientA/customize
 </pre>
 <pre lang="typescript">
 src/clientB
 src/clientB/api
 src/clientB/models
-// src/clientB/customize
 </pre>
 </td>
   </tr>
@@ -262,17 +262,20 @@ src/clientB/models
 Both Exported
 @azure/foo
 @azure/foo/api
+@azure/foo/models
 </pre>
 <pre lang="typescript">
 ClientA
 @azure/foo/clientA
 @azure/foo/clientA/api
+@azure/foo/clientA/models
 @azure/foo/rest/clientA
 </pre>
 <pre lang="typescript">
 ClientB
 @azure/foo/clientB
 @azure/foo/clientB/api
+@azure/foo/clientB/models
 @azure/foo/rest/clientB
 </pre>
 </td>
@@ -282,25 +285,20 @@ src
 src/api
 src/rest // without index.ts just sub folders in it
 src/models
-// src/customize
 </pre>
 <pre lang="typescript">
 src/clientA
 src/clientA/api
 src/clientA/models
-// src/clientA/customize
 src/rest/clientA
 </pre>
 <pre lang="typescript">
 src/clientB
 src/clientB/api
 src/clientB/models
-// src/clientB/customize
 src/rest/clientB
 </pre>
 </td>
   </tr>
 </table>
 <!-- markdownlint-enable MD033 -->
-
-**_NOTE_**:  With this proposals, `./clientA/api`, it may give customers a feeling that those are internal apis provided by the clientA. if we ever have such kind of feedback, we can change the subpath exports as `@azure/foo/api/clientA` then point it to the `src/clientA/api` folder without changing of the code.
