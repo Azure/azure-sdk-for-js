@@ -131,7 +131,7 @@ First, let's consider some common questions about this two design.
    As not all services will have a domain user scenario, sometimes they are equally important to their customers, it will be difficult to pick one between different sub clients as the default client, Also, it's possible that, sometimes one user scenario could be domain scenario, but as time goes by, their behavior could change, the other one may become a domain scenario. As such, we choose to use **named exports** for all sub clients.
 1. **_Shared Models_**  
    In both multi-client and multi-endpoint cases, it's possible that we can have some models are shared by both api layer sub clients, As we will have the same models in both the classical client layer and api layer, we will put those models into `src/clientA/models` and `src/clientB/models` folder, And those shared models will be in `src/models`
-1. **_Models Subpath Export_**
+1. **_Models Subpath Export_**  
    We want to avoid exporting all our models to the top level, as this would obscure some key information about the API. Instead, we want a separate subpath for models, so that they don’t clutter the API document and can still be imported by customers if needed.
 
 Second, let's consider in the multi-endpoint proposal's case.
@@ -228,17 +228,20 @@ ClientB
 </td>
 <td>
 <pre lang="typescript">
+Both Exported
 src
 src/api
 src/rest
 src/models
 </pre>
 <pre lang="typescript">
+ClientA
 src/clientA
 src/clientA/api
 src/clientA/models
 </pre>
 <pre lang="typescript">
+ClientB
 src/clientB
 src/clientB/api
 src/clientB/models
@@ -281,18 +284,21 @@ ClientB
 </td>
 <td>
 <pre lang="typescript">
+Both Exported
 src
 src/api
 src/rest // without index.ts just sub folders in it
 src/models
 </pre>
 <pre lang="typescript">
+ClientA
 src/clientA
 src/clientA/api
 src/clientA/models
 src/rest/clientA
 </pre>
 <pre lang="typescript">
+ClientB
 src/clientB
 src/clientB/api
 src/clientB/models
