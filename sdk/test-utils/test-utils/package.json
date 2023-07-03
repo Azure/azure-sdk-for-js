@@ -9,6 +9,13 @@
   "browser": {
     "./dist-esm/src/global.js": "./dist-esm/src/global.browser.js"
   },
+  "exports": {
+    ".": {
+      "types": "./types/src/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist-esm/src/index.js"
+    }
+  },
   "types": "./types/src/index.d.ts",
   "engines": {
     "node": ">=14.0.0"
