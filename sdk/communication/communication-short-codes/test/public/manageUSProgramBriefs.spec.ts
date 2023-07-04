@@ -16,6 +16,7 @@ import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecordedClient } from "./utils/recordedClient";
+import { FullOperationResponse } from "@azure/core-client";
 
 describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Program Brief`, function () {
   let recorder: Recorder;
@@ -86,6 +87,7 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
     byPage?: boolean,
     itemsPerPage?: number
   ): Promise<number> => {
+    let listResponse: FullOperationResponse | undefined;
     let totalNumberOfbriefs = 0;
     // create map of expected ids
     const expectedBriefMap: Record<string, { brief: USProgramBrief; found: boolean }> = {};
@@ -93,7 +95,14 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
       expectedBriefMap[pb.id] = { brief: pb, found: false };
     });
     if (byPage) {
-      const pages = client.listUSProgramBriefs({ top: itemsPerPage }).byPage();
+      const pages = client
+        .listUSProgramBriefs({
+          top: itemsPerPage,
+          onResponse: (response) => {
+            listResponse = response;
+          },
+        })
+        .byPage();
       for await (const page of pages) {
         // loop over each item in the page
         for (const pb of page) {
@@ -110,7 +119,11 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
       }
     } else {
       // list program briefs, validate test program brief is in the list
-      for await (const pb of client.listUSProgramBriefs()) {
+      for await (const pb of client.listUSProgramBriefs({
+        onResponse: (response) => {
+          listResponse = response;
+        },
+      })) {
         totalNumberOfbriefs++;
         if (expectedBriefMap[pb.id]) {
           expectedBriefMap[pb.id].found = true;
@@ -134,7 +147,10 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
       : "Program briefs not found while listUSProgramBriefs";
     assert.isTrue(
       programBriefsNotFound.length === 0,
-      `${notFoundErrorMsg} : ${programBriefsNotFound.join(",")}`
+      `${notFoundErrorMsg} : ${programBriefsNotFound.join(",")} 
+      . Total briefs found: ${totalNumberOfbriefs}, using byPage(top: ${itemsPerPage}), CV: ${listResponse?.headers.get(
+        "MS-CV"
+      )}`
     );
     return totalNumberOfbriefs;
   };
