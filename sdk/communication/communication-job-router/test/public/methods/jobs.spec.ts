@@ -3,7 +3,12 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { JobMatchModeType, JobRouterAdministrationClient, JobRouterClient, RouterJob } from "../../../src";
+import {
+  JobMatchModeType,
+  JobRouterAdministrationClient,
+  JobRouterClient,
+  RouterJob,
+} from "../../../src";
 import { Context } from "mocha";
 import {
   getClassificationPolicyRequest,
@@ -90,8 +95,8 @@ describe("JobRouterClient", function () {
         ...jobRequest,
         matchingMode: {
           modeType: JobMatchModeType.ScheduleAndSuspendMode,
-          scheduleAndSuspendMode: { scheduleAt: new Date(scheduledTime) }
-        }
+          scheduleAndSuspendMode: { scheduleAt: new Date(scheduledTime) },
+        },
       };
 
       const result = await client.createJob(jobId, scheduledJob);
@@ -100,7 +105,10 @@ describe("JobRouterClient", function () {
       assert.isDefined(result.id);
       assert.isDefined(result.matchingMode);
       assert.equal(result.id, jobId);
-      assert.equal(result.matchingMode?.scheduleAndSuspendMode?.scheduleAt?.toISOString(), scheduledTime);
+      assert.equal(
+        result.matchingMode?.scheduleAndSuspendMode?.scheduleAt?.toISOString(),
+        scheduledTime
+      );
     }).timeout(timeoutMs);
 
     it("should get a job", async function () {
@@ -166,8 +174,8 @@ describe("JobRouterClient", function () {
         ...jobRequest,
         matchingMode: {
           modeType: JobMatchModeType.ScheduleAndSuspendMode,
-          scheduleAndSuspendMode: { scheduleAt: new Date(scheduledTime) }
-        }
+          scheduleAndSuspendMode: { scheduleAt: new Date(scheduledTime) },
+        },
       };
       await client.createJob(jobId, scheduledJob);
 

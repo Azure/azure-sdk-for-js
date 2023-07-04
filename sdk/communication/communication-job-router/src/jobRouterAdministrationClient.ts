@@ -421,9 +421,7 @@ export class JobRouterAdministrationClient {
    * Gets the list of queues.
    * @param options - List queues options.
    */
-  public listQueues(
-    options: ListQueuesOptions = {}
-  ): PagedAsyncIterableIterator<RouterQueueItem> {
+  public listQueues(options: ListQueuesOptions = {}): PagedAsyncIterableIterator<RouterQueueItem> {
     const listOptions = <JobRouterAdministrationListQueuesOptionalParams>options;
     listOptions.maxpagesize = options.maxpagesize;
     return this.client.jobRouterAdministration.listQueues(listOptions);
@@ -448,10 +446,7 @@ export class JobRouterAdministrationClient {
    * @param queueId - The id of the queue to delete.
    * @param options - Operation options.
    */
-  public async deleteQueue(
-    queueId: string,
-    options: OperationOptions = {}
-  ): Promise<void> {
+  public async deleteQueue(queueId: string, options: OperationOptions = {}): Promise<void> {
     return this.client.jobRouterAdministration.deleteQueue(queueId, options);
   }
 }
