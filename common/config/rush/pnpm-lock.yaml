@@ -113,6 +113,7 @@ specifiers:
   '@rush-temp/arm-hybridkubernetes': file:./projects/arm-hybridkubernetes.tgz
   '@rush-temp/arm-imagebuilder': file:./projects/arm-imagebuilder.tgz
   '@rush-temp/arm-iotcentral': file:./projects/arm-iotcentral.tgz
+  '@rush-temp/arm-iotfirmwaredefense': file:./projects/arm-iotfirmwaredefense.tgz
   '@rush-temp/arm-iothub': file:./projects/arm-iothub.tgz
   '@rush-temp/arm-iothub-profile-2020-09-01-hybrid': file:./projects/arm-iothub-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-keyvault': file:./projects/arm-keyvault.tgz
@@ -462,6 +463,7 @@ dependencies:
   '@rush-temp/arm-hybridkubernetes': file:projects/arm-hybridkubernetes.tgz
   '@rush-temp/arm-imagebuilder': file:projects/arm-imagebuilder.tgz
   '@rush-temp/arm-iotcentral': file:projects/arm-iotcentral.tgz
+  '@rush-temp/arm-iotfirmwaredefense': file:projects/arm-iotfirmwaredefense.tgz
   '@rush-temp/arm-iothub': file:projects/arm-iothub.tgz
   '@rush-temp/arm-iothub-profile-2020-09-01-hybrid': file:projects/arm-iothub-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-keyvault': file:projects/arm-keyvault.tgz
@@ -2675,12 +2677,6 @@ packages:
       type-detect: 4.0.8
     dev: false
 
-  /@sinonjs/fake-timers/10.0.2:
-    resolution: {integrity: sha512-SwUDyjWnah1AaNl7kxsa7cfLhlTYoiyhDAIgyh+El30YvXs/o7OLXpYH88Zdhyx9JExKrmHDJ+10bwIcY80Jmw==}
-    dependencies:
-      '@sinonjs/commons': 2.0.0
-    dev: false
-
   /@sinonjs/fake-timers/10.3.0:
     resolution: {integrity: sha512-V4BG07kuYSUkTCSBHG8G8TNhM+F19jXFWnQtzj+we8DrkpSBCee9Z3Ms8yiGer/dlmhe35/Xdgyo3/0rQKg7YA==}
     dependencies:
@@ -4420,6 +4416,7 @@ packages:
 
   /debuglog/1.0.1:
     resolution: {integrity: sha512-syBZ+rnAK3EgMsH2aYEOLUW7mZSY9Gb+0wUMCFsZvcmiz+HigA0LOcq/HoQqVuGG+EKykunc7QG2bzrponfaSw==}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
     dev: false
 
   /decamelize-keys/1.1.1:
@@ -4716,7 +4713,7 @@ packages:
     dependencies:
       semver: 7.5.3
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230629
+      typescript: 5.2.0-dev.20230704
     dev: false
 
   /duplexer3/0.1.5:
@@ -10180,8 +10177,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230629:
-    resolution: {integrity: sha512-/8eGjHX3BI9Cpb2ghyC3qeWD4PTXx7npbvZuKsphLdvFJkbOrKbvmnYGW+3QKs5rREjTq5/0A4IIlp9yCIit0g==}
+  /typescript/5.2.0-dev.20230704:
+    resolution: {integrity: sha512-LAjnbCofaVoQt8mhUODn7xG2uHBTxIDPsxJ9iowOKcbOe1GJIpNqyvEvNrkvmf0pIRHiC19f6oGSYrilB9s5ng==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -14131,6 +14128,34 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_ljfryqei6aq3wnzlbhhwgmxvcu
+      tslib: 2.5.3
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-iotfirmwaredefense.tgz:
+    resolution: {integrity: sha512-WIj5c8uF/mAXwe8EU45nUgYW8ktN9U4jnws1wb3ASNsyCvwBwOWsquHpUvDRvFVnlcmJE800qpLxs+vEAo2meg==, tarball: file:projects/arm-iotfirmwaredefense.tgz}
+    name: '@rush-temp/arm-iotfirmwaredefense'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.36.0_@types+node@14.18.51
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.5
+      '@types/node': 14.18.51
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -18170,7 +18195,7 @@ packages:
     dev: false
 
   file:projects/core-client.tgz:
-    resolution: {integrity: sha512-DD1MezAP4ZkP3o8F2g80m0zqnyYXxrvexL35titsE8+UprlOKcrJVMYF++ZUYgMEHrdn0ty6v7tUctmPgqQOwg==, tarball: file:projects/core-client.tgz}
+    resolution: {integrity: sha512-0f6tvrsFDRRLUf6atVFtPIUCMCDCIZDBMFSobCRb25oZ/1UFenVZLZ60MYTTtTswPKJfR3gvlwt4J5JCCACxOg==, tarball: file:projects/core-client.tgz}
     name: '@rush-temp/core-client'
     version: 0.0.0
     dependencies:
@@ -18535,13 +18560,13 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-YFCaW1JpVf6hza6MzlJ9v9wWbgl/C4MG8/RZ7R8D7li+fnhDi9PPZUfaxlPd/on5bdWX+7yK5U2JNVh28jEUXA==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-LJz+1OIFq2SgnmWTitdaXdnVjEhoeYKGPGZpktlZRmqzTYQXHYXuxgNW2wvvJrKUfJ2eKkOnf3P5HFBSCAw2DQ==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.36.0_@types+node@14.18.51
-      '@sinonjs/fake-timers': 10.0.2
+      '@sinonjs/fake-timers': 10.3.0
       '@types/debug': 4.1.8
       '@types/mocha': 7.0.2
       '@types/node': 14.18.51
