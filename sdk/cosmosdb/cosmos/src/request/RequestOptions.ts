@@ -44,4 +44,6 @@ export interface RequestOptions extends SharedOptions {
   urlConnection?: string;
   /** Disable automatic id generation (will cause creates to fail if id isn't on the definition) */
   disableAutomaticIdGeneration?: boolean;
+  /** Priority Level (Low/High) for each request. Low priority requests are always throttled before any high priority requests. */
+  priorityLevel?: String;
 }

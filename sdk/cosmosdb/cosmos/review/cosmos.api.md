@@ -431,6 +431,7 @@ export const Constants: {
         BatchContinueOnError: string;
         DedicatedGatewayPerRequestCacheStaleness: string;
         ForceRefresh: string;
+        PriorityLevel: string;
     };
     WritableLocations: string;
     ReadableLocations: string;
@@ -1580,6 +1581,7 @@ export interface RequestOptions extends SharedOptions {
     populateQuotaInfo?: boolean;
     postTriggerInclude?: string | string[];
     preTriggerInclude?: string | string[];
+    priorityLevel?: String;
     resourceTokenExpirySeconds?: number;
     urlConnection?: string;
 }
