@@ -9,7 +9,7 @@
 import * as coreClient from "@azure/core-client";
 
 /** A wrapper for a list of short code entities. */
-export interface ShortCodes {
+export interface AcquiredShortCodes {
   /** List of short codes. */
   shortCodes?: ShortCode[];
   /** Represents the URL link to the next page. */
@@ -19,7 +19,7 @@ export interface ShortCodes {
 /** Represents a ShortCode acquired in a given country. */
 export interface ShortCode {
   /** The value of the ShortCode e.g. '555555'. */
-  senderId?: string;
+  value?: string;
   /** ISO 3166 2-char code representing the country e.g. 'US'. */
   countryCode?: string;
   /** Program Brief Name. */
@@ -380,7 +380,7 @@ export interface ShortCodesGetShortCodesOptionalParams
 }
 
 /** Contains response data for the getShortCodes operation. */
-export type ShortCodesGetShortCodesResponse = ShortCodes;
+export type ShortCodesGetShortCodesResponse = AcquiredShortCodes;
 
 /** Optional parameters. */
 export interface ShortCodesGetCostsOptionalParams
@@ -477,7 +477,7 @@ export interface ShortCodesGetShortCodesNextOptionalParams
 }
 
 /** Contains response data for the getShortCodesNext operation. */
-export type ShortCodesGetShortCodesNextResponse = ShortCodes;
+export type ShortCodesGetShortCodesNextResponse = AcquiredShortCodes;
 
 /** Optional parameters. */
 export interface ShortCodesGetCostsNextOptionalParams

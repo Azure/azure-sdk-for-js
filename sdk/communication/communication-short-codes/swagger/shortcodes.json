@@ -41,7 +41,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/ShortCodes"
+              "$ref": "#/definitions/AcquiredShortCodes"
             }
           },
           "default": {
@@ -592,6 +592,23 @@
     }
   },
   "definitions": {
+    "AcquiredShortCodes": {
+      "description": "A wrapper for a list of short code entities.",
+      "type": "object",
+      "properties": {
+        "shortCodes": {
+          "description": "List of short codes.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ShortCode"
+          }
+        },
+        "nextLink": {
+          "description": "Represents the URL link to the next page.",
+          "type": "string"
+        }
+      }
+    },
     "CompanyInformation": {
       "type": "object",
       "properties": {
@@ -966,7 +983,7 @@
       "description": "Represents a ShortCode acquired in a given country.",
       "type": "object",
       "properties": {
-        "senderId": {
+        "value": {
           "description": "The value of the ShortCode e.g. '555555'.",
           "type": "string"
         },
@@ -1043,23 +1060,6 @@
         },
         "nextLink": {
           "description": "Represents the URL link to the next page of short code results.",
-          "type": "string"
-        }
-      }
-    },
-    "ShortCodes": {
-      "description": "A wrapper for a list of short code entities.",
-      "type": "object",
-      "properties": {
-        "shortCodes": {
-          "description": "List of short codes.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ShortCode"
-          }
-        },
-        "nextLink": {
-          "description": "Represents the URL link to the next page.",
           "type": "string"
         }
       }

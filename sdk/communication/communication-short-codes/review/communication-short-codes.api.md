@@ -168,7 +168,7 @@ export interface ShortCode {
     countryCode?: string;
     programBriefIds?: string[];
     purchaseDate?: Date;
-    senderId?: string;
+    value?: string;
 }
 
 // @public

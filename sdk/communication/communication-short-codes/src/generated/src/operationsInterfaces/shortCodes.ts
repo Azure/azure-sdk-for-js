@@ -33,8 +33,8 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a ShortCodesOperations. */
-export interface ShortCodesOperations {
+/** Interface representing a ShortCodes. */
+export interface ShortCodes {
   /**
    * Gets the list of short codes for the current resource.
    * @param options The options parameters.
