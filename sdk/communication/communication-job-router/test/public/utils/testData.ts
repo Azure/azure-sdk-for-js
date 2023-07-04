@@ -363,25 +363,6 @@ export function getJobRequest(guid: string): JobRequest {
   };
 }
 
-export interface ScheduledJobRequest {
-  scheduledJobId: string;
-  scheduledJobRequest: RouterJob;
-}
-export function getScheduledJobRequest(guid: string): ScheduledJobRequest {
-  const id = `${jobId}-scheduled-${guid}`;
-  return {
-    scheduledJobId: id,
-    scheduledJobRequest: {
-      id: jobId,
-      channelId: "test-channel",
-      priority: 1,
-      classificationPolicyId: `${classificationPolicyId}-${guid}`,
-      queueId: `${queueId}-${guid}`,
-      labels: {},
-    },
-  };
-}
-
 export interface WorkerRequest {
   workerId: string;
   workerRequest: RouterWorker;

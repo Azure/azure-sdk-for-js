@@ -49,7 +49,6 @@ import { logger } from "./models/logger";
 
 /**
  * Checks whether the type of a value is {@link JobRouterAdministrationClientOptions} or not.
- *
  * @param options - The value being checked.
  */
 const isRouterAdministrationClientOptions = (
@@ -64,9 +63,8 @@ export class JobRouterAdministrationClient {
 
   /**
    * Initializes a new instance of the RouterClient class.
-   * @param connectionString - Connection string to connect to an Azure Communication Service resource.
-   *                         Example: "endpoint=https://contoso.eastus.communications.azure.net/;accesskey=secret";
-   * @param jobRouterAdministrationClientOptions - Optional. Options to configure the HTTP pipeline.
+   * @param connectionString - Connection string to connect to an Azure Communication Service resource. (ex: "endpoint=https://contoso.eastus.communications.azure.net/;accesskey=secret").
+   * @param jobRouterAdministrationClientOptions - (Optional) Options to configure the HTTP pipeline.
    */
   constructor(
     connectionString: string,
@@ -76,9 +74,8 @@ export class JobRouterAdministrationClient {
   /**
    * Initializes a new instance of the RouterClient class using an Azure KeyCredential.
    * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
-   * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or
-   * `@azure/identity` or TokenCredential to create a credential.
-   * @param routerAdministrationClientOptions - Optional. Options to configure the HTTP pipeline.
+   * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` or TokenCredential to create a credential.
+   * @param routerAdministrationClientOptions - (Optional) Options to configure the HTTP pipeline.
    */
   constructor(
     endpoint: string,
@@ -90,7 +87,7 @@ export class JobRouterAdministrationClient {
    * Initializes a new instance of the RouterClient class using a TokenCredential.
    * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
    * @param credential - CommunicationTokenCredential that is used to authenticate requests to the service.
-   * @param routerAdministrationClientOptions - Optional. Options to configure the HTTP pipeline.
+   * @param routerAdministrationClientOptions - (Optional) Options to configure the HTTP pipeline.
    */
   constructor(
     endpoint: string,
@@ -100,7 +97,6 @@ export class JobRouterAdministrationClient {
 
   /**
    * Creates an instance of the RouterClient for a given resource and user.
-   *
    * @param connectionStringOrUrl - The connectionString or url of the Communication Services resource.
    * @param credentialOrOptions - The key or token credential or RouterAdministrationClientOptions. Use AzureCommunicationKeyCredential from \@azure/communication-common to create a credential.
    * @param maybeOptions - Additional client options.
@@ -146,12 +142,11 @@ export class JobRouterAdministrationClient {
     this.client.pipeline.addPolicy(authPolicy);
   }
 
-  // Classification Policy Actions
   /**
    * Creates a classification policy.
    * Returns the created classification policy.
-   * @param classificationPolicyId - Id of the classification policy.
-   * @param options - Create classification options.
+   * @param classificationPolicyId - id of the classification policy.
+   * @param options - Options for creating a classification policy. Uses merge-patch semantics: https://datatracker.ietf.org/doc/html/rfc7386.
    */
   public async createClassificationPolicy(
     classificationPolicyId: string,
@@ -168,8 +163,8 @@ export class JobRouterAdministrationClient {
   /**
    * Updates a classification policy.
    * Returns the updated classification policy.
-   * @param classificationPolicyId - Id of the classification policy.
-   * @param options - Update classification policy options.
+   * @param classificationPolicyId - id of the classification policy.
+   * @param options - Options for updating a classification policy. Uses merge-patch semantics: https://datatracker.ietf.org/doc/html/rfc7386.
    */
   public async updateClassificationPolicy(
     classificationPolicyId: string,
@@ -227,12 +222,11 @@ export class JobRouterAdministrationClient {
     );
   }
 
-  // DistributionPolicy Actions
   /**
    * Creates a distribution policy.
    * Returns the created distribution policy.
    * @param distributionPolicyId - The id of the distribution policy to create.
-   * @param options - Create distribution policy options.
+   * @param options - Options for creating a distribution policy. Uses merge-patch semantics: https://datatracker.ietf.org/doc/html/rfc7386.
    */
   public async createDistributionPolicy(
     distributionPolicyId: string,
@@ -250,7 +244,7 @@ export class JobRouterAdministrationClient {
    * Updates a distribution policy.
    * Returns the updated distribution policy.
    * @param distributionPolicyId - The id of the distribution policy to update.
-   * @param options - Update distribution policy options.
+   * @param options - Options for updating a distribution policy. Uses merge-patch semantics: https://datatracker.ietf.org/doc/html/rfc7386.
    */
   public async updateDistributionPolicy(
     distributionPolicyId: string,
@@ -296,7 +290,7 @@ export class JobRouterAdministrationClient {
   /**
    * Deletes a distribution policy.
    * @param distributionPolicyId - The id of the distribution policy to delete.
-   * @param options -  Operation options.
+   * @param options - Operation options.
    */
   public async deleteDistributionPolicy(
     distributionPolicyId: string,
@@ -308,12 +302,11 @@ export class JobRouterAdministrationClient {
     );
   }
 
-  // ExceptionPolicy Actions
   /**
-   * Creates a exception policy.
+   * Creates an exception policy.
    * Returns the created exception policy.
    * @param exceptionPolicyId - The id of the exception policy to create.
-   * @param options - Create exception policy options.
+   * @param options - Options for creating an exception policy. Uses merge-patch semantics: https://datatracker.ietf.org/doc/html/rfc7386.
    */
   public async createExceptionPolicy(
     exceptionPolicyId: string,
@@ -328,10 +321,10 @@ export class JobRouterAdministrationClient {
   }
 
   /**
-   * Updates a exception policy.
+   * Updates an exception policy.
    * Returns the updated exception policy.
    * @param exceptionPolicyId - The id of the exception policy to update.
-   * @param options - Update exception policy options.
+   * @param options - Options for updating an exception policy. Uses merge-patch semantics: https://datatracker.ietf.org/doc/html/rfc7386.
    */
   public async updateExceptionPolicy(
     exceptionPolicyId: string,
@@ -386,12 +379,11 @@ export class JobRouterAdministrationClient {
     return this.client.jobRouterAdministration.deleteExceptionPolicy(exceptionPolicyId, options);
   }
 
-  // Queue Actions
   /**
    * Creates a queue.
    * Returns the created queue.
-   * @param queueId - The ID of the queue to create.
-   * @param options - Create queue options.
+   * @param queueId - The id of the queue to create.
+   * @param options - Options for creating a queue. Uses merge-patch semantics: https://datatracker.ietf.org/doc/html/rfc7386.
    */
   public async createQueue(
     queueId: string,
@@ -409,8 +401,8 @@ export class JobRouterAdministrationClient {
   /**
    * Updates a queue.
    * Returns the updated queue.
-   * @param queueId - The ID of the queue to update.
-   * @param options - Update queue options.
+   * @param queueId - The id of the queue to update.
+   * @param options - Options for updating a queue. Uses merge-patch semantics: https://datatracker.ietf.org/doc/html/rfc7386.
    */
   public async updateQueue(
     queueId: string,
@@ -429,7 +421,9 @@ export class JobRouterAdministrationClient {
    * Gets the list of queues.
    * @param options - List queues options.
    */
-  public listQueues(options: ListQueuesOptions = {}): PagedAsyncIterableIterator<RouterQueueItem> {
+  public listQueues(
+    options: ListQueuesOptions = {}
+  ): PagedAsyncIterableIterator<RouterQueueItem> {
     const listOptions = <JobRouterAdministrationListQueuesOptionalParams>options;
     listOptions.maxpagesize = options.maxpagesize;
     return this.client.jobRouterAdministration.listQueues(listOptions);
@@ -438,7 +432,7 @@ export class JobRouterAdministrationClient {
   /**
    * Gets a queue.
    * Returns the queue.
-   * @param queueId - The ID of the queue to get.
+   * @param queueId - The id of the queue to get.
    * @param options - Operation options.
    */
   public async getQueue(
@@ -451,10 +445,13 @@ export class JobRouterAdministrationClient {
 
   /**
    * Deletes a queue.
-   * @param queueId - The ID of the queue to delete.
+   * @param queueId - The id of the queue to delete.
    * @param options - Operation options.
    */
-  public async deleteQueue(queueId: string, options: OperationOptions = {}): Promise<void> {
+  public async deleteQueue(
+    queueId: string,
+    options: OperationOptions = {}
+  ): Promise<void> {
     return this.client.jobRouterAdministration.deleteQueue(queueId, options);
   }
 }
