@@ -151,7 +151,7 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
     return true;
   };
 
-  const _deleteUSProgramBriefs = async (testProgramBriefs: USProgramBrief[]) => {
+  const _deleteUSProgramBriefs = async (testProgramBriefs: USProgramBrief[]): Promise<void> => {
     // delete program briefs, ensure it was removed
     const testDeleteBrief = testProgramBriefs.map(async (pb) => {
       const delRes = await client.deleteUSProgramBrief(pb.id);
@@ -163,14 +163,13 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
       return true;
     });
     assert.isOk(await Promise.all(testDeleteBrief));
-  }
+  };
 
-  const _testGetUSProgramBrief = async (uspb: USProgramBrief) => {
+  const _testGetUSProgramBrief = async (uspb: USProgramBrief): Promise<void> => {
     // get program brief, verify it was created correctly
     const actualProgramBrief = await client.getUSProgramBrief(uspb.id);
     assertEditableFieldsAreEqual(uspb, actualProgramBrief, "get after initial create");
-  }
-
+  };
 
   it("can create and delete a US Program Brief", async function () {
     const testProgramBrief = getTestUSProgramBrief();
@@ -187,7 +186,7 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
       // delete program briefs, ensure it was removed
       await _deleteUSProgramBriefs([testProgramBrief]);
     });
-  }).timeout(60000);;
+  }).timeout(60000);
 
   it("can create, and list a US Program Brief", async function () {
     const testProgramBriefs = [getTestUSProgramBrief(), getTestUSProgramBrief()];
