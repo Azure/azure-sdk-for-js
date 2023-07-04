@@ -5,6 +5,9 @@
 ### Features Added
 
 - Exposed top/skip params to listUSProgramBriefs
+
+### Breaking Changes
+
 - Updating API signature, numberType => value
 
 ### Other Changes

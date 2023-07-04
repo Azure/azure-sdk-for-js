@@ -1,0 +1,1906 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs?skip=0\u0026top=100\u0026api-version=2022-09-06",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 04 Jul 2023 17:48:29 GMT",
+        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Content-Length": "5392",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 04 Jul 2023 17:48:29 GMT",
+        "MS-CV": "BTqSTVxfXEaGbo5rV08KIw.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0bVukZAAAAAD//IVdc9opRa0mFiB\u002BiDVWREZXMzBFREdFMTUyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "496ms"
+      },
+      "ResponseBody": {
+        "programBriefs": [
+          {
+            "id": "7aacbe88-86de-42ea-9237-6e349475265b",
+            "status": "draft",
+            "costs": [
+              {
+                "amount": 650.0,
+                "currencyCode": "USD",
+                "countryCode": "US",
+                "billingFrequency": "once"
+              },
+              {
+                "amount": 1000.0,
+                "currencyCode": "USD",
+                "countryCode": "US",
+                "billingFrequency": "monthly"
+              }
+            ],
+            "statusUpdatedDate": "2023-05-07T23:06:24\u002B00:00",
+            "programDetails": {
+              "isVanity": false,
+              "numberType": "shortCode",
+              "isPoliticalCampaign": false,
+              "callToAction": "Contoso bot - Would you like to receive appointment reminders through text message to the phone number you\u0027ve saved in your account? Messages and data rates may apply. If you want to opt in, say YES, say NO to skip.  End-User - YES"
+            },
+            "messageDetails": {
+              "supportedProtocol": "sms",
+              "recurrence": "subscription",
+              "helpAnswerToUser": "Contoso Appointment reminders: Get help at support@contoso.com or 1-800 123 4567.Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out.",
+              "optOutAnswerToUser": "Contoso Appointment reminders : You have been unsubscribed and will no longer receive any messages. Get help at support@contoso.com or 1-800 123 4567.",
+              "optInMessageToUser": "Contoso Appointment reminders: Reply Y to receive appt reminders.",
+              "optInAnswerFromUser": "Y",
+              "optInConfirmationMessageToUser": "Contoso Appointment reminders. You\u0027re now subscribed to appt reminders. Msg freq varies.",
+              "directionality": "twoWay",
+              "useCases": [
+                {
+                  "contentType": "accountNotificationInformationalAlerts",
+                  "customContentType": "",
+                  "examples": [
+                    {
+                      "messages": [
+                        {
+                          "direction": "toUser",
+                          "text": "Contoso Appointment reminders: Your appt is confirmed for 30th Apr. Txt R to reschedule. Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out."
+                        },
+                        {
+                          "direction": "fromUser",
+                          "text": "Y"
+                        },
+                        {
+                          "direction": "toUser",
+                          "text": "Contoso Appointment reminders: thanks for confirming your reservation."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "trafficDetails": {
+              "isSpiky": false
+            }
+          },
+          {
+            "id": "9df88de7-171b-4733-8ae8-4fe332d6b0f8",
+            "status": "draft",
+            "costs": [
+              {
+                "amount": 650.0,
+                "currencyCode": "USD",
+                "countryCode": "US",
+                "billingFrequency": "once"
+              },
+              {
+                "amount": 1000.0,
+                "currencyCode": "USD",
+                "countryCode": "US",
+                "billingFrequency": "monthly"
+              }
+            ],
+            "statusUpdatedDate": "2023-05-07T23:06:29\u002B00:00",
+            "programDetails": {
+              "isVanity": false,
+              "numberType": "shortCode",
+              "isPoliticalCampaign": false,
+              "callToAction": "Contoso bot - Would you like to receive appointment reminders through text message to the phone number you\u0027ve saved in your account? Messages and data rates may apply. If you want to opt in, say YES, say NO to skip.  End-User - YES"
+            },
+            "messageDetails": {
+              "supportedProtocol": "sms",
+              "recurrence": "subscription",
+              "helpAnswerToUser": "Contoso Appointment reminders: Get help at support@contoso.com or 1-800 123 4567.Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out.",
+              "optOutAnswerToUser": "Contoso Appointment reminders : You have been unsubscribed and will no longer receive any messages. Get help at support@contoso.com or 1-800 123 4567.",
+              "optInMessageToUser": "Contoso Appointment reminders: Reply Y to receive appt reminders.",
+              "optInAnswerFromUser": "Y",
+              "optInConfirmationMessageToUser": "Contoso Appointment reminders. You\u0027re now subscribed to appt reminders. Msg freq varies.",
+              "directionality": "twoWay",
+              "useCases": [
+                {
+                  "contentType": "accountNotificationInformationalAlerts",
+                  "customContentType": "",
+                  "examples": [
+                    {
+                      "messages": [
+                        {
+                          "direction": "toUser",
+                          "text": "Contoso Appointment reminders: Your appt is confirmed for 30th Apr. Txt R to reschedule. Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out."
+                        },
+                        {
+                          "direction": "fromUser",
+                          "text": "Y"
+                        },
+                        {
+                          "direction": "toUser",
+                          "text": "Contoso Appointment reminders: thanks for confirming your reservation."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "trafficDetails": {
+              "isSpiky": false
+            }
+          },
+          {
+            "id": "64c97405-9cd6-46e8-8084-824d6cf74ddb",
+            "status": "draft",
+            "costs": [
+              {
+                "amount": 650.0,
+                "currencyCode": "USD",
+                "countryCode": "US",
+                "billingFrequency": "once"
+              },
+              {
+                "amount": 1000.0,
+                "currencyCode": "USD",
+                "countryCode": "US",
+                "billingFrequency": "monthly"
+              }
+            ],
+            "statusUpdatedDate": "2023-05-07T23:06:34\u002B00:00",
+            "programDetails": {
+              "isVanity": false,
+              "numberType": "shortCode",
+              "isPoliticalCampaign": false,
+              "callToAction": "Contoso bot - Would you like to receive appointment reminders through text message to the phone number you\u0027ve saved in your account? Messages and data rates may apply. If you want to opt in, say YES, say NO to skip.  End-User - YES"
+            },
+            "messageDetails": {
+              "supportedProtocol": "sms",
+              "recurrence": "subscription",
+              "helpAnswerToUser": "Contoso Appointment reminders: Get help at support@contoso.com or 1-800 123 4567.Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out.",
+              "optOutAnswerToUser": "Contoso Appointment reminders : You have been unsubscribed and will no longer receive any messages. Get help at support@contoso.com or 1-800 123 4567.",
+              "optInMessageToUser": "Contoso Appointment reminders: Reply Y to receive appt reminders.",
+              "optInAnswerFromUser": "Y",
+              "optInConfirmationMessageToUser": "Contoso Appointment reminders. You\u0027re now subscribed to appt reminders. Msg freq varies.",
+              "directionality": "twoWay",
+              "useCases": [
+                {
+                  "contentType": "accountNotificationInformationalAlerts",
+                  "customContentType": "",
+                  "examples": [
+                    {
+                      "messages": [
+                        {
+                          "direction": "toUser",
+                          "text": "Contoso Appointment reminders: Your appt is confirmed for 30th Apr. Txt R to reschedule. Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out."
+                        },
+                        {
+                          "direction": "fromUser",
+                          "text": "Y"
+                        },
+                        {
+                          "direction": "toUser",
+                          "text": "Contoso Appointment reminders: thanks for confirming your reservation."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "trafficDetails": {
+              "isSpiky": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/fc1e0fc0-1a92-11ee-866c-a977f3374a0f?api-version=2022-09-06",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 04 Jul 2023 17:48:29 GMT",
+        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Content-Type": "application/json",
+        "Date": "Tue, 04 Jul 2023 17:48:29 GMT",
+        "MS-CV": "fr21Sb4UwEWV9NrbVbEfAQ.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0blukZAAAAADL/DgLBdJiR60HQYmEWbe2REZXMzBFREdFMTUyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "310ms"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "NotFound",
+          "message": "Could not find the ProgramBrief with key \u0027Azure|ac80d96a-85de-48b1-995d-a3a3fa3627c8|fc1e0fc0-1a92-11ee-866c-a977f3374a0f\u0027"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/fc1e0fc0-1a92-11ee-866c-a977f3374a0f?api-version=2022-09-06",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "2038",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 04 Jul 2023 17:48:30 GMT",
+        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 OS"
+      },
+      "RequestBody": {
+        "id": "fc1e0fc0-1a92-11ee-866c-a977f3374a0f",
+        "programDetails": {
+          "isVanity": false,
+          "numberType": "shortCode",
+          "isPoliticalCampaign": false,
+          "name": "Contoso Loyalty Program",
+          "description": "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
+          "url": "https://endpoint/loyalty-program",
+          "callToActionTypes": [
+            "sms",
+            "website"
+          ],
+          "callToActionUrl": "https://contoso.com/sign-up",
+          "termsOfServiceUrl": "https://contoso.com/terms",
+          "privacyPolicyUrl": "https://contoso.com/privacy"
+        },
+        "companyInformation": {
+          "name": "Contoso",
+          "url": "https://contoso.com",
+          "address": "1 Contoso Way Redmond, WA 98052",
+          "contactInformation": {
+            "name": "Alex",
+            "phone": "\u002B14255551234",
+            "email": "alex@contoso.com"
+          },
+          "customerCareInformation": {
+            "tollFreeNumber": "\u002B18005551234",
+            "email": "customercare@contoso.com"
+          }
+        },
+        "messageDetails": {
+          "supportedProtocol": "sms",
+          "recurrence": "subscription",
+          "helpAnswerToUser": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
+          "optOutAnswerToUser": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
+          "optInMessageToUser": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
+          "optInAnswerFromUser": "JOIN",
+          "optInConfirmationMessageToUser": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+          "directionality": "twoWay",
+          "useCases": [
+            {
+              "contentType": "marketingAndPromotion",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "fromUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "contentType": "loyaltyProgram",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "toUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "contentType": "sweepstakesOrContest",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "toUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "trafficDetails": {
+          "totalMonthlyVolume": 10000,
+          "monthlyAverageMessagesFromUser": 1,
+          "monthlyAverageMessagesToUser": 3,
+          "isSpiky": true,
+          "spikeDetails": "Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day.",
+          "estimatedRampUpTimeInDays": 0
+        }
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Content-Length": "2283",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 04 Jul 2023 17:48:30 GMT",
+        "Location": "https://endpoint/shortCodes/countries/US/programBriefs/fc1e0fc0-1a92-11ee-866c-a977f3374a0f",
+        "MS-CV": "GSqd5zbVTkmiJjBfW6coxg.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0blukZAAAAADN0Xr6bJtjTJSsSjppK/PcREZXMzBFREdFMTUyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "833ms"
+      },
+      "ResponseBody": {
+        "id": "fc1e0fc0-1a92-11ee-866c-a977f3374a0f",
+        "status": "draft",
+        "costs": [
+          {
+            "amount": 650.0,
+            "currencyCode": "USD",
+            "countryCode": "US",
+            "billingFrequency": "once"
+          },
+          {
+            "amount": 1000.0,
+            "currencyCode": "USD",
+            "countryCode": "US",
+            "billingFrequency": "monthly"
+          }
+        ],
+        "statusUpdatedDate": "2023-07-04T17:48:30\u002B00:00",
+        "programDetails": {
+          "isVanity": false,
+          "numberType": "shortCode",
+          "isPoliticalCampaign": false,
+          "name": "Contoso Loyalty Program",
+          "description": "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
+          "url": "https://endpoint/loyalty-program",
+          "callToActionTypes": [
+            "sms",
+            "website"
+          ],
+          "callToActionUrl": "https://contoso.com/sign-up",
+          "termsOfServiceUrl": "https://contoso.com/terms",
+          "privacyPolicyUrl": "https://contoso.com/privacy"
+        },
+        "companyInformation": {
+          "name": "Contoso",
+          "url": "https://contoso.com",
+          "address": "1 Contoso Way Redmond, WA 98052",
+          "contactInformation": {
+            "name": "Alex",
+            "phone": "\u002B14255551234",
+            "email": "alex@contoso.com"
+          },
+          "customerCareInformation": {
+            "tollFreeNumber": "\u002B18005551234",
+            "email": "customercare@contoso.com"
+          }
+        },
+        "messageDetails": {
+          "supportedProtocol": "sms",
+          "recurrence": "subscription",
+          "helpAnswerToUser": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
+          "optOutAnswerToUser": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
+          "optInMessageToUser": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
+          "optInAnswerFromUser": "JOIN",
+          "optInConfirmationMessageToUser": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+          "directionality": "twoWay",
+          "useCases": [
+            {
+              "contentType": "marketingAndPromotion",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "fromUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "contentType": "loyaltyProgram",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "toUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "contentType": "sweepstakesOrContest",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "toUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "trafficDetails": {
+          "totalMonthlyVolume": 10000,
+          "monthlyAverageMessagesFromUser": 1,
+          "monthlyAverageMessagesToUser": 3,
+          "isSpiky": true,
+          "spikeDetails": "Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day.",
+          "estimatedRampUpTimeInDays": 0
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/fc1e0fc1-1a92-11ee-866c-a977f3374a0f?api-version=2022-09-06",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 04 Jul 2023 17:48:29 GMT",
+        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Content-Type": "application/json",
+        "Date": "Tue, 04 Jul 2023 17:48:30 GMT",
+        "MS-CV": "SnsUwsYSBUq4u4THheKZYA.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0blukZAAAAABvW3cQpKrVRJWLmnR775yaREZXMzBFREdFMTUwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "1330ms"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "NotFound",
+          "message": "Could not find the ProgramBrief with key \u0027Azure|ac80d96a-85de-48b1-995d-a3a3fa3627c8|fc1e0fc1-1a92-11ee-866c-a977f3374a0f\u0027"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/fc1e0fc1-1a92-11ee-866c-a977f3374a0f?api-version=2022-09-06",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "2038",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 04 Jul 2023 17:48:31 GMT",
+        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 OS"
+      },
+      "RequestBody": {
+        "id": "fc1e0fc1-1a92-11ee-866c-a977f3374a0f",
+        "programDetails": {
+          "isVanity": false,
+          "numberType": "shortCode",
+          "isPoliticalCampaign": false,
+          "name": "Contoso Loyalty Program",
+          "description": "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
+          "url": "https://endpoint/loyalty-program",
+          "callToActionTypes": [
+            "sms",
+            "website"
+          ],
+          "callToActionUrl": "https://contoso.com/sign-up",
+          "termsOfServiceUrl": "https://contoso.com/terms",
+          "privacyPolicyUrl": "https://contoso.com/privacy"
+        },
+        "companyInformation": {
+          "name": "Contoso",
+          "url": "https://contoso.com",
+          "address": "1 Contoso Way Redmond, WA 98052",
+          "contactInformation": {
+            "name": "Alex",
+            "phone": "\u002B14255551234",
+            "email": "alex@contoso.com"
+          },
+          "customerCareInformation": {
+            "tollFreeNumber": "\u002B18005551234",
+            "email": "customercare@contoso.com"
+          }
+        },
+        "messageDetails": {
+          "supportedProtocol": "sms",
+          "recurrence": "subscription",
+          "helpAnswerToUser": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
+          "optOutAnswerToUser": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
+          "optInMessageToUser": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
+          "optInAnswerFromUser": "JOIN",
+          "optInConfirmationMessageToUser": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+          "directionality": "twoWay",
+          "useCases": [
+            {
+              "contentType": "marketingAndPromotion",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "fromUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "contentType": "loyaltyProgram",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "toUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "contentType": "sweepstakesOrContest",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "toUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "trafficDetails": {
+          "totalMonthlyVolume": 10000,
+          "monthlyAverageMessagesFromUser": 1,
+          "monthlyAverageMessagesToUser": 3,
+          "isSpiky": true,
+          "spikeDetails": "Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day.",
+          "estimatedRampUpTimeInDays": 0
+        }
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Content-Length": "2283",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 04 Jul 2023 17:48:31 GMT",
+        "Location": "https://endpoint/shortCodes/countries/US/programBriefs/fc1e0fc1-1a92-11ee-866c-a977f3374a0f",
+        "MS-CV": "SMSZ0eUuVEyUPjVWc5i/AQ.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0b1ukZAAAAAC1y5mWH\u002BxSSIKw\u002BQxYVDeiREZXMzBFREdFMTUwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "1052ms"
+      },
+      "ResponseBody": {
+        "id": "fc1e0fc1-1a92-11ee-866c-a977f3374a0f",
+        "status": "draft",
+        "costs": [
+          {
+            "amount": 650.0,
+            "currencyCode": "USD",
+            "countryCode": "US",
+            "billingFrequency": "once"
+          },
+          {
+            "amount": 1000.0,
+            "currencyCode": "USD",
+            "countryCode": "US",
+            "billingFrequency": "monthly"
+          }
+        ],
+        "statusUpdatedDate": "2023-07-04T17:48:32\u002B00:00",
+        "programDetails": {
+          "isVanity": false,
+          "numberType": "shortCode",
+          "isPoliticalCampaign": false,
+          "name": "Contoso Loyalty Program",
+          "description": "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
+          "url": "https://endpoint/loyalty-program",
+          "callToActionTypes": [
+            "sms",
+            "website"
+          ],
+          "callToActionUrl": "https://contoso.com/sign-up",
+          "termsOfServiceUrl": "https://contoso.com/terms",
+          "privacyPolicyUrl": "https://contoso.com/privacy"
+        },
+        "companyInformation": {
+          "name": "Contoso",
+          "url": "https://contoso.com",
+          "address": "1 Contoso Way Redmond, WA 98052",
+          "contactInformation": {
+            "name": "Alex",
+            "phone": "\u002B14255551234",
+            "email": "alex@contoso.com"
+          },
+          "customerCareInformation": {
+            "tollFreeNumber": "\u002B18005551234",
+            "email": "customercare@contoso.com"
+          }
+        },
+        "messageDetails": {
+          "supportedProtocol": "sms",
+          "recurrence": "subscription",
+          "helpAnswerToUser": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
+          "optOutAnswerToUser": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
+          "optInMessageToUser": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
+          "optInAnswerFromUser": "JOIN",
+          "optInConfirmationMessageToUser": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+          "directionality": "twoWay",
+          "useCases": [
+            {
+              "contentType": "marketingAndPromotion",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "fromUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "contentType": "loyaltyProgram",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "toUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "contentType": "sweepstakesOrContest",
+              "examples": [
+                {
+                  "messages": [
+                    {
+                      "direction": "toUser",
+                      "text": "txtMessage"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "trafficDetails": {
+          "totalMonthlyVolume": 10000,
+          "monthlyAverageMessagesFromUser": 1,
+          "monthlyAverageMessagesToUser": 3,
+          "isSpiky": true,
+          "spikeDetails": "Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day.",
+          "estimatedRampUpTimeInDays": 0
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs?skip=0\u0026top=100\u0026api-version=2022-09-06",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 04 Jul 2023 17:48:32 GMT",
+        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Content-Length": "9960",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 04 Jul 2023 17:48:32 GMT",
+        "MS-CV": "DAW5BgfWjEidK8Lid/awFQ.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0cFukZAAAAAAvxJZF\u002B9FlSYC\u002BQ8NxIETyREZXMzBFREdFMTUwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "485ms"
+      },
+      "ResponseBody": {
+        "programBriefs": [
+          {
+            "id": "7aacbe88-86de-42ea-9237-6e349475265b",
+            "status": "draft",
+            "costs": [
+              {
+                "amount": 650.0,
+                "currencyCode": "USD",
+                "countryCode": "US",
+                "billingFrequency": "once"
+              },
+              {
+                "amount": 1000.0,
+                "currencyCode": "USD",
+                "countryCode": "US",
+                "billingFrequency": "monthly"
+              }
+            ],
+            "statusUpdatedDate": "2023-05-07T23:06:24\u002B00:00",
+            "programDetails": {
+              "isVanity": false,
+              "numberType": "shortCode",
+              "isPoliticalCampaign": false,
+              "callToAction": "Contoso bot - Would you like to receive appointment reminders through text message to the phone number you\u0027ve saved in your account? Messages and data rates may apply. If you want to opt in, say YES, say NO to skip.  End-User - YES"
+            },
+            "messageDetails": {
+              "supportedProtocol": "sms",
+              "recurrence": "subscription",
+              "helpAnswerToUser": "Contoso Appointment reminders: Get help at support@contoso.com or 1-800 123 4567.Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out.",
+              "optOutAnswerToUser": "Contoso Appointment reminders : You have been unsubscribed and will no longer receive any messages. Get help at support@contoso.com or 1-800 123 4567.",
+              "optInMessageToUser": "Contoso Appointment reminders: Reply Y to receive appt reminders.",
+              "optInAnswerFromUser": "Y",
+              "optInConfirmationMessageToUser": "Contoso Appointment reminders. You\u0027re now subscribed to appt reminders. Msg freq varies.",
+              "directionality": "twoWay",
+              "useCases": [
+                {
+                  "contentType": "accountNotificationInformationalAlerts",
+                  "customContentType": "",
+                  "examples": [
+                    {
+                      "messages": [
+                        {
+                          "direction": "toUser",
+                          "text": "Contoso Appointment reminders: Your appt is confirmed for 30th Apr. Txt R to reschedule. Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out."
+                        },
+                        {
+                          "direction": "fromUser",
+                          "text": "Y"
+                        },
+                        {
+                          "direction": "toUser",
+                          "text": "Contoso Appointment reminders: thanks for confirming your reservation."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "trafficDetails": {
+              "isSpiky": false
+            }
+          },
+          {
+            "id": "9df88de7-171b-4733-8ae8-4fe332d6b0f8",
+            "status": "draft",
+            "costs": [
+              {
+                "amount": 650.0,
+                "currencyCode": "USD",
+                "countryCode": "US",
+                "billingFrequency": "once"
+              },
+              {
+                "amount": 1000.0,
+                "currencyCode": "USD",
+                "countryCode": "US",
+                "billingFrequency": "monthly"
+              }
+            ],
+            "statusUpdatedDate": "2023-05-07T23:06:29\u002B00:00",
+            "programDetails": {
+              "isVanity": false,
+              "numberType": "shortCode",
+              "isPoliticalCampaign": false,
+              "callToAction": "Contoso bot - Would you like to receive appointment reminders through text message to the phone number you\u0027ve saved in your account? Messages and data rates may apply. If you want to opt in, say YES, say NO to skip.  End-User - YES"
+            },
+            "messageDetails": {
+              "supportedProtocol": "sms",
+              "recurrence": "subscription",
+              "helpAnswerToUser": "Contoso Appointment reminders: Get help at support@contoso.com or 1-800 123 4567.Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out.",
+              "optOutAnswerToUser": "Contoso Appointment reminders : You have been unsubscribed and will no longer receive any messages. Get help at support@contoso.com or 1-800 123 4567.",
+              "optInMessageToUser": "Contoso Appointment reminders: Reply Y to receive appt reminders.",
+              "optInAnswerFromUser": "Y",
+              "optInConfirmationMessageToUser": "Contoso Appointment reminders. You\u0027re now subscribed to appt reminders. Msg freq varies.",
+              "directionality": "twoWay",
+              "useCases": [
+                {
+                  "contentType": "accountNotificationInformationalAlerts",
+                  "customContentType": "",
+                  "examples": [
+                    {
+                      "messages": [
+                        {
+                          "direction": "toUser",
+                          "text": "Contoso Appointment reminders: Your appt is confirmed for 30th Apr. Txt R to reschedule. Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out."
+                        },
+                        {
+                          "direction": "fromUser",
+                          "text": "Y"
+                        },
+                        {
+                          "direction": "toUser",
+                          "text": "Contoso Appointment reminders: thanks for confirming your reservation."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "trafficDetails": {
+              "isSpiky": false
+            }
+          },
+          {
+            "id": "64c97405-9cd6-46e8-8084-824d6cf74ddb",
+            "status": "draft",
+            "costs": [
+              {
+                "amount": 650.0,
+                "currencyCode": "USD",
+                "countryCode": "US",
+                "billingFrequency": "once"
+              },
+              {
+                "amount": 1000.0,
+                "currencyCode": "USD",
+                "countryCode": "US",
+                "billingFrequency": "monthly"
+              }
+            ],
+            "statusUpdatedDate": "2023-05-07T23:06:34\u002B00:00",
+            "programDetails": {
+              "isVanity": false,
+              "numberType": "shortCode",
+              "isPoliticalCampaign": false,
+              "callToAction": "Contoso bot - Would you like to receive appointment reminders through text message to the phone number you\u0027ve saved in your account? Messages and data rates may apply. If you want to opt in, say YES, say NO to skip.  End-User - YES"
+            },
+            "messageDetails": {
+              "supportedProtocol": "sms",
+              "recurrence": "subscription",
+              "helpAnswerToUser": "Contoso Appointment reminders: Get help at support@contoso.com or 1-800 123 4567.Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out.",
+              "optOutAnswerToUser": "Contoso Appointment reminders : You have been unsubscribed and will no longer receive any messages. Get help at support@contoso.com or 1-800 123 4567.",
+              "optInMessageToUser": "Contoso Appointment reminders: Reply Y to receive appt reminders.",
+              "optInAnswerFromUser": "Y",
+              "optInConfirmationMessageToUser": "Contoso Appointment reminders. You\u0027re now subscribed to appt reminders. Msg freq varies.",
+              "directionality": "twoWay",
+              "useCases": [
+                {
+                  "contentType": "accountNotificationInformationalAlerts",
+                  "customContentType": "",
+                  "examples": [
+                    {
+                      "messages": [
+                        {
+                          "direction": "toUser",
+                          "text": "Contoso Appointment reminders: Your appt is confirmed for 30th Apr. Txt R to reschedule. Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out."
+                        },
+                        {
+                          "direction": "fromUser",
+                          "text": "Y"
+                        },
+                        {
+                          "direction": "toUser",
+                          "text": "Contoso Appointment reminders: thanks for confirming your reservation."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "trafficDetails": {
+              "isSpiky": false
+            }
+          },
+          {
+            "id": "fc1e0fc0-1a92-11ee-866c-a977f3374a0f",
+            "status": "draft",
+            "costs": [
+              {
+                "amount": 650.0,
+                "currencyCode": "USD",
+                "countryCode": "US",
+                "billingFrequency": "once"
+              },
+              {
+                "amount": 1000.0,
+                "currencyCode": "USD",
+                "countryCode": "US",
+                "billingFrequency": "monthly"
+              }
+            ],
+            "statusUpdatedDate": "2023-07-04T17:48:30\u002B00:00",
+            "programDetails": {
+              "isVanity": false,
+              "numberType": "shortCode",
+              "isPoliticalCampaign": false,
+              "name": "Contoso Loyalty Program",
+              "description": "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
+              "url": "https://endpoint/loyalty-program",
+              "callToActionTypes": [
+                "sms",
+                "website"
+              ],
+              "callToActionUrl": "https://contoso.com/sign-up",
+              "termsOfServiceUrl": "https://contoso.com/terms",
+              "privacyPolicyUrl": "https://contoso.com/privacy"
+            },
+            "companyInformation": {
+              "name": "Contoso",
+              "url": "https://contoso.com",
+              "address": "1 Contoso Way Redmond, WA 98052",
+              "contactInformation": {
+                "name": "Alex",
+                "phone": "\u002B14255551234",
+                "email": "alex@contoso.com"
+              },
+              "customerCareInformation": {
+                "tollFreeNumber": "\u002B18005551234",
+                "email": "customercare@contoso.com"
+              }
+            },
+            "messageDetails": {
+              "supportedProtocol": "sms",
+              "recurrence": "subscription",
+              "helpAnswerToUser": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
+              "optOutAnswerToUser": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
+              "optInMessageToUser": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
+              "optInAnswerFromUser": "JOIN",
+              "optInConfirmationMessageToUser": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+              "directionality": "twoWay",
+              "useCases": [
+                {
+                  "contentType": "marketingAndPromotion",
+                  "examples": [
+                    {
+                      "messages": [
+                        {
+                          "direction": "fromUser",
+                          "text": "txtMessage"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "contentType": "loyaltyProgram",
+                  "examples": [
+                    {
+                      "messages": [
+                        {
+                          "direction": "toUser",
+                          "text": "txtMessage"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "contentType": "sweepstakesOrContest",
+                  "examples": [
+                    {
+                      "messages": [
+                        {
+                          "direction": "toUser",
+                          "text": "txtMessage"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "trafficDetails": {
+              "totalMonthlyVolume": 10000,
+              "monthlyAverageMessagesFromUser": 1,
+              "monthlyAverageMessagesToUser": 3,
+              "isSpiky": true,
+              "spikeDetails": "Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day.",
+              "estimatedRampUpTimeInDays": 0
+            }
+          },
+          {
+            "id": "fc1e0fc1-1a92-11ee-866c-a977f3374a0f",
+            "status": "draft",
+            "costs": [
+              {
+                "amount": 650.0,
+                "currencyCode": "USD",
+                "countryCode": "US",
+                "billingFrequency": "once"
+              },
+              {
+                "amount": 1000.0,
+                "currencyCode": "USD",
+                "countryCode": "US",
+                "billingFrequency": "monthly"
+              }
+            ],
+            "statusUpdatedDate": "2023-07-04T17:48:32\u002B00:00",
+            "programDetails": {
+              "isVanity": false,
+              "numberType": "shortCode",
+              "isPoliticalCampaign": false,
+              "name": "Contoso Loyalty Program",
+              "description": "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
+              "url": "https://endpoint/loyalty-program",
+              "callToActionTypes": [
+                "sms",
+                "website"
+              ],
+              "callToActionUrl": "https://contoso.com/sign-up",
+              "termsOfServiceUrl": "https://contoso.com/terms",
+              "privacyPolicyUrl": "https://contoso.com/privacy"
+            },
+            "companyInformation": {
+              "name": "Contoso",
+              "url": "https://contoso.com",
+              "address": "1 Contoso Way Redmond, WA 98052",
+              "contactInformation": {
+                "name": "Alex",
+                "phone": "\u002B14255551234",
+                "email": "alex@contoso.com"
+              },
+              "customerCareInformation": {
+                "tollFreeNumber": "\u002B18005551234",
+                "email": "customercare@contoso.com"
+              }
+            },
+            "messageDetails": {
+              "supportedProtocol": "sms",
+              "recurrence": "subscription",
+              "helpAnswerToUser": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
+              "optOutAnswerToUser": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
+              "optInMessageToUser": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
+              "optInAnswerFromUser": "JOIN",
+              "optInConfirmationMessageToUser": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+              "directionality": "twoWay",
+              "useCases": [
+                {
+                  "contentType": "marketingAndPromotion",
+                  "examples": [
+                    {
+                      "messages": [
+                        {
+                          "direction": "fromUser",
+                          "text": "txtMessage"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "contentType": "loyaltyProgram",
+                  "examples": [
+                    {
+                      "messages": [
+                        {
+                          "direction": "toUser",
+                          "text": "txtMessage"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "contentType": "sweepstakesOrContest",
+                  "examples": [
+                    {
+                      "messages": [
+                        {
+                          "direction": "toUser",
+                          "text": "txtMessage"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "trafficDetails": {
+              "totalMonthlyVolume": 10000,
+              "monthlyAverageMessagesFromUser": 1,
+              "monthlyAverageMessagesToUser": 3,
+              "isSpiky": true,
+              "spikeDetails": "Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day.",
+              "estimatedRampUpTimeInDays": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs?skip=0\u0026top=2\u0026api-version=2022-09-06",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 04 Jul 2023 17:48:33 GMT",
+        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Content-Length": "3689",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 04 Jul 2023 17:48:33 GMT",
+        "MS-CV": "lgZVlTvtXUKVUC3ko9kkgQ.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0cVukZAAAAAB4fgxMQZkfQp4I3/KBq3ojREZXMzBFREdFMTUwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "465ms"
+      },
+      "ResponseBody": {
+        "programBriefs": [
+          {
+            "id": "7aacbe88-86de-42ea-9237-6e349475265b",
+            "status": "draft",
+            "costs": [
+              {
+                "amount": 650.0,
+                "currencyCode": "USD",
+                "countryCode": "US",
+                "billingFrequency": "once"
+              },
+              {
+                "amount": 1000.0,
+                "currencyCode": "USD",
+                "countryCode": "US",
+                "billingFrequency": "monthly"
+              }
+            ],
+            "statusUpdatedDate": "2023-05-07T23:06:24\u002B00:00",
+            "programDetails": {
+              "isVanity": false,
+              "numberType": "shortCode",
+              "isPoliticalCampaign": false,
+              "callToAction": "Contoso bot - Would you like to receive appointment reminders through text message to the phone number you\u0027ve saved in your account? Messages and data rates may apply. If you want to opt in, say YES, say NO to skip.  End-User - YES"
+            },
+            "messageDetails": {
+              "supportedProtocol": "sms",
+              "recurrence": "subscription",
+              "helpAnswerToUser": "Contoso Appointment reminders: Get help at support@contoso.com or 1-800 123 4567.Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out.",
+              "optOutAnswerToUser": "Contoso Appointment reminders : You have been unsubscribed and will no longer receive any messages. Get help at support@contoso.com or 1-800 123 4567.",
+              "optInMessageToUser": "Contoso Appointment reminders: Reply Y to receive appt reminders.",
+              "optInAnswerFromUser": "Y",
+              "optInConfirmationMessageToUser": "Contoso Appointment reminders. You\u0027re now subscribed to appt reminders. Msg freq varies.",
+              "directionality": "twoWay",
+              "useCases": [
+                {
+                  "contentType": "accountNotificationInformationalAlerts",
+                  "customContentType": "",
+                  "examples": [
+                    {
+                      "messages": [
+                        {
+                          "direction": "toUser",
+                          "text": "Contoso Appointment reminders: Your appt is confirmed for 30th Apr. Txt R to reschedule. Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out."
+                        },
+                        {
+                          "direction": "fromUser",
+                          "text": "Y"
+                        },
+                        {
+                          "direction": "toUser",
+                          "text": "Contoso Appointment reminders: thanks for confirming your reservation."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "trafficDetails": {
+              "isSpiky": false
+            }
+          },
+          {
+            "id": "9df88de7-171b-4733-8ae8-4fe332d6b0f8",
+            "status": "draft",
+            "costs": [
+              {
+                "amount": 650.0,
+                "currencyCode": "USD",
+                "countryCode": "US",
+                "billingFrequency": "once"
+              },
+              {
+                "amount": 1000.0,
+                "currencyCode": "USD",
+                "countryCode": "US",
+                "billingFrequency": "monthly"
+              }
+            ],
+            "statusUpdatedDate": "2023-05-07T23:06:29\u002B00:00",
+            "programDetails": {
+              "isVanity": false,
+              "numberType": "shortCode",
+              "isPoliticalCampaign": false,
+              "callToAction": "Contoso bot - Would you like to receive appointment reminders through text message to the phone number you\u0027ve saved in your account? Messages and data rates may apply. If you want to opt in, say YES, say NO to skip.  End-User - YES"
+            },
+            "messageDetails": {
+              "supportedProtocol": "sms",
+              "recurrence": "subscription",
+              "helpAnswerToUser": "Contoso Appointment reminders: Get help at support@contoso.com or 1-800 123 4567.Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out.",
+              "optOutAnswerToUser": "Contoso Appointment reminders : You have been unsubscribed and will no longer receive any messages. Get help at support@contoso.com or 1-800 123 4567.",
+              "optInMessageToUser": "Contoso Appointment reminders: Reply Y to receive appt reminders.",
+              "optInAnswerFromUser": "Y",
+              "optInConfirmationMessageToUser": "Contoso Appointment reminders. You\u0027re now subscribed to appt reminders. Msg freq varies.",
+              "directionality": "twoWay",
+              "useCases": [
+                {
+                  "contentType": "accountNotificationInformationalAlerts",
+                  "customContentType": "",
+                  "examples": [
+                    {
+                      "messages": [
+                        {
+                          "direction": "toUser",
+                          "text": "Contoso Appointment reminders: Your appt is confirmed for 30th Apr. Txt R to reschedule. Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out."
+                        },
+                        {
+                          "direction": "fromUser",
+                          "text": "Y"
+                        },
+                        {
+                          "direction": "toUser",
+                          "text": "Contoso Appointment reminders: thanks for confirming your reservation."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "trafficDetails": {
+              "isSpiky": false
+            }
+          }
+        ],
+        "nextLink": "/shortCodes/countries/US/programBriefs?skip=2\u0026top=2\u0026api-version=2022-09-06"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs?skip=2\u0026top=2\u0026api-version=2022-09-06",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 04 Jul 2023 17:48:33 GMT",
+        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Content-Length": "4182",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 04 Jul 2023 17:48:33 GMT",
+        "MS-CV": "4ZjB6Ew5Q0mXWpVZUsAoDA.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0cVukZAAAAAAYtESN\u002BWxXTZk7jtF9AMtIREZXMzBFREdFMTUwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "437ms"
+      },
+      "ResponseBody": {
+        "programBriefs": [
+          {
+            "id": "64c97405-9cd6-46e8-8084-824d6cf74ddb",
+            "status": "draft",
+            "costs": [
+              {
+                "amount": 650.0,
+                "currencyCode": "USD",
+                "countryCode": "US",
+                "billingFrequency": "once"
+              },
+              {
+                "amount": 1000.0,
+                "currencyCode": "USD",
+                "countryCode": "US",
+                "billingFrequency": "monthly"
+              }
+            ],
+            "statusUpdatedDate": "2023-05-07T23:06:34\u002B00:00",
+            "programDetails": {
+              "isVanity": false,
+              "numberType": "shortCode",
+              "isPoliticalCampaign": false,
+              "callToAction": "Contoso bot - Would you like to receive appointment reminders through text message to the phone number you\u0027ve saved in your account? Messages and data rates may apply. If you want to opt in, say YES, say NO to skip.  End-User - YES"
+            },
+            "messageDetails": {
+              "supportedProtocol": "sms",
+              "recurrence": "subscription",
+              "helpAnswerToUser": "Contoso Appointment reminders: Get help at support@contoso.com or 1-800 123 4567.Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out.",
+              "optOutAnswerToUser": "Contoso Appointment reminders : You have been unsubscribed and will no longer receive any messages. Get help at support@contoso.com or 1-800 123 4567.",
+              "optInMessageToUser": "Contoso Appointment reminders: Reply Y to receive appt reminders.",
+              "optInAnswerFromUser": "Y",
+              "optInConfirmationMessageToUser": "Contoso Appointment reminders. You\u0027re now subscribed to appt reminders. Msg freq varies.",
+              "directionality": "twoWay",
+              "useCases": [
+                {
+                  "contentType": "accountNotificationInformationalAlerts",
+                  "customContentType": "",
+                  "examples": [
+                    {
+                      "messages": [
+                        {
+                          "direction": "toUser",
+                          "text": "Contoso Appointment reminders: Your appt is confirmed for 30th Apr. Txt R to reschedule. Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out."
+                        },
+                        {
+                          "direction": "fromUser",
+                          "text": "Y"
+                        },
+                        {
+                          "direction": "toUser",
+                          "text": "Contoso Appointment reminders: thanks for confirming your reservation."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "trafficDetails": {
+              "isSpiky": false
+            }
+          },
+          {
+            "id": "fc1e0fc0-1a92-11ee-866c-a977f3374a0f",
+            "status": "draft",
+            "costs": [
+              {
+                "amount": 650.0,
+                "currencyCode": "USD",
+                "countryCode": "US",
+                "billingFrequency": "once"
+              },
+              {
+                "amount": 1000.0,
+                "currencyCode": "USD",
+                "countryCode": "US",
+                "billingFrequency": "monthly"
+              }
+            ],
+            "statusUpdatedDate": "2023-07-04T17:48:30\u002B00:00",
+            "programDetails": {
+              "isVanity": false,
+              "numberType": "shortCode",
+              "isPoliticalCampaign": false,
+              "name": "Contoso Loyalty Program",
+              "description": "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
+              "url": "https://endpoint/loyalty-program",
+              "callToActionTypes": [
+                "sms",
+                "website"
+              ],
+              "callToActionUrl": "https://contoso.com/sign-up",
+              "termsOfServiceUrl": "https://contoso.com/terms",
+              "privacyPolicyUrl": "https://contoso.com/privacy"
+            },
+            "companyInformation": {
+              "name": "Contoso",
+              "url": "https://contoso.com",
+              "address": "1 Contoso Way Redmond, WA 98052",
+              "contactInformation": {
+                "name": "Alex",
+                "phone": "\u002B14255551234",
+                "email": "alex@contoso.com"
+              },
+              "customerCareInformation": {
+                "tollFreeNumber": "\u002B18005551234",
+                "email": "customercare@contoso.com"
+              }
+            },
+            "messageDetails": {
+              "supportedProtocol": "sms",
+              "recurrence": "subscription",
+              "helpAnswerToUser": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
+              "optOutAnswerToUser": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
+              "optInMessageToUser": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
+              "optInAnswerFromUser": "JOIN",
+              "optInConfirmationMessageToUser": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+              "directionality": "twoWay",
+              "useCases": [
+                {
+                  "contentType": "marketingAndPromotion",
+                  "examples": [
+                    {
+                      "messages": [
+                        {
+                          "direction": "fromUser",
+                          "text": "txtMessage"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "contentType": "loyaltyProgram",
+                  "examples": [
+                    {
+                      "messages": [
+                        {
+                          "direction": "toUser",
+                          "text": "txtMessage"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "contentType": "sweepstakesOrContest",
+                  "examples": [
+                    {
+                      "messages": [
+                        {
+                          "direction": "toUser",
+                          "text": "txtMessage"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "trafficDetails": {
+              "totalMonthlyVolume": 10000,
+              "monthlyAverageMessagesFromUser": 1,
+              "monthlyAverageMessagesToUser": 3,
+              "isSpiky": true,
+              "spikeDetails": "Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day.",
+              "estimatedRampUpTimeInDays": 0
+            }
+          }
+        ],
+        "nextLink": "/shortCodes/countries/US/programBriefs?skip=4\u0026top=2\u0026api-version=2022-09-06"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs?skip=4\u0026top=2\u0026api-version=2022-09-06",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 04 Jul 2023 17:48:34 GMT",
+        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Content-Length": "2303",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 04 Jul 2023 17:48:34 GMT",
+        "MS-CV": "RZDFQZMC7UusmeFWHXRGWQ.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0clukZAAAAAB2QIa5wxVqToiDlvLhr5S\u002BREZXMzBFREdFMTUwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "439ms"
+      },
+      "ResponseBody": {
+        "programBriefs": [
+          {
+            "id": "fc1e0fc1-1a92-11ee-866c-a977f3374a0f",
+            "status": "draft",
+            "costs": [
+              {
+                "amount": 650.0,
+                "currencyCode": "USD",
+                "countryCode": "US",
+                "billingFrequency": "once"
+              },
+              {
+                "amount": 1000.0,
+                "currencyCode": "USD",
+                "countryCode": "US",
+                "billingFrequency": "monthly"
+              }
+            ],
+            "statusUpdatedDate": "2023-07-04T17:48:32\u002B00:00",
+            "programDetails": {
+              "isVanity": false,
+              "numberType": "shortCode",
+              "isPoliticalCampaign": false,
+              "name": "Contoso Loyalty Program",
+              "description": "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
+              "url": "https://endpoint/loyalty-program",
+              "callToActionTypes": [
+                "sms",
+                "website"
+              ],
+              "callToActionUrl": "https://contoso.com/sign-up",
+              "termsOfServiceUrl": "https://contoso.com/terms",
+              "privacyPolicyUrl": "https://contoso.com/privacy"
+            },
+            "companyInformation": {
+              "name": "Contoso",
+              "url": "https://contoso.com",
+              "address": "1 Contoso Way Redmond, WA 98052",
+              "contactInformation": {
+                "name": "Alex",
+                "phone": "\u002B14255551234",
+                "email": "alex@contoso.com"
+              },
+              "customerCareInformation": {
+                "tollFreeNumber": "\u002B18005551234",
+                "email": "customercare@contoso.com"
+              }
+            },
+            "messageDetails": {
+              "supportedProtocol": "sms",
+              "recurrence": "subscription",
+              "helpAnswerToUser": "Send \u0027Stop\u0027 to unsubscribe, send \u0027Start\u0027 to resubscribe.",
+              "optOutAnswerToUser": "You\u0027ve been unsubscribed from these messages.  Send \u0027Start\u0027 if you want to resubscribe.",
+              "optInMessageToUser": "Someone requested to subscribe this number to receive updates about Contoso\u0027s loyalty program.  To confirm subscription, reply to this message with \u0027JOIN\u0027",
+              "optInAnswerFromUser": "JOIN",
+              "optInConfirmationMessageToUser": "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+              "directionality": "twoWay",
+              "useCases": [
+                {
+                  "contentType": "marketingAndPromotion",
+                  "examples": [
+                    {
+                      "messages": [
+                        {
+                          "direction": "fromUser",
+                          "text": "txtMessage"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "contentType": "loyaltyProgram",
+                  "examples": [
+                    {
+                      "messages": [
+                        {
+                          "direction": "toUser",
+                          "text": "txtMessage"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "contentType": "sweepstakesOrContest",
+                  "examples": [
+                    {
+                      "messages": [
+                        {
+                          "direction": "toUser",
+                          "text": "txtMessage"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "trafficDetails": {
+              "totalMonthlyVolume": 10000,
+              "monthlyAverageMessagesFromUser": 1,
+              "monthlyAverageMessagesToUser": 3,
+              "isSpiky": true,
+              "spikeDetails": "Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day.",
+              "estimatedRampUpTimeInDays": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/fc1e0fc1-1a92-11ee-866c-a977f3374a0f?api-version=2022-09-06",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 04 Jul 2023 17:48:34 GMT",
+        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Date": "Tue, 04 Jul 2023 17:48:34 GMT",
+        "MS-CV": "\u002BIEoqTbzoEmMXSZ1yeEfVQ.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0clukZAAAAABhJFKFfxMtTZ\u002BA/xOqevdcREZXMzBFREdFMTUyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "244ms"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/fc1e0fc0-1a92-11ee-866c-a977f3374a0f?api-version=2022-09-06",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 04 Jul 2023 17:48:34 GMT",
+        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Date": "Tue, 04 Jul 2023 17:48:34 GMT",
+        "MS-CV": "GWAYoUrT4Eu5BSnuOe/KSA.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0clukZAAAAACFw8w/cgNGT7xU9kut\u002BA2PREZXMzBFREdFMTUwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "262ms"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/fc1e0fc0-1a92-11ee-866c-a977f3374a0f?api-version=2022-09-06",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 04 Jul 2023 17:48:34 GMT",
+        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Content-Type": "application/json",
+        "Date": "Tue, 04 Jul 2023 17:48:34 GMT",
+        "MS-CV": "6ZymmIZ/N0Ky6tTbRYQT\u002BQ.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0c1ukZAAAAAAIuJge3HxKSbpg3IU9cUS8REZXMzBFREdFMTUwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "284ms"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "NotFound",
+          "message": "Could not find the ProgramBrief with key \u0027Azure|ac80d96a-85de-48b1-995d-a3a3fa3627c8|fc1e0fc0-1a92-11ee-866c-a977f3374a0f\u0027"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/fc1e0fc1-1a92-11ee-866c-a977f3374a0f?api-version=2022-09-06",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 04 Jul 2023 17:48:34 GMT",
+        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Content-Type": "application/json",
+        "Date": "Tue, 04 Jul 2023 17:48:34 GMT",
+        "MS-CV": "k8UibZ/CoU21eQP6ZXmhcw.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0c1ukZAAAAAC5wRkXEHX5QL1AZ\u002BY3nOjcREZXMzBFREdFMTUyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "291ms"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "NotFound",
+          "message": "Could not find the ProgramBrief with key \u0027Azure|ac80d96a-85de-48b1-995d-a3a3fa3627c8|fc1e0fc1-1a92-11ee-866c-a977f3374a0f\u0027"
+        }
+      }
+    }
+  ],
+  "Variables": {
+    "pb-var-0": "fc1e0fc0-1a92-11ee-866c-a977f3374a0f",
+    "pb-var-1": "fc1e0fc1-1a92-11ee-866c-a977f3374a0f"
+  }
+}

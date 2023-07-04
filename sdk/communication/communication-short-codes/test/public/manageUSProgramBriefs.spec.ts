@@ -51,10 +51,6 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
     const submitResult = await client.upsertUSProgramBrief(uspb.id, createRequest);
     assert.isOk(submitResult, "Failed to create program brief");
     assert.equal(uspb.id, submitResult.id, "Program brief creation returned the wrong Id");
-
-    // get program brief, verify it was created correctly
-    const actualProgramBrief = await client.getUSProgramBrief(uspb.id);
-    assertEditableFieldsAreEqual(uspb, actualProgramBrief, "get after initial create");
   };
 
   const _updateUSProgramBrief = async (uspb: USProgramBrief): Promise<void> => {
@@ -155,7 +151,45 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
     return true;
   };
 
-  it("can create, get, update, list, and delete a US Program Brief", async function () {
+  const _deleteUSProgramBriefs = async (testProgramBriefs: USProgramBrief[]) => {
+    // delete program briefs, ensure it was removed
+    const testDeleteBrief = testProgramBriefs.map(async (pb) => {
+      const delRes = await client.deleteUSProgramBrief(pb.id);
+      assert.isOk(delRes, "Deleting program brief failed");
+      assert.isFalse(
+        await doesProgramBriefExist(client, pb.id),
+        "Delete program brief was unsuccessful, program brief is still returned"
+      );
+      return true;
+    });
+    assert.isOk(await Promise.all(testDeleteBrief));
+  }
+
+  const _testGetUSProgramBrief = async (uspb: USProgramBrief) => {
+    // get program brief, verify it was created correctly
+    const actualProgramBrief = await client.getUSProgramBrief(uspb.id);
+    assertEditableFieldsAreEqual(uspb, actualProgramBrief, "get after initial create");
+  }
+
+
+  it("can create and delete a US Program Brief", async function () {
+    const testProgramBrief = getTestUSProgramBrief();
+    // override test brief id with variable id
+    const pbTestId = recorder.variable(`pb-var-${0}`, testProgramBrief.id);
+    testProgramBrief.id = pbTestId;
+
+    await runTestCleaningLeftovers([testProgramBrief.id], client, async () => {
+      // validate upsert and update for each test brief
+      await _createTestProgramBrief(testProgramBrief);
+      await _testGetUSProgramBrief(testProgramBrief);
+      await _updateUSProgramBrief(testProgramBrief);
+
+      // delete program briefs, ensure it was removed
+      await _deleteUSProgramBriefs([testProgramBrief]);
+    });
+  }).timeout(60000);;
+
+  it("can create, and list a US Program Brief", async function () {
     const testProgramBriefs = [getTestUSProgramBrief(), getTestUSProgramBrief()];
     // override test brief id with variable id
     const testProgramBriefIds = testProgramBriefs.map((pb, index) => {
@@ -168,7 +202,6 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
       // validate upsert and update for each test brief
       const testAndUpdateBrief = testProgramBriefs.map(async (pb) => {
         await _createTestProgramBrief(pb);
-        await _updateUSProgramBrief(pb);
         return true;
       });
       assert.isOk(await Promise.all(testAndUpdateBrief));
@@ -176,16 +209,7 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
       assert.isOk(await _testListUSProgramBriefs(testProgramBriefs));
 
       // delete program briefs, ensure it was removed
-      const testDeleteBrief = testProgramBriefs.map(async (pb) => {
-        const delRes = await client.deleteUSProgramBrief(pb.id);
-        assert.isOk(delRes, "Deleting program brief failed");
-        assert.isFalse(
-          await doesProgramBriefExist(client, pb.id),
-          "Delete program brief was unsuccessful, program brief is still returned"
-        );
-        return true;
-      });
-      assert.isOk(await Promise.all(testDeleteBrief));
+      await _deleteUSProgramBriefs(testProgramBriefs);
     });
-  }).timeout(50000);
+  }).timeout(60000);
 });
