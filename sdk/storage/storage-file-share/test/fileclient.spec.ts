@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortController } from "@azure/abort-controller";
-import { isNode } from "@azure/core-util";
+import { isNode, isBrowser } from "@azure/core-util";
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { assert } from "@azure/test-utils";
@@ -175,6 +175,80 @@ describe("FileClient", () => {
     assert.deepStrictEqual(updatedProperties.contentLength, fileSize);
 
     await fileClient.uploadRange(content, fileSize - content.length, content.length);
+  });
+
+  it("create file - name with directory dots", async () => {
+    const fileBaseName = recorder.variable("filename", getUniqueName("filename"));
+    const fileNameWithDots = "./a/../" + fileBaseName;
+    const fileClientWithDirDots = dirClient.getFileClient(fileNameWithDots);
+    await fileClientWithDirDots.create(content.length);
+
+    let foundFile = false;
+    for await (const fileItem of dirClient.listFilesAndDirectories({ prefix: fileBaseName })) {
+      if (fileItem.name === fileBaseName && fileItem.kind === "file") {
+        foundFile = true;
+      }
+    }
+
+    assert.ok(foundFile, "The file should have been created.");
+
+    await fileClientWithDirDots.delete();
+
+    const fileShouldInRootDir = "./a/../../" + fileBaseName;
+    const fileClientShouldInRootDir = shareClient
+      .getDirectoryClient("anydir")
+      .getFileClient(fileShouldInRootDir);
+    await fileClientShouldInRootDir.create(content.length);
+
+    foundFile = false;
+    for await (const fileItem of shareClient
+      .getDirectoryClient("")
+      .listFilesAndDirectories({ prefix: fileBaseName })) {
+      if (fileItem.name === fileBaseName && fileItem.kind === "file") {
+        foundFile = true;
+      }
+    }
+
+    assert.ok(foundFile, "The file should have been created.");
+
+    await fileClientShouldInRootDir.delete();
+  });
+
+  it("create directory - name with directory dots", async () => {
+    const dirBaseName = recorder.variable("dirname1", getUniqueName("dirname1"));
+    const dirNameWithDots = "./a/../" + dirBaseName;
+    const dirClientWithDirDots = dirClient.getDirectoryClient(dirNameWithDots);
+    await dirClientWithDirDots.create();
+
+    let foundDir = false;
+    for await (const fileItem of dirClient.listFilesAndDirectories({ prefix: dirBaseName })) {
+      if (fileItem.name === dirBaseName && fileItem.kind === "directory") {
+        foundDir = true;
+      }
+    }
+
+    assert.ok(foundDir, "The directory should have been created.");
+
+    await dirClientWithDirDots.delete();
+
+    const dirShouldInRootDir = "./a/../../" + dirBaseName;
+    const dirClientShouldInRootDir = shareClient
+      .getDirectoryClient("anydir")
+      .getDirectoryClient(dirShouldInRootDir);
+    await dirClientShouldInRootDir.create();
+
+    foundDir = false;
+    for await (const fileItem of shareClient
+      .getDirectoryClient("")
+      .listFilesAndDirectories({ prefix: dirBaseName })) {
+      if (fileItem.name === dirBaseName && fileItem.kind === "directory") {
+        foundDir = true;
+      }
+    }
+
+    assert.ok(foundDir, "The file should have been created.");
+
+    await dirClientShouldInRootDir.delete();
   });
 
   it("setProperties with default parameters", async function () {
@@ -881,6 +955,29 @@ describe("FileClient", () => {
       { closedHandlesCount: 0, closeFailureCount: 0 },
       "Error in forceCloseAllHandles"
     );
+  });
+
+  it("listHandles for file with Invalid Char should work", async function (this: Context) {
+    if (isBrowser && isLiveMode()) {
+      // Skipped for now as the generating new version SAS token is not supported in pipeline yet.
+      this.skip();
+    }
+    const fileNameWithInvalidChar = recorder.variable("file", getUniqueName("file\uFFFE"));
+    const fileWithInvalidChar = shareClient
+      .getDirectoryClient("")
+      .getFileClient(fileNameWithInvalidChar);
+    await fileWithInvalidChar.create(10);
+
+    const result = (await fileWithInvalidChar.listHandles().byPage().next()).value;
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const handle = result.handleList[0];
+      assert.notDeepEqual(handle.handleId, undefined);
+      assert.notDeepEqual(handle.path, undefined);
+      assert.notDeepEqual(handle.fileId, undefined);
+      assert.notDeepEqual(handle.sessionId, undefined);
+      assert.notDeepEqual(handle.clientIp, undefined);
+      assert.notDeepEqual(handle.openTime, undefined);
+    }
   });
 
   it("forceCloseHandle should work", async function () {

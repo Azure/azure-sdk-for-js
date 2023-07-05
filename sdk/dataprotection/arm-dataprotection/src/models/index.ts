@@ -995,6 +995,32 @@ export interface DppBaseResource {
   readonly type?: string;
 }
 
+/** ResourceGuardProxyBase object, used in ResourceGuardProxyBaseResource */
+export interface ResourceGuardProxyBase {
+  resourceGuardResourceId?: string;
+  resourceGuardOperationDetails?: ResourceGuardOperationDetail[];
+  lastUpdatedTime?: string;
+  description?: string;
+}
+
+/** VaultCritical Operation protected by a resource guard */
+export interface ResourceGuardOperationDetail {
+  vaultCriticalOperation?: string;
+  defaultResourceRequest?: string;
+}
+
+/** Request body of unlock delete API. */
+export interface UnlockDeleteRequest {
+  resourceGuardOperationRequests?: string[];
+  resourceToBeDeleted?: string;
+}
+
+/** Response of Unlock Delete API. */
+export interface UnlockDeleteResponse {
+  /** This is the time when unlock delete privileges will get expired. */
+  unlockDeleteExpiryTime?: string;
+}
+
 /** Delete Option */
 export interface DeleteOption {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -1244,6 +1270,12 @@ export interface DeletedBackupInstanceResourceList extends DppResourceList {
   value?: DeletedBackupInstanceResource[];
 }
 
+/** List of ResourceGuardProxyBase resources */
+export interface ResourceGuardProxyBaseResourceList extends DppResourceList {
+  /** List of resources. */
+  value?: ResourceGuardProxyBaseResource[];
+}
+
 /** Operation Job Extended Info */
 export interface OperationJobExtendedInfo extends OperationExtendedInfo {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -1310,6 +1342,12 @@ export interface AzureBackupFindRestorableTimeRangesResponseResource
 export interface DeletedBackupInstanceResource extends DppResource {
   /** DeletedBackupInstanceResource properties */
   properties?: DeletedBackupInstance;
+}
+
+/** ResourceGuardProxyBaseResource object, used for response and request bodies for ResourceGuardProxy APIs */
+export interface ResourceGuardProxyBaseResource extends DppResource {
+  /** ResourceGuardProxyBaseResource properties */
+  properties?: ResourceGuardProxyBase;
 }
 
 /** Deleted Backup Instance */
@@ -3095,6 +3133,45 @@ export interface ResourceGuardsGetUpdateProtectedItemRequestsObjectsNextOptional
 
 /** Contains response data for the getUpdateProtectedItemRequestsObjectsNext operation. */
 export type ResourceGuardsGetUpdateProtectedItemRequestsObjectsNextResponse = DppBaseResourceList;
+
+/** Optional parameters. */
+export interface DppResourceGuardProxyListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type DppResourceGuardProxyListResponse = ResourceGuardProxyBaseResourceList;
+
+/** Optional parameters. */
+export interface DppResourceGuardProxyGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DppResourceGuardProxyGetResponse = ResourceGuardProxyBaseResource;
+
+/** Optional parameters. */
+export interface DppResourceGuardProxyCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type DppResourceGuardProxyCreateOrUpdateResponse = ResourceGuardProxyBaseResource;
+
+/** Optional parameters. */
+export interface DppResourceGuardProxyDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface DppResourceGuardProxyUnlockDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the unlockDelete operation. */
+export type DppResourceGuardProxyUnlockDeleteResponse = UnlockDeleteResponse;
+
+/** Optional parameters. */
+export interface DppResourceGuardProxyListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type DppResourceGuardProxyListNextResponse = ResourceGuardProxyBaseResourceList;
 
 /** Optional parameters. */
 export interface DataProtectionClientOptionalParams

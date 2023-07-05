@@ -25,11 +25,15 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 
 ```typescript
-const { AzureMonitorOpenTelemetryClient, AzureMonitorOpenTelemetryConfig } = require("@azure/monitor-opentelemetry");
+const { AzureMonitorOpenTelemetryClient, AzureMonitorOpenTelemetryOptions } = require("@azure/monitor-opentelemetry");
 
-const config = new AzureMonitorOpenTelemetryConfig();
-config.connectionString = "<YOUR_CONNECTION_STRING>";
-const client = new AzureMonitorOpenTelemetryClient(config);
+const options: AzureMonitorOpenTelemetryOptions = {
+  azureMonitorExporterConfig: {
+    connectionString:
+      process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
+  },
+}
+const client = new AzureMonitorOpenTelemetryClient(options);
 ```
 
 * Connection String could be set using the environment variable APPLICATIONINSIGHTS\_CONNECTION\_STRING

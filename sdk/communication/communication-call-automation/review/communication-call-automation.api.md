@@ -99,6 +99,7 @@ export class CallConnection {
     getParticipant(targetParticipant: CommunicationIdentifier, options?: GetParticipantOptions): Promise<CallParticipant>;
     hangUp(isForEveryone: boolean, options?: HangUpOptions): Promise<void>;
     listParticipants(options?: GetParticipantOptions): Promise<ListParticipantsResult>;
+    muteParticipants(participant: CommunicationIdentifier, options?: MuteParticipantsOption): Promise<MuteParticipantsResult>;
     removeParticipant(participant: CommunicationIdentifier, options?: RemoveParticipantsOption): Promise<RemoveParticipantResult>;
     transferCallToParticipant(targetParticipant: CommunicationIdentifier, options?: TransferCallToParticipantOptions): Promise<TransferCallResult>;
 }
@@ -158,22 +159,27 @@ export type CallLocatorType = "serverCallLocator" | "groupCallLocator";
 export class CallMedia {
     constructor(callConnectionId: string, endpoint: string, credential: KeyCredential | TokenCredential, options?: CallAutomationApiClientOptionalParams);
     cancelAllOperations(): Promise<void>;
-    play(playSource: FileSource, playTo: CommunicationIdentifier[], playOptions?: PlayOptions): Promise<void>;
-    playToAll(playSource: FileSource, playOptions?: PlayOptions): Promise<void>;
+    play(playSource: FileSource | TextSource | SsmlSource, playTo: CommunicationIdentifier[], playOptions?: PlayOptions): Promise<void>;
+    playToAll(playSource: FileSource | TextSource | SsmlSource, playOptions?: PlayOptions): Promise<void>;
     // Warning: (ae-forgotten-export) The symbol "Tone" needs to be exported by the entry point index.d.ts
     sendDtmf(tones: Tone[], targetParticipant: CommunicationIdentifier, sendDtmfOptions?: SendDtmfOptions): Promise<void>;
     startContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, continuousDtmfRecognitionOptions?: ContinuousDtmfRecognitionOptions): Promise<void>;
-    startRecognizing(targetParticipant: CommunicationIdentifier, maxTonesToCollect: number, recognizeOptions: CallMediaRecognizeDtmfOptions): Promise<void>;
+    startRecognizing(targetParticipant: CommunicationIdentifier, maxTonesToCollect: number, recognizeOptions: CallMediaRecognizeDtmfOptions | CallMediaRecognizeChoiceOptions | CallMediaRecognizeSpeechOptions | CallMediaRecognizeSpeechOrDtmfOptions): Promise<void>;
     stopContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, continuousDtmfRecognitionOptions?: ContinuousDtmfRecognitionOptions): Promise<void>;
 }
 
 // @public
-export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions {
+export interface CallMediaRecognizeChoiceOptions extends CallMediaRecognizeOptions {
+    choices: Choice[];
     // (undocumented)
+    readonly kind: "callMediaRecognizeChoiceOptions";
+}
+
+// @public
+export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions {
     interToneTimeoutInSeconds?: number;
     // (undocumented)
     readonly kind: "callMediaRecognizeDtmfOptions";
-    // (undocumented)
     stopDtmfTones?: DtmfTone[];
 }
 
@@ -188,9 +194,25 @@ export interface CallMediaRecognizeOptions extends OperationOptions {
     // (undocumented)
     operationContext?: string;
     // (undocumented)
-    playPrompt?: FileSource;
+    playPrompt?: FileSource | TextSource | SsmlSource;
     // (undocumented)
     stopCurrentOperations?: boolean;
+}
+
+// @public
+export interface CallMediaRecognizeSpeechOptions extends CallMediaRecognizeOptions {
+    endSilenceTimeoutInMs?: number;
+    // (undocumented)
+    readonly kind: "callMediaRecognizeSpeechOptions";
+}
+
+// @public
+export interface CallMediaRecognizeSpeechOrDtmfOptions extends CallMediaRecognizeOptions {
+    endSilenceTimeoutInMs?: number;
+    interToneTimeoutInSeconds?: number;
+    // (undocumented)
+    readonly kind: "callMediaRecognizeSpeechOrDtmfOptions";
+    stopDtmfTones?: DtmfTone[];
 }
 
 // @public
@@ -238,6 +260,14 @@ export interface CallTransferFailed extends Omit<RestCallTransferFailed, "callCo
 export interface ChannelAffinity {
     channel?: number;
     targetParticipant: CommunicationIdentifier;
+}
+
+// @public
+export interface Choice {
+    label: string;
+    phrases: string[];
+    // (undocumented)
+    tone?: DtmfTone;
 }
 
 // @public
@@ -336,6 +366,12 @@ export interface FileSource extends PlaySource {
 }
 
 // @public
+export enum Gender {
+    Female = "female",
+    Male = "male"
+}
+
+// @public
 export type GetCallConnectionPropertiesOptions = OperationOptions;
 
 // @public
@@ -392,6 +428,16 @@ export type MediaStreamingContentType = string;
 
 // @public
 export type MediaStreamingTransportType = string;
+
+// @public
+export interface MuteParticipantsOption extends OperationOptions {
+    operationContext?: string;
+}
+
+// @public
+export interface MuteParticipantsResult {
+    operationContext?: string;
+}
 
 // @public
 export function parseCallAutomationEvent(encodedEvents: string | Record<string, unknown>): CallAutomationEvent;
@@ -812,6 +858,14 @@ export interface SendDtmfOptions extends OperationOptions {
 }
 
 // @public
+export interface SsmlSource extends PlaySource {
+    // (undocumented)
+    readonly kind: "ssmlSource";
+    // (undocumented)
+    ssmlText: string;
+}
+
+// @public
 export interface StartRecordingOptions extends OperationOptions {
     audioChannelParticipantOrdering?: CommunicationIdentifier[];
     callLocator: CallLocator;
@@ -824,6 +878,20 @@ export interface StartRecordingOptions extends OperationOptions {
 
 // @public
 export type StopRecordingOptions = OperationOptions;
+
+// @public
+export interface TextSource extends PlaySource {
+    // (undocumented)
+    readonly kind: "textSource";
+    // (undocumented)
+    sourceLocale?: string;
+    // (undocumented)
+    text: string;
+    // (undocumented)
+    voiceGender?: Gender;
+    // (undocumented)
+    voiceName?: string;
+}
 
 // @public
 export interface ToneInfo extends Omit<RestToneInfo, "sequenceId" | "tone"> {

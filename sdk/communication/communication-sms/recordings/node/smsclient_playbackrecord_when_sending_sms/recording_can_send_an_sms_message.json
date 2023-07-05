@@ -10,10 +10,10 @@
         "Connection": "keep-alive",
         "Content-Length": "230",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-communication-sms/1.2.0-beta.1 core-rest-pipeline/1.8.0 Node/v14.17.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "53805160-51a6-4865-a8e6-a8df1ea905be",
-        "x-ms-content-sha256": "rZuFezFp9Bf9SOe3BjKG7M/1NanTe\u002BoKIKNWJKiG788=",
-        "x-ms-date": "Mon, 25 Apr 2022 01:04:00 GMT"
+        "User-Agent": "azsdk-js-communication-sms/1.2.0-beta.2 core-rest-pipeline/1.11.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "df6655c7-c5ca-4bec-9abf-c3d37a1b7310",
+        "x-ms-content-sha256": "EQL6VEtam/FXzejWddcwkykYLtOuNqGc0AXtJ2Il/Kw=",
+        "x-ms-date": "Wed, 21 Jun 2023 10:28:05 GMT"
       },
       "RequestBody": {
         "from": "\u002B14255550123",
@@ -32,20 +32,20 @@
       "StatusCode": 202,
       "ResponseHeaders": {
         "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07",
+        "Content-Length": "184",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 25 Apr 2022 01:04:00 GMT",
-        "MS-CV": "wSTvc96LfUSkH4RxfxMyXQ.0",
+        "Date": "Wed, 21 Jun 2023 10:28:05 GMT",
+        "MS-CV": "KUjIyg0u7UC2sRCELunU6w.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0gPNlYgAAAAC86pTJUZhKTJtWMnlxAynLV1NURURHRTA4MTUAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0ttCSZAAAAAATSHtFd1MES5zkdEOECzmWSEVMMDFFREdFMjAwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "471ms"
+        "X-Processing-Time": "246ms"
       },
       "ResponseBody": {
         "value": [
           {
             "to": "\u002B14255550123",
-            "messageId": "Outgoing_20220425010400c788c66a-2904-4eb6-9f3c-45f9889cf87e_noam",
+            "messageId": "Outgoing_20230621102806f26a42f4-9624-44c1-b8bd-1e0a2c1053a5_noam",
             "httpStatusCode": 202,
             "repeatabilityResult": "accepted",
             "successful": true

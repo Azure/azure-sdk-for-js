@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { RouterAdministrationClient, RouterClient } from "../../../src";
+import { JobRouterAdministrationClient, JobRouterClient } from "../../../src";
 import { Context } from "mocha";
 import {
   getClassificationPolicyCombined,
@@ -25,9 +25,9 @@ import { timeoutMs } from "../utils/constants";
 import { Recorder } from "@azure-tools/test-recorder";
 import { pollForJobQueued, retry } from "../utils/polling";
 
-describe("RouterClient", function () {
-  let client: RouterClient;
-  let administrationClient: RouterAdministrationClient;
+describe("JobRouterClient", function () {
+  let client: JobRouterClient;
+  let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;
 
   const testRunId = "recorded-q-scenario";
@@ -82,7 +82,7 @@ describe("RouterClient", function () {
       await client.createJob(job.id!, job);
       const queuedJob = await pollForJobQueued(job.id!, client);
 
-      assert.equal(queuedJob.jobStatus, "queued");
+      assert.equal(queuedJob.status, "queued");
       assert.equal(queuedJob.queueId, queueRequest.id);
 
       await client.cancelJob(job.id!);
@@ -98,7 +98,7 @@ describe("RouterClient", function () {
       await client.createJob(job.id!, job);
       const queuedJob = await pollForJobQueued(job.id!, client);
 
-      assert.equal(queuedJob.jobStatus, "queued");
+      assert.equal(queuedJob.status, "queued");
       assert.equal(queuedJob.queueId, queueId);
 
       await client.cancelJob(job.id!);
@@ -114,7 +114,7 @@ describe("RouterClient", function () {
       await client.createJob(job.id!, job);
       const queuedJob = await pollForJobQueued(job.id!, client);
 
-      assert.equal(queuedJob.jobStatus, "queued");
+      assert.equal(queuedJob.status, "queued");
       assert.equal(queuedJob.queueId, queueId);
 
       await client.cancelJob(job.id!);
@@ -137,8 +137,8 @@ describe("RouterClient", function () {
       const queuedJobEnglish = await pollForJobQueued(jobEnglish.id!, client);
       const queuedJobFrench = await pollForJobQueued(jobFrench.id!, client);
 
-      assert.equal(queuedJobEnglish.jobStatus, "queued");
-      assert.equal(queuedJobFrench.jobStatus, "queued");
+      assert.equal(queuedJobEnglish.status, "queued");
+      assert.equal(queuedJobFrench.status, "queued");
       assert.equal(queueIdFixup(queuedJobEnglish.queueId), queueEnglish.id!);
       assert.equal(queueIdFixup(queuedJobFrench.queueId), queueFrench.id!);
 

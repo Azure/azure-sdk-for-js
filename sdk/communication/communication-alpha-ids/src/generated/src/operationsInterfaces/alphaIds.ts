@@ -6,29 +6,58 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  AlphaIdsGetConfigurationOptionalParams,
-  AlphaIdsGetConfigurationResponse,
-  AlphaIdsUpsertConfigurationOptionalParams,
-  AlphaIdsUpsertConfigurationResponse
+  AlphaId,
+  AlphaIdsGetAlphaIdsOptionalParams,
+  AlphaIdsGetDynamicAlphaIdConfigurationOptionalParams,
+  AlphaIdsGetDynamicAlphaIdConfigurationResponse,
+  AlphaIdsUpsertDynamicAlphaIdConfigurationOptionalParams,
+  AlphaIdsUpsertDynamicAlphaIdConfigurationResponse,
+  AlphaIdsGetDynamicAlphaIdCountriesOptionalParams,
+  AlphaIdsGetDynamicAlphaIdCountriesResponse,
+  AlphaIdsGetPreRegisteredAlphaIdCountriesOptionalParams,
+  AlphaIdsGetPreRegisteredAlphaIdCountriesResponse
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a AlphaIds. */
 export interface AlphaIds {
   /**
-   * Get the Alpha IDs configuration that's applied for the current resource.
+   * Gets the list of alpha ids for the current resource.
    * @param options The options parameters.
    */
-  getConfiguration(
-    options?: AlphaIdsGetConfigurationOptionalParams
-  ): Promise<AlphaIdsGetConfigurationResponse>;
+  listAlphaIds(
+    options?: AlphaIdsGetAlphaIdsOptionalParams
+  ): PagedAsyncIterableIterator<AlphaId>;
   /**
-   * Creates or updates Alpha ID Configuration for the current resource.
-   * @param enabled Indicates whether the use of Alpha IDs is supported for a specific resource.
+   * Get the Dynamic Alpha ID configuration that's applied for the current resource.
    * @param options The options parameters.
    */
-  upsertConfiguration(
+  getDynamicAlphaIdConfiguration(
+    options?: AlphaIdsGetDynamicAlphaIdConfigurationOptionalParams
+  ): Promise<AlphaIdsGetDynamicAlphaIdConfigurationResponse>;
+  /**
+   * Creates or updates Dynamic Alpha ID Configuration for the current resource.
+   * @param enabled Indicates whether the use of Dynamic Alpha IDs is supported for a specific resource.
+   * @param options The options parameters.
+   */
+  upsertDynamicAlphaIdConfiguration(
     enabled: boolean,
-    options?: AlphaIdsUpsertConfigurationOptionalParams
-  ): Promise<AlphaIdsUpsertConfigurationResponse>;
+    options?: AlphaIdsUpsertDynamicAlphaIdConfigurationOptionalParams
+  ): Promise<AlphaIdsUpsertDynamicAlphaIdConfigurationResponse>;
+  /**
+   * Gets the list of countries that support Dynamic Alpha IDs.
+   * @param options The options parameters.
+   */
+  getDynamicAlphaIdCountries(
+    options?: AlphaIdsGetDynamicAlphaIdCountriesOptionalParams
+  ): Promise<AlphaIdsGetDynamicAlphaIdCountriesResponse>;
+  /**
+   * Gets the list of countries that support Pre-Registered Alpha IDs.
+   * @param options The options parameters.
+   */
+  getPreRegisteredAlphaIdCountries(
+    options?: AlphaIdsGetPreRegisteredAlphaIdCountriesOptionalParams
+  ): Promise<AlphaIdsGetPreRegisteredAlphaIdCountriesResponse>;
 }

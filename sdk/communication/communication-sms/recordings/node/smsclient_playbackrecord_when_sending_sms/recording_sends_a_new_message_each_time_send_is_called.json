@@ -10,10 +10,10 @@
         "Connection": "keep-alive",
         "Content-Length": "251",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-communication-sms/1.2.0-beta.1 core-rest-pipeline/1.8.0 Node/v14.17.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "30ee5279-19bf-4647-af95-cb9c084ded20",
-        "x-ms-content-sha256": "7/QQDPWyCi8rnVYIic\u002BT0\u002BMrJAT/VT2CYFm52JdD8t8=",
-        "x-ms-date": "Mon, 25 Apr 2022 01:04:01 GMT"
+        "User-Agent": "azsdk-js-communication-sms/1.2.0-beta.2 core-rest-pipeline/1.11.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "11c4d38b-5f9c-4c0f-8188-24dddd7bc10b",
+        "x-ms-content-sha256": "fxTBDHkSCpfOUd2ZCkNKgcnNRenQETZopuV4zafxkCw=",
+        "x-ms-date": "Wed, 21 Jun 2023 10:28:06 GMT"
       },
       "RequestBody": {
         "from": "\u002B14255550123",
@@ -33,20 +33,20 @@
       "StatusCode": 202,
       "ResponseHeaders": {
         "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07",
+        "Content-Length": "184",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 25 Apr 2022 01:04:01 GMT",
-        "MS-CV": "YbzD5z8PWUag/w28Y/rxaA.0",
+        "Date": "Wed, 21 Jun 2023 10:28:06 GMT",
+        "MS-CV": "RO49lTiTPEGCn8dHc8tL6A.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0gfNlYgAAAABhNythwFs9TJpH1geRB2xzV1NURURHRTA4MTUAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0ttCSZAAAAAD0r9v5l/wBRJYFrE/tlsNfSEVMMDFFREdFMjAwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "360ms"
+        "X-Processing-Time": "246ms"
       },
       "ResponseBody": {
         "value": [
           {
             "to": "\u002B14255550123",
-            "messageId": "Outgoing_202204250104017625f067-6ba9-4e59-af70-eb35deeb3f9f_noam",
+            "messageId": "Outgoing_2023062110280620005b99-2c77-401c-ac11-e7888deb0c83_noam",
             "httpStatusCode": 202,
             "repeatabilityResult": "accepted",
             "successful": true
@@ -64,10 +64,10 @@
         "Connection": "keep-alive",
         "Content-Length": "251",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-communication-sms/1.2.0-beta.1 core-rest-pipeline/1.8.0 Node/v14.17.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "13e0f3fc-cfd7-48d3-b642-25d5be06dbc8",
-        "x-ms-content-sha256": "e7y1sqbyGU3BYAT4erPWR95FFtUz8ofB7OTgvGBDiRo=",
-        "x-ms-date": "Mon, 25 Apr 2022 01:04:01 GMT"
+        "User-Agent": "azsdk-js-communication-sms/1.2.0-beta.2 core-rest-pipeline/1.11.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "a9dd8d9b-4ddd-40f5-908a-a8a2f0dfe69b",
+        "x-ms-content-sha256": "DanS7kios8JSeWJ4Gyyo358fnXIidcXixxrMVd1CavA=",
+        "x-ms-date": "Wed, 21 Jun 2023 10:28:06 GMT"
       },
       "RequestBody": {
         "from": "\u002B14255550123",
@@ -87,20 +87,20 @@
       "StatusCode": 202,
       "ResponseHeaders": {
         "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07",
+        "Content-Length": "184",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 25 Apr 2022 01:04:01 GMT",
-        "MS-CV": "CZFcVibWbEuV1HTkE02i6Q.0",
+        "Date": "Wed, 21 Jun 2023 10:28:06 GMT",
+        "MS-CV": "YRlFtTcZIkefuXEnwa1wKw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0gfNlYgAAAABAIVKZMHfQQaz/apt/kT/wV1NURURHRTA4MTUAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0t9CSZAAAAAA97gN8Lvt/S6ML7rmMtqMJSEVMMDFFREdFMjAwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "370ms"
+        "X-Processing-Time": "246ms"
       },
       "ResponseBody": {
         "value": [
           {
             "to": "\u002B14255550123",
-            "messageId": "Outgoing_2022042501040140bccebb-6b13-4f34-994b-9a9a18a1155d_noam",
+            "messageId": "Outgoing_202306211028071c68d785-3acb-4ee0-88ae-07823e8b0a76_noam",
             "httpStatusCode": 202,
             "repeatabilityResult": "accepted",
             "successful": true

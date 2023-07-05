@@ -101,11 +101,12 @@ export class TraceBasicScenario implements Scenario {
   expectation: Expectation[] = [
     {
       ...COMMON_ENVELOPE_PARAMS,
-      name: "_APPRESOURCEPREVIEW_",
+      name: "Microsoft.ApplicationInsights.Metric",
       data: {
         baseType: "MetricData",
         baseData: {
           version: 2,
+          metrics: [{ name: "_APPRESOURCEPREVIEW_", value: 1 }],
           properties: {
             "service.name": "testServiceName",
             "k8s.cluster.name": "testClusterName",
@@ -458,7 +459,7 @@ export class LogBasicScenario implements Scenario {
       ...COMMON_ENVELOPE_PARAMS,
       name: "Microsoft.ApplicationInsights.Exception",
       data: {
-        baseType: "TelemetryExceptionData",
+        baseType: "ExceptionData",
         baseData: {
           version: 2,
           exceptions: [
