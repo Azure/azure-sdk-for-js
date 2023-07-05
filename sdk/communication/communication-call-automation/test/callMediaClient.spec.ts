@@ -122,7 +122,7 @@ describe("CallMedia Unit Tests", async function () {
     const playSource: SsmlSource = {
       ssmlText:
         '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US"><voice name="en-US-JennyNeural">Recognize Choice Completed, played through SSML source.</voice></speak>',
-      customVoiceEndpointId: "customVoiceEndpointId",  
+      customVoiceEndpointId: "customVoiceEndpointId",
       kind: "ssmlSource",
     };
 
@@ -213,7 +213,7 @@ describe("CallMedia Unit Tests", async function () {
     const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
     const recognizeOptions: CallMediaRecognizeSpeechOptions = {
       kind: "callMediaRecognizeSpeechOptions",
-      speechModelEndpointId: "customModelEndpointId"
+      speechModelEndpointId: "customModelEndpointId",
     };
     const maxTonesToCollect = 5;
 
