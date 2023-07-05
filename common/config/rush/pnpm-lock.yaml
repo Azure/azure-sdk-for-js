@@ -1744,20 +1744,6 @@ packages:
       '@opentelemetry/api': 1.4.1
     dev: false
 
-  /@opentelemetry/api-logs/0.40.0:
-    resolution: {integrity: sha512-8WRuvGnfnbeR9ifGjLN8kklk2fkd0gBT6aN7NHO9zeYF/6qacAViD3bwAKqGXKnJgl39l1EU41I9diqUjamEEQ==}
-    engines: {node: '>=14'}
-    dependencies:
-      '@opentelemetry/api': 1.4.1
-    dev: false
-
-  /@opentelemetry/api/0.13.0:
-    resolution: {integrity: sha512-3F5zuMBhL1cQIGTFGuuGofS9/2bfhoJxT9sWLfHtx7A/vN6HSA6YiotPjWFK/aTiLjZA4YYnIjeA3di151xJrw==}
-    engines: {node: '>=8.0.0'}
-    dependencies:
-      '@opentelemetry/context-base': 0.13.0
-    dev: false
-
   /@opentelemetry/api/1.4.1:
     resolution: {integrity: sha512-O2yRJce1GOc6PAy3QxFM4NzFiWzvScDC1/5ihYBL6BUEVdq0XMWN01sppE+H6bBXbaFYipjwFLEWLg5PaSOThA==}
     engines: {node: '>=8.0.0'}
@@ -1770,20 +1756,6 @@ packages:
       '@opentelemetry/api': '>=1.0.0 <1.5.0'
     dependencies:
       '@opentelemetry/api': 1.4.1
-    dev: false
-
-  /@opentelemetry/context-base/0.13.0:
-    resolution: {integrity: sha512-y4qNA0JA9ab0B0ppnOokAxzJDplBWCLdTVJrH8a8SMiWubkuGOIGJpe3ZoJzPLrg3BWKZ9CIk9vHiyBFYgYgWg==}
-    engines: {node: '>=8.0.0'}
-    dev: false
-
-  /@opentelemetry/core/0.13.0:
-    resolution: {integrity: sha512-SFHr4uRnSSWqTLu1J1hadn92aGoGVb2WrPHvOgNIttSKYkUXNVyABO1pdtUN2AHE4/YBmk9eLwTUqwmFjVfZWQ==}
-    engines: {node: '>=8.5.0'}
-    dependencies:
-      '@opentelemetry/api': 0.13.0
-      '@opentelemetry/context-base': 0.13.0
-      semver: 7.5.3
     dev: false
 
   /@opentelemetry/core/1.13.0_@opentelemetry+api@1.4.1:
@@ -1971,19 +1943,6 @@ packages:
       '@opentelemetry/api': 1.4.1
       '@opentelemetry/core': 1.14.0_@opentelemetry+api@1.4.1
       '@opentelemetry/semantic-conventions': 1.14.0
-    dev: false
-
-  /@opentelemetry/sdk-logs/0.40.0_mdf4xmzdwval7qdsjeggqkd7zq:
-    resolution: {integrity: sha512-/JG7DOLo/Y3VR9azPXlXNRGQff3gp7nQbWl5cFD2SmlYqUrzMq1OjbksZLVztDu1+ynbFunseUG11SxhoxvSRg==}
-    engines: {node: '>=14'}
-    peerDependencies:
-      '@opentelemetry/api': '>=1.4.0 <1.5.0'
-      '@opentelemetry/api-logs': '>=0.39.1'
-    dependencies:
-      '@opentelemetry/api': 1.4.1
-      '@opentelemetry/api-logs': 0.40.0
-      '@opentelemetry/core': 1.14.0_@opentelemetry+api@1.4.1
-      '@opentelemetry/resources': 1.14.0_@opentelemetry+api@1.4.1
     dev: false
 
   /@opentelemetry/sdk-logs/0.40.0_mdf4xmzdwval7qdsjeggqkd7zq:
@@ -2554,24 +2513,6 @@ packages:
         optional: true
     dependencies:
       '@types/node': 14.18.51
-      colors: 1.2.5
-      fs-extra: 7.0.1
-      import-lazy: 4.0.0
-      jju: 1.4.0
-      resolve: 1.22.2
-      semver: 7.3.8
-      z-schema: 5.0.5
-    dev: false
-
-  /@rushstack/node-core-library/3.59.4_@types+node@16.18.36:
-    resolution: {integrity: sha512-YAKJDC6Mz/KA1D7bvB88WaRX3knt/ZuLzkRu5G9QADGSjLtvTWzCNCytRF2PCSaaHOZaZsWul4F1KQdgFgUDqA==}
-    peerDependencies:
-      '@types/node': '*'
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-    dependencies:
-      '@types/node': 16.18.36
       colors: 1.2.5
       fs-extra: 7.0.1
       import-lazy: 4.0.0
@@ -4775,7 +4716,7 @@ packages:
     dependencies:
       semver: 7.5.3
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230705
+      typescript: 5.2.0-dev.20230629
     dev: false
 
   /duplexer3/0.1.5:
@@ -5855,29 +5796,6 @@ packages:
       minimatch: 8.0.4
       minipass: 4.2.8
       path-scurry: 1.9.2
-    dev: false
-
-  /global-dirs/3.0.1:
-    resolution: {integrity: sha512-NBcGGFbBA9s1VzD41QXDG+3++t9Mn5t1FpLdhESY6oKY4gYTFpX4wO3sqGUa0Srjtbfj3szX0RnemmrVRUdULA==}
-    engines: {node: '>=10'}
-    dependencies:
-      ini: 2.0.0
-    dev: false
-
-  /global-modules/2.0.0:
-    resolution: {integrity: sha512-NGbfmJBp9x8IxyJSd1P+otYK8vonoJactOogrVfFRIAEY1ukil8RSKDz2Yo7wh1oihl51l/r6W4epkeKJHqL8A==}
-    engines: {node: '>=6'}
-    dependencies:
-      global-prefix: 3.0.0
-    dev: false
-
-  /global-prefix/3.0.0:
-    resolution: {integrity: sha512-awConJSVCHVGND6x3tmMaKcQvwXLhjdkmomy2W+Goaui8YPgYgXJZewhg3fWC+DlfqqQuWg8AwqjGTD2nAPVWg==}
-    engines: {node: '>=6'}
-    dependencies:
-      ini: 1.3.8
-      kind-of: 6.0.3
-      which: 1.3.1
     dev: false
 
   /global-dirs/3.0.1:
@@ -10262,8 +10180,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230705:
-    resolution: {integrity: sha512-eMgfQ/e5CgYYSaduGhDc2UiY2EzzgrBMfHyagjUP70jj4VDCmLlIp1EftT5AMiLvNc7PYNCeziRFY5fBZhD9uA==}
+  /typescript/5.2.0-dev.20230629:
+    resolution: {integrity: sha512-/8eGjHX3BI9Cpb2ghyC3qeWD4PTXx7npbvZuKsphLdvFJkbOrKbvmnYGW+3QKs5rREjTq5/0A4IIlp9yCIit0g==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -18032,7 +17950,6 @@ packages:
       '@types/node': 14.18.51
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.4
-      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -20161,19 +20078,17 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-s3LNI5j0yoVJmnTlFqRuGpcLtvO1URMaTuT4ou+R735ZlIY86hm7hwxOzEjdpeCSoZfVTGa6kAaFEXnvKxUJ/Q==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-xUNAFSAi0U7d+4HRlXJmIQ03uWJoc/QzOg2ngrGtD/WtDF0Xd7xq8jITgwM36AQiraGAkcs+E54/qG5qDgsTEQ==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.36.0_@types+node@14.18.51
-      '@types/fs-extra': 9.0.13
       '@types/mocha': 7.0.2
       '@types/node': 14.18.51
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.43.0
       esm: 3.2.25
-      fs-extra: 10.1.0
       karma: 6.4.2
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -20376,7 +20291,6 @@ packages:
     dependencies:
       '@types/express': 4.17.17
       '@types/node': 16.18.36
-      '@types/uuid': 8.3.4
       concurrently: 6.5.1
       cross-env: 7.0.3
       dotenv: 16.3.1
