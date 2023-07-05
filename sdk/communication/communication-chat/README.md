@@ -69,7 +69,7 @@ const chatClient = new ChatClient(endpointUrl, tokenCredential);
 
 ### Create a thread with two users
 
-Use the `createThread` method to create a chat thread.
+Use the `createChatThread` method to create a chat thread.
 
 `createChatThreadRequest` is used to describe the thread request:
 
