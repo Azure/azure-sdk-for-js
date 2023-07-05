@@ -38,6 +38,7 @@ In the case of single-client,
 @azure/foo
 @azure/foo/api
 @azure/foo/rest
+@azure/foo/models
 </pre>
 </td>
 <td>
@@ -45,6 +46,7 @@ In the case of single-client,
 @azure/foo/beta
 @azure/foo/beta/api
 @azure/foo/beta/rest
+@azure/foo/beta/models
 </pre>
 </td>
   </tr>
@@ -65,14 +67,17 @@ In the case of single-client,
 @azure/foo
 @azure/foo/api
 @azure/foo/rest
+@azure/foo/models
 </pre>
 <pre lang="typescript">
 @azure/foo/clientA
 @azure/foo/clientA/api
+@azure/foo/clientA/models
 </pre>
 <pre lang="typescript">
 @azure/foo/clientB
 @azure/foo/clientB/api
+@azure/foo/clientB/models
 </pre>
 </td>
 <td>
@@ -80,14 +85,17 @@ In the case of single-client,
 @azure/foo/beta
 @azure/foo/beta/api
 @azure/foo/beta/rest
+@azure/foo/beta/models
 </pre>
 <pre lang="typescript">
 @azure/foo/beta/clientA
 @azure/foo/beta/clientA/api
+@azure/foo/beta/clientA/models
 </pre>
 <pre lang="typescript">
 @azure/foo/beta/clientB
 @azure/foo/beta/clientB/api
+@azure/foo/beta/clientB/models
 </pre>
 </td>
   </tr>
@@ -107,15 +115,18 @@ In the case of single-client,
       <pre lang="typescript">
 @azure/foo
 @azure/foo/api
+@azure/foo/models
 </pre>
 <pre lang="typescript">
 @azure/foo/clientA
 @azure/foo/clientA/api
+@azure/foo/clientA/models
 @azure/foo/rest/clientA
 </pre>
 <pre lang="typescript">
 @azure/foo/clientB
 @azure/foo/clientB/api
+@azure/foo/clientB/models
 @azure/foo/rest/clientB
 </pre>
 </td>
@@ -123,15 +134,18 @@ In the case of single-client,
 <pre lang="typescript">
 @azure/foo/beta
 @azure/foo/beta/api
+@azure/foo/beta/models
 </pre>
 <pre lang="typescript">
 @azure/foo/beta/clientA
 @azure/foo/beta/clientA/api
+@azure/foo/beta/clientA/models
 @azure/foo/beta/rest/clientA
 </pre>
 <pre lang="typescript">
 @azure/foo/beta/clientB
 @azure/foo/beta/clientB/api
+@azure/foo/beta/clientB/models
 @azure/foo/beta/rest/clientA
 </pre>
 </td>
