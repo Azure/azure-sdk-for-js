@@ -789,11 +789,8 @@ export interface RestRemoveParticipantSucceeded {
 
 // @public (undocumented)
 export interface RestResultInformation {
-    // (undocumented)
     code?: number;
-    // (undocumented)
     message?: string;
-    // (undocumented)
     subCode?: number;
 }
 
