@@ -28,6 +28,7 @@ import {
   RouterQueueStatistics,
   RouterJobItem,
   RouterWorkerItem,
+  RouterJob,
 } from "./generated/src";
 import { logger } from "./models/logger";
 import {
@@ -60,40 +61,40 @@ export class JobRouterClient {
   private readonly client: JobRouterApiClient;
 
   /**
-   * Initializes a new instance of the RouterClient class.
+   * Initializes a new instance of the JobRouterClient class.
    * @param connectionString - Connection string to connect to an Azure Communication Service resource. (ex: "endpoint=https://contoso.eastus.communications.azure.net/;accesskey=secret").
-   * @param routerClientOptions - (Optional) Options to configure the HTTP pipeline.
+   * @param options - (Optional) Options to configure the HTTP pipeline.
    */
-  constructor(connectionString: string, routerClientOptions?: JobRouterClientOptions);
+  constructor(connectionString: string, options?: JobRouterClientOptions);
 
   /**
-   * Initializes a new instance of the RouterClient class using an Azure KeyCredential.
+   * Initializes a new instance of the JobRouterClient class using an Azure KeyCredential.
    * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
    * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` or TokenCredential to create a credential.
-   * @param routerClientOptions - (Optional) Options to configure the HTTP pipeline.
+   * @param options - (Optional) Options to configure the HTTP pipeline.
    */
   constructor(
     endpoint: string,
     credential: KeyCredential | TokenCredential,
-    routerClientOptions?: JobRouterClientOptions
+    options?: JobRouterClientOptions
   );
 
   /**
-   * Initializes a new instance of the RouterClient class using a TokenCredential.
+   * Initializes a new instance of the JobRouterClient class using a TokenCredential.
    * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
    * @param credential - CommunicationTokenCredential that is used to authenticate requests to the service.
-   * @param routerClientOptions - (Optional) Options to configure the HTTP pipeline.
+   * @param options - (Optional) Options to configure the HTTP pipeline.
    */
   constructor(
     endpoint: string,
     credential: CommunicationTokenCredential,
-    routerClientOptions?: JobRouterClientOptions
+    options?: JobRouterClientOptions
   );
 
   /**
-   * Creates an instance of the RouterClient for a given resource and user.
+   * Creates an instance of the JobRouterClient for a given resource and user.
    * @param connectionStringOrUrl - The connectionString or url of the Communication Services resource.
-   * @param credentialOrOptions - The key or token credential or RouterClientOptions. Use AzureCommunicationKeyCredential from \@azure/communication-common to create a credential.
+   * @param credentialOrOptions - The key or token credential or JobRouterClientOptions. Use AzureCommunicationKeyCredential from \@azure/communication-common to create a credential.
    * @param maybeOptions - Additional client options.
    */
   constructor(
@@ -135,6 +136,23 @@ export class JobRouterClient {
     this.client.pipeline.addPolicy(authPolicy);
   }
 
+  /**
+   * Maps custom 'notes' type to generated 'notes' type.
+   * @param options - Union type of options that have notes.
+   * @returns - RouterJob model compliant with generated RouterJob.
+   */
+  private transformJobOptions(options: CreateJobOptions | UpdateJobOptions): RouterJob {
+    if (options.notes === undefined) {
+      return { ...options, notes: {} };
+    }
+
+    const transformedNotes = options.notes!.reduce(
+      (acc, { time, message }) => ({ ...acc, [time.toISOString()]: message }),
+      {}
+    );
+    return { ...options, notes: transformedNotes };
+  }
+
   // TODO. Add tracing to both clients https://github.com/Azure/azure-sdk-for-js/issues/23008
   /**
    * Creates a job.
@@ -146,7 +164,7 @@ export class JobRouterClient {
     jobId: string,
     options: CreateJobOptions = {}
   ): Promise<RouterJobResponse> {
-    const jobModel = options;
+    const jobModel = this.transformJobOptions(options);
     const job = await this.client.jobRouter.upsertJob(jobId, jobModel, options);
     return <RouterJobResponse>job;
   }
@@ -160,7 +178,7 @@ export class JobRouterClient {
     jobId: string,
     options: UpdateJobOptions = {}
   ): Promise<RouterJobResponse> {
-    const jobModel = options;
+    const jobModel = this.transformJobOptions(options);
     const job = await this.client.jobRouter.upsertJob(jobId, jobModel, options);
     return <RouterJobResponse>job;
   }

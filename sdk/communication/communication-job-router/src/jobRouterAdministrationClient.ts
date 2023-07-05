@@ -62,41 +62,38 @@ export class JobRouterAdministrationClient {
   private readonly client: JobRouterApiClient;
 
   /**
-   * Initializes a new instance of the RouterClient class.
+   * Initializes a new instance of the JobRouterAdministrationClient class.
    * @param connectionString - Connection string to connect to an Azure Communication Service resource. (ex: "endpoint=https://contoso.eastus.communications.azure.net/;accesskey=secret").
-   * @param jobRouterAdministrationClientOptions - (Optional) Options to configure the HTTP pipeline.
+   * @param options - (Optional) Options to configure the HTTP pipeline.
    */
-  constructor(
-    connectionString: string,
-    jobRouterAdministrationClientOptions?: JobRouterAdministrationClientOptions
-  );
+  constructor(connectionString: string, options?: JobRouterAdministrationClientOptions);
 
   /**
-   * Initializes a new instance of the RouterClient class using an Azure KeyCredential.
+   * Initializes a new instance of the JobRouterAdministrationClient class using an Azure KeyCredential.
    * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
    * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` or TokenCredential to create a credential.
-   * @param routerAdministrationClientOptions - (Optional) Options to configure the HTTP pipeline.
+   * @param options - (Optional) Options to configure the HTTP pipeline.
    */
   constructor(
     endpoint: string,
     credential: KeyCredential | TokenCredential,
-    routerAdministrationClientOptions?: JobRouterAdministrationClientOptions
+    options?: JobRouterAdministrationClientOptions
   );
 
   /**
-   * Initializes a new instance of the RouterClient class using a TokenCredential.
+   * Initializes a new instance of the JobRouterAdministrationClient class using a TokenCredential.
    * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
    * @param credential - CommunicationTokenCredential that is used to authenticate requests to the service.
-   * @param routerAdministrationClientOptions - (Optional) Options to configure the HTTP pipeline.
+   * @param options - (Optional) Options to configure the HTTP pipeline.
    */
   constructor(
     endpoint: string,
     credential: CommunicationTokenCredential,
-    routerAdministrationClientOptions?: JobRouterAdministrationClientOptions
+    options?: JobRouterAdministrationClientOptions
   );
 
   /**
-   * Creates an instance of the RouterClient for a given resource and user.
+   * Creates an instance of the JobRouterAdministrationClient for a given resource and user.
    * @param connectionStringOrUrl - The connectionString or url of the Communication Services resource.
    * @param credentialOrOptions - The key or token credential or RouterAdministrationClientOptions. Use AzureCommunicationKeyCredential from \@azure/communication-common to create a credential.
    * @param maybeOptions - Additional client options.
@@ -145,7 +142,7 @@ export class JobRouterAdministrationClient {
   /**
    * Creates a classification policy.
    * Returns the created classification policy.
-   * @param classificationPolicyId - id of the classification policy.
+   * @param classificationPolicyId - The id of the classification policy to create.
    * @param options - Options for creating a classification policy. Uses merge-patch semantics: https://datatracker.ietf.org/doc/html/rfc7386.
    */
   public async createClassificationPolicy(
@@ -163,7 +160,7 @@ export class JobRouterAdministrationClient {
   /**
    * Updates a classification policy.
    * Returns the updated classification policy.
-   * @param classificationPolicyId - id of the classification policy.
+   * @param classificationPolicyId - The id of the classification policy to update.
    * @param options - Options for updating a classification policy. Uses merge-patch semantics: https://datatracker.ietf.org/doc/html/rfc7386.
    */
   public async updateClassificationPolicy(

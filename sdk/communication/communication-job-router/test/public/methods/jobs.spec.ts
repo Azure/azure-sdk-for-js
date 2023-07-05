@@ -4,10 +4,12 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import {
+  CreateJobOptions,
   JobMatchModeType,
   JobRouterAdministrationClient,
   JobRouterClient,
   RouterJob,
+  UpdateJobOptions,
 } from "../../../src";
 import { Context } from "mocha";
 import {
@@ -35,6 +37,16 @@ describe("JobRouterClient", function () {
   const { classificationPolicyId, classificationPolicyRequest } =
     getClassificationPolicyRequest(testRunId);
   const { jobId, jobRequest } = getJobRequest(testRunId);
+
+  function getScheduledJob(scheduledTime: string): CreateJobOptions | UpdateJobOptions {
+    return {
+      ...jobRequest,
+      matchingMode: {
+        modeType: JobMatchModeType.ScheduleAndSuspendMode,
+        scheduleAndSuspendMode: { scheduleAt: new Date(scheduledTime) },
+      },
+    };
+  }
 
   describe("Job Operations", function () {
     this.beforeEach(async function (this: Context) {
@@ -91,14 +103,8 @@ describe("JobRouterClient", function () {
       const currentTime: Date = new Date();
       currentTime.setSeconds(currentTime.getSeconds() + 30);
       const scheduledTime: string = recorder.variable("scheduledTime", currentTime.toISOString());
-      const scheduledJob: RouterJob = {
-        ...jobRequest,
-        matchingMode: {
-          modeType: JobMatchModeType.ScheduleAndSuspendMode,
-          scheduleAndSuspendMode: { scheduleAt: new Date(scheduledTime) },
-        },
-      };
 
+      const scheduledJob = getScheduledJob(scheduledTime);
       const result = await client.createJob(jobId, scheduledJob);
 
       assert.isDefined(result);
@@ -123,7 +129,7 @@ describe("JobRouterClient", function () {
     it("should update a job", async function () {
       await client.createJob(jobId, jobRequest);
       await sleep(1500); // This test is flaky
-      const patch: RouterJob = { ...jobRequest, priority: 5 };
+      const patch: UpdateJobOptions = { ...jobRequest, priority: 5 };
       const result = await client.updateJob(jobId, patch);
 
       assert.isDefined(result);
@@ -170,13 +176,8 @@ describe("JobRouterClient", function () {
       const currentTime: Date = new Date();
       currentTime.setSeconds(currentTime.getSeconds() + 30);
       const scheduledTime: string = recorder.variable("scheduledTime", currentTime.toISOString());
-      const scheduledJob: RouterJob = {
-        ...jobRequest,
-        matchingMode: {
-          modeType: JobMatchModeType.ScheduleAndSuspendMode,
-          scheduleAndSuspendMode: { scheduleAt: new Date(scheduledTime) },
-        },
-      };
+
+      const scheduledJob = getScheduledJob(scheduledTime);
       await client.createJob(jobId, scheduledJob);
 
       const result: RouterJob[] = [];
