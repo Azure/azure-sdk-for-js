@@ -214,16 +214,18 @@ export class SearchClient<TModel> implements IndexDocumentsClient<TModel> {
    * @param suggesterName - The name of the suggester as specified in the suggesters collection that's part of the index definition.
    * @param options - Options to the autocomplete operation.
    */
-  public async autocomplete<TFields extends keyof TModel>(
+  public async autocomplete<TFields extends string = string>(
     searchText: string,
     suggesterName: string,
-    options: AutocompleteOptions<TFields> = {}
+    options: AutocompleteOptions = {}
   ): Promise<AutocompleteResult> {
     const { searchFields, ...nonFieldOptions } = options;
     const fullOptions: AutocompleteRequest = {
       searchText: searchText,
       suggesterName: suggesterName,
-      searchFields: this.convertSearchFields(searchFields as unknown as string[]),
+      // temporarily suppress unused error until next major, where the type parameter should be
+      // removed
+      searchFields: this.convertSearchFields(searchFields as TFields[]),
       ...nonFieldOptions,
     };
 
@@ -251,11 +253,11 @@ export class SearchClient<TModel> implements IndexDocumentsClient<TModel> {
     }
   }
 
-  private async searchDocuments<TFields extends keyof TModel>(
+  private async searchDocuments<TFields extends string>(
     searchText?: string,
     options: SearchOptions<TFields> = {},
     nextPageParameters: SearchRequest = {}
-  ): Promise<SearchDocumentsPageResult<Pick<TModel, TFields>>> {
+  ): Promise<SearchDocumentsPageResult<TModel>> {
     const { searchFields, select, orderBy, includeTotalCount, ...restOptions } = options;
     const fullOptions: GeneratedSearchRequest = {
       ...restOptions,
@@ -286,13 +288,13 @@ export class SearchClient<TModel> implements IndexDocumentsClient<TModel> {
 
       const modifiedResults = utils.generatedSearchResultToPublicSearchResult<TModel>(results);
 
-      const converted: SearchDocumentsPageResult<Pick<TModel, TFields>> = {
+      const converted: SearchDocumentsPageResult<TModel> = {
         ...restResult,
         results: modifiedResults,
         continuationToken: this.encodeContinuationToken(nextLink, resultNextPageParameters),
       };
 
-      return deserialize<SearchDocumentsPageResult<Pick<TModel, TFields>>>(converted);
+      return deserialize<SearchDocumentsPageResult<TModel>>(converted);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -304,11 +306,11 @@ export class SearchClient<TModel> implements IndexDocumentsClient<TModel> {
     }
   }
 
-  private async *listSearchResultsPage<TFields extends keyof TModel>(
+  private async *listSearchResultsPage<TFields extends string>(
     searchText?: string,
     options: SearchOptions<TFields> = {},
     settings: ListSearchResultsPageSettings = {}
-  ): AsyncIterableIterator<SearchDocumentsPageResult<Pick<TModel, TFields>>> {
+  ): AsyncIterableIterator<SearchDocumentsPageResult<TModel>> {
     let decodedContinuation = this.decodeContinuationToken(settings.continuationToken);
     let result = await this.searchDocuments<TFields>(
       searchText,
@@ -331,11 +333,11 @@ export class SearchClient<TModel> implements IndexDocumentsClient<TModel> {
     }
   }
 
-  private async *listSearchResultsAll<TFields extends keyof TModel>(
-    firstPage: SearchDocumentsPageResult<Pick<TModel, TFields>>,
+  private async *listSearchResultsAll<TFields extends string>(
+    firstPage: SearchDocumentsPageResult<TModel>,
     searchText?: string,
     options: SearchOptions<TFields> = {}
-  ): AsyncIterableIterator<SearchResult<Pick<TModel, TFields>>> {
+  ): AsyncIterableIterator<SearchResult<TModel>> {
     yield* firstPage.results;
     if (firstPage.continuationToken) {
       for await (const page of this.listSearchResultsPage(searchText, options, {
@@ -346,11 +348,11 @@ export class SearchClient<TModel> implements IndexDocumentsClient<TModel> {
     }
   }
 
-  private listSearchResults<TFields extends keyof TModel>(
-    firstPage: SearchDocumentsPageResult<Pick<TModel, TFields>>,
+  private listSearchResults<TFields extends string>(
+    firstPage: SearchDocumentsPageResult<TModel>,
     searchText?: string,
     options: SearchOptions<TFields> = {}
-  ): SearchIterator<Pick<TModel, TFields>> {
+  ): SearchIterator<TModel> {
     const iter = this.listSearchResultsAll(firstPage, searchText, options);
 
     return {
@@ -372,10 +374,10 @@ export class SearchClient<TModel> implements IndexDocumentsClient<TModel> {
    * @param searchText - Text to search
    * @param options - Options for the search operation.
    */
-  public async search<TFields extends keyof TModel>(
+  public async search<TFields extends string>(
     searchText?: string,
     options: SearchOptions<TFields> = {}
-  ): Promise<SearchDocumentsResult<Pick<TModel, TFields>>> {
+  ): Promise<SearchDocumentsResult<TModel>> {
     const { span, updatedOptions } = createSpan("SearchClient-search", options);
 
     try {
@@ -403,17 +405,17 @@ export class SearchClient<TModel> implements IndexDocumentsClient<TModel> {
    * @param suggesterName - The name of the suggester as specified in the suggesters collection that's part of the index definition.
    * @param options - Options for the suggest operation
    */
-  public async suggest<TFields extends keyof TModel = never>(
+  public async suggest<TFields extends string = never>(
     searchText: string,
     suggesterName: string,
     options: SuggestOptions<TFields> = {}
-  ): Promise<SuggestDocumentsResult<Pick<TModel, TFields>>> {
+  ): Promise<SuggestDocumentsResult<TModel>> {
     const { select, searchFields, orderBy, ...nonFieldOptions } = options;
     const fullOptions: SuggestRequest = {
       searchText: searchText,
       suggesterName: suggesterName,
       select: this.convertSelect<TFields>(select),
-      searchFields: this.convertSearchFields(searchFields as string[]),
+      searchFields: this.convertSearchFields(searchFields),
       orderBy: this.convertOrderBy(orderBy),
       ...nonFieldOptions,
     };
@@ -434,7 +436,7 @@ export class SearchClient<TModel> implements IndexDocumentsClient<TModel> {
       const modifiedResult =
         utils.generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<TModel>(result);
 
-      return deserialize<SuggestDocumentsResult<Pick<TModel, TFields>>>(modifiedResult);
+      return deserialize<SuggestDocumentsResult<TModel>>(modifiedResult);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -451,7 +453,7 @@ export class SearchClient<TModel> implements IndexDocumentsClient<TModel> {
    * @param key - The primary key value of the document
    * @param options - Additional options
    */
-  public async getDocument<TFields extends Extract<keyof TModel, string>>(
+  public async getDocument<TFields extends string>(
     key: string,
     options: GetDocumentOptions<TFields> = {}
   ): Promise<TModel> {

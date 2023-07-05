@@ -55,10 +55,10 @@ export interface AutocompleteItem {
 export type AutocompleteMode = "oneTerm" | "twoTerms" | "oneTermWithContext";
 
 // @public
-export type AutocompleteOptions<TFields> = OperationOptions & AutocompleteRequest<TFields>;
+export type AutocompleteOptions<TFields = string> = OperationOptions & AutocompleteRequest<TFields>;
 
 // @public
-export interface AutocompleteRequest<TFields> {
+export interface AutocompleteRequest<TFields = string> {
     autocompleteMode?: AutocompleteMode;
     filter?: string;
     highlightPostTag?: string;
@@ -1521,18 +1521,18 @@ export type ScoringStatistics = "local" | "global";
 export class SearchClient<TModel> implements IndexDocumentsClient<TModel> {
     constructor(endpoint: string, indexName: string, credential: KeyCredential | TokenCredential, options?: SearchClientOptions);
     readonly apiVersion: string;
-    autocomplete<TFields extends keyof TModel>(searchText: string, suggesterName: string, options?: AutocompleteOptions<TFields>): Promise<AutocompleteResult>;
+    autocomplete<TFields extends string = string>(searchText: string, suggesterName: string, options?: AutocompleteOptions): Promise<AutocompleteResult>;
     deleteDocuments(documents: TModel[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     deleteDocuments(keyName: keyof TModel, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly endpoint: string;
-    getDocument<TFields extends Extract<keyof TModel, string>>(key: string, options?: GetDocumentOptions<TFields>): Promise<TModel>;
+    getDocument<TFields extends string>(key: string, options?: GetDocumentOptions<TFields>): Promise<TModel>;
     getDocumentsCount(options?: CountDocumentsOptions): Promise<number>;
     indexDocuments(batch: IndexDocumentsBatch<TModel>, options?: IndexDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly indexName: string;
     mergeDocuments(documents: TModel[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
     mergeOrUploadDocuments(documents: TModel[], options?: MergeOrUploadDocumentsOptions): Promise<IndexDocumentsResult>;
-    search<TFields extends keyof TModel>(searchText?: string, options?: SearchOptions<TFields>): Promise<SearchDocumentsResult<Pick<TModel, TFields>>>;
-    suggest<TFields extends keyof TModel = never>(searchText: string, suggesterName: string, options?: SuggestOptions<TFields>): Promise<SuggestDocumentsResult<Pick<TModel, TFields>>>;
+    search<TFields extends string>(searchText?: string, options?: SearchOptions<TFields>): Promise<SearchDocumentsResult<TModel>>;
+    suggest<TFields extends string = never>(searchText: string, suggesterName: string, options?: SuggestOptions<TFields>): Promise<SuggestDocumentsResult<TModel>>;
     uploadDocuments(documents: TModel[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
 }
 
@@ -1874,7 +1874,7 @@ export interface SearchRequestOptions<TFields> {
     scoringParameters?: string[];
     scoringProfile?: string;
     scoringStatistics?: ScoringStatistics;
-    searchFields?: TFields[];
+    searchFields?: string[];
     searchMode?: SearchMode;
     select?: TFields[];
     sessionId?: string;
@@ -1894,9 +1894,7 @@ export interface SearchResourceEncryptionKey {
 // @public
 export type SearchResult<TModel> = {
     readonly score: number;
-    readonly highlights?: {
-        [k in keyof TModel]?: string[];
-    };
+    readonly highlights?: Record<string, string[]>;
     document: TModel;
 };
 
@@ -2062,7 +2060,7 @@ export interface SuggestRequest<TFields> {
     highlightPreTag?: string;
     minimumCoverage?: number;
     orderBy?: string[];
-    searchFields?: TFields[];
+    searchFields?: string[];
     select?: TFields[];
     top?: number;
     useFuzzyMatching?: boolean;

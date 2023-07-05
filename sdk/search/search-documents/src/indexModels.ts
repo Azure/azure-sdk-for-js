@@ -19,7 +19,7 @@ export type CountDocumentsOptions = OperationOptions;
 /**
  * Options for retrieving completion text for a partial searchText.
  */
-export type AutocompleteOptions<TFields> = OperationOptions & AutocompleteRequest<TFields>;
+export type AutocompleteOptions<TFields = string> = OperationOptions & AutocompleteRequest<TFields>;
 /**
  * Options for committing a full search request.
  */
@@ -344,7 +344,7 @@ export interface SearchRequestOptions<TFields> {
    * fielded search (fieldName:searchExpression) in a full Lucene query, the field names of each
    * fielded search expression take precedence over any field names listed in this parameter.
    */
-  searchFields?: TFields[];
+  searchFields?: string[];
   /**
    * A value that specifies whether any or all of the search terms must be matched in order to
    * count the document as a match. Possible values include: 'any', 'all'
@@ -398,7 +398,7 @@ export type SearchResult<TModel> = {
    * applicable field; null if hit highlighting was not enabled for the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly highlights?: { [k in keyof TModel]?: string[] };
+  readonly highlights?: Record<string, string[]>;
 
   document: TModel;
 };
@@ -502,7 +502,7 @@ export interface SuggestRequest<TFields> {
    * The comma-separated list of field names to search for the specified search text. Target fields
    * must be included in the specified suggester.
    */
-  searchFields?: TFields[];
+  searchFields?: string[];
   /**
    * The list of fields to retrieve. If unspecified, only the key field will be
    * included in the results.
@@ -547,7 +547,7 @@ export interface SuggestDocumentsResult<TModel> {
 /**
  * Parameters for fuzzy matching, and other autocomplete query behaviors.
  */
-export interface AutocompleteRequest<TFields> {
+export interface AutocompleteRequest<TFields = string> {
   /**
    * Specifies the mode for Autocomplete. The default is 'oneTerm'. Use 'twoTerms' to get shingles
    * and 'oneTermWithContext' to use the current context while producing auto-completed terms.
