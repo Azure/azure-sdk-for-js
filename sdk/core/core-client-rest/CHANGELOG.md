@@ -1,11 +1,12 @@
 # Release History
 
-## 1.1.4 (Unreleased)
+## 1.1.4 (2023-07-06)
 
 ### Features Added
 
 - Add `timeout`, `onUploadProgress`, `onDownloadProgress`, `abortSignal`, `tracingOptions`, `onResponse` in the `RequestParameters` for better RLC user experience.
 - Add `OperationOptions` for better modular user experience.
+- Correctly handle `allowInsecureConnection` handling when `undefined` is passed in `RequestParameters`. See https://github.com/Azure/autorest.typescript/issues/1916 for details.
 
 ## 1.1.3 (2023-05-04)
 
