@@ -136,6 +136,8 @@ export class ClientContext {
     partitionKeyRangeId,
     partitionKey,
     diagnosticContext,
+    startEpk,
+    endEpk,
   }: {
     path: string;
     resourceType: ResourceType;
@@ -146,6 +148,8 @@ export class ClientContext {
     partitionKeyRangeId?: string;
     partitionKey?: PartitionKey;
     diagnosticContext?: CosmosDiagnosticContext;
+    startEpk?: string | undefined;
+    endEpk?: string | undefined;
   }): Promise<Response<T & Resource>> {
     // Query operations will use ReadEndpoint even though it uses
     // GET(for queryFeed) and POST(for regular query operations)
@@ -172,6 +176,13 @@ export class ClientContext {
       request
     );
     request.headers = await this.buildHeaders(request);
+
+    if (startEpk !== undefined && endEpk !== undefined) {
+      request.headers[Constants.HttpHeaders.StartEpk] = startEpk;
+      request.headers[Constants.HttpHeaders.EndEpk] = endEpk;
+      request.headers[Constants.HttpHeaders.ReadFeedKeyType] = "EffectivePartitionKeyRange";
+    }
+
     if (query !== undefined) {
       request.headers[Constants.HttpHeaders.IsQuery] = "true";
       request.headers[Constants.HttpHeaders.ContentType] = QueryJsonContentType;
