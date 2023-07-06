@@ -2675,12 +2675,6 @@ packages:
       type-detect: 4.0.8
     dev: false
 
-  /@sinonjs/fake-timers/10.0.2:
-    resolution: {integrity: sha512-SwUDyjWnah1AaNl7kxsa7cfLhlTYoiyhDAIgyh+El30YvXs/o7OLXpYH88Zdhyx9JExKrmHDJ+10bwIcY80Jmw==}
-    dependencies:
-      '@sinonjs/commons': 2.0.0
-    dev: false
-
   /@sinonjs/fake-timers/10.3.0:
     resolution: {integrity: sha512-V4BG07kuYSUkTCSBHG8G8TNhM+F19jXFWnQtzj+we8DrkpSBCee9Z3Ms8yiGer/dlmhe35/Xdgyo3/0rQKg7YA==}
     dependencies:
@@ -4420,6 +4414,7 @@ packages:
 
   /debuglog/1.0.1:
     resolution: {integrity: sha512-syBZ+rnAK3EgMsH2aYEOLUW7mZSY9Gb+0wUMCFsZvcmiz+HigA0LOcq/HoQqVuGG+EKykunc7QG2bzrponfaSw==}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
     dev: false
 
   /decamelize-keys/1.1.1:
@@ -4716,7 +4711,7 @@ packages:
     dependencies:
       semver: 7.5.3
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230629
+      typescript: 5.2.0-dev.20230704
     dev: false
 
   /duplexer3/0.1.5:
@@ -10180,8 +10175,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230629:
-    resolution: {integrity: sha512-/8eGjHX3BI9Cpb2ghyC3qeWD4PTXx7npbvZuKsphLdvFJkbOrKbvmnYGW+3QKs5rREjTq5/0A4IIlp9yCIit0g==}
+  /typescript/5.2.0-dev.20230704:
+    resolution: {integrity: sha512-LAjnbCofaVoQt8mhUODn7xG2uHBTxIDPsxJ9iowOKcbOe1GJIpNqyvEvNrkvmf0pIRHiC19f6oGSYrilB9s5ng==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -14835,7 +14830,7 @@ packages:
     dev: false
 
   file:projects/arm-mobilenetwork.tgz:
-    resolution: {integrity: sha512-cRVhEdtT4Qur940fMRA1QYOlDsdM8NGQCDzibjlfL5D1zVbZ7iiup9z7EZ5Bt3YHaUr5cNsaQapyJfChRxeMYQ==, tarball: file:projects/arm-mobilenetwork.tgz}
+    resolution: {integrity: sha512-y5agWbhlFgWc70Dtmboxah1b5+DReFXjJ7qgjoLV3IeI7IZ8LqyqgNjdgX1ml1o9YsZ4UHl1R59lybmOFkN85w==, tarball: file:projects/arm-mobilenetwork.tgz}
     name: '@rush-temp/arm-mobilenetwork'
     version: 0.0.0
     dependencies:
@@ -14850,7 +14845,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.3.1
-      mkdirp: 1.0.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -18170,7 +18165,7 @@ packages:
     dev: false
 
   file:projects/core-client.tgz:
-    resolution: {integrity: sha512-DD1MezAP4ZkP3o8F2g80m0zqnyYXxrvexL35titsE8+UprlOKcrJVMYF++ZUYgMEHrdn0ty6v7tUctmPgqQOwg==, tarball: file:projects/core-client.tgz}
+    resolution: {integrity: sha512-0f6tvrsFDRRLUf6atVFtPIUCMCDCIZDBMFSobCRb25oZ/1UFenVZLZ60MYTTtTswPKJfR3gvlwt4J5JCCACxOg==, tarball: file:projects/core-client.tgz}
     name: '@rush-temp/core-client'
     version: 0.0.0
     dependencies:
@@ -18535,13 +18530,13 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-YFCaW1JpVf6hza6MzlJ9v9wWbgl/C4MG8/RZ7R8D7li+fnhDi9PPZUfaxlPd/on5bdWX+7yK5U2JNVh28jEUXA==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-LJz+1OIFq2SgnmWTitdaXdnVjEhoeYKGPGZpktlZRmqzTYQXHYXuxgNW2wvvJrKUfJ2eKkOnf3P5HFBSCAw2DQ==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.36.0_@types+node@14.18.51
-      '@sinonjs/fake-timers': 10.0.2
+      '@sinonjs/fake-timers': 10.3.0
       '@types/debug': 4.1.8
       '@types/mocha': 7.0.2
       '@types/node': 14.18.51
