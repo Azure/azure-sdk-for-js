@@ -30,12 +30,25 @@ import { readAndRecordPartitionKeyDefinition } from "../ClientUtils";
 import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks";
 import { hashPartitionKey } from "../../utils/hashing/hash";
 import { PartitionKey, PartitionKeyDefinition } from "../../documents";
+import { PartitionKeyRangeCache } from "../../routing";
+import {
+  ChangeFeedIteratorV2,
+  ChangeFeedIteratorOptions,
+  ChangeFeedForEpkRange,
+  ChangeFeedForPartitionKey,
+} from "../../client/ChangeFeed";
+import { isEpkRange, validateChangeFeedOptions } from "../../client/ChangeFeed/changeFeedUtils";
+import { ErrorResponse } from "../../request";
 
 /**
  * @hidden
  */
 function isChangeFeedOptions(options: unknown): options is ChangeFeedOptions {
   return options && !(isPrimitivePartitionKeyValue(options) || Array.isArray(options));
+}
+
+function isPartitionKey(partitionKey: unknown) {
+  return isPrimitivePartitionKeyValue(partitionKey) || Array.isArray(partitionKey);
 }
 
 /**
@@ -49,10 +62,11 @@ export class Items {
    * @param container - The parent container.
    * @hidden
    */
-  constructor(
-    public readonly container: Container,
-    private readonly clientContext: ClientContext
-  ) {}
+  private partitionKeyRangeCache: PartitionKeyRangeCache;
+
+  constructor(public readonly container: Container, private readonly clientContext: ClientContext) {
+    this.partitionKeyRangeCache = new PartitionKeyRangeCache(this.clientContext);
+  }
 
   /**
    * Queries all items.
@@ -217,6 +231,72 @@ export class Items {
     const path = getPathFromLink(this.container.url, ResourceType.item);
     const id = getIdFromLink(this.container.url);
     return new ChangeFeedIterator<T>(this.clientContext, id, path, partitionKey, changeFeedOptions);
+  }
+
+  public async getChangeFeedIterator<T>(
+    changeFeedOptions: ChangeFeedIteratorOptions
+  ): Promise<ChangeFeedIteratorV2<T>> {
+    const diagnosticContext: CosmosDiagnosticContext = new CosmosDiagnosticContext();
+    const path = getPathFromLink(this.container.url, ResourceType.item);
+    const id = getIdFromLink(this.container.url);
+    const { resource } = await this.container.read();
+    let partitionKey: PartitionKey;
+
+    const cfOptions = isChangeFeedOptions(changeFeedOptions) ? changeFeedOptions : {};
+
+    let isPartitionKeyValue = isPartitionKey(cfOptions?.partitionKey);
+    if (isPartitionKeyValue) {
+      partitionKey = cfOptions.partitionKey;
+    }
+    validateChangeFeedOptions(cfOptions);
+    if (cfOptions.startFromNow !== undefined && cfOptions.startFromNow === true) {
+      cfOptions.startTime = new Date();
+    }
+    if (cfOptions?.continuationToken !== undefined) {
+      const continuationToken = JSON.parse(cfOptions?.continuationToken);
+      if (continuationToken.partitionKey !== undefined) {
+        isPartitionKeyValue = isPartitionKey(continuationToken.partitionKey);
+        partitionKey = continuationToken.partitionKey;
+      }
+    }
+
+    let iterator: ChangeFeedIteratorV2<T>;
+    if (isPartitionKeyValue) {
+      iterator = new ChangeFeedForPartitionKey(
+        this.clientContext,
+        id,
+        path,
+        resource?._rid,
+        partitionKey,
+        cfOptions
+      );
+    } else {
+      iterator = new ChangeFeedForEpkRange(
+        this.clientContext,
+        this.partitionKeyRangeCache,
+        id,
+        path,
+        this.container.url,
+        resource._rid,
+        cfOptions,
+        diagnosticContext
+      );
+      if (!cfOptions?.continuationToken) {
+        if (cfOptions?.epkRange !== undefined) {
+          if (isEpkRange(cfOptions?.epkRange))
+            await iterator.fetchOverLappingFeedRanges(cfOptions?.epkRange);
+          else throw new ErrorResponse("EpkRange is not valid");
+        } else {
+          await iterator.fetchAllFeedRanges();
+        }
+      } else {
+        const response = await iterator.fetchContinuationTokenFeedRanges(
+          cfOptions?.continuationToken
+        );
+        if (response) return iterator;
+      }
+    }
+    return iterator;
   }
 
   /**
