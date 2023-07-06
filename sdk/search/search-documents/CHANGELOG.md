@@ -8,6 +8,7 @@
 - Fix all clients adding one or more duplicate user agents. [#26298](https://github.com/Azure/azure-sdk-for-js/pull/26298)
 - Fix `serializerOptions` and `onResponse` options for SearchClient methods. [#26327](https://github.com/Azure/azure-sdk-for-js/pull/26327)
 - Fix discarded user-defined `onResponse` callback. [#24479](https://github.com/Azure/azure-sdk-for-js/pull/24479)
+- Fix type error on `select` statement with nested fields. [#26407](https://github.com/Azure/azure-sdk-for-js/pull/26407)
 
 ### Other Changes
 
