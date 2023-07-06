@@ -246,6 +246,7 @@ export interface MetricsBatchOptions extends MetricsBatchOptionalParams {
 
 // @public
 export interface MetricsClientOptions extends CommonClientOptions {
+    batchendpoint?: string;
     endpoint?: string;
 }
 

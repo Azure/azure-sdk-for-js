@@ -51,6 +51,8 @@ const defaultMetricsScope = "https://management.azure.com/.default";
 export interface MetricsQueryClientOptions extends CommonClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
+  /** Overrides batch client endpoint. */
+  batchendpoint?: string;
 }
 
 /**
@@ -107,7 +109,7 @@ export class MetricsQueryClient {
     );
 
     this._metricBatchClient = new GeneratedMonitorMetricBatchClient(
-      serviceClientOptions.endpoint ?? "",
+      serviceClientOptions.batchendpoint ?? "",
       MonitorMetricBatchApiVersion.TwoThousandTwentyThree0501Preview,
       serviceClientOptions
     );
