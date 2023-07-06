@@ -66,6 +66,45 @@ export class ChangeFeedIterator<T> {
     get hasMoreResults(): boolean;
 }
 
+// @public (undocumented)
+export interface ChangeFeedIteratorOptions {
+    continuationToken?: string;
+    epkRange?: PartitionKeyRange;
+    maxItemCount?: number;
+    partitionKey?: PartitionKey;
+    sessionToken?: string;
+    startFromBeginning?: boolean;
+    startFromNow?: boolean;
+    startTime?: Date;
+}
+
+// @public
+export class ChangeFeedIteratorResponse<T> {
+    get activityId(): string;
+    get continuationToken(): string;
+    readonly count: number;
+    headers: CosmosHeaders;
+    get requestCharge(): number;
+    readonly result: T;
+    get sessionToken(): string;
+    readonly statusCode: number;
+    readonly SubStatusCode?: number;
+}
+
+// @public (undocumented)
+export abstract class ChangeFeedIteratorV2<T> {
+    // (undocumented)
+    fetchAllFeedRanges(): Promise<void>;
+    // (undocumented)
+    abstract fetchContinuationTokenFeedRanges(continuationToken: string): Promise<boolean>;
+    // (undocumented)
+    abstract fetchOverLappingFeedRanges(epkRange: any): Promise<void>;
+    // (undocumented)
+    abstract get hasMoreResults(): boolean;
+    // (undocumented)
+    abstract ReadNextAsync(): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>>;
+}
+
 // @public
 export interface ChangeFeedOptions {
     continuation?: string;
@@ -166,7 +205,7 @@ export class ClientContext {
         diagnosticContext?: CosmosDiagnosticContext;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
-    queryFeed<T>({ path, resourceType, resourceId, resultFn, query, options, partitionKeyRangeId, partitionKey, diagnosticContext, }: {
+    queryFeed<T>({ path, resourceType, resourceId, resultFn, query, options, partitionKeyRangeId, partitionKey, diagnosticContext, startEpk, endEpk, }: {
         path: string;
         resourceType: ResourceType;
         resourceId: string;
@@ -178,6 +217,8 @@ export class ClientContext {
         partitionKeyRangeId?: string;
         partitionKey?: PartitionKey;
         diagnosticContext?: CosmosDiagnosticContext;
+        startEpk?: string | undefined;
+        endEpk?: string | undefined;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
     queryPartitionKeyRanges(collectionLink: string, diagnosticContext: CosmosDiagnosticContext, query?: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<PartitionKeyRange>;
@@ -373,6 +414,7 @@ export const Constants: {
         SupportedQueryFeatures: string;
         QueryVersion: string;
         Continuation: string;
+        ContinuationToken: string;
         PageSize: string;
         ItemCount: string;
         ActivityId: string;
@@ -404,6 +446,9 @@ export const Constants: {
         OwnerId: string;
         PartitionKey: string;
         PartitionKeyRangeID: string;
+        StartEpk: string;
+        EndEpk: string;
+        ReadFeedKeyType: string;
         MaxEntityCount: string;
         CurrentEntityCount: string;
         CollectionQuotaInMb: string;
@@ -975,6 +1020,8 @@ export class Items {
     // (undocumented)
     readonly container: Container;
     create<T extends ItemDefinition = any>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
+    // (undocumented)
+    getChangeFeedIterator<T>(changeFeedOptions: ChangeFeedIteratorOptions): Promise<ChangeFeedIteratorV2<T>>;
     query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
     query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
     readAll(options?: FeedOptions): QueryIterator<ItemDefinition>;
