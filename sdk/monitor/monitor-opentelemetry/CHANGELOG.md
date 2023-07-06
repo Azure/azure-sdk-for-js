@@ -5,6 +5,7 @@
 ### Features Added
 
 - Added Azure Monitor OpenTelemetry package.
+- Set MeterProvider in Instrumentations.
 - Add Standard Metrics support.
 - Add Azure Functions Correlation Hook.
 - Add Performance Counter metrics.
