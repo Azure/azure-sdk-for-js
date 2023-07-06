@@ -11,4 +11,3 @@ export * from "./indexers";
 export * from "./skillsets";
 export * from "./synonymMaps";
 export * from "./indexes";
-export * from "./aliases";

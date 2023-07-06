@@ -10,10 +10,9 @@ import { Indexers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { SearchServiceClient } from "../searchServiceClient";
+import { SearchServiceClientContext } from "../searchServiceClientContext";
 import {
   IndexersResetOptionalParams,
-  IndexersResetDocsOptionalParams,
   IndexersRunOptionalParams,
   SearchIndexer,
   IndexersCreateOrUpdateOptionalParams,
@@ -29,15 +28,15 @@ import {
   IndexersGetStatusResponse
 } from "../models";
 
-/** Class containing Indexers operations. */
+/** Class representing a Indexers. */
 export class IndexersImpl implements Indexers {
-  private readonly client: SearchServiceClient;
+  private readonly client: SearchServiceClientContext;
 
   /**
    * Initialize a new instance of the class Indexers class.
    * @param client Reference to the service client
    */
-  constructor(client: SearchServiceClient) {
+  constructor(client: SearchServiceClientContext) {
     this.client = client;
   }
 
@@ -53,21 +52,6 @@ export class IndexersImpl implements Indexers {
     return this.client.sendOperationRequest(
       { indexerName, options },
       resetOperationSpec
-    );
-  }
-
-  /**
-   * Resets specific documents in the datasource to be selectively re-ingested by the indexer.
-   * @param indexerName The name of the indexer to reset documents for.
-   * @param options The options parameters.
-   */
-  resetDocs(
-    indexerName: string,
-    options?: IndexersResetDocsOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { indexerName, options },
-      resetDocsOperationSpec
     );
   }
 
@@ -185,22 +169,6 @@ const resetOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const resetDocsOperationSpec: coreClient.OperationSpec = {
-  path: "/indexers('{indexerName}')/search.resetdocs",
-  httpMethod: "POST",
-  responses: {
-    204: {},
-    default: {
-      bodyMapper: Mappers.SearchError
-    }
-  },
-  requestBody: Parameters.keysOrIds,
-  queryParameters: [Parameters.apiVersion, Parameters.overwrite],
-  urlParameters: [Parameters.endpoint, Parameters.indexerName],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
 const runOperationSpec: coreClient.OperationSpec = {
   path: "/indexers('{indexerName}')/search.run",
   httpMethod: "POST",
@@ -230,11 +198,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.indexer,
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skipIndexerResetRequirementForCache,
-    Parameters.disableCacheReprocessingChangeDetection
-  ],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.indexerName],
   headerParameters: [
     Parameters.contentType,
