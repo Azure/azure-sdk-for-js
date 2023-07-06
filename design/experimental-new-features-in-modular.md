@@ -204,4 +204,4 @@ For experimental features on client side new features, it depends on how complex
 
 ## Conclusion
 
-In conclusion, this design review mainly shows how to ship experimental features with subpath export in Modular, so that we could have better publicity to our customers for those feature we want to gather valuable customer feedbacks from the earlier stage. Besides, we also discussed our SDK version policies during the experimental features. and how it would impact the stable code and experimental code.
+In conclusion, this design review mainly shows how to ship experimental features with subpath export in Modular, so that we could have better publicity to our customers for those feature we want to gather valuable customer feedbacks from the earlier stage. Besides, we also discussed our SDK version policies during the experimental features. and how it would impact the stable code and experimental code and the lifecycle of the experimental `beta` subpath export and our considerations over the client side experimental features.
