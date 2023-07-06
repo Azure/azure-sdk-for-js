@@ -6,9 +6,19 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
+
+// @public
+export interface AbusePenalty {
+    action?: AbusePenaltyAction;
+    expiration?: Date;
+    rateLimitPercentage?: number;
+}
+
+// @public
+export type AbusePenaltyAction = string;
 
 // @public
 export interface Account extends AzureEntityResource {
@@ -39,8 +49,10 @@ export interface AccountModel extends DeploymentModel {
     finetuneCapabilities?: {
         [propertyName: string]: string;
     };
+    isDefaultVersion?: boolean;
     lifecycleStatus?: ModelLifecycleStatus;
     maxCapacity?: number;
+    skus?: ModelSku[];
     readonly systemData?: SystemData;
 }
 
@@ -52,6 +64,7 @@ export interface AccountModelListResult {
 
 // @public
 export interface AccountProperties {
+    readonly abusePenalty?: AbusePenalty;
     // (undocumented)
     allowedFqdnList?: string[];
     apiProperties?: ApiProperties;
@@ -89,11 +102,11 @@ export interface AccountProperties {
 
 // @public
 export interface Accounts {
-    beginCreate(resourceGroupName: string, accountName: string, account: Account, options?: AccountsCreateOptionalParams): Promise<PollerLike<PollOperationState<AccountsCreateResponse>, AccountsCreateResponse>>;
+    beginCreate(resourceGroupName: string, accountName: string, account: Account, options?: AccountsCreateOptionalParams): Promise<SimplePollerLike<OperationState<AccountsCreateResponse>, AccountsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, accountName: string, account: Account, options?: AccountsCreateOptionalParams): Promise<AccountsCreateResponse>;
-    beginDelete(resourceGroupName: string, accountName: string, options?: AccountsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, accountName: string, options?: AccountsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, options?: AccountsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, accountName: string, account: Account, options?: AccountsUpdateOptionalParams): Promise<PollerLike<PollOperationState<AccountsUpdateResponse>, AccountsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, accountName: string, account: Account, options?: AccountsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AccountsUpdateResponse>, AccountsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, accountName: string, account: Account, options?: AccountsUpdateOptionalParams): Promise<AccountsUpdateResponse>;
     get(resourceGroupName: string, accountName: string, options?: AccountsGetOptionalParams): Promise<AccountsGetResponse>;
     list(options?: AccountsListOptionalParams): PagedAsyncIterableIterator<Account>;
@@ -256,6 +269,14 @@ export interface CallRateLimit {
 }
 
 // @public
+export interface CapacityConfig {
+    default?: number;
+    maximum?: number;
+    minimum?: number;
+    step?: number;
+}
+
+// @public
 export interface CheckDomainAvailabilityOptionalParams extends coreClient.OperationOptions {
     kind?: string;
 }
@@ -304,6 +325,8 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
     // (undocumented)
     deployments: Deployments;
     // (undocumented)
+    models: Models;
+    // (undocumented)
     operations: Operations;
     // (undocumented)
     privateEndpointConnections: PrivateEndpointConnections;
@@ -313,6 +336,8 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
     resourceSkus: ResourceSkus;
     // (undocumented)
     subscriptionId: string;
+    // (undocumented)
+    usages: Usages;
 }
 
 // @public
@@ -384,6 +409,7 @@ export interface CommitmentPlanProperties {
     readonly last?: CommitmentPeriod;
     next?: CommitmentPeriod;
     planType?: string;
+    readonly provisioningIssues?: string[];
     readonly provisioningState?: CommitmentPlanProvisioningState;
 }
 
@@ -392,17 +418,17 @@ export type CommitmentPlanProvisioningState = string;
 
 // @public
 export interface CommitmentPlans {
-    beginCreateOrUpdateAssociation(resourceGroupName: string, commitmentPlanName: string, commitmentPlanAssociationName: string, association: CommitmentPlanAccountAssociation, options?: CommitmentPlansCreateOrUpdateAssociationOptionalParams): Promise<PollerLike<PollOperationState<CommitmentPlansCreateOrUpdateAssociationResponse>, CommitmentPlansCreateOrUpdateAssociationResponse>>;
+    beginCreateOrUpdateAssociation(resourceGroupName: string, commitmentPlanName: string, commitmentPlanAssociationName: string, association: CommitmentPlanAccountAssociation, options?: CommitmentPlansCreateOrUpdateAssociationOptionalParams): Promise<SimplePollerLike<OperationState<CommitmentPlansCreateOrUpdateAssociationResponse>, CommitmentPlansCreateOrUpdateAssociationResponse>>;
     beginCreateOrUpdateAssociationAndWait(resourceGroupName: string, commitmentPlanName: string, commitmentPlanAssociationName: string, association: CommitmentPlanAccountAssociation, options?: CommitmentPlansCreateOrUpdateAssociationOptionalParams): Promise<CommitmentPlansCreateOrUpdateAssociationResponse>;
-    beginCreateOrUpdatePlan(resourceGroupName: string, commitmentPlanName: string, commitmentPlan: CommitmentPlan, options?: CommitmentPlansCreateOrUpdatePlanOptionalParams): Promise<PollerLike<PollOperationState<CommitmentPlansCreateOrUpdatePlanResponse>, CommitmentPlansCreateOrUpdatePlanResponse>>;
+    beginCreateOrUpdatePlan(resourceGroupName: string, commitmentPlanName: string, commitmentPlan: CommitmentPlan, options?: CommitmentPlansCreateOrUpdatePlanOptionalParams): Promise<SimplePollerLike<OperationState<CommitmentPlansCreateOrUpdatePlanResponse>, CommitmentPlansCreateOrUpdatePlanResponse>>;
     beginCreateOrUpdatePlanAndWait(resourceGroupName: string, commitmentPlanName: string, commitmentPlan: CommitmentPlan, options?: CommitmentPlansCreateOrUpdatePlanOptionalParams): Promise<CommitmentPlansCreateOrUpdatePlanResponse>;
-    beginDelete(resourceGroupName: string, accountName: string, commitmentPlanName: string, options?: CommitmentPlansDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, accountName: string, commitmentPlanName: string, options?: CommitmentPlansDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, commitmentPlanName: string, options?: CommitmentPlansDeleteOptionalParams): Promise<void>;
-    beginDeleteAssociation(resourceGroupName: string, commitmentPlanName: string, commitmentPlanAssociationName: string, options?: CommitmentPlansDeleteAssociationOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAssociation(resourceGroupName: string, commitmentPlanName: string, commitmentPlanAssociationName: string, options?: CommitmentPlansDeleteAssociationOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAssociationAndWait(resourceGroupName: string, commitmentPlanName: string, commitmentPlanAssociationName: string, options?: CommitmentPlansDeleteAssociationOptionalParams): Promise<void>;
-    beginDeletePlan(resourceGroupName: string, commitmentPlanName: string, options?: CommitmentPlansDeletePlanOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeletePlan(resourceGroupName: string, commitmentPlanName: string, options?: CommitmentPlansDeletePlanOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeletePlanAndWait(resourceGroupName: string, commitmentPlanName: string, options?: CommitmentPlansDeletePlanOptionalParams): Promise<void>;
-    beginUpdatePlan(resourceGroupName: string, commitmentPlanName: string, commitmentPlan: PatchResourceTagsAndSku, options?: CommitmentPlansUpdatePlanOptionalParams): Promise<PollerLike<PollOperationState<CommitmentPlansUpdatePlanResponse>, CommitmentPlansUpdatePlanResponse>>;
+    beginUpdatePlan(resourceGroupName: string, commitmentPlanName: string, commitmentPlan: PatchResourceTagsAndSku, options?: CommitmentPlansUpdatePlanOptionalParams): Promise<SimplePollerLike<OperationState<CommitmentPlansUpdatePlanResponse>, CommitmentPlansUpdatePlanResponse>>;
     beginUpdatePlanAndWait(resourceGroupName: string, commitmentPlanName: string, commitmentPlan: PatchResourceTagsAndSku, options?: CommitmentPlansUpdatePlanOptionalParams): Promise<CommitmentPlansUpdatePlanResponse>;
     createOrUpdate(resourceGroupName: string, accountName: string, commitmentPlanName: string, commitmentPlan: CommitmentPlan, options?: CommitmentPlansCreateOrUpdateOptionalParams): Promise<CommitmentPlansCreateOrUpdateResponse>;
     get(resourceGroupName: string, accountName: string, commitmentPlanName: string, options?: CommitmentPlansGetOptionalParams): Promise<CommitmentPlansGetResponse>;
@@ -609,7 +635,7 @@ export type CreatedByType = string;
 
 // @public
 export interface DeletedAccounts {
-    beginPurge(location: string, resourceGroupName: string, accountName: string, options?: DeletedAccountsPurgeOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginPurge(location: string, resourceGroupName: string, accountName: string, options?: DeletedAccountsPurgeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginPurgeAndWait(location: string, resourceGroupName: string, accountName: string, options?: DeletedAccountsPurgeOptionalParams): Promise<void>;
     get(location: string, resourceGroupName: string, accountName: string, options?: DeletedAccountsGetOptionalParams): Promise<DeletedAccountsGetResponse>;
     list(options?: DeletedAccountsListOptionalParams): PagedAsyncIterableIterator<Account>;
@@ -646,6 +672,7 @@ export interface DeletedAccountsPurgeOptionalParams extends coreClient.Operation
 export interface Deployment extends ProxyResource {
     readonly etag?: string;
     properties?: DeploymentProperties;
+    sku?: Sku;
     readonly systemData?: SystemData;
 }
 
@@ -660,8 +687,12 @@ export interface DeploymentModel {
     readonly callRateLimit?: CallRateLimit;
     format?: string;
     name?: string;
+    source?: string;
     version?: string;
 }
+
+// @public
+export type DeploymentModelVersionUpgradeOption = string;
 
 // @public
 export interface DeploymentProperties {
@@ -672,7 +703,9 @@ export interface DeploymentProperties {
     model?: DeploymentModel;
     readonly provisioningState?: DeploymentProvisioningState;
     raiPolicyName?: string;
+    readonly rateLimits?: ThrottlingRule[];
     scaleSettings?: DeploymentScaleSettings;
+    versionUpgradeOption?: DeploymentModelVersionUpgradeOption;
 }
 
 // @public
@@ -680,9 +713,9 @@ export type DeploymentProvisioningState = string;
 
 // @public
 export interface Deployments {
-    beginCreateOrUpdate(resourceGroupName: string, accountName: string, deploymentName: string, deployment: Deployment, options?: DeploymentsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DeploymentsCreateOrUpdateResponse>, DeploymentsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, accountName: string, deploymentName: string, deployment: Deployment, options?: DeploymentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentsCreateOrUpdateResponse>, DeploymentsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, accountName: string, deploymentName: string, deployment: Deployment, options?: DeploymentsCreateOrUpdateOptionalParams): Promise<DeploymentsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, accountName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, accountName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, accountName: string, deploymentName: string, options?: DeploymentsGetOptionalParams): Promise<DeploymentsGetResponse>;
     list(resourceGroupName: string, accountName: string, options?: DeploymentsListOptionalParams): PagedAsyncIterableIterator<Deployment>;
@@ -806,6 +839,12 @@ export interface KeyVaultProperties {
 }
 
 // @public
+export enum KnownAbusePenaltyAction {
+    Block = "Block",
+    Throttle = "Throttle"
+}
+
+// @public
 export enum KnownActionType {
     Internal = "Internal"
 }
@@ -830,10 +869,19 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownDeploymentModelVersionUpgradeOption {
+    NoAutoUpgrade = "NoAutoUpgrade",
+    OnceCurrentVersionExpired = "OnceCurrentVersionExpired",
+    OnceNewDefaultVersionAvailable = "OnceNewDefaultVersionAvailable"
+}
+
+// @public
 export enum KnownDeploymentProvisioningState {
     Accepted = "Accepted",
+    Canceled = "Canceled",
     Creating = "Creating",
     Deleting = "Deleting",
+    Disabled = "Disabled",
     Failed = "Failed",
     Moving = "Moving",
     Succeeded = "Succeeded"
@@ -849,6 +897,7 @@ export enum KnownDeploymentScaleType {
 export enum KnownHostingModel {
     ConnectedContainer = "ConnectedContainer",
     DisconnectedContainer = "DisconnectedContainer",
+    ProvisionedWeb = "ProvisionedWeb",
     Web = "Web"
 }
 
@@ -957,6 +1006,13 @@ export interface MetricName {
 }
 
 // @public
+export interface Model {
+    kind?: string;
+    model?: AccountModel;
+    skuName?: string;
+}
+
+// @public
 export interface ModelDeprecationInfo {
     fineTune?: string;
     inference?: string;
@@ -964,6 +1020,40 @@ export interface ModelDeprecationInfo {
 
 // @public
 export type ModelLifecycleStatus = string;
+
+// @public
+export interface ModelListResult {
+    nextLink?: string;
+    value?: Model[];
+}
+
+// @public
+export interface Models {
+    list(location: string, options?: ModelsListOptionalParams): PagedAsyncIterableIterator<Model>;
+}
+
+// @public
+export interface ModelSku {
+    capacity?: CapacityConfig;
+    deprecationDate?: Date;
+    name?: string;
+    rateLimits?: CallRateLimit[];
+    usageName?: string;
+}
+
+// @public
+export interface ModelsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ModelsListNextResponse = ModelListResult;
+
+// @public
+export interface ModelsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ModelsListResponse = ModelListResult;
 
 // @public
 export interface MultiRegionSettings {
@@ -1069,9 +1159,9 @@ export type PrivateEndpointConnectionProvisioningState = string;
 
 // @public
 export interface PrivateEndpointConnections {
-    beginCreateOrUpdate(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>, PrivateEndpointConnectionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>, PrivateEndpointConnectionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
     list(resourceGroupName: string, accountName: string, options?: PrivateEndpointConnectionsListOptionalParams): Promise<PrivateEndpointConnectionsListResponse>;
@@ -1339,8 +1429,29 @@ export interface Usage {
 
 // @public
 export interface UsageListResult {
+    nextLink?: string;
     value?: Usage[];
 }
+
+// @public
+export interface Usages {
+    list(location: string, options?: UsagesListOptionalParams): PagedAsyncIterableIterator<Usage>;
+}
+
+// @public
+export interface UsagesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type UsagesListNextResponse = UsageListResult;
+
+// @public
+export interface UsagesListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type UsagesListResponse = UsageListResult;
 
 // @public
 export interface UserAssignedIdentity {
