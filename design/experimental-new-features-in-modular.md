@@ -157,13 +157,28 @@ In the case of single-client,
 
 1. Bump minor stable version with `/beta` subpath export if preview any service side/client side breaking/non-breaking features.
 1. Release a beta package that reflects the code changes before GA the preview features.
-1. Release a major beta version if we are previewing any service-side/client-side breaking features to prepare for the GA.
-1. If we are planning to GA only service side features that include breaking changes from both service side and client side and client side features have not ready for GA yet, we will release a major version beta package with `/beta` subpath export where the preview service version is in the stable code and client-side feature is in the `/beta` subpath export.
-1. If we are planning to GA only client side features that include breaking changes from both service side and client side and service side features have not ready for GA yet, we will release a major beta version with `/beta` subpath export where the stable service version with client side feature is in the stable code and preview service version with client side feature is in the `/beta` subpath export.
+1. Release a major beta version package if we are previewing any service-side/client-side breaking features to prepare for the GA.
+1. `/beta` subpath export are not required to be continue exists until service goes GA or deprecated. It can be removed when we decide to not proceed with the experimental features.  
+1. We still keep the ability of using beta packages to preview some features if necessary.
+1. If we are planning to GA only service side features that include breaking changes from both service side and client side and client side features have not ready for GA yet, we will release a major version beta package with `/beta` subpath export where the preview service version is in the stable code and client-side feature is in the `/beta` subpath export. which can be reflect as the below scenario 5 to 6.
+1. If we are planning to GA only client side features that include breaking changes from both service side and client side and service side features have not ready for GA yet, we will release a major beta version with `/beta` subpath export where the stable service version with client side feature is in the stable code and preview service version with client side feature is in the `/beta` subpath export. which can be reflect to scenario 7 to 8.
+
+### Some examples of the SDK version strategies.
+Here're the examples of showing how the SDK version policies would impact the SDK version and api version in stable code and `/beta` code.
+| Scenario No | Current SDK version |	Current Stable code api version	| Preview Api version	 | Has API version breaking change |	Has Client Side breaking change	| Event	| New stable code version |	New `/beta` code description	| New SDK version |
+|-----|---------------------|---------------------------------|---------------------|----------------------------------|----------------------------|-------|----------------------|------------|-------------|
+| 1 | 2.0.0 | 2023-01-01 | 2023-02-01-preview | N | No client side feature | preview the service version as experimental feature | 2023-01-01 | 2023-02-01-preview | 2.1.0 |
+| 2 | 2.0.0 | 2023-01-01 | 2023-02-01-preview | Y | Nn client side feature | preview the service version as experimental feature | 2023-01-01 | 2023-02-01-preview | 2.1.0 |
+| 3 | 2.0.0 | 2023-01-01 | N/A | N/A | N | preview the client side feature as experimental feature | 2023-01-01 | 2023-01-01 + client side feature | 2.1.0 |
+| 4 | 2.0.0 | 2023-01-01 | N/A | N/A | Y | preview the client side feature as experimental feature | 2023-01-01 | 2023-01-01 + client side feature | 2.1.0 |
+| 5 | 2.1.0 | 2023-01-01 | 2023-02-01-preview | Y | Y | Service API version near GA | 2023-02-01-preview | 2023-02-01-preview + client side features | 3.0.0-beta.1 |
+| 6 | 3.0.0-beta.1 | 2023-02-01-preview | 2023-02-01 | N/A | Y | Service API version GA | 2023-02-01 | 2023-02-01 + client side features | 3.0.0 |
+| 7 | 2.1.0 | 2023-01-01 | 2023-02-01-preview | Y | Y | Client-Side feature near GA | 2023-01-01 + client side features | 2023-02-01-preview + client side features | 3.0.0-beta.1 |
+| 8 | 3.0.0-beta.1 | 2023-01-01 + client side features | 2023-02-01-preview + client side feature | Y | N/A | Client-side feature GA | 2023-01-01 + client side features | 2023-02-01-preview + client side features | 3.0.0 |
 
 ## Lifecycle of `beta` SubPath Export
 
-Basically, the `beta` subpath exists when we want to use stable version SDK with `beta` to get more publicity to our experimental features. and it disappears once we have prepared for the GA. if we have both service side features and client side features under the `beta` subpath, it will only get removed when both of them are GA.  
+Basically, the `beta` subpath exists when we want to use stable version SDK with `beta` to get more publicity to our experimental features. and it disappears once we have prepared for the GA or we decide to not process with this experimental features. If we have both service side features and client side features under the `beta` subpath, it will get removed when both of them are GA.   **Customers should not rely on the `beta` subpath for long term support**. 
 
 It is important to note that the lifecycle of experimental features on the service API side depends entirely on the service team. However, scenarios where a service feature remains in preview for an extended period without any official announcements regarding its GA status or deprecation are worth to think about.
 
