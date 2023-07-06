@@ -8,7 +8,7 @@
 
 import { tracingClient } from "../tracing";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { ShortCodesOperations } from "../operationsInterfaces";
+import { ShortCodes } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -51,12 +51,12 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ShortCodesOperations operations. */
-export class ShortCodesOperationsImpl implements ShortCodesOperations {
+/** Class containing ShortCodes operations. */
+export class ShortCodesImpl implements ShortCodes {
   private readonly client: ShortCodesClient;
 
   /**
-   * Initialize a new instance of the class ShortCodesOperations class.
+   * Initialize a new instance of the class ShortCodes class.
    * @param client Reference to the service client
    */
   constructor(client: ShortCodesClient) {
@@ -599,7 +599,7 @@ const getShortCodesOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ShortCodes
+      bodyMapper: Mappers.AcquiredShortCodes
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -806,7 +806,7 @@ const getShortCodesNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ShortCodes
+      bodyMapper: Mappers.AcquiredShortCodes
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
