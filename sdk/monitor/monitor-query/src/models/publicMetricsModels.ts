@@ -11,6 +11,7 @@ import {
   ResultType,
 } from "..";
 import { QueryTimeInterval } from "./timeInterval";
+import { MetricsBatchOptionalParams } from "./../generated/metricBatch/src";
 
 /**
  * Options used when querying metrics.
@@ -142,6 +143,10 @@ export interface ListMetricNamespacesOptions extends OperationOptions {
 
   /** The ISO 8601 conform Date start time from which to query for metric namespaces. */
   startTime?: string;
+}
+
+export interface MetricsBatchOptions extends MetricsBatchOptionalParams {
+  resourceids?: string[];
 }
 
 /** Metric namespace class specifies the metadata for a metric namespace. */

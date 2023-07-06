@@ -5,12 +5,50 @@
 ```ts
 
 import { CommonClientOptions } from '@azure/core-client';
+import * as coreClient from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximum" | "Total";
+
+// @public
+export interface BatchMetadataValue {
+    name?: LocalizableString;
+    value?: string;
+}
+
+// @public
+export interface BatchMetric {
+    displayDescription: string;
+    errorCode?: string;
+    errorMessage?: string;
+    id: string;
+    name: LocalizableString;
+    timeseries: BatchTimeSeriesElement[];
+    type: string;
+    unit: BatchMetricUnit;
+}
+
+// @public
+export type BatchMetricUnit = "Count" | "Bytes" | "Seconds" | "CountPerSecond" | "BytesPerSecond" | "Percent" | "MilliSeconds" | "ByteSeconds" | "Unspecified" | "Cores" | "MilliCores" | "NanoCores" | "BitsPerSecond";
+
+// @public
+export interface BatchMetricValue {
+    average?: number;
+    count?: number;
+    maximum?: number;
+    minimum?: number;
+    timeStamp: Date;
+    total?: number;
+}
+
+// @public
+export interface BatchTimeSeriesElement {
+    data?: BatchMetricValue[];
+    metadatavalues?: BatchMetadataValue[];
+}
 
 // @public
 export const Durations: {
@@ -35,6 +73,12 @@ export interface ListMetricDefinitionsOptions extends OperationOptions {
 // @public
 export interface ListMetricNamespacesOptions extends OperationOptions {
     startTime?: string;
+}
+
+// @public
+export interface LocalizableString {
+    localizedValue?: string;
+    value: string;
 }
 
 // @public
@@ -172,6 +216,34 @@ export interface MetricNamespace {
     type?: string;
 }
 
+// @public (undocumented)
+export interface MetricResultsResponseValuesItem {
+    endtime: string;
+    interval?: string;
+    namespace?: string;
+    resourceid?: string;
+    resourceregion?: string;
+    starttime: string;
+    value: BatchMetric[];
+}
+
+// @public
+export interface MetricsBatchOptionalParams extends coreClient.OperationOptions {
+    aggregation?: string;
+    endtime?: string;
+    filter?: string;
+    interval?: string;
+    orderby?: string;
+    starttime?: string;
+    top?: number;
+}
+
+// @public (undocumented)
+export interface MetricsBatchOptions extends MetricsBatchOptionalParams {
+    // (undocumented)
+    resourceids?: string[];
+}
+
 // @public
 export interface MetricsClientOptions extends CommonClientOptions {
     endpoint?: string;
@@ -180,6 +252,8 @@ export interface MetricsClientOptions extends CommonClientOptions {
 // @public
 export class MetricsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: MetricsClientOptions);
+    // (undocumented)
+    batch(subscriptionId: string, metricnamespace: string, metricnames: string[], options?: MetricsBatchOptions): PagedAsyncIterableIterator<MetricResultsResponseValuesItem>;
     listMetricDefinitions(resourceUri: string, options?: ListMetricDefinitionsOptions): PagedAsyncIterableIterator<MetricDefinition>;
     listMetricNamespaces(resourceUri: string, options?: ListMetricNamespacesOptions): PagedAsyncIterableIterator<MetricNamespace>;
     queryResource(resourceUri: string, metricNames: string[], options?: MetricsQueryOptions): Promise<MetricsQueryResult>;

@@ -34,6 +34,7 @@ export {
   TimeSeriesElement,
   MetricNamespace,
   MetricAvailability,
+  MetricsBatchOptions,
 } from "./models/publicMetricsModels";
 
 export { Durations } from "./models/constants";
@@ -61,3 +62,14 @@ export {
 
 export { AggregationType, MetricClass } from "./generated/metricsdefinitions/src";
 export { NamespaceClassification } from "./generated/metricsnamespaces/src";
+
+export {
+  MetricsBatchOptionalParams,
+  MetricResultsResponseValuesItem,
+  Metric as BatchMetric,
+  TimeSeriesElement as BatchTimeSeriesElement,
+  MetricValue as BatchMetricValue,
+  MetadataValue as BatchMetadataValue,
+  MetricUnit as BatchMetricUnit,
+  LocalizableString,
+} from "./generated/metricBatch/src";

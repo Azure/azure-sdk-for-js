@@ -56,6 +56,8 @@ import {
   LogsQuerySuccessfulResult,
 } from "../models/publicLogsModels";
 
+import { MetricResultsResponseValuesItem } from "../generated/metricBatch/src";
+
 /**
  * @internal
  */
@@ -350,6 +352,21 @@ export function convertResponseForMetricNamespaces(
     return response;
   });
   return namespaces;
+}
+
+export function convertResponseForMetricBatch(
+  generatedResponse?: Array<MetricResultsResponseValuesItem>
+): Array<MetricResultsResponseValuesItem> {
+  if (!generatedResponse) return [];
+
+  const batch: Array<MetricResultsResponseValuesItem> = generatedResponse?.map((genDef) => {
+    const response: MetricResultsResponseValuesItem = {
+      ...genDef,
+    };
+
+    return response;
+  });
+  return batch;
 }
 
 /**
