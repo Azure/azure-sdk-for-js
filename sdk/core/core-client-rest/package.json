@@ -97,6 +97,7 @@
     "prettier": "^2.8.8",
     "rimraf": "^5.0.1",
     "sinon": "^15.2.0",
+    "testdouble": "^3.18.0",
     "ts-node": "^10.9.1",
     "typescript": "~5.0.0"
   },

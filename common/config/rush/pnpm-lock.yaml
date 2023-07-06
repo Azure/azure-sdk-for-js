@@ -4794,7 +4794,7 @@ packages:
     dependencies:
       semver: 7.5.3
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230703
+      typescript: 5.2.0-dev.20230706
     dev: false
 
   /duplexer3/0.1.5:
@@ -6583,6 +6583,11 @@ packages:
     dependencies:
       call-bind: 1.0.2
       has-tostringtag: 1.0.0
+    dev: false
+
+  /is-regexp/1.0.0:
+    resolution: {integrity: sha512-7zjFAPO4/gwyQAAgRRmqeEeyIICSdmCqa3tsVHMdBzaXXRiqopZL4Cyghg/XulGWrtABTpbnYYzzIRffLkP4oA==}
+    engines: {node: '>=0.10.0'}
     dev: false
 
   /is-shared-array-buffer/1.0.2:
@@ -8981,6 +8986,14 @@ packages:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
     dev: false
 
+  /quibble/0.7.0:
+    resolution: {integrity: sha512-uiqtYLo6p6vWR/G3Ltsg0NU1xw43RcNGadYP+d/DF3zLQTyOt8uC7L2mmcJ97au1QE1YdmCD+HVIIq/RGtkbWA==}
+    engines: {node: '>= 0.14.0'}
+    dependencies:
+      lodash: 4.17.21
+      resolve: 1.22.2
+    dev: false
+
   /quick-lru/4.0.1:
     resolution: {integrity: sha512-ARhCpm70fzdcvNQfPoy49IaanKkTlRWF2JMzqhcJbhSFRZv7nPTvZJdcY7301IPmvW+/p0RgIWnQDLJxifsQ7g==}
     engines: {node: '>=8'}
@@ -9957,6 +9970,14 @@ packages:
       safe-buffer: 5.2.1
     dev: false
 
+  /stringify-object-es5/2.5.0:
+    resolution: {integrity: sha512-vE7Xdx9ylG4JI16zy7/ObKUB+MtxuMcWlj/WHHr3+yAlQoN6sst2stU9E+2Qs3OrlJw/Pf3loWxL1GauEHf6MA==}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      is-plain-obj: 1.1.0
+      is-regexp: 1.0.0
+    dev: false
+
   /strip-ansi/4.0.0:
     resolution: {integrity: sha512-4XaJ2zQdCzROZDivEVIDPkcQn8LMFSa8kj8Gxb/Lnwzv9A8VctNZ+lfivC/sV3ivW8ElJTERXZoPBRrZKkNKow==}
     engines: {node: '>=4'}
@@ -10124,6 +10145,16 @@ packages:
       minimatch: 3.1.2
     dev: false
 
+  /testdouble/3.18.0:
+    resolution: {integrity: sha512-awRay/WxNHYz0SJrjvvg1xE4QQkbKgWFN1VNhhb132JSO2FSWUW4cebUtD0HjWWwrvpN3uFsVeaUhwpmVlzlkg==}
+    engines: {node: '>= 14'}
+    dependencies:
+      lodash: 4.17.21
+      quibble: 0.7.0
+      stringify-object-es5: 2.5.0
+      theredoc: 1.0.0
+    dev: false
+
   /text-table/0.2.0:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
     dev: false
@@ -10139,6 +10170,10 @@ packages:
     resolution: {integrity: sha512-RVZSIV5IG10Hk3enotrhvz0T9em6cyHBLkH/YAZuKqd8hRkKhSfCGIcP2KUY0EPxndzANBmNllzWPwak+bheSw==}
     dependencies:
       any-promise: 1.3.0
+    dev: false
+
+  /theredoc/1.0.0:
+    resolution: {integrity: sha512-KU3SA3TjRRM932jpNfD3u4Ec3bSvedyo5ITPI7zgWYnKep7BwQQaxlhI9qbO+lKJoRnoAbEVfMcAHRuKVYikDA==}
     dev: false
 
   /throat/6.0.2:
@@ -10452,8 +10487,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230703:
-    resolution: {integrity: sha512-O+fL935EQoj276onbuLMys21Pew2AlvZNDqzkw6TXq/BDGoAeUTsxfLQID9o+tKEciOIxdLaZnMF8WXulVMfow==}
+  /typescript/5.2.0-dev.20230706:
+    resolution: {integrity: sha512-ma5zu+mBAHLZbR+k61P/LbiAH2+epfZjztEHAEBz/HhvAF2Hp8/r1hqnBA947iwoBwqIi1se4uQXVH8Sggn9uw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -18349,7 +18384,7 @@ packages:
     dev: false
 
   file:projects/core-amqp.tgz:
-    resolution: {integrity: sha512-2/Lwy8SyEBqnXzfMxBLcPEL1+9ylybduV+EwUy4GNJx87u0HAqpZNOhdTRVRTQjDkFxNzoPmzSHk6/BRWoGrfg==, tarball: file:projects/core-amqp.tgz}
+    resolution: {integrity: sha512-G3WoiNDKv7SiXF1qZh5zpLUEY0GOu/jnGtniYYRWrSvJ/Y7OnaFrazLqWfluUwj3ExEGqkxup/ChfruKQ7/nSQ==, tarball: file:projects/core-amqp.tgz}
     name: '@rush-temp/core-amqp'
     version: 0.0.0
     dependencies:
@@ -18477,7 +18512,7 @@ packages:
     dev: false
 
   file:projects/core-client.tgz:
-    resolution: {integrity: sha512-4+hv00gNFAPA18MEFonm+HEkWRtkEZIeddizXWop04srTsjfjU+iBSKybSuzkSfcl36jVoBpeohoqlc4ueIM0Q==, tarball: file:projects/core-client.tgz}
+    resolution: {integrity: sha512-VSR+TVkDOzssCCOPoY5kqBsNITwYF5ndFUivW6a7CxvQhQ4eW1tcAErN+2hJyVe/Ie3YmYKpD4v1YrF4SyG9aw==, tarball: file:projects/core-client.tgz}
     name: '@rush-temp/core-client'
     version: 0.0.0
     dependencies:
@@ -18505,6 +18540,7 @@ packages:
       prettier: 2.8.8
       rimraf: 5.0.1
       sinon: 15.2.0
+      testdouble: 3.18.0
       ts-node: 10.9.1_ykytbakkcjqkydq5sioaimsynm
       tslib: 2.5.3
       typescript: 5.0.4

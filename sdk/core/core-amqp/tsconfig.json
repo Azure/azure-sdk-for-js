@@ -9,7 +9,8 @@
     "rootDir": "."
   },
   "ts-node": {
-    "esm": true
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
   },
   "exclude": ["node_modules", "types/**", "./samples/**/*.ts"],
   "include": ["./src/**/*.ts", "./test/**/*.ts"]

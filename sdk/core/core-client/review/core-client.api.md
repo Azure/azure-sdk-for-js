@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference lib="dom" />
+
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AuthorizeRequestOnChallengeOptions } from '@azure/core-rest-pipeline';
 import { HttpClient } from '@azure/core-rest-pipeline';
