@@ -10,5 +10,6 @@
   "ts-node": {
     "esm": true
   },
-  "exclude": ["node_modules", "types", "temp", "browser", "dist", "dist-esm", "./samples/**/*.ts"]
+  "exclude": ["node_modules", "types/**", "./samples/**/*.ts"],
+  "include": ["./src/**/*.ts", "./test/**/*.ts"]
 }
