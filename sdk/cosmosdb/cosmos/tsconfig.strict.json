@@ -107,6 +107,7 @@
     "src/extractPartitionKey.ts",
     "src/globalEndpointManager.ts",
     "src/queryIterator.ts",
+    "src/client/ChangeFeed/*.ts",
     "src/client/User/index.ts",
     "src/client/Item/index.ts",
     "src/client/StoredProcedure/index.ts",
