@@ -1,10 +1,6 @@
 # Release History
 
-## 12.0.0-beta.2 (2023-07-11)
-
-### Features Added
-
-- Add vector search. [#26069](https://github.com/Azure/azure-sdk-for-js/pull/26069)
+## 11.3.2 (2023-07-11)
 
 ### Bugs Fixed
 
@@ -14,49 +10,28 @@
 
 ## 12.0.0-beta.1 (2023-05-09)
 
-### Features Added
-
-- Enable `OcrSkill` and `ImageAnalysisSkill`. [#23495](https://github.com/Azure/azure-sdk-for-js/pull/23495)
-
-### Breaking Changes
-
-- Update `SearchIndexerDataNoneIdentity.odatatype`. [#23495](https://github.com/Azure/azure-sdk-for-js/pull/23495)
-- Fix `SearchClient.getDocument` returning documents that contain fields which were not selected [#23627](https://github.com/Azure/azure-sdk-for-js/pull/23627)
-- Add type narrowing to returned documents [#23627](https://github.com/Azure/azure-sdk-for-js/pull/23627)
-  - Add breaking type parameters to these types:
-    - `AutocompleteOptions`
-    - `AutocompleteRequest`
-    - `GetDocumentOptions`
-    - `SearchIterator`
-    - `SearchOptions`
-    - `SearchRequestOptions`
-    - `SuggestOptions`
-    - `SuggestRequest`
+## 11.3.1 (2022-11-18)
 
 ### Bugs Fixed
 
-- Allow nested field names to be specified in `select` and `searchFields` options [#23627](https://github.com/Azure/azure-sdk-for-js/pull/23627)
-  - Affects these types:
-    - `AutocompleteRequest`
-    - `SearchRequestOptions`
-    - `SuggestRequest`
-- Fix discarded user-defined `onResponse` callback [#24479](https://github.com/Azure/azure-sdk-for-js/pull/24479)
-- Fix ISO8601 deserialization [#25801](https://github.com/Azure/azure-sdk-for-js/pull/25801)
+- Addressed an issue where `similarity` settings on indexes wouldn't populate correctly. See [#23811](https://github.com/Azure/azure-sdk-for-js/issues/23811)
 
-### Other Changes
+## 11.3.0 (2022-09-06)
 
-- Add `object` type constraint to `IndexDocumentsClient` and its dependencies [#23627](https://github.com/Azure/azure-sdk-for-js/pull/23627)
+### Features Added
 
-  - Affects these types:
-    - `IndexDocumentsClient`
-    - `SearchClient`
-    - `SearchDocumentsPageResult`
-    - `SearchDocumentsResult`
-    - `SearchIndexClient.getSearchClient`
-    - `SearchIndexingBufferedSender`
-    - `SearchResult`
-    - `SuggestDocumentsResult`
-    - `SuggestResult`
+- Enabled national cloud support for Azure Search SDK. Please refer [#22887](https://github.com/Azure/azure-sdk-for-js/pull/22887) for further details.
+- Support for TokenCredential has been added. With this addition, the Search SDK supports authentication via AAD.
+
+### Bugs Fixed
+
+- Converted the complex fields correctly within the Search Fields. Please refer [#16489](https://github.com/Azure/azure-sdk-for-js/issues/16489) for more details.
+- Fixed the typos `anayzerName` to `analyzerName` in `convertFieldsToPublic` method of `serviceUtils.ts`.
+- Fixed the issue with the presence of recursive structure while uploading documents. Please refer [#15656](https://github.com/Azure/azure-sdk-for-js/issues/15656) for further details.
+
+### Note
+
+- This GA release includes AAD with multi-cloud support and all the bug fixes since the last [11.2.0](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/CHANGELOG.md#1120-2021-06-08) GA release. Other preview features and breaking changes from the [11.3.0-beta.1](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/CHANGELOG.md#1130-beta1-2021-07-07) to [11.3.0-beta.8](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/CHANGELOG.md#1130-beta8-unreleased) releases are not included in this GA release.
 
 - Add deprecation warning to `EntityRecognitionSkill` and `SentimentSkill` [#25686](https://github.com/Azure/azure-sdk-for-js/pull/25686)
 
