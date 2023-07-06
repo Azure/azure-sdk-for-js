@@ -1,14 +1,17 @@
 # Release History
 
-## 11.3.2 (2023-07-11)
+## 11.3.2 (2023-06-06)
 
 ### Bugs Fixed
 
-- Fix compiler errors when using `SearchClient` without defined model. [#25999](https://github.com/Azure/azure-sdk-for-js/pull/25999)
+- Fix ISO8601 deserialization. [#25802](https://github.com/Azure/azure-sdk-for-js/pull/25802)
 - Fix all clients adding one or more duplicate user agents. [#26298](https://github.com/Azure/azure-sdk-for-js/pull/26298)
-- Fix serializerOptions and onResponse options for SearchClient methods. [#26327](https://github.com/Azure/azure-sdk-for-js/pull/26327)
+- Fix `serializerOptions` and `onResponse` options for SearchClient methods. [#26327](https://github.com/Azure/azure-sdk-for-js/pull/26327)
+- Fix discarded user-defined `onResponse` callback. [#24479](https://github.com/Azure/azure-sdk-for-js/pull/24479)
 
-## 12.0.0-beta.1 (2023-05-09)
+### Other Changes
+
+- Add deprecation warning to `EntityRecognitionSkill` and `SentimentSkill` [#25686](https://github.com/Azure/azure-sdk-for-js/pull/25686)
 
 ## 11.3.1 (2022-11-18)
 
