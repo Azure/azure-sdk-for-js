@@ -158,7 +158,7 @@ export class JobRouterClient {
    * Creates a job.
    * Returns the created job.
    * @param jobId - The job to be create
-   * @param options - Options for creating a router job. Uses merge-patch semantics: https://datatracker.ietf.org/doc/html/rfc7386.
+   * @param options - Options for creating a router job.
    */
   public async createJob(
     jobId: string,
@@ -334,7 +334,7 @@ export class JobRouterClient {
    * Creates a worker.
    * Returns the registered worker.
    * @param workerId - The id of the worker to create.
-   * @param options - Options for creating a router worker. Uses merge-patch semantics: https://datatracker.ietf.org/doc/html/rfc7386.
+   * @param options - Options for creating a router worker.
    */
   public async createWorker(
     workerId: string,

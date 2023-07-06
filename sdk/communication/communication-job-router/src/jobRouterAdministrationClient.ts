@@ -143,7 +143,7 @@ export class JobRouterAdministrationClient {
    * Creates a classification policy.
    * Returns the created classification policy.
    * @param classificationPolicyId - The id of the classification policy to create.
-   * @param options - Options for creating a classification policy. Uses merge-patch semantics: https://datatracker.ietf.org/doc/html/rfc7386.
+   * @param options - Options for creating a classification policy.
    */
   public async createClassificationPolicy(
     classificationPolicyId: string,
@@ -223,7 +223,7 @@ export class JobRouterAdministrationClient {
    * Creates a distribution policy.
    * Returns the created distribution policy.
    * @param distributionPolicyId - The id of the distribution policy to create.
-   * @param options - Options for creating a distribution policy. Uses merge-patch semantics: https://datatracker.ietf.org/doc/html/rfc7386.
+   * @param options - Options for creating a distribution policy.
    */
   public async createDistributionPolicy(
     distributionPolicyId: string,
@@ -303,7 +303,7 @@ export class JobRouterAdministrationClient {
    * Creates an exception policy.
    * Returns the created exception policy.
    * @param exceptionPolicyId - The id of the exception policy to create.
-   * @param options - Options for creating an exception policy. Uses merge-patch semantics: https://datatracker.ietf.org/doc/html/rfc7386.
+   * @param options - Options for creating an exception policy.
    */
   public async createExceptionPolicy(
     exceptionPolicyId: string,
@@ -380,7 +380,7 @@ export class JobRouterAdministrationClient {
    * Creates a queue.
    * Returns the created queue.
    * @param queueId - The id of the queue to create.
-   * @param options - Options for creating a queue. Uses merge-patch semantics: https://datatracker.ietf.org/doc/html/rfc7386.
+   * @param options - Options for creating a queue.
    */
   public async createQueue(
     queueId: string,
