@@ -331,24 +331,24 @@ export class AppConfigurationClient {
     options: ListConfigurationSettingsOptions = {}
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
     const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
-    {
-      firstPageLink: undefined,
-      getPage: async (pageLink: string | undefined) => {
-        const response = await this.sendConfigurationSettingsRequest(options, pageLink);
-        const currentResponse = {
-          ...response,
-          items: response.items != null ? response.items?.map(transformKeyValue) : [],
-          continuationToken: response.nextLink
-            ? extractAfterTokenFromNextLink(response.nextLink)
-            : undefined,
-        };
-        return {
-          page: currentResponse,
-          nextPageLink: currentResponse.continuationToken,
-        };
-      },
-      toElements: (page) => page.items,
-    };
+      {
+        firstPageLink: undefined,
+        getPage: async (pageLink: string | undefined) => {
+          const response = await this.sendConfigurationSettingsRequest(options, pageLink);
+          const currentResponse = {
+            ...response,
+            items: response.items != null ? response.items?.map(transformKeyValue) : [],
+            continuationToken: response.nextLink
+              ? extractAfterTokenFromNextLink(response.nextLink)
+              : undefined,
+          };
+          return {
+            page: currentResponse,
+            nextPageLink: currentResponse.continuationToken,
+          };
+        },
+        toElements: (page) => page.items,
+      };
     return getPagedAsyncIterator(pagedResult);
   }
 
@@ -367,27 +367,27 @@ export class AppConfigurationClient {
     options: ListSettingsSnapshotsOptions = {}
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
     const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
-    {
-      firstPageLink: undefined,
-      getPage: async (pageLink: string | undefined) => {
-        const response = await this.sendConfigurationSettingsRequest(
-          { snapshotName, ...options },
-          pageLink
-        );
-        const currentResponse = {
-          ...response,
-          items: response.items != null ? response.items?.map(transformKeyValue) : [],
-          continuationToken: response.nextLink
-            ? extractAfterTokenFromNextLink(response.nextLink)
-            : undefined,
-        };
-        return {
-          page: currentResponse,
-          nextPageLink: currentResponse.continuationToken,
-        };
-      },
-      toElements: (page) => page.items,
-    };
+      {
+        firstPageLink: undefined,
+        getPage: async (pageLink: string | undefined) => {
+          const response = await this.sendConfigurationSettingsRequest(
+            { snapshotName, ...options },
+            pageLink
+          );
+          const currentResponse = {
+            ...response,
+            items: response.items != null ? response.items?.map(transformKeyValue) : [],
+            continuationToken: response.nextLink
+              ? extractAfterTokenFromNextLink(response.nextLink)
+              : undefined,
+          };
+          return {
+            page: currentResponse,
+            nextPageLink: currentResponse.continuationToken,
+          };
+        },
+        toElements: (page) => page.items,
+      };
     return getPagedAsyncIterator(pagedResult);
   }
 
