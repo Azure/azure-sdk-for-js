@@ -3,7 +3,8 @@
   "compilerOptions": {
     "module": "commonjs",
     "outDir": "dist",
-    "declarationDir": "./types/latest"
+    "declarationDir": "./types/latest",
+    "skipLibCheck": true
   },
   "exclude": ["node_modules"],
   "include": ["./src/**/*.ts", "./samples/node-sample.ts", "./test/**/*.ts"]

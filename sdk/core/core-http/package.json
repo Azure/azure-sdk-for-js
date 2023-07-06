@@ -1,6 +1,7 @@
 {
   "name": "@azure/core-http",
   "sdk-type": "client",
+  "type": "commonjs",
   "author": "Microsoft Corporation",
   "version": "3.0.2",
   "description": "Isomorphic client Runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",

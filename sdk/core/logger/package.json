@@ -6,6 +6,7 @@
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "dist-esm/src/index.js",
+  "types": "./types/logger.d.ts",
   "browser": {
     "./dist-esm/src/log.js": "./dist-esm/src/log.browser.js",
     "process": false
