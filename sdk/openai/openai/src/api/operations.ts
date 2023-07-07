@@ -453,6 +453,7 @@ export async function _getAzureBatchImageGenerationOperationStatusDeserialize(
 
 /**
  * Convert REST-level ImageGenerationsOutput.data to HLC-level ImageGenerations.data
+ * see https://github.com/Azure/autorest.typescript/issues/1921
  * @internal
  */
 function toImageGenerationsData(
