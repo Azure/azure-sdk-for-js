@@ -11,7 +11,24 @@ describe("setClientRequestIdPolicy", function () {
     const request = createPipelineRequest({
       url: "https://bing.com",
     });
-    const policy = setClientRequestIdPolicy();
+    const policy = setClientRequestIdPolicy({});
+    const successResponse: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request,
+      status: 200,
+    };
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.onFirstCall().resolves(successResponse);
+    assert.isFalse(request.headers.has("x-ms-client-request-id"));
+    await policy.sendRequest(request, next);
+    assert.isTrue(request.headers.has("x-ms-client-request-id"));
+  });
+
+  it("should set the header name with `x-ms-client-request-id` if no clientRequestIdHeaderName is provide ", async () => {
+    const request = createPipelineRequest({
+      url: "https://bing.com",
+    });
+    const policy = setClientRequestIdPolicy({});
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
