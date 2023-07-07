@@ -9,21 +9,11 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
-/**
- * [Azure OpenAI](https://learn.microsoft.com/azure/cognitive-services/openai/overview)
- * provides REST API access to OpenAI's powerful language models including the GPT-3,
- * Codex and Embeddings model series. In addition, the new GPT-4 and ChatGPT (gpt-35-turbo)
- * model series have now reached general availability. These models can be easily adapted
- * to your specific task including but not limited to content generation, summarization,
- * semantic search, and natural language to code translation.
- *
- * @packageDocumentation
- */
-
 export { AzureKeyCredential } from "@azure/core-auth";
-
 export { OpenAIClient, OpenAIClientOptions } from "./OpenAIClient.js";
 export {
+  AzureOpenAIOperationState,
+  BatchImageGenerationOperationResponse,
   ChatChoice,
   ChatCompletions,
   ChatMessage,
@@ -36,8 +26,15 @@ export {
   EmbeddingItem,
   Embeddings,
   EmbeddingsUsage,
+  ImageGenerationResponseFormat,
+  ImageGenerations,
+  ImageLocation,
+  ImagePayload,
+  ImageSize,
 } from "./api/models.js";
 export {
+  BeginAzureBatchImageGenerationOptions,
+  GetAzureBatchImageGenerationOperationStatusOptions,
   GetChatCompletionsOptions,
   GetCompletionsOptions,
   GetEmbeddingsOptions,

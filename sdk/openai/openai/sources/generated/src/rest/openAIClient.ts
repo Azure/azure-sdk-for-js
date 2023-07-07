@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { logger } from "../logger";
+import { logger } from "../logger.js";
 import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { OpenAIContext } from "./clientDefinitions.js";
 
@@ -19,7 +19,7 @@ export default function createClient(
   options: ClientOptions = {}
 ): OpenAIContext {
   const baseUrl = options.baseUrl ?? `${endpoint}/openai`;
-  options.apiVersion = options.apiVersion ?? "2023-03-15-preview";
+  options.apiVersion = options.apiVersion ?? "2023-06-01-preview";
   options = {
     ...options,
     credentials: {
@@ -30,7 +30,7 @@ export default function createClient(
     },
   };
 
-  const userAgentInfo = `azsdk-js-openai-rest/1.0.0-beta.3`;
+  const userAgentInfo = `azsdk-js--rest/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

@@ -5,6 +5,8 @@ import {
   GetEmbeddingsParameters,
   GetCompletionsParameters,
   GetChatCompletionsParameters,
+  GetAzureBatchImageGenerationOperationStatusParameters,
+  BeginAzureBatchImageGenerationParameters,
 } from "./parameters.js";
 import {
   GetEmbeddings200Response,
@@ -13,6 +15,10 @@ import {
   GetCompletionsDefaultResponse,
   GetChatCompletions200Response,
   GetChatCompletionsDefaultResponse,
+  GetAzureBatchImageGenerationOperationStatus200Response,
+  GetAzureBatchImageGenerationOperationStatusDefaultResponse,
+  BeginAzureBatchImageGeneration202Response,
+  BeginAzureBatchImageGenerationDefaultResponse,
 } from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
@@ -49,6 +55,26 @@ export interface GetChatCompletions {
   >;
 }
 
+export interface GetAzureBatchImageGenerationOperationStatus {
+  /** Returns the status of the images operation */
+  get(
+    options?: GetAzureBatchImageGenerationOperationStatusParameters
+  ): StreamableMethod<
+    | GetAzureBatchImageGenerationOperationStatus200Response
+    | GetAzureBatchImageGenerationOperationStatusDefaultResponse
+  >;
+}
+
+export interface BeginAzureBatchImageGeneration {
+  /** Starts the generation of a batch of images from a text caption */
+  post(
+    options?: BeginAzureBatchImageGenerationParameters
+  ): StreamableMethod<
+    | BeginAzureBatchImageGeneration202Response
+    | BeginAzureBatchImageGenerationDefaultResponse
+  >;
+}
+
 export interface Routes {
   /** Resource for '/deployments/\{deploymentId\}/embeddings' has methods for the following verbs: post */
   (
@@ -65,6 +91,13 @@ export interface Routes {
     path: "/deployments/{deploymentId}/chat/completions",
     deploymentId: string
   ): GetChatCompletions;
+  /** Resource for '/operations/images/\{operationId\}' has methods for the following verbs: get */
+  (
+    path: "/operations/images/{operationId}",
+    operationId: string
+  ): GetAzureBatchImageGenerationOperationStatus;
+  /** Resource for '/images/generations:submit' has methods for the following verbs: post */
+  (path: "/images/generations:submit"): BeginAzureBatchImageGeneration;
 }
 
 export type OpenAIContext = Client & {

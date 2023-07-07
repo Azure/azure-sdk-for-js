@@ -11,8 +11,6 @@
 
 import { StreamableMethod } from "@azure-rest/core-client";
 
-declare const TextDecoder: any;
-
 export async function* getStream<TResponse>(
   response: StreamableMethod<TResponse>
 ): AsyncIterable<string> {
@@ -28,3 +26,5 @@ export async function* getStream<TResponse>(
     yield encoder.decode(value);
   }
 }
+
+declare const TextDecoder: any;
