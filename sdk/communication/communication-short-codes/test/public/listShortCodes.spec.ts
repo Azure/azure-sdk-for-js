@@ -22,7 +22,7 @@ describe(`ShortCodesClient - lists Short Codes`, function () {
   });
 
   it("can list all acquired short codes", async function () {
-    const message = "";
+    const message: string = "";
     for await (const shortCode of client.listShortCodes()) {
       assert.isNotNull(shortCode.value);
     }
