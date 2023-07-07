@@ -48,6 +48,7 @@ export {
 } from "./policies/exponentialRetryPolicy";
 export {
   setClientRequestIdPolicy,
+  SetClientRequestIdPolicyOptions,
   setClientRequestIdPolicyName,
 } from "./policies/setClientRequestIdPolicy";
 export { logPolicy, logPolicyName, LogPolicyOptions } from "./policies/logPolicy";

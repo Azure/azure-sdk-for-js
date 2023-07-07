@@ -205,6 +205,7 @@ export interface Pipeline {
 
 // @public
 export interface PipelineOptions {
+    clientRequestIdOptions?: SetClientRequestIdPolicyOptions;
     proxyOptions?: ProxySettings;
     redirectOptions?: RedirectPolicyOptions;
     retryOptions?: PipelineRetryOptions;
@@ -382,10 +383,15 @@ export interface RetryStrategy {
 export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
 
 // @public
-export function setClientRequestIdPolicy(requestIdHeaderName?: string): PipelinePolicy;
+export function setClientRequestIdPolicy(options?: SetClientRequestIdPolicyOptions): PipelinePolicy;
 
 // @public
 export const setClientRequestIdPolicyName = "setClientRequestIdPolicy";
+
+// @public
+export interface SetClientRequestIdPolicyOptions {
+    clientRequestIdHeaderName?: string;
+}
 
 // @public
 export function systemErrorRetryPolicy(options?: SystemErrorRetryPolicyOptions): PipelinePolicy;
