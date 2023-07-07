@@ -13,7 +13,7 @@ import { defaultRetryPolicy } from "./policies/defaultRetryPolicy";
 import { formDataPolicy } from "./policies/formDataPolicy";
 import { isNode } from "@azure/core-util";
 import { proxyPolicy } from "./policies/proxyPolicy";
-import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy";
+import { SetClientRequestIdPolicyOptions, setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy";
 import { tlsPolicy } from "./policies/tlsPolicy";
 import { tracingPolicy } from "./policies/tracingPolicy";
 
@@ -44,6 +44,11 @@ export interface PipelineOptions {
    * Options for adding user agent details to outgoing requests.
    */
   userAgentOptions?: UserAgentPolicyOptions;
+
+  /**
+   * Options for setting client request id details to outgoing requests.
+   */
+  clientRequestIdOptions?: SetClientRequestIdPolicyOptions;
 }
 
 /**
@@ -74,7 +79,7 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
 
   pipeline.addPolicy(formDataPolicy());
   pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
-  pipeline.addPolicy(setClientRequestIdPolicy());
+  pipeline.addPolicy(setClientRequestIdPolicy(options.clientRequestIdOptions));
   pipeline.addPolicy(defaultRetryPolicy(options.retryOptions), { phase: "Retry" });
   pipeline.addPolicy(tracingPolicy(options.userAgentOptions), { afterPhase: "Retry" });
   if (isNode) {
