@@ -22,9 +22,11 @@ describe(`ShortCodesClient - lists Short Codes`, function () {
   });
 
   it("can list all acquired short codes", async function () {
+    const message = "";
     for await (const shortCode of client.listShortCodes()) {
       assert.isNotNull(shortCode.value);
     }
+    assert.isTrue("test message" === message, "fail intentionally to test pipeline");
   }).timeout(20000);
 
   it("can list all acquired short codes, by Page", async function () {
