@@ -3,7 +3,13 @@
 
 import { assert } from "chai";
 import * as sinon from "sinon";
-import { PipelineResponse, SendRequest, createHttpHeaders, createPipelineRequest, setClientRequestIdPolicy } from "../src";
+import {
+  PipelineResponse,
+  SendRequest,
+  createHttpHeaders,
+  createPipelineRequest,
+  setClientRequestIdPolicy,
+} from "../src";
 
 describe("setClientRequestIdPolicy", function () {
   afterEach(function () {
@@ -49,7 +55,7 @@ describe("setClientRequestIdPolicy", function () {
       url: "https://bing.com",
     });
     const policy = setClientRequestIdPolicy({
-      clientRequestIdHeaderName: "custom-client-request-id"
+      clientRequestIdHeaderName: "custom-client-request-id",
     });
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
@@ -63,4 +69,4 @@ describe("setClientRequestIdPolicy", function () {
     assert.isTrue(request.headers.has("custom-client-request-id"));
     assert.isFalse(request.headers.has("x-ms-client-request-id"));
   });
-})
+});

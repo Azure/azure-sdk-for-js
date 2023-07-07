@@ -13,7 +13,10 @@ import { defaultRetryPolicy } from "./policies/defaultRetryPolicy";
 import { formDataPolicy } from "./policies/formDataPolicy";
 import { isNode } from "@azure/core-util";
 import { proxyPolicy } from "./policies/proxyPolicy";
-import { SetClientRequestIdPolicyOptions, setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy";
+import {
+  SetClientRequestIdPolicyOptions,
+  setClientRequestIdPolicy,
+} from "./policies/setClientRequestIdPolicy";
 import { tlsPolicy } from "./policies/tlsPolicy";
 import { tracingPolicy } from "./policies/tracingPolicy";
 

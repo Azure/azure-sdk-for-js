@@ -14,7 +14,7 @@ export const setClientRequestIdPolicyName = "setClientRequestIdPolicy";
  */
 export interface SetClientRequestIdPolicyOptions {
   /**
-   * If specified, the name of the header will be used to pass the request ID to. 
+   * If specified, the name of the header will be used to pass the request ID to.
    * The default header name is `x-ms-client-request-id`.
    */
   clientRequestIdHeaderName?: string;
@@ -32,7 +32,8 @@ export function setClientRequestIdPolicy(
   return {
     name: setClientRequestIdPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      options.clientRequestIdHeaderName = options.clientRequestIdHeaderName ?? "x-ms-client-request-id";
+      options.clientRequestIdHeaderName =
+        options.clientRequestIdHeaderName ?? "x-ms-client-request-id";
       if (!request.headers.has(options.clientRequestIdHeaderName)) {
         request.headers.set(options.clientRequestIdHeaderName, request.requestId);
       }
