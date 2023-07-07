@@ -9,6 +9,7 @@ import { FeedOptions, Response, ErrorResponse } from "../../request";
 import { ContinuationTokenForPartitionKey } from "./ContinuationTokenForPartitionKey";
 import { ChangeFeedIteratorV2 } from "./ChangeFeedIteratorV2";
 import { PartitionKey } from "../../documents";
+import { PartitionKeyRange } from "../../client";
 
 /**
  * Provides iterator for change feed.
@@ -105,7 +106,7 @@ export class ChangeFeedForPartitionKey<T> extends ChangeFeedIteratorV2<T> {
       feedOptions.sessionToken = this.changeFeedOptions.sessionToken;
     }
 
-    let continuation = this.continuationToken.Continuation;
+    const continuation = this.continuationToken.Continuation;
     if (continuation) {
       feedOptions.accessCondition = {
         type: Constants.HttpHeaders.IfNoneMatch,
@@ -134,8 +135,10 @@ export class ChangeFeedForPartitionKey<T> extends ChangeFeedIteratorV2<T> {
       response.headers
     );
   }
-
-  async fetchOverLappingFeedRanges(_epkRange: any): Promise<void> {
+  async fetchAllFeedRanges(): Promise<void> {
+    throw new ErrorResponse(`Method not implemented`);
+  }
+  async fetchOverLappingFeedRanges(_epkRange: PartitionKeyRange): Promise<void> {
     throw new ErrorResponse(`Method not implemented`);
   }
 

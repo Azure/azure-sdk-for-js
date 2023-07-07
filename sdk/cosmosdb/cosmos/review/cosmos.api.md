@@ -94,11 +94,11 @@ export class ChangeFeedIteratorResponse<T> {
 // @public (undocumented)
 export abstract class ChangeFeedIteratorV2<T> {
     // (undocumented)
-    fetchAllFeedRanges(): Promise<void>;
+    abstract fetchAllFeedRanges(): Promise<void>;
     // (undocumented)
     abstract fetchContinuationTokenFeedRanges(continuationToken: string): Promise<boolean>;
     // (undocumented)
-    abstract fetchOverLappingFeedRanges(epkRange: any): Promise<void>;
+    abstract fetchOverLappingFeedRanges(epkRange: PartitionKeyRange): Promise<void>;
     // (undocumented)
     abstract get hasMoreResults(): boolean;
     // (undocumented)

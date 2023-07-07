@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license../ChangeFeedIteratorResponse
+// Licensed under the MIT license.
 import { ChangeFeedRange } from "./ChangeFeedRange";
 import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
 import { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions";
@@ -180,7 +180,7 @@ export class ChangeFeedForEpkRange<T> extends ChangeFeedIteratorV2<T> {
     let firstNotModifiedFeedRange: [string, string] = undefined;
     let result: ChangeFeedIteratorResponse<Array<T & Resource>>;
     do {
-      let [processedFeedRange, response] = await this.fetchNext();
+      const [processedFeedRange, response] = await this.fetchNext();
       result = response;
       if (result !== undefined) {
         {
@@ -228,7 +228,7 @@ export class ChangeFeedForEpkRange<T> extends ChangeFeedIteratorV2<T> {
     const feedRange = this.queue.peek();
     if (feedRange) {
       // fetch results for feed range at the beginning of the queue.
-      let result = await this.getFeedResponse(feedRange);
+      const result = await this.getFeedResponse(feedRange);
 
       // check if results need to be fetched again depending on status code returned.
       // Eg. in case of paritionSplit, results need to be fetched for the child partitions.
@@ -236,7 +236,7 @@ export class ChangeFeedForEpkRange<T> extends ChangeFeedIteratorV2<T> {
 
       if (shouldRetry) {
         this.queue.dequeue();
-        return await this.fetchNext();
+        return this.fetchNext();
       } else {
         // update the continuation value for the current feed range.
         const continuationValueForFeedRange = result.headers[Constants.HttpHeaders.ETag];
@@ -270,14 +270,14 @@ export class ChangeFeedForEpkRange<T> extends ChangeFeedIteratorV2<T> {
     feedRange: ChangeFeedRange,
     response: ChangeFeedIteratorResponse<Array<T & Resource>>
   ): Promise<boolean> {
-    if (response.statusCode === StatusCodes.Ok || response.statusCode == StatusCodes.NotModified) {
+    if (response.statusCode === StatusCodes.Ok || response.statusCode === StatusCodes.NotModified) {
       return false;
     }
 
     const partitionSplit =
       response.statusCode === StatusCodes.Gone &&
-      (response.SubStatusCode == SubStatusCodes.PartitionKeyRangeGone ||
-        response.SubStatusCode == SubStatusCodes.CompletingSplit);
+      (response.SubStatusCode === SubStatusCodes.PartitionKeyRangeGone ||
+        response.SubStatusCode === SubStatusCodes.CompletingSplit);
 
     if (partitionSplit) {
       const resolvedRanges = await this.partitionKeyRangeCache.getOverlappingRanges(

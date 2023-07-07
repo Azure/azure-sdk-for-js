@@ -5,6 +5,15 @@ import { ErrorResponse } from "../../request";
 import { PartitionKeyRange } from "../Container";
 import { ChangeFeedRange } from "./ChangeFeedRange";
 
+/**
+ * Checks if more than one option is passed from where changefeed should start.
+ */
+const isMoreThanOneStartFromKeyPresent = (options: ChangeFeedIteratorOptions): boolean => {
+  const keys = ["continuationToken", "startTime", "startFromBeginning", "startFromNow"];
+  const presentKeys = Object.keys(options).filter((key) => keys.includes(key));
+  return presentKeys.length > 1;
+};
+
 export function validateChangeFeedOptions(options: ChangeFeedIteratorOptions): void {
   if (options?.maxItemCount && typeof options?.maxItemCount !== "number") {
     throw new ErrorResponse("maxItemCount must be number");
@@ -24,15 +33,6 @@ export function validateChangeFeedOptions(options: ChangeFeedIteratorOptions): v
     );
   }
 }
-
-/**
- * Checks if more than one option is passed from where changefeed should start.
- */
-const isMoreThanOneStartFromKeyPresent = (options: ChangeFeedIteratorOptions): boolean => {
-  const keys = ["continuationToken", "startTime", "startFromBeginning", "startFromNow"];
-  const presentKeys = Object.keys(options).filter((key) => keys.includes(key));
-  return presentKeys.length > 1;
-};
 
 /**
  * Checks if pkRange entirely covers the given overLapping range or there is only partial overlap.
@@ -67,7 +67,7 @@ export async function checkEpkHeaders(
     return [overLappingRange.minInclusive, pkRange.maxExclusive];
   }
 }
-
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 export function isEpkRange(obj: any): obj is PartitionKeyRange {
   return (
     obj &&
