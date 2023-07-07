@@ -33,7 +33,7 @@ describe("setClientRequestIdPolicy", function () {
     assert.isTrue(request.headers.has("x-ms-client-request-id"));
   });
 
-  it("should set the header name with `x-ms-client-request-id` if no clientRequestIdHeaderName is provide ", async () => {
+  it("should set the header name with `x-ms-client-request-id` if no clientRequestIdHeaderName is provided", async () => {
     const request = createPipelineRequest({
       url: "https://bing.com",
     });
