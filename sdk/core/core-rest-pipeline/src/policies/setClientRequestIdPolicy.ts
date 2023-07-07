@@ -32,8 +32,7 @@ export function setClientRequestIdPolicy(
   return {
     name: setClientRequestIdPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      options.requestIdHeaderName =
-        options.requestIdHeaderName ?? "x-ms-client-request-id";
+      options.requestIdHeaderName = options.requestIdHeaderName ?? "x-ms-client-request-id";
       if (!request.headers.has(options.requestIdHeaderName)) {
         request.headers.set(options.requestIdHeaderName, request.requestId);
       }
