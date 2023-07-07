@@ -21,29 +21,8 @@ function Get-javascript-EmitterName() {
   return "@azure-tools/typespec-ts"
 }
 
-function Get-Relative-Generated-Folder([string]$projectDirectory) {
-  $tspLocationFile = Resolve-Path "$projectDirectory/tsp-location.yaml"
-  Write-Host "Reading configuration from $tspLocationFile"
-  $tspLocationConfig = Get-Content -Path $tspLocationFile -Raw | ConvertFrom-Yaml
-  $relativeTempDirectory = $tspLocationConfig["directory"]
-  $start = $relativeTempDirectory.LastIndexOf("/")
-  $relativeTempDirectory = $relativeTempDirectory.Substring($start + 1)
-  $tspConfigFile = Resolve-Path "$projectDirectory/TempTypeSpecFiles/$relativeTempDirectory/tspconfig.yaml"
-  Write-Host "Reading tsp configuration from $tspConfigFile"
-  $tspConfigConfig = Get-Content -Path $tspConfigFile -Raw | ConvertFrom-Yaml
-  $emitterName = Get-javascript-EmitterName
-  $tsConfig = $tspConfigConfig["options"][$emitterName]
-  $relativeGeneratedFolderOptionName = "relative-generated-folder"
-  if ($tsConfig.ContainsKey($relativeGeneratedFolderOptionName)) {
-    $relativeGeneratedFolder = $tsConfig[$relativeGeneratedFolderOptionName]
-    return "$projectDirectory/$relativeGeneratedFolder/"
-  }
-  return "$projectDirectory/"
-}
-
 function Get-javascript-EmitterAdditionalOptions([string]$projectDirectory) {
-  $outputDirectory = Get-Relative-Generated-Folder $projectDirectory
-  return "--option @azure-tools/typespec-ts.emitter-output-dir=$outputDirectory"
+  return "--option @azure-tools/typespec-ts.emitter-output-dir=$projectDirectory/"
 }
 
 function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory) {
