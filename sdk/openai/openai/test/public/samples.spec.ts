@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
 import { OpenAIClient } from "../../src/OpenAIClient.js";
 import { createClient, startRecorder } from "./utils/recordedClient.js";
@@ -34,14 +35,14 @@ describe("README samples", () => {
       { role: "user", content: "What's the best way to train a parrot?" },
     ];
 
-    console.log(`Messages: ${messages.map((m) => m.content).join("\n")}`);
+    //console.log(`Messages: ${messages.map((m) => m.content).join("\n")}`);
 
     const events = await client.listChatCompletions(deploymentId, messages, { maxTokens: 128 });
     for await (const event of events) {
       for (const choice of event.choices) {
         const delta = choice.delta?.content;
         if (delta !== undefined) {
-          console.log(`Chatbot: ${delta}`);
+          //console.log(`Chatbot: ${delta}`);
         }
       }
     }
@@ -58,14 +59,15 @@ describe("README samples", () => {
 
     const deploymentName = "text-davinci-003";
 
-    let promptIndex = 0;
+    //let promptIndex = 0;
     const { choices } = await client.getCompletions(deploymentName, examplePrompts, {
       maxTokens: 64,
     });
     for (const choice of choices) {
       const completion = choice.text;
-      console.log(`Input: ${examplePrompts[promptIndex++]}`);
-      console.log(`Chatbot: ${completion}`);
+      assert.isDefined(completion);
+      //console.log(`Input: ${examplePrompts[promptIndex++]}`);
+      //console.log(`Chatbot: ${completion}`);
     }
   });
 
@@ -89,12 +91,13 @@ describe("README samples", () => {
   `,
     ];
 
-    console.log(`Input: ${summarizationPrompt}`);
+    //console.log(`Input: ${summarizationPrompt}`);
 
     const deploymentName = "text-davinci-003";
 
     const { choices } = await client.getCompletions(deploymentName, summarizationPrompt);
     const completion = choices[0].text;
-    console.log(`Summarization: ${completion}`);
+    assert.isDefined(completion);
+    //console.log(`Summarization: ${completion}`);
   });
 });
