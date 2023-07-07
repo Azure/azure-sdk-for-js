@@ -1,14 +1,10 @@
 # Release History
 
-## 1.11.1 (Unreleased)
+## 1.12.0 (Unreleased)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Add SetClientRequestIdPolicyOptions in PipelineOptions to allow to customize the client request id header [PR #26424](https://github.com/Azure/azure-sdk-for-js/pull/26424)
 
 ## 1.11.0 (2023-06-01)
 
