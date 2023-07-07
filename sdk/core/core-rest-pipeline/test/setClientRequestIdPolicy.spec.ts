@@ -55,7 +55,7 @@ describe("setClientRequestIdPolicy", function () {
       url: "https://bing.com",
     });
     const policy = setClientRequestIdPolicy({
-      clientRequestIdHeaderName: "custom-client-request-id",
+      requestIdHeaderName: "custom-client-request-id",
     });
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),

@@ -390,7 +390,7 @@ export const setClientRequestIdPolicyName = "setClientRequestIdPolicy";
 
 // @public
 export interface SetClientRequestIdPolicyOptions {
-    clientRequestIdHeaderName?: string;
+    requestIdHeaderName?: string;
 }
 
 // @public
