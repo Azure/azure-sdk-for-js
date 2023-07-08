@@ -110,7 +110,7 @@ export class CallConnection {
     if (isForEveryone) {
       const optionsInternal = {
         ...options,
-        repeatabilityFirstSent: new Date().toUTCString(),
+        repeatabilityFirstSent: new Date(),
         repeatabilityRequestID: uuidv4(),
       };
       await this.callConnection.terminateCall(this.callConnectionId, optionsInternal);
@@ -148,12 +148,19 @@ export class CallConnection {
   public async listParticipants(
     options: GetParticipantOptions = {}
   ): Promise<ListParticipantsResult> {
-    const result = await this.callConnection.getParticipants(this.callConnectionId, options);
+    const result = this.callConnection.listParticipants(this.callConnectionId, options);
+    const participants = [];
+    const pages = result?.byPage();
+
+    for await (const page of pages) {
+      for (const participant of page) {
+        participants.push(callParticipantConverter(participant));
+      }
+    }
+
     const listParticipantResponse: ListParticipantsResult = {
       ...result,
-      values: result?.values?.map((acsCallParticipant) =>
-        callParticipantConverter(acsCallParticipant)
-      ),
+      values: participants,
     };
     return listParticipantResponse;
   }
@@ -182,7 +189,7 @@ export class CallConnection {
     };
     const optionsInternal = {
       ...options,
-      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
     const result = await this.callConnection.addParticipant(
@@ -221,7 +228,7 @@ export class CallConnection {
     };
     const optionsInternal = {
       ...options,
-      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
     const result = await this.callConnection.transferToParticipant(
@@ -248,7 +255,7 @@ export class CallConnection {
     };
     const optionsInternal = {
       ...options,
-      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
     const result = await this.callConnection.removeParticipant(
@@ -277,7 +284,7 @@ export class CallConnection {
     };
     const optionsInternal = {
       ...options,
-      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
     const result = await this.callConnection.mute(

@@ -6,7 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
+  CallParticipantInternal,
+  CallConnectionGetParticipantsOptionalParams,
   CallConnectionGetCallOptionalParams,
   CallConnectionGetCallResponse,
   CallConnectionHangupCallOptionalParams,
@@ -14,8 +17,6 @@ import {
   TransferToParticipantRequest,
   CallConnectionTransferToParticipantOptionalParams,
   CallConnectionTransferToParticipantResponse,
-  CallConnectionGetParticipantsOptionalParams,
-  CallConnectionGetParticipantsResponse,
   AddParticipantRequest,
   CallConnectionAddParticipantOptionalParams,
   CallConnectionAddParticipantResponse,
@@ -32,8 +33,18 @@ import {
   CallConnectionGetParticipantResponse
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a CallConnection. */
 export interface CallConnection {
+  /**
+   * Get participants from a call.
+   * @param callConnectionId The call connection Id
+   * @param options The options parameters.
+   */
+  listParticipants(
+    callConnectionId: string,
+    options?: CallConnectionGetParticipantsOptionalParams
+  ): PagedAsyncIterableIterator<CallParticipantInternal>;
   /**
    * Get call connection.
    * @param callConnectionId The call connection id.
@@ -72,15 +83,6 @@ export interface CallConnection {
     transferToParticipantRequest: TransferToParticipantRequest,
     options?: CallConnectionTransferToParticipantOptionalParams
   ): Promise<CallConnectionTransferToParticipantResponse>;
-  /**
-   * Get participants from a call.
-   * @param callConnectionId The call connection Id
-   * @param options The options parameters.
-   */
-  getParticipants(
-    callConnectionId: string,
-    options?: CallConnectionGetParticipantsOptionalParams
-  ): Promise<CallConnectionGetParticipantsResponse>;
   /**
    * Add participants to the call.
    * @param callConnectionId The call connection Id

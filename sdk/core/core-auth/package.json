@@ -6,7 +6,7 @@
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist-esm/src/index.js",
-  "types": "./types/src/index.d.ts",
+  "types": "./types/latest/core-auth.d.ts",
   "typesVersions": {
     "<3.6": {
       "types/latest/*": [
@@ -16,7 +16,7 @@
   },
   "exports": {
     ".": {
-      "types": "./types/src/index.d.ts",
+      "types": "./types/latest/core-auth.d.ts",
       "types@<3.6": "./types/3.1/core-auth.d.ts",
       "require": "./dist/index.cjs",
       "import": "./dist-esm/src/index.js"
