@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to rehydrate recovery point for restore for a BackupInstance
  *
  * @summary rehydrate recovery point for restore for a BackupInstance
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-01-01/examples/BackupInstanceOperations/TriggerRehydrate.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-05-01/examples/BackupInstanceOperations/TriggerRehydrate.json
  */
 async function triggerRehydrate() {
   const subscriptionId =
