@@ -1278,7 +1278,7 @@ export class DataLakeFileClient extends DataLakePathClient {
           cpkInfo: options.customerProvidedKey,
           flush: options.flush,
           proposedLeaseId: options.proposedLeaseId,
-          leaseDuration: options.leaseDuration,
+          leaseDuration: options.leaseDurationInSeconds,
           leaseAction: options.leaseAction,
         })
       );
@@ -1310,7 +1310,7 @@ export class DataLakeFileClient extends DataLakePathClient {
           modifiedAccessConditions: options.conditions,
           cpkInfo: options.customerProvidedKey,
           proposedLeaseId: options.proposedLeaseId,
-          leaseDuration: options.leaseDuration,
+          leaseDuration: options.leaseDurationInSeconds,
           leaseAction: options.leaseAction,
         })
       );

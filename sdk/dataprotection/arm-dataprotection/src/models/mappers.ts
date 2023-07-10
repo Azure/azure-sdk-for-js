@@ -2355,6 +2355,107 @@ export const DppBaseResource: coreClient.CompositeMapper = {
   }
 };
 
+export const ResourceGuardProxyBase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceGuardProxyBase",
+    modelProperties: {
+      resourceGuardResourceId: {
+        serializedName: "resourceGuardResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      resourceGuardOperationDetails: {
+        serializedName: "resourceGuardOperationDetails",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceGuardOperationDetail"
+            }
+          }
+        }
+      },
+      lastUpdatedTime: {
+        serializedName: "lastUpdatedTime",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceGuardOperationDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceGuardOperationDetail",
+    modelProperties: {
+      vaultCriticalOperation: {
+        serializedName: "vaultCriticalOperation",
+        type: {
+          name: "String"
+        }
+      },
+      defaultResourceRequest: {
+        serializedName: "defaultResourceRequest",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const UnlockDeleteRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UnlockDeleteRequest",
+    modelProperties: {
+      resourceGuardOperationRequests: {
+        serializedName: "resourceGuardOperationRequests",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      resourceToBeDeleted: {
+        serializedName: "resourceToBeDeleted",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const UnlockDeleteResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UnlockDeleteResponse",
+    modelProperties: {
+      unlockDeleteExpiryTime: {
+        serializedName: "unlockDeleteExpiryTime",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DeleteOption: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3165,6 +3266,28 @@ export const DeletedBackupInstanceResourceList: coreClient.CompositeMapper = {
   }
 };
 
+export const ResourceGuardProxyBaseResourceList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceGuardProxyBaseResourceList",
+    modelProperties: {
+      ...DppResourceList.type.modelProperties,
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceGuardProxyBaseResource"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const OperationJobExtendedInfo: coreClient.CompositeMapper = {
   serializedName: "OperationJobExtendedInfo",
   type: {
@@ -3348,6 +3471,23 @@ export const DeletedBackupInstanceResource: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DeletedBackupInstance"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceGuardProxyBaseResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceGuardProxyBaseResource",
+    modelProperties: {
+      ...DppResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ResourceGuardProxyBase"
         }
       }
     }

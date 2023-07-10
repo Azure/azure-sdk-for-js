@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { generateUuid } from "@azure/core-http";
+import { randomUUID } from "@azure/core-util";
 import { PerfTest, getEnvVar } from "@azure/test-utils-perf";
 import {
   BlobServiceClient,
@@ -18,7 +18,7 @@ export abstract class StorageBlobTest<TOptions> extends PerfTest<TOptions> {
   blobServiceClient: BlobServiceClient;
   containerClient: ContainerClient;
   sharedKeyCredential: StorageSharedKeyCredential;
-  static containerName = generateUuid();
+  static containerName = randomUUID();
 
   constructor() {
     super();
@@ -27,10 +27,13 @@ export abstract class StorageBlobTest<TOptions> extends PerfTest<TOptions> {
       getValueInConnString(connectionString, "AccountName"),
       getValueInConnString(connectionString, "AccountKey")
     );
-    this.blobServiceClient = BlobServiceClient.fromConnectionString(
-      connectionString,
-      this.configureClientOptionsCoreV1({})
-    );
+    this.blobServiceClient = BlobServiceClient.fromConnectionString(connectionString);
+    const options = this.configureClientOptions({ additionalPolicies: [] });
+
+    const pipeline = this.blobServiceClient["storageClientContext"].pipeline;
+    for (const { policy } of options.additionalPolicies ?? []) {
+      pipeline.addPolicy(policy, { afterPhase: "Sign" });
+    }
     this.containerClient = this.blobServiceClient.getContainerClient(StorageBlobTest.containerName);
   }
 

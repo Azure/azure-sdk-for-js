@@ -8,27 +8,26 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AzureLogger } from '@azure/logger';
-import { BaseRequestPolicy } from '@azure/core-http';
-import * as coreHttp from '@azure/core-http';
-import { deserializationPolicy } from '@azure/core-http';
-import { HttpHeaders } from '@azure/core-http';
-import { HttpOperationResponse } from '@azure/core-http';
-import { HttpRequestBody } from '@azure/core-http';
-import { HttpResponse } from '@azure/core-http';
-import { HttpClient as IHttpClient } from '@azure/core-http';
-import { KeepAliveOptions } from '@azure/core-http';
+import { CompatResponse } from '@azure/core-http-compat';
+import * as coreClient from '@azure/core-client';
+import * as coreHttpCompat from '@azure/core-http-compat';
+import * as coreRestPipeline from '@azure/core-rest-pipeline';
+import { HttpHeadersLike } from '@azure/core-http-compat';
+import { HttpPipelineLogLevel } from '@azure/core-http-compat';
+import { KeepAliveOptions } from '@azure/core-http-compat';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { ProxyOptions } from '@azure/core-http';
+import { ProxySettings } from '@azure/core-rest-pipeline';
 import { Readable } from 'stream';
-import { RequestPolicy } from '@azure/core-http';
-import { RequestPolicyFactory } from '@azure/core-http';
-import { RequestPolicyOptions } from '@azure/core-http';
-import { RestError } from '@azure/core-http';
-import { ServiceClientOptions } from '@azure/core-http';
-import { TransferProgressEvent } from '@azure/core-http';
-import { UserAgentOptions } from '@azure/core-http';
-import { WebResource } from '@azure/core-http';
+import { RequestBodyType } from '@azure/core-rest-pipeline';
+import { RequestPolicy } from '@azure/core-http-compat';
+import { RequestPolicyFactory } from '@azure/core-http-compat';
+import { RequestPolicyOptionsLike } from '@azure/core-http-compat';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
+import { TransferProgressEvent } from '@azure/core-rest-pipeline';
+import { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
+import { WebResourceLike } from '@azure/core-http-compat';
 
 // @public
 export interface AccessPolicy {
@@ -84,15 +83,25 @@ export interface AccountSASSignatureValues {
 
 // @public
 export class AnonymousCredential extends Credential_2 {
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): AnonymousCredentialPolicy;
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): AnonymousCredentialPolicy;
 }
 
 // @public
 export class AnonymousCredentialPolicy extends CredentialPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions);
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
 }
 
-export { BaseRequestPolicy }
+// @public
+export abstract class BaseRequestPolicy implements RequestPolicy {
+    protected constructor(
+    _nextPolicy: RequestPolicy,
+    _options: RequestPolicyOptionsLike);
+    log(logLevel: HttpPipelineLogLevel, message: string): void;
+    readonly _nextPolicy: RequestPolicy;
+    readonly _options: RequestPolicyOptionsLike;
+    abstract sendRequest(webResource: WebResourceLike): Promise<CompatResponse>;
+    shouldLog(logLevel: HttpPipelineLogLevel): boolean;
+}
 
 // @public (undocumented)
 export interface ClearRange {
@@ -155,23 +164,21 @@ export interface CorsRule {
 
 // @public
 abstract class Credential_2 implements RequestPolicyFactory {
-    create(_nextPolicy: RequestPolicy, _options: RequestPolicyOptions): RequestPolicy;
+    create(_nextPolicy: RequestPolicy, _options: RequestPolicyOptionsLike): RequestPolicy;
 }
 export { Credential_2 as Credential }
 
 // @public
 export abstract class CredentialPolicy extends BaseRequestPolicy {
-    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
-    protected signRequest(request: WebResource): WebResource;
+    sendRequest(request: WebResourceLike): Promise<CompatResponse>;
+    protected signRequest(request: WebResourceLike): WebResourceLike;
 }
 
 // @public
-export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => CredentialPolicy;
+export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike) => CredentialPolicy;
 
 // @public
 export type DeleteSnapshotsOptionType = "include" | "include-leased";
-
-export { deserializationPolicy }
 
 // @public
 export interface DirectoryCloseHandlesHeaders {
@@ -211,11 +218,7 @@ export interface DirectoryCreateOptions extends FileAndDirectoryCreateCommonOpti
 }
 
 // @public
-export type DirectoryCreateResponse = DirectoryCreateHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: DirectoryCreateHeaders;
-    };
-};
+export type DirectoryCreateResponse = WithResponse<DirectoryCreateHeaders, DirectoryCreateHeaders>;
 
 // @public
 export interface DirectoryDeleteHeaders {
@@ -236,11 +239,7 @@ export interface DirectoryDeleteOptions extends CommonOptions {
 }
 
 // @public
-export type DirectoryDeleteResponse = DirectoryDeleteHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: DirectoryDeleteHeaders;
-    };
-};
+export type DirectoryDeleteResponse = WithResponse<DirectoryDeleteHeaders, DirectoryDeleteHeaders>;
 
 // @public
 export interface DirectoryExistsOptions extends CommonOptions {
@@ -264,11 +263,7 @@ export interface DirectoryForceCloseHandlesOptions extends CommonOptions {
 }
 
 // @public
-export type DirectoryForceCloseHandlesResponse = CloseHandlesInfo & DirectoryCloseHandlesHeaders & {
-    _response: HttpResponse & {
-        parsedHeaders: DirectoryForceCloseHandlesHeaders;
-    };
-};
+export type DirectoryForceCloseHandlesResponse = WithResponse<CloseHandlesInfo & DirectoryCloseHandlesHeaders, DirectoryForceCloseHandlesHeaders>;
 
 // @public
 export interface DirectoryForceCloseHandlesSegmentOptions extends CommonOptions {
@@ -303,11 +298,7 @@ export interface DirectoryGetPropertiesOptions extends CommonOptions {
 }
 
 // @public
-export type DirectoryGetPropertiesResponse = DirectoryGetPropertiesHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: DirectoryGetPropertiesHeaders;
-    };
-};
+export type DirectoryGetPropertiesResponse = WithResponse<DirectoryGetPropertiesHeaders, DirectoryGetPropertiesHeaders>;
 
 // @public
 export interface DirectoryItem {
@@ -347,13 +338,7 @@ export interface DirectoryListFilesAndDirectoriesSegmentHeaders {
 }
 
 // @public
-export type DirectoryListFilesAndDirectoriesSegmentResponse = DirectoryListFilesAndDirectoriesSegmentHeaders & ListFilesAndDirectoriesSegmentResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: ListFilesAndDirectoriesSegmentResponse;
-        parsedHeaders: DirectoryListFilesAndDirectoriesSegmentHeaders;
-    };
-};
+export type DirectoryListFilesAndDirectoriesSegmentResponse = WithResponse<DirectoryListFilesAndDirectoriesSegmentHeaders & ListFilesAndDirectoriesSegmentResponse, DirectoryListFilesAndDirectoriesSegmentHeaders, ListFilesAndDirectoriesSegmentResponse>;
 
 // @public
 export interface DirectoryListHandlesHeaders {
@@ -371,13 +356,7 @@ export interface DirectoryListHandlesOptions extends CommonOptions {
 }
 
 // @public
-export type DirectoryListHandlesResponse = DirectoryListHandlesHeaders & ListHandlesResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: ListHandlesResponse;
-        parsedHeaders: DirectoryListHandlesHeaders;
-    };
-};
+export type DirectoryListHandlesResponse = WithResponse<DirectoryListHandlesHeaders & ListHandlesResponse, DirectoryListHandlesHeaders, ListHandlesResponse>;
 
 // @public
 export interface DirectoryListHandlesSegmentOptions extends CommonOptions {
@@ -423,11 +402,7 @@ export interface DirectoryRenameOptions extends CommonOptions {
 }
 
 // @public
-export type DirectoryRenameResponse = DirectoryRenameHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: DirectoryRenameHeaders;
-    };
-};
+export type DirectoryRenameResponse = WithResponse<DirectoryRenameHeaders, DirectoryRenameHeaders>;
 
 // @public
 export interface DirectorySetMetadataHeaders {
@@ -445,11 +420,7 @@ export interface DirectorySetMetadataOptions extends CommonOptions {
 }
 
 // @public
-export type DirectorySetMetadataResponse = DirectorySetMetadataHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: DirectorySetMetadataHeaders;
-    };
-};
+export type DirectorySetMetadataResponse = WithResponse<DirectorySetMetadataHeaders, DirectorySetMetadataHeaders>;
 
 // @public
 export interface DirectorySetPropertiesHeaders {
@@ -470,11 +441,7 @@ export interface DirectorySetPropertiesHeaders {
 }
 
 // @public
-export type DirectorySetPropertiesResponse = DirectorySetPropertiesHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: DirectorySetPropertiesHeaders;
-    };
-};
+export type DirectorySetPropertiesResponse = WithResponse<DirectorySetPropertiesHeaders, DirectorySetPropertiesHeaders>;
 
 // @public
 export interface FileAbortCopyFromURLOptions extends CommonOptions {
@@ -491,11 +458,7 @@ export interface FileAbortCopyHeaders {
 }
 
 // @public
-export type FileAbortCopyResponse = FileAbortCopyHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: FileAbortCopyHeaders;
-    };
-};
+export type FileAbortCopyResponse = WithResponse<FileAbortCopyHeaders, FileAbortCopyHeaders>;
 
 // @public (undocumented)
 export interface FileAndDirectoryCreateCommonOptions {
@@ -562,11 +525,7 @@ export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, 
 }
 
 // @public
-export type FileCreateResponse = FileCreateHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: FileCreateHeaders;
-    };
-};
+export type FileCreateResponse = WithResponse<FileCreateHeaders, FileCreateHeaders>;
 
 // @public
 export interface FileDeleteHeaders {
@@ -588,11 +547,7 @@ export interface FileDeleteOptions extends CommonOptions {
 }
 
 // @public
-export type FileDeleteResponse = FileDeleteHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: FileDeleteHeaders;
-    };
-};
+export type FileDeleteResponse = WithResponse<FileDeleteHeaders, FileDeleteHeaders>;
 
 // @public
 export interface FileDownloadHeaders {
@@ -635,7 +590,7 @@ export interface FileDownloadHeaders {
 }
 
 // @public
-export interface FileDownloadOptionalParams extends coreHttp.OperationOptions {
+export interface FileDownloadOptionalParams extends coreClient.OperationOptions {
     leaseAccessConditions?: LeaseAccessConditions;
     range?: string;
     rangeGetContentMD5?: boolean;
@@ -652,13 +607,7 @@ export interface FileDownloadOptions extends CommonOptions {
 }
 
 // @public
-export type FileDownloadResponseModel = FileDownloadHeaders & {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: FileDownloadHeaders;
-    };
-};
+export type FileDownloadResponseModel = WithResponse<RawFileDownloadResponse, FileDownloadHeaders>;
 
 // @public
 export interface FileDownloadToBufferOptions extends CommonOptions {
@@ -692,11 +641,7 @@ export interface FileForceCloseHandlesOptions extends CommonOptions {
 }
 
 // @public
-export type FileForceCloseHandlesResponse = CloseHandlesInfo & FileCloseHandlesHeaders & {
-    _response: HttpResponse & {
-        parsedHeaders: FileForceCloseHandlesHeaders;
-    };
-};
+export type FileForceCloseHandlesResponse = WithResponse<CloseHandlesInfo & FileCloseHandlesHeaders, FileForceCloseHandlesHeaders>;
 
 // @public
 export interface FileGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
@@ -748,20 +693,10 @@ export interface FileGetPropertiesOptions extends CommonOptions {
 }
 
 // @public
-export type FileGetPropertiesResponse = FileGetPropertiesHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: FileGetPropertiesHeaders;
-    };
-};
+export type FileGetPropertiesResponse = WithResponse<FileGetPropertiesHeaders, FileGetPropertiesHeaders>;
 
 // @public
-export type FileGetRangeListDiffResponse = FileGetRangeListHeaders & ShareFileRangeList & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: ShareFileRangeList;
-        parsedHeaders: FileGetRangeListHeaders;
-    };
-};
+export type FileGetRangeListDiffResponse = WithResponse<FileGetRangeListHeaders & ShareFileRangeList, FileGetRangeListHeaders, ShareFileRangeList>;
 
 // @public
 export interface FileGetRangeListHeaders {
@@ -782,14 +717,9 @@ export interface FileGetRangeListOptions extends CommonOptions {
 }
 
 // @public
-export type FileGetRangeListResponse = FileGetRangeListHeaders & {
+export type FileGetRangeListResponse = WithResponse<FileGetRangeListHeaders & {
     rangeList: RangeModel[];
-    _response: HttpResponse & {
-        parsedHeaders: FileGetRangeListHeaders;
-        bodyAsText: string;
-        parsedBody: RangeModel[];
-    };
-};
+}, FileGetRangeListHeaders, RangeModel[]>;
 
 // @public (undocumented)
 export interface FileHttpHeaders {
@@ -832,13 +762,7 @@ export interface FileListHandlesOptions extends CommonOptions {
 }
 
 // @public
-export type FileListHandlesResponse = FileListHandlesHeaders & ListHandlesResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: ListHandlesResponse;
-        parsedHeaders: FileListHandlesHeaders;
-    };
-};
+export type FileListHandlesResponse = WithResponse<FileListHandlesHeaders & ListHandlesResponse, FileListHandlesHeaders, ListHandlesResponse>;
 
 // @public
 export interface FileListHandlesSegmentOptions extends CommonOptions {
@@ -920,11 +844,7 @@ export interface FileRenameOptions extends CommonOptions {
 }
 
 // @public
-export type FileRenameResponse = FileRenameHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: FileRenameHeaders;
-    };
-};
+export type FileRenameResponse = WithResponse<FileRenameHeaders, FileRenameHeaders>;
 
 // @public
 export interface FileResizeOptions extends FileAndDirectorySetPropertiesCommonOptions, CommonOptions {
@@ -1001,11 +921,7 @@ export interface FileSetHttpHeadersOptions extends FileAndDirectorySetProperties
 }
 
 // @public
-export type FileSetHTTPHeadersResponse = FileSetHTTPHeadersHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: FileSetHTTPHeadersHeaders;
-    };
-};
+export type FileSetHTTPHeadersResponse = WithResponse<FileSetHTTPHeadersHeaders, FileSetHTTPHeadersHeaders>;
 
 // @public
 export interface FileSetMetadataHeaders {
@@ -1024,11 +940,7 @@ export interface FileSetMetadataOptions extends CommonOptions {
 }
 
 // @public
-export type FileSetMetadataResponse = FileSetMetadataHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: FileSetMetadataHeaders;
-    };
-};
+export type FileSetMetadataResponse = WithResponse<FileSetMetadataHeaders, FileSetMetadataHeaders>;
 
 // @public
 export interface FileStartCopyHeaders {
@@ -1053,11 +965,7 @@ export interface FileStartCopyOptions extends CommonOptions {
 }
 
 // @public
-export type FileStartCopyResponse = FileStartCopyHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: FileStartCopyHeaders;
-    };
-};
+export type FileStartCopyResponse = WithResponse<FileStartCopyHeaders, FileStartCopyHeaders>;
 
 // @public
 export class FileSystemAttributes {
@@ -1089,7 +997,7 @@ export interface FileUploadRangeFromURLHeaders {
 }
 
 // @public
-export interface FileUploadRangeFromURLOptionalParams extends coreHttp.OperationOptions {
+export interface FileUploadRangeFromURLOptionalParams extends coreClient.OperationOptions {
     copySourceAuthorization?: string;
     fileLastWrittenMode?: FileLastWrittenMode;
     leaseAccessConditions?: LeaseAccessConditions;
@@ -1111,11 +1019,7 @@ export interface FileUploadRangeFromURLOptions extends CommonOptions {
 }
 
 // @public
-export type FileUploadRangeFromURLResponse = FileUploadRangeFromURLHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: FileUploadRangeFromURLHeaders;
-    };
-};
+export type FileUploadRangeFromURLResponse = WithResponse<FileUploadRangeFromURLHeaders, FileUploadRangeFromURLHeaders>;
 
 // @public
 export interface FileUploadRangeHeaders {
@@ -1140,11 +1044,7 @@ export interface FileUploadRangeOptions extends CommonOptions {
 }
 
 // @public
-export type FileUploadRangeResponse = FileUploadRangeHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: FileUploadRangeHeaders;
-    };
-};
+export type FileUploadRangeResponse = WithResponse<FileUploadRangeHeaders, FileUploadRangeHeaders>;
 
 // @public
 export interface FileUploadStreamOptions extends CommonOptions {
@@ -1179,13 +1079,15 @@ export interface HttpAuthorization {
     value: string;
 }
 
-export { HttpHeaders }
+// @public
+export interface HttpResponse {
+    headers: HttpHeadersLike;
+    request: WebResourceLike;
+    status: number;
+}
 
-export { HttpOperationResponse }
-
-export { HttpRequestBody }
-
-export { IHttpClient }
+// @public
+export function isPipelineLike(pipeline: unknown): pipeline is PipelineLike;
 
 // @public
 export interface LeaseAccessConditions {
@@ -1201,11 +1103,7 @@ export interface LeaseOperationOptions extends CommonOptions {
 }
 
 // @public
-export type LeaseOperationResponse = LeaseOperationResponseHeaders & {
-    _response: HttpResponse & {
-        parsedHeaders: LeaseOperationResponseHeaders;
-    };
-};
+export type LeaseOperationResponse = WithResponse<LeaseOperationResponseHeaders, LeaseOperationResponseHeaders>;
 
 // @public
 export interface LeaseOperationResponseHeaders {
@@ -1310,13 +1208,13 @@ export interface Metrics {
 }
 
 // @public
-export function newPipeline(credential?: Credential_2, pipelineOptions?: StoragePipelineOptions): Pipeline;
+export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
 
 // @public
 export type PermissionCopyModeType = "source" | "override";
 
 // @public
-export class Pipeline {
+export class Pipeline implements PipelineLike {
     constructor(factories: RequestPolicyFactory[], options?: PipelineOptions);
     readonly factories: RequestPolicyFactory[];
     readonly options: PipelineOptions;
@@ -1324,8 +1222,15 @@ export class Pipeline {
 }
 
 // @public
+export interface PipelineLike {
+    readonly factories: RequestPolicyFactory[];
+    readonly options: PipelineOptions;
+    toServiceClientOptions(): ServiceClientOptions;
+}
+
+// @public
 export interface PipelineOptions {
-    httpClient?: IHttpClient;
+    httpClient?: RequestPolicy;
 }
 
 // @public
@@ -1341,11 +1246,32 @@ export interface RangeModel {
     start: number;
 }
 
-export { RequestPolicy }
+// @public
+export type RawFileDownloadResponse = FileDownloadHeaders & {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeJS.ReadableStream;
+};
 
-export { RequestPolicyFactory }
+// @public
+export interface ResponseLike {
+    _response: HttpResponse;
+}
 
-export { RequestPolicyOptions }
+// @public
+export interface ResponseWithBody<Headers, Body> {
+    _response: HttpResponse & {
+        parsedHeaders: Headers;
+        bodyAsText: string;
+        parsedBody: Body;
+    };
+}
+
+// @public
+export interface ResponseWithHeaders<Headers> {
+    _response: HttpResponse & {
+        parsedHeaders: Headers;
+    };
+}
 
 export { RestError }
 
@@ -1390,6 +1316,12 @@ export class SASQueryParameters {
 }
 
 // @public
+export interface ServiceClientOptions {
+    httpClient?: RequestPolicy;
+    requestPolicyFactories?: RequestPolicyFactory[] | ((defaultRequestPolicyFactories: RequestPolicyFactory[]) => void | RequestPolicyFactory[]);
+}
+
+// @public
 export interface ServiceGenerateAccountSasUrlOptions {
     ipRange?: SasIPRange;
     protocol?: SASProtocol;
@@ -1410,13 +1342,7 @@ export interface ServiceGetPropertiesOptions extends CommonOptions {
 }
 
 // @public
-export type ServiceGetPropertiesResponse = ServiceGetPropertiesHeaders & FileServiceProperties & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: FileServiceProperties;
-        parsedHeaders: ServiceGetPropertiesHeaders;
-    };
-};
+export type ServiceGetPropertiesResponse = WithResponse<ServiceGetPropertiesHeaders & FileServiceProperties, ServiceGetPropertiesHeaders, FileServiceProperties>;
 
 // @public
 export interface ServiceListSharesOptions extends CommonOptions {
@@ -1435,13 +1361,7 @@ export interface ServiceListSharesSegmentHeaders {
 }
 
 // @public
-export type ServiceListSharesSegmentResponse = ListSharesResponse & ServiceListSharesSegmentHeaders & {
-    _response: HttpResponse & {
-        parsedHeaders: ServiceListSharesSegmentHeaders;
-        bodyAsText: string;
-        parsedBody: ListSharesResponseModel;
-    };
-};
+export type ServiceListSharesSegmentResponse = WithResponse<ListSharesResponse & ServiceListSharesSegmentHeaders, ServiceListSharesSegmentHeaders, ListSharesResponseModel>;
 
 // @public
 export interface ServiceSetPropertiesHeaders {
@@ -1456,11 +1376,7 @@ export interface ServiceSetPropertiesOptions extends CommonOptions {
 }
 
 // @public
-export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: ServiceSetPropertiesHeaders;
-    };
-};
+export type ServiceSetPropertiesResponse = WithResponse<ServiceSetPropertiesHeaders, ServiceSetPropertiesHeaders>;
 
 // @public
 export interface ServiceUndeleteShareOptions extends CommonOptions {
@@ -1479,7 +1395,7 @@ export type ShareAccessTier = "TransactionOptimized" | "Hot" | "Cool";
 // @public
 export class ShareClient extends StorageClient {
     constructor(connectionString: string, name: string, options?: StoragePipelineOptions);
-    constructor(url: string, credential?: Credential_2, options?: StoragePipelineOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     create(options?: ShareCreateOptions): Promise<ShareCreateResponse>;
     createDirectory(directoryName: string, options?: DirectoryCreateOptions): Promise<{
@@ -1556,18 +1472,10 @@ export interface ShareCreatePermissionOptions extends CommonOptions {
 }
 
 // @public
-export type ShareCreatePermissionResponse = ShareCreatePermissionHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: ShareCreatePermissionHeaders;
-    };
-};
+export type ShareCreatePermissionResponse = WithResponse<ShareCreatePermissionHeaders, ShareCreatePermissionHeaders>;
 
 // @public
-export type ShareCreateResponse = ShareCreateHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: ShareCreateHeaders;
-    };
-};
+export type ShareCreateResponse = WithResponse<ShareCreateHeaders, ShareCreateHeaders>;
 
 // @public
 export interface ShareCreateSnapshotHeaders {
@@ -1589,11 +1497,7 @@ export interface ShareCreateSnapshotOptions extends CommonOptions {
 }
 
 // @public
-export type ShareCreateSnapshotResponse = ShareCreateSnapshotHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: ShareCreateSnapshotHeaders;
-    };
-};
+export type ShareCreateSnapshotResponse = WithResponse<ShareCreateSnapshotHeaders, ShareCreateSnapshotHeaders>;
 
 // @public
 export interface ShareDeleteHeaders {
@@ -1616,15 +1520,11 @@ export interface ShareDeleteMethodOptions extends CommonOptions {
 }
 
 // @public
-export type ShareDeleteResponse = ShareDeleteHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: ShareDeleteHeaders;
-    };
-};
+export type ShareDeleteResponse = WithResponse<ShareDeleteHeaders, ShareDeleteHeaders>;
 
 // @public
 export class ShareDirectoryClient extends StorageClient {
-    constructor(url: string, credential?: Credential_2, options?: StoragePipelineOptions);
+    constructor(url: string, credential?: AnonymousCredential | StorageSharedKeyCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
     createFile(fileName: string, size: number, options?: FileCreateOptions): Promise<{
@@ -1671,7 +1571,7 @@ export interface ShareExistsOptions extends CommonOptions {
 
 // @public
 export class ShareFileClient extends StorageClient {
-    constructor(url: string, credential?: Credential_2, options?: StoragePipelineOptions);
+    constructor(url: string, credential?: AnonymousCredential | StorageSharedKeyCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     abortCopyFromURL(copyId: string, options?: FileAbortCopyFromURLOptions): Promise<FileAbortCopyResponse>;
     clearRange(offset: number, contentLength: number, options?: FileClearRangeOptions): Promise<FileUploadRangeResponse>;
@@ -1705,7 +1605,7 @@ export class ShareFileClient extends StorageClient {
     startCopyFromURL(copySource: string, options?: FileStartCopyOptions): Promise<FileStartCopyResponse>;
     uploadData(data: Buffer | Blob | ArrayBuffer | ArrayBufferView, options?: FileParallelUploadOptions): Promise<void>;
     uploadFile(filePath: string, options?: FileParallelUploadOptions): Promise<void>;
-    uploadRange(body: HttpRequestBody, offset: number, contentLength: number, options?: FileUploadRangeOptions): Promise<FileUploadRangeResponse>;
+    uploadRange(body: RequestBodyType, offset: number, contentLength: number, options?: FileUploadRangeOptions): Promise<FileUploadRangeResponse>;
     uploadRangeFromURL(sourceURL: string, sourceOffset: number, destOffset: number, count: number, options?: FileUploadRangeFromURLOptions): Promise<FileUploadRangeFromURLResponse>;
     uploadResetableStream(streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream, size: number, options?: FileParallelUploadOptions): Promise<void>;
     uploadSeekableBlob(blobFactory: (offset: number, size: number) => Blob, size: number, options?: FileParallelUploadOptions): Promise<void>;
@@ -1743,15 +1643,9 @@ export interface ShareGetAccessPolicyOptions extends CommonOptions {
 }
 
 // @public (undocumented)
-export type ShareGetAccessPolicyResponse = {
+export type ShareGetAccessPolicyResponse = WithResponse<{
     signedIdentifiers: SignedIdentifier[];
-} & ShareGetAccessPolicyHeaders & {
-    _response: HttpResponse & {
-        parsedHeaders: ShareGetAccessPolicyHeaders;
-        bodyAsText: string;
-        parsedBody: SignedIdentifierModel[];
-    };
-};
+} & ShareGetAccessPolicyHeaders, ShareGetAccessPolicyHeaders, SignedIdentifierModel[]>;
 
 // @public
 export interface ShareGetPermissionHeaders {
@@ -1767,13 +1661,7 @@ export interface ShareGetPermissionOptions extends CommonOptions {
 }
 
 // @public
-export type ShareGetPermissionResponse = ShareGetPermissionHeaders & SharePermission & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SharePermission;
-        parsedHeaders: ShareGetPermissionHeaders;
-    };
-};
+export type ShareGetPermissionResponse = WithResponse<ShareGetPermissionHeaders & SharePermission, ShareGetPermissionHeaders, SharePermission>;
 
 // @public
 export interface ShareGetPropertiesHeaders {
@@ -1814,11 +1702,7 @@ export type ShareGetPropertiesResponse = ShareGetPropertiesResponseModel & {
 };
 
 // @public
-export type ShareGetPropertiesResponseModel = ShareGetPropertiesHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: ShareGetPropertiesHeaders;
-    };
-};
+export type ShareGetPropertiesResponseModel = WithResponse<ShareGetPropertiesHeaders, ShareGetPropertiesHeaders>;
 
 // @public
 export interface ShareGetStatisticsHeaders {
@@ -1842,13 +1726,7 @@ export type ShareGetStatisticsResponse = ShareGetStatisticsResponseModel & {
 };
 
 // @public
-export type ShareGetStatisticsResponseModel = ShareGetStatisticsHeaders & ShareStats & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: ShareStats;
-        parsedHeaders: ShareGetStatisticsHeaders;
-    };
-};
+export type ShareGetStatisticsResponseModel = WithResponse<ShareGetStatisticsHeaders & ShareStats, ShareGetStatisticsHeaders, ShareStats>;
 
 // @public
 export interface ShareItem {
@@ -1970,7 +1848,7 @@ export class ShareSASPermissions {
 
 // @public
 export class ShareServiceClient extends StorageClient {
-    constructor(url: string, credential?: Credential_2, options?: StoragePipelineOptions);
+    constructor(url: string, credential?: AnonymousCredential | StorageSharedKeyCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     createShare(shareName: string, options?: ShareCreateOptions): Promise<{
         shareCreateResponse: ShareCreateResponse;
@@ -2003,11 +1881,7 @@ export interface ShareSetAccessPolicyOptions extends CommonOptions {
 }
 
 // @public
-export type ShareSetAccessPolicyResponse = ShareSetAccessPolicyHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: ShareSetAccessPolicyHeaders;
-    };
-};
+export type ShareSetAccessPolicyResponse = WithResponse<ShareSetAccessPolicyHeaders, ShareGetAccessPolicyHeaders>;
 
 // @public
 export interface ShareSetMetadataHeaders {
@@ -2026,11 +1900,7 @@ export interface ShareSetMetadataOptions extends CommonOptions {
 }
 
 // @public
-export type ShareSetMetadataResponse = ShareSetMetadataHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: ShareSetMetadataHeaders;
-    };
-};
+export type ShareSetMetadataResponse = WithResponse<ShareSetMetadataHeaders, ShareSetMetadataHeaders>;
 
 // @public
 export interface ShareSetPropertiesHeaders {
@@ -2052,11 +1922,7 @@ export interface ShareSetPropertiesOptions extends CommonOptions {
 }
 
 // @public
-export type ShareSetPropertiesResponse = ShareSetPropertiesHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: ShareSetPropertiesHeaders;
-    };
-};
+export type ShareSetPropertiesResponse = WithResponse<ShareSetPropertiesHeaders, ShareSetPropertiesHeaders>;
 
 // @public
 export type ShareSetQuotaHeaders = ShareSetPropertiesHeaders;
@@ -2068,7 +1934,7 @@ export interface ShareSetQuotaOptions extends CommonOptions {
 }
 
 // @public
-export type ShareSetQuotaResponse = ShareSetPropertiesResponse;
+export type ShareSetQuotaResponse = WithResponse<ShareSetQuotaHeaders, ShareSetQuotaHeaders>;
 
 // @public
 export interface ShareSmbSettings {
@@ -2109,22 +1975,23 @@ export interface SourceModifiedAccessConditions {
 
 // @public
 export class StorageBrowserPolicy extends BaseRequestPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions);
-    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
+    sendRequest(request: WebResourceLike): Promise<CompatResponse>;
 }
 
 // @public
 export class StorageBrowserPolicyFactory implements RequestPolicyFactory {
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageBrowserPolicy;
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): StorageBrowserPolicy;
 }
 
 // @public
 export interface StoragePipelineOptions {
-    httpClient?: IHttpClient;
+    audience?: string | string[];
+    httpClient?: RequestPolicy;
     keepAliveOptions?: KeepAliveOptions;
-    proxyOptions?: ProxyOptions;
+    proxyOptions?: ProxySettings;
     retryOptions?: StorageRetryOptions;
-    userAgentOptions?: UserAgentOptions;
+    userAgentOptions?: UserAgentPolicyOptions;
 }
 
 // @public
@@ -2133,21 +2000,22 @@ export interface StorageRetryOptions {
     readonly maxTries?: number;
     readonly retryDelayInMs?: number;
     readonly retryPolicyType?: StorageRetryPolicyType;
+    readonly secondaryHost?: string;
     readonly tryTimeoutInMs?: number;
 }
 
 // @public
 export class StorageRetryPolicy extends BaseRequestPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, retryOptions?: StorageRetryOptions);
-    protected attemptSendRequest(request: WebResource, secondaryHas404: boolean, attempt: number): Promise<HttpOperationResponse>;
-    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
-    protected shouldRetry(isPrimaryRetry: boolean, attempt: number, response?: HttpOperationResponse, err?: RestError): boolean;
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike, retryOptions?: StorageRetryOptions);
+    protected attemptSendRequest(request: WebResourceLike, secondaryHas404: boolean, attempt: number): Promise<CompatResponse>;
+    sendRequest(request: WebResourceLike): Promise<CompatResponse>;
+    protected shouldRetry(isPrimaryRetry: boolean, attempt: number, response?: CompatResponse, err?: RestError): boolean;
 }
 
 // @public
 export class StorageRetryPolicyFactory implements RequestPolicyFactory {
     constructor(retryOptions?: StorageRetryOptions);
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageRetryPolicy;
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): StorageRetryPolicy;
 }
 
 // @public
@@ -2161,13 +2029,13 @@ export class StorageSharedKeyCredential extends Credential_2 {
     constructor(accountName: string, accountKey: string);
     readonly accountName: string;
     computeHMACSHA256(stringToSign: string): string;
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageSharedKeyCredentialPolicy;
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): StorageSharedKeyCredentialPolicy;
 }
 
 // @public
 export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, factory: StorageSharedKeyCredential);
-    protected signRequest(request: WebResource): WebResource;
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike, factory: StorageSharedKeyCredential);
+    protected signRequest(request: WebResourceLike): WebResourceLike;
 }
 
 // @public
@@ -2176,7 +2044,8 @@ export type TimeNowType = "now";
 // @public
 export type TimePreserveType = "preserve";
 
-export { WebResource }
+// @public
+export type WithResponse<T, Headers = undefined, Body = undefined> = T & (Body extends object ? ResponseWithBody<Headers, Body> : Headers extends object ? ResponseWithHeaders<Headers> : ResponseLike);
 
 // (No @packageDocumentation comment for this package)
 

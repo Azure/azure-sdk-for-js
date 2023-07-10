@@ -8,6 +8,7 @@ import { hashObject } from "../../utils/hashObject";
 import { Aggregator, createAggregator } from "../Aggregators";
 import { getInitialHeader, mergeHeaders } from "../headerUtils";
 import { emptyGroup, extractAggregateResult } from "./emptyGroup";
+import { getEmptyCosmosDiagnostics } from "../../CosmosDiagnostics";
 
 interface GroupByResponse {
   result: GroupByResult;
@@ -34,11 +35,19 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
   public async nextItem(): Promise<Response<any>> {
     // Start returning results if we have processed a full results set
     if (this.aggregateResultArray.length > 0) {
-      return { result: this.aggregateResultArray.pop(), headers: getInitialHeader() };
+      return {
+        result: this.aggregateResultArray.pop(),
+        headers: getInitialHeader(),
+        diagnostics: getEmptyCosmosDiagnostics(),
+      };
     }
 
     if (this.completed) {
-      return { result: undefined, headers: getInitialHeader() };
+      return {
+        result: undefined,
+        headers: getInitialHeader(),
+        diagnostics: getEmptyCosmosDiagnostics(),
+      };
     }
 
     const aggregateHeaders = getInitialHeader();
@@ -81,14 +90,22 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
 
     // We bail early since we got an undefined result back `[{}]`
     if (this.completed) {
-      return { result: undefined, headers: aggregateHeaders };
+      return {
+        result: undefined,
+        headers: aggregateHeaders,
+        diagnostics: getEmptyCosmosDiagnostics(),
+      };
     }
     // If no results are left in the underlying execution context, convert our aggregate results to an array
     for (const aggregator of this.aggregators.values()) {
       this.aggregateResultArray.push(aggregator.getResult());
     }
     this.completed = true;
-    return { result: this.aggregateResultArray.pop(), headers: aggregateHeaders };
+    return {
+      result: this.aggregateResultArray.pop(),
+      headers: aggregateHeaders,
+      diagnostics: getEmptyCosmosDiagnostics(),
+    };
   }
 
   public hasMoreResults(): boolean {

@@ -6,10 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { Directory } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { StorageClientContext } from "../storageClientContext";
+import { StorageClient } from "../storageClient";
 import {
   DirectoryCreateOptionalParams,
   DirectoryCreateResponse,
@@ -31,15 +32,15 @@ import {
   DirectoryRenameResponse
 } from "../models";
 
-/** Class representing a Directory. */
-export class Directory {
-  private readonly client: StorageClientContext;
+/** Class containing Directory operations. */
+export class DirectoryImpl implements Directory {
+  private readonly client: StorageClient;
 
   /**
    * Initialize a new instance of the class Directory class.
    * @param client Reference to the service client
    */
-  constructor(client: StorageClientContext) {
+  constructor(client: StorageClient) {
     this.client = client;
   }
 
@@ -53,14 +54,10 @@ export class Directory {
     fileAttributes: string,
     options?: DirectoryCreateOptionalParams
   ): Promise<DirectoryCreateResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      fileAttributes,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { fileAttributes, options },
       createOperationSpec
-    ) as Promise<DirectoryCreateResponse>;
+    );
   }
 
   /**
@@ -72,13 +69,10 @@ export class Directory {
   getProperties(
     options?: DirectoryGetPropertiesOptionalParams
   ): Promise<DirectoryGetPropertiesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       getPropertiesOperationSpec
-    ) as Promise<DirectoryGetPropertiesResponse>;
+    );
   }
 
   /**
@@ -89,13 +83,7 @@ export class Directory {
   delete(
     options?: DirectoryDeleteOptionalParams
   ): Promise<DirectoryDeleteResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      deleteOperationSpec
-    ) as Promise<DirectoryDeleteResponse>;
+    return this.client.sendOperationRequest({ options }, deleteOperationSpec);
   }
 
   /**
@@ -108,14 +96,10 @@ export class Directory {
     fileAttributes: string,
     options?: DirectorySetPropertiesOptionalParams
   ): Promise<DirectorySetPropertiesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      fileAttributes,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { fileAttributes, options },
       setPropertiesOperationSpec
-    ) as Promise<DirectorySetPropertiesResponse>;
+    );
   }
 
   /**
@@ -125,13 +109,10 @@ export class Directory {
   setMetadata(
     options?: DirectorySetMetadataOptionalParams
   ): Promise<DirectorySetMetadataResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       setMetadataOperationSpec
-    ) as Promise<DirectorySetMetadataResponse>;
+    );
   }
 
   /**
@@ -142,13 +123,10 @@ export class Directory {
   listFilesAndDirectoriesSegment(
     options?: DirectoryListFilesAndDirectoriesSegmentOptionalParams
   ): Promise<DirectoryListFilesAndDirectoriesSegmentResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       listFilesAndDirectoriesSegmentOperationSpec
-    ) as Promise<DirectoryListFilesAndDirectoriesSegmentResponse>;
+    );
   }
 
   /**
@@ -158,13 +136,10 @@ export class Directory {
   listHandles(
     options?: DirectoryListHandlesOptionalParams
   ): Promise<DirectoryListHandlesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       listHandlesOperationSpec
-    ) as Promise<DirectoryListHandlesResponse>;
+    );
   }
 
   /**
@@ -177,14 +152,10 @@ export class Directory {
     handleId: string,
     options?: DirectoryForceCloseHandlesOptionalParams
   ): Promise<DirectoryForceCloseHandlesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      handleId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { handleId, options },
       forceCloseHandlesOperationSpec
-    ) as Promise<DirectoryForceCloseHandlesResponse>;
+    );
   }
 
   /**
@@ -196,20 +167,16 @@ export class Directory {
     renameSource: string,
     options?: DirectoryRenameOptionalParams
   ): Promise<DirectoryRenameResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      renameSource,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { renameSource, options },
       renameOperationSpec
-    ) as Promise<DirectoryRenameResponse>;
+    );
   }
 }
 // Operation Specifications
-const xmlSerializer = new coreHttp.Serializer(Mappers, /* isXml */ true);
+const xmlSerializer = coreClient.createSerializer(Mappers, /* isXml */ true);
 
-const createOperationSpec: coreHttp.OperationSpec = {
+const createOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}/{directory}",
   httpMethod: "PUT",
   responses: {
@@ -237,7 +204,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const getPropertiesOperationSpec: coreHttp.OperationSpec = {
+const getPropertiesOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}/{directory}",
   httpMethod: "GET",
   responses: {
@@ -259,7 +226,7 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const deleteOperationSpec: coreHttp.OperationSpec = {
+const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}/{directory}",
   httpMethod: "DELETE",
   responses: {
@@ -277,7 +244,7 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const setPropertiesOperationSpec: coreHttp.OperationSpec = {
+const setPropertiesOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}/{directory}",
   httpMethod: "PUT",
   responses: {
@@ -308,7 +275,7 @@ const setPropertiesOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const setMetadataOperationSpec: coreHttp.OperationSpec = {
+const setMetadataOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}/{directory}",
   httpMethod: "PUT",
   responses: {
@@ -334,7 +301,7 @@ const setMetadataOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const listFilesAndDirectoriesSegmentOperationSpec: coreHttp.OperationSpec = {
+const listFilesAndDirectoriesSegmentOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}/{directory}",
   httpMethod: "GET",
   responses: {
@@ -367,7 +334,7 @@ const listFilesAndDirectoriesSegmentOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const listHandlesOperationSpec: coreHttp.OperationSpec = {
+const listHandlesOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}/{directory}",
   httpMethod: "GET",
   responses: {
@@ -396,7 +363,7 @@ const listHandlesOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const forceCloseHandlesOperationSpec: coreHttp.OperationSpec = {
+const forceCloseHandlesOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}/{directory}",
   httpMethod: "PUT",
   responses: {
@@ -424,7 +391,7 @@ const forceCloseHandlesOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const renameOperationSpec: coreHttp.OperationSpec = {
+const renameOperationSpec: coreClient.OperationSpec = {
   path: "/{shareName}/{directory}",
   httpMethod: "PUT",
   responses: {

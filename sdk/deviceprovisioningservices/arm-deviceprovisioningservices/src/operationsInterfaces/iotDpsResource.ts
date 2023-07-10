@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ProvisioningServiceDescription,
   IotDpsResourceListBySubscriptionOptionalParams,
@@ -91,13 +91,13 @@ export interface IotDpsResource {
   >;
   /**
    * Get the metadata of the provisioning service without SAS keys.
-   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param resourceGroupName Resource group name.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param options The options parameters.
    */
   get(
-    provisioningServiceName: string,
     resourceGroupName: string,
+    provisioningServiceName: string,
     options?: IotDpsResourceGetOptionalParams
   ): Promise<IotDpsResourceGetResponse>;
   /**
@@ -115,8 +115,8 @@ export interface IotDpsResource {
     iotDpsDescription: ProvisioningServiceDescription,
     options?: IotDpsResourceCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IotDpsResourceCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IotDpsResourceCreateOrUpdateResponse>,
       IotDpsResourceCreateOrUpdateResponse
     >
   >;
@@ -149,8 +149,8 @@ export interface IotDpsResource {
     provisioningServiceTags: TagsResource,
     options?: IotDpsResourceUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IotDpsResourceUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IotDpsResourceUpdateResponse>,
       IotDpsResourceUpdateResponse
     >
   >;
@@ -170,24 +170,24 @@ export interface IotDpsResource {
   ): Promise<IotDpsResourceUpdateResponse>;
   /**
    * Deletes the Provisioning Service.
-   * @param provisioningServiceName Name of provisioning service to delete.
    * @param resourceGroupName Resource group identifier.
+   * @param provisioningServiceName Name of provisioning service to delete.
    * @param options The options parameters.
    */
   beginDelete(
-    provisioningServiceName: string,
     resourceGroupName: string,
+    provisioningServiceName: string,
     options?: IotDpsResourceDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the Provisioning Service.
-   * @param provisioningServiceName Name of provisioning service to delete.
    * @param resourceGroupName Resource group identifier.
+   * @param provisioningServiceName Name of provisioning service to delete.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
-    provisioningServiceName: string,
     resourceGroupName: string,
+    provisioningServiceName: string,
     options?: IotDpsResourceDeleteOptionalParams
   ): Promise<void>;
   /**
@@ -295,8 +295,8 @@ export interface IotDpsResource {
     privateEndpointConnection: PrivateEndpointConnection,
     options?: IotDpsResourceCreateOrUpdatePrivateEndpointConnectionOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse
       >,
       IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse
@@ -330,8 +330,8 @@ export interface IotDpsResource {
     privateEndpointConnectionName: string,
     options?: IotDpsResourceDeletePrivateEndpointConnectionOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IotDpsResourceDeletePrivateEndpointConnectionResponse>,
+    SimplePollerLike<
+      OperationState<IotDpsResourceDeletePrivateEndpointConnectionResponse>,
       IotDpsResourceDeletePrivateEndpointConnectionResponse
     >
   >;

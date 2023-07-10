@@ -3,6 +3,7 @@
 import { PartitionKeyRange } from "../client/Container/PartitionKeyRange";
 import { ClientContext } from "../ClientContext";
 import { getIdFromLink } from "../common/helper";
+import { CosmosDiagnosticContext } from "../CosmosDiagnosticsContext";
 import { createCompleteRoutingMap } from "./CollectionRoutingMapFactory";
 import { InMemoryCollectionRoutingMap } from "./inMemoryCollectionRoutingMap";
 import { QueryRange } from "./QueryRange";
@@ -22,12 +23,15 @@ export class PartitionKeyRangeCache {
    * @hidden
    */
   public async onCollectionRoutingMap(
-    collectionLink: string
+    collectionLink: string,
+    diagnosticContext: CosmosDiagnosticContext
   ): Promise<InMemoryCollectionRoutingMap> {
     const collectionId = getIdFromLink(collectionLink);
     if (this.collectionRoutingMapByCollectionId[collectionId] === undefined) {
-      this.collectionRoutingMapByCollectionId[collectionId] =
-        this.requestCollectionRoutingMap(collectionLink);
+      this.collectionRoutingMapByCollectionId[collectionId] = this.requestCollectionRoutingMap(
+        collectionLink,
+        diagnosticContext
+      );
     }
     return this.collectionRoutingMapByCollectionId[collectionId];
   }
@@ -38,17 +42,19 @@ export class PartitionKeyRangeCache {
    */
   public async getOverlappingRanges(
     collectionLink: string,
-    queryRange: QueryRange
+    queryRange: QueryRange,
+    diagnosticContext: CosmosDiagnosticContext
   ): Promise<PartitionKeyRange[]> {
-    const crm = await this.onCollectionRoutingMap(collectionLink);
+    const crm = await this.onCollectionRoutingMap(collectionLink, diagnosticContext);
     return crm.getOverlappingRanges(queryRange);
   }
 
   private async requestCollectionRoutingMap(
-    collectionLink: string
+    collectionLink: string,
+    diagnosticContext: CosmosDiagnosticContext
   ): Promise<InMemoryCollectionRoutingMap> {
     const { resources } = await this.clientContext
-      .queryPartitionKeyRanges(collectionLink)
+      .queryPartitionKeyRanges(collectionLink, diagnosticContext)
       .fetchAll();
     return createCompleteRoutingMap(resources.map((r) => [r, true]));
   }

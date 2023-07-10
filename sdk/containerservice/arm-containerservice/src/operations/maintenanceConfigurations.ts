@@ -275,6 +275,9 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.MaintenanceConfiguration
     },
+    201: {
+      bodyMapper: Mappers.MaintenanceConfiguration
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }

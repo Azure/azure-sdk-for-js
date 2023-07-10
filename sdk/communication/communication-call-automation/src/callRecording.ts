@@ -88,7 +88,7 @@ export class CallRecording {
 
     const optionsInternal = {
       ...options,
-      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
     const response = await this.callRecordingImpl.startRecording(

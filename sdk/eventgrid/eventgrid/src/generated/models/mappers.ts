@@ -6564,6 +6564,38 @@ export const ContainerServiceNewKubernetesVersionAvailableEventData: coreClient.
   }
 };
 
+export const ContainerServiceClusterSupportEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerServiceClusterSupportEventData",
+    modelProperties: {
+      kubernetesVersion: {
+        serializedName: "kubernetesVersion",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerServiceNodePoolRollingEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerServiceNodePoolRollingEventData",
+    modelProperties: {
+      nodePoolName: {
+        serializedName: "nodePoolName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ApiManagementUserCreatedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -7854,6 +7886,56 @@ export const AcsSmsReceivedEventData: coreClient.CompositeMapper = {
           name: "String"
         }
       }
+    }
+  }
+};
+
+export const ContainerServiceClusterSupportEndedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerServiceClusterSupportEndedEventData",
+    modelProperties: {
+      ...ContainerServiceClusterSupportEventData.type.modelProperties
+    }
+  }
+};
+
+export const ContainerServiceClusterSupportEndingEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerServiceClusterSupportEndingEventData",
+    modelProperties: {
+      ...ContainerServiceClusterSupportEventData.type.modelProperties
+    }
+  }
+};
+
+export const ContainerServiceNodePoolRollingStartedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerServiceNodePoolRollingStartedEventData",
+    modelProperties: {
+      ...ContainerServiceNodePoolRollingEventData.type.modelProperties
+    }
+  }
+};
+
+export const ContainerServiceNodePoolRollingSucceededEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerServiceNodePoolRollingSucceededEventData",
+    modelProperties: {
+      ...ContainerServiceNodePoolRollingEventData.type.modelProperties
+    }
+  }
+};
+
+export const ContainerServiceNodePoolRollingFailedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerServiceNodePoolRollingFailedEventData",
+    modelProperties: {
+      ...ContainerServiceNodePoolRollingEventData.type.modelProperties
     }
   }
 };
