@@ -144,7 +144,7 @@ let setting = await client.getConfigurationSetting({
 setting = await client.getConfigurationSetting(setting);
 ```
 
-A new feature supported in `2022-11-01-preview` API version is the creation of key-value snapshots. They allow developers to create an immutable point-in-time snapshot of their configuration store. During creation, developers can add filters to their snapshots to filter what key-values get put inside. This allows developers to create immutable, composed views of their configuration store that they can release with their application. 
+Azure App Configuration allows users to create a point-in-time snapshot of their configuration store(supported in `2022-11-01-preview` API version), providing them with the ability to treat settings as one consistent version. This feature enables applications to hold a consistent view of configuration, ensuring that there are no version mismatches to individual settings due to reading as updates were made. Snapshots are immutable, ensuring that configuration can confidently be rolled back to a last-known-good configuration in the event of a problem.
 
 ## Examples
 
