@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 import assert from "assert";
 import { Suite } from "mocha";
-import { Container, CosmosClient } from "../../../src";
+import { Container, CosmosClient } from "../../../../src";
 import {
   getTestContainer,
   removeAllDatabases,
   defaultClient,
   defaultComputeGatewayClient,
-} from "../common/TestHelpers";
+} from "../../common/TestHelpers";
 
 interface ItemPayload {
   id?: string;
