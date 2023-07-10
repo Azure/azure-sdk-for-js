@@ -178,9 +178,9 @@ async function run() {
 run().catch((err) => console.log("ERROR:", err));
 ```
 
-### Create and get a snapshot
+### Create a snapshot
 
-There are two methods to create a snapshot, listed below. The standard way is `beginCreateSnapshot` to get the poller. The customer can also use `beginCreateSnapshotAndWait` to have the created snapshot after the polling is done.
+`beginCreateSnapshot` gives you the poller to poll for the snapshot creation. 
 
 ```javascript
 const { AppConfigurationClient } = require("@azure/app-configuration");
@@ -199,25 +199,28 @@ await client.addConfigurationSetting({
   label
 });
 
-// First method to create snapshot
 const poller = await this.beginCreateSnapshot({
   name:"testsnapshot",
   retentionPeriod: 2592000,
   filters: [{key, label}],
 });
 const snapshot = await poller.pollUntilDone();
+```
 
-// Second method to create snapshot
-const snapshot_2  = await client.beginCreateSnapshotAndWait({
-  name:"testsnapshot2",
+You can also use `beginCreateSnapshotAndWait` to have the result of the creation directly after the polling is done.
+```js
+const snapshot  = await client.beginCreateSnapshotAndWait({
+  name:"testsnapshot",
   retentionPeriod: 2592000,
   filters: [{key, label}],
 });
+```
 
+### Get a snapshot
+
+```js
 const retrievedSnapshot = await client.getSnapshot("testsnapshot");
-
 console.log("Retrieved snapshot:", retrievedSnapshot);
-
 ```
 
 ### List the `ConfigurationSetting` in the snapshot
