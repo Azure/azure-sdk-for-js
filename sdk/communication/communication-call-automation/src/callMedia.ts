@@ -71,14 +71,15 @@ export class CallMedia {
   public async play(
     playSources: FileSource[],
     playTo: CommunicationIdentifier[],
-    playOptions: PlayOptions = { loop: false }
+    playOptions: PlayOptions = { loop: false, operationContext: undefined }
   ): Promise<void> {
     const playRequest: PlayRequest = {
       playSources: playSources.map((source) => this.createPlaySourceInternal(source)),
       playTo: playTo.map((identifier) => serializeCommunicationIdentifier(identifier)),
       playOptions: {
-        loop: false,
+        loop: false
       },
+      operationContext: playOptions.operationContext
     };
 
     if (playOptions.loop !== undefined) {
@@ -96,7 +97,7 @@ export class CallMedia {
    */
   public async playToAll(
     playSources: FileSource[],
-    playOptions: PlayOptions = { loop: false }
+    playOptions: PlayOptions = { loop: false, operationContext: undefined }
   ): Promise<void> {
     const playRequest: PlayRequest = {
       playSources: playSources.map((source) => this.createPlaySourceInternal(source)),
@@ -104,6 +105,7 @@ export class CallMedia {
       playOptions: {
         loop: false,
       },
+      operationContext: playOptions.operationContext
     };
 
     if (playOptions.loop !== undefined) {
