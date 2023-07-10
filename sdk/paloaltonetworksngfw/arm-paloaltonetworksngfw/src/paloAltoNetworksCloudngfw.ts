@@ -94,11 +94,7 @@ export class PaloAltoNetworksCloudngfw extends coreClient.ServiceClient {
       credential: credentials
     };
 
-<<<<<<< HEAD
     const packageDetails = `azsdk-js-arm-paloaltonetworksngfw/1.0.0`;
-=======
-    const packageDetails = `azsdk-js-arm-paloaltonetworksngfw/1.0.0-beta.2`;
->>>>>>> main
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
