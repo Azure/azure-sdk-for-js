@@ -98,10 +98,18 @@ export class JsonSerializer<MessageT = MessageContent> {
     );
     const validate = options?.validate;
     if (validate) {
-      wrapError(
-        () => validate(returnedMessage, schema),
-        `Validation failed with schema ID (${schemaId}). See 'cause' for more details.`
-      );
+      const isValid = validate(returnedMessage, schema);
+      if (typeof isValid === "object") {
+        throw errorWithCause(
+          `Json validation failed with schema ID (${schemaId}). See 'cause' for more details.`,
+          new Error(`${isValid.message}`)
+        );
+      } else if (isValid === false) {
+        throw errorWithCause(
+          `Json validation failed with schema ID (${schemaId}). See 'cause' for more details.`,
+          new Error(`validate function returns false`)
+        );
+      }
     }
     return returnedMessage;
   }
