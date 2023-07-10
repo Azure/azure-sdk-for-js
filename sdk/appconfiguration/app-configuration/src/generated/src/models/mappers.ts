@@ -235,7 +235,7 @@ export const Snapshot: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "KeyValueFilter"
+              className: "ConfigurationSettingsFilter"
             }
           }
         }
@@ -303,10 +303,10 @@ export const Snapshot: coreClient.CompositeMapper = {
   }
 };
 
-export const KeyValueFilter: coreClient.CompositeMapper = {
+export const ConfigurationSettingsFilter: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "KeyValueFilter",
+    className: "ConfigurationSettingsFilter",
     modelProperties: {
       key: {
         serializedName: "key",

@@ -113,6 +113,14 @@ directive:
       $.expires["x-ms-client-name"] = "expiresOn";
 ```
 
+### Rename KeyValueFilter -> ConfigurationSettingsFilter
+```yaml
+directive:
+  - from: swagger-document
+    where: $["definitions"]["KeyValueFilter"]
+    transform: >
+      $["x-ms-client-name"] = "ConfigurationSettingsFilter";
+```
 ### Make .name a required field
 
 ```yaml
@@ -122,4 +130,14 @@ directive:
     transform: >
       $.required = $.required || [];
       $.required.push('name');
+```
+### Add description for snapshot
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["definitions"]["Snapshot"]
+    transform: >
+      $["description"] = "Snapshot details include name, filters, retentionPeriod, expiresOn, size, status, itemCount, and more";
+
 ```

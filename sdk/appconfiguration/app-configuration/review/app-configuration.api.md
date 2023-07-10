@@ -50,8 +50,7 @@ export class AppConfigurationClient {
     listConfigurationSettings(options?: ListConfigurationSettingsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
     listConfigurationSettingsForSnapshot(snapshotName: string, options?: ListSettingsSnapshotsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
     listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage, PageSettings>;
-    // Warning: (ae-forgotten-export) The symbol "Snapshot_2" needs to be exported by the entry point index.d.ts
-    listSnapshots(options?: ListSnapshotsOptions): PagedAsyncIterableIterator<Snapshot_2, ListSnapshotsPage, PageSettings>;
+    listSnapshots(options?: ListSnapshotsOptions): PagedAsyncIterableIterator<Snapshot, ListSnapshotsPage, PageSettings>;
     recoverSnapshot(snapshotId: SnapshotId, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
     setConfigurationSetting(configurationSetting: SetConfigurationSettingParam | SetConfigurationSettingParam<FeatureFlagValue> | SetConfigurationSettingParam<SecretReferenceValue>, options?: SetConfigurationSettingOptions): Promise<SetConfigurationSettingResponse>;
     setReadOnly(id: ConfigurationSettingId, readOnly: boolean, options?: SetReadOnlyOptions): Promise<SetReadOnlyResponse>;
@@ -324,7 +323,6 @@ export interface Snapshot {
     retentionPeriod?: number;
     readonly size?: number;
     readonly status?: SnapshotStatus;
-    readonly statusCode?: number;
     tags?: {
         [propertyName: string]: string;
     };
