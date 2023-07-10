@@ -35,7 +35,7 @@ describe("setClientRequestIdPolicy", function () {
     assert.isTrue(request.headers.has("x-ms-client-request-id"));
   });
 
-  it("should set the header name with `x-ms-client-request-id` if telemetryOptions is empty", async () => {
+  it("should set the header name with `x-ms-client-request-id` if commonTelemetryOptions is empty", async () => {
     const pipeline = createPipelineFromOptions({
       commonTelemetryOptions: {},
     });
