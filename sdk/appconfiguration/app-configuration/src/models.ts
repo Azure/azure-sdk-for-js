@@ -5,7 +5,13 @@ import { CompatResponse } from "@azure/core-http-compat";
 import { FeatureFlagValue } from "./featureFlag";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { SecretReferenceValue } from "./secretReference";
-import { CompositionType, ConfigurationSettingsFilter, OperationDetails, Snapshot, SnapshotStatus } from "./generated/src";
+import {
+  CompositionType,
+  ConfigurationSettingsFilter,
+  OperationDetails,
+  Snapshot,
+  SnapshotStatus,
+} from "./generated/src";
 
 /**
  * Provides configuration options for AppConfigurationClient.
@@ -541,4 +547,11 @@ export interface SnapshotId {
   etag?: string;
 }
 
-export { OperationDetails, State, ErrorDetail, Snapshot, ConfigurationSettingsFilter, InnerError } from "./generated/src";
+export {
+  OperationDetails,
+  State,
+  ErrorDetail,
+  Snapshot,
+  ConfigurationSettingsFilter,
+  InnerError,
+} from "./generated/src";
