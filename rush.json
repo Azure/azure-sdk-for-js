@@ -2027,6 +2027,11 @@
       "packageName": "@azure/arm-managednetworkfabric",
       "projectFolder": "sdk/managednetworkfabric/arm-managednetworkfabric",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-azuresphere",
+      "projectFolder": "sdk/azuresphere/arm-azuresphere",
+      "versionPolicyName": "management"
     }
   ]
 }
