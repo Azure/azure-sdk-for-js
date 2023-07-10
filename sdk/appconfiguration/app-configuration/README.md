@@ -216,7 +216,7 @@ const snapshot_2  = await client.beginCreateSnapshotAndWait({
 
 const retrievedSnapshot = await client.getSnapshot("testsnapshot");
 
-console.log("Retrieved snapshot:", retrievedSnapshot)'
+console.log("Retrieved snapshot:", retrievedSnapshot);
 
 ```
 
