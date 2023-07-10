@@ -541,4 +541,4 @@ export interface SnapshotId {
   etag?: string;
 }
 
-export { OperationDetails, State, ErrorDetail, Snapshot, ConfigurationSettingsFilter } from "./generated/src";
+export { OperationDetails, State, ErrorDetail, Snapshot, ConfigurationSettingsFilter, InnerError } from "./generated/src";

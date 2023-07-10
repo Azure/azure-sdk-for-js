@@ -237,6 +237,7 @@ for await (const setting of retrievedSnapshotSettings) {
 ### List all snapshots from the service
 ```javascript
 let snapshots = await client.listSnapshots();
+
 for await (const snapshot of snapshots) {
   console.log(`Found snapshot: ${snapshot.name}`);
 }

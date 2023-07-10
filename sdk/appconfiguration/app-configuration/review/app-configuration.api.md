@@ -117,7 +117,6 @@ export interface DeleteConfigurationSettingResponse extends SyncTokenHeaderField
 export interface ErrorDetail {
     code: string;
     details?: ErrorDetail[];
-    // Warning: (ae-forgotten-export) The symbol "InnerError" needs to be exported by the entry point index.d.ts
     innererror?: InnerError;
     message: string;
 }
@@ -184,6 +183,12 @@ export interface HttpResponseField<HeadersT> {
 // @public
 export interface HttpResponseFields {
     statusCode: number;
+}
+
+// @public
+export interface InnerError {
+    code?: string;
+    innererror?: InnerError;
 }
 
 // @public
