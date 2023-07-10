@@ -26,6 +26,7 @@ export interface CallMediaRecognizeOptions extends OperationOptions {
   operationContext?: string;
   interruptPrompt?: boolean;
   initialSilenceTimeoutInSeconds?: number;
+  speechModelEndpointId?: string;
 }
 
 /** The recognize configuration specific to Dtmf. */
