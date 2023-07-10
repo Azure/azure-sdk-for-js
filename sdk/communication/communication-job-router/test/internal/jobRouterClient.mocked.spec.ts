@@ -6,7 +6,7 @@ import { AzureCommunicationTokenCredential } from "@azure/communication-common";
 import { JobRouterClient } from "../../src";
 import { baseUri, generateToken } from "../public/utils/connection";
 
-describe("[Mocked] RouterClient", async function () {
+describe("[Mocked] JobRouterClient", async function () {
   afterEach(function () {
     sinon.restore();
   });

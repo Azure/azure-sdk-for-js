@@ -49,7 +49,7 @@ export class AzureMonitorOpenTelemetryClient {
   /**
    *Get OpenTelemetry TracerProvider
    */
-  public getTraceProvider(): TracerProvider {
+  public getTracerProvider(): TracerProvider {
     return this._traceHandler.getTracerProvider();
   }
 
@@ -64,14 +64,14 @@ export class AzureMonitorOpenTelemetryClient {
    *Get OpenTelemetry MeterProvider
    */
   public getMeterProvider(): MeterProvider {
-    return this._metricHandler.getCustomMetricsMeterProvider();
+    return this._metricHandler.getMeterProvider();
   }
 
   /**
    *Get OpenTelemetry Meter
    */
   public getMeter(): Meter {
-    return this._metricHandler.getCustomMetricsMeter();
+    return this._metricHandler.getMeter();
   }
 
   /**

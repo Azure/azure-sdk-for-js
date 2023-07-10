@@ -14,7 +14,6 @@ import {
   SpanProcessor,
   Tracer,
 } from "@opentelemetry/sdk-trace-base";
-import { TracerProvider } from "@opentelemetry/api";
 import { Instrumentation } from "@opentelemetry/instrumentation";
 import {
   HttpInstrumentation,
@@ -50,7 +49,7 @@ export class TraceHandler {
   private _redisInstrumentation?: Instrumentation;
   private _redis4Instrumentation?: Instrumentation;
   private _config: AzureMonitorOpenTelemetryConfig;
-  private _metricHandler?: MetricHandler;
+  private _metricHandler: MetricHandler;
   private _azureFunctionsHook: AzureFunctionsHook;
 
   /**
@@ -58,7 +57,7 @@ export class TraceHandler {
    * @param _config - Configuration.
    * @param _metricHandler - MetricHandler.
    */
-  constructor(config: AzureMonitorOpenTelemetryConfig, metricHandler?: MetricHandler) {
+  constructor(config: AzureMonitorOpenTelemetryConfig, metricHandler: MetricHandler) {
     this._config = config;
     this._metricHandler = metricHandler;
     this._instrumentations = [];
@@ -81,10 +80,8 @@ export class TraceHandler {
 
     this._tracerProvider.register();
     this._tracer = this._tracerProvider.getTracer("AzureMonitorTracer");
-    if (this._metricHandler) {
-      const azureSpanProcessor = new AzureMonitorSpanProcessor(this._metricHandler);
-      this._tracerProvider.addSpanProcessor(azureSpanProcessor);
-    }
+    const azureSpanProcessor = new AzureMonitorSpanProcessor(this._metricHandler);
+    this._tracerProvider.addSpanProcessor(azureSpanProcessor);
     this._azureFunctionsHook = new AzureFunctionsHook();
     this._initializeInstrumentations();
   }
@@ -92,7 +89,7 @@ export class TraceHandler {
   /**
    *Get OpenTelemetry TracerProvider
    */
-  public getTracerProvider(): TracerProvider {
+  public getTracerProvider(): NodeTracerProvider {
     return this._tracerProvider;
   }
 
@@ -207,6 +204,7 @@ export class TraceHandler {
     }
     this._instrumentations.forEach((instrumentation) => {
       instrumentation.setTracerProvider(this._tracerProvider);
+      instrumentation.setMeterProvider(this._metricHandler.getMeterProvider());
       if (instrumentation.getConfig().enabled) {
         instrumentation.enable();
       }

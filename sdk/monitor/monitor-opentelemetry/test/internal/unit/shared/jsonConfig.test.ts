@@ -92,19 +92,23 @@ describe("Json Config", () => {
         "Wrong enableAutoCollectStandardMetrics"
       );
       assert.deepStrictEqual(
-        config.instrumentationOptions?.azureSdk.enabled,
+        config.instrumentationOptions?.azureSdk?.enabled,
         true,
         "Wrong azureSdk"
       );
-      assert.deepStrictEqual(config.instrumentationOptions?.mongoDb.enabled, true, "Wrong mongoDb");
-      assert.deepStrictEqual(config.instrumentationOptions?.mySql.enabled, true, "Wrong mySql");
       assert.deepStrictEqual(
-        config.instrumentationOptions?.postgreSql.enabled,
+        config.instrumentationOptions?.mongoDb?.enabled,
+        true,
+        "Wrong mongoDb"
+      );
+      assert.deepStrictEqual(config.instrumentationOptions?.mySql?.enabled, true, "Wrong mySql");
+      assert.deepStrictEqual(
+        config.instrumentationOptions?.postgreSql?.enabled,
         true,
         "Wrong postgreSql"
       );
-      assert.deepStrictEqual(config.instrumentationOptions?.redis.enabled, true, "Wrong redis");
-      assert.deepStrictEqual(config.instrumentationOptions?.redis4.enabled, true, "Wrong redis4");
+      assert.deepStrictEqual(config.instrumentationOptions?.redis?.enabled, true, "Wrong redis");
+      assert.deepStrictEqual(config.instrumentationOptions?.redis4?.enabled, true, "Wrong redis4");
     });
 
     it("Should take configurations from JSON config file over environment variables if both are configured", () => {

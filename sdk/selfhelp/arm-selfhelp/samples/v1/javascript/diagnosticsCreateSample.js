@@ -24,7 +24,20 @@ async function createsADiagnosticForAKeyVaultResource() {
   const diagnosticsResourceName = "VMNotWorkingInsight";
   const credential = new DefaultAzureCredential();
   const client = new HelpRP(credential);
-  const result = await client.diagnostics.beginCreateAndWait(scope, diagnosticsResourceName);
+  const options = {
+    diagnosticResourceRequest: {
+      insights: [
+        {
+          solutionId: "KeyVaultUnauthorizedNetworkInsight",
+        },
+      ],
+    },
+  };
+  const result = await client.diagnostics.beginCreateAndWait(
+    scope,
+    diagnosticsResourceName,
+    options
+  );
   console.log(result);
 }
 

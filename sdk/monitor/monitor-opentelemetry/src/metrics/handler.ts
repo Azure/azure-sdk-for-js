@@ -56,16 +56,16 @@ export class MetricHandler {
   }
 
   /**
-   *Get OpenTelemetry MeterProvider for custom metrics
+   *Get OpenTelemetry MeterProvider
    */
-  public getCustomMetricsMeterProvider(): MeterProvider {
+  public getMeterProvider(): MeterProvider {
     return this._meterProvider;
   }
 
   /**
-   *Get OpenTelemetry Meter for custom metrics
+   *Get OpenTelemetry Meter
    */
-  public getCustomMetricsMeter(): Meter {
+  public getMeter(): Meter {
     return this._meter;
   }
 

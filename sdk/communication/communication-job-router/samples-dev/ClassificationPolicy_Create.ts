@@ -8,7 +8,7 @@ import {
   ClassificationPolicy,
   DistributionPolicy,
   ExceptionPolicy,
-  JobQueue,
+  RouterQueue,
   QueueLengthExceptionTrigger,
   JobRouterAdministrationClient,
 } from "@azure/communication-job-router";
@@ -34,7 +34,7 @@ async function createClassificationPolicy(): Promise<void> {
       maxConcurrentOffers: 1,
       bypassSelectors: false,
     },
-    offerTtlSeconds: 15,
+    offerExpiresAfterSeconds: 15,
   };
   await routerAdministrationClient.createDistributionPolicy(
     distributionPolicyId,
@@ -69,7 +69,7 @@ async function createClassificationPolicy(): Promise<void> {
   await routerAdministrationClient.createExceptionPolicy(exceptionPolicyId, exceptionPolicyRequest);
 
   const queueId = "queue-123";
-  const queueRequest: JobQueue = {
+  const queueRequest: RouterQueue = {
     id: "queue-123",
     distributionPolicyId: "distribution-policy-123",
     name: "Main",
@@ -86,7 +86,7 @@ async function createClassificationPolicy(): Promise<void> {
     queueSelectors: [
       {
         kind: "conditional",
-        labelSelectors: [
+        queueSelectors: [
           {
             key: "foo",
             labelOperator: "equal",
