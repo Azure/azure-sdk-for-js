@@ -4,9 +4,11 @@
 import { assert } from "chai";
 import * as sinon from "sinon";
 import {
+  HttpClient,
   PipelineResponse,
   SendRequest,
   createHttpHeaders,
+  createPipelineFromOptions,
   createPipelineRequest,
   setClientRequestIdPolicy,
 } from "../src";
@@ -16,11 +18,11 @@ describe("setClientRequestIdPolicy", function () {
     sinon.restore();
   });
 
-  it("should set the header name with `x-ms-client-request-id` if no option is provided", async () => {
+  it("should set the header name with `x-ms-client-request-id` if no header name is provided", async () => {
     const request = createPipelineRequest({
       url: "https://bing.com",
     });
-    const policy = setClientRequestIdPolicy({});
+    const policy = setClientRequestIdPolicy();
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
@@ -33,40 +35,51 @@ describe("setClientRequestIdPolicy", function () {
     assert.isTrue(request.headers.has("x-ms-client-request-id"));
   });
 
-  it("should set the header name with `x-ms-client-request-id` if no clientRequestIdHeaderName is provided", async () => {
-    const request = createPipelineRequest({
+  it("should set the header name with `x-ms-client-request-id` if telemetryOptions is empty", async () => {
+    const pipeline = createPipelineFromOptions({
+      commonTelemetryOptions: {},
+    });
+    const pipelineRequest = createPipelineRequest({
       url: "https://bing.com",
     });
-    const policy = setClientRequestIdPolicy({});
-    const successResponse: PipelineResponse = {
-      headers: createHttpHeaders(),
-      request,
-      status: 200,
+    const httpClient: HttpClient = {
+      sendRequest: async (request) => {
+        assert.isTrue(request.headers.has("x-ms-client-request-id"));
+        assert.equal(request.headers.get("x-ms-client-request-id"), request.requestId);
+        return {
+          request,
+          headers: createHttpHeaders(),
+          status: 200,
+        };
+      },
     };
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.onFirstCall().resolves(successResponse);
-    assert.isFalse(request.headers.has("x-ms-client-request-id"));
-    await policy.sendRequest(request, next);
-    assert.isTrue(request.headers.has("x-ms-client-request-id"));
+    assert.isFalse(pipelineRequest.headers.has("x-ms-client-request-id"));
+    await pipeline.sendRequest(httpClient, pipelineRequest);
   });
 
-  it("should use the custom header name if the header is provided", async () => {
-    const request = createPipelineRequest({
+  it("should set the header with custom header name if it is provided", async () => {
+    const customHeaderName = "custom-client-request-id";
+    const pipeline = createPipelineFromOptions({
+      commonTelemetryOptions: {
+        clientRequestIdHeaderName: customHeaderName,
+      },
+    });
+    const pipelineRequest = createPipelineRequest({
       url: "https://bing.com",
     });
-    const policy = setClientRequestIdPolicy({
-      requestIdHeaderName: "custom-client-request-id",
-    });
-    const successResponse: PipelineResponse = {
-      headers: createHttpHeaders(),
-      request,
-      status: 200,
+    const httpClient: HttpClient = {
+      sendRequest: async (request) => {
+        assert.isTrue(request.headers.has(customHeaderName));
+        assert.equal(request.headers.get(customHeaderName), request.requestId);
+        return {
+          request,
+          headers: createHttpHeaders(),
+          status: 200,
+        };
+      },
     };
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.onFirstCall().resolves(successResponse);
-    assert.isFalse(request.headers.has("custom-client-request-id"));
-    await policy.sendRequest(request, next);
-    assert.isTrue(request.headers.has("custom-client-request-id"));
-    assert.isFalse(request.headers.has("x-ms-client-request-id"));
+    assert.isFalse(pipelineRequest.headers.has("x-ms-client-request-id"));
+    assert.isFalse(pipelineRequest.headers.has(customHeaderName));
+    await pipeline.sendRequest(httpClient, pipelineRequest);
   });
 });

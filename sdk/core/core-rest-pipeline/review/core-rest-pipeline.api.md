@@ -82,6 +82,11 @@ export interface ChallengeCallbacks {
 }
 
 // @public
+export interface CommonTelemetryOptions {
+    clientRequestIdHeaderName?: string;
+}
+
+// @public
 export function createDefaultHttpClient(): HttpClient;
 
 // @public
@@ -205,7 +210,7 @@ export interface Pipeline {
 
 // @public
 export interface PipelineOptions {
-    clientRequestIdOptions?: SetClientRequestIdPolicyOptions;
+    commonTelemetryOptions?: CommonTelemetryOptions;
     proxyOptions?: ProxySettings;
     redirectOptions?: RedirectPolicyOptions;
     retryOptions?: PipelineRetryOptions;
@@ -383,15 +388,10 @@ export interface RetryStrategy {
 export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
 
 // @public
-export function setClientRequestIdPolicy(options?: SetClientRequestIdPolicyOptions): PipelinePolicy;
+export function setClientRequestIdPolicy(requestIdHeaderName?: string): PipelinePolicy;
 
 // @public
 export const setClientRequestIdPolicyName = "setClientRequestIdPolicy";
-
-// @public
-export interface SetClientRequestIdPolicyOptions {
-    requestIdHeaderName?: string;
-}
 
 // @public
 export function systemErrorRetryPolicy(options?: SystemErrorRetryPolicyOptions): PipelinePolicy;

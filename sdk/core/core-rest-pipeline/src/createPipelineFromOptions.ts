@@ -13,10 +13,7 @@ import { defaultRetryPolicy } from "./policies/defaultRetryPolicy";
 import { formDataPolicy } from "./policies/formDataPolicy";
 import { isNode } from "@azure/core-util";
 import { proxyPolicy } from "./policies/proxyPolicy";
-import {
-  SetClientRequestIdPolicyOptions,
-  setClientRequestIdPolicy,
-} from "./policies/setClientRequestIdPolicy";
+import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy";
 import { tlsPolicy } from "./policies/tlsPolicy";
 import { tracingPolicy } from "./policies/tracingPolicy";
 
@@ -49,9 +46,19 @@ export interface PipelineOptions {
   userAgentOptions?: UserAgentPolicyOptions;
 
   /**
-   * Options for setting client request id details to outgoing requests.
+   * Options for setting common telemetry and tracing info to outgoing requests.
    */
-  clientRequestIdOptions?: SetClientRequestIdPolicyOptions;
+  commonTelemetryOptions?: CommonTelemetryOptions;
+}
+
+/**
+ * Defines options that are used to configure common telemetry and tracing info
+ */
+export interface CommonTelemetryOptions {
+  /**
+   * The name of the header to pass the request ID to.
+   */
+  clientRequestIdHeaderName?: string;
 }
 
 /**
@@ -82,7 +89,7 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
 
   pipeline.addPolicy(formDataPolicy());
   pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
-  pipeline.addPolicy(setClientRequestIdPolicy(options.clientRequestIdOptions));
+  pipeline.addPolicy(setClientRequestIdPolicy(options.commonTelemetryOptions?.clientRequestIdHeaderName));
   pipeline.addPolicy(defaultRetryPolicy(options.retryOptions), { phase: "Retry" });
   pipeline.addPolicy(tracingPolicy(options.userAgentOptions), { afterPhase: "Retry" });
   if (isNode) {
