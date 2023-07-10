@@ -3,7 +3,13 @@
 
 import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 
+/**
+ * Common options to set on an outgoing operation
+ */
 export interface RequestOptions {
+  /**
+   * Options to set on an outgoing HTTP request
+   */
   requestOptions?: {
     /**
      * Headers to send along with the request

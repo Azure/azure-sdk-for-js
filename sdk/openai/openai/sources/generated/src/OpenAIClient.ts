@@ -2,21 +2,7 @@
 // Licensed under the MIT license.
 
 import { TokenCredential, KeyCredential } from "@azure/core-auth";
-import {
-  Embeddings,
-  Completions,
-  ChatMessage,
-  ChatCompletions,
-  createOpenAI,
-  OpenAIContext,
-  OpenAIClientOptions,
-  getEmbeddings,
-  getCompletions,
-  getChatCompletions,
-  GetEmbeddingsOptions,
-  GetCompletionsOptions,
-  GetChatCompletionsOptions,
-} from "./api/index.js";
+import "./api/index.js";
 
 export { OpenAIClientOptions } from "./api/OpenAIContext.js";
 
@@ -34,7 +20,7 @@ export class OpenAIClient {
 
   /** Return the embeddings for a given prompt. */
   getEmbeddings(
-    input: string | string[],
+    input: string[],
     deploymentId: string,
     options: GetEmbeddingsOptions = { requestOptions: {} }
   ): Promise<Embeddings> {
@@ -65,5 +51,27 @@ export class OpenAIClient {
     options: GetChatCompletionsOptions = { requestOptions: {} }
   ): Promise<ChatCompletions> {
     return getChatCompletions(this._client, messages, deploymentId, options);
+  }
+
+  /** Returns the status of the images operation */
+  getAzureBatchImageGenerationOperationStatus(
+    operationId: string,
+    options: GetAzureBatchImageGenerationOperationStatusOptions = {
+      requestOptions: {},
+    }
+  ): Promise<BatchImageGenerationOperationResponse> {
+    return getAzureBatchImageGenerationOperationStatus(
+      this._client,
+      operationId,
+      options
+    );
+  }
+
+  /** Starts the generation of a batch of images from a text caption */
+  beginAzureBatchImageGeneration(
+    prompt: string,
+    options: BeginAzureBatchImageGenerationOptions = { requestOptions: {} }
+  ): Promise<BatchImageGenerationOperationResponse> {
+    return beginAzureBatchImageGeneration(this._client, prompt, options);
   }
 }

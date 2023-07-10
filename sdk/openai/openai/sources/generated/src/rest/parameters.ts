@@ -6,6 +6,7 @@ import {
   EmbeddingsOptions,
   CompletionsOptions,
   ChatCompletionsOptions,
+  ImageGenerationOptions,
 } from "./models.js";
 
 export interface GetEmbeddingsBodyParam {
@@ -28,3 +29,12 @@ export interface GetChatCompletionsBodyParam {
 
 export type GetChatCompletionsParameters = GetChatCompletionsBodyParam &
   RequestParameters;
+export type GetAzureBatchImageGenerationOperationStatusParameters =
+  RequestParameters;
+
+export interface BeginAzureBatchImageGenerationBodyParam {
+  body?: ImageGenerationOptions;
+}
+
+export type BeginAzureBatchImageGenerationParameters =
+  BeginAzureBatchImageGenerationBodyParam & RequestParameters;

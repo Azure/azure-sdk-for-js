@@ -19,14 +19,13 @@ export interface EmbeddingsOptions {
    */
   model?: string;
   /**
-   * Input text to get embeddings for, encoded as a string.
-   * To get embeddings for multiple inputs in a single request, pass an array of strings.
+   * Input texts to get embeddings for, encoded as a an array of strings.
    * Each input must not exceed 2048 tokens in length.
    *
    * Unless you are embedding code, we suggest replacing newlines (\n) in your input with a single space,
    * as we have observed inferior results when newlines are present.
    */
-  input: string | string[];
+  input: string[];
 }
 
 /**
@@ -209,4 +208,27 @@ export interface ChatMessage {
   role: string;
   /** The text associated with this message payload. */
   content?: string;
+}
+
+/** Represents the request data used to generate images. */
+export interface ImageGenerationOptions {
+  /** A description of the desired images. */
+  prompt: string;
+  /** The number of images to generate (defaults to 1). */
+  n?: number;
+  /**
+   * The desired size of the generated images. Must be one of 256x256, 512x512, or 1024x1024 (defaults to 1024x1024).
+   *
+   * Possible values: 256x256, 512x512, 1024x1024
+   */
+  size?: string;
+  /**
+   *   The format in which image generation response items should be presented.
+   *   Azure OpenAI only supports URL response items.
+   *
+   * Possible values: url, b64_json
+   */
+  response_format?: string;
+  /** A unique identifier representing your end-user, which can help to monitor and detect abuse. */
+  user?: string;
 }

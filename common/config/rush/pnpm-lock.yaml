@@ -18356,7 +18356,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-OnpqhN4aYpb/v/UyKwPpl1Rk6d7ac64TK3UirTTKOzkgYtzcNgxvmzL58c0hXW90maIARCVqb3ZAFG8O20CoVw==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-w7+WDGbMMzEvo8fCEHA24rPSClZpqH1BcyG+0n64M1qbV8Czkyxnc9iZy01qR80hQBgXC+qhHvGKrRYij+IB7Q==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -20074,17 +20074,19 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-xUNAFSAi0U7d+4HRlXJmIQ03uWJoc/QzOg2ngrGtD/WtDF0Xd7xq8jITgwM36AQiraGAkcs+E54/qG5qDgsTEQ==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-s3LNI5j0yoVJmnTlFqRuGpcLtvO1URMaTuT4ou+R735ZlIY86hm7hwxOzEjdpeCSoZfVTGa6kAaFEXnvKxUJ/Q==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.36.0_@types+node@14.18.51
+      '@types/fs-extra': 9.0.13
       '@types/mocha': 7.0.2
       '@types/node': 14.18.51
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.43.0
       esm: 3.2.25
+      fs-extra: 10.1.0
       karma: 6.4.2
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
