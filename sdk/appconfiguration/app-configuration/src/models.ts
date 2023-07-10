@@ -548,6 +548,10 @@ export interface SnapshotId {
   etag?: string;
 }
 
+/**
+ * Snapshot with extra metadata from the server,
+ * including etag, createdOn, expiresOn, size, status, statusCode, and itemCount
+ */
 export interface Snapshot {
   /**
    * The name of the snapshot.
@@ -598,3 +602,5 @@ export interface Snapshot {
    */
   readonly etag?: string;
 }
+
+export { OperationDetails, State, ErrorDetail } from "./generated/src";

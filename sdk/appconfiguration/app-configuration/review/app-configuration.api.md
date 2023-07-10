@@ -115,6 +115,15 @@ export interface DeleteConfigurationSettingResponse extends SyncTokenHeaderField
 }
 
 // @public
+export interface ErrorDetail {
+    code: string;
+    details?: ErrorDetail[];
+    // Warning: (ae-forgotten-export) The symbol "InnerError" needs to be exported by the entry point index.d.ts
+    innererror?: InnerError;
+    message: string;
+}
+
+// @public
 export const featureFlagContentType = "application/vnd.microsoft.appconfig.ff+json;charset=utf-8";
 
 // @public
@@ -229,8 +238,13 @@ export interface ListSnapshotsPage extends HttpResponseField<SyncTokenHeaderFiel
     items: Snapshot[];
 }
 
-// Warning: (ae-forgotten-export) The symbol "OperationDetails" needs to be exported by the entry point index.d.ts
-//
+// @public
+export interface OperationDetails {
+    error?: ErrorDetail;
+    id: string;
+    status: State;
+}
+
 // @public
 export interface OperationDetailsResponse extends OperationDetails {
 }
@@ -298,7 +312,7 @@ export interface SetReadOnlyOptions extends HttpOnlyIfUnchangedField, OperationO
 export interface SetReadOnlyResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
 }
 
-// @public (undocumented)
+// @public
 export interface Snapshot {
     compositionType?: CompositionType;
     readonly createdOn?: Date;
@@ -339,6 +353,9 @@ export interface SnapshotResponse extends Snapshot, SyncTokenHeaderField {
 
 // @public
 export type SnapshotStatus = string;
+
+// @public
+export type State = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
 
 // @public
 export interface SyncTokenHeaderField {

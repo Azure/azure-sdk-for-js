@@ -7,7 +7,7 @@ Use the client library for App Configuration to:
 - Create flexible key representations and mappings
 - Tag keys with labels
 - Replay settings from any point in time
-- Create immutable single point-in-time snapshots of the keys/ values
+- Manage snapshots of an app's configuration
 
 Key links:
 
@@ -144,7 +144,7 @@ let setting = await client.getConfigurationSetting({
 setting = await client.getConfigurationSetting(setting);
 ```
 
-Azure App Configuration allows users to create a point-in-time snapshot of their configuration store(supported in `2022-11-01-preview` API version), providing them with the ability to treat settings as one consistent version. This feature enables applications to hold a consistent view of configuration, ensuring that there are no version mismatches to individual settings due to reading as updates were made. Snapshots are immutable, ensuring that configuration can confidently be rolled back to a last-known-good configuration in the event of a problem.
+The `2022-11-01-preview` API version supports configuration snapshots: immutable, point-in-time copies of a configuration store. Snapshots can be created with filters that determine which key-value pairs are contained within the snapshot, creating an immutable, composed view of the configuration store. This feature enables applications to hold a consistent view of configuration, ensuring that there are no version mismatches to individual settings due to reading as updates were made. For example, this feature can be used to create "release configuration snapshots" within an App Configuration. See [the _create and get a snapshot_ section](#create-and-get-a-setting) in the example below. 
 
 ## Examples
 
@@ -180,10 +180,12 @@ run().catch((err) => console.log("ERROR:", err));
 
 ### Create and get a snapshot
 
-```javascript
-const appConfig = require("@azure/app-configuration");
+There are two methods to create a snapshot, listed below. The standard way is `beginCreateSnapshot` to get the poller. The customer can also use `beginCreateSnapshotAndWait` to have the created snapshot after the polling is done.
 
-const client = new appConfig.AppConfigurationClient(
+```javascript
+const { AppConfigurationClient } = require("@azure/app-configuration");
+
+const client = new AppConfigurationClient(
   "<App Configuration connection string goes here>"
 );
 
@@ -191,32 +193,30 @@ const key = "testkey";
 const value = "testvalue";
 const label = "optional-label";
 
-const newSetting = await client.addConfigurationSetting({
+await client.addConfigurationSetting({
   key,
   value,
   label
 });
-const newSnapshot = await client.addSnapshot("testsnapshot", {
-  key,
-  label
+
+// First method to create snapshot
+const poller = await this.beginCreateSnapshot({
+  name:"testsnapshot",
+  retentionPeriod: 2592000,
+  filters: [{key, label}],
 });
-/*
-  {
-    name: "testsnapshot",
-    status: "provisioning",
-    statusCode: 202,
-    filters: [{ key: "testkey", label: "optional-label" }],
-    compositionType: "all",
-    created: "2023-02-07T22:24:41.000Z",
-    retentionPeriod: 2592000,
-    size: 0,
-    itemsCount: 0,
-    tags: {},
-    etag: "T6JtbpthSWZQCkxmiK1OW6s3jMP-ZRYQPAFYZNbf0gE",
-  }
- */
-let retrievedSnapshot = await client.getSnapshot("testsnapshot");
-console.log("Retrieved snapshot:", retrievedSnapshot);
+const snapshot = await poller.pollUntilDone();
+
+// Second method to create snapshot
+const snapshot_2  = await client.beginCreateSnapshotAndWait({
+  name:"testsnapshot2",
+  retentionPeriod: 2592000,
+  filters: [{key, label}],
+});
+
+const retrievedSnapshot = await client.getSnapshot("testsnapshot");
+
+console.log("Retrieved snapshot:", retrievedSnapshot)'
 
 ```
 
@@ -229,57 +229,14 @@ let retrievedSnapshotSettings = await client.listConfigurationSettings({
 for await (const setting of retrievedSnapshotSettings) {
   console.log(`Found key: ${setting.key}, label: ${setting.label}`);
 }
-/*
-[
-  {
-    value: 'testvalue',
-    key: 'testkey',
-    label: 'optional-label',
-    contentType: null,
-    lastModified: 2023-02-07T22:22:04.000Z,
-    tags: {},
-    etag: 'vQPVS9gNesV-XTsPMXFRPc_b_LwYX_OoJ8xL1JyqiHE',
-    isReadOnly: false
-  }
-]
-*/
 ```
 
+### List all snapshots from the service
 ```javascript
 let snapshots = await client.listSnapshots();
 for await (const snapshot of snapshots) {
   console.log(`Found snapshot: ${snapshot.name}`);
 }
-/*
-{
-  name: 'testsnapshot1',
-  status: 'archived',
-  statusCode: 200,
-  filters: [ { key: 'testkey1', label: 'MyLabel' } ],
-  compositionType: 'all',
-  created: 2023-02-02T19:23:26.000Z,
-  expires: 2023-03-09T17:53:39.000Z,
-  retentionPeriod: 2592000,
-  size: 1000,
-  itemsCount: 1,
-  tags: {},
-  etag: 'Vm7s17ZRLnwTy2lkcDI5dBt_QghurxwiU7IbeImbMNU'
-},
-{
-  name: 'testsnapshot2',
-  status: 'archived',
-  statusCode: 200,
-  filters: [ { key: 'testkey2', label: 'MyLabel' } ],
-  compositionType: 'all',
-  created: 2023-02-02T21:54:30.000Z,
-  expires: 2023-03-09T17:53:32.000Z,
-  retentionPeriod: 2592000,
-  size: 1000,
-  itemsCount: 1,
-  tags: {},
-  etag: 'yKvRAnAmxDLaPY7EHKnPzKDH4hT71I1rpD5ifODrLGQ'
-}
-*/
 ```
 
 ### Recover and archive the snapshot
@@ -287,21 +244,7 @@ for await (const snapshot of snapshots) {
 // Snapshot is in ready status
 let archivedSnapshot = await client.archiveSnapshot("testsnapshot");
 console.log("Snapshot updated status is:", archivedSnapshot.status);
-/*
-  {
-    name: "testsnapshot",
-    status: "archived",
-    statusCode: 202,
-    filters: [{ key: "testkey", label: "optional-label" }],
-    compositionType: "all",
-    created: "2023-02-07T22:24:41.000Z",
-    retentionPeriod: 2592000,
-    size: 0,
-    itemsCount: 0,
-    tags: {},
-    etag: "T6JtbpthSWZQCkxmiK1OW6s3jMP-ZRYQPAFYZNbf0gE",
-  }
-*/
+
 // Snapshot is in archive status
 let recoverSnapshot = await client.recoverSnapshot("testsnapshot");
 console.log("Snapshot updated status is:", recoverSnapshot.status);
