@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import {ClientSecretCredential } from "@azure/identity";
 import { ClientContext } from "../../ClientContext";
 import { createDatabaseUri, getIdFromLink, getPathFromLink, ResourceType } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
@@ -54,7 +55,8 @@ export class Database {
   constructor(
     public readonly client: CosmosClient,
     public readonly id: string,
-    private clientContext: ClientContext
+    private clientContext: ClientContext,
+    private credentials?: ClientSecretCredential
   ) {
     this.containers = new Containers(this, this.clientContext);
     this.users = new Users(this, this.clientContext);
@@ -146,5 +148,25 @@ export class Database {
       response.diagnostics,
       offer
     );
-  }
+   }
+
+  // public async CreateClientEncryptionKey(options: RequestOptions = {}): Promise<ClientEncryptionKeyResponse> {
+  //   const { resource: key } = await this.read();
+  //   const path = "/dbs/clientencryptionkeys";
+  //   const url = key._self;
+  //   const response = await this.clientContext.queryFeed<ClientEncryptionKeyDefinition & Resource[]>({
+  //     path,
+  //     resourceId: "",
+  //     resourceType: ResourceType.offer,
+  //     options,
+  //   });
+  //   
+  //   return new ClientEncryptionKeyResponse(
+  //     response.result,
+  //     response.headers,
+  //     response.code,
+  //     response.diagnostics
+  //     
+  //   );
+  // }
 }
