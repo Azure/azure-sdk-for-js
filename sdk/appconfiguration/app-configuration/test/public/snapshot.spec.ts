@@ -90,7 +90,8 @@ describe("AppConfigurationClient snapshot", () => {
       await client.archiveSnapshot(newSnapshot);
     });
 
-    it("accepts operation options", async function () {
+    // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
+    it.skip("accepts  operation options", async function () {
       if (isPlaybackMode()) this.skip();
       await assertThrowsAbortError(async () => {
         await client.beginCreateSnapshotAndWait(snapshot1, {
