@@ -40,57 +40,59 @@ async function main() {
   );
 
   const indexClient: SearchIndexClient = new SearchIndexClient(endpoint, credential);
-  await createIndex(indexClient, TEST_INDEX_NAME);
-  await delay(WAIT_TIME);
+  try {
+    await createIndex(indexClient, TEST_INDEX_NAME);
+    await delay(WAIT_TIME);
 
-  const uploadResult = await searchClient.mergeOrUploadDocuments([
-    {
-      hotelId: "1",
-      description:
-        "Best hotel in town if you like luxury hotels. They have an amazing infinity pool, a spa, " +
-        "and a really helpful concierge. The location is perfect -- right downtown, close to all " +
-        "the tourist attractions. We highly recommend this hotel.",
-      descriptionFr:
-        "Meilleur hôtel en ville si vous aimez les hôtels de luxe. Ils ont une magnifique piscine " +
-        "à débordement, un spa et un concierge très utile. L'emplacement est parfait – en plein " +
-        "centre, à proximité de toutes les attractions touristiques. Nous recommandons fortement " +
-        "cet hôtel.",
-      hotelName: "Fancy Stay",
-      category: "Luxury",
-      tags: ["pool", "view", "wifi", "concierge"],
-      parkingIncluded: false,
-      lastRenovationDate: new Date(2010, 5, 27),
-      rating: 5,
-      location: new GeographyPoint({
-        longitude: -122.131577,
-        latitude: 47.678581,
-      }),
-      descriptionVector: fancyStayVector,
-    },
-  ]);
+    const uploadResult = await searchClient.mergeOrUploadDocuments([
+      {
+        hotelId: "1",
+        description:
+          "Best hotel in town if you like luxury hotels. They have an amazing infinity pool, a spa, " +
+          "and a really helpful concierge. The location is perfect -- right downtown, close to all " +
+          "the tourist attractions. We highly recommend this hotel.",
+        descriptionFr:
+          "Meilleur hôtel en ville si vous aimez les hôtels de luxe. Ils ont une magnifique piscine " +
+          "à débordement, un spa et un concierge très utile. L'emplacement est parfait – en plein " +
+          "centre, à proximité de toutes les attractions touristiques. Nous recommandons fortement " +
+          "cet hôtel.",
+        hotelName: "Fancy Stay",
+        category: "Luxury",
+        tags: ["pool", "view", "wifi", "concierge"],
+        parkingIncluded: false,
+        lastRenovationDate: new Date(2010, 5, 27),
+        rating: 5,
+        location: new GeographyPoint({
+          longitude: -122.131577,
+          latitude: 47.678581,
+        }),
+        descriptionVector: fancyStayVector,
+      },
+    ]);
 
-  const uploadsSucceeded = uploadResult.results.every((result) => result.succeeded);
+    const uploadsSucceeded = uploadResult.results.every((result) => result.succeeded);
 
-  if (!uploadsSucceeded) {
-    console.log("Some documents failed to be indexed.");
-  }
+    if (!uploadsSucceeded) {
+      console.log("Some documents failed to be indexed.");
+    }
 
-  await delay(WAIT_TIME);
+    await delay(WAIT_TIME);
 
-  const searchResults = await searchClient.search("*", {
+    const searchResults = await searchClient.search("*", {
       vector: {
         fields: ["descriptionVector"],
         kNearestNeighborsCount: 3,
         value: luxuryQueryVector,
       },
-  });
+    });
 
-  for await (const result of searchResults.results) {
-    const name = result.document.hotelName;
-    console.log(name);
+    for await (const result of searchResults.results) {
+      const name = result.document.hotelName;
+      console.log(name);
+    }
+  } finally {
+    await indexClient.deleteIndex(TEST_INDEX_NAME);
   }
-
-  await indexClient.deleteIndex(TEST_INDEX_NAME);
 }
 
 main();
