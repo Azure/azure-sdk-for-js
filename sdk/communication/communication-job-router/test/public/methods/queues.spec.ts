@@ -3,7 +3,7 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { JobQueue, RouterAdministrationClient } from "../../../src";
+import { RouterQueue, JobRouterAdministrationClient } from "../../../src";
 import { Context } from "mocha";
 import {
   getDistributionPolicyRequest,
@@ -13,8 +13,8 @@ import {
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { timeoutMs } from "../utils/constants";
 
-describe("RouterClient", function () {
-  let administrationClient: RouterAdministrationClient;
+describe("JobRouterClient", function () {
+  let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;
 
   const testRunId = "recorded-queues";
@@ -64,7 +64,7 @@ describe("RouterClient", function () {
     }).timeout(timeoutMs);
 
     it("should update a queue", async function () {
-      const patch: JobQueue = { ...queueRequest, name: "new-name" };
+      const patch: RouterQueue = { ...queueRequest, name: "new-name" };
       const result = await administrationClient.updateQueue(queueId, patch);
 
       assert.isDefined(result);
@@ -73,9 +73,9 @@ describe("RouterClient", function () {
     }).timeout(timeoutMs);
 
     it("should list queues", async function () {
-      const result: JobQueue[] = [];
-      for await (const queue of administrationClient.listQueues({ maxPageSize: 20 })) {
-        result.push(queue.jobQueue!);
+      const result: RouterQueue[] = [];
+      for await (const queue of administrationClient.listQueues({ maxpagesize: 20 })) {
+        result.push(queue.queue!);
       }
 
       assert.isNotEmpty(result);

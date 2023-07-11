@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
 import { RequestOptions } from "http";
 import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
 import {
@@ -13,7 +14,6 @@ import {
   SpanProcessor,
   Tracer,
 } from "@opentelemetry/sdk-trace-base";
-import { TracerProvider } from "@opentelemetry/api";
 import { Instrumentation } from "@opentelemetry/instrumentation";
 import {
   HttpInstrumentation,
@@ -30,6 +30,7 @@ import { AzureMonitorOpenTelemetryConfig } from "../shared/config";
 import { MetricHandler } from "../metrics/handler";
 import { ignoreOutgoingRequestHook } from "../utils/common";
 import { AzureMonitorSpanProcessor } from "./spanProcessor";
+import { AzureFunctionsHook } from "./azureFnHook";
 
 /**
  * Azure Monitor OpenTelemetry Trace Handler
@@ -38,7 +39,7 @@ export class TraceHandler {
   private _spanProcessor: BatchSpanProcessor;
   private _tracerProvider: NodeTracerProvider;
   private _tracer: Tracer;
-  private _exporter: AzureMonitorTraceExporter;
+  private _azureExporter: AzureMonitorTraceExporter;
   private _instrumentations: Instrumentation[];
   private _httpInstrumentation?: Instrumentation;
   private _azureSdkInstrumentation?: Instrumentation;
@@ -47,16 +48,18 @@ export class TraceHandler {
   private _postgressInstrumentation?: Instrumentation;
   private _redisInstrumentation?: Instrumentation;
   private _redis4Instrumentation?: Instrumentation;
+  private _config: AzureMonitorOpenTelemetryConfig;
+  private _metricHandler: MetricHandler;
+  private _azureFunctionsHook: AzureFunctionsHook;
 
   /**
    * Initializes a new instance of the TraceHandler class.
    * @param _config - Configuration.
    * @param _metricHandler - MetricHandler.
    */
-  constructor(
-    private _config: AzureMonitorOpenTelemetryConfig,
-    private _metricHandler?: MetricHandler
-  ) {
+  constructor(config: AzureMonitorOpenTelemetryConfig, metricHandler: MetricHandler) {
+    this._config = config;
+    this._metricHandler = metricHandler;
     this._instrumentations = [];
     const aiSampler = new ApplicationInsightsSampler(this._config.samplingRatio);
     const tracerConfig: NodeTracerConfig = {
@@ -65,28 +68,28 @@ export class TraceHandler {
       forceFlushTimeoutMillis: 30000,
     };
     this._tracerProvider = new NodeTracerProvider(tracerConfig);
-    this._exporter = new AzureMonitorTraceExporter(this._config.azureMonitorExporterConfig);
+    this._azureExporter = new AzureMonitorTraceExporter(this._config.azureMonitorExporterConfig);
     const bufferConfig: BufferConfig = {
       maxExportBatchSize: 512,
       scheduledDelayMillis: 5000,
       exportTimeoutMillis: 30000,
       maxQueueSize: 2048,
     };
-    this._spanProcessor = new BatchSpanProcessor(this._exporter, bufferConfig);
+    this._spanProcessor = new BatchSpanProcessor(this._azureExporter, bufferConfig);
     this._tracerProvider.addSpanProcessor(this._spanProcessor);
+
     this._tracerProvider.register();
     this._tracer = this._tracerProvider.getTracer("AzureMonitorTracer");
-    if (this._metricHandler) {
-      const azureSpanProcessor = new AzureMonitorSpanProcessor(this._metricHandler);
-      this._tracerProvider.addSpanProcessor(azureSpanProcessor);
-    }
+    const azureSpanProcessor = new AzureMonitorSpanProcessor(this._metricHandler);
+    this._tracerProvider.addSpanProcessor(azureSpanProcessor);
+    this._azureFunctionsHook = new AzureFunctionsHook();
     this._initializeInstrumentations();
   }
 
   /**
    *Get OpenTelemetry TracerProvider
    */
-  public getTracerProvider(): TracerProvider {
+  public getTracerProvider(): NodeTracerProvider {
     return this._tracerProvider;
   }
 
@@ -102,6 +105,7 @@ export class TraceHandler {
    */
   public async shutdown(): Promise<void> {
     await this._tracerProvider.shutdown();
+    this._azureFunctionsHook.shutdown();
   }
 
   /**
@@ -141,9 +145,10 @@ export class TraceHandler {
    */
   private _initializeInstrumentations() {
     if (!this._httpInstrumentation) {
-      const httpInstrumentationConfig = this._config.instrumentations
+      const httpinstrumentationOptions = this._config.instrumentationOptions
         .http as HttpInstrumentationConfig;
-      const providedIgnoreOutgoingRequestHook = httpInstrumentationConfig.ignoreOutgoingRequestHook;
+      const providedIgnoreOutgoingRequestHook =
+        httpinstrumentationOptions.ignoreOutgoingRequestHook;
       const mergedIgnoreOutgoingRequestHook: IgnoreOutgoingRequestFunction = (
         request: RequestOptions
       ) => {
@@ -157,42 +162,49 @@ export class TraceHandler {
         }
         return result;
       };
-      httpInstrumentationConfig.ignoreOutgoingRequestHook = mergedIgnoreOutgoingRequestHook;
-      this._httpInstrumentation = new HttpInstrumentation(this._config.instrumentations.http);
+      httpinstrumentationOptions.ignoreOutgoingRequestHook = mergedIgnoreOutgoingRequestHook;
+      this._httpInstrumentation = new HttpInstrumentation(this._config.instrumentationOptions.http);
       this.addInstrumentation(this._httpInstrumentation);
     }
     if (!this._azureSdkInstrumentation) {
       this._azureSdkInstrumentation = createAzureSdkInstrumentation(
-        this._config.instrumentations.azureSdk
+        this._config.instrumentationOptions.azureSdk
       ) as any;
       this.addInstrumentation(this._azureSdkInstrumentation);
     }
     if (!this._mongoDbInstrumentation) {
       this._mongoDbInstrumentation = new MongoDBInstrumentation(
-        this._config.instrumentations.mongoDb
+        this._config.instrumentationOptions.mongoDb
       );
       this.addInstrumentation(this._mongoDbInstrumentation);
     }
     if (!this._mySqlInstrumentation) {
-      this._mySqlInstrumentation = new MySQLInstrumentation(this._config.instrumentations.mySql);
+      this._mySqlInstrumentation = new MySQLInstrumentation(
+        this._config.instrumentationOptions.mySql
+      );
       this.addInstrumentation(this._mySqlInstrumentation);
     }
     if (!this._postgressInstrumentation) {
       this._postgressInstrumentation = new PgInstrumentation(
-        this._config.instrumentations.postgreSql
+        this._config.instrumentationOptions.postgreSql
       );
       this.addInstrumentation(this._postgressInstrumentation);
     }
     if (!this._redisInstrumentation) {
-      this._redisInstrumentation = new RedisInstrumentation(this._config.instrumentations.redis);
+      this._redisInstrumentation = new RedisInstrumentation(
+        this._config.instrumentationOptions.redis
+      );
       this.addInstrumentation(this._redisInstrumentation);
     }
     if (!this._redis4Instrumentation) {
-      this._redis4Instrumentation = new Redis4Instrumentation(this._config.instrumentations.redis4);
+      this._redis4Instrumentation = new Redis4Instrumentation(
+        this._config.instrumentationOptions.redis4
+      );
       this.addInstrumentation(this._redis4Instrumentation);
     }
     this._instrumentations.forEach((instrumentation) => {
       instrumentation.setTracerProvider(this._tracerProvider);
+      instrumentation.setMeterProvider(this._metricHandler.getMeterProvider());
       if (instrumentation.getConfig().enabled) {
         instrumentation.enable();
       }

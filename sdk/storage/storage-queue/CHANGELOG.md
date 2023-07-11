@@ -1,5 +1,17 @@
 # Release History
 
+## 12.20.0 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Migrated dependency on `@azure/core-http` to `@azure/core-rest-pipeline`.
+
 ## 12.12.0 (Unreleased)
 
 ### Features Added

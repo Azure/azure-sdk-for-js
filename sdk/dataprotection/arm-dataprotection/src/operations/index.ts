@@ -23,3 +23,4 @@ export * from "./exportJobs";
 export * from "./exportJobsOperationResult";
 export * from "./deletedBackupInstances";
 export * from "./resourceGuards";
+export * from "./dppResourceGuardProxy";

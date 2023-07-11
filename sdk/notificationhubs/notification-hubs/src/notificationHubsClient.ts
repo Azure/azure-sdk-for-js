@@ -17,7 +17,7 @@ import {
   NotificationHubsResponse,
 } from "./models/notificationDetails.js";
 import { NotificationHubJob, NotificationHubJobPoller } from "./models/notificationHubJob.js";
-import { NotificationHubsClientContext, createClientContext } from "./api/index.js";
+import { NotificationHubsClientContext, createClientContext } from "./api/clientContext.js";
 import { RegistrationDescription, RegistrationChannel } from "./models/registration.js";
 import { Notification } from "./models/notification.js";
 import { OperationOptions } from "@azure/core-client";

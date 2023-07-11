@@ -1,5 +1,12 @@
 # Release History
 
+## 1.1.1 (2023-06-08)
+
+### Bugs Fixed
+
+- Fixed the ISO8601 value for `twentyFourHours`to `PT24H`, instead of the incorrect `P24H` under `Durations` object.
+- Fixed the ISO8601 value for `fortyEightHours`to `PT48H`, instead of the incorrect `P48H` under `Durations` object.
+
 ## 1.1.0 (2023-05-09)
 
 ### Features Added

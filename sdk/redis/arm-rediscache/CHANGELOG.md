@@ -1,6 +1,6 @@
 # Release History
 
-## 7.1.2 (Unreleased)
+## 7.2.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,14 @@
 
 ### Other Changes
 
+## 7.2.0 (2023-06-02)
+    
+**Features**
+
+  - Interface ExportRDBParameters has a new optional parameter storageSubscriptionId
+  - Interface ImportRDBParameters has a new optional parameter storageSubscriptionId
+  - Interface RedisCommonPropertiesRedisConfiguration has a new optional parameter storageSubscriptionId
+    
 ## 7.1.1 (2023-01-31)
 
 **Features**

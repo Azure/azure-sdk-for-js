@@ -52,7 +52,7 @@ export class HelpRP extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-selfhelp/1.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-selfhelp/1.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -103,7 +103,7 @@ export class HelpRP extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-01-01-preview";
+    this.apiVersion = options.apiVersion || "2023-06-01";
     this.operations = new OperationsImpl(this);
     this.diagnostics = new DiagnosticsImpl(this);
     this.discoverySolution = new DiscoverySolutionImpl(this);

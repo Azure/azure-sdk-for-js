@@ -31,8 +31,8 @@
   "dependencies": {
     "@azure/event-hubs": "latest",
     "dotenv": "latest",
-    "rhea-promise": "^2.1.0",
-    "@azure/core-amqp": "^3.1.0",
+    "rhea-promise": "^3.0.0",
+    "@azure/core-amqp": "^3.3.0",
     "ws": "^8.2.0",
     "@azure/identity": "^2.0.1",
     "https-proxy-agent": "^5.0.0"

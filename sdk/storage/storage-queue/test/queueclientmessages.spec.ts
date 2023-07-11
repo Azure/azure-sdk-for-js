@@ -4,9 +4,14 @@
 import { assert } from "chai";
 import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { QueueClient } from "../src/QueueClient";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { extractConnectionStringParts } from "../src/utils/utils.common";
-import { recorderEnvSetup } from "./utils/testutils.common";
+import {
+  configureStorageClient,
+  getUniqueName,
+  recorderEnvSetup,
+  uriSanitizers,
+} from "./utils/testutils.common";
 import { Context } from "mocha";
 
 describe("QueueClient message methods", () => {
@@ -17,9 +22,11 @@ describe("QueueClient message methods", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    const queueServiceClient = getQSU();
-    queueName = recorder.getUniqueName("queue");
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    const queueServiceClient = getQSU(recorder);
+    queueName = recorder.variable("queue", getUniqueName("queue"));
     queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();
   });
@@ -341,8 +348,8 @@ describe("QueueClient message methods", () => {
   });
 
   it("can be created with a sas connection string and a queue name", async () => {
-    const newClient = new QueueClient(getSASConnectionStringFromEnvironment(), queueName);
-
+    const newClient = new QueueClient(getSASConnectionStringFromEnvironment(recorder), queueName);
+    configureStorageClient(recorder, newClient);
     const eResult = await newClient.sendMessage(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expiresOn);
@@ -352,11 +359,12 @@ describe("QueueClient message methods", () => {
   });
 
   it("can be created with a sas connection string and a queue name and an option bag", async () => {
-    const newClient = new QueueClient(getSASConnectionStringFromEnvironment(), queueName, {
+    const newClient = new QueueClient(getSASConnectionStringFromEnvironment(recorder), queueName, {
       retryOptions: {
         maxTries: 5,
       },
     });
+    configureStorageClient(recorder, newClient);
 
     const eResult = await newClient.sendMessage(messageContent);
     assert.ok(eResult.date);
@@ -368,7 +376,7 @@ describe("QueueClient message methods", () => {
 
   it("throws error if constructor queueName parameter is empty", async () => {
     try {
-      new QueueClient(getSASConnectionStringFromEnvironment(), "");
+      new QueueClient(getSASConnectionStringFromEnvironment(recorder), "");
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error: any) {
       assert.equal(
@@ -381,11 +389,12 @@ describe("QueueClient message methods", () => {
 
   it("verify queueName passed to the client", async () => {
     const newClient = new QueueClient(
-      extractConnectionStringParts(getSASConnectionStringFromEnvironment()).url +
+      extractConnectionStringParts(getSASConnectionStringFromEnvironment(recorder)).url +
         "/" +
         queueName +
         "/messages/"
     );
+    configureStorageClient(recorder, newClient);
     assert.equal(newClient.name, queueName, "Queue name is not the same as the one provided.");
   });
 });
