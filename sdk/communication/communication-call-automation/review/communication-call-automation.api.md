@@ -99,6 +99,7 @@ export class CallConnection {
     getParticipant(targetParticipant: CommunicationIdentifier, options?: GetParticipantOptions): Promise<CallParticipant>;
     hangUp(isForEveryone: boolean, options?: HangUpOptions): Promise<void>;
     listParticipants(options?: GetParticipantOptions): Promise<ListParticipantsResult>;
+    muteParticipants(participant: CommunicationIdentifier, options?: MuteParticipantsOption): Promise<MuteParticipantsResult>;
     removeParticipant(participant: CommunicationIdentifier, options?: RemoveParticipantsOption): Promise<RemoveParticipantResult>;
     transferCallToParticipant(targetParticipant: CommunicationIdentifier, options?: TransferCallToParticipantOptions): Promise<TransferCallResult>;
 }
@@ -194,6 +195,8 @@ export interface CallMediaRecognizeOptions extends OperationOptions {
     operationContext?: string;
     // (undocumented)
     playPrompt?: FileSource | TextSource | SsmlSource;
+    // (undocumented)
+    speechModelEndpointId?: string;
     // (undocumented)
     stopCurrentOperations?: boolean;
 }
@@ -427,6 +430,16 @@ export type MediaStreamingContentType = string;
 
 // @public
 export type MediaStreamingTransportType = string;
+
+// @public
+export interface MuteParticipantsOption extends OperationOptions {
+    operationContext?: string;
+}
+
+// @public
+export interface MuteParticipantsResult {
+    operationContext?: string;
+}
 
 // @public
 export function parseCallAutomationEvent(encodedEvents: string | Record<string, unknown>): CallAutomationEvent;
@@ -778,11 +791,8 @@ export interface RestRemoveParticipantSucceeded {
 
 // @public (undocumented)
 export interface RestResultInformation {
-    // (undocumented)
     code?: number;
-    // (undocumented)
     message?: string;
-    // (undocumented)
     subCode?: number;
 }
 
@@ -849,6 +859,8 @@ export interface SendDtmfOptions extends OperationOptions {
 // @public
 export interface SsmlSource extends PlaySource {
     // (undocumented)
+    customVoiceEndpointId?: string;
+    // (undocumented)
     readonly kind: "ssmlSource";
     // (undocumented)
     ssmlText: string;
@@ -870,6 +882,8 @@ export type StopRecordingOptions = OperationOptions;
 
 // @public
 export interface TextSource extends PlaySource {
+    // (undocumented)
+    customVoiceEndpointId?: string;
     // (undocumented)
     readonly kind: "textSource";
     // (undocumented)

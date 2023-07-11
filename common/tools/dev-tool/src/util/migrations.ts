@@ -8,10 +8,7 @@ import { panic } from "./assert";
 import { findMatchingFiles } from "./findMatchingFiles";
 import { createPrinter, Printer } from "./printer";
 import { METADATA_KEY, ProjectInfo } from "./resolveProject";
-
-import * as prettier from "prettier";
-
-import prettierOptions from "../../../eslint-plugin-azure-sdk/prettier.json";
+import { format } from "./prettier";
 
 const { debug } = createPrinter("util/migrations");
 
@@ -609,13 +606,10 @@ export async function updateMigrationDate(
     panic(`${project.name} is being migrated to an older version than the current version.`);
   }
 
-  packageJson[METADATA_KEY].migrationDate = migration.date.toISOString();
+  (packageJson[METADATA_KEY] ??= {}).migrationDate = migration.date.toISOString();
 
   // Format the file with prettier
-  const contents = prettier.format(JSON.stringify(packageJson), {
-    ...(prettierOptions as prettier.Options),
-    parser: "json",
-  });
+  const contents = format(JSON.stringify(packageJson, null, 2), "json");
 
   await writeFile(packageJsonPath, contents);
 }

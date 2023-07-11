@@ -22,8 +22,8 @@ export class AzureMonitorOpenTelemetryClient {
     getLoggerProvider(): LoggerProvider;
     getMeter(): Meter;
     getMeterProvider(): MeterProvider;
-    getTraceProvider(): TracerProvider;
     getTracer(): Tracer;
+    getTracerProvider(): TracerProvider;
     shutdown(): Promise<void>;
 }
 
@@ -39,13 +39,13 @@ export interface AzureMonitorOpenTelemetryOptions {
 
 // @public
 export interface InstrumentationOptions {
-    azureSdk: InstrumentationConfig;
-    http: InstrumentationConfig;
-    mongoDb: InstrumentationConfig;
-    mySql: InstrumentationConfig;
-    postgreSql: InstrumentationConfig;
-    redis: InstrumentationConfig;
-    redis4: InstrumentationConfig;
+    azureSdk?: InstrumentationConfig;
+    http?: InstrumentationConfig;
+    mongoDb?: InstrumentationConfig;
+    mySql?: InstrumentationConfig;
+    postgreSql?: InstrumentationConfig;
+    redis?: InstrumentationConfig;
+    redis4?: InstrumentationConfig;
 }
 
 // (No @packageDocumentation comment for this package)

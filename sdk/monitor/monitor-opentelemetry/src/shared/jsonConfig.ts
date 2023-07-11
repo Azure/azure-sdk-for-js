@@ -8,6 +8,7 @@ import { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-export
 import { Logger } from "./logging";
 
 const ENV_CONFIGURATION_FILE = "APPLICATIONINSIGHTS_CONFIGURATION_FILE";
+const ENV_CONTENT = "APPLICATIONINSIGHTS_CONFIGURATION_CONTENT";
 
 /**
  * Azure Monitor OpenTelemetry Client Configuration through JSON File
@@ -51,21 +52,33 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
   }
 
   private _loadJsonFile() {
-    const configFileName = "applicationinsights.json";
-    const rootPath = path.join(__dirname, "../../../../"); // Root of applicationinsights folder (__dirname = ../out)
-    let tempDir = path.join(rootPath, configFileName); // default
-    const configFile = process.env[ENV_CONFIGURATION_FILE];
-    if (configFile) {
-      if (path.isAbsolute(configFile)) {
-        tempDir = configFile;
-      } else {
-        tempDir = path.join(rootPath, configFile); // Relative path to applicationinsights folder
+    let jsonString = "";
+    const contentJsonConfig = process.env[ENV_CONTENT];
+    // JSON string added directly in env variable
+    if (contentJsonConfig) {
+      jsonString = contentJsonConfig;
+    }
+    // JSON file
+    else {
+      let configFileName = "applicationinsights.json";
+      let rootPath = path.join(__dirname, "../../../"); // Root of folder (__dirname = ../dist-esm/src)
+      let tempDir = path.join(rootPath, configFileName); // default
+      let configFile = process.env[ENV_CONFIGURATION_FILE];
+      if (configFile) {
+        if (path.isAbsolute(configFile)) {
+          tempDir = configFile;
+        } else {
+          tempDir = path.join(rootPath, configFile); // Relative path to applicationinsights folder
+        }
+      }
+      try {
+        jsonString = fs.readFileSync(tempDir, "utf8");
+      } catch (err) {
+        Logger.getInstance().info("Failed to read JSON config file: ", err);
       }
     }
     try {
-      const jsonConfig: AzureMonitorOpenTelemetryOptions = JSON.parse(
-        fs.readFileSync(tempDir, "utf8")
-      );
+      const jsonConfig: AzureMonitorOpenTelemetryOptions = JSON.parse(jsonString);
       this.azureMonitorExporterConfig = jsonConfig.azureMonitorExporterConfig;
       this.samplingRatio = jsonConfig.samplingRatio;
       this.enableAutoCollectPerformance = jsonConfig.enableAutoCollectPerformance;
