@@ -328,6 +328,7 @@ interface Hotel {
   hotelId?: string;
   hotelName?: string | null;
   description?: string | null;
+  descriptionVector?: Array<number> | null;
   parkingIncluded?: boolean | null;
   lastRenovationDate?: Date | null;
   rating?: number | null;
@@ -389,6 +390,33 @@ async function main() {
   for await (const result of searchResults.results) {
     // Each result will have "HotelId", "HotelName", and "Rating"
     // in addition to the standard search result property "score"
+    console.log(result);
+  }
+}
+
+main();
+```
+
+#### Querying with vectors
+
+Text embeddings can be queried using the `vector` search parameter.
+
+```js
+const { SearchClient, AzureKeyCredential, odata } = require("@azure/search-documents");
+
+const client = new SearchClient("<endpoint>", "<indexName>", new AzureKeyCredential("<apiKey>"));
+
+async function main() {
+  const queryVector: number[] = [...]
+  const searchResults = await searchClient.search("*", {
+    vector: {
+      fields: ["descriptionVector"],
+      kNearestNeighborsCount: 3,
+      value: queryVector,
+    },
+  });
+  for await (const result of searchResults.results) {
+    // These results are the nearest neighbors to the query vector
     console.log(result);
   }
 }
