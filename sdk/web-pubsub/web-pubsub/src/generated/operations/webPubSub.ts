@@ -13,9 +13,13 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { GeneratedClient } from "../generatedClient";
 import {
+  AddToGroupsRequest,
+  WebPubSubAddConnectionsToGroupsOptionalParams,
   WebPubSubCloseAllConnectionsOptionalParams,
   WebPubSubGenerateClientTokenOptionalParams,
   WebPubSubGenerateClientTokenResponse,
+  RemoveFromGroupsRequest,
+  WebPubSubRemoveConnectionsFromGroupsOptionalParams,
   ContentType,
   WebPubSubSendToAll$binaryOptionalParams,
   WebPubSubSendToAll$textOptionalParams,
@@ -56,6 +60,24 @@ export class WebPubSubImpl implements WebPubSub {
   }
 
   /**
+   * Add filtered connections to multiple groups.
+   * @param hub Target hub name, which should start with alphabetic characters and only contain
+   *            alpha-numeric characters or underscore.
+   * @param groupsToAdd Target groups and connection filter.
+   * @param options The options parameters.
+   */
+  addConnectionsToGroups(
+    hub: string,
+    groupsToAdd: AddToGroupsRequest,
+    options?: WebPubSubAddConnectionsToGroupsOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { hub, groupsToAdd, options },
+      addConnectionsToGroupsOperationSpec
+    );
+  }
+
+  /**
    * Close the connections in the hub.
    * @param hub Target hub name, which should start with alphabetic characters and only contain
    *            alpha-numeric characters or underscore.
@@ -84,6 +106,24 @@ export class WebPubSubImpl implements WebPubSub {
     return this.client.sendOperationRequest(
       { hub, options },
       generateClientTokenOperationSpec
+    );
+  }
+
+  /**
+   * Remove filtered connections from multiple groups.
+   * @param hub Target hub name, which should start with alphabetic characters and only contain
+   *            alpha-numeric characters or underscore.
+   * @param groupsToRemove Target groups and connection filter.
+   * @param options The options parameters.
+   */
+  removeConnectionsFromGroups(
+    hub: string,
+    groupsToRemove: RemoveFromGroupsRequest,
+    options?: WebPubSubRemoveConnectionsFromGroupsOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { hub, groupsToRemove, options },
+      removeConnectionsFromGroupsOperationSpec
     );
   }
 
@@ -713,6 +753,23 @@ export class WebPubSubImpl implements WebPubSub {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const addConnectionsToGroupsOperationSpec: coreClient.OperationSpec = {
+  path: "/api/hubs/{hub}/:addToGroups",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper: Mappers.WebPubSubAddConnectionsToGroupsExceptionHeaders
+    }
+  },
+  requestBody: Parameters.groupsToAdd,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.hub],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
 const closeAllConnectionsOperationSpec: coreClient.OperationSpec = {
   path: "/api/hubs/{hub}/:closeConnections",
   httpMethod: "POST",
@@ -755,6 +812,24 @@ const generateClientTokenOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept1],
   serializer
 };
+const removeConnectionsFromGroupsOperationSpec: coreClient.OperationSpec = {
+  path: "/api/hubs/{hub}/:removeFromGroups",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper:
+        Mappers.WebPubSubRemoveConnectionsFromGroupsExceptionHeaders
+    }
+  },
+  requestBody: Parameters.groupsToRemove,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.hub],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
 const sendToAll$binaryOperationSpec: coreClient.OperationSpec = {
   path: "/api/hubs/{hub}/:send",
   httpMethod: "POST",
@@ -769,10 +844,11 @@ const sendToAll$binaryOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion,
     Parameters.excludedConnections,
-    Parameters.filter
+    Parameters.filter,
+    Parameters.messageTtlSeconds
   ],
   urlParameters: [Parameters.endpoint, Parameters.hub],
-  headerParameters: [Parameters.contentType, Parameters.accept2],
+  headerParameters: [Parameters.contentType1, Parameters.accept2],
   mediaType: "binary",
   serializer
 };
@@ -790,10 +866,11 @@ const sendToAll$textOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion,
     Parameters.excludedConnections,
-    Parameters.filter
+    Parameters.filter,
+    Parameters.messageTtlSeconds
   ],
   urlParameters: [Parameters.endpoint, Parameters.hub],
-  headerParameters: [Parameters.contentType1, Parameters.accept3],
+  headerParameters: [Parameters.contentType2, Parameters.accept3],
   mediaType: "text",
   serializer
 };
@@ -837,9 +914,9 @@ const sendToConnection$binaryOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.message,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.messageTtlSeconds],
   urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.connectionId],
-  headerParameters: [Parameters.contentType, Parameters.accept2],
+  headerParameters: [Parameters.contentType1, Parameters.accept2],
   mediaType: "binary",
   serializer
 };
@@ -854,9 +931,9 @@ const sendToConnection$textOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.message1,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.messageTtlSeconds],
   urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.connectionId],
-  headerParameters: [Parameters.contentType1, Parameters.accept3],
+  headerParameters: [Parameters.contentType2, Parameters.accept3],
   mediaType: "text",
   serializer
 };
@@ -923,10 +1000,11 @@ const sendToGroup$binaryOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion,
     Parameters.excludedConnections,
-    Parameters.filter
+    Parameters.filter,
+    Parameters.messageTtlSeconds
   ],
   urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.group],
-  headerParameters: [Parameters.contentType, Parameters.accept2],
+  headerParameters: [Parameters.contentType1, Parameters.accept2],
   mediaType: "binary",
   serializer
 };
@@ -944,10 +1022,11 @@ const sendToGroup$textOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion,
     Parameters.excludedConnections,
-    Parameters.filter
+    Parameters.filter,
+    Parameters.messageTtlSeconds
   ],
   urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.group],
-  headerParameters: [Parameters.contentType1, Parameters.accept3],
+  headerParameters: [Parameters.contentType2, Parameters.accept3],
   mediaType: "text",
   serializer
 };
@@ -1094,9 +1173,13 @@ const sendToUser$binaryOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.message,
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.messageTtlSeconds
+  ],
   urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.userId1],
-  headerParameters: [Parameters.contentType, Parameters.accept2],
+  headerParameters: [Parameters.contentType1, Parameters.accept2],
   mediaType: "binary",
   serializer
 };
@@ -1111,9 +1194,13 @@ const sendToUser$textOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.message1,
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.messageTtlSeconds
+  ],
   urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.userId1],
-  headerParameters: [Parameters.contentType1, Parameters.accept3],
+  headerParameters: [Parameters.contentType2, Parameters.accept3],
   mediaType: "text",
   serializer
 };
