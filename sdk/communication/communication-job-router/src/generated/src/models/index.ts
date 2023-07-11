@@ -1487,7 +1487,7 @@ export interface JobRouterListWorkersOptionalParams
   queueId?: string;
   /** If specified, select workers who have a channel configuration with this channel */
   channelId?: string;
-  /** If specified, select workers by worker status. */
+  /** If specified, select workers by worker state. */
   state?: RouterWorkerStateSelector;
   /**
    * If set to true, select only workers who have capacity for the channel specified by `channelId` or for any channel
