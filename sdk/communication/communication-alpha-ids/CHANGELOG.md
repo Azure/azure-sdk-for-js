@@ -5,6 +5,7 @@
 ### Features Added
 
 - APIs for querying and managing the usage of Pre-registered Alpha IDs
+- Added environment variable `AZURE_USERAGENT_OVERRIDE` that overrides the HTTP header `x-ms-useragent` during tests
 
 ### Breaking Changes
 
