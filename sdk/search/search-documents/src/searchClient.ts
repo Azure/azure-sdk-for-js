@@ -460,7 +460,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
    * import {
    *   AzureKeyCredential,
    *   SearchClient,
-   *   SelectFields,
+   *   SearchFieldArray,
    * } from "@azure/search-documents";
    *
    * type TModel = {
@@ -518,7 +518,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
    * import {
    *   AzureKeyCredential,
    *   SearchClient,
-   *   SelectFields,
+   *   SearchFieldArray,
    * } from "@azure/search-documents";
    *
    * type TModel = {
