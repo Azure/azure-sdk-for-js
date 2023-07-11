@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Demonstrates the SearchClient.
+ * @summary Demonstrates vector search
  */
 
 import {
@@ -10,20 +10,20 @@ import {
   SearchClient,
   GeographyPoint,
   SearchIndexClient,
-  SelectFields,
 } from "@azure/search-documents";
 import { createIndex, WAIT_TIME, delay } from "./setup";
 import { Hotel } from "./interfaces";
 
 import * as dotenv from "dotenv";
+import { fancyStayVector, luxuryQueryVector } from "./vectors";
 dotenv.config();
 
 /**
- * This sample is to demonstrate the use of SearchClient.
+ * This sample is to demonstrate the use of SearchClient's vector search feature.
  */
 const endpoint = process.env.ENDPOINT || "";
 const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
-const TEST_INDEX_NAME = "example-index-sample-2";
+const TEST_INDEX_NAME = "example-index-sample-7";
 
 async function main() {
   if (!endpoint || !apiKey) {
@@ -33,10 +33,6 @@ async function main() {
 
   const credential = new AzureKeyCredential(apiKey);
 
-  // The client can optionally be instantiated with a model type for a more rich typing experience.
-  // For the best experience, ensure that every property of the model type can be assigned `null`
-  // except for the document key. All properties should be optional, but you may mark properties as
-  // non-optional when your queries always select them.
   const searchClient: SearchClient<Hotel> = new SearchClient<Hotel>(
     endpoint,
     TEST_INDEX_NAME,
@@ -70,6 +66,7 @@ async function main() {
           longitude: -122.131577,
           latitude: 47.678581,
         }),
+        descriptionVector: fancyStayVector,
       },
     ]);
 
@@ -81,24 +78,13 @@ async function main() {
 
     await delay(WAIT_TIME);
 
-    // These fields will be searched against.
-    const searchFields: SelectFields<Hotel>[] = ["description", "rooms/description"];
-
-    // If you specify your selected fields either inline or as shown below, your documents will be
-    // returned with their type narrowed to those fields. If you'd like to build your selected fields
-    // dynamically, or you'd like to opt out of narrowing the document type, you can declare your
-    // selected fields with type `SelectFields<TModel>[]` as shown with `searchFields` above.
-    // You can permanently opt out of document type narrowing by omitting the model type parameter
-    // from the client constructor. In that case, you can use the `string[]` type.
-    const select = ["hotelName"] as const;
-
-    const searchResults = await searchClient.search("luxury", {
-      select,
-      searchFields,
-      includeTotalCount: true,
+    const searchResults = await searchClient.search("*", {
+      vector: {
+        fields: ["descriptionVector"],
+        kNearestNeighborsCount: 3,
+        value: luxuryQueryVector,
+      },
     });
-
-    console.log(`Result count: ${searchResults.count}`);
 
     for await (const result of searchResults.results) {
       const name = result.document.hotelName;

@@ -4,7 +4,6 @@
 import { OperationOptions } from "@azure/core-client";
 import {
   AnswerResult,
-  Answers,
   AutocompleteMode,
   CaptionResult,
   Captions,
@@ -13,6 +12,7 @@ import {
   QueryAnswerType,
   QueryCaptionType,
   QueryLanguage,
+  QueryResultDocumentRerankerInput,
   QuerySpellerType,
   QueryType,
   ScoringStatistics,
@@ -180,10 +180,20 @@ export type SearchIterator<
   ListSearchResultsPageSettings
 >;
 
+/** The query parameters for vector and hybrid search queries. */
+export interface Vector<T extends object> {
+  /** The vector representation of a search query. */
+  value?: number[];
+  /** Number of nearest neighbors to return as top hits. */
+  kNearestNeighborsCount?: number;
+  /** Vector Fields of type Collection(Edm.Single) to be included in the vector searched. */
+  fields?: SearchFieldArray<T>;
+}
+
 /**
  * Parameters for filtering, sorting, faceting, paging, and other search query behaviors.
  */
-export interface SearchRequest {
+export interface SearchRequest<TModel extends object = never> {
   /**
    * A value that specifies whether to fetch the total count of results. Default is false. Setting
    * this value to true may have a performance impact. Note that the count returned is an
@@ -268,6 +278,20 @@ export interface SearchRequest {
    */
   semanticConfiguration?: string;
   /**
+   * Allows the user to choose whether a semantic call should fail completely (default / current
+   * behavior), or to return partial results.
+   */
+  semanticErrorHandlingMode?: SemanticErrorHandlingMode;
+  /**
+   * Allows the user to set an upper bound on the amount of time it takes for semantic enrichment
+   * to finish processing before the request fails.
+   */
+  semanticMaxWaitInMilliseconds?: number;
+  /**
+   * Enables a debugging tool that can be used to further explore your Semantic search results.
+   */
+  debugMode?: QueryDebugMode;
+  /**
    * A full-text search query expression; Use "*" or omit this parameter to match all documents.
    */
   searchText?: string;
@@ -321,6 +345,10 @@ export interface SearchRequest {
    * The comma-separated list of field names used for semantic search.
    */
   semanticFields?: string;
+  /**
+   * The query parameters for vector and hybrid search queries.
+   */
+  vector?: Vector<TModel>;
 }
 
 /**
@@ -377,7 +405,7 @@ export interface SearchRequestOptions<
   orderBy?: string[];
   /**
    * A value that specifies the syntax of the search query. The default is 'simple'. Use 'full' if
-   * your query uses the Lucene query syntax. Possible values include: 'simple', 'full'
+   * your query uses the Lucene query syntax. Possible values include: 'simple', 'full', 'semantic'
    */
   queryType?: QueryType;
   /**
@@ -392,6 +420,24 @@ export interface SearchRequestOptions<
    * the results.
    */
   scoringProfile?: string;
+  /**
+   * The name of a semantic configuration that will be used when processing documents for queries of
+   * type semantic.
+   */
+  semanticConfiguration?: string;
+  /**
+   *  Allows the user to choose whether a semantic call should fail completely, or to return partial results.
+   */
+  semanticErrorHandlingMode?: SemanticErrorHandlingMode;
+  /**
+   * Allows the user to set an upper bound on the amount of time it takes for semantic enrichment to finish
+   * processing before the request fails.
+   */
+  semanticMaxWaitInMilliseconds?: number;
+  /**
+   * Enables a debugging tool that can be used to further explore your search results.
+   */
+  debugMode?: QueryDebugMode;
   /**
    * The comma-separated list of field names to which to scope the full-text search. When using
    * fielded search (fieldName:searchExpression) in a full Lucene query, the field names of each
@@ -408,11 +454,9 @@ export interface SearchRequestOptions<
   speller?: Speller;
   /**
    * This parameter is only valid if the query type is 'semantic'. If set, the query returns answers
-   * extracted from key passages in the highest ranked documents. The number of answers returned can
-   * be configured by appending the pipe character '|' followed by the 'count-\<number of answers\>' option
-   * after the answers parameter value, such as 'extractive|count-3'. Default count is 1.
+   * extracted from key passages in the highest ranked documents.
    */
-  answers?: Answers;
+  answers?: Answers | AnswersOptions;
   /**
    * A value that specifies whether any or all of the search terms must be matched in order to
    * count the document as a match. Possible values include: 'any', 'all'
@@ -461,6 +505,11 @@ export interface SearchRequestOptions<
    * The list of field names used for semantic search.
    */
   semanticFields?: string[];
+
+  /**
+   * The query parameters for vector and hybrid search queries.
+   */
+  vector?: Vector<TModel>;
 }
 
 /**
@@ -493,6 +542,12 @@ export type SearchResult<
   readonly captions?: CaptionResult[];
 
   document: NarrowedModel<TModel, TFields>;
+
+  /**
+   * Contains debugging information that can be used to further explore your search results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly documentDebugInfo?: DocumentDebugInfo[];
 };
 
 /**
@@ -525,6 +580,16 @@ export interface SearchDocumentsResultBase {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly answers?: AnswerResult[];
+  /**
+   * Reason that a partial response was returned for a semantic search request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly semanticPartialResponseReason?: SemanticPartialResponseReason;
+  /**
+   * Type of partial response that was returned for a semantic search request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly semanticPartialResponseType?: SemanticPartialResponseType;
 }
 
 /**
@@ -917,3 +982,134 @@ export type SuggestNarrowedModel<
   ? NarrowedModel<TModel, TFields>
   : // Unreachable by construction
     never;
+
+/** Description of fields that were sent to the semantic enrichment process, as well as how they were used */
+export interface QueryResultDocumentSemanticField {
+  /**
+   * The name of the field that was sent to the semantic enrichment process
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The way the field was used for the semantic enrichment process (fully used, partially used, or unused)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: SemanticFieldState;
+}
+
+/** Contains debugging information that can be used to further explore your search results. */
+export interface DocumentDebugInfo {
+  /**
+   * Contains debugging information specific to semantic search queries.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly semantic?: SemanticDebugInfo;
+}
+
+/**
+ * Debug options for semantic search queries.
+ */
+export interface SemanticDebugInfo {
+  /**
+   * The title field that was sent to the semantic enrichment process, as well as how it was used
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly titleField?: QueryResultDocumentSemanticField;
+  /**
+   * The content fields that were sent to the semantic enrichment process, as well as how they were used
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly contentFields?: QueryResultDocumentSemanticField[];
+  /**
+   * The keyword fields that were sent to the semantic enrichment process, as well as how they were used
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly keywordFields?: QueryResultDocumentSemanticField[];
+  /**
+   * The raw concatenated strings that were sent to the semantic enrichment process.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rerankerInput?: QueryResultDocumentRerankerInput;
+}
+
+/**
+ * This parameter is only valid if the query type is 'semantic'. If set, the query returns answers
+ * extracted from key passages in the highest ranked documents. The number of answers returned can
+ * be configured by appending the pipe character '|' followed by the 'count-\<number of answers\>' option
+ * after the answers parameter value, such as 'extractive|count-3'. Default count is 1. The
+ * confidence threshold can be configured by appending the pipe character '|' followed by the
+ * 'threshold-\<confidence threshold\>' option after the answers parameter value, such as
+ * 'extractive|threshold-0.9'. Default threshold is 0.7.
+ */
+export type Answers = string;
+
+/**
+ * A value that specifies whether answers should be returned as part of the search response.
+ * This parameter is only valid if the query type is 'semantic'. If set to `extractive`, the query
+ * returns answers extracted from key passages in the highest ranked documents.
+ */
+export type AnswersOptions =
+  | {
+      /**
+       * Extracts answer candidates from the contents of the documents returned in response to a
+       * query expressed as a question in natural language.
+       */
+      answers: "extractive";
+      /**
+       * The number of answers returned. Default count is 1
+       */
+      count?: number;
+      /**
+       * The confidence threshold. Default threshold is 0.7
+       */
+      threshold?: number;
+    }
+  | {
+      /**
+       * Do not return answers for the query.
+       */
+      answers: "none";
+    };
+
+/**
+ * maxWaitExceeded: If 'semanticMaxWaitInMilliseconds' was set and the semantic processing duration
+ * exceeded that value. Only the base results were returned.
+ *
+ * capacityOverloaded: The request was throttled. Only the base results were returned.
+ *
+ * transient: At least one step of the semantic process failed.
+ */
+export type SemanticPartialResponseReason = "maxWaitExceeded" | "capacityOverloaded" | "transient";
+
+/**
+ * baseResults: Results without any semantic enrichment or reranking.
+ *
+ * rerankedResults: Results have been reranked with the reranker model and will include semantic
+ * captions. They will not include any answers, answers highlights or caption highlights.
+ */
+export type SemanticPartialResponseType = "baseResults" | "rerankedResults";
+
+/**
+ * disabled: No query debugging information will be returned.
+ *
+ * semantic: Allows the user to further explore their Semantic search results.
+ */
+export type QueryDebugMode = "disabled" | "semantic";
+
+/**
+ * partial: If the semantic processing fails, partial results still return. The definition of
+ * partial results depends on what semantic step failed and what was the reason for failure.
+ *
+ * fail: If there is an exception during the semantic processing step, the query will fail and
+ * return the appropriate HTTP code depending on the error.
+ */
+export type SemanticErrorHandlingMode = "partial" | "fail";
+
+/**
+ * used: The field was fully used for semantic enrichment.
+ *
+ * unused: The field was not used for semantic enrichment.
+ *
+ * partial: The field was partially used for semantic enrichment.
+ */
+export type SemanticFieldState = "used" | "unused" | "partial";

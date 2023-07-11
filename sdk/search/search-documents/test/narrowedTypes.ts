@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-constant-condition */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { SearchClient, SelectFields } from "../src/index";
 import {
@@ -245,6 +247,14 @@ function testNarrowedClient() {
   };
 
   async () => {
+    type VectorFields = NonNullable<
+      NonNullable<NonNullable<Parameters<(typeof client)["search"]>[1]>["vector"]>["fields"]
+    >;
+    const a: Equals<VectorFields, readonly ModelFields[]> = "pass";
+    return a;
+  };
+
+  async () => {
     const select1 = await client.search("New", {
       select,
     });
@@ -365,6 +375,14 @@ function testWideClient() {
       const a: Equals<(typeof result)["document"], object> = "pass";
       return a;
     }
+  };
+
+  async () => {
+    type VectorFields = NonNullable<
+      NonNullable<NonNullable<Parameters<(typeof client)["search"]>[1]>["vector"]>["fields"]
+    >;
+    const a: Equals<VectorFields, readonly string[]> = "pass";
+    return a;
   };
 
   async () => {

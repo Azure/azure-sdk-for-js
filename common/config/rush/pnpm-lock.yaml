@@ -720,6 +720,20 @@ packages:
       - supports-color
     dev: false
 
+  /@azure-rest/core-client/1.1.4:
+    resolution: {integrity: sha512-RUIQOA8T0WcbNlddr8hjl2MuC5GVRqmMwPXqBVsgvdKesLy+eg3y/6nf3qe2fvcJMI1gF6VtgU5U4hRaR4w4ag==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.4.0
+      '@azure/core-rest-pipeline': 1.11.0
+      '@azure/core-tracing': 1.0.1
+      '@azure/core-util': 1.3.2
+      tslib: 2.5.3
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure-tools/test-recorder/1.0.2:
     resolution: {integrity: sha512-s29YTbvD6Pr2sTgRLHXXs8zJZmFnGO0n0F1UICxYMmf8hItgXvSa9DwTx/qg7j3v65hrFn+gx9IedI7YkLE5KA==}
     engines: {node: '>=12.0.0'}
@@ -1138,6 +1152,19 @@ packages:
       '@azure/msal-common': 13.1.0
       jsonwebtoken: 9.0.0
       uuid: 8.3.2
+    dev: false
+
+  /@azure/openai/1.0.0-beta.2:
+    resolution: {integrity: sha512-Sc7urPoTP92kcSQdbwQgokeRAUMWFI5cXLpBfBX/5qexGhnlRI2JLzfqerRiKOqKk9HYJ0OWhKW8YQ0Yd8Qt7A==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure-rest/core-client': 1.1.4
+      '@azure/core-auth': 1.4.0
+      '@azure/core-rest-pipeline': 1.11.0
+      '@azure/logger': 1.0.4
+      tslib: 2.5.3
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /@azure/schema-registry/1.2.0:
@@ -4711,7 +4738,7 @@ packages:
     dependencies:
       semver: 7.5.3
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230705
+      typescript: 5.2.0-dev.20230711
     dev: false
 
   /duplexer3/0.1.5:
@@ -10175,8 +10202,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230705:
-    resolution: {integrity: sha512-eMgfQ/e5CgYYSaduGhDc2UiY2EzzgrBMfHyagjUP70jj4VDCmLlIp1EftT5AMiLvNc7PYNCeziRFY5fBZhD9uA==}
+  /typescript/5.2.0-dev.20230711:
+    resolution: {integrity: sha512-Pu1roPsNZOmZvIeoPHiwFqO31X+LQYLXjQgADk/wXu4qZ0/ovCuMVA3+3CYnrvsBecjLU9UN0pC4JFUyvfN6lA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -15373,7 +15400,7 @@ packages:
     dev: false
 
   file:projects/arm-paloaltonetworksngfw.tgz:
-    resolution: {integrity: sha512-i49B+CU6GyiWieC4y4L8WjJIIXmjbYXN0oNk4EYPO+ucfMArHJeF+RjOotrmjPf1XN5p6LI8wkS5YS8lb7toFw==, tarball: file:projects/arm-paloaltonetworksngfw.tgz}
+    resolution: {integrity: sha512-5bvO6r7LJRaOY6Lx6QbjjRL+wDh3vZQqWQxLi1t4Rj9JYqeeJgACRApyc7Dc0E29447E9Dcw6ztB52nNpjaFaA==, tarball: file:projects/arm-paloaltonetworksngfw.tgz}
     name: '@rush-temp/arm-paloaltonetworksngfw'
     version: 0.0.0
     dependencies:
@@ -20074,7 +20101,7 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-s3LNI5j0yoVJmnTlFqRuGpcLtvO1URMaTuT4ou+R735ZlIY86hm7hwxOzEjdpeCSoZfVTGa6kAaFEXnvKxUJ/Q==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-P2Kt7ieMv/lI2IQF2IYFl/xUaX++zno8QLczqULMhbQpAQ+0i19LZ+pAZR9tnL3BpMS/dyuz3QxIMekW2cyOUA==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
@@ -20990,11 +21017,12 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-reuxPvOPqMADoVbraqclh/SiCrzr0Kp+RuX70zlpLwCJqHTUoKPwCnjSwlEuMk50H6zx/rYEInb7BT+7QVvb/w==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-69gz9qDgktW7r9tJxcwXcn+nxxqH/DOUJhNZi4AEVEZ6nnYnkQ8Jc3uVXY6dfy6Z6Owq+KB2PRoiUCsSAAo8PA==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
       '@azure/core-http-compat': 1.3.0
+      '@azure/openai': 1.0.0-beta.2
       '@microsoft/api-extractor': 7.36.0_@types+node@14.18.51
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
