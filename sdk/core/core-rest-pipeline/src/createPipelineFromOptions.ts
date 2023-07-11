@@ -89,7 +89,9 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
 
   pipeline.addPolicy(formDataPolicy());
   pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
-  pipeline.addPolicy(setClientRequestIdPolicy(options.commonTelemetryOptions?.clientRequestIdHeaderName));
+  pipeline.addPolicy(
+    setClientRequestIdPolicy(options.commonTelemetryOptions?.clientRequestIdHeaderName)
+  );
   pipeline.addPolicy(defaultRetryPolicy(options.retryOptions), { phase: "Retry" });
   pipeline.addPolicy(tracingPolicy(options.userAgentOptions), { afterPhase: "Retry" });
   if (isNode) {
