@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Add support for setting `TLSValidationCert` in the Test Proxy Transport.
+
 ### Breaking Changes
 
 ### Bugs Fixed

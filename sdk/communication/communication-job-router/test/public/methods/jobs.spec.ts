@@ -3,7 +3,14 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { RouterAdministrationClient, RouterClient, RouterJob } from "../../../src";
+import {
+  CreateJobOptions,
+  JobMatchModeType,
+  JobRouterAdministrationClient,
+  JobRouterClient,
+  RouterJob,
+  UpdateJobOptions,
+} from "../../../src";
 import { Context } from "mocha";
 import {
   getClassificationPolicyRequest,
@@ -16,9 +23,9 @@ import { createRecordedRouterClientWithConnectionString } from "../../internal/u
 import { sleep, timeoutMs } from "../utils/constants";
 import { pollForJobQueued, retry } from "../utils/polling";
 
-describe("RouterClient", function () {
-  let client: RouterClient;
-  let administrationClient: RouterAdministrationClient;
+describe("JobRouterClient", function () {
+  let client: JobRouterClient;
+  let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;
 
   const testRunId = "recorded-jobs";
@@ -30,6 +37,16 @@ describe("RouterClient", function () {
   const { classificationPolicyId, classificationPolicyRequest } =
     getClassificationPolicyRequest(testRunId);
   const { jobId, jobRequest } = getJobRequest(testRunId);
+
+  function getScheduledJob(scheduledTime: string): CreateJobOptions | UpdateJobOptions {
+    return {
+      ...jobRequest,
+      matchingMode: {
+        modeType: JobMatchModeType.ScheduleAndSuspendMode,
+        scheduleAndSuspendMode: { scheduleAt: new Date(scheduledTime) },
+      },
+    };
+  }
 
   describe("Job Operations", function () {
     this.beforeEach(async function (this: Context) {
@@ -51,9 +68,11 @@ describe("RouterClient", function () {
     this.afterEach(async function (this: Context) {
       await retry(
         async () => {
-          if (this.currentTest?.fullTitle() !== "RouterClient Job Operations should delete a job") {
+          if (
+            this.currentTest?.fullTitle() !== "JobRouterClient Job Operations should delete a job"
+          ) {
             const job = await client.getJob(jobId);
-            if (job.jobStatus !== "cancelled") {
+            if (job.status !== "cancelled") {
               await client.cancelJob(jobId);
             }
 
@@ -84,18 +103,18 @@ describe("RouterClient", function () {
       const currentTime: Date = new Date();
       currentTime.setSeconds(currentTime.getSeconds() + 30);
       const scheduledTime: string = recorder.variable("scheduledTime", currentTime.toISOString());
-      const scheduledJob: RouterJob = {
-        ...jobRequest,
-        scheduledTimeUtc: new Date(scheduledTime),
-        unavailableForMatching: true,
-      };
+
+      const scheduledJob = getScheduledJob(scheduledTime);
       const result = await client.createJob(jobId, scheduledJob);
 
       assert.isDefined(result);
       assert.isDefined(result.id);
+      assert.isDefined(result.matchingMode);
       assert.equal(result.id, jobId);
-      assert.isDefined(result.scheduledTimeUtc);
-      assert.equal(result.scheduledTimeUtc?.toISOString(), scheduledTime);
+      assert.equal(
+        result.matchingMode?.scheduleAndSuspendMode?.scheduleAt?.toISOString(),
+        scheduledTime
+      );
     }).timeout(timeoutMs);
 
     it("should get a job", async function () {
@@ -110,7 +129,7 @@ describe("RouterClient", function () {
     it("should update a job", async function () {
       await client.createJob(jobId, jobRequest);
       await sleep(1500); // This test is flaky
-      const patch: RouterJob = { ...jobRequest, priority: 5 };
+      const patch: UpdateJobOptions = { ...jobRequest, priority: 5 };
       const result = await client.updateJob(jobId, patch);
 
       assert.isDefined(result);
@@ -146,8 +165,8 @@ describe("RouterClient", function () {
       await client.createJob(jobId, jobRequest);
 
       const result: RouterJob[] = [];
-      for await (const job of client.listJobs({ maxPageSize: 20 })) {
-        result.push(job.routerJob!);
+      for await (const job of client.listJobs({ maxpagesize: 20 })) {
+        result.push(job.job!);
       }
 
       assert.isNotEmpty(result);
@@ -157,19 +176,16 @@ describe("RouterClient", function () {
       const currentTime: Date = new Date();
       currentTime.setSeconds(currentTime.getSeconds() + 30);
       const scheduledTime: string = recorder.variable("scheduledTime", currentTime.toISOString());
-      const scheduledJob: RouterJob = {
-        ...jobRequest,
-        scheduledTimeUtc: new Date(scheduledTime),
-        unavailableForMatching: true,
-      };
+
+      const scheduledJob = getScheduledJob(scheduledTime);
       await client.createJob(jobId, scheduledJob);
 
       const result: RouterJob[] = [];
       for await (const job of client.listJobs({
-        maxPageSize: 20,
+        maxpagesize: 20,
         scheduledBefore: new Date(scheduledTime),
       })) {
-        result.push(job.routerJob!);
+        result.push(job.job!);
       }
 
       assert.isNotEmpty(result);
