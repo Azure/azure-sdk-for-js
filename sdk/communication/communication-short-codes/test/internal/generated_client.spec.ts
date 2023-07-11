@@ -111,7 +111,7 @@ describe("ShortCodesGeneratedClient - constructor", function () {
     );
 
     const spy = sinon.spy(mockHttpClient, "sendRequest");
-    await client.shortCodesOperations.getUSProgramBrief("9fb78ef0-5704-4866-bca2-6a040ec83c0b");
+    await client.shortCodes.getUSProgramBrief("9fb78ef0-5704-4866-bca2-6a040ec83c0b");
     sinon.assert.calledOnce(spy);
   });
 
@@ -147,7 +147,7 @@ describe("ShortCodesGeneratedClient - constructor", function () {
     );
 
     const spy = sinon.spy(mockHttpClient, "sendRequest");
-    await client.shortCodesOperations.getUSProgramBrief("9fb78ef0-5704-4866-bca2-6a040ec83c0b");
+    await client.shortCodes.getUSProgramBrief("9fb78ef0-5704-4866-bca2-6a040ec83c0b");
     sinon.assert.calledOnce(spy);
   });
 });
