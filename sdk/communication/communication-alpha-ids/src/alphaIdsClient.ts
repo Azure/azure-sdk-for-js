@@ -24,7 +24,7 @@ import { createAlphaIDsPagingPolicy } from "./utils/customPipelinePolicies";
 /**
  * Client options used to configure the AlphaIdsClient API requests.
  */
-export interface AlphaIdsClientOptions extends CommonClientOptions { }
+export interface AlphaIdsClientOptions extends CommonClientOptions {}
 
 const isAlphaIdsClientOptions = (options: any): options is AlphaIdsClientOptions =>
   options && !isKeyCredential(options) && !isTokenCredential(options);
