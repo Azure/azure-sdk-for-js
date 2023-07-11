@@ -50,6 +50,13 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
         analyzerName: KnownAnalyzerNames.EnLucene,
       },
       {
+        type: "Collection(Edm.Single)",
+        name: "descriptionVector",
+        searchable: true,
+        vectorSearchDimensions: 1536,
+        vectorSearchConfiguration: "vector-search-configuration",
+      },
+      {
         type: "Edm.String",
         name: "descriptionFr",
         searchable: true,
@@ -232,6 +239,9 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
     corsOptions: {
       // for browser tests
       allowedOrigins: ["*"],
+    },
+    vectorSearch: {
+      algorithmConfigurations: [{ name: "vector-search-configuration", kind: "hnsw" }],
     },
   };
   await client.createIndex(hotelIndex);

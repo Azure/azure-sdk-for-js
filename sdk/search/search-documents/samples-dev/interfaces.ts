@@ -14,6 +14,7 @@ export interface Hotel {
   hotelId?: string;
   hotelName?: string | null;
   description?: string | null;
+  descriptionVector?: number[] | null;
   descriptionFr?: string | null;
   category?: string | null;
   tags?: string[] | null;
