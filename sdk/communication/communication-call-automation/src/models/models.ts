@@ -89,12 +89,14 @@ export interface TextSource extends PlaySource {
   sourceLocale?: string;
   voiceGender?: Gender;
   voiceName?: string;
+  customVoiceEndpointId?: string;
   readonly kind: "textSource";
 }
 
 /** The SsmlSource model. */
 export interface SsmlSource extends PlaySource {
   ssmlText: string;
+  customVoiceEndpointId?: string;
   readonly kind: "ssmlSource";
 }
 

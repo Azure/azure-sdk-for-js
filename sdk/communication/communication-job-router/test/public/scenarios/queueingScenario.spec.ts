@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { RouterAdministrationClient, RouterClient } from "../../../src";
+import { JobRouterAdministrationClient, JobRouterClient } from "../../../src";
 import { Context } from "mocha";
 import {
   getClassificationPolicyCombined,
@@ -25,9 +25,9 @@ import { timeoutMs } from "../utils/constants";
 import { Recorder } from "@azure-tools/test-recorder";
 import { pollForJobQueued, retry } from "../utils/polling";
 
-describe("RouterClient", function () {
-  let client: RouterClient;
-  let administrationClient: RouterAdministrationClient;
+describe("JobRouterClient", function () {
+  let client: JobRouterClient;
+  let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;
 
   const testRunId = "recorded-q-scenario";
@@ -76,49 +76,49 @@ describe("RouterClient", function () {
 
     it("should complete queueing scenario with fallback queue", async () => {
       const policy = getClassificationPolicyFallback(testRunId);
-      const job = getJobFallback(testRunId);
+      const { id, options } = getJobFallback(testRunId);
 
       await administrationClient.createClassificationPolicy(policy.id!, policy);
-      await client.createJob(job.id!, job);
-      const queuedJob = await pollForJobQueued(job.id!, client);
+      await client.createJob(id, options);
+      const queuedJob = await pollForJobQueued(id, client);
 
-      assert.equal(queuedJob.jobStatus, "queued");
+      assert.equal(queuedJob.status, "queued");
       assert.equal(queuedJob.queueId, queueRequest.id);
 
-      await client.cancelJob(job.id!);
-      await client.deleteJob(job.id!);
+      await client.cancelJob(id);
+      await client.deleteJob(id);
       await administrationClient.deleteClassificationPolicy(policy.id!);
     }).timeout(timeoutMs);
 
     it("should complete queueing scenario with conditional selector", async () => {
       const policy = getClassificationPolicyConditional(testRunId);
-      const job = getJobConditional(testRunId);
+      const { id, options } = getJobConditional(testRunId);
 
       await administrationClient.createClassificationPolicy(policy.id!, policy);
-      await client.createJob(job.id!, job);
-      const queuedJob = await pollForJobQueued(job.id!, client);
+      await client.createJob(id, options);
+      const queuedJob = await pollForJobQueued(id, client);
 
-      assert.equal(queuedJob.jobStatus, "queued");
+      assert.equal(queuedJob.status, "queued");
       assert.equal(queuedJob.queueId, queueId);
 
-      await client.cancelJob(job.id!);
-      await client.deleteJob(job.id!);
+      await client.cancelJob(id);
+      await client.deleteJob(id);
       await administrationClient.deleteClassificationPolicy(policy.id!);
     }).timeout(timeoutMs);
 
     it("should complete queueing scenario with passthrough selectors", async () => {
       const policy = getClassificationPolicyPassthrough(testRunId);
-      const job = getJobPassthrough(testRunId);
+      const { id, options } = getJobPassthrough(testRunId);
 
       await administrationClient.createClassificationPolicy(policy.id!, policy);
-      await client.createJob(job.id!, job);
-      const queuedJob = await pollForJobQueued(job.id!, client);
+      await client.createJob(id, options);
+      const queuedJob = await pollForJobQueued(id, client);
 
-      assert.equal(queuedJob.jobStatus, "queued");
+      assert.equal(queuedJob.status, "queued");
       assert.equal(queuedJob.queueId, queueId);
 
-      await client.cancelJob(job.id!);
-      await client.deleteJob(job.id!);
+      await client.cancelJob(id);
+      await client.deleteJob(id);
       await administrationClient.deleteClassificationPolicy(policy.id!);
     }).timeout(timeoutMs);
 
@@ -132,13 +132,13 @@ describe("RouterClient", function () {
       await administrationClient.createClassificationPolicy(policy.id!, policy);
       await administrationClient.createQueue(queueEnglish.id!, queueEnglish);
       await administrationClient.createQueue(queueFrench.id!, queueFrench);
-      await client.createJob(jobEnglish.id!, jobEnglish);
-      await client.createJob(jobFrench.id!, jobFrench);
+      await client.createJob(jobEnglish.id!, jobEnglish.options);
+      await client.createJob(jobFrench.id!, jobFrench.options);
       const queuedJobEnglish = await pollForJobQueued(jobEnglish.id!, client);
       const queuedJobFrench = await pollForJobQueued(jobFrench.id!, client);
 
-      assert.equal(queuedJobEnglish.jobStatus, "queued");
-      assert.equal(queuedJobFrench.jobStatus, "queued");
+      assert.equal(queuedJobEnglish.status, "queued");
+      assert.equal(queuedJobFrench.status, "queued");
       assert.equal(queueIdFixup(queuedJobEnglish.queueId), queueEnglish.id!);
       assert.equal(queueIdFixup(queuedJobFrench.queueId), queueFrench.id!);
 

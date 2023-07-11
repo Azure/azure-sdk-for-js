@@ -40,7 +40,7 @@ describe("LogHandler", () => {
 
   function createLogHandler(config: AzureMonitorOpenTelemetryConfig, metricHandler: MetricHandler) {
     handler = new LogHandler(config, metricHandler);
-    stub = sinon.stub(handler["_exporter"], "export").callsFake(
+    stub = sinon.stub(handler["_azureExporter"], "export").callsFake(
       (logs: any, resultCallback: any) =>
         new Promise((resolve) => {
           resultCallback({
@@ -62,7 +62,7 @@ describe("LogHandler", () => {
     it("tracing", (done) => {
       metricHandler = new MetricHandler(_config);
       createLogHandler(_config, metricHandler);
-      traceHandler = new TraceHandler(_config);
+      traceHandler = new TraceHandler(_config, metricHandler);
       traceHandler["_tracer"].startActiveSpan("test", () => {
         // Generate Log record
         const logRecord: APILogRecord = {

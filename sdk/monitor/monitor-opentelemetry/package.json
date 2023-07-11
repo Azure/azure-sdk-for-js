@@ -2,7 +2,7 @@
   "name": "@azure/monitor-opentelemetry",
   "author": "Microsoft Corporation",
   "sdk-type": "client",
-  "version": "0.0.0-beta.0",
+  "version": "1.0.0-beta.1",
   "description": "Azure Monitor OpenTelemetry (Node.js)",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -87,7 +87,7 @@
   },
   "dependencies": {
     "@azure/functions": "^3.2.0",
-    "@azure/monitor-opentelemetry-exporter": "1.0.0-beta.11",
+    "@azure/monitor-opentelemetry-exporter": "1.0.0-beta.14",
     "@azure/opentelemetry-instrumentation-azure-sdk": "^1.0.0-beta.3",
     "@opentelemetry/api": "^1.4.1",
     "@opentelemetry/api-logs": "^0.40.0",

@@ -69,6 +69,20 @@ export class MetricHandler {
     return this._meter;
   }
 
+  /**
+   *Get OpenTelemetry MeterProvider for standard metrics
+   */
+  public getStandardMetricsMeterProvider(): MeterProvider | undefined {
+    return this._standardMetrics?.getMeterProvider();
+  }
+
+  /**
+   *Get OpenTelemetry MeterProvider for performance counter metrics
+   */
+  public getPerfCountersMeterProvider(): MeterProvider | undefined {
+    return this._perfCounterMetrics?.getMeterProvider();
+  }
+
   public markSpanAsProcessed(span: Span): void {
     this._standardMetrics?.markSpanAsProcessed(span);
   }

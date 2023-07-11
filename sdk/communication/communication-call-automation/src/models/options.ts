@@ -26,6 +26,7 @@ export interface CallMediaRecognizeOptions extends OperationOptions {
   operationContext?: string;
   interruptPrompt?: boolean;
   initialSilenceTimeoutInSeconds?: number;
+  speechModelEndpointId?: string;
 }
 
 /** The recognize configuration specific to Dtmf. */
@@ -142,6 +143,14 @@ export interface AddParticipantOptions extends OperationOptions {
  * Options to remove participants.
  */
 export interface RemoveParticipantsOption extends OperationOptions {
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+}
+
+/**
+ * Options to mute participants.
+ */
+export interface MuteParticipantsOption extends OperationOptions {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
 }

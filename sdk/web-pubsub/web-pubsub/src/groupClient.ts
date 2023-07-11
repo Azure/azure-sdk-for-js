@@ -54,6 +54,14 @@ export interface GroupSendToAllOptions extends OperationOptions {
    * Details about `filter` syntax please see [OData filter syntax for Azure Web PubSub](https://aka.ms/awps/filter-syntax).
    */
   filter?: string;
+  /**
+   * The time-to-live (TTL) value in seconds for messages sent to the service.
+   * 0 is the default value, which means the message never expires.
+   * 300 is the maximum value.
+   * If this parameter is non-zero, messages that are not consumed by the client within the specified TTL will be dropped by the service.
+   * This parameter can help when the client's bandwidth is limited.
+   */
+  messageTtlSeconds?: number;
 }
 
 /**
