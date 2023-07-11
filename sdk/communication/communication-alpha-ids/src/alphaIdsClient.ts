@@ -24,7 +24,7 @@ import { createAlphaIDsPagingPolicy } from "./utils/customPipelinePolicies";
 /**
  * Client options used to configure the AlphaIdsClient API requests.
  */
-export interface AlphaIdsClientOptions extends CommonClientOptions {}
+export interface AlphaIdsClientOptions extends CommonClientOptions { }
 
 const isAlphaIdsClientOptions = (options: any): options is AlphaIdsClientOptions =>
   options && !isKeyCredential(options) && !isTokenCredential(options);
@@ -68,8 +68,8 @@ export class AlphaIdsClient {
     const authPolicy = createCommunicationAuthPolicy(credential);
     this.client.pipeline.addPolicy(authPolicy);
     // This policy is a temporary workarounds to address compatibility issues with Azure Core V2.
-    const shortCodesPagingPolicy = createAlphaIDsPagingPolicy(url);
-    this.client.pipeline.addPolicy(shortCodesPagingPolicy);
+    const alphaIDsPagingPolicy = createAlphaIDsPagingPolicy(url);
+    this.client.pipeline.addPolicy(alphaIDsPagingPolicy);
   }
 
   public getDynamicAlphaIdConfiguration(
