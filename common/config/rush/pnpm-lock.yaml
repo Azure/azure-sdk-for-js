@@ -4711,7 +4711,7 @@ packages:
     dependencies:
       semver: 7.5.3
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230704
+      typescript: 5.2.0-dev.20230710
     dev: false
 
   /duplexer3/0.1.5:
@@ -10175,8 +10175,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230704:
-    resolution: {integrity: sha512-LAjnbCofaVoQt8mhUODn7xG2uHBTxIDPsxJ9iowOKcbOe1GJIpNqyvEvNrkvmf0pIRHiC19f6oGSYrilB9s5ng==}
+  /typescript/5.2.0-dev.20230710:
+    resolution: {integrity: sha512-D4u4/pfdrIi94+F+iVzxzuzCk8bE/cbe4jng6Sce2Y1szj/QiBqN43X5lMrIbMR9Kb1G2AdWzYPrcNv/ButJGA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -15373,7 +15373,7 @@ packages:
     dev: false
 
   file:projects/arm-paloaltonetworksngfw.tgz:
-    resolution: {integrity: sha512-i49B+CU6GyiWieC4y4L8WjJIIXmjbYXN0oNk4EYPO+ucfMArHJeF+RjOotrmjPf1XN5p6LI8wkS5YS8lb7toFw==, tarball: file:projects/arm-paloaltonetworksngfw.tgz}
+    resolution: {integrity: sha512-5bvO6r7LJRaOY6Lx6QbjjRL+wDh3vZQqWQxLi1t4Rj9JYqeeJgACRApyc7Dc0E29447E9Dcw6ztB52nNpjaFaA==, tarball: file:projects/arm-paloaltonetworksngfw.tgz}
     name: '@rush-temp/arm-paloaltonetworksngfw'
     version: 0.0.0
     dependencies:
@@ -17364,7 +17364,7 @@ packages:
     dev: false
 
   file:projects/communication-call-automation.tgz:
-    resolution: {integrity: sha512-vqoOQKwPc05FTHfiXBdWLvJ/9ZHsb7W3QCyGYinX/zi/SBSiIMH2oBIwIgFEPFVb0oA4zYa76Je8yHxpbQaItw==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-IRdS/57jo2pxVcVQfh1110Z+o6Xl08ajVRnZgu7KxC9xZlppm20YhYSH/DZXQCEKMf8fhCdqLlhCXqDxrg1Cqg==, tarball: file:projects/communication-call-automation.tgz}
     name: '@rush-temp/communication-call-automation'
     version: 0.0.0
     dependencies:
@@ -17379,6 +17379,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.43.0
+      esm: 3.2.25
       events: 3.3.0
       inherits: 2.0.4
       karma: 6.4.2
@@ -18355,7 +18356,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-OnpqhN4aYpb/v/UyKwPpl1Rk6d7ac64TK3UirTTKOzkgYtzcNgxvmzL58c0hXW90maIARCVqb3ZAFG8O20CoVw==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-w7+WDGbMMzEvo8fCEHA24rPSClZpqH1BcyG+0n64M1qbV8Czkyxnc9iZy01qR80hQBgXC+qhHvGKrRYij+IB7Q==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -20073,17 +20074,19 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-xUNAFSAi0U7d+4HRlXJmIQ03uWJoc/QzOg2ngrGtD/WtDF0Xd7xq8jITgwM36AQiraGAkcs+E54/qG5qDgsTEQ==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-P2Kt7ieMv/lI2IQF2IYFl/xUaX++zno8QLczqULMhbQpAQ+0i19LZ+pAZR9tnL3BpMS/dyuz3QxIMekW2cyOUA==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.36.0_@types+node@14.18.51
+      '@types/fs-extra': 9.0.13
       '@types/mocha': 7.0.2
       '@types/node': 14.18.51
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.43.0
       esm: 3.2.25
+      fs-extra: 10.1.0
       karma: 6.4.2
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1

@@ -43,14 +43,12 @@ describe("MetricHandler", () => {
 
   it("should create a meter", () => {
     createHandler(_config);
-    assert.ok(handler.getCustomMetricsMeter(), "meter not available");
+    assert.ok(handler.getMeter(), "meter not available");
   });
 
   it("should observe instruments during collection", async () => {
     createHandler(_config);
-    handler
-      .getCustomMetricsMeter()
-      .createCounter("testCounter", { description: "testDescription" });
+    handler.getMeter().createCounter("testCounter", { description: "testDescription" });
     await new Promise((resolve) => setTimeout(resolve, 120));
     assert.ok(exportStub.called);
     const resourceMetrics = exportStub.args[0][0];
@@ -64,9 +62,7 @@ describe("MetricHandler", () => {
 
   it("should not collect when disabled", async () => {
     createHandler(_config);
-    handler
-      .getCustomMetricsMeter()
-      .createCounter("testCounter", { description: "testDescription" });
+    handler.getMeter().createCounter("testCounter", { description: "testDescription" });
     handler.shutdown();
     await new Promise((resolve) => setTimeout(resolve, 120));
     assert.ok(exportStub.notCalled);
