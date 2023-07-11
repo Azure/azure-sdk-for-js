@@ -43,10 +43,19 @@ const deviceHandle = process.env.APNS_DEVICE_TOKEN || DUMMY_DEVICE;
 async function main() {
   const context = createClientContext(connectionString, hubName);
 
+  /* Can also send a stringified JSON object
   const messageBody = `{ "aps" : { "alert" : { title: "Hello", body: "Hello there SDK Review!" } } }`;
+  */
 
   const notification = createAppleNotification({
-    body: messageBody,
+    body: {
+      aps: {
+        alert: {
+          title: "Hello",
+          body: "Hello there SDK Review!",
+        },
+      },
+    },
     headers: {
       "apns-priority": "10",
       "apns-push-type": "alert",

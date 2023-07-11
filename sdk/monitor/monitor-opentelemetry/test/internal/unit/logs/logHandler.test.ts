@@ -62,7 +62,7 @@ describe("LogHandler", () => {
     it("tracing", (done) => {
       metricHandler = new MetricHandler(_config);
       createLogHandler(_config, metricHandler);
-      traceHandler = new TraceHandler(_config);
+      traceHandler = new TraceHandler(_config, metricHandler);
       traceHandler["_tracer"].startActiveSpan("test", () => {
         // Generate Log record
         const logRecord: APILogRecord = {
