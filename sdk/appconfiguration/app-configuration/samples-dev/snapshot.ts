@@ -20,22 +20,6 @@ export async function main() {
 
   const key2 = "Samples:key2";
   const key1 = "Samples:key1";
-  const snapshot1 = {
-    name: "mySnapshot",
-    filters: [
-      {
-        key: key1,
-      },
-    ],
-  };
-  const snapshot2 = {
-    name: "mySnapshot2",
-    filters: [
-      {
-        key: key2,
-      },
-    ],
-  };
 
   // creating a new setting
   console.log(`Adding in new setting ${key1}`);
@@ -46,7 +30,14 @@ export async function main() {
   await client.addConfigurationSetting({ key: key2, value: "value2" });
 
   // creating a new snapshot
-  const newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1);
+  const newSnapshot = await client.beginCreateSnapshotAndWait({
+    name: "mySnapshot",
+    filters: [
+      {
+        key: key1,
+      },
+    ],
+  });
   console.log(`New snapshot object added ${newSnapshot}`);
 
   // getting the configuration settting of the snapshot
@@ -61,7 +52,14 @@ export async function main() {
   await client.getSnapshot(newSnapshot.name);
 
   // creating a new snapshot
-  const newSnapshot2 = await client.beginCreateSnapshotAndWait(snapshot2);
+  const newSnapshot2 = await client.beginCreateSnapshotAndWait({
+    name: "mySnapshot2",
+    filters: [
+      {
+        key: key2,
+      },
+    ],
+  });
   console.log(`New snapshot object added ${newSnapshot2}`);
 
   // list all the snapshots

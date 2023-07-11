@@ -50,8 +50,7 @@ export class AppConfigurationClient {
     listConfigurationSettings(options?: ListConfigurationSettingsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
     listConfigurationSettingsForSnapshot(snapshotName: string, options?: ListSettingsSnapshotsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
     listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage, PageSettings>;
-    // Warning: (ae-forgotten-export) The symbol "Snapshot_2" needs to be exported by the entry point index.d.ts
-    listSnapshots(options?: ListSnapshotsOptions): PagedAsyncIterableIterator<Snapshot_2, ListSnapshotsPage, PageSettings>;
+    listSnapshots(options?: ListSnapshotsOptions): PagedAsyncIterableIterator<Snapshot, ListSnapshotsPage, PageSettings>;
     recoverSnapshot(snapshotId: SnapshotId, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
     setConfigurationSetting(configurationSetting: SetConfigurationSettingParam | SetConfigurationSettingParam<FeatureFlagValue> | SetConfigurationSettingParam<SecretReferenceValue>, options?: SetConfigurationSettingOptions): Promise<SetConfigurationSettingResponse>;
     setReadOnly(id: ConfigurationSettingId, readOnly: boolean, options?: SetReadOnlyOptions): Promise<SetReadOnlyResponse>;
@@ -112,6 +111,14 @@ export interface DeleteConfigurationSettingOptions extends HttpOnlyIfUnchangedFi
 
 // @public
 export interface DeleteConfigurationSettingResponse extends SyncTokenHeaderField, HttpResponseFields, HttpResponseField<SyncTokenHeaderField> {
+}
+
+// @public
+export interface ErrorDetail {
+    code: string;
+    details?: ErrorDetail[];
+    innererror?: InnerError;
+    message: string;
 }
 
 // @public
@@ -179,6 +186,12 @@ export interface HttpResponseFields {
 }
 
 // @public
+export interface InnerError {
+    code?: string;
+    innererror?: InnerError;
+}
+
+// @public
 export function isFeatureFlag(setting: ConfigurationSetting): setting is ConfigurationSetting & Required<Pick<ConfigurationSetting, "value">>;
 
 // @public
@@ -229,8 +242,13 @@ export interface ListSnapshotsPage extends HttpResponseField<SyncTokenHeaderFiel
     items: Snapshot[];
 }
 
-// Warning: (ae-forgotten-export) The symbol "OperationDetails" needs to be exported by the entry point index.d.ts
-//
+// @public
+export interface OperationDetails {
+    error?: ErrorDetail;
+    id: string;
+    status: State;
+}
+
 // @public
 export interface OperationDetailsResponse extends OperationDetails {
 }
@@ -298,7 +316,7 @@ export interface SetReadOnlyOptions extends HttpOnlyIfUnchangedField, OperationO
 export interface SetReadOnlyResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
 }
 
-// @public (undocumented)
+// @public
 export interface Snapshot {
     compositionType?: CompositionType;
     readonly createdOn?: Date;
@@ -310,7 +328,6 @@ export interface Snapshot {
     retentionPeriod?: number;
     readonly size?: number;
     readonly status?: SnapshotStatus;
-    readonly statusCode?: number;
     tags?: {
         [propertyName: string]: string;
     };
@@ -339,6 +356,9 @@ export interface SnapshotResponse extends Snapshot, SyncTokenHeaderField {
 
 // @public
 export type SnapshotStatus = string;
+
+// @public
+export type State = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
 
 // @public
 export interface SyncTokenHeaderField {

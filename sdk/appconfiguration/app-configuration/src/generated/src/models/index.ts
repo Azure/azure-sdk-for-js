@@ -74,6 +74,7 @@ export interface SnapshotListResult {
   nextLink?: string;
 }
 
+/** Snapshot details include name, filters, retentionPeriod, expiresOn, size, status, itemCount, and more */
 export interface Snapshot {
   /**
    * The name of the snapshot.
@@ -86,7 +87,7 @@ export interface Snapshot {
    */
   readonly status?: SnapshotStatus;
   /** A list of filters used to filter the key-values included in the snapshot. */
-  filters: KeyValueFilter[];
+  filters: ConfigurationSettingsFilter[];
   /** The composition type describes how the key-values within the snapshot are composed. The 'key' composition type ensures there are no two key-values containing the same key. The 'key_label' composition type ensures there are no two key-values containing the same key and label. */
   compositionType?: CompositionType;
   /**
@@ -121,7 +122,7 @@ export interface Snapshot {
 }
 
 /** Enables filtering of key-values. */
-export interface KeyValueFilter {
+export interface ConfigurationSettingsFilter {
   /** Filters key-values by their key field. */
   key: string;
   /** Filters key-values by their label field. */
