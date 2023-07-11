@@ -21,6 +21,7 @@ import { Hotel } from "../utils/interfaces";
 import { WAIT_TIME, createIndex, createRandomIndexName, populateIndex } from "../utils/setup";
 import { delay, serviceVersions } from "../../../src/serviceUtils";
 import { versionsToTest } from "@azure/test-utils";
+import { SearchFieldArray, SelectArray } from "../../../src/indexModels";
 
 versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
   onVersions({ minVer: "2020-06-30" }).describe("SearchClient tests", function (this: Suite) {
@@ -81,6 +82,18 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
     });
 
     it("search narrows the result type", async function () {
+      // eslint-disable-next-line no-constant-condition
+      if (false) {
+        const response = await searchClient.search("asdf", {
+          select: ["address/city"],
+        });
+        for await (const result of response.results) {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-expect-error
+          result.document.category = "";
+        }
+      }
+
       const hotelKeys: (keyof Hotel)[] = [
         "address",
         "category",
@@ -116,7 +129,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         "tags",
       ];
 
-      const select: SelectFields<Hotel>[] = ["hotelId", "address/city", "rooms/type"];
+      const select: SelectArray<SelectFields<Hotel>> = ["hotelId", "address/city", "rooms/type"];
       const selectNarrowed = ["hotelId", "address/city", "rooms/type"] as const;
 
       const selectPromises = [
@@ -154,7 +167,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
 
       await Promise.all(selectTestPromises);
 
-      const searchFields: SelectFields<Hotel>[] = ["address/city"];
+      const searchFields: SearchFieldArray<Hotel> = ["address/city"];
       const searchFieldsNarrowed = ["address/city"] as const;
 
       const searchFieldsPromises = [

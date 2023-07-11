@@ -88,14 +88,14 @@ export type SearchIndexingBufferedSenderFlushDocumentsOptions = OperationOptions
  * Options for retrieving a single document.
  */
 export interface GetDocumentOptions<
-  Model extends object,
-  Fields extends SelectFields<Model> = SelectFields<Model>
+  TModel extends object,
+  TFields extends SelectFields<TModel> = SelectFields<TModel>
 > extends OperationOptions {
   /**
    * List of field names to retrieve for the document; Any field not retrieved will be missing from
    * the returned document.
    */
-  selectedFields?: [string] extends [Fields] ? string[] : Fields[] | Readonly<Fields[]>;
+  selectedFields?: SelectArray<TFields>;
 }
 
 /**
@@ -149,22 +149,22 @@ export interface ListSearchResultsPageSettings {
 /**
  * Options for retrieving completion text for a partial searchText.
  */
-export type AutocompleteOptions<Model extends object> = OperationOptions &
-  AutocompleteRequest<Model>;
+export type AutocompleteOptions<TModel extends object> = OperationOptions &
+  AutocompleteRequest<TModel>;
 /**
  * Options for committing a full search request.
  */
 export type SearchOptions<
-  Model extends object,
-  Fields extends SelectFields<Model> = SelectFields<Model>
-> = OperationOptions & SearchRequestOptions<Model, Fields>;
+  TModel extends object,
+  TFields extends SelectFields<TModel> = SelectFields<TModel>
+> = OperationOptions & SearchRequestOptions<TModel, TFields>;
 /**
  * Options for retrieving suggestions based on the searchText.
  */
 export type SuggestOptions<
-  Model extends object,
-  Fields extends SelectFields<Model> = SelectFields<Model>
-> = OperationOptions & SuggestRequest<Model, Fields>;
+  TModel extends object,
+  TFields extends SelectFields<TModel> = SelectFields<TModel>
+> = OperationOptions & SuggestRequest<TModel, TFields>;
 
 /**
  * An iterator for search results of a paticular query. Will make requests
@@ -172,11 +172,11 @@ export type SuggestOptions<
  * per iteration.
  */
 export type SearchIterator<
-  Model extends object,
-  Fields extends SelectFields<Model> = SelectFields<Model>
+  TModel extends object,
+  TFields extends SelectFields<TModel> = SelectFields<TModel>
 > = PagedAsyncIterableIterator<
-  SearchResult<Model, Fields>,
-  SearchDocumentsPageResult<Model, Fields>,
+  SearchResult<TModel, TFields>,
+  SearchDocumentsPageResult<TModel, TFields>,
   ListSearchResultsPageSettings
 >;
 
@@ -327,8 +327,8 @@ export interface SearchRequest {
  * Parameters for filtering, sorting, faceting, paging, and other search query behaviors.
  */
 export interface SearchRequestOptions<
-  Model extends object,
-  Fields extends SelectFields<Model> = SelectFields<Model>
+  TModel extends object,
+  TFields extends SelectFields<TModel> = SelectFields<TModel>
 > {
   /**
    * A value that specifies whether to fetch the total count of results. Default is false. Setting
@@ -397,7 +397,7 @@ export interface SearchRequestOptions<
    * fielded search (fieldName:searchExpression) in a full Lucene query, the field names of each
    * fielded search expression take precedence over any field names listed in this parameter.
    */
-  searchFields?: SelectFields<Model>[] | Readonly<SelectFields<Model>[]>;
+  searchFields?: SearchFieldArray<TModel>;
   /**
    * The language of the query.
    */
@@ -436,7 +436,7 @@ export interface SearchRequestOptions<
    * The list of fields to retrieve. If unspecified, all fields marked as
    * retrievable in the schema are included.
    */
-  select?: [string] extends [Fields] ? string[] : Fields[] | Readonly<Fields[]>;
+  select?: SelectArray<TFields>;
   /**
    * The number of search results to skip. This value cannot be greater than 100,000. If you need
    * to scan documents in sequence, but cannot use skip due to this limitation, consider using
@@ -467,8 +467,8 @@ export interface SearchRequestOptions<
  * Contains a document found by a search query, plus associated metadata.
  */
 export type SearchResult<
-  Model extends object,
-  Fields extends SelectFields<Model> = SelectFields<Model>
+  TModel extends object,
+  TFields extends SelectFields<TModel> = SelectFields<TModel>
 > = {
   /**
    * The relevance score of the document compared to other documents returned by the query.
@@ -485,14 +485,14 @@ export type SearchResult<
    * applicable field; null if hit highlighting was not enabled for the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly highlights?: { [k in SelectFields<Model>]?: string[] };
+  readonly highlights?: { [k in SelectFields<TModel>]?: string[] };
   /**
    * Captions are the most representative passages from the document relatively to the search query. They are often used as document summary. Captions are only returned for queries of type 'semantic'.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly captions?: CaptionResult[];
 
-  document: NarrowedModel<Model, Fields>;
+  document: NarrowedModel<TModel, TFields>;
 };
 
 /**
@@ -531,28 +531,28 @@ export interface SearchDocumentsResultBase {
  * Response containing search results from an index.
  */
 export interface SearchDocumentsResult<
-  Model extends object,
-  Fields extends SelectFields<Model> = SelectFields<Model>
+  TModel extends object,
+  TFields extends SelectFields<TModel> = SelectFields<TModel>
 > extends SearchDocumentsResultBase {
   /**
    * The sequence of results returned by the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly results: SearchIterator<Model, Fields>;
+  readonly results: SearchIterator<TModel, TFields>;
 }
 
 /**
  * Response containing search page results from an index.
  */
 export interface SearchDocumentsPageResult<
-  Model extends object,
-  Fields extends SelectFields<Model> = SelectFields<Model>
+  TModel extends object,
+  TFields extends SelectFields<TModel> = SelectFields<TModel>
 > extends SearchDocumentsResultBase {
   /**
    * The sequence of results returned by the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly results: SearchResult<Model, Fields>[];
+  readonly results: SearchResult<TModel, TFields>[];
   /**
    * A token used for retrieving the next page of results when the server
    * enforces pagination.
@@ -564,8 +564,8 @@ export interface SearchDocumentsPageResult<
  * Parameters for filtering, sorting, fuzzy matching, and other suggestions query behaviors.
  */
 export interface SuggestRequest<
-  Model extends object,
-  Fields extends SelectFields<Model> = SelectFields<Model>
+  TModel extends object,
+  TFields extends SelectFields<TModel> = SelectFields<TModel>
 > {
   /**
    * An OData expression that filters the documents considered for suggestions.
@@ -609,12 +609,12 @@ export interface SuggestRequest<
    * The comma-separated list of field names to search for the specified search text. Target fields
    * must be included in the specified suggester.
    */
-  searchFields?: SelectFields<Model>[] | Readonly<SelectFields<Model>[]>;
+  searchFields?: SearchFieldArray<TModel>;
   /**
    * The list of fields to retrieve. If unspecified, only the key field will be
    * included in the results.
    */
-  select?: [string] extends [Fields] ? string[] : Fields[] | Readonly<Fields[]>;
+  select?: SelectArray<TFields>;
   /**
   /**
    * The number of suggestions to retrieve. This must be a value between 1 and 100. The default is
@@ -627,29 +627,29 @@ export interface SuggestRequest<
  * A result containing a document found by a suggestion query, plus associated metadata.
  */
 export type SuggestResult<
-  Model extends object,
-  Fields extends SelectFields<Model> = SelectFields<Model>
+  TModel extends object,
+  TFields extends SelectFields<TModel> = SelectFields<TModel>
 > = {
   /**
    * The text of the suggestion result.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly text: string;
-  document: SuggestNarrowedModel<Model, Fields>;
+  document: SuggestNarrowedModel<TModel, TFields>;
 };
 
 /**
  * Response containing suggestion query results from an index.
  */
 export interface SuggestDocumentsResult<
-  Model extends object,
-  Fields extends SelectFields<Model> = SelectFields<Model>
+  TModel extends object,
+  TFields extends SelectFields<TModel> = SelectFields<TModel>
 > {
   /**
    * The sequence of results returned by the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly results: SuggestResult<Model, Fields>[];
+  readonly results: SuggestResult<TModel, TFields>[];
   /**
    * A value indicating the percentage of the index that was included in the query, or null if
    * minimumCoverage was not set in the request.
@@ -661,7 +661,7 @@ export interface SuggestDocumentsResult<
 /**
  * Parameters for fuzzy matching, and other autocomplete query behaviors.
  */
-export interface AutocompleteRequest<Model extends object> {
+export interface AutocompleteRequest<TModel extends object> {
   /**
    * Specifies the mode for Autocomplete. The default is 'oneTerm'. Use 'twoTerms' to get shingles
    * and 'oneTermWithContext' to use the current context while producing auto-completed terms.
@@ -702,7 +702,7 @@ export interface AutocompleteRequest<Model extends object> {
    * The comma-separated list of field names to consider when querying for auto-completed terms.
    * Target fields must be included in the specified suggester.
    */
-  searchFields?: SelectFields<Model>[] | Readonly<SelectFields<Model>[]>;
+  searchFields?: SearchFieldArray<TModel>;
   /**
    * The number of auto-completed terms to retrieve. This must be a value between 1 and 100. The
    * default is 5.
@@ -725,10 +725,30 @@ export type IndexDocumentsAction<T> = {
 
 // Utility types
 
-export type UnionToIntersection<U> =
+/**
+ * If `TFields` is never, an untyped string array
+ * Otherwise, a narrowed `Fields[]` type to be used elsewhere in the consuming type.
+ */
+export type SelectArray<TFields = never> = [string] extends [TFields]
+  ? readonly TFields[]
+  : (<T>() => T extends TFields ? true : false) extends <T>() => T extends never ? true : false
+  ? readonly string[]
+  : readonly TFields[];
+
+/**
+ * If `TModel` is an untyped object, an untyped string array
+ * Otherwise, the slash-delimited fields of `TModel`.
+ */
+export type SearchFieldArray<TModel extends object = object> = (<T>() => T extends TModel
+  ? true
+  : false) extends <T>() => T extends object ? true : false
+  ? readonly string[]
+  : readonly SelectFields<TModel>[];
+
+export type UnionToIntersection<Union> =
   // Distribute members of U into parameter position of a union of functions
   (
-    U extends unknown ? (_: U) => unknown : never
+    Union extends unknown ? (_: Union) => unknown : never
   ) extends // Infer the intersection of the members of U as a single intersected parameter type
   (_: infer I) => unknown
     ? I
@@ -741,118 +761,159 @@ export type ExcludedODataTypes = Date | GeographyPoint;
  * Produces a union of valid Cognitive Search OData $select paths for T
  * using a post-order traversal of the field tree rooted at T.
  */
-export type SelectFields<T extends object> = T extends Array<infer Elem>
-  ? // Allow selecting fields only from elements which are objects
-    Elem extends object
-    ? SelectFields<Elem>
-    : never
-  : {
-      // Only consider string keys
-      [Key in keyof T]: Key extends string
-        ? NonNullable<T[Key]> extends object
-          ? NonNullable<T[Key]> extends ExcludedODataTypes
-            ? // Excluded, so don't recur
-              Key
-            : SelectFields<NonNullable<T[Key]>> extends infer NextPaths
-            ? // Narrow NextPaths' type for template literal
-              NextPaths extends string
-              ? // Union this key with all the next paths separated with '/'
-                Key | `${Key}/${NextPaths}`
-              : // We didn't infer any nested paths, so just use this key
+export type SelectFields<TModel extends object> =
+  // If T is never, any, or object, resolves to string
+  (<T>() => T extends TModel ? true : false) extends <T>() => T extends never ? true : false
+    ? string
+    : (<T>() => T extends TModel ? true : false) extends <T>() => T extends any ? true : false
+    ? string
+    : (<T>() => T extends TModel ? true : false) extends <T>() => T extends object ? true : false
+    ? string
+    : // If T is an array, allow selecting from fields in the array's element type
+    TModel extends Array<infer Elem>
+    ? // Allow selecting fields only from elements which are objects
+      Elem extends object
+      ? SelectFields<Elem>
+      : never
+    : {
+        // Only consider string keys
+        [Key in keyof TModel]: Key extends string
+          ? NonNullable<TModel[Key]> extends object
+            ? NonNullable<TModel[Key]> extends ExcludedODataTypes
+              ? // Excluded, so don't recur
                 Key
-            : never
-          : // Not an object, so can't recur
-            Key
-        : never;
-    }[keyof T & string] &
-      // Filter out undefined properties
-      string;
+              : // Extract subpaths from T[Key]
+              SelectFields<NonNullable<TModel[Key]>> extends infer NextPaths
+              ? // This check is required to avoid distributing `never` over the condition
+                (<T>() => T extends NextPaths ? true : false) extends <T>() => T extends never
+                  ? true
+                  : false
+                ? Key
+                : NextPaths extends string
+                ? Key | `${Key}/${NextPaths}`
+                : Key
+              : never
+            : // Not an object, so can't recur
+              Key
+          : never;
+      }[keyof TModel & string] &
+        // Filter out undefined properties
+        string;
 
 /**
  * Deeply pick fields of T using valid Cognitive Search OData $select
  * paths.
  */
-export type SearchPick<T extends object, Paths extends SelectFields<T>> =
-  // The default behavior of a client with no model is to return an object type
-  [T] extends [never]
-    ? object
-    : // We're going to get a union of individual interfaces for each field in T that's selected, so convert that to an intersection.
-      UnionToIntersection<
-        // Paths is a union or single string type, so if it's a union it will be _distributed_ over this conditional.
-        // Fortunately, template literal types are not greedy, so we can infer the field name easily.
-        Paths extends `${infer FieldName}/${infer RestPaths}`
-          ? // Symbols and numbers are invalid types for field names
-            FieldName extends keyof T & string
-            ? NonNullable<T[FieldName]> extends Array<infer Elem>
-              ? Elem extends object
-                ? // Extends clause is necessary to refine the constraint of RestPaths
-                  RestPaths extends SelectFields<Elem>
-                  ? // Narrow the type of every element in the array
-                    {
-                      [Key in keyof T as Key & FieldName]: Array<SearchPick<Elem, RestPaths>>;
-                    }
-                  : // Unreachable by construction
-                    never
-                : // Don't recur on arrays of non-object types
+export type SearchPick<TModel extends object, TFields extends SelectFields<TModel>> = (<
+  T
+>() => T extends TModel ? true : false) extends <T>() => T extends object ? true : false
+  ? // Picking from an untyped object should return `object`
+    TModel
+  : // If paths is any or never, yield the original type
+  (<T>() => T extends TFields ? true : false) extends <T>() => T extends any ? true : false
+  ? TModel
+  : (<T>() => T extends TFields ? true : false) extends <T>() => T extends never ? true : false
+  ? TModel
+  : // We're going to get a union of individual interfaces for each field in T that's selected, so convert that to an intersection.
+    UnionToIntersection<
+      // Paths is a union or single string type, so if it's a union it will be _distributed_ over this conditional.
+      // Fortunately, template literal types are not greedy, so we can infer the field name easily.
+      TFields extends `${infer FieldName}/${infer RestPaths}`
+        ? // Symbols and numbers are invalid types for field names
+          FieldName extends keyof TModel & string
+          ? NonNullable<TModel[FieldName]> extends Array<infer Elem>
+            ? Elem extends object
+              ? // Extends clause is necessary to refine the constraint of RestPaths
+                RestPaths extends SelectFields<Elem>
+                ? // Narrow the type of every element in the array
+                  {
+                    [Key in keyof TModel as Key & FieldName]: Array<SearchPick<Elem, RestPaths>>;
+                  }
+                : // Unreachable by construction
                   never
-              : NonNullable<T[FieldName]> extends object
-              ? // Recur :)
-                {
-                  [Key in keyof T as Key & FieldName]: RestPaths extends SelectFields<
-                    T[Key] & {
-                      // This empty intersection fixes `T[Key]` not being narrowed to an object type in older versions of TS
-                    }
-                  >
-                    ?
-                        | SearchPick<
-                            T[Key] & {
-                              // Ditto
-                            },
-                            RestPaths
-                          >
-                        | Extract<T[Key], null>
-                    : // Unreachable by construction
-                      never;
-                }
-              : // Unreachable by construction
+              : // Don't recur on arrays of non-object types
                 never
-            : // Ignore symbols and numbers
+            : NonNullable<TModel[FieldName]> extends object
+            ? // Recur :)
+              {
+                [Key in keyof TModel as Key & FieldName]: RestPaths extends SelectFields<
+                  TModel[Key] & {
+                    // This empty intersection fixes `T[Key]` not being narrowed to an object type in older versions of TS
+                  }
+                >
+                  ?
+                      | SearchPick<
+                          TModel[Key] & {
+                            // Ditto
+                          },
+                          RestPaths
+                        >
+                      | Extract<TModel[Key], null>
+                  : // Unreachable by construction
+                    never;
+              }
+            : // Unreachable by construction
               never
-          : // Otherwise, capture the paths that are simple keys of T itself
-            Pick<T, Paths> | Extract<T, null>
-      > & {
-        // This useless intersection actually prevents the TypeScript language server from
-        // expanding the definition of SearchPick<T, Paths> in IntelliSense. Since we're
-        // sure the type always yields an object, this intersection does not alter the type
-        // at all, only the display string of the type.
-      };
+          : // Ignore symbols and numbers
+            never
+        : // Otherwise, capture the paths that are simple keys of T itself
+        TFields extends keyof TModel
+        ? Pick<TModel, TFields> | Extract<TModel, null>
+        : never
+    > & {
+      // This useless intersection actually prevents the TypeScript language server from
+      // expanding the definition of SearchPick<TModel, Paths> in IntelliSense. Since we're
+      // sure the type always yields an object, this intersection does not alter the type
+      // at all, only the display string of the type.
+    };
 
-export type ExtractDocumentKey<Model> = {
-  [K in keyof Model as Model[K] extends string | undefined ? K : never]: Model[K];
+export type ExtractDocumentKey<TModel> = {
+  [K in keyof TModel as TModel[K] extends string | undefined ? K : never]: TModel[K];
 };
 
+/**
+ * Narrows the Model type to include only the selected Fields
+ */
 export type NarrowedModel<
-  Model extends object,
-  Fields extends SelectFields<Model> = SelectFields<Model>
+  TModel extends object,
+  TFields extends SelectFields<TModel> = SelectFields<TModel>
 > =
-  // Avoid calculating the type if every field is specified
-  SelectFields<Model> extends Fields ? Model : SearchPick<Model, Fields>;
+  // If the model isn't specified, the type is the same as the input type
+  (<T>() => T extends TModel ? true : false) extends <T>() => T extends never ? true : false
+    ? TModel
+    : (<T>() => T extends TModel ? true : false) extends <T>() => T extends object ? true : false
+    ? TModel
+    : (<T>() => T extends TModel ? true : false) extends <T>() => T extends any ? true : false
+    ? TModel
+    : (<T>() => T extends TModel ? true : false) extends <T>() => T extends unknown ? true : false
+    ? TModel
+    : (<T>() => T extends TFields ? true : false) extends <T>() => T extends never ? true : false
+    ? // If fields aren't specified, this object can't exist
+      never
+    : (<T>() => T extends TFields ? true : false) extends <T>() => T extends SelectFields<TModel>
+        ? true
+        : false
+    ? // Avoid calculating the narrowed type if every field is specified
+      TModel
+    : SearchPick<TModel, TFields>;
 
 export type SuggestNarrowedModel<
-  Model extends object,
-  Fields extends SelectFields<Model> = SelectFields<Model>
-> = [Model] extends [never]
-  ? // The client was instantiated with no model, so the narrowest possible result type is `object`
-    object
-  : // null represents the default case (no fields specified as selected)
-  [Fields] extends [never]
-  ? // Filter nullable (i.e. non-key) properties from the model, as they're not returned by the service by default
-    keyof ExtractDocumentKey<Model> extends never
+  TModel extends object,
+  TFields extends SelectFields<TModel> = SelectFields<TModel>
+> = (<T>() => T extends TModel ? true : false) extends <T>() => T extends never ? true : false
+  ? TModel
+  : (<T>() => T extends TModel ? true : false) extends <T>() => T extends object ? true : false
+  ? TModel
+  : (<T>() => T extends TFields ? true : false) extends <T>() => T extends never ? true : false
+  ? // Filter nullable (i.e. non-key) properties from the model, as they're not returned by the
+    // service by default
+    keyof ExtractDocumentKey<TModel> extends never
     ? // Return the original model if none of the properties are non-nullable
-      Model
-    : ExtractDocumentKey<Model>
-  : // Fields isn't narrowed to exclude null by the first condition, so it needs to be narrowed here
-  Fields extends SelectFields<Model>
-  ? NarrowedModel<Model, Fields>
+      TModel
+    : ExtractDocumentKey<TModel>
+  : // TFields isn't narrowed to exclude null by the first condition, so it needs to be narrowed
+  // here
+  TFields extends SelectFields<TModel>
+  ? NarrowedModel<TModel, TFields>
   : // Unreachable by construction
     never;

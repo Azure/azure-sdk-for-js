@@ -41,6 +41,8 @@ export {
   SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions,
   SearchIndexingBufferedSenderUploadDocumentsOptions,
   SearchPick,
+  SearchFieldArray,
+  SelectArray,
   SelectFields,
   SuggestNarrowedModel,
   UnionToIntersection,
