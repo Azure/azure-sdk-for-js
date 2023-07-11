@@ -189,8 +189,23 @@ export type DirectoryListFilesAndDirectoriesSegmentResponse =
       };
     };
 
-/** Defines values for AccessRight. */
-export type ShareFileHandleAccessRights = "Read" | "Write" | "Delete";
+/**
+ * Defines values for AccessRight.
+ * {@link KnownShareFileHandleAccessRights} can be used interchangeably with ShareFileHandleAccessRights,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **Read**
+ * **Write**
+ * **Delete**
+ */
+export type ShareFileHandleAccessRights = string;
+
+/** Known values of {@link KnownShareFileHandleAccessRights} that the service accepts. */
+export enum KnownShareFileHandleAccessRights {
+  Read = "Read",
+  Write = "Write",
+  Delete = "Delete",
+}
 
 /** A listed Azure Storage handle item. */
 export interface HandleItem {

@@ -1195,6 +1195,16 @@ export { HttpRequestBody }
 export { IHttpClient }
 
 // @public
+export enum KnownShareFileHandleAccessRights {
+    // (undocumented)
+    Delete = "Delete",
+    // (undocumented)
+    Read = "Read",
+    // (undocumented)
+    Write = "Write"
+}
+
+// @public
 export enum KnownShareTokenIntent {
     // (undocumented)
     Backup = "backup"
@@ -1738,7 +1748,7 @@ export class ShareFileClient extends StorageClient {
 }
 
 // @public
-export type ShareFileHandleAccessRights = "Read" | "Write" | "Delete";
+export type ShareFileHandleAccessRights = string;
 
 // @public
 export interface ShareFileRangeList {
