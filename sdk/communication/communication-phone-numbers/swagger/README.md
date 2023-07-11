@@ -11,7 +11,7 @@ package-version: 1.2.0
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 tag: package-phonenumber-2023-05-01-preview
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/2d4881cf7101773b8c677a267b53d915b30a8c6c/specification/communication/data-plane/PhoneNumbers/readme.md
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/4d2e746ac1e094f87bfe0807b1d51b375a6c5517/specification/communication/data-plane/PhoneNumbers/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10
@@ -62,4 +62,12 @@ directive:
   where: "$.definitions.AreaCodeResult"
   transform: >
     $["x-ms-client-name"] = "AreaCodeItem";
+```
+
+``` yaml
+directive:
+  from: swagger-document
+  where: $.definitions.PhoneNumberSearchResult.properties.error.x-ms-enum
+  transform: >
+    $["name"] = "PhoneNumberSearchResultError";
 ```

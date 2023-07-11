@@ -461,6 +461,18 @@ export const PhoneNumberSearchResult: coreClient.CompositeMapper = {
         type: {
           name: "DateTime"
         }
+      },
+      errorCode: {
+        serializedName: "errorCode",
+        type: {
+          name: "Number"
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "String"
+        }
       }
     }
   }
