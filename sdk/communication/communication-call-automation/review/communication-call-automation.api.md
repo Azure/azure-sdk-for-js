@@ -196,6 +196,8 @@ export interface CallMediaRecognizeOptions extends OperationOptions {
     // (undocumented)
     playPrompt?: FileSource | TextSource | SsmlSource;
     // (undocumented)
+    speechModelEndpointId?: string;
+    // (undocumented)
     stopCurrentOperations?: boolean;
 }
 
@@ -789,11 +791,8 @@ export interface RestRemoveParticipantSucceeded {
 
 // @public (undocumented)
 export interface RestResultInformation {
-    // (undocumented)
     code?: number;
-    // (undocumented)
     message?: string;
-    // (undocumented)
     subCode?: number;
 }
 
@@ -860,6 +859,8 @@ export interface SendDtmfOptions extends OperationOptions {
 // @public
 export interface SsmlSource extends PlaySource {
     // (undocumented)
+    customVoiceEndpointId?: string;
+    // (undocumented)
     readonly kind: "ssmlSource";
     // (undocumented)
     ssmlText: string;
@@ -881,6 +882,8 @@ export type StopRecordingOptions = OperationOptions;
 
 // @public
 export interface TextSource extends PlaySource {
+    // (undocumented)
+    customVoiceEndpointId?: string;
     // (undocumented)
     readonly kind: "textSource";
     // (undocumented)

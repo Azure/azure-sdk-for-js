@@ -54,7 +54,7 @@ export async function customize(originalDir: string, customDir: string, outDir: 
   await processDirectory(customDir, outDir);
 
   // Add file headers
-  await addHeaderToFiles(path.join(outDir, "src"));
+  await addHeaderToFiles(outDir);
 
   // reset the state at the end.
   resetCustomizationState();

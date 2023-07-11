@@ -4,7 +4,7 @@
 import { AzureMonitorLogExporter } from "@azure/monitor-opentelemetry-exporter";
 import {
   LoggerProvider,
-  SimpleLogRecordProcessor,
+  BatchLogRecordProcessor,
   Logger as OtelLogger,
 } from "@opentelemetry/sdk-logs";
 import { LoggerProviderConfig } from "@opentelemetry/sdk-logs/build/src/types";
@@ -19,7 +19,7 @@ export class LogHandler {
   private _loggerProvider: LoggerProvider;
   private _logger: OtelLogger;
   private _azureExporter: AzureMonitorLogExporter;
-  private _logRecordProcessor: SimpleLogRecordProcessor;
+  private _logRecordProcessor: BatchLogRecordProcessor;
   private _config: AzureMonitorOpenTelemetryConfig;
   private _metricHandler?: MetricHandler;
   private _azureLogProccessor: AzureLogRecordProcessor;
@@ -37,7 +37,9 @@ export class LogHandler {
     };
     this._loggerProvider = new LoggerProvider(loggerProviderConfig);
     this._azureExporter = new AzureMonitorLogExporter(this._config.azureMonitorExporterConfig);
-    this._logRecordProcessor = new SimpleLogRecordProcessor(this._azureExporter);
+    // Log Processor could be configured through env variables
+    // https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/#batch-logrecord-processor
+    this._logRecordProcessor = new BatchLogRecordProcessor(this._azureExporter);
     this._loggerProvider.addLogRecordProcessor(this._logRecordProcessor);
     this._azureLogProccessor = new AzureLogRecordProcessor(this._metricHandler);
     this._loggerProvider.addLogRecordProcessor(this._azureLogProccessor);

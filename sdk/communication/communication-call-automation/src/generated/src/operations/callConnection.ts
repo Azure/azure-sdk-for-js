@@ -6,12 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { CallConnection } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CallAutomationApiClient } from "../callAutomationApiClient";
 import {
+  CallParticipantInternal,
+  CallConnectionGetParticipantsNextOptionalParams,
+  CallConnectionGetParticipantsOptionalParams,
+  CallConnectionGetParticipantsResponse,
   CallConnectionGetCallOptionalParams,
   CallConnectionGetCallResponse,
   CallConnectionHangupCallOptionalParams,
@@ -19,8 +25,6 @@ import {
   TransferToParticipantRequest,
   CallConnectionTransferToParticipantOptionalParams,
   CallConnectionTransferToParticipantResponse,
-  CallConnectionGetParticipantsOptionalParams,
-  CallConnectionGetParticipantsResponse,
   AddParticipantRequest,
   CallConnectionAddParticipantOptionalParams,
   CallConnectionAddParticipantResponse,
@@ -34,9 +38,11 @@ import {
   CallConnectionUnmuteOptionalParams,
   CallConnectionUnmuteResponse,
   CallConnectionGetParticipantOptionalParams,
-  CallConnectionGetParticipantResponse
+  CallConnectionGetParticipantResponse,
+  CallConnectionGetParticipantsNextResponse
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Class containing CallConnection operations. */
 export class CallConnectionImpl implements CallConnection {
   private readonly client: CallAutomationApiClient;
@@ -47,6 +53,75 @@ export class CallConnectionImpl implements CallConnection {
    */
   constructor(client: CallAutomationApiClient) {
     this.client = client;
+  }
+
+  /**
+   * Get participants from a call.
+   * @param callConnectionId The call connection Id
+   * @param options The options parameters.
+   */
+  public listParticipants(
+    callConnectionId: string,
+    options?: CallConnectionGetParticipantsOptionalParams
+  ): PagedAsyncIterableIterator<CallParticipantInternal> {
+    const iter = this.getParticipantsPagingAll(callConnectionId, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.getParticipantsPagingPage(
+          callConnectionId,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *getParticipantsPagingPage(
+    callConnectionId: string,
+    options?: CallConnectionGetParticipantsOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<CallParticipantInternal[]> {
+    let result: CallConnectionGetParticipantsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._getParticipants(callConnectionId, options);
+      let page = result.values || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._getParticipantsNext(
+        callConnectionId,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.values || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *getParticipantsPagingAll(
+    callConnectionId: string,
+    options?: CallConnectionGetParticipantsOptionalParams
+  ): AsyncIterableIterator<CallParticipantInternal> {
+    for await (const page of this.getParticipantsPagingPage(
+      callConnectionId,
+      options
+    )) {
+      yield* page;
+    }
   }
 
   /**
@@ -116,7 +191,7 @@ export class CallConnectionImpl implements CallConnection {
    * @param callConnectionId The call connection Id
    * @param options The options parameters.
    */
-  getParticipants(
+  private _getParticipants(
     callConnectionId: string,
     options?: CallConnectionGetParticipantsOptionalParams
   ): Promise<CallConnectionGetParticipantsResponse> {
@@ -208,6 +283,23 @@ export class CallConnectionImpl implements CallConnection {
     return this.client.sendOperationRequest(
       { callConnectionId, participantRawId, options },
       getParticipantOperationSpec
+    );
+  }
+
+  /**
+   * GetParticipantsNext
+   * @param callConnectionId The call connection Id
+   * @param nextLink The nextLink from the previous successful call to the GetParticipants method.
+   * @param options The options parameters.
+   */
+  private _getParticipantsNext(
+    callConnectionId: string,
+    nextLink: string,
+    options?: CallConnectionGetParticipantsNextOptionalParams
+  ): Promise<CallConnectionGetParticipantsNextResponse> {
+    return this.client.sendOperationRequest(
+      { callConnectionId, nextLink, options },
+      getParticipantsNextOperationSpec
     );
   }
 }
@@ -410,6 +502,25 @@ const getParticipantOperationSpec: coreClient.OperationSpec = {
     Parameters.endpoint,
     Parameters.callConnectionId,
     Parameters.participantRawId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getParticipantsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GetParticipantsResponse
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.callConnectionId,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
