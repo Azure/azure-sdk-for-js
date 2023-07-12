@@ -261,7 +261,7 @@ export class SearchClient<TModel> implements IndexDocumentsClient<TModel> {
       ...restOptions,
       ...nextPageParameters,
       searchFields: this.convertSearchFields(searchFields as string[]),
-      select: this.convertSelect<TFields>(select) || "*",
+      select: this.convertSelect<TFields>(select as TFields[]) || "*",
       orderBy: this.convertOrderBy(orderBy),
       includeTotalResultCount: includeTotalCount,
     };
@@ -412,7 +412,7 @@ export class SearchClient<TModel> implements IndexDocumentsClient<TModel> {
     const fullOptions: SuggestRequest = {
       searchText: searchText,
       suggesterName: suggesterName,
-      select: this.convertSelect<TFields>(select),
+      select: this.convertSelect<TFields>(select as TFields[]),
       searchFields: this.convertSearchFields(searchFields as string[]),
       orderBy: this.convertOrderBy(orderBy),
       ...nonFieldOptions,

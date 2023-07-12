@@ -94,7 +94,7 @@ export interface GetDocumentOptions<TFields> extends OperationOptions {
    * List of field names to retrieve for the document; Any field not retrieved will be missing from
    * the returned document.
    */
-  selectedFields?: TFields[];
+  selectedFields?: TFields[] | string[];
 }
 
 /**
@@ -344,7 +344,7 @@ export interface SearchRequestOptions<TFields> {
    * fielded search (fieldName:searchExpression) in a full Lucene query, the field names of each
    * fielded search expression take precedence over any field names listed in this parameter.
    */
-  searchFields?: TFields[];
+  searchFields?: TFields[] | string[];
   /**
    * A value that specifies whether any or all of the search terms must be matched in order to
    * count the document as a match. Possible values include: 'any', 'all'
@@ -368,7 +368,7 @@ export interface SearchRequestOptions<TFields> {
    * The list of fields to retrieve. If unspecified, all fields marked as
    * retrievable in the schema are included.
    */
-  select?: TFields[];
+  select?: TFields[] | string[];
   /**
    * The number of search results to skip. This value cannot be greater than 100,000. If you need
    * to scan documents in sequence, but cannot use skip due to this limitation, consider using
@@ -502,12 +502,12 @@ export interface SuggestRequest<TFields> {
    * The comma-separated list of field names to search for the specified search text. Target fields
    * must be included in the specified suggester.
    */
-  searchFields?: TFields[];
+  searchFields?: TFields[] | string[];
   /**
    * The list of fields to retrieve. If unspecified, only the key field will be
    * included in the results.
    */
-  select?: TFields[];
+  select?: TFields[] | string[];
   /**
    * The number of suggestions to retrieve. This must be a value between 1 and 100. The default is
    * 5.
@@ -588,7 +588,7 @@ export interface AutocompleteRequest<TFields> {
    * The comma-separated list of field names to consider when querying for auto-completed terms.
    * Target fields must be included in the specified suggester.
    */
-  searchFields?: TFields[];
+  searchFields?: TFields[] | string[];
   /**
    * The number of auto-completed terms to retrieve. This must be a value between 1 and 100. The
    * default is 5.

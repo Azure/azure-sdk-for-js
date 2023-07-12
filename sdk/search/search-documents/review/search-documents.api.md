@@ -64,7 +64,7 @@ export interface AutocompleteRequest<TFields> {
     highlightPostTag?: string;
     highlightPreTag?: string;
     minimumCoverage?: number;
-    searchFields?: TFields[];
+    searchFields?: TFields[] | string[];
     top?: number;
     useFuzzyMatching?: boolean;
 }
@@ -488,7 +488,7 @@ export type GetDataSourceConnectionOptions = OperationOptions;
 
 // @public
 export interface GetDocumentOptions<TFields> extends OperationOptions {
-    selectedFields?: TFields[];
+    selectedFields?: TFields[] | string[];
 }
 
 // @public
@@ -1874,9 +1874,9 @@ export interface SearchRequestOptions<TFields> {
     scoringParameters?: string[];
     scoringProfile?: string;
     scoringStatistics?: ScoringStatistics;
-    searchFields?: TFields[];
+    searchFields?: TFields[] | string[];
     searchMode?: SearchMode;
-    select?: TFields[];
+    select?: TFields[] | string[];
     sessionId?: string;
     skip?: number;
     top?: number;
@@ -2062,8 +2062,8 @@ export interface SuggestRequest<TFields> {
     highlightPreTag?: string;
     minimumCoverage?: number;
     orderBy?: string[];
-    searchFields?: TFields[];
-    select?: TFields[];
+    searchFields?: TFields[] | string[];
+    select?: TFields[] | string[];
     top?: number;
     useFuzzyMatching?: boolean;
 }
