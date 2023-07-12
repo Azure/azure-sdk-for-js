@@ -1,0 +1,51 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.StorageMover/storageMovers/storageMoverName/projects/testendproject/jobDefinitions/testjobDefinition?api-version=2023-07-01-preview",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "210",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-storagemover/2.0.0-beta.1 core-rest-pipeline/1.11.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "3773182c-4b4f-4629-9f3f-96e163401628"
+      },
+      "RequestBody": {
+        "properties": {
+          "description": "Example Job Definition Description",
+          "copyMode": "Additive",
+          "sourceName": "testendpoint1",
+          "sourceSubpath": "/",
+          "targetName": "testendpoint",
+          "targetSubpath": "/",
+          "agentName": "testagent"
+        }
+      },
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "344",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 12 Jul 2023 06:42:58 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "7be8102f-ff93-4c2a-a5cf-53d87f3241d2",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "7be8102f-ff93-4c2a-a5cf-53d87f3241d2",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230712T064259Z:7be8102f-ff93-4c2a-a5cf-53d87f3241d2"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "ParentResourceNotFound",
+          "message": "Failed to perform \u0027write\u0027 on resource(s) of type \u0027storageMovers/projects/jobDefinitions\u0027, because the parent resource \u0027/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.StorageMover/storageMovers/storageMoverName/projects/testendproject\u0027 could not be found."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

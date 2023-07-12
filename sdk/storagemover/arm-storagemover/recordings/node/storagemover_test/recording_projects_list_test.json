@@ -1,0 +1,39 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.StorageMover/storageMovers/storageMoverName/projects?api-version=2023-07-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-storagemover/2.0.0-beta.1 core-rest-pipeline/1.11.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "a1d50d74-0028-4b0d-922a-a38a0dd4b6cd"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "304",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 12 Jul 2023 06:43:06 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "5b2c9e1c-d62d-49aa-b499-c19debe00aed",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "5b2c9e1c-d62d-49aa-b499-c19debe00aed",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230712T064307Z:5b2c9e1c-d62d-49aa-b499-c19debe00aed"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "ParentResourceNotFound",
+          "message": "Failed to perform \u0027read\u0027 on resource(s) of type \u0027storageMovers/projects\u0027, because the parent resource \u0027/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.StorageMover/storageMovers/storageMoverName\u0027 could not be found."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
