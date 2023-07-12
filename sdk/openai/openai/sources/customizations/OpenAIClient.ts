@@ -241,7 +241,7 @@ export class OpenAIClient {
   }
 
   /**
-   * Starts the generation of a batch of images from a text caption 
+   * Starts the generation of a batch of images from a text caption
    * @param prompt - The prompt to use for this request.
    * @param options - The options for this image request.
    * @returns The image generation response (containing url or base64 data).
