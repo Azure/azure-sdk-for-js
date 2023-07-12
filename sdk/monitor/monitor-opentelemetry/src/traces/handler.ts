@@ -7,6 +7,7 @@ import {
   ApplicationInsightsSampler,
   AzureMonitorTraceExporter,
 } from "@azure/monitor-opentelemetry-exporter";
+import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
 import { NodeTracerProvider, NodeTracerConfig } from "@opentelemetry/sdk-trace-node";
 import {
   BatchSpanProcessor,
@@ -40,6 +41,7 @@ export class TraceHandler {
   private _tracerProvider: NodeTracerProvider;
   private _tracer: Tracer;
   private _azureExporter: AzureMonitorTraceExporter;
+  private _otlpExporter?: OTLPTraceExporter;
   private _instrumentations: Instrumentation[];
   private _httpInstrumentation?: Instrumentation;
   private _azureSdkInstrumentation?: Instrumentation;
@@ -77,6 +79,12 @@ export class TraceHandler {
     };
     this._spanProcessor = new BatchSpanProcessor(this._azureExporter, bufferConfig);
     this._tracerProvider.addSpanProcessor(this._spanProcessor);
+
+    if (this._config.otlpTraceExporterConfig?.enabled) {
+      this._otlpExporter = new OTLPTraceExporter(config.otlpTraceExporterConfig);
+      let otlpSpanProcessor = new BatchSpanProcessor(this._otlpExporter, bufferConfig);
+      this._tracerProvider.addSpanProcessor(otlpSpanProcessor);
+    }
 
     this._tracerProvider.register();
     this._tracer = this._tracerProvider.getTracer("AzureMonitorTracer");

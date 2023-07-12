@@ -3,6 +3,7 @@
 
 import { AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
 import { Meter } from "@opentelemetry/api";
+import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-http";
 import {
   MeterProvider,
   MeterProviderOptions,
@@ -22,6 +23,7 @@ export class MetricHandler {
   private _collectionInterval = 60000; // 60 seconds
   private _meterProvider: MeterProvider;
   private _azureExporter: AzureMonitorMetricExporter;
+  private _otlpExporter?: OTLPMetricExporter;
   private _metricReader: PeriodicExportingMetricReader;
   private _meter: Meter;
   private _perfCounterMetrics?: PerformanceCounterMetrics;
@@ -46,12 +48,30 @@ export class MetricHandler {
     };
     this._meterProvider = new MeterProvider(meterProviderConfig);
     this._azureExporter = new AzureMonitorMetricExporter(this._config.azureMonitorExporterConfig);
-    const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
+    let metricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._azureExporter as any,
       exportIntervalMillis: options?.collectionInterval || this._collectionInterval,
     };
     this._metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
     this._meterProvider.addMetricReader(this._metricReader);
+
+    const metricExporter = new OTLPMetricExporter({});
+    metricReaderOptions = {
+      exporter: metricExporter,
+      exportIntervalMillis: options?.collectionInterval || this._collectionInterval,
+    };
+    this._metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
+    this._meterProvider.addMetricReader(this._metricReader);
+
+    if (config.otlpMetricExporterConfig?.enabled) {
+      this._otlpExporter = new OTLPMetricExporter(config.otlpMetricExporterConfig);
+      const otlpMetricReader = new PeriodicExportingMetricReader({
+        exporter: this._otlpExporter,
+        exportIntervalMillis: options?.collectionInterval || this._collectionInterval,
+      });
+      this._meterProvider.addMetricReader(otlpMetricReader);
+    }
+
     this._meter = this._meterProvider.getMeter("AzureMonitorMeter");
   }
 
