@@ -1,5 +1,11 @@
 # Release History
 
+## 12.14.0 (2023-07-12)
+
+### Features Added
+
+- Includes all features released in 12.14.0-beta.1.
+
 ## 12.14.0-beta.1 (2023-05-31)
 
 ### Features Added
