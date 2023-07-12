@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import {
-  AzureMachineLearningSkill,
   BM25Similarity,
   ClassicSimilarity,
   CognitiveServicesAccountKey,
@@ -14,9 +13,7 @@ import {
   DataDeletionDetectionPolicyUnion,
   DefaultCognitiveServicesAccount,
   DocumentExtractionSkill,
-  EntityLinkingSkill,
   EntityRecognitionSkill,
-  EntityRecognitionSkillV3,
   PatternAnalyzer as GeneratedPatternAnalyzer,
   SearchField as GeneratedSearchField,
   SearchIndex as GeneratedSearchIndex,
@@ -31,21 +28,14 @@ import {
   LanguageDetectionSkill,
   LexicalAnalyzerName,
   LexicalAnalyzerUnion,
-  LexicalNormalizerName,
   LexicalTokenizerUnion,
   LuceneStandardAnalyzer,
   MergeSkill,
   OcrSkill,
-  PIIDetectionSkill,
   PatternTokenizer,
   RegexFlags,
-  SearchIndexerDataIdentityUnion,
-  SearchIndexerDataNoneIdentity,
-  SearchIndexerDataUserAssignedIdentity,
-  SearchIndexerKnowledgeStore as BaseSearchIndexerKnowledgeStore,
   SearchIndexerSkillUnion,
   SentimentSkill,
-  SentimentSkillV3,
   ShaperSkill,
   SimilarityUnion,
   SoftDeleteColumnDeletionDetectionPolicy,
@@ -54,7 +44,7 @@ import {
   StopAnalyzer,
   TextTranslationSkill,
   TokenFilterUnion,
-  SearchIndexerCache as GeneratedSearchIndexerCache,
+  WebApiSkill,
 } from "./generated/service/models";
 import {
   CharFilter,
@@ -63,7 +53,6 @@ import {
   DataChangeDetectionPolicy,
   DataDeletionDetectionPolicy,
   LexicalAnalyzer,
-  LexicalNormalizer,
   LexicalTokenizer,
   PatternAnalyzer,
   ScoringProfile,
@@ -71,10 +60,7 @@ import {
   SearchFieldDataType,
   SearchIndex,
   SearchIndexer,
-  SearchIndexerCache,
-  SearchIndexerDataIdentity,
   SearchIndexerDataSourceConnection,
-  SearchIndexerKnowledgeStore,
   SearchIndexerSkill,
   SearchIndexerSkillset,
   SearchResourceEncryptionKey,
@@ -82,25 +68,12 @@ import {
   SimpleField,
   SynonymMap,
   TokenFilter,
-  WebApiSkill,
   isComplexField,
 } from "./serviceModels";
-import {
-  SearchFieldArray,
-  SearchRequest,
-  SearchResult,
-  SelectFields,
-  SuggestDocumentsResult,
-  SuggestResult,
-  Vector,
-} from "./indexModels";
+import { SearchResult, SuggestDocumentsResult, SuggestResult } from "./indexModels";
 import {
   SearchResult as GeneratedSearchResult,
   SuggestDocumentsResult as GeneratedSuggestDocumentsResult,
-  SearchRequest as GeneratedSearchRequest,
-  KnownSemanticErrorHandling,
-  KnownQueryDebugMode,
-  Vector as BaseVector,
 } from "./generated/data/models";
 
 export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): SearchIndexerSkill[] {
@@ -141,18 +114,6 @@ export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): Search
       case "#Microsoft.Skills.Text.SplitSkill":
         result.push(skill as SplitSkill);
         break;
-      case "#Microsoft.Skills.Text.PIIDetectionSkill":
-        result.push(skill as PIIDetectionSkill);
-        break;
-      case "#Microsoft.Skills.Text.V3.EntityRecognitionSkill":
-        result.push(skill as EntityRecognitionSkillV3);
-        break;
-      case "#Microsoft.Skills.Text.V3.EntityLinkingSkill":
-        result.push(skill as EntityLinkingSkill);
-        break;
-      case "#Microsoft.Skills.Text.V3.SentimentSkill":
-        result.push(skill as SentimentSkillV3);
-        break;
       case "#Microsoft.Skills.Text.TranslationSkill":
         result.push(skill as TextTranslationSkill);
         break;
@@ -164,9 +125,6 @@ export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): Search
         break;
       case "#Microsoft.Skills.Util.DocumentExtractionSkill":
         result.push(skill as DocumentExtractionSkill);
-        break;
-      case "#Microsoft.Skills.Custom.AmlSkill":
-        result.push(skill as AzureMachineLearningSkill);
         break;
     }
   }
@@ -292,15 +250,13 @@ export function convertFieldsToPublic(fields: GeneratedSearchField[]): SearchFie
       };
       return result;
     } else {
-      const type: SearchFieldDataType = field.type as SearchFieldDataType;
-      const analyzerName: LexicalAnalyzerName | undefined = field.analyzer;
-      const searchAnalyzerName: LexicalAnalyzerName | undefined = field.searchAnalyzer;
-      const indexAnalyzerName: LexicalAnalyzerName | undefined = field.indexAnalyzer;
-      const synonymMapNames: string[] | undefined = field.synonymMaps;
-      const normalizerName: LexicalNormalizerName | undefined = field.normalizer;
+      const { synonymMaps, retrievable, ...restField } = field;
 
-      const { retrievable, ...restField } = field;
+      const type: SearchFieldDataType = field.type as SearchFieldDataType;
       const hidden = typeof retrievable === "boolean" ? !retrievable : retrievable;
+      const analyzerName = field.analyzer as LexicalAnalyzerName | undefined;
+      const searchAnalyzerName = field.searchAnalyzer as LexicalAnalyzerName | undefined;
+      const indexAnalyzerName = field.indexAnalyzer as LexicalAnalyzerName | undefined;
 
       const result: SimpleField = {
         ...restField,
@@ -309,8 +265,7 @@ export function convertFieldsToPublic(fields: GeneratedSearchField[]): SearchFie
         analyzerName,
         searchAnalyzerName,
         indexAnalyzerName,
-        synonymMapNames,
-        normalizerName,
+        synonymMapNames: synonymMaps,
       };
       return result;
     }
@@ -340,7 +295,6 @@ export function convertFieldsToGenerated(fields: SearchField[]): GeneratedSearch
         searchAnalyzer: field.searchAnalyzerName,
         indexAnalyzer: field.indexAnalyzerName,
         synonymMaps: field.synonymMapNames,
-        normalizer: field.normalizerName,
       };
     }
   });
@@ -415,8 +369,8 @@ export function convertSimilarityToPublic(
 }
 
 export function convertEncryptionKeyToPublic(
-  encryptionKey?: GeneratedSearchResourceEncryptionKey
-): SearchResourceEncryptionKey | undefined {
+  encryptionKey?: GeneratedSearchResourceEncryptionKey | null
+): SearchResourceEncryptionKey | null | undefined {
   if (!encryptionKey) {
     return encryptionKey;
   }
@@ -425,7 +379,6 @@ export function convertEncryptionKeyToPublic(
     keyName: encryptionKey.keyName,
     keyVersion: encryptionKey.keyVersion,
     vaultUrl: encryptionKey.vaultUri,
-    identity: convertSearchIndexerDataIdentityToPublic(encryptionKey.identity),
   };
 
   if (encryptionKey.accessCredentials) {
@@ -437,8 +390,8 @@ export function convertEncryptionKeyToPublic(
 }
 
 export function convertEncryptionKeyToGenerated(
-  encryptionKey?: SearchResourceEncryptionKey
-): GeneratedSearchResourceEncryptionKey | undefined {
+  encryptionKey?: SearchResourceEncryptionKey | null
+): GeneratedSearchResourceEncryptionKey | null | undefined {
   if (!encryptionKey) {
     return encryptionKey;
   }
@@ -447,7 +400,6 @@ export function convertEncryptionKeyToGenerated(
     keyName: encryptionKey.keyName,
     keyVersion: encryptionKey.keyVersion,
     vaultUri: encryptionKey.vaultUrl,
-    identity: encryptionKey.identity,
   };
 
   if (encryptionKey.applicationId) {
@@ -472,45 +424,36 @@ export function generatedIndexToPublicIndex(generatedIndex: GeneratedSearchIndex
     tokenizers: convertTokenizersToPublic(generatedIndex.tokenizers),
     tokenFilters: generatedIndex.tokenFilters as TokenFilter[],
     charFilters: generatedIndex.charFilters as CharFilter[],
-    normalizers: generatedIndex.normalizers as LexicalNormalizer[],
     scoringProfiles: generatedIndex.scoringProfiles as ScoringProfile[],
     fields: convertFieldsToPublic(generatedIndex.fields),
     similarity: convertSimilarityToPublic(generatedIndex.similarity),
-    semanticSettings: generatedIndex.semanticSettings,
-    vectorSearch: generatedIndex.vectorSearch,
   };
 }
 
-export function generatedSearchResultToPublicSearchResult<
-  TModel extends object,
-  TFields extends SelectFields<TModel>
->(results: GeneratedSearchResult[]): SearchResult<TModel, TFields>[] {
-  const returnValues: SearchResult<TModel, TFields>[] = results.map<SearchResult<TModel, TFields>>(
-    (result) => {
-      const { _score, _highlights, rerankerScore, captions, documentDebugInfo, ...restProps } =
-        result;
-      const doc: { [key: string]: any } = {
-        ...restProps,
-      };
-      const obj = {
-        score: _score,
-        highlights: _highlights,
-        rerankerScore,
-        captions,
-        document: doc,
-        documentDebugInfo,
-      };
-      return obj as SearchResult<TModel, TFields>;
-    }
-  );
+export function generatedSearchResultToPublicSearchResult<T>(
+  results: GeneratedSearchResult[]
+): SearchResult<T>[] {
+  const returnValues: SearchResult<T>[] = results.map<SearchResult<T>>((result) => {
+    const { _score, _highlights, rerankerScore, captions, ...restProps } = result;
+    const doc: { [key: string]: any } = {
+      ...restProps,
+    };
+    const obj = {
+      score: _score,
+      highlights: _highlights,
+      rerankerScore,
+      captions,
+      document: doc,
+    };
+    return obj as unknown as SearchResult<T>;
+  });
   return returnValues;
 }
 
-export function generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<
-  TModel extends object,
-  TFields extends SelectFields<TModel>
->(searchDocumentsResult: GeneratedSuggestDocumentsResult): SuggestDocumentsResult<TModel, TFields> {
-  const results = searchDocumentsResult.results.map<SuggestResult<TModel, TFields>>((element) => {
+export function generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<T>(
+  searchDocumentsResult: GeneratedSuggestDocumentsResult
+): SuggestDocumentsResult<T> {
+  const results = searchDocumentsResult.results.map<SuggestResult<T>>((element) => {
     const { _text, ...restProps } = element;
 
     const doc: { [key: string]: any } = {
@@ -522,10 +465,10 @@ export function generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<
       document: doc,
     };
 
-    return obj as SuggestResult<TModel, TFields>;
+    return obj as SuggestResult<T>;
   });
 
-  const result: SuggestDocumentsResult<TModel, TFields> = {
+  const result: SuggestDocumentsResult<T> = {
     results: results,
     coverage: searchDocumentsResult.coverage,
   };
@@ -534,10 +477,11 @@ export function generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<
 }
 
 export function publicIndexToGeneratedIndex(index: SearchIndex): GeneratedSearchIndex {
-  const { encryptionKey, tokenFilters, analyzers, tokenizers, fields, similarity } = index;
+  const { encryptionKey, tokenFilters, analyzers, tokenizers, fields, similarity, ...props } =
+    index;
 
   return {
-    ...index,
+    ...props,
     encryptionKey: convertEncryptionKeyToGenerated(encryptionKey),
     tokenFilters: convertTokenFiltersToGenerated(tokenFilters),
     analyzers: convertAnalyzersToGenerated(analyzers),
@@ -550,16 +494,13 @@ export function publicIndexToGeneratedIndex(index: SearchIndex): GeneratedSearch
 export function generatedSkillsetToPublicSkillset(
   generatedSkillset: GeneratedSearchIndexerSkillset
 ): SearchIndexerSkillset {
+  const { skills, cognitiveServicesAccount, encryptionKey, ...props } = generatedSkillset;
+
   return {
-    name: generatedSkillset.name,
-    description: generatedSkillset.description,
-    skills: convertSkillsToPublic(generatedSkillset.skills),
-    cognitiveServicesAccount: convertCognitiveServicesAccountToPublic(
-      generatedSkillset.cognitiveServicesAccount
-    ),
-    knowledgeStore: convertKnowledgeStoreToPublic(generatedSkillset.knowledgeStore),
-    etag: generatedSkillset.etag,
-    encryptionKey: convertEncryptionKeyToPublic(generatedSkillset.encryptionKey),
+    ...props,
+    skills: convertSkillsToPublic(skills),
+    cognitiveServicesAccount: convertCognitiveServicesAccountToPublic(cognitiveServicesAccount),
+    encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
   };
 }
 
@@ -620,27 +561,12 @@ export function publicSearchIndexerToGeneratedSearchIndexer(
 export function generatedSearchIndexerToPublicSearchIndexer(
   indexer: GeneratedSearchIndexer
 ): SearchIndexer {
+  const { encryptionKey, ...props } = indexer;
+
   return {
-    ...indexer,
-    encryptionKey: convertEncryptionKeyToPublic(indexer.encryptionKey),
-    cache: convertSearchIndexerCacheToPublic(indexer.cache),
-  };
-}
-
-export function generatedSearchRequestToPublicSearchRequest<Model extends object>(
-  request: GeneratedSearchRequest
-): SearchRequest<Model> {
-  const { semanticErrorHandling, debug, vectors, ...props } = request;
-  const publicRequest: SearchRequest<Model> = {
-    semanticErrorHandlingMode: semanticErrorHandling as `${KnownSemanticErrorHandling}` | undefined,
-    debugMode: debug as `${KnownQueryDebugMode}` | undefined,
-    vectors: vectors
-      ?.map(convertVectorToPublic<Model>)
-      .filter((v): v is Vector<Model> => v !== undefined),
     ...props,
+    encryptionKey: convertEncryptionKeyToPublic(indexer.encryptionKey),
   };
-
-  return publicRequest;
 }
 
 export function publicDataSourceToGeneratedDataSource(
@@ -654,7 +580,6 @@ export function publicDataSourceToGeneratedDataSource(
       connectionString: dataSource.connectionString,
     },
     container: dataSource.container,
-    identity: dataSource.identity,
     etag: dataSource.etag,
     dataChangeDetectionPolicy: dataSource.dataChangeDetectionPolicy,
     dataDeletionDetectionPolicy: dataSource.dataDeletionDetectionPolicy,
@@ -671,7 +596,6 @@ export function generatedDataSourceToPublicDataSource(
     type: dataSource.type,
     connectionString: dataSource.credentials.connectionString,
     container: dataSource.container,
-    identity: convertSearchIndexerDataIdentityToPublic(dataSource.identity),
     etag: dataSource.etag,
     dataChangeDetectionPolicy: convertDataChangeDetectionPolicyToPublic(
       dataSource.dataChangeDetectionPolicy
@@ -683,23 +607,9 @@ export function generatedDataSourceToPublicDataSource(
   };
 }
 
-export function convertSearchIndexerDataIdentityToPublic(
-  searchIndexerDataIdentity?: SearchIndexerDataIdentityUnion
-): SearchIndexerDataIdentity | undefined {
-  if (!searchIndexerDataIdentity) {
-    return searchIndexerDataIdentity;
-  }
-
-  if (searchIndexerDataIdentity.odatatype === "#Microsoft.Azure.Search.DataNoneIdentity") {
-    return searchIndexerDataIdentity as SearchIndexerDataNoneIdentity;
-  } else {
-    return searchIndexerDataIdentity as SearchIndexerDataUserAssignedIdentity;
-  }
-}
-
 export function convertDataChangeDetectionPolicyToPublic(
-  dataChangeDetectionPolicy?: DataChangeDetectionPolicyUnion
-): DataChangeDetectionPolicy | undefined {
+  dataChangeDetectionPolicy?: DataChangeDetectionPolicyUnion | null
+): DataChangeDetectionPolicy | null | undefined {
   if (!dataChangeDetectionPolicy) {
     return dataChangeDetectionPolicy;
   }
@@ -715,27 +625,13 @@ export function convertDataChangeDetectionPolicyToPublic(
 }
 
 export function convertDataDeletionDetectionPolicyToPublic(
-  dataDeletionDetectionPolicy?: DataDeletionDetectionPolicyUnion
-): DataDeletionDetectionPolicy | undefined {
+  dataDeletionDetectionPolicy?: DataDeletionDetectionPolicyUnion | null
+): DataDeletionDetectionPolicy | null | undefined {
   if (!dataDeletionDetectionPolicy) {
     return dataDeletionDetectionPolicy;
   }
 
   return dataDeletionDetectionPolicy as SoftDeleteColumnDeletionDetectionPolicy;
-}
-
-function convertVectorToPublic<Model extends object>(
-  vector: BaseVector | undefined
-): Vector<Model> | undefined {
-  if (!vector) {
-    return vector;
-  }
-
-  const fields: SearchFieldArray<Model> | undefined = vector.fields?.split(",") as
-    | SearchFieldArray<Model>
-    | undefined;
-
-  return { ...vector, fields };
 }
 
 export function getRandomIntegerInclusive(min: number, max: number): number {
@@ -758,32 +654,6 @@ export function delay(timeInMs: number): Promise<void> {
   return new Promise((resolve) => setTimeout(() => resolve(), timeInMs));
 }
 
-export const serviceVersions = ["2020-06-30", "2023-07-01-Preview"];
+export const serviceVersions = ["2020-06-30"];
 
-export const defaultServiceVersion = "2023-07-01-Preview";
-
-function convertKnowledgeStoreToPublic(
-  knowledgeStore: BaseSearchIndexerKnowledgeStore | undefined
-): SearchIndexerKnowledgeStore | undefined {
-  if (!knowledgeStore) {
-    return knowledgeStore;
-  }
-
-  return {
-    ...knowledgeStore,
-    identity: convertSearchIndexerDataIdentityToPublic(knowledgeStore.identity),
-  };
-}
-
-function convertSearchIndexerCacheToPublic(
-  cache?: GeneratedSearchIndexerCache
-): SearchIndexerCache | undefined {
-  if (!cache) {
-    return cache;
-  }
-
-  return {
-    ...cache,
-    identity: convertSearchIndexerDataIdentityToPublic(cache.identity),
-  };
-}
+export const defaultServiceVersion = "2020-06-30";

@@ -12,7 +12,7 @@ import { Hotel } from "./interfaces";
 export const WAIT_TIME = 4000;
 
 export const documentKeyRetriever: (document: Hotel) => string = (document: Hotel): string => {
-  return document.hotelId!;
+  return document.hotelId;
 };
 
 /**
@@ -48,20 +48,6 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
         name: "description",
         searchable: true,
         analyzerName: KnownAnalyzerNames.EnLucene,
-      },
-      {
-        type: "Collection(Edm.Single)",
-        name: "descriptionVectorEn",
-        searchable: true,
-        vectorSearchDimensions: 1536,
-        vectorSearchConfiguration: "vector-search-configuration",
-      },
-      {
-        type: "Collection(Edm.Single)",
-        name: "descriptionVectorFr",
-        searchable: true,
-        vectorSearchDimensions: 1536,
-        vectorSearchConfiguration: "vector-search-configuration",
       },
       {
         type: "Edm.String",
@@ -246,9 +232,6 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
     corsOptions: {
       // for browser tests
       allowedOrigins: ["*"],
-    },
-    vectorSearch: {
-      algorithmConfigurations: [{ name: "vector-search-configuration", kind: "hnsw" }],
     },
   };
   await client.createIndex(hotelIndex);

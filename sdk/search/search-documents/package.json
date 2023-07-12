@@ -1,6 +1,6 @@
 {
   "name": "@azure/search-documents",
-  "version": "12.0.0-beta.4",
+  "version": "11.3.3",
   "description": "Azure client library to use Cognitive Search for node.js and browser.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -19,7 +19,6 @@
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript swagger/Service.md & autorest --typescript swagger/Data.md & wait",
-    "generate:embeddings": "ts-node scripts/generateSampleEmbeddings.ts",
     "integration-test:browser": "dev-tool run test:browser",
     "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -55,14 +54,6 @@
         "prefix": "package-version"
       },
       {
-        "path": "src/generated/data/searchClient.ts",
-        "prefix": "packageDetails"
-      },
-      {
-        "path": "src/generated/service/searchServiceClient.ts",
-        "prefix": "packageDetails"
-      },
-      {
         "path": "src/constants.ts",
         "prefix": "SDK_VERSION"
       }
@@ -95,7 +86,6 @@
     "events": "^3.0.0"
   },
   "devDependencies": {
-    "@azure/openai": "1.0.0-beta.7",
     "@azure/test-utils": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",

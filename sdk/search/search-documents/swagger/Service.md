@@ -10,17 +10,18 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated/service
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/9383e81389c2b1c64da07cc70c66f8c54b9ad4f5/specification/search/data-plane/Azure.Search/preview/2023-07-01-Preview/searchservice.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/d95c18e2d5fc678a1453c454d746fdce22d30122/specification/search/data-plane/Azure.Search/preview/2020-06-30/searchservice.json
 add-credentials: false
 use-extension:
-  "@autorest/typescript": "6.0.0-alpha.17.20220318.1"
+  "@autorest/typescript": "6.0.0-alpha.20210527.9"
 core-http-compat-mode: true
-package-version: 12.0.0-beta.4
+package-version: 11.3.3
 disable-async-iterators: true
 api-version-parameter: choice
 v3: true
 hide-clients: true
 use-core-v2: true
+openapi-type: default
 ```
 
 ## Customizations for Track 2 Generator
@@ -72,6 +73,58 @@ directive:
         }
       }
       $.parameters = newParameters;
+```
+
+### Add support for collection types
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SearchFieldDataType
+    transform: >
+      if ($["x-ms-enum"].values.length === 8) {
+        const newValues = $["x-ms-enum"].values.slice(0);
+        newValues.push({
+          "value": "Collection(Edm.String)",
+          "name": "Collection(Edm.String)"
+        });
+        newValues.push({
+          "value": "Collection(Edm.Int32)",
+          "name": "Collection(Edm.Int32)"
+        });
+        newValues.push({
+          "value": "Collection(Edm.Int64)",
+          "name": "Collection(Edm.Int64)"
+        });
+        newValues.push({
+          "value": "Collection(Edm.Double)",
+          "name": "Collection(Edm.Double)"
+        });
+        newValues.push({
+          "value": "Collection(Edm.Boolean)",
+          "name": "Collection(Edm.Boolean)"
+        });
+        newValues.push({
+          "value": "Collection(Edm.DateTimeOffset)",
+          "name": "Collection(Edm.DateTimeOffset)"
+        });
+        newValues.push({
+          "value": "Collection(Edm.GeographyPoint)",
+          "name": "Collection(Edm.GeographyPoint)"
+        });
+        newValues.push({
+          "value": "Collection(Edm.ComplexType)",
+          "name": "Collection(Edm.ComplexType)"
+        });
+        $["x-ms-enum"].values = newValues;
+      }
+      if ($.enum.length === 8) {
+        const newValues = $.enum.slice(0);
+        for (let value of $.enum) {
+          newValues.push('Collection('+value+')');
+        }
+        $.enum = newValues;
+      }
 ```
 
 ### Make AnalyzerName a string
@@ -296,42 +349,19 @@ directive:
 directive:
   from: swagger-document
   where: $.definitions[?(@['x-ms-discriminator-value'] == "#Microsoft.Skills.Text.EntityRecognitionSkill")]
-  transform: $.description += "\n\n@deprecated";
+  transform: $.description += "\n\n@deprecated EntityRecognitionSkill has been deprecated. See \nhttps://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-deprecated";
 ```
 
 ```yaml
 directive:
   from: swagger-document
   where: $.definitions[?(@['x-ms-discriminator-value'] == "#Microsoft.Skills.Text.SentimentSkill")]
-  transform: $.description += "\n\n@deprecated";
+  transform: $.description += "\n\n@deprecated SentimentSkill has been deprecated. See \nhttps://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-deprecated";
 ```
 
 ```yaml
 directive:
   from: swagger-document
   where: $.definitions[?(@['x-ms-discriminator-value'] == "#Microsoft.Skills.Text.NamedEntityRecognitionSkill")]
-  transform: $.description += "\n\n@deprecated";
-```
-
-### Rename Dimensions
-
- To ensure alignment with `VectorSearchConfiguration` in intellisense and documentation, rename the `Dimensions` to `VectorSearchDimensions`.
-
-```yaml
-directive:
-- from: swagger-document
-  where: $.definitions.SearchField.properties.dimensions
-  transform: $["x-ms-client-name"] = "vectorSearchDimensions";
-```
-
-### Add `arm-id` format for `AuthResourceId`
-
- Add `"format": "arm-id"` for `AuthResourceId` to generate as [Azure.Core.ResourceIdentifier]
- (https://learn.microsoft.com/dotnet/api/azure.core.resourceidentifier?view=azure-dotnet).
-
-```yaml
-directive:
-- from: swagger-document
-  where: $.definitions.WebApiSkill.properties.authResourceId
-  transform: $["x-ms-format"] = "arm-id";
+  transform: $.description += "\n\n@deprecated NamedEntityRecognitionSkill has been deprecated. See \nhttps://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-deprecated";
 ```

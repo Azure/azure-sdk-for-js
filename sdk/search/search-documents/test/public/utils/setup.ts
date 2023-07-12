@@ -12,17 +12,12 @@ import {
 import { Hotel } from "./interfaces";
 import { delay } from "../../../src/serviceUtils";
 import { assert } from "chai";
-import { isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
-import { OpenAIClient } from "@azure/openai";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 
 export const WAIT_TIME = isPlaybackMode() ? 0 : 4000;
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-export async function createIndex(
-  client: SearchIndexClient,
-  name: string,
-  serviceVersion: string
-): Promise<void> {
+export async function createIndex(client: SearchIndexClient, name: string): Promise<void> {
   const hotelIndex: SearchIndex = {
     name,
     fields: [
@@ -231,54 +226,11 @@ export async function createIndex(
       allowedOrigins: ["*"],
     },
   };
-
-  if (serviceVersion.includes("Preview")) {
-    const vectorSearchConfiguration = "algorithm-configuration";
-
-    hotelIndex.fields.push({
-      type: "Collection(Edm.Single)",
-      name: "vectorDescription",
-      searchable: true,
-      vectorSearchDimensions: 1536,
-      hidden: true,
-      vectorSearchConfiguration,
-    });
-
-    hotelIndex.vectorSearch = {
-      algorithmConfigurations: [
-        {
-          name: vectorSearchConfiguration,
-          kind: "hnsw",
-          parameters: {
-            metric: "dotProduct",
-          },
-        },
-      ],
-    };
-
-    hotelIndex.semanticSettings = {
-      configurations: [
-        {
-          name: "semantic-configuration-name",
-          prioritizedFields: {
-            titleField: { name: "hotelName" },
-            prioritizedContentFields: [{ name: "description" }],
-            prioritizedKeywordsFields: [{ name: "tags" }],
-          },
-        },
-      ],
-    };
-  }
-
   await client.createIndex(hotelIndex);
 }
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-export async function populateIndex(
-  client: SearchClient<Hotel>,
-  openAIClient: OpenAIClient,
-  serviceVersion: string
-): Promise<void> {
+export async function populateIndex(client: SearchClient<Hotel>): Promise<void> {
   // test data from https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/search/Azure.Search.Documents/tests/Utilities/SearchResources.Data.cs
   const testDocuments: Hotel[] = [
     {
@@ -482,10 +434,6 @@ export async function populateIndex(
     },
   ];
 
-  if (serviceVersion.includes("Preview") && !isLiveMode()) {
-    await addVectorDescriptions(testDocuments, openAIClient);
-  }
-
   await client.uploadDocuments(testDocuments);
 
   let count = await client.getDocumentsCount();
@@ -495,35 +443,6 @@ export async function populateIndex(
   }
 
   await delay(WAIT_TIME);
-}
-
-async function addVectorDescriptions(
-  documents: Hotel[],
-  openAIClient: OpenAIClient
-): Promise<void> {
-  const deploymentName = process.env.OPENAI_DEPLOYMENT_NAME ?? "deployment-name";
-
-  const descriptionMap: Map<number, Hotel> = documents.reduce((map, document, i) => {
-    map.set(i, document);
-    return map;
-  }, new Map<number, Hotel>());
-
-  const descriptions = documents
-    .filter(({ description }) => description)
-    .map(({ description }) => description!);
-
-  // OpenAI only supports one description at a time at the moment
-  const embeddingsArray = await Promise.all(
-    descriptions.map((description) => openAIClient.getEmbeddings(deploymentName, [description]))
-  );
-
-  embeddingsArray.forEach((embeddings, i) =>
-    embeddings.data.forEach((embeddingItem) => {
-      const { embedding, index: j } = embeddingItem;
-      const document = descriptionMap.get(i + j)!;
-      document.vectorDescription = embedding;
-    })
-  );
 }
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters

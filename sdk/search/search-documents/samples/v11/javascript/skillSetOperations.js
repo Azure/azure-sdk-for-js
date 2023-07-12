@@ -7,8 +7,7 @@
 
 const { SearchIndexerClient, AzureKeyCredential } = require("@azure/search-documents");
 
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 const endpoint = process.env.ENDPOINT || "";
 const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";

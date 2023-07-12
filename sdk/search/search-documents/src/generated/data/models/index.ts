@@ -7,7 +7,6 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import * as coreHttpCompat from "@azure/core-http-compat";
 
 /** Describes an error condition for the Azure Cognitive Search API. */
 export interface SearchError {
@@ -46,25 +45,10 @@ export interface SearchDocumentsResult {
    */
   readonly facets?: { [propertyName: string]: FacetResult[] };
   /**
-   * The answers query results for the search operation; null if the answers query parameter was not specified or set to 'none'.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly answers?: AnswerResult[];
-  /**
    * Continuation JSON payload returned when Azure Cognitive Search can't return all the requested results in a single Search response. You can use this JSON along with @odata.nextLink to formulate another POST Search request to get the next part of the search response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextPageParameters?: SearchRequest;
-  /**
-   * Reason that a partial response was returned for a semantic search request.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly semanticPartialResponseReason?: SemanticPartialResponseReason;
-  /**
-   * Type of partial response that was returned for a semantic search request.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly semanticPartialResponseType?: SemanticPartialResponseType;
   /**
    * The sequence of results returned by the query.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -86,32 +70,6 @@ export interface FacetResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly count?: number;
-}
-
-/** An answer is a text passage extracted from the contents of the most relevant documents that matched the query. Answers are extracted from the top search results. Answer candidates are scored and the top answers are selected. */
-export interface AnswerResult {
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  /**
-   * The score value represents how relevant the answer is to the query relative to other answers returned for the query.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly score: number;
-  /**
-   * The key of the document the answer was extracted from.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly key: string;
-  /**
-   * The text passage extracted from the document contents as the answer.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly text: string;
-  /**
-   * Same text passage as in the Text property with highlighted text phrases most relevant to the query.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly highlights?: string;
 }
 
 /** Parameters for filtering, sorting, faceting, paging, and other search query behaviors. */
@@ -142,48 +100,18 @@ export interface SearchRequest {
   scoringParameters?: string[];
   /** The name of a scoring profile to evaluate match scores for matching documents in order to sort the results. */
   scoringProfile?: string;
-  /** The name of a semantic configuration that will be used when processing documents for queries of type semantic. */
-  semanticConfiguration?: string;
-  /** Allows the user to choose whether a semantic call should fail completely (default / current behavior), or to return partial results. */
-  semanticErrorHandling?: SemanticErrorHandling;
-  /** Allows the user to set an upper bound on the amount of time it takes for semantic enrichment to finish processing before the request fails. */
-  semanticMaxWaitInMilliseconds?: number;
-  /** Enables a debugging tool that can be used to further explore your Semantic search results. */
-  debug?: QueryDebugMode;
   /** A full-text search query expression; Use "*" or omit this parameter to match all documents. */
   searchText?: string;
   /** The comma-separated list of field names to which to scope the full-text search. When using fielded search (fieldName:searchExpression) in a full Lucene query, the field names of each fielded search expression take precedence over any field names listed in this parameter. */
   searchFields?: string;
   /** A value that specifies whether any or all of the search terms must be matched in order to count the document as a match. */
   searchMode?: SearchMode;
-  /** A value that specifies the language of the search query. */
-  queryLanguage?: QueryLanguage;
-  /** A value that specified the type of the speller to use to spell-correct individual search query terms. */
-  speller?: QuerySpellerType;
-  /** A value that specifies whether answers should be returned as part of the search response. */
-  answers?: QueryAnswerType;
   /** The comma-separated list of fields to retrieve. If unspecified, all fields marked as retrievable in the schema are included. */
   select?: string;
   /** The number of search results to skip. This value cannot be greater than 100,000. If you need to scan documents in sequence, but cannot use skip due to this limitation, consider using orderby on a totally-ordered key and filter with a range query instead. */
   skip?: number;
   /** The number of search results to retrieve. This can be used in conjunction with $skip to implement client-side paging of search results. If results are truncated due to server-side paging, the response will include a continuation token that can be used to issue another Search request for the next page of results. */
   top?: number;
-  /** A value that specifies whether captions should be returned as part of the search response. */
-  captions?: QueryCaptionType;
-  /** The comma-separated list of field names used for semantic search. */
-  semanticFields?: string;
-  /** The query parameters for multi-vector search queries. */
-  vectors?: Vector[];
-}
-
-/** The query parameters for vector and hybrid search queries. */
-export interface Vector {
-  /** The vector representation of a search query. */
-  value?: number[];
-  /** Number of nearest neighbors to return as top hits. */
-  kNearestNeighborsCount?: number;
-  /** Vector Fields of type Collection(Edm.Single) to be included in the vector searched. */
-  fields?: string;
 }
 
 /** Contains a document found by a search query, plus associated metadata. */
@@ -196,106 +124,10 @@ export interface SearchResult {
    */
   readonly _score: number;
   /**
-   * The relevance score computed by the semantic ranker for the top search results. Search results are sorted by the RerankerScore first and then by the Score. RerankerScore is only returned for queries of type 'semantic'.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly rerankerScore?: number;
-  /**
    * Text fragments from the document that indicate the matching search terms, organized by each applicable field; null if hit highlighting was not enabled for the query.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly _highlights?: { [propertyName: string]: string[] };
-  /**
-   * Captions are the most representative passages from the document relatively to the search query. They are often used as document summary. Captions are only returned for queries of type 'semantic'.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly captions?: CaptionResult[];
-  /**
-   * Contains debugging information that can be used to further explore your search results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly documentDebugInfo?: DocumentDebugInfo[];
-}
-
-/** Captions are the most representative passages from the document relatively to the search query. They are often used as document summary. Captions are only returned for queries of type 'semantic'.. */
-export interface CaptionResult {
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  /**
-   * A representative text passage extracted from the document most relevant to the search query.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly text?: string;
-  /**
-   * Same text passage as in the Text property with highlighted phrases most relevant to the query.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly highlights?: string;
-}
-
-/** Contains debugging information that can be used to further explore your search results. */
-export interface DocumentDebugInfo {
-  /**
-   * Contains debugging information specific to semantic search queries.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly semantic?: SemanticDebugInfo;
-}
-
-export interface SemanticDebugInfo {
-  /**
-   * The title field that was sent to the semantic enrichment process, as well as how it was used
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly titleField?: QueryResultDocumentSemanticField;
-  /**
-   * The content fields that were sent to the semantic enrichment process, as well as how they were used
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly contentFields?: QueryResultDocumentSemanticField[];
-  /**
-   * The keyword fields that were sent to the semantic enrichment process, as well as how they were used
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly keywordFields?: QueryResultDocumentSemanticField[];
-  /**
-   * The raw concatenated strings that were sent to the semantic enrichment process.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly rerankerInput?: QueryResultDocumentRerankerInput;
-}
-
-/** Description of fields that were sent to the semantic enrichment process, as well as how they were used */
-export interface QueryResultDocumentSemanticField {
-  /**
-   * The name of the field that was sent to the semantic enrichment process
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The way the field was used for the semantic enrichment process (fully used, partially used, or unused)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: SemanticFieldState;
-}
-
-/** The raw concatenated strings that were sent to the semantic enrichment process. */
-export interface QueryResultDocumentRerankerInput {
-  /**
-   * The raw string for the title field that was used for semantic enrichment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly title?: string;
-  /**
-   * The raw concatenated strings for the content fields that were used for semantic enrichment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly content?: string;
-  /**
-   * The raw concatenated strings for the keyword fields that were used for semantic enrichment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly keywords?: string;
 }
 
 /** Response containing suggestion query results from an index. */
@@ -472,22 +304,8 @@ export interface SearchOptions {
   scoringParameters?: string[];
   /** The name of a scoring profile to evaluate match scores for matching documents in order to sort the results. */
   scoringProfile?: string;
-  /** The name of the semantic configuration that lists which fields should be used for semantic ranking, captions, highlights, and answers */
-  semanticConfiguration?: string;
-  /** Allows the user to choose whether a semantic call should fail completely, or to return partial results. */
-  semanticErrorHandling?: SemanticErrorHandling;
-  /** Allows the user to set an upper bound on the amount of time it takes for semantic enrichment to finish processing before the request fails. */
-  semanticMaxWaitInMilliseconds?: number;
-  /** Enables a debugging tool that can be used to further explore your search results. */
-  debug?: QueryDebugMode;
   /** The list of field names to which to scope the full-text search. When using fielded search (fieldName:searchExpression) in a full Lucene query, the field names of each fielded search expression take precedence over any field names listed in this parameter. */
   searchFields?: string[];
-  /** The language of the query. */
-  queryLanguage?: QueryLanguage;
-  /** Improve search recall by spell-correcting individual search query terms. */
-  speller?: Speller;
-  /** This parameter is only valid if the query type is 'semantic'. If set, the query returns answers extracted from key passages in the highest ranked documents. The number of answers returned can be configured by appending the pipe character '|' followed by the 'count-<number of answers>' option after the answers parameter value, such as 'extractive|count-3'. Default count is 1. The confidence threshold can be configured by appending the pipe character '|' followed by the 'threshold-<confidence threshold>' option after the answers parameter value, such as 'extractive|threshold-0.9'. Default threshold is 0.7. */
-  answers?: Answers;
   /** A value that specifies whether any or all of the search terms must be matched in order to count the document as a match. */
   searchMode?: SearchMode;
   /** A value that specifies whether we want to calculate scoring statistics (such as document frequency) globally for more consistent scoring, or locally, for lower latency. */
@@ -500,10 +318,6 @@ export interface SearchOptions {
   skip?: number;
   /** The number of search results to retrieve. This can be used in conjunction with $skip to implement client-side paging of search results. If results are truncated due to server-side paging, the response will include a continuation token that can be used to issue another Search request for the next page of results. */
   top?: number;
-  /** This parameter is only valid if the query type is 'semantic'. If set, the query returns captions extracted from key passages in the highest ranked documents. When Captions is set to 'extractive', highlighting is enabled by default, and can be configured by appending the pipe character '|' followed by the 'highlight-<true/false>' option, such as 'extractive|highlight-true'. Defaults to 'None'. */
-  captions?: Captions;
-  /** The list of field names used for semantic search. */
-  semanticFields?: string[];
 }
 
 /** Parameter group */
@@ -548,454 +362,22 @@ export interface AutocompleteOptions {
   top?: number;
 }
 
-/** Known values of {@link ApiVersion20230701Preview} that the service accepts. */
-export enum KnownApiVersion20230701Preview {
-  /** Api Version '2023-07-01-Preview' */
-  TwoThousandTwentyThree0701Preview = "2023-07-01-Preview"
+/** Known values of {@link ApiVersion20200630} that the service accepts. */
+export const enum KnownApiVersion20200630 {
+  /** Api Version '2020-06-30' */
+  TwoThousandTwenty0630 = "2020-06-30"
 }
 
 /**
- * Defines values for ApiVersion20230701Preview. \
- * {@link KnownApiVersion20230701Preview} can be used interchangeably with ApiVersion20230701Preview,
+ * Defines values for ApiVersion20200630. \
+ * {@link KnownApiVersion20200630} can be used interchangeably with ApiVersion20200630,
  *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **2023-07-01-Preview**: Api Version '2023-07-01-Preview'
+ * ### Know values supported by the service
+ * **2020-06-30**: Api Version '2020-06-30'
  */
-export type ApiVersion20230701Preview = string;
-
-/** Known values of {@link SemanticErrorHandling} that the service accepts. */
-export enum KnownSemanticErrorHandling {
-  /** If the semantic processing fails, partial results still return. The definition of partial results depends on what semantic step failed and what was the reason for failure. */
-  Partial = "partial",
-  /** If there is an exception during the semantic processing step, the query will fail and return the appropriate HTTP code depending on the error. */
-  Fail = "fail"
-}
-
-/**
- * Defines values for SemanticErrorHandling. \
- * {@link KnownSemanticErrorHandling} can be used interchangeably with SemanticErrorHandling,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **partial**: If the semantic processing fails, partial results still return. The definition of partial results depends on what semantic step failed and what was the reason for failure. \
- * **fail**: If there is an exception during the semantic processing step, the query will fail and return the appropriate HTTP code depending on the error.
- */
-export type SemanticErrorHandling = string;
-
-/** Known values of {@link QueryDebugMode} that the service accepts. */
-export enum KnownQueryDebugMode {
-  /** No query debugging information will be returned. */
-  Disabled = "disabled",
-  /** Allows the user to further explore their Semantic search results. */
-  Semantic = "semantic"
-}
-
-/**
- * Defines values for QueryDebugMode. \
- * {@link KnownQueryDebugMode} can be used interchangeably with QueryDebugMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **disabled**: No query debugging information will be returned. \
- * **semantic**: Allows the user to further explore their Semantic search results.
- */
-export type QueryDebugMode = string;
-
-/** Known values of {@link QueryLanguage} that the service accepts. */
-export enum KnownQueryLanguage {
-  /** Query language not specified. */
-  None = "none",
-  /** Query language value for English (United States). */
-  EnUs = "en-us",
-  /** Query language value for English (Great Britain). */
-  EnGb = "en-gb",
-  /** Query language value for English (India). */
-  EnIn = "en-in",
-  /** Query language value for English (Canada). */
-  EnCa = "en-ca",
-  /** Query language value for English (Australia). */
-  EnAu = "en-au",
-  /** Query language value for French (France). */
-  FrFr = "fr-fr",
-  /** Query language value for French (Canada). */
-  FrCa = "fr-ca",
-  /** Query language value for German (Germany). */
-  DeDe = "de-de",
-  /** Query language value for Spanish (Spain). */
-  EsEs = "es-es",
-  /** Query language value for Spanish (Mexico). */
-  EsMx = "es-mx",
-  /** Query language value for Chinese (China). */
-  ZhCn = "zh-cn",
-  /** Query language value for Chinese (Taiwan). */
-  ZhTw = "zh-tw",
-  /** Query language value for Portuguese (Brazil). */
-  PtBr = "pt-br",
-  /** Query language value for Portuguese (Portugal). */
-  PtPt = "pt-pt",
-  /** Query language value for Italian (Italy). */
-  ItIt = "it-it",
-  /** Query language value for Japanese (Japan). */
-  JaJp = "ja-jp",
-  /** Query language value for Korean (Korea). */
-  KoKr = "ko-kr",
-  /** Query language value for Russian (Russia). */
-  RuRu = "ru-ru",
-  /** Query language value for Czech (Czech Republic). */
-  CsCz = "cs-cz",
-  /** Query language value for Dutch (Belgium). */
-  NlBe = "nl-be",
-  /** Query language value for Dutch (Netherlands). */
-  NlNl = "nl-nl",
-  /** Query language value for Hungarian (Hungary). */
-  HuHu = "hu-hu",
-  /** Query language value for Polish (Poland). */
-  PlPl = "pl-pl",
-  /** Query language value for Swedish (Sweden). */
-  SvSe = "sv-se",
-  /** Query language value for Turkish (Turkey). */
-  TrTr = "tr-tr",
-  /** Query language value for Hindi (India). */
-  HiIn = "hi-in",
-  /** Query language value for Arabic (Saudi Arabia). */
-  ArSa = "ar-sa",
-  /** Query language value for Arabic (Egypt). */
-  ArEg = "ar-eg",
-  /** Query language value for Arabic (Morocco). */
-  ArMa = "ar-ma",
-  /** Query language value for Arabic (Kuwait). */
-  ArKw = "ar-kw",
-  /** Query language value for Arabic (Jordan). */
-  ArJo = "ar-jo",
-  /** Query language value for Danish (Denmark). */
-  DaDk = "da-dk",
-  /** Query language value for Norwegian (Norway). */
-  NoNo = "no-no",
-  /** Query language value for Bulgarian (Bulgaria). */
-  BgBg = "bg-bg",
-  /** Query language value for Croatian (Croatia). */
-  HrHr = "hr-hr",
-  /** Query language value for Croatian (Bosnia and Herzegovina). */
-  HrBa = "hr-ba",
-  /** Query language value for Malay (Malaysia). */
-  MsMy = "ms-my",
-  /** Query language value for Malay (Brunei Darussalam). */
-  MsBn = "ms-bn",
-  /** Query language value for Slovenian (Slovenia). */
-  SlSl = "sl-sl",
-  /** Query language value for Tamil (India). */
-  TaIn = "ta-in",
-  /** Query language value for Vietnamese (Viet Nam). */
-  ViVn = "vi-vn",
-  /** Query language value for Greek (Greece). */
-  ElGr = "el-gr",
-  /** Query language value for Romanian (Romania). */
-  RoRo = "ro-ro",
-  /** Query language value for Icelandic (Iceland). */
-  IsIs = "is-is",
-  /** Query language value for Indonesian (Indonesia). */
-  IdId = "id-id",
-  /** Query language value for Thai (Thailand). */
-  ThTh = "th-th",
-  /** Query language value for Lithuanian (Lithuania). */
-  LtLt = "lt-lt",
-  /** Query language value for Ukrainian (Ukraine). */
-  UkUa = "uk-ua",
-  /** Query language value for Latvian (Latvia). */
-  LvLv = "lv-lv",
-  /** Query language value for Estonian (Estonia). */
-  EtEe = "et-ee",
-  /** Query language value for Catalan (Spain). */
-  CaEs = "ca-es",
-  /** Query language value for Finnish (Finland). */
-  FiFi = "fi-fi",
-  /** Query language value for Serbian (Bosnia and Herzegovina). */
-  SrBa = "sr-ba",
-  /** Query language value for Serbian (Montenegro). */
-  SrMe = "sr-me",
-  /** Query language value for Serbian (Serbia). */
-  SrRs = "sr-rs",
-  /** Query language value for Slovak (Slovakia). */
-  SkSk = "sk-sk",
-  /** Query language value for Norwegian (Norway). */
-  NbNo = "nb-no",
-  /** Query language value for Armenian (Armenia). */
-  HyAm = "hy-am",
-  /** Query language value for Bengali (India). */
-  BnIn = "bn-in",
-  /** Query language value for Basque (Spain). */
-  EuEs = "eu-es",
-  /** Query language value for Galician (Spain). */
-  GlEs = "gl-es",
-  /** Query language value for Gujarati (India). */
-  GuIn = "gu-in",
-  /** Query language value for Hebrew (Israel). */
-  HeIl = "he-il",
-  /** Query language value for Irish (Ireland). */
-  GaIe = "ga-ie",
-  /** Query language value for Kannada (India). */
-  KnIn = "kn-in",
-  /** Query language value for Malayalam (India). */
-  MlIn = "ml-in",
-  /** Query language value for Marathi (India). */
-  MrIn = "mr-in",
-  /** Query language value for Persian (U.A.E.). */
-  FaAe = "fa-ae",
-  /** Query language value for Punjabi (India). */
-  PaIn = "pa-in",
-  /** Query language value for Telugu (India). */
-  TeIn = "te-in",
-  /** Query language value for Urdu (Pakistan). */
-  UrPk = "ur-pk"
-}
-
-/**
- * Defines values for QueryLanguage. \
- * {@link KnownQueryLanguage} can be used interchangeably with QueryLanguage,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **none**: Query language not specified. \
- * **en-us**: Query language value for English (United States). \
- * **en-gb**: Query language value for English (Great Britain). \
- * **en-in**: Query language value for English (India). \
- * **en-ca**: Query language value for English (Canada). \
- * **en-au**: Query language value for English (Australia). \
- * **fr-fr**: Query language value for French (France). \
- * **fr-ca**: Query language value for French (Canada). \
- * **de-de**: Query language value for German (Germany). \
- * **es-es**: Query language value for Spanish (Spain). \
- * **es-mx**: Query language value for Spanish (Mexico). \
- * **zh-cn**: Query language value for Chinese (China). \
- * **zh-tw**: Query language value for Chinese (Taiwan). \
- * **pt-br**: Query language value for Portuguese (Brazil). \
- * **pt-pt**: Query language value for Portuguese (Portugal). \
- * **it-it**: Query language value for Italian (Italy). \
- * **ja-jp**: Query language value for Japanese (Japan). \
- * **ko-kr**: Query language value for Korean (Korea). \
- * **ru-ru**: Query language value for Russian (Russia). \
- * **cs-cz**: Query language value for Czech (Czech Republic). \
- * **nl-be**: Query language value for Dutch (Belgium). \
- * **nl-nl**: Query language value for Dutch (Netherlands). \
- * **hu-hu**: Query language value for Hungarian (Hungary). \
- * **pl-pl**: Query language value for Polish (Poland). \
- * **sv-se**: Query language value for Swedish (Sweden). \
- * **tr-tr**: Query language value for Turkish (Turkey). \
- * **hi-in**: Query language value for Hindi (India). \
- * **ar-sa**: Query language value for Arabic (Saudi Arabia). \
- * **ar-eg**: Query language value for Arabic (Egypt). \
- * **ar-ma**: Query language value for Arabic (Morocco). \
- * **ar-kw**: Query language value for Arabic (Kuwait). \
- * **ar-jo**: Query language value for Arabic (Jordan). \
- * **da-dk**: Query language value for Danish (Denmark). \
- * **no-no**: Query language value for Norwegian (Norway). \
- * **bg-bg**: Query language value for Bulgarian (Bulgaria). \
- * **hr-hr**: Query language value for Croatian (Croatia). \
- * **hr-ba**: Query language value for Croatian (Bosnia and Herzegovina). \
- * **ms-my**: Query language value for Malay (Malaysia). \
- * **ms-bn**: Query language value for Malay (Brunei Darussalam). \
- * **sl-sl**: Query language value for Slovenian (Slovenia). \
- * **ta-in**: Query language value for Tamil (India). \
- * **vi-vn**: Query language value for Vietnamese (Viet Nam). \
- * **el-gr**: Query language value for Greek (Greece). \
- * **ro-ro**: Query language value for Romanian (Romania). \
- * **is-is**: Query language value for Icelandic (Iceland). \
- * **id-id**: Query language value for Indonesian (Indonesia). \
- * **th-th**: Query language value for Thai (Thailand). \
- * **lt-lt**: Query language value for Lithuanian (Lithuania). \
- * **uk-ua**: Query language value for Ukrainian (Ukraine). \
- * **lv-lv**: Query language value for Latvian (Latvia). \
- * **et-ee**: Query language value for Estonian (Estonia). \
- * **ca-es**: Query language value for Catalan (Spain). \
- * **fi-fi**: Query language value for Finnish (Finland). \
- * **sr-ba**: Query language value for Serbian (Bosnia and Herzegovina). \
- * **sr-me**: Query language value for Serbian (Montenegro). \
- * **sr-rs**: Query language value for Serbian (Serbia). \
- * **sk-sk**: Query language value for Slovak (Slovakia). \
- * **nb-no**: Query language value for Norwegian (Norway). \
- * **hy-am**: Query language value for Armenian (Armenia). \
- * **bn-in**: Query language value for Bengali (India). \
- * **eu-es**: Query language value for Basque (Spain). \
- * **gl-es**: Query language value for Galician (Spain). \
- * **gu-in**: Query language value for Gujarati (India). \
- * **he-il**: Query language value for Hebrew (Israel). \
- * **ga-ie**: Query language value for Irish (Ireland). \
- * **kn-in**: Query language value for Kannada (India). \
- * **ml-in**: Query language value for Malayalam (India). \
- * **mr-in**: Query language value for Marathi (India). \
- * **fa-ae**: Query language value for Persian (U.A.E.). \
- * **pa-in**: Query language value for Punjabi (India). \
- * **te-in**: Query language value for Telugu (India). \
- * **ur-pk**: Query language value for Urdu (Pakistan).
- */
-export type QueryLanguage = string;
-
-/** Known values of {@link Speller} that the service accepts. */
-export enum KnownSpeller {
-  /** Speller not enabled. */
-  None = "none",
-  /** Speller corrects individual query terms using a static lexicon for the language specified by the queryLanguage parameter. */
-  Lexicon = "lexicon"
-}
-
-/**
- * Defines values for Speller. \
- * {@link KnownSpeller} can be used interchangeably with Speller,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **none**: Speller not enabled. \
- * **lexicon**: Speller corrects individual query terms using a static lexicon for the language specified by the queryLanguage parameter.
- */
-export type Speller = string;
-
-/** Known values of {@link Answers} that the service accepts. */
-export enum KnownAnswers {
-  /** Do not return answers for the query. */
-  None = "none",
-  /** Extracts answer candidates from the contents of the documents returned in response to a query expressed as a question in natural language. */
-  Extractive = "extractive"
-}
-
-/**
- * Defines values for Answers. \
- * {@link KnownAnswers} can be used interchangeably with Answers,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **none**: Do not return answers for the query. \
- * **extractive**: Extracts answer candidates from the contents of the documents returned in response to a query expressed as a question in natural language.
- */
-export type Answers = string;
-
-/** Known values of {@link Captions} that the service accepts. */
-export enum KnownCaptions {
-  /** Do not return captions for the query. */
-  None = "none",
-  /** Extracts captions from the matching documents that contain passages relevant to the search query. */
-  Extractive = "extractive"
-}
-
-/**
- * Defines values for Captions. \
- * {@link KnownCaptions} can be used interchangeably with Captions,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **none**: Do not return captions for the query. \
- * **extractive**: Extracts captions from the matching documents that contain passages relevant to the search query.
- */
-export type Captions = string;
-
-/** Known values of {@link QuerySpellerType} that the service accepts. */
-export enum KnownQuerySpellerType {
-  /** Speller not enabled. */
-  None = "none",
-  /** Speller corrects individual query terms using a static lexicon for the language specified by the queryLanguage parameter. */
-  Lexicon = "lexicon"
-}
-
-/**
- * Defines values for QuerySpellerType. \
- * {@link KnownQuerySpellerType} can be used interchangeably with QuerySpellerType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **none**: Speller not enabled. \
- * **lexicon**: Speller corrects individual query terms using a static lexicon for the language specified by the queryLanguage parameter.
- */
-export type QuerySpellerType = string;
-
-/** Known values of {@link QueryAnswerType} that the service accepts. */
-export enum KnownQueryAnswerType {
-  /** Do not return answers for the query. */
-  None = "none",
-  /** Extracts answer candidates from the contents of the documents returned in response to a query expressed as a question in natural language. */
-  Extractive = "extractive"
-}
-
-/**
- * Defines values for QueryAnswerType. \
- * {@link KnownQueryAnswerType} can be used interchangeably with QueryAnswerType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **none**: Do not return answers for the query. \
- * **extractive**: Extracts answer candidates from the contents of the documents returned in response to a query expressed as a question in natural language.
- */
-export type QueryAnswerType = string;
-
-/** Known values of {@link QueryCaptionType} that the service accepts. */
-export enum KnownQueryCaptionType {
-  /** Do not return captions for the query. */
-  None = "none",
-  /** Extracts captions from the matching documents that contain passages relevant to the search query. */
-  Extractive = "extractive"
-}
-
-/**
- * Defines values for QueryCaptionType. \
- * {@link KnownQueryCaptionType} can be used interchangeably with QueryCaptionType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **none**: Do not return captions for the query. \
- * **extractive**: Extracts captions from the matching documents that contain passages relevant to the search query.
- */
-export type QueryCaptionType = string;
-
-/** Known values of {@link SemanticPartialResponseReason} that the service accepts. */
-export enum KnownSemanticPartialResponseReason {
-  /** If 'semanticMaxWaitInMilliseconds' was set and the semantic processing duration exceeded that value. Only the base results were returned. */
-  MaxWaitExceeded = "maxWaitExceeded",
-  /** The request was throttled. Only the base results were returned. */
-  CapacityOverloaded = "capacityOverloaded",
-  /** At least one step of the semantic process failed. */
-  Transient = "transient"
-}
-
-/**
- * Defines values for SemanticPartialResponseReason. \
- * {@link KnownSemanticPartialResponseReason} can be used interchangeably with SemanticPartialResponseReason,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **maxWaitExceeded**: If 'semanticMaxWaitInMilliseconds' was set and the semantic processing duration exceeded that value. Only the base results were returned. \
- * **capacityOverloaded**: The request was throttled. Only the base results were returned. \
- * **transient**: At least one step of the semantic process failed.
- */
-export type SemanticPartialResponseReason = string;
-
-/** Known values of {@link SemanticPartialResponseType} that the service accepts. */
-export enum KnownSemanticPartialResponseType {
-  /** Results without any semantic enrichment or reranking. */
-  BaseResults = "baseResults",
-  /** Results have been reranked with the reranker model and will include semantic captions. They will not include any answers, answers highlights or caption highlights. */
-  RerankedResults = "rerankedResults"
-}
-
-/**
- * Defines values for SemanticPartialResponseType. \
- * {@link KnownSemanticPartialResponseType} can be used interchangeably with SemanticPartialResponseType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **baseResults**: Results without any semantic enrichment or reranking. \
- * **rerankedResults**: Results have been reranked with the reranker model and will include semantic captions. They will not include any answers, answers highlights or caption highlights.
- */
-export type SemanticPartialResponseType = string;
-
-/** Known values of {@link SemanticFieldState} that the service accepts. */
-export enum KnownSemanticFieldState {
-  /** The field was fully used for semantic enrichment. */
-  Used = "used",
-  /** The field was not used for semantic enrichment. */
-  Unused = "unused",
-  /** The field was partially used for semantic enrichment. */
-  Partial = "partial"
-}
-
-/**
- * Defines values for SemanticFieldState. \
- * {@link KnownSemanticFieldState} can be used interchangeably with SemanticFieldState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **used**: The field was fully used for semantic enrichment. \
- * **unused**: The field was not used for semantic enrichment. \
- * **partial**: The field was partially used for semantic enrichment.
- */
-export type SemanticFieldState = string;
+export type ApiVersion20200630 = string;
 /** Defines values for QueryType. */
-export type QueryType = "simple" | "full" | "semantic";
+export type QueryType = "simple" | "full";
 /** Defines values for SearchMode. */
 export type SearchMode = "any" | "all";
 /** Defines values for ScoringStatistics. */
@@ -1042,7 +424,10 @@ export interface DocumentsGetOptionalParams
 }
 
 /** Contains response data for the get operation. */
-export type DocumentsGetResponse = { [propertyName: string]: any };
+export type DocumentsGetResponse = {
+  /** The parsed response body. */
+  body: any;
+};
 
 /** Optional parameters. */
 export interface DocumentsSuggestGetOptionalParams
@@ -1087,7 +472,7 @@ export type DocumentsAutocompletePostResponse = AutocompleteResult;
 
 /** Optional parameters. */
 export interface SearchClientOptionalParams
-  extends coreHttpCompat.ExtendedServiceClientOptions {
+  extends coreClient.ServiceClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
 }

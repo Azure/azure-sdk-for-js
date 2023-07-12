@@ -14,8 +14,7 @@ const {
 } = require("@azure/search-documents");
 const { createIndex, documentKeyRetriever, WAIT_TIME, delay } = require("./setup");
 
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 /**
  * This sample is to demonstrate the use of SearchIndexingBufferedSender.
