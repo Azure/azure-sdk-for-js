@@ -142,7 +142,19 @@ export class OpenAIClient {
     return beginAzureBatchImageGeneration(this._client, prompt, options);
   }
 
-  public getImages = beginAzureBatchImageGeneration;
+  /**
+   * Starts the generation of a batch of images from a text caption 
+   * @param prompt - The prompt to use for this request.
+   * @param options - The options for this image request.
+   * @returns The image generation response (containing url or base64 data).
+   */
+  getImage(
+    prompt: string,
+    options: ImageGenerationOptions = { requestOptions: {} }
+  ): Promise<ImageGenerationResponse> {
+    return beginAzureBatchImageGeneration(this._client, prompt, options);
+  }
+
 
   /**
    * Returns textual completions as configured for a given prompt.

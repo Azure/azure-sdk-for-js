@@ -19,6 +19,8 @@ import { getChatCompletionsResult, getCompletionsResult } from "./api/operations
 import { getSSEs } from "./api/sse.js";
 import { ChatCompletions, Completions, Embeddings } from "../generated/api/models.js";
 import { _getChatCompletionsSend, _getCompletionsSend } from "../generated/api/operations.js";
+import { ImageGenerationOptions } from "./api/operations.js";
+import { ImageGenerationResponse } from "./api/models.js";
 
 function createOpenAIEndpoint(version: number): string {
   return `https://api.openai.com/v${version}`;
@@ -238,5 +240,16 @@ export class OpenAIClient {
     return getSSEs(response, getChatCompletionsResult);
   }
 
-  public getImages = beginAzureBatchImageGeneration;
+  /**
+   * Starts the generation of a batch of images from a text caption 
+   * @param prompt - The prompt to use for this request.
+   * @param options - The options for this image request.
+   * @returns The image generation response (containing url or base64 data).
+   */
+  getImage(
+    prompt: string,
+    options: ImageGenerationOptions = { requestOptions: {} }
+  ): Promise<ImageGenerationResponse> {
+    return beginAzureBatchImageGeneration(this._client, prompt, options);
+  }
 }
