@@ -21,10 +21,10 @@
   - Interface SecurityAdminConfiguration has a new optional parameter resourceGuid
   - Interface VirtualNetworkGateway has a new optional parameter adminState
   - Added Enum KnownAdminState
+  - Class NetworkManagementClient has a new signature
 
 **Breaking Changes**
 
-  - Class NetworkManagementClient has a new signature
   - Enum KnownApplicationGatewayCustomErrorStatusCode no longer has value HttpStatus499
     
     
