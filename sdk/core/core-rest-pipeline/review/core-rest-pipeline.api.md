@@ -210,7 +210,7 @@ export interface Pipeline {
 
 // @public
 export interface PipelineOptions {
-    commonTelemetryOptions?: CommonTelemetryOptions;
+    telemetryOptions?: TelemetryOptions;
     proxyOptions?: ProxySettings;
     redirectOptions?: RedirectPolicyOptions;
     retryOptions?: PipelineRetryOptions;
