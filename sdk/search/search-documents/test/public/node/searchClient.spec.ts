@@ -72,6 +72,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         skip: 0,
         top: 5,
         includeTotalCount: true,
+        select: ["address/streetAddress"],
       });
       assert.equal(searchResults.count, 6);
     });

@@ -19,7 +19,7 @@ export type CountDocumentsOptions = OperationOptions;
 /**
  * Options for retrieving completion text for a partial searchText.
  */
-export type AutocompleteOptions<TFields = string> = OperationOptions & AutocompleteRequest<TFields>;
+export type AutocompleteOptions<TFields> = OperationOptions & AutocompleteRequest<TFields>;
 /**
  * Options for committing a full search request.
  */
@@ -94,7 +94,7 @@ export interface GetDocumentOptions<TFields> extends OperationOptions {
    * List of field names to retrieve for the document; Any field not retrieved will be missing from
    * the returned document.
    */
-  selectedFields?: TFields[];
+  selectedFields?: TFields[] | string[];
 }
 
 /**
@@ -344,7 +344,7 @@ export interface SearchRequestOptions<TFields> {
    * fielded search (fieldName:searchExpression) in a full Lucene query, the field names of each
    * fielded search expression take precedence over any field names listed in this parameter.
    */
-  searchFields?: string[];
+  searchFields?: TFields[] | string[];
   /**
    * A value that specifies whether any or all of the search terms must be matched in order to
    * count the document as a match. Possible values include: 'any', 'all'
@@ -368,7 +368,7 @@ export interface SearchRequestOptions<TFields> {
    * The list of fields to retrieve. If unspecified, all fields marked as
    * retrievable in the schema are included.
    */
-  select?: TFields[];
+  select?: TFields[] | string[];
   /**
    * The number of search results to skip. This value cannot be greater than 100,000. If you need
    * to scan documents in sequence, but cannot use skip due to this limitation, consider using
@@ -398,7 +398,7 @@ export type SearchResult<TModel> = {
    * applicable field; null if hit highlighting was not enabled for the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly highlights?: Record<string, string[]>;
+  readonly highlights?: { [k in keyof TModel]?: string[] };
 
   document: TModel;
 };
@@ -502,12 +502,12 @@ export interface SuggestRequest<TFields> {
    * The comma-separated list of field names to search for the specified search text. Target fields
    * must be included in the specified suggester.
    */
-  searchFields?: string[];
+  searchFields?: TFields[] | string[];
   /**
    * The list of fields to retrieve. If unspecified, only the key field will be
    * included in the results.
    */
-  select?: TFields[];
+  select?: TFields[] | string[];
   /**
    * The number of suggestions to retrieve. This must be a value between 1 and 100. The default is
    * 5.
@@ -547,7 +547,7 @@ export interface SuggestDocumentsResult<TModel> {
 /**
  * Parameters for fuzzy matching, and other autocomplete query behaviors.
  */
-export interface AutocompleteRequest<TFields = string> {
+export interface AutocompleteRequest<TFields> {
   /**
    * Specifies the mode for Autocomplete. The default is 'oneTerm'. Use 'twoTerms' to get shingles
    * and 'oneTermWithContext' to use the current context while producing auto-completed terms.
@@ -588,7 +588,7 @@ export interface AutocompleteRequest<TFields = string> {
    * The comma-separated list of field names to consider when querying for auto-completed terms.
    * Target fields must be included in the specified suggester.
    */
-  searchFields?: TFields[];
+  searchFields?: TFields[] | string[];
   /**
    * The number of auto-completed terms to retrieve. This must be a value between 1 and 100. The
    * default is 5.
