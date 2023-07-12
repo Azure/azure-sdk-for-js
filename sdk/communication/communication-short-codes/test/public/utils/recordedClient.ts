@@ -14,6 +14,7 @@ import { Context } from "mocha";
 import { ShortCodesClient } from "../../../src";
 import { isNode } from "@azure/test-utils";
 import { parseConnectionString } from "@azure/communication-common";
+import { createMSUserAgentPolicy } from "./msUserAgentPolicy";
 
 if (isNode) {
   dotenv.config();
@@ -63,7 +64,14 @@ export async function createRecordedClient(
   return {
     client: new ShortCodesClient(
       assertEnvironmentVariable("COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"),
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({
+        additionalPolicies: [
+          {
+            policy: createMSUserAgentPolicy(),
+            position: "perCall",
+          },
+        ],
+      })
     ),
     recorder,
   };
