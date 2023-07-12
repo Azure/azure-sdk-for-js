@@ -1,0 +1,99 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/identities?api-version=2022-10-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "34",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-communication-identity/1.2.1 core-rest-pipeline/1.11.1 Node/v18.16.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "142b2fbe-80aa-4a19-a7a3-e5dfdeb5ff36",
+        "x-ms-content-sha256": "k4k9IoKBLYipoiXK3LctfBcfghISSb6AI45ji7ILZfg=",
+        "x-ms-date": "Wed, 12 Jul 2023 16:49:07 GMT"
+      },
+      "RequestBody": {
+        "createTokenWithScopes": [
+          "voip"
+        ]
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-10-31-preview, 2021-11-01, 2022-06-01, 2022-10-01, 2023-08-01",
+        "Content-Length": "219",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 12 Jul 2023 16:49:08 GMT",
+        "MS-CV": "f04uVUXWBkW\u002BVlx74oeV1g.0",
+        "Request-Context": "appId=",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0hdmuZAAAAACKGdagb0WRRLEWfVVD0D\u002BuWVZSMzExMDAwMTE1MDI5AGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
+        "X-Cache": "CONFIG_NOCACHE",
+        "x-ms-client-request-id": "142b2fbe-80aa-4a19-a7a3-e5dfdeb5ff36",
+        "X-Processing-Time": "23ms"
+      },
+      "ResponseBody": {
+        "identity": {
+          "id": "Sanitized"
+        },
+        "accessToken": {
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODkxODQxNDMuNTU1fQ==.adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs",
+          "expiresOn": "2023-07-13T16:49:09.542244\u002B00:00"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/rooms?api-version=2023-06-14",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "98",
+        "Content-Type": "application/json",
+        "Repeatability-First-Sent": "Wed, 12 Jul 2023 16:49:07 GMT",
+        "Repeatability-Request-ID": "ca859688-87c5-49a4-a961-1bd1c135c4b8",
+        "User-Agent": "azsdk-js-communication-rooms/1.0.0 core-rest-pipeline/1.11.1 Node/v18.16.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "9b44f187-7493-491d-9638-fb4d285dc4d5",
+        "x-ms-content-sha256": "Kk0c\u002BGXqkRr7WjXg/CrVG8KF3Lend81X7Ev5FQ24Qz0=",
+        "x-ms-date": "Wed, 12 Jul 2023 16:49:07 GMT"
+      },
+      "RequestBody": {
+        "validFrom": "2023-07-12T16:49:03.000Z",
+        "validUntil": "2024-01-28T16:54:03.000Z",
+        "participants": {}
+      },
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 12 Jul 2023 16:49:09 GMT",
+        "MS-CV": "eZQj9Fjofkq8BSmcCgh8EQ.0",
+        "Request-Context": "appId=",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0hdmuZAAAAACSezMTttjfTLPzvyIRp6MFWVZSMzExMDAwMTE1MDI5AGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
+        "X-Cache": "CONFIG_NOCACHE",
+        "x-ms-error-code": "BadRequest"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "BadRequest",
+          "message": "The request could not be understood by the server due to malformed syntax.",
+          "details": [
+            {
+              "code": "BadArgument",
+              "message": "The time range is incorrect, or larger than 180 days.",
+              "target": "ValidUntil"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "Variables": {
+    "validFrom": "Wed Jul 12 2023 09:49:03 GMT-0700 (Pacific Daylight Saving Time)",
+    "validUntil": "Sun Jan 28 2024 08:54:03 GMT-0800 (Pacific Standard Time)"
+  }
+}
