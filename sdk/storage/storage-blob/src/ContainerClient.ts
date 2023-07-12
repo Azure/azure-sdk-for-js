@@ -1419,6 +1419,7 @@ export class ContainerClient extends StorageClient {
           }),
           blobPrefixes: response.segment.blobPrefixes?.map((blobPrefixInternal) => {
             const blobPrefix: BlobPrefix = {
+              ...blobPrefixInternal,
               name: BlobNameToString(blobPrefixInternal.name),
             };
             return blobPrefix;

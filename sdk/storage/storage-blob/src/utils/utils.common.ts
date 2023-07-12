@@ -816,6 +816,7 @@ export function ConvertInternalResponseOfListBlobHierarchy(
     segment: {
       blobPrefixes: internalResponse.segment.blobPrefixes?.map((blobPrefixInternal) => {
         const blobPrefix: BlobPrefixModel = {
+          ...blobPrefixInternal,
           name: BlobNameToString(blobPrefixInternal.name),
         };
         return blobPrefix;
