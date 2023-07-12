@@ -5,11 +5,12 @@
 ### Features Added
 
 - APIs for querying and managing the usage of Pre-registered Alpha IDs
-- Fixed a pagination issue by adding a custom paging policy
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+- Fixed a pagination issue by adding a custom paging policy
 
 ### Other Changes
 
