@@ -23,8 +23,6 @@ import {
   getEmbeddings,
 } from "./api/operations.js";
 import {
-  BatchImageGenerationOperationResponse,
-  BeginAzureBatchImageGenerationOptions,
   ChatCompletions,
   ChatMessage,
   Completions,
@@ -33,6 +31,8 @@ import {
   GetChatCompletionsOptions,
   GetCompletionsOptions,
   GetEmbeddingsOptions,
+  ImageGenerationOptions,
+  ImageGenerationResponse,
   OpenAIClientOptions,
 } from "./index.js";
 import { OpenAIContext } from "./rest/clientDefinitions.js";
@@ -130,17 +130,19 @@ export class OpenAIClient {
     options: GetAzureBatchImageGenerationOperationStatusOptions = {
       requestOptions: {},
     }
-  ): Promise<BatchImageGenerationOperationResponse> {
+  ): Promise<ImageGenerationResponse> {
     return getAzureBatchImageGenerationOperationStatus(this._client, operationId, options);
   }
 
   /** Starts the generation of a batch of images from a text caption */
   beginAzureBatchImageGeneration(
     prompt: string,
-    options: BeginAzureBatchImageGenerationOptions = { requestOptions: {} }
-  ): Promise<BatchImageGenerationOperationResponse> {
+    options: ImageGenerationOptions = { requestOptions: {} }
+  ): Promise<ImageGenerationResponse> {
     return beginAzureBatchImageGeneration(this._client, prompt, options);
   }
+
+  public getImages = beginAzureBatchImageGeneration;
 
   /**
    * Returns textual completions as configured for a given prompt.

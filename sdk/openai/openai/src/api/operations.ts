@@ -220,6 +220,8 @@ export interface BeginAzureBatchImageGenerationOptions extends RequestOptions {
   /** A unique identifier representing your end-user, which can help to monitor and detect abuse. */
   user?: string;
 }
+ 
+export type ImageGenerationOptions = BeginAzureBatchImageGenerationOptions;
 
 export function _getEmbeddingsSend(
   context: Client,

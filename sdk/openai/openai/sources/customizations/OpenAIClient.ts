@@ -3,6 +3,7 @@
 
 import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
 import {
+  beginAzureBatchImageGeneration,
   ChatMessage,
   createOpenAI,
   OpenAIContext,
@@ -236,4 +237,6 @@ export class OpenAIClient {
     });
     return getSSEs(response, getChatCompletionsResult);
   }
+
+  public getImages = beginAzureBatchImageGeneration;
 }

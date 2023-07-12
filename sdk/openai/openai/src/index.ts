@@ -13,7 +13,6 @@ export { AzureKeyCredential } from "@azure/core-auth";
 export { OpenAIClient, OpenAIClientOptions } from "./OpenAIClient.js";
 export {
   AzureOpenAIOperationState,
-  BatchImageGenerationOperationResponse,
   ChatChoice,
   ChatCompletions,
   ChatMessage,
@@ -26,6 +25,7 @@ export {
   EmbeddingItem,
   Embeddings,
   EmbeddingsUsage,
+  ImageGenerationResponse,
   ImageGenerationResponseFormat,
   ImageGenerations,
   ImageLocation,
@@ -33,7 +33,7 @@ export {
   ImageSize,
 } from "./api/models.js";
 export {
-  BeginAzureBatchImageGenerationOptions,
+  ImageGenerationOptions,
   GetAzureBatchImageGenerationOperationStatusOptions,
   GetChatCompletionsOptions,
   GetCompletionsOptions,

@@ -190,6 +190,8 @@ export interface BatchImageGenerationOperationResponse {
   error?: ErrorModel;
 }
 
+export type ImageGenerationResponse = BatchImageGenerationOperationResponse;
+
 /** The result of the operation if the operation succeeded. */
 export interface ImageGenerations {
   /** A timestamp when this job or item was created (in unix epochs). */
