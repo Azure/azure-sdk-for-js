@@ -3,12 +3,12 @@
 
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createRecordedRoomsClient, createTestUser } from "./utils/recordedClient";
-import { assert, expect} from "chai";
+import { assert, expect } from "chai";
 import { Context } from "mocha";
 import sinon from "sinon";
 import { RoomsClient } from "../../src/roomsClient";
 import { CommunicationUserIdentifier } from "@azure/communication-common";
-import { CreateRoomOptions, UpdateRoomOptions} from "../../src/models/options";
+import { CreateRoomOptions, UpdateRoomOptions } from "../../src/models/options";
 import { CommunicationRoom, RoomParticipantPatch } from "../../src/models/models";
 
 describe("RoomsClient", function () {
@@ -18,7 +18,7 @@ describe("RoomsClient", function () {
   const validUntil = new Date(validFrom.getTime() + 5 * 60 * 1000);
   const over180DaysValidUntil = new Date(validUntil.getTime() + 288000 * 60 * 1000); // 200 days from validUntil
   const expiredValidUntil = new Date(validFrom.getTime() - 5 * 60 * 1000); // 5 days from validFrom
-  
+
   describe("Room Operations", function () {
     let testUser1: CommunicationUserIdentifier;
     let testUser2: CommunicationUserIdentifier;
@@ -47,7 +47,6 @@ describe("RoomsClient", function () {
       roomId = createRoomResult?.id;
     });
 
-    
     it("successfully creates a room with only participants attributes", async function () {
       testUser1 = (await createTestUser(recorder)).user;
       testUser2 = (await createTestUser(recorder)).user;
@@ -90,14 +89,11 @@ describe("RoomsClient", function () {
         ],
       };
 
-      try
-      {
+      try {
         await client.createRoom(options);
-      } catch (e: any)
-      {
+      } catch (e: any) {
         expect(e.message).to.eq("Invalid format for communication identifier.");
       }
-    
     });
 
     it("successfully creates a room with only valid time range attributes", async function () {
@@ -105,7 +101,7 @@ describe("RoomsClient", function () {
 
       const options: CreateRoomOptions = {
         validFrom: new Date(recorder.variable("validFrom", validFrom.toString())),
-        validUntil: new Date(recorder.variable("validUntil", validUntil.toString()))
+        validUntil: new Date(recorder.variable("validUntil", validUntil.toString())),
       };
 
       const createRoomResult = await client.createRoom(options);
@@ -121,15 +117,15 @@ describe("RoomsClient", function () {
 
       const options: CreateRoomOptions = {
         validFrom: new Date(recorder.variable("validFrom", validFrom.toString())),
-        validUntil: new Date(recorder.variable("validUntil", expiredValidUntil.toString()))
+        validUntil: new Date(recorder.variable("validUntil", expiredValidUntil.toString())),
       };
 
-      try
-      {
+      try {
         await client.createRoom(options);
-      } catch (e: any)
-      {
-        expect(e.message).to.eq("The request could not be understood by the server due to malformed syntax.");
+      } catch (e: any) {
+        expect(e.message).to.eq(
+          "The request could not be understood by the server due to malformed syntax."
+        );
       }
     });
 
@@ -138,15 +134,15 @@ describe("RoomsClient", function () {
 
       const options: CreateRoomOptions = {
         validFrom: new Date(recorder.variable("validFrom", validFrom.toString())),
-        validUntil: new Date(recorder.variable("validUntil", over180DaysValidUntil.toString()))
+        validUntil: new Date(recorder.variable("validUntil", over180DaysValidUntil.toString())),
       };
 
-      try
-      {
+      try {
         await client.createRoom(options);
-      } catch (e: any)
-      {
-        expect(e.message).to.eq("The request could not be understood by the server due to malformed syntax.");
+      } catch (e: any) {
+        expect(e.message).to.eq(
+          "The request could not be understood by the server due to malformed syntax."
+        );
       }
     });
 
@@ -180,7 +176,7 @@ describe("RoomsClient", function () {
 
     it("successfully gets an invalid room", async function () {
       try {
-          await client.getRoom("non-existingroomId");
+        await client.getRoom("non-existingroomId");
       } catch (e: any) {
         expect(e.message).to.eq("Invalid room ID.");
       }
@@ -225,25 +221,17 @@ describe("RoomsClient", function () {
 
       const options: UpdateRoomOptions = {
         validFrom: new Date(
-          recorder.variable(
-            "validFrom",
-            new Date(validFrom.getTime() + 5 * 60 * 1000).toString()
-          )
+          recorder.variable("validFrom", new Date(validFrom.getTime() + 5 * 60 * 1000).toString())
         ),
-        validUntil: new Date(
-          recorder.variable(
-            "validUntil",
-            over180DaysValidUntil.toString()
-          )
-        ),
+        validUntil: new Date(recorder.variable("validUntil", over180DaysValidUntil.toString())),
       };
 
-      try
-      {
+      try {
         await client.createRoom(options);
-      } catch (e: any)
-      {
-        expect(e.message).to.eq("The request could not be understood by the server due to malformed syntax.");
+      } catch (e: any) {
+        expect(e.message).to.eq(
+          "The request could not be understood by the server due to malformed syntax."
+        );
       }
     });
 
@@ -263,28 +251,20 @@ describe("RoomsClient", function () {
 
       const options: UpdateRoomOptions = {
         validFrom: new Date(
-          recorder.variable(
-            "validFrom",
-            new Date(validFrom.getTime() + 5 * 60 * 1000).toString()
-          )
+          recorder.variable("validFrom", new Date(validFrom.getTime() + 5 * 60 * 1000).toString())
         ),
-        validUntil: new Date(
-          recorder.variable(
-            "validUntil",
-            expiredValidUntil.toString()
-          )
-        ),
+        validUntil: new Date(recorder.variable("validUntil", expiredValidUntil.toString())),
       };
 
-      try
-      {
+      try {
         await client.createRoom(options);
-      } catch (e: any)
-      {
-        expect(e.message).to.eq("The request could not be understood by the server due to malformed syntax.");
+      } catch (e: any) {
+        expect(e.message).to.eq(
+          "The request could not be understood by the server due to malformed syntax."
+        );
       }
     });
-      
+
     it("successfully updates a room with an empty option", async function () {
       testUser1 = (await createTestUser(recorder)).user;
       const createRoom = await client.createRoom({
@@ -301,12 +281,12 @@ describe("RoomsClient", function () {
 
       const options: UpdateRoomOptions = {};
 
-      try
-      {
+      try {
         await client.createRoom(options);
-      } catch (e: any)
-      {
-        expect(e.message).to.eq("The request could not be understood by the server due to malformed syntax.");
+      } catch (e: any) {
+        expect(e.message).to.eq(
+          "The request could not be understood by the server due to malformed syntax."
+        );
       }
     });
 
@@ -330,11 +310,9 @@ describe("RoomsClient", function () {
         ),
       };
 
-      try
-      {
+      try {
         await client.updateRoom("non-existingroomId", options);
-      } catch (e: any)
-      {
+      } catch (e: any) {
         expect(e.message).to.eq("Invalid room ID.");
       }
     });
@@ -356,7 +334,7 @@ describe("RoomsClient", function () {
       roomId = createRoom.id;
 
       const getRoom = await client.getRoom(roomId);
-      verifyRoomsAttributes(getRoom,  {});
+      verifyRoomsAttributes(getRoom, {});
       await client.deleteRoom(roomId);
       roomId = "";
     });
@@ -434,10 +412,8 @@ describe("Participants Operations", function () {
 
     roomId = curRoomId;
   });
-    
+
   it("successfully adds participants to the room with null role", async function () {
-    const testUser1 = (await createTestUser(recorder)).user;
-    const testUser2 = (await createTestUser(recorder)).user;
     const participants = [
       {
         id: testUser1,
@@ -446,14 +422,14 @@ describe("Participants Operations", function () {
       {
         id: testUser2,
         role: null,
-      }
+      },
     ];
 
     // Create a room
     const createRoomResult = await client.createRoom({});
     assert.isDefined(createRoomResult);
     const curRoomId = createRoomResult.id;
-    
+
     await pause(delayInMs);
     // Patch Participants
     await client.addOrUpdateParticipants(curRoomId, participants as any);
@@ -468,20 +444,20 @@ describe("Participants Operations", function () {
   it("successfully updates a participant with role not specified", async function () {
     const participants = [
       {
-        id: testUser1
+        id: testUser1,
       },
       {
-        id: testUser2
-      }
+        id: testUser2,
+      },
     ];
 
     // Create a room
     const createRoomResult = await client.createRoom({});
     assert.isDefined(createRoomResult);
     const curRoomId = createRoomResult.id;
-    
+
     await pause(delayInMs);
-    
+
     // Patch Participants
     await client.addOrUpdateParticipants(curRoomId, participants);
     await pause(delayInMs);
@@ -497,20 +473,20 @@ describe("Participants Operations", function () {
     const createRoomResult = await client.createRoom({});
     assert.isDefined(createRoomResult);
     const curRoomId = createRoomResult.id;
-    
+
     await pause(delayInMs);
     // Remove participants
     const participantIdentifiers = [testUser1, testUser2];
     await client.removeParticipants(curRoomId, participantIdentifiers);
-    
+
     await pause(delayInMs);
 
     const participants = await client.listParticipants(curRoomId);
     verifyRoomsParticipantsAttributes(participants, 0, 0, 0, 0);
 
-    roomId = curRoomId
+    roomId = curRoomId;
   });
-  
+
   it("successfully removes participants in the room", async function () {
     // Create a room
     const options: CreateRoomOptions = {
@@ -529,7 +505,7 @@ describe("Participants Operations", function () {
     const createRoomResult = await client.createRoom(options);
     assert.isDefined(createRoomResult);
     const curRoomId = createRoomResult.id;
-    
+
     await pause(delayInMs);
 
     // Remove participants
@@ -540,7 +516,7 @@ describe("Participants Operations", function () {
     const participants = await client.listParticipants(curRoomId);
     verifyRoomsParticipantsAttributes(participants, 0, 0, 0, 0);
 
-    roomId = curRoomId
+    roomId = curRoomId;
   });
 });
 
@@ -550,60 +526,59 @@ async function pause(time: number): Promise<void> {
   }
 }
 
-function verifyRoomsAttributes(actualRoom: CommunicationRoom, expectedValue:  CreateRoomOptions) : void
-{
-    // Assert
-    assert.isDefined(actualRoom);
-    assert.isDefined(actualRoom.id);
-    assert.isDefined(actualRoom.createdOn);
+function verifyRoomsAttributes(
+  actualRoom: CommunicationRoom,
+  expectedValue: CreateRoomOptions
+): void {
+  // Assert
+  assert.isDefined(actualRoom);
+  assert.isDefined(actualRoom.id);
+  assert.isDefined(actualRoom.createdOn);
 
-    if (expectedValue.validFrom != null)
-    {
-      assert.deepEqual(actualRoom.validFrom, expectedValue.validFrom);
-    }
+  if (expectedValue.validFrom != null) {
+    assert.deepEqual(actualRoom.validFrom, expectedValue.validFrom);
+  }
 
-    if (expectedValue.validUntil != null)
-    {
-      assert.deepEqual(actualRoom.validUntil, expectedValue.validUntil);
-    }
+  if (expectedValue.validUntil != null) {
+    assert.deepEqual(actualRoom.validUntil, expectedValue.validUntil);
+  }
 }
 
-async function verifyRoomsParticipantsAttributes(actualRoomParticipant: any, expectedCount:  number, expectPresenter: number,expectAttendee: number,expectConsumer: number) : Promise<void>
-{
-    // Assert
-    assert.isDefined(actualRoomParticipant);
-    assert.isNotEmpty(actualRoomParticipant);
+async function verifyRoomsParticipantsAttributes(
+  actualRoomParticipant: any,
+  expectedCount: number,
+  expectPresenter: number,
+  expectAttendee: number,
+  expectConsumer: number
+): Promise<void> {
+  // Assert
+  assert.isDefined(actualRoomParticipant);
+  assert.isNotEmpty(actualRoomParticipant);
 
-    let count = 0;
-    let presenterCount = 0;
-    let attendeeCount = 0;
-    let consumerCount = 0;
+  let count = 0;
+  let presenterCount = 0;
+  let attendeeCount = 0;
+  let consumerCount = 0;
 
-    for await (const participant of actualRoomParticipant) {
-        count++;
+  for await (const participant of actualRoomParticipant) {
+    count++;
 
-        if (participant.role == "Presenter")
-        {
-          presenterCount++;
-        }
-        else if (participant.role == "Attendee")
-        {
-          attendeeCount++;
-        }
-        else if (participant.role == "Consumer")
-        {
-          consumerCount++;
-        }
-       
-        // rawId is sanitized so skip this check in playback mode
-        if (!isPlaybackMode()) 
-        {
-          assert.equal(participant.id.kind, "communicationUser")
-        }
+    if (participant.role === "Presenter") {
+      presenterCount++;
+    } else if (participant.role === "Attendee") {
+      attendeeCount++;
+    } else if (participant.role === "Consumer") {
+      consumerCount++;
     }
 
-    assert.equal(count, expectedCount);
-    assert.equal(presenterCount, expectPresenter);
-    assert.equal(attendeeCount, expectAttendee);
-    assert.equal(consumerCount, expectConsumer);
+    // rawId is sanitized so skip this check in playback mode
+    if (!isPlaybackMode()) {
+      assert.equal(participant.id.kind, "communicationUser");
+    }
+  }
+
+  assert.equal(count, expectedCount);
+  assert.equal(presenterCount, expectPresenter);
+  assert.equal(attendeeCount, expectAttendee);
+  assert.equal(consumerCount, expectConsumer);
 }
