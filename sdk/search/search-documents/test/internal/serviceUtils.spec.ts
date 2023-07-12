@@ -21,7 +21,6 @@ describe("serviceUtils", function () {
         retrievable: false,
         analyzer: KnownLexicalAnalyzerName.ArMicrosoft,
         indexAnalyzer: KnownLexicalAnalyzerName.ArLucene,
-        normalizer: KnownLexicalAnalyzerName.BgLucene,
         searchAnalyzer: KnownLexicalAnalyzerName.CaLucene,
         synonymMaps: undefined,
       },
@@ -38,7 +37,6 @@ describe("serviceUtils", function () {
       hidden: true,
       analyzerName: KnownLexicalAnalyzerName.ArMicrosoft,
       indexAnalyzerName: KnownLexicalAnalyzerName.ArLucene,
-      normalizerName: KnownLexicalAnalyzerName.BgLucene,
       searchAnalyzerName: KnownLexicalAnalyzerName.CaLucene,
       synonymMapNames: undefined,
     });
@@ -61,7 +59,6 @@ describe("serviceUtils", function () {
             retrievable: false,
             analyzer: KnownLexicalAnalyzerName.ArMicrosoft,
             indexAnalyzer: KnownLexicalAnalyzerName.ArLucene,
-            normalizer: KnownLexicalAnalyzerName.BgLucene,
             searchAnalyzer: KnownLexicalAnalyzerName.CaLucene,
             synonymMaps: undefined,
           },
@@ -85,7 +82,6 @@ describe("serviceUtils", function () {
       hidden: true,
       analyzerName: KnownLexicalAnalyzerName.ArMicrosoft,
       indexAnalyzerName: KnownLexicalAnalyzerName.ArLucene,
-      normalizerName: KnownLexicalAnalyzerName.BgLucene,
       searchAnalyzerName: KnownLexicalAnalyzerName.CaLucene,
       synonymMapNames: undefined,
     });
@@ -104,7 +100,6 @@ describe("serviceUtils", function () {
         hidden: true,
         analyzerName: KnownLexicalAnalyzerName.ArMicrosoft,
         indexAnalyzerName: KnownLexicalAnalyzerName.ArLucene,
-        normalizerName: KnownLexicalAnalyzerName.BgLucene,
         searchAnalyzerName: KnownLexicalAnalyzerName.CaLucene,
         synonymMapNames: undefined,
       },
@@ -121,7 +116,6 @@ describe("serviceUtils", function () {
       retrievable: false,
       analyzer: KnownLexicalAnalyzerName.ArMicrosoft,
       indexAnalyzer: KnownLexicalAnalyzerName.ArLucene,
-      normalizer: KnownLexicalAnalyzerName.BgLucene,
       searchAnalyzer: KnownLexicalAnalyzerName.CaLucene,
       synonymMaps: undefined,
     });
@@ -144,7 +138,6 @@ describe("serviceUtils", function () {
             hidden: true,
             analyzerName: KnownLexicalAnalyzerName.ArMicrosoft,
             indexAnalyzerName: KnownLexicalAnalyzerName.ArLucene,
-            normalizerName: KnownLexicalAnalyzerName.BgLucene,
             searchAnalyzerName: KnownLexicalAnalyzerName.CaLucene,
             synonymMapNames: undefined,
           },
@@ -168,7 +161,6 @@ describe("serviceUtils", function () {
       retrievable: false,
       analyzer: KnownLexicalAnalyzerName.ArMicrosoft,
       indexAnalyzer: KnownLexicalAnalyzerName.ArLucene,
-      normalizer: KnownLexicalAnalyzerName.BgLucene,
       searchAnalyzer: KnownLexicalAnalyzerName.CaLucene,
       synonymMaps: undefined,
     });

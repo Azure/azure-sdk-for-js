@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import * as dotenv from "dotenv";
+
 import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder";
 
 import {
@@ -9,23 +11,28 @@ import {
   SearchIndexClient,
   SearchIndexerClient,
 } from "../../../src";
-import { OpenAIClient } from "@azure/openai";
 
-export interface Clients<IndexModel extends object> {
+const isNode =
+  typeof process !== "undefined" &&
+  !!process.version &&
+  !!process.versions &&
+  !!process.versions.node;
+
+if (isNode) {
+  dotenv.config();
+}
+
+export interface Clients<IndexModel> {
   searchClient: SearchClient<IndexModel>;
   indexClient: SearchIndexClient;
   indexerClient: SearchIndexerClient;
   indexName: string;
-  openAIClient: OpenAIClient;
 }
 
 const envSetupForPlayback: { [k: string]: string } = {
   SEARCH_API_ADMIN_KEY: "admin_key",
   SEARCH_API_ADMIN_KEY_ALT: "admin_key_alt",
   ENDPOINT: "https://endpoint",
-  OPENAI_DEPLOYMENT_NAME: "deployment-name",
-  OPENAI_ENDPOINT: "https://openai.endpoint",
-  OPENAI_KEY: "openai-key",
 };
 
 export const testEnv = new Proxy(envSetupForPlayback, {
@@ -34,32 +41,25 @@ export const testEnv = new Proxy(envSetupForPlayback, {
   },
 });
 
-const generalSanitizers = [];
+const serviceName = process.env.ENDPOINT?.match(/https?:\/\/(.*).search.windows.net/)?.[1];
 
-if (env.ENDPOINT) {
-  generalSanitizers.push({
-    regex: false,
-    value: "subdomain",
-    target: env.ENDPOINT.match(/:\/\/(.*).search.windows.net/)![1],
-  });
-}
-
-if (env.OPENAI_ENDPOINT) {
-  generalSanitizers.push({
-    regex: false,
-    value: "subdomain",
-    target: env.OPENAI_ENDPOINT.match(/:\/\/(.*).openai.azure.com/)![1],
-  });
-}
+const sanitizerOptions = serviceName
+  ? {
+      bodySanitizers: [
+        {
+          target: serviceName, // extract subdomain
+          value: "service-name",
+        },
+      ],
+    }
+  : undefined;
 
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
-  sanitizerOptions: {
-    generalSanitizers,
-  },
+  sanitizerOptions,
 };
 
-export async function createClients<IndexModel extends object>(
+export async function createClients<IndexModel>(
   serviceVersion: string,
   recorder: Recorder,
   indexName: string
@@ -67,10 +67,8 @@ export async function createClients<IndexModel extends object>(
   await recorder.start(recorderOptions);
 
   indexName = recorder.variable("TEST_INDEX_NAME", indexName);
-  const endPoint: string = env.ENDPOINT ?? "https://endpoint";
+  const endPoint: string = process.env.ENDPOINT ?? "https://endpoint";
   const credential = new AzureKeyCredential(testEnv.SEARCH_API_ADMIN_KEY);
-  const openAIEndpoint = env.OPENAI_ENDPOINT ?? "https://openai.endpoint";
-  const openAIKey = new AzureKeyCredential(env.OPENAI_KEY ?? "openai-key");
   const searchClient = new SearchClient<IndexModel>(
     endPoint,
     indexName,
@@ -93,17 +91,11 @@ export async function createClients<IndexModel extends object>(
       serviceVersion,
     })
   );
-  const openAIClient = new OpenAIClient(
-    openAIEndpoint,
-    openAIKey,
-    recorder.configureClientOptions({})
-  );
 
   return {
     searchClient,
     indexClient,
     indexerClient,
     indexName,
-    openAIClient,
   };
 }
