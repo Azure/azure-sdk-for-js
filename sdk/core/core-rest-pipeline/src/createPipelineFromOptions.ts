@@ -48,13 +48,13 @@ export interface PipelineOptions {
   /**
    * Options for setting common telemetry and tracing info to outgoing requests.
    */
-  commonTelemetryOptions?: CommonTelemetryOptions;
+  telemetryOptions?: TelemetryOptions;
 }
 
 /**
  * Defines options that are used to configure common telemetry and tracing info
  */
-export interface CommonTelemetryOptions {
+export interface TelemetryOptions {
   /**
    * The name of the header to pass the request ID to.
    */
@@ -90,7 +90,7 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
   pipeline.addPolicy(formDataPolicy());
   pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
   pipeline.addPolicy(
-    setClientRequestIdPolicy(options.commonTelemetryOptions?.clientRequestIdHeaderName)
+    setClientRequestIdPolicy(options.telemetryOptions?.clientRequestIdHeaderName)
   );
   pipeline.addPolicy(defaultRetryPolicy(options.retryOptions), { phase: "Retry" });
   pipeline.addPolicy(tracingPolicy(options.userAgentOptions), { afterPhase: "Retry" });

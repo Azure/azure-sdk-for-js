@@ -82,11 +82,6 @@ export interface ChallengeCallbacks {
 }
 
 // @public
-export interface CommonTelemetryOptions {
-    clientRequestIdHeaderName?: string;
-}
-
-// @public
 export function createDefaultHttpClient(): HttpClient;
 
 // @public
@@ -210,10 +205,10 @@ export interface Pipeline {
 
 // @public
 export interface PipelineOptions {
-    telemetryOptions?: TelemetryOptions;
     proxyOptions?: ProxySettings;
     redirectOptions?: RedirectPolicyOptions;
     retryOptions?: PipelineRetryOptions;
+    telemetryOptions?: TelemetryOptions;
     tlsOptions?: TlsSettings;
     userAgentOptions?: UserAgentPolicyOptions;
 }
@@ -404,6 +399,11 @@ export interface SystemErrorRetryPolicyOptions {
     maxRetries?: number;
     maxRetryDelayInMs?: number;
     retryDelayInMs?: number;
+}
+
+// @public
+export interface TelemetryOptions {
+    clientRequestIdHeaderName?: string;
 }
 
 // @public

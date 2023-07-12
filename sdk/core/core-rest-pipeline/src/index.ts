@@ -30,7 +30,7 @@ export {
 } from "./pipeline";
 export {
   createPipelineFromOptions,
-  CommonTelemetryOptions,
+  TelemetryOptions,
   InternalPipelineOptions,
   PipelineOptions,
 } from "./createPipelineFromOptions";
