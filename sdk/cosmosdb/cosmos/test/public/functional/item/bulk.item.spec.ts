@@ -31,7 +31,7 @@ describe("test bulk operations", async function () {
           paths: ["/key"],
           version: undefined,
         },
-        throughput: 400,
+        throughput: 1000,
       });
     });
     after(async () => {
