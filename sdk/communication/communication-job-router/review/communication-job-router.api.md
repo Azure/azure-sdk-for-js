@@ -128,6 +128,8 @@ export interface CreateJobOptions extends JobRouterUpsertJobOptionalParams {
     classificationPolicyId?: string;
     dispositionCode?: string;
     labels?: JSONObject;
+    // Warning: (ae-forgotten-export) The symbol "JobMatchingMode" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
     matchingMode?: JobMatchingMode;
     notes?: RouterJobNote[];
@@ -275,20 +277,6 @@ export interface FunctionRouterRuleCredential {
     appKey?: string;
     clientId?: string;
     functionKey?: string;
-}
-
-// @public (undocumented)
-export interface JobMatchingMode {
-    // Warning: (ae-forgotten-export) The symbol "JobMatchModeType" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    modeType?: JobMatchModeType;
-    queueAndMatchMode?: any;
-    // Warning: (ae-forgotten-export) The symbol "ScheduleAndSuspendMode" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    scheduleAndSuspendMode?: ScheduleAndSuspendMode;
-    suspendMode?: any;
 }
 
 // @public
@@ -545,6 +533,10 @@ export interface PassThroughWorkerSelectorAttachment extends WorkerSelectorAttac
     labelOperator: LabelOperator_2;
 }
 
+// @public (undocumented)
+export interface QueueAndMatchMode {
+}
+
 // @public
 export interface QueueLengthExceptionTrigger extends ExceptionTrigger {
     kind: "queue-length";
@@ -601,6 +593,14 @@ export interface RouterJobAssignment {
 export interface RouterJobItem {
     etag?: string;
     job?: RouterJob_2;
+}
+
+// @public (undocumented)
+export interface RouterJobMatchingMode extends JobMatchingMode {
+    // (undocumented)
+    queueAndMatchMode?: QueueAndMatchMode;
+    // (undocumented)
+    suspendMode?: SuspendMode;
 }
 
 // @public
@@ -815,6 +815,10 @@ export interface StaticRouterRule extends Omit<StaticRouterRule_2, "value"> {
 export interface StaticWorkerSelectorAttachment extends WorkerSelectorAttachment {
     kind: "static";
     workerSelector: RouterWorkerSelector_2;
+}
+
+// @public (undocumented)
+export interface SuspendMode {
 }
 
 // Warning: (ae-forgotten-export) The symbol "JobRouterUnassignJobActionOptionalParams" needs to be exported by the entry point index.d.ts

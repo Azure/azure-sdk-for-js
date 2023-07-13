@@ -10,6 +10,7 @@ import {
   StaticRouterRule as StaticRouterRuleGenerated,
   ReclassifyExceptionAction as ReclassifyExceptionActionGenerated,
   JobRouterReclassifyJobActionOptionalParams as JobRouterReclassifyJobActionOptionalParamsGenerated,
+  JobMatchingMode,
 } from "../generated/src/models";
 
 /**  Safer types to use instead of 'any'. */
@@ -17,7 +18,7 @@ export type JSONValue = boolean | number | string | null | JSONArray | JSONObjec
 export interface JSONObject {
   [key: string]: JSONValue;
 }
-export interface JSONArray extends ArrayLike<JSONValue> {}
+export interface JSONArray extends ArrayLike<JSONValue> { }
 
 /** A unit of work to be routed */
 export interface RouterJob extends Omit<RouterJobGenerated, "labels" | "tags"> {
@@ -25,6 +26,13 @@ export interface RouterJob extends Omit<RouterJobGenerated, "labels" | "tags"> {
   labels?: JSONObject;
   /** A set of non-identifying attributes attached to this job */
   tags?: JSONObject;
+}
+
+export interface QueueAndMatchMode { }
+export interface SuspendMode { }
+export interface RouterJobMatchingMode extends JobMatchingMode {
+  queueAndMatchMode?: QueueAndMatchMode;
+  suspendMode?: SuspendMode;
 }
 
 /** Describes a condition that must be met against a set of labels for worker selection. */
@@ -158,6 +166,5 @@ export {
   StaticWorkerSelectorAttachment,
   WeightedAllocationWorkerSelectorAttachment,
   RouterQueueStatistics,
-  JobMatchingMode,
   KnownJobMatchModeType as RouterJobMatchModeType,
 } from "../generated/src/models";
