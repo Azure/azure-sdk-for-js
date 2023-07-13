@@ -148,7 +148,7 @@ export class OpenAIClient {
    * @param options - The options for this image request.
    * @returns The image generation response (containing url or base64 data).
    */
-  getImage(
+  getImages(
     prompt: string,
     options: ImageGenerationOptions = { requestOptions: {} }
   ): Promise<ImageGenerationResponse> {
