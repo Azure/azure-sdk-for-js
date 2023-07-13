@@ -70,9 +70,24 @@ describe(`AlphaIdsClient - Preregistered Alpha Ids Operations`, function () {
   }).timeout(40000);
 
   it("can list all pre-registered alpha ids countries", async function () {
-    const countries = (await client.getPreRegisteredAlphaIdCountries()).countries;
-    countries?.forEach((countryCode) => {
-      assert.isNotNull(countryCode);
-    });
+    let configurationResponse: FullOperationResponse | undefined;
+    const getConfigurationRequest: OperationOptions = {
+      onResponse: (response) => {
+        configurationResponse = response;
+      },
+    };
+    try {
+      const countries = (await client.getPreRegisteredAlphaIdCountries(getConfigurationRequest))
+        .countries;
+      countries?.forEach((countryCode) => {
+        assert.isNotNull(countryCode);
+      });
+    } catch (error) {
+      assert.fail(
+        `There was an error calling getPreRegisteredAlphaIdCountries by page. MS-CV: ${configurationResponse?.headers.get(
+          "MS-CV"
+        )}, ${JSON.stringify(error)}`
+      );
+    }
   }).timeout(20000);
 });
