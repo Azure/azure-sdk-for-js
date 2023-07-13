@@ -5,7 +5,7 @@
 ## Configuration
 
 ```yaml
-package-name: azure-communication-call-automation
+package-name: "@azure/communication-call-automation"
 title: CallAutomationApiClient
 description: Call Automation Client
 generate-metadata: false
