@@ -80,6 +80,12 @@ describe("Json Config", () => {
       );
       assert.deepStrictEqual(config.azureMonitorExporterConfig?.disableOfflineStorage, true);
       assert.deepStrictEqual(config.azureMonitorExporterConfig?.storageDirectory, "testPath");
+      assert.deepStrictEqual(config.otlpTraceExporterConfig?.enabled, true);
+      assert.deepStrictEqual(config.otlpTraceExporterConfig?.keepAlive, false);
+      assert.deepStrictEqual(config.otlpTraceExporterConfig?.url, "someurlfortraces");
+      assert.deepStrictEqual(config.otlpMetricExporterConfig?.enabled, true);
+      assert.deepStrictEqual(config.otlpMetricExporterConfig?.keepAlive, true);
+      assert.deepStrictEqual(config.otlpMetricExporterConfig?.url, "someurlformetrics");
       assert.deepStrictEqual(config.samplingRatio, 0.3, "Wrong samplingRatio");
       assert.deepStrictEqual(
         config.enableAutoCollectPerformance,

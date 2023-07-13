@@ -12,7 +12,7 @@ import {
   JobRouterReclassifyJobActionOptionalParams as JobRouterReclassifyJobActionOptionalParamsGenerated,
 } from "../generated/src/models";
 
-/* Safer types to use instead of any */
+/**  Safer types to use instead of 'any'. */
 export type JSONValue = boolean | number | string | null | JSONArray | JSONObject;
 export interface JSONObject {
   [key: string]: JSONValue;
@@ -27,9 +27,9 @@ export interface RouterJob extends Omit<RouterJobGenerated, "labels" | "tags"> {
   tags?: JSONObject;
 }
 
-/** Describes a condition that must be met against a set of labels for worker selection */
+/** Describes a condition that must be met against a set of labels for worker selection. */
 export interface RouterWorkerSelector extends Omit<RouterWorkerSelectorGenerated, "value"> {
-  /** The value to compare against the actual label value with the given operator */
+  /** The value to compare against the actual label value with the given operator. */
   value?: JSONValue;
 }
 
