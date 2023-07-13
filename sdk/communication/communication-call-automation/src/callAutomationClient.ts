@@ -11,7 +11,6 @@ import {
   CommunicationUserIdentifier,
 } from "@azure/communication-common";
 import { logger } from "./models/logger";
-import { SDK_VERSION } from "./models/constants";
 import {
   AnswerCallRequest,
   CallAutomationApiClient,
@@ -94,16 +93,9 @@ export class CallAutomationClient {
     const options = isCallAutomationClientOptions(credentialOrOptions)
       ? credentialOrOptions
       : maybeOptions;
-    const libInfo = `azsdk-js-communication-call-automation/${SDK_VERSION}`;
 
     if (!options?.userAgentOptions) {
       options.userAgentOptions = {};
-    }
-
-    if (options?.userAgentOptions?.userAgentPrefix) {
-      options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      options.userAgentOptions.userAgentPrefix = libInfo;
     }
 
     this.internalPipelineOptions = {
@@ -161,7 +153,7 @@ export class CallAutomationClient {
   ): Promise<CreateCallResult> {
     const optionsInternal = {
       ...options,
-      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
     const {
@@ -290,7 +282,7 @@ export class CallAutomationClient {
     };
     const optionsInternal = {
       ...operationOptions,
-      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
     const {
@@ -352,7 +344,7 @@ export class CallAutomationClient {
     };
     const optionsInternal = {
       ...options,
-      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
 
@@ -375,7 +367,7 @@ export class CallAutomationClient {
     };
     const optionsInternal = {
       ...options,
-      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
 

@@ -32,14 +32,6 @@ export class AzureMonitorOpenTelemetryClient {
    */
   constructor(options?: AzureMonitorOpenTelemetryOptions) {
     this._config = new AzureMonitorOpenTelemetryConfig(options);
-    if (
-      !this._config?.azureMonitorExporterConfig?.connectionString ||
-      this._config?.azureMonitorExporterConfig?.connectionString === ""
-    ) {
-      throw new Error(
-        "Connection String not found, please provide it before starting Azure Monitor OpenTelemetry Client."
-      );
-    }
     this._setStatsbeatFeatures();
     this._metricHandler = new MetricHandler(this._config);
     this._traceHandler = new TraceHandler(this._config, this._metricHandler);
@@ -64,14 +56,14 @@ export class AzureMonitorOpenTelemetryClient {
    *Get OpenTelemetry MeterProvider
    */
   public getMeterProvider(): MeterProvider {
-    return this._metricHandler.getCustomMetricsMeterProvider();
+    return this._metricHandler.getMeterProvider();
   }
 
   /**
    *Get OpenTelemetry Meter
    */
   public getMeter(): Meter {
-    return this._metricHandler.getCustomMetricsMeter();
+    return this._metricHandler.getMeter();
   }
 
   /**

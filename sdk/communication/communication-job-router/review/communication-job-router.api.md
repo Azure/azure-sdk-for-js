@@ -128,15 +128,13 @@ export interface CreateJobOptions extends JobRouterUpsertJobOptionalParams {
     classificationPolicyId?: string;
     dispositionCode?: string;
     labels?: JSONObject;
-    notes?: {
-        [propertyName: string]: string;
-    };
+    // (undocumented)
+    matchingMode?: JobMatchingMode;
+    notes?: Array<RouterJobNote>;
     priority?: number;
     queueId?: string;
     requestedWorkerSelectors?: RouterWorkerSelector_2[];
-    scheduledTimeUtc?: Date;
     tags?: JSONObject;
-    unavailableForMatching?: boolean;
 }
 
 // @public
@@ -302,9 +300,9 @@ export enum JobMatchModeType {
 
 // @public
 export class JobRouterAdministrationClient {
-    constructor(connectionString: string, jobRouterAdministrationClientOptions?: JobRouterAdministrationClientOptions);
-    constructor(endpoint: string, credential: KeyCredential | TokenCredential, routerAdministrationClientOptions?: JobRouterAdministrationClientOptions);
-    constructor(endpoint: string, credential: CommunicationTokenCredential, routerAdministrationClientOptions?: JobRouterAdministrationClientOptions);
+    constructor(connectionString: string, options?: JobRouterAdministrationClientOptions);
+    constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: JobRouterAdministrationClientOptions);
+    constructor(endpoint: string, credential: CommunicationTokenCredential, options?: JobRouterAdministrationClientOptions);
     createClassificationPolicy(classificationPolicyId: string, options?: CreateClassificationPolicyOptions): Promise<ClassificationPolicyResponse>;
     createDistributionPolicy(distributionPolicyId: string, options?: CreateDistributionPolicyOptions): Promise<DistributionPolicyResponse>;
     createExceptionPolicy(exceptionPolicyId: string, options?: CreateExceptionPolicyOptions): Promise<ExceptionPolicyResponse>;
@@ -362,9 +360,9 @@ export interface JobRouterCancelJobActionResponse extends Omit<JobRouterCancelJo
 
 // @public
 export class JobRouterClient {
-    constructor(connectionString: string, routerClientOptions?: JobRouterClientOptions);
-    constructor(endpoint: string, credential: KeyCredential | TokenCredential, routerClientOptions?: JobRouterClientOptions);
-    constructor(endpoint: string, credential: CommunicationTokenCredential, routerClientOptions?: JobRouterClientOptions);
+    constructor(connectionString: string, options?: JobRouterClientOptions);
+    constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: JobRouterClientOptions);
+    constructor(endpoint: string, credential: CommunicationTokenCredential, options?: JobRouterClientOptions);
     acceptJobOffer(workerId: string, offerId: string, options?: OperationOptions): Promise<AcceptJobOfferResult>;
     cancelJob(jobId: string, options?: CancelJobOptions): Promise<JobRouterCancelJobActionResponse_2>;
     // Warning: (ae-forgotten-export) The symbol "JobRouterCloseJobActionResponse_2" needs to be exported by the entry point index.d.ts
@@ -459,7 +457,7 @@ export interface JSONObject {
     [key: string]: JSONValue;
 }
 
-// @public (undocumented)
+// @public
 export type JSONValue = boolean | number | string | null | JSONArray | JSONObject;
 
 // @public
@@ -610,6 +608,14 @@ export interface RouterJobAssignment {
 export interface RouterJobItem {
     etag?: string;
     job?: RouterJob_2;
+}
+
+// @public
+export interface RouterJobNote {
+    // (undocumented)
+    message: string;
+    // (undocumented)
+    time: Date;
 }
 
 // @public
@@ -850,15 +856,13 @@ export interface UpdateJobOptions extends JobRouterUpsertJobOptionalParams {
     classificationPolicyId?: string;
     dispositionCode?: string;
     labels?: JSONObject;
-    notes?: {
-        [propertyName: string]: string;
-    };
+    // (undocumented)
+    matchingMode?: JobMatchingMode;
+    notes?: Array<RouterJobNote>;
     priority?: number;
     queueId?: string;
     requestedWorkerSelectors?: RouterWorkerSelector_2[];
-    scheduledTimeUtc?: Date;
     tags?: JSONObject;
-    unavailableForMatching?: boolean;
 }
 
 // @public
