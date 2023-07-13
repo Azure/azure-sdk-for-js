@@ -10,6 +10,7 @@ import { Logger } from '@opentelemetry/sdk-logs';
 import { LoggerProvider } from '@opentelemetry/sdk-logs';
 import { Meter } from '@opentelemetry/api';
 import { MeterProvider } from '@opentelemetry/sdk-metrics';
+import { OTLPExporterNodeConfigBase } from '@opentelemetry/otlp-exporter-base';
 import { Resource } from '@opentelemetry/resources';
 import { Tracer } from '@opentelemetry/sdk-trace-base';
 import { TracerProvider } from '@opentelemetry/api';
@@ -33,6 +34,9 @@ export interface AzureMonitorOpenTelemetryOptions {
     enableAutoCollectPerformance?: boolean;
     enableAutoCollectStandardMetrics?: boolean;
     instrumentationOptions?: InstrumentationOptions;
+    otlpLogExporterConfig?: OTLPExporterConfig;
+    otlpMetricExporterConfig?: OTLPExporterConfig;
+    otlpTraceExporterConfig?: OTLPExporterConfig;
     resource?: Resource;
     samplingRatio?: number;
 }
@@ -46,6 +50,11 @@ export interface InstrumentationOptions {
     postgreSql?: InstrumentationConfig;
     redis?: InstrumentationConfig;
     redis4?: InstrumentationConfig;
+}
+
+// @public
+export interface OTLPExporterConfig extends OTLPExporterNodeConfigBase {
+    enabled?: boolean;
 }
 
 // (No @packageDocumentation comment for this package)
