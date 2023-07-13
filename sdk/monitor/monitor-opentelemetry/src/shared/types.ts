@@ -3,6 +3,7 @@
 
 import { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
 import { InstrumentationConfig } from "@opentelemetry/instrumentation";
+import { OTLPExporterNodeConfigBase } from "@opentelemetry/otlp-exporter-base";
 import { Resource } from "@opentelemetry/resources";
 
 export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.0.0-beta.0";
@@ -15,6 +16,12 @@ process.env["AZURE_MONITOR_DISTRO_VERSION"] = AZURE_MONITOR_OPENTELEMETRY_VERSIO
 export interface AzureMonitorOpenTelemetryOptions {
   /** Azure Monitor Exporter Configuration */
   azureMonitorExporterConfig?: AzureMonitorExporterOptions;
+  /** OTLP Trace Exporter Configuration */
+  otlpTraceExporterConfig?: OTLPExporterConfig;
+  /** OTLP Metric Exporter Configuration */
+  otlpMetricExporterConfig?: OTLPExporterConfig;
+  /** OTLP Log Exporter Configuration */
+  otlpLogExporterConfig?: OTLPExporterConfig;
   /** OpenTelemetry Resource */
   resource?: Resource;
   /** The rate of telemetry items tracked that should be transmitted (Default 1.0) */
@@ -33,6 +40,14 @@ export interface AzureMonitorOpenTelemetryOptions {
    * OpenTelemetry Instrumentations options included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4)
    */
   instrumentationOptions?: InstrumentationOptions;
+}
+
+/**
+ * OTLP Exporter Options
+ */
+export interface OTLPExporterConfig extends OTLPExporterNodeConfigBase {
+  /** Enable/Disable OTLP Exporter */
+  enabled?: boolean;
 }
 
 /**
