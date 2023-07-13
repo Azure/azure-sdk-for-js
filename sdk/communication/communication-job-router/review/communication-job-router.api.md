@@ -598,7 +598,13 @@ export interface RouterJobItem {
 // @public (undocumented)
 export interface RouterJobMatchingMode extends JobMatchingMode {
     // (undocumented)
+    modeType?: RouterJobMatchModeType;
+    // (undocumented)
     queueAndMatchMode?: QueueAndMatchMode;
+    // Warning: (ae-forgotten-export) The symbol "ScheduleAndSuspendMode" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    scheduleAndSuspendMode?: ScheduleAndSuspendMode;
     // (undocumented)
     suspendMode?: SuspendMode;
 }

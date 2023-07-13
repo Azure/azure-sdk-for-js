@@ -10,7 +10,9 @@ import {
   StaticRouterRule as StaticRouterRuleGenerated,
   ReclassifyExceptionAction as ReclassifyExceptionActionGenerated,
   JobRouterReclassifyJobActionOptionalParams as JobRouterReclassifyJobActionOptionalParamsGenerated,
+  KnownJobMatchModeType as RouterJobMatchModeType,
   JobMatchingMode,
+  ScheduleAndSuspendMode
 } from "../generated/src/models";
 
 /**  Safer types to use instead of 'any'. */
@@ -31,7 +33,9 @@ export interface RouterJob extends Omit<RouterJobGenerated, "labels" | "tags"> {
 export interface QueueAndMatchMode { }
 export interface SuspendMode { }
 export interface RouterJobMatchingMode extends JobMatchingMode {
+  modeType?: RouterJobMatchModeType;
   queueAndMatchMode?: QueueAndMatchMode;
+  scheduleAndSuspendMode?: ScheduleAndSuspendMode;
   suspendMode?: SuspendMode;
 }
 
@@ -166,5 +170,5 @@ export {
   StaticWorkerSelectorAttachment,
   WeightedAllocationWorkerSelectorAttachment,
   RouterQueueStatistics,
-  KnownJobMatchModeType as RouterJobMatchModeType,
+  KnownJobMatchModeType as RouterJobMatchModeType
 } from "../generated/src/models";
