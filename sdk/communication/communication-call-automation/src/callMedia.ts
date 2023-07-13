@@ -118,6 +118,7 @@ export class CallMedia {
       playOptions: {
         loop: false,
       },
+      operationContext: playOptions.operationContext,
     };
 
     if (playOptions.loop !== undefined) {
@@ -143,6 +144,7 @@ export class CallMedia {
       playOptions: {
         loop: false,
       },
+      operationContext: playOptions.operationContext,
     };
 
     if (playOptions.loop !== undefined) {

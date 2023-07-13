@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Add CommonTelemetryOptions in PipelineOptions to allow customizing the client request id header name [PR #26424](https://github.com/Azure/azure-sdk-for-js/pull/26424)
+
 ### Breaking Changes
 
 ### Bugs Fixed
