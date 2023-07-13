@@ -44,7 +44,7 @@ import {
   JobRouterClientOptions,
   UpdateJobOptions,
   UpdateWorkerOptions,
-  UnassignJobOptions
+  UnassignJobOptions,
 } from "./models/options";
 import { RouterJobResponse, RouterWorkerResponse, UnassignJobResponse } from "./models/responses";
 

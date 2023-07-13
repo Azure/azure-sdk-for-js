@@ -130,7 +130,7 @@ export interface CreateJobOptions extends JobRouterUpsertJobOptionalParams {
     labels?: JSONObject;
     // (undocumented)
     matchingMode?: JobMatchingMode;
-    notes?: Array<RouterJobNote>;
+    notes?: RouterJobNote[];
     priority?: number;
     queueId?: string;
     requestedWorkerSelectors?: RouterWorkerSelector_2[];
@@ -279,23 +279,16 @@ export interface FunctionRouterRuleCredential {
 
 // @public (undocumented)
 export interface JobMatchingMode {
-    // Warning: (ae-forgotten-export) The symbol "JobMatchModeType_2" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "JobMatchModeType" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    modeType?: JobMatchModeType_2;
+    modeType?: JobMatchModeType;
     queueAndMatchMode?: any;
     // Warning: (ae-forgotten-export) The symbol "ScheduleAndSuspendMode" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
     scheduleAndSuspendMode?: ScheduleAndSuspendMode;
     suspendMode?: any;
-}
-
-// @public
-export enum JobMatchModeType {
-    QueueAndMatchMode = "queueAndMatchMode",
-    ScheduleAndSuspendMode = "scheduleAndSuspendMode",
-    SuspendMode = "suspendMode"
 }
 
 // @public
@@ -385,7 +378,7 @@ export class JobRouterClient {
     // Warning: (ae-forgotten-export) The symbol "JobRouterReclassifyJobActionResponse_2" needs to be exported by the entry point index.d.ts
     reclassifyJob(jobId: string, options?: ReclassifyJobOptions): Promise<JobRouterReclassifyJobActionResponse_2>;
     registerWorker(workerId: string, options?: OperationOptions): Promise<RouterWorkerResponse>;
-    unassignJob(jobId: string, assignmentId: string, options?: OperationOptions): Promise<UnassignJobResult>;
+    unassignJob(jobId: string, assignmentId: string, options?: UnassignJobOptions): Promise<UnassignJobResult>;
     updateJob(jobId: string, options?: UpdateJobOptions): Promise<RouterJobResponse>;
     updateWorker(workerId: string, options?: UpdateWorkerOptions): Promise<RouterWorkerResponse>;
 }
@@ -611,10 +604,15 @@ export interface RouterJobItem {
 }
 
 // @public
+export enum RouterJobMatchModeType {
+    QueueAndMatchMode = "queueAndMatchMode",
+    ScheduleAndSuspendMode = "scheduleAndSuspendMode",
+    SuspendMode = "suspendMode"
+}
+
+// @public
 export interface RouterJobNote {
-    // (undocumented)
     message: string;
-    // (undocumented)
     time: Date;
 }
 
@@ -819,11 +817,20 @@ export interface StaticWorkerSelectorAttachment extends WorkerSelectorAttachment
     workerSelector: RouterWorkerSelector_2;
 }
 
+// Warning: (ae-forgotten-export) The symbol "JobRouterUnassignJobActionOptionalParams" needs to be exported by the entry point index.d.ts
+//
 // @public
-export interface UnassignJobResult {
+export interface UnassignJobOptions extends JobRouterUnassignJobActionOptionalParams {
+    suspendMatching?: boolean;
+}
+
+// @public
+interface UnassignJobResult {
     jobId: string;
     unassignmentCount: number;
 }
+export { UnassignJobResult as UnassignJobResponse }
+export { UnassignJobResult }
 
 // @public
 export interface UpdateClassificationPolicyOptions extends JobRouterAdministrationUpsertClassificationPolicyOptionalParams {
