@@ -6,6 +6,7 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { AlphaIdsClient } from "../../src";
 import { assert } from "chai";
 import { createRecordedClient } from "./utils/recordedClient";
+import { FullOperationResponse, OperationOptions } from "@azure/core-client";
 
 describe(`AlphaIdsClient - Preregistered Alpha Ids Operations`, function () {
   let recorder: Recorder;
@@ -22,20 +23,49 @@ describe(`AlphaIdsClient - Preregistered Alpha Ids Operations`, function () {
   });
 
   it("can list all pre-registered alpha ids", async function () {
+    let configurationResponse: FullOperationResponse | undefined;
+    const getConfigurationRequest: OperationOptions = {
+      onResponse: (response) => {
+        configurationResponse = response;
+      },
+    };
     let totalItems = 0;
-    for await (const alphaId of client.getAlphaIds()) {
-      totalItems++;
-      assert.isNotNull(alphaId.value);
+    try {
+      for await (const alphaId of client.getAlphaIds(getConfigurationRequest)) {
+        totalItems++;
+        assert.isNotNull(alphaId.value);
+      }
+    } catch (error) {
+      assert.fail(
+        `There was an error calling getAlphaIds. MS-CV: ${configurationResponse?.headers.get(
+          "MS-CV"
+        )}, ${JSON.stringify(error)}`
+      );
     }
 
     // now test using pagination
     const itemsPerPage = totalItems > 1 ? Math.floor(totalItems / 2) : 1;
-    const pages = client.getAlphaIds({ top: itemsPerPage }).byPage();
-    for await (const page of pages) {
-      // loop over each item in the page
-      for (const alphaId of page) {
-        assert.isNotNull(alphaId.value);
+    try {
+      const pages = client
+        .getAlphaIds({
+          top: itemsPerPage,
+          onResponse: (response) => {
+            configurationResponse = response;
+          },
+        })
+        .byPage();
+      for await (const page of pages) {
+        // loop over each item in the page
+        for (const alphaId of page) {
+          assert.isNotNull(alphaId.value);
+        }
       }
+    } catch (error) {
+      assert.fail(
+        `There was an error calling getAlphaIds by page. MS-CV: ${configurationResponse?.headers.get(
+          "MS-CV"
+        )}, ${JSON.stringify(error)}`
+      );
     }
   }).timeout(40000);
 
