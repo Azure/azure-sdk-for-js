@@ -22,6 +22,7 @@ import {
   RouterRuleUnion,
   RouterWorkerSelector,
   RouterWorkerStateSelector,
+  JobMatchingMode,
 } from "../generated/src";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { JSONObject } from "./models";
@@ -108,7 +109,7 @@ export interface UpdateDistributionPolicyOptions
 }
 
 /**
- * Options to get distribution policies.
+ * Options to list distribution policies.
  */
 export interface ListDistributionPoliciesOptions extends OperationOptions {
   /** Maximum page size */
@@ -116,7 +117,7 @@ export interface ListDistributionPoliciesOptions extends OperationOptions {
 }
 
 /**
- * Options to create a exception policy.
+ * Options to create an exception policy.
  */
 export interface CreateExceptionPolicyOptions
   extends JobRouterAdministrationUpsertExceptionPolicyOptionalParams {
@@ -127,7 +128,7 @@ export interface CreateExceptionPolicyOptions
 }
 
 /**
- * Options to update a exception policy.
+ * Options to update an exception policy.
  */
 export interface UpdateExceptionPolicyOptions
   extends JobRouterAdministrationUpsertExceptionPolicyOptionalParams {
@@ -143,6 +144,14 @@ export interface UpdateExceptionPolicyOptions
 export interface ListExceptionPoliciesOptions extends OperationOptions {
   /** Number of objects to return per page */
   maxpagesize?: number;
+}
+
+/**
+ * Message with timestamp on a router job.
+ */
+export interface RouterJobNote {
+  time: Date;
+  message: string;
 }
 
 /**
@@ -168,14 +177,8 @@ export interface CreateJobOptions extends JobRouterUpsertJobOptionalParams {
   /** A set of non-identifying attributes attached to this job */
   tags?: JSONObject;
   /** Notes attached to a job, sorted by timestamp */
-  notes?: { [propertyName: string]: string };
-  /**
-   * A flag indicating this job is not ready for being matched with workers.
-   * When set to true, job matching will not be started. If set to false, job matching will start automatically
-   */
-  unavailableForMatching?: boolean;
-  /** If set, job will be scheduled to be enqueued at a given time */
-  scheduledTimeUtc?: Date;
+  notes?: Array<RouterJobNote>;
+  matchingMode?: JobMatchingMode;
 }
 
 /**
@@ -201,14 +204,8 @@ export interface UpdateJobOptions extends JobRouterUpsertJobOptionalParams {
   /** A set of non-identifying attributes attached to this job */
   tags?: JSONObject;
   /** Notes attached to a job, sorted by timestamp */
-  notes?: { [propertyName: string]: string };
-  /**
-   * A flag indicating this job is ready for being matched with workers.
-   * When set to true, job matching will not be started. If set to false, job matching will start automatically
-   */
-  unavailableForMatching?: boolean;
-  /** If set, job will be scheduled to be enqueued at a given time */
-  scheduledTimeUtc?: Date;
+  notes?: Array<RouterJobNote>;
+  matchingMode?: JobMatchingMode;
 }
 
 /**
@@ -223,7 +220,7 @@ export interface ReclassifyJobOptions extends JobRouterReclassifyJobActionOption
  * Options to cancel a job.
  */
 export interface CancelJobOptions extends JobRouterCancelJobActionOptionalParams {
-  /** (Optional) A note that will be appended to the jobs' Notes collection with th current timestamp. */
+  /** (Optional) A note that will be appended to the jobs' Notes collection with the current timestamp. */
   note?: string;
   /**
    * Indicates the outcome of the job, populate this field with your own custom values.
@@ -236,7 +233,7 @@ export interface CancelJobOptions extends JobRouterCancelJobActionOptionalParams
  * Options to complete a job.
  */
 export interface CompleteJobOptions extends JobRouterCompleteJobActionOptionalParams {
-  /** (Optional) A note that will be appended to the jobs' Notes collection with th current timestamp. */
+  /** (Optional) A note that will be appended to the jobs' Notes collection with the current timestamp. */
   note?: string;
 }
 
@@ -251,7 +248,7 @@ export interface CloseJobOptions extends JobRouterCloseJobActionOptionalParams {
    * If provided, worker capacity is released along with a JobClosedEvent notification at a future time.
    */
   closeTime?: Date;
-  /** (Optional) A note that will be appended to the jobs' Notes collection with th current timestamp. */
+  /** (Optional) A note that will be appended to the jobs' Notes collection with the current timestamp. */
   note?: string;
 }
 

@@ -3,7 +3,11 @@
 
 import * as fs from "fs";
 import * as path from "path";
-import { AzureMonitorOpenTelemetryOptions, InstrumentationOptions } from "./types";
+import {
+  AzureMonitorOpenTelemetryOptions,
+  InstrumentationOptions,
+  OTLPExporterConfig,
+} from "./types";
 import { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
 import { Logger } from "./logging";
 
@@ -19,6 +23,12 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
   public samplingRatio?: number;
   /** Azure Monitor Exporter Configuration */
   public azureMonitorExporterConfig?: AzureMonitorExporterOptions;
+  /** OTLP Trace Exporter Configuration */
+  public otlpTraceExporterConfig?: OTLPExporterConfig;
+  /** OTLP Metric Exporter Configuration */
+  public otlpMetricExporterConfig?: OTLPExporterConfig;
+  /** OTLP Log Exporter Configuration */
+  public otlpLogExporterConfig?: OTLPExporterConfig;
   /**
    * Sets the state of performance tracking (enabled by default)
    * if true performance counters will be collected every second and sent to Azure Monitor
@@ -80,6 +90,9 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
     try {
       const jsonConfig: AzureMonitorOpenTelemetryOptions = JSON.parse(jsonString);
       this.azureMonitorExporterConfig = jsonConfig.azureMonitorExporterConfig;
+      this.otlpLogExporterConfig = jsonConfig.otlpLogExporterConfig;
+      this.otlpMetricExporterConfig = jsonConfig.otlpMetricExporterConfig;
+      this.otlpTraceExporterConfig = jsonConfig.otlpTraceExporterConfig;
       this.samplingRatio = jsonConfig.samplingRatio;
       this.enableAutoCollectPerformance = jsonConfig.enableAutoCollectPerformance;
       this.enableAutoCollectStandardMetrics = jsonConfig.enableAutoCollectStandardMetrics;

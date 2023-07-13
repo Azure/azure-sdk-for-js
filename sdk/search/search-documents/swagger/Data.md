@@ -10,7 +10,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated/data
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/932e261a870475e1a29115f62def7bb84e4d7b38/specification/search/data-plane/Azure.Search/preview/2021-04-30-Preview/searchindex.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/0cfd102a6ecb172f04ec915732bd8ca6f6b2a7af/specification/search/data-plane/Azure.Search/preview/2023-07-01-Preview/searchindex.json
 add-credentials: false
 title: SearchClient
 use-extension:
@@ -97,4 +97,23 @@ directive:
     where: $.definitions.AnswerResult
     transform: >
       $.required = ['score', 'key', 'text'];
+```
+
+### Rename Vector property `K`
+```yaml
+directive:
+- from: swagger-document
+  where: $.definitions.Vector.properties.k
+  transform: $["x-ms-client-name"] = "KNearestNeighborsCount";
+```
+
+### Rename QueryResultDocumentSemanticFieldState
+
+ Simplify `QueryResultDocumentSemanticFieldState` name by renaming it to `SemanticFieldState`
+
+```yaml
+directive:
+- from: swagger-document
+  where: $.definitions.QueryResultDocumentSemanticFieldState
+  transform: $["x-ms-enum"].name = "SemanticFieldState";
 ```
