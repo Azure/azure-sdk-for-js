@@ -12,7 +12,7 @@ import {
   JobRouterReclassifyJobActionOptionalParams as JobRouterReclassifyJobActionOptionalParamsGenerated,
   KnownJobMatchModeType as RouterJobMatchModeType,
   JobMatchingMode,
-  ScheduleAndSuspendMode
+  ScheduleAndSuspendMode,
 } from "../generated/src/models";
 
 /**  Safer types to use instead of 'any'. */
@@ -20,7 +20,7 @@ export type JSONValue = boolean | number | string | null | JSONArray | JSONObjec
 export interface JSONObject {
   [key: string]: JSONValue;
 }
-export interface JSONArray extends ArrayLike<JSONValue> { }
+export interface JSONArray extends ArrayLike<JSONValue> {}
 
 /** A unit of work to be routed */
 export interface RouterJob extends Omit<RouterJobGenerated, "labels" | "tags"> {
@@ -30,8 +30,10 @@ export interface RouterJob extends Omit<RouterJobGenerated, "labels" | "tags"> {
   tags?: JSONObject;
 }
 
-export interface QueueAndMatchMode { }
-export interface SuspendMode { }
+export type QueueAndMatchMode = string;
+
+export type SuspendMode = string;
+
 export interface RouterJobMatchingMode extends JobMatchingMode {
   modeType?: RouterJobMatchModeType;
   queueAndMatchMode?: QueueAndMatchMode;
@@ -170,5 +172,5 @@ export {
   StaticWorkerSelectorAttachment,
   WeightedAllocationWorkerSelectorAttachment,
   RouterQueueStatistics,
-  KnownJobMatchModeType as RouterJobMatchModeType
+  KnownJobMatchModeType as RouterJobMatchModeType,
 } from "../generated/src/models";
