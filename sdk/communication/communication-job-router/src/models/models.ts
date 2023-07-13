@@ -17,7 +17,7 @@ export type JSONValue = boolean | number | string | null | JSONArray | JSONObjec
 export interface JSONObject {
   [key: string]: JSONValue;
 }
-export interface JSONArray extends ArrayLike<JSONValue> {}
+export interface JSONArray extends ArrayLike<JSONValue> { }
 
 /** A unit of work to be routed */
 export interface RouterJob extends Omit<RouterJobGenerated, "labels" | "tags"> {
@@ -159,5 +159,5 @@ export {
   WeightedAllocationWorkerSelectorAttachment,
   RouterQueueStatistics,
   JobMatchingMode,
-  KnownJobMatchModeType as JobMatchModeType,
+  KnownJobMatchModeType as RouterJobMatchModeType,
 } from "../generated/src/models";

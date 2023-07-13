@@ -16,13 +16,14 @@ import {
   JobRouterReclassifyJobActionOptionalParams,
   JobRouterUpsertJobOptionalParams,
   JobRouterUpsertWorkerOptionalParams,
+  JobRouterUnassignJobActionOptionalParams,
   RouterJobStatusSelector,
   QueueSelectorAttachmentUnion,
   WorkerSelectorAttachmentUnion,
   RouterRuleUnion,
   RouterWorkerSelector,
   RouterWorkerStateSelector,
-  JobMatchingMode,
+  JobMatchingMode as RouterJobMatchingMode,
 } from "../generated/src";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { JSONObject } from "./models";
@@ -38,7 +39,7 @@ export interface JobRouterClientOptions extends CommonClientOptions {
 /**
  * Options to create router administration client.
  */
-export interface JobRouterAdministrationClientOptions extends CommonClientOptions {}
+export interface JobRouterAdministrationClientOptions extends CommonClientOptions { }
 
 /**
  * Options to create a classification policy.
@@ -150,7 +151,9 @@ export interface ListExceptionPoliciesOptions extends OperationOptions {
  * Message with timestamp on a router job.
  */
 export interface RouterJobNote {
+  /** Timestamp of when the note was recorded */
   time: Date;
+  /** Content of the note */
   message: string;
 }
 
@@ -177,8 +180,8 @@ export interface CreateJobOptions extends JobRouterUpsertJobOptionalParams {
   /** A set of non-identifying attributes attached to this job */
   tags?: JSONObject;
   /** Notes attached to a job, sorted by timestamp */
-  notes?: Array<RouterJobNote>;
-  matchingMode?: JobMatchingMode;
+  notes?: RouterJobNote[];
+  matchingMode?: RouterJobMatchingMode;
 }
 
 /**
@@ -205,7 +208,7 @@ export interface UpdateJobOptions extends JobRouterUpsertJobOptionalParams {
   tags?: JSONObject;
   /** Notes attached to a job, sorted by timestamp */
   notes?: Array<RouterJobNote>;
-  matchingMode?: JobMatchingMode;
+  matchingMode?: RouterJobMatchingMode;
 }
 
 /**
@@ -250,6 +253,14 @@ export interface CloseJobOptions extends JobRouterCloseJobActionOptionalParams {
   closeTime?: Date;
   /** (Optional) A note that will be appended to the jobs' Notes collection with the current timestamp. */
   note?: string;
+}
+
+/**
+ * Options to unassign a job.
+ */
+export interface UnassignJobOptions extends JobRouterUnassignJobActionOptionalParams {
+  /** If WaitForActivation is true, then the job is not queued for re-matching with a worker. */
+  suspendMatching?: boolean;
 }
 
 /**

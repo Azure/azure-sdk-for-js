@@ -5,7 +5,7 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import {
   CreateJobOptions,
-  JobMatchModeType,
+  RouterJobMatchModeType,
   JobRouterAdministrationClient,
   JobRouterClient,
   RouterJob,
@@ -42,7 +42,7 @@ describe("JobRouterClient", function () {
     return {
       ...jobRequest,
       matchingMode: {
-        modeType: JobMatchModeType.ScheduleAndSuspendMode,
+        modeType: RouterJobMatchModeType.ScheduleAndSuspendMode,
         scheduleAndSuspendMode: { scheduleAt: new Date(scheduledTime) },
       },
     };

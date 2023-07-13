@@ -44,8 +44,9 @@ import {
   JobRouterClientOptions,
   UpdateJobOptions,
   UpdateWorkerOptions,
+  UnassignJobOptions
 } from "./models/options";
-import { RouterJobResponse, RouterWorkerResponse, UnassignJobResult } from "./models/responses";
+import { RouterJobResponse, RouterWorkerResponse, UnassignJobResponse } from "./models/responses";
 
 /**
  * Checks whether the type of a value is {@link JobRouterClientOptions} or not.
@@ -279,8 +280,8 @@ export class JobRouterClient {
   public async unassignJob(
     jobId: string,
     assignmentId: string,
-    options: OperationOptions = {}
-  ): Promise<UnassignJobResult> {
+    options: UnassignJobOptions = {}
+  ): Promise<UnassignJobResponse> {
     const result = await this.client.jobRouter.unassignJobAction(jobId, assignmentId, options);
     return {
       jobId: result.jobId,
