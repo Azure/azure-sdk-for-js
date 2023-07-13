@@ -1,5 +1,12 @@
 # Release History
 
+
+## 1.0.0-beta.4 (Unreleased)
+
+### Features Added
+
+- Added GetImages convenience API for image generation via `beginAzureBatchImageGeneration`, as well as supporting ImageGenerationOptions and ImageGenerationResponse aliases.
+
 ## 1.0.0-beta.3 (Unreleased)
 
 ### Features Added
