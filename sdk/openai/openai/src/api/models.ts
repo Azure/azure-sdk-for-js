@@ -190,6 +190,7 @@ export interface BatchImageGenerationOperationResponse {
   error?: ErrorModel;
 }
 
+/** Convenience alias for BatchImageGenerationOperationResponse */
 export type ImageGenerationResponse = BatchImageGenerationOperationResponse;
 
 /** The result of the operation if the operation succeeded. */

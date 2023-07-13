@@ -162,10 +162,10 @@ export interface GetEmbeddingsOptions extends RequestOptions {
     user?: string;
 }
 
-// @public (undocumented)
+// @public
 export type ImageGenerationOptions = BeginAzureBatchImageGenerationOptions;
 
-// @public (undocumented)
+// @public
 export type ImageGenerationResponse = BatchImageGenerationOperationResponse;
 
 // @public

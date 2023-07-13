@@ -48,4 +48,5 @@ export function getChatCompletionsResult(
   };
 }
 
+/** Convenience alias for BeginAzureBatchImageGenerationOptions */
 export type ImageGenerationOptions = BeginAzureBatchImageGenerationOptions;
