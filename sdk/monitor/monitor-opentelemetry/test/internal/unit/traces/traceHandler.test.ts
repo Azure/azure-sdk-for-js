@@ -23,6 +23,7 @@ describe("Library/TraceHandler", () => {
       _config.azureMonitorExporterConfig.connectionString =
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
     }
+    _config.otlpTraceExporterConfig.enabled = true;
     sandbox = sinon.createSandbox();
   });
 
@@ -32,6 +33,7 @@ describe("Library/TraceHandler", () => {
 
   describe("#autoCollection of HTTP/HTTPS requests", () => {
     let exportStub: sinon.SinonStub;
+    let otlpExportStub: sinon.SinonStub;
     let handler: TraceHandler;
     let metricHandler: MetricHandler;
     let mockHttpServer: any;
@@ -54,6 +56,15 @@ describe("Library/TraceHandler", () => {
             resolve(spans);
           })
       );
+      otlpExportStub = sinon.stub(handler["_otlpExporter"] as any, "export").callsFake(
+        (spans: any, resultCallback: any) =>
+          new Promise((resolve) => {
+            resultCallback({
+              code: ExportResultCode.SUCCESS,
+            });
+            resolve(spans);
+          })
+      );
 
       // Load Http modules, HTTP instrumentation hook will be created in OpenTelemetry
       http = require("http") as any;
@@ -66,10 +77,12 @@ describe("Library/TraceHandler", () => {
 
     afterEach(() => {
       exportStub.resetHistory();
+      otlpExportStub.resetHistory();
     });
 
     after(() => {
       exportStub.restore();
+      otlpExportStub.restore();
       mockHttpServer.close();
       metricHandler.shutdown();
       handler.shutdown();
@@ -136,6 +149,84 @@ describe("Library/TraceHandler", () => {
             .then(() => {
               assert.ok(exportStub.calledOnce, "Export called");
               const spans = exportStub.args[0][0];
+              assert.deepStrictEqual(spans.length, 2);
+              // Incoming request
+              assert.deepStrictEqual(spans[0].name, "GET");
+              assert.deepStrictEqual(
+                spans[0].instrumentationLibrary.name,
+                "@opentelemetry/instrumentation-http"
+              );
+              assert.deepStrictEqual(spans[0].kind, 1, "Span Kind");
+              assert.deepStrictEqual(spans[0].status.code, 0, "Span Success"); // Success
+              assert.ok(spans[0].startTime);
+              assert.ok(spans[0].endTime);
+              assert.deepStrictEqual(
+                spans[0].attributes["http.host"],
+                `localhost:${mockHttpServerPort}`
+              );
+              assert.deepStrictEqual(spans[0].attributes["http.method"], "GET");
+              assert.deepStrictEqual(spans[0].attributes["http.status_code"], 200);
+              assert.deepStrictEqual(spans[0].attributes["http.status_text"], "OK");
+              assert.deepStrictEqual(spans[0].attributes["http.target"], "/test");
+              assert.deepStrictEqual(
+                spans[0].attributes["http.url"],
+                `http://localhost:${mockHttpServerPort}/test`
+              );
+              assert.deepStrictEqual(spans[0].attributes["net.host.name"], "localhost");
+              assert.deepStrictEqual(spans[0].attributes["net.host.port"], mockHttpServerPort);
+              // Outgoing request
+              assert.deepStrictEqual(spans[1].name, "GET");
+              assert.deepStrictEqual(
+                spans[1].instrumentationLibrary.name,
+                "@opentelemetry/instrumentation-http"
+              );
+              assert.deepStrictEqual(spans[1].kind, 2, "Span Kind");
+              assert.deepStrictEqual(spans[1].status.code, 0, "Span Success"); // Success
+              assert.ok(spans[1].startTime);
+              assert.ok(spans[1].endTime);
+              assert.deepStrictEqual(
+                spans[1].attributes["http.host"],
+                `localhost:${mockHttpServerPort}`
+              );
+              assert.deepStrictEqual(spans[1].attributes["http.method"], "GET");
+              assert.deepStrictEqual(spans[1].attributes["http.status_code"], 200);
+              assert.deepStrictEqual(spans[1].attributes["http.status_text"], "OK");
+              assert.deepStrictEqual(spans[1].attributes["http.target"], "/test");
+              assert.deepStrictEqual(
+                spans[1].attributes["http.url"],
+                `http://localhost:${mockHttpServerPort}/test`
+              );
+              assert.deepStrictEqual(spans[1].attributes["net.peer.name"], "localhost");
+              assert.deepStrictEqual(spans[1].attributes["net.peer.port"], mockHttpServerPort);
+
+              assert.deepStrictEqual(
+                spans[0]["_spanContext"]["traceId"],
+                spans[1]["_spanContext"]["traceId"]
+              );
+              assert.notDeepStrictEqual(
+                spans[0]["_spanContext"]["spanId"],
+                spans[1]["_spanContext"]["spanId"]
+              );
+              done();
+            })
+            .catch((error) => {
+              done(error);
+            });
+        })
+        .catch((error) => {
+          done(error);
+        });
+    });
+
+    it("OTLP Export", (done) => {
+      handler["_initializeInstrumentations"]();
+      makeHttpRequest()
+        .then(() => {
+          handler
+            .flush()
+            .then(() => {
+              assert.ok(otlpExportStub.calledOnce, "Export called");
+              const spans = otlpExportStub.args[0][0];
               assert.deepStrictEqual(spans.length, 2);
               // Incoming request
               assert.deepStrictEqual(spans[0].name, "GET");

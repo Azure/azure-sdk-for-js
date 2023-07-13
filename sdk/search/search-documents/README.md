@@ -318,19 +318,24 @@ main();
 
 #### Querying with TypeScript
 
-In TypeScript `SearchClient` takes a generic parameter that is the model shape of your index documents. This allows you to perform strongly typed lookup of fields returned in results. TypeScript is also able to check for fields returned when specifying a `select` parameter.
+In TypeScript, `SearchClient` takes a generic parameter that is the model shape of your index documents. This allows you to perform strongly typed lookup of fields returned in results. TypeScript is also able to check for fields returned when specifying a `select` parameter.
 
 ```ts
 import { SearchClient, AzureKeyCredential } from "@azure/search-documents";
 
 // An example schema for documents in the index
 interface Hotel {
-  HotelId: string;
-  HotelName: string;
-  Description: string;
-  ParkingIncluded: boolean;
-  LastRenovationDate: Date;
-  Rating: number;
+  hotelId?: string;
+  hotelName?: string | null;
+  description?: string | null;
+  descriptionVector?: Array<number> | null;
+  parkingIncluded?: boolean | null;
+  lastRenovationDate?: Date | null;
+  rating?: number | null;
+  rooms?: Array<{
+    beds?: number | null;
+    description?: string | null;
+  } | null;>
 }
 
 const client = new SearchClient<Hotel>(
@@ -343,13 +348,22 @@ async function main() {
   const searchResults = await client.search("wifi -luxury", {
     // Only fields in Hotel can be added to this array.
     // TS will complain if one is misspelled.
-    select: ["HotelId", "HotelName", "Rating"],
+    select: ["hotelId", "hotelName", "rooms/beds"],
   });
 
+  // These are other ways to declare the correct type for `select`.
+  const select = ["hotelId", "hotelName", "rooms/beds"] as const;
+  // This declaration lets you opt out of narrowing the TypeScript type of your documents,
+  // though the Cognitive Search service will still only return these fields.
+  const selectWide: SelectFields<Hotel>[] = ["hotelId", "hotelName", "rooms/beds"];
+  // This is an invalid declaration. Passing this to `select` will result in a compiler error
+  // unless you opt out of including the model in the client constructor.
+  const selectInvalid = ["hotelId", "hotelName", "rooms/beds"];
+
   for await (const result of searchResults.results) {
-    // result.document has HotelId, HotelName, and Rating.
-    // Trying to access result.document.Description would emit a TS error.
-    console.log(result.document.HotelName);
+    // result.document has hotelId, hotelName, and rating.
+    // Trying to access result.document.description would emit a TS error.
+    console.log(result.document.hotelName);
   }
 }
 
@@ -371,11 +385,38 @@ async function main() {
   const searchResults = await client.search("WiFi", {
     filter: odata`Rooms/any(room: room/BaseRate lt ${baseRateMax}) and Rating ge ${ratingMin}`,
     orderBy: ["Rating desc"],
-    select: ["HotelId", "HotelName", "Rating"],
+    select: ["hotelId", "hotelName", "rating"],
   });
   for await (const result of searchResults.results) {
     // Each result will have "HotelId", "HotelName", and "Rating"
     // in addition to the standard search result property "score"
+    console.log(result);
+  }
+}
+
+main();
+```
+
+#### Querying with vectors
+
+Text embeddings can be queried using the `vector` search parameter.
+
+```js
+const { SearchClient, AzureKeyCredential, odata } = require("@azure/search-documents");
+
+const client = new SearchClient("<endpoint>", "<indexName>", new AzureKeyCredential("<apiKey>"));
+
+async function main() {
+  const queryVector: number[] = [...]
+  const searchResults = await searchClient.search("*", {
+    vector: {
+      fields: ["descriptionVector"],
+      kNearestNeighborsCount: 3,
+      value: queryVector,
+    },
+  });
+  for await (const result of searchResults.results) {
+    // These results are the nearest neighbors to the query vector
     console.log(result);
   }
 }
@@ -394,17 +435,17 @@ const client = new SearchClient("<endpoint>", "<indexName>", new AzureKeyCredent
 
 async function main() {
   const searchResults = await client.search("WiFi", {
-    facets: ["Category,count:3,sort:count", "Rooms/BaseRate,interval:100"],
+    facets: ["category,count:3,sort:count", "rooms/baseRate,interval:100"],
   });
   console.log(searchResults.facets);
   // Output will look like:
   // {
-  //   'Rooms/BaseRate': [
+  //   'rooms/baseRate': [
   //     { count: 16, value: 0 },
   //     { count: 17, value: 100 },
   //     { count: 17, value: 200 }
   //   ],
-  //   Category: [
+  //   category: [
   //     { count: 5, value: 'Budget' },
   //     { count: 5, value: 'Luxury' },
   //     { count: 5, value: 'Resort and Spa' }
