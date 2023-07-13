@@ -4,12 +4,15 @@ import { IndexingPolicy, PartitionKeyDefinition } from "../../documents";
 import { ConflictResolutionPolicy } from "../Conflict/ConflictResolutionPolicy";
 import { UniqueKeyPolicy } from "./UniqueKeyPolicy";
 import { GeospatialType } from "../../documents/GeospatialType";
+import { ClientEncryptionPolicy } from "../Encryption";
 
 export interface ContainerDefinition {
   /** The id of the container. */
   id?: string;
   /** The partition key for the container. */
   partitionKey?: PartitionKeyDefinition;
+
+  clientencryptionpolicy?: ClientEncryptionPolicy[];
   /** The indexing policy associated with the container. */
   indexingPolicy?: IndexingPolicy;
   /** The default time to live in seconds for items in a container. */

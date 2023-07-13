@@ -26,6 +26,10 @@ import { OfferResponse } from "../Offer/OfferResponse";
 import { Resource } from "../Resource";
 import { getEmptyCosmosDiagnostics } from "../../CosmosDiagnostics";
 import { CosmosDiagnosticContext } from "../../CosmosDiagnosticsContext";
+import { WrappedDekCache } from "../Encryption/WrappedDekCache";
+import { UnwrappedDekCache } from "../Encryption/UnwrappedDekCache";
+import { ClientEncryptionPolicyCache } from "../Encryption/ClientEncrptionPolicyCache";
+import { ClientEncryptionPolicy } from "../Encryption/ClientEncryptionPolicy";
 
 /**
  * Operations for reading, replacing, or deleting a specific, existing container by id.
@@ -39,6 +43,7 @@ import { CosmosDiagnosticContext } from "../../CosmosDiagnosticsContext";
  */
 export class Container {
   private $items: Items;
+  private clientencryptionpolicycache?: ClientEncryptionPolicyCache;
   /**
    * Operations for creating new items, and reading/querying all items
    *
@@ -51,7 +56,13 @@ export class Container {
    */
   public get items(): Items {
     if (!this.$items) {
-      this.$items = new Items(this, this.clientContext);
+      this.$items = new Items(
+        this,
+        this.clientContext,
+        this?.wrappedDekCache,
+        this?.dekCache,
+        this?.clientencryptionpolicycache
+      );
     }
     return this.$items;
   }
@@ -96,9 +107,19 @@ export class Container {
   constructor(
     public readonly database: Database,
     public readonly id: string,
-    private readonly clientContext: ClientContext
-  ) {}
-
+    private readonly clientContext: ClientContext,
+    private dekCache: UnwrappedDekCache,
+    private wrappedDekCache: WrappedDekCache,
+    private clientEncryptionPolicyArray?: ClientEncryptionPolicy[]
+  ) {
+    this.clientencryptionpolicycache = new ClientEncryptionPolicyCache();
+    this.populateClientEncryptionPolicyCache();
+  }
+  private populateClientEncryptionPolicyCache() {
+    for (const policy of this.clientEncryptionPolicyArray) {
+      this.clientencryptionpolicycache.setClientEncryptionPolicyCache(policy.path, policy);
+    }
+  }
   /**
    * Used to read, replace, or delete a specific, existing {@link Item} by id.
    *

@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import {ClientSecretCredential } from "@azure/identity";
+import { ClientSecretCredential } from "@azure/identity";
 import { ClientContext } from "../../ClientContext";
 import { Constants, isResourceValid, ResourceType, StatusCodes } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
