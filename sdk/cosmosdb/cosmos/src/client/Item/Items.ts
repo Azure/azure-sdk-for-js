@@ -30,6 +30,12 @@ import { readAndRecordPartitionKeyDefinition } from "../ClientUtils";
 import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks";
 import { hashPartitionKey } from "../../utils/hashing/hash";
 import { PartitionKey, PartitionKeyDefinition } from "../../documents";
+// import { ClientEncryptionPolicy } from "../Encryption/ClientEncryptionPolicy";
+import { ClientEncryptionPolicyCache } from "../Encryption/ClientEncrptionPolicyCache";
+// import { createCipheriv ,randomBytes, createHash } from "crypto";
+import { UnwrappedDekCache } from "../Encryption/UnwrappedDekCache";
+import { EncryptionProcessor } from "../Encryption/EncryptionProcessor";
+import { WrappedDekCache } from "../Encryption/WrappedDekCache";
 
 /**
  * @hidden
@@ -51,9 +57,11 @@ export class Items {
    */
   constructor(
     public readonly container: Container,
-    private readonly clientContext: ClientContext
+    private readonly clientContext: ClientContext,
+    private wrappeDekCache?: WrappedDekCache,
+    private unwrappedDekCache?: UnwrappedDekCache,
+    private readonly clientencryptionpolicycache?: ClientEncryptionPolicyCache
   ) {}
-
   /**
    * Queries all items.
    * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
@@ -89,7 +97,7 @@ export class Items {
   public query<T>(query: string | SqlQuerySpec, options: FeedOptions = {}): QueryIterator<T> {
     const path = getPathFromLink(this.container.url, ResourceType.item);
     const id = getIdFromLink(this.container.url);
-
+    console.log(this?.wrappeDekCache);
     const fetchFunction: FetchFunctionCallback = async (
       innerOptions: FeedOptions,
       diagnosticContext: CosmosDiagnosticContext
@@ -280,6 +288,11 @@ export class Items {
     if (!isItemResourceValid(body, err)) {
       throw err;
     }
+    const encryptionProcessor = new EncryptionProcessor(
+      this.clientencryptionpolicycache,
+      this.unwrappedDekCache
+    );
+    await encryptionProcessor.identifypath(body);
 
     const path = getPathFromLink(this.container.url, ResourceType.item);
     const id = getIdFromLink(this.container.url);
@@ -289,6 +302,7 @@ export class Items {
       path,
       resourceType: ResourceType.item,
       resourceId: id,
+
       options,
       partitionKey,
       diagnosticContext,

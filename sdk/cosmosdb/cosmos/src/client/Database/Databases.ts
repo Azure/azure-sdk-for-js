@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { ClientSecretCredential } from "@azure/identity";
 import { ClientContext } from "../../ClientContext";
 import { Constants, isResourceValid, ResourceType, StatusCodes } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
@@ -30,7 +31,8 @@ export class Databases {
    */
   constructor(
     public readonly client: CosmosClient,
-    private readonly clientContext: ClientContext
+    private readonly clientContext: ClientContext,
+    private readonly credentials?: ClientSecretCredential
   ) {}
 
   /**
@@ -143,7 +145,7 @@ export class Databases {
       resourceId: undefined,
       options,
     });
-    const ref = new Database(this.client, body.id, this.clientContext);
+    const ref = new Database(this.client, body.id, this.clientContext, this?.credentials);
     return new DatabaseResponse(
       response.result,
       response.headers,

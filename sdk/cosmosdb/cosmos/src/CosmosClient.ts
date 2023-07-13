@@ -11,6 +11,7 @@ import { DatabaseAccount, defaultConnectionPolicy } from "./documents";
 import { GlobalEndpointManager } from "./globalEndpointManager";
 import { RequestOptions, ResourceResponse } from "./request";
 import { checkURL } from "./utils/checkURL";
+import { ClientSecretCredential } from "@azure/identity";
 
 /**
  * Provides a client-side logical representation of the Azure Cosmos DB database account.
@@ -50,6 +51,7 @@ export class CosmosClient {
    */
   public readonly offers: Offers;
   private clientContext: ClientContext;
+  private credentials?: ClientSecretCredential;
   private endpointRefresher: NodeJS.Timer;
   /**
    * Creates a new {@link CosmosClient} object from a connection string. Your database connection string can be found in the Azure Portal
@@ -94,6 +96,7 @@ export class CosmosClient {
       async (opts: RequestOptions) => this.getDatabaseAccount(opts)
     );
     this.clientContext = new ClientContext(optionsOrConnectionString, globalEndpointManager);
+    this.credentials = optionsOrConnectionString?.credentials;
     if (
       optionsOrConnectionString.connectionPolicy?.enableEndpointDiscovery &&
       optionsOrConnectionString.connectionPolicy?.enableBackgroundEndpointRefreshing
@@ -105,7 +108,7 @@ export class CosmosClient {
       );
     }
 
-    this.databases = new Databases(this, this.clientContext);
+    this.databases = new Databases(this, this.clientContext, this?.credentials);
     this.offers = new Offers(this, this.clientContext);
   }
 
@@ -177,7 +180,7 @@ export class CosmosClient {
    * ```
    */
   public database(id: string): Database {
-    return new Database(this, id, this.clientContext);
+    return new Database(this, id, this.clientContext, this?.credentials);
   }
 
   /**

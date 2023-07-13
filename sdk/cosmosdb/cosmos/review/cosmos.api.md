@@ -9,6 +9,7 @@
 
 import { AbortError } from '@azure/abort-controller';
 import { AbortSignal as AbortSignal_2 } from 'node-abort-controller';
+import { ClientSecretCredential } from '@azure/identity';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
@@ -210,6 +211,19 @@ export class ClientContext {
         partitionKey?: PartitionKey;
         diagnosticContext?: CosmosDiagnosticContext;
     }): Promise<Response_2<T & U & Resource>>;
+}
+
+// @public (undocumented)
+export class ClientEncryptionPolicy {
+    constructor(path: string, clientencryptionkeyid: string, Encryptiontype: string, Encryptionalgorithm: string);
+    // (undocumented)
+    clientencryptionkeyid: string;
+    // (undocumented)
+    Encryptionalgorithm: string;
+    // (undocumented)
+    Encryptiontype: string;
+    // (undocumented)
+    path: string;
 }
 
 // @public (undocumented)
@@ -484,7 +498,9 @@ export const Constants: {
 
 // @public
 export class Container {
-    constructor(database: Database, id: string, clientContext: ClientContext);
+    // Warning: (ae-forgotten-export) The symbol "UnwrappedDekCache" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "WrappedDekCache" needs to be exported by the entry point index.d.ts
+    constructor(database: Database, id: string, clientContext: ClientContext, dekCache: UnwrappedDekCache, wrappedDekCache: WrappedDekCache, clientEncryptionPolicyArray?: ClientEncryptionPolicy[]);
     conflict(id: string, partitionKey?: PartitionKey): Conflict;
     get conflicts(): Conflicts;
     // (undocumented)
@@ -511,6 +527,8 @@ export class Container {
 
 // @public (undocumented)
 export interface ContainerDefinition {
+    // (undocumented)
+    clientencryptionpolicy?: ClientEncryptionPolicy[];
     conflictResolutionPolicy?: ConflictResolutionPolicy;
     defaultTtl?: number;
     geospatialConfig?: {
@@ -548,7 +566,7 @@ export class ContainerResponse extends ResourceResponse<ContainerDefinition & Re
 
 // @public
 export class Containers {
-    constructor(database: Database, clientContext: ClientContext);
+    constructor(database: Database, clientContext: ClientContext, dekCache?: UnwrappedDekCache, wrappedDekCache?: WrappedDekCache);
     create(body: ContainerRequest, options?: RequestOptions): Promise<ContainerResponse>;
     createIfNotExists(body: ContainerRequest, options?: RequestOptions): Promise<ContainerResponse>;
     // (undocumented)
@@ -580,6 +598,7 @@ export interface CosmosClientOptions {
     agent?: Agent;
     connectionPolicy?: ConnectionPolicy;
     consistencyLevel?: keyof typeof ConsistencyLevel;
+    credentials?: ClientSecretCredential;
     // Warning: (ae-forgotten-export) The symbol "CosmosHeaders_2" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
@@ -587,6 +606,7 @@ export interface CosmosClientOptions {
     endpoint: string;
     key?: string;
     permissionFeed?: PermissionDefinition[];
+    // (undocumented)
     resourceTokens?: {
         [resourcePath: string]: string;
     };
@@ -634,11 +654,13 @@ export interface CreateOperationInput {
 
 // @public
 export class Database {
-    constructor(client: CosmosClient, id: string, clientContext: ClientContext);
+    constructor(client: CosmosClient, id: string, clientContext: ClientContext, credentials?: ClientSecretCredential);
     // (undocumented)
     readonly client: CosmosClient;
     container(id: string): Container;
     readonly containers: Containers;
+    // (undocumented)
+    CreateClientEncryptionKeyAsync(name: string, encryptionKeyWrapMetadata: EncryptionKeyWrapMetadata): Promise<void>;
     delete(options?: RequestOptions): Promise<DatabaseResponse>;
     // (undocumented)
     readonly id: string;
@@ -701,7 +723,7 @@ export class DatabaseResponse extends ResourceResponse<DatabaseDefinition & Reso
 
 // @public
 export class Databases {
-    constructor(client: CosmosClient, clientContext: ClientContext);
+    constructor(client: CosmosClient, clientContext: ClientContext, credentials?: ClientSecretCredential);
     // (undocumented)
     readonly client: CosmosClient;
     create(body: DatabaseRequest, options?: RequestOptions): Promise<DatabaseResponse>;
@@ -738,6 +760,19 @@ export interface DeleteOperationInput {
     operationType: typeof BulkOperationType.Delete;
     // (undocumented)
     partitionKey?: PartitionKey;
+}
+
+// @public (undocumented)
+export class EncryptionKeyWrapMetadata {
+    constructor(type: string, name: string, value: string, algorithm: string);
+    // (undocumented)
+    algorithm: string;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    type: string;
+    // (undocumented)
+    value: string;
 }
 
 // @public (undocumented)
@@ -965,7 +1000,8 @@ export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T &
 
 // @public
 export class Items {
-    constructor(container: Container, clientContext: ClientContext);
+    // Warning: (ae-forgotten-export) The symbol "ClientEncryptionPolicyCache" needs to be exported by the entry point index.d.ts
+    constructor(container: Container, clientContext: ClientContext, wrappeDekCache?: WrappedDekCache, unwrappedDekCache?: UnwrappedDekCache, clientencryptionpolicycache?: ClientEncryptionPolicyCache);
     batch(operations: OperationInput[], partitionKey?: PartitionKey, options?: RequestOptions): Promise<Response_2<OperationResponse[]>>;
     bulk(operations: OperationInput[], bulkOptions?: BulkOptions, options?: RequestOptions): Promise<BulkOperationResponse>;
     changeFeed(partitionKey: PartitionKey, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;

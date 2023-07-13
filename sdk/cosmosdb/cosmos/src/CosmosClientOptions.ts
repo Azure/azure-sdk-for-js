@@ -6,6 +6,7 @@ import { PermissionDefinition } from "./client";
 import { ConnectionPolicy, ConsistencyLevel } from "./documents";
 import { PluginConfig } from "./plugins/Plugin";
 import { CosmosHeaders } from "./queryExecutionContext/CosmosHeaders";
+import { ClientSecretCredential } from "@azure/identity";
 
 // We expose our own Agent interface to avoid taking a dependency on and leaking node types. This interface should mirror the node Agent interface
 export interface Agent {
@@ -24,6 +25,8 @@ export interface CosmosClientOptions {
   /** An object that contains resources tokens.
    * Keys for the object are resource Ids and values are the resource tokens.
    */
+  credentials?: ClientSecretCredential;
+
   resourceTokens?: { [resourcePath: string]: string };
   /** A user supplied function for resolving header authorization tokens.
    * Allows users to generating their own auth tokens, potentially using a separate service

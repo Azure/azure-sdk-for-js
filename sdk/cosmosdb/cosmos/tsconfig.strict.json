@@ -26,6 +26,7 @@
     "src/client/Database/Database.ts",
     "src/client/Database/DatabaseResponse.ts",
     "src/client/Database/Databases.ts",
+    "src/client/Encryption/*.ts",
     "src/client/Item/Item.ts",
     "src/client/Item/ItemResponse.ts",
     "src/client/Item/Items.ts",

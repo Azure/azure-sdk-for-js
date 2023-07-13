@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { ClientSecretCredential } from "@azure/identity";
 import { ClientContext } from "../../ClientContext";
 import { createDatabaseUri, getIdFromLink, getPathFromLink, ResourceType } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
@@ -10,6 +11,15 @@ import { DatabaseDefinition } from "./DatabaseDefinition";
 import { DatabaseResponse } from "./DatabaseResponse";
 import { OfferResponse, OfferDefinition, Offer } from "../Offer";
 import { Resource } from "../Resource";
+// import { EncryptionKey } from "../Encryption/EncryptionKey";
+
+import {
+  EncryptionKeyWrapMetadata,
+  WrappedDekCache,
+  UnwrappedDekCache,
+  CustomerManagedKey,
+  RandomGenerator,
+} from "../Encryption";
 
 /**
  * Operations for reading or deleting an existing database.
@@ -46,7 +56,11 @@ export class Database {
   public get url(): string {
     return createDatabaseUri(this.id);
   }
+  private dekCache?: UnwrappedDekCache;
 
+  // private cmkCache?: CmkCache;
+
+  private wrappedDekCache?: WrappedDekCache;
   /** Returns a new {@link Database} instance.
    *
    * Note: the intention is to get this object from {@link CosmosClient} via `client.database(id)`, not to instantiate it yourself.
@@ -54,10 +68,14 @@ export class Database {
   constructor(
     public readonly client: CosmosClient,
     public readonly id: string,
-    private clientContext: ClientContext
-  ) {
+    private clientContext: ClientContext,
+    private credentials?: ClientSecretCredential // private wrappedDekCache?: WrappedDekCache,
+  ) // private dekCache?: UnwrappedDekCache,
+
+  {
     this.containers = new Containers(this, this.clientContext);
     this.users = new Users(this, this.clientContext);
+    this.credentials = credentials;
   }
 
   /**
@@ -71,7 +89,7 @@ export class Database {
    * ```
    */
   public container(id: string): Container {
-    return new Container(this, id, this.clientContext);
+    return new Container(this, id, this.clientContext, this?.dekCache, this?.wrappedDekCache);
   }
 
   /**
@@ -147,4 +165,42 @@ export class Database {
       offer
     );
   }
+
+  public async CreateClientEncryptionKeyAsync(
+    name: string,
+    encryptionKeyWrapMetadata: EncryptionKeyWrapMetadata
+  ): Promise<void> {
+    //TODO: check if a key by this name already exists in this cache.
+    //TODO: check if a cmk by the name in encryptionKeywrapmetadata already exists in the cache.
+    const customerManagedKey = new CustomerManagedKey(
+      encryptionKeyWrapMetadata.value,
+      this.credentials
+    );
+    const wrappedDek = await this.createEncryptionKeyAsync(name, customerManagedKey);
+    this.wrappedDekCache.setDataEncryptionKey(name, wrappedDek, encryptionKeyWrapMetadata);
+  }
+
+  private async createEncryptionKeyAsync(name: string, cmk: CustomerManagedKey): Promise<string> {
+    const randomGenerator = new RandomGenerator();
+    const unwrappedDek = await randomGenerator.randomBytes(32);
+    const wrappedDek = await cmk.wrapDek(unwrappedDek);
+    this.dekCache.setDataEncryptionKey(name, unwrappedDek);
+    return wrappedDek;
+  }
+
+  // public async createClientEncryptionKey(options: RequestOptions = { }): Promise<ClientEncryptionKeyResponse> {
+
+  //     const dataEncryptionKey = await EncryptionKey.createDataEncryptionKey();
+
+  //     const wrappedKey = await EncryptionKey.wrapDataEncryptionKey( options, dataEncryptionKey);
+
+  //     const response = {
+  //       result: wrappedKey,
+  //       headers: {},
+  //       code: 200,
+  //       diagnostics: "",
+  //     };
+
+  //     return new ClientEncryptionKeyResponse(response);
+  //   }
 }

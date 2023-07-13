@@ -20,6 +20,8 @@ import { ContainerDefinition } from "./ContainerDefinition";
 import { ContainerRequest } from "./ContainerRequest";
 import { ContainerResponse } from "./ContainerResponse";
 import { validateOffer } from "../../utils/offers";
+import { WrappedDekCache } from "../Encryption/WrappedDekCache";
+import { UnwrappedDekCache } from "../Encryption/UnwrappedDekCache";
 
 /**
  * Operations for creating new containers, and reading/querying all containers
@@ -32,7 +34,12 @@ import { validateOffer } from "../../utils/offers";
  * do this once on application start up.
  */
 export class Containers {
-  constructor(public readonly database: Database, private readonly clientContext: ClientContext) {}
+  constructor(
+    public readonly database: Database,
+    private readonly clientContext: ClientContext,
+    private dekCache?: UnwrappedDekCache,
+    private wrappedDekCache?: WrappedDekCache
+  ) {}
 
   /**
    * Queries all containers.
@@ -166,7 +173,13 @@ export class Containers {
       resourceId: id,
       options,
     });
-    const ref = new Container(this.database, response.result.id, this.clientContext);
+    const ref = new Container(
+      this.database,
+      response.result.id,
+      this.clientContext,
+      this?.dekCache,
+      this?.wrappedDekCache
+    );
     return new ContainerResponse(
       response.result,
       response.headers,
