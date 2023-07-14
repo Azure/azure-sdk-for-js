@@ -463,6 +463,10 @@
 /sdk/iotcentral/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/iotfirmwaredefense/arm-iotfirmwaredefense @qiaozha @MaryGao
+/sdk/iotfirmwaredefense/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/iothub/arm-iothub/ @qiaozha @MaryGao
 /sdk/iothub/ci.mgmt.yml @qiaozha @MaryGao
 
