@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpResponse, isNode } from "@azure/core-http";
+import { isNode } from "@azure/core-util";
 import {
   CopyStatusType,
   FileDownloadHeaders,
@@ -16,6 +16,7 @@ import {
   RetriableReadableStream,
   RetriableReadableStreamOptions,
 } from "./utils/RetriableReadableStream";
+import { HttpResponse, WithResponse, assertResponse } from "./utils/utils.common";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -397,7 +398,7 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
     return this.originalResponse._response;
   }
 
-  private originalResponse: FileDownloadResponseModel;
+  private originalResponse: WithResponse<FileDownloadResponseModel, FileDownloadHeaders>;
   private fileDownloadStream?: RetriableReadableStream;
 
   /**
@@ -416,7 +417,9 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
     count: number,
     options: RetriableReadableStreamOptions = {}
   ) {
-    this.originalResponse = originalResponse;
+    this.originalResponse = assertResponse<FileDownloadResponseModel, FileDownloadHeaders>(
+      originalResponse
+    );
     this.fileDownloadStream = new RetriableReadableStream(
       this.originalResponse.readableStreamBody!,
       getter,

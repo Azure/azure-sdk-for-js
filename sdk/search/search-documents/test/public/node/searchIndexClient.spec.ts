@@ -5,7 +5,12 @@ import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { Suite } from "mocha";
 import { assert } from "chai";
-import { SearchIndex, SearchIndexClient, SynonymMap } from "../../../src";
+import {
+  SearchIndex,
+  SearchIndexClient,
+  SynonymMap,
+  VectorSearchAlgorithmConfiguration,
+} from "../../../src";
 import { Hotel } from "../utils/interfaces";
 import { createClients } from "../utils/recordedClient";
 import {
@@ -225,4 +230,75 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
       });
     });
   });
+  onVersions({ minVer: "2023-07-01-Preview" }).describe(
+    "SearchIndexClient",
+    function (this: Suite) {
+      let recorder: Recorder;
+      let indexClient: SearchIndexClient;
+      let TEST_INDEX_NAME: string;
+
+      this.timeout(99999);
+
+      beforeEach(async function (this: Context) {
+        recorder = new Recorder(this.currentTest);
+        TEST_INDEX_NAME = createRandomIndexName();
+        ({ indexClient, indexName: TEST_INDEX_NAME } = await createClients<Hotel>(
+          serviceVersion,
+          recorder,
+          TEST_INDEX_NAME
+        ));
+
+        await createSynonymMaps(indexClient);
+        await createSimpleIndex(indexClient, TEST_INDEX_NAME);
+        await delay(WAIT_TIME);
+      });
+
+      afterEach(async function () {
+        await indexClient.deleteIndex(TEST_INDEX_NAME);
+        await delay(WAIT_TIME);
+        await deleteSynonymMaps(indexClient);
+        if (recorder) {
+          await recorder.stop();
+        }
+      });
+
+      it("creates the index object vector fields", async function () {
+        const indexName: string = isLiveMode() ? createRandomIndexName() : "hotel-live-test4";
+
+        const configuration: VectorSearchAlgorithmConfiguration = {
+          name: "algorithm-configuration",
+          kind: "hnsw",
+          parameters: { m: 10, efSearch: 1000, efConstruction: 1000, metric: "dotProduct" },
+        };
+
+        let index: SearchIndex = {
+          name: indexName,
+          fields: [
+            {
+              type: "Edm.String",
+              name: "id",
+              key: true,
+            },
+            {
+              type: "Collection(Edm.Single)",
+              name: "descriptionVector",
+              vectorSearchDimensions: 1536,
+              searchable: true,
+              vectorSearchConfiguration: configuration.name,
+            },
+          ],
+          vectorSearch: {
+            algorithmConfigurations: [configuration],
+          },
+        };
+        await indexClient.createOrUpdateIndex(index);
+        try {
+          index = await indexClient.getIndex(indexName);
+          assert.deepEqual(index.vectorSearch?.algorithmConfigurations?.[0], configuration);
+        } finally {
+          await indexClient.deleteIndex(index);
+        }
+      });
+    }
+  );
 });

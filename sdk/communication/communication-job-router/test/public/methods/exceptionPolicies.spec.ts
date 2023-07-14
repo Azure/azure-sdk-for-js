@@ -2,15 +2,15 @@
 // Licensed under the MIT license.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import { ExceptionPolicy, RouterAdministrationClient } from "../../../src";
+import { ExceptionPolicy, JobRouterAdministrationClient } from "../../../src";
 import { assert } from "chai";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { Context } from "mocha";
 import { getExceptionPolicyRequest } from "../utils/testData";
 import { timeoutMs } from "../utils/constants";
 
-describe("RouterClient", function () {
-  let administrationClient: RouterAdministrationClient;
+describe("JobRouterClient", function () {
+  let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;
 
   const testRunId = "recorded-e-policies";
@@ -60,7 +60,7 @@ describe("RouterClient", function () {
 
     it("should list exception policies", async function () {
       const result: ExceptionPolicy[] = [];
-      for await (const policy of administrationClient.listExceptionPolicies({ maxPageSize: 20 })) {
+      for await (const policy of administrationClient.listExceptionPolicies({ maxpagesize: 20 })) {
         result.push(policy.exceptionPolicy!);
       }
 

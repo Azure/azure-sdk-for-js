@@ -10,6 +10,12 @@
 
 ### Other Changes
 
+## 2.2.1 (2023-06-16)
+
+### Bugs Fixed
+
+- Bug fix for when running the policy, a query param is always being detected as the URLSearchParams object exists, even if it is empty.
+
 ## 3.0.0-beta.1 (2023-03-27)
 
 ### Features Added

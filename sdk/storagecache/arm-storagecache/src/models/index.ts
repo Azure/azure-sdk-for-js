@@ -8,6 +8,325 @@
 
 import * as coreClient from "@azure/core-client";
 
+/** Result of the request to list AML file systems. It contains a list of AML file systems and a URL link to get the next set of results. */
+export interface AmlFilesystemsListResult {
+  /** URL to get the next set of AML file system list results, if there are any. */
+  nextLink?: string;
+  /** List of AML file systems. */
+  value?: AmlFilesystem[];
+}
+
+/** Managed Identity properties. */
+export interface AmlFilesystemIdentity {
+  /**
+   * The principal ID for the user-assigned identity of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID associated with the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** The type of identity used for the resource. */
+  type?: AmlFilesystemIdentityType;
+  /** A dictionary where each key is a user assigned identity resource ID, and each key's value is an empty dictionary. */
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedIdentitiesValue;
+  };
+}
+
+export interface UserAssignedIdentitiesValue {
+  /**
+   * The principal ID of the user-assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the user-assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
+/** SKU for the resource. */
+export interface SkuName {
+  /** SKU name for this resource. */
+  name?: string;
+}
+
+/** An indication of AML file system health. Gives more information about health than just that related to provisioning. */
+export interface AmlFilesystemHealth {
+  /** List of AML file system health states. */
+  state?: AmlFilesystemHealthStateType;
+  /** Server-defined error code for the AML file system health */
+  statusCode?: string;
+  /** Describes the health state. */
+  statusDescription?: string;
+}
+
+/** AML file system client information */
+export interface AmlFilesystemClientInfo {
+  /**
+   * The IPv4 address used by clients to mount the AML file system's Lustre Management Service (MGS).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly mgsAddress?: string;
+  /**
+   * Recommended command to mount the AML file system
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly mountCommand?: string;
+  /**
+   * The version of Lustre running in the AML file system
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lustreVersion?: string;
+  /**
+   * Container Storage Interface information for the AML file system.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly containerStorageInterface?: AmlFilesystemContainerStorageInterface;
+}
+
+/** AML file system container storage interface information */
+export interface AmlFilesystemContainerStorageInterface {
+  /**
+   * Recommended AKS Persistent Volume Claim for the CSI driver, in Base64 encoded YAML
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly persistentVolumeClaim?: string;
+  /**
+   * Recommended AKS Persistent Volume for the CSI driver, in Base64 encoded YAML
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly persistentVolume?: string;
+  /**
+   * Recommended AKS Storage Class for the CSI driver, in Base64 encoded YAML
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly storageClass?: string;
+}
+
+/** AML file system encryption settings. */
+export interface AmlFilesystemEncryptionSettings {
+  /** Specifies the location of the encryption key in Key Vault. */
+  keyEncryptionKey?: KeyVaultKeyReference;
+}
+
+/** Describes a reference to key vault key. */
+export interface KeyVaultKeyReference {
+  /** The URL referencing a key encryption key in key vault. */
+  keyUrl: string;
+  /** Describes a resource Id to source key vault. */
+  sourceVault: KeyVaultKeyReferenceSourceVault;
+}
+
+/** Describes a resource Id to source key vault. */
+export interface KeyVaultKeyReferenceSourceVault {
+  /** Resource Id. */
+  id?: string;
+}
+
+/** Start time of a 30-minute weekly maintenance window. */
+export interface AmlFilesystemPropertiesMaintenanceWindow {
+  /** Day of the week on which the maintenance window will occur. */
+  dayOfWeek?: MaintenanceDayOfWeekType;
+  /** The time of day (in UTC) to start the maintenance window. */
+  timeOfDayUTC?: string;
+}
+
+/** Hydration and archive settings and status */
+export interface AmlFilesystemPropertiesHsm {
+  /** Specifies HSM settings of the AML file system. */
+  settings?: AmlFilesystemHsmSettings;
+  /**
+   * Archive status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly archiveStatus?: AmlFilesystemArchive[];
+}
+
+/** AML file system HSM settings. */
+export interface AmlFilesystemHsmSettings {
+  /** Resource ID of storage container used for hydrating the namespace and archiving from the namespace. The resource provider must have permission to create SAS tokens on the storage account. */
+  container: string;
+  /** Resource ID of storage container used for logging events and errors.  Must be a separate container in the same storage account as the hydration and archive container. The resource provider must have permission to create SAS tokens on the storage account. */
+  loggingContainer: string;
+  /** Only blobs in the non-logging container that start with this path/prefix get hydrated into the cluster namespace. */
+  importPrefix?: string;
+}
+
+/** Information about the AML file system archive */
+export interface AmlFilesystemArchive {
+  /**
+   * Lustre file system path to archive relative to the file system root.  Specify '/' to archive all modified data.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly filesystemPath?: string;
+  /**
+   * The status of the archive
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: AmlFilesystemArchiveStatus;
+}
+
+/** The status of the archive */
+export interface AmlFilesystemArchiveStatus {
+  /**
+   * The state of the archive operation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: ArchiveStatusType;
+  /**
+   * The time of the last completed archive operation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastCompletionTime?: Date;
+  /**
+   * The time the latest archive operation started
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastStartedTime?: Date;
+  /**
+   * The completion percentage of the archive operation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly percentComplete?: number;
+  /**
+   * Server-defined error code for the archive operation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorCode?: string;
+  /**
+   * Server-defined error message for the archive operation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorMessage?: string;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** An error response. */
+export interface CloudError {
+  /** The body of the error. */
+  error?: CloudErrorBody;
+}
+
+/** An error response. */
+export interface CloudErrorBody {
+  /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
+  code?: string;
+  /** A list of additional details about the error. */
+  details?: CloudErrorBody[];
+  /** A message describing the error, intended to be suitable for display in a user interface. */
+  message?: string;
+  /** The target of the particular error. For example, the name of the property in error. */
+  target?: string;
+}
+
+/** An AML file system update instance. */
+export interface AmlFilesystemUpdate {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Specifies encryption settings of the AML file system. */
+  encryptionSettings?: AmlFilesystemEncryptionSettings;
+  /** Start time of a 30-minute weekly maintenance window. */
+  maintenanceWindow?: AmlFilesystemUpdatePropertiesMaintenanceWindow;
+}
+
+/** Start time of a 30-minute weekly maintenance window. */
+export interface AmlFilesystemUpdatePropertiesMaintenanceWindow {
+  /** Day of the week on which the maintenance window will occur. */
+  dayOfWeek?: MaintenanceDayOfWeekType;
+  /** The time of day (in UTC) to start the maintenance window. */
+  timeOfDayUTC?: string;
+}
+
+/** Information required to execute the archive operation */
+export interface AmlFilesystemArchiveInfo {
+  /** Lustre file system path to archive relative to the file system root.  Specify '/' to archive all modified data. */
+  filesystemPath?: string;
+}
+
+/** Information required to validate the subnet that will be used in AML file system create */
+export interface AmlFilesystemSubnetInfo {
+  /** Subnet used for managing the AML file system and for client-facing operations. This subnet should have at least a /24 subnet mask within the VNET's address space. */
+  filesystemSubnet?: string;
+  /** The size of the AML file system, in TiB. */
+  storageCapacityTiB?: number;
+  /** SKU for the resource. */
+  sku?: SkuName;
+  /** Region that the AML file system will be created in. */
+  location?: string;
+}
+
+/** The error details provided when the checkAmlFSSubnets call fails. */
+export interface AmlFilesystemCheckSubnetError {
+  /** The error details for the AML file system's subnet. */
+  filesystemSubnet?: AmlFilesystemCheckSubnetErrorFilesystemSubnet;
+}
+
+/** The error details for the AML file system's subnet. */
+export interface AmlFilesystemCheckSubnetErrorFilesystemSubnet {
+  /** The status of the AML file system subnet check. */
+  status?: FilesystemSubnetStatusType;
+  /** The details of the AML file system subnet check. */
+  message?: string;
+}
+
+/** Information required to get the number of available IP addresses a subnet should have that will be used in AML file system create */
+export interface RequiredAmlFilesystemSubnetsSizeInfo {
+  /** The size of the AML file system, in TiB. */
+  storageCapacityTiB?: number;
+  /** SKU for the resource. */
+  sku?: SkuName;
+}
+
+/** Information about the number of available IP addresses that are required for the AML file system. */
+export interface RequiredAmlFilesystemSubnetsSize {
+  /** The number of available IP addresses that are required for the AML file system. */
+  filesystemSubnetSize?: number;
+}
+
 /** Result of the request to list Resource Provider operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface ApiOperationListResult {
   /** URL to get the next set of operation list results if there are any. */
@@ -88,24 +407,6 @@ export interface LogSpecification {
   name?: string;
   /** Localized display name of the log. */
   displayName?: string;
-}
-
-/** An error response. */
-export interface CloudError {
-  /** The body of the error. */
-  error?: CloudErrorBody;
-}
-
-/** An error response. */
-export interface CloudErrorBody {
-  /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
-  code?: string;
-  /** A list of additional details about the error. */
-  details?: CloudErrorBody[];
-  /** A message describing the error, intended to be suitable for display in a user interface. */
-  message?: string;
-  /** The target of the particular error. For example, the name of the property in error. */
-  target?: string;
 }
 
 /** The response from the List Cache SKUs operation. */
@@ -307,10 +608,8 @@ export interface Cache {
   readonly systemData?: SystemData;
   /** SKU for the cache. */
   sku?: CacheSku;
-  /** The size of this cache, in GB, when scalingFactor is 1.0. Values depend on the cache SKU - <a href="https://learn.microsoft.com/en-us/rest/api/storagecache/skus/list?tabs=HTTP">List SKUs</a>. */
+  /** The size of this Cache, in GB. */
   cacheSizeGB?: number;
-  /** Multiplier that sets the current storage and throughput capacity of the cache. Values depend on the cache SKU - <a href="https://learn.microsoft.com/en-us/rest/api/storagecache/skus/list?tabs=HTTP">List SKUs</a>. Values above 1.0 increase the cache size and throughput - for example, the scaling factor 1.33 gives a cache that's 33% larger than its base size. */
-  scalingFactor?: number;
   /**
    * Health of the cache.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -375,35 +674,6 @@ export interface CacheIdentity {
   userAssignedIdentities?: {
     [propertyName: string]: UserAssignedIdentitiesValue;
   };
-}
-
-export interface UserAssignedIdentitiesValue {
-  /**
-   * The principal ID of the user-assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The client ID of the user-assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly clientId?: string;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
 }
 
 /** An indication of cache health. Gives more information about health than just that related to provisioning. */
@@ -493,20 +763,6 @@ export interface CacheEncryptionSettings {
   keyEncryptionKey?: KeyVaultKeyReference;
   /** Specifies whether the service will automatically rotate to the newest version of the key in the key vault. */
   rotationToLatestKeyVersionEnabled?: boolean;
-}
-
-/** Describes a reference to key vault key. */
-export interface KeyVaultKeyReference {
-  /** The URL referencing a key encryption key in key vault. */
-  keyUrl: string;
-  /** Describes a resource Id to source key vault. */
-  sourceVault: KeyVaultKeyReferenceSourceVault;
-}
-
-/** Describes a resource Id to source key vault. */
-export interface KeyVaultKeyReferenceSourceVault {
-  /** Resource Id. */
-  id?: string;
 }
 
 /** Cache security settings. */
@@ -757,232 +1013,12 @@ export interface PrimingJobIdParameter {
   primingJobId: string;
 }
 
-/** Result of the request to list AML file systems. It contains a list of AML file systems and a URL link to get the next set of results. */
-export interface AmlFilesystemsListResult {
-  /** URL to get the next set of AML file system list results, if there are any. */
-  nextLink?: string;
-  /** List of AML file systems. */
-  value?: AmlFilesystem[];
-}
-
-/** Managed Identity properties. */
-export interface AmlFilesystemIdentity {
-  /**
-   * The principal ID for the user-assigned identity of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The tenant ID associated with the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-  /** The type of identity used for the resource. */
-  type?: AmlFilesystemIdentityType;
-  /** A dictionary where each key is a user assigned identity resource ID, and each key's value is an empty dictionary. */
-  userAssignedIdentities?: {
-    [propertyName: string]: UserAssignedIdentitiesValueAutoGenerated;
-  };
-}
-
-export interface UserAssignedIdentitiesValueAutoGenerated {
-  /**
-   * The principal ID of the user-assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The client ID of the user-assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly clientId?: string;
-}
-
-/** SKU for the resource. */
-export interface SkuName {
-  /** SKU name for this resource. */
-  name?: string;
-}
-
-/** An indication of AML file system health. Gives more information about health than just that related to provisioning. */
-export interface AmlFilesystemHealth {
-  /** List of AML file system health states. */
-  state?: AmlFilesystemHealthStateType;
-  /** Server-defined error code for the AML file system health */
-  statusCode?: string;
-  /** Describes the health state. */
-  statusDescription?: string;
-}
-
-/** AML file system encryption settings. */
-export interface AmlFilesystemEncryptionSettings {
-  /** Specifies the location of the encryption key in Key Vault. */
-  keyEncryptionKey?: KeyVaultKeyReference;
-}
-
-/** Start time of a 30-minute weekly maintenance window. */
-export interface AmlFilesystemPropertiesMaintenanceWindow {
-  /** Day of the week on which the maintenance window will occur. */
-  dayOfWeek?: MaintenanceDayOfWeekType;
-  /** The time of day (in UTC) to start the maintenance window. */
-  timeOfDayUTC?: string;
-}
-
-/** Hydration and archive settings and status */
-export interface AmlFilesystemPropertiesHsm {
-  /** Specifies HSM settings of the AML file system. */
-  settings?: AmlFilesystemHsmSettings;
-  /**
-   * Archive status
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly archiveStatus?: AmlFilesystemArchive[];
-}
-
-/** AML file system HSM settings. */
-export interface AmlFilesystemHsmSettings {
-  /** Resource ID of storage container used for hydrating the namespace and archiving from the namespace. The resource provider must have permission to create SAS tokens on the storage account. */
-  container: string;
-  /** Resource ID of storage container used for logging events and errors.  Must be a separate container in the same storage account as the hydration and archive container. The resource provider must have permission to create SAS tokens on the storage account. */
-  loggingContainer: string;
-  /** Only blobs in the non-logging container that start with this path/prefix get hydrated into the cluster namespace. */
-  importPrefix?: string;
-}
-
-/** Information about the AML file system archive */
-export interface AmlFilesystemArchive {
-  /**
-   * Lustre file system path to archive relative to the file system root.  Specify '/' to archive all modified data.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly filesystemPath?: string;
-  /**
-   * The status of the archive
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: AmlFilesystemArchiveStatus;
-}
-
-/** The status of the archive */
-export interface AmlFilesystemArchiveStatus {
-  /**
-   * The state of the archive operation
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: ArchiveStatusType;
-  /**
-   * The time of the last completed archive operation
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastCompletionTime?: Date;
-  /**
-   * The time the latest archive operation started
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastStartedTime?: Date;
-  /**
-   * The completion percentage of the archive operation
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly percentComplete?: number;
-  /**
-   * Server-defined error code for the archive operation
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly errorCode?: string;
-  /**
-   * Server-defined error message for the archive operation
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly errorMessage?: string;
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-/** An AML file system update instance. */
-export interface AmlFilesystemUpdate {
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-  /** Specifies encryption settings of the AML file system. */
-  encryptionSettings?: AmlFilesystemEncryptionSettings;
-  /** Start time of a 30-minute weekly maintenance window. */
-  maintenanceWindow?: AmlFilesystemUpdatePropertiesMaintenanceWindow;
-}
-
-/** Start time of a 30-minute weekly maintenance window. */
-export interface AmlFilesystemUpdatePropertiesMaintenanceWindow {
-  /** Day of the week on which the maintenance window will occur. */
-  dayOfWeek?: MaintenanceDayOfWeekType;
-  /** The time of day (in UTC) to start the maintenance window. */
-  timeOfDayUTC?: string;
-}
-
-/** Information required to execute the archive operation */
-export interface AmlFilesystemArchiveInfo {
-  /** Lustre file system path to archive relative to the file system root.  Specify '/' to archive all modified data. */
-  filesystemPath?: string;
-}
-
-/** Information required to validate the subnet that will be used in AML file system create */
-export interface AmlFilesystemSubnetInfo {
-  /** Subnet used for managing the AML file system and for client-facing operations. This subnet should have at least a /24 subnet mask within the VNET's address space. */
-  filesystemSubnet?: string;
-  /** The size of the AML file system, in TiB. */
-  storageCapacityTiB?: number;
-  /** SKU for the resource. */
-  sku?: SkuName;
-  /** Region that the AML file system will be created in. */
-  location?: string;
-}
-
-/** The error details provided when the checkAmlFSSubnets call fails. */
-export interface AmlFilesystemCheckSubnetError {
-  /** The error details for the AML file system's subnet. */
-  filesystemSubnet?: AmlFilesystemCheckSubnetErrorFilesystemSubnet;
-}
-
-/** The error details for the AML file system's subnet. */
-export interface AmlFilesystemCheckSubnetErrorFilesystemSubnet {
-  /** The status of the AML file system subnet check. */
-  status?: FilesystemSubnetStatusType;
-  /** The details of the AML file system subnet check. */
-  message?: string;
-}
-
-/** Information required to get the number of available IP addresses a subnet should have that will be used in AML file system create */
-export interface RequiredAmlFilesystemSubnetsSizeInfo {
-  /** The size of the AML file system, in TiB. */
-  storageCapacityTiB?: number;
-  /** SKU for the resource. */
-  sku?: SkuName;
-}
-
-/** Information about the number of available IP addresses that are required for the AML file system. */
-export interface RequiredAmlFilesystemSubnetsSize {
-  /** The number of available IP addresses that are required for the AML file system. */
-  filesystemSubnetSize?: number;
+  /** The geo-location where the resource lives */
+  location: string;
 }
 
 /** Type of the Storage Target. */
@@ -1013,14 +1049,6 @@ export interface StorageTarget extends StorageTargetResource {
   readonly allocationPercentage?: number;
 }
 
-/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export interface TrackedResource extends Resource {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** The geo-location where the resource lives */
-  location: string;
-}
-
 /** An AML file system instance. Follows Azure Resource Manager standards: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/resource-api-reference.md */
 export interface AmlFilesystem extends TrackedResource {
   /** The managed identity used by the AML file system, if configured. */
@@ -1044,20 +1072,10 @@ export interface AmlFilesystem extends TrackedResource {
   /** Subnet used for managing the AML file system and for client-facing operations. This subnet should have at least a /24 subnet mask within the VNET's address space. */
   filesystemSubnet?: string;
   /**
-   * The IPv4 address used by clients to mount the AML file system's Lustre Management Service (MGS).
+   * Client information for the AML file system.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly mgsAddress?: string;
-  /**
-   * Recommended command to mount the AML file system
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly mountCommand?: string;
-  /**
-   * The version of Lustre running in the AML file system
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lustreVersion?: string;
+  readonly clientInfo?: AmlFilesystemClientInfo;
   /**
    * Throughput provisioned in MB per sec, calculated as storageCapacityTiB * per-unit storage throughput
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1069,6 +1087,28 @@ export interface AmlFilesystem extends TrackedResource {
   maintenanceWindow?: AmlFilesystemPropertiesMaintenanceWindow;
   /** Hydration and archive settings and status */
   hsm?: AmlFilesystemPropertiesHsm;
+}
+
+/** Defines headers for AmlFilesystems_delete operation. */
+export interface AmlFilesystemsDeleteHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for AmlFilesystems_createOrUpdate operation. */
+export interface AmlFilesystemsCreateOrUpdateHeaders {
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for AmlFilesystems_update operation. */
+export interface AmlFilesystemsUpdateHeaders {
+  /** URI to poll for the operation status */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
 }
 
 /** Defines headers for Caches_delete operation. */
@@ -1223,27 +1263,140 @@ export interface StorageTargetInvalidateHeaders {
   azureAsyncOperation?: string;
 }
 
-/** Defines headers for AmlFilesystems_delete operation. */
-export interface AmlFilesystemsDeleteHeaders {
-  /** Location URI to poll for result */
-  location?: string;
-  /** URI to poll for the operation status */
-  azureAsyncOperation?: string;
+/** Known values of {@link AmlFilesystemHealthStateType} that the service accepts. */
+export enum KnownAmlFilesystemHealthStateType {
+  /** Unavailable */
+  Unavailable = "Unavailable",
+  /** Available */
+  Available = "Available",
+  /** Degraded */
+  Degraded = "Degraded",
+  /** Transitioning */
+  Transitioning = "Transitioning",
+  /** Maintenance */
+  Maintenance = "Maintenance"
 }
 
-/** Defines headers for AmlFilesystems_createOrUpdate operation. */
-export interface AmlFilesystemsCreateOrUpdateHeaders {
-  /** URI to poll for the operation status */
-  azureAsyncOperation?: string;
+/**
+ * Defines values for AmlFilesystemHealthStateType. \
+ * {@link KnownAmlFilesystemHealthStateType} can be used interchangeably with AmlFilesystemHealthStateType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unavailable** \
+ * **Available** \
+ * **Degraded** \
+ * **Transitioning** \
+ * **Maintenance**
+ */
+export type AmlFilesystemHealthStateType = string;
+
+/** Known values of {@link AmlFilesystemProvisioningStateType} that the service accepts. */
+export enum KnownAmlFilesystemProvisioningStateType {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Creating */
+  Creating = "Creating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Updating */
+  Updating = "Updating",
+  /** Canceled */
+  Canceled = "Canceled"
 }
 
-/** Defines headers for AmlFilesystems_update operation. */
-export interface AmlFilesystemsUpdateHeaders {
-  /** URI to poll for the operation status */
-  location?: string;
-  /** URI to poll for the operation status */
-  azureAsyncOperation?: string;
+/**
+ * Defines values for AmlFilesystemProvisioningStateType. \
+ * {@link KnownAmlFilesystemProvisioningStateType} can be used interchangeably with AmlFilesystemProvisioningStateType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Creating** \
+ * **Deleting** \
+ * **Updating** \
+ * **Canceled**
+ */
+export type AmlFilesystemProvisioningStateType = string;
+
+/** Known values of {@link ArchiveStatusType} that the service accepts. */
+export enum KnownArchiveStatusType {
+  /** NotConfigured */
+  NotConfigured = "NotConfigured",
+  /** Idle */
+  Idle = "Idle",
+  /** InProgress */
+  InProgress = "InProgress",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Completed */
+  Completed = "Completed",
+  /** Failed */
+  Failed = "Failed",
+  /** Cancelling */
+  Cancelling = "Cancelling",
+  /** FSScanInProgress */
+  FSScanInProgress = "FSScanInProgress"
 }
+
+/**
+ * Defines values for ArchiveStatusType. \
+ * {@link KnownArchiveStatusType} can be used interchangeably with ArchiveStatusType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotConfigured** \
+ * **Idle** \
+ * **InProgress** \
+ * **Canceled** \
+ * **Completed** \
+ * **Failed** \
+ * **Cancelling** \
+ * **FSScanInProgress**
+ */
+export type ArchiveStatusType = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
+/** Known values of {@link FilesystemSubnetStatusType} that the service accepts. */
+export enum KnownFilesystemSubnetStatusType {
+  /** Ok */
+  Ok = "Ok",
+  /** Invalid */
+  Invalid = "Invalid"
+}
+
+/**
+ * Defines values for FilesystemSubnetStatusType. \
+ * {@link KnownFilesystemSubnetStatusType} can be used interchangeably with FilesystemSubnetStatusType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Ok** \
+ * **Invalid**
+ */
+export type FilesystemSubnetStatusType = string;
 
 /** Known values of {@link MetricAggregationType} that the service accepts. */
 export enum KnownMetricAggregationType {
@@ -1295,30 +1448,6 @@ export enum KnownReasonCode {
  * **NotAvailableForSubscription**
  */
 export type ReasonCode = string;
-
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key"
-}
-
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
 
 /** Known values of {@link HealthStateType} that the service accepts. */
 export enum KnownHealthStateType {
@@ -1595,123 +1724,6 @@ export enum KnownOperationalStateType {
  * **Flushing**
  */
 export type OperationalStateType = string;
-
-/** Known values of {@link AmlFilesystemHealthStateType} that the service accepts. */
-export enum KnownAmlFilesystemHealthStateType {
-  /** Unavailable */
-  Unavailable = "Unavailable",
-  /** Available */
-  Available = "Available",
-  /** Degraded */
-  Degraded = "Degraded",
-  /** Transitioning */
-  Transitioning = "Transitioning",
-  /** Maintenance */
-  Maintenance = "Maintenance"
-}
-
-/**
- * Defines values for AmlFilesystemHealthStateType. \
- * {@link KnownAmlFilesystemHealthStateType} can be used interchangeably with AmlFilesystemHealthStateType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Unavailable** \
- * **Available** \
- * **Degraded** \
- * **Transitioning** \
- * **Maintenance**
- */
-export type AmlFilesystemHealthStateType = string;
-
-/** Known values of {@link AmlFilesystemProvisioningStateType} that the service accepts. */
-export enum KnownAmlFilesystemProvisioningStateType {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Creating */
-  Creating = "Creating",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** Updating */
-  Updating = "Updating",
-  /** Canceled */
-  Canceled = "Canceled"
-}
-
-/**
- * Defines values for AmlFilesystemProvisioningStateType. \
- * {@link KnownAmlFilesystemProvisioningStateType} can be used interchangeably with AmlFilesystemProvisioningStateType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Creating** \
- * **Deleting** \
- * **Updating** \
- * **Canceled**
- */
-export type AmlFilesystemProvisioningStateType = string;
-
-/** Known values of {@link ArchiveStatusType} that the service accepts. */
-export enum KnownArchiveStatusType {
-  /** NotConfigured */
-  NotConfigured = "NotConfigured",
-  /** Idle */
-  Idle = "Idle",
-  /** InProgress */
-  InProgress = "InProgress",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Completed */
-  Completed = "Completed",
-  /** Failed */
-  Failed = "Failed",
-  /** Cancelling */
-  Cancelling = "Cancelling",
-  /** FSScanInProgress */
-  FSScanInProgress = "FSScanInProgress"
-}
-
-/**
- * Defines values for ArchiveStatusType. \
- * {@link KnownArchiveStatusType} can be used interchangeably with ArchiveStatusType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotConfigured** \
- * **Idle** \
- * **InProgress** \
- * **Canceled** \
- * **Completed** \
- * **Failed** \
- * **Cancelling** \
- * **FSScanInProgress**
- */
-export type ArchiveStatusType = string;
-
-/** Known values of {@link FilesystemSubnetStatusType} that the service accepts. */
-export enum KnownFilesystemSubnetStatusType {
-  /** Ok */
-  Ok = "Ok",
-  /** Invalid */
-  Invalid = "Invalid"
-}
-
-/**
- * Defines values for FilesystemSubnetStatusType. \
- * {@link KnownFilesystemSubnetStatusType} can be used interchangeably with FilesystemSubnetStatusType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Ok** \
- * **Invalid**
- */
-export type FilesystemSubnetStatusType = string;
-/** Defines values for CacheIdentityType. */
-export type CacheIdentityType =
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned, UserAssigned"
-  | "None";
 /** Defines values for AmlFilesystemIdentityType. */
 export type AmlFilesystemIdentityType = "UserAssigned" | "None";
 /** Defines values for MaintenanceDayOfWeekType. */
@@ -1723,78 +1735,180 @@ export type MaintenanceDayOfWeekType =
   | "Friday"
   | "Saturday"
   | "Sunday";
+/** Defines values for CacheIdentityType. */
+export type CacheIdentityType =
+  | "SystemAssigned"
+  | "UserAssigned"
+  | "SystemAssigned, UserAssigned"
+  | "None";
+
+/** Optional parameters. */
+export interface AmlFilesystemsListOptionalParams
+  extends coreClient.OperationOptions { }
+
+/** Contains response data for the list operation. */
+export type AmlFilesystemsListResponse = AmlFilesystemsListResult;
+
+/** Optional parameters. */
+export interface AmlFilesystemsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions { }
+
+/** Contains response data for the listByResourceGroup operation. */
+export type AmlFilesystemsListByResourceGroupResponse = AmlFilesystemsListResult;
+
+/** Optional parameters. */
+export interface AmlFilesystemsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface AmlFilesystemsGetOptionalParams
+  extends coreClient.OperationOptions { }
+
+/** Contains response data for the get operation. */
+export type AmlFilesystemsGetResponse = AmlFilesystem;
+
+/** Optional parameters. */
+export interface AmlFilesystemsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type AmlFilesystemsCreateOrUpdateResponse = AmlFilesystem;
+
+/** Optional parameters. */
+export interface AmlFilesystemsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type AmlFilesystemsUpdateResponse = AmlFilesystem;
+
+/** Optional parameters. */
+export interface AmlFilesystemsArchiveOptionalParams
+  extends coreClient.OperationOptions {
+  /** Information about the archive operation */
+  archiveInfo?: AmlFilesystemArchiveInfo;
+}
+
+/** Optional parameters. */
+export interface AmlFilesystemsCancelArchiveOptionalParams
+  extends coreClient.OperationOptions { }
+
+/** Optional parameters. */
+export interface AmlFilesystemsListNextOptionalParams
+  extends coreClient.OperationOptions { }
+
+/** Contains response data for the listNext operation. */
+export type AmlFilesystemsListNextResponse = AmlFilesystemsListResult;
+
+/** Optional parameters. */
+export interface AmlFilesystemsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions { }
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type AmlFilesystemsListByResourceGroupNextResponse = AmlFilesystemsListResult;
+
+/** Optional parameters. */
+export interface CheckAmlFSSubnetsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Information about the subnets to validate. */
+  amlFilesystemSubnetInfo?: AmlFilesystemSubnetInfo;
+}
+
+/** Optional parameters. */
+export interface GetRequiredAmlFSSubnetsSizeOptionalParams
+  extends coreClient.OperationOptions {
+  /** Information to determine the number of available IPs a subnet will need to host the AML file system. */
+  requiredAMLFilesystemSubnetsSizeInfo?: RequiredAmlFilesystemSubnetsSizeInfo;
+}
+
+/** Contains response data for the getRequiredAmlFSSubnetsSize operation. */
+export type GetRequiredAmlFSSubnetsSizeResponse = RequiredAmlFilesystemSubnetsSize;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = ApiOperationListResult;
 
 /** Optional parameters. */
 export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = ApiOperationListResult;
 
 /** Optional parameters. */
-export interface SkusListOptionalParams extends coreClient.OperationOptions {}
+export interface SkusListOptionalParams extends coreClient.OperationOptions { }
 
 /** Contains response data for the list operation. */
 export type SkusListResponse = ResourceSkusResult;
 
 /** Optional parameters. */
 export interface SkusListNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the listNext operation. */
 export type SkusListNextResponse = ResourceSkusResult;
 
 /** Optional parameters. */
 export interface UsageModelsListOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the list operation. */
 export type UsageModelsListResponse = UsageModelsResult;
 
 /** Optional parameters. */
 export interface UsageModelsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the listNext operation. */
 export type UsageModelsListNextResponse = UsageModelsResult;
 
 /** Optional parameters. */
 export interface AscOperationsGetOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the get operation. */
 export type AscOperationsGetResponse = AscOperation;
 
 /** Optional parameters. */
 export interface AscUsagesListOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the list operation. */
 export type AscUsagesListResponse = ResourceUsagesListResult;
 
 /** Optional parameters. */
 export interface AscUsagesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the listNext operation. */
 export type AscUsagesListNextResponse = ResourceUsagesListResult;
 
 /** Optional parameters. */
-export interface CachesListOptionalParams extends coreClient.OperationOptions {}
+export interface CachesListOptionalParams extends coreClient.OperationOptions { }
 
 /** Contains response data for the list operation. */
 export type CachesListResponse = CachesListResult;
 
 /** Optional parameters. */
 export interface CachesListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the listByResourceGroup operation. */
 export type CachesListByResourceGroupResponse = CachesListResult;
@@ -1809,7 +1923,7 @@ export interface CachesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface CachesGetOptionalParams extends coreClient.OperationOptions {}
+export interface CachesGetOptionalParams extends coreClient.OperationOptions { }
 
 /** Contains response data for the get operation. */
 export type CachesGetResponse = Cache;
@@ -1954,14 +2068,14 @@ export type CachesSpaceAllocationResponse = CachesSpaceAllocationHeaders;
 
 /** Optional parameters. */
 export interface CachesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the listNext operation. */
 export type CachesListNextResponse = CachesListResult;
 
 /** Optional parameters. */
 export interface CachesListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type CachesListByResourceGroupNextResponse = CachesListResult;
@@ -1977,7 +2091,7 @@ export interface StorageTargetsDnsRefreshOptionalParams
 
 /** Optional parameters. */
 export interface StorageTargetsListByCacheOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the listByCache operation. */
 export type StorageTargetsListByCacheResponse = StorageTargetsResult;
@@ -1995,7 +2109,7 @@ export interface StorageTargetsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface StorageTargetsGetOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the get operation. */
 export type StorageTargetsGetResponse = StorageTarget;
@@ -2023,7 +2137,7 @@ export interface StorageTargetsRestoreDefaultsOptionalParams
 
 /** Optional parameters. */
 export interface StorageTargetsListByCacheNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the listByCacheNext operation. */
 export type StorageTargetsListByCacheNextResponse = StorageTargetsResult;
@@ -2063,102 +2177,6 @@ export interface StorageTargetInvalidateOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
-
-/** Optional parameters. */
-export interface AmlFilesystemsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type AmlFilesystemsListResponse = AmlFilesystemsListResult;
-
-/** Optional parameters. */
-export interface AmlFilesystemsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type AmlFilesystemsListByResourceGroupResponse = AmlFilesystemsListResult;
-
-/** Optional parameters. */
-export interface AmlFilesystemsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface AmlFilesystemsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type AmlFilesystemsGetResponse = AmlFilesystem;
-
-/** Optional parameters. */
-export interface AmlFilesystemsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type AmlFilesystemsCreateOrUpdateResponse = AmlFilesystem;
-
-/** Optional parameters. */
-export interface AmlFilesystemsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type AmlFilesystemsUpdateResponse = AmlFilesystem;
-
-/** Optional parameters. */
-export interface AmlFilesystemsArchiveOptionalParams
-  extends coreClient.OperationOptions {
-  /** Information about the archive operation */
-  archiveInfo?: AmlFilesystemArchiveInfo;
-}
-
-/** Optional parameters. */
-export interface AmlFilesystemsCancelArchiveOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AmlFilesystemsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type AmlFilesystemsListNextResponse = AmlFilesystemsListResult;
-
-/** Optional parameters. */
-export interface AmlFilesystemsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type AmlFilesystemsListByResourceGroupNextResponse = AmlFilesystemsListResult;
-
-/** Optional parameters. */
-export interface CheckAmlFSSubnetsOptionalParams
-  extends coreClient.OperationOptions {
-  /** Information about the subnets to validate. */
-  amlFilesystemSubnetInfo?: AmlFilesystemSubnetInfo;
-}
-
-/** Optional parameters. */
-export interface GetRequiredAmlFSSubnetsSizeOptionalParams
-  extends coreClient.OperationOptions {
-  /** Information to determine the number of available IPs a subnet will need to host the AML file system. */
-  requiredAMLFilesystemSubnetsSizeInfo?: RequiredAmlFilesystemSubnetsSizeInfo;
-}
-
-/** Contains response data for the getRequiredAmlFSSubnetsSize operation. */
-export type GetRequiredAmlFSSubnetsSizeResponse = RequiredAmlFilesystemSubnetsSize;
 
 /** Optional parameters. */
 export interface StorageCacheManagementClientOptionalParams
