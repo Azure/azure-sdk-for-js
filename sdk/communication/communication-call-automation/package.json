@@ -6,6 +6,9 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "types": "types/communication-call-automation.d.ts",
+  "browser": {
+    "./dist-esm/src/credential/cryptoUtils.js": "./dist-esm/src/credential/cryptoUtils.browser.js"
+  },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:autorest": "autorest ./swagger/README.md && rushx format",
