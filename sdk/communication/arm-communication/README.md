@@ -6,7 +6,7 @@ REST API for Azure Communication Services
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/arm-communication) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-communication) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-communication) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-communication?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -63,7 +63,17 @@ const client = new CommunicationServiceManagementClient(new DefaultAzureCredenti
 // });
 // const client = new CommunicationServiceManagementClient(credential, subscriptionId);
 ```
+```javascript
+const resource = {
+    location: "Global",
+    dataLocation: "United States",
+    identity: {
+        type: "SystemAssigned"
+    }
+};
 
+// Defining an object that specifies identity type as System Assigned for the new resource.
+```
 
 ### JavaScript Bundle
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
