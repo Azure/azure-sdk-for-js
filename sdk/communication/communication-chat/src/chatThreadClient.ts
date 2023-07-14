@@ -45,7 +45,7 @@ import {
   SendTypingNotificationOptions,
   UpdateMessageOptions,
   UpdateTopicOptions,
-  UpdateChatThreadPropertiesOptions
+  UpdateChatThreadPropertiesOptions,
 } from "./models/options";
 import { ChatApiClient } from "./generated/src";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
@@ -140,7 +140,7 @@ export class ChatThreadClient {
       async (updatedOptions) => {
         await this.client.chatThread.updateChatThreadProperties(
           this.threadId,
-          { topic: options.topic },
+          options,
           updatedOptions
         );
       }
