@@ -135,6 +135,9 @@ describe(`ShortCodesClient - manage Attachments`, function () {
     const uspb = getTestUSProgramBrief();
     const pbTestId = recorder.variable(`pb-var`, uspb.id);
     uspb.id = pbTestId;
+    if (uspb.programDetails?.name === "Contoso Loyalty Program") {
+      assert.fail("test failure pipeline");
+    }
 
     const testAttachments = [getTestProgramBriefAttachment(), getTestProgramBriefAttachment()];
     const expectedAttachmentsMap: Record<
