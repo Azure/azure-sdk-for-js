@@ -397,7 +397,7 @@ A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob
 
 ### Resource Logs Query
 
-The following example demonstrates how to query logs directly from an Azure resource without the use of a Log Analytics workspace. Here, the query_resource method is used instead of query_workspace, and instead of a workspace ID, an Azure resource identifier is passed in (e.g. /subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}).
+The following example demonstrates how to query logs directly from an Azure resource without the use of a Log Analytics workspace. Here, the `queryResource` method is used instead of `queryWorkspace`, and instead of a workspace ID, an Azure resource ID is passed in (e.g. /subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}).
 
 ```ts
 /**
