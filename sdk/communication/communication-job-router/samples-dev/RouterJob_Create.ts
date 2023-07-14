@@ -5,10 +5,10 @@
  */
 import {
   DistributionPolicy,
-  RouterJob,
   RouterQueue,
   JobRouterAdministrationClient,
   JobRouterClient,
+  CreateJobOptions,
 } from "@azure/communication-job-router";
 
 // Load the .env file (you will need to set these environment variables)
@@ -50,14 +50,13 @@ async function createRouterJob(): Promise<void> {
   await routerAdministrationClient.createQueue(queueId, queueRequest);
 
   const jobId = "router-job-123";
-  const request: RouterJob = {
-    id: "router-job-123",
+  const options: CreateJobOptions = {
     channelId: "ChatChannel",
     queueId: queueRequest.id,
     labels: {},
   };
 
-  const result = await routerClient.createJob(jobId, request);
+  const result = await routerClient.createJob(jobId, options);
 
   console.log("router job: " + result);
 }

@@ -6,10 +6,10 @@
 import {
   DistributionPolicy,
   RouterQueue,
-  RouterJob,
   JobRouterAdministrationClient,
   JobRouterClient,
   RouterWorkerResponse,
+  CreateJobOptions,
 } from "@azure/communication-job-router";
 
 // Load the .env file (you will need to set these environment variables)
@@ -53,14 +53,13 @@ async function quickStart(): Promise<void> {
 
   // Create a Job
   const jobId = "router-job-123";
-  const jobRequest: RouterJob = {
-    id: "router-job-123",
+  const options: CreateJobOptions = {
     channelId: "ChatChannel",
     queueId: queueRequest.id,
     labels: {},
   };
 
-  await routerClient.createJob(jobId, jobRequest);
+  await routerClient.createJob(jobId, options);
 
   // Register a Worker
   // Register a worker associated with the queue that was just created. We will assign labels to the

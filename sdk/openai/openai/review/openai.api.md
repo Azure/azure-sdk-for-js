@@ -163,6 +163,12 @@ export interface GetEmbeddingsOptions extends RequestOptions {
 }
 
 // @public
+export type ImageGenerationOptions = BeginAzureBatchImageGenerationOptions;
+
+// @public
+export type ImageGenerationResponse = BatchImageGenerationOperationResponse;
+
+// @public
 export type ImageGenerationResponseFormat = string;
 
 // @public
@@ -189,11 +195,12 @@ export class OpenAIClient {
     constructor(endpoint: string, credential: KeyCredential, options?: OpenAIClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: OpenAIClientOptions);
     constructor(openAiApiKey: KeyCredential, options?: OpenAIClientOptions);
-    beginAzureBatchImageGeneration(prompt: string, options?: BeginAzureBatchImageGenerationOptions): Promise<BatchImageGenerationOperationResponse>;
-    getAzureBatchImageGenerationOperationStatus(operationId: string, options?: GetAzureBatchImageGenerationOperationStatusOptions): Promise<BatchImageGenerationOperationResponse>;
+    beginAzureBatchImageGeneration(prompt: string, options?: ImageGenerationOptions): Promise<ImageGenerationResponse>;
+    getAzureBatchImageGenerationOperationStatus(operationId: string, options?: GetAzureBatchImageGenerationOperationStatusOptions): Promise<ImageGenerationResponse>;
     getChatCompletions(deploymentOrModelName: string, messages: ChatMessage[], options?: GetChatCompletionsOptions): Promise<ChatCompletions>;
     getCompletions(deploymentOrModelName: string, prompt: string[], options?: GetCompletionsOptions): Promise<Completions>;
     getEmbeddings(deploymentOrModelName: string, input: string[], options?: GetEmbeddingsOptions): Promise<Embeddings>;
+    getImages(prompt: string, options?: ImageGenerationOptions): Promise<ImageGenerationResponse>;
     listChatCompletions(deploymentOrModelName: string, messages: ChatMessage[], options?: GetChatCompletionsOptions): Promise<AsyncIterable<Omit<ChatCompletions, "usage">>>;
     listCompletions(deploymentOrModelName: string, prompt: string[], options?: GetCompletionsOptions): Promise<AsyncIterable<Omit<Completions, "usage">>>;
 }

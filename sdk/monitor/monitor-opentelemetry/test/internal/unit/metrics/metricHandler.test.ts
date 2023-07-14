@@ -11,11 +11,13 @@ describe("MetricHandler", () => {
   let sandbox: sinon.SinonSandbox;
   let handler: MetricHandler;
   let exportStub: sinon.SinonStub;
+  let otlpExportStub: sinon.SinonStub;
   const _config = new AzureMonitorOpenTelemetryConfig();
   if (_config.azureMonitorExporterConfig) {
     _config.azureMonitorExporterConfig.connectionString =
       "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
   }
+  _config.otlpMetricExporterConfig.enabled = true;
 
   before(() => {
     sandbox = sinon.createSandbox();
@@ -31,12 +33,21 @@ describe("MetricHandler", () => {
       collectionInterval: 100,
     });
     exportStub = sinon.stub(handler["_azureExporter"], "export").callsFake(
-      (spans: any, resultCallback: any) =>
+      (result: any, resultCallback: any) =>
         new Promise((resolve) => {
           resultCallback({
             code: ExportResultCode.SUCCESS,
           });
-          resolve(spans);
+          resolve(result);
+        })
+    );
+    otlpExportStub = sinon.stub(handler["_otlpExporter"] as any, "export").callsFake(
+      (result: any, resultCallback: any) =>
+        new Promise((resolve) => {
+          resultCallback({
+            code: ExportResultCode.SUCCESS,
+          });
+          resolve(result);
         })
     );
   }
@@ -56,8 +67,15 @@ describe("MetricHandler", () => {
     assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
     const metrics = scopeMetrics[0].metrics;
     assert.strictEqual(metrics.length, 1, "metrics count");
-    assert.equal(metrics[0].descriptor.name, "testCounter");
-    assert.equal(metrics[0].descriptor.description, "testDescription");
+    assert.strictEqual(metrics[0].descriptor.name, "testCounter");
+    assert.strictEqual(metrics[0].descriptor.description, "testDescription");
+    assert.ok(otlpExportStub.called);
+    assert.strictEqual(otlpExportStub.args[0][0].scopeMetrics.length, 1, "scopeMetrics count");
+    assert.strictEqual(
+      otlpExportStub.args[0][0].scopeMetrics[0].metrics.length,
+      1,
+      "metrics count"
+    );
   });
 
   it("should not collect when disabled", async () => {
