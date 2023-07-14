@@ -622,6 +622,10 @@
 /sdk/peering/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/paloaltonetworksngfw/arm-paloaltonetworksngfw/ @qiaozha @MaryGao
+/sdk/paloaltonetworksngfw/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/policy/arm-policy/ @qiaozha @MaryGao
 /sdk/policy/ci.mgmt.yml @qiaozha @MaryGao
 
