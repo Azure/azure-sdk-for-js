@@ -16,14 +16,14 @@
       "ResponseHeaders": {
         "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview",
         "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
-        "Content-Length": "10211",
+        "Content-Length": "10214",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 19 Jun 2023 17:04:48 GMT",
-        "MS-CV": "brUzKNN4xUuiNzxou\u002Bt3\u002Bw.0",
+        "Date": "Fri, 14 Jul 2023 05:00:22 GMT",
+        "MS-CV": "PqTbbmb\u002BlkK8SqqTygspSw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0r4qQZAAAAABj7CPvwSBLSrh9kjz4g5owUERYMzFFREdFMDIwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0ZtawZAAAAAB1Yya2MT9\u002BRqoNB80jsjBMV1NURURHRTA4MjAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1792ms"
+        "X-Processing-Time": "834ms"
       },
       "ResponseBody": {
         "phoneNumberLocalities": [
@@ -88,13 +88,6 @@
             "administrativeDivision": {
               "localizedName": "AZ",
               "abbreviatedName": "AZ"
-            }
-          },
-          {
-            "localizedName": "Anaheim",
-            "administrativeDivision": {
-              "localizedName": "CA",
-              "abbreviatedName": "CA"
             }
           },
           {
@@ -175,6 +168,13 @@
             }
           },
           {
+            "localizedName": "Santa Barbara",
+            "administrativeDivision": {
+              "localizedName": "CA",
+              "abbreviatedName": "CA"
+            }
+          },
+          {
             "localizedName": "Santa Clarita",
             "administrativeDivision": {
               "localizedName": "CA",
@@ -210,6 +210,13 @@
             }
           },
           {
+            "localizedName": "Denver",
+            "administrativeDivision": {
+              "localizedName": "CO",
+              "abbreviatedName": "CO"
+            }
+          },
+          {
             "localizedName": "Grand Junction",
             "administrativeDivision": {
               "localizedName": "CO",
@@ -242,6 +249,13 @@
             "administrativeDivision": {
               "localizedName": "DE",
               "abbreviatedName": "DE"
+            }
+          },
+          {
+            "localizedName": "Cape Coral",
+            "administrativeDivision": {
+              "localizedName": "FL",
+              "abbreviatedName": "FL"
             }
           },
           {
@@ -294,13 +308,6 @@
             }
           },
           {
-            "localizedName": "Port St Lucie",
-            "administrativeDivision": {
-              "localizedName": "FL",
-              "abbreviatedName": "FL"
-            }
-          },
-          {
             "localizedName": "Sarasota",
             "administrativeDivision": {
               "localizedName": "FL",
@@ -308,7 +315,7 @@
             }
           },
           {
-            "localizedName": "Tallahassee",
+            "localizedName": "St. Petersburg",
             "administrativeDivision": {
               "localizedName": "FL",
               "abbreviatedName": "FL"
@@ -602,13 +609,6 @@
             }
           },
           {
-            "localizedName": "Worcester",
-            "administrativeDivision": {
-              "localizedName": "MA",
-              "abbreviatedName": "MA"
-            }
-          },
-          {
             "localizedName": "Baltimore",
             "administrativeDivision": {
               "localizedName": "MD",
@@ -749,12 +749,12 @@
         "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
         "Content-Length": "50",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 19 Jun 2023 17:04:50 GMT",
-        "MS-CV": "Tm\u002BsnIwK5k6vJpqOD68b3Q.0",
+        "Date": "Fri, 14 Jul 2023 05:00:25 GMT",
+        "MS-CV": "wxqB2zXXsk6tFQlNxvV2BA.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0sYqQZAAAAACmxx7lSd0JRaw589JGU58mUERYMzFFREdFMDIwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0Z9awZAAAAACsFb4H45QTQqWyL34bg9RYV1NURURHRTA4MjAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "2364ms"
+        "X-Processing-Time": "2456ms"
       },
       "ResponseBody": {
         "areaCodes": [

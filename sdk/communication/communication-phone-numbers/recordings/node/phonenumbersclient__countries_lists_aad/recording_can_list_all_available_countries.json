@@ -16,40 +16,128 @@
       "ResponseHeaders": {
         "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview",
         "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
-        "Content-Length": "420",
+        "Content-Length": "1487",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 19 Jun 2023 17:05:15 GMT",
-        "MS-CV": "smKG/1iedE6SSFypAgbo2A.0",
+        "Date": "Fri, 14 Jul 2023 05:00:50 GMT",
+        "MS-CV": "oWm32jeIhUCE/r0F9uf2\u002Bg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0yYqQZAAAAABXGCNwFeFESowiNs8eU3VjUERYMzFFREdFMDIwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0gdawZAAAAADhjHyrwzquS7e8v4GxriOOV1NURURHRTA4MjAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "2490ms"
+        "X-Processing-Time": "2279ms"
       },
       "ResponseBody": {
         "countries": [
           {
+            "localizedName": "Argentina",
+            "countryCode": "AR"
+          },
+          {
+            "localizedName": "Brazil",
+            "countryCode": "BR"
+          },
+          {
             "localizedName": "Canada",
             "countryCode": "CA"
+          },
+          {
+            "localizedName": "Chile",
+            "countryCode": "CL"
+          },
+          {
+            "localizedName": "China",
+            "countryCode": "CN"
+          },
+          {
+            "localizedName": "Colombia",
+            "countryCode": "CO"
           },
           {
             "localizedName": "Denmark",
             "countryCode": "DK"
           },
           {
+            "localizedName": "Finland",
+            "countryCode": "FI"
+          },
+          {
+            "localizedName": "France",
+            "countryCode": "FR"
+          },
+          {
+            "localizedName": "Hong Kong SAR",
+            "countryCode": "HK"
+          },
+          {
+            "localizedName": "Indonesia",
+            "countryCode": "ID"
+          },
+          {
             "localizedName": "Ireland",
             "countryCode": "IE"
+          },
+          {
+            "localizedName": "Israel",
+            "countryCode": "IL"
           },
           {
             "localizedName": "Italy",
             "countryCode": "IT"
           },
           {
+            "localizedName": "Korea",
+            "countryCode": "KR"
+          },
+          {
+            "localizedName": "Malaysia",
+            "countryCode": "MY"
+          },
+          {
+            "localizedName": "Mexico",
+            "countryCode": "MX"
+          },
+          {
+            "localizedName": "Netherlands",
+            "countryCode": "NL"
+          },
+          {
+            "localizedName": "New Zealand",
+            "countryCode": "NZ"
+          },
+          {
+            "localizedName": "Philippines",
+            "countryCode": "PH"
+          },
+          {
+            "localizedName": "Poland",
+            "countryCode": "PL"
+          },
+          {
             "localizedName": "Puerto Rico",
             "countryCode": "PR"
           },
           {
+            "localizedName": "Singapore",
+            "countryCode": "SG"
+          },
+          {
+            "localizedName": "South Africa",
+            "countryCode": "ZA"
+          },
+          {
             "localizedName": "Sweden",
             "countryCode": "SE"
+          },
+          {
+            "localizedName": "Taiwan",
+            "countryCode": "TW"
+          },
+          {
+            "localizedName": "Thailand",
+            "countryCode": "TH"
+          },
+          {
+            "localizedName": "United Arab Emirates",
+            "countryCode": "AE"
           },
           {
             "localizedName": "United Kingdom",
