@@ -76,10 +76,6 @@
       {
         "path": "swagger/swagger.md",
         "prefix": "package-version"
-      },
-      {
-        "path": "types/src/internal/constants.d.ts",
-        "prefix": "packageVersion"
       }
     ]
   },
