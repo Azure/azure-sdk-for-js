@@ -45,7 +45,6 @@ export function createClient(
     }
     case "OpenAIKey": {
       return new OpenAIClient(
-        endpoint,
         new OpenAIKeyCredential(assertEnvironmentVariable("OPENAI_API_KEY")),
         updatedOptions
       );

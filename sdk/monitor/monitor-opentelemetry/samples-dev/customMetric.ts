@@ -7,26 +7,28 @@
 
 import {
   AzureMonitorOpenTelemetryClient,
-  AzureMonitorOpenTelemetryConfig,
+  AzureMonitorOpenTelemetryOptions,
 } from "@azure/monitor-opentelemetry";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
 
-let config = new AzureMonitorOpenTelemetryConfig();
+const config: AzureMonitorOpenTelemetryOptions = {
+  azureMonitorExporterConfig: {
+    connectionString:
+      process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
+  },
+};
 const client = new AzureMonitorOpenTelemetryClient(config);
 
 export async function main() {
   // Ge Meter and create custom metric
-  const meter = client.getMetricHandler().getMeter();
+  const meter = client.getMeter();
   const customCounter = meter.createCounter("TestCounter");
   customCounter.add(1);
   customCounter.add(2);
   customCounter.add(3);
-
-  // Flush telemetry
-  //client.getMetricHandler().flush();
 }
 
 main().catch((error) => {

@@ -15,10 +15,10 @@ input-file: https://github.com/Azure/azure-rest-api-specs/blob/main/specificatio
 package-version: 1.0.1
 hide-clients: true
 rest-level-client: true
-security: 'AADToken'
+security: "AADToken"
 security-scopes: "https://confidential-ledger.azure.com/.default"
 use-extension:
-  "@autorest/typescript": "dev"
+  "@autorest/typescript": "6.0.5"
 ```
 
 ```yaml

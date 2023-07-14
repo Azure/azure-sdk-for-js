@@ -300,7 +300,9 @@ export enum KnownEndpointMonitorStatus {
   /** Inactive */
   Inactive = "Inactive",
   /** Stopped */
-  Stopped = "Stopped"
+  Stopped = "Stopped",
+  /** Unmonitored */
+  Unmonitored = "Unmonitored"
 }
 
 /**
@@ -313,7 +315,8 @@ export enum KnownEndpointMonitorStatus {
  * **Degraded** \
  * **Disabled** \
  * **Inactive** \
- * **Stopped**
+ * **Stopped** \
+ * **Unmonitored**
  */
 export type EndpointMonitorStatus = string;
 
@@ -512,6 +515,13 @@ export interface ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityOptionalP
 
 /** Contains response data for the checkTrafficManagerRelativeDnsNameAvailability operation. */
 export type ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityResponse = TrafficManagerNameAvailability;
+
+/** Optional parameters. */
+export interface ProfilesCheckTrafficManagerNameAvailabilityV2OptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkTrafficManagerNameAvailabilityV2 operation. */
+export type ProfilesCheckTrafficManagerNameAvailabilityV2Response = TrafficManagerNameAvailability;
 
 /** Optional parameters. */
 export interface ProfilesListByResourceGroupOptionalParams

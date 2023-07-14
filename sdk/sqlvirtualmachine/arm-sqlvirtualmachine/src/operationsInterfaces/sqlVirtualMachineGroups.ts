@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SqlVirtualMachineGroup,
   SqlVirtualMachineGroupsListByResourceGroupOptionalParams,
@@ -68,8 +68,8 @@ export interface SqlVirtualMachineGroups {
     parameters: SqlVirtualMachineGroup,
     options?: SqlVirtualMachineGroupsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlVirtualMachineGroupsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SqlVirtualMachineGroupsCreateOrUpdateResponse>,
       SqlVirtualMachineGroupsCreateOrUpdateResponse
     >
   >;
@@ -98,7 +98,7 @@ export interface SqlVirtualMachineGroups {
     resourceGroupName: string,
     sqlVirtualMachineGroupName: string,
     options?: SqlVirtualMachineGroupsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a SQL virtual machine group.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
@@ -125,8 +125,8 @@ export interface SqlVirtualMachineGroups {
     parameters: SqlVirtualMachineGroupUpdate,
     options?: SqlVirtualMachineGroupsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlVirtualMachineGroupsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SqlVirtualMachineGroupsUpdateResponse>,
       SqlVirtualMachineGroupsUpdateResponse
     >
   >;

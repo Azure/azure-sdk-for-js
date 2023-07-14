@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.0 (2023-06-06)
+## 1.1.0 (2023-06-15)
 
 ### Features Added
 
@@ -8,7 +8,7 @@
 
 ### Breaking Changes
 
-> These changes do not impact the API of stable versions such as 1.0.0
+> These changes do not impact the API of stable versions such as 1.0.0.
 > Only code written agaisnt a beta version such as 1.1.0-beta.1 will be affected.
 
 Remove the following features added in the "2022-10-01-preview" API - version "1.1.0-beta.1"

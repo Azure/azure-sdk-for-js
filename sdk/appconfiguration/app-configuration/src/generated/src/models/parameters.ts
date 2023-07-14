@@ -11,13 +11,17 @@ import {
   OperationURLParameter,
   OperationQueryParameter
 } from "@azure/core-client";
-import { KeyValue as KeyValueMapper } from "../models/mappers";
+import {
+  KeyValue as KeyValueMapper,
+  Snapshot as SnapshotMapper,
+  SnapshotUpdateParameters as SnapshotUpdateParametersMapper
+} from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
   mapper: {
     defaultValue:
-      "application/vnd.microsoft.appconfig.keyset+json, application/json, application/problem+json",
+      "application/vnd.microsoft.appconfig.keyset+json, application/problem+json",
     isConstant: true,
     serializedName: "Accept",
     type: {
@@ -93,7 +97,7 @@ export const accept1: OperationParameter = {
   parameterPath: "accept",
   mapper: {
     defaultValue:
-      "application/vnd.microsoft.appconfig.kvset+json, application/json, application/problem+json",
+      "application/vnd.microsoft.appconfig.kvset+json, application/problem+json",
     isConstant: true,
     serializedName: "Accept",
     type: {
@@ -138,11 +142,21 @@ export const select: OperationQueryParameter = {
   collectionFormat: "CSV"
 };
 
+export const snapshot: OperationQueryParameter = {
+  parameterPath: ["options", "snapshot"],
+  mapper: {
+    serializedName: "snapshot",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const accept2: OperationParameter = {
   parameterPath: "accept",
   mapper: {
     defaultValue:
-      "application/vnd.microsoft.appconfig.kv+json, application/json, application/problem+json",
+      "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
     isConstant: true,
     serializedName: "Accept",
     type: {
@@ -203,7 +217,7 @@ export const accept3: OperationParameter = {
   parameterPath: "accept",
   mapper: {
     defaultValue:
-      "application/vnd.microsoft.appconfig.labelset+json, application/json, application/problem+json",
+      "application/vnd.microsoft.appconfig.snapshotset+json, application/problem+json",
     isConstant: true,
     serializedName: "Accept",
     type: {
@@ -226,6 +240,146 @@ export const select1: OperationQueryParameter = {
     }
   },
   collectionFormat: "CSV"
+};
+
+export const status: OperationQueryParameter = {
+  parameterPath: ["options", "status"],
+  mapper: {
+    serializedName: "Status",
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "String"
+        }
+      }
+    }
+  },
+  collectionFormat: "CSV"
+};
+
+export const accept4: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue:
+      "application/vnd.microsoft.appconfig.snapshot+json, application/problem+json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const name1: OperationURLParameter = {
+  parameterPath: "name",
+  mapper: {
+    serializedName: "name",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const contentType1: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/vnd.microsoft.appconfig.snapshot+json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const entity1: OperationParameter = {
+  parameterPath: "entity",
+  mapper: SnapshotMapper
+};
+
+export const name2: OperationURLParameter = {
+  parameterPath: "name",
+  mapper: {
+    constraints: {
+      MaxLength: 256
+    },
+    serializedName: "name",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const contentType2: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const entity2: OperationParameter = {
+  parameterPath: "entity",
+  mapper: SnapshotUpdateParametersMapper
+};
+
+export const accept5: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue:
+      "application/vnd.microsoft.appconfig.labelset+json, application/problem+json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const select2: OperationQueryParameter = {
+  parameterPath: ["options", "select"],
+  mapper: {
+    serializedName: "$Select",
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "String"
+        }
+      }
+    }
+  },
+  collectionFormat: "CSV"
+};
+
+export const accept6: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const snapshot1: OperationQueryParameter = {
+  parameterPath: "snapshot",
+  mapper: {
+    serializedName: "snapshot",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const nextLink: OperationURLParameter = {

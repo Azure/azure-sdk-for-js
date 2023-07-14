@@ -3,16 +3,72 @@
   "info": {
     "title": "AlphaIdsClient",
     "description": "The alpha ids client uses Azure Communication Services to purchase and manage alpha ids.",
-    "version": "2022-09-26-preview"
+    "version": "2023-07-12"
   },
   "paths": {
-    "/alphaIds/configuration": {
+    "/alphaIds": {
       "get": {
         "tags": [
-          "AlphaIDs - Configuration"
+          "AlphaIDs"
         ],
-        "summary": "Get the Alpha IDs configuration that's applied for the current resource.",
-        "operationId": "AlphaIds_GetConfiguration",
+        "summary": "Gets the list of alpha ids for the current resource.",
+        "operationId": "AlphaIds_GetAlphaIds",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "skip",
+            "description": "An optional parameter for how many entries to skip, for pagination purposes.",
+            "type": "integer",
+            "format": "int32",
+            "default": 0
+          },
+          {
+            "in": "query",
+            "name": "top",
+            "description": "An optional parameter for how many entries to return, for pagination purposes.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/AcquiredAlphaIds"
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink",
+          "itemName": "alphaIds"
+        },
+        "x-ms-examples": {
+          "List alpha ids": {
+            "$ref": "./examples/GetAlphaIds.json"
+          }
+        }
+      }
+    },
+    "/alphaIds/dynamic/configuration": {
+      "get": {
+        "tags": [
+          "AlphaIDs"
+        ],
+        "summary": "Get the Dynamic Alpha ID configuration that's applied for the current resource.",
+        "operationId": "AlphaIds_GetDynamicAlphaIdConfiguration",
         "produces": [
           "application/json"
         ],
@@ -25,7 +81,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/AlphaIdConfiguration"
+              "$ref": "#/definitions/DynamicAlphaIdConfiguration"
             }
           },
           "default": {
@@ -36,17 +92,17 @@
           }
         },
         "x-ms-examples": {
-          "Get the current Alpha IDs configuration": {
-            "$ref": "./examples/GetAlphaIdConfiguration.json"
+          "Get the current Dynamic Alpha IDs configuration": {
+            "$ref": "./examples/GetDynamicAlphaIdConfiguration.json"
           }
         }
       },
       "patch": {
         "tags": [
-          "AlphaIDs - Configuration"
+          "AlphaIDs"
         ],
-        "summary": "Creates or updates Alpha ID Configuration for the current resource.",
-        "operationId": "AlphaIds_UpsertConfiguration",
+        "summary": "Creates or updates Dynamic Alpha ID Configuration for the current resource.",
+        "operationId": "AlphaIds_UpsertDynamicAlphaIdConfiguration",
         "consumes": [
           "application/merge-patch+json"
         ],
@@ -62,7 +118,7 @@
             "name": "body",
             "description": "The configuration data that is intended to be applied.",
             "schema": {
-              "$ref": "#/definitions/AlphaIdConfiguration"
+              "$ref": "#/definitions/DynamicAlphaIdConfiguration"
             }
           }
         ],
@@ -70,7 +126,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/AlphaIdConfiguration"
+              "$ref": "#/definitions/DynamicAlphaIdConfiguration"
             }
           },
           "default": {
@@ -81,27 +137,149 @@
           }
         },
         "x-ms-examples": {
-          "Enables Alpha ID for the current resource": {
-            "$ref": "./examples/UpsertAlphaIdConfiguration.json"
+          "Enables Dynamic Alpha IDs for the current resource": {
+            "$ref": "./examples/UpsertDynamicAlphaIdConfiguration.json"
+          }
+        }
+      }
+    },
+    "/alphaIds/dynamic/countries": {
+      "get": {
+        "tags": [
+          "AlphaIDs"
+        ],
+        "summary": "Gets the list of countries that support Dynamic Alpha IDs.",
+        "operationId": "AlphaIds_GetDynamicAlphaIdCountries",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/SupportedCountries"
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List dynamic alpha id countries": {
+            "$ref": "./examples/GetDynamicAlphaIdCountries.json"
+          }
+        }
+      }
+    },
+    "/alphaIds/pre-registered/countries": {
+      "get": {
+        "tags": [
+          "AlphaIDs"
+        ],
+        "summary": "Gets the list of countries that support Pre-Registered Alpha IDs.",
+        "operationId": "AlphaIds_GetPreRegisteredAlphaIdCountries",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/SupportedCountries"
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List pre-registered alpha id countries": {
+            "$ref": "./examples/GetPreRegisteredAlphaIdCountries.json"
           }
         }
       }
     }
   },
   "definitions": {
-    "AlphaIdConfiguration": {
-      "description": "<br>Represents a collection of settings for configuring Alpha ID support for a specific resource.\r\n<br>\r\n            Initially, Alpha IDs were restricted to customers that had valid use cases for them, so this configuration could be leveraged to enable its usage.\r\n            ",
+    "AcquiredAlphaIds": {
+      "description": "A wrapper for a list of alpha id entities.",
+      "type": "object",
+      "properties": {
+        "alphaIds": {
+          "description": "List of alpha ids.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AlphaId"
+          }
+        },
+        "nextLink": {
+          "description": "Represents the URL link to the next page.",
+          "type": "string"
+        }
+      }
+    },
+    "AlphaId": {
+      "description": "Represents an AlphaId acquired in a given country.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "The value of the AlphaId e.g. 'CONTOSO', etc.",
+          "type": "string"
+        },
+        "countryCode": {
+          "description": "ISO 3166 2-char code representing the country e.g. 'US'.",
+          "type": "string"
+        },
+        "purchaseDate": {
+          "format": "date-time",
+          "description": "Date in which number was purchased.",
+          "type": "string"
+        }
+      }
+    },
+    "DynamicAlphaIdConfiguration": {
+      "description": "<br>Represents a collection of settings for configuring Dynamic Alpha ID support for a specific resource.\r\n<br>\r\n            Initially, Alpha IDs were restricted to customers that had valid use cases for them, so this configuration could be leveraged to enable its usage.\r\n            ",
       "required": [
         "enabled"
       ],
       "type": "object",
       "properties": {
         "enabled": {
-          "description": "Indicates whether the use of Alpha IDs is supported for a specific resource.",
+          "description": "Indicates whether the use of Dynamic Alpha IDs is supported for a specific resource.",
           "type": "boolean"
         }
       }
     },
+    "SupportedCountries": {
+      "description": "A wrapper for a list of countries.",
+      "type": "object",
+      "properties": {
+        "countries": {
+          "description": "List of conutries supporting alpha ids.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    
     "CommunicationErrorResponse": {
       "description": "The Communication Services error.",
       "type": "object",

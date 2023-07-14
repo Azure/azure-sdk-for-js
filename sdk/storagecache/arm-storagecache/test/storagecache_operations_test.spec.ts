@@ -74,7 +74,6 @@ describe("StorageCache test", () => {
         cacheSizeGB: 3072,
         directoryServicesSettings: {},
         location,
-        scalingFactor: 1,
         securitySettings: {
           accessPolicies: [
             {

@@ -5,31 +5,30 @@ import { ContainerClient, BlockBlobClient } from "@azure/storage-blob";
 import { QuantumJobClient } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
 import { Recorder } from "@azure-tools/test-recorder";
-import chai from "chai";
+import { assert } from "chai";
 import * as fs from "fs";
 import { TokenCredential } from "@azure/identity";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { replaceStorageAccountInfo } from "../utils/recorderUtils";
-
-const assert = chai.assert;
+import { Context } from "mocha";
+import { getRecorderUniqueVariable } from "../utils/recorderUtils";
 
 describe("Quantum job lifecycle", () => {
   let client: QuantumJobClient;
   let recorder: Recorder;
   let credentials: TokenCredential;
 
-  beforeEach(async function() {
-    const authentication = await authenticate(this);
+  beforeEach(async function (this: Context) {
+    const authentication = await authenticate(this.currentTest);
     client = authentication.client;
     recorder = authentication.recorder;
     credentials = authentication.credentials;
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
-  it("Test Get Providers Status", async function() {
+  it("Test Get Providers Status", async function () {
     let index = 0;
     for await (const status of client.providers.listStatus()) {
       assert.isNotEmpty(status.id);
@@ -41,7 +40,7 @@ describe("Quantum job lifecycle", () => {
     assert.isTrue(index >= 1);
   });
 
-  it("Test Get Quotas", async function() {
+  it("Test Get Quotas", async function () {
     let index = 0;
     for await (const quota of client.quotas.list()) {
       assert.isNotEmpty(quota.dimension);
@@ -56,19 +55,15 @@ describe("Quantum job lifecycle", () => {
     assert.isTrue(index >= 1);
   });
 
-  it("Test Quantum Job Lifecycle", async function() {
+  it("Test Quantum Job Lifecycle", async function () {
     // Get container Uri with SAS key
     const containerName = "testcontainer";
     let containerUri =
       (
         await client.storage.sasUri({
-          containerName: containerName
+          containerName: containerName,
         })
       ).sasUri ?? "";
-
-    if (isPlaybackMode()) {
-      containerUri = replaceStorageAccountInfo(containerUri);
-    }
 
     // Create container if not exists (if not in Playback mode)
     if (!isPlaybackMode()) {
@@ -77,18 +72,14 @@ describe("Quantum job lifecycle", () => {
     }
 
     // Get input data blob Uri with SAS key
-    const blobName = `${recorder.getUniqueName("input-")}.json`;
+    const blobName = `${getRecorderUniqueVariable(recorder, "input-")}.json`;
     let inputDataUri =
       (
         await client.storage.sasUri({
           containerName: containerName,
-          blobName: blobName
+          blobName: blobName,
         })
       ).sasUri ?? "";
-
-    if (isPlaybackMode()) {
-      inputDataUri = replaceStorageAccountInfo(inputDataUri);
-    }
 
     // Upload input data to blob (if not in Playback mode)
     if (!isPlaybackMode()) {
@@ -99,8 +90,8 @@ describe("Quantum job lifecycle", () => {
     }
 
     // Submit job
-    const jobId = recorder.getUniqueName("job-");
-    const jobName = recorder.getUniqueName("jobname-");
+    const jobId = getRecorderUniqueVariable(recorder, "job-");
+    const jobName = getRecorderUniqueVariable(recorder, "jobname-");
     const inputDataFormat = "microsoft.qio.v2";
     const outputDataFormat = "microsoft.qio-results.v2";
     const providerId = "microsoft";
@@ -113,7 +104,7 @@ describe("Quantum job lifecycle", () => {
       id: jobId,
       inputDataUri: inputDataUri,
       name: jobName,
-      outputDataFormat: outputDataFormat
+      outputDataFormat: outputDataFormat,
     };
     const jobDetails = await client.jobs.create(jobId, createJobDetails);
 
@@ -127,11 +118,7 @@ describe("Quantum job lifecycle", () => {
     assert.isNotEmpty(jobDetails.inputDataUri);
     assert.equal(jobId, jobDetails.id);
     assert.equal(jobName, jobDetails.name);
-    if (!isPlaybackMode()) {
-      assert.equal(inputDataUri, jobDetails.inputDataUri);
-    } else {
-      assert.equal(inputDataUri, replaceStorageAccountInfo(jobDetails.inputDataUri as string));
-    }
+    assert.equal(inputDataUri, jobDetails.inputDataUri);
 
     // Get the job that we've just created based on the jobId
     const gotJob = await client.jobs.get(jobId);

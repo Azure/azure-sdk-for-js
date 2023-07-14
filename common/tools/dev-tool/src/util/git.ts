@@ -94,3 +94,28 @@ export function getConfig(
     command.on("error", reject);
   });
 }
+
+export function checkout(name: string, options: { create?: boolean } = {}): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const createArg = options.create ? ["-b"] : [];
+    const command = spawn("git", ["checkout", ...createArg, name], {
+      stdio: "inherit",
+    });
+
+    command.on("exit", (code) => (code === 0 ? resolve() : reject("git exited nonzero")));
+    command.on("error", reject);
+  });
+}
+
+export function currentBranch(): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const command = spawn("git", ["rev-parse", "--abbrev-ref", "HEAD"]);
+
+    let output = "";
+    command.stdout.on("data", (data) => (output += data.toString()));
+    command.on("exit", (code) =>
+      code === 0 ? resolve(output.trim()) : reject("git exited nonzero")
+    );
+    command.on("error", reject);
+  });
+}
