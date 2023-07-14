@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Demonstrates how to run a Kusto query for an Azure resource.
+ * @summary Demonstrates how to run a query against a Log Analytics workspace, using an Azure resource ID.
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
