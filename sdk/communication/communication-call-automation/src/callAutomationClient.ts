@@ -116,15 +116,15 @@ export class CallAutomationClient {
     const customEnabled = process.env.COMMUNICATION_CUSTOM_ENDPOINT_ENABLED;
     const customUrl = process.env.COMMUNICATION_CUSTOM_URL;
 
-    if (customEnabled === "true" && customUrl)
-    {
+    if (customEnabled?.toLowerCase() === "true" && customUrl) {
       // add custom header for Call Automation auth when flag is true
-      this.callAutomationApiClient = new CallAutomationApiClient(customUrl, this.internalPipelineOptions);
+      this.callAutomationApiClient = new CallAutomationApiClient(
+        customUrl,
+        this.internalPipelineOptions
+      );
       const callAutomationAuthPolicy = createCallAutomationAuthPolicy(credential, url);
       this.callAutomationApiClient.pipeline.addPolicy(callAutomationAuthPolicy);
-    }
-    else
-    {
+    } else {
       this.callAutomationApiClient = new CallAutomationApiClient(url, this.internalPipelineOptions);
       const authPolicy = createCommunicationAuthPolicy(credential);
       this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
