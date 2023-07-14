@@ -401,7 +401,7 @@ The following example demonstrates how to query logs directly from an Azure reso
 
 ```ts
 /**
- * @summary Demonstrates how to run a Kusto query for an Azure resource.
+ * @summary Demonstrates how to run a query against a Log Analytics workspace, using an Azure resource ID.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
