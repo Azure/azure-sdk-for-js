@@ -72,6 +72,12 @@ export const CommunicationIdentifierModel: coreClient.CompositeMapper = {
     name: "Composite",
     className: "CommunicationIdentifierModel",
     modelProperties: {
+      kind: {
+        serializedName: "kind",
+        type: {
+          name: "String"
+        }
+      },
       rawId: {
         serializedName: "rawId",
         type: {
@@ -497,6 +503,61 @@ export const ChatParticipant: coreClient.CompositeMapper = {
         type: {
           name: "DateTime"
         }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const ChatAttachment: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ChatAttachment",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      attachmentType: {
+        serializedName: "attachmentType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      contentType: {
+        serializedName: "contentType",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      url: {
+        serializedName: "url",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      previewUrl: {
+        serializedName: "previewUrl",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -669,6 +730,41 @@ export const CreateChatThreadRequest: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      retentionPolicy: {
+        serializedName: "retentionPolicy",
+        type: {
+          name: "Composite",
+          className: "ChatRetentionPolicy"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const ChatRetentionPolicy: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ChatRetentionPolicy",
+    uberParent: "ChatRetentionPolicy",
+    polymorphicDiscriminator: {
+      serializedName: "kind",
+      clientName: "kind"
+    },
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        required: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -741,6 +837,20 @@ export const ChatThreadProperties: coreClient.CompositeMapper = {
         type: {
           name: "DateTime"
         }
+      },
+      retentionPolicy: {
+        serializedName: "retentionPolicy",
+        type: {
+          name: "Composite",
+          className: "ChatRetentionPolicy"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
       }
     }
   }
@@ -806,6 +916,13 @@ export const ChatThreadItem: coreClient.CompositeMapper = {
         type: {
           name: "DateTime"
         }
+      },
+      retentionPolicy: {
+        serializedName: "retentionPolicy",
+        type: {
+          name: "Composite",
+          className: "ChatRetentionPolicy"
+        }
       }
     }
   }
@@ -820,6 +937,13 @@ export const UpdateChatThreadRequest: coreClient.CompositeMapper = {
         serializedName: "topic",
         type: {
           name: "String"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       }
     }
@@ -839,4 +963,29 @@ export const SendTypingNotificationRequest: coreClient.CompositeMapper = {
       }
     }
   }
+};
+
+export const ThreadCreationDateRetentionPolicy: coreClient.CompositeMapper = {
+  serializedName: "threadCreationDate",
+  type: {
+    name: "Composite",
+    className: "ThreadCreationDateRetentionPolicy",
+    uberParent: "ChatRetentionPolicy",
+    polymorphicDiscriminator: ChatRetentionPolicy.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ChatRetentionPolicy.type.modelProperties,
+      deleteThreadAfterDays: {
+        serializedName: "deleteThreadAfterDays",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export let discriminators = {
+  ChatRetentionPolicy: ChatRetentionPolicy,
+  "ChatRetentionPolicy.threadCreationDate": ThreadCreationDateRetentionPolicy
 };

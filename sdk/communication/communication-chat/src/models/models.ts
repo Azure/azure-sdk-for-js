@@ -7,7 +7,6 @@ import { ChatError, ChatMessageType } from "../generated/src";
 export {
   AddChatParticipantsResult,
   ChatMessageType,
-  ChatThreadItem,
   ChatError,
   SendChatMessageResult,
 } from "../generated/src/models";
@@ -26,6 +25,21 @@ export interface ChatThreadProperties {
   deletedOn?: Date;
   /** metadata */
   metadata?: Record<string, string>;
+}
+
+/** Summary information of a chat thread. */
+export interface ChatThreadItem {
+  /** Chat thread id. */
+  id: string;
+  /** Chat thread topic. */
+  topic: string;
+  /** The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
+  deletedOn?: Date;
+  /**
+   * The timestamp when the last message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastMessageReceivedOn?: Date;
 }
 
 /** Chat message. */

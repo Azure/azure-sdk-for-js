@@ -20,17 +20,17 @@ export {
 /**
  * Options to create chat client.
  */
-export interface ChatClientOptions extends CommonClientOptions { }
+export interface ChatClientOptions extends CommonClientOptions {}
 
 /**
  * Options to create chat thread client.
  */
-export interface ChatThreadClientOptions extends ChatClientOptions { }
+export interface ChatThreadClientOptions extends ChatClientOptions {}
 
 /**
  * Options to update a chat thread.
  */
-export interface UpdateTopicOptions extends OperationOptions { }
+export interface UpdateTopicOptions extends OperationOptions {}
 
 /**
  * Options to update a chat thread.
