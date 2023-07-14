@@ -23,15 +23,17 @@ describe(`PhoneNumbersClient - look up phone number`, function () {
   });
 
   it("can look up a phone number", async function (this: Context) {
-    const phoneNumbers = [ getPhoneNumber() ];
+    const phoneNumbers = [getPhoneNumber()];
     const operatorInformation = await client.searchOperatorInformation(phoneNumbers);
-    
-    const resultPhoneNumber = operatorInformation.values ? operatorInformation.values[0].phoneNumber : ""
+
+    const resultPhoneNumber = operatorInformation.values
+      ? operatorInformation.values[0].phoneNumber
+      : "";
     assert.strictEqual(resultPhoneNumber, phoneNumbers[0]);
   }).timeout(60000);
 
   it("errors if multiple phone numbers are requested", async function () {
-    const phoneNumbers = [ getPhoneNumber(), getPhoneNumber() ]
+    const phoneNumbers = [getPhoneNumber(), getPhoneNumber()];
     try {
       await client.searchOperatorInformation(phoneNumbers);
     } catch (error: any) {
