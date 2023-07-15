@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3AaWuNSmqHe3jJOGl36l6DBhxQDcimoCzk5-N6HxAeDWI1%40thread.v2/messages?api-version=2021-09-07",
+      "RequestUri": "https://endpoint/chat/threads/19%3AYeqTbVRRRygi7c81LBW5ILppampOYuNyi-E7OX_mVcc1%40thread.v2/messages?api-version=2023-07-01-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "51",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-communication-chat/1.2.0 core-rest-pipeline/1.8.2 Node/v18.2.0 OS/(x64-Darwin-21.4.0)",
-        "x-ms-client-request-id": "71cdac7d-086e-46d7-b5cf-8af9a2272c6c"
+        "User-Agent": "azsdk-js-communication-chat/1.3.2 core-rest-pipeline/1.11.1 Node/v16.14.2 OS/(arm64-Darwin-22.5.0)",
+        "x-ms-client-request-id": "b1dae804-6385-45a4-9f1d-b5c3f775849c"
       },
       "RequestBody": {
         "content": "content",
@@ -21,19 +21,20 @@
       },
       "StatusCode": 201,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2021-10-01-preview7",
+        "Access-Control-Expose-Headers": "*",
+        "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview, 2023-07-01-preview",
+        "Content-Length": "22",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 26 May 2022 07:59:31 GMT",
-        "Location": "https://endpoint/chat/threads/19%3AaWuNSmqHe3jJOGl36l6DBhxQDcimoCzk5-N6HxAeDWI1@thread.v2/messages/1653551972669",
-        "MS-CV": "5aOvsKN/AEK4bE3w\u002BJtmVg.0",
+        "Date": "Fri, 14 Jul 2023 23:44:09 GMT",
+        "Location": "https://endpoint/chat/threads/19%3AYeqTbVRRRygi7c81LBW5ILppampOYuNyi-E7OX_mVcc1@thread.v2/messages/1689378250315",
+        "MS-CV": "fCJcTB8TDkuyf6FbvEnP0w.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0ZDOPYgAAAAB5/fFY7jrWQIseM/WMA1CjUFJHMDFFREdFMDYxNABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0yt2xZAAAAACWjMdLxgnSTKIXpdryMyHmV1NURURHRTA4MTEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "191ms"
+        "X-Processing-Time": "207ms"
       },
       "ResponseBody": {
-        "id": "1653551972669"
+        "id": "1689378250315"
       }
     }
   ],
