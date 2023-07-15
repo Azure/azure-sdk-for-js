@@ -38,6 +38,13 @@
             }
           },
           {
+            "localizedName": "Birmingham",
+            "administrativeDivision": {
+              "localizedName": "AL",
+              "abbreviatedName": "AL"
+            }
+          },
+          {
             "localizedName": "Huntsville",
             "administrativeDivision": {
               "localizedName": "AL",

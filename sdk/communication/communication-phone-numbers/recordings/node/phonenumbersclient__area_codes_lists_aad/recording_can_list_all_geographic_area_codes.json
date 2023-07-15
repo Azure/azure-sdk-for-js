@@ -295,13 +295,6 @@
             }
           },
           {
-            "localizedName": "Port St Lucie",
-            "administrativeDivision": {
-              "localizedName": "FL",
-              "abbreviatedName": "FL"
-            }
-          },
-          {
             "localizedName": "Sarasota",
             "administrativeDivision": {
               "localizedName": "FL",
@@ -393,7 +386,7 @@
             }
           },
           {
-            "localizedName": "Iowa City",
+            "localizedName": "Mason City",
             "administrativeDivision": {
               "localizedName": "IA",
               "abbreviatedName": "IA"

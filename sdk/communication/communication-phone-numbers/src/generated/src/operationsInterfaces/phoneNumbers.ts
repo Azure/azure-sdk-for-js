@@ -38,7 +38,7 @@ import {
   PhoneNumbersReleasePhoneNumberOptionalParams,
   PhoneNumbersReleasePhoneNumberResponse,
   PhoneNumbersOperatorInformationSearchOptionalParams,
-  PhoneNumbersOperatorInformationSearchResponse,
+  PhoneNumbersOperatorInformationSearchResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -233,6 +233,6 @@ export interface PhoneNumbers {
    * @param options The options parameters.
    */
   operatorInformationSearch(
-    options?: PhoneNumbersOperatorInformationSearchOptionalParams,
+    options?: PhoneNumbersOperatorInformationSearchOptionalParams
   ): Promise<PhoneNumbersOperatorInformationSearchResponse>;
 }

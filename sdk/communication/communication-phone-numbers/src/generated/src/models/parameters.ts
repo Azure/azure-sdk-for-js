@@ -15,7 +15,7 @@ import {
   PhoneNumberSearchRequest as PhoneNumberSearchRequestMapper,
   PhoneNumberPurchaseRequest as PhoneNumberPurchaseRequestMapper,
   PhoneNumberCapabilitiesRequest as PhoneNumberCapabilitiesRequestMapper,
-  OperatorInformationRequest as OperatorInformationRequestMapper,
+  OperatorInformationRequest as OperatorInformationRequestMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -267,6 +267,11 @@ export const top: OperationQueryParameter = {
 export const phoneNumbers: OperationParameter = {
   parameterPath: ["options", "phoneNumbers"],
   mapper: OperatorInformationRequestMapper,
+};
+
+export const phoneNumbers: OperationParameter = {
+  parameterPath: ["options", "phoneNumbers"],
+  mapper: OperatorInformationRequestMapper
 };
 
 export const nextLink: OperationURLParameter = {

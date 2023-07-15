@@ -50,7 +50,7 @@
             "countryCode": "US",
             "phoneNumberType": "tollFree",
             "capabilities": {
-              "calling": "none",
+              "calling": "outbound",
               "sms": "outbound"
             },
             "assignmentType": "application",
