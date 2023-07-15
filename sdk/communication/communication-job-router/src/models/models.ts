@@ -3,24 +3,34 @@
 
 import {
   RouterJob as RouterJobGenerated,
-  RouterWorkerSelector as RouterWorkerSelectorGenerated,
   RouterQueue as RouterQueueGenerated,
-  RouterWorker as RouterWorkerGenerated,
   RouterQueueSelector as RouterQueueSelectorGenerated,
+  RouterWorker as RouterWorkerGenerated,
+  RouterWorkerSelector as RouterWorkerSelectorGenerated,
   StaticRouterRule as StaticRouterRuleGenerated,
   ReclassifyExceptionAction as ReclassifyExceptionActionGenerated,
-  JobRouterReclassifyJobActionOptionalParams as JobRouterReclassifyJobActionOptionalParamsGenerated,
-  KnownJobMatchModeType as RouterJobMatchModeType,
-  JobMatchingMode,
+  JobMatchingMode as JobMatchingModeGenerated,
   ScheduleAndSuspendMode,
-} from "../generated/src/models";
+} from "../generated/src";
 
-/**  Safer types to use instead of 'any'. */
+/**  Safer type to use instead of 'any'. */
 export type JSONValue = boolean | number | string | null | JSONArray | JSONObject;
+
 export interface JSONObject {
   [key: string]: JSONValue;
 }
-export interface JSONArray extends ArrayLike<JSONValue> {}
+
+export interface JSONArray extends ArrayLike<JSONValue> { }
+
+/**
+ * Message with timestamp on a router job.
+ */
+export interface RouterJobNote {
+  /** Timestamp of when the note was recorded */
+  time: Date;
+  /** Content of the note */
+  message: string;
+}
 
 /** A unit of work to be routed */
 export interface RouterJob extends Omit<RouterJobGenerated, "labels" | "tags"> {
@@ -30,12 +40,11 @@ export interface RouterJob extends Omit<RouterJobGenerated, "labels" | "tags"> {
   tags?: JSONObject;
 }
 
-export type QueueAndMatchMode = string;
+export interface QueueAndMatchMode { }
 
-export type SuspendMode = string;
+export interface SuspendMode { }
 
-export interface RouterJobMatchingMode extends JobMatchingMode {
-  modeType?: RouterJobMatchModeType;
+export interface RouterJobMatchingMode extends JobMatchingModeGenerated {
   queueAndMatchMode?: QueueAndMatchMode;
   scheduleAndSuspendMode?: ScheduleAndSuspendMode;
   suspendMode?: SuspendMode;
@@ -80,14 +89,7 @@ export interface StaticRouterRule extends Omit<StaticRouterRuleGenerated, "value
 export interface ReclassifyExceptionAction
   extends Omit<ReclassifyExceptionActionGenerated, "labelsToUpsert"> {
   /** (optional) Dictionary containing the labels to update (or add if not existing) in key-value pairs */
-  lablabelsToUpsertels?: JSONObject;
-}
-
-/** Contains response data for the reclassifyJobAction operation. */
-export interface JobRouterReclassifyJobActionOptionalParams
-  extends Omit<JobRouterReclassifyJobActionOptionalParamsGenerated, "body"> {
-  /** The parsed response body. */
-  body?: JSONValue;
+  labelsToUpsert?: JSONObject;
 }
 
 /** Arguments for retrieving the next page of search results. */
@@ -97,80 +99,77 @@ export interface ListPageSettings {
 }
 
 export {
+  Oauth2ClientCredential,
+  ClassificationPolicy,
   DistributionPolicy,
   ExceptionPolicy,
-  ClassificationPolicy,
-  ExceptionRule,
-  RouterJobAssignment,
   ChannelConfiguration,
-  RouterWorkerAssignment,
+  RouterQueueStatistics,
   RouterJobOffer,
-  KnownExpressionRouterRuleLanguage as ExpressionRouterRuleLanguage,
-  KnownRouterWorkerState as RouterWorkerState,
   RouterJobPositionDetails,
-  KnownRouterWorkerStateSelector as RouterWorkerStateSelector,
-  KnownRouterJobStatusSelector as RouterJobStatusSelector,
-  KnownRouterWorkerSelectorStatus as RouterWorkerSelectorStatus,
-  KnownLabelOperator as LabelOperator,
-  DistributionModeUnion,
-  DistributionMode,
-  BestWorkerMode,
-  LongestIdleMode,
-  RoundRobinMode,
-  WorkerSelectorAttachmentUnion,
-  WorkerSelectorAttachment,
-  QueueSelectorAttachmentUnion,
-  QueueSelectorAttachment,
-  QueueWeightedAllocation,
-  WorkerWeightedAllocation,
-  ScoringRuleOptions,
-  RouterRuleUnion,
-  RouterRule,
-  DirectMapRouterRule,
-  ExpressionRouterRule,
-  WebhookRouterRule,
-  Oauth2ClientCredential,
-  FunctionRouterRule,
-  FunctionRouterRuleCredential,
-  ExceptionTriggerUnion,
-  ExceptionTrigger,
-  QueueLengthExceptionTrigger,
-  WaitTimeExceptionTrigger,
-  ExceptionAction,
-  CancelExceptionAction,
-  ManualReclassifyExceptionAction,
-  ExceptionActionUnion,
-  KnownScoringRuleParameterSelector as ScoringRuleParameterSelector,
-  JobRouterUpsertJobOptionalParams,
-  JobRouterUpsertWorkerOptionalParams,
-  JobRouterDeclineJobActionOptionalParams,
-  DeclineJobOfferRequest,
+  RouterJobAssignment,
+  RouterWorkerAssignment,
   ClassificationPolicyItem,
   DistributionPolicyItem,
   ExceptionPolicyItem,
+  RouterWorkerItem,
   RouterQueueItem,
   RouterJobItem,
-  RouterWorkerItem,
-  JobRouterCancelJobActionOptionalParams,
-  JobRouterCloseJobActionOptionalParams,
-  JobRouterCompleteJobActionOptionalParams,
-  JobRouterAdministrationUpsertClassificationPolicyOptionalParams,
-  JobRouterAdministrationUpsertDistributionPolicyOptionalParams,
-  JobRouterAdministrationUpsertExceptionPolicyOptionalParams,
-  JobRouterAdministrationUpsertQueueOptionalParams,
-  ConditionalQueueSelectorAttachment,
-  PassThroughQueueSelectorAttachment,
-  RuleEngineQueueSelectorAttachment,
-  StaticQueueSelectorAttachment,
+  ScheduleAndSuspendMode,
+  DistributionMode,
+  LongestIdleMode,
+  BestWorkerMode,
+  ScoringRuleOptions,
+  RoundRobinMode,
+  WorkerWeightedAllocation,
+  QueueWeightedAllocation,
+  ExceptionRule,
+  QueueLengthExceptionTrigger,
+  WaitTimeExceptionTrigger,
+  ExceptionTrigger,
+  ManualReclassifyExceptionAction,
+  CancelExceptionAction,
+  ExceptionAction,
+  FunctionRouterRuleCredential,
+  ExpressionRouterRule,
+  DirectMapRouterRule,
+  FunctionRouterRule,
+  WebhookRouterRule,
+  RouterRule,
+  WorkerSelectorAttachmentUnion,
+  QueueSelectorAttachmentUnion,
+  ExceptionTriggerUnion,
+  DistributionModeUnion,
+  ExceptionActionUnion,
+  RouterRuleUnion,
+  WeightedAllocationWorkerSelectorAttachment,
   WeightedAllocationQueueSelectorAttachment,
-  AcceptJobOfferResult,
-  UnassignJobResult,
-  KnownRouterJobStatus as RouterJobStatus,
   ConditionalWorkerSelectorAttachment,
   PassThroughWorkerSelectorAttachment,
+  ConditionalQueueSelectorAttachment,
+  PassThroughQueueSelectorAttachment,
   RuleEngineWorkerSelectorAttachment,
+  RuleEngineQueueSelectorAttachment,
   StaticWorkerSelectorAttachment,
-  WeightedAllocationWorkerSelectorAttachment,
-  RouterQueueStatistics,
-  KnownJobMatchModeType as RouterJobMatchModeType,
-} from "../generated/src/models";
+  StaticQueueSelectorAttachment,
+  WorkerSelectorAttachment,
+  QueueSelectorAttachment,
+  KnownExpressionRouterRuleLanguage,
+  ExpressionRouterRuleLanguage,
+  KnownScoringRuleParameterSelector,
+  ScoringRuleParameterSelector,
+  KnownRouterWorkerSelectorStatus,
+  RouterWorkerSelectorStatus,
+  KnownRouterWorkerStateSelector,
+  RouterWorkerStateSelector,
+  KnownRouterJobStatusSelector,
+  RouterJobStatusSelector,
+  KnownRouterWorkerState,
+  RouterWorkerState,
+  KnownJobMatchModeType,
+  JobMatchModeType,
+  KnownRouterJobStatus,
+  RouterJobStatus,
+  KnownLabelOperator,
+  LabelOperator,
+} from "../generated/src";

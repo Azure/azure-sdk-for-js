@@ -15,7 +15,7 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AcceptJobOfferResult {
+export interface AcceptJobOfferResponse {
     assignmentId: string;
     jobId: string;
     workerId: string;
@@ -39,6 +39,11 @@ export interface CancelExceptionAction extends ExceptionAction {
 export interface CancelJobOptions extends JobRouterCancelJobActionOptionalParams {
     dispositionCode?: string;
     note?: string;
+}
+
+// @public
+export interface CancelJobResponse extends Omit<JobRouterCancelJobActionResponse, "body"> {
+    body?: JSONValue;
 }
 
 // @public
@@ -71,14 +76,24 @@ export interface ClassificationPolicyResponse extends ClassificationPolicy {
 
 // @public
 export interface CloseJobOptions extends JobRouterCloseJobActionOptionalParams {
-    closeTime?: Date;
+    closeAt?: Date;
     dispositionCode?: string;
     note?: string;
 }
 
 // @public
+export interface CloseJobResponse extends Omit<JobRouterCloseJobActionResponse, "body"> {
+    body?: JSONValue;
+}
+
+// @public
 export interface CompleteJobOptions extends JobRouterCompleteJobActionOptionalParams {
     note?: string;
+}
+
+// @public
+export interface CompleteJobResponse extends Omit<JobRouterCompleteJobActionResponse, "body"> {
+    body?: JSONValue;
 }
 
 // @public
@@ -128,10 +143,8 @@ export interface CreateJobOptions extends JobRouterUpsertJobOptionalParams {
     classificationPolicyId?: string;
     dispositionCode?: string;
     labels?: JSONObject;
-    // Warning: (ae-forgotten-export) The symbol "JobMatchingMode" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
-    matchingMode?: JobMatchingMode;
+    matchingMode?: RouterJobMatchingMode;
     notes?: RouterJobNote[];
     priority?: number;
     queueId?: string;
@@ -167,6 +180,11 @@ export interface DeclineJobOfferOptions extends JobRouterDeclineJobActionOptiona
 // @public
 export interface DeclineJobOfferRequest {
     retryOfferAt?: Date;
+}
+
+// @public
+export interface DeclineJobOfferResponse extends Omit<JobRouterDeclineJobActionResponse, "body"> {
+    body?: JSONValue;
 }
 
 // @public
@@ -256,14 +274,11 @@ export type ExceptionTriggerUnion = ExceptionTrigger | QueueLengthExceptionTrigg
 export interface ExpressionRouterRule extends RouterRule {
     expression: string;
     kind: "expression-rule";
-    // Warning: (ae-forgotten-export) The symbol "ExpressionRouterRuleLanguage_2" needs to be exported by the entry point index.d.ts
-    language?: ExpressionRouterRuleLanguage_2;
+    language?: ExpressionRouterRuleLanguage;
 }
 
 // @public
-export enum ExpressionRouterRuleLanguage {
-    PowerFx = "powerFx"
-}
+export type ExpressionRouterRuleLanguage = string;
 
 // @public
 export interface FunctionRouterRule extends RouterRule {
@@ -278,6 +293,9 @@ export interface FunctionRouterRuleCredential {
     clientId?: string;
     functionKey?: string;
 }
+
+// @public
+export type JobMatchModeType = string;
 
 // @public
 export class JobRouterAdministrationClient {
@@ -332,41 +350,33 @@ export interface JobRouterCancelJobActionOptionalParams extends coreClient.Opera
     note?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "JobRouterCancelJobActionResponse_2" needs to be exported by the entry point index.d.ts
-//
 // @public
-export interface JobRouterCancelJobActionResponse extends Omit<JobRouterCancelJobActionResponse_2, "body"> {
-    body?: JSONValue;
-}
+export type JobRouterCancelJobActionResponse = {
+    body: any;
+};
 
 // @public
 export class JobRouterClient {
     constructor(connectionString: string, options?: JobRouterClientOptions);
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: JobRouterClientOptions);
     constructor(endpoint: string, credential: CommunicationTokenCredential, options?: JobRouterClientOptions);
-    acceptJobOffer(workerId: string, offerId: string, options?: OperationOptions): Promise<AcceptJobOfferResult>;
-    cancelJob(jobId: string, options?: CancelJobOptions): Promise<JobRouterCancelJobActionResponse_2>;
-    // Warning: (ae-forgotten-export) The symbol "JobRouterCloseJobActionResponse_2" needs to be exported by the entry point index.d.ts
-    closeJob(jobId: string, assignmentId: string, options?: CloseJobOptions): Promise<JobRouterCloseJobActionResponse_2>;
-    // Warning: (ae-forgotten-export) The symbol "JobRouterCompleteJobActionResponse_2" needs to be exported by the entry point index.d.ts
-    completeJob(jobId: string, assignmentId: string, options?: CompleteJobOptions): Promise<JobRouterCompleteJobActionResponse_2>;
+    acceptJobOffer(workerId: string, offerId: string, options?: OperationOptions): Promise<AcceptJobOfferResponse>;
+    cancelJob(jobId: string, options?: CancelJobOptions): Promise<CancelJobResponse>;
+    closeJob(jobId: string, assignmentId: string, options?: CloseJobOptions): Promise<CloseJobResponse>;
+    completeJob(jobId: string, assignmentId: string, options?: CompleteJobOptions): Promise<CompleteJobResponse>;
     createJob(jobId: string, options?: CreateJobOptions): Promise<RouterJobResponse>;
     createWorker(workerId: string, options?: CreateWorkerOptions): Promise<RouterWorkerResponse>;
-    // Warning: (ae-forgotten-export) The symbol "JobRouterDeclineJobActionResponse_2" needs to be exported by the entry point index.d.ts
-    declineJobOffer(workerId: string, offerId: string, options?: DeclineJobOfferOptions): Promise<JobRouterDeclineJobActionResponse_2>;
+    declineJobOffer(workerId: string, offerId: string, options?: DeclineJobOfferOptions): Promise<DeclineJobOfferResponse>;
     deleteJob(jobId: string, options?: OperationOptions): Promise<void>;
     deleteWorker(workerId: string, options?: OperationOptions): Promise<void>;
-    deregisterWorker(workerId: string, options?: OperationOptions): Promise<RouterWorkerResponse>;
     getJob(jobId: string, options?: OperationOptions): Promise<RouterJobResponse>;
-    getQueuePosition(jobId: string, options?: OperationOptions): Promise<RouterJobPositionDetails>;
+    getJobQueuePosition(jobId: string, options?: OperationOptions): Promise<RouterJobPositionDetails>;
     getQueueStatistics(queueId: string, options?: OperationOptions): Promise<RouterQueueStatistics>;
     getWorker(workerId: string, options?: OperationOptions): Promise<RouterWorkerResponse>;
     listJobs(options?: ListJobsOptions): PagedAsyncIterableIterator<RouterJobItem>;
     listWorkers(options?: ListWorkersOptions): PagedAsyncIterableIterator<RouterWorkerItem>;
-    // Warning: (ae-forgotten-export) The symbol "JobRouterReclassifyJobActionResponse_2" needs to be exported by the entry point index.d.ts
-    reclassifyJob(jobId: string, options?: ReclassifyJobOptions): Promise<JobRouterReclassifyJobActionResponse_2>;
-    registerWorker(workerId: string, options?: OperationOptions): Promise<RouterWorkerResponse>;
-    unassignJob(jobId: string, assignmentId: string, options?: UnassignJobOptions): Promise<UnassignJobResult>;
+    reclassifyJob(jobId: string, options?: ReclassifyJobOptions): Promise<ReclassifyJobResponse>;
+    unassignJob(jobId: string, assignmentId: string, options?: UnassignJobOptions): Promise<UnassignJobResponse>;
     updateJob(jobId: string, options?: UpdateJobOptions): Promise<RouterJobResponse>;
     updateWorker(workerId: string, options?: UpdateWorkerOptions): Promise<RouterWorkerResponse>;
 }
@@ -384,9 +394,9 @@ export interface JobRouterCloseJobActionOptionalParams extends coreClient.Operat
 }
 
 // @public
-export interface JobRouterCloseJobActionResponse extends Omit<JobRouterCloseJobActionResponse_2, "body"> {
-    body?: JSONValue;
-}
+export type JobRouterCloseJobActionResponse = {
+    body: any;
+};
 
 // @public
 export interface JobRouterCompleteJobActionOptionalParams extends coreClient.OperationOptions {
@@ -394,9 +404,9 @@ export interface JobRouterCompleteJobActionOptionalParams extends coreClient.Ope
 }
 
 // @public
-export interface JobRouterCompleteJobActionResponse extends Omit<JobRouterCompleteJobActionResponse_2, "body"> {
-    body?: JSONValue;
-}
+export type JobRouterCompleteJobActionResponse = {
+    body: any;
+};
 
 // @public
 export interface JobRouterDeclineJobActionOptionalParams extends coreClient.OperationOptions {
@@ -404,20 +414,23 @@ export interface JobRouterDeclineJobActionOptionalParams extends coreClient.Oper
 }
 
 // @public
-export interface JobRouterDeclineJobActionResponse extends Omit<JobRouterDeclineJobActionResponse_2, "body"> {
-    body?: JSONValue;
-}
+export type JobRouterDeclineJobActionResponse = {
+    body: any;
+};
 
-// Warning: (ae-forgotten-export) The symbol "JobRouterReclassifyJobActionOptionalParams_2" needs to be exported by the entry point index.d.ts
-//
 // @public
-export interface JobRouterReclassifyJobActionOptionalParams extends Omit<JobRouterReclassifyJobActionOptionalParams_2, "body"> {
-    body?: JSONValue;
+export interface JobRouterReclassifyJobActionOptionalParams extends coreClient.OperationOptions {
+    reclassifyJobRequest?: any;
 }
 
 // @public
-export interface JobRouterReclassifyJobActionResponse extends Omit<JobRouterReclassifyJobActionResponse_2, "body"> {
-    body?: JSONValue;
+export type JobRouterReclassifyJobActionResponse = {
+    body: any;
+};
+
+// @public
+export interface JobRouterUnassignJobActionOptionalParams extends coreClient.OperationOptions {
+    unassignJobRequest?: UnassignJobRequest;
 }
 
 // @public
@@ -442,7 +455,19 @@ export interface JSONObject {
 export type JSONValue = boolean | number | string | null | JSONArray | JSONObject;
 
 // @public
-export enum LabelOperator {
+export enum KnownExpressionRouterRuleLanguage {
+    PowerFx = "powerFx"
+}
+
+// @public
+export enum KnownJobMatchModeType {
+    QueueAndMatchMode = "queueAndMatchMode",
+    ScheduleAndSuspendMode = "scheduleAndSuspendMode",
+    SuspendMode = "suspendMode"
+}
+
+// @public
+export enum KnownLabelOperator {
     Equal = "equal",
     GreaterThan = "greaterThan",
     GreaterThanEqual = "greaterThanEqual",
@@ -450,6 +475,70 @@ export enum LabelOperator {
     LessThanEqual = "lessThanEqual",
     NotEqual = "notEqual"
 }
+
+// @public
+export enum KnownRouterJobStatus {
+    Assigned = "assigned",
+    Cancelled = "cancelled",
+    ClassificationFailed = "classificationFailed",
+    Closed = "closed",
+    Completed = "completed",
+    Created = "created",
+    PendingClassification = "pendingClassification",
+    PendingSchedule = "pendingSchedule",
+    Queued = "queued",
+    Scheduled = "scheduled",
+    ScheduleFailed = "scheduleFailed",
+    WaitingForActivation = "waitingForActivation"
+}
+
+// @public
+export enum KnownRouterJobStatusSelector {
+    Active = "active",
+    All = "all",
+    Assigned = "assigned",
+    Cancelled = "cancelled",
+    ClassificationFailed = "classificationFailed",
+    Closed = "closed",
+    Completed = "completed",
+    Created = "created",
+    PendingClassification = "pendingClassification",
+    PendingSchedule = "pendingSchedule",
+    Queued = "queued",
+    Scheduled = "scheduled",
+    ScheduleFailed = "scheduleFailed",
+    WaitingForActivation = "waitingForActivation"
+}
+
+// @public
+export enum KnownRouterWorkerSelectorStatus {
+    Active = "active",
+    Expired = "expired"
+}
+
+// @public
+export enum KnownRouterWorkerState {
+    Active = "active",
+    Draining = "draining",
+    Inactive = "inactive"
+}
+
+// @public
+export enum KnownRouterWorkerStateSelector {
+    Active = "active",
+    All = "all",
+    Draining = "draining",
+    Inactive = "inactive"
+}
+
+// @public
+export enum KnownScoringRuleParameterSelector {
+    JobLabels = "jobLabels",
+    WorkerSelectors = "workerSelectors"
+}
+
+// @public
+export type LabelOperator = string;
 
 // @public
 export interface ListClassificationPoliciesOptions extends OperationOptions {
@@ -470,8 +559,7 @@ export interface ListExceptionPoliciesOptions extends OperationOptions {
 export interface ListJobsOptions extends OperationOptions {
     channelId?: string;
     classificationPolicyId?: string;
-    // Warning: (ae-forgotten-export) The symbol "RouterJobStatusSelector_2" needs to be exported by the entry point index.d.ts
-    jobStateSelector?: RouterJobStatusSelector_2;
+    jobStateSelector?: RouterJobStatusSelector;
     maxpagesize?: number;
     queueId?: string;
     scheduledAfter?: Date;
@@ -494,8 +582,7 @@ export interface ListWorkersOptions extends OperationOptions {
     hasCapacity?: boolean;
     maxpagesize?: number;
     queueId?: string;
-    // Warning: (ae-forgotten-export) The symbol "RouterWorkerStateSelector_2" needs to be exported by the entry point index.d.ts
-    status?: RouterWorkerStateSelector_2;
+    status?: RouterWorkerStateSelector;
 }
 
 // @public
@@ -521,8 +608,7 @@ export interface Oauth2ClientCredential {
 export interface PassThroughQueueSelectorAttachment extends QueueSelectorAttachment {
     key: string;
     kind: "pass-through";
-    // Warning: (ae-forgotten-export) The symbol "LabelOperator_2" needs to be exported by the entry point index.d.ts
-    labelOperator: LabelOperator_2;
+    labelOperator: LabelOperator;
 }
 
 // @public
@@ -530,7 +616,7 @@ export interface PassThroughWorkerSelectorAttachment extends WorkerSelectorAttac
     expiresAfterSeconds?: number;
     key: string;
     kind: "pass-through";
-    labelOperator: LabelOperator_2;
+    labelOperator: LabelOperator;
 }
 
 // @public (undocumented)
@@ -559,12 +645,17 @@ export interface QueueWeightedAllocation {
 
 // @public
 export interface ReclassifyExceptionAction extends Omit<ReclassifyExceptionAction_2, "labelsToUpsert"> {
-    lablabelsToUpsertels?: JSONObject;
+    labelsToUpsert?: JSONObject;
 }
 
 // @public
-export interface ReclassifyJobOptions extends JobRouterReclassifyJobActionOptionalParams_2 {
+export interface ReclassifyJobOptions extends JobRouterReclassifyJobActionOptionalParams {
     reclassifyJobRequest?: JSONObject;
+}
+
+// @public
+export interface ReclassifyJobResponse extends Omit<JobRouterReclassifyJobActionResponse, "body"> {
+    body?: JSONValue;
 }
 
 // @public
@@ -595,25 +686,16 @@ export interface RouterJobItem {
     job?: RouterJob_2;
 }
 
+// Warning: (ae-forgotten-export) The symbol "JobMatchingMode" needs to be exported by the entry point index.d.ts
+//
 // @public (undocumented)
 export interface RouterJobMatchingMode extends JobMatchingMode {
     // (undocumented)
-    modeType?: RouterJobMatchModeType;
-    // (undocumented)
     queueAndMatchMode?: QueueAndMatchMode;
-    // Warning: (ae-forgotten-export) The symbol "ScheduleAndSuspendMode" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     scheduleAndSuspendMode?: ScheduleAndSuspendMode;
     // (undocumented)
     suspendMode?: SuspendMode;
-}
-
-// @public
-export enum RouterJobMatchModeType {
-    QueueAndMatchMode = "queueAndMatchMode",
-    ScheduleAndSuspendMode = "scheduleAndSuspendMode",
-    SuspendMode = "suspendMode"
 }
 
 // @public
@@ -641,44 +723,16 @@ export interface RouterJobPositionDetails {
 }
 
 // @public (undocumented)
-export interface RouterJobResponse extends RouterJob_2 {
+export interface RouterJobResponse extends RouterJob {
     // (undocumented)
     readonly id: string;
 }
 
 // @public
-export enum RouterJobStatus {
-    Assigned = "assigned",
-    Cancelled = "cancelled",
-    ClassificationFailed = "classificationFailed",
-    Closed = "closed",
-    Completed = "completed",
-    Created = "created",
-    PendingClassification = "pendingClassification",
-    PendingSchedule = "pendingSchedule",
-    Queued = "queued",
-    Scheduled = "scheduled",
-    ScheduleFailed = "scheduleFailed",
-    WaitingForActivation = "waitingForActivation"
-}
+export type RouterJobStatus = string;
 
 // @public
-export enum RouterJobStatusSelector {
-    Active = "active",
-    All = "all",
-    Assigned = "assigned",
-    Cancelled = "cancelled",
-    ClassificationFailed = "classificationFailed",
-    Closed = "closed",
-    Completed = "completed",
-    Created = "created",
-    PendingClassification = "pendingClassification",
-    PendingSchedule = "pendingSchedule",
-    Queued = "queued",
-    Scheduled = "scheduled",
-    ScheduleFailed = "scheduleFailed",
-    WaitingForActivation = "waitingForActivation"
-}
+export type RouterJobStatusSelector = string;
 
 // Warning: (ae-forgotten-export) The symbol "RouterQueue_2" needs to be exported by the entry point index.d.ts
 //
@@ -694,7 +748,7 @@ export interface RouterQueueItem {
 }
 
 // @public (undocumented)
-export interface RouterQueueResponse extends RouterQueue_2 {
+export interface RouterQueueResponse extends RouterQueue {
     // (undocumented)
     readonly id: string;
 }
@@ -748,7 +802,7 @@ export interface RouterWorkerItem {
 }
 
 // @public (undocumented)
-export interface RouterWorkerResponse extends RouterWorker_2 {
+export interface RouterWorkerResponse extends RouterWorker {
     // (undocumented)
     readonly id: string;
 }
@@ -759,25 +813,13 @@ export interface RouterWorkerSelector extends Omit<RouterWorkerSelector_2, "valu
 }
 
 // @public
-export enum RouterWorkerSelectorStatus {
-    Active = "active",
-    Expired = "expired"
-}
+export type RouterWorkerSelectorStatus = string;
 
 // @public
-export enum RouterWorkerState {
-    Active = "active",
-    Draining = "draining",
-    Inactive = "inactive"
-}
+export type RouterWorkerState = string;
 
 // @public
-export enum RouterWorkerStateSelector {
-    Active = "active",
-    All = "all",
-    Draining = "draining",
-    Inactive = "inactive"
-}
+export type RouterWorkerStateSelector = string;
 
 // @public
 export interface RuleEngineQueueSelectorAttachment extends QueueSelectorAttachment {
@@ -791,20 +833,22 @@ export interface RuleEngineWorkerSelectorAttachment extends WorkerSelectorAttach
     rule: RouterRuleUnion;
 }
 
+// @public (undocumented)
+export interface ScheduleAndSuspendMode {
+    // (undocumented)
+    scheduleAt?: Date;
+}
+
 // @public
 export interface ScoringRuleOptions {
     allowScoringBatchOfWorkers?: boolean;
     batchSize?: number;
     descendingOrder?: boolean;
-    // Warning: (ae-forgotten-export) The symbol "ScoringRuleParameterSelector_2" needs to be exported by the entry point index.d.ts
-    scoringParameters?: ScoringRuleParameterSelector_2[];
+    scoringParameters?: ScoringRuleParameterSelector[];
 }
 
 // @public
-export enum ScoringRuleParameterSelector {
-    JobLabels = "jobLabels",
-    WorkerSelectors = "workerSelectors"
-}
+export type ScoringRuleParameterSelector = string;
 
 // @public
 export interface StaticQueueSelectorAttachment extends QueueSelectorAttachment {
@@ -827,20 +871,21 @@ export interface StaticWorkerSelectorAttachment extends WorkerSelectorAttachment
 export interface SuspendMode {
 }
 
-// Warning: (ae-forgotten-export) The symbol "JobRouterUnassignJobActionOptionalParams" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface UnassignJobOptions extends JobRouterUnassignJobActionOptionalParams {
     suspendMatching?: boolean;
 }
 
 // @public
-interface UnassignJobResult {
+export interface UnassignJobRequest {
+    suspendMatching?: boolean;
+}
+
+// @public
+export interface UnassignJobResponse {
     jobId: string;
     unassignmentCount: number;
 }
-export { UnassignJobResult as UnassignJobResponse }
-export { UnassignJobResult }
 
 // @public
 export interface UpdateClassificationPolicyOptions extends JobRouterAdministrationUpsertClassificationPolicyOptionalParams {
@@ -874,7 +919,7 @@ export interface UpdateJobOptions extends JobRouterUpsertJobOptionalParams {
     dispositionCode?: string;
     labels?: JSONObject;
     // (undocumented)
-    matchingMode?: JobMatchingMode;
+    matchingMode?: RouterJobMatchingMode;
     notes?: Array<RouterJobNote>;
     priority?: number;
     queueId?: string;
