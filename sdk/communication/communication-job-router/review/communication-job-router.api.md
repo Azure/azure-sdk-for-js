@@ -274,11 +274,14 @@ export type ExceptionTriggerUnion = ExceptionTrigger | QueueLengthExceptionTrigg
 export interface ExpressionRouterRule extends RouterRule {
     expression: string;
     kind: "expression-rule";
-    language?: ExpressionRouterRuleLanguage;
+    // Warning: (ae-forgotten-export) The symbol "ExpressionRouterRuleLanguage_2" needs to be exported by the entry point index.d.ts
+    language?: ExpressionRouterRuleLanguage_2;
 }
 
 // @public
-export type ExpressionRouterRuleLanguage = string;
+export enum ExpressionRouterRuleLanguage {
+    PowerFx = "powerFx"
+}
 
 // @public
 export interface FunctionRouterRule extends RouterRule {
@@ -295,7 +298,11 @@ export interface FunctionRouterRuleCredential {
 }
 
 // @public
-export type JobMatchModeType = string;
+export enum JobMatchModeType {
+    QueueAndMatchMode = "queueAndMatchMode",
+    ScheduleAndSuspendMode = "scheduleAndSuspendMode",
+    SuspendMode = "suspendMode"
+}
 
 // @public
 export class JobRouterAdministrationClient {
@@ -455,19 +462,7 @@ export interface JSONObject {
 export type JSONValue = boolean | number | string | null | JSONArray | JSONObject;
 
 // @public
-export enum KnownExpressionRouterRuleLanguage {
-    PowerFx = "powerFx"
-}
-
-// @public
-export enum KnownJobMatchModeType {
-    QueueAndMatchMode = "queueAndMatchMode",
-    ScheduleAndSuspendMode = "scheduleAndSuspendMode",
-    SuspendMode = "suspendMode"
-}
-
-// @public
-export enum KnownLabelOperator {
+export enum LabelOperator {
     Equal = "equal",
     GreaterThan = "greaterThan",
     GreaterThanEqual = "greaterThanEqual",
@@ -475,70 +470,6 @@ export enum KnownLabelOperator {
     LessThanEqual = "lessThanEqual",
     NotEqual = "notEqual"
 }
-
-// @public
-export enum KnownRouterJobStatus {
-    Assigned = "assigned",
-    Cancelled = "cancelled",
-    ClassificationFailed = "classificationFailed",
-    Closed = "closed",
-    Completed = "completed",
-    Created = "created",
-    PendingClassification = "pendingClassification",
-    PendingSchedule = "pendingSchedule",
-    Queued = "queued",
-    Scheduled = "scheduled",
-    ScheduleFailed = "scheduleFailed",
-    WaitingForActivation = "waitingForActivation"
-}
-
-// @public
-export enum KnownRouterJobStatusSelector {
-    Active = "active",
-    All = "all",
-    Assigned = "assigned",
-    Cancelled = "cancelled",
-    ClassificationFailed = "classificationFailed",
-    Closed = "closed",
-    Completed = "completed",
-    Created = "created",
-    PendingClassification = "pendingClassification",
-    PendingSchedule = "pendingSchedule",
-    Queued = "queued",
-    Scheduled = "scheduled",
-    ScheduleFailed = "scheduleFailed",
-    WaitingForActivation = "waitingForActivation"
-}
-
-// @public
-export enum KnownRouterWorkerSelectorStatus {
-    Active = "active",
-    Expired = "expired"
-}
-
-// @public
-export enum KnownRouterWorkerState {
-    Active = "active",
-    Draining = "draining",
-    Inactive = "inactive"
-}
-
-// @public
-export enum KnownRouterWorkerStateSelector {
-    Active = "active",
-    All = "all",
-    Draining = "draining",
-    Inactive = "inactive"
-}
-
-// @public
-export enum KnownScoringRuleParameterSelector {
-    JobLabels = "jobLabels",
-    WorkerSelectors = "workerSelectors"
-}
-
-// @public
-export type LabelOperator = string;
 
 // @public
 export interface ListClassificationPoliciesOptions extends OperationOptions {
@@ -559,7 +490,8 @@ export interface ListExceptionPoliciesOptions extends OperationOptions {
 export interface ListJobsOptions extends OperationOptions {
     channelId?: string;
     classificationPolicyId?: string;
-    jobStateSelector?: RouterJobStatusSelector;
+    // Warning: (ae-forgotten-export) The symbol "RouterJobStatusSelector_2" needs to be exported by the entry point index.d.ts
+    jobStateSelector?: RouterJobStatusSelector_2;
     maxpagesize?: number;
     queueId?: string;
     scheduledAfter?: Date;
@@ -582,7 +514,8 @@ export interface ListWorkersOptions extends OperationOptions {
     hasCapacity?: boolean;
     maxpagesize?: number;
     queueId?: string;
-    status?: RouterWorkerStateSelector;
+    // Warning: (ae-forgotten-export) The symbol "RouterWorkerStateSelector_2" needs to be exported by the entry point index.d.ts
+    status?: RouterWorkerStateSelector_2;
 }
 
 // @public
@@ -608,7 +541,8 @@ export interface Oauth2ClientCredential {
 export interface PassThroughQueueSelectorAttachment extends QueueSelectorAttachment {
     key: string;
     kind: "pass-through";
-    labelOperator: LabelOperator;
+    // Warning: (ae-forgotten-export) The symbol "LabelOperator_2" needs to be exported by the entry point index.d.ts
+    labelOperator: LabelOperator_2;
 }
 
 // @public
@@ -616,7 +550,7 @@ export interface PassThroughWorkerSelectorAttachment extends WorkerSelectorAttac
     expiresAfterSeconds?: number;
     key: string;
     kind: "pass-through";
-    labelOperator: LabelOperator;
+    labelOperator: LabelOperator_2;
 }
 
 // @public (undocumented)
@@ -690,6 +624,10 @@ export interface RouterJobItem {
 //
 // @public (undocumented)
 export interface RouterJobMatchingMode extends JobMatchingMode {
+    // Warning: (ae-forgotten-export) The symbol "JobMatchModeType_2" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    modeType?: JobMatchModeType_2;
     // (undocumented)
     queueAndMatchMode?: QueueAndMatchMode;
     // (undocumented)
@@ -729,10 +667,38 @@ export interface RouterJobResponse extends RouterJob {
 }
 
 // @public
-export type RouterJobStatus = string;
+export enum RouterJobStatus {
+    Assigned = "assigned",
+    Cancelled = "cancelled",
+    ClassificationFailed = "classificationFailed",
+    Closed = "closed",
+    Completed = "completed",
+    Created = "created",
+    PendingClassification = "pendingClassification",
+    PendingSchedule = "pendingSchedule",
+    Queued = "queued",
+    Scheduled = "scheduled",
+    ScheduleFailed = "scheduleFailed",
+    WaitingForActivation = "waitingForActivation"
+}
 
 // @public
-export type RouterJobStatusSelector = string;
+export enum RouterJobStatusSelector {
+    Active = "active",
+    All = "all",
+    Assigned = "assigned",
+    Cancelled = "cancelled",
+    ClassificationFailed = "classificationFailed",
+    Closed = "closed",
+    Completed = "completed",
+    Created = "created",
+    PendingClassification = "pendingClassification",
+    PendingSchedule = "pendingSchedule",
+    Queued = "queued",
+    Scheduled = "scheduled",
+    ScheduleFailed = "scheduleFailed",
+    WaitingForActivation = "waitingForActivation"
+}
 
 // Warning: (ae-forgotten-export) The symbol "RouterQueue_2" needs to be exported by the entry point index.d.ts
 //
@@ -813,13 +779,25 @@ export interface RouterWorkerSelector extends Omit<RouterWorkerSelector_2, "valu
 }
 
 // @public
-export type RouterWorkerSelectorStatus = string;
+export enum RouterWorkerSelectorStatus {
+    Active = "active",
+    Expired = "expired"
+}
 
 // @public
-export type RouterWorkerState = string;
+export enum RouterWorkerState {
+    Active = "active",
+    Draining = "draining",
+    Inactive = "inactive"
+}
 
 // @public
-export type RouterWorkerStateSelector = string;
+export enum RouterWorkerStateSelector {
+    Active = "active",
+    All = "all",
+    Draining = "draining",
+    Inactive = "inactive"
+}
 
 // @public
 export interface RuleEngineQueueSelectorAttachment extends QueueSelectorAttachment {
@@ -844,11 +822,15 @@ export interface ScoringRuleOptions {
     allowScoringBatchOfWorkers?: boolean;
     batchSize?: number;
     descendingOrder?: boolean;
-    scoringParameters?: ScoringRuleParameterSelector[];
+    // Warning: (ae-forgotten-export) The symbol "ScoringRuleParameterSelector_2" needs to be exported by the entry point index.d.ts
+    scoringParameters?: ScoringRuleParameterSelector_2[];
 }
 
 // @public
-export type ScoringRuleParameterSelector = string;
+export enum ScoringRuleParameterSelector {
+    JobLabels = "jobLabels",
+    WorkerSelectors = "workerSelectors"
+}
 
 // @public
 export interface StaticQueueSelectorAttachment extends QueueSelectorAttachment {
