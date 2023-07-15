@@ -79,9 +79,15 @@ describe("JobRouterClient", function () {
     }).timeout(timeoutMs);
 
     it("should register and deregister a worker", async function () {
-      const registerResult = await client.updateWorker(workerId, { ...workerRequest, availableForOffers: true });
+      const registerResult = await client.updateWorker(workerId, {
+        ...workerRequest,
+        availableForOffers: true,
+      });
       await sleep(2000);
-      const deregisterResult = await client.updateWorker(workerId, { ...workerRequest, availableForOffers: false });
+      const deregisterResult = await client.updateWorker(workerId, {
+        ...workerRequest,
+        availableForOffers: false,
+      });
 
       assert.isDefined(registerResult);
       assert.isDefined(registerResult?.id);

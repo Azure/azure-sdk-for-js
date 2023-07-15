@@ -77,5 +77,5 @@ export {
   JobRouterCompleteJobActionResponse,
   JobRouterReclassifyJobActionResponse,
   JobRouterCloseJobActionResponse,
-  JobRouterDeclineJobActionResponse
+  JobRouterDeclineJobActionResponse,
 } from "../generated/src/models";

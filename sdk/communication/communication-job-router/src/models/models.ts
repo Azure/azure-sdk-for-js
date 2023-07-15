@@ -21,7 +21,7 @@ export interface JSONObject {
   [key: string]: JSONValue;
 }
 
-export interface JSONArray extends ArrayLike<JSONValue> { }
+export interface JSONArray extends ArrayLike<JSONValue> {}
 
 /**
  * Message with timestamp on a router job.
@@ -41,12 +41,12 @@ export interface RouterJob extends Omit<RouterJobGenerated, "labels" | "tags"> {
   tags?: JSONObject;
 }
 
-export interface QueueAndMatchMode { }
+export interface QueueAndMatchMode {}
 
-export interface SuspendMode { }
+export interface SuspendMode {}
 
 export interface RouterJobMatchingMode extends JobMatchingModeGenerated {
-  modeType?: JobMatchModeType
+  modeType?: JobMatchModeType;
   queueAndMatchMode?: QueueAndMatchMode;
   scheduleAndSuspendMode?: ScheduleAndSuspendMode;
   suspendMode?: SuspendMode;
