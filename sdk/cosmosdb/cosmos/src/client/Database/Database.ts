@@ -11,11 +11,12 @@ import { DatabaseDefinition } from "./DatabaseDefinition";
 import { DatabaseResponse } from "./DatabaseResponse";
 import { OfferResponse, OfferDefinition, Offer } from "../Offer";
 import { Resource } from "../Resource";
-// import { EncryptionKey } from "../Encryption/EncryptionKey";
+
 
 import {
   EncryptionKeyWrapMetadata,
   WrappedDekCache,
+  ClientEncryptionPolicy,
   UnwrappedDekCache,
   CustomerManagedKey,
   RandomGenerator,
@@ -57,7 +58,7 @@ export class Database {
     return createDatabaseUri(this.id);
   }
   private dekCache?: UnwrappedDekCache;
-
+  // private clientEncryptionPolicyArray?: ClientEncryptionPolicy[];
   // private cmkCache?: CmkCache;
 
   private wrappedDekCache?: WrappedDekCache;
@@ -75,7 +76,9 @@ export class Database {
   {
     this.containers = new Containers(this, this.clientContext);
     this.users = new Users(this, this.clientContext);
-    this.credentials = credentials;
+    this.dekCache= new UnwrappedDekCache();
+    this.wrappedDekCache = new WrappedDekCache();
+    // this.clientEncryptionPolicyArray = new ClientEncryptionPolicy[];
   }
 
   /**
@@ -88,8 +91,8 @@ export class Database {
    * await client.database("<db id>").container("<container id>").delete();
    * ```
    */
-  public container(id: string): Container {
-    return new Container(this, id, this.clientContext, this?.dekCache, this?.wrappedDekCache);
+  public container(id: string, clientEncryptionPolicyArray?: ClientEncryptionPolicy[]): Container {
+    return new Container(this, id, this.clientContext, this?.dekCache, this?.wrappedDekCache,clientEncryptionPolicyArray);
   }
 
   /**
@@ -176,31 +179,21 @@ export class Database {
       encryptionKeyWrapMetadata.value,
       this.credentials
     );
+    console.log("cmk");
+
     const wrappedDek = await this.createEncryptionKeyAsync(name, customerManagedKey);
+    console.log("dek created & wrapped");
     this.wrappedDekCache.setDataEncryptionKey(name, wrappedDek, encryptionKeyWrapMetadata);
+    
+    console.log("wrapped dek set");
   }
 
   private async createEncryptionKeyAsync(name: string, cmk: CustomerManagedKey): Promise<string> {
     const randomGenerator = new RandomGenerator();
     const unwrappedDek = await randomGenerator.randomBytes(32);
     const wrappedDek = await cmk.wrapDek(unwrappedDek);
+    console.log("dek wrapped by cmk");
     this.dekCache.setDataEncryptionKey(name, unwrappedDek);
     return wrappedDek;
   }
-
-  // public async createClientEncryptionKey(options: RequestOptions = { }): Promise<ClientEncryptionKeyResponse> {
-
-  //     const dataEncryptionKey = await EncryptionKey.createDataEncryptionKey();
-
-  //     const wrappedKey = await EncryptionKey.wrapDataEncryptionKey( options, dataEncryptionKey);
-
-  //     const response = {
-  //       result: wrappedKey,
-  //       headers: {},
-  //       code: 200,
-  //       diagnostics: "",
-  //     };
-
-  //     return new ClientEncryptionKeyResponse(response);
-  //   }
 }

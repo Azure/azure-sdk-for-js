@@ -1,4 +1,4 @@
-export { ClientEncryptionPolicyCache } from "./ClientEncrptionPolicyCache";
+export { ClientEncryptionPolicyCache } from "./ClientEncryptionPolicyCache";
 export { ClientEncryptionPolicy } from "./ClientEncryptionPolicy";
 export { CustomerManagedKey } from "./CustomerManagedKey";
 export { EncryptionKeyWrapMetadata } from "./EncryptionKeyWrapMetadata";

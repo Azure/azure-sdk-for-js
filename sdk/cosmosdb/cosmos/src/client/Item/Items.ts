@@ -31,7 +31,7 @@ import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/ty
 import { hashPartitionKey } from "../../utils/hashing/hash";
 import { PartitionKey, PartitionKeyDefinition } from "../../documents";
 // import { ClientEncryptionPolicy } from "../Encryption/ClientEncryptionPolicy";
-import { ClientEncryptionPolicyCache } from "../Encryption/ClientEncrptionPolicyCache";
+import { ClientEncryptionPolicyCache } from "../Encryption/ClientEncryptionPolicyCache";
 // import { createCipheriv ,randomBytes, createHash } from "crypto";
 import { UnwrappedDekCache } from "../Encryption/UnwrappedDekCache";
 import { EncryptionProcessor } from "../Encryption/EncryptionProcessor";
@@ -292,6 +292,7 @@ export class Items {
       this.clientencryptionpolicycache,
       this.unwrappedDekCache
     );
+    console.log("inside create of items",body);
     await encryptionProcessor.identifypath(body);
 
     const path = getPathFromLink(this.container.url, ResourceType.item);

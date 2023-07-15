@@ -500,7 +500,7 @@ export const Constants: {
 export class Container {
     // Warning: (ae-forgotten-export) The symbol "UnwrappedDekCache" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "WrappedDekCache" needs to be exported by the entry point index.d.ts
-    constructor(database: Database, id: string, clientContext: ClientContext, dekCache: UnwrappedDekCache, wrappedDekCache: WrappedDekCache, clientEncryptionPolicyArray?: ClientEncryptionPolicy[]);
+    constructor(database: Database, id: string, clientContext: ClientContext, dekCache: UnwrappedDekCache, wrappedDekCache: WrappedDekCache, clientEncryptionPolicyArray: ClientEncryptionPolicy[]);
     conflict(id: string, partitionKey?: PartitionKey): Conflict;
     get conflicts(): Conflicts;
     // (undocumented)
@@ -550,6 +550,8 @@ export interface ContainerRequest extends VerboseOmit<ContainerDefinition, "part
             incrementPercent: number;
         };
     };
+    // (undocumented)
+    clientEncryptionPolicyArray?: ClientEncryptionPolicy[];
     // (undocumented)
     maxThroughput?: number;
     // (undocumented)
@@ -657,7 +659,7 @@ export class Database {
     constructor(client: CosmosClient, id: string, clientContext: ClientContext, credentials?: ClientSecretCredential);
     // (undocumented)
     readonly client: CosmosClient;
-    container(id: string): Container;
+    container(id: string, clientEncryptionPolicyArray?: ClientEncryptionPolicy[]): Container;
     readonly containers: Containers;
     // (undocumented)
     CreateClientEncryptionKeyAsync(name: string, encryptionKeyWrapMetadata: EncryptionKeyWrapMetadata): Promise<void>;

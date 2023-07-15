@@ -3,6 +3,7 @@
 import { ContainerDefinition } from "./ContainerDefinition";
 import { PartitionKeyDefinition } from "../../documents";
 import { VerboseOmit } from "../../utils/types";
+import { ClientEncryptionPolicy } from "../Encryption";
 
 export interface ContainerRequest extends VerboseOmit<ContainerDefinition, "partitionKey"> {
   /* Throughput for this container. Cannot use with maxThroughput */
@@ -16,4 +17,5 @@ export interface ContainerRequest extends VerboseOmit<ContainerDefinition, "part
     };
   };
   partitionKey?: string | PartitionKeyDefinition;
+  clientEncryptionPolicyArray?: ClientEncryptionPolicy[];
 }

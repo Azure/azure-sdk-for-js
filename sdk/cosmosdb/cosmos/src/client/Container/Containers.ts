@@ -20,8 +20,7 @@ import { ContainerDefinition } from "./ContainerDefinition";
 import { ContainerRequest } from "./ContainerRequest";
 import { ContainerResponse } from "./ContainerResponse";
 import { validateOffer } from "../../utils/offers";
-import { WrappedDekCache } from "../Encryption/WrappedDekCache";
-import { UnwrappedDekCache } from "../Encryption/UnwrappedDekCache";
+import {  WrappedDekCache,UnwrappedDekCache } from "../Encryption";
 
 /**
  * Operations for creating new containers, and reading/querying all containers
@@ -34,12 +33,17 @@ import { UnwrappedDekCache } from "../Encryption/UnwrappedDekCache";
  * do this once on application start up.
  */
 export class Containers {
+
   constructor(
     public readonly database: Database,
     private readonly clientContext: ClientContext,
     private dekCache?: UnwrappedDekCache,
-    private wrappedDekCache?: WrappedDekCache
-  ) {}
+    private wrappedDekCache?: WrappedDekCache,
+  
+    
+  ) {
+    
+  }
 
   /**
    * Queries all containers.
@@ -112,6 +116,7 @@ export class Containers {
     body: ContainerRequest,
     options: RequestOptions = {}
   ): Promise<ContainerResponse> {
+    console.log("inside create func",body);
     const err = {};
     if (!isResourceValid(body, err)) {
       throw err;
@@ -166,6 +171,8 @@ export class Containers {
       };
     }
 
+  
+    
     const response = await this.clientContext.create<ContainerRequest, ContainerDefinition>({
       body,
       path,
@@ -173,12 +180,14 @@ export class Containers {
       resourceId: id,
       options,
     });
+    console.log("bdyis", body);
     const ref = new Container(
       this.database,
       response.result.id,
       this.clientContext,
       this?.dekCache,
-      this?.wrappedDekCache
+      this?.wrappedDekCache,
+      body?.clientEncryptionPolicyArray
     );
     return new ContainerResponse(
       response.result,
@@ -215,16 +224,19 @@ export class Containers {
     if (!body || body.id === null || body.id === undefined) {
       throw new Error("body parameter must be an object with an id property");
     }
+    console.log("inside create if not exists",body);
     /*
       1. Attempt to read the Container (based on an assumption that most containers will already exist, so its faster)
       2. If it fails with NotFound error, attempt to create the container. Else, return the read results.
-    */
+    */  
     try {
-      const readResponse = await this.database.container(body.id).read(options);
+      const readResponse = await this.database.container(body.id,body?.clientEncryptionPolicyArray).read(options);
+      console.log("read response",readResponse);
       return readResponse;
     } catch (err: any) {
-      if (err.code === StatusCodes.NotFound) {
-        const createResponse = await this.create(body, options);
+      if (err.code === StatusCodes.NotFound)  {  
+        console.log("inside catch",body)
+        const createResponse = await this.create( body, options);
         // Must merge the headers to capture RU costskaty
         mergeHeaders(createResponse.headers, err.headers);
         return createResponse;

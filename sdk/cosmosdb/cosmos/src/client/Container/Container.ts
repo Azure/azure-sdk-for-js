@@ -26,10 +26,9 @@ import { OfferResponse } from "../Offer/OfferResponse";
 import { Resource } from "../Resource";
 import { getEmptyCosmosDiagnostics } from "../../CosmosDiagnostics";
 import { CosmosDiagnosticContext } from "../../CosmosDiagnosticsContext";
-import { WrappedDekCache } from "../Encryption/WrappedDekCache";
-import { UnwrappedDekCache } from "../Encryption/UnwrappedDekCache";
-import { ClientEncryptionPolicyCache } from "../Encryption/ClientEncrptionPolicyCache";
-import { ClientEncryptionPolicy } from "../Encryption/ClientEncryptionPolicy";
+
+import { WrappedDekCache,UnwrappedDekCache,ClientEncryptionPolicy,ClientEncryptionPolicyCache } from "../Encryption";
+
 
 /**
  * Operations for reading, replacing, or deleting a specific, existing container by id.
@@ -110,16 +109,25 @@ export class Container {
     private readonly clientContext: ClientContext,
     private dekCache: UnwrappedDekCache,
     private wrappedDekCache: WrappedDekCache,
-    private clientEncryptionPolicyArray?: ClientEncryptionPolicy[]
+    private clientEncryptionPolicyArray: ClientEncryptionPolicy[]
   ) {
     this.clientencryptionpolicycache = new ClientEncryptionPolicyCache();
-    this.populateClientEncryptionPolicyCache();
-  }
-  private populateClientEncryptionPolicyCache() {
-    for (const policy of this.clientEncryptionPolicyArray) {
+    console.log("policy array", this.clientEncryptionPolicyArray);
+    
+    this.clientEncryptionPolicyArray.map((policy)=>{
       this.clientencryptionpolicycache.setClientEncryptionPolicyCache(policy.path, policy);
+    
     }
-  }
+    );
+    console.log("policy set in cache");
+  } 
+  // private populateClientEncryptionPolicyCache() {
+  //   for (const policy of this.clientEncryptionPolicyArray) {
+  //     this.clientencryptionpolicycache.setClientEncryptionPolicyCache(policy.path, policy);
+  //   }
+   
+    // console.log("policy set in cache");
+  // }
   /**
    * Used to read, replace, or delete a specific, existing {@link Item} by id.
    *
