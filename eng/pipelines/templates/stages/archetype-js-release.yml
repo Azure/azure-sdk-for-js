@@ -320,3 +320,5 @@ stages:
               - ci-configs/packages-latest.json
               - ci-configs/packages-preview.json
             DocValidationImageId: "$(DocValidationImageId)"
+
+        - template: /eng/common/pipelines/templates/steps/docsms-ensure-validation.yml
