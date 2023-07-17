@@ -106,6 +106,7 @@ steps:
           -ClientSecret '$(opensource-aad-secret)'
       displayName: Apply Documentation Updates
 
+    # Push changes for the packages which did pass validation
     - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
       parameters:
         BaseRepoBranch: $(TargetBranchName)
