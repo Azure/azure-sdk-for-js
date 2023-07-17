@@ -186,7 +186,7 @@ export class CallConnection {
         sipHeaders: targetParticipant.sipHeaders,
         voipHeaders: targetParticipant.voipHeaders,
       },
-      callbackUriOverride: options.callbackUriOverride
+      callbackUriOverride: options.callbackUriOverride,
     };
     const optionsInternal = {
       ...options,
@@ -226,7 +226,7 @@ export class CallConnection {
         sipHeaders: options.sipHeaders,
         voipHeaders: options.voipHeaders,
       },
-      callbackUriOverride: options.callbackUriOverride
+      callbackUriOverride: options.callbackUriOverride,
     };
     const optionsInternal = {
       ...options,
@@ -254,7 +254,7 @@ export class CallConnection {
     const removeParticipantRequest: RemoveParticipantRequest = {
       participantToRemove: communicationIdentifierModelConverter(participant),
       operationContext: options.operationContext,
-      callbackUriOverride: options.callbackUriOverride
+      callbackUriOverride: options.callbackUriOverride,
     };
     const optionsInternal = {
       ...options,
