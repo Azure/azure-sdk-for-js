@@ -3,18 +3,23 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { InternalClientPipelineOptions, OperationOptions } from "@azure/core-client";
+import { InternalClientPipelineOptions } from "@azure/core-client";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { SearchClient as GeneratedClient } from "./generated/data/searchClient";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
-import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 import {
   AutocompleteRequest,
   AutocompleteResult,
   IndexDocumentsResult,
+  KnownSemanticPartialResponseReason,
+  KnownSemanticPartialResponseType,
   SuggestRequest,
+  SearchRequest as GeneratedSearchRequest,
+  Answers,
+  QueryAnswerType,
+  Vector as GeneratedVector,
 } from "./generated/data/models";
 import { createSpan } from "./tracing";
 import { deserialize, serialize } from "./serialization";
@@ -38,6 +43,10 @@ import {
   SuggestOptions,
   UploadDocumentsOptions,
   NarrowedModel,
+  SelectArray,
+  SearchFieldArray,
+  AnswersOptions,
+  Vector,
 } from "./indexModels";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
@@ -75,7 +84,7 @@ export interface SearchClientOptions extends ExtendedCommonClientOptions {
  * including querying documents in the index as well as
  * adding, updating, and removing them.
  */
-export class SearchClient<Model extends object> implements IndexDocumentsClient<Model> {
+export class SearchClient<TModel extends object> implements IndexDocumentsClient<TModel> {
   /// Maintenance note: when updating supported API versions,
   /// the ContinuationToken logic will need to be updated below.
 
@@ -123,13 +132,13 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    *
    * Optionally, the type of the model can be used to enable strong typing and type hints:
    * ```ts
-   * type Model = {
+   * type TModel = {
    *   keyName: string;
    *   field1?: string | null;
    *   field2?: { anotherField?: string | null } | null;
    * };
    *
-   * const client = new SearchClient<Model>(
+   * const client = new SearchClient<TModel>(
    *   ...
    * );
    * ```
@@ -139,7 +148,7 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * @param credential - Used to authenticate requests to the service.
    * @param options - Used to configure the Search client.
    *
-   * @typeParam Model - An optional type that represents the documents stored in
+   * @typeParam TModel - An optional type that represents the documents stored in
    * the search index. For the best typing experience, all non-key fields should
    * be marked optional and nullable, and the key property should have the
    * non-nullable type `string`.
@@ -152,16 +161,6 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
   ) {
     this.endpoint = endpoint;
     this.indexName = indexName;
-
-    const libInfo = `azsdk-js-search-documents/${SDK_VERSION}`;
-    if (!options.userAgentOptions) {
-      options.userAgentOptions = {};
-    }
-    if (options.userAgentOptions.userAgentPrefix) {
-      options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      options.userAgentOptions.userAgentPrefix = libInfo;
-    }
 
     const internalClientPipelineOptions: InternalClientPipelineOptions = {
       ...options,
@@ -247,21 +246,21 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * import {
    *   AzureKeyCredential,
    *   SearchClient,
-   *   SelectFields,
+   *   SearchFieldArray,
    * } from "@azure/search-documents";
    *
-   * type Model = {
+   * type TModel = {
    *   key: string;
    *   azure?: { sdk: string | null } | null;
    * };
    *
-   * const client = new SearchClient<Model>(
+   * const client = new SearchClient<TModel>(
    *   "endpoint.azure",
    *   "indexName",
    *   new AzureKeyCredential("key")
    * );
    *
-   * const searchFields: SelectFields<Model>[] = ["azure/sdk"];
+   * const searchFields: SearchFieldArray<TModel> = ["azure/sdk"];
    *
    * const autocompleteResult = await client.autocomplete(
    *   "searchText",
@@ -273,10 +272,9 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
   public async autocomplete(
     searchText: string,
     suggesterName: string,
-    options: AutocompleteOptions<Model> = {}
+    options: AutocompleteOptions<TModel> = {}
   ): Promise<AutocompleteResult> {
-    const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
-    const { searchFields, ...nonFieldOptions } = restOptions;
+    const { searchFields, ...nonFieldOptions } = options;
     const fullOptions: AutocompleteRequest = {
       searchText: searchText,
       suggesterName: suggesterName,
@@ -292,7 +290,7 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
       throw new RangeError("suggesterName must be provided.");
     }
 
-    const { span, updatedOptions } = createSpan("SearchClient-autocomplete", operationOptions);
+    const { span, updatedOptions } = createSpan("SearchClient-autocomplete", options);
 
     try {
       const result = await this.client.documents.autocompletePost(fullOptions, updatedOptions);
@@ -308,50 +306,77 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
     }
   }
 
-  private async searchDocuments<Fields extends SelectFields<Model>>(
+  private async searchDocuments<TFields extends SelectFields<TModel>>(
     searchText?: string,
-    options: SearchOptions<Model, Fields> = {},
-    nextPageParameters: SearchRequest = {}
-  ): Promise<SearchDocumentsPageResult<Model, Fields>> {
-    const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
-    const { select, searchFields, orderBy, semanticFields, ...nonFieldOptions } = restOptions;
-    const fullOptions: SearchRequest = {
+    options: SearchOptions<TModel, TFields> = {},
+    nextPageParameters: SearchRequest<TModel> = {}
+  ): Promise<SearchDocumentsPageResult<TModel, TFields>> {
+    const {
+      searchFields,
+      semanticFields,
+      select,
+      orderBy,
+      includeTotalCount,
+      vector,
+      answers,
+      semanticErrorHandlingMode,
+      debugMode,
+      ...restOptions
+    } = options;
+    const fullOptions: GeneratedSearchRequest = {
+      ...restOptions,
+      ...nextPageParameters,
       searchFields: this.convertSearchFields(searchFields),
       semanticFields: this.convertSemanticFields(semanticFields),
-      select: this.convertSelect<Fields>(select) || "*",
+      select: this.convertSelect<TFields>(select) || "*",
       orderBy: this.convertOrderBy(orderBy),
-      ...nonFieldOptions,
-      ...nextPageParameters,
+      includeTotalResultCount: includeTotalCount,
+      vector: this.convertVector(vector),
+      answers: this.convertAnswers(answers),
+      semanticErrorHandling: semanticErrorHandlingMode,
+      debug: debugMode,
     };
 
-    const { span, updatedOptions } = createSpan("SearchClient-searchDocuments", operationOptions);
+    const { span, updatedOptions } = createSpan("SearchClient-searchDocuments", options);
 
     try {
       const result = await this.client.documents.searchPost(
         {
           ...fullOptions,
-          includeTotalResultCount: fullOptions.includeTotalCount,
           searchText: searchText,
         },
         updatedOptions
       );
 
-      const { results, count, coverage, facets, answers, nextLink } = result;
+      const {
+        results,
+        nextLink,
+        nextPageParameters: resultNextPageParameters,
+        semanticPartialResponseReason,
+        semanticPartialResponseType,
+        ...restResult
+      } = result;
 
-      const modifiedResults = utils.generatedSearchResultToPublicSearchResult<Model, Fields>(
+      const modifiedResults = utils.generatedSearchResultToPublicSearchResult<TModel, TFields>(
         results
       );
 
-      const converted: SearchDocumentsPageResult<Model, Fields> = {
+      const converted: SearchDocumentsPageResult<TModel, TFields> = {
+        ...restResult,
         results: modifiedResults,
-        count,
-        coverage,
-        facets,
-        answers,
-        continuationToken: this.encodeContinuationToken(nextLink, result.nextPageParameters),
+        semanticPartialResponseReason:
+          semanticPartialResponseReason as `${KnownSemanticPartialResponseReason}`,
+        semanticPartialResponseType:
+          semanticPartialResponseType as `${KnownSemanticPartialResponseType}`,
+        continuationToken: this.encodeContinuationToken(
+          nextLink,
+          resultNextPageParameters
+            ? utils.generatedSearchRequestToPublicSearchRequest(resultNextPageParameters)
+            : resultNextPageParameters
+        ),
       };
 
-      return deserialize<SearchDocumentsPageResult<Model, Fields>>(converted);
+      return deserialize<SearchDocumentsPageResult<TModel, TFields>>(converted);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -363,11 +388,11 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
     }
   }
 
-  private async *listSearchResultsPage<Fields extends SelectFields<Model>>(
+  private async *listSearchResultsPage<TFields extends SelectFields<TModel>>(
     searchText?: string,
-    options: SearchOptions<Model, Fields> = {},
+    options: SearchOptions<TModel, TFields> = {},
     settings: ListSearchResultsPageSettings = {}
-  ): AsyncIterableIterator<SearchDocumentsPageResult<Model, Fields>> {
+  ): AsyncIterableIterator<SearchDocumentsPageResult<TModel, TFields>> {
     let decodedContinuation = this.decodeContinuationToken(settings.continuationToken);
     let result = await this.searchDocuments(
       searchText,
@@ -390,11 +415,11 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
     }
   }
 
-  private async *listSearchResultsAll<Fields extends SelectFields<Model>>(
-    firstPage: SearchDocumentsPageResult<Model, Fields>,
+  private async *listSearchResultsAll<TFields extends SelectFields<TModel>>(
+    firstPage: SearchDocumentsPageResult<TModel, TFields>,
     searchText?: string,
-    options: SearchOptions<Model, Fields> = {}
-  ): AsyncIterableIterator<SearchResult<Model, Fields>> {
+    options: SearchOptions<TModel, TFields> = {}
+  ): AsyncIterableIterator<SearchResult<TModel, TFields>> {
     yield* firstPage.results;
     if (firstPage.continuationToken) {
       for await (const page of this.listSearchResultsPage(searchText, options, {
@@ -405,11 +430,11 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
     }
   }
 
-  private listSearchResults<Fields extends SelectFields<Model>>(
-    firstPage: SearchDocumentsPageResult<Model, Fields>,
+  private listSearchResults<TFields extends SelectFields<TModel>>(
+    firstPage: SearchDocumentsPageResult<TModel, TFields>,
     searchText?: string,
-    options: SearchOptions<Model, Fields> = {}
-  ): SearchIterator<Model, Fields> {
+    options: SearchOptions<TModel, TFields> = {}
+  ): SearchIterator<TModel, TFields> {
     const iter = this.listSearchResultsAll(firstPage, searchText, options);
 
     return {
@@ -435,22 +460,22 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * import {
    *   AzureKeyCredential,
    *   SearchClient,
-   *   SelectFields,
+   *   SearchFieldArray,
    * } from "@azure/search-documents";
    *
-   * type Model = {
+   * type TModel = {
    *   key: string;
    *   azure?: { sdk: string | null } | null;
    * };
    *
-   * const client = new SearchClient<Model>(
+   * const client = new SearchClient<TModel>(
    *   "endpoint.azure",
    *   "indexName",
    *   new AzureKeyCredential("key")
    * );
    *
    * const select = ["azure/sdk"] as const;
-   * const searchFields: SelectFields<Model>[] = ["azure/sdk"];
+   * const searchFields: SearchFieldArray<TModel> = ["azure/sdk"];
    *
    * const searchResult = await client.search("searchText", {
    *   select,
@@ -458,22 +483,17 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * });
    * ```
    */
-  public async search<Fields extends SelectFields<Model>>(
+  public async search<TFields extends SelectFields<TModel>>(
     searchText?: string,
-    options?: SearchOptions<Model, Fields>
-  ): Promise<SearchDocumentsResult<Model, Fields>> {
+    options?: SearchOptions<TModel, TFields>
+  ): Promise<SearchDocumentsResult<TModel, TFields>> {
     const { span, updatedOptions } = createSpan("SearchClient-search", options);
 
     try {
       const pageResult = await this.searchDocuments(searchText, updatedOptions);
 
-      const { count, coverage, facets, answers } = pageResult;
-
       return {
-        count,
-        coverage,
-        facets,
-        answers,
+        ...pageResult,
         results: this.listSearchResults(pageResult, searchText, updatedOptions),
       };
     } catch (e: any) {
@@ -498,22 +518,22 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * import {
    *   AzureKeyCredential,
    *   SearchClient,
-   *   SelectFields,
+   *   SearchFieldArray,
    * } from "@azure/search-documents";
    *
-   * type Model = {
+   * type TModel = {
    *   key: string;
    *   azure?: { sdk: string | null } | null;
    * };
    *
-   * const client = new SearchClient<Model>(
+   * const client = new SearchClient<TModel>(
    *   "endpoint.azure",
    *   "indexName",
    *   new AzureKeyCredential("key")
    * );
    *
    * const select = ["azure/sdk"] as const;
-   * const searchFields: SelectFields<Model>[] = ["azure/sdk"];
+   * const searchFields: SearchFieldArray<TModel> = ["azure/sdk"];
    *
    * const suggestResult = await client.suggest("searchText", "suggesterName", {
    *   select,
@@ -521,18 +541,17 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * });
    * ```
    */
-  public async suggest<Fields extends SelectFields<Model> = never>(
+  public async suggest<TFields extends SelectFields<TModel> = never>(
     searchText: string,
     suggesterName: string,
-    options: SuggestOptions<Model, Fields> = {}
-  ): Promise<SuggestDocumentsResult<Model, Fields>> {
-    const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
-    const { select, searchFields, orderBy, ...nonFieldOptions } = restOptions;
+    options: SuggestOptions<TModel, TFields> = {}
+  ): Promise<SuggestDocumentsResult<TModel, TFields>> {
+    const { select, searchFields, orderBy, ...nonFieldOptions } = options;
     const fullOptions: SuggestRequest = {
       searchText: searchText,
       suggesterName: suggesterName,
       searchFields: this.convertSearchFields(searchFields),
-      select: this.convertSelect<Fields>(select),
+      select: this.convertSelect<TFields>(select),
       orderBy: this.convertOrderBy(orderBy),
       ...nonFieldOptions,
     };
@@ -545,17 +564,17 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
       throw new RangeError("suggesterName must be provided.");
     }
 
-    const { span, updatedOptions } = createSpan("SearchClient-suggest", operationOptions);
+    const { span, updatedOptions } = createSpan("SearchClient-suggest", options);
 
     try {
       const result = await this.client.documents.suggestPost(fullOptions, updatedOptions);
 
       const modifiedResult = utils.generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<
-        Model,
-        Fields
+        TModel,
+        TFields
       >(result);
 
-      return deserialize<SuggestDocumentsResult<Model, Fields>>(modifiedResult);
+      return deserialize<SuggestDocumentsResult<TModel, TFields>>(modifiedResult);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -572,17 +591,17 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * @param key - The primary key value of the document
    * @param options - Additional options
    */
-  public async getDocument<Fields extends SelectFields<Model>>(
+  public async getDocument<TFields extends SelectFields<TModel>>(
     key: string,
-    options: GetDocumentOptions<Model, Fields> = {}
-  ): Promise<NarrowedModel<Model, Fields>> {
+    options: GetDocumentOptions<TModel, TFields> = {}
+  ): Promise<NarrowedModel<TModel, TFields>> {
     const { span, updatedOptions } = createSpan("SearchClient-getDocument", options);
     try {
       const result = await this.client.documents.get(key, {
         ...updatedOptions,
         selectedFields: updatedOptions.selectedFields as string[],
       });
-      return deserialize<NarrowedModel<Model, Fields>>(result);
+      return deserialize<NarrowedModel<TModel, TFields>>(result);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -606,7 +625,7 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    */
   public async indexDocuments(
     // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-    batch: IndexDocumentsBatch<Model>,
+    batch: IndexDocumentsBatch<TModel>,
     options: IndexDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const { span, updatedOptions } = createSpan("SearchClient-indexDocuments", options);
@@ -645,12 +664,12 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * @param options - Additional options.
    */
   public async uploadDocuments(
-    documents: Model[],
+    documents: TModel[],
     options: UploadDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const { span, updatedOptions } = createSpan("SearchClient-uploadDocuments", options);
 
-    const batch = new IndexDocumentsBatch<Model>();
+    const batch = new IndexDocumentsBatch<TModel>();
     batch.upload(documents);
 
     try {
@@ -673,12 +692,12 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * @param options - Additional options.
    */
   public async mergeDocuments(
-    documents: Model[],
+    documents: TModel[],
     options: MergeDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const { span, updatedOptions } = createSpan("SearchClient-mergeDocuments", options);
 
-    const batch = new IndexDocumentsBatch<Model>();
+    const batch = new IndexDocumentsBatch<TModel>();
     batch.merge(documents);
 
     try {
@@ -701,12 +720,12 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * @param options - Additional options.
    */
   public async mergeOrUploadDocuments(
-    documents: Model[],
+    documents: TModel[],
     options: MergeOrUploadDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const { span, updatedOptions } = createSpan("SearchClient-mergeDocuments", options);
 
-    const batch = new IndexDocumentsBatch<Model>();
+    const batch = new IndexDocumentsBatch<TModel>();
     batch.mergeOrUpload(documents);
 
     try {
@@ -728,7 +747,7 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * @param options - Additional options.
    */
   public async deleteDocuments(
-    documents: Model[],
+    documents: TModel[],
     options?: DeleteDocumentsOptions
   ): Promise<IndexDocumentsResult>;
 
@@ -739,23 +758,23 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * @param options - Additional options.
    */
   public async deleteDocuments(
-    keyName: keyof Model,
+    keyName: keyof TModel,
     keyValues: string[],
     options?: DeleteDocumentsOptions
   ): Promise<IndexDocumentsResult>;
 
   public async deleteDocuments(
-    keyNameOrDocuments: keyof Model | Model[],
+    keyNameOrDocuments: keyof TModel | TModel[],
     keyValuesOrOptions?: string[] | DeleteDocumentsOptions,
     options: DeleteDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const { span, updatedOptions } = createSpan("SearchClient-deleteDocuments", options);
 
-    const batch = new IndexDocumentsBatch<Model>();
+    const batch = new IndexDocumentsBatch<TModel>();
     if (typeof keyNameOrDocuments === "string") {
       batch.delete(keyNameOrDocuments, keyValuesOrOptions as string[]);
     } else {
-      batch.delete(keyNameOrDocuments as Model[]);
+      batch.delete(keyNameOrDocuments as TModel[]);
     }
 
     try {
@@ -773,7 +792,7 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
 
   private encodeContinuationToken(
     nextLink: string | undefined,
-    nextPageParameters: SearchRequest | undefined
+    nextPageParameters: SearchRequest<TModel> | undefined
   ): string | undefined {
     if (!nextLink || !nextPageParameters) {
       return undefined;
@@ -788,7 +807,7 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
 
   private decodeContinuationToken(
     token?: string
-  ): { nextPageParameters: SearchRequest; nextLink: string } | undefined {
+  ): { nextPageParameters: SearchRequest<TModel>; nextLink: string } | undefined {
     if (!token) {
       return undefined;
     }
@@ -799,7 +818,7 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
       const result: {
         apiVersion: string;
         nextLink: string;
-        nextPageParameters: SearchRequest;
+        nextPageParameters: SearchRequest<TModel>;
       } = JSON.parse(decodedToken);
 
       if (result.apiVersion !== this.apiVersion) {
@@ -815,33 +834,23 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-shadow
-  private extractOperationOptions<T extends OperationOptions>(
-    obj: T
-  ): {
-    operationOptions: OperationOptions;
-    restOptions: any;
-  } {
-    const { abortSignal, requestOptions, tracingOptions, ...restOptions } = obj;
-
-    return {
-      operationOptions: {
-        abortSignal,
-        requestOptions,
-        tracingOptions,
-      },
-      restOptions,
-    };
-  }
-
-  private convertSelect<Fields extends SelectFields<Model>>(select?: Fields[]): string | undefined {
+  private convertSelect<TFields extends SelectFields<TModel>>(
+    select?: SelectArray<TFields>
+  ): string | undefined {
     if (select) {
       return select.join(",");
     }
     return select;
   }
 
-  private convertSearchFields(searchFields?: SelectFields<Model>[]): string | undefined {
+  private convertVectorFields(fields?: SearchFieldArray<TModel>): string | undefined {
+    if (fields) {
+      return fields.join(",");
+    }
+    return fields;
+  }
+
+  private convertSearchFields(searchFields?: SearchFieldArray<TModel>): string | undefined {
     if (searchFields) {
       return searchFields.join(",");
     }
@@ -860,5 +869,38 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
       return orderBy.join(",");
     }
     return orderBy;
+  }
+
+  private convertAnswers(answers?: Answers | AnswersOptions): QueryAnswerType | undefined {
+    if (!answers || typeof answers === "string") {
+      return answers;
+    }
+    if (answers.answers === "none") {
+      return answers.answers;
+    }
+
+    const config = [];
+    const { answers: output, count, threshold } = answers;
+
+    if (count) {
+      config.push(`count-${count}`);
+    }
+
+    if (threshold) {
+      config.push(`threshold-${threshold}`);
+    }
+
+    if (config.length) {
+      return output + `|${config.join(",")}`;
+    }
+
+    return output;
+  }
+
+  private convertVector(vector?: Vector<TModel>): GeneratedVector | undefined {
+    if (!vector) {
+      return vector;
+    }
+    return { ...vector, fields: this.convertVectorFields(vector?.fields) };
   }
 }

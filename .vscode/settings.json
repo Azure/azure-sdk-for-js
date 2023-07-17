@@ -23,5 +23,6 @@
   "git.ignoreLimitWarning": true,
   "cSpell.words": [
     "datalake"
-  ]
+  ],
+  "prettier.prettierPath": "./sdk/core/core-rest-pipeline/node_modules/prettier"
 }

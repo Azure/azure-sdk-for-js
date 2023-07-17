@@ -4,6 +4,7 @@
 import {
   createDefaultHttpClient,
   HttpClient,
+  isRestError,
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
@@ -97,10 +98,12 @@ export class Recorder {
     } else {
       if (this.recordingId === undefined) {
         logger.error(
-          "[Recorder#redirectRequest] Could not redirect request (recording ID not set)",
+          "[Recorder#redirectRequest] Could not redirect request since the recorder was not started",
           request
         );
-        throw new RecorderError("Recording ID must be defined to redirect a request");
+        throw new RecorderError(
+          "Attempted to redirect a request, but the recorder was not started. Make sure to call Recorder#start before making any requests."
+        );
       }
 
       logger.info(
@@ -231,7 +234,21 @@ export class Recorder {
 
       if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient")) {
         logger.verbose("[Recorder#start] Setting redirect mode");
-        await setRecordingOptions(Recorder.url, this.httpClient, { handleRedirects: !isNode });
+        try {
+          await setRecordingOptions(Recorder.url, this.httpClient, {
+            handleRedirects: !isNode,
+            tlsValidationCert: options.tlsValidationCert,
+          });
+        } catch (e) {
+          if (isRestError(e) && e.message.includes("ECONNREFUSED")) {
+            throw new RecorderError(
+              `Test proxy appears to not be running at ${Recorder.url}. Make sure that you are running your tests using the dev-tool scripts.`
+            );
+          } else {
+            throw e;
+          }
+        }
+
         logger.verbose("[Recorder#start] Sending the start request to the test proxy");
         let rsp = await this.httpClient.sendRequest({
           ...req,
@@ -268,7 +285,12 @@ export class Recorder {
 
         if (rsp.status !== 200) {
           logger.error("[Recorder#start] Could not start the recorder", rsp);
-          throw new RecorderError("Start request failed.");
+          const mismatchHeader = rsp.headers.get("x-request-mismatch-error");
+          if (mismatchHeader) {
+            throw new RecorderError(decodeBase64(mismatchHeader));
+          } else {
+            throw new RecorderError("Start request failed.");
+          }
         }
         const id = rsp.headers.get("x-recording-id");
         if (!id) {

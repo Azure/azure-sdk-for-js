@@ -133,6 +133,8 @@ export interface LedgerProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ledgerInternalNamespace?: string;
+  /** Object representing RunningState for Ledger. */
+  runningState?: RunningState;
   /** Type of Confidential Ledger */
   ledgerType?: LedgerType;
   /**
@@ -202,12 +204,6 @@ export interface SystemData {
   lastModifiedByType?: CreatedByType;
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: Date;
-}
-
-/** Tags for Confidential Ledger Resource */
-export interface Tags {
-  /** Additional tags for Confidential Ledger */
-  tags?: { [propertyName: string]: string };
 }
 
 /** Object that includes an array of Confidential Ledgers and a possible link for next set. */
@@ -289,9 +285,7 @@ export interface TrackedResource extends Resource {
 }
 
 /** Confidential Ledger. Contains the properties of Confidential Ledger Resource. */
-export interface ConfidentialLedger extends TrackedResource, Tags {
-  /** Object representing RunningState for Ledger. */
-  runningState?: RunningState;
+export interface ConfidentialLedger extends TrackedResource {
   /** Properties of Confidential Ledger Resource. */
   properties?: LedgerProperties;
 }

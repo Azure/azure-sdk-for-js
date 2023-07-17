@@ -1,0 +1,16 @@
+{{- include "stress-test-addons.deploy-job-template.from-pod" (list . "stress.event-hubs") -}}
+
+{{- define "stress.event-hubs" -}}
+metadata:
+  labels:
+    testInstance: "event-hubs-{{ .Stress.Scenario }}-{{ .Release.Name }}-{{ .Release.Revision }}"
+    testName: "event-hubs-{{ .Stress.Scenario }}"
+    chaos: "true"
+spec:
+  containers:
+    - name: eh-stress
+      imagePullPolicy: Always
+      command: ["node", "/app/dist/src/{{ .Stress.testTarget }}.js"]
+      image: {{ .Stress.imageTag }}
+      {{- include "stress-test-addons.container-env" . | nindent 6 }}
+{{- end -}}

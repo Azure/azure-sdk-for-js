@@ -19,16 +19,14 @@ import {
   DownloadBlobResult,
   GetManifestOptions,
   GetManifestResult,
-  GetOciImageManifestResult,
   KnownManifestMediaType,
-  OciImageManifest,
   UploadBlobOptions,
   UploadBlobResult,
   SetManifestOptions,
   SetManifestResult,
+  OciImageManifest,
 } from "./models";
-import * as Mappers from "../generated/models/mappers";
-import { CommonClientOptions, createSerializer } from "@azure/core-client";
+import { CommonClientOptions } from "@azure/core-client";
 import { isDigest, readChunksFromStream, readStreamToEnd } from "../utils/helpers";
 import { Readable } from "stream";
 import { tracingClient } from "../tracing";
@@ -38,6 +36,7 @@ import { RetriableReadableStream } from "../utils/retriableReadableStream";
 const LATEST_API_VERSION = "2021-07-01";
 
 const CHUNK_SIZE = 4 * 1024 * 1024; // 4 MB
+const MAX_MANIFEST_SIZE_BYTES = 4 * 1024 * 1024; // 4 MB
 
 const ACCEPTED_MANIFEST_MEDIA_TYPES = [
   KnownManifestMediaType.OciImageManifest,
@@ -72,21 +71,6 @@ export class DigestMismatchError extends Error {
 }
 
 /**
- * Used to determine whether a manifest downloaded via {@link ContainerRegistryContentClient.getManifest} is an OCI image manifest.
- * If it is an OCI image manifest, the `manifest` property will contain the manifest data as parsed JSON.
- * @param downloadResult - the download result to check.
- * @returns - whether the downloaded manifest is an OCI image manifest.
- */
-export function isGetOciImageManifestResult(
-  downloadResult: GetManifestResult
-): downloadResult is GetOciImageManifestResult {
-  return (
-    downloadResult.mediaType === KnownManifestMediaType.OciImageManifest &&
-    Object.prototype.hasOwnProperty.call(downloadResult, "manifest")
-  );
-}
-
-/**
  * Client options used to configure Container Registry Blob API requests.
  */
 export interface ContainerRegistryContentClientOptions extends CommonClientOptions {
@@ -101,8 +85,6 @@ export interface ContainerRegistryContentClientOptions extends CommonClientOptio
    */
   serviceVersion?: "2021-07-01";
 }
-
-const serializer = createSerializer(Mappers, /* isXML */ false);
 
 /**
  * The Azure Container Registry blob client, responsible for uploading and downloading blobs and manifests, the building blocks of artifacts.
@@ -209,7 +191,7 @@ export class ContainerRegistryContentClient {
    * @param manifest - the manifest to upload.
    */
   public async setManifest(
-    manifest: Buffer | NodeJS.ReadableStream | OciImageManifest,
+    manifest: Buffer | NodeJS.ReadableStream | OciImageManifest | Record<string, unknown>,
     options: SetManifestOptions = {}
   ): Promise<SetManifestResult> {
     return tracingClient.withSpan(
@@ -226,8 +208,7 @@ export class ContainerRegistryContentClient {
           manifestBody = await readStreamToEnd(manifest);
           tagOrDigest ??= await calculateDigest(manifestBody);
         } else {
-          const serialized = serializer.serialize(Mappers.OCIManifest, manifest);
-          manifestBody = Buffer.from(JSON.stringify(serialized));
+          manifestBody = Buffer.from(JSON.stringify(manifest));
           tagOrDigest ??= await calculateDigest(manifestBody);
         }
 
@@ -251,11 +232,8 @@ export class ContainerRegistryContentClient {
   /**
    * Downloads the manifest for an OCI artifact.
    *
-   * If the manifest downloaded was of type {@link KnownManifestMediaType.OciImageManifest}, the downloaded manifest will be of type {@link GetOciImageManifestResult}.
-   * You can use {@link isGetOciImageManifestResult} to determine whether this is the case. If so, the strongly typed deserialized manifest will be available through the `manifest` property.
-   *
    * @param tagOrDigest - a tag or digest that identifies the artifact
-   * @returns - the downloaded manifest
+   * @returns - the downloaded manifest.
    */
   public async getManifest(
     tagOrDigest: string,
@@ -277,7 +255,7 @@ export class ContainerRegistryContentClient {
         assertHasProperty(response, "mediaType");
 
         const content = response.readableStreamBody
-          ? await readStreamToEnd(response.readableStreamBody)
+          ? await readStreamToEnd(response.readableStreamBody, MAX_MANIFEST_SIZE_BYTES)
           : Buffer.alloc(0);
 
         const expectedDigest = await calculateDigest(content);
@@ -294,25 +272,11 @@ export class ContainerRegistryContentClient {
           );
         }
 
-        if (response.mediaType === KnownManifestMediaType.OciImageManifest) {
-          const manifest = serializer.deserialize(
-            Mappers.OCIManifest,
-            JSON.parse(content.toString()),
-            "OCIManifest"
-          );
-
-          return {
-            digest: response.dockerContentDigest,
-            mediaType: response.mediaType,
-            manifest,
-            content,
-          };
-        }
-
         return {
           digest: response.dockerContentDigest,
           mediaType: response.mediaType,
           content,
+          manifest: JSON.parse(content.toString("utf-8")),
         };
       }
     );

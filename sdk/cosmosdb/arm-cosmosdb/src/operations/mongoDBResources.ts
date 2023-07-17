@@ -65,6 +65,8 @@ import {
   MongoDBResourcesDeleteMongoDBCollectionOptionalParams,
   MongoDBResourcesDeleteMongoDBCollectionResponse,
   MergeParameters,
+  MongoDBResourcesMongoDBDatabasePartitionMergeOptionalParams,
+  MongoDBResourcesMongoDBDatabasePartitionMergeResponse,
   MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams,
   MongoDBResourcesListMongoDBCollectionPartitionMergeResponse,
   MongoDBResourcesGetMongoDBCollectionThroughputOptionalParams,
@@ -1668,6 +1670,113 @@ export class MongoDBResourcesImpl implements MongoDBResources {
   }
 
   /**
+   * Merges the partitions of a MongoDB database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param mergeParameters The parameters for the merge operation.
+   * @param options The options parameters.
+   */
+  async beginMongoDBDatabasePartitionMerge(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    mergeParameters: MergeParameters,
+    options?: MongoDBResourcesMongoDBDatabasePartitionMergeOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MongoDBResourcesMongoDBDatabasePartitionMergeResponse>,
+      MongoDBResourcesMongoDBDatabasePartitionMergeResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<MongoDBResourcesMongoDBDatabasePartitionMergeResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        mergeParameters,
+        options
+      },
+      spec: mongoDBDatabasePartitionMergeOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MongoDBResourcesMongoDBDatabasePartitionMergeResponse,
+      OperationState<MongoDBResourcesMongoDBDatabasePartitionMergeResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Merges the partitions of a MongoDB database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param mergeParameters The parameters for the merge operation.
+   * @param options The options parameters.
+   */
+  async beginMongoDBDatabasePartitionMergeAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    mergeParameters: MergeParameters,
+    options?: MongoDBResourcesMongoDBDatabasePartitionMergeOptionalParams
+  ): Promise<MongoDBResourcesMongoDBDatabasePartitionMergeResponse> {
+    const poller = await this.beginMongoDBDatabasePartitionMerge(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      mergeParameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Merges the partitions of a MongoDB Collection
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -3178,6 +3287,40 @@ const deleteMongoDBCollectionOperationSpec: coreClient.OperationSpec = {
     Parameters.databaseName,
     Parameters.collectionName
   ],
+  serializer
+};
+const mongoDBDatabasePartitionMergeOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/partitionMerge",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PhysicalPartitionStorageInfoCollection
+    },
+    201: {
+      bodyMapper: Mappers.PhysicalPartitionStorageInfoCollection
+    },
+    202: {
+      bodyMapper: Mappers.PhysicalPartitionStorageInfoCollection
+    },
+    204: {
+      bodyMapper: Mappers.PhysicalPartitionStorageInfoCollection
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.mergeParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listMongoDBCollectionPartitionMergeOperationSpec: coreClient.OperationSpec = {

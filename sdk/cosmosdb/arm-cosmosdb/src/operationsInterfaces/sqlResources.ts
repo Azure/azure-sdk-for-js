@@ -54,6 +54,8 @@ import {
   SqlResourcesDeleteSqlContainerOptionalParams,
   SqlResourcesDeleteSqlContainerResponse,
   MergeParameters,
+  SqlResourcesSqlDatabasePartitionMergeOptionalParams,
+  SqlResourcesSqlDatabasePartitionMergeResponse,
   SqlResourcesListSqlContainerPartitionMergeOptionalParams,
   SqlResourcesListSqlContainerPartitionMergeResponse,
   SqlResourcesGetSqlContainerThroughputOptionalParams,
@@ -558,6 +560,41 @@ export interface SqlResources {
     containerName: string,
     options?: SqlResourcesDeleteSqlContainerOptionalParams
   ): Promise<SqlResourcesDeleteSqlContainerResponse>;
+  /**
+   * Merges the partitions of a SQL database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param mergeParameters The parameters for the merge operation.
+   * @param options The options parameters.
+   */
+  beginSqlDatabasePartitionMerge(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    mergeParameters: MergeParameters,
+    options?: SqlResourcesSqlDatabasePartitionMergeOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<SqlResourcesSqlDatabasePartitionMergeResponse>,
+      SqlResourcesSqlDatabasePartitionMergeResponse
+    >
+  >;
+  /**
+   * Merges the partitions of a SQL database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param mergeParameters The parameters for the merge operation.
+   * @param options The options parameters.
+   */
+  beginSqlDatabasePartitionMergeAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    mergeParameters: MergeParameters,
+    options?: SqlResourcesSqlDatabasePartitionMergeOptionalParams
+  ): Promise<SqlResourcesSqlDatabasePartitionMergeResponse>;
   /**
    * Merges the partitions of a SQL Container
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

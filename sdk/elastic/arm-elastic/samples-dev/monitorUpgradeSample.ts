@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { MicrosoftElastic } from "@azure/arm-elastic";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Upgradable version for a monitor resource.
  *
  * @summary Upgradable version for a monitor resource.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2022-07-01-preview/examples/Monitor_Upgrade.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/Monitor_Upgrade.json
  */
 async function monitorUpgrade() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["ELASTIC_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["ELASTIC_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftElastic(credential, subscriptionId);
@@ -30,4 +36,8 @@ async function monitorUpgrade() {
   console.log(result);
 }
 
-monitorUpgrade().catch(console.error);
+async function main() {
+  monitorUpgrade();
+}
+
+main().catch(console.error);

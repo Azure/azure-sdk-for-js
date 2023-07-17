@@ -17,7 +17,7 @@ input-file: ./FormRecognizer.json
 override-client-name: GeneratedClient
 add-credentials: false
 typescript: true
-package-version: "4.0.0"
+package-version: "4.1.0-beta.1"
 use-extension:
   "@autorest/typescript": "6.0.0-alpha.20.20220622.1"
 ```
@@ -57,8 +57,14 @@ directive:
   - from: swagger-document
     where: $.definitions[*].properties
     transform: >
-      for (const p of Object.keys($).filter((k) => k.endsWith("DateTime"))) {
-        $[p]["x-ms-client-name"] = p.replace(/DateTime$/, "On");
+      for (let p of Object.keys($).filter((k) => k.endsWith("DateTime"))) {
+        const name = p;
+        
+        if (p.startsWith("expiration")) {
+          p = p.replace("expiration", "expires");
+        }
+
+        $[name]["x-ms-client-name"] = p.replace(/DateTime$/, "On");
       }
 ```
 
@@ -70,4 +76,28 @@ directive:
     where: $.definitions.CopyAuthorization.properties.expirationDateTime
     transform: >
       delete $["x-ms-client-name"];
+```
+
+### Unset `format: uuid` for Id parameters
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.PathModelId
+    transform: >
+      delete $["format"];
+  - from: swagger-document
+    where: $.parameters.PathOperationId
+    transform: >
+      delete $["format"];
+```
+
+### Mark `kind` optional
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.DocumentPage
+    transform: >
+      $.required = $.required.filter((r) => r !== "kind");
 ```

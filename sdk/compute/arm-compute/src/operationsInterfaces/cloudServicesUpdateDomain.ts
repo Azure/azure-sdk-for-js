@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   UpdateDomain,
   CloudServicesUpdateDomainListUpdateDomainsOptionalParams,
@@ -44,7 +44,7 @@ export interface CloudServicesUpdateDomain {
     cloudServiceName: string,
     updateDomain: number,
     options?: CloudServicesUpdateDomainWalkUpdateDomainOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Updates the role instances in the specified update domain.
    * @param resourceGroupName Name of the resource group.

@@ -23,8 +23,10 @@ testWithServiceTypes(() => {
           });
           assert.equal(processingSpanOptions.spanKind, "consumer");
           assert.deepEqual(processingSpanOptions.spanAttributes, {
-            "message_bus.destination": "testPath",
-            "peer.address": "testHost",
+            "messaging.operation": "process",
+            "messaging.source.name": "testPath",
+            "messaging.system": "eventhubs",
+            "net.peer.name": "testHost",
           });
         });
 

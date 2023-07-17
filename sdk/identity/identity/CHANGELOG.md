@@ -1,20 +1,46 @@
 # Release History
 
-## 3.2.0-beta.2 (Unreleased)
+## 3.2.3 (2023-06-20)
+
+### Bug Fixes
+ - Dependency Upgrades of MSAL libraries to the latest versions for incorporating underlying [bug fix](https://github.com/AzureAD/microsoft-authentication-library-for-js/issues/4879#issuecomment-1462949837) to resolve [this issue](https://github.com/Azure/azure-sdk-for-js/issues/23331).
+### Other Changes
+#### Behavioral breaking change
+- Moved `AzureDeveloperCliCredential` to the end of the `DefaultAzureCredential` chain.
+
+## 3.2.2 (2023-05-15)
+
+### Bug Fixes
+ - Remove console logging in `processMultitenantRequest` for tenant id and resolved tenant.
+
+## 3.2.1 (2023-05-10)
+
+### Bug Fixes
+ - Fixed a bug in `WorkloadIdentity Credential`, to incorporate the case where the options can be `undefined` in a conditional check.
+   Related issue [#25827](https://github.com/Azure/azure-sdk-for-js/issues/25827) with the fix [#25829](https://github.com/Azure/azure-sdk-for-js/pull/25829).
+
+## 3.2.0 (2023-05-09)
+
+### Breaking Changes
+
+ - Renamed `developerCredentialTimeOutInMs` to `processTimeoutInMs` in `DefaultAzureCredentialOptions`.
+ - Renamed `federatedTokenFilePath` to `tokenFilePath` under `WorkloadIdentityOptions`.
+ 
+## 3.2.0-beta.2 (2023-04-13)
 
 ### Features Added
 
-- Enabled proactive token refresh for Managed Identity.
 - Added configurable process timeout for dev-time credentials - `AzureCLI Credential`, `AzurePowershell Credential` and `AzureDeveloperCLI Credential`.
-
-### Breaking Changes
 
 ### Bugs Fixed
 
 - Fixed a bug in `WorkloadIdentity Credential`, to incorporate the case where the options can be `undefined` in a conditional check. Related issue [#25089](https://github.com/Azure/azure-sdk-for-js/issues/25089) with the fix [#25119](https://github.com/Azure/azure-sdk-for-js/pull/25119).
 - Exported `WorkloadIdentityDefaultCredentialOptions` which was previously not publicly exported in `index.ts`.
 
-### Other Changes
+## 3.1.4 (2023-04-11)
+
+### Bugs Fixed
+- Added a workaround of fetching all accounts from token cache to fix the issue of silent authentication not taking place when authenticationRecord is passed. For reference, see [issue](https://github.com/Azure/azure-sdk-for-js/issues/24349).
 
 ## 3.2.0-beta.1 (2023-02-28)
 

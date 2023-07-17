@@ -10,6 +10,7 @@ export const commandInfo = makeCommandInfo(
 
 export default subCommand(commandInfo, {
   "wait-for-proxy-endpoint": () => import("./waitForProxyEndpoint"),
+  init: () => import("./init"),
   push: () => import("./push"),
   restore: () => import("./restore"),
   reset: () => import("./reset"),

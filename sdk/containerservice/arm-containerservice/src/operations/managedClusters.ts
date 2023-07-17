@@ -33,6 +33,8 @@ import {
   ManagedClustersListOutboundNetworkDependenciesEndpointsResponse,
   ManagedClustersGetOSOptionsOptionalParams,
   ManagedClustersGetOSOptionsResponse,
+  ManagedClustersListKubernetesVersionsOptionalParams,
+  ManagedClustersListKubernetesVersionsResponse,
   ManagedClustersGetUpgradeProfileOptionalParams,
   ManagedClustersGetUpgradeProfileResponse,
   ManagedClustersGetAccessProfileOptionalParams,
@@ -56,10 +58,10 @@ import {
   ManagedClustersResetServicePrincipalProfileOptionalParams,
   ManagedClusterAADProfile,
   ManagedClustersResetAADProfileOptionalParams,
-  ManagedClustersRotateClusterCertificatesOptionalParams,
-  ManagedClustersRotateClusterCertificatesResponse,
   ManagedClustersAbortLatestOperationOptionalParams,
   ManagedClustersAbortLatestOperationResponse,
+  ManagedClustersRotateClusterCertificatesOptionalParams,
+  ManagedClustersRotateClusterCertificatesResponse,
   ManagedClustersRotateServiceAccountSigningKeysOptionalParams,
   ManagedClustersRotateServiceAccountSigningKeysResponse,
   ManagedClustersStopOptionalParams,
@@ -309,6 +311,22 @@ export class ManagedClustersImpl implements ManagedClusters {
     return this.client.sendOperationRequest(
       { location, options },
       getOSOptionsOperationSpec
+    );
+  }
+
+  /**
+   * Contains extra metadata on the version, including supported patch versions, capabilities, available
+   * upgrades, and details on preview status of the version
+   * @param location The name of Azure region.
+   * @param options The options parameters.
+   */
+  listKubernetesVersions(
+    location: string,
+    options?: ManagedClustersListKubernetesVersionsOptionalParams
+  ): Promise<ManagedClustersListKubernetesVersionsResponse> {
+    return this.client.sendOperationRequest(
+      { location, options },
+      listKubernetesVersionsOperationSpec
     );
   }
 
@@ -904,6 +922,101 @@ export class ManagedClustersImpl implements ManagedClusters {
   }
 
   /**
+   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
+   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
+   * completes before cancellation can take place, an error is returned.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  async beginAbortLatestOperation(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersAbortLatestOperationOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedClustersAbortLatestOperationResponse>,
+      ManagedClustersAbortLatestOperationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ManagedClustersAbortLatestOperationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, options },
+      spec: abortLatestOperationOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ManagedClustersAbortLatestOperationResponse,
+      OperationState<ManagedClustersAbortLatestOperationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
+   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
+   * completes before cancellation can take place, an error is returned.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  async beginAbortLatestOperationAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersAbortLatestOperationOptionalParams
+  ): Promise<ManagedClustersAbortLatestOperationResponse> {
+    const poller = await this.beginAbortLatestOperation(
+      resourceGroupName,
+      resourceName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more
    * details about rotating managed cluster certificates.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -989,101 +1102,6 @@ export class ManagedClustersImpl implements ManagedClusters {
     options?: ManagedClustersRotateClusterCertificatesOptionalParams
   ): Promise<ManagedClustersRotateClusterCertificatesResponse> {
     const poller = await this.beginRotateClusterCertificates(
-      resourceGroupName,
-      resourceName,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
-   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
-   * completes before cancellation can take place, a 409 error code is returned.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the managed cluster resource.
-   * @param options The options parameters.
-   */
-  async beginAbortLatestOperation(
-    resourceGroupName: string,
-    resourceName: string,
-    options?: ManagedClustersAbortLatestOperationOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ManagedClustersAbortLatestOperationResponse>,
-      ManagedClustersAbortLatestOperationResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<ManagedClustersAbortLatestOperationResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, resourceName, options },
-      spec: abortLatestOperationOperationSpec
-    });
-    const poller = await createHttpPoller<
-      ManagedClustersAbortLatestOperationResponse,
-      OperationState<ManagedClustersAbortLatestOperationResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
-   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
-   * completes before cancellation can take place, a 409 error code is returned.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the managed cluster resource.
-   * @param options The options parameters.
-   */
-  async beginAbortLatestOperationAndWait(
-    resourceGroupName: string,
-    resourceName: string,
-    options?: ManagedClustersAbortLatestOperationOptionalParams
-  ): Promise<ManagedClustersAbortLatestOperationResponse> {
-    const poller = await this.beginAbortLatestOperation(
       resourceGroupName,
       resourceName,
       options
@@ -1589,6 +1607,27 @@ const getOSOptionsOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const listKubernetesVersionsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/kubernetesVersions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.KubernetesVersionListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/managedClusters",
@@ -1851,7 +1890,10 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.ignorePodDisruptionBudget
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1911,37 +1953,6 @@ const resetAADProfileOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const rotateClusterCertificatesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateClusterCertificates",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      headersMapper: Mappers.ManagedClustersRotateClusterCertificatesHeaders
-    },
-    201: {
-      headersMapper: Mappers.ManagedClustersRotateClusterCertificatesHeaders
-    },
-    202: {
-      headersMapper: Mappers.ManagedClustersRotateClusterCertificatesHeaders
-    },
-    204: {
-      headersMapper: Mappers.ManagedClustersRotateClusterCertificatesHeaders
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const abortLatestOperationOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedclusters/{resourceName}/abort",
@@ -1958,6 +1969,37 @@ const abortLatestOperationOperationSpec: coreClient.OperationSpec = {
     },
     204: {
       headersMapper: Mappers.ManagedClustersAbortLatestOperationHeaders
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const rotateClusterCertificatesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateClusterCertificates",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.ManagedClustersRotateClusterCertificatesHeaders
+    },
+    201: {
+      headersMapper: Mappers.ManagedClustersRotateClusterCertificatesHeaders
+    },
+    202: {
+      headersMapper: Mappers.ManagedClustersRotateClusterCertificatesHeaders
+    },
+    204: {
+      headersMapper: Mappers.ManagedClustersRotateClusterCertificatesHeaders
     },
     default: {
       bodyMapper: Mappers.CloudError

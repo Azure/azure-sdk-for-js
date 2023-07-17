@@ -14,7 +14,10 @@ async function main() {
 
     // Read configuration from package.json's //sampleConfiguration field
     const packageJson = require(`${entry.PackageDirectory}/package.json`);
-    const smokeTestConfig = packageJson["//sampleConfiguration"] || {};
+    const smokeTestConfig =
+      (packageJson["//metadata"] && packageJson["//metadata"].sampleConfiguration) ||
+      packageJson["//sampleConfiguration"] ||
+      {};
 
     if (smokeTestConfig.skipFolder) {
       continue;

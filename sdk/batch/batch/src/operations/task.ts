@@ -394,13 +394,13 @@ const addOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout55
+    Parameters.timeout53
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId67,
-    Parameters.returnClientRequestId67,
-    Parameters.ocpDate67
+    Parameters.clientRequestId65,
+    Parameters.returnClientRequestId65,
+    Parameters.ocpDate65
   ],
   requestBody: {
     parameterPath: "task",
@@ -435,13 +435,13 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.select10,
     Parameters.expand7,
     Parameters.maxResults12,
-    Parameters.timeout56
+    Parameters.timeout54
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId68,
-    Parameters.returnClientRequestId68,
-    Parameters.ocpDate68
+    Parameters.clientRequestId66,
+    Parameters.returnClientRequestId66,
+    Parameters.ocpDate66
   ],
   responses: {
     200: {
@@ -465,13 +465,13 @@ const addCollectionOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout57
+    Parameters.timeout55
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId69,
-    Parameters.returnClientRequestId69,
-    Parameters.ocpDate69
+    Parameters.clientRequestId67,
+    Parameters.returnClientRequestId67,
+    Parameters.ocpDate67
   ],
   requestBody: {
     parameterPath: {
@@ -506,13 +506,13 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout58
+    Parameters.timeout56
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId70,
-    Parameters.returnClientRequestId70,
-    Parameters.ocpDate70,
+    Parameters.clientRequestId68,
+    Parameters.returnClientRequestId68,
+    Parameters.ocpDate68,
     Parameters.ifMatch23,
     Parameters.ifNoneMatch23,
     Parameters.ifModifiedSince27,
@@ -542,13 +542,13 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion,
     Parameters.select11,
     Parameters.expand8,
-    Parameters.timeout59
+    Parameters.timeout57
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId71,
-    Parameters.returnClientRequestId71,
-    Parameters.ocpDate71,
+    Parameters.clientRequestId69,
+    Parameters.returnClientRequestId69,
+    Parameters.ocpDate69,
     Parameters.ifMatch24,
     Parameters.ifNoneMatch24,
     Parameters.ifModifiedSince28,
@@ -577,13 +577,13 @@ const updateOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout60
+    Parameters.timeout58
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId72,
-    Parameters.returnClientRequestId72,
-    Parameters.ocpDate72,
+    Parameters.clientRequestId70,
+    Parameters.returnClientRequestId70,
+    Parameters.ocpDate70,
     Parameters.ifMatch25,
     Parameters.ifNoneMatch25,
     Parameters.ifModifiedSince29,
@@ -625,13 +625,13 @@ const listSubtasksOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion,
     Parameters.select12,
-    Parameters.timeout61
+    Parameters.timeout59
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId73,
-    Parameters.returnClientRequestId73,
-    Parameters.ocpDate73
+    Parameters.clientRequestId71,
+    Parameters.returnClientRequestId71,
+    Parameters.ocpDate71
   ],
   responses: {
     200: {
@@ -656,13 +656,13 @@ const terminateOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout62
+    Parameters.timeout60
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId74,
-    Parameters.returnClientRequestId74,
-    Parameters.ocpDate74,
+    Parameters.clientRequestId72,
+    Parameters.returnClientRequestId72,
+    Parameters.ocpDate72,
     Parameters.ifMatch26,
     Parameters.ifNoneMatch26,
     Parameters.ifModifiedSince30,
@@ -690,13 +690,13 @@ const reactivateOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout63
+    Parameters.timeout61
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId75,
-    Parameters.returnClientRequestId75,
-    Parameters.ocpDate75,
+    Parameters.clientRequestId73,
+    Parameters.returnClientRequestId73,
+    Parameters.ocpDate73,
     Parameters.ifMatch27,
     Parameters.ifNoneMatch27,
     Parameters.ifModifiedSince31,
@@ -726,9 +726,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId76,
-    Parameters.returnClientRequestId76,
-    Parameters.ocpDate76
+    Parameters.clientRequestId74,
+    Parameters.returnClientRequestId74,
+    Parameters.ocpDate74
   ],
   responses: {
     200: {

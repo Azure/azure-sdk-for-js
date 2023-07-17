@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import { AzureLogger, setLogLevel } from "@azure/logger";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
+import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
 import { Recorder, env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { DeveloperSignOnClientId } from "../../../src/constants";

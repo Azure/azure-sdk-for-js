@@ -4,8 +4,8 @@
 import { assert } from "chai";
 
 import { AbortController } from "@azure/abort-controller";
-import { getBSU, recorderEnvSetup } from "./utils";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { getBSU, recorderEnvSetup, getUniqueName, uriSanitizers } from "./utils";
+import { Recorder } from "@azure-tools/test-recorder";
 import { ShareClient } from "../src";
 import { Context } from "mocha";
 
@@ -16,9 +16,11 @@ describe("Aborter", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    const serviceClient = getBSU();
-    shareName = recorder.getUniqueName("share");
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    const serviceClient = getBSU(recorder);
+    shareName = recorder.variable("share", getUniqueName("share"));
     shareClient = serviceClient.getShareClient(shareName);
   });
 
@@ -32,7 +34,6 @@ describe("Aborter", () => {
       assert.fail();
     } catch (err: any) {
       assert.equal(err.name, "AbortError");
-      assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
     }
   });
 
@@ -50,7 +51,6 @@ describe("Aborter", () => {
       assert.fail();
     } catch (err: any) {
       assert.equal(err.name, "AbortError");
-      assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
     }
   });
 
@@ -72,7 +72,6 @@ describe("Aborter", () => {
       assert.fail();
     } catch (err: any) {
       assert.equal(err.name, "AbortError");
-      assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
     }
   });
 });

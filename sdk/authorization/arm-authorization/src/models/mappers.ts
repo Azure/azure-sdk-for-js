@@ -8,6 +8,1115 @@
 
 import * as coreClient from "@azure/core-client";
 
+export const ClassicAdministratorListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClassicAdministratorListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ClassicAdministrator"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ClassicAdministrator: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClassicAdministrator",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      emailAddress: {
+        serializedName: "properties.emailAddress",
+        type: {
+          name: "String"
+        }
+      },
+      role: {
+        serializedName: "properties.role",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorDetail",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetail"
+            }
+          }
+        }
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      info: {
+        serializedName: "info",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const DenyAssignmentListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DenyAssignmentListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DenyAssignment"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DenyAssignment: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DenyAssignment",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      denyAssignmentName: {
+        serializedName: "properties.denyAssignmentName",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "properties.description",
+        type: {
+          name: "String"
+        }
+      },
+      permissions: {
+        serializedName: "properties.permissions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DenyAssignmentPermission"
+            }
+          }
+        }
+      },
+      scope: {
+        serializedName: "properties.scope",
+        type: {
+          name: "String"
+        }
+      },
+      doNotApplyToChildScopes: {
+        serializedName: "properties.doNotApplyToChildScopes",
+        type: {
+          name: "Boolean"
+        }
+      },
+      principals: {
+        serializedName: "properties.principals",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Principal"
+            }
+          }
+        }
+      },
+      excludePrincipals: {
+        serializedName: "properties.excludePrincipals",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Principal"
+            }
+          }
+        }
+      },
+      isSystemProtected: {
+        serializedName: "properties.isSystemProtected",
+        type: {
+          name: "Boolean"
+        }
+      },
+      condition: {
+        serializedName: "properties.condition",
+        type: {
+          name: "String"
+        }
+      },
+      conditionVersion: {
+        serializedName: "properties.conditionVersion",
+        type: {
+          name: "String"
+        }
+      },
+      createdOn: {
+        serializedName: "properties.createdOn",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      updatedOn: {
+        serializedName: "properties.updatedOn",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      createdBy: {
+        serializedName: "properties.createdBy",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      updatedBy: {
+        serializedName: "properties.updatedBy",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DenyAssignmentPermission: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DenyAssignmentPermission",
+    modelProperties: {
+      actions: {
+        serializedName: "actions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      notActions: {
+        serializedName: "notActions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      dataActions: {
+        serializedName: "dataActions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      notDataActions: {
+        serializedName: "notDataActions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      condition: {
+        serializedName: "condition",
+        type: {
+          name: "String"
+        }
+      },
+      conditionVersion: {
+        serializedName: "conditionVersion",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Principal: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Principal",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      email: {
+        serializedName: "email",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ProviderOperationsMetadata: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProviderOperationsMetadata",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      },
+      resourceTypes: {
+        serializedName: "resourceTypes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceType"
+            }
+          }
+        }
+      },
+      operations: {
+        serializedName: "operations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ProviderOperation"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ResourceType: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceType",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      },
+      operations: {
+        serializedName: "operations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ProviderOperation"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ProviderOperation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProviderOperation",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      origin: {
+        serializedName: "origin",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      isDataAction: {
+        serializedName: "isDataAction",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ProviderOperationsMetadataListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProviderOperationsMetadataListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ProviderOperationsMetadata"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RoleAssignmentListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RoleAssignmentListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RoleAssignment"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RoleAssignment: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RoleAssignment",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      scope: {
+        serializedName: "properties.scope",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      roleDefinitionId: {
+        serializedName: "properties.roleDefinitionId",
+        type: {
+          name: "String"
+        }
+      },
+      principalId: {
+        serializedName: "properties.principalId",
+        type: {
+          name: "String"
+        }
+      },
+      principalType: {
+        serializedName: "properties.principalType",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "properties.description",
+        type: {
+          name: "String"
+        }
+      },
+      condition: {
+        serializedName: "properties.condition",
+        type: {
+          name: "String"
+        }
+      },
+      conditionVersion: {
+        serializedName: "properties.conditionVersion",
+        type: {
+          name: "String"
+        }
+      },
+      createdOn: {
+        serializedName: "properties.createdOn",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      updatedOn: {
+        serializedName: "properties.updatedOn",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      createdBy: {
+        serializedName: "properties.createdBy",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      updatedBy: {
+        serializedName: "properties.updatedBy",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      delegatedManagedIdentityResourceId: {
+        serializedName: "properties.delegatedManagedIdentityResourceId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RoleAssignmentCreateParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RoleAssignmentCreateParameters",
+    modelProperties: {
+      scope: {
+        serializedName: "properties.scope",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      roleDefinitionId: {
+        serializedName: "properties.roleDefinitionId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      principalId: {
+        serializedName: "properties.principalId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      principalType: {
+        serializedName: "properties.principalType",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "properties.description",
+        type: {
+          name: "String"
+        }
+      },
+      condition: {
+        serializedName: "properties.condition",
+        type: {
+          name: "String"
+        }
+      },
+      conditionVersion: {
+        serializedName: "properties.conditionVersion",
+        type: {
+          name: "String"
+        }
+      },
+      createdOn: {
+        serializedName: "properties.createdOn",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      updatedOn: {
+        serializedName: "properties.updatedOn",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      createdBy: {
+        serializedName: "properties.createdBy",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      updatedBy: {
+        serializedName: "properties.updatedBy",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      delegatedManagedIdentityResourceId: {
+        serializedName: "properties.delegatedManagedIdentityResourceId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PermissionGetResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PermissionGetResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Permission"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Permission: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Permission",
+    modelProperties: {
+      actions: {
+        serializedName: "actions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      notActions: {
+        serializedName: "notActions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      dataActions: {
+        serializedName: "dataActions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      notDataActions: {
+        serializedName: "notDataActions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const RoleDefinition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RoleDefinition",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      roleName: {
+        serializedName: "properties.roleName",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "properties.description",
+        type: {
+          name: "String"
+        }
+      },
+      roleType: {
+        serializedName: "properties.type",
+        type: {
+          name: "String"
+        }
+      },
+      permissions: {
+        serializedName: "properties.permissions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Permission"
+            }
+          }
+        }
+      },
+      assignableScopes: {
+        serializedName: "properties.assignableScopes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      createdOn: {
+        serializedName: "properties.createdOn",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      updatedOn: {
+        serializedName: "properties.updatedOn",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      createdBy: {
+        serializedName: "properties.createdBy",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      updatedBy: {
+        serializedName: "properties.updatedBy",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RoleDefinitionListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RoleDefinitionListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RoleDefinition"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EligibleChildResourcesListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EligibleChildResourcesListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EligibleChildResource"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EligibleChildResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EligibleChildResource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CloudError: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CloudError",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "CloudErrorBody"
+        }
+      }
+    }
+  }
+};
+
+export const CloudErrorBody: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CloudErrorBody",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const RoleAssignmentSchedule: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -244,43 +1353,6 @@ export const ExpandedPropertiesPrincipal: coreClient.CompositeMapper = {
       },
       type: {
         serializedName: "type",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const CloudError: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CloudError",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "CloudErrorBody"
-        }
-      }
-    }
-  }
-};
-
-export const CloudErrorBody: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CloudErrorBody",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
         type: {
           name: "String"
         }
@@ -1338,39 +2410,6 @@ export const RoleManagementPolicy: coreClient.CompositeMapper = {
   }
 };
 
-export const Principal: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Principal",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      displayName: {
-        serializedName: "displayName",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      email: {
-        serializedName: "email",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const RoleManagementPolicyRule: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1584,6 +2623,19 @@ export const RoleManagementPolicyAssignment: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      effectiveRules: {
+        serializedName: "properties.effectiveRules",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RoleManagementPolicyRule"
+            }
+          }
+        }
+      },
       policyAssignmentProperties: {
         serializedName: "properties.policyAssignmentProperties",
         type: {
@@ -1734,190 +2786,25 @@ export const RoleManagementPolicyAssignmentListResult: coreClient.CompositeMappe
   }
 };
 
-export const EligibleChildResourcesListResult: coreClient.CompositeMapper = {
+export const DenyAssignmentFilter: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "EligibleChildResourcesListResult",
+    className: "DenyAssignmentFilter",
     modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "EligibleChildResource"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const EligibleChildResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "EligibleChildResource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const RoleAssignmentListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RoleAssignmentListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "RoleAssignment"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const RoleAssignment: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RoleAssignment",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      scope: {
-        serializedName: "properties.scope",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      roleDefinitionId: {
-        serializedName: "properties.roleDefinitionId",
+      denyAssignmentName: {
+        serializedName: "denyAssignmentName",
         type: {
           name: "String"
         }
       },
       principalId: {
-        serializedName: "properties.principalId",
+        serializedName: "principalId",
         type: {
           name: "String"
         }
       },
-      principalType: {
-        serializedName: "properties.principalType",
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        serializedName: "properties.description",
-        type: {
-          name: "String"
-        }
-      },
-      condition: {
-        serializedName: "properties.condition",
-        type: {
-          name: "String"
-        }
-      },
-      conditionVersion: {
-        serializedName: "properties.conditionVersion",
-        type: {
-          name: "String"
-        }
-      },
-      createdOn: {
-        serializedName: "properties.createdOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      updatedOn: {
-        serializedName: "properties.updatedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      createdBy: {
-        serializedName: "properties.createdBy",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      updatedBy: {
-        serializedName: "properties.updatedBy",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      delegatedManagedIdentityResourceId: {
-        serializedName: "properties.delegatedManagedIdentityResourceId",
+      gdprExportPrincipalId: {
+        serializedName: "gdprExportPrincipalId",
         type: {
           name: "String"
         }
@@ -1926,26 +2813,10 @@ export const RoleAssignment: coreClient.CompositeMapper = {
   }
 };
 
-export const ErrorResponse: coreClient.CompositeMapper = {
+export const ValidationResponseErrorInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ErrorResponse",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ErrorDetail"
-        }
-      }
-    }
-  }
-};
-
-export const ErrorDetail: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorDetail",
+    className: "ValidationResponseErrorInfo",
     modelProperties: {
       code: {
         serializedName: "code",
@@ -1957,151 +2828,6 @@ export const ErrorDetail: coreClient.CompositeMapper = {
       message: {
         serializedName: "message",
         readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        serializedName: "target",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      details: {
-        serializedName: "details",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorDetail"
-            }
-          }
-        }
-      },
-      additionalInfo: {
-        serializedName: "additionalInfo",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorAdditionalInfo"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorAdditionalInfo",
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      info: {
-        serializedName: "info",
-        readOnly: true,
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
-};
-
-export const RoleAssignmentCreateParameters: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RoleAssignmentCreateParameters",
-    modelProperties: {
-      scope: {
-        serializedName: "properties.scope",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      roleDefinitionId: {
-        serializedName: "properties.roleDefinitionId",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      principalId: {
-        serializedName: "properties.principalId",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      principalType: {
-        serializedName: "properties.principalType",
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        serializedName: "properties.description",
-        type: {
-          name: "String"
-        }
-      },
-      condition: {
-        serializedName: "properties.condition",
-        type: {
-          name: "String"
-        }
-      },
-      conditionVersion: {
-        serializedName: "properties.conditionVersion",
-        type: {
-          name: "String"
-        }
-      },
-      createdOn: {
-        serializedName: "properties.createdOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      updatedOn: {
-        serializedName: "properties.updatedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      createdBy: {
-        serializedName: "properties.createdBy",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      updatedBy: {
-        serializedName: "properties.updatedBy",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      delegatedManagedIdentityResourceId: {
-        serializedName: "properties.delegatedManagedIdentityResourceId",
         type: {
           name: "String"
         }
@@ -2133,21 +2859,169 @@ export const ValidationResponse: coreClient.CompositeMapper = {
   }
 };
 
-export const ValidationResponseErrorInfo: coreClient.CompositeMapper = {
+export const RoleAssignmentFilter: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ValidationResponseErrorInfo",
+    className: "RoleAssignmentFilter",
     modelProperties: {
-      code: {
-        serializedName: "code",
-        readOnly: true,
+      principalId: {
+        serializedName: "principalId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RoleDefinitionFilter: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RoleDefinitionFilter",
+    modelProperties: {
+      roleName: {
+        serializedName: "roleName",
         type: {
           name: "String"
         }
       },
-      message: {
-        serializedName: "message",
-        readOnly: true,
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApprovalSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApprovalSettings",
+    modelProperties: {
+      isApprovalRequired: {
+        serializedName: "isApprovalRequired",
+        type: {
+          name: "Boolean"
+        }
+      },
+      isApprovalRequiredForExtension: {
+        serializedName: "isApprovalRequiredForExtension",
+        type: {
+          name: "Boolean"
+        }
+      },
+      isRequestorJustificationRequired: {
+        serializedName: "isRequestorJustificationRequired",
+        type: {
+          name: "Boolean"
+        }
+      },
+      approvalMode: {
+        serializedName: "approvalMode",
+        type: {
+          name: "String"
+        }
+      },
+      approvalStages: {
+        serializedName: "approvalStages",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ApprovalStage"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ApprovalStage: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApprovalStage",
+    modelProperties: {
+      approvalStageTimeOutInDays: {
+        serializedName: "approvalStageTimeOutInDays",
+        type: {
+          name: "Number"
+        }
+      },
+      isApproverJustificationRequired: {
+        serializedName: "isApproverJustificationRequired",
+        type: {
+          name: "Boolean"
+        }
+      },
+      escalationTimeInMinutes: {
+        serializedName: "escalationTimeInMinutes",
+        type: {
+          name: "Number"
+        }
+      },
+      primaryApprovers: {
+        serializedName: "primaryApprovers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UserSet"
+            }
+          }
+        }
+      },
+      isEscalationEnabled: {
+        serializedName: "isEscalationEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      escalationApprovers: {
+        serializedName: "escalationApprovers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UserSet"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const UserSet: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserSet",
+    modelProperties: {
+      userType: {
+        serializedName: "userType",
+        type: {
+          name: "String"
+        }
+      },
+      isBackup: {
+        serializedName: "isBackup",
+        type: {
+          name: "Boolean"
+        }
+      },
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
         type: {
           name: "String"
         }
@@ -2334,156 +3208,6 @@ export const RoleEligibilityScheduleRequestFilter: coreClient.CompositeMapper = 
       },
       status: {
         serializedName: "status",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ApprovalSettings: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ApprovalSettings",
-    modelProperties: {
-      isApprovalRequired: {
-        serializedName: "isApprovalRequired",
-        type: {
-          name: "Boolean"
-        }
-      },
-      isApprovalRequiredForExtension: {
-        serializedName: "isApprovalRequiredForExtension",
-        type: {
-          name: "Boolean"
-        }
-      },
-      isRequestorJustificationRequired: {
-        serializedName: "isRequestorJustificationRequired",
-        type: {
-          name: "Boolean"
-        }
-      },
-      approvalMode: {
-        serializedName: "approvalMode",
-        type: {
-          name: "String"
-        }
-      },
-      approvalStages: {
-        serializedName: "approvalStages",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ApprovalStage"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ApprovalStage: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ApprovalStage",
-    modelProperties: {
-      approvalStageTimeOutInDays: {
-        serializedName: "approvalStageTimeOutInDays",
-        type: {
-          name: "Number"
-        }
-      },
-      isApproverJustificationRequired: {
-        serializedName: "isApproverJustificationRequired",
-        type: {
-          name: "Boolean"
-        }
-      },
-      escalationTimeInMinutes: {
-        serializedName: "escalationTimeInMinutes",
-        type: {
-          name: "Number"
-        }
-      },
-      primaryApprovers: {
-        serializedName: "primaryApprovers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "UserSet"
-            }
-          }
-        }
-      },
-      isEscalationEnabled: {
-        serializedName: "isEscalationEnabled",
-        type: {
-          name: "Boolean"
-        }
-      },
-      escalationApprovers: {
-        serializedName: "escalationApprovers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "UserSet"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const UserSet: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "UserSet",
-    modelProperties: {
-      userType: {
-        serializedName: "userType",
-        type: {
-          name: "String"
-        }
-      },
-      isBackup: {
-        serializedName: "isBackup",
-        type: {
-          name: "Boolean"
-        }
-      },
-      id: {
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const RoleAssignmentFilter: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RoleAssignmentFilter",
-    modelProperties: {
-      principalId: {
-        serializedName: "principalId",
         type: {
           name: "String"
         }

@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { cwd } from "process";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
+import { resolveProject } from "../../util/resolveProject";
 import { createAssetsJson } from "../../util/testProxyUtils";
 
 export const commandInfo = makeCommandInfo(
@@ -11,6 +13,9 @@ export const commandInfo = makeCommandInfo(
 );
 
 export default leafCommand(commandInfo, async () => {
-  await createAssetsJson();
+  const project = await resolveProject(cwd());
+
+  await createAssetsJson(project);
+
   return true;
 });

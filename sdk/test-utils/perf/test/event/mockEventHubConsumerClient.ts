@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { generateUuid } from "@azure/core-http";
+import { randomUUID } from "@azure/core-util";
 
 export interface Event {
   body: string;
@@ -90,7 +90,7 @@ export class MockEventHubConsumerClient {
     if (options && options?.delayToRaiseErrorInSeconds > 0) {
       promises.push(
         this.processFuncWithDelay(async () => {
-          await handlers.processError(new Error(`new error ${generateUuid()}`));
+          await handlers.processError(new Error(`new error ${randomUUID()}`));
         }, options?.delayToRaiseErrorInSeconds * 1000)
       );
     }
@@ -108,7 +108,7 @@ export class MockEventHubConsumerClient {
     for (let i = 0; i <= this.maxBatchSize; i++) {
       const events: Event[] = new Array(i);
       for (let j = 0; j < i; j++) {
-        events[j] = { body: generateUuid() };
+        events[j] = { body: randomUUID() };
       }
       eventArrays[i] = events;
     }

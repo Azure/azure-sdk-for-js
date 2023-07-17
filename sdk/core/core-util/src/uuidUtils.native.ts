@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/*
+ * NOTE: When moving this file, please update "react-native" section in package.json.
+ */
+
 /**
  * Generated Universally Unique Identifier
  *
@@ -27,4 +31,13 @@ export function generateUUID(): string {
     }
   }
   return uuid;
+}
+
+/**
+ * Generated Universally Unique Identifier
+ *
+ * @returns RFC4122 v4 UUID.
+ */
+export function randomUUID(): string {
+  return generateUUID();
 }
