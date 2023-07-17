@@ -10,8 +10,8 @@ import {
   AddParticipantRequest,
   CallAutomationApiClient,
   CallAutomationApiClientOptionalParams,
-  RemoveParticipantRequest,
   MuteParticipantsRequest,
+  RemoveParticipantRequest,
   TransferToParticipantRequest,
 } from "./generated/src";
 import { CallConnectionImpl } from "./generated/src/operations";
@@ -21,8 +21,8 @@ import {
   GetCallConnectionPropertiesOptions,
   GetParticipantOptions,
   HangUpOptions,
-  RemoveParticipantsOption,
   MuteParticipantsOption,
+  RemoveParticipantsOption,
   TransferCallToParticipantOptions,
 } from "./models/options";
 import {
@@ -148,16 +148,20 @@ export class CallConnection {
   public async listParticipants(
     options: GetParticipantOptions = {}
   ): Promise<ListParticipantsResult> {
-    const result = await this.callConnection.listParticipants(this.callConnectionId, options);
-    let participant = await result.next();
+    const result = this.callConnection.listParticipants(this.callConnectionId, options);
+    const participants = [];
+    const pages = result?.byPage();
 
-    const listParticipantResponse: ListParticipantsResult = { values: [] };
-
-    while (!participant.done) {
-      listParticipantResponse.values?.push(callParticipantConverter(participant.value));
-      participant = await result.next();
+    for await (const page of pages) {
+      for (const participant of page) {
+        participants.push(callParticipantConverter(participant));
+      }
     }
 
+    const listParticipantResponse: ListParticipantsResult = {
+      ...result,
+      values: participants,
+    };
     return listParticipantResponse;
   }
 

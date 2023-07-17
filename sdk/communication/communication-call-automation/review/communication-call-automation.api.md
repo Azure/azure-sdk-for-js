@@ -171,13 +171,10 @@ export interface CallMediaRecognizeChoiceOptions extends CallMediaRecognizeOptio
 
 // @public
 export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions {
-    // (undocumented)
     interToneTimeoutInSeconds?: number;
     // (undocumented)
     readonly kind: "callMediaRecognizeDtmfOptions";
-    // (undocumented)
     maxTonesToCollect?: number;
-    // (undocumented)
     stopDtmfTones?: DtmfTone[];
 }
 
@@ -197,7 +194,7 @@ export interface CallMediaRecognizeOptions extends OperationOptions {
 
 // @public
 export interface CallMediaRecognizeSpeechOptions extends CallMediaRecognizeOptions {
-    endSilenceTimeoutInMs?: number;
+    endSilenceTimeoutInSeconds?: number;
     // (undocumented)
     readonly kind: "callMediaRecognizeSpeechOptions";
     speechLanguage?: string;
@@ -206,7 +203,7 @@ export interface CallMediaRecognizeSpeechOptions extends CallMediaRecognizeOptio
 
 // @public
 export interface CallMediaRecognizeSpeechOrDtmfOptions extends CallMediaRecognizeOptions {
-    endSilenceTimeoutInMs?: number;
+    endSilenceTimeoutInSeconds?: number;
     interToneTimeoutInSeconds?: number;
     // (undocumented)
     readonly kind: "callMediaRecognizeSpeechOrDtmfOptions";

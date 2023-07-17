@@ -4,9 +4,9 @@
 import {
   PlayRequest,
   PlaySourceInternal,
+  FileSourceInternal,
   TextSourceInternal,
   SsmlSourceInternal,
-  FileSourceInternal,
   KnownPlaySourceType,
   RecognizeRequest,
   KnownRecognizeInputType,
@@ -28,16 +28,16 @@ import {
   serializeCommunicationIdentifier,
 } from "@azure/communication-common";
 
-import { FileSource, SsmlSource, TextSource } from "./models/models";
+import { FileSource, TextSource, SsmlSource } from "./models/models";
 
 import {
   PlayOptions,
   CallMediaRecognizeDtmfOptions,
   CallMediaRecognizeChoiceOptions,
-  CallMediaRecognizeSpeechOptions,
-  CallMediaRecognizeSpeechOrDtmfOptions,
   ContinuousDtmfRecognitionOptions,
   SendDtmfOptions,
+  CallMediaRecognizeSpeechOptions,
+  CallMediaRecognizeSpeechOrDtmfOptions,
 } from "./models/options";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { SendDtmfResult } from "./models/responses";
@@ -66,7 +66,7 @@ export class CallMedia {
   private createPlaySourceInternal(
     playSource: FileSource | TextSource | SsmlSource
   ): PlaySourceInternal {
-    if (playSource.kind === "fileSource" || playSource.kind === undefined) {
+    if (playSource.kind === "fileSource") {
       const fileSource: FileSourceInternal = {
         uri: playSource.url,
       };
@@ -81,6 +81,7 @@ export class CallMedia {
         sourceLocale: playSource.sourceLocale,
         voiceGender: playSource.voiceGender,
         voiceName: playSource.voiceName,
+        customVoiceEndpointId: playSource.customVoiceEndpointId,
       };
       return {
         kind: KnownPlaySourceType.Text,
@@ -90,6 +91,7 @@ export class CallMedia {
     } else if (playSource.kind === "ssmlSource") {
       const ssmlSource: SsmlSourceInternal = {
         ssmlText: playSource.ssmlText,
+        customVoiceEndpointId: playSource.customVoiceEndpointId,
       };
       return {
         kind: KnownPlaySourceType.Ssml,
@@ -103,7 +105,7 @@ export class CallMedia {
   /**
    * Play audio to a specific participant.
    *
-   * @param playSource - A PlaySource representing the source to play.
+   * @param playSources - A PlaySource representing the sources to play.
    * @param playTo - The targets to play to.
    * @param playOptions - Additional attributes for play.
    */
@@ -118,6 +120,7 @@ export class CallMedia {
       playOptions: {
         loop: false,
       },
+      operationContext: playOptions.operationContext,
     };
 
     if (playOptions.loop !== undefined) {
@@ -130,7 +133,7 @@ export class CallMedia {
   /**
    * Play to all participants.
    *
-   * @param playSource - A PlaySource representing the source to play.
+   * @param playSources - A PlaySource representing the sources to play.
    * @param playOptions - Additional attributes for play.
    */
   public async playToAll(
@@ -143,6 +146,7 @@ export class CallMedia {
       playOptions: {
         loop: false,
       },
+      operationContext: playOptions.operationContext,
     };
 
     if (playOptions.loop !== undefined) {
@@ -160,10 +164,7 @@ export class CallMedia {
       | CallMediaRecognizeSpeechOptions
       | CallMediaRecognizeSpeechOrDtmfOptions
   ): RecognizeRequest {
-    if (
-      recognizeOptions.kind === "callMediaRecognizeDtmfOptions" ||
-      recognizeOptions.kind === undefined
-    ) {
+    if (recognizeOptions.kind === "callMediaRecognizeDtmfOptions") {
       const dtmfOptionsInternal: DtmfOptions = {
         interToneTimeoutInSeconds: recognizeOptions.interToneTimeoutInSeconds
           ? recognizeOptions.interToneTimeoutInSeconds
@@ -210,8 +211,8 @@ export class CallMedia {
       };
     } else if (recognizeOptions.kind === "callMediaRecognizeSpeechOptions") {
       const speechOptions: SpeechOptions = {
-        endSilenceTimeoutInMs: recognizeOptions.endSilenceTimeoutInMs
-          ? recognizeOptions.endSilenceTimeoutInMs
+        endSilenceTimeoutInMs: recognizeOptions.endSilenceTimeoutInSeconds
+          ? recognizeOptions.endSilenceTimeoutInSeconds * 1000
           : 2,
       };
       const recognizeOptionsInternal: RecognizeOptions = {
@@ -220,9 +221,9 @@ export class CallMedia {
           ? recognizeOptions.initialSilenceTimeoutInSeconds
           : 5,
         targetParticipant: serializeCommunicationIdentifier(targetParticipant),
+        speechOptions: speechOptions,
         speechLanguage: recognizeOptions.speechLanguage,
         speechRecognitionModelEndpointId: recognizeOptions.speechRecognitionModelEndpointId,
-        speechOptions: speechOptions,
       };
       return {
         recognizeInputType: KnownRecognizeInputType.Speech,
@@ -242,8 +243,8 @@ export class CallMedia {
         stopTones: recognizeOptions.stopDtmfTones,
       };
       const speechOptions: SpeechOptions = {
-        endSilenceTimeoutInMs: recognizeOptions.endSilenceTimeoutInMs
-          ? recognizeOptions.endSilenceTimeoutInMs
+        endSilenceTimeoutInMs: recognizeOptions.endSilenceTimeoutInSeconds
+          ? recognizeOptions.endSilenceTimeoutInSeconds * 1000
           : 2,
       };
       const recognizeOptionsInternal: RecognizeOptions = {
@@ -253,9 +254,9 @@ export class CallMedia {
           : 5,
         targetParticipant: serializeCommunicationIdentifier(targetParticipant),
         speechOptions: speechOptions,
+        dtmfOptions: dtmfOptionsInternal,
         speechLanguage: recognizeOptions.speechLanguage,
         speechRecognitionModelEndpointId: recognizeOptions.speechRecognitionModelEndpointId,
-        dtmfOptions: dtmfOptionsInternal,
       };
       return {
         recognizeInputType: KnownRecognizeInputType.SpeechOrDtmf,
@@ -267,7 +268,6 @@ export class CallMedia {
         operationContext: recognizeOptions.operationContext,
       };
     }
-
     throw new Error("Invalid recognizeOptions");
   }
 
