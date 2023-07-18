@@ -84,7 +84,7 @@ export interface JobRouter {
   ): Promise<JobRouterGetJobResponse>;
   /**
    * Deletes a job and all of its traces.
-   * @param id Id of the job.
+   * @param id Id of the job
    * @param options The options parameters.
    */
   deleteJob(
@@ -186,7 +186,7 @@ export interface JobRouter {
   /**
    * Creates or updates a worker.
    * @param workerId Id of the worker
-   * @param patch Model of worker properties to be patched. See also:
+   * @param patch Model of worker properties to be created or patched. See also:
    *              https://datatracker.ietf.org/doc/html/rfc7386
    * @param options The options parameters.
    */

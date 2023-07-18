@@ -19,6 +19,7 @@
     "*.crt",
     "*.key",
     ".vscode/cspell.json",
+    ".github/CODEOWNERS",
     "sdk/**/arm-*/**",
     "sdk/test-utils/**",
     "sdk/agrifood/agrifood-farming-rest/review/*.md",
@@ -38,7 +39,9 @@
     "sdk/synapse/synapse-artifacts/review/*.md",
     "sdk/synapse/synapse-managed-private-endpoints/review/*.md",
     "sdk/synapse/synapse-monitoring/review/*.md",
-    "sdk/synapse/synapse-spark/review/*.md"
+    "sdk/synapse/synapse-spark/review/*.md",
+    "sdk/translation/ai-translation-text-rest/review/*.md",
+    "sdk/openai/openai/review/*.md"
   ],
   "words": [
     "adfs",
@@ -67,11 +70,14 @@
     "Eugps",
     "EUGPS",
     "Fhir",
+    "Fnhr",
     "Guids",
     "Hana",
+    "hnsw",
     "Idrg",
     "IDRG",
     "IMDS",
+    "OTLP",
     "Kubernetes",
     "kusto",
     "lcov",
@@ -100,9 +106,12 @@
     "prettierrc",
     "pwsh",
     "Rasterize",
+    "reoffer",
+    "Resourceid",
     "Rollup",
     "rrggbb",
     "Rtsp",
+    "reoffer",
     "rushx",
     "soundex",
     "southcentralus",
@@ -113,6 +122,7 @@
     "uaecentral",
     "uksouth",
     "ukwest",
+    "unassignment",
     "Uncapitalize",
     "undelete",
     "Unencrypted",
@@ -207,8 +217,21 @@
       ]
     },
     {
+      "filename": "sdk/formrecognizer/ai-form-recognizer/README.md",
+      "words": ["iddocument"]
+    },
+    {
       "filename": "sdk/formrecognizer/ai-form-recognizer/review/**/*.md",
-      "words": ["WDLABCD", "presentationml", "spreadsheetml", "wordprocessingml", "heif", "copays"]
+      "words": [
+        "WDLABCD",
+        "presentationml",
+        "spreadsheetml",
+        "wordprocessingml",
+        "heif",
+        "copays",
+        "Upca",
+        "Upce"
+      ]
     },
     {
       "filename": "sdk/core/core-amqp/review/**/*.md",
@@ -217,6 +240,10 @@
     {
       "filename": "sdk/containerregistry/container-registry/review/**/*.md",
       "words": ["illumos", "Illumos", "mipsle", "riscv"]
+    },
+    {
+      "filename": "sdk/communication/communication-call-automation/review/**/*.md",
+      "words": ["ssml", "Ssml"]
     },
     {
       "filename": "sdk/communication/communication-common/review/**/*.md",

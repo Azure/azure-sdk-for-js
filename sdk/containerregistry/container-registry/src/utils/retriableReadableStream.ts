@@ -121,6 +121,16 @@ export class RetriableReadableStream extends Readable {
 
     this.offset += data.length;
 
+    if (this.offset > this.end + 1) {
+      this.destroy(
+        new Error(
+          `Data corruption failure: Received more data than original request, data needed offset is ${
+            this.end
+          }, received offset: ${this.offset - 1}`
+        )
+      );
+    }
+
     this.onData?.(data);
     this.onProgress?.({ loadedBytes: this.offset - this.start });
 

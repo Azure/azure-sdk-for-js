@@ -12,12 +12,17 @@ export const CALL_SERVER_CALL_ID = "serverCallId";
 export const CALL_CALLER_ID = "callerId";
 export const CALL_CALLER_DISPLAY_NAME = "callerDisplayName";
 export const CALL_TARGET_ID = "targetId";
+export const CALL_TARGET_ID_2 = "targetId2";
 export const CALL_CONNECTION_STATE = "connected";
 export const CALL_SUBJECT = "subject";
 export const CALL_CALLBACK_URL = "https://REDACTED.com/events";
 export const CALL_INCOMING_CALL_CONTEXT = "eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.REDACTED";
 export const CALL_OPERATION_CONTEXT = "operationContext";
+export const RECORDING_ID = "recordingId";
+export const RECORDING_STATE = "active";
 export const MEDIA_SUBSCRIPTION_ID = "mediaSubscriptionId";
+export const MEDIA_UR_MP3 = "https://example.com/audio.mp3";
+export const MEDIA_URL_WAV = "https://example.com/audio/test.wav";
 
 declare function btoa(stringToEncode: string): string;
 

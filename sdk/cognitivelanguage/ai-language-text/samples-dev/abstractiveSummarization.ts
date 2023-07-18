@@ -4,8 +4,6 @@
 /**
  * This sample program generates a summary of two sentences at max for an article.
  * For more information, see the feature documentation: {@link https://learn.microsoft.com/azure/cognitive-services/language-service/summarization/overview}
- * The abstractive summarization feature is part of a gated preview. Access can
- * be request in {@link https://aka.ms/applyforgatedsummarizationfeatures}.
  *
  * @summary generates a summary for an article
  * @azsdk-weight 50

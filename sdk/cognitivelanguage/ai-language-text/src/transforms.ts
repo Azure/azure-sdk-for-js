@@ -41,10 +41,8 @@ import {
   SentimentTaskResult,
   TargetRelation,
   CustomEntitiesResultDocumentsItem,
-  ExtractedSummaryDocumentResultWithDetectedLanguage,
-  AbstractiveSummaryDocumentResultWithDetectedLanguage,
-  HealthcareEntitiesDocumentResultWithDocumentDetectedLanguage,
   CustomLabelClassificationResultDocumentsItem,
+  HealthcareEntitiesDocumentResult,
 } from "./generated";
 import {
   AnalyzeActionName,
@@ -67,7 +65,6 @@ import {
   TextAnalysisError,
   TextAnalysisErrorResult,
   TextAnalysisSuccessResult,
-  WithDetectedLanguage,
 } from "./models";
 import {
   AssessmentIndex,
@@ -358,21 +355,20 @@ function toHealthcareResult(
       ),
     });
   }
-  return transformDocumentResults<
-    HealthcareEntitiesDocumentResultWithDocumentDetectedLanguage,
-    WithDetectedLanguage<HealthcareSuccessResult>
-  >(docIds, results, {
-    processSuccess: ({ entities, relations, detectedLanguage, ...rest }) => {
-      const newEntities = entities.map(makeHealthcareEntity);
-      return {
-        entities: newEntities,
-        entityRelations: relations.map(makeHealthcareRelation(newEntities)),
-        // FIXME: remove this mitigation when the API fixes the representation on their end
-        ...(detectedLanguage ? { detectedLanguage: { iso6391Name: detectedLanguage } as any } : {}),
-        ...rest,
-      };
-    },
-  });
+  return transformDocumentResults<HealthcareEntitiesDocumentResult, HealthcareSuccessResult>(
+    docIds,
+    results,
+    {
+      processSuccess: ({ entities, relations, ...rest }) => {
+        const newEntities = entities.map(makeHealthcareEntity);
+        return {
+          entities: newEntities,
+          entityRelations: relations.map(makeHealthcareRelation(newEntities)),
+          ...rest,
+        };
+      },
+    }
+  );
 }
 
 /**
@@ -549,11 +545,8 @@ export function transformAnalyzeBatchResults(
         const { results } = actionData as ExtractiveSummarizationLROResult;
         const { modelVersion, statistics } = results;
         return {
-          kind,
-          results: transformDocumentResults<ExtractedSummaryDocumentResultWithDetectedLanguage>(
-            docIds,
-            results
-          ),
+          kind: "ExtractiveSummarization",
+          results: transformDocumentResults(docIds, results),
           completedOn,
           ...(actionName ? { actionName } : {}),
           ...(statistics ? { statistics } : {}),
@@ -568,11 +561,8 @@ export function transformAnalyzeBatchResults(
         const { results } = actionData as AbstractiveSummarizationLROResult;
         const { modelVersion, statistics } = results;
         return {
-          kind,
-          results: transformDocumentResults<AbstractiveSummaryDocumentResultWithDetectedLanguage>(
-            docIds,
-            results
-          ),
+          kind: "AbstractiveSummarization",
+          results: transformDocumentResults(docIds, results),
           completedOn,
           ...(actionName ? { actionName } : {}),
           ...(statistics ? { statistics } : {}),

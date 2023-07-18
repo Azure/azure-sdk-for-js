@@ -42,7 +42,7 @@ function getSerializer(): XMLSerializer {
 let ttPolicy: Pick<TrustedTypePolicy, "createHTML"> | undefined;
 if (typeof self.trustedTypes !== "undefined") {
   ttPolicy = self.trustedTypes.createPolicy("@azure/core-http#xml.browser", {
-    createHTML: (s) => s,
+    createHTML: (s: string) => s,
   });
 }
 

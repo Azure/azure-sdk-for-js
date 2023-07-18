@@ -56,13 +56,12 @@ import {
   RegexFlags,
   ScoringFunctionAggregation,
   SearchAlias,
-  SearchIndexerCache,
   SearchIndexerDataContainer,
   SearchIndexerDataNoneIdentity,
   SearchIndexerDataSourceType,
   SearchIndexerDataUserAssignedIdentity,
-  SearchIndexerKnowledgeStore,
   Suggester as SearchSuggester,
+  SearchIndexerSkill as BaseSearchIndexerSkill,
   SemanticSettings,
   SentimentSkill,
   SentimentSkillV3,
@@ -85,8 +84,9 @@ import {
   TruncateTokenFilter,
   UaxUrlEmailTokenizer,
   UniqueTokenFilter,
-  WebApiSkill,
   WordDelimiterTokenFilter,
+  SearchIndexerKnowledgeStoreProjection,
+  VectorSearchAlgorithmConfiguration as BaseVectorSearchAlgorithmConfiguration,
 } from "./generated/service/models";
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -161,6 +161,11 @@ export interface SearchIndexStatistics {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly storageSize: number;
+  /**
+   * The amount of memory in bytes consumed by vectors in the index.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vectorIndexSize?: number;
 }
 
 /**
@@ -535,6 +540,57 @@ export type LexicalAnalyzer =
   | StopAnalyzer;
 
 /**
+ * A skill that can call a Web API endpoint, allowing you to extend a skillset by having it call
+ * your custom code.
+ */
+export interface WebApiSkill extends BaseSearchIndexerSkill {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  odatatype: "#Microsoft.Skills.Custom.WebApiSkill";
+  /**
+   * The url for the Web API.
+   */
+  uri: string;
+  /**
+   * The headers required to make the http request.
+   */
+  httpHeaders?: { [propertyName: string]: string };
+  /**
+   * The method for the http request.
+   */
+  httpMethod?: string;
+  /**
+   * The desired timeout for the request. Default is 30 seconds.
+   */
+  timeout?: string;
+  /**
+   * The desired batch size which indicates number of documents.
+   */
+  batchSize?: number;
+  /**
+   * If set, the number of parallel calls that can be made to the Web API.
+   */
+  degreeOfParallelism?: number;
+  /**
+   * Applies to custom skills that connect to external code in an Azure function or some other
+   * application that provides the transformations. This value should be the application ID
+   * created for the function or app when it was registered with Azure Active Directory. When
+   * specified, the custom skill connects to the function or app using a managed ID (either system
+   * or user-assigned) of the search service and the access token of the function or app, using
+   * this value as the resource id for creating the scope of the access token.
+   */
+  authResourceId?: string;
+  /**
+   * The user-assigned managed identity used for outbound connections. If an authResourceId is
+   * provided and it's not specified, the system-assigned managed identity is used. On updates to
+   * the indexer, if the identity is unspecified, the value remains unchanged. If undefined, the
+   * value of this property is cleared.
+   */
+  authIdentity?: SearchIndexerDataIdentity;
+}
+
+/**
  * Contains the possible cases for Skill.
  */
 export type SearchIndexerSkill =
@@ -692,6 +748,28 @@ export type LexicalTokenizer =
   | UaxUrlEmailTokenizer;
 
 /**
+ *  Definition of additional projections to azure blob, table, or files, of enriched data.
+ */
+export interface SearchIndexerKnowledgeStore {
+  /**
+   * The connection string to the storage account projections will be stored in.
+   */
+  storageConnectionString: string;
+  /**
+   * A list of additional projections to perform during indexing.
+   */
+  projections: SearchIndexerKnowledgeStoreProjection[];
+  /**
+   * The user-assigned managed identity used for connections to Azure Storage when writing
+   * knowledge store projections. If the connection string indicates an identity (ResourceId) and
+   * it's not specified, the system-assigned managed identity is used. On updates to the indexer,
+   * if the identity is unspecified, the value remains unchanged. If set to "none", the value of
+   * this property is cleared.
+   */
+  identity?: SearchIndexerDataIdentity;
+}
+
+/**
  * Contains the possible cases for Similarity.
  */
 export type SimilarityAlgorithm = ClassicSimilarity | BM25Similarity;
@@ -773,9 +851,11 @@ export type ScoringFunction =
 /**
  * Defines values for SearchFieldDataType.
  * Possible values include: 'Edm.String', 'Edm.Int32', 'Edm.Int64', 'Edm.Double', 'Edm.Boolean',
- * 'Edm.DateTimeOffset', 'Edm.GeographyPoint', 'Collection(Edm.String)',
- * 'Collection(Edm.Int32)', 'Collection(Edm.Int64)', 'Collection(Edm.Double)',
- * 'Collection(Edm.Boolean)', 'Collection(Edm.DateTimeOffset)', 'Collection(Edm.GeographyPoint)'
+ * 'Edm.DateTimeOffset', 'Edm.GeographyPoint', 'Collection(Edm.String)', 'Collection(Edm.Int32)',
+ * 'Collection(Edm.Int64)', 'Collection(Edm.Double)', 'Collection(Edm.Boolean)',
+ * 'Collection(Edm.DateTimeOffset)', 'Collection(Edm.GeographyPoint)', 'Collection(Edm.Single)'
+ *
+ * NB: `Edm.Single` alone is not a valid data type. It must be used as part of a collection type.
  * @readonly
  */
 export type SearchFieldDataType =
@@ -792,7 +872,8 @@ export type SearchFieldDataType =
   | "Collection(Edm.Double)"
   | "Collection(Edm.Boolean)"
   | "Collection(Edm.DateTimeOffset)"
-  | "Collection(Edm.GeographyPoint)";
+  | "Collection(Edm.GeographyPoint)"
+  | "Collection(Edm.Single)";
 
 /**
  * Defines values for ComplexDataType.
@@ -819,10 +900,10 @@ export interface SimpleField {
   name: string;
   /**
    * The data type of the field. Possible values include: 'Edm.String', 'Edm.Int32', 'Edm.Int64',
-   * 'Edm.Double', 'Edm.Boolean', 'Edm.DateTimeOffset', 'Edm.GeographyPoint'
+   * 'Edm.Double', 'Edm.Boolean', 'Edm.DateTimeOffset', 'Edm.GeographyPoint',
    * 'Collection(Edm.String)', 'Collection(Edm.Int32)', 'Collection(Edm.Int64)',
    * 'Collection(Edm.Double)', 'Collection(Edm.Boolean)', 'Collection(Edm.DateTimeOffset)',
-   * 'Collection(Edm.GeographyPoint)'
+   * 'Collection(Edm.GeographyPoint)', 'Collection(Edm.Single)'
    */
   type: SearchFieldDataType;
   /**
@@ -912,6 +993,15 @@ export interface SimpleField {
    * The name of the normalizer used at indexing time for the field.
    */
   normalizerName?: LexicalNormalizerName;
+  /**
+   * The dimensionality of the vector field.
+   */
+  vectorSearchDimensions?: number;
+  /**
+   * The name of the vector search algorithm configuration that specifies the algorithm and
+   * optional parameters for searching the vector field.
+   */
+  vectorSearchConfiguration?: string;
 }
 
 export function isComplexField(field: SearchField): field is ComplexField {
@@ -1065,9 +1155,31 @@ export interface SearchIndex {
    */
   semanticSettings?: SemanticSettings;
   /**
+   * Contains configuration options related to vector search.
+   */
+  vectorSearch?: VectorSearch;
+  /**
    * The ETag of the index.
    */
   etag?: string;
+}
+
+export interface SearchIndexerCache {
+  /**
+   * The connection string to the storage account where the cache data will be persisted.
+   */
+  storageConnectionString?: string;
+  /**
+   * Specifies whether incremental reprocessing is enabled.
+   */
+  enableReprocessing?: boolean;
+  /** The user-assigned managed identity used for connections to the enrichment cache.  If the
+   * connection string indicates an identity (ResourceId) and it's not specified, the
+   * system-assigned managed identity is used. On updates to the indexer, if the identity is
+   * unspecified, the value remains unchanged. If set to "none", the value of this property is
+   * cleared.
+   */
+  identity?: SearchIndexerDataIdentity;
 }
 
 /**
@@ -1964,4 +2076,64 @@ export interface SearchIndexerDataSourceConnection {
    */
   encryptionKey?: SearchResourceEncryptionKey;
 }
+
+/**
+ * Contains configuration options related to vector search.
+ */
+export interface VectorSearch {
+  /**
+   * Contains configuration options specific to the algorithm used during indexing time.
+   */
+  algorithmConfigurations?: VectorSearchAlgorithmConfiguration[];
+}
+
+export type VectorSearchAlgorithmConfiguration =
+  | BaseVectorSearchAlgorithmConfiguration
+  | HnswVectorSearchAlgorithmConfiguration;
+
+/**
+ * Contains configuration options specific to the hnsw approximate nearest neighbors algorithm
+ * used during indexing time.
+ */
+export type HnswVectorSearchAlgorithmConfiguration = BaseVectorSearchAlgorithmConfiguration & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  kind: "hnsw";
+  /**
+   * Contains the parameters specific to hnsw algorithm.
+   *
+   */
+  parameters?: HnswParameters;
+};
+
+/**
+ * Contains the parameters specific to hnsw algorithm.
+ */
+export interface HnswParameters {
+  /**
+   * The number of bi-directional links created for every new element during construction.
+   * Increasing this parameter value may improve recall and reduce retrieval times for datasets
+   * with high intrinsic dimensionality at the expense of increased memory consumption and longer
+   * indexing time.
+   */
+  m?: number;
+  /**
+   * The size of the dynamic list containing the nearest neighbors, which is used during index
+   * time. Increasing this parameter may improve index quality, at the expense of increased
+   * indexing time. At a certain point, increasing this parameter leads to diminishing returns.
+   */
+  efConstruction?: number;
+  /**
+   * The size of the dynamic list containing the nearest neighbors, which is used during search
+   * time. Increasing this parameter may improve search results, at the expense of slower search.
+   * Increasing this parameter leads to diminishing returns.
+   */
+  efSearch?: number;
+  /**
+   * The similarity metric to use for vector comparisons.
+   */
+  metric?: VectorSearchAlgorithmMetric;
+}
+export type VectorSearchAlgorithmMetric = "cosine" | "euclidean" | "dotProduct";
 // END manually modified generated interfaces

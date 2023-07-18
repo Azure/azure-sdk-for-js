@@ -64,7 +64,7 @@ export class NewRelicObservability extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-newrelicobservability/1.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-newrelicobservability/1.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -117,7 +117,7 @@ export class NewRelicObservability extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-07-01-preview";
+    this.apiVersion = options.apiVersion || "2022-07-01";
     this.operations = new OperationsImpl(this);
     this.accounts = new AccountsImpl(this);
     this.monitors = new MonitorsImpl(this);

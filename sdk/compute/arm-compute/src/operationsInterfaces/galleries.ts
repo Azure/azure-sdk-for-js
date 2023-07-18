@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Gallery,
   GalleriesListByResourceGroupOptionalParams,
@@ -55,8 +55,8 @@ export interface Galleries {
     gallery: Gallery,
     options?: GalleriesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<GalleriesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<GalleriesCreateOrUpdateResponse>,
       GalleriesCreateOrUpdateResponse
     >
   >;
@@ -88,8 +88,8 @@ export interface Galleries {
     gallery: GalleryUpdate,
     options?: GalleriesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<GalleriesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<GalleriesUpdateResponse>,
       GalleriesUpdateResponse
     >
   >;
@@ -128,7 +128,7 @@ export interface Galleries {
     resourceGroupName: string,
     galleryName: string,
     options?: GalleriesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Shared Image Gallery.
    * @param resourceGroupName The name of the resource group.

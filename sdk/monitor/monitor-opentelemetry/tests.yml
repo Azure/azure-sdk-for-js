@@ -1,0 +1,11 @@
+trigger: none
+
+stages:
+  - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+    parameters:
+      PackageName: "@azure/monitor-opentelemetry"
+      ServiceDirectory: monitor
+      MatrixFilters:
+        - DependencyVersion=^$
+      PostSteps:
+        - template: /eng/pipelines/templates/steps/monitor-additional-steps.yml

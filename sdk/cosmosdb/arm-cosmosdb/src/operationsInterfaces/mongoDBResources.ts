@@ -51,6 +51,8 @@ import {
   MongoDBResourcesDeleteMongoDBCollectionOptionalParams,
   MongoDBResourcesDeleteMongoDBCollectionResponse,
   MergeParameters,
+  MongoDBResourcesMongoDBDatabasePartitionMergeOptionalParams,
+  MongoDBResourcesMongoDBDatabasePartitionMergeResponse,
   MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams,
   MongoDBResourcesListMongoDBCollectionPartitionMergeResponse,
   MongoDBResourcesGetMongoDBCollectionThroughputOptionalParams,
@@ -583,6 +585,41 @@ export interface MongoDBResources {
     collectionName: string,
     options?: MongoDBResourcesDeleteMongoDBCollectionOptionalParams
   ): Promise<MongoDBResourcesDeleteMongoDBCollectionResponse>;
+  /**
+   * Merges the partitions of a MongoDB database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param mergeParameters The parameters for the merge operation.
+   * @param options The options parameters.
+   */
+  beginMongoDBDatabasePartitionMerge(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    mergeParameters: MergeParameters,
+    options?: MongoDBResourcesMongoDBDatabasePartitionMergeOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MongoDBResourcesMongoDBDatabasePartitionMergeResponse>,
+      MongoDBResourcesMongoDBDatabasePartitionMergeResponse
+    >
+  >;
+  /**
+   * Merges the partitions of a MongoDB database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param mergeParameters The parameters for the merge operation.
+   * @param options The options parameters.
+   */
+  beginMongoDBDatabasePartitionMergeAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    mergeParameters: MergeParameters,
+    options?: MongoDBResourcesMongoDBDatabasePartitionMergeOptionalParams
+  ): Promise<MongoDBResourcesMongoDBDatabasePartitionMergeResponse>;
   /**
    * Merges the partitions of a MongoDB Collection
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

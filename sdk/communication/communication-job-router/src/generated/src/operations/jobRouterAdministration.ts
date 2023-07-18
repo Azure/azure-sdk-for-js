@@ -7,7 +7,8 @@
  */
 
 import { tracingClient } from "../tracing";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { JobRouterAdministration } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,43 +18,43 @@ import {
   ClassificationPolicyItem,
   JobRouterAdministrationListClassificationPoliciesNextOptionalParams,
   JobRouterAdministrationListClassificationPoliciesOptionalParams,
+  JobRouterAdministrationListClassificationPoliciesResponse,
   DistributionPolicyItem,
   JobRouterAdministrationListDistributionPoliciesNextOptionalParams,
   JobRouterAdministrationListDistributionPoliciesOptionalParams,
+  JobRouterAdministrationListDistributionPoliciesResponse,
   ExceptionPolicyItem,
   JobRouterAdministrationListExceptionPoliciesNextOptionalParams,
   JobRouterAdministrationListExceptionPoliciesOptionalParams,
-  JobQueueItem,
+  JobRouterAdministrationListExceptionPoliciesResponse,
+  RouterQueueItem,
   JobRouterAdministrationListQueuesNextOptionalParams,
   JobRouterAdministrationListQueuesOptionalParams,
+  JobRouterAdministrationListQueuesResponse,
   ClassificationPolicy,
   JobRouterAdministrationUpsertClassificationPolicyOptionalParams,
   JobRouterAdministrationUpsertClassificationPolicyResponse,
   JobRouterAdministrationGetClassificationPolicyOptionalParams,
   JobRouterAdministrationGetClassificationPolicyResponse,
   JobRouterAdministrationDeleteClassificationPolicyOptionalParams,
-  JobRouterAdministrationListClassificationPoliciesResponse,
   DistributionPolicy,
   JobRouterAdministrationUpsertDistributionPolicyOptionalParams,
   JobRouterAdministrationUpsertDistributionPolicyResponse,
   JobRouterAdministrationGetDistributionPolicyOptionalParams,
   JobRouterAdministrationGetDistributionPolicyResponse,
   JobRouterAdministrationDeleteDistributionPolicyOptionalParams,
-  JobRouterAdministrationListDistributionPoliciesResponse,
   ExceptionPolicy,
   JobRouterAdministrationUpsertExceptionPolicyOptionalParams,
   JobRouterAdministrationUpsertExceptionPolicyResponse,
   JobRouterAdministrationGetExceptionPolicyOptionalParams,
   JobRouterAdministrationGetExceptionPolicyResponse,
   JobRouterAdministrationDeleteExceptionPolicyOptionalParams,
-  JobRouterAdministrationListExceptionPoliciesResponse,
-  JobQueue,
+  RouterQueue,
   JobRouterAdministrationUpsertQueueOptionalParams,
   JobRouterAdministrationUpsertQueueResponse,
   JobRouterAdministrationGetQueueOptionalParams,
   JobRouterAdministrationGetQueueResponse,
   JobRouterAdministrationDeleteQueueOptionalParams,
-  JobRouterAdministrationListQueuesResponse,
   JobRouterAdministrationListClassificationPoliciesNextResponse,
   JobRouterAdministrationListDistributionPoliciesNextResponse,
   JobRouterAdministrationListExceptionPoliciesNextResponse,
@@ -88,25 +89,37 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listClassificationPoliciesPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listClassificationPoliciesPagingPage(options, settings);
       }
     };
   }
 
   private async *listClassificationPoliciesPagingPage(
-    options?: JobRouterAdministrationListClassificationPoliciesOptionalParams
+    options?: JobRouterAdministrationListClassificationPoliciesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ClassificationPolicyItem[]> {
-    let result = await this._listClassificationPolicies(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: JobRouterAdministrationListClassificationPoliciesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listClassificationPolicies(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listClassificationPoliciesNext(
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -135,25 +148,37 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listDistributionPoliciesPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listDistributionPoliciesPagingPage(options, settings);
       }
     };
   }
 
   private async *listDistributionPoliciesPagingPage(
-    options?: JobRouterAdministrationListDistributionPoliciesOptionalParams
+    options?: JobRouterAdministrationListDistributionPoliciesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DistributionPolicyItem[]> {
-    let result = await this._listDistributionPolicies(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: JobRouterAdministrationListDistributionPoliciesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listDistributionPolicies(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listDistributionPoliciesNext(
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -180,25 +205,37 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listExceptionPoliciesPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listExceptionPoliciesPagingPage(options, settings);
       }
     };
   }
 
   private async *listExceptionPoliciesPagingPage(
-    options?: JobRouterAdministrationListExceptionPoliciesOptionalParams
+    options?: JobRouterAdministrationListExceptionPoliciesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ExceptionPolicyItem[]> {
-    let result = await this._listExceptionPolicies(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: JobRouterAdministrationListExceptionPoliciesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listExceptionPolicies(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listExceptionPoliciesNext(
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -216,7 +253,7 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
    */
   public listQueues(
     options?: JobRouterAdministrationListQueuesOptionalParams
-  ): PagedAsyncIterableIterator<JobQueueItem> {
+  ): PagedAsyncIterableIterator<RouterQueueItem> {
     const iter = this.listQueuesPagingAll(options);
     return {
       next() {
@@ -225,28 +262,40 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listQueuesPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listQueuesPagingPage(options, settings);
       }
     };
   }
 
   private async *listQueuesPagingPage(
-    options?: JobRouterAdministrationListQueuesOptionalParams
-  ): AsyncIterableIterator<JobQueueItem[]> {
-    let result = await this._listQueues(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    options?: JobRouterAdministrationListQueuesOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<RouterQueueItem[]> {
+    let result: JobRouterAdministrationListQueuesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listQueues(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listQueuesNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
   private async *listQueuesPagingAll(
     options?: JobRouterAdministrationListQueuesOptionalParams
-  ): AsyncIterableIterator<JobQueueItem> {
+  ): AsyncIterableIterator<RouterQueueItem> {
     for await (const page of this.listQueuesPagingPage(options)) {
       yield* page;
     }
@@ -516,7 +565,7 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
    */
   async upsertQueue(
     id: string,
-    patch: JobQueue,
+    patch: RouterQueue,
     options?: JobRouterAdministrationUpsertQueueOptionalParams
   ): Promise<JobRouterAdministrationUpsertQueueResponse> {
     return tracingClient.withSpan(
@@ -692,6 +741,9 @@ const upsertClassificationPolicyOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.ClassificationPolicy
     },
+    201: {
+      bodyMapper: Mappers.ClassificationPolicy
+    },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
@@ -754,6 +806,9 @@ const upsertDistributionPolicyOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
+      bodyMapper: Mappers.DistributionPolicy
+    },
+    201: {
       bodyMapper: Mappers.DistributionPolicy
     },
     default: {
@@ -820,6 +875,9 @@ const upsertExceptionPolicyOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.ExceptionPolicy
     },
+    201: {
+      bodyMapper: Mappers.ExceptionPolicy
+    },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
@@ -882,7 +940,10 @@ const upsertQueueOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.JobQueue
+      bodyMapper: Mappers.RouterQueue
+    },
+    201: {
+      bodyMapper: Mappers.RouterQueue
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -900,7 +961,7 @@ const getQueueOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobQueue
+      bodyMapper: Mappers.RouterQueue
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -930,7 +991,7 @@ const listQueuesOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QueueCollection
+      bodyMapper: Mappers.RouterQueueCollection
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -952,7 +1013,6 @@ const listClassificationPoliciesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.maxpagesize],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
@@ -968,7 +1028,6 @@ const listDistributionPoliciesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.maxpagesize],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
@@ -984,7 +1043,6 @@ const listExceptionPoliciesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.maxpagesize],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
@@ -994,13 +1052,12 @@ const listQueuesNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QueueCollection
+      bodyMapper: Mappers.RouterQueueCollection
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.maxpagesize],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

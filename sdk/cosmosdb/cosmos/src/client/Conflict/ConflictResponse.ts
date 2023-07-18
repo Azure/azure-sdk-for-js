@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { CosmosDiagnostics } from "../../CosmosDiagnostics";
 import { CosmosHeaders } from "../../queryExecutionContext";
 import { ResourceResponse } from "../../request";
 import { Resource } from "../Resource";
@@ -11,9 +12,10 @@ export class ConflictResponse extends ResourceResponse<ConflictDefinition & Reso
     resource: ConflictDefinition & Resource,
     headers: CosmosHeaders,
     statusCode: number,
-    conflict: Conflict
+    conflict: Conflict,
+    diagnostics: CosmosDiagnostics
   ) {
-    super(resource, headers, statusCode);
+    super(resource, headers, statusCode, diagnostics);
     this.conflict = conflict;
   }
   /** A reference to the {@link Conflict} corresponding to the returned {@link ConflictDefinition}. */

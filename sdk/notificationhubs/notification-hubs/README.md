@@ -16,6 +16,8 @@ Key links:
 - [Product documentation](https://docs.microsoft.com/azure/notification-hubs/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/notificationhubs/notification-hubs/samples-dev)
 
+**NOTE**: If you are coming from using the `azure-sb` package, see the [migration guide to move from azure-sb to @azure/notification-hubs](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/notificationhubs/notification-hubs/migrationguide.md)
+
 ## Getting started
 
 ### Currently supported environments

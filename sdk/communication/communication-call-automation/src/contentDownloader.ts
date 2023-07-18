@@ -26,7 +26,7 @@ export class ContentDownloaderImpl {
     this.addCustomSignUrlPolicy();
   }
 
-  private addCustomSignUrlPolicy() {
+  private addCustomSignUrlPolicy(): void {
     const signUrlPolicy = {
       name: "CustomSignUrlPolicy",
       async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
@@ -46,10 +46,10 @@ export class ContentDownloaderImpl {
 
   /**
    * Deletes a recording.
-   * @param recordingLocation - The recording location uri. Required.
+   * @param deleteLocationUrl - The recording location url. Required.
    */
-  async deleteRecording(recordingLocation: string, options: DeleteRecordingOptions): Promise<void> {
-    const fileLocation = new URL(recordingLocation);
+  async deleteRecording(deleteLocationUrl: string, options: DeleteRecordingOptions): Promise<void> {
+    const fileLocation = new URL(deleteLocationUrl);
     const endpoint = new URL(this.client.endpoint);
     const modifiedUrlForSigning = endpoint.origin + fileLocation.pathname;
 
@@ -62,7 +62,7 @@ export class ContentDownloaderImpl {
       tracingOptions: options?.tracingOptions,
     };
 
-    opt.headers?.set("OriginalUrl", recordingLocation);
+    opt.headers?.set("OriginalUrl", deleteLocationUrl);
     opt.headers?.set("x-ms-host", endpoint.host);
     opt.headers?.set("accept", "application/json");
 
@@ -81,14 +81,14 @@ export class ContentDownloaderImpl {
 
   /**
    * Returns a stream with a call recording.
-   * @param sourceLocation - The source location uri. Required.
+   * @param sourceLocationUrl - The source location url. Required.
    * @param options - Additional request options contains downloadRecording options.
    */
   async download(
-    sourceLocation: string,
+    sourceLocationUrl: string,
     options: DownloadRecordingOptions
   ): Promise<PipelineResponse> {
-    const fileLocation = new URL(sourceLocation);
+    const fileLocation = new URL(sourceLocationUrl);
     const endpoint = new URL(this.client.endpoint);
     const modifiedUrlForSigning = endpoint.origin + fileLocation.pathname;
 
@@ -111,7 +111,7 @@ export class ContentDownloaderImpl {
     let rangeHeader = "bytes=" + options.offset;
     if (options.length) rangeHeader += "-" + options.length;
 
-    opt.headers?.set("OriginalUrl", sourceLocation);
+    opt.headers?.set("OriginalUrl", sourceLocationUrl);
     opt.headers?.set("x-ms-host", endpoint.host);
     opt.headers?.set("accept", "application/json");
     opt.headers?.set("Range", rangeHeader);

@@ -219,7 +219,8 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
         originalMessage,
         options ?? {},
         this.entityPath,
-        this._context.config.host
+        this._context.config.host,
+        "publish"
       );
       const spanLinks: TracingSpanLink[] = spanContext ? [{ tracingContext: spanContext }] : [];
       return tracingClient.withSpan(
@@ -230,6 +231,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
           spanLinks,
           ...toSpanOptions(
             { entityPath: this.entityPath, host: this._context.config.host },
+            "publish",
             "client"
           ),
         }
@@ -269,6 +271,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
         spanLinks,
         ...toSpanOptions(
           { entityPath: this.entityPath, host: this._context.config.host },
+          "publish",
           "client"
         ),
       }

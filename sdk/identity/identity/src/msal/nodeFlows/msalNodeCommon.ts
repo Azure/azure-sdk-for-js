@@ -296,6 +296,14 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
 
     try {
       this.logger.info("Attempting to acquire token silently");
+      /**
+       * The following code to retrieve all accounts is done as a workaround in an attempt to force the
+       * refresh of the token cache with the token and the account passed in through the
+       * `authenticationRecord` parameter. See issue - https://github.com/Azure/azure-sdk-for-js/issues/24349#issuecomment-1496715651
+       * This workaround serves as a workoaround for silent authentication not happening when authenticationRecord is passed.
+       */
+      await (this.publicApp || this.confidentialApp)?.getTokenCache().getAllAccounts();
+
       const response =
         (await this.confidentialApp?.acquireTokenSilent(silentRequest)) ??
         (await this.publicApp!.acquireTokenSilent(silentRequest));

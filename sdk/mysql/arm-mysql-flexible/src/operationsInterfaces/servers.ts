@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Server,
   ServersListByResourceGroupOptionalParams,
@@ -24,7 +24,9 @@ import {
   ServerRestartParameter,
   ServersRestartOptionalParams,
   ServersStartOptionalParams,
-  ServersStopOptionalParams
+  ServersStopOptionalParams,
+  ServerGtidSetParameter,
+  ServersResetGtidOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -58,7 +60,10 @@ export interface Servers {
     parameters: Server,
     options?: ServersCreateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<ServersCreateResponse>, ServersCreateResponse>
+    SimplePollerLike<
+      OperationState<ServersCreateResponse>,
+      ServersCreateResponse
+    >
   >;
   /**
    * Creates a new server or updates an existing server. The update action will overwrite the existing
@@ -88,7 +93,10 @@ export interface Servers {
     parameters: ServerForUpdate,
     options?: ServersUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<ServersUpdateResponse>, ServersUpdateResponse>
+    SimplePollerLike<
+      OperationState<ServersUpdateResponse>,
+      ServersUpdateResponse
+    >
   >;
   /**
    * Updates an existing server. The request body can contain one to many of the properties present in
@@ -114,7 +122,7 @@ export interface Servers {
     resourceGroupName: string,
     serverName: string,
     options?: ServersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a server.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -147,7 +155,7 @@ export interface Servers {
     resourceGroupName: string,
     serverName: string,
     options?: ServersFailoverOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Manual failover a server.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -171,7 +179,7 @@ export interface Servers {
     serverName: string,
     parameters: ServerRestartParameter,
     options?: ServersRestartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Restarts a server.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -195,7 +203,7 @@ export interface Servers {
     resourceGroupName: string,
     serverName: string,
     options?: ServersStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Starts a server.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -217,7 +225,7 @@ export interface Servers {
     resourceGroupName: string,
     serverName: string,
     options?: ServersStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Stops a server.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -228,5 +236,31 @@ export interface Servers {
     resourceGroupName: string,
     serverName: string,
     options?: ServersStopOptionalParams
+  ): Promise<void>;
+  /**
+   * Resets GTID on a server.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serverName The name of the server.
+   * @param parameters The required parameters for resetting GTID on a server.
+   * @param options The options parameters.
+   */
+  beginResetGtid(
+    resourceGroupName: string,
+    serverName: string,
+    parameters: ServerGtidSetParameter,
+    options?: ServersResetGtidOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Resets GTID on a server.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serverName The name of the server.
+   * @param parameters The required parameters for resetting GTID on a server.
+   * @param options The options parameters.
+   */
+  beginResetGtidAndWait(
+    resourceGroupName: string,
+    serverName: string,
+    parameters: ServerGtidSetParameter,
+    options?: ServersResetGtidOptionalParams
   ): Promise<void>;
 }

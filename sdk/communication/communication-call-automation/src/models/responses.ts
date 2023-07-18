@@ -52,7 +52,13 @@ export interface TransferCallResult {
 }
 
 /** The response payload for removing participants from the call. */
-export interface RemoveParticipantsResult {
+export interface RemoveParticipantResult {
+  /** The operation context provided by client. */
+  operationContext?: string;
+}
+
+/** The response payload for muting participants from the call. */
+export interface MuteParticipantsResult {
   /** The operation context provided by client. */
   operationContext?: string;
 }

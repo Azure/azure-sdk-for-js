@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { IotHubClient } = require("@azure/arm-iothub");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Generates verification code for proof of possession flow. The verification code will be used to generate a leaf certificate.
  *
  * @summary Generates verification code for proof of possession flow. The verification code will be used to generate a leaf certificate.
- * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-04-30-preview/examples/iothub_generateverificationcode.json
+ * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2022-11-15-preview/examples/iothub_generateverificationcode.json
  */
 async function certificatesGenerateVerificationCode() {
-  const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["IOTHUB_SUBSCRIPTION_ID"] || "91d12660-3dec-467a-be2a-213b5544ddc0";
+  const resourceGroupName = process.env["IOTHUB_RESOURCE_GROUP"] || "myResourceGroup";
   const resourceName = "testHub";
   const certificateName = "cert";
   const ifMatch = "AAAAAAAADGk=";
@@ -34,4 +36,8 @@ async function certificatesGenerateVerificationCode() {
   console.log(result);
 }
 
-certificatesGenerateVerificationCode().catch(console.error);
+async function main() {
+  certificatesGenerateVerificationCode();
+}
+
+main().catch(console.error);
