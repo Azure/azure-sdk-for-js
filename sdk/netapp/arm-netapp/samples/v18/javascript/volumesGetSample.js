@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the details of the specified volume
  *
  * @summary Get the details of the specified volume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-09-01/examples/Volumes_Get.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-11-01/examples/Volumes_Get.json
  */
 async function volumesGet() {
   const subscriptionId =

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { ChatCompletions, Completions } from "../../generated/api/models.js";
+import { BeginAzureBatchImageGenerationOptions } from "../../generated/api/operations.js";
 import { ChatChoiceOutput, ChoiceOutput } from "../../generated/rest/outputModels.js";
 
 // export interface GetCompletionsOptions extends _GetCompletionsOptions {
@@ -46,3 +47,6 @@ export function getChatCompletionsResult(
     })),
   };
 }
+
+/** Convenience alias for BeginAzureBatchImageGenerationOptions */
+export type ImageGenerationOptions = BeginAzureBatchImageGenerationOptions;
