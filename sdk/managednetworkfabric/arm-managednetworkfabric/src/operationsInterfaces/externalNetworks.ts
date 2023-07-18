@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ExternalNetwork,
-  ExternalNetworksListOptionalParams,
+  ExternalNetworksListByL3IsolationDomainOptionalParams,
   ExternalNetworksCreateOptionalParams,
   ExternalNetworksCreateResponse,
   ExternalNetworksGetOptionalParams,
@@ -22,15 +22,8 @@ import {
   UpdateAdministrativeState,
   ExternalNetworksUpdateAdministrativeStateOptionalParams,
   ExternalNetworksUpdateAdministrativeStateResponse,
-  ExternalNetworksUpdateBgpAdministrativeStateOptionalParams,
-  ExternalNetworksUpdateBgpAdministrativeStateResponse,
-  ExternalNetworksUpdateBfdForBgpAdministrativeStateOptionalParams,
-  ExternalNetworksUpdateBfdForBgpAdministrativeStateResponse,
-  EnableDisableOnResources,
-  ExternalNetworksClearIpv6NeighborsOptionalParams,
-  ExternalNetworksClearIpv6NeighborsResponse,
-  ExternalNetworksClearArpEntriesOptionalParams,
-  ExternalNetworksClearArpEntriesResponse
+  ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
+  ExternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,19 +32,19 @@ export interface ExternalNetworks {
   /**
    * Implements External Networks list by resource group GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
    * @param options The options parameters.
    */
-  list(
+  listByL3IsolationDomain(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    options?: ExternalNetworksListOptionalParams
+    options?: ExternalNetworksListByL3IsolationDomainOptionalParams
   ): PagedAsyncIterableIterator<ExternalNetwork>;
   /**
    * Creates ExternalNetwork PUT method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain
-   * @param externalNetworkName Name of the ExternalNetwork
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param externalNetworkName Name of the External Network.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -70,8 +63,8 @@ export interface ExternalNetworks {
   /**
    * Creates ExternalNetwork PUT method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain
-   * @param externalNetworkName Name of the ExternalNetwork
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param externalNetworkName Name of the External Network.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -85,8 +78,8 @@ export interface ExternalNetworks {
   /**
    * Implements ExternalNetworks GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain
-   * @param externalNetworkName Name of the ExternalNetwork
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param externalNetworkName Name of the External Network.
    * @param options The options parameters.
    */
   get(
@@ -98,8 +91,8 @@ export interface ExternalNetworks {
   /**
    * API to update certain properties of the ExternalNetworks resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain
-   * @param externalNetworkName Name of the ExternalNetwork
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param externalNetworkName Name of the External Network.
    * @param body ExternalNetwork properties to update. Only annotations are supported.
    * @param options The options parameters.
    */
@@ -118,8 +111,8 @@ export interface ExternalNetworks {
   /**
    * API to update certain properties of the ExternalNetworks resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain
-   * @param externalNetworkName Name of the ExternalNetwork
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param externalNetworkName Name of the External Network.
    * @param body ExternalNetwork properties to update. Only annotations are supported.
    * @param options The options parameters.
    */
@@ -133,8 +126,8 @@ export interface ExternalNetworks {
   /**
    * Implements ExternalNetworks DELETE method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain
-   * @param externalNetworkName Name of the ExternalNetwork
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param externalNetworkName Name of the External Network.
    * @param options The options parameters.
    */
   beginDelete(
@@ -146,8 +139,8 @@ export interface ExternalNetworks {
   /**
    * Implements ExternalNetworks DELETE method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain
-   * @param externalNetworkName Name of the ExternalNetwork
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param externalNetworkName Name of the External Network.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
@@ -159,8 +152,8 @@ export interface ExternalNetworks {
   /**
    * Executes update operation to enable or disable administrative State for externalNetwork.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param externalNetworkName Name of the ExternalNetwork.
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param externalNetworkName Name of the External Network.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -179,8 +172,8 @@ export interface ExternalNetworks {
   /**
    * Executes update operation to enable or disable administrative State for externalNetwork.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param externalNetworkName Name of the ExternalNetwork.
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param externalNetworkName Name of the External Network.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -192,145 +185,40 @@ export interface ExternalNetworks {
     options?: ExternalNetworksUpdateAdministrativeStateOptionalParams
   ): Promise<ExternalNetworksUpdateAdministrativeStateResponse>;
   /**
-   * Update BGP for externalNetwork.
+   * Update Static Route BFD for external Network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param externalNetworkName Name of the ExternalNetwork.
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param externalNetworkName Name of the External Network.
    * @param body Request payload.
    * @param options The options parameters.
    */
-  beginUpdateBgpAdministrativeState(
+  beginUpdateStaticRouteBfdAdministrativeState(
     resourceGroupName: string,
     l3IsolationDomainName: string,
     externalNetworkName: string,
     body: UpdateAdministrativeState,
-    options?: ExternalNetworksUpdateBgpAdministrativeStateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ExternalNetworksUpdateBgpAdministrativeStateResponse>,
-      ExternalNetworksUpdateBgpAdministrativeStateResponse
-    >
-  >;
-  /**
-   * Update BGP for externalNetwork.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param externalNetworkName Name of the ExternalNetwork.
-   * @param body Request payload.
-   * @param options The options parameters.
-   */
-  beginUpdateBgpAdministrativeStateAndWait(
-    resourceGroupName: string,
-    l3IsolationDomainName: string,
-    externalNetworkName: string,
-    body: UpdateAdministrativeState,
-    options?: ExternalNetworksUpdateBgpAdministrativeStateOptionalParams
-  ): Promise<ExternalNetworksUpdateBgpAdministrativeStateResponse>;
-  /**
-   * Update BfdForBgp for externalNetwork.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param externalNetworkName Name of the ExternalNetwork.
-   * @param body Request payload.
-   * @param options The options parameters.
-   */
-  beginUpdateBfdForBgpAdministrativeState(
-    resourceGroupName: string,
-    l3IsolationDomainName: string,
-    externalNetworkName: string,
-    body: UpdateAdministrativeState,
-    options?: ExternalNetworksUpdateBfdForBgpAdministrativeStateOptionalParams
+    options?: ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<
-        ExternalNetworksUpdateBfdForBgpAdministrativeStateResponse
+        ExternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse
       >,
-      ExternalNetworksUpdateBfdForBgpAdministrativeStateResponse
+      ExternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse
     >
   >;
   /**
-   * Update BfdForBgp for externalNetwork.
+   * Update Static Route BFD for external Network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param externalNetworkName Name of the ExternalNetwork.
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param externalNetworkName Name of the External Network.
    * @param body Request payload.
    * @param options The options parameters.
    */
-  beginUpdateBfdForBgpAdministrativeStateAndWait(
+  beginUpdateStaticRouteBfdAdministrativeStateAndWait(
     resourceGroupName: string,
     l3IsolationDomainName: string,
     externalNetworkName: string,
     body: UpdateAdministrativeState,
-    options?: ExternalNetworksUpdateBfdForBgpAdministrativeStateOptionalParams
-  ): Promise<ExternalNetworksUpdateBfdForBgpAdministrativeStateResponse>;
-  /**
-   * clearIpv6Neighbors for externalNetwork.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param externalNetworkName Name of the ExternalNetwork.
-   * @param body Request payload.
-   * @param options The options parameters.
-   */
-  beginClearIpv6Neighbors(
-    resourceGroupName: string,
-    l3IsolationDomainName: string,
-    externalNetworkName: string,
-    body: EnableDisableOnResources,
-    options?: ExternalNetworksClearIpv6NeighborsOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ExternalNetworksClearIpv6NeighborsResponse>,
-      ExternalNetworksClearIpv6NeighborsResponse
-    >
-  >;
-  /**
-   * clearIpv6Neighbors for externalNetwork.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param externalNetworkName Name of the ExternalNetwork.
-   * @param body Request payload.
-   * @param options The options parameters.
-   */
-  beginClearIpv6NeighborsAndWait(
-    resourceGroupName: string,
-    l3IsolationDomainName: string,
-    externalNetworkName: string,
-    body: EnableDisableOnResources,
-    options?: ExternalNetworksClearIpv6NeighborsOptionalParams
-  ): Promise<ExternalNetworksClearIpv6NeighborsResponse>;
-  /**
-   * clearArpEntries for externalNetwork.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param externalNetworkName Name of the ExternalNetwork.
-   * @param body Request payload.
-   * @param options The options parameters.
-   */
-  beginClearArpEntries(
-    resourceGroupName: string,
-    l3IsolationDomainName: string,
-    externalNetworkName: string,
-    body: EnableDisableOnResources,
-    options?: ExternalNetworksClearArpEntriesOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ExternalNetworksClearArpEntriesResponse>,
-      ExternalNetworksClearArpEntriesResponse
-    >
-  >;
-  /**
-   * clearArpEntries for externalNetwork.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param externalNetworkName Name of the ExternalNetwork.
-   * @param body Request payload.
-   * @param options The options parameters.
-   */
-  beginClearArpEntriesAndWait(
-    resourceGroupName: string,
-    l3IsolationDomainName: string,
-    externalNetworkName: string,
-    body: EnableDisableOnResources,
-    options?: ExternalNetworksClearArpEntriesOptionalParams
-  ): Promise<ExternalNetworksClearArpEntriesResponse>;
+    options?: ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams
+  ): Promise<ExternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse>;
 }

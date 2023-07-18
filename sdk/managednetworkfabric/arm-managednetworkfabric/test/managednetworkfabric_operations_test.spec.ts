@@ -58,47 +58,58 @@ describe("managednetworkfabric test", () => {
     await recorder.stop();
   });
 
-  it.skip("accessControlLists create test", async function () {
-    const res = await client.accessControlLists.create(
+  it("networkFabricControllers create test", async function () {
+    const res = await client.networkFabricControllers.beginCreateAndWait(
       resourceGroup,
       resourcename,
       {
-        addressFamily: "ipv4",
-        conditions: [
+        annotation: "annotation",
+        infrastructureExpressRouteConnections: [
           {
-            action: "allow",
-            destinationAddress: "1.1.1.1",
-            destinationPort: "21",
-            sequenceNumber: 3,
-            sourceAddress: "2.2.2.2",
-            sourcePort: "65000",
-            protocol: 6
+            expressRouteAuthorizationKey: "testau",
+            expressRouteCircuitId:
+              "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.Network/expressRouteCircuits/tester"
           }
         ],
-        location
-      });
+        ipv4AddressSpace: "172.253.0.0/19",
+        ipv6AddressSpace: "::/60",
+        isWorkloadManagementNetworkEnabled: "True",
+        location,
+        managedResourceGroupConfiguration: {
+          name: "managedResourceGroupName",
+          location: "eastus"
+        },
+        nfcSku: "Standard",
+        workloadExpressRouteConnections: [
+          {
+            expressRouteAuthorizationKey: "testau",
+            expressRouteCircuitId:
+              "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.Network/expressRouteCircuits/tester"
+          }
+        ]
+      }, testPollingOptions);
     assert.equal(res.name, resourcename);
   });
 
-  it.skip("accessControlLists get test", async function () {
-    const res = await client.accessControlLists.get(resourceGroup,
+  it("networkFabricControllers get test", async function () {
+    const res = await client.networkFabricControllers.get(resourceGroup,
       resourcename);
     assert.equal(res.name, resourcename);
   });
 
-  it.skip("accessControlLists list test", async function () {
+  it("networkFabricControllers list test", async function () {
     const resArray = new Array();
-    for await (let item of client.accessControlLists.listByResourceGroup(resourceGroup)) {
+    for await (let item of client.networkFabricControllers.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
   });
 
-  it.skip("accessControlLists delete test", async function () {
+  it("networkFabricControllers delete test", async function () {
     const resArray = new Array();
-    const res = await client.accessControlLists.delete(resourceGroup, resourcename
+    const res = await client.networkFabricControllers.beginDeleteAndWait(resourceGroup, resourcename
     )
-    for await (let item of client.accessControlLists.listByResourceGroup(resourceGroup)) {
+    for await (let item of client.networkFabricControllers.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

@@ -16,7 +16,7 @@ import {
   NetworkRacksCreateResponse,
   NetworkRacksGetOptionalParams,
   NetworkRacksGetResponse,
-  NetworkRackPatch,
+  TagsUpdate,
   NetworkRacksUpdateOptionalParams,
   NetworkRacksUpdateResponse,
   NetworkRacksDeleteOptionalParams
@@ -44,7 +44,7 @@ export interface NetworkRacks {
   /**
    * Create Network Rack resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkRackName Name of the Network Rack
+   * @param networkRackName Name of the Network Rack.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -62,7 +62,7 @@ export interface NetworkRacks {
   /**
    * Create Network Rack resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkRackName Name of the Network Rack
+   * @param networkRackName Name of the Network Rack.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -75,7 +75,7 @@ export interface NetworkRacks {
   /**
    * Get Network Rack resource details.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkRackName Name of the Network Rack
+   * @param networkRackName Name of the Network Rack.
    * @param options The options parameters.
    */
   get(
@@ -86,14 +86,14 @@ export interface NetworkRacks {
   /**
    * Update certain properties of the Network Rack resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkRackName Name of the Network Rack
+   * @param networkRackName Name of the Network Rack.
    * @param body Network Rack properties to update.
    * @param options The options parameters.
    */
   beginUpdate(
     resourceGroupName: string,
     networkRackName: string,
-    body: NetworkRackPatch,
+    body: TagsUpdate,
     options?: NetworkRacksUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
@@ -104,20 +104,20 @@ export interface NetworkRacks {
   /**
    * Update certain properties of the Network Rack resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkRackName Name of the Network Rack
+   * @param networkRackName Name of the Network Rack.
    * @param body Network Rack properties to update.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
     resourceGroupName: string,
     networkRackName: string,
-    body: NetworkRackPatch,
+    body: TagsUpdate,
     options?: NetworkRacksUpdateOptionalParams
   ): Promise<NetworkRacksUpdateResponse>;
   /**
    * Delete Network Rack resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkRackName Name of the Network Rack
+   * @param networkRackName Name of the Network Rack.
    * @param options The options parameters.
    */
   beginDelete(
@@ -128,7 +128,7 @@ export interface NetworkRacks {
   /**
    * Delete Network Rack resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkRackName Name of the Network Rack
+   * @param networkRackName Name of the Network Rack.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
