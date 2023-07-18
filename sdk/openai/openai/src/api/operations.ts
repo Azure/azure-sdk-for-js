@@ -221,6 +221,9 @@ export interface BeginAzureBatchImageGenerationOptions extends RequestOptions {
   user?: string;
 }
 
+/** Convenience alias for BeginAzureBatchImageGenerationOptions */
+export type ImageGenerationOptions = BeginAzureBatchImageGenerationOptions;
+
 export function _getEmbeddingsSend(
   context: Client,
   input: string[],

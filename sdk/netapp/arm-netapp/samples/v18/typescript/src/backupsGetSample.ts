@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified backup of the volume
  *
  * @summary Gets the specified backup of the volume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-09-01/examples/Backups_Get.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-11-01/examples/Backups_Get.json
  */
 async function backupsGet() {
   const subscriptionId =
