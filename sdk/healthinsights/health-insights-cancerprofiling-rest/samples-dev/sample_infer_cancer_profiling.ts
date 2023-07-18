@@ -12,9 +12,9 @@ import { AzureKeyCredential } from "@azure/core-auth";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-import createClient, {
+import CancerProfilingRestClient, {
     DocumentContent,
-    getLongRunningPoller, InferCancerProfileBodyParam, isUnexpected,
+    getLongRunningPoller, CreateJobBodyParam, isUnexpected,
     OncoPhenotypeData,
     OncoPhenotypeModelConfiguration,
     OncoPhenotypeResultOutput,
@@ -61,7 +61,7 @@ function printResults(cancerProfilingResult: OncoPhenotypeResultOutput): void {
 
 export async function main() {
     const credential = new AzureKeyCredential(apiKey);
-    const client = createClient(endpoint, credential);
+    const client = CancerProfilingRestClient(endpoint, credential);
 
     const patientInfo: PatientInfo = {
         sex: "FEMALE",
@@ -194,7 +194,7 @@ export async function main() {
         configuration: configuration
     };
 
-    const parameters: InferCancerProfileBodyParam = {
+    const parameters: CreateJobBodyParam = {
         body: cancerProfilingData
     };
 

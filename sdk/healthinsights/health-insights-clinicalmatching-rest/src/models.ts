@@ -1,6 +1,69 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/** A piece of clinical information, expressed as a code in a clinical coding system. */
+export interface ClinicalCodedElement {
+  /** The clinical coding system, e.g. ICD-10, SNOMED-CT, UMLS. */
+  system: string;
+  /** The code within the given clinical coding system. */
+  code: string;
+  /** The name of this coded concept in the coding system. */
+  name?: string;
+  /** A value associated with the code within the given clinical coding system. */
+  value?: string;
+}
+
+/** Trial data which is of interest to the potential participant. */
+export interface ClinicalTrialMetadata {
+  /**
+   * Phases which are relevant for the clinical trial.
+   * Each clinical trial can be in a certain phase or in multiple phases.
+   */
+  phases?: string[];
+  /**
+   * Possible study types of a clinical trial.
+   *
+   * Possible values: interventional, observational, expandedAccess, patientRegistries
+   */
+  studyType?: string;
+  /**
+   * Possible recruitment status of a clinical trial.
+   *
+   * Possible values: unknownStatus, notYetRecruiting, recruiting, enrollingByInvitation
+   */
+  recruitmentStatus?: string;
+  /** Medical conditions and their synonyms which are relevant for the clinical trial, given as strings. */
+  conditions: string[];
+  /** Sponsors/collaborators involved with the trial. */
+  sponsors?: string[];
+  /** Contact details of the trial administrators, for patients that want to participate in the trial. */
+  contacts?: Array<ContactDetails>;
+  /** Research facilities where the clinical trial is conducted. */
+  facilities?: Array<ClinicalTrialResearchFacility>;
+}
+
+/** A person's contact details. */
+export interface ContactDetails {
+  /** The person's name. */
+  name?: string;
+  /** The person's email. */
+  email?: string;
+  /** A person's phone number. */
+  phone?: string;
+}
+
+/** Details of a research facility where a clinical trial is conducted. */
+export interface ClinicalTrialResearchFacility {
+  /** The facility's name. */
+  name: string;
+  /** City name. */
+  city?: string;
+  /** State name. */
+  state?: string;
+  /** Country/region name. */
+  countryOrRegion: string;
+}
+
 /** The body of the Trial Matcher request. */
 export interface TrialMatcherData {
   /** The list of patients, including their clinical information and data. */
@@ -31,18 +94,6 @@ export interface PatientInfo {
   birthDate?: Date | string;
   /** Known clinical information for the patient, structured. */
   clinicalInfo?: Array<ClinicalCodedElement>;
-}
-
-/** A piece of clinical information, expressed as a code in a clinical coding system. */
-export interface ClinicalCodedElement {
-  /** The clinical coding system, e.g. ICD-10, SNOMED-CT, UMLS. */
-  system: string;
-  /** The code within the given clinical coding system. */
-  code: string;
-  /** The name of this coded concept in the coding system. */
-  name?: string;
-  /** A value associated with the code within the given clinical coding system. */
-  value?: string;
 }
 
 /** A clinical document related to a patient. Document here is in the wide sense - not just a text document (note). */
@@ -155,57 +206,6 @@ export interface AcceptedAge {
   unit: string;
   /** The number of years/months/days that represents the person's age. */
   value: number;
-}
-
-/** Trial data which is of interest to the potential participant. */
-export interface ClinicalTrialMetadata {
-  /**
-   * Phases which are relevant for the clinical trial.
-   * Each clinical trial can be in a certain phase or in multiple phases.
-   */
-  phases?: string[];
-  /**
-   * Possible study types of a clinical trial.
-   *
-   * Possible values: interventional, observational, expandedAccess, patientRegistries
-   */
-  studyType?: string;
-  /**
-   * Possible recruitment status of a clinical trial.
-   *
-   * Possible values: unknownStatus, notYetRecruiting, recruiting, enrollingByInvitation
-   */
-  recruitmentStatus?: string;
-  /** Medical conditions and their synonyms which are relevant for the clinical trial, given as strings. */
-  conditions: string[];
-  /** Sponsors/collaborators involved with the trial. */
-  sponsors?: string[];
-  /** Contact details of the trial administrators, for patients that want to participate in the trial. */
-  contacts?: Array<ContactDetails>;
-  /** Research facilities where the clinical trial is conducted. */
-  facilities?: Array<ClinicalTrialResearchFacility>;
-}
-
-/** A person's contact details. */
-export interface ContactDetails {
-  /** The person's name. */
-  name?: string;
-  /** The person's email. */
-  email?: string;
-  /** A person's phone number. */
-  phone?: string;
-}
-
-/** Details of a research facility where a clinical trial is conducted. */
-export interface ClinicalTrialResearchFacility {
-  /** The facility's name. */
-  name: string;
-  /** City name. */
-  city?: string;
-  /** State name. */
-  state?: string;
-  /** Country/region name. */
-  countryOrRegion: string;
 }
 
 /** A filter defining a subset of clinical trials from a given clinical trial registry (e.g. clinicaltrials.gov). */

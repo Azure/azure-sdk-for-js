@@ -12,14 +12,15 @@ import { AzureKeyCredential } from "@azure/core-auth";
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 import * as fs from 'fs';
-import createClient, {
+import ClinicalMatchingRestClient, {
     ClinicalCodedElement,
     ClinicalTrialRegistryFilter,
     ClinicalTrials,
     DocumentContent,
     GeographicLocation,
     getLongRunningPoller,
-    MatchTrialsBodyParam,
+    isUnexpected,
+    CreateJobBodyParam,
     PatientDocument,
     PatientInfo,
     PatientRecord,
@@ -65,7 +66,7 @@ function printResults(trialMatcherResult: TrialMatcherResultOutput): void {
 
 export async function main() {
   const credential = new AzureKeyCredential(apiKey);
-  const client = createClient(endpoint, credential);
+  const client = ClinicalMatchingRestClient(endpoint, credential);
 
   const clinicalInfoList: ClinicalCodedElement[] = [
     {
@@ -141,21 +142,21 @@ export async function main() {
     configuration: configuration,
   };
 
-  const trialMatcherParameter: MatchTrialsBodyParam = {
+  const trialMatcherParameter: CreateJobBodyParam = {
     body: trialMatcherData
   };
 
   const initialResponse = await client.path("/trialmatcher/jobs").post(trialMatcherParameter);
+  if (isUnexpected(initialResponse)) {
+    throw initialResponse;
+  }
   const poller = await getLongRunningPoller(client, initialResponse);
   const res = await poller.pollUntilDone();
-
-/*  if (isUnexpected(res)) {
+  if (isUnexpected(res)) {
       throw initialResponse;
-  }*/
-    if (res.status == '200') {
-        const resultBody = res.body as TrialMatcherResultOutput;
-        printResults(resultBody);
   }
+  const resultBody = res.body as TrialMatcherResultOutput;
+  printResults(resultBody);
 }
 
 main().catch((err) => {

@@ -8,7 +8,7 @@ import { Context } from "mocha";
 import {
   CancerProfilingRestClient,
   DocumentContent,
-  InferCancerProfileBodyParam,
+  CreateJobBodyParam,
   OncoPhenotypeData,
   getLongRunningPoller,
   OncoPhenotypeModelConfiguration,
@@ -113,7 +113,7 @@ const cancerProfilingData: OncoPhenotypeData = {
   configuration: configuration,
 };
 
-const parameters: InferCancerProfileBodyParam = {
+const parameters: CreateJobBodyParam = {
   body: cancerProfilingData,
 };
 

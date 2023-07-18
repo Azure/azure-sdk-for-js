@@ -1,6 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/** A piece of clinical information, expressed as a code in a clinical coding system. */
+export interface ClinicalCodedElement {
+  /** The clinical coding system, e.g. ICD-10, SNOMED-CT, UMLS. */
+  system: string;
+  /** The code within the given clinical coding system. */
+  code: string;
+  /** The name of this coded concept in the coding system. */
+  name?: string;
+  /** A value associated with the code within the given clinical coding system. */
+  value?: string;
+}
+
 /** The body of the Onco Phenotype request. */
 export interface OncoPhenotypeData {
   /** The list of patients, including their clinical information and data. */
@@ -31,18 +43,6 @@ export interface PatientInfo {
   birthDate?: Date | string;
   /** Known clinical information for the patient, structured. */
   clinicalInfo?: Array<ClinicalCodedElement>;
-}
-
-/** A piece of clinical information, expressed as a code in a clinical coding system. */
-export interface ClinicalCodedElement {
-  /** The clinical coding system, e.g. ICD-10, SNOMED-CT, UMLS. */
-  system: string;
-  /** The code within the given clinical coding system. */
-  code: string;
-  /** The name of this coded concept in the coding system. */
-  name?: string;
-  /** A value associated with the code within the given clinical coding system. */
-  value?: string;
 }
 
 /** A clinical document related to a patient. Document here is in the wide sense - not just a text document (note). */

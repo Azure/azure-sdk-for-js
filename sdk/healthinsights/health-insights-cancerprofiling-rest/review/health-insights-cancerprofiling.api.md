@@ -50,6 +50,76 @@ export interface ClinicalNoteEvidenceOutput {
 function createClient(endpoint: string, credentials: KeyCredential, options?: ClientOptions): CancerProfilingRestClient;
 export default createClient;
 
+// @public (undocumented)
+export interface CreateJob {
+    post(options?: CreateJobParameters): StreamableMethod<CreateJob200Response | CreateJob202Response | CreateJobDefaultResponse>;
+}
+
+// @public
+export interface CreateJob200Response extends HttpResponse {
+    // (undocumented)
+    body: OncoPhenotypeResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface CreateJob202Headers {
+    "operation-location": string;
+    "repeatability-result"?: "accepted" | "rejected";
+    "retry-after"?: number;
+}
+
+// @public
+export interface CreateJob202Response extends HttpResponse {
+    // (undocumented)
+    headers: RawHttpHeaders & CreateJob202Headers;
+    // (undocumented)
+    status: "202";
+}
+
+// @public (undocumented)
+export interface CreateJobBodyParam {
+    // (undocumented)
+    body?: OncoPhenotypeData;
+}
+
+// @public (undocumented)
+export interface CreateJobDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface CreateJobDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & CreateJobDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface CreateJobHeaderParam {
+    // (undocumented)
+    headers?: RawHttpHeadersInput & CreateJobHeaders;
+}
+
+// @public (undocumented)
+export interface CreateJobHeaders {
+    "Repeatability-First-Sent"?: string;
+    "Repeatability-Request-ID"?: string;
+}
+
+// @public
+export interface CreateJobLogicalResponse extends HttpResponse {
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export type CreateJobParameters = CreateJobHeaderParam & CreateJobBodyParam & RequestParameters;
+
 // @public
 export interface DocumentContent {
     sourceType: string;
@@ -65,16 +135,13 @@ export interface ErrorModelOutput {
     target?: string;
 }
 
-// @public
-export function getLongRunningPoller<TResult extends InferCancerProfileLogicalResponse | InferCancerProfileDefaultResponse>(client: Client, initialResponse: InferCancerProfile200Response | InferCancerProfile202Response | InferCancerProfileDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
-
 // @public (undocumented)
-export interface InferCancerProfile {
-    post(options?: InferCancerProfileParameters): StreamableMethod<InferCancerProfile200Response | InferCancerProfile202Response | InferCancerProfileDefaultResponse>;
+export interface GetJob {
+    get(options?: GetJobParameters): StreamableMethod<GetJob200Response | GetJobDefaultResponse>;
 }
 
 // @public
-export interface InferCancerProfile200Response extends HttpResponse {
+export interface GetJob200Response extends HttpResponse {
     // (undocumented)
     body: OncoPhenotypeResultOutput;
     // (undocumented)
@@ -82,61 +149,25 @@ export interface InferCancerProfile200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface InferCancerProfile202Headers {
-    "operation-location": string;
-    "repeatability-result"?: "accepted" | "rejected";
-    "retry-after"?: number;
-}
-
-// @public
-export interface InferCancerProfile202Response extends HttpResponse {
-    // (undocumented)
-    headers: RawHttpHeaders & InferCancerProfile202Headers;
-    // (undocumented)
-    status: "202";
-}
-
-// @public (undocumented)
-export interface InferCancerProfileBodyParam {
-    // (undocumented)
-    body?: OncoPhenotypeData;
-}
-
-// @public (undocumented)
-export interface InferCancerProfileDefaultHeaders {
+export interface GetJobDefaultHeaders {
     "x-ms-error-code"?: string;
 }
 
 // @public (undocumented)
-export interface InferCancerProfileDefaultResponse extends HttpResponse {
+export interface GetJobDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponse;
     // (undocumented)
-    headers: RawHttpHeaders & InferCancerProfileDefaultHeaders;
+    headers: RawHttpHeaders & GetJobDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export interface InferCancerProfileHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & InferCancerProfileHeaders;
-}
-
-// @public (undocumented)
-export interface InferCancerProfileHeaders {
-    "Repeatability-First-Sent"?: string;
-    "Repeatability-Request-ID"?: string;
-}
+export type GetJobParameters = RequestParameters;
 
 // @public
-export interface InferCancerProfileLogicalResponse extends HttpResponse {
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export type InferCancerProfileParameters = InferCancerProfileHeaderParam & InferCancerProfileBodyParam & RequestParameters;
+export function getLongRunningPoller<TResult extends CreateJobLogicalResponse | CreateJobDefaultResponse>(client: Client, initialResponse: CreateJob200Response | CreateJob202Response | CreateJobDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public
 export interface InferenceEvidenceOutput {
@@ -152,7 +183,10 @@ export interface InnerErrorOutput {
 }
 
 // @public (undocumented)
-export function isUnexpected(response: InferCancerProfile200Response | InferCancerProfile202Response | InferCancerProfileLogicalResponse | InferCancerProfileDefaultResponse): response is InferCancerProfileDefaultResponse;
+export function isUnexpected(response: GetJob200Response | GetJobDefaultResponse): response is GetJobDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: CreateJob200Response | CreateJob202Response | CreateJobLogicalResponse | CreateJobDefaultResponse): response is CreateJobDefaultResponse;
 
 // @public
 export interface OncoPhenotypeData {
@@ -227,7 +261,8 @@ export interface PatientRecord {
 
 // @public (undocumented)
 export interface Routes {
-    (path: "/oncophenotype/jobs"): InferCancerProfile;
+    (path: "/oncophenotype/jobs/{jobId}", jobId: string): GetJob;
+    (path: "/oncophenotype/jobs"): CreateJob;
 }
 
 // (No @packageDocumentation comment for this package)

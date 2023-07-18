@@ -1,18 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/** A piece of clinical information, expressed as a code in a clinical coding system. */
-export interface ClinicalCodedElementOutput {
-  /** The clinical coding system, e.g. ICD-10, SNOMED-CT, UMLS. */
-  system: string;
-  /** The code within the given clinical coding system. */
-  code: string;
-  /** The name of this coded concept in the coding system. */
-  name?: string;
-  /** A value associated with the code within the given clinical coding system. */
-  value?: string;
-}
-
 /** The response for the Onco Phenotype request. */
 export interface OncoPhenotypeResultOutput {
   /** A processing job identifier. */
@@ -116,4 +104,16 @@ export interface ClinicalNoteEvidenceOutput {
   offset: number;
   /** The length of the evidence text span. */
   length: number;
+}
+
+/** A piece of clinical information, expressed as a code in a clinical coding system. */
+export interface ClinicalCodedElementOutput {
+  /** The clinical coding system, e.g. ICD-10, SNOMED-CT, UMLS. */
+  system: string;
+  /** The code within the given clinical coding system. */
+  code: string;
+  /** The name of this coded concept in the coding system. */
+  name?: string;
+  /** A value associated with the code within the given clinical coding system. */
+  value?: string;
 }

@@ -161,6 +161,76 @@ export interface ContactDetailsOutput {
 function createClient(endpoint: string, credentials: KeyCredential, options?: ClientOptions): ClinicalMatchingRestClient;
 export default createClient;
 
+// @public (undocumented)
+export interface CreateJob {
+    post(options?: CreateJobParameters): StreamableMethod<CreateJob200Response | CreateJob202Response | CreateJobDefaultResponse>;
+}
+
+// @public
+export interface CreateJob200Response extends HttpResponse {
+    // (undocumented)
+    body: TrialMatcherResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface CreateJob202Headers {
+    "operation-location": string;
+    "repeatability-result"?: "accepted" | "rejected";
+    "retry-after"?: number;
+}
+
+// @public
+export interface CreateJob202Response extends HttpResponse {
+    // (undocumented)
+    headers: RawHttpHeaders & CreateJob202Headers;
+    // (undocumented)
+    status: "202";
+}
+
+// @public (undocumented)
+export interface CreateJobBodyParam {
+    // (undocumented)
+    body?: TrialMatcherData;
+}
+
+// @public (undocumented)
+export interface CreateJobDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface CreateJobDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & CreateJobDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface CreateJobHeaderParam {
+    // (undocumented)
+    headers?: RawHttpHeadersInput & CreateJobHeaders;
+}
+
+// @public (undocumented)
+export interface CreateJobHeaders {
+    "Repeatability-First-Sent"?: string;
+    "Repeatability-Request-ID"?: string;
+}
+
+// @public
+export interface CreateJobLogicalResponse extends HttpResponse {
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export type CreateJobParameters = CreateJobHeaderParam & CreateJobBodyParam & RequestParameters;
+
 // @public
 export interface DocumentContent {
     sourceType: string;
@@ -200,8 +270,39 @@ export interface GeographicLocation {
     state?: string;
 }
 
+// @public (undocumented)
+export interface GetJob {
+    get(options?: GetJobParameters): StreamableMethod<GetJob200Response | GetJobDefaultResponse>;
+}
+
 // @public
-export function getLongRunningPoller<TResult extends MatchTrialsLogicalResponse | MatchTrialsDefaultResponse>(client: Client, initialResponse: MatchTrials200Response | MatchTrials202Response | MatchTrialsDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
+export interface GetJob200Response extends HttpResponse {
+    // (undocumented)
+    body: TrialMatcherResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface GetJobDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface GetJobDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & GetJobDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type GetJobParameters = RequestParameters;
+
+// @public
+export function getLongRunningPoller<TResult extends CreateJobLogicalResponse | CreateJobDefaultResponse>(client: Client, initialResponse: CreateJob200Response | CreateJob202Response | CreateJobDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public
 export interface InnerErrorOutput {
@@ -210,77 +311,10 @@ export interface InnerErrorOutput {
 }
 
 // @public (undocumented)
-export function isUnexpected(response: MatchTrials200Response | MatchTrials202Response | MatchTrialsLogicalResponse | MatchTrialsDefaultResponse): response is MatchTrialsDefaultResponse;
+export function isUnexpected(response: GetJob200Response | GetJobDefaultResponse): response is GetJobDefaultResponse;
 
 // @public (undocumented)
-export interface MatchTrials {
-    post(options?: MatchTrialsParameters): StreamableMethod<MatchTrials200Response | MatchTrials202Response | MatchTrialsDefaultResponse>;
-}
-
-// @public
-export interface MatchTrials200Response extends HttpResponse {
-    // (undocumented)
-    body: TrialMatcherResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface MatchTrials202Headers {
-    "operation-location": string;
-    "repeatability-result"?: "accepted" | "rejected";
-    "retry-after"?: number;
-}
-
-// @public
-export interface MatchTrials202Response extends HttpResponse {
-    // (undocumented)
-    headers: RawHttpHeaders & MatchTrials202Headers;
-    // (undocumented)
-    status: "202";
-}
-
-// @public (undocumented)
-export interface MatchTrialsBodyParam {
-    // (undocumented)
-    body?: TrialMatcherData;
-}
-
-// @public (undocumented)
-export interface MatchTrialsDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public (undocumented)
-export interface MatchTrialsDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & MatchTrialsDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface MatchTrialsHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & MatchTrialsHeaders;
-}
-
-// @public (undocumented)
-export interface MatchTrialsHeaders {
-    "Repeatability-First-Sent"?: string;
-    "Repeatability-Request-ID"?: string;
-}
-
-// @public
-export interface MatchTrialsLogicalResponse extends HttpResponse {
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export type MatchTrialsParameters = MatchTrialsHeaderParam & MatchTrialsBodyParam & RequestParameters;
+export function isUnexpected(response: CreateJob200Response | CreateJob202Response | CreateJobLogicalResponse | CreateJobDefaultResponse): response is CreateJobDefaultResponse;
 
 // @public
 export interface PatientDocument {
@@ -308,7 +342,8 @@ export interface PatientRecord {
 
 // @public (undocumented)
 export interface Routes {
-    (path: "/trialmatcher/jobs"): MatchTrials;
+    (path: "/trialmatcher/jobs/{jobId}", jobId: string): GetJob;
+    (path: "/trialmatcher/jobs"): CreateJob;
 }
 
 // @public

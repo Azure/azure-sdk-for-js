@@ -11,7 +11,7 @@
         "Content-Type": "application/json; charset=UTF-8",
         "Ocp-Apim-Subscription-Key": "fake_key",
         "User-Agent": "azsdk-js-health-insights-clinicalmatching-rest/1.0.0-beta.1 core-rest-pipeline/1.11.1 Node/v18.12.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "6d90c8d6-4f98-4f76-a638-a69f9c74fa9d"
+        "x-ms-client-request-id": "058a4f9b-918b-4b96-8e36-dee312ad70f6"
       },
       "RequestBody": {
         "patients": [
@@ -103,20 +103,20 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "a8db21af-82aa-4186-94e1-6fb7b8073bc6",
+        "apim-request-id": "8f060fc7-5e61-403b-98da-f0cb3cbc1c74",
         "Content-Length": "0",
-        "Date": "Tue, 20 Jun 2023 07:26:07 GMT",
-        "operation-location": "https://endpoint/healthinsights/trialmatcher/jobs/7246a2d0-47c1-4a1d-9f39-5a985b69e26a?api-version=2023-03-01-preview",
+        "Date": "Tue, 18 Jul 2023 11:28:34 GMT",
+        "operation-location": "https://endpoint/healthinsights/trialmatcher/jobs/1f7c77d0-1ac6-42cc-b180-6639cb60fead?api-version=2023-03-01-preview",
         "Retry-After": "1",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "65",
+        "x-envoy-upstream-service-time": "160",
         "x-ms-region": "East US"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/healthinsights/trialmatcher/jobs/7246a2d0-47c1-4a1d-9f39-5a985b69e26a?api-version=2023-03-01-preview",
+      "RequestUri": "https://endpoint/healthinsights/trialmatcher/jobs/1f7c77d0-1ac6-42cc-b180-6639cb60fead?api-version=2023-03-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -124,18 +124,50 @@
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "fake_key",
         "User-Agent": "azsdk-js-health-insights-clinicalmatching-rest/1.0.0-beta.1 core-rest-pipeline/1.11.1 Node/v18.12.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "a097c94a-b398-4495-b259-3e93964d6a7c"
+        "x-ms-client-request-id": "23efc11c-8c29-4a22-907a-93012c860e05"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "8eda727f-bb16-49a8-a00a-09f91b6a442d",
-        "Content-Length": "1748",
+        "apim-request-id": "e6d3ec59-b4d1-47ce-9527-718aaf2b2846",
+        "Content-Length": "199",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 20 Jun 2023 07:26:07 GMT",
+        "Date": "Tue, 18 Jul 2023 11:28:34 GMT",
+        "Retry-After": "1",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "26",
+        "x-envoy-upstream-service-time": "92",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": {
+        "jobId": "1f7c77d0-1ac6-42cc-b180-6639cb60fead",
+        "createdDateTime": "2023-07-18T11:28:35Z",
+        "expirationDateTime": "2023-07-19T11:28:35Z",
+        "lastUpdateDateTime": "2023-07-18T11:28:35Z",
+        "status": "notStarted"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/healthinsights/trialmatcher/jobs/1f7c77d0-1ac6-42cc-b180-6639cb60fead?api-version=2023-03-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "fake_key",
+        "User-Agent": "azsdk-js-health-insights-clinicalmatching-rest/1.0.0-beta.1 core-rest-pipeline/1.11.1 Node/v18.12.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "142924ee-59fd-4f17-8da0-7ab358afc7d6"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "643bcc41-b09c-4994-87ee-2269f5b01fc3",
+        "Content-Length": "1748",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 18 Jul 2023 11:28:36 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "90",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
@@ -153,14 +185,14 @@
                 },
                 {
                   "type": "trialEligibility",
-                  "id": "NCT04200963",
+                  "id": "NCT04370587",
                   "source": "clinicaltrials.gov",
                   "value": "Ineligible",
                   "confidenceScore": 0.0
                 },
                 {
                   "type": "trialEligibility",
-                  "id": "NCT04370587",
+                  "id": "NCT04200963",
                   "source": "clinicaltrials.gov",
                   "value": "Ineligible",
                   "confidenceScore": 0.0
@@ -174,14 +206,14 @@
                 },
                 {
                   "type": "trialEligibility",
-                  "id": "NCT04476797",
+                  "id": "NCT03175224",
                   "source": "clinicaltrials.gov",
                   "value": "Eligible",
                   "confidenceScore": 0.0
                 },
                 {
                   "type": "trialEligibility",
-                  "id": "NCT03175224",
+                  "id": "NCT04476797",
                   "source": "clinicaltrials.gov",
                   "value": "Eligible",
                   "confidenceScore": 0.0
@@ -225,10 +257,10 @@
           "modelVersion": "2023-03-01-preview",
           "knowledgeGraphLastUpdateDate": "2023-05-22"
         },
-        "jobId": "7246a2d0-47c1-4a1d-9f39-5a985b69e26a",
-        "createdDateTime": "2023-06-20T07:26:07Z",
-        "expirationDateTime": "2023-06-21T07:26:07Z",
-        "lastUpdateDateTime": "2023-06-20T07:26:07Z",
+        "jobId": "1f7c77d0-1ac6-42cc-b180-6639cb60fead",
+        "createdDateTime": "2023-07-18T11:28:35Z",
+        "expirationDateTime": "2023-07-19T11:28:35Z",
+        "lastUpdateDateTime": "2023-07-18T11:28:35Z",
         "status": "succeeded"
       }
     }

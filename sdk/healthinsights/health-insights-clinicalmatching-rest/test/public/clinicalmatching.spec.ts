@@ -12,7 +12,7 @@ import {
   ClinicalTrials,
   GeographicLocation,
   getLongRunningPoller,
-  MatchTrialsBodyParam,
+  CreateJobBodyParam,
   PatientInfo,
   PatientRecord,
   TrialMatcherData,
@@ -109,7 +109,7 @@ const trialMatcherData: TrialMatcherData = {
   configuration: configuration,
 };
 
-const trialMatcherParameter: MatchTrialsBodyParam = {
+const trialMatcherParameter: CreateJobBodyParam = {
   body: trialMatcherData,
 };
 

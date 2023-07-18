@@ -10,13 +10,13 @@
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-import createClient, {
+import ClinicalMatchingRestClient, {
     ClinicalTrialRegistryFilter,
     ClinicalTrials,
     DocumentContent,
     GeographicLocation,
     getLongRunningPoller,
-    MatchTrialsParameters,
+    CreateJobParameters,
     PatientDocument,
     PatientInfo,
     PatientRecord,
@@ -193,7 +193,7 @@ function getPatientDocContent(): string {
 
 export async function main() {
   const credential = new AzureKeyCredential(apiKey);
-  const client = createClient(endpoint, credential);
+  const client = ClinicalMatchingRestClient(endpoint, credential);
 
   const docContent: DocumentContent = {sourceType: "INLINE", value: getPatientDocContent()};
   const patientDataList: PatientDocument = {
@@ -235,7 +235,7 @@ export async function main() {
     configuration: configuration,
   };
 
-  const trialMatcherParameters:MatchTrialsParameters = {
+  const trialMatcherParameters:CreateJobParameters = {
     body: trialMatcherData
   };
 

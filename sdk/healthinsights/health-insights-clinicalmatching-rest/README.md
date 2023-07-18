@@ -1,7 +1,7 @@
 # ClinicalMatching REST client library for JavaScript
 
 [Health Insights](https://learn.microsoft.com/azure/azure-health-insights/overview?branch=main) is an Azure Applied AI Service built with the Azure Cognitive Services Framework, that leverages multiple Cognitive Services, Healthcare API services and other Azure resources.
-The [Clinical Matching model](https://review.learn.microsoft.com/azure/azure-health-insights/trial-matcher/overview?branch=main) receives patients data and clinical trials protocols, and provides relevant clinical trials based on eligibility criteria.
+The [Clinical Matching model](https://learn.microsoft.com/azure/azure-health-insights/trial-matcher/overview) receives patients data and clinical trials protocols, and provides relevant clinical trials based on eligibility criteria.
 
 **Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library**
 
@@ -58,7 +58,87 @@ Trial Matcher provides the user of the services two main modes of operation: pat
 const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
 const endpoint =
   process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
+const credential = new AzureKeyCredential(apiKey);
+const client = ClinicalMatchingRestClient(endpoint, credential);
 
+const clinicalInfoList: ClinicalCodedElement[] = [
+    {
+      system: "http://www.nlm.nih.gov/research/umls",
+      code: "C0006826",
+      name: "Malignant Neoplasms",
+      value: "true",
+    },
+    {
+      system: "http://www.nlm.nih.gov/research/umls",
+      code: "C1522449",
+      name: "Therapeutic radiology procedure",
+      value: "true",
+    },
+    {
+      system: "http://www.nlm.nih.gov/research/umls",
+      code: "C1512162",
+      name: "Eastern Cooperative Oncology Group",
+      value: "1",
+    },
+    {
+      system: "http://www.nlm.nih.gov/research/umls",
+      code: "C0019693",
+      name: "HIV Infections",
+      value: "false",
+    },
+    {
+      system: "http://www.nlm.nih.gov/research/umls",
+      code: "C1300072",
+      name: "Tumor stage",
+      value: "2",
+    }
+  ];
+
+  const patientInfo: PatientInfo = {
+    sex: "MALE",
+    birthDate: new Date(1965, 11, 26), // Note: Months are zero-based (11 represents December)
+    clinicalInfo: clinicalInfoList,
+  };
+  const docContent: DocumentContent = {sourceType: "INLINE", value: getPatientDocContent()};
+  const patientDataList: PatientDocument = {
+      type: "fhirBundle",
+      id: "Consultation-14-Demo",
+      content: docContent,
+      clinicalType: "CONSULTATION"
+  };
+
+  const patient1: PatientRecord = {
+    id: "patient_id",
+    info: patientInfo,
+    data: [patientDataList]
+  };
+
+  const geographicLocation: GeographicLocation = { countryOrRegion: "United States", city: "Gilbert", state: "Arizona" };
+  const registryFilters: ClinicalTrialRegistryFilter = {
+    conditions: ["Non-small cell lung cancer"],
+    phases: ["PHASE1"],
+    sources: ["CLINICALTRIALS_GOV"],
+    facilityLocations: [ geographicLocation ],
+    studyTypes: ["INTERVENTIONAL"]
+  };
+
+  const clinicalTrials: ClinicalTrials = ({
+    registryFilters: [registryFilters]
+  });
+
+  const configuration: TrialMatcherModelConfiguration = {
+    clinicalTrials: clinicalTrials,
+  };
+
+  const trialMatcherData: TrialMatcherData = {
+    patients: [patient1],
+    configuration: configuration,
+  };
+
+  const trialMatcherParameter: CreateJobBodyParam = {
+    body: trialMatcherData
+  };
+  
 const initialResponse = await client.path("/trialmatcher/jobs").post(trialMatcherParameter);
 if (isUnexpected(initialResponse)) {
 throw initialResponse;
@@ -119,7 +199,7 @@ This code sample show common scenario operation with the Azure Health Insights C
 
 ### Additional documentation
 <!--
-For more extensive documentation on Azure Health Insights Clinical Matching, see the [Clinical Matching documentation](https://review.learn.microsoft.com/en-us/azure/cognitive-services/health-decision-support/trial-matcher/?branch=main) on docs.microsoft.com.
+For more extensive documentation on Azure Health Insights Clinical Matching, see the [Clinical Matching documentation](https://learn.microsoft.com/azure/azure-health-insights/trial-matcher/overview) on docs.microsoft.com.
 -->
 
 ## Contributing

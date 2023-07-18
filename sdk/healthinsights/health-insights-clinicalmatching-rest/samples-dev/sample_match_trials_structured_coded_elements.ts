@@ -11,10 +11,10 @@ import { AzureKeyCredential } from "@azure/core-auth";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-import createClient, {
+import ClinicalMatchingRestClient, {
   ClinicalCodedElement,
   ClinicalTrialRegistryFilter, ClinicalTrials,
-  GeographicLocation, getLongRunningPoller, isUnexpected, MatchTrialsBodyParam,
+  GeographicLocation, getLongRunningPoller, isUnexpected, CreateJobBodyParam,
   PatientInfo,
   PatientRecord, TrialMatcherData, TrialMatcherModelConfiguration, TrialMatcherResultOutput, TrialMatcherResultsOutput
 } from "../src";
@@ -50,7 +50,7 @@ function printResults(trialMatcherResult: TrialMatcherResultOutput): void {
 
 export async function main() {
   const credential = new AzureKeyCredential(apiKey);
-  const client = createClient(endpoint, credential);
+  const client = ClinicalMatchingRestClient(endpoint, credential);
 
   const clinicalInfoList: ClinicalCodedElement[] = [
     {
@@ -150,7 +150,7 @@ export async function main() {
     configuration: configuration,
   };
 
-  const trialMatcherParameter: MatchTrialsBodyParam = {
+  const trialMatcherParameter: CreateJobBodyParam = {
     body: trialMatcherData
   };
 
