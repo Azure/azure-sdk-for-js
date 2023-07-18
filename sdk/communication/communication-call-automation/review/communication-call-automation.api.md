@@ -27,7 +27,7 @@ export interface AddParticipantFailed extends Omit<RestAddParticipantFailed, "ca
 
 // @public
 export interface AddParticipantOptions extends OperationOptions {
-    callbackUriOverride?: string;
+    callbackUrlOverride?: string;
     invitationTimeoutInSeconds?: number;
     operationContext?: string;
 }
@@ -591,7 +591,7 @@ export interface RemoveParticipantResult {
 
 // @public
 export interface RemoveParticipantsOption extends OperationOptions {
-    callbackUriOverride?: string;
+    callbackUrlOverride?: string;
     operationContext?: string;
 }
 
@@ -911,7 +911,7 @@ export interface TransferCallResult {
 
 // @public
 export interface TransferCallToParticipantOptions extends OperationOptions {
-    callbackUriOverride?: string;
+    callbackUrlOverride?: string;
     operationContext?: string;
     sipHeaders?: {
         [propertyName: string]: string;
