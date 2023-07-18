@@ -9,6 +9,9 @@
 - Send DTMF tones to a participant in the call.
 - Mute participants in the call.
 
+### Breaking Changes
+- Maximum number of DTMF tones to be collected for startRecognizing is now need to set in DTMF sepecific recognizeOptions.
+
 
 ## 1.0.0 (2023-06-14)
 Call Automation enables developers to build call workflows. Personalise customer interactions by listening to call events and take actions based on your business logic.
