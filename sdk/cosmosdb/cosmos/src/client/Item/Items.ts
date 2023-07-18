@@ -59,7 +59,7 @@ export class Items {
     public readonly container: Container,
     private readonly clientContext: ClientContext,
     private wrappeDekCache?: WrappedDekCache,
-    private unwrappedDekCache?: UnwrappedDekCache,
+    private dekCache?: UnwrappedDekCache,
     private readonly clientencryptionpolicycache?: ClientEncryptionPolicyCache
   ) {}
   /**
@@ -97,11 +97,12 @@ export class Items {
   public query<T>(query: string | SqlQuerySpec, options: FeedOptions = {}): QueryIterator<T> {
     const path = getPathFromLink(this.container.url, ResourceType.item);
     const id = getIdFromLink(this.container.url);
-    console.log(this?.wrappeDekCache);
+    
     const fetchFunction: FetchFunctionCallback = async (
       innerOptions: FeedOptions,
       diagnosticContext: CosmosDiagnosticContext
     ) => {
+      console.log(this.wrappeDekCache)
       const response = await this.clientContext.queryFeed({
         path,
         resourceType: ResourceType.item,
@@ -290,10 +291,10 @@ export class Items {
     }
     const encryptionProcessor = new EncryptionProcessor(
       this.clientencryptionpolicycache,
-      this.unwrappedDekCache
+      this.dekCache
     );
-    console.log("inside create of items",body);
-    await encryptionProcessor.identifypath(body);
+    
+    await encryptionProcessor.identifyPath(body);
 
     const path = getPathFromLink(this.container.url, ResourceType.item);
     const id = getIdFromLink(this.container.url);

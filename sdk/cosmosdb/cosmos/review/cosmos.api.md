@@ -765,6 +765,14 @@ export interface DeleteOperationInput {
 }
 
 // @public (undocumented)
+export enum EncryptionAlgorithm {
+    // (undocumented)
+    Aes256Cbc = "AES-256-CBC",
+    // (undocumented)
+    RsaOaep = "RSA-OAEP"
+}
+
+// @public (undocumented)
 export class EncryptionKeyWrapMetadata {
     constructor(type: string, name: string, value: string, algorithm: string);
     // (undocumented)
@@ -1003,7 +1011,7 @@ export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T &
 // @public
 export class Items {
     // Warning: (ae-forgotten-export) The symbol "ClientEncryptionPolicyCache" needs to be exported by the entry point index.d.ts
-    constructor(container: Container, clientContext: ClientContext, wrappeDekCache?: WrappedDekCache, unwrappedDekCache?: UnwrappedDekCache, clientencryptionpolicycache?: ClientEncryptionPolicyCache);
+    constructor(container: Container, clientContext: ClientContext, wrappeDekCache?: WrappedDekCache, dekCache?: UnwrappedDekCache, clientencryptionpolicycache?: ClientEncryptionPolicyCache);
     batch(operations: OperationInput[], partitionKey?: PartitionKey, options?: RequestOptions): Promise<Response_2<OperationResponse[]>>;
     bulk(operations: OperationInput[], bulkOptions?: BulkOptions, options?: RequestOptions): Promise<BulkOperationResponse>;
     changeFeed(partitionKey: PartitionKey, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;

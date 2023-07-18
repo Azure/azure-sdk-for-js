@@ -58,9 +58,6 @@ export class Database {
     return createDatabaseUri(this.id);
   }
   private dekCache?: UnwrappedDekCache;
-  // private clientEncryptionPolicyArray?: ClientEncryptionPolicy[];
-  // private cmkCache?: CmkCache;
-
   private wrappedDekCache?: WrappedDekCache;
   /** Returns a new {@link Database} instance.
    *
@@ -71,14 +68,14 @@ export class Database {
     public readonly id: string,
     private clientContext: ClientContext,
     private credentials?: ClientSecretCredential // private wrappedDekCache?: WrappedDekCache,
-  ) // private dekCache?: UnwrappedDekCache,
+  ) 
 
   {
-    this.containers = new Containers(this, this.clientContext);
-    this.users = new Users(this, this.clientContext);
     this.dekCache= new UnwrappedDekCache();
+    this.containers = new Containers(this, this.clientContext,this?.dekCache, this?.wrappedDekCache);
+    this.users = new Users(this, this.clientContext);
     this.wrappedDekCache = new WrappedDekCache();
-    // this.clientEncryptionPolicyArray = new ClientEncryptionPolicy[];
+    
   }
 
   /**
@@ -179,20 +176,14 @@ export class Database {
       encryptionKeyWrapMetadata.value,
       this.credentials
     );
-    console.log("cmk");
-
     const wrappedDek = await this.createEncryptionKeyAsync(name, customerManagedKey);
-    console.log("dek created & wrapped");
     this.wrappedDekCache.setDataEncryptionKey(name, wrappedDek, encryptionKeyWrapMetadata);
-    
-    console.log("wrapped dek set");
   }
 
   private async createEncryptionKeyAsync(name: string, cmk: CustomerManagedKey): Promise<string> {
     const randomGenerator = new RandomGenerator();
     const unwrappedDek = await randomGenerator.randomBytes(32);
     const wrappedDek = await cmk.wrapDek(unwrappedDek);
-    console.log("dek wrapped by cmk");
     this.dekCache.setDataEncryptionKey(name, unwrappedDek);
     return wrappedDek;
   }

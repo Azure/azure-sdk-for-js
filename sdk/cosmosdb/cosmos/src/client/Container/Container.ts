@@ -112,22 +112,12 @@ export class Container {
     private clientEncryptionPolicyArray: ClientEncryptionPolicy[]
   ) {
     this.clientencryptionpolicycache = new ClientEncryptionPolicyCache();
-    console.log("policy array", this.clientEncryptionPolicyArray);
-    
+       
     this.clientEncryptionPolicyArray.map((policy)=>{
       this.clientencryptionpolicycache.setClientEncryptionPolicyCache(policy.path, policy);
-    
-    }
-    );
-    console.log("policy set in cache");
-  } 
-  // private populateClientEncryptionPolicyCache() {
-  //   for (const policy of this.clientEncryptionPolicyArray) {
-  //     this.clientencryptionpolicycache.setClientEncryptionPolicyCache(policy.path, policy);
-  //   }
-   
-    // console.log("policy set in cache");
-  // }
+    });
+    } 
+  
   /**
    * Used to read, replace, or delete a specific, existing {@link Item} by id.
    *

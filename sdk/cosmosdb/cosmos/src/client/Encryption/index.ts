@@ -6,3 +6,4 @@ export { EncryptionProcessor } from "./EncryptionProcessor";
 export { UnwrappedDekCache } from "./UnwrappedDekCache";
 export { WrappedDekCache } from "./WrappedDekCache";
 export { RandomGenerator } from "./RandomGenerator";
+export { EncryptionAlgorithm } from "./EncryptionAlgorithm";

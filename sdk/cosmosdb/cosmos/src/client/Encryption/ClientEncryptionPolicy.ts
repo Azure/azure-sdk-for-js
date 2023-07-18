@@ -1,3 +1,4 @@
+
 export class ClientEncryptionPolicy {
   public path: string;
 

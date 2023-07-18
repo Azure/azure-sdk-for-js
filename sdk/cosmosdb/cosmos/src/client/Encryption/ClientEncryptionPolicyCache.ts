@@ -8,12 +8,13 @@ export class ClientEncryptionPolicyCache {
 
   public setClientEncryptionPolicyCache(key: string, value: ClientEncryptionPolicy): void {
     this.clientEncryptionPolicyCache[key] = { value: value };
-
   }
 
+ 
   public getClientEncryptionPolicyCache(key: string): ClientEncryptionPolicy | undefined {
-    console.log("value found is", key, this.clientEncryptionPolicyCache[key])
-    console.log("value returned is", key, this.clientEncryptionPolicyCache[key].value)
+    if(this.clientEncryptionPolicyCache[key] !== undefined){
     return this.clientEncryptionPolicyCache[key].value;
+   }
+   return undefined;
   }
 }
