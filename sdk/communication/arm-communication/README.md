@@ -83,7 +83,7 @@ const resource = {
 };
 
 // Defining an object that specifies identity type as System Assigned for the new resource.
-const result = await client.communicationServicesres.beginCreateOrUpdate(resourceGroup, resourceName, resource);
+const result = await client.communicationServices.beginCreateOrUpdate(resourceGroup, resourceName, resource);
 ```
 
 To create a user-assigned managed identity, your account needs the Managed Identity Contributor role assignment. An app can have multiple user assigned managed identities. 
@@ -96,9 +96,13 @@ const resource = {
     location: "Global",
     dataLocation: "United States",
     identity: {
-        type: "UserAssigned" 
-    }
+        type: "UserAssigned", 
+        userAssignedIdentities: {
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}": {}
+        }
+    }     
 };
+You need to provide the user assigned resource ID that you want to add to the resource at creation time. You can replace the values in curly braces with your own values. 
 ```
 ### JavaScript Bundle
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
