@@ -555,28 +555,32 @@ export function isIpEndpointStyle(parsedUrl: URL): boolean {
   );
 }
 
+const BugTimeBeginningInMS = 13322188800000;
+
 /**
  * This is to convert a Windows File Time ticks to a Date object.
  */
 export function windowsFileTimeTicksToTime(timeNumber: string | undefined): Date | undefined {
   if (!timeNumber) return undefined;
+  const timeNumberInternal = parseInt(timeNumber!);
+
+  if (timeNumberInternal === 0) return undefined;
+
   // A windows file time is a 64-bit value that represents the number of 100-nanosecond intervals that have elapsed
   // since 12:00 A.M. January 1, 1601 Coordinated Universal Time (UTC).
-  // JS Date accepts a value that represents milliseconds from 12:00 A.M. January 1, 1970
-  // So, we'll handle the calculations in milliseconds from here
+  // Date accepts a value that represents miliseconds from 12:00 A.M. January 1, 1970
+  // Here should correct the year number after converting.
+  const timeNumerInMs = timeNumberInternal / 10000;
+  const date = new Date(timeNumerInMs);
 
-  // Time in milliseconds since "12:00 A.M. January 1, 1601"
-  const timeElapsed = parseInt(timeNumber) / 10000;
-
-  if (timeElapsed === 0) return undefined;
-
-  // Reference - https://stackoverflow.com/a/24188106/4137356
-
-  // Milliseconds calculated relative to "12:00 A.M. January 1, 1970" (will be negative)
-  const initialFrameOfReference = Date.UTC(1601, 0, 1);
-
-  // TimeRelativeTo1970 = (TimeAt1601 - TimeAt1970) + (Current - TimeAt1601) = (Current - TimeAt1970)
-  return new Date(initialFrameOfReference + timeElapsed);
+  // When initializing date from a miliseconds number the day after 2023-03-01 is still 2023-03-01.
+  // For example, 13322188799999 is 2023-03-01T23:59:59.999Z, while 13322188800000 is 2023-03-01T00:00:00.000Z
+  // Here is to work around the bug.
+  if (timeNumerInMs >= BugTimeBeginningInMS) {
+    date.setUTCDate(date.getUTCDate() + 1);
+  }
+  date.setUTCFullYear(date.getUTCFullYear() - 369);
+  return date;
 }
 
 export function ensureCpkIfSpecified(cpk: CpkInfo | undefined, isHttps: boolean): void {
