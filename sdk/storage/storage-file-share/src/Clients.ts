@@ -99,7 +99,6 @@ import {
 import { Share, Directory, File } from "./generated/src/operationsInterfaces";
 import {
   newPipeline,
-  StoragePipelineOptions,
   Pipeline,
   PipelineLike,
 } from "../../storage-blob/src/Pipeline";
@@ -592,7 +591,7 @@ export class ShareClient extends StorageClient {
    */
   // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
   /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-  constructor(connectionString: string, name: string, options?: StoragePipelineOptions);
+  constructor(connectionString: string, name: string, options?: ShareClientOptions);
   /**
    * Creates an instance of ShareClient.
    *
@@ -616,7 +615,7 @@ export class ShareClient extends StorageClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions
+    options?: ShareClientOptions
   );
   /**
    * Creates an instance of ShareClient.
@@ -651,14 +650,14 @@ export class ShareClient extends StorageClient {
       credentialOrPipelineOrShareName instanceof Credential ||
       isTokenCredential(credentialOrPipelineOrShareName)
     ) {
-      // (url: string, credential?: Credential, options?: StoragePipelineOptions)
+      // (url: string, credential?: Credential, options?: ShareClientOptions)
       url = urlOrConnectionString;
       pipeline = newPipeline(credentialOrPipelineOrShareName, options);
     } else if (
       !credentialOrPipelineOrShareName &&
       typeof credentialOrPipelineOrShareName !== "string"
     ) {
-      // (url: string, credential?: Credential, options?: StoragePipelineOptions)
+      // (url: string, credential?: Credential, options?: ShareClientOptions)
       // The second parameter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
       pipeline = newPipeline(new AnonymousCredential(), options);
@@ -666,7 +665,7 @@ export class ShareClient extends StorageClient {
       credentialOrPipelineOrShareName &&
       typeof credentialOrPipelineOrShareName === "string"
     ) {
-      // (connectionString: string, name: string, options?: StoragePipelineOptions)
+      // (connectionString: string, name: string, options?: ShareClientOptions)
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       const name = credentialOrPipelineOrShareName;
       if (extractedCreds.kind === "AccountConnString") {

@@ -1404,9 +1404,9 @@ export type ShareAccessTier = "TransactionOptimized" | "Hot" | "Cool";
 //
 // @public
 export class ShareClient extends StorageClient {
-    constructor(connectionString: string, name: string, options?: StoragePipelineOptions);
+    constructor(connectionString: string, name: string, options?: ShareClientOptions);
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: ShareClientOptions);
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential, options?: StoragePipelineOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential, options?: ShareClientOptions);
     constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
     create(options?: ShareCreateOptions): Promise<ShareCreateResponse>;
     createDirectory(directoryName: string, options?: DirectoryCreateOptions): Promise<{
