@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
-import { Meter } from "@opentelemetry/api";
+import { Meter, metrics } from "@opentelemetry/api";
 import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-http";
 import {
   MeterProvider,
@@ -55,14 +55,6 @@ export class MetricHandler {
     this._metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
     this._meterProvider.addMetricReader(this._metricReader);
 
-    const metricExporter = new OTLPMetricExporter({});
-    metricReaderOptions = {
-      exporter: metricExporter,
-      exportIntervalMillis: options?.collectionInterval || this._collectionInterval,
-    };
-    this._metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
-    this._meterProvider.addMetricReader(this._metricReader);
-
     if (config.otlpMetricExporterConfig?.enabled) {
       this._otlpExporter = new OTLPMetricExporter(config.otlpMetricExporterConfig);
       const otlpMetricReader = new PeriodicExportingMetricReader({
@@ -71,7 +63,7 @@ export class MetricHandler {
       });
       this._meterProvider.addMetricReader(otlpMetricReader);
     }
-
+    metrics.setGlobalMeterProvider(this._meterProvider);
     this._meter = this._meterProvider.getMeter("AzureMonitorMeter");
   }
 
