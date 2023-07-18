@@ -11,7 +11,7 @@ import {
   createPipelineFromOptions,
   createPipelineRequest,
   setClientRequestIdPolicy,
-} from "../src";
+} from "../src/index.js";
 
 describe("setClientRequestIdPolicy", function () {
   afterEach(function () {
