@@ -1524,7 +1524,7 @@ describe.only("DirectoryClient - OAuth", () => {
   });
 
   afterEach(async function () {
-    await shareClient?.delete();
+    await shareClientWithKeyCredential.delete();
     await recorder.stop();
   });
 

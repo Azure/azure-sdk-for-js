@@ -1274,7 +1274,12 @@ export class ShareClient extends StorageClient {
         ShareGetPermissionHeaders & SharePermission,
         ShareGetPermissionHeaders,
         SharePermission
-      >(await this.context.getPermission(filePermissionKey, updatedOptions));
+      >(
+        await this.context.getPermission(filePermissionKey, {
+          ...updatedOptions,
+          ...this.shareClientConfig,
+        })
+      );
     });
   }
 
