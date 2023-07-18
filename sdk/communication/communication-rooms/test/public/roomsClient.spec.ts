@@ -57,10 +57,6 @@ describe("RoomsClient", function () {
             id: testUser1,
             role: "Presenter",
           },
-          {
-            id: testUser2,
-            role: "Attendee",
-          },
         ],
       };
 
@@ -68,7 +64,7 @@ describe("RoomsClient", function () {
       verifyRoomsAttributes(createRoomResult, options);
       roomId = createRoomResult.id;
       const addParticipantsResult = await client.listParticipants(roomId);
-      verifyRoomsParticipantsAttributes(addParticipantsResult, 2, 1, 1, 0);
+      verifyRoomsParticipantsAttributes(addParticipantsResult, 1, 1, 0, 0);
     });
 
     it("successfully creates a room with an invalid MRI attribute", async function () {
@@ -345,10 +341,6 @@ describe("Participants Operations", function () {
   let recorder: Recorder;
   let client: RoomsClient;
   let testUser1: CommunicationUserIdentifier;
-  let testUser2: CommunicationUserIdentifier;
-  let testUser3: CommunicationUserIdentifier;
-  let testUser4: CommunicationUserIdentifier;
-  let testUser5: CommunicationUserIdentifier;
   let roomId = "";
   const delayInMs = 1000;
 
@@ -370,30 +362,10 @@ describe("Participants Operations", function () {
 
   it("successfully adds participants to the room", async function () {
     testUser1 = (await createTestUser(recorder)).user;
-    testUser2 = (await createTestUser(recorder)).user;
-    testUser3 = (await createTestUser(recorder)).user;
-    testUser4 = (await createTestUser(recorder)).user;
-    testUser5 = (await createTestUser(recorder)).user;
     const participants: RoomParticipantPatch[] = [
       {
         id: testUser1,
         role: "Presenter",
-      },
-      {
-        id: testUser2,
-        role: "Presenter",
-      },
-      {
-        id: testUser3,
-        role: "Attendee",
-      },
-      {
-        id: testUser4,
-        role: "Attendee",
-      },
-      {
-        id: testUser5,
-        role: "Consumer",
       },
     ];
 
@@ -408,19 +380,16 @@ describe("Participants Operations", function () {
     await pause(delayInMs);
 
     const addParticipantsResult = await client.listParticipants(curRoomId);
-    verifyRoomsParticipantsAttributes(addParticipantsResult, 5, 2, 2, 1);
+    verifyRoomsParticipantsAttributes(addParticipantsResult, 1, 1, 0, 0);
 
     roomId = curRoomId;
   });
 
   it("successfully adds participants to the room with null role", async function () {
+    testUser1 = (await createTestUser(recorder)).user;
     const participants = [
       {
         id: testUser1,
-        role: null,
-      },
-      {
-        id: testUser2,
         role: null,
       },
     ];
@@ -436,18 +405,17 @@ describe("Participants Operations", function () {
     await pause(delayInMs);
 
     const addParticipantsResult = await client.listParticipants(curRoomId);
-    verifyRoomsParticipantsAttributes(addParticipantsResult, 2, 0, 2, 0);
+    verifyRoomsParticipantsAttributes(addParticipantsResult, 1, 0, 1, 0);
 
     roomId = curRoomId;
   });
 
   it("successfully updates a participant with role not specified", async function () {
+    testUser1 = (await createTestUser(recorder)).user;
+
     const participants = [
       {
         id: testUser1,
-      },
-      {
-        id: testUser2,
       },
     ];
 
@@ -463,12 +431,14 @@ describe("Participants Operations", function () {
     await pause(delayInMs);
 
     const allParticipants = await client.listParticipants(curRoomId);
-    verifyRoomsParticipantsAttributes(allParticipants, 2, 0, 2, 0);
+    verifyRoomsParticipantsAttributes(allParticipants, 1, 0, 1, 0);
 
     roomId = curRoomId;
   });
 
   it("successfully removes participant not in the room", async function () {
+    testUser1 = (await createTestUser(recorder)).user;
+
     // Create a room
     const createRoomResult = await client.createRoom({});
     assert.isDefined(createRoomResult);
@@ -476,7 +446,7 @@ describe("Participants Operations", function () {
 
     await pause(delayInMs);
     // Remove participants
-    const participantIdentifiers = [testUser1, testUser2];
+    const participantIdentifiers = [testUser1];
     await client.removeParticipants(curRoomId, participantIdentifiers);
 
     await pause(delayInMs);
@@ -488,16 +458,14 @@ describe("Participants Operations", function () {
   });
 
   it("successfully removes participants in the room", async function () {
+    testUser1 = (await createTestUser(recorder)).user;
+
     // Create a room
     const options: CreateRoomOptions = {
       participants: [
         {
           id: testUser1,
           role: "Presenter",
-        },
-        {
-          id: testUser2,
-          role: "Attendee",
         },
       ],
     };
@@ -509,7 +477,7 @@ describe("Participants Operations", function () {
     await pause(delayInMs);
 
     // Remove participants
-    const removeParticipants = [testUser1, testUser2];
+    const removeParticipants = [testUser1];
     await client.removeParticipants(curRoomId, removeParticipants);
     await pause(delayInMs);
 

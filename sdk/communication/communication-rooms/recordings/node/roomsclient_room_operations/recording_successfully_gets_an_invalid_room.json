@@ -9,9 +9,9 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-communication-rooms/1.0.0 core-rest-pipeline/1.11.1 Node/v18.16.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "1855922b-067a-4e9f-ab9a-05e0893842d4",
+        "x-ms-client-request-id": "d319e354-30bb-409f-9188-ae68f0372626",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 12 Jul 2023 16:49:09 GMT"
+        "x-ms-date": "Tue, 18 Jul 2023 00:39:07 GMT"
       },
       "RequestBody": null,
       "StatusCode": 400,
@@ -20,11 +20,11 @@
         "api-supported-versions": "2023-03-31-preview, 2023-06-14",
         "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 12 Jul 2023 16:49:11 GMT",
-        "MS-CV": "lgp6Lg1mukubtnoLi7Eiag.0",
+        "Date": "Tue, 18 Jul 2023 00:39:07 GMT",
+        "MS-CV": "gJ64HnsYoEefmC0wqg5pgg.0",
         "Request-Context": "appId=",
         "Transfer-Encoding": "chunked",
-        "x-azure-ref": "20230712T164911Z-0yrht9zd1t67d08v03m966g21s000000009g00000001gums",
+        "x-azure-ref": "20230718T003907Z-ey9vh7sq6h5dx26ee236hxzsxc000000049g00000000c375",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-error-code": "BadRequest"
       },
