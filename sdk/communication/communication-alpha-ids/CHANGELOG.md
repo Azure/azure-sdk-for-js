@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- APIs for querying and managing the usage of Pre-registered Alpha IDs
+
 ### Breaking Changes
 
 ### Bugs Fixed
