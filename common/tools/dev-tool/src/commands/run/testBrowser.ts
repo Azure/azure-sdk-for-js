@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { leafCommand, makeCommandInfo } from "../../framework/command";
+import { isModuleProject } from "../../util/resolveProject";
 import { runTestsWithProxyTool } from "../../util/testUtils";
 
 export const commandInfo = makeCommandInfo(
@@ -10,7 +11,9 @@ export const commandInfo = makeCommandInfo(
 );
 
 export default leafCommand(commandInfo, async (options) => {
-  const karmaArgs = options["--"]?.length ? options["--"]?.join(" ") : "--single-run";
+  const karmaArgs = options["--"]?.length
+    ? options["--"]?.join(" ")
+    : `${(await isModuleProject()) ? "karma.conf.cjs" : ""} --single-run`;
   return runTestsWithProxyTool({
     command: `karma start ${karmaArgs}`,
     name: "browser-tests",

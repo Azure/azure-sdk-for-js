@@ -61,6 +61,33 @@ RestError: {"errors":[{"code":"DENIED","message":"client with IP '<your IP addre
 s/acr/firewall to grant access."}]}
 ```
 
+## Service errors
+
+When working with `ContainerRegistryContentClient` and `ContainerRegistryAsyncContentClient` you may get a `RestError` with
+message containing additional information and [Docker error code](https://docs.docker.com/registry/spec/api/#errors-2).
+
+### Getting BLOB_UPLOAD_INVALID
+
+In rare cases, transient error (such as connection reset) can happen during blob upload which may lead a `RestError` being thrown with a message similar to
+`{"errors":[{"code":"BLOB_UPLOAD_INVALID","message":"blob upload invalid"}]}`, resulting in a failed upload. In this case upload should to be restarted from the beginning.
+
+The following code snippet shows how to access detailed error information:   
+```ts
+const config = Buffer.from(`{"hello":"world"}`);
+
+try {
+  const uploadResult = await contentClient.uploadBlob(config);
+  console.log(`Uploaded blob: digest - ${uploadResult.digest}, size - ${uploadResult.sizeInBytes}`);
+} catch (e) {
+  // isRestError is exported by @azure/core-rest-pipeline
+  if(isRestError(e) && e.statusCode === 404 && (e.details as any).errors.some((error: any) => error.code === "BLOB_UPLOAD_INVALID")) {
+    // Retry upload
+  } else {
+    throw e;
+  }
+}
+```
+
 <!-- Links -->
 
 [`resterror`]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-rest-pipeline/src/restError.ts

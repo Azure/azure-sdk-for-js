@@ -8,7 +8,11 @@
  */
 export interface AuthorityValidationOptions {
   /**
-   * Setting this flag to `true` disables both authority validation and instance discovery.
+   * The field determines whether instance discovery is performed when attempting to authenticate.
+   * Setting this to `true` will completely disable both instance discovery and authority validation.
+   * As a result, it's crucial to ensure that the configured authority host is valid and trustworthy.
+   * This functionality is intended for use in scenarios where the metadata endpoint cannot be reached, such as in private clouds or Azure Stack.
+   * The process of instance discovery entails retrieving authority metadata from https://login.microsoft.com/ to validate the authority.
    */
   disableInstanceDiscovery?: boolean;
 }

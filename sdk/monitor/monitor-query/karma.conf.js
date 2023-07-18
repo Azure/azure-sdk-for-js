@@ -49,6 +49,7 @@ module.exports = function (config) {
       "TEST_MODE",
       "MONITOR_WORKSPACE_ID",
       "METRICS_RESOURCE_ID",
+      "LOGS_RESOURCE_ID",
       "MONITOR_SECONDARY_WORKSPACE_ID",
       "MQ_APPLICATIONINSIGHTS_CONNECTION_STRING",
       "AZURE_CLIENT_ID",

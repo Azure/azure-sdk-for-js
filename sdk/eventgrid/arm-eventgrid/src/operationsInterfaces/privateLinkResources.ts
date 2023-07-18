@@ -18,12 +18,12 @@ import {
 /** Interface representing a PrivateLinkResources. */
 export interface PrivateLinkResources {
   /**
-   * List all the private link resources under a topic, domain, or partner namespace.
+   * List all the private link resources under a topic, domain, or partner namespace or namespace.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param parentType The type of the parent resource. This can be either \'topics\', \'domains\', or
-   *                   \'partnerNamespaces\'.
+   *                   \'partnerNamespaces\' or \'namespaces\'.
    * @param parentName The name of the parent resource (namely, either, the topic name, domain name, or
-   *                   partner namespace name).
+   *                   partner namespace or namespace name).
    * @param options The options parameters.
    */
   listByResource(
@@ -36,10 +36,11 @@ export interface PrivateLinkResources {
    * Get properties of a private link resource.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param parentType The type of the parent resource. This can be either \'topics\', \'domains\', or
-   *                   \'partnerNamespaces\'.
+   *                   \'partnerNamespaces\' or \'namespaces\'.
    * @param parentName The name of the parent resource (namely, either, the topic name, domain name, or
-   *                   partner namespace name).
-   * @param privateLinkResourceName The name of private link resource.
+   *                   partner namespace name or namespace name).
+   * @param privateLinkResourceName The name of private link resource will be either topic, domain,
+   *                                partnerNamespace or namespace.
    * @param options The options parameters.
    */
   get(

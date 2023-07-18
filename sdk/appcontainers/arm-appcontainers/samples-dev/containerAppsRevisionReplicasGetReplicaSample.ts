@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get a replica for a Container App Revision.
  *
  * @summary Get a replica for a Container App Revision.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-06-01-preview/examples/Replicas_Get.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/Replicas_Get.json
  */
 async function getContainerAppRevisionReplica() {
-  const subscriptionId = "651f8027-33e8-4ec4-97b4-f6e9f3dc8744";
-  const resourceGroupName = "workerapps-rg-xj";
+  const subscriptionId =
+    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
+    "651f8027-33e8-4ec4-97b4-f6e9f3dc8744";
+  const resourceGroupName =
+    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "workerapps-rg-xj";
   const containerAppName = "myapp";
   const revisionName = "myapp--0wlqy09";
   const replicaName = "myapp--0wlqy09-5d9774cff-5wnd8";
@@ -34,4 +40,8 @@ async function getContainerAppRevisionReplica() {
   console.log(result);
 }
 
-getContainerAppRevisionReplica().catch(console.error);
+async function main() {
+  getContainerAppRevisionReplica();
+}
+
+main().catch(console.error);

@@ -4,7 +4,11 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 import { env } from "process";
-import { RecorderAndLogsClient, createRecorderAndLogsClient } from "./shared/testShared";
+import {
+  RecorderAndLogsClient,
+  createRecorderAndLogsClient,
+  getLogsArmResourceId,
+} from "./shared/testShared";
 import { Recorder } from "@azure-tools/test-recorder";
 import { Durations, LogsQueryClient, LogsQueryResultStatus, QueryBatch } from "../../src";
 // import { runWithTelemetry } from "../setupOpenTelemetry";
@@ -16,6 +20,7 @@ import { setLogLevel } from "@azure/logger";
 
 describe("LogsQueryClient live tests", function () {
   let monitorWorkspaceId: string;
+  let logsResourceId: string;
   let logsClient: LogsQueryClient;
   let recorder: Recorder;
 
@@ -25,6 +30,7 @@ describe("LogsQueryClient live tests", function () {
     loggerForTest.verbose(`Recorder: starting...`);
     recorder = new Recorder(this.currentTest);
     const recordedClient: RecorderAndLogsClient = await createRecorderAndLogsClient(recorder);
+    logsResourceId = getLogsArmResourceId();
     monitorWorkspaceId = getMonitorWorkspaceId();
     logsClient = recordedClient.client;
   });
@@ -301,6 +307,57 @@ describe("LogsQueryClient live tests", function () {
     }
   });
 
+  it("query resource centric logs", async () => {
+    const constantsQuery = `MyTable_CL | summarize count()`;
+
+    const results = await logsClient.queryResource(logsResourceId, constantsQuery, {
+      duration: Durations.sevenDays,
+    });
+    assert.equal(results.status, LogsQueryResultStatus.Success);
+  });
+
+  it("queryResource (bad query with invalid table)", async () => {
+    const kustoQuery = `resource | summarize count()`;
+
+    try {
+      await logsClient.queryResource(logsResourceId, kustoQuery, {
+        duration: Durations.oneDay,
+      });
+      assert.fail("Should have thrown an exception");
+    } catch (err: any) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
+      const { request: _request, response: _response, ...stringizableError }: any = err;
+      const innermostError = getInnermostErrorDetails(err);
+
+      if (innermostError == null) {
+        throw new Error("No innermost error - error reporting would break.");
+      }
+
+      loggerForTest.verbose(`(Diagnostics) Actual error thrown when we use a bad query: `, err);
+
+      assert.deepNestedInclude(
+        err as RestError,
+        {
+          name: "RestError",
+          statusCode: 400,
+        },
+        `Query should throw a RestError. Message: ${JSON.stringify(stringizableError)}`
+      );
+
+      assert.deepNestedInclude(
+        innermostError,
+        {
+          code: "SEM0100",
+          message:
+            "'summarize' operator: Failed to resolve table or column expression named 'resource'",
+        },
+        `Query should indicate a syntax error in innermost error. Innermost error: ${JSON.stringify(
+          innermostError
+        )}`
+      );
+    }
+  });
+
   describe.skip("Ingested data tests (can be slow due to loading times)", () => {
     before(async function (this: Context) {
       if (env.TEST_RUN_ID) {
@@ -480,10 +537,11 @@ describe("LogsQueryClient live tests - server timeout", function () {
   // query has timed out on purpose.
   it("serverTimeoutInSeconds", async function (this: Context) {
     try {
+      const randomLimit = Math.round((Math.random() + 1) * 10000000000000);
       await logsClient.queryWorkspace(
         monitorWorkspaceId,
         // slow query suggested by Pavel.
-        "range x from 1 to 10000000000 step 1 | count",
+        `range x from 1 to ${randomLimit} step 1 | count`,
         {
           duration: Durations.twentyFourHours,
         },

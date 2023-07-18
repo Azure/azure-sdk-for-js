@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { EventGridManagementClient } from "../eventGridManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Topic,
   TopicsListBySubscriptionNextOptionalParams,
@@ -31,6 +35,7 @@ import {
   TopicsCreateOrUpdateOptionalParams,
   TopicsCreateOrUpdateResponse,
   TopicsDeleteOptionalParams,
+  TopicsDeleteResponse,
   TopicUpdateParameters,
   TopicsUpdateOptionalParams,
   TopicsListSharedAccessKeysOptionalParams,
@@ -290,8 +295,8 @@ export class TopicsImpl implements Topics {
     topicInfo: Topic,
     options?: TopicsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TopicsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<TopicsCreateOrUpdateResponse>,
       TopicsCreateOrUpdateResponse
     >
   > {
@@ -301,7 +306,7 @@ export class TopicsImpl implements Topics {
     ): Promise<TopicsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -334,13 +339,16 @@ export class TopicsImpl implements Topics {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, topicName, topicInfo, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, topicName, topicInfo, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      TopicsCreateOrUpdateResponse,
+      OperationState<TopicsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -379,14 +387,16 @@ export class TopicsImpl implements Topics {
     resourceGroupName: string,
     topicName: string,
     options?: TopicsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<OperationState<TopicsDeleteResponse>, TopicsDeleteResponse>
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<TopicsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -419,13 +429,16 @@ export class TopicsImpl implements Topics {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, topicName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, topicName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      TopicsDeleteResponse,
+      OperationState<TopicsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -442,7 +455,7 @@ export class TopicsImpl implements Topics {
     resourceGroupName: string,
     topicName: string,
     options?: TopicsDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<TopicsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       topicName,
@@ -463,14 +476,14 @@ export class TopicsImpl implements Topics {
     topicName: string,
     topicUpdateParameters: TopicUpdateParameters,
     options?: TopicsUpdateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -503,13 +516,13 @@ export class TopicsImpl implements Topics {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, topicName, topicUpdateParameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, topicName, topicUpdateParameters, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -596,8 +609,8 @@ export class TopicsImpl implements Topics {
     regenerateKeyRequest: TopicRegenerateKeyRequest,
     options?: TopicsRegenerateKeyOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TopicsRegenerateKeyResponse>,
+    SimplePollerLike<
+      OperationState<TopicsRegenerateKeyResponse>,
       TopicsRegenerateKeyResponse
     >
   > {
@@ -607,7 +620,7 @@ export class TopicsImpl implements Topics {
     ): Promise<TopicsRegenerateKeyResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -640,13 +653,16 @@ export class TopicsImpl implements Topics {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, topicName, regenerateKeyRequest, options },
-      regenerateKeyOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, topicName, regenerateKeyRequest, options },
+      spec: regenerateKeyOperationSpec
+    });
+    const poller = await createHttpPoller<
+      TopicsRegenerateKeyResponse,
+      OperationState<TopicsRegenerateKeyResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -792,7 +808,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  responses: {
+    200: {
+      headersMapper: Mappers.TopicsDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.TopicsDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.TopicsDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.TopicsDeleteHeaders
+    },
+    default: {}
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -891,7 +921,7 @@ const regenerateKeyOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.regenerateKeyRequest1,
+  requestBody: Parameters.regenerateKeyRequest2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

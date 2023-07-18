@@ -48,6 +48,11 @@ export const recorderStartOptions: RecorderStartOptions = {
         target: `refresh_token=([^&]+?)(&|")`,
         value: `refresh_token=sanitized.${expiryReplacement}.sanitized$2`,
       },
+      {
+        regex: true,
+        target: `sig=([^&]+)`,
+        value: `sig=sanitized`,
+      },
     ],
     bodyKeySanitizers: [
       {

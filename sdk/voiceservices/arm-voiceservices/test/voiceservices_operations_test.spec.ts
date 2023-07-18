@@ -49,8 +49,8 @@ describe("voiceservices test", () => {
     const credential = createTestCredential();
     client = new MicrosoftVoiceServices(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "westcentralus";
-    resourceGroup = "myjstest";
-    communicationsGatewayName = "mycgtest5";// if you got this error message"Existing entry found in CosmosDB for new resource mycgtest - reject the request" when creating, use a new name to create
+    resourceGroup = "czwjstest";
+    communicationsGatewayName = "mycgtest6";// if you got this error message"Existing entry found in CosmosDB for new resource mycgtest - reject the request" when creating, use a new name to create
   });
 
   afterEach(async function () {

@@ -138,7 +138,7 @@ const examplePackageGood = `{
     "debug": "^4.1.1",
     "dotenv": "^16.0.0",
     "downlevel-dts": "~0.4.0",
-    "eslint": "^7.15.0",
+    "eslint": "^8.0.0",
     "esm": "^3.2.18",
     "https-proxy-agent": "^5.0.0",
     "karma": "^6.2.0",
@@ -163,7 +163,7 @@ const examplePackageGood = `{
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~4.8.0",
+    "typescript": "~5.0.0",
     "ws": "^7.1.1",
     "typedoc": "0.15.2"
   }
@@ -293,7 +293,7 @@ const examplePackageBad = `{
     "debug": "^4.1.1",
     "dotenv": "^16.0.0",
     "downlevel-dts": "~0.4.0",
-    "eslint": "^7.15.0",
+    "eslint": "^8.0.0",
     "esm": "^3.2.18",
     "https-proxy-agent": "^5.0.0",
     "karma": "^6.2.0",
@@ -318,7 +318,7 @@ const examplePackageBad = `{
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~4.8.0",
+    "typescript": "~5.0.0",
     "ws": "^7.1.1",
     "typedoc": "0.15.2"
   }

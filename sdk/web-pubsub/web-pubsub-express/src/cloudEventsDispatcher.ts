@@ -207,16 +207,16 @@ export class CloudEventsDispatcher {
     if (!isWebPubSubRequest(req)) {
       return false;
     }
-    const origin = utils.getHttpHeader(req, "webhook-request-origin")?.toLowerCase();
+    const origin = utils.getHttpHeader(req, "webhook-request-origin");
 
     if (origin === undefined) {
       logger.warning("Expecting webhook-request-origin header.");
       res.statusCode = 400;
-    } else if (this._allowAll || this._allowedOrigins.indexOf(origin!) > -1) {
-      res.setHeader("WebHook-Allowed-Origin", origin!);
+    } else if (this._allowAll) {
+      res.setHeader("WebHook-Allowed-Origin", "*");
     } else {
-      logger.warning("Origin does not match the allowed origins: " + this._allowedOrigins);
-      res.statusCode = 400;
+      // service to do the check
+      res.setHeader("WebHook-Allowed-Origin", this._allowedOrigins);
     }
 
     res.end();

@@ -3,7 +3,7 @@
 import { OperationType, ResourceType, isReadRequest } from "./common";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { Location, DatabaseAccount } from "./documents";
-import { RequestOptions } from "./index";
+import { MetadataLookUpType, RequestContext, RequestOptions } from "./index";
 import { Constants } from "./common/constants";
 import { ResourceResponse } from "./request";
 
@@ -109,7 +109,8 @@ export class GlobalEndpointManager {
 
   public async resolveServiceEndpoint(
     resourceType: ResourceType,
-    operationType: OperationType
+    operationType: OperationType,
+    requestContext?: RequestContext
   ): Promise<string> {
     // If endpoint discovery is disabled, always use the user provided endpoint
     if (!this.options.connectionPolicy.enableEndpointDiscovery) {
@@ -122,11 +123,17 @@ export class GlobalEndpointManager {
     }
 
     if (this.readableLocations.length === 0 || this.writeableLocations.length === 0) {
-      const { resource: databaseAccount } = await this.readDatabaseAccount({
+      const { resource: databaseAccount, diagnostics } = await this.readDatabaseAccount({
         urlConnection: this.defaultEndpoint,
       });
       this.writeableLocations = databaseAccount.writableLocations;
       this.readableLocations = databaseAccount.readableLocations;
+      if (requestContext !== undefined) {
+        requestContext.diagnosticContext.recordMetaDataLookup(
+          diagnostics,
+          MetadataLookUpType.DatabaseAccountLookUp
+        );
+      }
     }
 
     const locations = isReadRequest(operationType)
@@ -154,7 +161,11 @@ export class GlobalEndpointManager {
         return loc.unavailable !== true;
       });
     }
-    return location ? location.databaseAccountEndpoint : this.defaultEndpoint;
+    location = location ? location : { name: "", databaseAccountEndpoint: this.defaultEndpoint };
+    if (requestContext !== undefined) {
+      requestContext.diagnosticContext.recordEndpointContactEvent(location);
+    }
+    return location.databaseAccountEndpoint;
   }
 
   /**

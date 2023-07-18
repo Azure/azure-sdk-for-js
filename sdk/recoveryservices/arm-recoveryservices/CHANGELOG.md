@@ -1,6 +1,6 @@
 # Release History
 
-## 5.2.1 (Unreleased)
+## 5.3.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,17 @@
 
 ### Other Changes
 
+## 5.3.0 (2023-05-31)
+    
+**Features**
+
+  - Added Interface CrossSubscriptionRestoreSettings
+  - Added Interface RestoreSettings
+  - Added Type Alias CrossSubscriptionRestoreState
+  - Interface VaultProperties has a new optional parameter restoreSettings
+  - Added Enum KnownCrossSubscriptionRestoreState
+    
+    
 ## 5.2.0 (2023-02-07)
     
 **Features**

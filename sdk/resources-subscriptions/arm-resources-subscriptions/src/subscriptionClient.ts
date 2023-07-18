@@ -14,8 +14,8 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { SubscriptionsImpl, TenantsImpl } from "./operations";
-import { Subscriptions, Tenants } from "./operationsInterfaces";
+import { OperationsImpl, SubscriptionsImpl, TenantsImpl } from "./operations";
+import { Operations, Subscriptions, Tenants } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import {
@@ -50,7 +50,7 @@ export class SubscriptionClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-resources-subscriptions/2.0.3`;
+    const packageDetails = `azsdk-js-arm-resources-subscriptions/2.1.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -101,7 +101,8 @@ export class SubscriptionClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-01-01";
+    this.apiVersion = options.apiVersion || "2022-12-01";
+    this.operations = new OperationsImpl(this);
     this.subscriptions = new SubscriptionsImpl(this);
     this.tenants = new TenantsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
@@ -149,6 +150,7 @@ export class SubscriptionClient extends coreClient.ServiceClient {
     );
   }
 
+  operations: Operations;
   subscriptions: Subscriptions;
   tenants: Tenants;
 }

@@ -30,6 +30,7 @@ export {
 } from "./pipeline";
 export {
   createPipelineFromOptions,
+  TelemetryOptions,
   InternalPipelineOptions,
   PipelineOptions,
 } from "./createPipelineFromOptions";
@@ -87,3 +88,8 @@ export {
   AuthorizeRequestOnChallengeOptions,
 } from "./policies/bearerTokenAuthenticationPolicy";
 export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy";
+export {
+  auxiliaryAuthenticationHeaderPolicy,
+  AuxiliaryAuthenticationHeaderPolicyOptions,
+  auxiliaryAuthenticationHeaderPolicyName,
+} from "./policies/auxiliaryAuthenticationHeaderPolicy";
