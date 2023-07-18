@@ -12,7 +12,7 @@ import { Workspaces } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { Fist } from "../fist";
+import { IotFirmwareDefenseClient } from "../iotFirmwareDefenseClient";
 import {
   Workspace,
   WorkspacesListBySubscriptionNextOptionalParams,
@@ -39,13 +39,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Workspaces operations. */
 export class WorkspacesImpl implements Workspaces {
-  private readonly client: Fist;
+  private readonly client: IotFirmwareDefenseClient;
 
   /**
    * Initialize a new instance of the class Workspaces class.
    * @param client Reference to the service client
    */
-  constructor(client: Fist) {
+  constructor(client: IotFirmwareDefenseClient) {
     this.client = client;
   }
 

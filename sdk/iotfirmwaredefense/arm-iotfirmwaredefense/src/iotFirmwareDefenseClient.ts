@@ -24,15 +24,15 @@ import {
   Workspaces,
   Operations
 } from "./operationsInterfaces";
-import { FistOptionalParams } from "./models";
+import { IotFirmwareDefenseClientOptionalParams } from "./models";
 
-export class Fist extends coreClient.ServiceClient {
+export class IotFirmwareDefenseClient extends coreClient.ServiceClient {
   $host: string;
   subscriptionId: string;
   apiVersion: string;
 
   /**
-   * Initializes a new instance of the Fist class.
+   * Initializes a new instance of the IotFirmwareDefenseClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
@@ -40,7 +40,7 @@ export class Fist extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: FistOptionalParams
+    options?: IotFirmwareDefenseClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -53,7 +53,7 @@ export class Fist extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-    const defaults: FistOptionalParams = {
+    const defaults: IotFirmwareDefenseClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
       credential: credentials
     };

@@ -2,7 +2,7 @@
   "name": "@azure/arm-iotfirmwaredefense",
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
-  "description": "A generated SDK for Fist.",
+  "description": "A generated SDK for IotFirmwareDefenseClient.",
   "version": "1.0.0-beta.1",
   "engines": {
     "node": ">=14.0.0"
@@ -103,7 +103,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/fist.ts",
+        "path": "src/iotFirmwareDefenseClient.ts",
         "prefix": "packageDetails"
       }
     ]
