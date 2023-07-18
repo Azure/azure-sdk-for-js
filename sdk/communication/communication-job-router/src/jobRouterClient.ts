@@ -10,20 +10,24 @@ import {
 } from "@azure/communication-common";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { OperationOptions } from "@azure/core-client";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PageSettings, PagedAsyncIterableIterator, PagedResult, getPagedAsyncIterator } from "@azure/core-paging";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { SDK_VERSION } from "./constants";
 import {
   JobRouterApiClient,
-  RouterJobPositionDetails,
-  RouterQueueStatistics,
   JobRouterListJobsOptionalParams,
   JobRouterListWorkersOptionalParams,
-  RouterJobItem,
-  RouterWorkerItem,
+  RouterJobPositionDetails,
+  RouterQueueStatistics,
+  RouterJob as RouterJobGenerated,
+  RouterJobItem as RouterJobItemGenerated
 } from "./generated/src";
 import { logger } from "./models/logger";
-import { RouterJob } from "./models/models";
+import {
+  RouterJobItem,
+  RouterWorkerItem,
+  RouterJobNote,
+} from "./models/models";
 import {
   JobRouterClientOptions,
   CreateJobOptions,
@@ -59,22 +63,61 @@ const isRouterClientOptions = (options: any): options is JobRouterClientOptions 
   !!options && !isKeyCredential(options);
 
 /**
- * Maps custom 'notes' type to generated 'notes' type.
+ * Transforms custom RouterJobNote type to generated 'notes' type.
  * @param options - Union type of options that have notes.
  * @returns - RouterJob model compliant with generated RouterJob.
  */
-const transformJobOptions = (options: CreateJobOptions | UpdateJobOptions): RouterJob => {
+const transformJobOptions = (options: CreateJobOptions | UpdateJobOptions): RouterJobGenerated => {
   if (options.notes === undefined) {
     return { ...options, notes: {} };
   }
 
   const transformedNotes = options.notes!.reduce(
-    (acc, { time, message }) => ({ ...acc, [time.toISOString()]: message }),
-    {}
-  );
+    (acc, { addedAt, message }) =>
+      ({ ...acc, [addedAt.toISOString()]: message }),
+    {});
 
   return { ...options, notes: transformedNotes };
 };
+
+/**
+ * Transforms generated 'notes' type to custom RouterJobNote type.
+ * @param notes - Generated type for 'notes'.
+ * @returns - Array of RouterJobNote objects.
+ */
+const transformNotes = (notes: { [propertyName: string]: string }): RouterJobNote[] =>
+  Object.keys(notes).map(key => ({ "addedAt": new Date(key), "message": notes[key] }));
+
+/**
+ * Transforms generated 'RouterJobItem' type to custom 'RouterJobItem' type.
+ * @param internal - Generated type for 'RouterJobItem'.
+ * @returns - Custom type for 'RouterJobItem'.
+ */
+const transformGenerated = (internal: RouterJobItemGenerated): RouterJobItem =>
+  ({ ...internal, job: { ...internal.job, notes: transformNotes(internal.job!.notes!) } });
+
+class IteratorWithTransformer<T, TItem, TPage = TItem[], TPageSettings = PageSettings>
+  implements PagedAsyncIterableIterator<TItem, TPage, TPageSettings> {
+
+  constructor(
+    private internalIterator: PagedAsyncIterableIterator<TItem, TPage, TPageSettings>,
+    private transformer: (item: any) => any
+  ) { }
+
+  async next(): Promise<IteratorResult<TItem>> {
+    return this.transformer(this.internalIterator.next());
+  }
+
+  [Symbol.asyncIterator](): IteratorWithTransformer<T, TItem, TPage, TPageSettings> {
+    return this;
+  }
+
+  async* byPage(settings?: TPageSettings): AsyncIterableIterator<TPage> {
+    for await (const page of this.internalIterator.byPage(settings)) {
+      yield this.transformer(page);
+    }
+  }
+}
 
 /**
  * The client to do job router operations.
@@ -205,9 +248,15 @@ export class JobRouterClient {
    */
   public listJobs(options: ListJobsOptions = {}): PagedAsyncIterableIterator<RouterJobItem> {
     const listOptions = <JobRouterListJobsOptionalParams>options;
-    listOptions.maxpagesize = options.maxpagesize;
+    listOptions.maxpagesize = options.maxPageSize;
     listOptions.status = options.jobStateSelector;
-    return this.client.jobRouter.listJobs(listOptions);
+
+    const customIterator = new IteratorWithTransformer<RouterJobItem, RouterJobItemGenerated>(
+      this.client.jobRouter.listJobs(listOptions),
+      transformGenerated
+    );
+
+    return customIterator;
   }
 
   /**
@@ -387,7 +436,7 @@ export class JobRouterClient {
     options: ListWorkersOptions = {}
   ): PagedAsyncIterableIterator<RouterWorkerItem> {
     const listOptions = <JobRouterListWorkersOptionalParams>options;
-    listOptions.maxpagesize = options.maxpagesize;
+    listOptions.maxpagesize = options.maxPageSize;
     return this.client.jobRouter.listWorkers(listOptions);
   }
 

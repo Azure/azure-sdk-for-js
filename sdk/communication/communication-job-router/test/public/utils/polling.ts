@@ -4,10 +4,9 @@
 import {
   RouterJobAssignment,
   RouterJobOffer,
-  RouterJob,
-  RouterWorker,
 } from "../../../src/generated/src";
 import { JobRouterClient } from "../../../src/jobRouterClient";
+import { RouterJob, RouterWorker } from "../../../src";
 
 export async function pollForJobOffer(
   workerId: string,

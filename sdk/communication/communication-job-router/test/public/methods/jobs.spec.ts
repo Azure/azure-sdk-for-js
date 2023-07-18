@@ -164,7 +164,7 @@ describe("JobRouterClient", function () {
       await client.createJob(jobId, jobRequest);
 
       const result: RouterJob[] = [];
-      for await (const job of client.listJobs({ maxpagesize: 20 })) {
+      for await (const job of client.listJobs({ maxPageSize: 20 })) {
         result.push(job.job!);
       }
 
@@ -181,7 +181,7 @@ describe("JobRouterClient", function () {
 
       const result: RouterJob[] = [];
       for await (const job of client.listJobs({
-        maxpagesize: 20,
+        maxPageSize: 20,
         scheduledBefore: new Date(scheduledTime),
       })) {
         result.push(job.job!);

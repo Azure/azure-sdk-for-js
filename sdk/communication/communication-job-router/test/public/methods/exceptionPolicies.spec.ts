@@ -60,7 +60,7 @@ describe("JobRouterClient", function () {
 
     it("should list exception policies", async function () {
       const result: ExceptionPolicy[] = [];
-      for await (const policy of administrationClient.listExceptionPolicies({ maxpagesize: 20 })) {
+      for await (const policy of administrationClient.listExceptionPolicies({ maxPageSize: 20 })) {
         result.push(policy.exceptionPolicy!);
       }
 

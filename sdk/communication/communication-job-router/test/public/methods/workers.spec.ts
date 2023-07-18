@@ -100,7 +100,7 @@ describe("JobRouterClient", function () {
 
     it("should list workers", async function () {
       const result: RouterWorker[] = [];
-      for await (const worker of client.listWorkers({ maxpagesize: 20 })) {
+      for await (const worker of client.listWorkers({ maxPageSize: 20 })) {
         result.push(worker.worker!);
       }
 

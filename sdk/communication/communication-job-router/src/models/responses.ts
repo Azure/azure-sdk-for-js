@@ -4,14 +4,8 @@
 import {
   ClassificationPolicy,
   DistributionPolicy,
-  ExceptionPolicy,
-  JobRouterReclassifyJobActionResponse as JobRouterReclassifyJobActionResponseGenerated,
-  JobRouterCancelJobActionResponse as JobRouterCancelJobActionResponseGenerated,
-  JobRouterCompleteJobActionResponse as JobRouterCompleteJobActionResponseGenerated,
-  JobRouterCloseJobActionResponse as JobRouterCloseJobActionResponseGenerated,
-  JobRouterDeclineJobActionResponse as JobRouterDeclineJobActionResponseGenerated,
 } from "../generated/src";
-import { JSONValue, RouterJob, RouterQueue, RouterWorker } from "./models";
+import { JSONValue, RouterJob, RouterWorker, RouterQueue, ExceptionPolicy } from "./models";
 
 export interface RouterJobResponse extends RouterJob {
   readonly id: string;
@@ -37,45 +31,37 @@ export interface ExceptionPolicyResponse extends ExceptionPolicy {
   readonly id: string;
 }
 
-/** Contains response data for the reclassifyJobAction operation. */
-export interface ReclassifyJobResponse
-  extends Omit<JobRouterReclassifyJobActionResponseGenerated, "body"> {
+/** Contains response data for the reclassify job operation. */
+export type ReclassifyJobResponse = {
   /** The parsed response body. */
-  body?: JSONValue;
-}
+  body: JSONValue;
+};
 
-/** Contains response data for the cancelJobAction operation. */
-export interface CancelJobResponse extends Omit<JobRouterCancelJobActionResponseGenerated, "body"> {
+/** Contains response data for the cancel job operation. */
+export type CancelJobResponse = {
   /** The parsed response body. */
-  body?: JSONValue;
-}
+  body: JSONValue;
+};
 
-/** Contains response data for the completeJobAction operation. */
-export interface CompleteJobResponse
-  extends Omit<JobRouterCompleteJobActionResponseGenerated, "body"> {
+/** Contains response data for the complete job operation. */
+export type CompleteJobResponse = {
   /** The parsed response body. */
-  body?: JSONValue;
-}
+  body: JSONValue;
+};
 
-/** Contains response data for the closeJobAction operation. */
-export interface CloseJobResponse extends Omit<JobRouterCloseJobActionResponseGenerated, "body"> {
+/** Contains response data for the close job operation. */
+export type CloseJobResponse = {
   /** The parsed response body. */
-  body?: JSONValue;
-}
+  body: JSONValue;
+};
 
-/** Contains response data for the declineJobAction operation. */
-export interface DeclineJobOfferResponse
-  extends Omit<JobRouterDeclineJobActionResponseGenerated, "body"> {
+/** Contains response data for the decline job operation. */
+export type DeclineJobOfferResponse = {
   /** The parsed response body. */
-  body?: JSONValue;
-}
+  body: JSONValue;
+};
 
 export {
   AcceptJobOfferResult as AcceptJobOfferResponse,
   UnassignJobResult as UnassignJobResponse,
-  JobRouterCancelJobActionResponse,
-  JobRouterCompleteJobActionResponse,
-  JobRouterReclassifyJobActionResponse,
-  JobRouterCloseJobActionResponse,
-  JobRouterDeclineJobActionResponse,
 } from "../generated/src/models";

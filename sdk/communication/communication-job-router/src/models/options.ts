@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { JSONObject, RouterJobMatchingMode, RouterJobNote } from "./models";
-import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import {
-  ChannelConfiguration,
-  DistributionModeUnion,
-  ExceptionRule,
   JobRouterAdministrationUpsertClassificationPolicyOptionalParams,
   JobRouterAdministrationUpsertDistributionPolicyOptionalParams,
   JobRouterAdministrationUpsertExceptionPolicyOptionalParams,
@@ -19,18 +14,22 @@ import {
   JobRouterUpsertJobOptionalParams,
   JobRouterUpsertWorkerOptionalParams,
   JobRouterUnassignJobActionOptionalParams,
-  RouterJobStatusSelector,
+  DistributionModeUnion,
   QueueSelectorAttachmentUnion,
   WorkerSelectorAttachmentUnion,
-  RouterRuleUnion,
+  RouterJobStatusSelector,
   RouterWorkerSelector,
   RouterWorkerStateSelector,
+  ChannelConfiguration,
+  ExceptionRule,
 } from "../generated/src";
+import { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import { JSONObject, RouterJobMatchingMode, RouterJobNote, RouterRuleUnion } from "./models";
 
 /**
  * Options to create a job router administration client.
  */
-export interface JobRouterAdministrationClientOptions extends CommonClientOptions {}
+export interface JobRouterAdministrationClientOptions extends CommonClientOptions { }
 
 /**
  * Options to create a job router client.
@@ -79,7 +78,7 @@ export interface UpdateClassificationPolicyOptions
  */
 export interface ListClassificationPoliciesOptions extends OperationOptions {
   /** Maximum page size */
-  maxpagesize?: number;
+  maxPageSize?: number;
 }
 
 /**
@@ -113,7 +112,7 @@ export interface UpdateDistributionPolicyOptions
  */
 export interface ListDistributionPoliciesOptions extends OperationOptions {
   /** Maximum page size */
-  maxpagesize?: number;
+  maxPageSize?: number;
 }
 
 /**
@@ -143,7 +142,7 @@ export interface UpdateExceptionPolicyOptions
  */
 export interface ListExceptionPoliciesOptions extends OperationOptions {
   /** Number of objects to return per page */
-  maxpagesize?: number;
+  maxPageSize?: number;
 }
 
 /**
@@ -179,7 +178,7 @@ export interface UpdateQueueOptions extends JobRouterAdministrationUpsertQueueOp
  */
 export interface ListQueuesOptions extends OperationOptions {
   /** Number of objects to return per page */
-  maxpagesize?: number;
+  maxPageSize?: number;
 }
 
 /**
@@ -206,6 +205,7 @@ export interface CreateJobOptions extends JobRouterUpsertJobOptionalParams {
   tags?: JSONObject;
   /** Notes attached to a job, sorted by timestamp */
   notes?: RouterJobNote[];
+  /** The mode the job is matched as. */
   matchingMode?: RouterJobMatchingMode;
 }
 
@@ -233,6 +233,7 @@ export interface UpdateJobOptions extends JobRouterUpsertJobOptionalParams {
   tags?: JSONObject;
   /** Notes attached to a job, sorted by timestamp */
   notes?: Array<RouterJobNote>;
+  /** The mode the job is matched as. */
   matchingMode?: RouterJobMatchingMode;
 }
 
@@ -241,7 +242,7 @@ export interface UpdateJobOptions extends JobRouterUpsertJobOptionalParams {
  */
 export interface ListJobsOptions extends OperationOptions {
   /** Number of objects to return per page */
-  maxpagesize?: number;
+  maxPageSize?: number;
   /** (Optional) If specified, filter jobs by status. */
   jobStateSelector?: RouterJobStatusSelector;
   /** (Optional) If specified, filter jobs by queue. */
@@ -361,17 +362,14 @@ export interface UpdateWorkerOptions extends JobRouterUpsertWorkerOptionalParams
  */
 export interface ListWorkersOptions extends OperationOptions {
   /** Number of objects to return per page */
-  maxpagesize?: number;
+  maxPageSize?: number;
   /** (Optional) If specified, select workers who are assigned to this queue */
   queueId?: string;
   /** (Optional) If specified, select workers who have a channel configuration with this channel */
   channelId?: string;
   /** (Optional) If specified, select workers by worker status. */
   status?: RouterWorkerStateSelector;
-  /**
-   * (Optional) If set to true, select only workers who have capacity for the channel specified by `channelId` or for any channel
-   *             if `channelId` not specified. If set to false, then will return all workers including workers without any capacity for jobs. Defaults to false.
-   */
+  /** (Optional) If true, select workers who have capacity for the channel specified by `channelId` (any channel if `channelId` not specified). If false, does not effect list behavior. Defaults to false. */
   hasCapacity?: boolean;
 }
 

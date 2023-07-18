@@ -74,7 +74,7 @@ describe("JobRouterClient", function () {
 
     it("should list queues", async function () {
       const result: RouterQueue[] = [];
-      for await (const queue of administrationClient.listQueues({ maxpagesize: 20 })) {
+      for await (const queue of administrationClient.listQueues({ maxPageSize: 20 })) {
         result.push(queue.queue!);
       }
 

@@ -183,7 +183,7 @@ export class JobRouterAdministrationClient {
     options: ListClassificationPoliciesOptions = {}
   ): PagedAsyncIterableIterator<ClassificationPolicyItem> {
     const listOptions = <JobRouterAdministrationListClassificationPoliciesOptionalParams>options;
-    listOptions.maxpagesize = options.maxpagesize;
+    listOptions.maxpagesize = options.maxPageSize;
     return this.client.jobRouterAdministration.listClassificationPolicies(listOptions);
   }
 
@@ -263,7 +263,7 @@ export class JobRouterAdministrationClient {
     options: ListDistributionPoliciesOptions = {}
   ): PagedAsyncIterableIterator<DistributionPolicyItem> {
     const listOptions = <JobRouterAdministrationListDistributionPoliciesOptionalParams>options;
-    listOptions.maxpagesize = options.maxpagesize;
+    listOptions.maxpagesize = options.maxPageSize;
     return this.client.jobRouterAdministration.listDistributionPolicies(listOptions);
   }
 
@@ -343,7 +343,7 @@ export class JobRouterAdministrationClient {
     options: ListExceptionPoliciesOptions = {}
   ): PagedAsyncIterableIterator<ExceptionPolicyItem> {
     const listOptions = <JobRouterAdministrationListExceptionPoliciesOptionalParams>options;
-    listOptions.maxpagesize = options.maxpagesize;
+    listOptions.maxpagesize = options.maxPageSize;
     return this.client.jobRouterAdministration.listExceptionPolicies(listOptions);
   }
 
@@ -420,7 +420,7 @@ export class JobRouterAdministrationClient {
    */
   public listQueues(options: ListQueuesOptions = {}): PagedAsyncIterableIterator<RouterQueueItem> {
     const listOptions = <JobRouterAdministrationListQueuesOptionalParams>options;
-    listOptions.maxpagesize = options.maxpagesize;
+    listOptions.maxpagesize = options.maxPageSize;
     return this.client.jobRouterAdministration.listQueues(listOptions);
   }
 

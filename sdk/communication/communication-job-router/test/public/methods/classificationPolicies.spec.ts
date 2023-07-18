@@ -89,7 +89,7 @@ describe("JobRouterClient", function () {
     it("should list classification policies", async function () {
       const result: ClassificationPolicy[] = [];
       for await (const policy of administrationClient.listClassificationPolicies({
-        maxpagesize: 20,
+        maxPageSize: 20,
       })) {
         result.push(policy.classificationPolicy!);
       }

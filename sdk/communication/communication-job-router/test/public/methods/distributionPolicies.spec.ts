@@ -69,7 +69,7 @@ describe("JobRouterClient", function () {
     it("should list distribution policies", async function () {
       const result: DistributionPolicy[] = [];
       for await (const policy of administrationClient.listDistributionPolicies({
-        maxpagesize: 20,
+        maxPageSize: 20,
       })) {
         result.push(policy.distributionPolicy!);
       }
