@@ -53,6 +53,7 @@ export function getTokenCredential(): TokenCredential {
 }
 
 export function getTokenBSU(
+  recorder: Recorder,
   accountType: string = "",
   accountNameSuffix: string = "",
   shareClientConfig?: ShareClientConfig
@@ -60,7 +61,6 @@ export function getTokenBSU(
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
 
   const accountName = (self as any).__env__[accountNameEnvVar];
-
   if (!accountName || accountName === "") {
     throw new Error(`${accountNameEnvVar} environment variables not specified.`);
   }
@@ -68,7 +68,9 @@ export function getTokenBSU(
   const credential = getTokenCredential();
   const pipeline = newPipeline(credential);
   const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.file.core.windows.net/`;
-  return new ShareServiceClient(blobPrimaryURL, pipeline, shareClientConfig);
+  const client = new ShareServiceClient(blobPrimaryURL, pipeline, shareClientConfig);
+  configureStorageClient(recorder, client);
+  return client;
 }
 
 export function getBSU(recorder: Recorder, config?: ShareClientConfig): ShareServiceClient {
