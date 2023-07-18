@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PrivateEndpointConnection,
   PrivateEndpointConnectionsListOptionalParams,
@@ -23,7 +23,7 @@ import {
 export interface PrivateEndpointConnections {
   /**
    * Returns the list of private endpoint connections.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
@@ -34,7 +34,7 @@ export interface PrivateEndpointConnections {
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
    * Gets a private endpoint connection.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param options The options parameters.
@@ -47,7 +47,7 @@ export interface PrivateEndpointConnections {
   ): Promise<PrivateEndpointConnectionsGetResponse>;
   /**
    * Approve or reject a private endpoint connection with a given name.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param parameters A private endpoint connection
@@ -60,14 +60,14 @@ export interface PrivateEndpointConnections {
     parameters: PrivateEndpointConnection,
     options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>,
       PrivateEndpointConnectionsCreateOrUpdateResponse
     >
   >;
   /**
    * Approve or reject a private endpoint connection with a given name.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param parameters A private endpoint connection
@@ -82,7 +82,7 @@ export interface PrivateEndpointConnections {
   ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
   /**
    * Deletes a private endpoint connection with a given name.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param options The options parameters.
@@ -92,10 +92,10 @@ export interface PrivateEndpointConnections {
     clusterName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a private endpoint connection with a given name.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param options The options parameters.

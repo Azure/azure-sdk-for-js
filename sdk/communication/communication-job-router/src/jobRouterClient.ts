@@ -8,96 +8,115 @@ import {
   isKeyCredential,
   parseClientArguments,
 } from "@azure/communication-common";
-
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { OperationOptions } from "@azure/core-client";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { SDK_VERSION } from "./constants";
 import {
-  AcceptJobOfferResult,
-  RouterJobPositionDetails,
   JobRouterApiClient,
-  JobRouterCancelJobActionResponse,
-  JobRouterCloseJobActionResponse,
-  JobRouterCompleteJobActionResponse,
-  JobRouterDeclineJobActionResponse,
+  RouterJobPositionDetails,
+  RouterQueueStatistics,
   JobRouterListJobsOptionalParams,
   JobRouterListWorkersOptionalParams,
-  JobRouterReclassifyJobActionResponse,
-  RouterQueueStatistics,
   RouterJobItem,
   RouterWorkerItem,
 } from "./generated/src";
 import { logger } from "./models/logger";
+import { RouterJob } from "./models/models";
 import {
-  CancelJobOptions,
-  CloseJobOptions,
-  CompleteJobOptions,
+  JobRouterClientOptions,
   CreateJobOptions,
-  CreateWorkerOptions,
+  UpdateJobOptions,
+  CancelJobOptions,
+  CompleteJobOptions,
+  ReclassifyJobOptions,
+  CloseJobOptions,
+  UnassignJobOptions,
   DeclineJobOfferOptions,
   ListJobsOptions,
-  ListWorkersOptions,
-  ReclassifyJobOptions,
-  JobRouterClientOptions,
-  UpdateJobOptions,
+  CreateWorkerOptions,
   UpdateWorkerOptions,
+  ListWorkersOptions,
 } from "./models/options";
-import { RouterJobResponse, RouterWorkerResponse, UnassignJobResult } from "./models/responses";
+import {
+  RouterJobResponse,
+  CancelJobResponse,
+  CompleteJobResponse,
+  ReclassifyJobResponse,
+  CloseJobResponse,
+  UnassignJobResponse,
+  AcceptJobOfferResponse,
+  DeclineJobOfferResponse,
+  RouterWorkerResponse,
+} from "./models/responses";
 
 /**
  * Checks whether the type of a value is {@link JobRouterClientOptions} or not.
- *
  * @param options - The value being checked.
  */
 const isRouterClientOptions = (options: any): options is JobRouterClientOptions =>
   !!options && !isKeyCredential(options);
 
 /**
- * The client to do router operations
+ * Maps custom 'notes' type to generated 'notes' type.
+ * @param options - Union type of options that have notes.
+ * @returns - RouterJob model compliant with generated RouterJob.
+ */
+const transformJobOptions = (options: CreateJobOptions | UpdateJobOptions): RouterJob => {
+  if (options.notes === undefined) {
+    return { ...options, notes: {} };
+  }
+
+  const transformedNotes = options.notes!.reduce(
+    (acc, { time, message }) => ({ ...acc, [time.toISOString()]: message }),
+    {}
+  );
+
+  return { ...options, notes: transformedNotes };
+};
+
+/**
+ * The client to do job router operations.
  */
 export class JobRouterClient {
   private readonly client: JobRouterApiClient;
 
   /**
-   * Initializes a new instance of the RouterClient class.
-   * @param connectionString - Connection string to connect to an Azure Communication Service resource.
-   *                         Example: "endpoint=https://contoso.eastus.communications.azure.net/;accesskey=secret";
-   * @param routerClientOptions - Optional. Options to configure the HTTP pipeline.
+   * Initializes a new instance of the JobRouterClient class.
+   * @param connectionString - Connection string to connect to an Azure Communication Service resource. (ex: "endpoint=https://contoso.eastus.communications.azure.net/;accesskey=secret").
+   * @param options - (Optional) Options to configure the HTTP pipeline.
    */
-  constructor(connectionString: string, routerClientOptions?: JobRouterClientOptions);
+  constructor(connectionString: string, options?: JobRouterClientOptions);
 
   /**
-   * Initializes a new instance of the RouterClient class using an Azure KeyCredential.
+   * Initializes a new instance of the JobRouterClient class using an Azure KeyCredential.
    * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
-   * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or
-   * `@azure/identity` or TokenCredential to create a credential.
-   * @param routerClientOptions - Optional. Options to configure the HTTP pipeline.
+   * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` or TokenCredential to create a credential.
+   * @param options - (Optional) Options to configure the HTTP pipeline.
    */
   constructor(
     endpoint: string,
     credential: KeyCredential | TokenCredential,
-    routerClientOptions?: JobRouterClientOptions
+    options?: JobRouterClientOptions
   );
 
   /**
-   * Initializes a new instance of the RouterClient class using a TokenCredential.
+   * Initializes a new instance of the JobRouterClient class using a TokenCredential.
    * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
    * @param credential - CommunicationTokenCredential that is used to authenticate requests to the service.
-   * @param routerClientOptions - Optional. Options to configure the HTTP pipeline.
+   * @param options - (Optional) Options to configure the HTTP pipeline.
    */
   constructor(
     endpoint: string,
     credential: CommunicationTokenCredential,
-    routerClientOptions?: JobRouterClientOptions
+    options?: JobRouterClientOptions
   );
 
   /**
-   * Creates an instance of the RouterClient for a given resource and user.
-   *
+   * Creates an instance of the JobRouterClient for a given resource and user.
    * @param connectionStringOrUrl - The connectionString or url of the Communication Services resource.
-   * @param credentialOrOptions - The key or token credential or RouterClientOptions. Use AzureCommunicationKeyCredential from \@azure/communication-common to create a credential.
+   * @param credentialOrOptions - The key or token credential or JobRouterClientOptions. Use AzureCommunicationKeyCredential from \@azure/communication-common to create a credential.
    * @param maybeOptions - Additional client options.
    */
   constructor(
@@ -140,32 +159,31 @@ export class JobRouterClient {
   }
 
   // TODO. Add tracing to both clients https://github.com/Azure/azure-sdk-for-js/issues/23008
-  // Job Actions
   /**
    * Creates a job.
    * Returns the created job.
    * @param jobId - The job to be create
-   * @param options - Create job options.
+   * @param options - Options for creating a router job.
    */
   public async createJob(
     jobId: string,
     options: CreateJobOptions = {}
   ): Promise<RouterJobResponse> {
-    const jobModel = options;
+    const jobModel = transformJobOptions(options);
     const job = await this.client.jobRouter.upsertJob(jobId, jobModel, options);
     return <RouterJobResponse>job;
   }
 
   /**
-   * Update a job by Id.
+   * Updates a job by id.
    * @param jobId - The job to be updated
-   * @param options - Update job options.
+   * @param options - Options for updating a router job. Uses merge-patch semantics: https://datatracker.ietf.org/doc/html/rfc7386.
    */
   public async updateJob(
     jobId: string,
     options: UpdateJobOptions = {}
   ): Promise<RouterJobResponse> {
-    const jobModel = options;
+    const jobModel = transformJobOptions(options);
     const job = await this.client.jobRouter.upsertJob(jobId, jobModel, options);
     return <RouterJobResponse>job;
   }
@@ -193,12 +211,12 @@ export class JobRouterClient {
   }
 
   /**
-   * Gets a job's position details.
-   * Returns job position details.
-   * @param jobId - The ID of the job to get position details.
+   * Gets a job's queue position.
+   * Returns job's queue position.
+   * @param jobId - The id of the job to get the queue position of.
    * @param options - Operation options.
    */
-  public async getQueuePosition(
+  public async getJobQueuePosition(
     jobId: string,
     options: OperationOptions = {}
   ): Promise<RouterJobPositionDetails> {
@@ -206,46 +224,46 @@ export class JobRouterClient {
   }
 
   /**
-   * Cancel a job.
-   * @param jobId - The ID of the job to cancel.
+   * Cancels a job.
+   * @param jobId - The id of the job to cancel.
    * @param options - Cancel job options.
    */
   public async cancelJob(
     jobId: string,
     options: CancelJobOptions = {}
-  ): Promise<JobRouterCancelJobActionResponse> {
+  ): Promise<CancelJobResponse> {
     return this.client.jobRouter.cancelJobAction(jobId, options);
   }
 
   /**
-   * Complete a job.
-   * @param jobId - The ID of the job to complete.
-   * @param assignmentId - The assignment Id to complete.
+   * Completes a job.
+   * @param jobId - The id of the job to complete.
+   * @param assignmentId - The assignment id to complete.
    * @param options - Complete job options.
    */
   public async completeJob(
     jobId: string,
     assignmentId: string,
     options: CompleteJobOptions = {}
-  ): Promise<JobRouterCompleteJobActionResponse> {
+  ): Promise<CompleteJobResponse> {
     return this.client.jobRouter.completeJobAction(jobId, assignmentId, options);
   }
 
   /**
-   * Updates an existing job by Id and forcing it to be reclassified.
-   * @param jobId - The ID of the job to reclassify.
+   * Updates an existing job by id and forces it to be reclassified.
+   * @param jobId - The id of the job to reclassify.
    * @param options - Reclassify job options.
    */
   public async reclassifyJob(
     jobId: string,
     options: ReclassifyJobOptions = {}
-  ): Promise<JobRouterReclassifyJobActionResponse> {
+  ): Promise<ReclassifyJobResponse> {
     return this.client.jobRouter.reclassifyJobAction(jobId, options);
   }
 
   /**
-   * Close a job.
-   * @param jobId - The ID of the job to close.
+   * Closes a job.
+   * @param jobId - The id of the job to close.
    * @param assignmentId - The assignment id corresponding to the job to be closed.
    * @param options - Close job options.
    */
@@ -253,25 +271,25 @@ export class JobRouterClient {
     jobId: string,
     assignmentId: string,
     options: CloseJobOptions = {}
-  ): Promise<JobRouterCloseJobActionResponse> {
+  ): Promise<CloseJobResponse> {
     return this.client.jobRouter.closeJobAction(jobId, assignmentId, options);
   }
 
   /**
-   * Unassign a job.
-   * @param jobId - The ID of the job to unassign.
+   * Unassigns a job.
+   * @param jobId - The id of the job to unassign.
    * @param assignmentId - The assignment id corresponding to the job to be unassigned.
    * @param options - Operation options.
    */
   public async unassignJob(
     jobId: string,
     assignmentId: string,
-    options: OperationOptions = {}
-  ): Promise<UnassignJobResult> {
-    const result = await this.client.jobRouter.unassignJobAction(jobId, assignmentId, options);
+    options: UnassignJobOptions = {}
+  ): Promise<UnassignJobResponse> {
+    const response = await this.client.jobRouter.unassignJobAction(jobId, assignmentId, options);
     return {
-      jobId: result.jobId,
-      unassignmentCount: result.unassignmentCount,
+      jobId: response.jobId,
+      unassignmentCount: response.unassignmentCount,
     };
   }
 
@@ -284,32 +302,31 @@ export class JobRouterClient {
     return this.client.jobRouter.deleteJob(jobId, options);
   }
 
-  // Offer Actions
   /**
-   * Accept a job offer.
-   * @param workerId - The ID of the worker that accepts the job.
-   * @param offerId - The ID of the offer to accept.
+   * Accepts a job offer.
+   * @param workerId - The id of the worker that accepts the job.
+   * @param offerId - The id of the offer to accept.
    * @param options - Operation options.
    */
   public async acceptJobOffer(
     workerId: string,
     offerId: string,
     options: OperationOptions = {}
-  ): Promise<AcceptJobOfferResult> {
+  ): Promise<AcceptJobOfferResponse> {
     return this.client.jobRouter.acceptJobAction(workerId, offerId, options);
   }
 
   /**
-   * Decline a job offer.
-   * @param workerId - The ID of the worker holding the offer.
-   * @param offerId - The ID of the offer to decline.
+   * Declines a job offer.
+   * @param workerId - The id of the worker holding the offer.
+   * @param offerId - The id of the offer to decline.
    * @param options - Decline job options.
    */
   public async declineJobOffer(
     workerId: string,
     offerId: string,
     options: DeclineJobOfferOptions = {}
-  ): Promise<JobRouterDeclineJobActionResponse> {
+  ): Promise<DeclineJobOfferResponse> {
     if (options.retryOfferAt) {
       options.declineJobOfferRequest = {
         retryOfferAt: options.retryOfferAt,
@@ -318,12 +335,11 @@ export class JobRouterClient {
     return this.client.jobRouter.declineJobAction(workerId, offerId, options);
   }
 
-  // Worker Actions
   /**
    * Creates a worker.
    * Returns the registered worker.
-   * @param workerId - The ID of the worker to create.
-   * @param options - Create worker options.
+   * @param workerId - The id of the worker to create.
+   * @param options - Options for creating a router worker.
    */
   public async createWorker(
     workerId: string,
@@ -337,8 +353,8 @@ export class JobRouterClient {
   /**
    * Updates a worker.
    * Returns the updated worker.
-   * @param workerId - The ID of the worker to update.
-   * @param options - Model of the worker to update
+   * @param workerId - The id of the worker to update.
+   * @param options - Options for updating a router worker. Uses merge-patch semantics: https://datatracker.ietf.org/doc/html/rfc7386.
    */
   public async updateWorker(
     workerId: string,
@@ -350,43 +366,9 @@ export class JobRouterClient {
   }
 
   /**
-   * Registers a worker.
-   * Returns the registered worker.
-   * @param workerId - The ID of the worker to register.
-   * @param options - Operation options.
-   */
-  public async registerWorker(
-    workerId: string,
-    options: OperationOptions = {}
-  ): Promise<RouterWorkerResponse> {
-    const worker = {
-      availableForOffers: true,
-    };
-    const workerResult = await this.client.jobRouter.upsertWorker(workerId, worker, options);
-    return <RouterWorkerResponse>workerResult;
-  }
-
-  /**
-   * De-registers a worker.
-   * Returns the de-registered worker.
-   * @param workerId - The ID of the worker to deregister.
-   * @param options - Operation options.
-   */
-  public async deregisterWorker(
-    workerId: string,
-    options: OperationOptions = {}
-  ): Promise<RouterWorkerResponse> {
-    const worker = {
-      availableForOffers: false,
-    };
-    const workerResult = await this.client.jobRouter.upsertWorker(workerId, worker, options);
-    return <RouterWorkerResponse>workerResult;
-  }
-
-  /**
    * Gets a worker.
    * Returns the worker.
-   * @param workerId - The ID of the worker to get.
+   * @param workerId - The id of the worker to get.
    * @param options -  Operation options.
    */
   public async getWorker(
@@ -411,18 +393,17 @@ export class JobRouterClient {
 
   /**
    * Deletes a worker.
-   * @param workerId - The ID of the worker to delete.
+   * @param workerId - The id of the worker to delete.
    * @param options -  Operation options.
    */
   public async deleteWorker(workerId: string, options: OperationOptions = {}): Promise<void> {
     return this.client.jobRouter.deleteWorker(workerId, options);
   }
 
-  // Queue Actions
   /**
    * Gets a queue's statistics.
    * Returns queue's statistics.
-   * @param queueId - The ID of the queue to get statistics.
+   * @param queueId - The id of the queue to get statistics of.
    * @param options -  Operation options.
    */
   public async getQueueStatistics(

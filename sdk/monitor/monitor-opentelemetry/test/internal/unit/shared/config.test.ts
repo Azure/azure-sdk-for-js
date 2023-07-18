@@ -120,6 +120,9 @@ describe("Library/Config", () => {
         undefined,
         "Wrong storageDirectory"
       );
+      assert.deepStrictEqual(config.otlpTraceExporterConfig, {}, "Wrong otlpTraceExporterConfig ");
+      assert.deepStrictEqual(config.otlpMetricExporterConfig, {}, "Wrong otlpTraceExporterConfig ");
+      assert.deepStrictEqual(config.otlpLogExporterConfig, {}, "Wrong otlpTraceExporterConfig ");
     });
   });
 

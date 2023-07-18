@@ -126,9 +126,9 @@ describe("http request related tests", function () {
       syncTokens = new SyncTokens();
 
       client =
-        createAppConfigurationClientForTests<InternalAppConfigurationClientOptions>({
+        createAppConfigurationClientForTests({
           syncTokens: syncTokens,
-        }) || this.skip();
+        } as InternalAppConfigurationClientOptions) || this.skip();
 
       nock.recorder.clear();
       nock.restore();

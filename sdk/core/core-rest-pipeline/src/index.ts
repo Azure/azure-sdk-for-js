@@ -38,6 +38,7 @@ export {
 } from "./pipeline.js";
 export {
   createPipelineFromOptions,
+  TelemetryOptions,
   InternalPipelineOptions,
   PipelineOptions,
 } from "./createPipelineFromOptions.js";
