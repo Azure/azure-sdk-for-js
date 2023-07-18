@@ -16,7 +16,7 @@ import {
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { Fist } from "../src/fist";
+import { IotFirmwareDefenseClient } from "../src/iotFirmwareDefenseClient";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -36,7 +36,7 @@ export const testPollingOptions = {
 describe("iotfirmwaredefense test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
-  let client: Fist;
+  let client: IotFirmwareDefenseClient;
   let location: string;
   let resourceGroup: string;
   let resourcename: string;
@@ -47,7 +47,7 @@ describe("iotfirmwaredefense test", () => {
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new Fist(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new IotFirmwareDefenseClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroup = "myjstest";
     resourcename = "resourcetest";
