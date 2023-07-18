@@ -7,6 +7,7 @@ REST API for Azure Communication Services
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/arm-communication) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-communication) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-communication) |
 
 ## Getting started
 
@@ -64,6 +65,10 @@ const client = new CommunicationServiceManagementClient(new DefaultAzureCredenti
 ```
 ### Create Communication Service Resource with 'Managed Identity'
 
+This example creates a new Azure Communication Service resource with a system assigned managed identity. The [beginCreateOrUpdate] method is used to create the resource and assign the managed identity. 
+
+System Assigned Identity is an identity created and managed by Azure. When you enable a system assigned managed identity, an identity is created in Azure AD, which is tied to the lifecycle of that service instance. A system-assigned identity is tied to your application and is deleted if your app is deleted. An app can only have one system-assigned identity. 
+
 ```javascript
 // Existing resource creation code
 client.communicationServices.beginCreateOrUpdate(resourceGroup, resourceName, resource)
@@ -73,11 +78,27 @@ const resource = {
     location: "Global",
     dataLocation: "United States",
     identity: {
-        type: "SystemAssigned" //or UserAssigned
+        type: "SystemAssigned" 
     }
 };
+
 // Defining an object that specifies identity type as System Assigned for the new resource.
-const result = await client.resources.createOrUpdate(resourceGroup, resourceName, resource);
+const result = await client.communicationServicesres.beginCreateOrUpdate(resourceGroup, resourceName, resource);
+```
+
+To create a user-assigned managed identity, your account needs the Managed Identity Contributor role assignment. An app can have multiple user assigned managed identities. 
+
+`The Managed Identity Contributor role assignment`is a built-in Azure role that allows you to managed user-assigned managed identities
+
+```javascript
+// Defining an object that specifies identity type as User Assigned for the new resource.
+const resource = {
+    location: "Global",
+    dataLocation: "United States",
+    identity: {
+        type: "UserAssigned" 
+    }
+};
 ```
 ### JavaScript Bundle
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
