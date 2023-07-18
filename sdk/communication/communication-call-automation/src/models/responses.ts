@@ -57,6 +57,12 @@ export interface RemoveParticipantResult {
   operationContext?: string;
 }
 
+/** The response payload for muting participants from the call. */
+export interface MuteParticipantsResult {
+  /** The operation context provided by client. */
+  operationContext?: string;
+}
+
 /** The response payload for starting a call recording or getting call recording state. */
 export interface RecordingStateResult {
   recordingId: string;

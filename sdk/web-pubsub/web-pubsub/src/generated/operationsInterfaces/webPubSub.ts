@@ -8,9 +8,13 @@
 
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
+  AddToGroupsRequest,
+  WebPubSubAddConnectionsToGroupsOptionalParams,
   WebPubSubCloseAllConnectionsOptionalParams,
   WebPubSubGenerateClientTokenOptionalParams,
   WebPubSubGenerateClientTokenResponse,
+  RemoveFromGroupsRequest,
+  WebPubSubRemoveConnectionsFromGroupsOptionalParams,
   ContentType,
   WebPubSubSendToAll$binaryOptionalParams,
   WebPubSubSendToAll$textOptionalParams,
@@ -41,6 +45,18 @@ import {
 /** Interface representing a WebPubSub. */
 export interface WebPubSub {
   /**
+   * Add filtered connections to multiple groups.
+   * @param hub Target hub name, which should start with alphabetic characters and only contain
+   *            alpha-numeric characters or underscore.
+   * @param groupsToAdd Target groups and connection filter.
+   * @param options The options parameters.
+   */
+  addConnectionsToGroups(
+    hub: string,
+    groupsToAdd: AddToGroupsRequest,
+    options?: WebPubSubAddConnectionsToGroupsOptionalParams
+  ): Promise<void>;
+  /**
    * Close the connections in the hub.
    * @param hub Target hub name, which should start with alphabetic characters and only contain
    *            alpha-numeric characters or underscore.
@@ -60,6 +76,18 @@ export interface WebPubSub {
     hub: string,
     options?: WebPubSubGenerateClientTokenOptionalParams
   ): Promise<WebPubSubGenerateClientTokenResponse>;
+  /**
+   * Remove filtered connections from multiple groups.
+   * @param hub Target hub name, which should start with alphabetic characters and only contain
+   *            alpha-numeric characters or underscore.
+   * @param groupsToRemove Target groups and connection filter.
+   * @param options The options parameters.
+   */
+  removeConnectionsFromGroups(
+    hub: string,
+    groupsToRemove: RemoveFromGroupsRequest,
+    options?: WebPubSubRemoveConnectionsFromGroupsOptionalParams
+  ): Promise<void>;
   /**
    * Broadcast content inside request body to all the connected client connections.
    * @param args Includes all the parameters for this operation.

@@ -7,6 +7,7 @@ import {
   ApplicationInsightsSampler,
   AzureMonitorTraceExporter,
 } from "@azure/monitor-opentelemetry-exporter";
+import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
 import { NodeTracerProvider, NodeTracerConfig } from "@opentelemetry/sdk-trace-node";
 import {
   BatchSpanProcessor,
@@ -14,7 +15,6 @@ import {
   SpanProcessor,
   Tracer,
 } from "@opentelemetry/sdk-trace-base";
-import { TracerProvider } from "@opentelemetry/api";
 import { Instrumentation } from "@opentelemetry/instrumentation";
 import {
   HttpInstrumentation,
@@ -31,6 +31,7 @@ import { AzureMonitorOpenTelemetryConfig } from "../shared/config";
 import { MetricHandler } from "../metrics/handler";
 import { ignoreOutgoingRequestHook } from "../utils/common";
 import { AzureMonitorSpanProcessor } from "./spanProcessor";
+import { AzureFunctionsHook } from "./azureFnHook";
 
 /**
  * Azure Monitor OpenTelemetry Trace Handler
@@ -39,7 +40,8 @@ export class TraceHandler {
   private _spanProcessor: BatchSpanProcessor;
   private _tracerProvider: NodeTracerProvider;
   private _tracer: Tracer;
-  private _exporter: AzureMonitorTraceExporter;
+  private _azureExporter: AzureMonitorTraceExporter;
+  private _otlpExporter?: OTLPTraceExporter;
   private _instrumentations: Instrumentation[];
   private _httpInstrumentation?: Instrumentation;
   private _azureSdkInstrumentation?: Instrumentation;
@@ -49,14 +51,15 @@ export class TraceHandler {
   private _redisInstrumentation?: Instrumentation;
   private _redis4Instrumentation?: Instrumentation;
   private _config: AzureMonitorOpenTelemetryConfig;
-  private _metricHandler?: MetricHandler;
+  private _metricHandler: MetricHandler;
+  private _azureFunctionsHook: AzureFunctionsHook;
 
   /**
    * Initializes a new instance of the TraceHandler class.
    * @param _config - Configuration.
    * @param _metricHandler - MetricHandler.
    */
-  constructor(config: AzureMonitorOpenTelemetryConfig, metricHandler?: MetricHandler) {
+  constructor(config: AzureMonitorOpenTelemetryConfig, metricHandler: MetricHandler) {
     this._config = config;
     this._metricHandler = metricHandler;
     this._instrumentations = [];
@@ -67,29 +70,34 @@ export class TraceHandler {
       forceFlushTimeoutMillis: 30000,
     };
     this._tracerProvider = new NodeTracerProvider(tracerConfig);
-    this._exporter = new AzureMonitorTraceExporter(this._config.azureMonitorExporterConfig);
+    this._azureExporter = new AzureMonitorTraceExporter(this._config.azureMonitorExporterConfig);
     const bufferConfig: BufferConfig = {
       maxExportBatchSize: 512,
       scheduledDelayMillis: 5000,
       exportTimeoutMillis: 30000,
       maxQueueSize: 2048,
     };
-    this._spanProcessor = new BatchSpanProcessor(this._exporter, bufferConfig);
+    this._spanProcessor = new BatchSpanProcessor(this._azureExporter, bufferConfig);
     this._tracerProvider.addSpanProcessor(this._spanProcessor);
+
+    if (this._config.otlpTraceExporterConfig?.enabled) {
+      this._otlpExporter = new OTLPTraceExporter(config.otlpTraceExporterConfig);
+      let otlpSpanProcessor = new BatchSpanProcessor(this._otlpExporter, bufferConfig);
+      this._tracerProvider.addSpanProcessor(otlpSpanProcessor);
+    }
 
     this._tracerProvider.register();
     this._tracer = this._tracerProvider.getTracer("AzureMonitorTracer");
-    if (this._metricHandler) {
-      const azureSpanProcessor = new AzureMonitorSpanProcessor(this._metricHandler);
-      this._tracerProvider.addSpanProcessor(azureSpanProcessor);
-    }
+    const azureSpanProcessor = new AzureMonitorSpanProcessor(this._metricHandler);
+    this._tracerProvider.addSpanProcessor(azureSpanProcessor);
+    this._azureFunctionsHook = new AzureFunctionsHook();
     this._initializeInstrumentations();
   }
 
   /**
    *Get OpenTelemetry TracerProvider
    */
-  public getTracerProvider(): TracerProvider {
+  public getTracerProvider(): NodeTracerProvider {
     return this._tracerProvider;
   }
 
@@ -105,6 +113,7 @@ export class TraceHandler {
    */
   public async shutdown(): Promise<void> {
     await this._tracerProvider.shutdown();
+    this._azureFunctionsHook.shutdown();
   }
 
   /**
@@ -203,6 +212,7 @@ export class TraceHandler {
     }
     this._instrumentations.forEach((instrumentation) => {
       instrumentation.setTracerProvider(this._tracerProvider);
+      instrumentation.setMeterProvider(this._metricHandler.getMeterProvider());
       if (instrumentation.getConfig().enabled) {
         instrumentation.enable();
       }
