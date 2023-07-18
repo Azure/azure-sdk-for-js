@@ -215,9 +215,9 @@ export class ClientContext {
 
 // @public (undocumented)
 export class ClientEncryptionPolicy {
-    constructor(path: string, clientencryptionkeyid: string, Encryptiontype: string, Encryptionalgorithm: string);
+    constructor(path: string, clientEncryptionKeyId: string, Encryptiontype: string, Encryptionalgorithm: string);
     // (undocumented)
-    clientencryptionkeyid: string;
+    clientEncryptionKeyId: string;
     // (undocumented)
     Encryptionalgorithm: string;
     // (undocumented)
@@ -1011,7 +1011,7 @@ export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T &
 // @public
 export class Items {
     // Warning: (ae-forgotten-export) The symbol "ClientEncryptionPolicyCache" needs to be exported by the entry point index.d.ts
-    constructor(container: Container, clientContext: ClientContext, wrappeDekCache?: WrappedDekCache, dekCache?: UnwrappedDekCache, clientencryptionpolicycache?: ClientEncryptionPolicyCache);
+    constructor(container: Container, clientContext: ClientContext, wrappedDekCache?: WrappedDekCache, dekCache?: UnwrappedDekCache, clientencryptionpolicycache?: ClientEncryptionPolicyCache);
     batch(operations: OperationInput[], partitionKey?: PartitionKey, options?: RequestOptions): Promise<Response_2<OperationResponse[]>>;
     bulk(operations: OperationInput[], bulkOptions?: BulkOptions, options?: RequestOptions): Promise<BulkOperationResponse>;
     changeFeed(partitionKey: PartitionKey, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
