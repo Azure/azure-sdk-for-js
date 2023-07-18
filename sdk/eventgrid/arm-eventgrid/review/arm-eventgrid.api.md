@@ -901,6 +901,7 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: EventGridManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: EventGridManagementClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -950,7 +951,7 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     privateLinkResources: PrivateLinkResources;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
     // (undocumented)
     systemTopicEventSubscriptions: SystemTopicEventSubscriptions;
     // (undocumented)

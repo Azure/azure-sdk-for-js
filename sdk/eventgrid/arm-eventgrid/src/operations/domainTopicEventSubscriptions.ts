@@ -494,7 +494,8 @@ export class DomainTopicEventSubscriptionsImpl
       OperationState<DomainTopicEventSubscriptionsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri"
     });
     await poller.poll();
     return poller;

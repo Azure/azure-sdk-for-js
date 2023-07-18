@@ -1,16 +1,6 @@
 # Release History
-
-## 14.2.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 14.2.0-beta.1 (2023-05-18)
+    
+## 14.2.0-beta.2 (2023-07-18)
     
 **Features**
 
@@ -324,6 +314,7 @@
   - Enum KnownChannelType has a new value PartnerDestination
   - Enum KnownEndpointType has a new value PartnerDestination
   - Enum KnownPrivateEndpointConnectionsParentType has a new value Namespaces
+  - Class EventGridManagementClient has a new signature
     
     
 ## 14.1.0 (2023-01-10)

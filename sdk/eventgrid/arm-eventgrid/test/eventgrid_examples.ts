@@ -119,7 +119,8 @@ describe("Eventgrid test", () => {
         }
       },
       testPollingOptions);
-    console.log(res)
+    console.log(res);
+    assert.equal(res.name, eventSubscriptionName);
   });
 
   it("domainTopicEventSubscriptions listByResourceGroup test", async function () {
@@ -151,7 +152,8 @@ describe("Eventgrid test", () => {
         }
       },
       testPollingOptions);
-    console.log(res)
+    console.log(res);
+    assert.equal(res.name, eventSubscriptionName);
   });
 
   it("domainTopicEventSubscriptions delete test", async function () {

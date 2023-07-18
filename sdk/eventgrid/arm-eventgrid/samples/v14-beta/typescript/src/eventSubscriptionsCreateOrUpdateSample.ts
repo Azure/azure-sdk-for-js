@@ -24,9 +24,6 @@ dotenv.config();
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/EventSubscriptions_CreateOrUpdateForCustomTopic.json
  */
 async function eventSubscriptionsCreateOrUpdateForCustomTopic() {
-  const subscriptionId =
-    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1";
   const eventSubscriptionName = "examplesubscription1";
@@ -43,7 +40,7 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopic() {
     }
   };
   const credential = new DefaultAzureCredential();
-  const client = new EventGridManagementClient(credential, subscriptionId);
+  const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.beginCreateOrUpdateAndWait(
     scope,
     eventSubscriptionName,
@@ -59,9 +56,6 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopic() {
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/EventSubscriptions_CreateOrUpdateForCustomTopic_AzureFunctionDestination.json
  */
 async function eventSubscriptionsCreateOrUpdateForCustomTopicAzureFunctionDestination() {
-  const subscriptionId =
-    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1";
   const eventSubscriptionName = "examplesubscription1";
@@ -84,7 +78,7 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicAzureFunctionDestin
     }
   };
   const credential = new DefaultAzureCredential();
-  const client = new EventGridManagementClient(credential, subscriptionId);
+  const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.beginCreateOrUpdateAndWait(
     scope,
     eventSubscriptionName,
@@ -100,9 +94,6 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicAzureFunctionDestin
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/EventSubscriptions_CreateOrUpdateForCustomTopic_EventHubDestination.json
  */
 async function eventSubscriptionsCreateOrUpdateForCustomTopicEventHubDestination() {
-  const subscriptionId =
-    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1";
   const eventSubscriptionName = "examplesubscription1";
@@ -125,7 +116,7 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicEventHubDestination
     }
   };
   const credential = new DefaultAzureCredential();
-  const client = new EventGridManagementClient(credential, subscriptionId);
+  const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.beginCreateOrUpdateAndWait(
     scope,
     eventSubscriptionName,
@@ -141,9 +132,6 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicEventHubDestination
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/EventSubscriptions_CreateOrUpdateForCustomTopic_HybridConnectionDestination.json
  */
 async function eventSubscriptionsCreateOrUpdateForCustomTopicHybridConnectionDestination() {
-  const subscriptionId =
-    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1";
   const eventSubscriptionName = "examplesubscription1";
@@ -166,7 +154,7 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicHybridConnectionDes
     }
   };
   const credential = new DefaultAzureCredential();
-  const client = new EventGridManagementClient(credential, subscriptionId);
+  const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.beginCreateOrUpdateAndWait(
     scope,
     eventSubscriptionName,
@@ -182,9 +170,6 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicHybridConnectionDes
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/EventSubscriptions_CreateOrUpdateForCustomTopic_ServiceBusQueueDestination.json
  */
 async function eventSubscriptionsCreateOrUpdateForCustomTopicServiceBusQueueDestination() {
-  const subscriptionId =
-    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1";
   const eventSubscriptionName = "examplesubscription1";
@@ -207,7 +192,7 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicServiceBusQueueDest
     }
   };
   const credential = new DefaultAzureCredential();
-  const client = new EventGridManagementClient(credential, subscriptionId);
+  const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.beginCreateOrUpdateAndWait(
     scope,
     eventSubscriptionName,
@@ -223,9 +208,6 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicServiceBusQueueDest
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/EventSubscriptions_CreateOrUpdateForCustomTopic_ServiceBusTopicDestination.json
  */
 async function eventSubscriptionsCreateOrUpdateForCustomTopicServiceBusTopicDestination() {
-  const subscriptionId =
-    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1";
   const eventSubscriptionName = "examplesubscription1";
@@ -248,7 +230,7 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicServiceBusTopicDest
     }
   };
   const credential = new DefaultAzureCredential();
-  const client = new EventGridManagementClient(credential, subscriptionId);
+  const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.beginCreateOrUpdateAndWait(
     scope,
     eventSubscriptionName,
@@ -264,9 +246,6 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicServiceBusTopicDest
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/EventSubscriptions_CreateOrUpdateForCustomTopic_StorageQueueDestination.json
  */
 async function eventSubscriptionsCreateOrUpdateForCustomTopicStorageQueueDestination() {
-  const subscriptionId =
-    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1";
   const eventSubscriptionName = "examplesubscription1";
@@ -291,7 +270,7 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicStorageQueueDestina
     }
   };
   const credential = new DefaultAzureCredential();
-  const client = new EventGridManagementClient(credential, subscriptionId);
+  const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.beginCreateOrUpdateAndWait(
     scope,
     eventSubscriptionName,
@@ -307,9 +286,6 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicStorageQueueDestina
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/EventSubscriptions_CreateOrUpdateForCustomTopic_WebhookDestination.json
  */
 async function eventSubscriptionsCreateOrUpdateForCustomTopicWebhookDestination() {
-  const subscriptionId =
-    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1";
   const eventSubscriptionName = "examplesubscription1";
@@ -326,7 +302,7 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicWebhookDestination(
     }
   };
   const credential = new DefaultAzureCredential();
-  const client = new EventGridManagementClient(credential, subscriptionId);
+  const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.beginCreateOrUpdateAndWait(
     scope,
     eventSubscriptionName,
@@ -342,9 +318,6 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicWebhookDestination(
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/EventSubscriptions_CreateOrUpdateForResource.json
  */
 async function eventSubscriptionsCreateOrUpdateForResource() {
-  const subscriptionId =
-    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventHub/namespaces/examplenamespace1";
   const eventSubscriptionName = "examplesubscription10";
@@ -360,7 +333,7 @@ async function eventSubscriptionsCreateOrUpdateForResource() {
     }
   };
   const credential = new DefaultAzureCredential();
-  const client = new EventGridManagementClient(credential, subscriptionId);
+  const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.beginCreateOrUpdateAndWait(
     scope,
     eventSubscriptionName,
@@ -376,9 +349,6 @@ async function eventSubscriptionsCreateOrUpdateForResource() {
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/EventSubscriptions_CreateOrUpdateForResourceGroup.json
  */
 async function eventSubscriptionsCreateOrUpdateForResourceGroup() {
-  const subscriptionId =
-    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg";
   const eventSubscriptionName = "examplesubscription2";
@@ -394,7 +364,7 @@ async function eventSubscriptionsCreateOrUpdateForResourceGroup() {
     }
   };
   const credential = new DefaultAzureCredential();
-  const client = new EventGridManagementClient(credential, subscriptionId);
+  const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.beginCreateOrUpdateAndWait(
     scope,
     eventSubscriptionName,
@@ -410,9 +380,6 @@ async function eventSubscriptionsCreateOrUpdateForResourceGroup() {
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/EventSubscriptions_CreateOrUpdateForSubscription.json
  */
 async function eventSubscriptionsCreateOrUpdateForSubscription() {
-  const subscriptionId =
-    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40";
   const eventSubscriptionName = "examplesubscription3";
   const eventSubscriptionInfo: EventSubscription = {
@@ -423,7 +390,7 @@ async function eventSubscriptionsCreateOrUpdateForSubscription() {
     filter: { isSubjectCaseSensitive: false }
   };
   const credential = new DefaultAzureCredential();
-  const client = new EventGridManagementClient(credential, subscriptionId);
+  const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.beginCreateOrUpdateAndWait(
     scope,
     eventSubscriptionName,

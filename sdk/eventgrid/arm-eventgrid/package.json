@@ -8,7 +8,7 @@
     "node": ">=14.0.0"
   },
   "dependencies": {
-    "@azure/core-lro": "^2.5.0",
+    "@azure/core-lro": "^2.5.3",
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-paging": "^1.2.0",
     "@azure/core-client": "^1.7.0",
