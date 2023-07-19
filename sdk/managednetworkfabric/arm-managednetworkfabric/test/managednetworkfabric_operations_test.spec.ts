@@ -48,7 +48,7 @@ describe("managednetworkfabric test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
+    location = "eastus2euap";
     resourceGroup = "myjstest";
     resourcename = "resourcetest";
 
@@ -58,58 +58,46 @@ describe("managednetworkfabric test", () => {
     await recorder.stop();
   });
 
-  it("networkFabricControllers create test", async function () {
-    const res = await client.networkFabricControllers.beginCreateAndWait(
+  it("ipPrefixes create test", async function () {
+    const res = await client.ipPrefixes.beginCreateAndWait(
       resourceGroup,
       resourcename,
       {
         annotation: "annotation",
-        infrastructureExpressRouteConnections: [
+        ipPrefixRules: [
           {
-            expressRouteAuthorizationKey: "testau",
-            expressRouteCircuitId:
-              "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.Network/expressRouteCircuits/tester"
+            action: "Permit",
+            condition: "GreaterThanOrEqualTo",
+            networkPrefix: "10.10.10.10/30",
+            sequenceNumber: 4155123341,
+            subnetMaskLength: "10"
           }
         ],
-        ipv4AddressSpace: "172.253.0.0/19",
-        ipv6AddressSpace: "::/60",
-        isWorkloadManagementNetworkEnabled: "True",
-        location,
-        managedResourceGroupConfiguration: {
-          name: "managedResourceGroupName",
-          location: "eastus"
-        },
-        nfcSku: "Standard",
-        workloadExpressRouteConnections: [
-          {
-            expressRouteAuthorizationKey: "testau",
-            expressRouteCircuitId:
-              "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.Network/expressRouteCircuits/tester"
-          }
-        ]
+        location: "eastus",
+        tags: { keyID: "KeyValue" }
       }, testPollingOptions);
     assert.equal(res.name, resourcename);
   });
 
-  it("networkFabricControllers get test", async function () {
-    const res = await client.networkFabricControllers.get(resourceGroup,
+  it("ipPrefixes get test", async function () {
+    const res = await client.ipPrefixes.get(resourceGroup,
       resourcename);
     assert.equal(res.name, resourcename);
   });
 
-  it("networkFabricControllers list test", async function () {
+  it("ipPrefixes list test", async function () {
     const resArray = new Array();
-    for await (let item of client.networkFabricControllers.listByResourceGroup(resourceGroup)) {
+    for await (let item of client.ipPrefixes.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
   });
 
-  it("networkFabricControllers delete test", async function () {
+  it("ipPrefixes delete test", async function () {
     const resArray = new Array();
-    const res = await client.networkFabricControllers.beginDeleteAndWait(resourceGroup, resourcename
+    const res = await client.ipPrefixes.beginDeleteAndWait(resourceGroup, resourcename
     )
-    for await (let item of client.networkFabricControllers.listByResourceGroup(resourceGroup)) {
+    for await (let item of client.ipPrefixes.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
