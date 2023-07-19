@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { JSONObject, RouterJobMatchingMode, RouterJobNote } from "./models";
-import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import {
   JobRouterAdministrationUpsertClassificationPolicyOptionalParams,
   JobRouterAdministrationUpsertDistributionPolicyOptionalParams,
@@ -404,22 +402,6 @@ export interface ListWorkersOptions extends OperationOptions {
   hasCapacity?: boolean;
 }
 
-export {
-  JobRouterAdministrationUpsertClassificationPolicyOptionalParams,
-  JobRouterAdministrationUpsertDistributionPolicyOptionalParams,
-  JobRouterAdministrationUpsertExceptionPolicyOptionalParams,
-  JobRouterCancelJobActionOptionalParams,
-  JobRouterCloseJobActionOptionalParams,
-  JobRouterCompleteJobActionOptionalParams,
-  JobRouterDeclineJobActionOptionalParams,
-  JobRouterReclassifyJobActionOptionalParams,
-  JobRouterUpsertJobOptionalParams,
-  JobRouterUpsertWorkerOptionalParams,
-  JobRouterUnassignJobActionOptionalParams,
-  JobRouterAdministrationUpsertQueueOptionalParams,
-  DeclineJobOfferRequest,
-  UnassignJobRequest,
-} from "../generated/src";
 export {
   JobRouterAdministrationUpsertClassificationPolicyOptionalParams,
   JobRouterAdministrationUpsertDistributionPolicyOptionalParams,
