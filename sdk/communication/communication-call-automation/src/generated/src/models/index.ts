@@ -188,6 +188,8 @@ export interface TransferToParticipantRequest {
   customContext?: CustomContext;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
+  /** The callback URI override. */
+  callbackUriOverride?: string;
 }
 
 /** The response payload for transferring the call. */
@@ -397,6 +399,8 @@ export interface AddParticipantRequest {
   operationContext?: string;
   /** Used by customer to send custom context to targets */
   customContext?: CustomContext;
+  /** The callback URI override. */
+  callbackUriOverride?: string;
 }
 
 /** The response payload for adding participants to the call. */
@@ -413,6 +417,8 @@ export interface RemoveParticipantRequest {
   participantToRemove: CommunicationIdentifierModel;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
+  /** The callback URI override. */
+  callbackUriOverride?: string;
 }
 
 /** The response payload for removing participants of the call. */
