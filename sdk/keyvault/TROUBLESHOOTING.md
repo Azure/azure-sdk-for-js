@@ -24,7 +24,7 @@ For any package-specific troubleshooting guides, see any of the following:
     - [Multi-tenant Authentication Issues](#multi-tenant-authentication-issues)
     - [Incorrect Challenge Resource](#incorrect-challenge-resource)
 - [Other Service Errors](#other-service-errors)
-  - [HTTP 429: Too Many Request](#http-429-too-many-requests)
+  - [HTTP 429: Too Many Requests](#http-429-too-many-requests)
 
 ## Troubleshooting Authentication Issues
 
