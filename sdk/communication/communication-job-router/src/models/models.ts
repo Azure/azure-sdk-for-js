@@ -32,7 +32,7 @@ export interface JSONObject {
 }
 
 /** Safe type for arrays. */
-export interface JSONArray extends ArrayLike<JSONValue> { }
+export interface JSONArray extends ArrayLike<JSONValue> {}
 
 /**
  * Note with timestamp for a router job.
@@ -45,10 +45,10 @@ export interface RouterJobNote {
 }
 
 /** Queue and match job matching mode type. */
-export interface QueueAndMatchMode { }
+export interface QueueAndMatchMode {}
 
 /** Suspend job matching mode type. */
-export interface SuspendMode { }
+export interface SuspendMode {}
 
 /** Queue and match job matching mode. */
 export interface RouterJobMatchingMode {

@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  ClassificationPolicy,
-  DistributionPolicy,
-} from "../generated/src";
+import { ClassificationPolicy, DistributionPolicy } from "../generated/src";
 import { JSONValue, RouterJob, RouterWorker, RouterQueue, ExceptionPolicy } from "./models";
 
 export interface RouterJobResponse extends RouterJob {

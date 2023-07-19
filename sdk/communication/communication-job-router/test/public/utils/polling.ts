@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  RouterJobAssignment,
-  RouterJobOffer,
-} from "../../../src/generated/src";
+import { RouterJobAssignment, RouterJobOffer } from "../../../src/generated/src";
 import { JobRouterClient } from "../../../src/jobRouterClient";
 import { RouterJob, RouterWorker } from "../../../src";
 

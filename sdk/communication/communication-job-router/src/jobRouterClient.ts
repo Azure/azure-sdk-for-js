@@ -23,11 +23,7 @@ import {
   RouterJobItem as RouterJobItemGenerated,
 } from "./generated/src";
 import { logger } from "./models/logger";
-import {
-  RouterJobItem,
-  RouterWorkerItem,
-  RouterJobNote,
-} from "./models/models";
+import { RouterJobItem, RouterWorkerItem, RouterJobNote } from "./models/models";
 import {
   JobRouterClientOptions,
   CreateJobOptions,
@@ -73,9 +69,9 @@ const transformJobOptions = (options: CreateJobOptions | UpdateJobOptions): Rout
   }
 
   const transformedNotes = options.notes!.reduce(
-    (acc, { addedAt, message }) =>
-      ({ ...acc, [addedAt.toISOString()]: message }),
-    {});
+    (acc, { addedAt, message }) => ({ ...acc, [addedAt.toISOString()]: message }),
+    {}
+  );
 
   return { ...options, notes: transformedNotes };
 };
@@ -86,36 +82,36 @@ const transformJobOptions = (options: CreateJobOptions | UpdateJobOptions): Rout
  * @returns - Array of RouterJobNote objects.
  */
 const transformNotes = (notes: { [propertyName: string]: string } | undefined): RouterJobNote[] =>
-  notes === undefined ? [] : Object.keys(notes).map(key => ({ "addedAt": new Date(key), "message": notes[key] }));
+  notes === undefined
+    ? []
+    : Object.keys(notes).map((key) => ({ addedAt: new Date(key), message: notes[key] }));
 
 /**
  * Transformed generated `RouterJobItem` type to custom `RouterJobItem` type
  * @param item - Generated RouterJobItem type.
  * @returns - Custom RouterJobItem type.
  */
-const transformJobItem = (item: RouterJobItemGenerated): RouterJobItem =>
-  ({ ...item, job: { ...item.job, notes: transformNotes(item.job!.notes) } });
+const transformJobItem = (item: RouterJobItemGenerated): RouterJobItem => ({
+  ...item,
+  job: { ...item.job, notes: transformNotes(item.job!.notes) },
+});
 
 /**
  * Transforms generated 'RouterJobItem' type to custom 'RouterJobItem' type in .byPage() function of async iterator.
  * @param input - Output from internal async iterator .byPage().
  * @returns - Valid PagedAsyncIterableIterator .byPage() interface to access custom 'RouterJobItem' type.
  */
-const byPageTransformer = (input: AsyncIterableIterator<RouterJobItemGenerated[]>): AsyncIterableIterator<RouterJobItem[]> => {
-  async function* transformPages() {
-    for await (const generatedPage of input) {
-      const transformedPage: RouterJobItem[] = [];
+async function* routerJobItemByPageTransformer(input: AsyncIterableIterator<RouterJobItemGenerated[]>): AsyncIterableIterator<RouterJobItem[]> {
+  for await (const generatedPage of input) {
+    const transformedPage: RouterJobItem[] = [];
 
-      for (const generatedItem of generatedPage) {
-        const transformedItem = transformJobItem(generatedItem);
-        transformedPage.push(transformedItem);
-      }
-
-      yield transformedPage;
+    for (const generatedItem of generatedPage) {
+      const transformedItem = transformJobItem(generatedItem);
+      transformedPage.push(transformedItem);
     }
-  }
 
-  return transformPages();
+    yield transformedPage;
+  }
 }
 
 /**
@@ -123,37 +119,58 @@ const byPageTransformer = (input: AsyncIterableIterator<RouterJobItemGenerated[]
  * @param input - Output from internal async iterator .next().
  * @returns - Valid PagedAsyncIterableIterator .next() interface to access custom 'RouterJobItem' type.
  */
-const nextTransformer = (input: IteratorResult<RouterJobItemGenerated>): Promise<IteratorResult<RouterJobItem>> => {
+const routerJobItemNextTransformer = (
+  input: IteratorResult<RouterJobItemGenerated>
+): Promise<IteratorResult<RouterJobItem>> => {
   const generatedJobItem = input?.value as RouterJobItemGenerated;
 
   const transformedJobItem =
-    generatedJobItem === undefined ? {} :
-      {
+    generatedJobItem === undefined
+      ? {}
+      : {
         ...generatedJobItem,
-        job: { ...generatedJobItem.job, notes: transformNotes(generatedJobItem.job!.notes) }
+        job: { ...generatedJobItem.job, notes: transformNotes(generatedJobItem.job!.notes) },
       };
 
   return Promise.resolve({ value: transformedJobItem, done: input.done });
-}
+};
 
 type Transformer<TFrom, TTo> = (input: TFrom) => TTo;
-class TransformingPagedAsyncIterableIterator<TElement, TTransformed, TPage = TElement[], TTransformedPage = TTransformed[], TPageSettings = PageSettings> {
+class TransformingPagedAsyncIterableIterator<
+  TElement,
+  TTransformed,
+  TPage = TElement[],
+  TTransformedPage = TTransformed[],
+  TPageSettings = PageSettings
+> {
   constructor(
     private internalIterator: PagedAsyncIterableIterator<TElement, TPage, TPageSettings>,
-    private nextTransformer: Transformer<IteratorResult<TElement>, Promise<IteratorResult<TTransformed>>>,
-    private byPageTransformer: Transformer<AsyncIterableIterator<TPage>, AsyncIterableIterator<TTransformedPage>>,
+    private nextTransformer: Transformer<
+      IteratorResult<TElement>,
+      Promise<IteratorResult<TTransformed>>
+    >,
+    private byPageTransformer: Transformer<
+      AsyncIterableIterator<TPage>,
+      AsyncIterableIterator<TTransformedPage>
+    >
   ) { }
 
   async next(): Promise<IteratorResult<TTransformed>> {
     return this.nextTransformer(await this.internalIterator.next());
   }
 
-  [Symbol.asyncIterator](): TransformingPagedAsyncIterableIterator<TElement, TTransformed, TPage, TTransformedPage, TPageSettings> {
+  [Symbol.asyncIterator](): TransformingPagedAsyncIterableIterator<
+    TElement,
+    TTransformed,
+    TPage,
+    TTransformedPage,
+    TPageSettings
+  > {
     return this;
   }
 
-  async* byPage(settings?: TPageSettings): AsyncIterableIterator<TTransformedPage> {
-    return this.byPageTransformer(await this.internalIterator.byPage(settings));
+  async *byPage(settings?: TPageSettings): AsyncIterableIterator<TTransformedPage> {
+    await this.byPageTransformer(await this.internalIterator.byPage(settings));
   }
 }
 
@@ -284,16 +301,17 @@ export class JobRouterClient {
    * Gets the list of jobs.
    * @param options - List jobs options.
    */
-  public listJobs(options: ListJobsOptions = {}): TransformingPagedAsyncIterableIterator<RouterJobItemGenerated, RouterJobItem> {
+  public listJobs(
+    options: ListJobsOptions = {}
+  ): TransformingPagedAsyncIterableIterator<RouterJobItemGenerated, RouterJobItem> {
     const listOptions = <JobRouterListJobsOptionalParams>options;
     listOptions.maxpagesize = options.maxPageSize;
     listOptions.status = options.jobStateSelector;
 
-    const transformingIterator = new TransformingPagedAsyncIterableIterator<RouterJobItemGenerated, RouterJobItem>(
-      this.client.jobRouter.listJobs(listOptions),
-      nextTransformer,
-      byPageTransformer
-    );
+    const transformingIterator = new TransformingPagedAsyncIterableIterator<
+      RouterJobItemGenerated,
+      RouterJobItem
+    >(this.client.jobRouter.listJobs(listOptions), routerJobItemNextTransformer, routerJobItemByPageTransformer);
 
     return transformingIterator;
   }
