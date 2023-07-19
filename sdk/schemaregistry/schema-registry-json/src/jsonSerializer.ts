@@ -96,7 +96,7 @@ export class JsonSerializer<MessageT = MessageContent> {
       () => JSON.parse(decoder.decode(data)),
       `Json deserialization failed with schema ID (${schemaId}). See 'cause' for more details.`
     );
-    const validate = options?.validate;
+    const validate = options?.validateCallback;
     if (validate) {
       const isValid = validate(returnedMessage, schema);
       if (typeof isValid === "object") {

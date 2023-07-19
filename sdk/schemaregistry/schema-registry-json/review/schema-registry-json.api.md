@@ -8,7 +8,7 @@ import { SchemaRegistry } from '@azure/schema-registry';
 
 // @public
 export interface DeserializeOptions {
-    validate?: (message: string, schema: string) => boolean | {
+    validateCallback?: (message: string, schema: string) => boolean | {
         isValid: false;
         message: string;
     };
