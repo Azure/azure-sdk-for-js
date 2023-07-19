@@ -70,10 +70,10 @@ describe("managednetworkfabric test", () => {
             condition: "GreaterThanOrEqualTo",
             networkPrefix: "10.10.10.10/30",
             sequenceNumber: 4155123341,
-            subnetMaskLength: "10"
+            subnetMaskLength: "31"
           }
         ],
-        location: "eastus",
+        location,
         tags: { keyID: "KeyValue" }
       }, testPollingOptions);
     assert.equal(res.name, resourcename);
