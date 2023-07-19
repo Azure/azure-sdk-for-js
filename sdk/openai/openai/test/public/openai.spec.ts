@@ -16,10 +16,6 @@ matrix([["AzureAPIKey", "AAD", "OpenAIKey"]] as const, async function (authMetho
       if (!isNode && authMethod === "AAD") {
         this.skip();
       }
-      if (authMethod === "OpenAIKey") {
-        // temporary until we can get a key to test with
-        this.skip();
-      }
       recorder = await startRecorder(this.currentTest);
       client = createClient(authMethod, { recorder });
     });

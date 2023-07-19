@@ -126,6 +126,8 @@ export interface TransferCallToParticipantOptions extends OperationOptions {
   sipHeaders?: { [propertyName: string]: string };
   /** Custom context for voip. */
   voipHeaders?: { [propertyName: string]: string };
+  /** Call back URI override for this request */
+  callbackUrlOverride?: string;
 }
 
 /** Options to add participants. */
@@ -137,6 +139,8 @@ export interface AddParticipantOptions extends OperationOptions {
   invitationTimeoutInSeconds?: number;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
+  /** Call back URI override for this request */
+  callbackUrlOverride?: string;
 }
 
 /**
@@ -145,6 +149,8 @@ export interface AddParticipantOptions extends OperationOptions {
 export interface RemoveParticipantsOption extends OperationOptions {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
+  /** Call back URI override for this request */
+  callbackUrlOverride?: string;
 }
 
 /**

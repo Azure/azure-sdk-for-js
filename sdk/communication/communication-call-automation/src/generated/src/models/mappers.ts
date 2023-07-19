@@ -520,6 +520,12 @@ export const TransferToParticipantRequest: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      callbackUriOverride: {
+        serializedName: "callbackUriOverride",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1156,6 +1162,12 @@ export const AddParticipantRequest: coreClient.CompositeMapper = {
           name: "Composite",
           className: "CustomContext"
         }
+      },
+      callbackUriOverride: {
+        serializedName: "callbackUriOverride",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1197,6 +1209,12 @@ export const RemoveParticipantRequest: coreClient.CompositeMapper = {
       },
       operationContext: {
         serializedName: "operationContext",
+        type: {
+          name: "String"
+        }
+      },
+      callbackUriOverride: {
+        serializedName: "callbackUriOverride",
         type: {
           name: "String"
         }
