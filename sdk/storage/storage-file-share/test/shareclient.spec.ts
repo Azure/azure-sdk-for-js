@@ -322,7 +322,7 @@ describe("ShareDirectoryClient - Verify Name Properties", () => {
   });
 });
 
-describe.only("ShareClient - OAuth", () => {
+describe("ShareClient - OAuth", () => {
   let serviceClient: ShareServiceClient;
   let shareName: string;
   let shareClient: ShareClient;
