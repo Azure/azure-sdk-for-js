@@ -23,6 +23,7 @@ import {
   RouterJobItem as RouterJobItemGenerated,
 } from "./generated/src";
 import { logger } from "./models/logger";
+import { RouterJob } from "./models/models";
 import {
   RouterJobItem,
   RouterWorkerItem,

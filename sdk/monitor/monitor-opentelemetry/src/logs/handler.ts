@@ -3,6 +3,7 @@
 
 import { AzureMonitorLogExporter } from "@azure/monitor-opentelemetry-exporter";
 import { OTLPLogExporter } from "@opentelemetry/exporter-logs-otlp-http";
+import { logs } from "@opentelemetry/api-logs";
 import {
   LoggerProvider,
   BatchLogRecordProcessor,
@@ -51,7 +52,7 @@ export class LogHandler {
       const otlpLogProcessor = new BatchLogRecordProcessor(this._otlpExporter);
       this._loggerProvider.addLogRecordProcessor(otlpLogProcessor);
     }
-
+    logs.setGlobalLoggerProvider(this._loggerProvider);
     this._logger = this._loggerProvider.getLogger("AzureMonitorLogger", undefined) as OtelLogger;
   }
 

@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { JSONObject, RouterJobMatchingMode, RouterJobNote } from "./models";
+import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import {
   JobRouterAdministrationUpsertClassificationPolicyOptionalParams,
   JobRouterAdministrationUpsertDistributionPolicyOptionalParams,
@@ -146,6 +148,35 @@ export interface ListExceptionPoliciesOptions extends OperationOptions {
 }
 
 /**
+ * Options to create a queue.
+ */
+export interface CreateQueueOptions extends JobRouterAdministrationUpsertQueueOptionalParams {
+  /** The name of this queue. */
+  name?: string;
+  /** The ID of the distribution policy that will determine how a job is distributed to workers. */
+  distributionPolicyId?: string;
+  /** A set of key/value pairs that are identifying attributes used by the rules engines to make decisions. */
+  labels?: JSONObject;
+  /** (Optional) The ID of the exception policy that determines various job escalation rules. */
+  exceptionPolicyId?: string;
+}
+
+/**
+ * Options to update a queue.
+ */
+export interface UpdateQueueOptions extends JobRouterAdministrationUpsertQueueOptionalParams {
+  /** The name of this queue. */
+  name?: string;
+  /** The ID of the distribution policy that will determine how a job is distributed to workers. */
+  distributionPolicyId?: string;
+  /** A set of key/value pairs that are identifying attributes used by the rules engines to make decisions. */
+  labels?: JSONObject;
+  /** (Optional) The ID of the exception policy that determines various job escalation rules. */
+  exceptionPolicyId?: string;
+}
+
+/**
+ * Options to list queues.
  * Options to create a queue.
  */
 export interface CreateQueueOptions extends JobRouterAdministrationUpsertQueueOptionalParams {
@@ -373,6 +404,22 @@ export interface ListWorkersOptions extends OperationOptions {
   hasCapacity?: boolean;
 }
 
+export {
+  JobRouterAdministrationUpsertClassificationPolicyOptionalParams,
+  JobRouterAdministrationUpsertDistributionPolicyOptionalParams,
+  JobRouterAdministrationUpsertExceptionPolicyOptionalParams,
+  JobRouterCancelJobActionOptionalParams,
+  JobRouterCloseJobActionOptionalParams,
+  JobRouterCompleteJobActionOptionalParams,
+  JobRouterDeclineJobActionOptionalParams,
+  JobRouterReclassifyJobActionOptionalParams,
+  JobRouterUpsertJobOptionalParams,
+  JobRouterUpsertWorkerOptionalParams,
+  JobRouterUnassignJobActionOptionalParams,
+  JobRouterAdministrationUpsertQueueOptionalParams,
+  DeclineJobOfferRequest,
+  UnassignJobRequest,
+} from "../generated/src";
 export {
   JobRouterAdministrationUpsertClassificationPolicyOptionalParams,
   JobRouterAdministrationUpsertDistributionPolicyOptionalParams,

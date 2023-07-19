@@ -11,7 +11,10 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { KustoManagementClient } from "../kustoManagementClient";
-import { OperationsResultsLocationGetOptionalParams } from "../models";
+import {
+  OperationsResultsLocationGetOptionalParams,
+  OperationsResultsLocationGetResponse
+} from "../models";
 
 /** Class containing OperationsResultsLocation operations. */
 export class OperationsResultsLocationImpl
@@ -28,15 +31,15 @@ export class OperationsResultsLocationImpl
 
   /**
    * Returns operation results.
-   * @param location Azure location (region) name.
-   * @param operationId The Guid of the operation ID
+   * @param location The name of Azure region.
+   * @param operationId The ID of an ongoing async operation.
    * @param options The options parameters.
    */
   get(
     location: string,
     operationId: string,
     options?: OperationsResultsLocationGetOptionalParams
-  ): Promise<void> {
+  ): Promise<OperationsResultsLocationGetResponse> {
     return this.client.sendOperationRequest(
       { location, operationId, options },
       getOperationSpec
@@ -50,7 +53,13 @@ const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/providers/Microsoft.Kusto/locations/{location}/operationResults/{operationId}",
   httpMethod: "GET",
-  responses: { 200: {}, 202: {}, default: {} },
+  responses: {
+    200: {},
+    202: {
+      headersMapper: Mappers.OperationsResultsLocationGetHeaders
+    },
+    default: {}
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

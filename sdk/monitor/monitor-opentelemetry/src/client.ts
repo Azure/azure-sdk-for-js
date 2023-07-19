@@ -87,6 +87,7 @@ export class AzureMonitorOpenTelemetryClient {
     try {
       await this._traceHandler.flush();
       await this._metricHandler.flush();
+      await this._logHandler.flush();
     } catch (err) {
       InternalLogger.getInstance().error("Failed to flush telemetry", err);
     }
