@@ -113,7 +113,7 @@ export const timeout: OperationQueryParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2021-12-02",
+    defaultValue: "2022-11-02",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {
@@ -620,6 +620,17 @@ export const expiresOn: OperationParameter = {
   mapper: {
     serializedName: "x-ms-expiry-time",
     xmlName: "x-ms-expiry-time",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const encryptionContext: OperationParameter = {
+  parameterPath: ["options", "encryptionContext"],
+  mapper: {
+    serializedName: "x-ms-encryption-context",
+    xmlName: "x-ms-encryption-context",
     type: {
       name: "String"
     }
