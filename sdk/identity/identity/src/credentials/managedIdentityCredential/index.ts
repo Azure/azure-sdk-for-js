@@ -252,11 +252,17 @@ export class ManagedIdentityCredential implements TokenCredential {
                     appTokenProviderParameters
                   )}`
                 );
-
-                const resultToken = await this.authenticateManagedIdentity(scopes, {
+                const getTokenOptions: GetTokenOptions = {
+                  claims: appTokenProviderParameters.claims,
                   ...updatedOptions,
                   ...appTokenProviderParameters,
-                });
+                }
+                logger.info(
+                  `authenticateManagedIdentity invoked with scopes- ${JSON.stringify(
+                    appTokenProviderParameters.scopes
+                  )} and getTokenOptions - ${JSON.stringify(getTokenOptions)}`
+                );
+                const resultToken = await this.authenticateManagedIdentity(appTokenParameters.scopes, getTokenOptions);
 
                 if (resultToken) {
                   logger.info(`SetAppTokenProvider has saved the token in cache`);
