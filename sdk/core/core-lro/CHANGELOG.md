@@ -8,6 +8,9 @@
 
 ### Bugs Fixed
 
+- Suggest proper resourceLocation for PATCH LRO in `OperationLocation` mode
+
+
 ### Other Changes
 
 ## 2.5.3 (2023-05-04)
