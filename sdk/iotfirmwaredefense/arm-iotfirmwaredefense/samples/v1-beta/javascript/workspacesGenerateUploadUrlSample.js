@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const { IotFirmwareDefenseClient } = require("@azure/arm-iotfirmwaredefense");
+const { IoTFirmwareDefenseClient } = require("@azure/arm-iotfirmwaredefense");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
@@ -27,7 +27,7 @@ async function workspacesGenerateUploadUrlMaximumSetGen() {
     firmwareId: "ytsfprbywi",
   };
   const credential = new DefaultAzureCredential();
-  const client = new IotFirmwareDefenseClient(credential, subscriptionId);
+  const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const result = await client.workspaces.generateUploadUrl(
     resourceGroupName,
     workspaceName,
@@ -49,7 +49,7 @@ async function workspacesGenerateUploadUrlMinimumSetGen() {
   const workspaceName = "E___-3";
   const generateUploadUrl = {};
   const credential = new DefaultAzureCredential();
-  const client = new IotFirmwareDefenseClient(credential, subscriptionId);
+  const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const result = await client.workspaces.generateUploadUrl(
     resourceGroupName,
     workspaceName,

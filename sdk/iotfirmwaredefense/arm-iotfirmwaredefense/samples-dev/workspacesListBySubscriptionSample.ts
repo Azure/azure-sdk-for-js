@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { IotFirmwareDefenseClient } from "@azure/arm-iotfirmwaredefense";
+import { IoTFirmwareDefenseClient } from "@azure/arm-iotfirmwaredefense";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -25,7 +25,7 @@ async function workspacesListBySubscriptionMaximumSetGen() {
     process.env["IOTFIRMWAREDEFENSE_SUBSCRIPTION_ID"] ||
     "5443A01A-5242-4950-AC1A-2DD362180254";
   const credential = new DefaultAzureCredential();
-  const client = new IotFirmwareDefenseClient(credential, subscriptionId);
+  const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.workspaces.listBySubscription()) {
     resArray.push(item);
@@ -44,7 +44,7 @@ async function workspacesListBySubscriptionMinimumSetGen() {
     process.env["IOTFIRMWAREDEFENSE_SUBSCRIPTION_ID"] ||
     "5443A01A-5242-4950-AC1A-2DD362180254";
   const credential = new DefaultAzureCredential();
-  const client = new IotFirmwareDefenseClient(credential, subscriptionId);
+  const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.workspaces.listBySubscription()) {
     resArray.push(item);

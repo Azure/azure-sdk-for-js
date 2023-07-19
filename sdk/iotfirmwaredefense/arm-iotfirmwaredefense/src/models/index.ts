@@ -1187,7 +1187,7 @@ export interface OperationsListNextOptionalParams
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface IotFirmwareDefenseClientOptionalParams
+export interface IoTFirmwareDefenseClientOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;

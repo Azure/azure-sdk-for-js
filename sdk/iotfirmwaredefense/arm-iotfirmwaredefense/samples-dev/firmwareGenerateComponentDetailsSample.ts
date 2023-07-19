@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { IotFirmwareDefenseClient } from "@azure/arm-iotfirmwaredefense";
+import { IoTFirmwareDefenseClient } from "@azure/arm-iotfirmwaredefense";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -30,7 +30,7 @@ async function firmwareGenerateComponentDetailsMaximumSetGen() {
   const workspaceName = "A7";
   const firmwareId = "umrkdttp";
   const credential = new DefaultAzureCredential();
-  const client = new IotFirmwareDefenseClient(credential, subscriptionId);
+  const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const result = await client.firmwareOperations.generateComponentDetails(
     resourceGroupName,
     workspaceName,
@@ -55,7 +55,7 @@ async function firmwareGenerateComponentDetailsMinimumSetGen() {
   const workspaceName = "A7";
   const firmwareId = "umrkdttp";
   const credential = new DefaultAzureCredential();
-  const client = new IotFirmwareDefenseClient(credential, subscriptionId);
+  const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const result = await client.firmwareOperations.generateComponentDetails(
     resourceGroupName,
     workspaceName,

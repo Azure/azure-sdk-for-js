@@ -24,15 +24,15 @@ import {
   Workspaces,
   Operations
 } from "./operationsInterfaces";
-import { IotFirmwareDefenseClientOptionalParams } from "./models";
+import { IoTFirmwareDefenseClientOptionalParams } from "./models";
 
-export class IotFirmwareDefenseClient extends coreClient.ServiceClient {
+export class IoTFirmwareDefenseClient extends coreClient.ServiceClient {
   $host: string;
   subscriptionId: string;
   apiVersion: string;
 
   /**
-   * Initializes a new instance of the IotFirmwareDefenseClient class.
+   * Initializes a new instance of the IoTFirmwareDefenseClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
@@ -40,7 +40,7 @@ export class IotFirmwareDefenseClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: IotFirmwareDefenseClientOptionalParams
+    options?: IoTFirmwareDefenseClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -53,7 +53,7 @@ export class IotFirmwareDefenseClient extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-    const defaults: IotFirmwareDefenseClientOptionalParams = {
+    const defaults: IoTFirmwareDefenseClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
       credential: credentials
     };

@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const { IotFirmwareDefenseClient } = require("@azure/arm-iotfirmwaredefense");
+const { IoTFirmwareDefenseClient } = require("@azure/arm-iotfirmwaredefense");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
@@ -24,7 +24,7 @@ async function workspacesDeleteMaximumSetGen() {
   const resourceGroupName = process.env["IOTFIRMWAREDEFENSE_RESOURCE_GROUP"] || "rgworkspaces";
   const workspaceName = "E___-3";
   const credential = new DefaultAzureCredential();
-  const client = new IotFirmwareDefenseClient(credential, subscriptionId);
+  const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const result = await client.workspaces.delete(resourceGroupName, workspaceName);
   console.log(result);
 }
@@ -41,7 +41,7 @@ async function workspacesDeleteMinimumSetGen() {
   const resourceGroupName = process.env["IOTFIRMWAREDEFENSE_RESOURCE_GROUP"] || "rgworkspaces";
   const workspaceName = "E___-3";
   const credential = new DefaultAzureCredential();
-  const client = new IotFirmwareDefenseClient(credential, subscriptionId);
+  const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const result = await client.workspaces.delete(resourceGroupName, workspaceName);
   console.log(result);
 }

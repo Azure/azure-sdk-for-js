@@ -9,5 +9,5 @@
 /// <reference lib="esnext.asynciterable" />
 export { getContinuationToken } from "./pagingHelper";
 export * from "./models";
-export { IotFirmwareDefenseClient } from "./iotFirmwareDefenseClient";
+export { IoTFirmwareDefenseClient } from "./ioTFirmwareDefenseClient";
 export * from "./operationsInterfaces";

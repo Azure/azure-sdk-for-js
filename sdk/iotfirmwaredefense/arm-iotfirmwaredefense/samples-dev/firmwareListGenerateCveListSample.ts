@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { IotFirmwareDefenseClient } from "@azure/arm-iotfirmwaredefense";
+import { IoTFirmwareDefenseClient } from "@azure/arm-iotfirmwaredefense";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -30,7 +30,7 @@ async function firmwareListGenerateCveListMaximumSetGen() {
   const workspaceName = "A7";
   const firmwareId = "umrkdttp";
   const credential = new DefaultAzureCredential();
-  const client = new IotFirmwareDefenseClient(credential, subscriptionId);
+  const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.firmwareOperations.listGenerateCveList(
     resourceGroupName,
@@ -58,7 +58,7 @@ async function firmwareListGenerateCveListMinimumSetGen() {
   const workspaceName = "A7";
   const firmwareId = "umrkdttp";
   const credential = new DefaultAzureCredential();
-  const client = new IotFirmwareDefenseClient(credential, subscriptionId);
+  const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.firmwareOperations.listGenerateCveList(
     resourceGroupName,

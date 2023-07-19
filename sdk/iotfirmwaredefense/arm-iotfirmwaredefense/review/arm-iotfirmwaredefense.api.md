@@ -470,10 +470,10 @@ export interface GenerateUploadUrlRequest {
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public (undocumented)
-export class IotFirmwareDefenseClient extends coreClient.ServiceClient {
+export class IoTFirmwareDefenseClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: IotFirmwareDefenseClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: IoTFirmwareDefenseClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -487,7 +487,7 @@ export class IotFirmwareDefenseClient extends coreClient.ServiceClient {
 }
 
 // @public
-export interface IotFirmwareDefenseClientOptionalParams extends coreClient.ServiceClientOptions {
+export interface IoTFirmwareDefenseClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
     apiVersion?: string;
     endpoint?: string;

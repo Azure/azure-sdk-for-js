@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const { IotFirmwareDefenseClient } = require("@azure/arm-iotfirmwaredefense");
+const { IoTFirmwareDefenseClient } = require("@azure/arm-iotfirmwaredefense");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
@@ -26,7 +26,7 @@ async function firmwareGenerateCryptoKeySummaryMaximumSetGen() {
   const workspaceName = "default";
   const firmwareId = "DECAFBAD-0000-0000-0000-BADBADBADBAD";
   const credential = new DefaultAzureCredential();
-  const client = new IotFirmwareDefenseClient(credential, subscriptionId);
+  const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const result = await client.firmwareOperations.generateCryptoKeySummary(
     resourceGroupName,
     workspaceName,
@@ -49,7 +49,7 @@ async function firmwareGenerateCryptoKeySummaryMinimumSetGen() {
   const workspaceName = "j5QE_";
   const firmwareId = "wujtpcgypfpqseyrsebolarkspy";
   const credential = new DefaultAzureCredential();
-  const client = new IotFirmwareDefenseClient(credential, subscriptionId);
+  const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const result = await client.firmwareOperations.generateCryptoKeySummary(
     resourceGroupName,
     workspaceName,

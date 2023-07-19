@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   Firmware,
-  IotFirmwareDefenseClient
+  IoTFirmwareDefenseClient
 } from "@azure/arm-iotfirmwaredefense";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -43,7 +43,7 @@ async function firmwareCreateMaximumSetGen() {
     version: "s"
   };
   const credential = new DefaultAzureCredential();
-  const client = new IotFirmwareDefenseClient(credential, subscriptionId);
+  const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const result = await client.firmwareOperations.create(
     resourceGroupName,
     workspaceName,
@@ -70,7 +70,7 @@ async function firmwareCreateMinimumSetGen() {
   const firmwareId = "umrkdttp";
   const firmware: Firmware = {};
   const credential = new DefaultAzureCredential();
-  const client = new IotFirmwareDefenseClient(credential, subscriptionId);
+  const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const result = await client.firmwareOperations.create(
     resourceGroupName,
     workspaceName,

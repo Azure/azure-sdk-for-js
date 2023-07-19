@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   WorkspaceUpdateDefinition,
-  IotFirmwareDefenseClient
+  IoTFirmwareDefenseClient
 } from "@azure/arm-iotfirmwaredefense";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -32,7 +32,7 @@ async function workspacesUpdateMaximumSetGen() {
   const workspaceName = "E___-3";
   const workspace: WorkspaceUpdateDefinition = {};
   const credential = new DefaultAzureCredential();
-  const client = new IotFirmwareDefenseClient(credential, subscriptionId);
+  const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const result = await client.workspaces.update(
     resourceGroupName,
     workspaceName,
@@ -56,7 +56,7 @@ async function workspacesUpdateMinimumSetGen() {
   const workspaceName = "E___-3";
   const workspace: WorkspaceUpdateDefinition = {};
   const credential = new DefaultAzureCredential();
-  const client = new IotFirmwareDefenseClient(credential, subscriptionId);
+  const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const result = await client.workspaces.update(
     resourceGroupName,
     workspaceName,
