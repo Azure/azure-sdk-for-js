@@ -169,6 +169,7 @@ specifiers:
   '@rush-temp/arm-powerbiembedded': file:./projects/arm-powerbiembedded.tgz
   '@rush-temp/arm-privatedns': file:./projects/arm-privatedns.tgz
   '@rush-temp/arm-purview': file:./projects/arm-purview.tgz
+  '@rush-temp/arm-quantum': file:./projects/arm-quantum.tgz
   '@rush-temp/arm-qumulo': file:./projects/arm-qumulo.tgz
   '@rush-temp/arm-quota': file:./projects/arm-quota.tgz
   '@rush-temp/arm-recoveryservices': file:./projects/arm-recoveryservices.tgz
@@ -518,6 +519,7 @@ dependencies:
   '@rush-temp/arm-powerbiembedded': file:projects/arm-powerbiembedded.tgz
   '@rush-temp/arm-privatedns': file:projects/arm-privatedns.tgz
   '@rush-temp/arm-purview': file:projects/arm-purview.tgz
+  '@rush-temp/arm-quantum': file:projects/arm-quantum.tgz
   '@rush-temp/arm-qumulo': file:projects/arm-qumulo.tgz
   '@rush-temp/arm-quota': file:projects/arm-quota.tgz
   '@rush-temp/arm-recoveryservices': file:projects/arm-recoveryservices.tgz
@@ -15909,6 +15911,34 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_sq65t46yqtx5h7g66skj5bmgcy
+      tslib: 2.6.0
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-quantum.tgz:
+    resolution: {integrity: sha512-1wIUwy3EJ7yak7QV719XPkiF7lbsK6aCKJrekTaWz/9lh1ZnhuH8Nhkt1ZF4EcEtnJCR/Ac18sPOa2ZN6hCoRg==, tarball: file:projects/arm-quantum.tgz}
+    name: '@rush-temp/arm-quantum'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.36.2_@types+node@14.18.53
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.5
+      '@types/node': 14.18.53
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
