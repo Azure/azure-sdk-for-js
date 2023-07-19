@@ -875,6 +875,10 @@
 /sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @JacksonWeber
 /sdk/monitor/monitor-query/ @KarishmaGhiya @sarangan12
 
+# PRLabel: %Mgmt
+/sdk/quantum/arm-quantum/ @qiaozha @MaryGao
+/sdk/quantum/ci.mgmt.yml @qiaozha @MaryGao
+
 # ServiceLabel: %AAD %Service Attention
 #/<NotInRepo>/          @adamedx
 
