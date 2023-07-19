@@ -1037,9 +1037,9 @@ matrix(
               assert.equal(result.id, "100");
             });
 
-            it("should handle patchAsync", async () => {
-              const resourceLocationPath = `/patchasync/succeeded`;
-              const pollingPath = `/patchasync/operationresults/123`;
+            it("should handle patchAsyncLocationHeader", async () => {
+              const resourceLocationPath = `/patchasynclocationheader/succeeded`;
+              const pollingPath = `/patchasynclocationheader/operationresults/123`;
               const result = await runLro({
                 routes: [
                   {
@@ -1047,6 +1047,47 @@ matrix(
                     status: 202,
                     headers: {
                       Location: resourceLocationPath,
+                      [headerName]: pollingPath,
+                    },
+                  },
+                  {
+                    method: "GET",
+                    path: pollingPath,
+                    status: 200,
+                    body: `{ "status": "InProgress"}`,
+                    headers: {
+                      "Azure-AsyncOperation": pollingPath,
+                    },
+                  },
+                  {
+                    method: "GET",
+                    path: pollingPath,
+                    status: 200,
+                    body: `{ "status": "Succeeded"}`,
+                  },
+                  {
+                    method: "GET",
+                    path: resourceLocationPath,
+                    status: 200,
+                    body: `{ "name": "sku" , "id": "100" }`,
+                  },
+                ],
+              });
+              assert.equal(result.name, "sku");
+              assert.equal(result.id, "100");
+            });
+
+            it("should handle patchAsyncNoLocationHeader", async () => {
+              const resourceLocationPath = `/patchasyncnolocationheader/succeeded`;
+              const initialResourcePath = resourceLocationPath;
+              const pollingPath = `/patchasyncnolocationheader/operationresults/123`;
+              const result = await runLro({
+                routes: [
+                  {
+                    method: "PATCH",
+                    status: 202,
+                    path: initialResourcePath,
+                    headers: {
                       [headerName]: pollingPath,
                     },
                   },
