@@ -6,7 +6,7 @@ REST API for Azure Communication Services
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/arm-communication) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-communication) |
-[Samples](https://github.com/Azure-Samples/azure-samples-js-management)
+[Samples](https://github.com/Azure-Samples/azure-samples-js-management) |
 [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-communication) |
 
 ## Getting started
@@ -71,9 +71,7 @@ System Assigned Identity is an identity created and managed by Azure. When you e
 
 ```javascript
 // Existing resource creation code
-client.communicationServices.beginCreateOrUpdate(resourceGroup, resourceName, resource)
-
-// Create Resource with Managed Identity
+// Create Resource with Managed Identity and specify identity type as System Assigned
 const resource = {
     location: "Global",
     dataLocation: "United States",
@@ -82,11 +80,10 @@ const resource = {
     }
 };
 
-// Defining an object that specifies identity type as System Assigned for the new resource.
 const result = await client.communicationServices.beginCreateOrUpdate(resourceGroup, resourceName, resource);
 ```
 
-To create a user-assigned managed identity, your account needs the Managed Identity Contributor role assignment. An app can have multiple user assigned managed identities. 
+To create a user-assigned managed identity, your account needs the Managed Identity Contributor role assignment. An resource can have multiple user assigned managed identities. 
 
 `The Managed Identity Contributor role assignment`is a built-in Azure role that allows you to managed user-assigned managed identities
 
@@ -102,6 +99,10 @@ const resource = {
         }
     }     
 };
+
+// Existing resource creation code
+client.communicationServices.beginCreateOrUpdate(resourceGroup, resourceName, resource)
+
 You need to provide the user assigned resource ID that you want to add to the resource at creation time. You can replace the values in curly braces with your own values. 
 ```
 ### JavaScript Bundle
