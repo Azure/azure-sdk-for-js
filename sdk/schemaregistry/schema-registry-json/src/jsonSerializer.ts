@@ -133,6 +133,23 @@ export class JsonSerializer<MessageT = MessageContent> {
     }
     return returnedMessage;
   }
+  private async getSchemaById(schemaId: string): Promise<string> {
+    const cached = getCacheById(schemaId);
+    if (cached) {
+      return cached;
+    }
+    const schemaResponse = await this.registry.getSchema(schemaId);
+    if (!schemaResponse) {
+      throw new Error(`Schema with ID '${schemaId}' not found.`);
+    }
+
+    if (!schemaResponse.properties.format.match(/^json$/i)) {
+      throw new Error(
+        `Schema with ID '${schemaResponse.properties.id}' has format '${schemaResponse.properties.format}', not 'json'.`
+      );
+    }
+    return cache(schemaResponse.definition, schemaId).schema;
+  }
 
   private async getSchemaById(schemaId: string): Promise<string> {
     const cached = this.cacheById.get(schemaId);
@@ -230,7 +247,7 @@ function convertMessage<MessageT>(
 }
 
 function getSchemaName(schema: SchemaObject): string {
-  const id = schema.$id || schema.id;
+  const id = schema.$id;
   if (!id) {
     throw new Error("Schema must have an ID.");
   }

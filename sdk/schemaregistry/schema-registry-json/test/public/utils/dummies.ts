@@ -4,8 +4,8 @@
 import { env } from "@azure-tools/test-recorder";
 
 export const testSchemaObject = {
-  $schema: "http://json-schema.org/draft-04/schema#",
-  $id: "class_student",
+  $schema: "https://json-schema.org/draft/2020-12/schema",
+  $id: "student",
   title: "Student",
   description: "A student in the class",
   type: "object",
