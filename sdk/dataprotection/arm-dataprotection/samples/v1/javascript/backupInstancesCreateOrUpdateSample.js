@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update a backup instance in a backup vault
  *
  * @summary Create or update a backup instance in a backup vault
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-01-01/examples/BackupInstanceOperations/PutBackupInstance.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-05-01/examples/BackupInstanceOperations/PutBackupInstance.json
  */
 async function createBackupInstance() {
   const subscriptionId =

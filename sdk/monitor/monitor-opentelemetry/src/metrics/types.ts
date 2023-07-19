@@ -19,3 +19,19 @@ export interface MetricDependencyDimensions extends StandardMetricBaseDimensions
   dependencySuccess?: string;
   dependencyResultCode?: string;
 }
+
+export enum StandardMetricNames {
+  HTTP_REQUEST_DURATION = "azureMonitor.http.requestDuration",
+  HTTP_DEPENDENCY_DURATION = "azureMonitor.http.dependencyDuration",
+  EXCEPTION_COUNT = "azureMonitor.exceptionCount",
+  TRACE_COUNT = "azureMonitor.traceCount",
+}
+
+export enum PerformanceCounterMetricNames {
+  PRIVATE_BYTES = "\\Process(??APP_WIN32_PROC??)\\Private Bytes",
+  AVAILABLE_BYTES = "\\Memory\\Available Bytes",
+  PROCESSOR_TIME = "\\Processor(_Total)\\% Processor Time",
+  PROCESS_TIME = "\\Process(??APP_WIN32_PROC??)\\% Processor Time",
+  REQUEST_RATE = "\\ASP.NET Applications(??APP_W3SVC_PROC??)\\Requests/Sec",
+  REQUEST_DURATION = "\\ASP.NET Applications(??APP_W3SVC_PROC??)\\Request Execution Time",
+}

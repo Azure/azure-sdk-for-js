@@ -3,12 +3,12 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for NetAppManagementClient.",
-  "version": "18.0.1",
+  "version": "18.1.0",
   "engines": {
     "node": ">=14.0.0"
   },
   "dependencies": {
-    "@azure/core-lro": "^2.5.0",
+    "@azure/core-lro": "^2.5.3",
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-paging": "^1.2.0",
     "@azure/core-client": "^1.7.0",

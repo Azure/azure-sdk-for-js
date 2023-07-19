@@ -1,21 +1,44 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
+ *
+ * Any changes you make here may be lost.
+ *
+ * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
+ */
+
 import { StreamableMethod } from "@azure-rest/core-client";
 import { RequestOptions } from "../common/interfaces.js";
 import {
+  BeginAzureBatchImageGeneration202Response,
+  BeginAzureBatchImageGenerationDefaultResponse,
   ChatChoiceOutput,
   ChoiceOutput,
   OpenAIContext as Client,
+  GetAzureBatchImageGenerationOperationStatus200Response,
+  GetAzureBatchImageGenerationOperationStatusDefaultResponse,
   GetChatCompletions200Response,
   GetChatCompletionsDefaultResponse,
   GetCompletions200Response,
   GetCompletionsDefaultResponse,
   GetEmbeddings200Response,
   GetEmbeddingsDefaultResponse,
+  ImageGenerationsOutput,
   isUnexpected,
 } from "../rest/index.js";
-import { ChatCompletions, ChatMessage, Completions, Embeddings } from "./models.js";
+import {
+  BatchImageGenerationOperationResponse,
+  ChatCompletions,
+  ChatMessage,
+  Completions,
+  Embeddings,
+  ImageGenerationResponseFormat,
+  ImageLocation,
+  ImagePayload,
+  ImageSize,
+} from "./models.js";
 
 export interface GetEmbeddingsOptions extends RequestOptions {
   /**
@@ -182,9 +205,28 @@ export interface GetChatCompletionsOptions extends RequestOptions {
   model?: string;
 }
 
+export interface GetAzureBatchImageGenerationOperationStatusOptions extends RequestOptions {}
+
+export interface BeginAzureBatchImageGenerationOptions extends RequestOptions {
+  /** The number of images to generate (defaults to 1). */
+  n?: number;
+  /** The desired size of the generated images. Must be one of 256x256, 512x512, or 1024x1024 (defaults to 1024x1024). */
+  size?: ImageSize;
+  /**
+   *   The format in which image generation response items should be presented.
+   *   Azure OpenAI only supports URL response items.
+   */
+  responseFormat?: ImageGenerationResponseFormat;
+  /** A unique identifier representing your end-user, which can help to monitor and detect abuse. */
+  user?: string;
+}
+
+/** Convenience alias for BeginAzureBatchImageGenerationOptions */
+export type ImageGenerationOptions = BeginAzureBatchImageGenerationOptions;
+
 export function _getEmbeddingsSend(
   context: Client,
-  input: string | string[],
+  input: string[],
   deploymentId: string,
   options: GetEmbeddingsOptions = { requestOptions: {} }
 ): StreamableMethod<GetEmbeddings200Response | GetEmbeddingsDefaultResponse> {
@@ -218,7 +260,7 @@ export async function _getEmbeddingsDeserialize(
 /** Return the embeddings for a given prompt. */
 export async function getEmbeddings(
   context: Client,
-  input: string | string[],
+  input: string[],
   deploymentId: string,
   options: GetEmbeddingsOptions = { requestOptions: {} }
 ): Promise<Embeddings> {
@@ -369,6 +411,135 @@ export async function getChatCompletions(
 ): Promise<ChatCompletions> {
   const result = await _getChatCompletionsSend(context, messages, deploymentId, options);
   return _getChatCompletionsDeserialize(result);
+}
+
+export function _getAzureBatchImageGenerationOperationStatusSend(
+  context: Client,
+  operationId: string,
+  options: GetAzureBatchImageGenerationOperationStatusOptions = {
+    requestOptions: {},
+  }
+): StreamableMethod<
+  | GetAzureBatchImageGenerationOperationStatus200Response
+  | GetAzureBatchImageGenerationOperationStatusDefaultResponse
+> {
+  return context.path("/operations/images/{operationId}", operationId).get({
+    allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
+    skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
+    headers: { ...options.requestOptions?.headers },
+  });
+}
+
+export async function _getAzureBatchImageGenerationOperationStatusDeserialize(
+  result:
+    | GetAzureBatchImageGenerationOperationStatus200Response
+    | GetAzureBatchImageGenerationOperationStatusDefaultResponse
+): Promise<BatchImageGenerationOperationResponse> {
+  if (isUnexpected(result)) {
+    throw result.body;
+  }
+
+  return {
+    id: result.body["id"],
+    created: result.body["created"],
+    expires: result.body["expires"],
+    result: !result.body.result
+      ? undefined
+      : {
+          created: result.body.result?.["created"],
+          data: toImageGenerationsData(result.body.result?.["data"]),
+        },
+    status: result.body["status"],
+    error: !result.body.error ? undefined : result.body.error,
+  };
+}
+
+/**
+ * Convert REST-level ImageGenerationsOutput.data to HLC-level ImageGenerations.data
+ * see https://github.com/Azure/autorest.typescript/issues/1921
+ * @internal
+ */
+function toImageGenerationsData(
+  input: ImageGenerationsOutput["data"]
+): ImageLocation[] | ImagePayload[] {
+  return input.map(function (locationOrPayload) {
+    if ("url" in locationOrPayload) {
+      return locationOrPayload as ImageLocation;
+    } else {
+      return {
+        base64Data: locationOrPayload.b64_json,
+      } as ImagePayload;
+    }
+  }) as ImageLocation[] | ImagePayload[];
+}
+
+/** Returns the status of the images operation */
+export async function getAzureBatchImageGenerationOperationStatus(
+  context: Client,
+  operationId: string,
+  options: GetAzureBatchImageGenerationOperationStatusOptions = {
+    requestOptions: {},
+  }
+): Promise<BatchImageGenerationOperationResponse> {
+  const result = await _getAzureBatchImageGenerationOperationStatusSend(
+    context,
+    operationId,
+    options
+  );
+  return _getAzureBatchImageGenerationOperationStatusDeserialize(result);
+}
+
+export function _beginAzureBatchImageGenerationSend(
+  context: Client,
+  prompt: string,
+  options: BeginAzureBatchImageGenerationOptions = { requestOptions: {} }
+): StreamableMethod<
+  BeginAzureBatchImageGeneration202Response | BeginAzureBatchImageGenerationDefaultResponse
+> {
+  return context.path("/images/generations:submit").post({
+    allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
+    skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
+    headers: { ...options.requestOptions?.headers },
+    body: {
+      prompt: prompt,
+      n: options.n ?? 1,
+      size: options?.size,
+      response_format: options?.responseFormat,
+      user: options?.user,
+    },
+  });
+}
+
+export async function _beginAzureBatchImageGenerationDeserialize(
+  result: BeginAzureBatchImageGeneration202Response | BeginAzureBatchImageGenerationDefaultResponse
+): Promise<BatchImageGenerationOperationResponse> {
+  if (isUnexpected(result)) {
+    throw result.body;
+  }
+
+  return {
+    id: result.body["id"],
+    created: result.body["created"],
+    expires: result.body["expires"],
+    result: !result.body.result
+      ? undefined
+      : {
+          created: result.body.result?.["created"],
+          data: toImageGenerationsData(result.body.result?.["data"]),
+        },
+    status: result.body["status"],
+    error: !result.body.error ? undefined : result.body.error,
+  };
+}
+
+/** Starts the generation of a batch of images from a text caption */
+export async function beginAzureBatchImageGeneration(
+  context: Client,
+  prompt: string,
+  options: BeginAzureBatchImageGenerationOptions = { requestOptions: {} }
+): Promise<BatchImageGenerationOperationResponse> {
+  const result = await _beginAzureBatchImageGenerationSend(context, prompt, options);
+  return _beginAzureBatchImageGenerationDeserialize(result);
 }
 
 export function getCompletionsResult(body: Record<string, any>): Omit<Completions, "usage"> {

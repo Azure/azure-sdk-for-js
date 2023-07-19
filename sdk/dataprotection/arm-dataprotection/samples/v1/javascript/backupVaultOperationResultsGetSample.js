@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to
  *
  * @summary
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-01-01/examples/VaultCRUD/GetOperationResultPatch.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-05-01/examples/VaultCRUD/GetOperationResultPatch.json
  */
 async function getOperationResultPatch() {
   const subscriptionId =
