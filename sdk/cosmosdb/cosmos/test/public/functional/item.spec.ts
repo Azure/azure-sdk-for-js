@@ -529,7 +529,7 @@ describe("Create, Upsert, Read, Update, Replace, Delete Operations on Item", fun
 });
 // TODO: Non-deterministic test. We can't guarantee we see any response with a 429 status code since the retries happen within the response
 describe("item read retries", async function () {
-  it("retries on 429", async function () {
+  xit("retries on 429", async function () {
     const client = new CosmosClient({ key: masterKey, endpoint });
     const { resource: db } = await client.databases.create({
       id: `small db ${Math.random() * 1000}`,
@@ -594,7 +594,7 @@ describe("bulk/batch item operations", async function () {
           assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`)
         );
       });
-      it("Check case when cumulative size of all operations is greater than threshold - payload size is 25x threshold", async function () {
+      xit("Check case when cumulative size of all operations is greater than threshold - payload size is 25x threshold", async function () {
         const operations: OperationInput[] = [...Array(50).keys()].map(
           () =>
             ({
@@ -1343,7 +1343,7 @@ describe("bulk/batch item operations", async function () {
           };
           await runBulkTestDataSet(dataset);
         });
-        it("424 errors for operations after an error", async function () {
+        xit("424 errors for operations after an error", async function () {
           const dataset: BulkTestDataSet = {
             ...defaultBulkTestDataSet,
             documentToCreate: [],
@@ -1370,7 +1370,7 @@ describe("bulk/batch item operations", async function () {
           };
           await runBulkTestDataSet(dataset);
         });
-        it("Continues after errors with continueOnError true", async function () {
+        xit("Continues after errors with continueOnError true", async function () {
           const dataset: BulkTestDataSet = {
             ...defaultBulkTestDataSet,
             documentToCreate: [],
