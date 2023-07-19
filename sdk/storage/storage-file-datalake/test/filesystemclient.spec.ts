@@ -243,7 +243,7 @@ describe("DataLakeFileSystemClient", () => {
     await dirClient.delete();
   });
 
-  it.only("listPaths - Encryption context", async function (this: Context) {
+  it("listPaths - Encryption context", async function (this: Context) {
     const encryptionContext = "EncryptionContext";
 
     const cClient = serviceClient.getFileSystemClient(
