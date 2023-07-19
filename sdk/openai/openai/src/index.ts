@@ -26,6 +26,7 @@ export {
   EmbeddingItem,
   Embeddings,
   EmbeddingsUsage,
+  ImageGenerationResponse,
   ImageGenerationResponseFormat,
   ImageGenerations,
   ImageLocation,
@@ -34,6 +35,7 @@ export {
 } from "./api/models.js";
 export {
   BeginAzureBatchImageGenerationOptions,
+  ImageGenerationOptions,
   GetAzureBatchImageGenerationOperationStatusOptions,
   GetChatCompletionsOptions,
   GetCompletionsOptions,

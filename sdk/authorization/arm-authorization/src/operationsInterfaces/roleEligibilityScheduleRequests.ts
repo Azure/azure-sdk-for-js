@@ -34,9 +34,11 @@ export interface RoleEligibilityScheduleRequests {
   /**
    * Creates a role eligibility schedule request.
    * @param scope The scope of the role eligibility schedule request to create. The scope can be any REST
-   *              resource instance. For example, use '/subscriptions/{subscription-id}/' for a subscription,
-   *              '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}' for a resource group, and
-   *              '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}'
+   *              resource instance. For example, use
+   *              '/providers/Microsoft.Subscription/subscriptions/{subscription-id}/' for a subscription,
+   *              '/providers/Microsoft.Subscription/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}'
+   *              for a resource group, and
+   *              '/providers/Microsoft.Subscription/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}'
    *              for a resource.
    * @param roleEligibilityScheduleRequestName The name of the role eligibility to create. It can be any
    *                                           valid GUID.

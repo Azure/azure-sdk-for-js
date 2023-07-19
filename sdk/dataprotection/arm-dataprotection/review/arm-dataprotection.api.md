@@ -126,6 +126,7 @@ export interface AzureBackupJob {
     readonly policyName?: string;
     progressEnabled: boolean;
     readonly progressUrl?: string;
+    readonly rehydrationPriority?: string;
     readonly restoreType?: string;
     // (undocumented)
     sourceDataStoreName?: string;
@@ -197,6 +198,7 @@ export interface AzureBackupRehydrationRequest {
 
 // @public
 export interface AzureBackupRestoreRequest {
+    identityDetails?: IdentityDetails;
     objectType: "AzureBackupRecoveryPointBasedRestoreRequest" | "AzureBackupRestoreWithRehydrationRequest" | "AzureBackupRecoveryTimeBasedRestoreRequest";
     restoreTargetInfo: RestoreTargetInfoBaseUnion;
     sourceDataStoreType: SourceDataStoreType;
@@ -265,6 +267,7 @@ export interface BackupInstance {
     dataSourceInfo: Datasource;
     dataSourceSetInfo?: DatasourceSet;
     friendlyName?: string;
+    identityDetails?: IdentityDetails;
     // (undocumented)
     objectType: string;
     policyInfo: PolicyInfo;
@@ -584,6 +587,7 @@ export interface BackupVault {
     readonly provisioningState?: ProvisioningState;
     readonly resourceMoveDetails?: ResourceMoveDetails;
     readonly resourceMoveState?: ResourceMoveState;
+    readonly secureScore?: SecureScoreLevel;
     securitySettings?: SecuritySettings;
     storageSettings: StorageSetting[];
 }
@@ -728,6 +732,11 @@ export interface BasePolicyRule {
 export type BasePolicyRuleUnion = BasePolicyRule | AzureBackupRule | AzureRetentionRule;
 
 // @public
+export interface BaseResourceProperties {
+    objectType: "BaseResourceProperties";
+}
+
+// @public
 export interface BlobBackupDatasourceParameters extends BackupDatasourceParameters {
     containersList: string[];
     objectType: "BlobBackupDatasourceParameters";
@@ -807,6 +816,14 @@ export type CopyOptionUnion = CopyOption | CopyOnExpiryOption | CustomCopyOption
 // @public
 export type CreatedByType = string;
 
+// @public (undocumented)
+export interface CrossRegionRestoreSettings {
+    state?: CrossRegionRestoreState;
+}
+
+// @public
+export type CrossRegionRestoreState = string;
+
 // @public
 export interface CrossSubscriptionRestoreSettings {
     state?: CrossSubscriptionRestoreState;
@@ -841,6 +858,7 @@ export class DataProtectionClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: DataProtectionClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: DataProtectionClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -880,7 +898,7 @@ export class DataProtectionClient extends coreClient.ServiceClient {
     // (undocumented)
     restorableTimeRanges: RestorableTimeRanges;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
 }
 
 // @public
@@ -916,6 +934,7 @@ export interface Datasource {
     resourceID: string;
     resourceLocation?: string;
     resourceName?: string;
+    resourceProperties?: BaseResourceProperties;
     resourceType?: string;
     resourceUri?: string;
 }
@@ -927,6 +946,7 @@ export interface DatasourceSet {
     resourceID: string;
     resourceLocation?: string;
     resourceName?: string;
+    resourceProperties?: BaseResourceProperties;
     resourceType?: string;
     resourceUri?: string;
 }
@@ -1058,6 +1078,9 @@ export interface DppIdentityDetails {
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: string;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity;
+    };
 }
 
 // @public (undocumented)
@@ -1223,6 +1246,8 @@ export type ExportJobsTriggerResponse = ExportJobsTriggerHeaders;
 
 // @public
 export interface FeatureSettings {
+    // (undocumented)
+    crossRegionRestoreSettings?: CrossRegionRestoreSettings;
     crossSubscriptionRestoreSettings?: CrossSubscriptionRestoreSettings;
 }
 
@@ -1264,6 +1289,12 @@ export type FeatureValidationResponseBaseUnion = FeatureValidationResponseBase |
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
+
+// @public (undocumented)
+export interface IdentityDetails {
+    userAssignedIdentityArmUrl?: string;
+    useSystemAssignedIdentity?: boolean;
+}
 
 // @public
 export interface ImmediateCopyOption extends CopyOption {
@@ -1384,6 +1415,12 @@ export enum KnownCreatedByType {
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownCrossRegionRestoreState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -1543,6 +1580,15 @@ export enum KnownSecretStoreType {
 }
 
 // @public
+export enum KnownSecureScoreLevel {
+    Adequate = "Adequate",
+    Maximum = "Maximum",
+    Minimum = "Minimum",
+    None = "None",
+    NotSupported = "NotSupported"
+}
+
+// @public
 export enum KnownSoftDeleteState {
     AlwaysOn = "AlwaysOn",
     Off = "Off",
@@ -1604,6 +1650,7 @@ export enum KnownWeekNumber {
 
 // @public
 export interface KubernetesClusterBackupDatasourceParameters extends BackupDatasourceParameters {
+    backupHookReferences?: NamespacedNameResource[];
     excludedNamespaces?: string[];
     excludedResourceTypes?: string[];
     includeClusterScopeResources: boolean;
@@ -1628,6 +1675,7 @@ export interface KubernetesClusterRestoreCriteria extends ItemLevelRestoreCriter
     };
     objectType: "KubernetesClusterRestoreCriteria";
     persistentVolumeRestoreMode?: PersistentVolumeRestoreMode;
+    restoreHookReferences?: NamespacedNameResource[];
 }
 
 // @public
@@ -1651,6 +1699,12 @@ export interface MonitoringSettings {
 
 // @public
 export type Month = string;
+
+// @public
+export interface NamespacedNameResource {
+    name?: string;
+    namespace?: string;
+}
 
 // @public
 export interface OperationExtendedInfo {
@@ -2232,6 +2286,9 @@ export interface SecretStoreResource {
 export type SecretStoreType = string;
 
 // @public
+export type SecureScoreLevel = string;
+
+// @public
 export interface SecuritySettings {
     immutabilitySettings?: ImmutabilitySettings;
     softDeleteSettings?: SoftDeleteSettings;
@@ -2343,6 +2400,12 @@ export interface UnlockDeleteRequest {
 // @public
 export interface UnlockDeleteResponse {
     unlockDeleteExpiryTime?: string;
+}
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // @public
