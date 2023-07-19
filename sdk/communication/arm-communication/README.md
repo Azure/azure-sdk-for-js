@@ -70,7 +70,6 @@ This example creates a new Azure Communication Service resource with a system as
 System Assigned Identity is an identity created and managed by Azure. When you enable a system assigned managed identity, an identity is created in Azure AD, which is tied to the lifecycle of that service instance. A system-assigned identity is tied to your application and is deleted if your app is deleted. An app can only have one system-assigned identity. 
 
 ```javascript
-// Existing resource creation code
 // Create Resource with Managed Identity and specify identity type as System Assigned
 const resource = {
     location: "Global",
@@ -83,9 +82,9 @@ const resource = {
 const result = await client.communicationServices.beginCreateOrUpdate(resourceGroup, resourceName, resource);
 ```
 
-To create a user-assigned managed identity, your account needs the Managed Identity Contributor role assignment. An resource can have multiple user assigned managed identities. 
+To create a user assigned managed identity, your account needs the Managed Identity Contributor role assignment. An resource can have multiple user assigned managed identities. 
 
-`The Managed Identity Contributor role assignment`is a built-in Azure role that allows you to managed user-assigned managed identities
+`The Managed Identity Contributor role assignment`is a built-in Azure role that allows you to managed user assigned managed identities
 
 ```javascript
 // Defining an object that specifies identity type as User Assigned for the new resource.
@@ -100,7 +99,6 @@ const resource = {
     }     
 };
 
-// Existing resource creation code
 client.communicationServices.beginCreateOrUpdate(resourceGroup, resourceName, resource)
 
 You need to provide the user assigned resource ID that you want to add to the resource at creation time. You can replace the values in curly braces with your own values. 
