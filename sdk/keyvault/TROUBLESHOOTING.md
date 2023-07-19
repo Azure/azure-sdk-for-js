@@ -25,6 +25,7 @@ For any package-specific troubleshooting guides, see any of the following:
     - [Incorrect Challenge Resource](#incorrect-challenge-resource)
 - [Other Service Errors](#other-service-errors)
   - [HTTP 429: Too Many Requests](#http-429-too-many-requests)
+- [Support](#support)
 
 ## Troubleshooting Authentication Issues
 
