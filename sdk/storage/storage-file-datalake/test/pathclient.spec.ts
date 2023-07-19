@@ -291,7 +291,7 @@ describe("DataLakePathClient", () => {
       proposedLeaseId: leaseId,
       leaseDuration: leaseDuration,
       expiresOn: timeToExpireInMs,
-      encryptionContext
+      encryptionContext,
     });
 
     const result = await testFileClient.getProperties();
