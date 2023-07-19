@@ -97,11 +97,7 @@ import {
   ListHandlesResponse as GeneratedListHandlesResponse,
 } from "./generated/src/models";
 import { Share, Directory, File } from "./generated/src/operationsInterfaces";
-import {
-  newPipeline,
-  Pipeline,
-  PipelineLike,
-} from "../../storage-blob/src/Pipeline";
+import { newPipeline, Pipeline, PipelineLike } from "../../storage-blob/src/Pipeline";
 import {
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   DEFAULT_HIGH_LEVEL_CONCURRENCY,
