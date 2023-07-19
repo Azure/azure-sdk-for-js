@@ -238,6 +238,7 @@ export interface HandleItem {
   openTime: Date;
   /** Time handle was last connected to (UTC) */
   lastReconnectTime?: Date;
+  accessRightList?: AccessRight[];
 }
 
 /** The list of file ranges */
@@ -1548,6 +1549,21 @@ export interface SourceModifiedAccessConditions {
   sourceIfNoneMatchCrc64?: Uint8Array;
 }
 
+/** Known values of {@link ShareTokenIntent} that the service accepts. */
+export enum KnownShareTokenIntent {
+  /** Backup */
+  Backup = "backup"
+}
+
+/**
+ * Defines values for ShareTokenIntent. \
+ * {@link KnownShareTokenIntent} can be used interchangeably with ShareTokenIntent,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **backup**
+ */
+export type ShareTokenIntent = string;
+
 /** Known values of {@link StorageErrorCode} that the service accepts. */
 export enum KnownStorageErrorCode {
   /** AccountAlreadyExists */
@@ -1782,6 +1798,8 @@ export type ListFilesIncludeType =
   | "Etag"
   | "Attributes"
   | "PermissionKey";
+/** Defines values for AccessRight. */
+export type AccessRight = "Read" | "Write" | "Delete";
 /** Defines values for CopyStatusType. */
 export type CopyStatusType = "pending" | "success" | "aborted" | "failed";
 /** Defines values for FileRangeWriteType. */
@@ -2570,6 +2588,12 @@ export interface StorageClientOptionalParams
   extends coreHttpCompat.ExtendedServiceClientOptions {
   /** Specifies the version of the operation to use for this request. */
   version?: string;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
+  /** If true, the trailing dot will not be trimmed from the source URI. */
+  allowSourceTrailingDot?: boolean;
   /** Only update is supported: - Update: Writes the bytes downloaded from the source url into the specified range. */
   fileRangeWriteFromUrl?: string;
   /** Overrides client endpoint. */

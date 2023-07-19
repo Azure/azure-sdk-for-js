@@ -9,11 +9,14 @@
 import * as coreHttpCompat from "@azure/core-http-compat";
 import { ServiceImpl, ShareImpl, DirectoryImpl, FileImpl } from "./operations";
 import { Service, Share, Directory, File } from "./operationsInterfaces";
-import { StorageClientOptionalParams } from "./models";
+import { ShareTokenIntent, StorageClientOptionalParams } from "./models";
 
 export class StorageClient extends coreHttpCompat.ExtendedServiceClient {
   url: string;
   version: string;
+  fileRequestIntent?: ShareTokenIntent;
+  allowTrailingDot?: boolean;
+  allowSourceTrailingDot?: boolean;
   fileRangeWriteFromUrl: string;
 
   /**
@@ -54,7 +57,7 @@ export class StorageClient extends coreHttpCompat.ExtendedServiceClient {
     this.url = url;
 
     // Assigning values to Constant parameters
-    this.version = options.version || "2021-12-02";
+    this.version = options.version || "2023-01-03";
     this.fileRangeWriteFromUrl = options.fileRangeWriteFromUrl || "update";
     this.service = new ServiceImpl(this);
     this.share = new ShareImpl(this);
