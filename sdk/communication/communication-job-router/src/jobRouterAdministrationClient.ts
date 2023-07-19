@@ -56,7 +56,7 @@ const isRouterAdministrationClientOptions = (
 ): options is JobRouterAdministrationClientOptions => !!options && !isKeyCredential(options);
 
 /**
- * The client to do router operations
+ * The client to do administrative job router operations.
  */
 export class JobRouterAdministrationClient {
   private readonly client: JobRouterApiClient;

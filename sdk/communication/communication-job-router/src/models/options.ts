@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { JSONObject, RouterJobMatchingMode, RouterJobNote } from "./models";
+import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import {
   ChannelConfiguration,
   DistributionModeUnion,
@@ -16,29 +18,27 @@ import {
   JobRouterReclassifyJobActionOptionalParams,
   JobRouterUpsertJobOptionalParams,
   JobRouterUpsertWorkerOptionalParams,
+  JobRouterUnassignJobActionOptionalParams,
   RouterJobStatusSelector,
   QueueSelectorAttachmentUnion,
   WorkerSelectorAttachmentUnion,
   RouterRuleUnion,
   RouterWorkerSelector,
   RouterWorkerStateSelector,
-  JobMatchingMode,
 } from "../generated/src";
-import { CommonClientOptions, OperationOptions } from "@azure/core-client";
-import { JSONObject } from "./models";
 
 /**
- * Options to create router client.
+ * Options to create a job router administration client.
+ */
+export interface JobRouterAdministrationClientOptions extends CommonClientOptions {}
+
+/**
+ * Options to create a job router client.
  */
 export interface JobRouterClientOptions extends CommonClientOptions {
   /** The headers to be set on requests **/
   headers?: JSONObject;
 }
-
-/**
- * Options to create router administration client.
- */
-export interface JobRouterAdministrationClientOptions extends CommonClientOptions {}
 
 /**
  * Options to create a classification policy.
@@ -75,7 +75,7 @@ export interface UpdateClassificationPolicyOptions
 }
 
 /**
- * Options to get classification policies.
+ * Options to list classification policies.
  */
 export interface ListClassificationPoliciesOptions extends OperationOptions {
   /** Maximum page size */
@@ -139,7 +139,7 @@ export interface UpdateExceptionPolicyOptions
 }
 
 /**
- * Options to get exception policies.
+ * Options to list exception policies.
  */
 export interface ListExceptionPoliciesOptions extends OperationOptions {
   /** Number of objects to return per page */
@@ -147,11 +147,39 @@ export interface ListExceptionPoliciesOptions extends OperationOptions {
 }
 
 /**
- * Message with timestamp on a router job.
+ * Options to create a queue.
  */
-export interface RouterJobNote {
-  time: Date;
-  message: string;
+export interface CreateQueueOptions extends JobRouterAdministrationUpsertQueueOptionalParams {
+  /** The name of this queue. */
+  name?: string;
+  /** The ID of the distribution policy that will determine how a job is distributed to workers. */
+  distributionPolicyId?: string;
+  /** A set of key/value pairs that are identifying attributes used by the rules engines to make decisions. */
+  labels?: JSONObject;
+  /** (Optional) The ID of the exception policy that determines various job escalation rules. */
+  exceptionPolicyId?: string;
+}
+
+/**
+ * Options to update a queue.
+ */
+export interface UpdateQueueOptions extends JobRouterAdministrationUpsertQueueOptionalParams {
+  /** The name of this queue. */
+  name?: string;
+  /** The ID of the distribution policy that will determine how a job is distributed to workers. */
+  distributionPolicyId?: string;
+  /** A set of key/value pairs that are identifying attributes used by the rules engines to make decisions. */
+  labels?: JSONObject;
+  /** (Optional) The ID of the exception policy that determines various job escalation rules. */
+  exceptionPolicyId?: string;
+}
+
+/**
+ * Options to list queues.
+ */
+export interface ListQueuesOptions extends OperationOptions {
+  /** Number of objects to return per page */
+  maxpagesize?: number;
 }
 
 /**
@@ -177,8 +205,8 @@ export interface CreateJobOptions extends JobRouterUpsertJobOptionalParams {
   /** A set of non-identifying attributes attached to this job */
   tags?: JSONObject;
   /** Notes attached to a job, sorted by timestamp */
-  notes?: Array<RouterJobNote>;
-  matchingMode?: JobMatchingMode;
+  notes?: RouterJobNote[];
+  matchingMode?: RouterJobMatchingMode;
 }
 
 /**
@@ -205,7 +233,27 @@ export interface UpdateJobOptions extends JobRouterUpsertJobOptionalParams {
   tags?: JSONObject;
   /** Notes attached to a job, sorted by timestamp */
   notes?: Array<RouterJobNote>;
-  matchingMode?: JobMatchingMode;
+  matchingMode?: RouterJobMatchingMode;
+}
+
+/**
+ * Options to get router jobs.
+ */
+export interface ListJobsOptions extends OperationOptions {
+  /** Number of objects to return per page */
+  maxpagesize?: number;
+  /** (Optional) If specified, filter jobs by status. */
+  jobStateSelector?: RouterJobStatusSelector;
+  /** (Optional) If specified, filter jobs by queue. */
+  queueId?: string;
+  /** (Optional) If specified, filter jobs by channel. */
+  channelId?: string;
+  /** (Optional) If specified, filter jobs by classificationPolicy. */
+  classificationPolicyId?: string;
+  /** (Optional) If specified, filter on jobs that was scheduled before or at given timestamp. Range: (-Inf, scheduledBefore] */
+  scheduledBefore?: Date;
+  /** (Optional) If specified, filter on jobs that was scheduled at or after given value. Range: [scheduledAfter, +Inf). */
+  scheduledAfter?: Date;
 }
 
 /**
@@ -245,15 +293,23 @@ export interface CloseJobOptions extends JobRouterCloseJobActionOptionalParams {
   dispositionCode?: string;
   /**
    * If not provided, worker capacity is released immediately along with a JobClosedEvent notification.
-   * If provided, worker capacity is released along with a JobClosedEvent notification at a future time.
+   * If provided, worker capacity is released along with a JobClosedEvent notification at a future time in UTC.
    */
-  closeTime?: Date;
+  closeAt?: Date;
   /** (Optional) A note that will be appended to the jobs' Notes collection with the current timestamp. */
   note?: string;
 }
 
 /**
- * Options to close a job.
+ * Options to unassign a job.
+ */
+export interface UnassignJobOptions extends JobRouterUnassignJobActionOptionalParams {
+  /** If WaitForActivation is true, then the job is not queued for re-matching with a worker. */
+  suspendMatching?: boolean;
+}
+
+/**
+ * Options to decline a job.
  */
 export interface DeclineJobOfferOptions extends JobRouterDeclineJobActionOptionalParams {
   /**
@@ -262,26 +318,6 @@ export interface DeclineJobOfferOptions extends JobRouterDeclineJobActionOptiona
    * eligible workers after the reoffer time.  The worker that declined the job will also be eligible for the job at that time.
    */
   retryOfferAt?: Date;
-}
-
-/**
- * Options to get router jobs.
- */
-export interface ListJobsOptions extends OperationOptions {
-  /** Number of objects to return per page */
-  maxpagesize?: number;
-  /** (Optional) If specified, filter jobs by status. */
-  jobStateSelector?: RouterJobStatusSelector;
-  /** (Optional) If specified, filter jobs by queue. */
-  queueId?: string;
-  /** (Optional) If specified, filter jobs by channel. */
-  channelId?: string;
-  /** (Optional) If specified, filter jobs by classificationPolicy. */
-  classificationPolicyId?: string;
-  /** (Optional) If specified, filter on jobs that was scheduled before or at given timestamp. Range: (-Inf, scheduledBefore] */
-  scheduledBefore?: Date;
-  /** (Optional) If specified, filter on jobs that was scheduled at or after given value. Range: [scheduledAfter, +Inf). */
-  scheduledAfter?: Date;
 }
 
 /**
@@ -321,7 +357,7 @@ export interface UpdateWorkerOptions extends JobRouterUpsertWorkerOptionalParams
 }
 
 /**
- * Options to get existing workers.
+ * Options to list workers.
  */
 export interface ListWorkersOptions extends OperationOptions {
   /** Number of objects to return per page */
@@ -339,38 +375,19 @@ export interface ListWorkersOptions extends OperationOptions {
   hasCapacity?: boolean;
 }
 
-/**
- * Options to create a queue.
- */
-export interface CreateQueueOptions extends JobRouterAdministrationUpsertQueueOptionalParams {
-  /** The name of this queue. */
-  name?: string;
-  /** The ID of the distribution policy that will determine how a job is distributed to workers. */
-  distributionPolicyId?: string;
-  /** A set of key/value pairs that are identifying attributes used by the rules engines to make decisions. */
-  labels?: JSONObject;
-  /** (Optional) The ID of the exception policy that determines various job escalation rules. */
-  exceptionPolicyId?: string;
-}
-
-/**
- * Options to update a queue.
- */
-export interface UpdateQueueOptions extends JobRouterAdministrationUpsertQueueOptionalParams {
-  /** The name of this queue. */
-  name?: string;
-  /** The ID of the distribution policy that will determine how a job is distributed to workers. */
-  distributionPolicyId?: string;
-  /** A set of key/value pairs that are identifying attributes used by the rules engines to make decisions. */
-  labels?: JSONObject;
-  /** (Optional) The ID of the exception policy that determines various job escalation rules. */
-  exceptionPolicyId?: string;
-}
-
-/**
- * Options to list queues.
- */
-export interface ListQueuesOptions extends OperationOptions {
-  /** Number of objects to return per page */
-  maxpagesize?: number;
-}
+export {
+  JobRouterAdministrationUpsertClassificationPolicyOptionalParams,
+  JobRouterAdministrationUpsertDistributionPolicyOptionalParams,
+  JobRouterAdministrationUpsertExceptionPolicyOptionalParams,
+  JobRouterCancelJobActionOptionalParams,
+  JobRouterCloseJobActionOptionalParams,
+  JobRouterCompleteJobActionOptionalParams,
+  JobRouterDeclineJobActionOptionalParams,
+  JobRouterReclassifyJobActionOptionalParams,
+  JobRouterUpsertJobOptionalParams,
+  JobRouterUpsertWorkerOptionalParams,
+  JobRouterUnassignJobActionOptionalParams,
+  JobRouterAdministrationUpsertQueueOptionalParams,
+  DeclineJobOfferRequest,
+  UnassignJobRequest,
+} from "../generated/src";

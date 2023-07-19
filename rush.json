@@ -2027,6 +2027,11 @@
       "packageName": "@azure/arm-managednetworkfabric",
       "projectFolder": "sdk/managednetworkfabric/arm-managednetworkfabric",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-quantum",
+      "projectFolder": "sdk/quantum/arm-quantum",
+      "versionPolicyName": "management"
     }
   ]
 }

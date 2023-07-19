@@ -5,7 +5,6 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import {
   CreateJobOptions,
-  JobMatchModeType,
   JobRouterAdministrationClient,
   JobRouterClient,
   RouterJob,
@@ -42,7 +41,7 @@ describe("JobRouterClient", function () {
     return {
       ...jobRequest,
       matchingMode: {
-        modeType: JobMatchModeType.ScheduleAndSuspendMode,
+        modeType: "scheduleAndSuspendMode",
         scheduleAndSuspendMode: { scheduleAt: new Date(scheduledTime) },
       },
     };
@@ -141,7 +140,7 @@ describe("JobRouterClient", function () {
     it("should get queue position for a job", async function () {
       await client.createJob(jobId, jobRequest);
       await pollForJobQueued(jobId, client);
-      const result = await client.getQueuePosition(jobId);
+      const result = await client.getJobQueuePosition(jobId);
 
       assert.isDefined(result);
       assert.isDefined(result.position);

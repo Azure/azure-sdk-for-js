@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Script,
   ScriptsListByDatabaseOptionalParams,
@@ -28,7 +28,7 @@ import {
 export interface Scripts {
   /**
    * Returns the list of database scripts for given database.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param options The options parameters.
@@ -41,7 +41,7 @@ export interface Scripts {
   ): PagedAsyncIterableIterator<Script>;
   /**
    * Gets a Kusto cluster database script.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param scriptName The name of the Kusto database script.
@@ -56,7 +56,7 @@ export interface Scripts {
   ): Promise<ScriptsGetResponse>;
   /**
    * Creates a Kusto database script.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param scriptName The name of the Kusto database script.
@@ -71,14 +71,14 @@ export interface Scripts {
     parameters: Script,
     options?: ScriptsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ScriptsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ScriptsCreateOrUpdateResponse>,
       ScriptsCreateOrUpdateResponse
     >
   >;
   /**
    * Creates a Kusto database script.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param scriptName The name of the Kusto database script.
@@ -95,7 +95,7 @@ export interface Scripts {
   ): Promise<ScriptsCreateOrUpdateResponse>;
   /**
    * Updates a database script.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param scriptName The name of the Kusto database script.
@@ -110,11 +110,14 @@ export interface Scripts {
     parameters: Script,
     options?: ScriptsUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<ScriptsUpdateResponse>, ScriptsUpdateResponse>
+    SimplePollerLike<
+      OperationState<ScriptsUpdateResponse>,
+      ScriptsUpdateResponse
+    >
   >;
   /**
    * Updates a database script.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param scriptName The name of the Kusto database script.
@@ -130,8 +133,8 @@ export interface Scripts {
     options?: ScriptsUpdateOptionalParams
   ): Promise<ScriptsUpdateResponse>;
   /**
-   * Deletes a Kusto principalAssignment.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * Deletes a Kusto database script.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param scriptName The name of the Kusto database script.
@@ -143,10 +146,10 @@ export interface Scripts {
     databaseName: string,
     scriptName: string,
     options?: ScriptsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Deletes a Kusto principalAssignment.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * Deletes a Kusto database script.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param scriptName The name of the Kusto database script.
@@ -161,7 +164,7 @@ export interface Scripts {
   ): Promise<void>;
   /**
    * Checks that the script name is valid and is not already in use.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param scriptName The name of the script.
