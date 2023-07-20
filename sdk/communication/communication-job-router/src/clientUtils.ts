@@ -41,15 +41,13 @@ export class TransformingPagedAsyncIterableIterator<
     const internalResult = await this.internalIterator.byPage(settings);
 
     for await (const generatedPage of internalResult) {
-      const transformedPage: TTransformedPage = [] as TTransformedPage;
+      const transformedPage = [] as TTransformedPage;
 
-      if (Array.isArray(generatedPage) && Array.isArray(transformedPage)) {
-        generatedPage.forEach((generatedItem) => {
-          const transformedItem =
-            generatedItem === undefined ? ({} as TTransformed) : this.transform(generatedItem);
-          transformedPage.push(transformedItem);
-        });
-      }
+      (generatedPage as Array<TElement>).forEach((generatedItem) => {
+        const transformedItem =
+          generatedItem === undefined ? ({} as TTransformed) : this.transform(generatedItem);
+        (transformedPage as Array<TTransformed>).push(transformedItem);
+      });
 
       yield transformedPage;
     }
