@@ -10,6 +10,7 @@ import { AbortSignalLike } from '@azure/abort-controller';
 import { AnonymousCredential } from '@azure/storage-blob';
 import { AnonymousCredentialPolicy } from '@azure/storage-blob';
 import { AzureLogger } from '@azure/logger';
+import { BaseRequestPolicy } from '@azure/storage-blob';
 import { BlobLeaseClient } from '@azure/storage-blob';
 import { BlobQueryArrowConfiguration } from '@azure/storage-blob';
 import { CommonOptions } from '@azure/storage-blob';
@@ -22,6 +23,10 @@ import { Credential as Credential_2 } from '@azure/storage-blob';
 import { CredentialPolicy } from '@azure/storage-blob';
 import { ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse } from '@azure/storage-blob';
 import { BlobServiceProperties as DataLakeServiceProperties } from '@azure/storage-blob';
+import { HttpHeaders } from '@azure/storage-blob';
+import { HttpOperationResponse } from '@azure/storage-blob';
+import { HttpRequestBody } from '@azure/storage-blob';
+import { IHttpClient } from '@azure/storage-blob';
 import { Lease } from '@azure/storage-blob';
 import { LeaseAccessConditions } from '@azure/storage-blob';
 import { LeaseOperationOptions } from '@azure/storage-blob';
@@ -32,6 +37,9 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { Pipeline } from '@azure/storage-blob';
 import { Readable } from 'stream';
 import { RequestBodyType } from '@azure/core-rest-pipeline';
+import { RequestPolicy } from '@azure/storage-blob';
+import { RequestPolicyFactory } from '@azure/storage-blob';
+import { RequestPolicyOptions } from '@azure/storage-blob';
 import { RestError } from '@azure/core-rest-pipeline';
 import { ServiceGetPropertiesOptions } from '@azure/storage-blob';
 import { ServiceListContainersSegmentResponse } from '@azure/storage-blob';
@@ -40,7 +48,9 @@ import { ServiceSetPropertiesOptions } from '@azure/storage-blob';
 import { ServiceSetPropertiesResponse } from '@azure/storage-blob';
 import { StorageBrowserPolicy } from '@azure/storage-blob';
 import { StorageBrowserPolicyFactory } from '@azure/storage-blob';
+import { StorageOAuthScopes } from '@azure/storage-blob';
 import { StoragePipelineOptions } from '@azure/storage-blob';
+import { StorageRetryOptions } from '@azure/storage-blob';
 import { StorageRetryPolicy } from '@azure/storage-blob';
 import { StorageRetryPolicyFactory } from '@azure/storage-blob';
 import { StorageSharedKeyCredential } from '@azure/storage-blob';
@@ -48,6 +58,7 @@ import { StorageSharedKeyCredentialPolicy } from '@azure/storage-blob';
 import { TokenCredential } from '@azure/core-auth';
 import { TransferProgressEvent } from '@azure/core-rest-pipeline';
 import { UserDelegationKeyModel } from '@azure/storage-blob';
+import { WebResource } from '@azure/storage-blob';
 import { WithResponse } from '@azure/storage-blob';
 
 // @public
@@ -134,6 +145,8 @@ export interface AccountSASSignatureValues {
 export { AnonymousCredential }
 
 export { AnonymousCredentialPolicy }
+
+export { BaseRequestPolicy }
 
 // @public (undocumented)
 export interface BlobHierarchyListSegment {
@@ -1057,6 +1070,14 @@ export function generateDataLakeSASQueryParameters(dataLakeSASSignatureValues: D
 // @public
 export function generateDataLakeSASQueryParameters(dataLakeSASSignatureValues: DataLakeSASSignatureValues, userDelegationKey: UserDelegationKey, accountName: string): SASQueryParameters;
 
+export { HttpHeaders }
+
+export { HttpOperationResponse }
+
+export { HttpRequestBody }
+
+export { IHttpClient }
+
 export { Lease }
 
 export { LeaseAccessConditions }
@@ -1783,6 +1804,12 @@ export interface RemovePathAccessControlItem {
     entityId?: string;
 }
 
+export { RequestPolicy }
+
+export { RequestPolicyFactory }
+
+export { RequestPolicyOptions }
+
 export { RestError }
 
 // @public (undocumented)
@@ -1937,7 +1964,11 @@ export { StorageBrowserPolicy }
 
 export { StorageBrowserPolicyFactory }
 
+export { StorageOAuthScopes }
+
 export { StoragePipelineOptions }
+
+export { StorageRetryOptions }
 
 export { StorageRetryPolicy }
 
@@ -1972,6 +2003,8 @@ export interface UserDelegationKey {
 }
 
 export { UserDelegationKeyModel }
+
+export { WebResource }
 
 // (No @packageDocumentation comment for this package)
 
