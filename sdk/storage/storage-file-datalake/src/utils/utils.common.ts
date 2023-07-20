@@ -656,6 +656,5 @@ export function ParseEncryptionContextHeaderValue(
       }
     }
   }
-  console.dir({ response });
   return response;
 }
