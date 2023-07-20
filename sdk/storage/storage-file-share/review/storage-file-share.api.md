@@ -8,26 +8,26 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AzureLogger } from '@azure/logger';
-import { CompatResponse } from '@azure/core-http-compat';
 import * as coreClient from '@azure/core-client';
 import * as coreHttpCompat from '@azure/core-http-compat';
 import * as coreRestPipeline from '@azure/core-rest-pipeline';
-import { HttpHeadersLike } from '@azure/core-http-compat';
+import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
+import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
 import { HttpPipelineLogLevel } from '@azure/core-http-compat';
+import { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
 import { KeepAliveOptions } from '@azure/core-http-compat';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { ProxySettings } from '@azure/core-rest-pipeline';
 import { Readable } from 'stream';
-import { RequestBodyType } from '@azure/core-rest-pipeline';
 import { RequestPolicy } from '@azure/core-http-compat';
 import { RequestPolicyFactory } from '@azure/core-http-compat';
-import { RequestPolicyOptionsLike } from '@azure/core-http-compat';
+import { RequestPolicyOptionsLike as RequestPolicyOptions } from '@azure/core-http-compat';
 import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 import { TransferProgressEvent } from '@azure/core-rest-pipeline';
 import { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
-import { WebResourceLike } from '@azure/core-http-compat';
+import { WebResourceLike as WebResource } from '@azure/core-http-compat';
 
 // @public
 export interface AccessPolicy {
@@ -83,23 +83,23 @@ export interface AccountSASSignatureValues {
 
 // @public
 export class AnonymousCredential extends Credential_2 {
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): AnonymousCredentialPolicy;
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): AnonymousCredentialPolicy;
 }
 
 // @public
 export class AnonymousCredentialPolicy extends CredentialPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions);
 }
 
 // @public
 export abstract class BaseRequestPolicy implements RequestPolicy {
     protected constructor(
     _nextPolicy: RequestPolicy,
-    _options: RequestPolicyOptionsLike);
+    _options: RequestPolicyOptions);
     log(logLevel: HttpPipelineLogLevel, message: string): void;
     readonly _nextPolicy: RequestPolicy;
-    readonly _options: RequestPolicyOptionsLike;
-    abstract sendRequest(webResource: WebResourceLike): Promise<CompatResponse>;
+    readonly _options: RequestPolicyOptions;
+    abstract sendRequest(webResource: WebResource): Promise<HttpOperationResponse>;
     shouldLog(logLevel: HttpPipelineLogLevel): boolean;
 }
 
@@ -164,18 +164,18 @@ export interface CorsRule {
 
 // @public
 abstract class Credential_2 implements RequestPolicyFactory {
-    create(_nextPolicy: RequestPolicy, _options: RequestPolicyOptionsLike): RequestPolicy;
+    create(_nextPolicy: RequestPolicy, _options: RequestPolicyOptions): RequestPolicy;
 }
 export { Credential_2 as Credential }
 
 // @public
 export abstract class CredentialPolicy extends BaseRequestPolicy {
-    sendRequest(request: WebResourceLike): Promise<CompatResponse>;
-    protected signRequest(request: WebResourceLike): WebResourceLike;
+    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
+    protected signRequest(request: WebResource): WebResource;
 }
 
 // @public
-export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike) => CredentialPolicy;
+export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => CredentialPolicy;
 
 // @public
 export type DeleteSnapshotsOptionType = "include" | "include-leased";
@@ -1079,10 +1079,16 @@ export interface HttpAuthorization {
     value: string;
 }
 
+export { HttpHeaders }
+
+export { HttpOperationResponse }
+
+export { HttpRequestBody }
+
 // @public
 export interface HttpResponse {
-    headers: HttpHeadersLike;
-    request: WebResourceLike;
+    headers: HttpHeaders;
+    request: WebResource;
     status: number;
 }
 
@@ -1251,6 +1257,13 @@ export type RawFileDownloadResponse = FileDownloadHeaders & {
     blobBody?: Promise<Blob>;
     readableStreamBody?: NodeJS.ReadableStream;
 };
+
+export { RequestPolicy as IHttpClient }
+export { RequestPolicy }
+
+export { RequestPolicyFactory }
+
+export { RequestPolicyOptions }
 
 // @public
 export interface ResponseLike {
@@ -1605,7 +1618,7 @@ export class ShareFileClient extends StorageClient {
     startCopyFromURL(copySource: string, options?: FileStartCopyOptions): Promise<FileStartCopyResponse>;
     uploadData(data: Buffer | Blob | ArrayBuffer | ArrayBufferView, options?: FileParallelUploadOptions): Promise<void>;
     uploadFile(filePath: string, options?: FileParallelUploadOptions): Promise<void>;
-    uploadRange(body: RequestBodyType, offset: number, contentLength: number, options?: FileUploadRangeOptions): Promise<FileUploadRangeResponse>;
+    uploadRange(body: HttpRequestBody, offset: number, contentLength: number, options?: FileUploadRangeOptions): Promise<FileUploadRangeResponse>;
     uploadRangeFromURL(sourceURL: string, sourceOffset: number, destOffset: number, count: number, options?: FileUploadRangeFromURLOptions): Promise<FileUploadRangeFromURLResponse>;
     uploadResetableStream(streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream, size: number, options?: FileParallelUploadOptions): Promise<void>;
     uploadSeekableBlob(blobFactory: (offset: number, size: number) => Blob, size: number, options?: FileParallelUploadOptions): Promise<void>;
@@ -1975,14 +1988,17 @@ export interface SourceModifiedAccessConditions {
 
 // @public
 export class StorageBrowserPolicy extends BaseRequestPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
-    sendRequest(request: WebResourceLike): Promise<CompatResponse>;
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions);
+    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
 }
 
 // @public
 export class StorageBrowserPolicyFactory implements RequestPolicyFactory {
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): StorageBrowserPolicy;
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageBrowserPolicy;
 }
+
+// @public
+export const StorageOAuthScopes: string | string[];
 
 // @public
 export interface StoragePipelineOptions {
@@ -2006,16 +2022,16 @@ export interface StorageRetryOptions {
 
 // @public
 export class StorageRetryPolicy extends BaseRequestPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike, retryOptions?: StorageRetryOptions);
-    protected attemptSendRequest(request: WebResourceLike, secondaryHas404: boolean, attempt: number): Promise<CompatResponse>;
-    sendRequest(request: WebResourceLike): Promise<CompatResponse>;
-    protected shouldRetry(isPrimaryRetry: boolean, attempt: number, response?: CompatResponse, err?: RestError): boolean;
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, retryOptions?: StorageRetryOptions);
+    protected attemptSendRequest(request: WebResource, secondaryHas404: boolean, attempt: number): Promise<HttpOperationResponse>;
+    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
+    protected shouldRetry(isPrimaryRetry: boolean, attempt: number, response?: HttpOperationResponse, err?: RestError): boolean;
 }
 
 // @public
 export class StorageRetryPolicyFactory implements RequestPolicyFactory {
     constructor(retryOptions?: StorageRetryOptions);
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): StorageRetryPolicy;
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageRetryPolicy;
 }
 
 // @public
@@ -2029,13 +2045,13 @@ export class StorageSharedKeyCredential extends Credential_2 {
     constructor(accountName: string, accountKey: string);
     readonly accountName: string;
     computeHMACSHA256(stringToSign: string): string;
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): StorageSharedKeyCredentialPolicy;
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageSharedKeyCredentialPolicy;
 }
 
 // @public
 export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike, factory: StorageSharedKeyCredential);
-    protected signRequest(request: WebResourceLike): WebResourceLike;
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, factory: StorageSharedKeyCredential);
+    protected signRequest(request: WebResource): WebResource;
 }
 
 // @public
@@ -2043,6 +2059,8 @@ export type TimeNowType = "now";
 
 // @public
 export type TimePreserveType = "preserve";
+
+export { WebResource }
 
 // @public
 export type WithResponse<T, Headers = undefined, Body = undefined> = T & (Body extends object ? ResponseWithBody<Headers, Body> : Headers extends object ? ResponseWithHeaders<Headers> : ResponseLike);
