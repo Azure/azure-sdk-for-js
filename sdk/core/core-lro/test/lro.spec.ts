@@ -1078,27 +1078,24 @@ matrix(
             });
 
             it("should handle patchAsyncNoLocationHeader", async () => {
-              const resourceLocationPath = `/patchasyncnolocationheader/succeeded`;
-              const initialResourcePath = resourceLocationPath;
+              const initialResourcePath = `/patchasyncnolocationheader/succeeded`;
               const pollingPath = `/patchasyncnolocationheader/operationresults/123`;
               const result = await runLro({
                 routes: [
                   {
                     method: "PATCH",
-                    status: 202,
+                    status: 201,
                     path: initialResourcePath,
                     headers: {
                       [headerName]: pollingPath,
                     },
+                    body: `{ "properties": { "provisioningState": "Updating" } }`,
                   },
                   {
                     method: "GET",
                     path: pollingPath,
                     status: 200,
                     body: `{ "status": "InProgress"}`,
-                    headers: {
-                      "Azure-AsyncOperation": pollingPath,
-                    },
                   },
                   {
                     method: "GET",
@@ -1108,7 +1105,7 @@ matrix(
                   },
                   {
                     method: "GET",
-                    path: resourceLocationPath,
+                    path: initialResourcePath,
                     status: 200,
                     body: `{ "name": "sku" , "id": "100" }`,
                   },
