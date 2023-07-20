@@ -251,52 +251,7 @@ export class ManagedIdentityCredential implements TokenCredential {
           };
 
           // Added a check to see if SetAppTokenProvider was already defined.
-          // Don't redefine it if it's already defined.
-          if (!this.isAppTokenProviderInitialized) {
-            this.confidentialApp.SetAppTokenProvider(async (appTokenProviderParameters) => {
-              logger.info(
-                `SetAppTokenProvider invoked with parameters- ${JSON.stringify(
-                  appTokenProviderParameters
-                )}`
-              );
-              const getTokenOptions: GetTokenOptions = {
-                claims: appTokenProviderParameters.claims,
-                ...updatedOptions,
-                ...appTokenProviderParameters,
-              };
-              logger.info(
-                `authenticateManagedIdentity invoked with scopes- ${JSON.stringify(
-                  appTokenProviderParameters.scopes
-                )} and getTokenOptions - ${JSON.stringify(getTokenOptions)}`
-              );
-              const resultToken = await this.authenticateManagedIdentity(
-                appTokenProviderParameters.scopes,
-                getTokenOptions
-              );
-
-              if (resultToken) {
-                logger.info(`SetAppTokenProvider will save the token in cache`);
-
-                const expiresInSeconds = resultToken?.expiresOnTimestamp
-                  ? Math.floor((resultToken.expiresOnTimestamp - Date.now()) / 1000)
-                  : 0;
-                return {
-                  accessToken: resultToken?.token,
-                  expiresInSeconds,
-                };
-              } else {
-                logger.info(
-                  `SetAppTokenProvider token has "no_access_token_returned" as the saved token`
-                );
-                return {
-                  accessToken: "no_access_token_returned",
-                  expiresInSeconds: 0,
-                };
-              }
-            });
-            this.isAppTokenProviderInitialized = true;
-          }
-
+          this.initializeSetAppTokenProvider();
           const authenticationResult = await this.confidentialApp.acquireTokenByClientCredential({
             ...appTokenParameters,
           });
@@ -442,6 +397,51 @@ export class ManagedIdentityCredential implements TokenCredential {
     }
     if (!msalToken.accessToken) {
       throw error(`Response had no "accessToken" property.`);
+    }
+  }
+
+  private initializeSetAppTokenProvider(): void {
+    if (!this.isAppTokenProviderInitialized) {
+      this.confidentialApp.SetAppTokenProvider(async (appTokenProviderParameters) => {
+        logger.info(
+          `SetAppTokenProvider invoked with parameters- ${JSON.stringify(
+            appTokenProviderParameters
+          )}`
+        );
+        const getTokenOptions: GetTokenOptions = {
+          ...appTokenProviderParameters,
+        };
+        logger.info(
+          `authenticateManagedIdentity invoked with scopes- ${JSON.stringify(
+            appTokenProviderParameters.scopes
+          )} and getTokenOptions - ${JSON.stringify(getTokenOptions)}`
+        );
+        const resultToken = await this.authenticateManagedIdentity(
+          appTokenProviderParameters.scopes,
+          getTokenOptions
+        );
+
+        if (resultToken) {
+          logger.info(`SetAppTokenProvider will save the token in cache`);
+
+          const expiresInSeconds = resultToken?.expiresOnTimestamp
+            ? Math.floor((resultToken.expiresOnTimestamp - Date.now()) / 1000)
+            : 0;
+          return {
+            accessToken: resultToken?.token,
+            expiresInSeconds,
+          };
+        } else {
+          logger.info(
+            `SetAppTokenProvider token has "no_access_token_returned" as the saved token`
+          );
+          return {
+            accessToken: "no_access_token_returned",
+            expiresInSeconds: 0,
+          };
+        }
+      });
+      this.isAppTokenProviderInitialized = true;
     }
   }
 }
