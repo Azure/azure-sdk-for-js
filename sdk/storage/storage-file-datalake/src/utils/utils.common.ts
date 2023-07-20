@@ -3,7 +3,7 @@
 import { createHttpHeaders, HttpHeaders } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
 import { ContainerEncryptionScope, WithResponse } from "@azure/storage-blob";
-import { CpkInfo, FileSystemEncryptionScope } from "../models";
+import { CpkInfo, FileSystemEncryptionScope, PathPermissions } from "../models";
 
 import {
   DevelopmentConnectionString,
@@ -14,6 +14,7 @@ import {
 } from "./constants";
 import { HttpResponse } from "@azure/storage-blob";
 import { HttpHeadersLike } from "@azure/core-http-compat";
+import { toPermissions } from "../transforms";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -631,30 +632,51 @@ export function assertResponse<T extends object, Headers = undefined, Body = und
   throw new TypeError(`Unexpected response object ${response}`);
 }
 
-export interface RawResponseWithEncryptionContextLike {
+export interface PathGetPropertiesRawResponseWithExtraPropertiesLike {
   encryptionContext?: string;
+  owner?: string;
+  group?: string;
+  permissions?: PathPermissions;
   _response: HttpResponse & {
     parsedHeaders: {
       encryptionContext?: string;
+      owner?: string;
+      group?: string;
+      permissions?: PathPermissions;
     };
   };
 }
 
-/**
- * Parse value of encryption context from headers in raw response.
- */
-export function ParseEncryptionContextHeaderValue(
-  rawResponse: RawResponseWithEncryptionContextLike
-): RawResponseWithEncryptionContextLike {
-  const response = rawResponse;
+function ParseHeaderValue(
+  rawResponse: PathGetPropertiesRawResponseWithExtraPropertiesLike,
+  headerName: string
+): string | undefined {
   if (rawResponse._response) {
     const headers = rawResponse._response.headers as HttpHeadersLike;
     if (headers) {
-      response.encryptionContext = headers.get("x-ms-encryption-context");
-      if (response._response.parsedHeaders) {
-        response._response.parsedHeaders.encryptionContext = response.encryptionContext;
-      }
+      return headers.get(headerName);
     }
+  }
+
+  return undefined;
+}
+
+/**
+ * Parse extra properties values from headers in raw response.
+ */
+export function ParsePathGetPropertiesExtraHeaderValues(
+  rawResponse: PathGetPropertiesRawResponseWithExtraPropertiesLike
+): PathGetPropertiesRawResponseWithExtraPropertiesLike {
+  const response = rawResponse;
+  response.encryptionContext = ParseHeaderValue(rawResponse, "x-ms-encryption-context");
+  response.owner = ParseHeaderValue(rawResponse, "x-ms-owner");
+  response.group = ParseHeaderValue(rawResponse, "x-ms-group");
+  response.permissions = toPermissions(ParseHeaderValue(rawResponse, "x-ms-permissions"));
+  if (response._response?.parsedHeaders) {
+    response._response.parsedHeaders.encryptionContext = response.encryptionContext;
+    response._response.parsedHeaders.owner = response.owner;
+    response._response.parsedHeaders.group = response.group;
+    response._response.parsedHeaders.permissions = response.permissions;
   }
   return response;
 }
