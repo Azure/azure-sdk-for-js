@@ -259,7 +259,7 @@ describe("DataLakePathClient", () => {
     assert.ok(!(await testFileClient.exists()));
   });
 
-  it.only("DataLakeFileClient create with all parameters", async () => {
+  it("DataLakeFileClient create with all parameters", async () => {
     const metadata = {
       a: "a",
       b: "b",
@@ -550,7 +550,7 @@ describe("DataLakePathClient", () => {
     assert.equal(result.leaseStatus, "locked");
   });
 
-  it.only("DataLakeDirectoryClient create with all parameters", async () => {
+  it("DataLakeDirectoryClient create with all parameters", async () => {
     const metadata = {
       a: "a",
       b: "b",
@@ -778,7 +778,7 @@ describe("DataLakePathClient", () => {
     assert.exists(result.createdOn);
   });
 
-  it.only("read a file with permissions set", async () => {
+  it("read a file with permissions set", async () => {
     const testFileName = recorder.variable("file1", getUniqueName("file1"));
     const testFileClient = fileSystemClient.getFileClient(testFileName);
     const permissionString = "0777";

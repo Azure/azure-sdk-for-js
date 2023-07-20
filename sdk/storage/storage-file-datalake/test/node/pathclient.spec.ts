@@ -67,7 +67,7 @@ describe("DataLakePathClient Node.js only", () => {
     await recorder.stop();
   });
 
-  it.only("DataLakeFileClient create with owner", async () => {
+  it("DataLakeFileClient create with owner", async () => {
     const testFileName = recorder.variable("testfile", getUniqueName("testfile"));
     const testFileClient = fileSystemClient.getFileClient(testFileName);
     const owner = "25fb43dd-e251-48a8-903b-e924f405299a";
@@ -81,7 +81,7 @@ describe("DataLakePathClient Node.js only", () => {
     assert.equal(properties.group, "$superuser");
   });
 
-  it.only("DataLakeFileClient create with group", async () => {
+  it("DataLakeFileClient create with group", async () => {
     const testFileName = recorder.variable("testfile", getUniqueName("testfile"));
     const testFileClient = fileSystemClient.getFileClient(testFileName);
     const group = "67089e35-dc13-458b-b06e-d873b8406284";
@@ -95,7 +95,7 @@ describe("DataLakePathClient Node.js only", () => {
     assert.equal(properties.group, group);
   });
 
-  it.only("DataLakeFileClient create with acl", async () => {
+  it("DataLakeFileClient create with acl", async () => {
     const testFileName = recorder.variable("testfile", getUniqueName("testfile"));
     const testFileClient = fileSystemClient.getFileClient(testFileName);
     const acl: PathAccessControlItem[] = [
@@ -289,7 +289,7 @@ describe("DataLakePathClient Node.js only", () => {
     assert.deepStrictEqual(permissions.acl, acl);
   });
 
-  it.only("DataLakeDirectoryClient create with owner", async () => {
+  it("DataLakeDirectoryClient create with owner", async () => {
     const testDirName = recorder.variable("testdir", getUniqueName("testdir"));
     const testDirClient = fileSystemClient.getDirectoryClient(testDirName);
     const owner = "25fb43dd-e251-48a8-903b-e924f405299a";
@@ -302,7 +302,7 @@ describe("DataLakePathClient Node.js only", () => {
     assert.equal(properties.owner, owner);
   });
 
-  it.only("DataLakeDirectoryClient create with group", async () => {
+  it("DataLakeDirectoryClient create with group", async () => {
     const testDirName = recorder.variable("testdir", getUniqueName("testdir"));
     const testDirClient = fileSystemClient.getDirectoryClient(testDirName);
     const group = "67089e35-dc13-458b-b06e-d873b8406284";
@@ -315,7 +315,7 @@ describe("DataLakePathClient Node.js only", () => {
     assert.equal(properties.group, group);
   });
 
-  it.only("DataLakeDirectoryClient create with acl", async () => {
+  it("DataLakeDirectoryClient create with acl", async () => {
     const testDirName = recorder.variable("testdir", getUniqueName("testdir"));
     const testDirClient = fileSystemClient.getDirectoryClient(testDirName);
     const acl: PathAccessControlItem[] = [
