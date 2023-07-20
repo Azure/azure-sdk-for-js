@@ -113,5 +113,13 @@
   },
   "browser": {
     "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
+  },
+  "//sampleConfiguration": {
+    "productName": "ContentSafety",
+    "productSlugs": [
+      "azure"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure-rest/ai-content-safety?view=azure-node-preview"
   }
 }
