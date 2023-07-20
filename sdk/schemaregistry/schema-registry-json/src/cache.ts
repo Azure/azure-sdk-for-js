@@ -27,15 +27,21 @@ const cacheOptions: LRUCacheOptions<string, any> = {
 };
 
 const cacheIdByDefinition = new LRUCache<string, string>(cacheOptions);
+const cacheById = new LRUCache<string, string>(cacheOptions);
+
+export function getCacheById(schemaId: string): string | undefined {
+  return cacheById.get(schemaId);
+}
 
 export function getCacheByDefinition(schema: string): CacheEntry | undefined {
-  const id = cacheIdByDefinition.get(schema)
-  return id ? {id, schema} : undefined
+  const id = cacheIdByDefinition.get(schema);
+  return id ? { id, schema } : undefined;
 }
 
 export function cache(schema: string, id: string): CacheEntry {
   const entry = { schema, id };
   cacheIdByDefinition.set(schema, id);
+  cacheById.set(id, schema);
   logger.verbose(
     `Cache entry added or updated. Total number of entries: ${cacheIdByDefinition.size}; Total schema length ${cacheIdByDefinition.calculatedSize}`
   );
@@ -50,8 +56,6 @@ export function getSchemaObject(schema: string): SchemaObject {
 }
 
 export interface SchemaObject {
-  id?: string;
   $id?: string;
   $schema?: string;
-  [x: string]: any;
 }

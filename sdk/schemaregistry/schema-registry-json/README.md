@@ -47,8 +47,8 @@ By default, the serializer will create messages structured as follows:
   it defeats the purpose of using this serializer to move the schema out of the
   message payload and into the schema registry.
 
-- `contentType`: a string of the following format `json/binary+<Schema ID>` where
-  the `json/binary` part signals that this message has an Json-serialized payload
+- `contentType`: a string of the following format `application/json+<Schema ID>` where
+  the `application/json` part signals that this message has an Json-serialized payload
   and the `<Schema Id>` part is the Schema ID the Schema Registry service assigned
   to the schema used to serialize this payload.
 
@@ -90,7 +90,8 @@ const schema = JSON.stringify({
       description: "The name of the student",
     },
   },
-  required: ["name"]});
+  required: ["name"]
+});
 
 // Example value that matches the Json schema above
 const value = { name: "Bob" };

@@ -7,9 +7,17 @@
 import { SchemaRegistry } from '@azure/schema-registry';
 
 // @public
+export interface DeserializeOptions {
+    validateCallback?: (message: string, schema: string) => boolean | {
+        isValid: false;
+        message: string;
+    };
+}
+
+// @public
 export class JsonSerializer<MessageT = MessageContent> {
     constructor(client: SchemaRegistry, options?: JsonSerializerOptions<MessageT>);
-    deserialize(message: MessageT): Promise<unknown>;
+    deserialize(message: MessageT, options?: DeserializeOptions): Promise<unknown>;
     serialize(value: unknown, schema: string): Promise<MessageT>;
 }
 

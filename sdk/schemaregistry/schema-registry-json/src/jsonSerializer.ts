@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { JsonSerializerOptions, MessageAdapter, MessageContent } from "./models";
+import {
+  DeserializeOptions,
+  JsonSerializerOptions,
+  MessageAdapter,
+  MessageContent,
+} from "./models";
 import { KnownSchemaFormats, SchemaDescription, SchemaRegistry } from "@azure/schema-registry";
 import { isMessageContent } from "./utility";
 import {
@@ -9,6 +14,7 @@ import {
   SchemaObject,
   cache,
   getCacheByDefinition,
+  getCacheById,
   getSchemaObject,
 } from "./cache";
 import { errorWithCause, wrapError } from "./errors";
@@ -82,14 +88,47 @@ export class JsonSerializer<MessageT = MessageContent> {
    * @throws {@link Error}
    * Thrown if the deserialization failed, e.g. because reader and writer schemas are incompatible.
    */
-  async deserialize(message: MessageT): Promise<unknown> {
+  async deserialize(message: MessageT, options?: DeserializeOptions): Promise<unknown> {
     const { data, contentType } = convertMessage(message, this.messageAdapter);
     const schemaId = getSchemaId(contentType);
+    const schema = await this.getSchemaById(schemaId);
     const returnedMessage = wrapError(
       () => JSON.parse(decoder.decode(data)),
       `Json deserialization failed with schema ID (${schemaId}). See 'cause' for more details.`
     );
+    const validate = options?.validateCallback;
+    if (validate) {
+      const isValid = validate(returnedMessage, schema);
+      if (typeof isValid === "object") {
+        throw errorWithCause(
+          `Json validation failed with schema ID (${schemaId}). See 'cause' for more details.`,
+          new Error(`${isValid.message}`)
+        );
+      } else if (isValid === false) {
+        throw errorWithCause(
+          `Json validation failed with schema ID (${schemaId}). See 'cause' for more details.`,
+          new Error(`validate function returns false`)
+        );
+      }
+    }
     return returnedMessage;
+  }
+  private async getSchemaById(schemaId: string): Promise<string> {
+    const cached = getCacheById(schemaId);
+    if (cached) {
+      return cached;
+    }
+    const schemaResponse = await this.registry.getSchema(schemaId);
+    if (!schemaResponse) {
+      throw new Error(`Schema with ID '${schemaId}' not found.`);
+    }
+
+    if (!schemaResponse.properties.format.match(/^json$/i)) {
+      throw new Error(
+        `Schema with ID '${schemaResponse.properties.id}' has format '${schemaResponse.properties.format}', not 'json'.`
+      );
+    }
+    return cache(schemaResponse.definition, schemaId).schema;
   }
 
   private async getSchemaId(definition: string): Promise<CacheEntry> {
@@ -127,7 +166,7 @@ export class JsonSerializer<MessageT = MessageContent> {
       }
     }
 
-    return cache(id, definition);
+    return cache(definition, id);
   }
 }
 
@@ -161,7 +200,7 @@ function convertMessage<MessageT>(
 }
 
 function getSchemaName(schema: SchemaObject): string {
-  const id = schema.$id || schema.id;
+  const id = schema.$id;
   if (!id) {
     throw new Error("Schema must have an ID.");
   }
