@@ -14,17 +14,22 @@ import {
   JobRouterUpsertJobOptionalParams,
   JobRouterUpsertWorkerOptionalParams,
   JobRouterUnassignJobActionOptionalParams,
-  DistributionModeUnion,
-  QueueSelectorAttachmentUnion,
-  WorkerSelectorAttachmentUnion,
-  RouterJobStatusSelector,
-  RouterWorkerSelector,
-  RouterWorkerStateSelector,
   ChannelConfiguration,
-  ExceptionRule,
 } from "../generated/src";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
-import { JSONObject, RouterJobMatchingMode, RouterJobNote, RouterRuleUnion } from "./models";
+import {
+  JSONObject,
+  RouterJobMatchingMode,
+  RouterJobNote,
+  RouterRuleUnion,
+  WorkerSelectorAttachmentUnion,
+  RouterWorkerSelector,
+  DistributionModeUnion,
+  QueueSelectorAttachmentUnion,
+  ExceptionRule,
+  RouterJobStatusSelector,
+  RouterWorkerStateSelector,
+} from "./models";
 
 /**
  * Options to create a job router administration client.
@@ -175,35 +180,6 @@ export interface UpdateQueueOptions extends JobRouterAdministrationUpsertQueueOp
 
 /**
  * Options to list queues.
- * Options to create a queue.
- */
-export interface CreateQueueOptions extends JobRouterAdministrationUpsertQueueOptionalParams {
-  /** The name of this queue. */
-  name?: string;
-  /** The ID of the distribution policy that will determine how a job is distributed to workers. */
-  distributionPolicyId?: string;
-  /** A set of key/value pairs that are identifying attributes used by the rules engines to make decisions. */
-  labels?: JSONObject;
-  /** (Optional) The ID of the exception policy that determines various job escalation rules. */
-  exceptionPolicyId?: string;
-}
-
-/**
- * Options to update a queue.
- */
-export interface UpdateQueueOptions extends JobRouterAdministrationUpsertQueueOptionalParams {
-  /** The name of this queue. */
-  name?: string;
-  /** The ID of the distribution policy that will determine how a job is distributed to workers. */
-  distributionPolicyId?: string;
-  /** A set of key/value pairs that are identifying attributes used by the rules engines to make decisions. */
-  labels?: JSONObject;
-  /** (Optional) The ID of the exception policy that determines various job escalation rules. */
-  exceptionPolicyId?: string;
-}
-
-/**
- * Options to list queues.
  */
 export interface ListQueuesOptions extends OperationOptions {
   /** Number of objects to return per page */
@@ -273,7 +249,7 @@ export interface ListJobsOptions extends OperationOptions {
   /** Number of objects to return per page */
   maxPageSize?: number;
   /** (Optional) If specified, filter jobs by status. */
-  jobStateSelector?: RouterJobStatusSelector;
+  statusSelector?: RouterJobStatusSelector;
   /** (Optional) If specified, filter jobs by queue. */
   queueId?: string;
   /** (Optional) If specified, filter jobs by channel. */
@@ -406,15 +382,15 @@ export {
   JobRouterAdministrationUpsertClassificationPolicyOptionalParams,
   JobRouterAdministrationUpsertDistributionPolicyOptionalParams,
   JobRouterAdministrationUpsertExceptionPolicyOptionalParams,
+  JobRouterAdministrationUpsertQueueOptionalParams,
+  JobRouterReclassifyJobActionOptionalParams,
+  JobRouterUnassignJobActionOptionalParams,
+  JobRouterCompleteJobActionOptionalParams,
   JobRouterCancelJobActionOptionalParams,
   JobRouterCloseJobActionOptionalParams,
-  JobRouterCompleteJobActionOptionalParams,
   JobRouterDeclineJobActionOptionalParams,
-  JobRouterReclassifyJobActionOptionalParams,
   JobRouterUpsertJobOptionalParams,
   JobRouterUpsertWorkerOptionalParams,
-  JobRouterUnassignJobActionOptionalParams,
-  JobRouterAdministrationUpsertQueueOptionalParams,
   DeclineJobOfferRequest,
   UnassignJobRequest,
 } from "../generated/src";

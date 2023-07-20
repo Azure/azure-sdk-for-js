@@ -15,15 +15,16 @@ export class TransformingPagedAsyncIterableIterator<
   constructor(
     private internalIterator: PagedAsyncIterableIterator<TElement, TPage, TPageSettings>,
     private transform: Transformer<TElement, TTransformed>
-  ) { }
+  ) {}
 
   async next(): Promise<IteratorResult<TTransformed>> {
     const internalResult = await this.internalIterator.next();
 
     const generatedItem = internalResult?.value as TElement | undefined;
-    const transformedItem = generatedItem === undefined ? {} : this.transform(generatedItem);
+    const transformedItem =
+      generatedItem === undefined ? ({} as TTransformed) : this.transform(generatedItem);
 
-    return Promise.resolve({ value: transformedItem, done: true });
+    return Promise.resolve({ value: transformedItem, done: internalResult.done });
   }
 
   [Symbol.asyncIterator](): TransformingPagedAsyncIterableIterator<
@@ -43,10 +44,11 @@ export class TransformingPagedAsyncIterableIterator<
       const transformedPage: TTransformedPage = [] as TTransformedPage;
 
       if (Array.isArray(generatedPage) && Array.isArray(transformedPage)) {
-        generatedPage.forEach(generatedItem => {
-          const transformedItem = generatedItem === undefined ? {} : this.transform(generatedItem);
+        generatedPage.forEach((generatedItem) => {
+          const transformedItem =
+            generatedItem === undefined ? ({} as TTransformed) : this.transform(generatedItem);
           transformedPage.push(transformedItem);
-        })
+        });
       }
 
       yield transformedPage;

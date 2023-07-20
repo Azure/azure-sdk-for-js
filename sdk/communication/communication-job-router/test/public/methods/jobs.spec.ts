@@ -165,6 +165,7 @@ describe("JobRouterClient", function () {
 
       const result: RouterJob[] = [];
       for await (const job of client.listJobs({ maxPageSize: 20 })) {
+        console.log("inside loop", job);
         result.push(job.job!);
       }
 
@@ -184,6 +185,7 @@ describe("JobRouterClient", function () {
         maxPageSize: 20,
         scheduledBefore: new Date(scheduledTime),
       })) {
+        console.log("inside loop", job);
         result.push(job.job!);
       }
 

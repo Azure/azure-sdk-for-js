@@ -7,6 +7,7 @@
 import {
   ClassificationPolicyResponse,
   JobRouterAdministrationClient,
+  LabelOperator
 } from "@azure/communication-job-router";
 
 // Load the .env file (you will need to set these environment variables)
@@ -31,7 +32,7 @@ async function updateClassificationPolicy(): Promise<void> {
         queueSelectors: [
           {
             key: "foo",
-            labelOperator: "lessThan",
+            labelOperator: LabelOperator.LessThan,
             value: { default: 5 },
           },
         ],

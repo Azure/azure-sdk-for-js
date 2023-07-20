@@ -2,25 +2,30 @@
 // Licensed under the MIT license.
 
 import {
-  JobMatchModeType as RouterJobMatchModeType,
+  KnownScoringRuleParameterSelector as ScoringRuleParameterSelector,
+  KnownExpressionRouterRuleLanguage as ExpressionRouterRuleLanguage,
+  KnownRouterWorkerSelectorStatus as RouterWorkerSelectorStatus,
+  JobMatchModeType,
+  KnownRouterWorkerState as RouterWorkerState,
+  KnownRouterJobStatus as RouterJobStatus,
+  KnownLabelOperator as LabelOperator,
   RouterRule,
   DirectMapRouterRule,
-  ExpressionRouterRule,
   FunctionRouterRule,
   WebhookRouterRule,
   ScheduleAndSuspendMode,
-  RouterWorkerState,
   ChannelConfiguration,
   RouterJobOffer,
   RouterWorkerAssignment,
-  RouterJobStatus,
   RouterJobAssignment,
-  LabelOperator,
-  RouterWorkerSelectorStatus,
   ExceptionAction,
   CancelExceptionAction,
-  ManualReclassifyExceptionAction,
   ExceptionTriggerUnion,
+  DistributionMode,
+  QueueSelectorAttachment,
+  WorkerSelectorAttachment,
+  LongestIdleMode,
+  RoundRobinMode,
 } from "../generated/src";
 
 /** Safe type instead of 'any'. */
@@ -53,7 +58,7 @@ export interface SuspendMode {}
 /** Queue and match job matching mode. */
 export interface RouterJobMatchingMode {
   /** Type of matching mode. */
-  modeType?: RouterJobMatchModeType;
+  modeType?: JobMatchModeType;
   /** (Optional) Options for when match mode is queue and match. */
   queueAndMatchMode?: QueueAndMatchMode;
   /** (Optional) Options for when match mode is schedule and suspend. */
@@ -271,10 +276,295 @@ export interface ExceptionPolicy {
   exceptionRules?: { [propertyName: string]: ExceptionRule };
 }
 
+/** Paged instance of ExceptionPolicy */
+export interface ExceptionPolicyItem {
+  /** A policy that defines actions to execute when exception are triggered. */
+  exceptionPolicy?: ExceptionPolicy;
+  /** (Optional) The Concurrency Token. */
+  etag?: string;
+}
+
+/** A container for the rules that govern how jobs are classified. */
+export interface ClassificationPolicy {
+  /**
+   * Unique identifier of this policy.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /** Friendly name of this policy. */
+  name?: string;
+  /** The fallback queue to select if the queue selector doesn't find a match. */
+  fallbackQueueId?: string;
+  /** The queue selectors to resolve a queue for a given job. */
+  queueSelectors?: QueueSelectorAttachmentUnion[];
+  /**
+   * A rule of one of the following types:
+   *
+   * StaticRule:  A rule providing static rules that always return the same result, regardless of input.
+   * DirectMapRule:  A rule that return the same labels as the input labels.
+   * ExpressionRule: A rule providing inline expression rules.
+   * AzureFunctionRule: A rule providing a binding to an HTTP Triggered Azure Function.
+   * WebhookRule: A rule providing a binding to a webserver following OAuth2.0 authentication protocol.
+   */
+  prioritizationRule?: RouterRuleUnion;
+  /** The worker label selectors to attach to a given job. */
+  workerSelectors?: WorkerSelectorAttachmentUnion[];
+}
+
+/** Paged instance of ClassificationPolicy */
+export interface ClassificationPolicyItem {
+  /** A container for the rules that govern how jobs are classified. */
+  classificationPolicy?: ClassificationPolicy;
+  /** (Optional) The Concurrency Token. */
+  etag?: string;
+}
+
+/** Policy governing how jobs are distributed to workers */
+export interface DistributionPolicy {
+  /**
+   * The unique identifier of the policy.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /** The human readable name of the policy. */
+  name?: string;
+  /** The number of seconds after which any offers created under this policy will be expired. */
+  offerExpiresAfterSeconds?: number;
+  /** Abstract base class for defining a distribution mode */
+  mode?: DistributionModeUnion;
+}
+
+/** Paged instance of DistributionPolicy */
+export interface DistributionPolicyItem {
+  /** Policy governing how jobs are distributed to workers */
+  distributionPolicy?: DistributionPolicy;
+  /** (Optional) The Concurrency Token. */
+  etag?: string;
+}
+
 /** Arguments for retrieving the next page of search results. */
 export interface ListPageSettings {
   /** A token used for retrieving the next page of results when the server enforces pagination. */
   continuationToken?: string | null;
+}
+
+/** Jobs are distributed to the worker with the strongest abilities available. */
+export interface BestWorkerMode extends DistributionMode {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "best-worker";
+  /**
+   * A rule of one of the following types:
+   *
+   * StaticRule:  A rule providing static rules that always return the same result, regardless of input.
+   * DirectMapRule:  A rule that return the same labels as the input labels.
+   * ExpressionRule: A rule providing inline expression rules.
+   * AzureFunctionRule: A rule providing a binding to an HTTP Triggered Azure Function.
+   * WebhookRule: A rule providing a binding to a webserver following OAuth2.0 authentication protocol.
+   */
+  scoringRule?: RouterRuleUnion;
+  /** Encapsulates all options that can be passed as parameters for scoring rule with BestWorkerMode */
+  scoringRuleOptions?: ScoringRuleOptions;
+}
+
+/** Describes a set of queue selectors that will be attached if the given condition resolves to true */
+export interface ConditionalQueueSelectorAttachment extends QueueSelectorAttachment {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "conditional";
+  /**
+   * A rule of one of the following types:
+   *
+   * StaticRule:  A rule providing static rules that always return the same result, regardless of input.
+   * DirectMapRule:  A rule that return the same labels as the input labels.
+   * ExpressionRule: A rule providing inline expression rules.
+   * AzureFunctionRule: A rule providing a binding to an HTTP Triggered Azure Function.
+   * WebhookRule: A rule providing a binding to a webserver following OAuth2.0 authentication protocol.
+   */
+  condition: RouterRuleUnion;
+  /** The queue selectors to attach */
+  queueSelectors: RouterQueueSelector[];
+}
+
+/** Describes a set of worker selectors that will be attached if the given condition resolves to true */
+export interface ConditionalWorkerSelectorAttachment extends WorkerSelectorAttachment {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "conditional";
+  /**
+   * A rule of one of the following types:
+   *
+   * StaticRule:  A rule providing static rules that always return the same result, regardless of input.
+   * DirectMapRule:  A rule that return the same labels as the input labels.
+   * ExpressionRule: A rule providing inline expression rules.
+   * AzureFunctionRule: A rule providing a binding to an HTTP Triggered Azure Function.
+   * WebhookRule: A rule providing a binding to a webserver following OAuth2.0 authentication protocol.
+   */
+  condition: RouterRuleUnion;
+  /** The worker selectors to attach */
+  workerSelectors: RouterWorkerSelector[];
+}
+
+/** Attaches queue selectors to a job when the RouterRule is resolved */
+export interface RuleEngineQueueSelectorAttachment extends QueueSelectorAttachment {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "rule-engine";
+  /**
+   * A rule of one of the following types:
+   *
+   * StaticRule:  A rule providing static rules that always return the same result, regardless of input.
+   * DirectMapRule:  A rule that return the same labels as the input labels.
+   * ExpressionRule: A rule providing inline expression rules.
+   * AzureFunctionRule: A rule providing a binding to an HTTP Triggered Azure Function.
+   * WebhookRule: A rule providing a binding to a webserver following OAuth2.0 authentication protocol.
+   */
+  rule: RouterRuleUnion;
+}
+
+/** A rule providing inline expression rules. */
+export interface ExpressionRouterRule extends RouterRule {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "expression-rule";
+  /** The expression language to compile to and execute */
+  language?: ExpressionRouterRuleLanguage;
+  /** The string containing the expression to evaluate. Should contain return statement with calculated values. */
+  expression: string;
+}
+
+/** Contains the weight percentage and queue selectors to be applied if selected for weighted distributions. */
+export interface QueueWeightedAllocation {
+  /** The percentage of this weight, expressed as a fraction of 1. */
+  weight: number;
+  /** A collection of queue selectors that will be applied if this allocation is selected. */
+  queueSelectors: RouterQueueSelector[];
+}
+
+/** Attaches queue selectors to a job when the RouterRule is resolved */
+export interface RuleEngineQueueSelectorAttachment extends QueueSelectorAttachment {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "rule-engine";
+  /**
+   * A rule of one of the following types:
+   *
+   * StaticRule:  A rule providing static rules that always return the same result, regardless of input.
+   * DirectMapRule:  A rule that return the same labels as the input labels.
+   * ExpressionRule: A rule providing inline expression rules.
+   * AzureFunctionRule: A rule providing a binding to an HTTP Triggered Azure Function.
+   * WebhookRule: A rule providing a binding to a webserver following OAuth2.0 authentication protocol.
+   */
+  rule: RouterRuleUnion;
+}
+
+/** An action that manually reclassifies a job by providing the queue, priority and worker selectors. */
+export interface ManualReclassifyExceptionAction extends ExceptionAction {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "manual-reclassify";
+  /** Updated QueueId. */
+  queueId?: string;
+  /** Updated Priority. */
+  priority?: number;
+  /** Updated WorkerSelectors. */
+  workerSelectors?: RouterWorkerSelector[];
+}
+
+/** Attaches worker selectors to a job when a RouterRule is resolved */
+export interface RuleEngineWorkerSelectorAttachment extends WorkerSelectorAttachment {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "rule-engine";
+  /**
+   * A rule of one of the following types:
+   *
+   * StaticRule:  A rule providing static rules that always return the same result, regardless of input.
+   * DirectMapRule:  A rule that return the same labels as the input labels.
+   * ExpressionRule: A rule providing inline expression rules.
+   * AzureFunctionRule: A rule providing a binding to an HTTP Triggered Azure Function.
+   * WebhookRule: A rule providing a binding to a webserver following OAuth2.0 authentication protocol.
+   */
+  rule: RouterRuleUnion;
+}
+
+/** Describes a queue selector that will be attached to the job */
+export interface StaticQueueSelectorAttachment extends QueueSelectorAttachment {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "static";
+  /** Describes a condition that must be met against a set of labels for queue selection */
+  queueSelector: RouterQueueSelector;
+}
+
+/** Describes multiple sets of queue selectors, of which one will be selected and attached according to a weighting */
+export interface WeightedAllocationQueueSelectorAttachment extends QueueSelectorAttachment {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "weighted-allocation-queue-selector";
+  /** A collection of percentage based weighted allocations. */
+  allocations: QueueWeightedAllocation[];
+}
+
+/** Describes a worker selector that will be attached to the job */
+export interface StaticWorkerSelectorAttachment extends WorkerSelectorAttachment {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "static";
+  /** Describes a condition that must be met against a set of labels for worker selection */
+  workerSelector: RouterWorkerSelector;
+}
+
+/** Attaches a worker selector where the value is passed through from the job label with the same key */
+export interface PassThroughWorkerSelectorAttachment extends WorkerSelectorAttachment {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "pass-through";
+  /** The label key to query against */
+  key: string;
+  /** Describes how the value of the label is compared to the value pass through */
+  labelOperator: LabelOperator;
+  /** Describes how long the attached label selector is valid in seconds. */
+  expiresAfterSeconds?: number;
+}
+
+/** Describes multiple sets of worker selectors, of which one will be selected and attached according to a weighting */
+export interface WeightedAllocationWorkerSelectorAttachment extends WorkerSelectorAttachment {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "weighted-allocation-worker-selector";
+  /** A collection of percentage based weighted allocations. */
+  allocations: WorkerWeightedAllocation[];
+}
+
+/** Attaches a queue selector where the value is passed through from the job label with the same key */
+export interface PassThroughQueueSelectorAttachment extends QueueSelectorAttachment {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "pass-through";
+  /** The label key to query against */
+  key: string;
+  /** Describes how the value of the label is compared to the value pass through */
+  labelOperator: LabelOperator;
+}
+
+/** Contains the weight percentage and worker selectors to be applied if selected for weighted distributions. */
+export interface WorkerWeightedAllocation {
+  /** The percentage of this weight, expressed as a fraction of 1. */
+  weight: number;
+  /** A collection of worker selectors that will be applied if this allocation is selected. */
+  workerSelectors: RouterWorkerSelector[];
+}
+
+/** Encapsulates all options that can be passed as parameters for scoring rule with BestWorkerMode */
+export interface ScoringRuleOptions {
+  /** (Optional) Set batch size when AllowScoringBatchOfWorkers is set to true. Defaults to 20 if not configured. */
+  batchSize?: number;
+  /**
+   * (Optional) List of extra parameters from the job that will be sent as part of the payload to scoring rule.
+   * If not set, the job's labels (sent in the payload as `job`) and the job's worker selectors (sent in the payload as `selectors`)
+   * are added to the payload of the scoring rule by default.
+   * Note: Worker labels are always sent with scoring payload.
+   */
+  scoringParameters?: ScoringRuleParameterSelector[];
+  /**
+   * (Optional)
+   * If set to true, will score workers in batches, and the parameter name of the worker labels will be sent as `workers`.
+   * By default, set to false and the parameter name for the worker labels will be sent as `worker`.
+   * Note: If enabled, use BatchSize to set batch size.
+   */
+  allowScoringBatchOfWorkers?: boolean;
+  /**
+   * (Optional)
+   * If false, will sort scores by ascending order. By default, set to true.
+   */
+  descendingOrder?: boolean;
 }
 
 export type RouterRuleUnion =
@@ -291,53 +581,51 @@ export type ExceptionActionUnion =
   | ManualReclassifyExceptionAction
   | ReclassifyExceptionAction;
 
+export type WorkerSelectorAttachmentUnion =
+  | WorkerSelectorAttachment
+  | ConditionalWorkerSelectorAttachment
+  | PassThroughWorkerSelectorAttachment
+  | RuleEngineWorkerSelectorAttachment
+  | StaticWorkerSelectorAttachment
+  | WeightedAllocationWorkerSelectorAttachment;
+
+export type DistributionModeUnion =
+  | DistributionMode
+  | BestWorkerMode
+  | LongestIdleMode
+  | RoundRobinMode;
+
+export type QueueSelectorAttachmentUnion =
+  | QueueSelectorAttachment
+  | ConditionalQueueSelectorAttachment
+  | PassThroughQueueSelectorAttachment
+  | RuleEngineQueueSelectorAttachment
+  | StaticQueueSelectorAttachment
+  | WeightedAllocationQueueSelectorAttachment;
+
 export {
   Oauth2ClientCredential,
-  ClassificationPolicy,
-  DistributionPolicy,
   ChannelConfiguration,
   RouterQueueStatistics,
   RouterJobOffer,
   RouterJobPositionDetails,
   RouterJobAssignment,
   RouterWorkerAssignment,
-  ClassificationPolicyItem,
-  DistributionPolicyItem,
-  ExceptionPolicyItem,
   ScheduleAndSuspendMode,
   DistributionMode,
   LongestIdleMode,
-  BestWorkerMode,
-  ScoringRuleOptions,
   RoundRobinMode,
-  WorkerWeightedAllocation,
-  QueueWeightedAllocation,
   QueueLengthExceptionTrigger,
   WaitTimeExceptionTrigger,
   ExceptionTrigger,
-  ManualReclassifyExceptionAction,
   CancelExceptionAction,
   ExceptionAction,
   FunctionRouterRuleCredential,
-  ExpressionRouterRule,
   DirectMapRouterRule,
   FunctionRouterRule,
   WebhookRouterRule,
   RouterRule,
-  WorkerSelectorAttachmentUnion,
-  QueueSelectorAttachmentUnion,
   ExceptionTriggerUnion,
-  DistributionModeUnion,
-  WeightedAllocationWorkerSelectorAttachment,
-  WeightedAllocationQueueSelectorAttachment,
-  ConditionalWorkerSelectorAttachment,
-  PassThroughWorkerSelectorAttachment,
-  ConditionalQueueSelectorAttachment,
-  PassThroughQueueSelectorAttachment,
-  RuleEngineWorkerSelectorAttachment,
-  RuleEngineQueueSelectorAttachment,
-  StaticWorkerSelectorAttachment,
-  StaticQueueSelectorAttachment,
   WorkerSelectorAttachment,
   QueueSelectorAttachment,
   KnownExpressionRouterRuleLanguage as ExpressionRouterRuleLanguage,
@@ -345,8 +633,8 @@ export {
   KnownRouterWorkerSelectorStatus as RouterWorkerSelectorStatus,
   KnownRouterWorkerStateSelector as RouterWorkerStateSelector,
   KnownRouterJobStatusSelector as RouterJobStatusSelector,
+  JobMatchModeType,
   KnownRouterWorkerState as RouterWorkerState,
-  KnownJobMatchModeType as RouterJobMatchModeType,
   KnownRouterJobStatus as RouterJobStatus,
   KnownLabelOperator as LabelOperator,
 } from "../generated/src";

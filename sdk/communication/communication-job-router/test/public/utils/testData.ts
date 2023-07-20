@@ -8,12 +8,15 @@ import {
   ExceptionPolicy,
   ExceptionRule,
   ExpressionRouterRule,
+  ExpressionRouterRuleLanguage,
   RouterQueue,
   PassThroughQueueSelectorAttachment,
   RouterQueueSelector,
   RouterWorker,
   StaticQueueSelectorAttachment,
   CreateJobOptions,
+  LabelOperator,
+  RouterWorkerState,
 } from "../../../src";
 
 const queueId = "test-queue";
@@ -30,45 +33,45 @@ const french = "FR";
 
 const isO365: ExpressionRouterRule = {
   kind: "expression-rule",
-  language: "powerFx",
+  language: ExpressionRouterRuleLanguage.PowerFx,
   expression: `If(job.Product = "${product}", true, false)`,
 };
 
 const isEnglish: ExpressionRouterRule = {
   kind: "expression-rule",
-  language: "powerFx",
+  language: ExpressionRouterRuleLanguage.PowerFx,
   expression: `If(job.Language = "${english}", true, false)`,
 };
 
 const isFrench: ExpressionRouterRule = {
   kind: "expression-rule",
-  language: "powerFx",
+  language: ExpressionRouterRuleLanguage.PowerFx,
   expression: `If(job.Language = "${french}", true, false)`,
 };
 
 function getQueueIdSelector(guid: string): RouterQueueSelector {
   return {
     key: "Id",
-    labelOperator: "equal",
+    labelOperator: LabelOperator.Equal,
     value: { [`${queueId}-${guid}`]: `${queueId}-${guid}` },
   };
 }
 
 const queueDoesNotExistSelector: RouterQueueSelector = {
   key: "Id",
-  labelOperator: "equal",
+  labelOperator: LabelOperator.Equal,
   value: { queueDoesNotExist: "queueDoesNotExist" },
 };
 
 const englishSelector: RouterQueueSelector = {
   key: "Language",
-  labelOperator: "equal",
+  labelOperator: LabelOperator.Equal,
   value: english,
 };
 
 const frenchSelector: RouterQueueSelector = {
   key: "Language",
-  labelOperator: "equal",
+  labelOperator: LabelOperator.Equal,
   value: french,
 };
 
@@ -80,13 +83,13 @@ const staticQueueDoesNotExistSelector: StaticQueueSelectorAttachment = {
 const passThroughRegionSelector: PassThroughQueueSelectorAttachment = {
   kind: "pass-through",
   key: "Region",
-  labelOperator: "equal",
+  labelOperator: LabelOperator.Equal,
 };
 
 const passThroughProductSelector: PassThroughQueueSelectorAttachment = {
   kind: "pass-through",
   key: "Product",
-  labelOperator: "equal",
+  labelOperator: LabelOperator.Equal,
 };
 
 function getConditionalProductSelector(guid: string): ConditionalQueueSelectorAttachment {
@@ -387,7 +390,7 @@ export function getWorkerRequest(guid: string): WorkerRequest {
     workerId: id,
     workerRequest: {
       id,
-      state: "active",
+      state: RouterWorkerState.Active,
       loadRatio: 1,
       totalCapacity: 1,
       availableForOffers: false,

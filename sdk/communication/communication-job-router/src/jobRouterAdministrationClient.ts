@@ -10,16 +10,18 @@ import {
 } from "@azure/communication-common";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
-  ClassificationPolicyItem,
-  DistributionPolicyItem,
-  ExceptionPolicyItem,
-  RouterQueueItem,
   JobRouterAdministrationListClassificationPoliciesOptionalParams,
   JobRouterAdministrationListDistributionPoliciesOptionalParams,
   JobRouterAdministrationListExceptionPoliciesOptionalParams,
   JobRouterAdministrationListQueuesOptionalParams,
   JobRouterApiClient,
 } from "./generated/src";
+import {
+  RouterQueueItem,
+  ClassificationPolicyItem,
+  DistributionPolicyItem,
+  ExceptionPolicyItem,
+} from "./models/models";
 import {
   CreateClassificationPolicyOptions,
   CreateDistributionPolicyOptions,
