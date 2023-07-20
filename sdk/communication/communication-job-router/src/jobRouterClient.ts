@@ -222,7 +222,7 @@ export class JobRouterClient {
   ): Promise<RouterJobResponse> {
     const matchingModeFixup = (matchingMode: RouterJobMatchingMode | undefined) => {
       if (matchingMode === undefined) {
-        return {}
+        return {};
       }
 
       if (matchingMode.scheduleAndSuspendMode) {
@@ -239,13 +239,13 @@ export class JobRouterClient {
         matchingMode.scheduleAndSuspendMode = undefined;
       }
 
-      return matchingMode
-    }
+      return matchingMode;
+    };
 
     const patch = {
       ...options,
       notes: transformNotesToGenerated(options.notes),
-      matchingMode: matchingModeFixup(options.matchingMode)
+      matchingMode: matchingModeFixup(options.matchingMode),
     };
 
     const job = await this.client.jobRouter.upsertJob(jobId, patch, options);
