@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Suggest proper resourceLocation for PATCH LRO in `OperationLocation` mode
+- Support non-standard PATCH operations.
 
 
 ### Other Changes
