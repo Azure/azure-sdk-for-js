@@ -342,7 +342,7 @@ describe("AppendBlobClient Node.js only", () => {
     assert.equal(downloadResponse.contentLength!, content.length * 2);
   });
 
-  it.only("appendBlock - append large block", async function (this:Context) {
+  it("appendBlock - append large block", async function (this: Context) {
     if (!isLiveMode()) {
       // Recorder file larger than github limitation
       this.skip();
