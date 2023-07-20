@@ -9,7 +9,6 @@ import {
   LengthUnit,
   ParagraphRole,
   SelectionMarkState,
-  DocumentAnnotationKind,
   DocumentBarcodeKind,
   DocumentFormulaKind,
 } from "../generated";
@@ -175,12 +174,6 @@ export interface DocumentKeyValuePair {
  * A visual annotation element in the document, such as a check mark or cross.
  */
 export interface DocumentAnnotation extends HasBoundingPolygon {
-  /**
-   * The kind of annotation that this element represents. One of:
-   *  - "check": A check mark (✓).
-   *  - "cross": A cross mark (X).
-   */
-  kind: DocumentAnnotationKind;
 
   /** Confidence of correctly extracting the annotation. */
   confidence: number;
@@ -245,11 +238,6 @@ export interface DocumentPage {
   selectionMarks?: DocumentSelectionMark[];
   /** Extracted lines from the page, potentially containing both textual and visual elements. */
   lines?: DocumentLine[];
-
-  /**
-   * Extracted annotations from the page, such as check marks or cross marks.
-   */
-  annotations?: DocumentAnnotation[];
 
   /**
    * Extracted barcodes from the page.

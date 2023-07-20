@@ -301,8 +301,6 @@ matrix([[true, false]] as const, async (useAad) => {
         const { pages } = await poller.pollUntilDone();
 
         assert.isNotEmpty(pages);
-
-        assert.isNotEmpty(pages?.[0].annotations);
       });
 
       it("formula", async function () {

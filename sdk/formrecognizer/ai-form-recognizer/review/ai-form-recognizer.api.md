@@ -82,7 +82,7 @@ export interface AzureBlobContentSource {
 }
 
 // @public
-export interface AzureBlobFileListSource {
+export interface AzureBlobFileListContentSource {
     containerUrl: string;
     fileList: string;
 }
@@ -113,7 +113,7 @@ export interface BoundingRegion extends HasBoundingPolygon {
 
 // @public
 export interface ClassifierDocumentTypeDetails {
-    azureBlobFileListSource?: AzureBlobFileListSource;
+    azureBlobFileListSource?: AzureBlobFileListContentSource;
     azureBlobSource?: AzureBlobContentSource;
 }
 
@@ -197,11 +197,7 @@ export interface DocumentAnalysisPollOperationState<Result = AnalyzeResult<Analy
 // @public
 export interface DocumentAnnotation extends HasBoundingPolygon {
     confidence: number;
-    kind: DocumentAnnotationKind;
 }
-
-// @public
-export type DocumentAnnotationKind = string;
 
 // @public
 export interface DocumentArrayField<T = DocumentField> extends DocumentFieldCommon {
@@ -242,7 +238,7 @@ export interface DocumentClassifierBuildOperationDetails extends OperationDetail
 }
 
 // @public
-export type DocumentClassifierContentSource = AzureBlobContentSource | AzureBlobFileListSource;
+export type DocumentClassifierContentSource = AzureBlobContentSource | AzureBlobFileListContentSource;
 
 // @public
 export interface DocumentClassifierDetails {
@@ -413,7 +409,7 @@ export interface DocumentModelComposeOperationDetails extends OperationDetails {
 }
 
 // @public
-export type DocumentModelContentSource = AzureBlobContentSource | AzureBlobFileListSource;
+export type DocumentModelContentSource = AzureBlobContentSource | AzureBlobFileListContentSource;
 
 // @public
 export interface DocumentModelCopyToOperationDetails extends OperationDetails {
@@ -471,7 +467,6 @@ export interface DocumentObjectField<Properties = {
 // @public
 export interface DocumentPage {
     angle?: number;
-    annotations?: DocumentAnnotation[];
     barcodes?: DocumentBarcode[];
     formulas?: DocumentFormula[];
     height?: number;
@@ -669,12 +664,6 @@ export interface InnerError {
     code: string;
     innererror?: InnerError;
     message?: string;
-}
-
-// @public
-export enum KnownDocumentAnnotationKind {
-    Check = "check",
-    Cross = "cross"
 }
 
 // @public

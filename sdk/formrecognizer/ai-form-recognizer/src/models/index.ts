@@ -42,6 +42,6 @@ export {
 export {
   DocumentModelContentSource,
   DocumentClassifierContentSource,
-  AzureBlobFileListSource,
+  AzureBlobFileListContentSource,
   AzureBlobContentSource,
 } from "./contentSource";

@@ -6,28 +6,28 @@ import {
   BuildDocumentModelRequest,
   ClassifierDocumentTypeDetails,
   AzureBlobContentSource,
-  AzureBlobFileListSource,
+  AzureBlobFileListContentSource,
 } from "../generated";
 
-export { AzureBlobContentSource, AzureBlobFileListSource };
+export { AzureBlobContentSource, AzureBlobFileListContentSource };
 
 /**
  * A content source that may be used to build a document model.
  *
  * One of:
  * - AzureBlobContentSource
- * - AzureBlobFileListSource
+ * - AzureBlobFileListContentSource
  */
-export type DocumentModelContentSource = AzureBlobContentSource | AzureBlobFileListSource;
+export type DocumentModelContentSource = AzureBlobContentSource | AzureBlobFileListContentSource;
 
 /**
  * A content source that may be used to build a document classifier.
  *
  * One of:
  * - AzureBlobContentSource
- * - AzureBlobFileListSource
+ * - AzureBlobFileListContentSource
  */
-export type DocumentClassifierContentSource = AzureBlobContentSource | AzureBlobFileListSource;
+export type DocumentClassifierContentSource = AzureBlobContentSource | AzureBlobFileListContentSource;
 
 /**
  * @param source - the content source to check
@@ -48,15 +48,15 @@ export function isAzureBlobContentSource(
 
 /**
  * @param source - the content source to check
- * @returns - true if the source is a valid AzureBlobFileListSource
+ * @returns - true if the source is a valid AzureBlobFileListContentSource
  * @internal
  */
-export function isAzureBlobFileListSource(
+export function isAzureBlobFileListContentSource(
   source: DocumentModelContentSource | DocumentClassifierContentSource
-): source is AzureBlobFileListSource {
+): source is AzureBlobFileListContentSource {
   return (
-    (source as AzureBlobFileListSource).containerUrl !== undefined &&
-    (source as AzureBlobFileListSource).fileList !== undefined &&
+    (source as AzureBlobFileListContentSource).containerUrl !== undefined &&
+    (source as AzureBlobFileListContentSource).fileList !== undefined &&
     (source as AzureBlobContentSource).prefix === undefined
   );
 }
@@ -72,7 +72,7 @@ export function toBuildOptions(
   BuildDocumentModelRequest & BuildDocumentClassifierRequest,
   "azureBlobFileListSource" | "azureBlobSource"
 > {
-  if (isAzureBlobFileListSource(source)) {
+  if (isAzureBlobFileListContentSource(source)) {
     return {
       azureBlobFileListSource: source,
     };
@@ -82,7 +82,7 @@ export function toBuildOptions(
     };
   } else {
     throw new Error(
-      "Invalid document model content source: expected one of AzureBlobContentSource or AzureBlobFileListSource"
+      "Invalid document model content source: expected one of AzureBlobContentSource or AzureBlobFileListContentSource"
     );
   }
 }
@@ -95,7 +95,7 @@ export function toBuildOptions(
 export function toClassifierDetails(
   source: DocumentClassifierContentSource
 ): ClassifierDocumentTypeDetails {
-  if (isAzureBlobFileListSource(source)) {
+  if (isAzureBlobFileListContentSource(source)) {
     return {
       azureBlobFileListSource: source,
     };
@@ -105,7 +105,7 @@ export function toClassifierDetails(
     };
   } else {
     throw new Error(
-      "Invalid classifier content source: expected one of AzureBlobContentSource or AzureBlobFileListSource"
+      "Invalid classifier content source: expected one of AzureBlobContentSource or AzureBlobFileListContentSource"
     );
   }
 }

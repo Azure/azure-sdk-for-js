@@ -225,10 +225,6 @@ export function toDocumentPageFromGenerated(generated: GeneratedDocumentPage): D
       ...word,
       polygon: toBoundingPolygon(word.polygon),
     })),
-    annotations: generated.annotations?.map((annotation) => ({
-      ...annotation,
-      polygon: toBoundingPolygon(annotation.polygon),
-    })),
     barcodes: generated.barcodes?.map((barcode) => ({
       ...barcode,
       polygon: toBoundingPolygon(barcode.polygon),
