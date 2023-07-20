@@ -18,9 +18,9 @@ export type OperationDetailsUnion =
 
 /** Document analysis parameters. */
 export interface AnalyzeDocumentRequest {
-  /** Document URL to analyze */
+  /** Document URL to analyze.  Either urlSource or base64Source must be specified. */
   urlSource?: string;
-  /** Base64 encoding of the document to analyze */
+  /** Base64 encoding of the document to analyze.  Either urlSource or base64Source must be specified. */
   base64Source?: Uint8Array;
 }
 
@@ -114,8 +114,6 @@ export interface DocumentPage {
   selectionMarks?: DocumentSelectionMark[];
   /** Extracted lines from the page, potentially containing both textual and visual elements. */
   lines?: DocumentLine[];
-  /** Extracted annotations from the page. */
-  annotations?: DocumentAnnotation[];
   /** Extracted barcodes from the page. */
   barcodes?: DocumentBarcode[];
   /** Extracted formulas from the page. */
@@ -162,16 +160,6 @@ export interface DocumentLine {
   polygon?: number[];
   /** Location of the line in the reading order concatenated content. */
   spans: DocumentSpan[];
-}
-
-/** An annotation object that represents a visual annotation in the document, such as checks ✓ and crosses X. */
-export interface DocumentAnnotation {
-  /** Annotation kind. */
-  kind: DocumentAnnotationKind;
-  /** Bounding polygon of the annotation. */
-  polygon: number[];
-  /** Confidence of correctly extracting the annotation. */
-  confidence: number;
 }
 
 /** A barcode object. */
@@ -415,10 +403,10 @@ export interface BuildDocumentModelRequest {
   description?: string;
   /** Custom document model build mode. */
   buildMode: DocumentBuildMode;
-  /** Azure Blob Storage location containing the training data. */
+  /** Azure Blob Storage location containing the training data.  Either azureBlobSource or azureBlobFileListSource must be specified. */
   azureBlobSource?: AzureBlobContentSource;
-  /** Azure Blob Storage file list specifying the training data. */
-  azureBlobFileListSource?: AzureBlobFileListSource;
+  /** Azure Blob Storage file list specifying the training data.  Either azureBlobSource or azureBlobFileListSource must be specified. */
+  azureBlobFileListSource?: AzureBlobFileListContentSource;
   /** List of key-value tag attributes associated with the document model. */
   tags?: { [propertyName: string]: string };
 }
@@ -432,7 +420,7 @@ export interface AzureBlobContentSource {
 }
 
 /** File list in Azure Blob Storage. */
-export interface AzureBlobFileListSource {
+export interface AzureBlobFileListContentSource {
   /** Azure Blob Storage container URL. */
   containerUrl: string;
   /** Path to a JSONL file within the container specifying a subset of documents for training. */
@@ -619,12 +607,12 @@ export interface BuildDocumentClassifierRequest {
   docTypes: { [propertyName: string]: ClassifierDocumentTypeDetails };
 }
 
-/** Training data source. */
+/** Classifier document type info. */
 export interface ClassifierDocumentTypeDetails {
-  /** Azure Blob Storage location containing the training data. */
+  /** Azure Blob Storage location containing the training data for a classifier document type.  Either azureBlobSource or azureBlobFileListSource must be specified. */
   azureBlobSource?: AzureBlobContentSource;
-  /** Azure Blob Storage file list specifying the training data. */
-  azureBlobFileListSource?: AzureBlobFileListSource;
+  /** Azure Blob Storage file list specifying the training data for a classifier document type.  Either azureBlobSource or azureBlobFileListSource must be specified. */
+  azureBlobFileListSource?: AzureBlobFileListContentSource;
 }
 
 /** List document classifiers response object. */
@@ -653,9 +641,9 @@ export interface DocumentClassifierDetails {
 
 /** Document classification parameters. */
 export interface ClassifyDocumentRequest {
-  /** Document URL to classify */
+  /** Document URL to classify.  Either urlSource or base64Source must be specified. */
   urlSource?: string;
-  /** Base64 encoding of the document to classify */
+  /** Base64 encoding of the document to classify.  Either urlSource or base64Source must be specified. */
   base64Source?: Uint8Array;
 }
 
@@ -840,24 +828,6 @@ export enum KnownSelectionMarkState {
  * **unselected**: The selection mark is not selected.
  */
 export type SelectionMarkState = string;
-
-/** Known values of {@link DocumentAnnotationKind} that the service accepts. */
-export enum KnownDocumentAnnotationKind {
-  /** A visual check ✓. */
-  Check = "check",
-  /** A visual cross X. */
-  Cross = "cross"
-}
-
-/**
- * Defines values for DocumentAnnotationKind. \
- * {@link KnownDocumentAnnotationKind} can be used interchangeably with DocumentAnnotationKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **check**: A visual check ✓. \
- * **cross**: A visual cross X.
- */
-export type DocumentAnnotationKind = string;
 
 /** Known values of {@link DocumentBarcodeKind} that the service accepts. */
 export enum KnownDocumentBarcodeKind {

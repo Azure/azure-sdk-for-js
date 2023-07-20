@@ -390,18 +390,6 @@ export const DocumentPage: coreClient.CompositeMapper = {
           }
         }
       },
-      annotations: {
-        serializedName: "annotations",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DocumentAnnotation"
-            }
-          }
-        }
-      },
       barcodes: {
         serializedName: "barcodes",
         type: {
@@ -592,48 +580,6 @@ export const DocumentLine: coreClient.CompositeMapper = {
               className: "DocumentSpan"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const DocumentAnnotation: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DocumentAnnotation",
-    modelProperties: {
-      kind: {
-        serializedName: "kind",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      polygon: {
-        serializedName: "polygon",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            constraints: {
-              InclusiveMinimum: 0
-            },
-            type: {
-              name: "Number"
-            }
-          }
-        }
-      },
-      confidence: {
-        constraints: {
-          InclusiveMaximum: 1,
-          InclusiveMinimum: 0
-        },
-        serializedName: "confidence",
-        required: true,
-        type: {
-          name: "Number"
         }
       }
     }
@@ -1545,7 +1491,7 @@ export const BuildDocumentModelRequest: coreClient.CompositeMapper = {
         serializedName: "azureBlobFileListSource",
         type: {
           name: "Composite",
-          className: "AzureBlobFileListSource"
+          className: "AzureBlobFileListContentSource"
         }
       },
       tags: {
@@ -1581,10 +1527,10 @@ export const AzureBlobContentSource: coreClient.CompositeMapper = {
   }
 };
 
-export const AzureBlobFileListSource: coreClient.CompositeMapper = {
+export const AzureBlobFileListContentSource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AzureBlobFileListSource",
+    className: "AzureBlobFileListContentSource",
     modelProperties: {
       containerUrl: {
         serializedName: "containerUrl",
@@ -2255,7 +2201,7 @@ export const ClassifierDocumentTypeDetails: coreClient.CompositeMapper = {
         serializedName: "azureBlobFileListSource",
         type: {
           name: "Composite",
-          className: "AzureBlobFileListSource"
+          className: "AzureBlobFileListContentSource"
         }
       }
     }
