@@ -281,6 +281,7 @@ describe("DataLakePathClient", () => {
     const timeToExpireInMs = 60 * 1000; // 60s
 
     const testFileName = recorder.variable("testfile", getUniqueName("testfile"));
+    const encryptionContext = "EncryptionContext";
     const testFileClient = fileSystemClient.getFileClient(testFileName);
     await testFileClient.create({
       metadata: metadata,
@@ -290,6 +291,7 @@ describe("DataLakePathClient", () => {
       proposedLeaseId: leaseId,
       leaseDuration: leaseDuration,
       expiresOn: timeToExpireInMs,
+      encryptionContext,
     });
 
     const result = await testFileClient.getProperties();
@@ -303,6 +305,7 @@ describe("DataLakePathClient", () => {
     assert.equal(result.contentLanguage, httpHeader.contentLanguage);
     assert.equal(result.contentDisposition, httpHeader.contentDisposition);
     assert.equal(result.contentType, httpHeader.contentType);
+    assert.equal(result.encryptionContext, encryptionContext);
     const aclResult = await testFileClient.getAccessControl();
     const permissions = {
       owner: {
@@ -440,11 +443,30 @@ describe("DataLakePathClient", () => {
     assert.ok(!(await testFileClient.exists()));
   });
 
+  it("DataLakeFileClient createIfNotExist with encryption context", async () => {
+    const testFileName = recorder.variable("testfile", getUniqueName("testfile"));
+    const encryptionContext = "EncryptionContext";
+    const testFileClient = fileSystemClient.getFileClient(testFileName);
+    await testFileClient.createIfNotExists({ encryptionContext: encryptionContext });
+
+    const result = await testFileClient.getProperties();
+    assert.equal(result.encryptionContext, encryptionContext);
+  });
+
   it("DataLakeDirectoryClient create with default parameters", async () => {
     const testDirName = recorder.variable("testdir", getUniqueName("testdir"));
     const testdirClient = fileSystemClient.getDirectoryClient(testDirName);
     await testdirClient.create();
     assert.ok(await testdirClient.exists());
+  });
+
+  it("DataLakeDirectoryClient create with  encryption context", async () => {
+    const testDirName = recorder.variable("testdir", getUniqueName("testdir"));
+    const testdirClient = fileSystemClient.getDirectoryClient(testDirName);
+    const encryptionContext = "EncryptionContext";
+    await testdirClient.create({ encryptionContext: encryptionContext });
+    const properties = await testdirClient.getProperties();
+    assert.equal(properties.encryptionContext, encryptionContext);
   });
 
   it("DataLakeDirectoryClient create with meta data", async () => {
@@ -737,6 +759,19 @@ describe("DataLakePathClient", () => {
   it("read with with default parameters", async () => {
     const result = await fileClient.read();
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
+  });
+
+  it("read a file with encryption context set", async () => {
+    const testFileName = recorder.variable("file1", getUniqueName("file1"));
+    const testFileClient = fileSystemClient.getFileClient(testFileName);
+    const encryptionContext = "EncryptionContext";
+    await testFileClient.create({ encryptionContext: encryptionContext });
+    await testFileClient.append(content, 0, content.length);
+    await testFileClient.flush(content.length);
+    const result = await testFileClient.read();
+    assert.equal(result.encryptionContext, encryptionContext);
+    assert.deepStrictEqual(await bodyToString(result, content.length), content);
+    assert.exists(result.createdOn);
   });
 
   it("read should not have aborted error after read finishes", async () => {

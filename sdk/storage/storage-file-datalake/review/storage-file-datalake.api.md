@@ -565,6 +565,7 @@ export interface FileParallelUploadOptions extends CommonOptions {
     close?: boolean;
     conditions?: DataLakeRequestConditions;
     customerProvidedKey?: CpkInfo;
+    encryptionContext?: string;
     maxConcurrency?: number;
     metadata?: Metadata;
     onProgress?: (progress: TransferProgressEvent) => void;
@@ -656,6 +657,7 @@ export interface FileReadHeaders {
     createdOn?: Date;
     // (undocumented)
     date?: Date;
+    encryptionContext?: string;
     // (undocumented)
     encryptionKeySha256?: string;
     // (undocumented)
@@ -1158,6 +1160,7 @@ export interface Path {
     // (undocumented)
     contentLength?: number;
     createdOn?: Date;
+    encryptionContext?: string;
     encryptionScope?: string;
     // (undocumented)
     etag?: string;
@@ -1260,6 +1263,7 @@ export interface PathCreateIfNotExistsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     acl?: PathAccessControlItem[];
     customerProvidedKey?: CpkInfo;
+    encryptionContext?: string;
     expiresOn?: number | Date;
     group?: string;
     leaseDuration?: number;
@@ -1288,6 +1292,7 @@ export interface PathCreateOptions extends CommonOptions {
     // (undocumented)
     conditions?: DataLakeRequestConditions;
     customerProvidedKey?: CpkInfo;
+    encryptionContext?: string;
     expiresOn?: number | Date;
     group?: string;
     leaseDuration?: number;
@@ -1440,6 +1445,7 @@ export interface PathGetPropertiesHeaders {
     date?: Date;
     // (undocumented)
     destinationSnapshot?: string;
+    encryptionContext?: string;
     // (undocumented)
     encryptionKeySha256?: string;
     encryptionScope?: string;
@@ -1540,6 +1546,8 @@ export interface PathModel {
     contentLength?: number;
     // (undocumented)
     creationTime?: string;
+    // (undocumented)
+    encryptionContext?: string;
     encryptionScope?: string;
     // (undocumented)
     etag?: string;

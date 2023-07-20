@@ -12,6 +12,8 @@ import {
   PathStylePorts,
   UrlConstants,
 } from "./constants";
+import { HttpResponse } from "@azure/storage-blob";
+import { HttpHeadersLike } from "@azure/core-http-compat";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -627,4 +629,32 @@ export function assertResponse<T extends object, Headers = undefined, Body = und
   }
 
   throw new TypeError(`Unexpected response object ${response}`);
+}
+
+export interface RawResponseWithEncryptionContextLike {
+  encryptionContext?: string;
+  _response: HttpResponse & {
+    parsedHeaders: {
+      encryptionContext?: string;
+    };
+  };
+}
+
+/**
+ * Parse value of encryption context from headers in raw response.
+ */
+export function ParseEncryptionContextHeaderValue(
+  rawResponse: RawResponseWithEncryptionContextLike
+): RawResponseWithEncryptionContextLike {
+  const response = rawResponse;
+  if (rawResponse._response) {
+    const headers = rawResponse._response.headers as HttpHeadersLike;
+    if (headers) {
+      response.encryptionContext = headers.get("x-ms-encryption-context");
+      if (response._response.parsedHeaders) {
+        response._response.parsedHeaders.encryptionContext = response.encryptionContext;
+      }
+    }
+  }
+  return response;
 }
