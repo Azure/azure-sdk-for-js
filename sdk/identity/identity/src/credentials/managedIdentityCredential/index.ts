@@ -266,7 +266,7 @@ export class ManagedIdentityCredential implements TokenCredential {
               };
               logger.info(
                 `authenticateManagedIdentity invoked with scopes- ${JSON.stringify(
-                  scopes
+                  appTokenProviderParameters.scopes
                 )} and getTokenOptions - ${JSON.stringify(getTokenOptions)}`
               );
               const resultToken = await this.authenticateManagedIdentity(
