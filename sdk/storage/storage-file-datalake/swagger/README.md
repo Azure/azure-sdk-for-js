@@ -354,5 +354,5 @@ directive:
 directive:
   - from: swagger-document
     where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2022-11-02" ];
+    transform: $.enum = [ "2023-01-03" ];
 ```
