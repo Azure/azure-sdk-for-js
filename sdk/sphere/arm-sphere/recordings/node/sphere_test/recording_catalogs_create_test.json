@@ -1,0 +1,46 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AzureSphere/catalogs/resourcetest?api-version=2022-09-01-preview",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "21",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-sphere/1.0.0-beta.1 core-rest-pipeline/1.11.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "139a024f-51e4-4d87-aa2b-06d63fb350f2"
+      },
+      "RequestBody": {
+        "location": "global"
+      },
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "95",
+        "Content-Type": "application/json",
+        "Date": "Thu, 20 Jul 2023 01:59:00 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "c3825713-b9ff-48ef-b4bd-eed7fea63280",
+        "x-ms-failure-cause": "service",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-writes": "1199",
+        "x-ms-request-id": "bb30b93c-742e-423d-920c-7bd248bcd9f2",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230720T015901Z:c3825713-b9ff-48ef-b4bd-eed7fea63280"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "ResourceCreationValidateFailed",
+          "message": "The resource validation failed."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

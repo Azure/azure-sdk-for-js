@@ -1,0 +1,44 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AzureSphere/catalogs/resourcetest?api-version=2022-09-01-preview",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-sphere/1.0.0-beta.1 core-rest-pipeline/1.11.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "cf83107a-a9aa-4693-bf77-b0600470c63f"
+      },
+      "RequestBody": null,
+      "StatusCode": 401,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Connection": "close",
+        "Content-Length": "94",
+        "Content-Type": "application/json",
+        "Date": "Thu, 20 Jul 2023 01:59:12 GMT",
+        "Expires": "-1",
+        "mise-correlation-id": "e772ef9c-b357-4ee3-8b5b-cad2533ac69a",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "b9c5b336-516d-4b3e-ad31-8b827e928d7b",
+        "x-ms-failure-cause": "service",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14999",
+        "x-ms-request-id": "c003dc25-5090-46d2-ae08-0f5e86f2cb73",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230720T015913Z:b9c5b336-516d-4b3e-ad31-8b827e928d7b"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "Unauthorized",
+          "message": "The user is not authorized to delete the Catalog"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
