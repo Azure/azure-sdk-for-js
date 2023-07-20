@@ -274,9 +274,7 @@ export interface ExpressionRouterRule extends RouterRule {
 }
 
 // @public
-export enum ExpressionRouterRuleLanguage {
-    PowerFx = "powerFx"
-}
+export type ExpressionRouterRuleLanguage = string;
 
 // @public
 export interface FunctionRouterRule extends RouterRule {
@@ -429,7 +427,19 @@ export interface JSONObject {
 export type JSONValue = boolean | number | string | null | JSONArray | JSONObject;
 
 // @public
-export enum LabelOperator {
+export enum KnownExpressionRouterRuleLanguage {
+    PowerFx = "powerFx"
+}
+
+// @public
+export enum KnownJobMatchModeType {
+    QueueAndMatchMode = "queueAndMatchMode",
+    ScheduleAndSuspendMode = "scheduleAndSuspendMode",
+    SuspendMode = "suspendMode"
+}
+
+// @public
+export enum KnownLabelOperator {
     Equal = "equal",
     GreaterThan = "greaterThan",
     GreaterThanEqual = "greaterThanEqual",
@@ -437,6 +447,70 @@ export enum LabelOperator {
     LessThanEqual = "lessThanEqual",
     NotEqual = "notEqual"
 }
+
+// @public
+export enum KnownRouterJobStatus {
+    Assigned = "assigned",
+    Cancelled = "cancelled",
+    ClassificationFailed = "classificationFailed",
+    Closed = "closed",
+    Completed = "completed",
+    Created = "created",
+    PendingClassification = "pendingClassification",
+    PendingSchedule = "pendingSchedule",
+    Queued = "queued",
+    Scheduled = "scheduled",
+    ScheduleFailed = "scheduleFailed",
+    WaitingForActivation = "waitingForActivation"
+}
+
+// @public
+export enum KnownRouterJobStatusSelector {
+    Active = "active",
+    All = "all",
+    Assigned = "assigned",
+    Cancelled = "cancelled",
+    ClassificationFailed = "classificationFailed",
+    Closed = "closed",
+    Completed = "completed",
+    Created = "created",
+    PendingClassification = "pendingClassification",
+    PendingSchedule = "pendingSchedule",
+    Queued = "queued",
+    Scheduled = "scheduled",
+    ScheduleFailed = "scheduleFailed",
+    WaitingForActivation = "waitingForActivation"
+}
+
+// @public
+export enum KnownRouterWorkerSelectorStatus {
+    Active = "active",
+    Expired = "expired"
+}
+
+// @public
+export enum KnownRouterWorkerState {
+    Active = "active",
+    Draining = "draining",
+    Inactive = "inactive"
+}
+
+// @public
+export enum KnownRouterWorkerStateSelector {
+    Active = "active",
+    All = "all",
+    Draining = "draining",
+    Inactive = "inactive"
+}
+
+// @public
+export enum KnownScoringRuleParameterSelector {
+    JobLabels = "jobLabels",
+    WorkerSelectors = "workerSelectors"
+}
+
+// @public
+export type LabelOperator = string;
 
 // @public
 export interface ListClassificationPoliciesOptions extends OperationOptions {
@@ -640,38 +714,10 @@ export interface RouterJobResponse extends RouterJob {
 }
 
 // @public
-export enum RouterJobStatus {
-    Assigned = "assigned",
-    Cancelled = "cancelled",
-    ClassificationFailed = "classificationFailed",
-    Closed = "closed",
-    Completed = "completed",
-    Created = "created",
-    PendingClassification = "pendingClassification",
-    PendingSchedule = "pendingSchedule",
-    Queued = "queued",
-    Scheduled = "scheduled",
-    ScheduleFailed = "scheduleFailed",
-    WaitingForActivation = "waitingForActivation"
-}
+export type RouterJobStatus = string;
 
 // @public
-export enum RouterJobStatusSelector {
-    Active = "active",
-    All = "all",
-    Assigned = "assigned",
-    Cancelled = "cancelled",
-    ClassificationFailed = "classificationFailed",
-    Closed = "closed",
-    Completed = "completed",
-    Created = "created",
-    PendingClassification = "pendingClassification",
-    PendingSchedule = "pendingSchedule",
-    Queued = "queued",
-    Scheduled = "scheduled",
-    ScheduleFailed = "scheduleFailed",
-    WaitingForActivation = "waitingForActivation"
-}
+export type RouterJobStatusSelector = string;
 
 // @public
 export interface RouterQueue {
@@ -768,25 +814,13 @@ export interface RouterWorkerSelector {
 }
 
 // @public
-export enum RouterWorkerSelectorStatus {
-    Active = "active",
-    Expired = "expired"
-}
+export type RouterWorkerSelectorStatus = string;
 
 // @public
-export enum RouterWorkerState {
-    Active = "active",
-    Draining = "draining",
-    Inactive = "inactive"
-}
+export type RouterWorkerState = string;
 
 // @public
-export enum RouterWorkerStateSelector {
-    Active = "active",
-    All = "all",
-    Draining = "draining",
-    Inactive = "inactive"
-}
+export type RouterWorkerStateSelector = string;
 
 // @public
 export interface RuleEngineQueueSelectorAttachment extends QueueSelectorAttachment {
@@ -821,10 +855,7 @@ export interface ScoringRuleOptions {
 }
 
 // @public
-export enum ScoringRuleParameterSelector {
-    JobLabels = "jobLabels",
-    WorkerSelectors = "workerSelectors"
-}
+export type ScoringRuleParameterSelector = string;
 
 // @public
 export interface StaticQueueSelectorAttachment extends QueueSelectorAttachment {
