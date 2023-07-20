@@ -129,68 +129,17 @@ First, let's consider some common questions about this two design.
 
 1. **_Default Export or Both Exports_**  
    As not all services will have a domain user scenario, sometimes they are equally important to their customers, it will be difficult to pick one between different sub clients as the default client, Also, it's possible that, sometimes one user scenario could be domain scenario, but as time goes by, their behavior could change, the other one may become a domain scenario. As such, we choose to use **named exports** for all sub clients.
-1. **_Shared Models_**  
-   In both multi-client and multi-endpoint cases, it's possible that we can have some models are shared by both api layer sub clients, As we will have the same models in both the classical client layer and api layer, we will put those models into `src/clientA/models` and `src/clientB/models` folder, And those shared models will be in `src/models`
 1. **_Models Subpath Export_**  
    We want to avoid exporting all our models to the top level, as this would obscure some key information about the API. Instead, we want a separate subpath for models, so that they don’t clutter the API document and can still be imported by customers if needed.
-
-Second, let's consider in the multi-endpoint proposal's case.
-
-In the rest layer, we will have the following subpath exports.
-
-```text
-@azure/foo/rest
-@azure/foo/rest/clientA
-@azure/foo/rest/clientB 
-```
-
-As we will use named exports, if we choose to use `export * from`, our `src/rest/index.ts` would end up with something like:
-
-```typescript
-export * from './clientA';
-export * from './clientB';
-```
-
-There will be a lot of conflicts need to be resolve, And some of the conflicts come from our helper functions in the rest level which relies on things specifically related with this sub client, it will be difficult to resolve them.  
-
-But if we use `export * as ClientA`, our src/rest/index.ts would end up with something like:
-
-```typescript
-import * as ClientA from "./clientA";
-import * as ClientA from "./clientA";
-
-export { ClientA, ClientB };
-```
-
-In this way, we will have different user experiences between those customers who use sub client ClientA from `@azure/foo/rest` and those customers who use sub client directly from `@azure/foo/rest/clientA`.
-
-Let's say customers are using `@azure/foo/rest`, their user experience would be:
-
-```typescript
-// to use the helper function paginate
-ClientA.paginate(client, response);
-
-// to use the rest client type
-ClientA.ClientARestClient;
-
-// to access some models in client A
-ClientA.SomeModelInClientA;
-```
-
-And if customers are using `@azure/foo/rest/clientA`, their user experience would be:
-
-```typescript
-// to use the helper function paginate
-paginate(client, response);
-
-// to use the rest client type
-ClientARestClient;
-
-// to access some models in client A
-SomeModelInClientA;
-```
-
-In order to avoid this kind of user experience inconsistency and don't have to resolve the conflicts, as the `@azure/foo/rest/ClientA` and `@azure/foo/rest/clientB` belong to two different endpoints. we choose to remove the `src/rest/index.ts` and the subpath export `@azure/foo/rest`, just keep the sub clients `@azure/foo/rest/clientA` and `@azure/foo/rest/clientB`.
+1. **_Shared Models_**  
+   In both multi-client and multi-endpoint cases, it's possible that we can have some models are shared by both api layer sub clients, As we will have the same models in both the classical client layer and api layer, we will put those models into `src/clientA/models` and `src/clientB/models` folder, And those shared models will be in `common/models`
+1. **_Top Level `./models` and `./api` Subpath Export_**  
+   If we export both sub clients to the top level, customers will have to choose to import between the top level and subpath export from sub client. And we only need one way to import these things without there being ambiguity about which way is correct. As such, we choose to remove top level subpaths as well as the index.ts files for both models and api.
+1. **_Rest Layer Export_**  
+   We should also remove the `./rest` subpath export in Modular,  and keep the rest layer as internal in Modular to avoid  the following issues:
+    1. User experience inconsistent issues between cjs customer and esm customer as well as pure RLC customers.
+    1. To export RLC layer in Modular with  RLC as a float dependency will somehow provide extra features for Modular customers without bumping any versions.
+    1. If there’s a case where RLC layer is a breaking change and we use rename to avoid breaking in Modular layer. To export RLC layer will make it impossible to avoid that breaking in Modular.
 
 ## Finalized Proposals
 
@@ -209,9 +158,7 @@ With the above initial proposals and the above considerations, we get our finali
       <pre lang="typescript">
 Both Exported
 @azure/foo
-@azure/foo/api
-@azure/foo/models
-@azure/foo/rest
+
 </pre>
 <pre lang="typescript">
 ClientA
@@ -230,9 +177,7 @@ ClientB
 <pre lang="typescript">
 Both Exported
 src
-src/api
 src/rest
-src/models
 </pre>
 <pre lang="typescript">
 ClientA
@@ -264,47 +209,42 @@ src/clientB/models
       <pre lang="typescript">
 Both Exported
 @azure/foo
-@azure/foo/api
-@azure/foo/models
+
 </pre>
 <pre lang="typescript">
 ClientA
 @azure/foo/clientA
 @azure/foo/clientA/api
 @azure/foo/clientA/models
-@azure/foo/rest/clientA
 </pre>
 <pre lang="typescript">
 ClientB
 @azure/foo/clientB
 @azure/foo/clientB/api
 @azure/foo/clientB/models
-@azure/foo/rest/clientB
 </pre>
 </td>
 <td>
 <pre lang="typescript">
 Both Exported
 src
-src/api
-src/rest // without index.ts just sub folders in it
-src/models
+src/rest
 </pre>
 <pre lang="typescript">
 ClientA
 src/clientA
 src/clientA/api
 src/clientA/models
-src/rest/clientA
 </pre>
 <pre lang="typescript">
 ClientB
 src/clientB
 src/clientB/api
 src/clientB/models
-src/rest/clientB
 </pre>
 </td>
   </tr>
 </table>
 <!-- markdownlint-enable MD033 -->
+
+The proposals look the same in both the Multi-Client and Multi-Endpoint case. But there's a difference in the `src/rest` between the Multi-Client and the Multi-Endpoint case. In the Multi-Client case, we will just have a `src/rest/index.ts` that exports everything from the `@azure-rest/service` standalone RLC. In the Multi-Endpoint case, we will just have a `src/rest/clientA/index.ts` that exports everything from the `@azure-rest/service-clientA` standalone RLC and a `src/rest/clientB/index.ts` that exports everything from the `@azure-rest/service-clientB` standalone RLC which is a multiple RLC packages maps to one Modular package scenario.
