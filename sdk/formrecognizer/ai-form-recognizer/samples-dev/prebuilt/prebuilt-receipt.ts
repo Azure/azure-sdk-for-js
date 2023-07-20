@@ -8,7 +8,7 @@
 
 // Model:       prebuilt-receipt
 // Description: Extract key information from receipts.
-// API Version: 2023-02-28-preview
+// API Version: 2023-07-31
 // Created:     Thu Apr 06 2023
 
 import * as fr from "@azure/ai-form-recognizer";
@@ -711,7 +711,7 @@ function modelInfo() {
     modelId: "prebuilt-receipt",
     description: "Extract key information from receipts.",
     createdOn: "2023-02-28T00:00:00.000Z",
-    apiVersion: "2023-02-28-preview",
+    apiVersion: "2023-07-31",
     docTypes: {
       receipt: {
         buildMode: "template",
