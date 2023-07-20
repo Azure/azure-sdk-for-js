@@ -21,6 +21,7 @@ import {
   RouterQueueStatistics,
   RouterJobItem as RouterJobItemGenerated,
   RouterWorkerItem as RouterWorkerItemGenerated,
+  KnownJobMatchModeType,
 } from "./generated/src";
 import { logger } from "./models/logger";
 import {
@@ -219,7 +220,34 @@ export class JobRouterClient {
     jobId: string,
     options: CreateJobOptions = {}
   ): Promise<RouterJobResponse> {
-    const patch = { ...options, notes: transformNotesToGenerated(options.notes) };
+    const matchingModeFixup = (matchingMode: RouterJobMatchingMode | undefined) => {
+      if (matchingMode === undefined) {
+        return {}
+      }
+
+      if (matchingMode.scheduleAndSuspendMode) {
+        matchingMode.modeType = KnownJobMatchModeType.ScheduleAndSuspendMode;
+        matchingMode.queueAndMatchMode = undefined;
+        matchingMode.suspendMode = undefined;
+      } else if (matchingMode.queueAndMatchMode) {
+        matchingMode.modeType = KnownJobMatchModeType.QueueAndMatchMode;
+        matchingMode.scheduleAndSuspendMode = undefined;
+        matchingMode.suspendMode = undefined;
+      } else if (matchingMode.suspendMode) {
+        matchingMode.modeType = KnownJobMatchModeType.SuspendMode;
+        matchingMode.queueAndMatchMode = undefined;
+        matchingMode.scheduleAndSuspendMode = undefined;
+      }
+
+      return matchingMode
+    }
+
+    const patch = {
+      ...options,
+      notes: transformNotesToGenerated(options.notes),
+      matchingMode: matchingModeFixup(options.matchingMode)
+    };
+
     const job = await this.client.jobRouter.upsertJob(jobId, patch, options);
     return <RouterJobResponse>job;
   }
