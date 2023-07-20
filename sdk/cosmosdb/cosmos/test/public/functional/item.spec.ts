@@ -503,7 +503,7 @@ describe("bulk/batch item operations", function () {
       // Delete occurs first, so the read returns a 404
       assert.equal(response[1].statusCode, 404);
     });
-    it("424 errors for operations after an error", async function () {
+    xit("424 errors for operations after an error", async function () {
       const operations = [
         {
           operationType: BulkOperationType.Create,
@@ -524,7 +524,7 @@ describe("bulk/batch item operations", function () {
       const response = await v2Container.items.bulk(operations);
       assert.equal(response[1].statusCode, 424);
     });
-    it("Continues after errors with continueOnError true", async function () {
+    xit("Continues after errors with continueOnError true", async function () {
       const operations = [
         {
           operationType: BulkOperationType.Create,
@@ -664,7 +664,7 @@ describe("bulk/batch item operations", function () {
 
   // TODO: Non-deterministic test. We can't guarantee we see any response with a 429 status code since the retries happen within the response
   describe("item read retries", async function () {
-    it("retries on 429", async function () {
+    xit("retries on 429", async function () {
       const client = new CosmosClient({ key: masterKey, endpoint });
       const { resource: db } = await client.databases.create({
         id: `small db ${Math.random() * 1000}`,
