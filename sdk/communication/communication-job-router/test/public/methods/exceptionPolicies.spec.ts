@@ -50,12 +50,24 @@ describe("JobRouterClient", function () {
     }).timeout(timeoutMs);
 
     it("should update an exception policy", async function () {
-      const patch: ExceptionPolicy = { ...exceptionPolicyRequest, name: "new-name" };
-      const result = await administrationClient.updateExceptionPolicy(exceptionPolicyId, patch);
+      const updatePatch = { ...exceptionPolicyRequest, name: "new-name" };
+      const updateResult = await administrationClient.updateExceptionPolicy(
+        exceptionPolicyId,
+        updatePatch
+      );
 
-      assert.isDefined(result);
-      assert.isDefined(result?.id);
-      assert.equal(result.name, patch.name);
+      const removePatch = { ...exceptionPolicyRequest, name: null! };
+      const removeResult = await administrationClient.updateExceptionPolicy(
+        exceptionPolicyId,
+        removePatch
+      );
+
+      assert.isDefined(updateResult);
+      assert.isDefined(updateResult.id);
+      assert.isDefined(removeResult);
+      assert.isDefined(removeResult.id);
+      assert.equal(updateResult.name, updatePatch.name);
+      assert.isUndefined(removeResult.name);
     }).timeout(timeoutMs);
 
     it("should list exception policies", async function () {

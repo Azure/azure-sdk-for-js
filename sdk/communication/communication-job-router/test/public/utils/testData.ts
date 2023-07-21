@@ -17,6 +17,7 @@ import {
   CreateJobOptions,
   KnownLabelOperator,
   KnownRouterWorkerState,
+  CreateClassificationPolicyOptions,
 } from "../../../src";
 
 const queueId = "test-queue";
@@ -347,14 +348,13 @@ export function getDistributionPolicyRequest(guid: string): DistributionPolicyRe
 
 export interface ClassificationPolicyRequest {
   classificationPolicyId: string;
-  classificationPolicyRequest: ClassificationPolicy;
+  classificationPolicyRequest: CreateClassificationPolicyOptions;
 }
 export function getClassificationPolicyRequest(guid: string): ClassificationPolicyRequest {
   const id = `${classificationPolicyId}-${guid}`;
   return {
     classificationPolicyId: id,
     classificationPolicyRequest: {
-      id,
       name: classificationPolicyId,
       fallbackQueueId: `${queueId}-${guid}`,
     },
@@ -376,6 +376,7 @@ export function getJobRequest(guid: string): JobRequest {
       queueId: `${queueId}-${guid}`,
       labels: {},
       notes: [],
+      matchingMode: { queueAndMatchMode: {} },
     },
   };
 }

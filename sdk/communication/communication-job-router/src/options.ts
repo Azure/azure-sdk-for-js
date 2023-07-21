@@ -6,16 +6,14 @@ import {
   JobRouterAdministrationUpsertDistributionPolicyOptionalParams,
   JobRouterAdministrationUpsertExceptionPolicyOptionalParams,
   JobRouterAdministrationUpsertQueueOptionalParams,
-  JobRouterCancelJobActionOptionalParams,
   JobRouterCloseJobActionOptionalParams,
-  JobRouterCompleteJobActionOptionalParams,
   JobRouterDeclineJobActionOptionalParams,
   JobRouterReclassifyJobActionOptionalParams,
   JobRouterUpsertJobOptionalParams,
   JobRouterUpsertWorkerOptionalParams,
   JobRouterUnassignJobActionOptionalParams,
   ChannelConfiguration,
-} from "../generated/src";
+} from "./generated/src";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import {
   JSONObject,
@@ -34,7 +32,7 @@ import {
 /**
  * Options to create a job router administration client.
  */
-export interface JobRouterAdministrationClientOptions extends CommonClientOptions {}
+export interface JobRouterAdministrationClientOptions extends CommonClientOptions { }
 
 /**
  * Options to create a job router client.
@@ -237,7 +235,7 @@ export interface UpdateJobOptions extends JobRouterUpsertJobOptionalParams {
   /** A set of non-identifying attributes attached to this job */
   tags?: JSONObject;
   /** Notes attached to a job, sorted by timestamp */
-  notes?: Array<RouterJobNote>;
+  notes?: RouterJobNote[];
   /** The mode the job is matched as. */
   matchingMode?: RouterJobMatchingMode;
 }
@@ -273,7 +271,7 @@ export interface ReclassifyJobOptions extends JobRouterReclassifyJobActionOption
 /**
  * Options to cancel a job.
  */
-export interface CancelJobOptions extends JobRouterCancelJobActionOptionalParams {
+export interface CancelJobOptions extends OperationOptions {
   /** (Optional) A note that will be appended to the jobs' Notes collection with the current timestamp. */
   note?: string;
   /**
@@ -286,7 +284,7 @@ export interface CancelJobOptions extends JobRouterCancelJobActionOptionalParams
 /**
  * Options to complete a job.
  */
-export interface CompleteJobOptions extends JobRouterCompleteJobActionOptionalParams {
+export interface CompleteJobOptions extends OperationOptions {
   /** (Optional) A note that will be appended to the jobs' Notes collection with the current timestamp. */
   note?: string;
 }
@@ -393,4 +391,4 @@ export {
   JobRouterUpsertWorkerOptionalParams,
   DeclineJobOfferRequest,
   UnassignJobRequest,
-} from "../generated/src";
+} from "./generated/src";

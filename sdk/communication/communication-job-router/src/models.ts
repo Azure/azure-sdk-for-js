@@ -26,10 +26,10 @@ import {
   WorkerSelectorAttachment,
   LongestIdleMode,
   RoundRobinMode,
-} from "../generated/src";
+} from "./generated/src";
 
 /** Safe type instead of 'any'. */
-export type JSONValue = boolean | number | string | null | JSONArray | JSONObject;
+export type JSONValue = boolean | number | string | JSONArray | JSONObject;
 
 /** Safe type for objects. */
 export interface JSONObject {
@@ -37,7 +37,7 @@ export interface JSONObject {
 }
 
 /** Safe type for arrays. */
-export interface JSONArray extends ArrayLike<JSONValue> {}
+export interface JSONArray extends ArrayLike<JSONValue> { }
 
 /**
  * Note with timestamp for a router job.
@@ -50,10 +50,10 @@ export interface RouterJobNote {
 }
 
 /** Queue and match job matching mode type. */
-export interface QueueAndMatchMode {}
+export interface QueueAndMatchMode { }
 
 /** Suspend job matching mode type. */
-export interface SuspendMode {}
+export interface SuspendMode { }
 
 /** Queue and match job matching mode. */
 export interface RouterJobMatchingMode {
@@ -345,7 +345,7 @@ export interface DistributionPolicyItem {
 /** Arguments for retrieving the next page of search results. */
 export interface ListPageSettings {
   /** A token used for retrieving the next page of results when the server enforces pagination. */
-  continuationToken?: string | null;
+  continuationToken?: string;
 }
 
 /** Jobs are distributed to the worker with the strongest abilities available. */
@@ -646,4 +646,4 @@ export {
   RouterJobStatus,
   KnownLabelOperator,
   LabelOperator,
-} from "../generated/src";
+} from "./generated/src";

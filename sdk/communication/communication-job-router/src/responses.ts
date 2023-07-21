@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import {
-  JSONValue,
+  ClassificationPolicy,
+  ExceptionPolicy,
+  DistributionPolicy,
+  RouterQueue,
   RouterJob,
   RouterWorker,
-  RouterQueue,
-  ExceptionPolicy,
-  ClassificationPolicy,
-  DistributionPolicy,
+  JSONValue,
 } from "./models";
 
 export interface RouterJobResponse extends RouterJob {
@@ -65,7 +65,8 @@ export type DeclineJobOfferResponse = {
   body: JSONValue;
 };
 
+
 export {
   AcceptJobOfferResult as AcceptJobOfferResponse,
   UnassignJobResult as UnassignJobResponse,
-} from "../generated/src/models";
+} from './generated/src'

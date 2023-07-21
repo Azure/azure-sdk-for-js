@@ -64,12 +64,18 @@ describe("JobRouterClient", function () {
     }).timeout(timeoutMs);
 
     it("should update a queue", async function () {
-      const patch: RouterQueue = { ...queueRequest, name: "new-name" };
-      const result = await administrationClient.updateQueue(queueId, patch);
+      const updatePatch = { ...queueRequest, name: "new-name" };
+      const updateResult = await administrationClient.updateQueue(queueId, updatePatch);
 
-      assert.isDefined(result);
-      assert.isDefined(result.id);
-      assert.equal(result.name, patch.name);
+      const removePatch = { ...queueRequest, name: null! };
+      const removeResult = await administrationClient.updateQueue(queueId, removePatch);
+
+      assert.isDefined(updateResult);
+      assert.isDefined(updateResult.id);
+      assert.isDefined(removeResult);
+      assert.isDefined(removeResult.id);
+      assert.equal(updateResult.name, updatePatch.name);
+      assert.isUndefined(removeResult.name);
     }).timeout(timeoutMs);
 
     it("should list queues", async function () {

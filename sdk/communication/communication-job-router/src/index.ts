@@ -3,12 +3,11 @@
 
 /**
  * @packageDocumentation
- * TypeSCript SDK for the Azure ACS JobRouter Service.
+ * TypeScript SDK for the Azure ACS JobRouter Service.
  */
 
-export { Transformer, TransformingPagedAsyncIterableIterator } from "./clientUtils";
-export * from "./models/options";
-export * from "./models/models";
-export * from "./models/responses";
+export * from "./models";
+export * from "./options";
+export * from "./responses";
 export * from "./jobRouterClient";
 export * from "./jobRouterAdministrationClient";
