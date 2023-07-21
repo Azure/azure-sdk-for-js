@@ -9,44 +9,24 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.11.1 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "3f29472d-7cf7-4d32-9c76-29d607c61b9a",
+        "x-ms-client-request-id": "9838ee8a-c0ed-4400-898f-4946f64a6933",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Fri, 21 Jul 2023 02:34:59 GMT"
+        "x-ms-date": "Fri, 21 Jul 2023 05:46:01 GMT"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 21 Jul 2023 02:35:00 GMT",
-        "trace-id": "5bbc975a-2b70-dc29-f238-ca69502ceb75",
+        "Date": "Fri, 21 Jul 2023 05:46:01 GMT",
+        "trace-id": "1d3cb1ce-c5fa-4e54-b223-6cb6dcb2adfc",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "01e65ZAAAAACcE9ZUGNeWRJIJw76FYdgGWVZSMzExMDAwMTE1MDI5AGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
+        "x-azure-ref": "20230721T054601Z-mb4c8vp0qd29zaa8d7ctn3cngw00000000tg000000007emw",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
         "value": [
-          {
-            "exceptionPolicy": {
-              "id": "test-e-policy-recorded-queues",
-              "name": "test-e-policy",
-              "exceptionRules": {
-                "MaxWaitTimeExceededCancel": {
-                  "trigger": {
-                    "kind": "wait-time",
-                    "thresholdSeconds": 10
-                  },
-                  "actions": {
-                    "Cancel": {
-                      "kind": "cancel",
-                      "note": "wait time exceeded; cancelling"
-                    }
-                  }
-                }
-              }
-            },
-            "etag": "\u002202009aef-0000-0700-0000-64b9eed40000\u0022"
-          },
           {
             "exceptionPolicy": {
               "id": "test-e-policy-recorded-e-policies",
@@ -65,112 +45,7 @@
                 }
               }
             },
-            "etag": "\u002202009bef-0000-0700-0000-64b9eed50000\u0022"
-          },
-          {
-            "exceptionPolicy": {
-              "id": "test-e-policy-recorded-workers",
-              "name": "test-e-policy",
-              "exceptionRules": {
-                "MaxWaitTimeExceededCancel": {
-                  "trigger": {
-                    "kind": "wait-time",
-                    "thresholdSeconds": 10
-                  },
-                  "actions": {
-                    "Cancel": {
-                      "kind": "cancel",
-                      "note": "wait time exceeded; cancelling"
-                    }
-                  }
-                }
-              }
-            },
-            "etag": "\u0022020097ef-0000-0700-0000-64b9eed40000\u0022"
-          },
-          {
-            "exceptionPolicy": {
-              "id": "test-e-policy-recorded-jobs",
-              "name": "test-e-policy",
-              "exceptionRules": {
-                "MaxWaitTimeExceededCancel": {
-                  "trigger": {
-                    "kind": "wait-time",
-                    "thresholdSeconds": 10
-                  },
-                  "actions": {
-                    "Cancel": {
-                      "kind": "cancel",
-                      "note": "wait time exceeded; cancelling"
-                    }
-                  }
-                }
-              }
-            },
-            "etag": "\u0022020094ef-0000-0700-0000-64b9eed30000\u0022"
-          },
-          {
-            "exceptionPolicy": {
-              "id": "test-e-policy-recorded-q-scenario",
-              "name": "test-e-policy",
-              "exceptionRules": {
-                "MaxWaitTimeExceededCancel": {
-                  "trigger": {
-                    "kind": "wait-time",
-                    "thresholdSeconds": 10
-                  },
-                  "actions": {
-                    "Cancel": {
-                      "kind": "cancel",
-                      "note": "wait time exceeded; cancelling"
-                    }
-                  }
-                }
-              }
-            },
-            "etag": "\u0022020091ef-0000-0700-0000-64b9eed00000\u0022"
-          },
-          {
-            "exceptionPolicy": {
-              "id": "test-e-policy-recorded-assignment-scenario",
-              "name": "test-e-policy",
-              "exceptionRules": {
-                "MaxWaitTimeExceededCancel": {
-                  "trigger": {
-                    "kind": "wait-time",
-                    "thresholdSeconds": 10
-                  },
-                  "actions": {
-                    "Cancel": {
-                      "kind": "cancel",
-                      "note": "wait time exceeded; cancelling"
-                    }
-                  }
-                }
-              }
-            },
-            "etag": "\u002202008fef-0000-0700-0000-64b9eece0000\u0022"
-          },
-          {
-            "exceptionPolicy": {
-              "id": "test-e-policy-recorded-cancellation-scenario",
-              "name": "test-e-policy",
-              "exceptionRules": {
-                "MaxWaitTimeExceededCancel": {
-                  "trigger": {
-                    "kind": "wait-time",
-                    "thresholdSeconds": 10
-                  },
-                  "actions": {
-                    "Cancel": {
-                      "kind": "cancel",
-                      "note": "wait time exceeded; cancelling"
-                    }
-                  }
-                }
-              }
-            },
-            "etag": "\u002202008eef-0000-0700-0000-64b9eece0000\u0022"
+            "etag": "\u00220200d2fd-0000-0700-0000-64ba1b990000\u0022"
           },
           {
             "exceptionPolicy": {

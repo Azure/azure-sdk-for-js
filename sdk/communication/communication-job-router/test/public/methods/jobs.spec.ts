@@ -135,7 +135,6 @@ describe("JobRouterClient", function () {
       const removePatch = { ...jobRequest, priority: null!, dispositionCode: null! };
       const removeResult = await client.updateJob(jobId, removePatch);
 
-      console.log(removePatch, removeResult);
       assert.isDefined(updateResult);
       assert.isDefined(updateResult.id);
       assert.isDefined(removeResult);
