@@ -3,7 +3,7 @@
 /**
  * @summary router job crud
  */
-import { RouterJobItem, JobRouterClient, KnownRouterJobStatusSelector } from "@azure/communication-job-router";
+import { RouterJobItem, JobRouterClient } from "@azure/communication-job-router";
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ async function listRouterJobs(): Promise<void> {
   const receivedPagedItems: RouterJobItem[] = [];
 
   for await (const page of routerClient
-    .listJobs({ statusSelector: KnownRouterJobStatusSelector.Queued, maxPageSize })
+    .listJobs({ statusSelector: "queued", maxPageSize })
     .byPage()) {
     ++pagesCount;
     console.log("page: " + pagesCount);

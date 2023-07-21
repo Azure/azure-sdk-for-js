@@ -11,7 +11,6 @@ import {
   RouterQueue,
   QueueLengthExceptionTrigger,
   JobRouterAdministrationClient,
-  KnownLabelOperator,
 } from "@azure/communication-job-router";
 
 // Load the .env file (you will need to set these environment variables)
@@ -90,7 +89,7 @@ async function createClassificationPolicy(): Promise<void> {
         queueSelectors: [
           {
             key: "foo",
-            labelOperator: KnownLabelOperator.Equal,
+            labelOperator: "equal",
             value: { default: 10 },
           },
         ],

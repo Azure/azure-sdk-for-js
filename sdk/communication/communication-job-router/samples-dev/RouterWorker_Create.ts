@@ -3,7 +3,7 @@
 /**
  * @summary router worker crud
  */
-import { JobRouterClient, RouterWorker, KnownRouterWorkerState } from "@azure/communication-job-router";
+import { JobRouterClient, RouterWorker } from "@azure/communication-job-router";
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
@@ -19,7 +19,7 @@ async function createRouterWorker(): Promise<void> {
   const id = "router-worker-123";
   const request: RouterWorker = {
     id: "router-worker-123",
-    state: KnownRouterWorkerState.Active,
+    state: "active",
     loadRatio: 1,
     totalCapacity: 100,
     queueAssignments: {
