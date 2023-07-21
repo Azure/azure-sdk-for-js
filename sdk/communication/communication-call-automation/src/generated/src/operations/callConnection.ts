@@ -425,7 +425,7 @@ const muteOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     202: {
-      bodyMapper: Mappers.MuteParticipantsResponse
+      bodyMapper: Mappers.MuteParticipantsResult
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse

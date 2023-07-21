@@ -221,11 +221,11 @@ const stopContinuousDtmfRecognitionOperationSpec: coreClient.OperationSpec = {
   serializer
 };
 const sendDtmfOperationSpec: coreClient.OperationSpec = {
-  path: "/calling/callConnections/{callConnectionId}:sendDtmf",
+  path: "/calling/callConnections/{callConnectionId}:sendDtmfTones",
   httpMethod: "POST",
   responses: {
     202: {
-      bodyMapper: Mappers.SendDtmfResponse
+      bodyMapper: Mappers.SendDtmfResult
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse

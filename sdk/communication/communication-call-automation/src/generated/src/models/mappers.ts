@@ -59,8 +59,8 @@ export const CreateCallRequest: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      azureCognitiveServicesEndpointUrl: {
-        serializedName: "azureCognitiveServicesEndpointUrl",
+      cognitiveServicesEndpoint: {
+        serializedName: "cognitiveServicesEndpoint",
         type: {
           name: "String"
         }
@@ -340,8 +340,8 @@ export const AnswerCallRequest: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      azureCognitiveServicesEndpointUrl: {
-        serializedName: "azureCognitiveServicesEndpointUrl",
+      cognitiveServicesEndpoint: {
+        serializedName: "cognitiveServicesEndpoint",
         type: {
           name: "String"
         }
@@ -511,15 +511,15 @@ export const PlaySourceInternal: coreClient.CompositeMapper = {
           className: "FileSourceInternal"
         }
       },
-      textSource: {
-        serializedName: "textSource",
+      text: {
+        serializedName: "text",
         type: {
           name: "Composite",
           className: "TextSourceInternal"
         }
       },
-      ssmlSource: {
-        serializedName: "ssmlSource",
+      ssml: {
+        serializedName: "ssml",
         type: {
           name: "Composite",
           className: "SsmlSourceInternal"
@@ -563,8 +563,8 @@ export const TextSourceInternal: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      voiceGender: {
-        serializedName: "voiceGender",
+      voiceKind: {
+        serializedName: "voiceKind",
         type: {
           name: "String"
         }
@@ -876,10 +876,10 @@ export const SendDtmfRequest: coreClient.CompositeMapper = {
   }
 };
 
-export const SendDtmfResponse: coreClient.CompositeMapper = {
+export const SendDtmfResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SendDtmfResponse",
+    className: "SendDtmfResult",
     modelProperties: {
       operationContext: {
         serializedName: "operationContext",
@@ -1073,10 +1073,10 @@ export const MuteParticipantsRequest: coreClient.CompositeMapper = {
   }
 };
 
-export const MuteParticipantsResponse: coreClient.CompositeMapper = {
+export const MuteParticipantsResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "MuteParticipantsResponse",
+    className: "MuteParticipantsResult",
     modelProperties: {
       operationContext: {
         serializedName: "operationContext",
