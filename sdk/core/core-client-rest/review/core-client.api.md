@@ -38,6 +38,16 @@ export interface AdditionalPolicyConfig {
     position: "perCall" | "perRetry";
 }
 
+// Warning: (ae-internal-missing-underscore) The name "base64StringToString" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
+export function base64StringToString(value: string): string;
+
+// Warning: (ae-internal-missing-underscore) The name "base64ToUint8Array" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
+export function base64ToUint8Array(value: string): Uint8Array;
+
 // @public
 export interface Client {
     path: Function;
@@ -187,5 +197,20 @@ export type StreamableMethod<TResponse = PathUncheckedResponse> = PromiseLike<TR
     asNodeStream: () => Promise<HttpNodeStreamResponse>;
     asBrowserStream: () => Promise<HttpBrowserStreamResponse>;
 };
+
+// Warning: (ae-internal-missing-underscore) The name "stringToUint8Array" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
+export function stringToUint8Array(value: string): Uint8Array;
+
+// Warning: (ae-internal-missing-underscore) The name "uint8ArayToBase64" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
+export function uint8ArayToBase64(bytes: Uint8Array): string;
+
+// Warning: (ae-internal-missing-underscore) The name "uint8ArayToString" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
+export function uint8ArayToString(bytes: Uint8Array): string;
 
 ```
