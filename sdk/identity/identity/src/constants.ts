@@ -5,7 +5,7 @@
  * Current version of the `@azure/identity` package.
  */
 
-export const SDK_VERSION = `3.2.4`;
+export const SDK_VERSION = `3.2.5`;
 
 /**
  * The default client ID for authentication
