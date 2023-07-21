@@ -23,7 +23,6 @@ import {
   RouterWorkerItem as RouterWorkerItemGenerated,
   KnownJobMatchModeType,
   JobMatchingMode,
-
 } from "./generated/src";
 import { logger } from "./logger";
 import {
@@ -72,9 +71,9 @@ const isRouterClientOptions = (value: any): value is JobRouterClientOptions =>
   !!value && !isKeyCredential(value);
 
 /**
- * Transforms an array of notes from their generated type to {@link RouterJobNote[]}.
+ * Transforms an array of notes from their generated type to {@link RouterJobNote}.
  * @param notes - An array of notes as their generated type.
- * @returns - An array of notes as {@link RouterJobNote[]}.
+ * @returns - An array of notes as {@link RouterJobNote}.
  */
 const transformNotesForSDK = (
   notes: { [propertyName: string]: string } | undefined
@@ -86,7 +85,7 @@ const transformNotesForSDK = (
 
 /**
  * Transforms an array of notes from {@link RouterJobNote} to their generated type.
- * @param notes - An array of notes as {@link RouterJobNote[]}.
+ * @param notes - An array of notes as {@link RouterJobNote}.
  * @returns - An array of notes as their generated type.
  */
 const transformNotesForService = (
@@ -105,7 +104,9 @@ const transformNotesForService = (
  * @param matchingMode - A job matching mode as {@link RouterJobMatchingMode}.
  * @returns - The job matching mode as {@link JobMatchingMode}.
  */
-const transformMatchingModeForService = (matchingMode: RouterJobMatchingMode | undefined | null): JobMatchingMode | undefined => {
+const transformMatchingModeForService = (
+  matchingMode: RouterJobMatchingMode | undefined | null
+): JobMatchingMode | undefined => {
   if (matchingMode === undefined || matchingMode === null) {
     return null!;
   }
@@ -116,11 +117,11 @@ const transformMatchingModeForService = (matchingMode: RouterJobMatchingMode | u
     tranformedMode.modeType = KnownJobMatchModeType.ScheduleAndSuspendMode;
     tranformedMode.scheduleAndSuspendMode = matchingMode.scheduleAndSuspendMode;
     tranformedMode.queueAndMatchMode = null!;
-    tranformedMode.suspendMode = null!
+    tranformedMode.suspendMode = null!;
   } else if (matchingMode.queueAndMatchMode) {
     tranformedMode.modeType = KnownJobMatchModeType.QueueAndMatchMode;
     tranformedMode.queueAndMatchMode = matchingMode.queueAndMatchMode;
-    tranformedMode.suspendMode = null!
+    tranformedMode.suspendMode = null!;
     tranformedMode.scheduleAndSuspendMode = null!;
   } else if (matchingMode.suspendMode) {
     tranformedMode.modeType = KnownJobMatchModeType.SuspendMode;

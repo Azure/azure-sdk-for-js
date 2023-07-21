@@ -32,7 +32,7 @@ import {
 /**
  * Options to create a job router administration client.
  */
-export interface JobRouterAdministrationClientOptions extends CommonClientOptions { }
+export interface JobRouterAdministrationClientOptions extends CommonClientOptions {}
 
 /**
  * Options to create a job router client.

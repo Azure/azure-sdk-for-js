@@ -222,7 +222,7 @@ export class JobRouterAdministrationClient {
     classificationPolicyId: string,
     options: OperationOptions = {}
   ): Promise<void> {
-    return await this.client.jobRouterAdministration.deleteClassificationPolicy(
+    return this.client.jobRouterAdministration.deleteClassificationPolicy(
       classificationPolicyId,
       options
     );
@@ -402,11 +402,7 @@ export class JobRouterAdministrationClient {
     options: CreateQueueOptions = {}
   ): Promise<RouterQueueResponse> {
     const patch = options as RouterQueue;
-    const response = await this.client.jobRouterAdministration.upsertQueue(
-      queueId,
-      patch,
-      options
-    );
+    const response = await this.client.jobRouterAdministration.upsertQueue(queueId, patch, options);
     return response as RouterQueueResponse;
   }
 
@@ -421,11 +417,7 @@ export class JobRouterAdministrationClient {
     options: UpdateQueueOptions = {}
   ): Promise<RouterQueueResponse> {
     const patch = options as RouterQueue;
-    const response = await this.client.jobRouterAdministration.upsertQueue(
-      queueId,
-      patch,
-      options
-    );
+    const response = await this.client.jobRouterAdministration.upsertQueue(queueId, patch, options);
     return response as RouterQueueResponse;
   }
 

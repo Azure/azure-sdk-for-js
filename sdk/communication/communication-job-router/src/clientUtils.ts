@@ -15,7 +15,7 @@ export class TransformingPagedAsyncIterableIterator<
   constructor(
     private internalIterator: PagedAsyncIterableIterator<TElement, TPage, TPageSettings>,
     private transform: Transformer<TElement, TTransformed>
-  ) { }
+  ) {}
 
   async next(): Promise<IteratorResult<TTransformed>> {
     const internalResult = await this.internalIterator.next();

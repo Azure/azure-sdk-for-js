@@ -37,7 +37,7 @@ export interface CancelExceptionAction extends ExceptionAction {
 }
 
 // @public
-export interface CancelJobOptions extends JobRouterCancelJobActionOptionalParams {
+export interface CancelJobOptions extends OperationOptions {
     dispositionCode?: string;
     note?: string;
 }
@@ -88,7 +88,7 @@ export type CloseJobResponse = {
 };
 
 // @public
-export interface CompleteJobOptions extends JobRouterCompleteJobActionOptionalParams {
+export interface CompleteJobOptions extends OperationOptions {
     note?: string;
 }
 
@@ -364,9 +364,11 @@ export class JobRouterClient {
     getJobQueuePosition(jobId: string, options?: OperationOptions): Promise<RouterJobPositionDetails>;
     getQueueStatistics(queueId: string, options?: OperationOptions): Promise<RouterQueueStatistics>;
     getWorker(workerId: string, options?: OperationOptions): Promise<RouterWorkerResponse>;
+    // Warning: (ae-forgotten-export) The symbol "TransformingPagedAsyncIterableIterator" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "RouterJobItem_2" needs to be exported by the entry point index.d.ts
     listJobs(options?: ListJobsOptions): TransformingPagedAsyncIterableIterator<RouterJobItem_2, RouterJobItem>;
-    listWorkers(options?: ListWorkersOptions): PagedAsyncIterableIterator<RouterWorkerItem>;
+    // Warning: (ae-forgotten-export) The symbol "RouterWorkerItem_2" needs to be exported by the entry point index.d.ts
+    listWorkers(options?: ListWorkersOptions): TransformingPagedAsyncIterableIterator<RouterWorkerItem_2, RouterWorkerItem>;
     reclassifyJob(jobId: string, options?: ReclassifyJobOptions): Promise<ReclassifyJobResponse>;
     unassignJob(jobId: string, assignmentId: string, options?: UnassignJobOptions): Promise<UnassignJobResponse>;
     updateJob(jobId: string, options?: UpdateJobOptions): Promise<RouterJobResponse>;
@@ -424,7 +426,7 @@ export interface JSONObject {
 }
 
 // @public
-export type JSONValue = boolean | number | string | null | JSONArray | JSONObject;
+export type JSONValue = boolean | number | string | JSONArray | JSONObject;
 
 // @public
 export enum KnownExpressionRouterRuleLanguage {
@@ -540,7 +542,7 @@ export interface ListJobsOptions extends OperationOptions {
 
 // @public
 export interface ListPageSettings {
-    continuationToken?: string | null;
+    continuationToken?: string;
 }
 
 // @public
@@ -879,20 +881,6 @@ export interface StaticWorkerSelectorAttachment extends WorkerSelectorAttachment
 export interface SuspendMode {
 }
 
-// @public (undocumented)
-export type Transformer<TFrom, TTo> = (input: TFrom) => TTo;
-
-// @public (undocumented)
-export class TransformingPagedAsyncIterableIterator<TElement, TTransformed, TPage = TElement[], TTransformedPage = TTransformed[], TPageSettings = PageSettings> {
-    // (undocumented)
-    [Symbol.asyncIterator](): TransformingPagedAsyncIterableIterator<TElement, TTransformed, TPage, TTransformedPage, TPageSettings>;
-    constructor(internalIterator: PagedAsyncIterableIterator<TElement, TPage, TPageSettings>, transform: Transformer<TElement, TTransformed>);
-    // (undocumented)
-    byPage(settings?: TPageSettings): AsyncIterableIterator<TTransformedPage>;
-    // (undocumented)
-    next(): Promise<IteratorResult<TTransformed>>;
-}
-
 // @public
 export interface UnassignJobOptions extends JobRouterUnassignJobActionOptionalParams {
     suspendMatching?: boolean;
@@ -941,7 +929,7 @@ export interface UpdateJobOptions extends JobRouterUpsertJobOptionalParams {
     dispositionCode?: string;
     labels?: JSONObject;
     matchingMode?: RouterJobMatchingMode;
-    notes?: Array<RouterJobNote>;
+    notes?: RouterJobNote[];
     priority?: number;
     queueId?: string;
     requestedWorkerSelectors?: RouterWorkerSelector[];

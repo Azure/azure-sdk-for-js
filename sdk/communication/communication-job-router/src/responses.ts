@@ -65,8 +65,7 @@ export type DeclineJobOfferResponse = {
   body: JSONValue;
 };
 
-
 export {
   AcceptJobOfferResult as AcceptJobOfferResponse,
   UnassignJobResult as UnassignJobResponse,
-} from './generated/src'
+} from "./generated/src";

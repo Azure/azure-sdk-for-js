@@ -70,7 +70,12 @@ describe("JobRouterClient", function () {
     }).timeout(timeoutMs);
 
     it("should update a worker", async function () {
-      const updatePatch = { ...workerRequest, totalCapacity: 100, labels: { "label1": "label1value" }, tags: { "tag1": "tag1value" } };
+      const updatePatch = {
+        ...workerRequest,
+        totalCapacity: 100,
+        labels: { label1: "label1value" },
+        tags: { tag1: "tag1value" },
+      };
       const updateResult = await client.updateWorker(workerId, updatePatch);
 
       const removePatch = { ...workerRequest, tags: null! };
