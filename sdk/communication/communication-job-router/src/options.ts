@@ -1,31 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { JSONObject, RouterJobMatchingMode, RouterJobNote } from "./models";
-import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import {
-  ChannelConfiguration,
-  DistributionModeUnion,
-  ExceptionRule,
   JobRouterAdministrationUpsertClassificationPolicyOptionalParams,
   JobRouterAdministrationUpsertDistributionPolicyOptionalParams,
   JobRouterAdministrationUpsertExceptionPolicyOptionalParams,
   JobRouterAdministrationUpsertQueueOptionalParams,
-  JobRouterCancelJobActionOptionalParams,
   JobRouterCloseJobActionOptionalParams,
-  JobRouterCompleteJobActionOptionalParams,
   JobRouterDeclineJobActionOptionalParams,
   JobRouterReclassifyJobActionOptionalParams,
   JobRouterUpsertJobOptionalParams,
   JobRouterUpsertWorkerOptionalParams,
   JobRouterUnassignJobActionOptionalParams,
-  RouterJobStatusSelector,
-  QueueSelectorAttachmentUnion,
-  WorkerSelectorAttachmentUnion,
+  ChannelConfiguration,
+} from "./generated/src";
+import { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import {
+  JSONObject,
+  RouterJobMatchingMode,
+  RouterJobNote,
   RouterRuleUnion,
+  WorkerSelectorAttachmentUnion,
   RouterWorkerSelector,
+  DistributionModeUnion,
+  QueueSelectorAttachmentUnion,
+  ExceptionRule,
+  RouterJobStatusSelector,
   RouterWorkerStateSelector,
-} from "../generated/src";
+} from "./models";
 
 /**
  * Options to create a job router administration client.
@@ -79,7 +81,7 @@ export interface UpdateClassificationPolicyOptions
  */
 export interface ListClassificationPoliciesOptions extends OperationOptions {
   /** Maximum page size */
-  maxpagesize?: number;
+  maxPageSize?: number;
 }
 
 /**
@@ -113,7 +115,7 @@ export interface UpdateDistributionPolicyOptions
  */
 export interface ListDistributionPoliciesOptions extends OperationOptions {
   /** Maximum page size */
-  maxpagesize?: number;
+  maxPageSize?: number;
 }
 
 /**
@@ -143,7 +145,7 @@ export interface UpdateExceptionPolicyOptions
  */
 export interface ListExceptionPoliciesOptions extends OperationOptions {
   /** Number of objects to return per page */
-  maxpagesize?: number;
+  maxPageSize?: number;
 }
 
 /**
@@ -179,7 +181,7 @@ export interface UpdateQueueOptions extends JobRouterAdministrationUpsertQueueOp
  */
 export interface ListQueuesOptions extends OperationOptions {
   /** Number of objects to return per page */
-  maxpagesize?: number;
+  maxPageSize?: number;
 }
 
 /**
@@ -206,6 +208,7 @@ export interface CreateJobOptions extends JobRouterUpsertJobOptionalParams {
   tags?: JSONObject;
   /** Notes attached to a job, sorted by timestamp */
   notes?: RouterJobNote[];
+  /** The mode the job is matched as. */
   matchingMode?: RouterJobMatchingMode;
 }
 
@@ -232,7 +235,8 @@ export interface UpdateJobOptions extends JobRouterUpsertJobOptionalParams {
   /** A set of non-identifying attributes attached to this job */
   tags?: JSONObject;
   /** Notes attached to a job, sorted by timestamp */
-  notes?: Array<RouterJobNote>;
+  notes?: RouterJobNote[];
+  /** The mode the job is matched as. */
   matchingMode?: RouterJobMatchingMode;
 }
 
@@ -241,9 +245,9 @@ export interface UpdateJobOptions extends JobRouterUpsertJobOptionalParams {
  */
 export interface ListJobsOptions extends OperationOptions {
   /** Number of objects to return per page */
-  maxpagesize?: number;
+  maxPageSize?: number;
   /** (Optional) If specified, filter jobs by status. */
-  jobStateSelector?: RouterJobStatusSelector;
+  statusSelector?: RouterJobStatusSelector;
   /** (Optional) If specified, filter jobs by queue. */
   queueId?: string;
   /** (Optional) If specified, filter jobs by channel. */
@@ -267,7 +271,7 @@ export interface ReclassifyJobOptions extends JobRouterReclassifyJobActionOption
 /**
  * Options to cancel a job.
  */
-export interface CancelJobOptions extends JobRouterCancelJobActionOptionalParams {
+export interface CancelJobOptions extends OperationOptions {
   /** (Optional) A note that will be appended to the jobs' Notes collection with the current timestamp. */
   note?: string;
   /**
@@ -280,7 +284,7 @@ export interface CancelJobOptions extends JobRouterCancelJobActionOptionalParams
 /**
  * Options to complete a job.
  */
-export interface CompleteJobOptions extends JobRouterCompleteJobActionOptionalParams {
+export interface CompleteJobOptions extends OperationOptions {
   /** (Optional) A note that will be appended to the jobs' Notes collection with the current timestamp. */
   note?: string;
 }
@@ -361,17 +365,14 @@ export interface UpdateWorkerOptions extends JobRouterUpsertWorkerOptionalParams
  */
 export interface ListWorkersOptions extends OperationOptions {
   /** Number of objects to return per page */
-  maxpagesize?: number;
+  maxPageSize?: number;
   /** (Optional) If specified, select workers who are assigned to this queue */
   queueId?: string;
   /** (Optional) If specified, select workers who have a channel configuration with this channel */
   channelId?: string;
   /** (Optional) If specified, select workers by worker status. */
   status?: RouterWorkerStateSelector;
-  /**
-   * (Optional) If set to true, select only workers who have capacity for the channel specified by `channelId` or for any channel
-   *             if `channelId` not specified. If set to false, then will return all workers including workers without any capacity for jobs. Defaults to false.
-   */
+  /** (Optional) If true, select workers who have capacity for the channel specified by `channelId` (any channel if `channelId` not specified). If false, does not effect list behavior. Defaults to false. */
   hasCapacity?: boolean;
 }
 
@@ -379,15 +380,15 @@ export {
   JobRouterAdministrationUpsertClassificationPolicyOptionalParams,
   JobRouterAdministrationUpsertDistributionPolicyOptionalParams,
   JobRouterAdministrationUpsertExceptionPolicyOptionalParams,
+  JobRouterAdministrationUpsertQueueOptionalParams,
+  JobRouterReclassifyJobActionOptionalParams,
+  JobRouterUnassignJobActionOptionalParams,
+  JobRouterCompleteJobActionOptionalParams,
   JobRouterCancelJobActionOptionalParams,
   JobRouterCloseJobActionOptionalParams,
-  JobRouterCompleteJobActionOptionalParams,
   JobRouterDeclineJobActionOptionalParams,
-  JobRouterReclassifyJobActionOptionalParams,
   JobRouterUpsertJobOptionalParams,
   JobRouterUpsertWorkerOptionalParams,
-  JobRouterUnassignJobActionOptionalParams,
-  JobRouterAdministrationUpsertQueueOptionalParams,
   DeclineJobOfferRequest,
   UnassignJobRequest,
-} from "../generated/src";
+} from "./generated/src";
