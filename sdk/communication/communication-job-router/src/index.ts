@@ -9,5 +9,6 @@
 export * from "./models";
 export * from "./options";
 export * from "./responses";
+export * from "./clientUtils";
 export * from "./jobRouterClient";
 export * from "./jobRouterAdministrationClient";
