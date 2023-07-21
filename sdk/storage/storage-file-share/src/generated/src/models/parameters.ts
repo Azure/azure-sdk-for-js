@@ -465,7 +465,7 @@ export const comp4: OperationQueryParameter = {
 };
 
 export const fileRequestIntent: OperationParameter = {
-  parameterPath: "fileRequestIntent",
+  parameterPath: ["options", "fileRequestIntent"],
   mapper: {
     serializedName: "x-ms-file-request-intent",
     xmlName: "x-ms-file-request-intent",
@@ -601,7 +601,7 @@ export const restype2: OperationQueryParameter = {
 };
 
 export const allowTrailingDot: OperationParameter = {
-  parameterPath: "allowTrailingDot",
+  parameterPath: ["options", "allowTrailingDot"],
   mapper: {
     serializedName: "x-ms-allow-trailing-dot",
     xmlName: "x-ms-allow-trailing-dot",
@@ -872,7 +872,7 @@ export const fileChangeTime: OperationParameter = {
 };
 
 export const allowSourceTrailingDot: OperationParameter = {
-  parameterPath: "allowSourceTrailingDot",
+  parameterPath: ["options", "allowSourceTrailingDot"],
   mapper: {
     serializedName: "x-ms-source-allow-trailing-dot",
     xmlName: "x-ms-source-allow-trailing-dot",

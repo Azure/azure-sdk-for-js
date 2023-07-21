@@ -1994,6 +1994,8 @@ export interface ShareCreatePermissionOptionalParams
   extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
 }
 
 /** Contains response data for the createPermission operation. */
@@ -2004,6 +2006,8 @@ export interface ShareGetPermissionOptionalParams
   extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
 }
 
 /** Contains response data for the getPermission operation. */
@@ -2104,6 +2108,10 @@ export interface DirectoryCreateOptionalParams
   timeoutInSeconds?: number;
   /** A name-value pair to associate with a file storage object. */
   metadata?: { [propertyName: string]: string };
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
   /** If specified the permission (security descriptor) shall be set for the directory/file. This header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
   filePermission?: string;
   /** Key of the permission to be set for the directory/file. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
@@ -2126,6 +2134,10 @@ export interface DirectoryGetPropertiesOptionalParams
   timeoutInSeconds?: number;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
   shareSnapshot?: string;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
 }
 
 /** Contains response data for the getProperties operation. */
@@ -2136,6 +2148,10 @@ export interface DirectoryDeleteOptionalParams
   extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
 }
 
 /** Contains response data for the delete operation. */
@@ -2146,6 +2162,10 @@ export interface DirectorySetPropertiesOptionalParams
   extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
   /** If specified the permission (security descriptor) shall be set for the directory/file. This header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
   filePermission?: string;
   /** Key of the permission to be set for the directory/file. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
@@ -2168,6 +2188,10 @@ export interface DirectorySetMetadataOptionalParams
   timeoutInSeconds?: number;
   /** A name-value pair to associate with a file storage object. */
   metadata?: { [propertyName: string]: string };
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
 }
 
 /** Contains response data for the setMetadata operation. */
@@ -2186,6 +2210,10 @@ export interface DirectoryListFilesAndDirectoriesSegmentOptionalParams
   maxResults?: number;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
   shareSnapshot?: string;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
   /** Include this parameter to specify one or more datasets to include in the response. */
   include?: ListFilesIncludeType[];
   /** Include extended information. */
@@ -2207,6 +2235,10 @@ export interface DirectoryListHandlesOptionalParams
   maxResults?: number;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
   shareSnapshot?: string;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
   /** Specifies operation should apply to the directory specified in the URI, its files, its subdirectories and their files. */
   recursive?: boolean;
 }
@@ -2224,6 +2256,10 @@ export interface DirectoryForceCloseHandlesOptionalParams
   marker?: string;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
   shareSnapshot?: string;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
   /** Specifies operation should apply to the directory specified in the URI, its files, its subdirectories and their files. */
   recursive?: boolean;
 }
@@ -2244,6 +2280,10 @@ export interface DirectoryRenameOptionalParams
   timeoutInSeconds?: number;
   /** A name-value pair to associate with a file storage object. */
   metadata?: { [propertyName: string]: string };
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
   /** If specified the permission (security descriptor) shall be set for the directory/file. This header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
   filePermission?: string;
   /** Key of the permission to be set for the directory/file. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
@@ -2252,6 +2292,8 @@ export interface DirectoryRenameOptionalParams
   replaceIfExists?: boolean;
   /** Optional. A boolean value that specifies whether the ReadOnly attribute on a preexisting destination file should be respected. If true, the rename will succeed, otherwise, a previous file at the destination with the ReadOnly attribute set will cause the rename to fail. */
   ignoreReadOnly?: boolean;
+  /** If true, the trailing dot will not be trimmed from the source URI. */
+  allowSourceTrailingDot?: boolean;
 }
 
 /** Contains response data for the rename operation. */
@@ -2267,6 +2309,10 @@ export interface FileCreateOptionalParams extends coreClient.OperationOptions {
   timeoutInSeconds?: number;
   /** A name-value pair to associate with a file storage object. */
   metadata?: { [propertyName: string]: string };
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
   /** If specified the permission (security descriptor) shall be set for the directory/file. This header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
   filePermission?: string;
   /** Key of the permission to be set for the directory/file. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
@@ -2289,6 +2335,10 @@ export interface FileDownloadOptionalParams
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
   /** Return file data only from the specified byte range. */
   range?: string;
   /** When this header is set to true and specified together with the Range header, the service returns the MD5 hash for the range, as long as the range is less than or equal to 4 MB in size. */
@@ -2322,6 +2372,10 @@ export interface FileGetPropertiesOptionalParams
   timeoutInSeconds?: number;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
   shareSnapshot?: string;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
 }
 
 /** Contains response data for the getProperties operation. */
@@ -2333,6 +2387,10 @@ export interface FileDeleteOptionalParams extends coreClient.OperationOptions {
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
 }
 
 /** Contains response data for the delete operation. */
@@ -2347,6 +2405,10 @@ export interface FileSetHttpHeadersOptionalParams
   fileHttpHeaders?: FileHttpHeaders;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
   /** If specified the permission (security descriptor) shall be set for the directory/file. This header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
   filePermission?: string;
   /** Key of the permission to be set for the directory/file. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
@@ -2373,6 +2435,10 @@ export interface FileSetMetadataOptionalParams
   timeoutInSeconds?: number;
   /** A name-value pair to associate with a file storage object. */
   metadata?: { [propertyName: string]: string };
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
 }
 
 /** Contains response data for the setMetadata operation. */
@@ -2389,6 +2455,10 @@ export interface FileAcquireLeaseOptionalParams
   proposedLeaseId?: string;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
 }
 
 /** Contains response data for the acquireLease operation. */
@@ -2401,6 +2471,10 @@ export interface FileReleaseLeaseOptionalParams
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
 }
 
 /** Contains response data for the releaseLease operation. */
@@ -2415,6 +2489,10 @@ export interface FileChangeLeaseOptionalParams
   proposedLeaseId?: string;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
 }
 
 /** Contains response data for the changeLease operation. */
@@ -2429,6 +2507,10 @@ export interface FileBreakLeaseOptionalParams
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
 }
 
 /** Contains response data for the breakLease operation. */
@@ -2441,6 +2523,10 @@ export interface FileUploadRangeOptionalParams
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
   /** Initial data. */
   body?: coreRestPipeline.RequestBodyType;
   /** An MD5 hash of the content. This hash is used to verify the integrity of the data during transport. When the Content-MD5 header is specified, the File service compares the hash of the content that has arrived with the header value that was sent. If the two hashes do not match, the operation will fail with error code 400 (Bad Request). */
@@ -2461,6 +2547,10 @@ export interface FileUploadRangeFromURLOptionalParams
   sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
+  /** If true, the trailing dot will not be trimmed from the source URI. */
+  allowSourceTrailingDot?: boolean;
   /** If the file last write time should be preserved or overwritten */
   fileLastWrittenMode?: FileLastWrittenMode;
   /** Bytes of source data in the specified range. */
@@ -2483,6 +2573,10 @@ export interface FileGetRangeListOptionalParams
   timeoutInSeconds?: number;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
   shareSnapshot?: string;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
   /** Specifies the range of bytes over which to list ranges, inclusively. */
   range?: string;
   /** The previous snapshot parameter is an opaque DateTime value that, when present, specifies the previous snapshot. */
@@ -2504,10 +2598,16 @@ export interface FileStartCopyOptionalParams
   timeoutInSeconds?: number;
   /** A name-value pair to associate with a file storage object. */
   metadata?: { [propertyName: string]: string };
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
   /** If specified the permission (security descriptor) shall be set for the directory/file. This header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
   filePermission?: string;
   /** Key of the permission to be set for the directory/file. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
   filePermissionKey?: string;
+  /** If true, the trailing dot will not be trimmed from the source URI. */
+  allowSourceTrailingDot?: boolean;
 }
 
 /** Contains response data for the startCopy operation. */
@@ -2520,6 +2620,10 @@ export interface FileAbortCopyOptionalParams
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
 }
 
 /** Contains response data for the abortCopy operation. */
@@ -2536,6 +2640,10 @@ export interface FileListHandlesOptionalParams
   maxResults?: number;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
   shareSnapshot?: string;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
 }
 
 /** Contains response data for the listHandles operation. */
@@ -2551,6 +2659,10 @@ export interface FileForceCloseHandlesOptionalParams
   marker?: string;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
   shareSnapshot?: string;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
 }
 
 /** Contains response data for the forceCloseHandles operation. */
@@ -2570,6 +2682,10 @@ export interface FileRenameOptionalParams extends coreClient.OperationOptions {
   timeoutInSeconds?: number;
   /** A name-value pair to associate with a file storage object. */
   metadata?: { [propertyName: string]: string };
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
   /** If specified the permission (security descriptor) shall be set for the directory/file. This header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
   filePermission?: string;
   /** Key of the permission to be set for the directory/file. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
@@ -2578,6 +2694,8 @@ export interface FileRenameOptionalParams extends coreClient.OperationOptions {
   replaceIfExists?: boolean;
   /** Optional. A boolean value that specifies whether the ReadOnly attribute on a preexisting destination file should be respected. If true, the rename will succeed, otherwise, a previous file at the destination with the ReadOnly attribute set will cause the rename to fail. */
   ignoreReadOnly?: boolean;
+  /** If true, the trailing dot will not be trimmed from the source URI. */
+  allowSourceTrailingDot?: boolean;
 }
 
 /** Contains response data for the rename operation. */
@@ -2588,12 +2706,6 @@ export interface StorageClientOptionalParams
   extends coreHttpCompat.ExtendedServiceClientOptions {
   /** Specifies the version of the operation to use for this request. */
   version?: string;
-  /** Valid value is backup */
-  fileRequestIntent?: ShareTokenIntent;
-  /** If true, the trailing dot will not be trimmed from the target URI. */
-  allowTrailingDot?: boolean;
-  /** If true, the trailing dot will not be trimmed from the source URI. */
-  allowSourceTrailingDot?: boolean;
   /** Only update is supported: - Update: Writes the bytes downloaded from the source url into the specified range. */
   fileRangeWriteFromUrl?: string;
   /** Overrides client endpoint. */

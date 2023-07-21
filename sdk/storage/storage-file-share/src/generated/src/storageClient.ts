@@ -9,14 +9,11 @@
 import * as coreHttpCompat from "@azure/core-http-compat";
 import { ServiceImpl, ShareImpl, DirectoryImpl, FileImpl } from "./operations";
 import { Service, Share, Directory, File } from "./operationsInterfaces";
-import { ShareTokenIntent, StorageClientOptionalParams } from "./models";
+import { StorageClientOptionalParams } from "./models";
 
 export class StorageClient extends coreHttpCompat.ExtendedServiceClient {
   url: string;
   version: string;
-  fileRequestIntent?: ShareTokenIntent;
-  allowTrailingDot?: boolean;
-  allowSourceTrailingDot?: boolean;
   fileRangeWriteFromUrl: string;
 
   /**

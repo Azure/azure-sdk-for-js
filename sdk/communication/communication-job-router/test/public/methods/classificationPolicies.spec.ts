@@ -75,21 +75,30 @@ describe("JobRouterClient", function () {
     }).timeout(timeoutMs);
 
     it("should update a classification policy", async function () {
-      const patch: ClassificationPolicy = { ...classificationPolicyRequest, name: "new name" };
-      const result = await administrationClient.updateClassificationPolicy(
+      const updatePatch = { ...classificationPolicyRequest, name: "new name" };
+      const updateResult = await administrationClient.updateClassificationPolicy(
         classificationPolicyId,
-        patch
+        updatePatch
       );
 
-      assert.isDefined(result);
-      assert.isDefined(result.id);
-      assert.equal(result.name, patch.name);
+      const removePatch = { ...classificationPolicyRequest, name: null! };
+      const removeResult = await administrationClient.updateClassificationPolicy(
+        classificationPolicyId,
+        removePatch
+      );
+
+      assert.isDefined(updateResult);
+      assert.isDefined(updateResult.id);
+      assert.isDefined(removeResult);
+      assert.isDefined(removeResult.id);
+      assert.equal(updatePatch.name, updateResult.name);
+      assert.isUndefined(removeResult.name);
     }).timeout(timeoutMs);
 
     it("should list classification policies", async function () {
       const result: ClassificationPolicy[] = [];
       for await (const policy of administrationClient.listClassificationPolicies({
-        maxpagesize: 20,
+        maxPageSize: 20,
       })) {
         result.push(policy.classificationPolicy!);
       }

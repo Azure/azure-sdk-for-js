@@ -846,4 +846,30 @@ directive:
       $["modelAsString"] = false;
 ```
 
+### Correct parameter location
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["parameters"]["FileRequestIntent"]
+    transform: >
+      $["x-ms-parameter-location"] = "method";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["parameters"]["AllowTrailingDot"]
+    transform: >
+      $["x-ms-parameter-location"] = "method";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["parameters"]["SourceAllowTrailingDot"]
+    transform: >
+      $["x-ms-parameter-location"] = "method";
+```
+
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-file-share%2Fswagger%2FREADME.png)
