@@ -79,13 +79,13 @@ export class CallMedia {
       const textSource: TextSourceInternal = {
         text: playSource.text,
         sourceLocale: playSource.sourceLocale,
-        voiceGender: playSource.voiceGender,
+        voiceKind: playSource.voiceKind,
         voiceName: playSource.voiceName,
         customVoiceEndpointId: playSource.customVoiceEndpointId,
       };
       return {
         kind: KnownPlaySourceType.Text,
-        textSource: textSource,
+        text: textSource,
         playSourceCacheId: playSource.playsourcacheid,
       };
     } else if (playSource.kind === "ssmlSource") {
@@ -95,7 +95,7 @@ export class CallMedia {
       };
       return {
         kind: KnownPlaySourceType.Ssml,
-        ssmlSource: ssmlSource,
+        ssml: ssmlSource,
         playSourceCacheId: playSource.playsourcacheid,
       };
     }

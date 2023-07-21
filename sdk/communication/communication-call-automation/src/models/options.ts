@@ -90,7 +90,7 @@ export interface CreateCallOptions extends OperationOptions {
   /** The operation context. */
   operationContext?: string;
   /** The Azure cognitive services end point url. */
-  azureCognitiveServicesEndpointUrl?: string;
+  cognitiveServicesEndpoint?: string;
 }
 
 /**
@@ -98,7 +98,7 @@ export interface CreateCallOptions extends OperationOptions {
  */
 export interface AnswerCallOptions extends OperationOptions {
   /** The Azure cognitive services end point url. */
-  azureCognitiveServicesEndpointUrl?: string;
+  cognitiveServicesEndpoint?: string;
   /** The operation context. */
   operationContext?: string;
 }
@@ -144,9 +144,9 @@ export interface RemoveParticipantsOption extends OperationOptions {
 }
 
 /**
- * Options to mute participants.
+ * Options to mute participant.
  */
-export interface MuteParticipantsOption extends OperationOptions {
+export interface MuteParticipantOption extends OperationOptions {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
 }

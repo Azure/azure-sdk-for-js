@@ -49,7 +49,7 @@ export interface AddParticipantSucceeded extends Omit<RestAddParticipantSucceede
 
 // @public
 export interface AnswerCallOptions extends OperationOptions {
-    azureCognitiveServicesEndpointUrl?: string;
+    cognitiveServicesEndpoint?: string;
     operationContext?: string;
 }
 
@@ -98,7 +98,7 @@ export class CallConnection {
     getParticipant(targetParticipant: CommunicationIdentifier, options?: GetParticipantOptions): Promise<CallParticipant>;
     hangUp(isForEveryone: boolean, options?: HangUpOptions): Promise<void>;
     listParticipants(options?: GetParticipantOptions): Promise<ListParticipantsResult>;
-    muteParticipants(participant: CommunicationIdentifier, options?: MuteParticipantsOption): Promise<MuteParticipantsResult>;
+    muteParticipant(participant: CommunicationIdentifier, options?: MuteParticipantOption): Promise<MuteParticipantResult>;
     removeParticipant(participant: CommunicationIdentifier, options?: RemoveParticipantsOption): Promise<RemoveParticipantResult>;
     transferCallToParticipant(targetParticipant: CommunicationIdentifier, options?: TransferCallToParticipantOptions): Promise<TransferCallResult>;
 }
@@ -306,7 +306,7 @@ export interface ContinuousDtmfRecognitionToneReceived extends Omit<RestContinuo
 
 // @public
 export interface CreateCallOptions extends OperationOptions {
-    azureCognitiveServicesEndpointUrl?: string;
+    cognitiveServicesEndpoint?: string;
     operationContext?: string;
     sourceCallIdNumber?: PhoneNumberIdentifier;
     sourceDisplayName?: string;
@@ -357,12 +357,6 @@ export interface FileSource extends PlaySource {
 }
 
 // @public
-export enum Gender {
-    Female = "female",
-    Male = "male"
-}
-
-// @public
 export type GetCallConnectionPropertiesOptions = OperationOptions;
 
 // @public
@@ -388,12 +382,12 @@ export interface ListParticipantsResult {
 }
 
 // @public
-export interface MuteParticipantsOption extends OperationOptions {
+export interface MuteParticipantOption extends OperationOptions {
     operationContext?: string;
 }
 
 // @public
-export interface MuteParticipantsResult {
+export interface MuteParticipantResult {
     operationContext?: string;
 }
 
@@ -839,7 +833,7 @@ export interface TextSource extends PlaySource {
     // (undocumented)
     text: string;
     // (undocumented)
-    voiceGender?: Gender;
+    voiceKind?: VoiceKind;
     // (undocumented)
     voiceName?: string;
 }
@@ -858,6 +852,12 @@ export interface TransferCallResult {
 // @public
 export interface TransferCallToParticipantOptions extends OperationOptions {
     operationContext?: string;
+}
+
+// @public
+export enum VoiceKind {
+    Female = "female",
+    Male = "male"
 }
 
 // (No @packageDocumentation comment for this package)

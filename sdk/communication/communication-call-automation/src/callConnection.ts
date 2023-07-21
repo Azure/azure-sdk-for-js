@@ -21,7 +21,7 @@ import {
   GetCallConnectionPropertiesOptions,
   GetParticipantOptions,
   HangUpOptions,
-  MuteParticipantsOption,
+  MuteParticipantOption,
   RemoveParticipantsOption,
   TransferCallToParticipantOptions,
 } from "./models/options";
@@ -30,7 +30,7 @@ import {
   TransferCallResult,
   AddParticipantResult,
   RemoveParticipantResult,
-  MuteParticipantsResult,
+  MuteParticipantResult,
 } from "./models/responses";
 import {
   callParticipantConverter,
@@ -262,14 +262,15 @@ export class CallConnection {
   }
 
   /**
-   * Mute participants from the call.
+   * Mute participant from the call.
    *
    * @param participant - Participant to be muted from the call.
+   * @param options - Additional attributes for mute participant.
    */
-  public async muteParticipants(
+  public async muteParticipant(
     participant: CommunicationIdentifier,
-    options: MuteParticipantsOption = {}
-  ): Promise<MuteParticipantsResult> {
+    options: MuteParticipantOption = {}
+  ): Promise<MuteParticipantResult> {
     const muteParticipantsRequest: MuteParticipantsRequest = {
       targetParticipants: [communicationIdentifierModelConverter(participant)],
       operationContext: options.operationContext,
@@ -284,9 +285,9 @@ export class CallConnection {
       muteParticipantsRequest,
       optionsInternal
     );
-    const muteParticipantsResult: MuteParticipantsResult = {
+    const muteParticipantResult: MuteParticipantResult = {
       ...result,
     };
-    return muteParticipantsResult;
+    return muteParticipantResult;
   }
 }
