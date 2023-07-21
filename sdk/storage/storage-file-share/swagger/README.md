@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/0cd0d5c070e85ea7d5816df056eddadc939b898a/specification/storage/data-plane/Microsoft.FileStorage/preview/2021-12-02/file.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/7dcd41cd28d46eb256bac034760a7e2f0a036238/specification/storage/data-plane/Microsoft.FileStorage/preview/2022-11-02/file.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -844,6 +844,32 @@ directive:
     where: $["parameters"]["AccessTierOptional"]["x-ms-enum"]
     transform: >
       $["modelAsString"] = false;
+```
+
+### Correct parameter location
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["parameters"]["FileRequestIntent"]
+    transform: >
+      $["x-ms-parameter-location"] = "method";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["parameters"]["AllowTrailingDot"]
+    transform: >
+      $["x-ms-parameter-location"] = "method";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["parameters"]["SourceAllowTrailingDot"]
+    transform: >
+      $["x-ms-parameter-location"] = "method";
 ```
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-file-share%2Fswagger%2FREADME.png)
