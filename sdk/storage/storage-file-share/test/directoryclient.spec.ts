@@ -992,9 +992,7 @@ describe("DirectoryClient", () => {
 
   it("listHandles should work", async () => {
     // TODO: Open or create a handle manually with access rights of Read, Write and Delete; No REST APIs for creating handles
-
     const result = (await dirClient.listHandles().byPage().next()).value;
-
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const handle = result.handleList[0];
       assert.notDeepEqual(handle.handleId, undefined);
