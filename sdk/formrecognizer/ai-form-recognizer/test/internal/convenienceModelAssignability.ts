@@ -94,13 +94,5 @@ checkAssign<Omit<DocumentTable, "boundingRegions" | "cells" | "caption" | "footn
 checkAssign<Omit<DocumentKeyValueElement, "boundingRegions">>(generatedDocumentKeyValueElement);
 checkAssign<Omit<Document, "boundingRegions">>(generatedDocument);
 checkAssign<
-  Omit<
-    DocumentPage,
-    | "words"
-    | "selectionMarks"
-    | "lines"
-    | "annotations"
-    | "barcodes"
-    | "formulas"
-  >
+  Omit<DocumentPage, "words" | "selectionMarks" | "lines" | "annotations" | "barcodes" | "formulas">
 >(generatedDocumentPage);

@@ -174,7 +174,6 @@ export interface DocumentKeyValuePair {
  * A visual annotation element in the document, such as a check mark or cross.
  */
 export interface DocumentAnnotation extends HasBoundingPolygon {
-
   /** Confidence of correctly extracting the annotation. */
   confidence: number;
 }

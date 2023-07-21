@@ -38,18 +38,18 @@ export const FormRecognizerFeature = {
    */
   Formulas: "formulas",
 
-  /** 
-   * Enables the detection of the text content language. 
+  /**
+   * Enables the detection of the text content language.
    */
   Languages: "languages",
 
   /**
-   *  Enables the detection of barcodes in the document. 
+   *  Enables the detection of barcodes in the document.
    */
   Barcodes: "barcodes",
 
   /**
-   *  Enables the detection of general key value pairs (form fields) in the document. 
+   *  Enables the detection of general key value pairs (form fields) in the document.
    */
   KeyValuePairs: "keyValuePairs",
 } as const;
@@ -59,7 +59,7 @@ export const FormRecognizerFeature = {
  */
 export interface AnalyzeDocumentOptions<Result = AnalyzeResult<AnalyzedDocument>>
   extends OperationOptions,
-  PollerOptions<DocumentAnalysisPollOperationState<Result>> {
+    PollerOptions<DocumentAnalysisPollOperationState<Result>> {
   /**
    * Locale hint for text recognition and document analysis.
    *

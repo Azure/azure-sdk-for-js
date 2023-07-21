@@ -27,7 +27,9 @@ export type DocumentModelContentSource = AzureBlobContentSource | AzureBlobFileL
  * - AzureBlobContentSource
  * - AzureBlobFileListContentSource
  */
-export type DocumentClassifierContentSource = AzureBlobContentSource | AzureBlobFileListContentSource;
+export type DocumentClassifierContentSource =
+  | AzureBlobContentSource
+  | AzureBlobFileListContentSource;
 
 /**
  * @param source - the content source to check

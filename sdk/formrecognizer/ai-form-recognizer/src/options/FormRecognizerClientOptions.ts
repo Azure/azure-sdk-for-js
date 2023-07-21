@@ -98,4 +98,4 @@ export interface DocumentAnalysisClientOptions extends FormRecognizerCommonClien
  * Configurable options for DocumentModelAdministrationClient.
  */
 export interface DocumentModelAdministrationClientOptions
-  extends FormRecognizerCommonClientOptions { }
+  extends FormRecognizerCommonClientOptions {}
