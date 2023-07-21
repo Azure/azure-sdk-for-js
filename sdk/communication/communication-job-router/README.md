@@ -1,13 +1,18 @@
-# Azure Communication Job Router client sdk for JavaScript
+# Azure Communication Services (ACS) Job Router Client SDK for JavaScript
 
-This package contains a JS SDK for Azure Communication Services for Job Router.
+This package contains the JavaScript SDK for the Azure Communication Services (ACS) Job Router Service.
 
-## Getting started
+## Getting Started
+
+### Key Concepts
+
+[Job Router Key Concepts Overview](https://learn.microsoft.com/azure/communication-services/concepts/router/concepts)
 
 ### Prerequisites
 
 - An [Azure subscription][azure_sub].
-- An existing Communication Services resource. If you need to create the resource, you can use the [Azure Portal][azure_portal], the [Azure PowerShell][azure_powershell], or the [Azure CLI][azure_cli].
+- An existing Azure Communication Services (ACS) resource.
+  - If you need to create A resource, you can use the [Azure Portal][azure_portal], [Azure PowerShell][azure_powershell], or the [Azure CLI][azure_cli].
 
 ### Installing
 
@@ -19,19 +24,15 @@ npm install @azure/communication-job-router
 
 #### JavaScript Bundle
 
-To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
+To use Azure SDK libraries on a website, you need to convert your code to work inside the browser. You do this using a tool called a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Tutorial: Route customer support requests to workers using the Azure Communication Services (ACS) Router SDK
 
 In this tutorial, you will learn:
 
 - How to create a queue.
-- How to create workers and associate them with a queue.
-- How to route incoming jobs to queues.
-
-### Key concepts
-
-[Job Router key concepts](https://learn.microsoft.com/azure/communication-services/concepts/router/concepts)
+- How to create workers and assign them to a queue.
+- How to route jobs to queues.
 
 ## Setting Up
 
@@ -59,34 +60,42 @@ DEBUG=routerquickstart:* npm start
 
 Create a new Azure Communication service resource on Azure https://ms.portal.azure.com/#home or use existing resource.
 
-### Install the Azure Communication Services Router SDK
+### Install the Azure Communication Services Job Router SDK
 
-In the application directory, install the Azure Communication Services Router client library for JavaScript package by using the `npm install --save` command
+In the application directory, install the Azure Communication Services Job Router client library for JavaScript package by using the `npm install --save` command
 `npm install @azure/communication-job-router`
 
 ## Examples
 
-### Initialize Router Client
+### Initialize Job Router Clients
 
-First we need to initialize a Router client.
+First we need to create a `jobRouterAdministrationClient` and a `jobRouterClient`.
+
+- `jobRouterAdministrationClient` provides methods for Classification Policies, Distribution Policies, Exception Policies, and Queues.
+- `jobRouterClient` provides methods for Jobs and Workers.
 
 ```js
-const { RouterClient } = require("@azure/communication-job-router");
+const {
+  JobRouterClient,
+  JobRouterAdministrationClient,
+} = require("@azure/communication-job-router");
 
 const acsConnectionString =
   "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
-const routerClient = new RouterClient(acsConnectionString);
-const routerAdministrationClient = new RouterAdministrationClient(acsConnectionString);
+const jobRouterClient = new JobRouterClient(acsConnectionString);
+const jobRouterAdministrationClient = new JobRouterAdministrationClient(acsConnectionString);
 ```
 
-## Configure Queue and Workers
+## Create a Queue and Workers
 
-### Configure distribution policy
+### Create a Distribution Policy
 
-Create a distribution policy that will determine which workers will receive jobs as they are distributed off the queues.
+Create a Distribution Policy
+
+- This determines which workers will receive job offers as jobs are distributed off their queue.
 
 ```js
-const distributionPolicy = await routerAdministrationClient.createDistributionPolicy("Default", {
+const distributionPolicy = await jobRouterAdministrationClient.createDistributionPolicy("Default", {
   name: "Default Distribution Policy",
   offerTTL: { seconds: 30 },
   mode: {
@@ -102,7 +111,7 @@ const distributionPolicy = await routerAdministrationClient.createDistributionPo
 Then we create a sales queue with various labels.
 
 ```js
-const salesQueueResponse = await routerAdministrationClient.createQueue("Sales", {
+const salesQueueResponse = await jobRouterAdministrationClient.createQueue("Sales", {
   name: "Sales",
   distributionPolicyId: distributionPolicy.Id,
   labels: {
@@ -111,28 +120,30 @@ const salesQueueResponse = await routerAdministrationClient.createQueue("Sales",
 });
 ```
 
-### Register workers
+### Create workers
 
-Register workers “Bob” and “Alice” with various labels.
+Create workers “Bob” and “Alice” with some labels.
+
+- setting `availableForOffers` to `true` sets these workers as ready to accept jobs.
 
 ```js
-// Create worker Bob
-const workerId = "21837c88-6967-4078-86b9-1207821a8392";
-const bobWorkerResponse = await routerClient.createWorker(workerId, {
-  totalCapacityScore: 100,
+// Create worker "Bob"
+const workerBobId = "21837c88-6967-4078-86b9-1207821a8392";
+const workerBobResponse = await jobRouterClient.createWorker(workerBobId, {
+  totalCapacity: 100,
   labels: {
-    Xbox: 5,
-    English: 3
+    xbox: 5,
+    english: 3
     name: "Bob"
   },
   queueAssignments: { [salesQueueResponse.Id]: {} },
   availableForOffers: true
 });
 
-// Create worker Alice
+// Create worker "Alice"
 const workerAliceId = "773accfb-476e-42f9-a202-b211b41a4ea4";
-const aliceWorkerResponse = await routerClient.createWorker(workerAliceId, {
-  totalCapacityScore: 120,
+const workerAliceResponse = await jobRouterClient.createWorker(workerAliceId, {
+  totalCapacity: 120,
   labels: {
     Xbox: 5,
     name: "Alice",
@@ -143,12 +154,18 @@ const aliceWorkerResponse = await routerClient.createWorker(workerAliceId, {
 });
 ```
 
+## Jobs
+
+### Key Concept: Job Lifecycle
+
+Please refer to the [Job Lifecycle Documentation](https://learn.microsoft.com/en-us/azure/communication-services/concepts/router/concepts#job-lifecycle) to understand the lifecycle of a job.
+
 ### Creating a job
 
 If your application can determine the correct queue, labels and/or priority, you can directly create a job with these values.
 
 ```js
-await routerClient.createJob("asdaccfb-476e-42f9-a202-b211b41a4ea4", {
+await JobRouterClient.createJob("asdaccfb-476e-42f9-a202-b211b41a4ea4", {
   channelReference: "66e4362e-aad5-4d71-bb51-448672ebf492",
   channelId: "Voice",
   priority: 2,
@@ -161,7 +178,7 @@ await routerClient.createJob("asdaccfb-476e-42f9-a202-b211b41a4ea4", {
 Create a classification policy that will house queue selectors, prioritization rule and worker selectors in order to classify incoming job.
 
 ```js
-const classificationPolicy = await routerAdministrationClient.createClassificationPolicy("Default", {
+const classificationPolicy = await jobRouterAdministrationClient.createClassificationPolicy("Default", {
   name: "Default Classification Policy",
   fallbackQueueId: salesQueueResponse.Id,
   queueSelectors: [{
@@ -183,7 +200,7 @@ const classificationPolicy = await routerAdministrationClient.createClassificati
 ### Creating Job via using classification policy
 
 ```js
-await routerClient.createJob("fdw2rcfb-476e-42f9-a202-b211b41a4ea4", {
+await JobRouterClient.createJob("fdw2rcfb-476e-42f9-a202-b211b41a4ea4", {
   // e.g. callId or chat threadId
   channelReference: "a7c54dc6-c545-4151-a195-41e9e35b17c6",
   channelId: "Voice",
@@ -258,7 +275,7 @@ app.post('/event', (req, res) => {
 Once you receive an OfferIssued event, you can accept or decline the Job with the following SDK call, passing in the worker's ACS identity so that they can be added to the job.
 
 ```js
-await routerClient.acceptJobOffer(workerId, offerId);
+await jobRouterClient.acceptJobOffer(workerId, offerId);
 ```
 
 ### Complete Job
@@ -266,7 +283,7 @@ await routerClient.acceptJobOffer(workerId, offerId);
 Once the worker has accepted the job, the response will include an assignment ID. This can in turn be used to complete the job once a resolution has been reached, which will transition the job into a "wrap-up" state.
 
 ```js
-await routerClient.completeJob(jobId, assignmentId);
+await jobRouterClient.completeJob(jobId, assignmentId);
 ```
 
 ### Close Job
@@ -274,18 +291,18 @@ await routerClient.completeJob(jobId, assignmentId);
 Once the worker has completed the wrap-up phase of the job the worker can finally close the job and attach a disposition code to it for future reference.
 
 ```js
-await routerClient.closeJob(jobId, assignmentId, { dispositionCode: "Resolved" });
+await jobRouterClient.closeJob(jobId, assignmentId, { dispositionCode: "Resolved" });
 ```
 
 ## Next steps
 
 Please take a look at the
-[samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/)
-directory for detailed examples on how to use this library.
+[samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/)
+directory for detailed examples on how to use this SDK.
 
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
+If you'd like to contribute to this SDK, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ## Related projects
 

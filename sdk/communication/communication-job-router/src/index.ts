@@ -3,7 +3,7 @@
 
 /**
  * @packageDocumentation
- * TypeScript SDK for the Azure ACS JobRouter Service.
+ * JavaScript SDK for the Azure Communication Services Job Router Service.
  */
 
 export * from "./models";
