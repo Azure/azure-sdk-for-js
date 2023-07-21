@@ -227,6 +227,7 @@ export class CallConnection {
         voipHeaders: options.voipHeaders,
       },
       callbackUriOverride: options.callbackUrlOverride,
+      transferee: options.transferee && communicationIdentifierModelConverter(options.transferee),
     };
     const optionsInternal = {
       ...options,
