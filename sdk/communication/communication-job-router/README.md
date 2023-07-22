@@ -6,12 +6,12 @@ This package contains the JavaScript SDK for the Azure Communication Services (A
 
 ### Key Concepts
 
-[Job Router Key Concepts Overview](https://learn.microsoft.com/azure/communication-services/concepts/router/concepts).
+Refer to our [Job Router key concepts documentation](https://learn.microsoft.com/azure/communication-services/concepts/router/concepts) to better understand Job Router.
 
 ### Prerequisites
 
 - An [Azure subscription][azure_sub].
-- An existing Azure Communication Services (ACS) resource.
+- An Azure Communication Services (ACS) resource.
   - If you need to create an ACS resource, you can use the [Azure Portal][azure_portal], [Azure PowerShell][azure_powershell], or the [Azure CLI][azure_cli].
 
 ### Installing
@@ -22,7 +22,7 @@ npm install @azure/communication-job-router
 
 ### Browser support
 
-To use Azure SDK libraries on a website, you need to convert your code to work inside the browser. You do this using a tool called a **bundler**. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
+To use Azure SDK libraries on a website, you need to convert your code to work inside the browser. You do this using a tool called a **bundler**. Refer to our [bundling documentation](https://aka.ms/AzureSDKBundling) to better understand bundling.
 
 ## Tutorial: Route jobs to workers using the Azure Communication Services (ACS) Job Router SDK
 
@@ -31,6 +31,8 @@ In this tutorial, you will learn:
 - How to create a queue.
 - How to create workers and assign them to a queue.
 - How to route jobs to workers.
+- How to subscribe to and handle Job Router events.
+- How to complete and close jobs.
 
 ## Setting Up
 
@@ -56,13 +58,13 @@ npm install
 DEBUG=routerquickstart:* npm start
 ```
 
-### Create an Azure ACS Resource
+### Have an ACS Resource
 
-Create a new Azure Communication Services resource in the [Azure Portal](https://ms.portal.azure.com/#home) or use an existing resource.
+Create an ACS resource in the [Azure Portal](https://ms.portal.azure.com/#home) or use an existing resource.
 
 ### Install the Azure ACS Job Router SDK
 
-In the `RouterQuickStart` folder, install the Azure Communication Services Job Router SDK by executing `npm install @azure/communication-job-router --save`.
+In the `RouterQuickStart` folder, install the ACS Job Router SDK by executing `npm install @azure/communication-job-router --save`.
 
 ## Routing Jobs
 
@@ -146,7 +148,7 @@ const salesQueueResponse = await jobRouterAdministrationClient.createQueue("sale
 
 ### Create Workers
 
-These workers are assigned to our previously created sales queue and have some labels.
+These workers are assigned to our previously created "Sales" queue and have some labels.
 
 - setting `availableForOffers` to `true` means these workers are ready to accept job offers.
 - refer to our [labels documentation](https://learn.microsoft.com/en-us/azure/communication-services/concepts/router/concepts#labels) to better understand labels and label selectors.
@@ -182,16 +184,17 @@ const workerBobResponse = await jobRouterClient.createWorker(workerBobId, {
 
 ### Job Lifecycle
 
-Please refer to our [job lifecycle documentation](https://learn.microsoft.com/en-us/azure/communication-services/concepts/router/concepts#job-lifecycle) to better understand the lifecycle of a job.
+Refer to our [job lifecycle documentation](https://learn.microsoft.com/en-us/azure/communication-services/concepts/router/concepts#job-lifecycle) to better understand the lifecycle of a job.
 
 ### Create a Job
 
-This job is enqueued on our previously created sales queue.
+This job is enqueued on our previously created "Sales" queue.
 
 ```js
 const job = await jobRouterClient.createJob("job-id", {
+  // e.g. callId or chat threadId
   channelReference: "66e4362e-aad5-4d71-bb51-448672ebf492",
-  channelId: "Voice",
+  channelId: "voice",
   priority: 2,
   queueId: salesQueueResponse.Id,
 });
@@ -205,7 +208,7 @@ This job will be classified with our previously created classification policy. I
 const classificationJob = await JobRouterClient.createJob("classification-job-id", {
   // e.g. callId or chat threadId
   channelReference: "66e4362e-aad5-4d71-bb51-448672ebf492",
-  channelId: "Voice",
+  channelId: "voice",
   classificationPolicyId: classificationPolicy.Id,
   labels: {
     department: "xbox",
@@ -215,7 +218,7 @@ const classificationJob = await JobRouterClient.createJob("classification-job-id
 
 ## Events
 
-Job Router events are delivered via Azure Event Grid. See our ["subscribe to events" documentation](https://learn.microsoft.com/azure/communication-services/how-tos/router-sdk/subscribe-events) for better understanding of handling events.
+Job Router events are delivered via Azure Event Grid. Refer to our [Azure Event Grid documentation](https://docs.microsoft.com/azure/event-grid/overview) to better understand Azure Event Grid.
 
 In the previous example:
 
@@ -236,8 +239,8 @@ Example `RouterWorkerOfferIssued` JSON shape:
     "channelId": "FooVoiceChannelId",
     "queueId": "625fec06-ab81-4e60-b780-f364ed96ade1",
     "offerId": "525fec06-ab81-4e60-b780-f364ed96ade1",
-    "offerTimeUtc": "2021-06-23T02:43:30.3847144Z",
-    "expiryTimeUtc": "2021-06-23T02:44:30.3847674Z",
+    "offerTimeUtc": "2023-08-17T02:43:30.3847144Z",
+    "expiryTimeUtc": "2023-08-17T02:44:30.3847674Z",
     "jobPriority": 5,
     "jobLabels": {
       "Locale": "en-us",
@@ -253,19 +256,19 @@ Example `RouterWorkerOfferIssued` JSON shape:
   "eventType": "Microsoft.Communication.RouterWorkerOfferIssued",
   "dataVersion": "1.0",
   "metadataVersion": "1",
-  "eventTime": "2022-02-17T00:55:25.1736293Z"
+  "eventTime": "2023-08-17T00:55:25.1736293Z"
 }
 ```
 
-### Handling Events
+### Subscribing to Events
 
 One way to subscribe to ACS Job Router events is through the Azure Portal.
 
-1. Navigate to your Azure Communication Services resource in the Azure Portal and open the “Events” blade.
+1. Navigate to your ACS resource in the Azure Portal and open the “Events” blade.
 2. Add an event subscription for the “RouterWorkerOfferIssued” event.
-3. Select an appropriate means to receive the event (e.g. Webhook, Azure Functions, Service Bus)
+3. Select an appropriate means to receive the event (e.g. Webhook, Azure Functions, Service Bus).
 
-Refer to our [EventGrid documentation](https://docs.microsoft.com/azure/event-grid/overview) for better understanding of subscribing to events.
+Refer to our ["subscribe to Job Router events" documentation](https://learn.microsoft.com/azure/communication-services/how-tos/router-sdk/subscribe-events) to better understand subscribing to Job Router events.
 
 The route in your NodeJS application that receives events may look something like this:
 
