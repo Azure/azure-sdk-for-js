@@ -110,7 +110,7 @@ const distributionPolicy = await jobRouterAdministrationClient.createDistributio
 
 This policy classifies jobs upon creation.
 
-- Refer to our [rules documentation](https://learn.microsoft.com/en-us/azure/communication-services/concepts/router/router-rule-concepts?pivots=programming-language-javascript#rule-engine-types) to better understand prioritization rules.
+- Refer to our [rules documentation](https://learn.microsoft.com/azure/communication-services/concepts/router/router-rule-concepts?pivots=programming-language-javascript#rule-engine-types) to better understand prioritization rules.
 
 ```js
 const classificationPolicy = await jobRouterAdministrationClient.createClassificationPolicy("default-classification-policy-id", {
@@ -151,7 +151,7 @@ const salesQueueResponse = await jobRouterAdministrationClient.createQueue("sale
 These workers are assigned to our previously created "Sales" queue and have some labels.
 
 - setting `availableForOffers` to `true` means these workers are ready to accept job offers.
-- refer to our [labels documentation](https://learn.microsoft.com/en-us/azure/communication-services/concepts/router/concepts#labels) to better understand labels and label selectors.
+- refer to our [labels documentation](https://learn.microsoft.com/azure/communication-services/concepts/router/concepts#labels) to better understand labels and label selectors.
 
 ```js
   // Create worker "Alice".
@@ -184,7 +184,7 @@ const workerBobResponse = await jobRouterClient.createWorker(workerBobId, {
 
 ### Job Lifecycle
 
-Refer to our [job lifecycle documentation](https://learn.microsoft.com/en-us/azure/communication-services/concepts/router/concepts#job-lifecycle) to better understand the lifecycle of a job.
+Refer to our [job lifecycle documentation](https://learn.microsoft.com/azure/communication-services/concepts/router/concepts#job-lifecycle) to better understand the lifecycle of a job.
 
 ### Create a Job
 
