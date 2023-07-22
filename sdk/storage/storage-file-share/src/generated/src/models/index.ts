@@ -238,6 +238,7 @@ export interface HandleItem {
   openTime: Date;
   /** Time handle was last connected to (UTC) */
   lastReconnectTime?: Date;
+  accessRightList?: AccessRight[];
 }
 
 /** The list of file ranges */
@@ -1797,6 +1798,8 @@ export type ListFilesIncludeType =
   | "Etag"
   | "Attributes"
   | "PermissionKey";
+/** Defines values for AccessRight. */
+export type AccessRight = "Read" | "Write" | "Delete";
 /** Defines values for CopyStatusType. */
 export type CopyStatusType = "pending" | "success" | "aborted" | "failed";
 /** Defines values for FileRangeWriteType. */
