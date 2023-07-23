@@ -11,4 +11,3 @@ export { addCredentialPipelinePolicy, AddCredentialPipelinePolicyOptions } from 
 export { operationOptionsToRequestParameters } from "./operationOptionHelpers";
 export * from "./getClient";
 export * from "./common";
-export * from "./encoding";

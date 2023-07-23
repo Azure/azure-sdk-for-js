@@ -1,10 +1,11 @@
-import { isNode } from "@azure/core-util";
+import { TextEncoder } from "util";
+import { isNode } from "./checkEnvironment";
 
 /**
  * Decodes a Uint8Array into a Base64 string.
  * @internal
  */
-export function uint8ArayToBase64(bytes: Uint8Array): string {
+export function uint8ArrayToBase64(bytes: Uint8Array): string {
   if (isNode) {
     return Buffer.from(bytes).toString("base64");
   } else {
@@ -16,7 +17,7 @@ export function uint8ArayToBase64(bytes: Uint8Array): string {
  * Decodes a Uint8Array into a javascript string.
  * @internal
  */
-export function uint8ArayToString(bytes: Uint8Array): string {
+export function uint8ArrayToString(bytes: Uint8Array): string {
   if (isNode) {
     return Buffer.from(bytes).toString();
   } else {
