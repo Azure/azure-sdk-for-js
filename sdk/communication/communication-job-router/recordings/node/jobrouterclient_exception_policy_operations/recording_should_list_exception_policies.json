@@ -9,19 +9,20 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-communication-job-router/V2022-07-18-preview azsdk-js-communication-job-router/1.0.0-beta.1 core-rest-pipeline/1.11.1 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "5a2b6b1a-9181-4f80-8777-b3ffef9ae760",
+        "x-ms-client-request-id": "9838ee8a-c0ed-4400-898f-4946f64a6933",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Fri, 30 Jun 2023 03:31:33 GMT"
+        "x-ms-date": "Fri, 21 Jul 2023 05:46:01 GMT"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview",
+        "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 30 Jun 2023 03:31:33 GMT",
-        "trace-id": "a9cde204-b54f-afa5-91c7-5549d054bb0e",
+        "Date": "Fri, 21 Jul 2023 05:46:01 GMT",
+        "trace-id": "1d3cb1ce-c5fa-4e54-b223-6cb6dcb2adfc",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0lkyeZAAAAACzh1M7LiyQTaN5dULB2KmrWVZSMzExMDAwMTE1MDIxAGYwOWE0YzEzLTIxZjEtNDhlYy05Y2Y3LTY2NTQ1Njg0YjY0Mg==",
+        "x-azure-ref": "20230721T054601Z-mb4c8vp0qd29zaa8d7ctn3cngw00000000tg000000007emw",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -29,7 +30,6 @@
           {
             "exceptionPolicy": {
               "id": "test-e-policy-recorded-e-policies",
-              "name": "new-name",
               "exceptionRules": {
                 "MaxWaitTimeExceededCancel": {
                   "trigger": {
@@ -45,11 +45,11 @@
                 }
               }
             },
-            "etag": "\u00220a0044db-0000-0700-0000-649e4c950000\u0022"
+            "etag": "\u00220200d2fd-0000-0700-0000-64ba1b990000\u0022"
           },
           {
             "exceptionPolicy": {
-              "id": "test-e-policy-recorded-jobs",
+              "id": "test-e-policy-recorded-jobs-matchingmode5",
               "name": "test-e-policy",
               "exceptionRules": {
                 "MaxWaitTimeExceededCancel": {
@@ -66,7 +66,70 @@
                 }
               }
             },
-            "etag": "\u00220a00ebda-0000-0700-0000-649e4c490000\u0022"
+            "etag": "\u00220200cce8-0000-0700-0000-64b9dabb0000\u0022"
+          },
+          {
+            "exceptionPolicy": {
+              "id": "test-e-policy-recorded-jobs-matchingmode3",
+              "name": "test-e-policy",
+              "exceptionRules": {
+                "MaxWaitTimeExceededCancel": {
+                  "trigger": {
+                    "kind": "wait-time",
+                    "thresholdSeconds": 10
+                  },
+                  "actions": {
+                    "Cancel": {
+                      "kind": "cancel",
+                      "note": "wait time exceeded; cancelling"
+                    }
+                  }
+                }
+              }
+            },
+            "etag": "\u00222900311a-0000-0700-0000-64b99cbe0000\u0022"
+          },
+          {
+            "exceptionPolicy": {
+              "id": "test-e-policy-recorded-jobs-matchingmode2",
+              "name": "test-e-policy",
+              "exceptionRules": {
+                "MaxWaitTimeExceededCancel": {
+                  "trigger": {
+                    "kind": "wait-time",
+                    "thresholdSeconds": 10
+                  },
+                  "actions": {
+                    "Cancel": {
+                      "kind": "cancel",
+                      "note": "wait time exceeded; cancelling"
+                    }
+                  }
+                }
+              }
+            },
+            "etag": "\u00222900ff19-0000-0700-0000-64b99b5e0000\u0022"
+          },
+          {
+            "exceptionPolicy": {
+              "id": "test-e-policy-recorded-jobs-matchingmode",
+              "name": "test-e-policy",
+              "exceptionRules": {
+                "MaxWaitTimeExceededCancel": {
+                  "trigger": {
+                    "kind": "wait-time",
+                    "thresholdSeconds": 10
+                  },
+                  "actions": {
+                    "Cancel": {
+                      "kind": "cancel",
+                      "note": "wait time exceeded; cancelling"
+                    }
+                  }
+                }
+              }
+            },
+            "etag": "\u00222900e019-0000-0700-0000-64b99a860000\u0022"
           }
         ]
       }
