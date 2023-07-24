@@ -39,6 +39,17 @@ describe("Base64", function () {
         "Incorrect conversion of utf-8 to bytes."
       );
     });
+
+    it("converts a base64url string to bytes", function () {
+      const input = "YXp1cmU"; // 'azure' in base64url.
+
+      const output = stringToUint8Array(input, "base64url");
+      assert.deepEqual(
+        output,
+        new Uint8Array([97, 122, 117, 114, 101]),
+        "Incorrect conversion of utf-8 to bytes."
+      );
+    });
   });
 
   describe("bufferToBase64", function () {
@@ -54,6 +65,13 @@ describe("Base64", function () {
 
       const output = uint8ArrayToString(input, "utf-8");
       assert.deepEqual(output, "\x61\x7A\x75\x72\x65", "Incorrect conversion of bytes to utf-8.");
+    });
+
+    it("converts an uint8array to a base64url string", function () {
+      const input = new Uint8Array([97, 122, 117, 114, 101]); // 'azure' in base64.
+
+      const output = uint8ArrayToString(input, "base64url");
+      assert.deepEqual(output, "YXp1cmU", "Incorrect conversion of bytes to base64.");
     });
 
     it("has proper padding", function () {
@@ -79,6 +97,19 @@ describe("Base64", function () {
       for (const scenario of scenarios) {
         const output = uint8ArrayToString(scenario.bytes, "utf-8");
         assert.equal(output, scenario.expected, "Incorrect conversion of bytes to utf-8.");
+      }
+    });
+
+    it("has proper padding", function () {
+      const scenarios = [
+        { bytes: new Uint8Array([65]), expected: "QQ" },
+        { bytes: new Uint8Array([65, 90]), expected: "QVo" },
+        { bytes: new Uint8Array([65, 66, 67]), expected: "QUJD" },
+      ];
+
+      for (const scenario of scenarios) {
+        const output = uint8ArrayToString(scenario.bytes, "base64url");
+        assert.equal(output, scenario.expected, "Incorrect conversion of bytes to base64.");
       }
     });
   });

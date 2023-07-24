@@ -14,35 +14,35 @@ export type EncodingType = "utf-8" | "base64" | "base64url";
 
 /**
  *
- * @param bytes the uint8array bytes
- * @param format the format we use to encode the byte
+ * @param bytes - the uint8array bytes
+ * @param format - the format we use to encode the byte
  * @returns a string of the encoded string
  */
-export function uint8ArrayToString(bytes: Uint8Array, format: EncodingType) {
+export function uint8ArrayToString(bytes: Uint8Array, format: EncodingType): string {
   switch (format) {
     case "utf-8":
       return uint8ArrayToUtf8String(bytes);
     case "base64":
       return uint8ArrayToBase64(bytes);
     case "base64url":
-      return uint8ArrayToBase64(bytes);
+      return uint8ArrayToBase64Url(bytes);
   }
 }
 
 /**
  *
- * @param value the string to be converted
- * @param format the format we use to decode the value
+ * @param value - the string to be converted
+ * @param format - the format we use to decode the value
  * @returns a uint8array
  */
-export function stringToUint8Array(value: string, format: EncodingType) {
+export function stringToUint8Array(value: string, format: EncodingType): Uint8Array {
   switch (format) {
     case "utf-8":
       return utf8StringToUint8Array(value);
     case "base64":
       return base64ToUint8Array(value);
     case "base64url":
-      return base64ToUint8Array(value);
+      return base64UrlToUint8Array(value);
   }
 }
 
@@ -53,6 +53,18 @@ export function stringToUint8Array(value: string, format: EncodingType) {
 export function uint8ArrayToBase64(bytes: Uint8Array): string {
   if (isNode) {
     return Buffer.from(bytes).toString("base64");
+  } else {
+    return btoa(String.fromCharCode.apply(null, bytes as any as number[]));
+  }
+}
+
+/**
+ * Decodes a Uint8Array into a Base64Url string.
+ * @internal
+ */
+export function uint8ArrayToBase64Url(bytes: Uint8Array): string {
+  if (isNode) {
+    return Buffer.from(bytes).toString("base64url");
   } else {
     return btoa(String.fromCharCode.apply(null, bytes as any as number[]));
   }
@@ -89,6 +101,18 @@ export function utf8StringToUint8Array(value: string): Uint8Array {
 export function base64ToUint8Array(value: string): Uint8Array {
   if (isNode) {
     return Buffer.from(value, "base64");
+  } else {
+    return Uint8Array.from(atob(value), (c) => c.charCodeAt(0));
+  }
+}
+
+/**
+ * Encodes a Base64Url string into a Uint8Array.
+ * @internal
+ */
+export function base64UrlToUint8Array(value: string): Uint8Array {
+  if (isNode) {
+    return Buffer.from(value, "base64url");
   } else {
     return Uint8Array.from(atob(value), (c) => c.charCodeAt(0));
   }
