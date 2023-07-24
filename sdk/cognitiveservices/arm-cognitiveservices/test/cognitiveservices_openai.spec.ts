@@ -74,7 +74,6 @@ describe("CognitiveServices OpenAI test", () => {
     const deployment: Deployment = {
       properties: {
         model: { name: "text-davinci-003", version: "1", format: "OpenAI", },
-        scaleSettings: { scaleType: "Standard" }
       }
     };
 
