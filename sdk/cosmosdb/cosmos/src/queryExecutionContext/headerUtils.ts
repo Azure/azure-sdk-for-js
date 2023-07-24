@@ -76,4 +76,9 @@ export function mergeHeaders(headers: CosmosHeaders, toBeMergedHeaders: CosmosHe
       }
     }
   }
+
+  if (Constants.HttpHeaders.IndexUtilization in toBeMergedHeaders) {
+    headers[Constants.HttpHeaders.IndexUtilization] =
+      toBeMergedHeaders[Constants.HttpHeaders.IndexUtilization];
+  }
 }

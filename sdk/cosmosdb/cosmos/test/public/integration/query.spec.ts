@@ -214,12 +214,25 @@ describe("Test Index metrics", function (this: Suite) {
     await createdContainer.items.create(doc1);
     await createdContainer.items.create(doc2);
     await createdContainer.items.create(doc3);
-    const query = "SELECT * from " + collectionId + " where " + collectionId + ".name = 'test2'";
-    const queryOptions: FeedOptions = { populateIndexMetrics: true };
-    const queryIterator = createdContainer.items.query(query, queryOptions);
+    const query1 = "SELECT * from " + collectionId + " where " + collectionId + ".name = 'test2'";
+    const query2 = "SELECT * from " + collectionId + " order by " + collectionId + ".name";
 
-    while (queryIterator.hasMoreResults()) {
-      const { resources: results, indexMetrics } = await queryIterator.fetchNext();
+    const queryOptions: FeedOptions = { populateIndexMetrics: true, maxItemCount: 1 };
+    const queryIterator1 = createdContainer.items.query(query1, queryOptions);
+    const queryIterator2 = createdContainer.items.query(query2, queryOptions);
+
+    while (queryIterator2.hasMoreResults()) {
+      const { resources: results, indexMetrics } = await queryIterator2.fetchNext();
+      console.log("index metrics: ", indexMetrics);
+
+      if (results === undefined) {
+        break;
+      }
+      assert.notEqual(indexMetrics, undefined);
+    }
+
+    while (queryIterator1.hasMoreResults()) {
+      const { resources: results, indexMetrics } = await queryIterator1.fetchNext();
 
       if (results === undefined) {
         break;
