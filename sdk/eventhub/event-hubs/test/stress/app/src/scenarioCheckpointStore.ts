@@ -16,7 +16,7 @@ interface scenarioCheckpointStoreOptions {
 function sanitizeOptions(args: string[]): Required<scenarioCheckpointStoreOptions> {
   const options = parsedArgs<scenarioCheckpointStoreOptions>(args);
   return {
-    testDurationInMs: options.testDurationInMs || 2 * 24 * 60 * 60 * 1000, // Default = 2 days
+    testDurationInMs: options.testDurationInMs || 10 * 24 * 60 * 60 * 1000, // Default = 2 days
   };
 }
 
@@ -84,7 +84,7 @@ async function scenarioCheckpointStore() {
         time: new Date(),
       });
     },
-  });
+  }, { maxBatchSize: 20, maxWaitTimeInSeconds: 1, prefetchCount: 60 });
 
   while (new Date().valueOf() - startedAt.valueOf() < testDurationInMs && !terminalCase) {
     const eventBatch = new Array(Math.floor(Math.random() * 100)).fill({
