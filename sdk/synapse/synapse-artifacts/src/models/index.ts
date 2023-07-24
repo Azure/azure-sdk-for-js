@@ -2717,97 +2717,6 @@ export interface ManagedIdentity {
   type?: ResourceIdentityType;
 }
 
-/** DDL batch. */
-export interface DDLBatch {
-  ddls: DDLPayload[];
-}
-
-/** DDL payload */
-export interface DDLPayload {
-  /** DDL type. */
-  actionType: DDLType;
-  /** MD Entity */
-  oldEntity?: MDEntity;
-  /** MD Entity */
-  newEntity?: MDEntity;
-}
-
-/** MD Entity */
-export interface MDEntity {
-  /** Entity Name. */
-  name: string;
-  /** Artifact type. */
-  type: SASEntityType;
-  /**
-   * Entity Resource Id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /** Anything */
-  properties?: any;
-}
-
-/** Defines the publish response. */
-export interface SyMsapiddlResponses {
-  /** List of DDL response. */
-  syMsApiDdlResponse: SyMsapiddlResponse[];
-}
-
-/** Defines the response for create/publish operation on DDL payload. */
-export interface SyMsapiddlResponse {
-  /** DDL type. */
-  ddlType: DDLType;
-  /** Entity name. */
-  entityName: string;
-  /** Artifact type. */
-  entityType: SASEntityType;
-  /** Publish status. */
-  publishStatus: "PUBLISHED";
-  /** Object id maintained by Origin Catalog. */
-  originObjectId: string;
-  /** Object id maintained by SyMS. */
-  objectId: string;
-  /** Object version maintained by SyMS. */
-  objectVersion: number;
-}
-
-/** Query artifacts response. */
-export interface QueryArtifactsResponse {
-  items?: any[];
-  /** Continuation token to get next page. */
-  continuationToken?: string;
-}
-
-/** Data source properties. */
-export interface DataSource {
-  /** Data source provider information. */
-  provider?: string;
-  /** Data source location. */
-  location: string;
-  /** Property bag. */
-  properties?: { [propertyName: string]: any };
-}
-
-/** Defines the artifact entity. */
-export interface MDEntityProperties {
-  /** Entity object id maintained by the caller. */
-  originObjectId?: string;
-  /**
-   * Entity object id maintained by SyMS.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly objectId?: string;
-  /**
-   * Entity object version maintained by SyMS.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly objectVersion?: number;
-  /** Publish status. */
-  publishStatus?: "PUBLISHED";
-  /** Property bag */
-  properties?: { [propertyName: string]: any };
-}
-
 /** Azure Synapse expression definition. */
 export interface Expression {
   /** Expression type. */
@@ -3959,110 +3868,6 @@ export interface TriggerReference {
   type: TriggerReferenceType;
   /** Reference trigger name. */
   referenceName: string;
-}
-
-/** Namespace. */
-export interface Namespace {
-  /** Database name. */
-  databaseName: string;
-}
-
-/** Format information. */
-export interface FormatInfo {
-  /** Input Format to be used */
-  inputFormat: string;
-  /** Output Format to be used */
-  outputFormat: string;
-  /** Format Type to be used to be used (csv, parquet, etc.) */
-  formatType: string;
-  /** Property bag. */
-  properties?: { [propertyName: string]: any };
-  /** SerDe name. */
-  serDeName?: string;
-  /** Serialization Library to be used by Spark (org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe, org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe) */
-  serializeLib: string;
-}
-
-/** Column sorting. */
-export interface Sorting {
-  /** Name of column. */
-  keyName: string;
-  /** Sorting order. */
-  sortOrder: SortOrder;
-}
-
-/** Distribution information. */
-export interface DistributionInfo {
-  /** Distribution type. */
-  type?: string;
-  /** Distribution keys. */
-  keys?: string[];
-  /** Distribution count. */
-  count?: number;
-  /** Distribution sort keys. */
-  sortKeys?: Sorting[];
-}
-
-/** Type information */
-export interface TypeInfo {
-  /** Type family. */
-  typeFamily?: string;
-  /** Type name. */
-  typeName: string;
-  /** Is Table type. */
-  isTableType?: boolean;
-  /** Is Complex type. */
-  isComplexType?: boolean;
-  /** Is Nullable. */
-  isNullable?: boolean;
-  /** Length. */
-  length?: number;
-  /** Precision. */
-  precision?: number;
-  /** Scale. */
-  scale?: number;
-  /** Property bag. */
-  properties?: { [propertyName: string]: any };
-}
-
-/** Data column. */
-export interface DataColumn {
-  /** Column name. */
-  name: string;
-  /** Type information */
-  originDataTypeName: TypeInfo;
-}
-
-/** Storage descriptor */
-export interface StorageDescriptor {
-  /** Storage descriptor information. */
-  distribution?: DistributionInfo;
-  /** Column information. */
-  columns: DataColumn[];
-  /** Storage descriptor format information. */
-  format: FormatInfo;
-  /** Storage descriptor data source information. */
-  source: DataSource;
-  /** Property bag. */
-  properties?: { [propertyName: string]: any };
-  /** SerDe information. */
-  serDeInfo?: any;
-}
-
-/** Table partitioning information. */
-export interface TablePartitioning {
-  /** Table partitioning keys. */
-  keys: string[];
-  /** Partition Function Type (ex. value) */
-  partitionFunctionType: string;
-}
-
-/** Column information for relationship */
-export interface ColumnRelationshipInformation {
-  /** From Column Name */
-  fromColumnName: string;
-  /** To Column Name */
-  toColumnName: string;
 }
 
 /** The compute resource properties for managed integration runtime. */
@@ -6010,8 +5815,8 @@ export interface MongoDbAtlasLinkedService extends LinkedService {
   connectionString: any;
   /** The name of the MongoDB Atlas database that you want to access. Type: string (or Expression with resultType string). */
   database: any;
-  /** The MongoDB Atlas Driver version that you want to choose. Allowed value are 2.10.4 and 2.19.0. Type: string (or Expression with resultType string). */
-  mongoDbAtlasDriverVersion?: any;
+  /** The driver version that you want to choose. Allowed value are v1 and v2. Type: string (or Expression with resultType string). */
+  driverVersion?: any;
 }
 
 /** Linked service for MongoDB data source. */
@@ -7706,124 +7511,6 @@ export interface ChainingTrigger extends Trigger {
   runDimension: string;
 }
 
-/** Database entity. */
-export interface DatabaseEntity extends MDEntity {
-  /** Database properties. */
-  properties: DatabaseProperties;
-}
-
-/** partition information. */
-export interface PartitionInfo extends MDEntity {
-  /** Database properties. */
-  properties?: PartitionInfoProperties;
-}
-
-/** schema entity. */
-export interface SchemaEntity extends MDEntity {
-  /** Database properties. */
-  properties: SchemaProperties;
-}
-
-/** View entity */
-export interface ViewEntity extends MDEntity {
-  /** Database properties. */
-  properties: ViewEntityProperties;
-}
-
-/** Relationship Entity */
-export interface RelationshipEntity extends MDEntity {
-  /** Database properties. */
-  properties: RelationshipProperties;
-}
-
-/** Table entity */
-export interface TableEntity extends MDEntity {
-  /** Database properties. */
-  properties: TableProperties;
-}
-
-/** Database properties. */
-export interface DatabaseProperties extends MDEntityProperties {
-  /** Data source properties. */
-  source: DataSource;
-  /** Description of the database. */
-  description?: string;
-}
-
-/** Database properties. */
-export interface PartitionInfoProperties extends MDEntityProperties {
-  /** Partition information namespace. */
-  namespace: PartitionInfoNamespace;
-  /** Storage descriptor */
-  storageDescriptor: StorageDescriptor;
-  /** Partition key values. */
-  partitionKeyValues: any[];
-}
-
-/** Database properties. */
-export interface SchemaProperties extends MDEntityProperties {
-  /** Namespace. */
-  namespace: Namespace;
-}
-
-/** Database properties. */
-export interface ViewEntityProperties extends MDEntityProperties {
-  /** Table namespace. */
-  namespace: TableNamespace;
-  /** Table partitioning information. */
-  partitioning?: TablePartitioning;
-  /** Storage descriptor */
-  storageDescriptor: StorageDescriptor;
-  /** View original text. */
-  viewOriginalText?: string;
-  /** View expanded text. */
-  viewExpandedText?: string;
-  /** Temporary. */
-  temporary?: boolean;
-  /** Is rewrite enabled. */
-  isRewriteEnabled?: boolean;
-}
-
-/** Database properties. */
-export interface RelationshipProperties extends MDEntityProperties {
-  /** Namespace. */
-  namespace: Namespace;
-  /**
-   * From Table Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fromTableId?: string;
-  /** From Table Name */
-  fromTableName: string;
-  /**
-   * To Table Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly toTableId?: string;
-  /** To Table Name */
-  toTableName: string;
-  /** Relation Type */
-  relationshipType?: RelationshipType;
-  /** List of Column Relationships. */
-  columnRelationshipInformations: ColumnRelationshipInformation[];
-}
-
-/** Database properties. */
-export interface TableProperties extends MDEntityProperties {
-  /** Table namespace. */
-  namespace: TableNamespace;
-  /** Table partitioning information. */
-  partitioning?: TablePartitioning;
-  /** Entity type. */
-  tableType: TableType;
-  /** Storage descriptor */
-  storageDescriptor: StorageDescriptor;
-  /** Temporary. */
-  temporary?: boolean;
-  /** Is rewrite enabled. */
-  isRewriteEnabled?: boolean;
-}
-
 /** Transformation for data flow source. */
 export interface DataFlowSource extends Transformation {
   /** Schema linked service reference. */
@@ -9445,15 +9132,6 @@ export interface SelfDependencyTumblingWindowTriggerReference
   size?: string;
 }
 
-/** Table namespace. */
-export interface TableNamespace extends Namespace {
-  /** Schema name. */
-  schemaName?: string;
-}
-
-/** Scalar type information */
-export interface ScalarTypeInfo extends TypeInfo {}
-
 /** The key authorization type integration runtime. */
 export interface LinkedIntegrationRuntimeKeyAuthorization
   extends LinkedIntegrationRuntimeType {
@@ -10930,12 +10608,6 @@ export interface TumblingWindowTriggerDependencyReference
   offset?: string;
   /** The size of the window when evaluating the dependency. If undefined the frequency of the tumbling window will be used. */
   size?: string;
-}
-
-/** Partition information namespace. */
-export interface PartitionInfoNamespace extends TableNamespace {
-  /** Table name. */
-  tableName: string;
 }
 
 /** Spark Configuration resource type. */
@@ -13637,17 +13309,6 @@ export enum KnownSqlPartitionOption {
 export type SqlPartitionOption = string;
 /** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType = "None" | "SystemAssigned";
-/** Defines values for DDLType. */
-export type DDLType = "CREATE" | "ALTER" | "DROP";
-/** Defines values for SASEntityType. */
-export type SASEntityType =
-  | "DATABASE"
-  | "TABLE"
-  | "SCHEMA"
-  | "VIEW"
-  | "FUNCTION"
-  | "PARTITIONINFO"
-  | "RELATIONSHIP";
 /** Defines values for DayOfWeek. */
 export type DayOfWeek =
   | "Sunday"
@@ -13657,18 +13318,6 @@ export type DayOfWeek =
   | "Thursday"
   | "Friday"
   | "Saturday";
-/** Defines values for SortOrder. */
-export type SortOrder = "DESC" | "ASC";
-/** Defines values for RelationshipType. */
-export type RelationshipType =
-  | "ONETOONE"
-  | "ONETOMANY"
-  | "MANYTOONE"
-  | "MANYTOMANY";
-/** Defines values for TableType. */
-export type TableType = "MANAGED" | "EXTERNAL";
-/** Defines values for ValidationStatus. */
-export type ValidationStatus = "VALID" | "INVALID";
 
 /** Optional parameters. */
 export interface LinkConnectionListByWorkspaceOptionalParams
@@ -14670,172 +14319,6 @@ export interface WorkspaceGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type WorkspaceGetResponse = Workspace;
-
-/** Optional parameters. */
-export interface ExecuteChangeOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the executeChange operation. */
-export type ExecuteChangeResponse = SyMsapiddlResponses;
-
-/** Optional parameters. */
-export interface ExecuteChangeWithValidationOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface ListDatabasesOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token to get next page. */
-  continuationToken?: string;
-  /** Max page size. */
-  maxPageSize?: number;
-}
-
-/** Contains response data for the listDatabases operation. */
-export type ListDatabasesResponse = QueryArtifactsResponse;
-
-/** Optional parameters. */
-export interface ListArtifactsOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token to get next page. */
-  continuationToken?: string;
-  /** Max page size. */
-  maxPageSize?: number;
-}
-
-/** Contains response data for the listArtifacts operation. */
-export type ListArtifactsResponse = QueryArtifactsResponse;
-
-/** Optional parameters. */
-export interface ListArtifactsInSchemaByTypeOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token to get next page. */
-  continuationToken?: string;
-  /** Max page size. */
-  maxPageSize?: number;
-}
-
-/** Contains response data for the listArtifactsInSchemaByType operation. */
-export type ListArtifactsInSchemaByTypeResponse = QueryArtifactsResponse;
-
-/** Optional parameters. */
-export interface ListPartitionInfosForTableOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token to get next page. */
-  continuationToken?: string;
-  /** Max page size. */
-  maxPageSize?: number;
-}
-
-/** Contains response data for the listPartitionInfosForTable operation. */
-export type ListPartitionInfosForTableResponse = QueryArtifactsResponse;
-
-/** Optional parameters. */
-export interface ListPartitionInfosForViewOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token to get next page. */
-  continuationToken?: string;
-  /** Max page size. */
-  maxPageSize?: number;
-}
-
-/** Contains response data for the listPartitionInfosForView operation. */
-export type ListPartitionInfosForViewResponse = QueryArtifactsResponse;
-
-/** Optional parameters. */
-export interface ListPartitionInfosForSchemaAndTableOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token to get next page. */
-  continuationToken?: string;
-  /** Max page size. */
-  maxPageSize?: number;
-}
-
-/** Contains response data for the listPartitionInfosForSchemaAndTable operation. */
-export type ListPartitionInfosForSchemaAndTableResponse = QueryArtifactsResponse;
-
-/** Optional parameters. */
-export interface ListPartitionInfosForSchemaAndViewOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token to get next page. */
-  continuationToken?: string;
-  /** Max page size. */
-  maxPageSize?: number;
-}
-
-/** Contains response data for the listPartitionInfosForSchemaAndView operation. */
-export type ListPartitionInfosForSchemaAndViewResponse = QueryArtifactsResponse;
-
-/** Optional parameters. */
-export interface GetDatabaseOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getDatabase operation. */
-export type GetDatabaseResponse = DatabaseEntity;
-
-/** Optional parameters. */
-export interface PutDatabaseOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the putDatabase operation. */
-export type PutDatabaseResponse = SyMsapiddlResponse;
-
-/** Optional parameters. */
-export interface DeleteDatabaseOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface GetArtifactFromDBOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getArtifactFromDB operation. */
-export type GetArtifactFromDBResponse = MDEntity;
-
-/** Optional parameters. */
-export interface PutArtifactInDBOptionalParams
-  extends coreClient.OperationOptions {
-  /** Continuation token to get next page. */
-  continuationToken?: string;
-  /** Max page size. */
-  maxPageSize?: number;
-}
-
-/** Contains response data for the putArtifactInDB operation. */
-export type PutArtifactInDBResponse = SyMsapiddlResponse;
-
-/** Optional parameters. */
-export interface DeleteArtifactForDBOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface GetArtifactFromSchemaOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getArtifactFromSchema operation. */
-export type GetArtifactFromSchemaResponse = MDEntity;
-
-/** Optional parameters. */
-export interface PutArtifactInSchemaOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the putArtifactInSchema operation. */
-export type PutArtifactInSchemaResponse = SyMsapiddlResponse;
-
-/** Optional parameters. */
-export interface DeleteArtifactFromSchemaOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface GetSyMSOperationStatusOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getSyMSOperationStatus operation. */
-export type GetSyMSOperationStatusResponse = QueryArtifactsResponse;
 
 /** Optional parameters. */
 export interface ArtifactsClientOptionalParams
