@@ -64,7 +64,7 @@ export function uint8ArrayToBase64(bytes: Uint8Array): string {
  */
 export function uint8ArrayToUtf8String(bytes: Uint8Array): string {
   if (isNode) {
-    return Buffer.from(bytes).toString();
+    return Buffer.from(bytes).toString("utf-8");
   } else {
     return btoa(String.fromCharCode.apply(null, bytes as any as number[]));
   }
