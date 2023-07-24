@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.13 (Unreleased)
+## 1.0.0-beta.13 (2023-07-26)
 
 ### Features Added
 - Added `authenticationType` , `containerUri`, `sasUri` and `sasToken` properties to BlobService
@@ -12,7 +12,6 @@
 - Added `credential` property for LinkedService
 - Added `isolationLevel` property for SQLServerSource
 - Added new apis of Create/Cancel/GetStatus/GetSnapshot for RunNotebook
-- Added new apis for SyMS Service
 ## 1.0.0-beta.12 (2023-01-10)
 
 ### Features Added
