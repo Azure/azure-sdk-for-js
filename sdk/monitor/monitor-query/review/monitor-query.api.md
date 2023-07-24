@@ -228,6 +228,18 @@ export interface MetricResultsResponseValuesItem {
 }
 
 // @public
+export class MetricsBatchClient {
+    constructor(tokenCredential: TokenCredential, options?: MetricsBatchClientOptions);
+    // (undocumented)
+    batch(subscriptionId: string, metricnamespace: string, metricnames: string[], options?: MetricsBatchOptions): PagedAsyncIterableIterator<MetricResultsResponseValuesItem>;
+}
+
+// @public
+export interface MetricsBatchClientOptions extends CommonClientOptions {
+    batchendpoint?: string;
+}
+
+// @public
 export interface MetricsBatchOptionalParams extends coreClient.OperationOptions {
     aggregation?: string;
     endtime?: string;
@@ -246,15 +258,12 @@ export interface MetricsBatchOptions extends MetricsBatchOptionalParams {
 
 // @public
 export interface MetricsClientOptions extends CommonClientOptions {
-    batchendpoint?: string;
     endpoint?: string;
 }
 
 // @public
 export class MetricsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: MetricsClientOptions);
-    // (undocumented)
-    batch(subscriptionId: string, metricnamespace: string, metricnames: string[], options?: MetricsBatchOptions): PagedAsyncIterableIterator<MetricResultsResponseValuesItem>;
     listMetricDefinitions(resourceUri: string, options?: ListMetricDefinitionsOptions): PagedAsyncIterableIterator<MetricDefinition>;
     listMetricNamespaces(resourceUri: string, options?: ListMetricNamespacesOptions): PagedAsyncIterableIterator<MetricNamespace>;
     queryResource(resourceUri: string, metricNames: string[], options?: MetricsQueryOptions): Promise<MetricsQueryResult>;

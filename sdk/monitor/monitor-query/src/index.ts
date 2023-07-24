@@ -73,3 +73,4 @@ export {
   MetricUnit as BatchMetricUnit,
   LocalizableString,
 } from "./generated/metricBatch/src";
+export { MetricsBatchClient, MetricsBatchClientOptions } from "./metricsBatchClient";

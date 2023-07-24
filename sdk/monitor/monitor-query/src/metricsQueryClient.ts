@@ -12,9 +12,7 @@ import {
   MetricNamespace,
   MetricsQueryOptions,
   MetricsQueryResult,
-  MetricsBatchOptions,
 } from "./models/publicMetricsModels";
-
 import {
   MonitorManagementClient as GeneratedMetricsClient,
   KnownApiVersion201801 as MetricsApiVersion,
@@ -29,18 +27,11 @@ import {
   MetricNamespacesListOptionalParams,
 } from "./generated/metricsnamespaces/src";
 import {
-  AzureMonitorMetricBatch as GeneratedMonitorMetricBatchClient,
-  KnownApiVersion20230501Preview as MonitorMetricBatchApiVersion,
-  MetricResultsResponseValuesItem,
-  MetricsBatchOptionalParams,
-} from "./generated/metricBatch/src";
-import {
   convertRequestForMetrics,
   convertRequestOptionsForMetricsDefinitions,
   convertResponseForMetricNamespaces,
   convertResponseForMetrics,
   convertResponseForMetricsDefinitions,
-  convertResponseForMetricBatch,
 } from "./internal/modelConverters";
 import { SDK_VERSION } from "./constants";
 const defaultMetricsScope = "https://management.azure.com/.default";
@@ -51,8 +42,6 @@ const defaultMetricsScope = "https://management.azure.com/.default";
 export interface MetricsQueryClientOptions extends CommonClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
-  /** Overrides batch client endpoint. */
-  batchendpoint?: string;
 }
 
 /**
@@ -62,7 +51,6 @@ export class MetricsQueryClient {
   private _metricsClient: GeneratedMetricsClient;
   private _definitionsClient: GeneratedMetricsDefinitionsClient;
   private _namespacesClient: GeneratedMetricsNamespacesClient;
-  private _metricBatchClient: GeneratedMonitorMetricBatchClient;
 
   /**
    * Creates a MetricsQueryClient.
@@ -105,12 +93,6 @@ export class MetricsQueryClient {
 
     this._namespacesClient = new GeneratedMetricsNamespacesClient(
       MetricNamespacesApiVersion.TwoThousandSeventeen1201Preview,
-      serviceClientOptions
-    );
-
-    this._metricBatchClient = new GeneratedMonitorMetricBatchClient(
-      serviceClientOptions.batchendpoint ?? "",
-      MonitorMetricBatchApiVersion.TwoThousandTwentyThree0501Preview,
       serviceClientOptions
     );
   }
@@ -316,74 +298,6 @@ export class MetricsQueryClient {
        */
       byPage: () => {
         return this.listSegmentOfMetricNamespaces(resourceUri, options);
-      },
-    };
-  }
-
-  private async *listSegmentOfMetricBatch(
-    subscriptionId: string,
-    metricnamespace: string,
-    metricnames: string[],
-    options: MetricsBatchOptions = {}
-  ): AsyncIterableIterator<Array<MetricResultsResponseValuesItem>> {
-    const segmentResponse = await tracingClient.withSpan(
-      "MetricsQueryClient.listSegmentOfMetricBatch",
-      options,
-      async (updatedOptions: MetricsBatchOptionalParams | undefined) =>
-        this._metricBatchClient.metrics.batch(
-          subscriptionId,
-          metricnamespace,
-          metricnames,
-          {
-            resourceids: options.resourceids,
-          },
-          updatedOptions
-        )
-    );
-    yield convertResponseForMetricBatch(segmentResponse.values);
-  }
-  private async *listItemsOfMetricBatch(
-    subscriptionId: string,
-    metricnamespace: string,
-    metricnames: string[],
-    options?: MetricsBatchOptions
-  ): AsyncIterableIterator<MetricResultsResponseValuesItem> {
-    for await (const segment of this.listSegmentOfMetricBatch(
-      subscriptionId,
-      metricnamespace,
-      metricnames,
-      options
-    )) {
-      if (segment) {
-        yield* segment;
-      }
-    }
-  }
-  batch(
-    subscriptionId: string,
-    metricnamespace: string,
-    metricnames: string[],
-    options?: MetricsBatchOptions
-  ): PagedAsyncIterableIterator<MetricResultsResponseValuesItem> {
-    const iter = this.listItemsOfMetricBatch(subscriptionId, metricnamespace, metricnames, options);
-    return {
-      /**
-       * The next method, part of the iteration protocol
-       */
-      next() {
-        return iter.next();
-      },
-      /**
-       * The connection to the async iterator, part of the iteration protocol
-       */
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      /**
-       * @returns an AsyncIterableIterator that works a page at a time
-       */
-      byPage: () => {
-        return this.listSegmentOfMetricBatch(subscriptionId, metricnamespace, metricnames, options);
       },
     };
   }
