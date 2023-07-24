@@ -13,7 +13,7 @@ describe("Base64", function () {
   });
   describe("isNode (node)", function () {
     it("should return false", async function () {
-      assert.isTrue(isNode);
+      assert.isFalse(isNode);
     });
   });
   describe("base64ToBytes", function () {

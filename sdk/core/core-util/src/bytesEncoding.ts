@@ -7,7 +7,6 @@ declare global {
   function atob(input: string): string;
 }
 
-import { TextEncoder } from "util";
 import { isNode } from "./checkEnvironment";
 
 export type EncodingType = "utf-8" | "base64" | "base64url";
@@ -66,7 +65,10 @@ export function uint8ArrayToBase64Url(bytes: Uint8Array): string {
   if (isNode) {
     return Buffer.from(bytes).toString("base64url");
   } else {
-    return btoa(String.fromCharCode.apply(null, bytes as any as number[]));
+    return btoa(String.fromCharCode.apply(null, bytes as any as number[]))
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=/g, "");
   }
 }
 
@@ -78,7 +80,7 @@ export function uint8ArrayToUtf8String(bytes: Uint8Array): string {
   if (isNode) {
     return Buffer.from(bytes).toString("utf-8");
   } else {
-    return btoa(String.fromCharCode.apply(null, bytes as any as number[]));
+    return String.fromCharCode.apply(null, bytes as any as number[]);
   }
 }
 
@@ -90,7 +92,7 @@ export function utf8StringToUint8Array(value: string): Uint8Array {
   if (isNode) {
     return Buffer.from(value);
   } else {
-    return new TextEncoder().encode(value);
+    return Uint8Array.from(value, (c) => c.charCodeAt(0));
   }
 }
 
@@ -114,6 +116,8 @@ export function base64UrlToUint8Array(value: string): Uint8Array {
   if (isNode) {
     return Buffer.from(value, "base64url");
   } else {
-    return Uint8Array.from(atob(value), (c) => c.charCodeAt(0));
+    return Uint8Array.from(atob(value.replace(/-/g, "+").replace(/_/g, "/")), (c) =>
+      c.charCodeAt(0)
+    );
   }
 }
