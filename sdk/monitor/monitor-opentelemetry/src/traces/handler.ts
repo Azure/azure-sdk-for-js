@@ -7,6 +7,7 @@ import {
   ApplicationInsightsSampler,
   AzureMonitorTraceExporter,
 } from "@azure/monitor-opentelemetry-exporter";
+import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
 import { NodeTracerProvider, NodeTracerConfig } from "@opentelemetry/sdk-trace-node";
 import {
   BatchSpanProcessor,
@@ -40,6 +41,7 @@ export class TraceHandler {
   private _tracerProvider: NodeTracerProvider;
   private _tracer: Tracer;
   private _azureExporter: AzureMonitorTraceExporter;
+  private _otlpExporter?: OTLPTraceExporter;
   private _instrumentations: Instrumentation[];
   private _httpInstrumentation?: Instrumentation;
   private _azureSdkInstrumentation?: Instrumentation;
@@ -49,7 +51,7 @@ export class TraceHandler {
   private _redisInstrumentation?: Instrumentation;
   private _redis4Instrumentation?: Instrumentation;
   private _config: AzureMonitorOpenTelemetryConfig;
-  private _metricHandler?: MetricHandler;
+  private _metricHandler: MetricHandler;
   private _azureFunctionsHook: AzureFunctionsHook;
 
   /**
@@ -57,7 +59,7 @@ export class TraceHandler {
    * @param _config - Configuration.
    * @param _metricHandler - MetricHandler.
    */
-  constructor(config: AzureMonitorOpenTelemetryConfig, metricHandler?: MetricHandler) {
+  constructor(config: AzureMonitorOpenTelemetryConfig, metricHandler: MetricHandler) {
     this._config = config;
     this._metricHandler = metricHandler;
     this._instrumentations = [];
@@ -78,12 +80,16 @@ export class TraceHandler {
     this._spanProcessor = new BatchSpanProcessor(this._azureExporter, bufferConfig);
     this._tracerProvider.addSpanProcessor(this._spanProcessor);
 
+    if (this._config.otlpTraceExporterConfig?.enabled) {
+      this._otlpExporter = new OTLPTraceExporter(config.otlpTraceExporterConfig);
+      let otlpSpanProcessor = new BatchSpanProcessor(this._otlpExporter, bufferConfig);
+      this._tracerProvider.addSpanProcessor(otlpSpanProcessor);
+    }
+
     this._tracerProvider.register();
     this._tracer = this._tracerProvider.getTracer("AzureMonitorTracer");
-    if (this._metricHandler) {
-      const azureSpanProcessor = new AzureMonitorSpanProcessor(this._metricHandler);
-      this._tracerProvider.addSpanProcessor(azureSpanProcessor);
-    }
+    const azureSpanProcessor = new AzureMonitorSpanProcessor(this._metricHandler);
+    this._tracerProvider.addSpanProcessor(azureSpanProcessor);
     this._azureFunctionsHook = new AzureFunctionsHook();
     this._initializeInstrumentations();
   }
@@ -206,6 +212,7 @@ export class TraceHandler {
     }
     this._instrumentations.forEach((instrumentation) => {
       instrumentation.setTracerProvider(this._tracerProvider);
+      instrumentation.setMeterProvider(this._metricHandler.getMeterProvider());
       if (instrumentation.getConfig().enabled) {
         instrumentation.enable();
       }

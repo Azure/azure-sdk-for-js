@@ -110,7 +110,7 @@ export class CallConnection {
     if (isForEveryone) {
       const optionsInternal = {
         ...options,
-        repeatabilityFirstSent: new Date().toUTCString(),
+        repeatabilityFirstSent: new Date(),
         repeatabilityRequestID: uuidv4(),
       };
       await this.callConnection.terminateCall(this.callConnectionId, optionsInternal);
@@ -148,12 +148,19 @@ export class CallConnection {
   public async listParticipants(
     options: GetParticipantOptions = {}
   ): Promise<ListParticipantsResult> {
-    const result = await this.callConnection.getParticipants(this.callConnectionId, options);
+    const result = this.callConnection.listParticipants(this.callConnectionId, options);
+    const participants = [];
+    const pages = result?.byPage();
+
+    for await (const page of pages) {
+      for (const participant of page) {
+        participants.push(callParticipantConverter(participant));
+      }
+    }
+
     const listParticipantResponse: ListParticipantsResult = {
       ...result,
-      values: result?.values?.map((acsCallParticipant) =>
-        callParticipantConverter(acsCallParticipant)
-      ),
+      values: participants,
     };
     return listParticipantResponse;
   }
@@ -179,10 +186,11 @@ export class CallConnection {
         sipHeaders: targetParticipant.sipHeaders,
         voipHeaders: targetParticipant.voipHeaders,
       },
+      callbackUriOverride: options.callbackUrlOverride,
     };
     const optionsInternal = {
       ...options,
-      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
     const result = await this.callConnection.addParticipant(
@@ -218,10 +226,12 @@ export class CallConnection {
         sipHeaders: options.sipHeaders,
         voipHeaders: options.voipHeaders,
       },
+      callbackUriOverride: options.callbackUrlOverride,
+      transferee: options.transferee && communicationIdentifierModelConverter(options.transferee),
     };
     const optionsInternal = {
       ...options,
-      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
     const result = await this.callConnection.transferToParticipant(
@@ -245,10 +255,11 @@ export class CallConnection {
     const removeParticipantRequest: RemoveParticipantRequest = {
       participantToRemove: communicationIdentifierModelConverter(participant),
       operationContext: options.operationContext,
+      callbackUriOverride: options.callbackUrlOverride,
     };
     const optionsInternal = {
       ...options,
-      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
     const result = await this.callConnection.removeParticipant(
@@ -277,7 +288,7 @@ export class CallConnection {
     };
     const optionsInternal = {
       ...options,
-      repeatabilityFirstSent: new Date().toUTCString(),
+      repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
     const result = await this.callConnection.mute(

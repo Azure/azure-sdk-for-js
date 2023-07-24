@@ -11,9 +11,10 @@ import {
   RouterQueue,
   PassThroughQueueSelectorAttachment,
   RouterQueueSelector,
-  RouterJob,
   RouterWorker,
   StaticQueueSelectorAttachment,
+  CreateJobOptions,
+  CreateClassificationPolicyOptions,
 } from "../../../src";
 
 const queueId = "test-queue";
@@ -168,52 +169,66 @@ export function getClassificationPolicyCombined(guid: string): ClassificationPol
   };
 }
 
-export function getJobFallback(guid: string): RouterJob {
+export interface TestJobRequest {
+  id: string;
+  options: CreateJobOptions;
+}
+export function getJobFallback(guid: string): TestJobRequest {
   return {
     id: `${jobId}-fallback-${guid}`,
-    channelId: "test-channel",
-    priority: 1,
-    classificationPolicyId: `${classificationPolicyId}-fallback-${guid}`,
+    options: {
+      channelId: "test-channel",
+      priority: 1,
+      classificationPolicyId: `${classificationPolicyId}-fallback-${guid}`,
+    },
   };
 }
 
-export function getJobConditional(guid: string): RouterJob {
+export function getJobConditional(guid: string): TestJobRequest {
   return {
     id: `${jobId}-conditional-${guid}`,
-    channelId: "test-channel",
-    priority: 1,
-    classificationPolicyId: `${classificationPolicyId}-conditional-${guid}`,
-    labels: { Product: product },
+    options: {
+      channelId: "test-channel",
+      priority: 1,
+      classificationPolicyId: `${classificationPolicyId}-conditional-${guid}`,
+      labels: { Product: product },
+    },
   };
 }
 
-export function getJobPassthrough(guid: string): RouterJob {
+export function getJobPassthrough(guid: string): TestJobRequest {
   return {
     id: `${jobId}-passthrough-${guid}`,
-    channelId: "test-channel",
-    priority: 1,
-    classificationPolicyId: `${classificationPolicyId}-passthrough-${guid}`,
-    labels: { Region: region, Language: english },
+    options: {
+      channelId: "test-channel",
+      priority: 1,
+      classificationPolicyId: `${classificationPolicyId}-passthrough-${guid}`,
+      labels: { Region: region, Language: english },
+    },
   };
 }
 
-export function getJobEnglish(guid: string): RouterJob {
+export function getJobEnglish(guid: string): TestJobRequest {
   return {
     id: `${jobId}-english-${guid}`,
-    channelId: "test-channel",
-    priority: 1,
-    classificationPolicyId: `${classificationPolicyId}-combined-${guid}`,
-    labels: { Product: product, Region: region, Language: english },
+    options: {
+      channelId: "test-channel",
+      priority: 1,
+      classificationPolicyId: `${classificationPolicyId}-combined-${guid}`,
+      labels: { Product: product, Region: region, Language: english },
+    },
   };
 }
 
-export function getJobFrench(guid: string): RouterJob {
+export function getJobFrench(guid: string): TestJobRequest {
   return {
     id: `${jobId}-french-${guid}`,
-    channelId: "test-channel",
-    priority: 1,
-    classificationPolicyId: `${classificationPolicyId}-combined-${guid}`,
-    labels: { Product: product, Region: region, Language: "FR" },
+    options: {
+      channelId: "test-channel",
+      priority: 1,
+      classificationPolicyId: `${classificationPolicyId}-combined-${guid}`,
+      labels: { Product: product, Region: region, Language: "FR" },
+    },
   };
 }
 
@@ -330,14 +345,13 @@ export function getDistributionPolicyRequest(guid: string): DistributionPolicyRe
 
 export interface ClassificationPolicyRequest {
   classificationPolicyId: string;
-  classificationPolicyRequest: ClassificationPolicy;
+  classificationPolicyRequest: CreateClassificationPolicyOptions;
 }
 export function getClassificationPolicyRequest(guid: string): ClassificationPolicyRequest {
   const id = `${classificationPolicyId}-${guid}`;
   return {
     classificationPolicyId: id,
     classificationPolicyRequest: {
-      id,
       name: classificationPolicyId,
       fallbackQueueId: `${queueId}-${guid}`,
     },
@@ -346,38 +360,20 @@ export function getClassificationPolicyRequest(guid: string): ClassificationPoli
 
 export interface JobRequest {
   jobId: string;
-  jobRequest: RouterJob;
+  jobRequest: CreateJobOptions;
 }
 export function getJobRequest(guid: string): JobRequest {
   const id = `${jobId}-${guid}`;
   return {
     jobId: id,
     jobRequest: {
-      id: jobId,
       channelId: "test-channel",
       priority: 1,
       classificationPolicyId: `${classificationPolicyId}-${guid}`,
       queueId: `${queueId}-${guid}`,
       labels: {},
-    },
-  };
-}
-
-export interface ScheduledJobRequest {
-  scheduledJobId: string;
-  scheduledJobRequest: RouterJob;
-}
-export function getScheduledJobRequest(guid: string): ScheduledJobRequest {
-  const id = `${jobId}-scheduled-${guid}`;
-  return {
-    scheduledJobId: id,
-    scheduledJobRequest: {
-      id: jobId,
-      channelId: "test-channel",
-      priority: 1,
-      classificationPolicyId: `${classificationPolicyId}-${guid}`,
-      queueId: `${queueId}-${guid}`,
-      labels: {},
+      notes: [],
+      matchingMode: { queueAndMatchMode: {} },
     },
   };
 }

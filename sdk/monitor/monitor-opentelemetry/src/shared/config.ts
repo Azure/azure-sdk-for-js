@@ -7,7 +7,11 @@ import {
   detectResourcesSync,
   envDetectorSync,
 } from "@opentelemetry/resources";
-import { AzureMonitorOpenTelemetryOptions, InstrumentationOptions } from "./types";
+import {
+  AzureMonitorOpenTelemetryOptions,
+  InstrumentationOptions,
+  OTLPExporterConfig,
+} from "./types";
 import { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
 import { JsonConfig } from "./jsonConfig";
 import { Logger } from "./logging";
@@ -20,6 +24,12 @@ export class AzureMonitorOpenTelemetryConfig implements AzureMonitorOpenTelemetr
   public samplingRatio: number;
   /** Azure Monitor Exporter Configuration */
   public azureMonitorExporterConfig: AzureMonitorExporterOptions;
+  /** OTLP Trace Exporter Configuration */
+  public otlpTraceExporterConfig: OTLPExporterConfig;
+  /** OTLP Metric Exporter Configuration */
+  public otlpMetricExporterConfig: OTLPExporterConfig;
+  /** OTLP Log Exporter Configuration */
+  public otlpLogExporterConfig: OTLPExporterConfig;
   /**
    * Sets the state of performance tracking (enabled by default)
    * if true performance counters will be collected every second and sent to Azure Monitor
@@ -54,6 +64,9 @@ export class AzureMonitorOpenTelemetryConfig implements AzureMonitorOpenTelemetr
   constructor(options?: AzureMonitorOpenTelemetryOptions) {
     // Default values
     this.azureMonitorExporterConfig = {};
+    this.otlpLogExporterConfig = {};
+    this.otlpMetricExporterConfig = {};
+    this.otlpTraceExporterConfig = {};
     this.enableAutoCollectPerformance = true;
     this.enableAutoCollectStandardMetrics = true;
     this.samplingRatio = 1;
@@ -76,6 +89,18 @@ export class AzureMonitorOpenTelemetryConfig implements AzureMonitorOpenTelemetr
       this.azureMonitorExporterConfig = Object.assign(
         this.azureMonitorExporterConfig,
         options.azureMonitorExporterConfig
+      );
+      this.otlpTraceExporterConfig = Object.assign(
+        this.otlpTraceExporterConfig,
+        options.otlpTraceExporterConfig
+      );
+      this.otlpMetricExporterConfig = Object.assign(
+        this.otlpMetricExporterConfig,
+        options.otlpMetricExporterConfig
+      );
+      this.otlpLogExporterConfig = Object.assign(
+        this.otlpLogExporterConfig,
+        options.otlpLogExporterConfig
       );
       this.instrumentationOptions = Object.assign(
         this.instrumentationOptions,
@@ -108,6 +133,18 @@ export class AzureMonitorOpenTelemetryConfig implements AzureMonitorOpenTelemetr
       this.azureMonitorExporterConfig = Object.assign(
         this.azureMonitorExporterConfig,
         jsonConfig.azureMonitorExporterConfig
+      );
+      this.otlpTraceExporterConfig = Object.assign(
+        this.otlpTraceExporterConfig,
+        jsonConfig.otlpTraceExporterConfig
+      );
+      this.otlpMetricExporterConfig = Object.assign(
+        this.otlpMetricExporterConfig,
+        jsonConfig.otlpMetricExporterConfig
+      );
+      this.otlpLogExporterConfig = Object.assign(
+        this.otlpLogExporterConfig,
+        jsonConfig.otlpLogExporterConfig
       );
       this.instrumentationOptions = Object.assign(
         this.instrumentationOptions,

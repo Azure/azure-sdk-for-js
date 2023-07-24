@@ -7,7 +7,7 @@
 ```yaml
 package-name: "@azure/communication-job-router"
 title: JobRouterApiClient
-require: https://raw.githubusercontent.com/williamzhao87/azure-rest-api-specs/53a603c76359d0102a5b2e85337a14dc441083f6/specification/communication/data-plane/JobRouter/readme.md
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/29159d148372f5f61cb04b76fc87252b13c62515/specification/communication/data-plane/JobRouter/readme.md
 description: Job Router Client
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated

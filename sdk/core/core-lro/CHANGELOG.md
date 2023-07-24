@@ -8,6 +8,9 @@
 
 ### Bugs Fixed
 
+- Support non-standard PATCH operations.
+
+
 ### Other Changes
 
 ## 2.5.3 (2023-05-04)

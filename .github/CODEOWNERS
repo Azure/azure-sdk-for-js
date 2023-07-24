@@ -216,6 +216,10 @@
 /sdk/apimanagement/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/appcontainers/arm-appcontainers/ @qiaozha @MaryGao
+/sdk/appcontainers/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/appconfiguration/arm-appconfiguration/ @qiaozha @MaryGao
 /sdk/appconfiguration/ci.mgmt.yml @qiaozha @MaryGao
 
@@ -463,6 +467,10 @@
 /sdk/iotcentral/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/iotfirmwaredefense/arm-iotfirmwaredefense @qiaozha @MaryGao
+/sdk/iotfirmwaredefense/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/iothub/arm-iothub/ @qiaozha @MaryGao
 /sdk/iothub/ci.mgmt.yml @qiaozha @MaryGao
 
@@ -620,6 +628,10 @@
 # PRLabel: %Mgmt
 /sdk/peering/arm-peering/ @qiaozha @MaryGao
 /sdk/peering/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/paloaltonetworksngfw/arm-paloaltonetworksngfw/ @qiaozha @MaryGao
+/sdk/paloaltonetworksngfw/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/policy/arm-policy/ @qiaozha @MaryGao
@@ -866,10 +878,14 @@
 /sdk/dnsresolver/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Monitor
-/sdk/monitor/monitor-ingestion/ @KarishmaGhiya @sarangan12 
+/sdk/monitor/monitor-ingestion/ @KarishmaGhiya @sarangan12
 /sdk/monitor/monitor-opentelemetry @hectorhdzg @JacksonWeber
 /sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @JacksonWeber
-/sdk/monitor/monitor-query/ @KarishmaGhiya @sarangan12 
+/sdk/monitor/monitor-query/ @KarishmaGhiya @sarangan12
+
+# PRLabel: %Mgmt
+/sdk/quantum/arm-quantum/ @qiaozha @MaryGao
+/sdk/quantum/ci.mgmt.yml @qiaozha @MaryGao
 
 # ServiceLabel: %AAD %Service Attention
 #/<NotInRepo>/          @adamedx
@@ -999,6 +1015,9 @@
 
 # ServiceLabel: %Cognitive - Mgmt %Service Attention
 #/<NotInRepo>/          @yangyuan
+
+# ServiceLabel: %Cognitive - QnA Maker
+#/<NotInRepo>/          @bingisbestest @nerajput1607
 
 # ServiceLabel: %Commerce %Service Attention
 #/<NotInRepo>/          @ms-premp @qiaozha

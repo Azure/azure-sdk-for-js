@@ -6,11 +6,33 @@
 
 import { AzureKeyCredential } from '@azure/core-auth';
 import { ClientOptions } from '@azure-rest/core-client';
+import { ErrorModel } from '@azure-rest/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 export { AzureKeyCredential }
+
+// @public
+export type AzureOpenAIOperationState = string;
+
+// @public
+export interface BatchImageGenerationOperationResponse {
+    created: number;
+    error?: ErrorModel;
+    expires?: number;
+    id: string;
+    result?: ImageGenerations;
+    status: AzureOpenAIOperationState;
+}
+
+// @public (undocumented)
+export interface BeginAzureBatchImageGenerationOptions extends RequestOptions {
+    n?: number;
+    responseFormat?: ImageGenerationResponseFormat;
+    size?: ImageSize;
+    user?: string;
+}
 
 // @public
 export interface ChatChoice {
@@ -65,6 +87,14 @@ export interface CompletionsLogProbabilityModel {
 }
 
 // @public
+export interface CompletionsLogProbabilityModel {
+    textOffset: number[];
+    tokenLogprobs: (number | null)[];
+    tokens: string[];
+    topLogprobs: Record<string, number | null>[];
+}
+
+// @public
 export interface CompletionsUsage {
     completionTokens: number;
     promptTokens: number;
@@ -87,6 +117,10 @@ export interface Embeddings {
 export interface EmbeddingsUsage {
     promptTokens: number;
     totalTokens: number;
+}
+
+// @public (undocumented)
+export interface GetAzureBatchImageGenerationOperationStatusOptions extends RequestOptions {
 }
 
 // @public (undocumented)
@@ -129,13 +163,44 @@ export interface GetEmbeddingsOptions extends RequestOptions {
 }
 
 // @public
+export type ImageGenerationOptions = BeginAzureBatchImageGenerationOptions;
+
+// @public
+export type ImageGenerationResponse = BatchImageGenerationOperationResponse;
+
+// @public
+export type ImageGenerationResponseFormat = string;
+
+// @public
+export interface ImageGenerations {
+    created: number;
+    data: ImageLocation[] | ImagePayload[];
+}
+
+// @public
+export interface ImageLocation {
+    url: string;
+}
+
+// @public
+export interface ImagePayload {
+    base64Data: string;
+}
+
+// @public
+export type ImageSize = string;
+
+// @public (undocumented)
 export class OpenAIClient {
     constructor(endpoint: string, credential: KeyCredential, options?: OpenAIClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: OpenAIClientOptions);
     constructor(openAiApiKey: KeyCredential, options?: OpenAIClientOptions);
+    beginAzureBatchImageGeneration(prompt: string, options?: ImageGenerationOptions): Promise<ImageGenerationResponse>;
+    getAzureBatchImageGenerationOperationStatus(operationId: string, options?: GetAzureBatchImageGenerationOperationStatusOptions): Promise<ImageGenerationResponse>;
     getChatCompletions(deploymentOrModelName: string, messages: ChatMessage[], options?: GetChatCompletionsOptions): Promise<ChatCompletions>;
     getCompletions(deploymentOrModelName: string, prompt: string[], options?: GetCompletionsOptions): Promise<Completions>;
     getEmbeddings(deploymentOrModelName: string, input: string[], options?: GetEmbeddingsOptions): Promise<Embeddings>;
+    getImages(prompt: string, options?: ImageGenerationOptions): Promise<ImageGenerationResponse>;
     listChatCompletions(deploymentOrModelName: string, messages: ChatMessage[], options?: GetChatCompletionsOptions): Promise<AsyncIterable<Omit<ChatCompletions, "usage">>>;
     listCompletions(deploymentOrModelName: string, prompt: string[], options?: GetCompletionsOptions): Promise<AsyncIterable<Omit<Completions, "usage">>>;
 }
@@ -151,14 +216,15 @@ export class OpenAIKeyCredential implements KeyCredential {
     update(newKey: string): void;
 }
 
-// @public (undocumented)
+// @public
 export interface RequestOptions {
-    // (undocumented)
     requestOptions?: {
         headers?: RawHttpHeadersInput;
         allowInsecureConnection?: boolean;
         skipUrlEncoding?: boolean;
     };
 }
+
+// (No @packageDocumentation comment for this package)
 
 ```

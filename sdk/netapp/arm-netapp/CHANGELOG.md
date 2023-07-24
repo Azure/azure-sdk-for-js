@@ -1,6 +1,6 @@
 # Release History
 
-## 18.0.1 (Unreleased)
+## 18.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,33 @@
 
 ### Other Changes
 
+## 18.1.0 (2023-07-03)
+    
+**Features**
+
+  - Added operation Volumes.beginListGetGroupIdListForLdapUser
+  - Added operation Volumes.beginListGetGroupIdListForLdapUserAndWait
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface GetGroupIdListForLdapUserRequest
+  - Added Interface GetGroupIdListForLdapUserResponse
+  - Added Interface VolumesListGetGroupIdListForLdapUserHeaders
+  - Added Interface VolumesListGetGroupIdListForLdapUserOptionalParams
+  - Added Type Alias VolumesListGetGroupIdListForLdapUserResponse
+  - Interface NetAppAccountPatch has a new optional parameter identity
+  - Interface Volume has a new optional parameter actualThroughputMibps
+  - Interface Volume has a new optional parameter originatingResourceId
+  - Interface VolumeGroupVolumeProperties has a new optional parameter actualThroughputMibps
+  - Interface VolumeGroupVolumeProperties has a new optional parameter originatingResourceId
+  - Interface VolumePatch has a new optional parameter snapshotDirectoryVisible
+  - Enum KnownRegionStorageToNetworkProximity has a new value AcrossT2
+  - Enum KnownRegionStorageToNetworkProximity has a new value T1AndAcrossT2
+  - Enum KnownRegionStorageToNetworkProximity has a new value T1AndT2AndAcrossT2
+  - Enum KnownRegionStorageToNetworkProximity has a new value T2AndAcrossT2
+  - Enum KnownVolumeStorageToNetworkProximity has a new value AcrossT2
+    
+    
 ## 18.0.0 (2023-03-08)
     
 **Features**

@@ -2,4 +2,8 @@
 // Licensed under the MIT license.
 
 export { AzureMonitorOpenTelemetryClient } from "./client";
-export { AzureMonitorOpenTelemetryOptions, InstrumentationOptions } from "./shared/types";
+export {
+  AzureMonitorOpenTelemetryOptions,
+  InstrumentationOptions,
+  OTLPExporterConfig,
+} from "./shared/types";

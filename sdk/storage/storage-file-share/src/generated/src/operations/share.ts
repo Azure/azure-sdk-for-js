@@ -565,7 +565,8 @@ const createPermissionOperationSpec: coreClient.OperationSpec = {
   headerParameters: [
     Parameters.version,
     Parameters.accept1,
-    Parameters.contentType1
+    Parameters.contentType1,
+    Parameters.fileRequestIntent
   ],
   mediaType: "json",
   serializer
@@ -591,6 +592,7 @@ const getPermissionOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept2,
     Parameters.filePermissionKey
   ],
