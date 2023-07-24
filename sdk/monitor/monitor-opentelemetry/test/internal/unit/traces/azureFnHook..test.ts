@@ -7,9 +7,12 @@ import { AzureFunctionsHook } from "../../../../src/traces/azureFnHook";
 import { TraceHandler } from "../../../../src/traces";
 import { Logger } from "../../../../src/shared/logging";
 import { AzureMonitorOpenTelemetryConfig } from "../../../../src/shared";
+import { MetricHandler } from "../../../../src/metrics";
 
 describe("Library/AzureFunctionsHook", () => {
   let sandbox: sinon.SinonSandbox;
+  let traceHandler: TraceHandler;
+  let metricHandler: MetricHandler;
 
   before(() => {
     sandbox = sinon.createSandbox();
@@ -17,6 +20,12 @@ describe("Library/AzureFunctionsHook", () => {
 
   afterEach(() => {
     sandbox.restore();
+    if (traceHandler) {
+      traceHandler.shutdown();
+    }
+    if (metricHandler) {
+      metricHandler.shutdown();
+    }
   });
 
   it("Hook not added if not running in Azure Functions", () => {
@@ -72,10 +81,14 @@ describe("Library/AzureFunctionsHook", () => {
     it("Pre Invokation Hook added if running in Azure Functions and context is propagated", () => {
       let Module = require("module");
       let preInvocationCalled = false;
-      let config = new AzureMonitorOpenTelemetryConfig();
+      let config = new AzureMonitorOpenTelemetryConfig({
+        enableAutoCollectPerformance: false,
+        enableAutoCollectStandardMetrics: false,
+      });
       config.azureMonitorExporterConfig.connectionString =
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;";
-      let traceHandler = new TraceHandler(config);
+      metricHandler = new MetricHandler(config);
+      traceHandler = new TraceHandler(config, metricHandler);
 
       Module.prototype.require = function () {
         if (arguments[0] === "@azure/functions-core") {

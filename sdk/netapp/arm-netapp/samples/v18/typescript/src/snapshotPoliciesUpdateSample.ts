@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Patch a snapshot policy
  *
  * @summary Patch a snapshot policy
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-09-01/examples/SnapshotPolicies_Update.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-11-01/examples/SnapshotPolicies_Update.json
  */
 async function snapshotPoliciesUpdate() {
   const subscriptionId =

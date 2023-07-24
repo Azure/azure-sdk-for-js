@@ -11,11 +11,15 @@ import {
   OperationQueryParameter,
   OperationParameter
 } from "@azure/core-client";
+import {
+  AddToGroupsRequest as AddToGroupsRequestMapper,
+  RemoveFromGroupsRequest as RemoveFromGroupsRequestMapper
+} from "../models/mappers";
 
 export const endpoint: OperationURLParameter = {
   parameterPath: "endpoint",
   mapper: {
-    serializedName: "Endpoint",
+    serializedName: "endpoint",
     required: true,
     type: {
       name: "String"
@@ -27,13 +31,30 @@ export const endpoint: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-11-01",
+    defaultValue: "2023-07-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
       name: "String"
     }
   }
+};
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const groupsToAdd: OperationParameter = {
+  parameterPath: "groupsToAdd",
+  mapper: AddToGroupsRequestMapper
 };
 
 export const accept: OperationParameter = {
@@ -156,7 +177,12 @@ export const groups: OperationQueryParameter = {
   collectionFormat: "Multi"
 };
 
-export const contentType: OperationParameter = {
+export const groupsToRemove: OperationParameter = {
+  parameterPath: "groupsToRemove",
+  mapper: RemoveFromGroupsRequestMapper
+};
+
+export const contentType1: OperationParameter = {
   parameterPath: "contentType",
   mapper: {
     serializedName: "Content-Type",
@@ -191,7 +217,7 @@ export const accept2: OperationParameter = {
   }
 };
 
-export const contentType1: OperationParameter = {
+export const contentType2: OperationParameter = {
   parameterPath: "contentType",
   mapper: {
     defaultValue: "text/plain",
@@ -248,6 +274,20 @@ export const filter: OperationQueryParameter = {
     serializedName: "filter",
     type: {
       name: "String"
+    }
+  }
+};
+
+export const messageTtlSeconds: OperationQueryParameter = {
+  parameterPath: ["options", "messageTtlSeconds"],
+  mapper: {
+    constraints: {
+      InclusiveMaximum: 300,
+      InclusiveMinimum: 0
+    },
+    serializedName: "messageTtlSeconds",
+    type: {
+      name: "Number"
     }
   }
 };

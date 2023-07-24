@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Validates if a feature is supported
  *
  * @summary Validates if a feature is supported
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-01-01/examples/CheckfeatureSupport.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-05-01/examples/CheckfeatureSupport.json
  */
 async function checkAzureVMBackupFeatureSupport() {
   const subscriptionId =

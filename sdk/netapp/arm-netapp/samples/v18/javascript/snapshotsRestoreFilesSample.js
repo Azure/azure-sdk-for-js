@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Restore the specified files from the specified snapshot to the active filesystem
  *
  * @summary Restore the specified files from the specified snapshot to the active filesystem
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-09-01/examples/Snapshots_SingleFileRestore.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-11-01/examples/Snapshots_SingleFileRestore.json
  */
 async function snapshotsSingleFileRestore() {
   const subscriptionId =

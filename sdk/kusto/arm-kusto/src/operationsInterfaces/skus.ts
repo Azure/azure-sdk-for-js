@@ -14,7 +14,7 @@ import { SkuDescription, SkusListOptionalParams } from "../models";
 export interface Skus {
   /**
    * Lists eligible region SKUs for Kusto resource provider by Azure region.
-   * @param location Azure location (region) name.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   list(
