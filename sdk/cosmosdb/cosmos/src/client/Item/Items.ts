@@ -283,9 +283,11 @@ export class Items {
       );
       if (!cfOptions?.continuationToken) {
         if (cfOptions?.epkRange !== undefined) {
-          if (isEpkRange(cfOptions?.epkRange))
+          if (isEpkRange(cfOptions?.epkRange)) {
             await iterator.fetchOverLappingFeedRanges(cfOptions?.epkRange);
-          else throw new ErrorResponse("EpkRange is not valid");
+          } else {
+            throw new ErrorResponse("EpkRange is not valid");
+          }
         } else {
           await iterator.fetchAllFeedRanges();
         }
