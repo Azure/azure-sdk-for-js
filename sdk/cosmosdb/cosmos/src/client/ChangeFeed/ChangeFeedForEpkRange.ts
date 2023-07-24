@@ -14,6 +14,7 @@ import { CompositeContinuationToken } from "./CompositeContinuationToken";
 import { ChangeFeedIteratorV2 } from "./ChangeFeedIteratorV2";
 import { checkEpkHeaders } from "./changeFeedUtils";
 import { CosmosDiagnosticContext } from "../../CosmosDiagnosticsContext";
+import { IEpkRange } from "./IEpkRange";
 /**
  * Provides iterator for change feed.
  *
@@ -60,10 +61,6 @@ export class ChangeFeedForEpkRange<T> extends ChangeFeedIteratorV2<T> {
         "startFromBeginning must be true if no start time or continuation is specified."
       );
     }
-
-    if (this.continuationToken) {
-      // check if continuation token rid matches the current container rid.
-    }
   }
 
   private continuationTokenRidMatchContainerRid(): boolean {
@@ -97,15 +94,16 @@ export class ChangeFeedForEpkRange<T> extends ChangeFeedIteratorV2<T> {
   /**
    * Fetch all physical partitions overlapping the given Partition Key Range.
    */
-  public async fetchOverLappingFeedRanges(pkRange: PartitionKeyRange): Promise<void> {
+  public async fetchOverLappingFeedRanges(pkRange: PartitionKeyRange | IEpkRange): Promise<void> {
     const queryRange = new QueryRange(pkRange.minInclusive, pkRange.maxExclusive, true, false);
+
     try {
       const overLappingRanges = await this.partitionKeyRangeCache.getOverlappingRanges(
         this.url,
         queryRange,
         this.diagnosticContext
       );
-      overLappingRanges.map(async (overLappingRange) => {
+      for (const overLappingRange of overLappingRanges) {
         const [epkMinHeader, epkMaxHeader] = await checkEpkHeaders(pkRange, overLappingRange);
         const feedRange: ChangeFeedRange = new ChangeFeedRange(
           overLappingRange.minInclusive,
@@ -115,7 +113,7 @@ export class ChangeFeedForEpkRange<T> extends ChangeFeedIteratorV2<T> {
           epkMaxHeader
         );
         this.queue.enqueue(feedRange);
-      });
+      }
     } catch (err) {
       throw new ErrorResponse(err.message);
     }
@@ -129,16 +127,15 @@ export class ChangeFeedForEpkRange<T> extends ChangeFeedIteratorV2<T> {
     if (!this.continuationTokenRidMatchContainerRid()) {
       throw new ErrorResponse("The continuation is not for the current container definition");
     } else {
-      contToken.Continuation.map(async (cToken) => {
+      for (const cToken of contToken.Continuation) {
         const queryRange = new QueryRange(cToken.minInclusive, cToken.maxExclusive, true, false);
         try {
-          // find all the overlapping ranges for a particular entry in continuation token
           const overLappingRanges = await this.partitionKeyRangeCache.getOverlappingRanges(
             this.url,
             queryRange,
             this.diagnosticContext
           );
-          overLappingRanges.map(async (overLappingRange) => {
+          for (const overLappingRange of overLappingRanges) {
             // check if the epk range present in continuation token entirely covers the overlapping range.
             // If yes, minInclusive and maxExclusive of the overlapping range will be set.
             // If no, i.e. there is only partial overlap, epkMinHeader and epkMaxHeader are set as min and max of overlap.
@@ -152,11 +149,12 @@ export class ChangeFeedForEpkRange<T> extends ChangeFeedIteratorV2<T> {
               epkMaxHeader
             );
             this.queue.enqueue(feedRange);
-          });
+          }
         } catch (err) {
           throw new ErrorResponse(err.message);
         }
-      });
+      }
+
       return true;
     }
   }
@@ -187,6 +185,9 @@ export class ChangeFeedForEpkRange<T> extends ChangeFeedIteratorV2<T> {
           if (firstNotModifiedFeedRange === undefined) {
             firstNotModifiedFeedRange = processedFeedRange;
           }
+          // move current feed range to end of queue to fetch result of next feed range.
+          // This is done to fetch changes in breadth first manner and avoid starvation.
+          this.queue.moveFirstElementToTheEnd();
           // check if there are new results for the given feed range.
           if (result.count > 0) {
             firstNotModifiedFeedRange = processedFeedRange;
@@ -194,25 +195,12 @@ export class ChangeFeedForEpkRange<T> extends ChangeFeedIteratorV2<T> {
               this.generateContinuationToken();
             return result;
           }
-          // check if 304 is returned for the given feed range.
-          // If yes, move the current feed range to end of queue.
-          // Else keep processing the same feed range for more results.
-          if (this.partitionAllResultsFetched(result)) {
-            this.queue.moveFirstElementToTheEnd();
-          }
         }
       }
     } while (!this.checkedAllFeedRanges(firstNotModifiedFeedRange));
-
     // set the continuation token after processing.
     result.headers[Constants.HttpHeaders.ContinuationToken] = this.generateContinuationToken();
     return result;
-  }
-
-  private partitionAllResultsFetched(
-    response: ChangeFeedIteratorResponse<Array<T & Resource>>
-  ): boolean {
-    return response.statusCode === StatusCodes.NotModified;
   }
 
   private generateContinuationToken = (): string => {
