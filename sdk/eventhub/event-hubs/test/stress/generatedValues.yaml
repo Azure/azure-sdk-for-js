@@ -3,4 +3,5 @@ scenarios:
   image: Dockerfile
   Scenario: node18-checkpointStore
   testTarget: scenarioCheckpointStore
+  imageTag: stresspgs7b6dif73rup6.azurecr.io/harshan-eh-5-11-1-mem-leak/jseh/dockerfile:harshanalluru
 
