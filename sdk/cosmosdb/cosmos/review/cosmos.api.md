@@ -69,7 +69,7 @@ export class ChangeFeedIterator<T> {
 // @public (undocumented)
 export interface ChangeFeedIteratorOptions {
     continuationToken?: string;
-    epkRange?: PartitionKeyRange;
+    epkRange?: PartitionKeyRange | IEpkRange;
     maxItemCount?: number;
     partitionKey?: PartitionKey;
     sessionToken?: string;
@@ -98,7 +98,7 @@ export abstract class ChangeFeedIteratorV2<T> {
     // (undocumented)
     abstract fetchContinuationTokenFeedRanges(continuationToken: string): Promise<boolean>;
     // (undocumented)
-    abstract fetchOverLappingFeedRanges(epkRange: PartitionKeyRange): Promise<void>;
+    abstract fetchOverLappingFeedRanges(epkRange: PartitionKeyRange | IEpkRange): Promise<void>;
     // (undocumented)
     abstract get hasMoreResults(): boolean;
     // (undocumented)
@@ -935,6 +935,14 @@ export enum HTTPMethod {
     post = "POST",
     // (undocumented)
     put = "PUT"
+}
+
+// @public (undocumented)
+export interface IEpkRange {
+    // (undocumented)
+    maxExclusive: string;
+    // (undocumented)
+    minInclusive: string;
 }
 
 // @public (undocumented)
