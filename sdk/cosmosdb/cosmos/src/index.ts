@@ -103,6 +103,7 @@ export {
   ChangeFeedIteratorV2,
   ChangeFeedIteratorOptions,
   ChangeFeedIteratorResponse,
+  IEpkRange,
 } from "./client/ChangeFeed";
 
 export { GlobalEndpointManager } from "./globalEndpointManager";

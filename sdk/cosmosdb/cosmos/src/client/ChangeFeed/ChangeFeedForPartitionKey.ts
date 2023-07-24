@@ -10,6 +10,7 @@ import { ContinuationTokenForPartitionKey } from "./ContinuationTokenForPartitio
 import { ChangeFeedIteratorV2 } from "./ChangeFeedIteratorV2";
 import { PartitionKey } from "../../documents";
 import { PartitionKeyRange } from "../../client";
+import { IEpkRange } from "./IEpkRange";
 
 /**
  * Provides iterator for change feed.
@@ -138,7 +139,7 @@ export class ChangeFeedForPartitionKey<T> extends ChangeFeedIteratorV2<T> {
   async fetchAllFeedRanges(): Promise<void> {
     throw new ErrorResponse(`Method not implemented`);
   }
-  async fetchOverLappingFeedRanges(_epkRange: PartitionKeyRange): Promise<void> {
+  async fetchOverLappingFeedRanges(_epkRange: PartitionKeyRange | IEpkRange): Promise<void> {
     throw new ErrorResponse(`Method not implemented`);
   }
 

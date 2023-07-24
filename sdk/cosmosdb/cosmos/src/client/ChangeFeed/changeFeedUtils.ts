@@ -4,7 +4,7 @@ import { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions";
 import { ErrorResponse } from "../../request";
 import { PartitionKeyRange } from "../Container";
 import { ChangeFeedRange } from "./ChangeFeedRange";
-
+import { IEpkRange } from "./IEpkRange";
 /**
  * Checks if more than one option is passed from where changefeed should start.
  */
@@ -18,8 +18,7 @@ export function validateChangeFeedOptions(options: ChangeFeedIteratorOptions): v
   if (options?.maxItemCount && typeof options?.maxItemCount !== "number") {
     throw new ErrorResponse("maxItemCount must be number");
   }
-
-  if (options?.maxItemCount && options?.maxItemCount < 1) {
+  if (options?.maxItemCount !== undefined && options?.maxItemCount < 1) {
     throw new ErrorResponse("maxItemCount must be a positive number");
   }
 
@@ -68,16 +67,12 @@ export async function checkEpkHeaders(
   }
 }
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-export function isEpkRange(obj: any): obj is PartitionKeyRange {
+export function isEpkRange(obj: any): obj is PartitionKeyRange | IEpkRange {
   return (
     obj &&
-    typeof obj.id === "string" &&
     typeof obj.minInclusive === "string" &&
     typeof obj.maxExclusive === "string" &&
-    typeof obj.ridPrefix === "number" &&
-    typeof obj.throughputFraction === "number" &&
-    typeof obj.id === "string" &&
-    typeof obj.status === "string" &&
-    typeof obj.parents === "object"
+    obj.minInclusive >= "" &&
+    obj.maxExclusive <= "FF"
   );
 }

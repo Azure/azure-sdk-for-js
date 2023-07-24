@@ -13,6 +13,7 @@
  */
 import { PartitionKeyRange } from "../../client";
 import { PartitionKey } from "../../documents";
+import { IEpkRange } from "./IEpkRange";
 
 export interface ChangeFeedIteratorOptions {
   /**
@@ -42,7 +43,7 @@ export interface ChangeFeedIteratorOptions {
   /**
    * EpkRange for which changes need to be read.
    */
-  epkRange?: PartitionKeyRange;
+  epkRange?: PartitionKeyRange | IEpkRange;
   /**
    * Partition key for which changes need to be read.
    */
