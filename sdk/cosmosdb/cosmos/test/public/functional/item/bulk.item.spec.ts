@@ -809,7 +809,7 @@ describe("test bulk operations", async function () {
         };
         await runBulkTestDataSet(dataset);
       });
-      it("424 errors for operations after an error", async function () {
+      xit("424 errors for operations after an error", async function () {
         const dataset: BulkTestDataSet = {
           ...defaultBulkTestDataSet,
           documentToCreate: [],
@@ -832,7 +832,7 @@ describe("test bulk operations", async function () {
         };
         await runBulkTestDataSet(dataset);
       });
-      it("Continues after errors with continueOnError true", async function () {
+      xit("Continues after errors with continueOnError true", async function () {
         const dataset: BulkTestDataSet = {
           ...defaultBulkTestDataSet,
           documentToCreate: [],

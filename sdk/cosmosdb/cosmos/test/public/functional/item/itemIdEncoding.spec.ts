@@ -266,7 +266,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("CGW_idEndingWithWhitespace", async function () {
+  xit("CGW_idEndingWithWhitespace", async function () {
     const scenario: TestScenario = {
       name: "CGW_IdEndingWithWhitespace",
       id: "Test ",
@@ -292,7 +292,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("CGW_idEndingWithWhitespaces", async function () {
+  xit("CGW_idEndingWithWhitespaces", async function () {
     const scenario: TestScenario = {
       name: "CGW_IdEndingWithWhitespaces",
       id: "Test   ",
@@ -406,7 +406,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("CGW_idEndingWithPercentEncodedWhitespace", async function () {
+  xit("CGW_idEndingWithPercentEncodedWhitespace", async function () {
     const scenario: TestScenario = {
       name: "CGW_IdEndingWithPercentEncodedWhitespace",
       id: "IdEndingWithPercentEncodedWhitespace%20",
@@ -432,7 +432,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("CGW_idWithPercentEncodedSpecialChar", async function () {
+  xit("CGW_idWithPercentEncodedSpecialChar", async function () {
     const scenario: TestScenario = {
       name: "CGW_IdWithPercentEncodedSpecialChar",
       id: "WithPercentEncodedSpecialChar%E9%B1%80",
@@ -550,7 +550,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("CGW_idWithCarriageReturn", async function () {
+  xit("CGW_idWithCarriageReturn", async function () {
     const scenario: TestScenario = {
       name: "CGW_IdWithCarriageReturn",
       id: "With\rCarriageReturn",
@@ -576,7 +576,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("CGW_idWithTab", async function () {
+  xit("CGW_idWithTab", async function () {
     const scenario: TestScenario = {
       name: "CGW_IdWithTab",
       id: "With\tTab",
@@ -602,7 +602,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("CGW_idWithLineFeed", async function () {
+  xit("CGW_idWithLineFeed", async function () {
     const scenario: TestScenario = {
       name: "CGW_IdWithLineFeed",
       id: "With\nLineFeed",

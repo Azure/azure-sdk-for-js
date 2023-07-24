@@ -644,14 +644,20 @@ describe("Reading items using container", function () {
     assert.strictEqual(itemRead3.id, itemWithBothPartitionKeySet);
   });
 });
-
+/**
+ * This feature is temporarily disabled due to a backend bug. The feature is currently under
+ * a feature flag, which means that it is not yet enabled for all accounts. This can sometimes
+ * cause this test to give the result "feature disabled for this account".
+ * Once the backend bug is fixed and the feature flag is propagated to all accounts,
+ *  this test should no longer give this result and can be enabled.
+ */
 describe("container.deleteAllItemsForPartitionKey", function () {
-  it("should delete all items for partition key value", async function () {
+  xit("should delete all items for partition key value", async function () {
     const container = await getTestContainer("container", undefined, { partitionKey: "/pk" });
     await testDeleteAllItemsForPartitionKey(container);
   });
 
-  it("should delete all items for parition key value in multi partition container", async function () {
+  xit("should delete all items for parition key value in multi partition container", async function () {
     //  multi partition container
     const container = await getTestContainer("container", undefined, {
       partitionKey: {
