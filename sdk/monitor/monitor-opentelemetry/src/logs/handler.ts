@@ -1,11 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AzureMonitorLogExporter } from "@azure/monitor-opentelemetry-exporter";
+import { OTLPLogExporter } from "@opentelemetry/exporter-logs-otlp-http";
+import { logs } from "@opentelemetry/api-logs";
 import {
   LoggerProvider,
-  SimpleLogRecordProcessor,
+  BatchLogRecordProcessor,
   Logger as OtelLogger,
-  ConsoleLogRecordExporter,
 } from "@opentelemetry/sdk-logs";
 import { LoggerProviderConfig } from "@opentelemetry/sdk-logs/build/src/types";
 import { AzureMonitorOpenTelemetryConfig } from "../shared/config";
@@ -18,8 +20,9 @@ import { AzureLogRecordProcessor } from "./logRecordProcessor";
 export class LogHandler {
   private _loggerProvider: LoggerProvider;
   private _logger: OtelLogger;
-  private _exporter: ConsoleLogRecordExporter;
-  private _logRecordProcessor: SimpleLogRecordProcessor;
+  private _azureExporter: AzureMonitorLogExporter;
+  private _otlpExporter?: OTLPLogExporter;
+  private _logRecordProcessor: BatchLogRecordProcessor;
   private _config: AzureMonitorOpenTelemetryConfig;
   private _metricHandler?: MetricHandler;
   private _azureLogProccessor: AzureLogRecordProcessor;
@@ -36,11 +39,20 @@ export class LogHandler {
       resource: this._config.resource,
     };
     this._loggerProvider = new LoggerProvider(loggerProviderConfig);
-    this._exporter = new ConsoleLogRecordExporter();
-    this._logRecordProcessor = new SimpleLogRecordProcessor(this._exporter);
+    this._azureExporter = new AzureMonitorLogExporter(this._config.azureMonitorExporterConfig);
+    // Log Processor could be configured through env variables
+    // https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/#batch-logrecord-processor
+    this._logRecordProcessor = new BatchLogRecordProcessor(this._azureExporter);
     this._loggerProvider.addLogRecordProcessor(this._logRecordProcessor);
     this._azureLogProccessor = new AzureLogRecordProcessor(this._metricHandler);
     this._loggerProvider.addLogRecordProcessor(this._azureLogProccessor);
+
+    if (config.otlpLogExporterConfig?.enabled) {
+      this._otlpExporter = new OTLPLogExporter(config.otlpLogExporterConfig);
+      const otlpLogProcessor = new BatchLogRecordProcessor(this._otlpExporter);
+      this._loggerProvider.addLogRecordProcessor(otlpLogProcessor);
+    }
+    logs.setGlobalLoggerProvider(this._loggerProvider);
     this._logger = this._loggerProvider.getLogger("AzureMonitorLogger", undefined) as OtelLogger;
   }
 

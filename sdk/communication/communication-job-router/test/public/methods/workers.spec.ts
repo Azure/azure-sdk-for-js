@@ -4,7 +4,7 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { RouterAdministrationClient, RouterClient, RouterWorker } from "../../../src";
+import { JobRouterAdministrationClient, JobRouterClient, RouterWorker } from "../../../src";
 import {
   getDistributionPolicyRequest,
   getExceptionPolicyRequest,
@@ -14,9 +14,9 @@ import {
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { sleep, timeoutMs } from "../utils/constants";
 
-describe("RouterClient", function () {
-  let client: RouterClient;
-  let administrationClient: RouterAdministrationClient;
+describe("JobRouterClient", function () {
+  let client: JobRouterClient;
+  let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;
 
   const testRunId = "recorded-workers";
@@ -79,9 +79,15 @@ describe("RouterClient", function () {
     }).timeout(timeoutMs);
 
     it("should register and deregister a worker", async function () {
-      const registerResult = await client.registerWorker(workerId);
+      const registerResult = await client.updateWorker(workerId, {
+        ...workerRequest,
+        availableForOffers: true,
+      });
       await sleep(2000);
-      const deregisterResult = await client.deregisterWorker(workerId);
+      const deregisterResult = await client.updateWorker(workerId, {
+        ...workerRequest,
+        availableForOffers: false,
+      });
 
       assert.isDefined(registerResult);
       assert.isDefined(registerResult?.id);
@@ -94,8 +100,8 @@ describe("RouterClient", function () {
 
     it("should list workers", async function () {
       const result: RouterWorker[] = [];
-      for await (const worker of client.listWorkers({ maxPageSize: 20 })) {
-        result.push(worker.routerWorker!);
+      for await (const worker of client.listWorkers({ maxpagesize: 20 })) {
+        result.push(worker.worker!);
       }
 
       assert.isNotEmpty(result);

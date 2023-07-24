@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Validate whether adhoc backup will be successful or not
  *
  * @summary Validate whether adhoc backup will be successful or not
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-01-01/examples/BackupInstanceOperations/ValidateForBackup.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-05-01/examples/BackupInstanceOperations/ValidateForBackup.json
  */
 async function validateForBackup() {
   const subscriptionId =
