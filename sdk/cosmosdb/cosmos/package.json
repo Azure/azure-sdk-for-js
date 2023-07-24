@@ -152,7 +152,10 @@
       "QueryThroughput.ts",
       "SasTokenAuth.ts",
       "ServerSideScripts.ts",
-      "handleError.ts"
+      "handleError.ts",
+      "ChangeFeedIteratorEntireContainer.ts",
+      "ChangeFeedIteratorEpkRange.ts",
+      "ChangeFeedPartitionKey.ts"
     ],
     "productName": "Azure Cosmos DB",
     "productSlugs": [
