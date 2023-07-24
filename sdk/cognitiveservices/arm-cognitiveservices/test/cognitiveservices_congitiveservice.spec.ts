@@ -29,7 +29,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("CognitiveServices test", () => {
+describe.only("CognitiveServices test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: CognitiveServicesManagementClient;
