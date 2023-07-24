@@ -13,6 +13,7 @@ import {
   MetricsQueryOptions,
   MetricsQueryResult,
 } from "./models/publicMetricsModels";
+
 import {
   MonitorManagementClient as GeneratedMetricsClient,
   KnownApiVersion201801 as MetricsApiVersion,
