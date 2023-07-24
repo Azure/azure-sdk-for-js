@@ -31,6 +31,9 @@ export interface DelayOptions {
     abortSignal?: AbortSignalLike;
 }
 
+// @public (undocumented)
+export type EncodingType = "utf-8" | "base64" | "base64url";
+
 // @public
 export function getErrorMessage(e: unknown): string;
 
@@ -73,8 +76,6 @@ export function objectHasProperty<Thing, PropertyName extends string>(thing: Thi
 // @public
 export function randomUUID(): string;
 
-// Warning: (ae-forgotten-export) The symbol "EncodingType" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
 export function stringToUint8Array(value: string, format: EncodingType): Uint8Array;
 
