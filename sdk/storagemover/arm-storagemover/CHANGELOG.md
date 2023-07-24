@@ -18,15 +18,15 @@
   - Added Enum KnownCredentialType
   - Enum KnownEndpointType has a new value AzureStorageSmbFileShare
   - Enum KnownEndpointType has a new value SmbMount
-
-**Breaking Changes**
-
   - Interface Agent no longer has parameter systemData
   - Interface Endpoint no longer has parameter systemData
   - Interface JobDefinition no longer has parameter systemData
   - Interface JobRun no longer has parameter systemData
   - Interface Project no longer has parameter systemData
   - Interface StorageMover no longer has parameter systemData
+  
+**Breaking Changes**
+
   - Interface AzureStorageBlobContainerEndpointUpdateProperties has a new required parameter endpointType
   - Interface EndpointBaseUpdateProperties has a new required parameter endpointType
   - Interface NfsMountEndpointUpdateProperties has a new required parameter endpointType
