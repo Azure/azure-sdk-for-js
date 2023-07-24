@@ -276,8 +276,6 @@ export interface ArtifactRenameRequest {
 // @public (undocumented)
 export class ArtifactsClient extends coreClient.ServiceClient {
     constructor(credentials: coreAuth.TokenCredential, endpoint: string, options?: ArtifactsClientOptionalParams);
-    beginExecuteChangeWithValidation(validationType: string, createArtifactsPayload: DDLBatch, options?: ExecuteChangeWithValidationOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginExecuteChangeWithValidationAndWait(validationType: string, createArtifactsPayload: DDLBatch, options?: ExecuteChangeWithValidationOptionalParams): Promise<void>;
     // (undocumented)
     bigDataPools: BigDataPools;
     // (undocumented)
@@ -286,16 +284,8 @@ export class ArtifactsClient extends coreClient.ServiceClient {
     dataFlowOperations: DataFlowOperations;
     // (undocumented)
     datasetOperations: DatasetOperations;
-    deleteArtifactForDB(databaseName: string, artifactType: SASEntityType, artifactName: string, options?: DeleteArtifactForDBOptionalParams): Promise<void>;
-    deleteArtifactFromSchema(databaseName: string, schemaName: string, artifactType: SASEntityType, artifactName: string, options?: DeleteArtifactFromSchemaOptionalParams): Promise<void>;
-    deleteDatabase(databaseName: string, options?: DeleteDatabaseOptionalParams): Promise<void>;
     // (undocumented)
     endpoint: string;
-    executeChange(createArtifactsPayload: DDLBatch, options?: ExecuteChangeOptionalParams): Promise<ExecuteChangeResponse>;
-    getArtifactFromDB(databaseName: string, artifactType: SASEntityType, artifactName: string, options?: GetArtifactFromDBOptionalParams): Promise<GetArtifactFromDBResponse>;
-    getArtifactFromSchema(databaseName: string, schemaName: string, artifactType: SASEntityType, artifactName: string, options?: GetArtifactFromSchemaOptionalParams): Promise<GetArtifactFromSchemaResponse>;
-    getDatabase(databaseName: string, options?: GetDatabaseOptionalParams): Promise<GetDatabaseResponse>;
-    getSyMSOperationStatus(operationId: string, options?: GetSyMSOperationStatusOptionalParams): Promise<GetSyMSOperationStatusResponse>;
     // (undocumented)
     integrationRuntimes: IntegrationRuntimes;
     // (undocumented)
@@ -308,13 +298,6 @@ export class ArtifactsClient extends coreClient.ServiceClient {
     linkConnectionOperations: LinkConnectionOperations;
     // (undocumented)
     linkedServiceOperations: LinkedServiceOperations;
-    listArtifacts(databaseName: string, artifactType: SASEntityType, options?: ListArtifactsOptionalParams): Promise<ListArtifactsResponse>;
-    listArtifactsInSchemaByType(databaseName: string, schemaName: string, artifactType: SASEntityType, options?: ListArtifactsInSchemaByTypeOptionalParams): Promise<ListArtifactsInSchemaByTypeResponse>;
-    listDatabases(options?: ListDatabasesOptionalParams): Promise<ListDatabasesResponse>;
-    listPartitionInfosForSchemaAndTable(databaseName: string, schemaName: string, tableName: string, options?: ListPartitionInfosForSchemaAndTableOptionalParams): Promise<ListPartitionInfosForSchemaAndTableResponse>;
-    listPartitionInfosForSchemaAndView(databaseName: string, schemaName: string, viewName: string, options?: ListPartitionInfosForSchemaAndViewOptionalParams): Promise<ListPartitionInfosForSchemaAndViewResponse>;
-    listPartitionInfosForTable(databaseName: string, tableName: string, options?: ListPartitionInfosForTableOptionalParams): Promise<ListPartitionInfosForTableResponse>;
-    listPartitionInfosForView(databaseName: string, viewName: string, options?: ListPartitionInfosForViewOptionalParams): Promise<ListPartitionInfosForViewResponse>;
     // (undocumented)
     metastore: Metastore;
     // (undocumented)
@@ -325,9 +308,6 @@ export class ArtifactsClient extends coreClient.ServiceClient {
     pipelineOperations: PipelineOperations;
     // (undocumented)
     pipelineRunOperations: PipelineRunOperations;
-    putArtifactInDB(databaseName: string, artifactType: SASEntityType, artifactName: string, createArtifactsPayload: MDEntity, options?: PutArtifactInDBOptionalParams): Promise<PutArtifactInDBResponse>;
-    putArtifactInSchema(databaseName: string, schemaName: string, artifactType: SASEntityType, artifactName: string, createArtifactsPayload: MDEntity, options?: PutArtifactInSchemaOptionalParams): Promise<PutArtifactInSchemaResponse>;
-    putDatabase(databaseName: string, createArtifactsPayload: DatabaseEntity, options?: PutDatabaseOptionalParams): Promise<PutDatabaseResponse>;
     // (undocumented)
     runNotebook: RunNotebook;
     // (undocumented)
@@ -1312,12 +1292,6 @@ export interface CloudError {
 }
 
 // @public
-export interface ColumnRelationshipInformation {
-    fromColumnName: string;
-    toColumnName: string;
-}
-
-// @public
 export interface CommonDataServiceForAppsEntityDataset extends Dataset {
     entityName?: any;
     type: "CommonDataServiceForAppsEntity";
@@ -1635,17 +1609,6 @@ export interface CustomSetupBase {
 }
 
 // @public
-export interface DatabaseEntity extends MDEntity {
-    properties: DatabaseProperties;
-}
-
-// @public
-export interface DatabaseProperties extends MDEntityProperties {
-    description?: string;
-    source: DataSource;
-}
-
-// @public
 export interface DatabricksNotebookActivity extends ExecutionActivity {
     baseParameters?: {
         [propertyName: string]: any;
@@ -1675,12 +1638,6 @@ export interface DatabricksSparkPythonActivity extends ExecutionActivity {
     parameters?: any[];
     pythonFile: any;
     type: "DatabricksSparkPython";
-}
-
-// @public
-export interface DataColumn {
-    name: string;
-    originDataTypeName: TypeInfo;
 }
 
 // @public
@@ -2135,15 +2092,6 @@ export type DatasetStorageFormatUnion = DatasetStorageFormat | TextFormat | Json
 export type DatasetUnion = Dataset | AmazonS3Dataset | AvroDataset | ExcelDataset | ParquetDataset | DelimitedTextDataset | JsonDataset | XmlDataset | OrcDataset | BinaryDataset | AzureBlobDataset | AzureTableDataset | AzureSqlTableDataset | AzureSqlMITableDataset | AzureSqlDWTableDataset | CassandraTableDataset | CustomDataset | CosmosDbSqlApiCollectionDataset | DocumentDbCollectionDataset | DynamicsEntityDataset | DynamicsCrmEntityDataset | CommonDataServiceForAppsEntityDataset | AzureDataLakeStoreDataset | AzureBlobFSDataset | Office365Dataset | FileShareDataset | MongoDbCollectionDataset | MongoDbAtlasCollectionDataset | MongoDbV2CollectionDataset | CosmosDbMongoDbApiCollectionDataset | ODataResourceDataset | OracleTableDataset | AmazonRdsForOracleTableDataset | TeradataTableDataset | AzureMySqlTableDataset | AmazonRedshiftTableDataset | Db2TableDataset | RelationalTableDataset | InformixTableDataset | OdbcTableDataset | MySqlTableDataset | PostgreSqlTableDataset | MicrosoftAccessTableDataset | SalesforceObjectDataset | SalesforceServiceCloudObjectDataset | SybaseTableDataset | SapBwCubeDataset | SapCloudForCustomerResourceDataset | SapEccResourceDataset | SapHanaTableDataset | SapOpenHubTableDataset | SqlServerTableDataset | AmazonRdsForSqlServerTableDataset | RestResourceDataset | SapTableResourceDataset | SapOdpResourceDataset | WebTableDataset | AzureSearchIndexDataset | HttpDataset | AmazonMWSObjectDataset | AzurePostgreSqlTableDataset | ConcurObjectDataset | CouchbaseTableDataset | DrillTableDataset | EloquaObjectDataset | GoogleBigQueryObjectDataset | GreenplumTableDataset | HBaseObjectDataset | HiveObjectDataset | HubspotObjectDataset | ImpalaObjectDataset | JiraObjectDataset | MagentoObjectDataset | MariaDBTableDataset | AzureMariaDBTableDataset | MarketoObjectDataset | PaypalObjectDataset | PhoenixObjectDataset | PrestoObjectDataset | QuickBooksObjectDataset | ServiceNowObjectDataset | ShopifyObjectDataset | SparkObjectDataset | SquareObjectDataset | XeroObjectDataset | ZohoObjectDataset | NetezzaTableDataset | VerticaTableDataset | SalesforceMarketingCloudObjectDataset | ResponsysObjectDataset | DynamicsAXResourceDataset | OracleServiceCloudObjectDataset | AzureDataExplorerTableDataset | GoogleAdWordsObjectDataset | SnowflakeDataset | SharePointOnlineListResourceDataset | AzureDatabricksDeltaLakeDataset;
 
 // @public
-export interface DataSource {
-    location: string;
-    properties?: {
-        [propertyName: string]: any;
-    };
-    provider?: string;
-}
-
-// @public
 export interface DataworldLinkedService extends LinkedService {
     apiToken: SecretBaseUnion;
     encryptedCredential?: any;
@@ -2185,22 +2133,6 @@ export interface Db2TableDataset extends Dataset {
 }
 
 // @public
-export interface DDLBatch {
-    // (undocumented)
-    ddls: DDLPayload[];
-}
-
-// @public
-export interface DDLPayload {
-    actionType: DDLType;
-    newEntity?: MDEntity;
-    oldEntity?: MDEntity;
-}
-
-// @public
-export type DDLType = "CREATE" | "ALTER" | "DROP";
-
-// @public
 export interface DeleteActivity extends ExecutionActivity {
     dataset: DatasetReference;
     enableLogging?: any;
@@ -2209,18 +2141,6 @@ export interface DeleteActivity extends ExecutionActivity {
     recursive?: any;
     storeSettings?: StoreReadSettingsUnion;
     type: "Delete";
-}
-
-// @public
-export interface DeleteArtifactForDBOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface DeleteArtifactFromSchemaOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface DeleteDatabaseOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
@@ -2291,14 +2211,6 @@ export interface DistcpSettings {
     distcpOptions?: any;
     resourceManagerEndpoint: any;
     tempScriptPath: any;
-}
-
-// @public
-export interface DistributionInfo {
-    count?: number;
-    keys?: string[];
-    sortKeys?: Sorting[];
-    type?: string;
 }
 
 // @public
@@ -2570,19 +2482,6 @@ export interface ExcelSource extends CopySource {
 }
 
 // @public
-export interface ExecuteChangeOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ExecuteChangeResponse = SyMsapiddlResponses;
-
-// @public
-export interface ExecuteChangeWithValidationOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
 export interface ExecuteDataFlowActivity extends ExecutionActivity {
     compute?: ExecuteDataFlowActivityTypePropertiesCompute;
     continueOnError?: any;
@@ -2775,18 +2674,6 @@ export interface ForEachActivity extends ControlActivity {
 }
 
 // @public
-export interface FormatInfo {
-    formatType: string;
-    inputFormat: string;
-    outputFormat: string;
-    properties?: {
-        [propertyName: string]: any;
-    };
-    serDeName?: string;
-    serializeLib: string;
-}
-
-// @public
 export interface FormatReadSettings {
     [property: string]: any;
     type: "DelimitedTextReadSettings" | "JsonReadSettings" | "XmlReadSettings" | "BinaryReadSettings";
@@ -2840,28 +2727,7 @@ export interface FtpServerLocation extends DatasetLocation {
 }
 
 // @public
-export interface GetArtifactFromDBOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GetArtifactFromDBResponse = MDEntity;
-
-// @public
-export interface GetArtifactFromSchemaOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GetArtifactFromSchemaResponse = MDEntity;
-
-// @public
 export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
-export interface GetDatabaseOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GetDatabaseResponse = DatabaseEntity;
 
 // @public
 export interface GetMetadataActivity extends ExecutionActivity {
@@ -2876,13 +2742,6 @@ export interface GetMetadataActivity extends ExecutionActivity {
 export interface GetSsisObjectMetadataRequest {
     metadataPath?: string;
 }
-
-// @public
-export interface GetSyMSOperationStatusOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GetSyMSOperationStatusResponse = QueryArtifactsResponse;
 
 // @public (undocumented)
 export interface GitHubAccessTokenRequest {
@@ -5101,69 +4960,6 @@ export interface LinkTableStatus {
 }
 
 // @public
-export interface ListArtifactsInSchemaByTypeOptionalParams extends coreClient.OperationOptions {
-    continuationToken?: string;
-    maxPageSize?: number;
-}
-
-// @public
-export type ListArtifactsInSchemaByTypeResponse = QueryArtifactsResponse;
-
-// @public
-export interface ListArtifactsOptionalParams extends coreClient.OperationOptions {
-    continuationToken?: string;
-    maxPageSize?: number;
-}
-
-// @public
-export type ListArtifactsResponse = QueryArtifactsResponse;
-
-// @public
-export interface ListDatabasesOptionalParams extends coreClient.OperationOptions {
-    continuationToken?: string;
-    maxPageSize?: number;
-}
-
-// @public
-export type ListDatabasesResponse = QueryArtifactsResponse;
-
-// @public
-export interface ListPartitionInfosForSchemaAndTableOptionalParams extends coreClient.OperationOptions {
-    continuationToken?: string;
-    maxPageSize?: number;
-}
-
-// @public
-export type ListPartitionInfosForSchemaAndTableResponse = QueryArtifactsResponse;
-
-// @public
-export interface ListPartitionInfosForSchemaAndViewOptionalParams extends coreClient.OperationOptions {
-    continuationToken?: string;
-    maxPageSize?: number;
-}
-
-// @public
-export type ListPartitionInfosForSchemaAndViewResponse = QueryArtifactsResponse;
-
-// @public
-export interface ListPartitionInfosForTableOptionalParams extends coreClient.OperationOptions {
-    continuationToken?: string;
-    maxPageSize?: number;
-}
-
-// @public
-export type ListPartitionInfosForTableResponse = QueryArtifactsResponse;
-
-// @public
-export interface ListPartitionInfosForViewOptionalParams extends coreClient.OperationOptions {
-    continuationToken?: string;
-    maxPageSize?: number;
-}
-
-// @public
-export type ListPartitionInfosForViewResponse = QueryArtifactsResponse;
-
-// @public
 export type LivyStates = string;
 
 // @public
@@ -5303,25 +5099,6 @@ export interface MarketoSource extends TabularSource {
 }
 
 // @public
-export interface MDEntity {
-    readonly id?: string;
-    name: string;
-    properties?: any;
-    type: SASEntityType;
-}
-
-// @public
-export interface MDEntityProperties {
-    readonly objectId?: string;
-    readonly objectVersion?: number;
-    originObjectId?: string;
-    properties?: {
-        [propertyName: string]: any;
-    };
-    publishStatus?: "PUBLISHED";
-}
-
-// @public
 export interface Metastore {
     delete(id: string, options?: MetastoreDeleteOptionalParams): Promise<void>;
     getDatabaseOperations(id: string, options?: MetastoreGetDatabaseOperationsOptionalParams): Promise<MetastoreGetDatabaseOperationsResponse>;
@@ -5419,7 +5196,7 @@ export interface MongoDbAtlasCollectionDataset extends Dataset {
 export interface MongoDbAtlasLinkedService extends LinkedService {
     connectionString: any;
     database: any;
-    mongoDbAtlasDriverVersion?: any;
+    driverVersion?: any;
     type: "MongoDbAtlas";
 }
 
@@ -5523,11 +5300,6 @@ export interface MySqlSource extends TabularSource {
 export interface MySqlTableDataset extends Dataset {
     tableName?: any;
     type: "MySqlTable";
-}
-
-// @public
-export interface Namespace {
-    databaseName: string;
 }
 
 // @public
@@ -6004,23 +5776,6 @@ export interface ParquetWriteSettings extends FormatWriteSettings {
 }
 
 // @public
-export interface PartitionInfo extends MDEntity {
-    properties?: PartitionInfoProperties;
-}
-
-// @public
-export interface PartitionInfoNamespace extends TableNamespace {
-    tableName: string;
-}
-
-// @public
-export interface PartitionInfoProperties extends MDEntityProperties {
-    namespace: PartitionInfoNamespace;
-    partitionKeyValues: any[];
-    storageDescriptor: StorageDescriptor;
-}
-
-// @public
 export interface PaypalLinkedService extends LinkedService {
     clientId: any;
     clientSecret?: SecretBaseUnion;
@@ -6363,36 +6118,6 @@ export interface PurviewConfiguration {
 }
 
 // @public
-export interface PutArtifactInDBOptionalParams extends coreClient.OperationOptions {
-    continuationToken?: string;
-    maxPageSize?: number;
-}
-
-// @public
-export type PutArtifactInDBResponse = SyMsapiddlResponse;
-
-// @public
-export interface PutArtifactInSchemaOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PutArtifactInSchemaResponse = SyMsapiddlResponse;
-
-// @public
-export interface PutDatabaseOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PutDatabaseResponse = SyMsapiddlResponse;
-
-// @public
-export interface QueryArtifactsResponse {
-    continuationToken?: string;
-    // (undocumented)
-    items?: any[];
-}
-
-// @public
 export interface QueryDataFlowDebugSessionsResponse {
     nextLink?: string;
     value?: DataFlowDebugSessionInfo[];
@@ -6483,25 +6208,6 @@ export interface RelationalTableDataset extends Dataset {
     tableName?: any;
     type: "RelationalTable";
 }
-
-// @public
-export interface RelationshipEntity extends MDEntity {
-    properties: RelationshipProperties;
-}
-
-// @public
-export interface RelationshipProperties extends MDEntityProperties {
-    columnRelationshipInformations: ColumnRelationshipInformation[];
-    readonly fromTableId?: string;
-    fromTableName: string;
-    namespace: Namespace;
-    relationshipType?: RelationshipType;
-    readonly toTableId?: string;
-    toTableName: string;
-}
-
-// @public
-export type RelationshipType = "ONETOONE" | "ONETOMANY" | "MANYTOONE" | "MANYTOMANY";
 
 // @public
 export type RequestStatus = string;
@@ -7146,13 +6852,6 @@ export interface SapTableSource extends TabularSource {
 }
 
 // @public
-export type SASEntityType = "DATABASE" | "TABLE" | "SCHEMA" | "VIEW" | "FUNCTION" | "PARTITIONINFO" | "RELATIONSHIP";
-
-// @public
-export interface ScalarTypeInfo extends TypeInfo {
-}
-
-// @public
 export type SchedulerCurrentState = string;
 
 // @public
@@ -7170,16 +6869,6 @@ export interface ScheduleTriggerRecurrence {
     schedule?: RecurrenceSchedule;
     startTime?: Date;
     timeZone?: string;
-}
-
-// @public
-export interface SchemaEntity extends MDEntity {
-    properties: SchemaProperties;
-}
-
-// @public
-export interface SchemaProperties extends MDEntityProperties {
-    namespace: Namespace;
 }
 
 // @public
@@ -7465,15 +7154,6 @@ export interface SnowflakeSource extends CopySource {
     query?: any;
     type: "SnowflakeSource";
 }
-
-// @public
-export interface Sorting {
-    keyName: string;
-    sortOrder: SortOrder;
-}
-
-// @public
-export type SortOrder = "DESC" | "ASC";
 
 // @public
 export type SparkAuthenticationType = string;
@@ -8307,18 +7987,6 @@ export interface StartDataFlowDebugSessionResponse {
 }
 
 // @public
-export interface StorageDescriptor {
-    columns: DataColumn[];
-    distribution?: DistributionInfo;
-    format: FormatInfo;
-    properties?: {
-        [propertyName: string]: any;
-    };
-    serDeInfo?: any;
-    source: DataSource;
-}
-
-// @public
 export interface StoredProcedureParameter {
     type?: StoredProcedureParameterType;
     value?: any;
@@ -8399,22 +8067,6 @@ export interface SybaseTableDataset extends Dataset {
 }
 
 // @public
-export interface SyMsapiddlResponse {
-    ddlType: DDLType;
-    entityName: string;
-    entityType: SASEntityType;
-    objectId: string;
-    objectVersion: number;
-    originObjectId: string;
-    publishStatus: "PUBLISHED";
-}
-
-// @public
-export interface SyMsapiddlResponses {
-    syMsApiDdlResponse: SyMsapiddlResponse[];
-}
-
-// @public
 export interface SynapseNotebookActivity extends ExecutionActivity {
     conf?: any;
     configurationType?: ConfigurationType;
@@ -8467,35 +8119,6 @@ export interface SynapseSparkJobReference {
     referenceName: string;
     type: SparkJobReferenceType;
 }
-
-// @public
-export interface TableEntity extends MDEntity {
-    properties: TableProperties;
-}
-
-// @public
-export interface TableNamespace extends Namespace {
-    schemaName?: string;
-}
-
-// @public
-export interface TablePartitioning {
-    keys: string[];
-    partitionFunctionType: string;
-}
-
-// @public
-export interface TableProperties extends MDEntityProperties {
-    isRewriteEnabled?: boolean;
-    namespace: TableNamespace;
-    partitioning?: TablePartitioning;
-    storageDescriptor: StorageDescriptor;
-    tableType: TableType;
-    temporary?: boolean;
-}
-
-// @public
-export type TableType = "MANAGED" | "EXTERNAL";
 
 // @public
 export interface TabularSource extends CopySource {
@@ -8866,21 +8489,6 @@ export interface TypeConversionSettings {
 }
 
 // @public
-export interface TypeInfo {
-    isComplexType?: boolean;
-    isNullable?: boolean;
-    isTableType?: boolean;
-    length?: number;
-    precision?: number;
-    properties?: {
-        [propertyName: string]: any;
-    };
-    scale?: number;
-    typeFamily?: string;
-    typeName: string;
-}
-
-// @public
 export interface UntilActivity extends ControlActivity {
     activities: ActivityUnion[];
     expression: Expression;
@@ -8908,9 +8516,6 @@ export interface ValidationActivity extends ControlActivity {
     timeout?: any;
     type: "Validation";
 }
-
-// @public
-export type ValidationStatus = "VALID" | "INVALID";
 
 // @public
 export interface VariableSpecification {
@@ -8941,22 +8546,6 @@ export interface VerticaTableDataset extends Dataset {
     table?: any;
     tableName?: any;
     type: "VerticaTable";
-}
-
-// @public
-export interface ViewEntity extends MDEntity {
-    properties: ViewEntityProperties;
-}
-
-// @public
-export interface ViewEntityProperties extends MDEntityProperties {
-    isRewriteEnabled?: boolean;
-    namespace: TableNamespace;
-    partitioning?: TablePartitioning;
-    storageDescriptor: StorageDescriptor;
-    temporary?: boolean;
-    viewExpandedText?: string;
-    viewOriginalText?: string;
 }
 
 // @public
