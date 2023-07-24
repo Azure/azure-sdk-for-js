@@ -6,16 +6,6 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 
-// Warning: (ae-internal-missing-underscore) The name "base64StringToString" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
-export function base64StringToString(value: string): string;
-
-// Warning: (ae-internal-missing-underscore) The name "base64ToUint8Array" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
-export function base64ToUint8Array(value: string): Uint8Array;
-
 // @public
 export function computeSha256Hash(content: string, encoding: "base64" | "hex"): Promise<string>;
 
@@ -83,20 +73,13 @@ export function objectHasProperty<Thing, PropertyName extends string>(thing: Thi
 // @public
 export function randomUUID(): string;
 
-// Warning: (ae-internal-missing-underscore) The name "stringToUint8Array" should be prefixed with an underscore because the declaration is marked as @internal
+// Warning: (ae-forgotten-export) The symbol "EncodingType" needs to be exported by the entry point index.d.ts
 //
-// @internal
-export function stringToUint8Array(value: string): Uint8Array;
+// @public (undocumented)
+export function stringToUint8Array(value: string, format: EncodingType): Uint8Array;
 
-// Warning: (ae-internal-missing-underscore) The name "uint8ArrayToBase64" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
-export function uint8ArrayToBase64(bytes: Uint8Array): string;
-
-// Warning: (ae-internal-missing-underscore) The name "uint8ArrayToString" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
-export function uint8ArrayToString(bytes: Uint8Array): string;
+// @public (undocumented)
+export function uint8ArrayToString(bytes: Uint8Array, format: EncodingType): string;
 
 // @public
 export type UnknownObject = {
