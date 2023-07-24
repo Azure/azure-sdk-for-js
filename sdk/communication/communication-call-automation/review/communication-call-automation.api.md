@@ -27,6 +27,7 @@ export interface AddParticipantFailed extends Omit<RestAddParticipantFailed, "ca
 
 // @public
 export interface AddParticipantOptions extends OperationOptions {
+    callbackUrlOverride?: string;
     invitationTimeoutInSeconds?: number;
     operationContext?: string;
 }
@@ -241,12 +242,14 @@ export class CallRecording {
 export type CallRejectReason = string;
 
 // @public
-export interface CallTransferAccepted extends Omit<RestCallTransferAccepted, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
+export interface CallTransferAccepted extends Omit<RestCallTransferAccepted, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation" | "transferee" | "transferTarget"> {
     callConnectionId: string;
     correlationId: string;
     kind: "CallTransferAccepted";
     resultInformation?: ResultInformation;
     serverCallId: string;
+    transferee: CommunicationIdentifier;
+    transferTarget: CommunicationIdentifier;
 }
 
 // @public
@@ -590,6 +593,7 @@ export interface RemoveParticipantResult {
 
 // @public
 export interface RemoveParticipantsOption extends OperationOptions {
+    callbackUrlOverride?: string;
     operationContext?: string;
 }
 
@@ -647,6 +651,8 @@ export interface RestCallTransferAccepted {
     operationContext?: string;
     resultInformation?: RestResultInformation;
     serverCallId?: string;
+    readonly transferee?: CommunicationIdentifierModel;
+    readonly transferTarget?: CommunicationIdentifierModel;
 }
 
 // @public
@@ -909,10 +915,12 @@ export interface TransferCallResult {
 
 // @public
 export interface TransferCallToParticipantOptions extends OperationOptions {
+    callbackUrlOverride?: string;
     operationContext?: string;
     sipHeaders?: {
         [propertyName: string]: string;
     };
+    transferee?: CommunicationIdentifier;
     voipHeaders?: {
         [propertyName: string]: string;
     };

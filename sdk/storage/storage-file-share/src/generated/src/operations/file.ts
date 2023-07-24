@@ -371,6 +371,8 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.accept1,
     Parameters.metadata,
     Parameters.leaseId,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
     Parameters.fileAttributes,
@@ -418,6 +420,8 @@ const downloadOperationSpec: coreClient.OperationSpec = {
     Parameters.version,
     Parameters.accept1,
     Parameters.leaseId,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot,
     Parameters.range,
     Parameters.rangeGetContentMD5
   ],
@@ -441,7 +445,9 @@ const getPropertiesOperationSpec: coreClient.OperationSpec = {
   headerParameters: [
     Parameters.version,
     Parameters.accept1,
-    Parameters.leaseId
+    Parameters.leaseId,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -463,7 +469,9 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [
     Parameters.version,
     Parameters.accept1,
-    Parameters.leaseId
+    Parameters.leaseId,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -486,6 +494,8 @@ const setHttpHeadersOperationSpec: coreClient.OperationSpec = {
     Parameters.version,
     Parameters.accept1,
     Parameters.leaseId,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
     Parameters.fileAttributes,
@@ -521,7 +531,9 @@ const setMetadataOperationSpec: coreClient.OperationSpec = {
     Parameters.version,
     Parameters.accept1,
     Parameters.metadata,
-    Parameters.leaseId
+    Parameters.leaseId,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -546,7 +558,9 @@ const acquireLeaseOperationSpec: coreClient.OperationSpec = {
     Parameters.action,
     Parameters.duration,
     Parameters.proposedLeaseId,
-    Parameters.requestId
+    Parameters.requestId,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -570,7 +584,9 @@ const releaseLeaseOperationSpec: coreClient.OperationSpec = {
     Parameters.accept1,
     Parameters.requestId,
     Parameters.action1,
-    Parameters.leaseId1
+    Parameters.leaseId1,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -595,7 +611,9 @@ const changeLeaseOperationSpec: coreClient.OperationSpec = {
     Parameters.proposedLeaseId,
     Parameters.requestId,
     Parameters.leaseId1,
-    Parameters.action2
+    Parameters.action2,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -619,7 +637,9 @@ const breakLeaseOperationSpec: coreClient.OperationSpec = {
     Parameters.accept1,
     Parameters.leaseId,
     Parameters.requestId,
-    Parameters.action4
+    Parameters.action4,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -642,6 +662,8 @@ const uploadRangeOperationSpec: coreClient.OperationSpec = {
   headerParameters: [
     Parameters.version,
     Parameters.leaseId,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot,
     Parameters.contentType2,
     Parameters.accept3,
     Parameters.range1,
@@ -673,6 +695,8 @@ const uploadRangeFromURLOperationSpec: coreClient.OperationSpec = {
     Parameters.version,
     Parameters.accept1,
     Parameters.leaseId,
+    Parameters.allowTrailingDot,
+    Parameters.allowSourceTrailingDot,
     Parameters.range1,
     Parameters.contentLength,
     Parameters.fileLastWrittenMode,
@@ -711,6 +735,8 @@ const getRangeListOperationSpec: coreClient.OperationSpec = {
     Parameters.version,
     Parameters.accept1,
     Parameters.leaseId,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot,
     Parameters.range
   ],
   isXML: true,
@@ -735,12 +761,15 @@ const startCopyOperationSpec: coreClient.OperationSpec = {
     Parameters.accept1,
     Parameters.metadata,
     Parameters.leaseId,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
     Parameters.fileAttributes1,
     Parameters.fileCreationTime,
     Parameters.fileLastWriteTime,
     Parameters.fileChangeTime,
+    Parameters.allowSourceTrailingDot,
     Parameters.copySource,
     Parameters.filePermissionCopyMode,
     Parameters.ignoreReadOnly1,
@@ -771,6 +800,8 @@ const abortCopyOperationSpec: coreClient.OperationSpec = {
     Parameters.version,
     Parameters.accept1,
     Parameters.leaseId,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot,
     Parameters.copyActionAbortConstant
   ],
   isXML: true,
@@ -797,7 +828,12 @@ const listHandlesOperationSpec: coreClient.OperationSpec = {
     Parameters.comp9
   ],
   urlParameters: [Parameters.url],
-  headerParameters: [Parameters.version, Parameters.accept1],
+  headerParameters: [
+    Parameters.version,
+    Parameters.accept1,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot
+  ],
   isXML: true,
   serializer: xmlSerializer
 };
@@ -823,6 +859,8 @@ const forceCloseHandlesOperationSpec: coreClient.OperationSpec = {
   headerParameters: [
     Parameters.version,
     Parameters.accept1,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot,
     Parameters.handleId
   ],
   isXML: true,
@@ -846,6 +884,8 @@ const renameOperationSpec: coreClient.OperationSpec = {
     Parameters.version,
     Parameters.accept1,
     Parameters.metadata,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
     Parameters.renameSource,
@@ -857,6 +897,7 @@ const renameOperationSpec: coreClient.OperationSpec = {
     Parameters.fileCreationTime,
     Parameters.fileLastWriteTime,
     Parameters.fileChangeTime,
+    Parameters.allowSourceTrailingDot,
     Parameters.fileContentType
   ],
   isXML: true,

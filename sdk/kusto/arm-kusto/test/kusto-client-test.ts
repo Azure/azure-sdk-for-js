@@ -74,7 +74,7 @@ describe("KustoManagementClient", () => {
     assert.strictEqual(res.name, clusterName_1);
     res = await client.clusters.beginCreateOrUpdateAndWait(resourceGroup, clusterName_2, clusterParameters, testPollingOptions);
     assert.strictEqual(res.name, clusterName_2);
-  });
+  }).timeout(3600000);
 
   //kusto_client.clusters.beginUpdateAndWait
   // it("could update tags in cluster", async () => {

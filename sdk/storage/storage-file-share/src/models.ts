@@ -3,6 +3,8 @@
 import { FileSystemAttributes } from "./FileSystemAttributes";
 import { truncatedISO8061Date } from "./utils/utils.common";
 import { logger } from "./log";
+import { ShareTokenIntent } from "./generatedModels";
+import { StoragePipelineOptions } from "../../storage-blob/src/Pipeline";
 
 export interface Metadata {
   [propertyName: string]: string;
@@ -188,6 +190,26 @@ export interface ShareProtocols {
    */
   nfsEnabled?: boolean;
 }
+
+export interface ShareClientConfig {
+  /**
+   * The Files OAuth over REST feature requires special permissions to be included in the role definition to use
+   * These special permissions will give privileged access to file share data -
+   * It will allow users to bypass file/directory level ACL/NTFS permissions and get read/write access to file share data
+   * Since this additional permission can be unintended and to prevent unintended and over privileged access,
+   * additional checks has been implemented that requires users to explicitly indicate their intent to use these additional permissions.
+   * This is done using the fileRequestIntent option.
+   * Currently, the only value that the header supports is 'backup'
+   * Any user who wishes to use Files OAuth over REST feature has to call the API with the intent header. If the API is not called with the intent header, any subsequent data operation requests will be denied.
+   */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
+  /** If true, the trailing dot will not be trimmed from the source URI. */
+  allowSourceTrailingDot?: boolean;
+}
+
+export type ShareClientOptions = StoragePipelineOptions & ShareClientConfig;
 
 /**
  * Convert protocols from joined string to ShareProtocols.
