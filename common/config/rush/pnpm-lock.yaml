@@ -9941,6 +9941,11 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
+  /strip-json-comments/5.0.1:
+    resolution: {integrity: sha512-0fk9zBqO67Nq5M/m45qHCJxylV/DhBlIOVExqgOMiCCrzrhU6tCibRXNqE3jwJLftzE9SNuZtYbpzcO+i9FiKw==}
+    engines: {node: '>=14.16'}
+    dev: false
+
   /strnum/1.0.5:
     resolution: {integrity: sha512-J8bbNyKKXl5qYcR36TIO8W3mVGVHrmmxsd5PAItGkmyzwJvybiw2IVq5nqd0i4LSNSkB/sx9VHllbfFdr9k1JA==}
     dev: false
@@ -12608,7 +12613,7 @@ packages:
     dev: false
 
   file:projects/arm-compute-1.tgz:
-    resolution: {integrity: sha512-v0Hc/fkKwCJdEgFmrk8hnUIrcB3NldZ31tJCdvchFLv+ZJfPB58ZnMGD23wIsz52q/Ig+Jq8yJ8DKfPNB0/sZQ==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-dc0DkgBjMbn7PO2CVdcMlVVyf+PDXmwO/IGFfPpqiLM4ibQHraBxwpLxF8JXL90AU2sdi8ghPvp8iT0HJJBbFw==, tarball: file:projects/arm-compute-1.tgz}
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
@@ -17019,7 +17024,7 @@ packages:
     dev: false
 
   file:projects/arm-storagemover.tgz:
-    resolution: {integrity: sha512-Tpvs68MbRsntTcGX2BpHinkU0fytQNSV0Z5ymY9Uivkq22zA3PqWA951GkbawevLOif3JZMc0ZcrPEXK0uYT+A==, tarball: file:projects/arm-storagemover.tgz}
+    resolution: {integrity: sha512-eFWSOyZKUPTadGsbtTdaFJoRCuNAdS8QN5tMBdxD19e2mr1v3CcjCw4LEgIs6menTuahUbqIEmxKpLFQ4bs6Sw==, tarball: file:projects/arm-storagemover.tgz}
     name: '@rush-temp/arm-storagemover'
     version: 0.0.0
     dependencies:
@@ -18897,7 +18902,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-L9XoJWsHCXscBVFkbT0brWNjYcv6TP/k3JtbIgTcs1c1h/x4fUx2m9u8tVY/747rOCBlsv3yo/bjTfEYsnQM7Q==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-MFnha/Pq6OtGF6N+o4PAVdk/52njt7puW4PTc5sBV0kc91wILhZXurzCaYc/NZHpvs7bII5sIal/+xPpTVxSfg==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -18943,7 +18948,7 @@ packages:
       rollup-plugin-sourcemaps: 0.6.3_dmbj5memikchm63lpeyt6ukdau
       rollup-plugin-visualizer: 5.9.2_rollup@2.79.1
       semver: 7.5.4
-      strip-json-comments: 3.1.1
+      strip-json-comments: 5.0.1
       ts-morph: 18.0.0
       ts-node: 10.9.1_rj4luzizacc4lverevdf7zm2ti
       tslib: 2.6.0
