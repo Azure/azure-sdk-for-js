@@ -22,7 +22,6 @@ export interface CustomCertificate extends ProxyResource {
     keyVaultSecretName: string;
     keyVaultSecretVersion?: string;
     readonly provisioningState?: ProvisioningState;
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -36,7 +35,6 @@ export interface CustomDomain extends ProxyResource {
     customCertificate: ResourceReference;
     domainName: string;
     readonly provisioningState?: ProvisioningState;
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -195,6 +193,12 @@ export enum KnownScaleType {
     Automatic = "Automatic",
     Manual = "Manual",
     None = "None"
+}
+
+// @public
+export enum KnownServiceKind {
+    SocketIO = "SocketIO",
+    WebPubSub = "WebPubSub"
 }
 
 // @public
@@ -358,7 +362,6 @@ export interface PrivateEndpointConnection extends ProxyResource {
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     readonly provisioningState?: ProvisioningState;
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -404,9 +407,22 @@ export interface RegenerateKeyParameters {
 }
 
 // @public
+export interface Replica extends TrackedResource {
+    readonly provisioningState?: ProvisioningState;
+    sku?: ResourceSku;
+}
+
+// @public (undocumented)
+export interface ReplicaList {
+    nextLink?: string;
+    value?: Replica[];
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -439,6 +455,9 @@ export interface ResourceSku {
 export type ScaleType = string;
 
 // @public
+export type ServiceKind = string;
+
+// @public
 export interface ServiceSpecification {
     logSpecifications?: LogSpecification[];
     metricSpecifications?: MetricSpecification[];
@@ -464,7 +483,6 @@ export interface SharedPrivateLinkResource extends ProxyResource {
     readonly provisioningState?: ProvisioningState;
     requestMessage?: string;
     readonly status?: SharedPrivateLinkResourceStatus;
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -531,7 +549,7 @@ export interface SystemData {
 
 // @public
 export interface TrackedResource extends Resource {
-    location?: string;
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
@@ -579,8 +597,8 @@ export interface WebPubSub {
     beginDeleteAndWait(resourceGroupName: string, resourceName: string, options?: WebPubSubDeleteOptionalParams): Promise<void>;
     beginRegenerateKey(resourceGroupName: string, resourceName: string, parameters: RegenerateKeyParameters, options?: WebPubSubRegenerateKeyOptionalParams): Promise<SimplePollerLike<OperationState<WebPubSubRegenerateKeyResponse>, WebPubSubRegenerateKeyResponse>>;
     beginRegenerateKeyAndWait(resourceGroupName: string, resourceName: string, parameters: RegenerateKeyParameters, options?: WebPubSubRegenerateKeyOptionalParams): Promise<WebPubSubRegenerateKeyResponse>;
-    beginRestart(resourceGroupName: string, resourceName: string, options?: WebPubSubRestartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRestartAndWait(resourceGroupName: string, resourceName: string, options?: WebPubSubRestartOptionalParams): Promise<void>;
+    beginRestart(resourceGroupName: string, resourceName: string, options?: WebPubSubRestartOptionalParams): Promise<SimplePollerLike<OperationState<WebPubSubRestartResponse>, WebPubSubRestartResponse>>;
+    beginRestartAndWait(resourceGroupName: string, resourceName: string, options?: WebPubSubRestartOptionalParams): Promise<WebPubSubRestartResponse>;
     beginUpdate(resourceGroupName: string, resourceName: string, parameters: WebPubSubResource, options?: WebPubSubUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WebPubSubUpdateResponse>, WebPubSubUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, resourceName: string, parameters: WebPubSubResource, options?: WebPubSubUpdateOptionalParams): Promise<WebPubSubUpdateResponse>;
     checkNameAvailability(location: string, parameters: NameAvailabilityParameters, options?: WebPubSubCheckNameAvailabilityOptionalParams): Promise<WebPubSubCheckNameAvailabilityResponse>;
@@ -588,6 +606,7 @@ export interface WebPubSub {
     listByResourceGroup(resourceGroupName: string, options?: WebPubSubListByResourceGroupOptionalParams): PagedAsyncIterableIterator<WebPubSubResource>;
     listBySubscription(options?: WebPubSubListBySubscriptionOptionalParams): PagedAsyncIterableIterator<WebPubSubResource>;
     listKeys(resourceGroupName: string, resourceName: string, options?: WebPubSubListKeysOptionalParams): Promise<WebPubSubListKeysResponse>;
+    listReplicaSkus(resourceGroupName: string, resourceName: string, replicaName: string, options?: WebPubSubListReplicaSkusOptionalParams): Promise<WebPubSubListReplicaSkusResponse>;
     listSkus(resourceGroupName: string, resourceName: string, options?: WebPubSubListSkusOptionalParams): Promise<WebPubSubListSkusResponse>;
 }
 
@@ -712,7 +731,6 @@ export type WebPubSubGetResponse = WebPubSubResource;
 // @public
 export interface WebPubSubHub extends ProxyResource {
     properties: WebPubSubHubProperties;
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -818,6 +836,13 @@ export interface WebPubSubListKeysOptionalParams extends coreClient.OperationOpt
 export type WebPubSubListKeysResponse = WebPubSubKeys;
 
 // @public
+export interface WebPubSubListReplicaSkusOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebPubSubListReplicaSkusResponse = SkuList;
+
+// @public
 export interface WebPubSubListSkusOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -849,6 +874,8 @@ export class WebPubSubManagementClient extends coreClient.ServiceClient {
     webPubSubPrivateEndpointConnections: WebPubSubPrivateEndpointConnections;
     // (undocumented)
     webPubSubPrivateLinkResources: WebPubSubPrivateLinkResources;
+    // (undocumented)
+    webPubSubReplicas: WebPubSubReplicas;
     // (undocumented)
     webPubSubSharedPrivateLinkResources: WebPubSubSharedPrivateLinkResources;
 }
@@ -930,6 +957,12 @@ export interface WebPubSubPrivateLinkResourcesListOptionalParams extends coreCli
 export type WebPubSubPrivateLinkResourcesListResponse = PrivateLinkResourceList;
 
 // @public
+export interface WebPubSubRegenerateKeyHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface WebPubSubRegenerateKeyOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -937,6 +970,83 @@ export interface WebPubSubRegenerateKeyOptionalParams extends coreClient.Operati
 
 // @public
 export type WebPubSubRegenerateKeyResponse = WebPubSubKeys;
+
+// @public
+export interface WebPubSubReplicas {
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, replicaName: string, parameters: Replica, options?: WebPubSubReplicasCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WebPubSubReplicasCreateOrUpdateResponse>, WebPubSubReplicasCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, replicaName: string, parameters: Replica, options?: WebPubSubReplicasCreateOrUpdateOptionalParams): Promise<WebPubSubReplicasCreateOrUpdateResponse>;
+    beginRestart(resourceGroupName: string, resourceName: string, replicaName: string, options?: WebPubSubReplicasRestartOptionalParams): Promise<SimplePollerLike<OperationState<WebPubSubReplicasRestartResponse>, WebPubSubReplicasRestartResponse>>;
+    beginRestartAndWait(resourceGroupName: string, resourceName: string, replicaName: string, options?: WebPubSubReplicasRestartOptionalParams): Promise<WebPubSubReplicasRestartResponse>;
+    beginUpdate(resourceGroupName: string, resourceName: string, replicaName: string, parameters: Replica, options?: WebPubSubReplicasUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WebPubSubReplicasUpdateResponse>, WebPubSubReplicasUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, resourceName: string, replicaName: string, parameters: Replica, options?: WebPubSubReplicasUpdateOptionalParams): Promise<WebPubSubReplicasUpdateResponse>;
+    delete(resourceGroupName: string, resourceName: string, replicaName: string, options?: WebPubSubReplicasDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, resourceName: string, replicaName: string, options?: WebPubSubReplicasGetOptionalParams): Promise<WebPubSubReplicasGetResponse>;
+    list(resourceGroupName: string, resourceName: string, options?: WebPubSubReplicasListOptionalParams): PagedAsyncIterableIterator<Replica>;
+}
+
+// @public
+export interface WebPubSubReplicasCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type WebPubSubReplicasCreateOrUpdateResponse = Replica;
+
+// @public
+export interface WebPubSubReplicasDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface WebPubSubReplicasGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebPubSubReplicasGetResponse = Replica;
+
+// @public
+export interface WebPubSubReplicasListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebPubSubReplicasListNextResponse = ReplicaList;
+
+// @public
+export interface WebPubSubReplicasListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebPubSubReplicasListResponse = ReplicaList;
+
+// @public
+export interface WebPubSubReplicasRestartHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface WebPubSubReplicasRestartOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type WebPubSubReplicasRestartResponse = WebPubSubReplicasRestartHeaders;
+
+// @public
+export interface WebPubSubReplicasUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface WebPubSubReplicasUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type WebPubSubReplicasUpdateResponse = Replica;
 
 // @public
 export type WebPubSubRequestType = string;
@@ -949,6 +1059,7 @@ export interface WebPubSubResource extends TrackedResource {
     readonly hostName?: string;
     readonly hostNamePrefix?: string;
     identity?: ManagedIdentity;
+    kind?: ServiceKind;
     liveTraceConfiguration?: LiveTraceConfiguration;
     networkACLs?: WebPubSubNetworkACLs;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
@@ -959,7 +1070,6 @@ export interface WebPubSubResource extends TrackedResource {
     readonly serverPort?: number;
     readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
     sku?: ResourceSku;
-    readonly systemData?: SystemData;
     tls?: WebPubSubTlsSettings;
     readonly version?: string;
 }
@@ -971,10 +1081,19 @@ export interface WebPubSubResourceList {
 }
 
 // @public
+export interface WebPubSubRestartHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface WebPubSubRestartOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type WebPubSubRestartResponse = WebPubSubRestartHeaders;
 
 // @public
 export interface WebPubSubSharedPrivateLinkResources {
@@ -1028,6 +1147,12 @@ export type WebPubSubSkuTier = string;
 // @public
 export interface WebPubSubTlsSettings {
     clientCertEnabled?: boolean;
+}
+
+// @public
+export interface WebPubSubUpdateHeaders {
+    // (undocumented)
+    location?: string;
 }
 
 // @public
