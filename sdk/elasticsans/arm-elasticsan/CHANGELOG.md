@@ -46,9 +46,6 @@
   - Added Enum KnownOrigin
   - Added Enum KnownPrivateEndpointServiceConnectionStatus
   - Added function getContinuationToken
-
-**Breaking Changes**
-
   - Interface ElasticSan no longer has parameter systemData
   - Interface ErrorResponse no longer has parameter additionalInfo
   - Interface ErrorResponse no longer has parameter code
@@ -60,6 +57,9 @@
   - Interface VolumeGroup no longer has parameter systemData
   - Interface VolumeGroupUpdate no longer has parameter tags
   - Interface VolumeUpdate no longer has parameter tags
+  
+**Breaking Changes**
+
   - Parameter location of interface TrackedResource is now required
   - Parameter sizeGiB of interface Volume is now required
     
