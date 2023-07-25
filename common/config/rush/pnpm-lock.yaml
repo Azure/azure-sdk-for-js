@@ -13826,7 +13826,7 @@ packages:
     dev: false
 
   file:projects/arm-elasticsan.tgz:
-    resolution: {integrity: sha512-wuPQXjMzsKDQRD9gt9YardeUOLib6zETTVhEHuCgM4rZH+T+yFfQcOV49OHf+sSweHiBeHun/54D87Tl7+1t3g==, tarball: file:projects/arm-elasticsan.tgz}
+    resolution: {integrity: sha512-mJahvWqbrYDPLUpN6GCn1f/kDTymrTGbJHC4aTaxFRO7t6CEtIoIiMbvoDJpZK84FScxsYheZzBwhXNXtpPPYA==, tarball: file:projects/arm-elasticsan.tgz}
     name: '@rush-temp/arm-elasticsan'
     version: 0.0.0
     dependencies:
@@ -13841,7 +13841,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.3.1
-      mkdirp: 1.0.4
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
