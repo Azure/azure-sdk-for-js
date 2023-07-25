@@ -188,6 +188,8 @@ export interface TransferToParticipantRequest {
   customContext?: CustomContext;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
+  /** Transferee is the participant who is transferring the call. */
+  transferee?: CommunicationIdentifierModel;
   /** The callback URI override. */
   callbackUriOverride?: string;
 }
@@ -607,6 +609,16 @@ export interface CallTransferAccepted {
   operationContext?: string;
   /** Contains the resulting SIP code/sub-code and message from NGC services. */
   resultInformation?: ResultInformation;
+  /**
+   * Traffer target: the user that transferee will be transferred to
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transferTarget?: CommunicationIdentifierModel;
+  /**
+   * Transferee: the participant being transferred away
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transferee?: CommunicationIdentifierModel;
 }
 
 /** The call transfer failed event. */
@@ -1078,14 +1090,10 @@ export interface DialogSensitivityUpdate {
    */
   readonly dialogId?: string;
   /**
-   * SensitiveFlag data from the Conversation Conductor
+   * SensitiveMask
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly sensitiveFlag?: SensitiveFlag;
-}
-
-export interface SensitiveFlag {
-  recording?: number;
+  readonly sensitiveMask?: boolean;
 }
 
 export interface ContinuousDtmfRecognitionToneFailed {
