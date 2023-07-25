@@ -162,7 +162,7 @@ export class CallMedia {
 
 // @public
 export interface CallMediaRecognizeChoiceOptions extends CallMediaRecognizeOptions {
-    choices: Choice[];
+    choices: RecognitionChoice[];
     // (undocumented)
     readonly kind: "callMediaRecognizeChoiceOptions";
     speechLanguage?: string;
@@ -258,14 +258,6 @@ export interface CallTransferFailed extends Omit<RestCallTransferFailed, "callCo
 export interface ChannelAffinity {
     channel?: number;
     targetParticipant: CommunicationIdentifier;
-}
-
-// @public
-export interface Choice {
-    label: string;
-    phrases: string[];
-    // (undocumented)
-    tone?: DtmfTone;
 }
 
 // @public
@@ -444,6 +436,14 @@ export interface PlayOptions extends OperationOptions {
 export interface PlaySource {
     // (undocumented)
     playsourcacheid?: string;
+}
+
+// @public
+export interface RecognitionChoice {
+    label: string;
+    phrases: string[];
+    // (undocumented)
+    tone?: DtmfTone;
 }
 
 // @public

@@ -127,8 +127,8 @@ export enum DtmfTone {
   Asterisk = "asterisk",
 }
 
-/** A Recognize Choice */
-export interface Choice {
+/** A Recognition Choice */
+export interface RecognitionChoice {
   /** Identifier for a given choice */
   label: string;
   /** List of phrases to recognize */

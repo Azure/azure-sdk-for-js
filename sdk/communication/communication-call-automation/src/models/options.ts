@@ -9,7 +9,7 @@ import {
   TextSource,
   SsmlSource,
   DtmfTone,
-  Choice,
+  RecognitionChoice,
   RecordingContent,
   RecordingChannel,
   RecordingFormat,
@@ -40,7 +40,7 @@ export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions
 /** The recognize configuration specific to Choices. */
 export interface CallMediaRecognizeChoiceOptions extends CallMediaRecognizeOptions {
   /** The IvR choices for recognize. */
-  choices: Choice[];
+  choices: RecognitionChoice[];
   /** Speech language to be recognized, If not set default is en-US */
   speechLanguage?: string;
   /** Endpoint where the custom model was deployed. */
