@@ -1,14 +1,10 @@
 # Release History
 
-## 2.5.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 2.5.4 (2023-07-24)
 
 ### Bugs Fixed
 
-### Other Changes
+- Support non-standard PATCH operations.
 
 ## 2.5.3 (2023-05-04)
 

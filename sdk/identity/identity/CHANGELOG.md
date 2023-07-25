@@ -1,5 +1,10 @@
 # Release History
 
+## 3.2.4 (2023-07-21)
+
+### Bug Fixes
+- Fixed a bug related to [Managed Identity Credential intermixing wrong scopes](https://github.com/Azure/azure-sdk-for-js/pull/26566) for successive `getToken()` calls.
+
 ## 3.2.3 (2023-06-20)
 
 ### Bug Fixes

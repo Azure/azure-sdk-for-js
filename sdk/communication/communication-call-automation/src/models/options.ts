@@ -128,6 +128,8 @@ export interface TransferCallToParticipantOptions extends OperationOptions {
   voipHeaders?: { [propertyName: string]: string };
   /** Call back URI override for this request */
   callbackUrlOverride?: string;
+  /** Participant that is being transferred away */
+  transferee?: CommunicationIdentifier;
 }
 
 /** Options to add participants. */
