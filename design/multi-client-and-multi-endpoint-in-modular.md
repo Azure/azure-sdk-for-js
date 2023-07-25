@@ -145,7 +145,7 @@ First, let's consider some common questions about this two design.
 
 With the above initial proposals and the above considerations, we get our finalized design for both multi-client and multi-endpoint.
 
-### Finalized Proposal in Multi-Client
+### Finalized Proposal in Multi-Client & Multi-Endpoint
 
 <!-- markdownlint-disable MD033 -->
 <table>
@@ -156,9 +156,8 @@ With the above initial proposals and the above considerations, we get our finali
   <tr>
     <td>
       <pre lang="typescript">
-Both sub classical clients exported as well as models
+Export all classical sub-clients and models
 @azure/foo
-
 </pre>
 <pre lang="typescript">
 ClientA
@@ -175,9 +174,8 @@ ClientB
 </td>
 <td>
 <pre lang="typescript">
-Both sub classical clients exported as well as models
+Export all classical sub-clients and models
 src
-src/rest
 </pre>
 <pre lang="typescript">
 ClientA
@@ -196,55 +194,4 @@ src/clientB/models
 </table>
 <!-- markdownlint-enable MD033 -->
 
-### Finalized Proposal in Multi-Endpoint
-
-<!-- markdownlint-disable MD033 -->
-<table>
-  <tr>
-    <th>Subpath Exports</th>
-    <th>Source Code Structure</th>
-  </tr>
-  <tr>
-    <td>
-      <pre lang="typescript">
-Both sub classical clients exported as well as models
-@azure/foo
-
-</pre>
-<pre lang="typescript">
-ClientA
-@azure/foo/clientA
-@azure/foo/clientA/api
-@azure/foo/clientA/models
-</pre>
-<pre lang="typescript">
-ClientB
-@azure/foo/clientB
-@azure/foo/clientB/api
-@azure/foo/clientB/models
-</pre>
-</td>
-<td>
-<pre lang="typescript">
-Both sub classical clients exported as well as models
-src
-src/rest
-</pre>
-<pre lang="typescript">
-ClientA
-src/clientA
-src/clientA/api
-src/clientA/models
-</pre>
-<pre lang="typescript">
-ClientB
-src/clientB
-src/clientB/api
-src/clientB/models
-</pre>
-</td>
-  </tr>
-</table>
-<!-- markdownlint-enable MD033 -->
-
-The proposals look the same in both the Multi-Client and Multi-Endpoint case. But there's a difference in the `src/rest` between the Multi-Client and the Multi-Endpoint case. In the Multi-Client case, we will just have a `src/rest/index.ts` that exports everything from the `@azure-rest/service` standalone RLC. In the Multi-Endpoint case, we will just have a `src/rest/clientA/index.ts` that exports everything from the `@azure-rest/service-clientA` standalone RLC and a `src/rest/clientB/index.ts` that exports everything from the `@azure-rest/service-clientB` standalone RLC which is a multiple RLC packages maps to one Modular package scenario.
+The proposals should be the same in both the Multi-Client and Multi-Endpoint case. But there's a difference in the rest layer between the Multi-Client and the Multi-Endpoint case. In the Multi-Client case, we will just have one  `@azure-rest/foo` as the modular dependencies that provides the rest api layer stuff to the modular layer. In the Multi-Endpoint case, we will have both `@azure-rest/foo-clientA` that provides rest api layer of clientA to the modular layer sub-client clientA and  `@azure-rest/foo-clientB` that provides rest api layer of clientB to the modular layer to the sub-client clientB.
