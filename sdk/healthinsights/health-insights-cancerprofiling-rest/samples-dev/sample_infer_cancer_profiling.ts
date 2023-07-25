@@ -13,15 +13,8 @@ import { AzureKeyCredential } from "@azure/core-auth";
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 import CancerProfilingRestClient, {
-    DocumentContent,
-    getLongRunningPoller, CreateJobBodyParam, isUnexpected,
-    OncoPhenotypeData,
-    OncoPhenotypeModelConfiguration,
-    OncoPhenotypeResultOutput,
-    OncoPhenotypeResultsOutput,
-    PatientDocument,
-    PatientInfo,
-    PatientRecord
+    getLongRunningPoller,
+    isUnexpected
 } from "../src";
 dotenv.config();
 
@@ -29,9 +22,9 @@ dotenv.config();
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "https://eastus.api.cognitive.microsoft.com";
 const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
 
-function printResults(cancerProfilingResult: OncoPhenotypeResultOutput): void {
+function printResults(cancerProfilingResult): void {
     if (cancerProfilingResult.status === "succeeded") {
-        const results = cancerProfilingResult.results as OncoPhenotypeResultsOutput;
+        const results = cancerProfilingResult.results;
         const patients = results.patients;
         for (const patientResult of patients) {
             console.log(`Inferences of Patient ${patientResult.id}`);
@@ -63,12 +56,12 @@ export async function main() {
     const credential = new AzureKeyCredential(apiKey);
     const client = CancerProfilingRestClient(endpoint, credential);
 
-    const patientInfo: PatientInfo = {
+    const patientInfo = {
         sex: "FEMALE",
         birthDate: new Date(1979, 10, 8), // Note: Months are zero-based (11 represents December)
     };
 
-    const patient1: PatientRecord = {
+    const patient1 = {
         id: "patient_id",
         info: patientInfo,
     };
@@ -94,12 +87,12 @@ export async function main() {
         "Findings are suggestive of a working diagnosis of pneumonia. The patient is referred to a "
         "follow-up CXR in 2 weeks. ";
 
-    const docContent: DocumentContent = {
+    const docContent = {
         sourceType: "INLINE",
         value: doc1
     };
 
-    const patientDoc1: PatientDocument = {
+    const patientDoc1 = {
         type: "NOTE",
         id: "doc1",
         content: docContent,
@@ -135,12 +128,12 @@ export async function main() {
        "Could benefit from biological therapy. "
        "Different treatment options were explained- the patient wants to get a second opinion.";
 
-    const docContent2: DocumentContent = {
+    const docContent2 = {
         sourceType: "INLINE",
         value: doc2
     };
 
-    const patientDoc2: PatientDocument = {
+    const patientDoc2 = {
         type: "NOTE",
         id: "doc2",
         content: docContent2,
@@ -170,12 +163,12 @@ export async function main() {
        " Blocks with invasive carcinoma:  A1"
        " Special studies: Pending";
 
-    const docContent3: DocumentContent = {
+    const docContent3 = {
         sourceType: "INLINE",
         value: doc3
     };
 
-    const patientDoc3: PatientDocument = {
+    const patientDoc3 = {
         type: "NOTE",
         id: "doc3",
         content: docContent3,
@@ -184,17 +177,16 @@ export async function main() {
         createdDateTime: new Date(2022, 1, 1)
     };
 
-    const patientDocList: PatientDocument[] = [patientDoc1, patientDoc2, patientDoc3];
-    patient1.data = patientDocList;
+    patient1.data = [patientDoc1, patientDoc2, patientDoc3];
 
-    const configuration: OncoPhenotypeModelConfiguration = {includeEvidence: true};
+    const configuration = {includeEvidence: true};
 
-    const cancerProfilingData: OncoPhenotypeData = {
+    const cancerProfilingData = {
         patients: [patient1],
         configuration: configuration
     };
 
-    const parameters: CreateJobBodyParam = {
+    const parameters = {
         body: cancerProfilingData
     };
 
@@ -207,7 +199,7 @@ export async function main() {
   if (isUnexpected(cancerProfilingResult)) {
     throw cancerProfilingResult;
   }
-  const resultBody = cancerProfilingResult.body as OncoPhenotypeResultOutput;
+  const resultBody = cancerProfilingResult.body;
   printResults(resultBody);
 
 }

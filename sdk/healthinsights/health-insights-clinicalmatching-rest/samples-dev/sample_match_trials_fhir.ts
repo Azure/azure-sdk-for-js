@@ -13,20 +13,8 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
 import * as fs from 'fs';
 import ClinicalMatchingRestClient, {
-    ClinicalCodedElement,
-    ClinicalTrialRegistryFilter,
-    ClinicalTrials,
-    DocumentContent,
-    GeographicLocation,
     getLongRunningPoller,
-    isUnexpected,
-    CreateJobBodyParam,
-    PatientDocument,
-    PatientInfo,
-    PatientRecord,
-    TrialMatcherData,
-    TrialMatcherModelConfiguration,
-    TrialMatcherResultOutput, TrialMatcherResultsOutput
+    isUnexpected
 } from "../src";
 
 dotenv.config();
@@ -41,9 +29,9 @@ function getPatientDocContent(): string {
   return content;
 }
 
-function printResults(trialMatcherResult: TrialMatcherResultOutput): void {
+function printResults(trialMatcherResult): void {
     if (trialMatcherResult.status === "succeeded") {
-      const results = trialMatcherResult.results as TrialMatcherResultsOutput;
+      const results = trialMatcherResult.results;
       const patients = results.patients;
       for (const patientResult of patients) {
           console.log(`Inferences of Patient ${patientResult.id}`);
@@ -68,7 +56,7 @@ export async function main() {
   const credential = new AzureKeyCredential(apiKey);
   const client = ClinicalMatchingRestClient(endpoint, credential);
 
-  const clinicalInfoList: ClinicalCodedElement[] = [
+  const clinicalInfoList = [
     {
       system: "http://www.nlm.nih.gov/research/umls",
       code: "C0006826",
@@ -101,27 +89,27 @@ export async function main() {
     }
   ];
 
-  const patientInfo: PatientInfo = {
+  const patientInfo = {
     sex: "MALE",
     birthDate: new Date(1965, 11, 26), // Note: Months are zero-based (11 represents December)
     clinicalInfo: clinicalInfoList,
   };
-  const docContent: DocumentContent = {sourceType: "INLINE", value: getPatientDocContent()};
-  const patientDataList: PatientDocument = {
+  const docContent = {sourceType: "INLINE", value: getPatientDocContent()};
+  const patientDataList = {
       type: "fhirBundle",
       id: "Consultation-14-Demo",
       content: docContent,
       clinicalType: "CONSULTATION"
   };
 
-  const patient1: PatientRecord = {
+  const patient1 = {
     id: "patient_id",
     info: patientInfo,
     data: [patientDataList]
   };
 
-  const geographicLocation: GeographicLocation = { countryOrRegion: "United States", city: "Gilbert", state: "Arizona" };
-  const registryFilters: ClinicalTrialRegistryFilter = {
+  const geographicLocation = { countryOrRegion: "United States", city: "Gilbert", state: "Arizona" };
+  const registryFilters = {
     conditions: ["Non-small cell lung cancer"],
     phases: ["PHASE1"],
     sources: ["CLINICALTRIALS_GOV"],
@@ -129,20 +117,20 @@ export async function main() {
     studyTypes: ["INTERVENTIONAL"]
   };
 
-  const clinicalTrials: ClinicalTrials = ({
+  const clinicalTrials = ({
     registryFilters: [registryFilters]
   });
 
-  const configuration: TrialMatcherModelConfiguration = {
+  const configuration = {
     clinicalTrials: clinicalTrials,
   };
 
-  const trialMatcherData: TrialMatcherData = {
+  const trialMatcherData = {
     patients: [patient1],
     configuration: configuration,
   };
 
-  const trialMatcherParameter: CreateJobBodyParam = {
+  const trialMatcherParameter = {
     body: trialMatcherData
   };
 
@@ -155,7 +143,7 @@ export async function main() {
   if (isUnexpected(res)) {
       throw initialResponse;
   }
-  const resultBody = res.body as TrialMatcherResultOutput;
+  const resultBody = res.body;
   printResults(resultBody);
 }
 

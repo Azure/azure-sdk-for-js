@@ -12,11 +12,8 @@ import { AzureKeyCredential } from "@azure/core-auth";
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 import ClinicalMatchingRestClient, {
-  ClinicalCodedElement,
-  ClinicalTrialRegistryFilter, ClinicalTrials,
-  GeographicLocation, getLongRunningPoller, isUnexpected, CreateJobBodyParam,
-  PatientInfo,
-  PatientRecord, TrialMatcherData, TrialMatcherModelConfiguration, TrialMatcherResultOutput, TrialMatcherResultsOutput
+  getLongRunningPoller,
+  isUnexpected
 } from "../src";
 dotenv.config();
 
@@ -25,9 +22,9 @@ dotenv.config();
 const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "https://eastus.api.cognitive.microsoft.com";
 
-function printResults(trialMatcherResult: TrialMatcherResultOutput): void {
+function printResults(trialMatcherResult): void {
     if (trialMatcherResult.status === "succeeded") {
-      const results = trialMatcherResult.results as TrialMatcherResultsOutput;
+      const results = trialMatcherResult.results;
       const patients = results.patients;
       for (const patientResult of patients) {
           console.log(`Inferences of Patient ${patientResult.id}`);
@@ -52,7 +49,7 @@ export async function main() {
   const credential = new AzureKeyCredential(apiKey);
   const client = ClinicalMatchingRestClient(endpoint, credential);
 
-  const clinicalInfoList: ClinicalCodedElement[] = [
+  const clinicalInfoList = [
     {
       system: "http://www.nlm.nih.gov/research/umls",
       code: "C0006826",
@@ -115,19 +112,19 @@ export async function main() {
     },
   ];
 
-  const patientInfo: PatientInfo = {
+  const patientInfo = {
     sex: "MALE",
     birthDate: new Date(1965, 11, 26), // Note: Months are zero-based (11 represents December)
     clinicalInfo: clinicalInfoList,
   };
 
-  const patient1: PatientRecord = {
+  const patient1 = {
     id: "patient_id",
     info: patientInfo,
   };
 
-  const geographicLocation: GeographicLocation = { countryOrRegion: "United States", city: "Gilbert", state: "Arizona" };
-  const registryFilters: ClinicalTrialRegistryFilter = {
+  const geographicLocation = { countryOrRegion: "United States", city: "Gilbert", state: "Arizona" };
+  const registryFilters = {
     conditions: ["Non-small cell lung cancer"],
     phases: ["PHASE1"],
     sources: ["CLINICALTRIALS_GOV"],
@@ -136,21 +133,21 @@ export async function main() {
   };
 
   // Construct ClinicalTrial instance and attach the registry filter to it.
-  const clinicalTrials: ClinicalTrials = ({
+  const clinicalTrials = ({
     registryFilters: [registryFilters]
   });
 
   // Create TrialMatcherRequest
-  const configuration: TrialMatcherModelConfiguration = {
+  const configuration = {
     clinicalTrials: clinicalTrials,
   };
 
-  const trialMatcherData: TrialMatcherData = {
+  const trialMatcherData = {
     patients: [patient1],
     configuration: configuration,
   };
 
-  const trialMatcherParameter: CreateJobBodyParam = {
+  const trialMatcherParameter = {
     body: trialMatcherData
   };
 
@@ -163,7 +160,7 @@ export async function main() {
   if (isUnexpected(trialMatcherResult)) {
     throw trialMatcherResult;
   }
-  const resultBody = trialMatcherResult.body as TrialMatcherResultOutput;
+  const resultBody = trialMatcherResult.body;
   printResults(resultBody);
 }
 

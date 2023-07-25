@@ -11,19 +11,8 @@
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 import ClinicalMatchingRestClient, {
-    ClinicalTrialRegistryFilter,
-    ClinicalTrials,
-    DocumentContent,
-    GeographicLocation,
     getLongRunningPoller,
-    CreateJobParameters,
-    PatientDocument,
-    PatientInfo,
-    PatientRecord,
-    TrialMatcherData,
-    TrialMatcherModelConfiguration,
-    TrialMatcherResultOutput,
-    TrialMatcherResultsOutput
+    isUnexpected
 } from "../src";
 import { AzureKeyCredential } from "@azure/core-auth";
 
@@ -34,9 +23,9 @@ dotenv.config();
 const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "https://eastus.api.cognitive.microsoft.com";
 
-function printResults(trialMatcherResult: TrialMatcherResultOutput): void {
+function printResults(trialMatcherResult): void {
     if (trialMatcherResult.status === "succeeded") {
-      const results = trialMatcherResult.results as TrialMatcherResultsOutput;
+      const results = trialMatcherResult.results;
       const patients = results.patients;
       for (const patientResult of patients) {
           console.log(`Inferences of Patient ${patientResult.id}`);
@@ -195,25 +184,25 @@ export async function main() {
   const credential = new AzureKeyCredential(apiKey);
   const client = ClinicalMatchingRestClient(endpoint, credential);
 
-  const docContent: DocumentContent = {sourceType: "INLINE", value: getPatientDocContent()};
-  const patientDataList: PatientDocument = {
+  const docContent = {sourceType: "INLINE", value: getPatientDocContent()};
+  const patientDataList = {
       type: "NOTE",
       id: "12-consult_15",
       content: docContent
   };
-  const patientInfo: PatientInfo = {
+  const patientInfo = {
     sex: "MALE",
     birthDate: new Date(1965, 11, 26), // Note: Months are zero-based (11 represents December)
   };
 
-  const patient1: PatientRecord = {
+  const patient1 = {
     id: "patient_id",
     info: patientInfo,
     data: [patientDataList]
   };
 
-  const geographicLocation: GeographicLocation = { countryOrRegion: "United States", city: "Gilbert", state: "Arizona" };
-  const registryFilters: ClinicalTrialRegistryFilter = {
+  const geographicLocation = { countryOrRegion: "United States", city: "Gilbert", state: "Arizona" };
+  const registryFilters = {
     conditions: ["non small cell lung cancer (nsclc)"],
     sources: ["CLINICALTRIALS_GOV"],
     facilityLocations: [ geographicLocation ],
@@ -221,33 +210,32 @@ export async function main() {
   };
 
   // Construct ClinicalTrial instance and attach the registry filter to it.
-  const clinicalTrials: ClinicalTrials = ({
+  const clinicalTrials = ({
     registryFilters: [registryFilters]
   });
 
   // Create TrialMatcherRequest
-  const configuration: TrialMatcherModelConfiguration = {
+  const configuration = {
     clinicalTrials: clinicalTrials,
   };
 
-  const trialMatcherData: TrialMatcherData = {
+  const trialMatcherData = {
     patients: [patient1],
     configuration: configuration,
   };
 
-  const trialMatcherParameters:CreateJobParameters = {
+  const trialMatcherParameters = {
     body: trialMatcherData
   };
 
   const initialResponse = await client.path("/trialmatcher/jobs").post(trialMatcherParameters);
-/*  if (isUnexpected(initialResponse)) {
+  if (isUnexpected(initialResponse)) {
     throw initialResponse;
-  }*/
+  }
   const poller = await getLongRunningPoller(client, initialResponse);
   const trialMatcherResult = await poller.pollUntilDone();
-  if (trialMatcherResult.status === "200") {
-    const resultBody = trialMatcherResult.body as TrialMatcherResultOutput;
-    printResults(resultBody);
+  if (isUnexpected(trialMatcherResult)) {
+    throw trialMatcherResult;
   }
 }
 
