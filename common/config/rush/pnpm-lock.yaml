@@ -4887,7 +4887,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230724
+      typescript: 5.2.0-dev.20230725
     dev: false
 
   /duplexer3/0.1.5:
@@ -10395,8 +10395,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230724:
-    resolution: {integrity: sha512-imp5MKTFe3BmE+opYLWqglHjPJ3HQtmwcFX0zYKhky/m/ncUpMqnVnjZSoncvTkKGI8s4Ng88LqOEgvLa4brFg==}
+  /typescript/5.2.0-dev.20230725:
+    resolution: {integrity: sha512-ckVbPpSTdPA/Fxnrq1/mzO+LgzA64VPjm6YvV/axwZKgxviVHiUy0VvKS5EGBOpgFBwCNuN+ir24KIBGYWQCgQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -12249,7 +12249,7 @@ packages:
     dev: false
 
   file:projects/arm-batch.tgz:
-    resolution: {integrity: sha512-2fxbZvesjWy2JPLb6VHPHvCwsZ75ahGZ4aAwTBIWrgTzUUuzHuAit+FCkuYC8ohoyoMgspiLhJqygMy12pDQ9A==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-SXMSsSXIFoNR5mv98l2MzDy1Ds6kakRhz1JGHn+TVi413uMebAU+7OCt/LPxj/aSOnxbU+ApEYSmxCQTw5mG1A==, tarball: file:projects/arm-batch.tgz}
     name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:
@@ -12264,7 +12264,8 @@ packages:
       '@types/node': 14.18.54
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -17431,7 +17432,7 @@ packages:
     dev: false
 
   file:projects/arm-webpubsub.tgz:
-    resolution: {integrity: sha512-X1oqTO6x40oZQYhbHM7ZBvZpBcCXPdoQRfqwaFS6lB3EyStiuxvqeu5wyGDkFMBKMZWXtnWNQYVo+0g8f8Z3Dw==, tarball: file:projects/arm-webpubsub.tgz}
+    resolution: {integrity: sha512-CN0txyH6QqBAIPB8IY5o2WT51sONyNFaFMEoh8nRbmZmm6mTtvvrxxhuC1L526M8JYGzRRSc9Zw3zOtK+QI7aA==, tarball: file:projects/arm-webpubsub.tgz}
     name: '@rush-temp/arm-webpubsub'
     version: 0.0.0
     dependencies:
