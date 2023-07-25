@@ -79,13 +79,25 @@ export class MsalOnBehalfOf extends MsalNode {
     options: CredentialFlowGetTokenOptions = {}
   ): Promise<AccessToken> {
     try {
-      const result = await this.confidentialApp!.acquireTokenOnBehalfOf({
-        scopes,
-        correlationId: options.correlationId,
-        authority: options.authority,
-        claims: options.claims,
-        oboAssertion: this.userAssertionToken,
-      });
+      let result;
+      if(options.enableCAE){
+        result = await this.confidentialAppCAE!.acquireTokenOnBehalfOf({
+          scopes,
+          correlationId: options.correlationId,
+          authority: options.authority,
+          claims: options.claims,
+          oboAssertion: this.userAssertionToken,
+        });
+      }
+      else {
+        result = await this.confidentialApp!.acquireTokenOnBehalfOf({
+          scopes,
+          correlationId: options.correlationId,
+          authority: options.authority,
+          claims: options.claims,
+          oboAssertion: this.userAssertionToken,
+        });
+      }
       return this.handleResult(scopes, this.clientId, result || undefined);
     } catch (err: any) {
       throw this.handleError(scopes, err, options);

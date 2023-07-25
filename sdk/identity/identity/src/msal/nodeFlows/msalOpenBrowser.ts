@@ -56,9 +56,15 @@ export class MsalOpenBrowser extends MsalNode {
   }
 
   private async acquireTokenByCode(
-    request: msalNode.AuthorizationCodeRequest
+    request: msalNode.AuthorizationCodeRequest,
+    enableCAE?: boolean
   ): Promise<msalNode.AuthenticationResult | null> {
-    return this.publicApp!.acquireTokenByCode(request);
+      if(enableCAE){
+        return this.publicAppCAE!.acquireTokenByCode(request);
+      }        
+      else {
+        return this.publicApp!.acquireTokenByCode(request);
+      }    
   }
 
   protected doGetToken(
@@ -96,7 +102,7 @@ export class MsalOpenBrowser extends MsalNode {
           codeVerifier: this.pkceCodes?.verifier,
         };
 
-        this.acquireTokenByCode(tokenRequest)
+        this.acquireTokenByCode(tokenRequest,options?.enableCAE)
           .then((authResponse) => {
             if (authResponse?.account) {
               this.account = msalToPublic(this.clientId, authResponse.account);
@@ -237,9 +243,13 @@ export class MsalOpenBrowser extends MsalNode {
       codeChallenge: this.pkceCodes.challenge,
       codeChallengeMethod: "S256", // Use SHA256 Algorithm
     };
-
-    const response = await this.publicApp!.getAuthCodeUrl(authCodeUrlParameters);
-
+    let response;
+    if(options?.enableCAE){
+      response = await this.publicAppCAE!.getAuthCodeUrl(authCodeUrlParameters);
+    }
+    else {
+      response = await this.publicApp!.getAuthCodeUrl(authCodeUrlParameters);
+    }
     try {
       // A new instance on macOS only which allows it to not hang, does not fix the issue on linux
       await interactiveBrowserMockable.open(response, { wait: true, newInstance: true });
