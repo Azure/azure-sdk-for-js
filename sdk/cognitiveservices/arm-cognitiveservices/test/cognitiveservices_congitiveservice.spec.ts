@@ -46,7 +46,7 @@ describe("CognitiveServices test", () => {
     client = new CognitiveServicesManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroup = "myjstest";
-    accountName = "myaccountxxxx";
+    accountName = "myaccountxxxx1";
   });
 
   afterEach(async function () {

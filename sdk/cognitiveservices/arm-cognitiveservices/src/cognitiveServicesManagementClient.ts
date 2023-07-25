@@ -18,8 +18,10 @@ import {
   AccountsImpl,
   DeletedAccountsImpl,
   ResourceSkusImpl,
+  UsagesImpl,
   OperationsImpl,
   CommitmentTiersImpl,
+  ModelsImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
   DeploymentsImpl,
@@ -29,8 +31,10 @@ import {
   Accounts,
   DeletedAccounts,
   ResourceSkus,
+  Usages,
   Operations,
   CommitmentTiers,
+  Models,
   PrivateEndpointConnections,
   PrivateLinkResources,
   Deployments,
@@ -78,7 +82,7 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-cognitiveservices/7.4.1`;
+    const packageDetails = `azsdk-js-arm-cognitiveservices/7.5.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -131,12 +135,14 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-12-01";
+    this.apiVersion = options.apiVersion || "2023-05-01";
     this.accounts = new AccountsImpl(this);
     this.deletedAccounts = new DeletedAccountsImpl(this);
     this.resourceSkus = new ResourceSkusImpl(this);
+    this.usages = new UsagesImpl(this);
     this.operations = new OperationsImpl(this);
     this.commitmentTiers = new CommitmentTiersImpl(this);
+    this.models = new ModelsImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.deployments = new DeploymentsImpl(this);
@@ -213,8 +219,10 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
   accounts: Accounts;
   deletedAccounts: DeletedAccounts;
   resourceSkus: ResourceSkus;
+  usages: Usages;
   operations: Operations;
   commitmentTiers: CommitmentTiers;
+  models: Models;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
   deployments: Deployments;
