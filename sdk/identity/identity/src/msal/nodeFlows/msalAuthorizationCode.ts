@@ -45,14 +45,26 @@ export class MsalAuthorizationCode extends MsalNode {
     options?: CredentialFlowGetTokenOptions
   ): Promise<AccessToken> {
     try {
-      const result = await (this.confidentialApp || this.publicApp)?.acquireTokenByCode({
-        scopes,
-        redirectUri: this.redirectUri,
-        code: this.authorizationCode,
-        correlationId: options?.correlationId,
-        authority: options?.authority,
-        claims: options?.claims,
-      });
+      let result = undefined;
+      if (options?.enableCAE) {
+        result = await (this.confidentialAppCAE || this.publicAppCAE)?.acquireTokenByCode({
+          scopes,
+          redirectUri: this.redirectUri,
+          code: this.authorizationCode,
+          correlationId: options?.correlationId,
+          authority: options?.authority,
+          claims: options?.claims,
+        });
+      } else {
+        result = await (this.confidentialApp || this.publicApp)?.acquireTokenByCode({
+          scopes,
+          redirectUri: this.redirectUri,
+          code: this.authorizationCode,
+          correlationId: options?.correlationId,
+          authority: options?.authority,
+          claims: options?.claims,
+        });
+      }
       // The Client Credential flow does not return an account,
       // so each time getToken gets called, we will have to acquire a new token through the service.
       return this.handleResult(scopes, this.clientId, result || undefined);

@@ -81,7 +81,9 @@ export const msalNodeFlowCacheControl = {
  */
 export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected publicApp: msalNode.PublicClientApplication | undefined;
+  protected publicAppCAE: msalNode.PublicClientApplication | undefined;
   protected confidentialApp: msalNode.ConfidentialClientApplication | undefined;
+  protected confidentialAppCAE: msalNode.ConfidentialClientApplication | undefined;
   protected msalConfig: msalNode.Configuration;
   protected clientId: string;
   protected tenantId: string;
@@ -91,6 +93,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected requiresConfidential: boolean = false;
   protected azureRegion?: string;
   protected createCachePlugin: (() => Promise<msalCommon.ICachePlugin>) | undefined;
+  protected createCachePluginCAE: (() => Promise<msalCommon.ICachePlugin>) | undefined;
 
   /**
    * MSAL currently caches the tokens depending on the claims used to retrieve them.
@@ -152,7 +155,6 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     if (process.env.AZURE_IDENTITY_DISABLE_CP1) {
       clientCapabilities = [];
     }
-
     return {
       auth: {
         clientId,
@@ -186,18 +188,32 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
         this.identityClient!.abortRequests(options.correlationId);
       });
     }
-
+    if (options?.enableCAE) {
+      this.msalConfig.auth.clientCapabilities = ["cp1"];
+      if (this.publicAppCAE || this.confidentialAppCAE) {
+        return;
+      }
+    }
     if (this.publicApp || this.confidentialApp) {
       return;
     }
-
+    if (options?.enableCAE && this.createCachePluginCAE !== undefined) {
+      this.msalConfig.cache = {
+        cachePlugin: await this.createCachePluginCAE(),
+      };
+    }
     if (this.createCachePlugin !== undefined) {
       this.msalConfig.cache = {
         cachePlugin: await this.createCachePlugin(),
       };
     }
 
-    this.publicApp = new msalNode.PublicClientApplication(this.msalConfig);
+    if (options?.enableCAE) {
+      this.publicAppCAE = new msalNode.PublicClientApplication(this.msalConfig);
+    } else {
+      this.publicApp = new msalNode.PublicClientApplication(this.msalConfig);
+    }
+
     if (this.getAssertion) {
       this.msalConfig.auth.clientAssertion = await this.getAssertion();
     }
@@ -207,7 +223,11 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
       this.msalConfig.auth.clientAssertion ||
       this.msalConfig.auth.clientCertificate
     ) {
-      this.confidentialApp = new msalNode.ConfidentialClientApplication(this.msalConfig);
+      if (options?.enableCAE) {
+        this.confidentialAppCAE = new msalNode.ConfidentialClientApplication(this.msalConfig);
+      } else {
+        this.confidentialApp = new msalNode.ConfidentialClientApplication(this.msalConfig);
+      }
     } else {
       if (this.requiresConfidential) {
         throw new Error(
@@ -242,11 +262,17 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   /**
    * Returns the existing account, attempts to load the account from MSAL.
    */
-  async getActiveAccount(): Promise<AuthenticationRecord | undefined> {
+  async getActiveAccount(enableCAE?: boolean): Promise<AuthenticationRecord | undefined> {
     if (this.account) {
       return this.account;
     }
-    const cache = this.confidentialApp?.getTokenCache() ?? this.publicApp?.getTokenCache();
+    let cache: msalNode.TokenCache | undefined;
+    if (enableCAE) {
+      cache = this.confidentialAppCAE?.getTokenCache() ?? this.publicAppCAE?.getTokenCache();
+    } else {
+      cache = this.confidentialApp?.getTokenCache() ?? this.publicApp?.getTokenCache();
+    }
+
     const accountsByTenant = await cache?.getAllAccounts();
 
     if (!accountsByTenant) {
@@ -275,7 +301,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     scopes: string[],
     options?: CredentialFlowGetTokenOptions
   ): Promise<AccessToken> {
-    await this.getActiveAccount();
+    await this.getActiveAccount(options?.enableCAE);
     if (!this.account) {
       throw new AuthenticationRequiredError({
         scopes,
@@ -302,12 +328,21 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
        * `authenticationRecord` parameter. See issue - https://github.com/Azure/azure-sdk-for-js/issues/24349#issuecomment-1496715651
        * This workaround serves as a workoaround for silent authentication not happening when authenticationRecord is passed.
        */
-      await (this.publicApp || this.confidentialApp)?.getTokenCache().getAllAccounts();
+      if (options?.enableCAE) {
+        await (this.publicAppCAE || this.confidentialAppCAE)?.getTokenCache().getAllAccounts();
 
-      const response =
-        (await this.confidentialApp?.acquireTokenSilent(silentRequest)) ??
-        (await this.publicApp!.acquireTokenSilent(silentRequest));
-      return this.handleResult(scopes, this.clientId, response || undefined);
+        const response =
+          (await this.confidentialAppCAE?.acquireTokenSilent(silentRequest)) ??
+          (await this.publicAppCAE!.acquireTokenSilent(silentRequest));
+        return this.handleResult(scopes, this.clientId, response || undefined);
+      } else {
+        await (this.publicApp || this.confidentialApp)?.getTokenCache().getAllAccounts();
+
+        const response =
+          (await this.confidentialApp?.acquireTokenSilent(silentRequest)) ??
+          (await this.publicApp!.acquireTokenSilent(silentRequest));
+        return this.handleResult(scopes, this.clientId, response || undefined);
+      }
     } catch (err: any) {
       throw this.handleError(scopes, err, options);
     }

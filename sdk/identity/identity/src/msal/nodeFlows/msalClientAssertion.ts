@@ -35,14 +35,27 @@ export class MsalClientAssertion extends MsalNode {
   ): Promise<AccessToken> {
     try {
       const assertion = await this.getAssertion();
-      const result = await this.confidentialApp!.acquireTokenByClientCredential({
-        scopes,
-        correlationId: options.correlationId,
-        azureRegion: this.azureRegion,
-        authority: options.authority,
-        claims: options.claims,
-        clientAssertion: assertion,
-      });
+      let result = undefined;
+      if (options.enableCAE) {
+        result = await this.confidentialAppCAE!.acquireTokenByClientCredential({
+          scopes,
+          correlationId: options.correlationId,
+          azureRegion: this.azureRegion,
+          authority: options.authority,
+          claims: options.claims,
+          clientAssertion: assertion,
+        });
+      } else {
+        result = await this.confidentialApp!.acquireTokenByClientCredential({
+          scopes,
+          correlationId: options.correlationId,
+          azureRegion: this.azureRegion,
+          authority: options.authority,
+          claims: options.claims,
+          clientAssertion: assertion,
+        });
+      }
+
       // The Client Credential flow does not return an account,
       // so each time getToken gets called, we will have to acquire a new token through the service.
       return this.handleResult(scopes, this.clientId, result || undefined);
