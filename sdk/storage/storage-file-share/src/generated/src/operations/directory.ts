@@ -194,6 +194,8 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.version,
     Parameters.accept1,
     Parameters.metadata,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
     Parameters.fileAttributes,
@@ -222,7 +224,12 @@ const getPropertiesOperationSpec: coreClient.OperationSpec = {
     Parameters.restype2
   ],
   urlParameters: [Parameters.url],
-  headerParameters: [Parameters.version, Parameters.accept1],
+  headerParameters: [
+    Parameters.version,
+    Parameters.accept1,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot
+  ],
   isXML: true,
   serializer: xmlSerializer
 };
@@ -240,7 +247,12 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.timeoutInSeconds, Parameters.restype2],
   urlParameters: [Parameters.url],
-  headerParameters: [Parameters.version, Parameters.accept1],
+  headerParameters: [
+    Parameters.version,
+    Parameters.accept1,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot
+  ],
   isXML: true,
   serializer: xmlSerializer
 };
@@ -265,6 +277,8 @@ const setPropertiesOperationSpec: coreClient.OperationSpec = {
   headerParameters: [
     Parameters.version,
     Parameters.accept1,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
     Parameters.fileAttributes,
@@ -296,7 +310,9 @@ const setMetadataOperationSpec: coreClient.OperationSpec = {
   headerParameters: [
     Parameters.version,
     Parameters.accept1,
-    Parameters.metadata
+    Parameters.metadata,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -329,6 +345,8 @@ const listFilesAndDirectoriesSegmentOperationSpec: coreClient.OperationSpec = {
   headerParameters: [
     Parameters.version,
     Parameters.accept1,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot,
     Parameters.includeExtendedInfo
   ],
   isXML: true,
@@ -358,6 +376,8 @@ const listHandlesOperationSpec: coreClient.OperationSpec = {
   headerParameters: [
     Parameters.version,
     Parameters.accept1,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot,
     Parameters.recursive
   ],
   isXML: true,
@@ -385,6 +405,8 @@ const forceCloseHandlesOperationSpec: coreClient.OperationSpec = {
   headerParameters: [
     Parameters.version,
     Parameters.accept1,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot,
     Parameters.recursive,
     Parameters.handleId
   ],
@@ -413,6 +435,8 @@ const renameOperationSpec: coreClient.OperationSpec = {
     Parameters.version,
     Parameters.accept1,
     Parameters.metadata,
+    Parameters.fileRequestIntent,
+    Parameters.allowTrailingDot,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
     Parameters.renameSource,
@@ -423,7 +447,8 @@ const renameOperationSpec: coreClient.OperationSpec = {
     Parameters.fileAttributes1,
     Parameters.fileCreationTime,
     Parameters.fileLastWriteTime,
-    Parameters.fileChangeTime
+    Parameters.fileChangeTime,
+    Parameters.allowSourceTrailingDot
   ],
   isXML: true,
   serializer: xmlSerializer

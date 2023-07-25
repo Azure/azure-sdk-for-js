@@ -9,10 +9,10 @@ import {
   getCredentialFromPipeline,
 } from "../../storage-blob/src/Pipeline";
 import { escapeURLPath, getAccountNameFromUrl } from "./utils/utils.common";
-import { isTokenCredential } from "@azure/core-auth";
 import { OperationTracingOptions } from "@azure/core-tracing";
 import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
+import { TokenCredential } from "@azure/core-auth";
 
 /**
  * An interface for options common to every remote operation.
@@ -44,7 +44,7 @@ export abstract class StorageClient {
    *
    * @internal
    */
-  protected readonly credential: StorageSharedKeyCredential | AnonymousCredential;
+  protected readonly credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential;
 
   /**
    * StorageClient is a reference to protocol layer operations entry, which is
@@ -71,9 +71,6 @@ export abstract class StorageClient {
     }
 
     const credential = getCredentialFromPipeline(pipeline);
-    if (isTokenCredential(credential)) {
-      throw new Error("Unsupported TokenCredential type found in pipeline.");
-    }
     this.credential = credential;
   }
 }
