@@ -33,15 +33,15 @@
   - Interface Resource has a new optional parameter systemData
   - Interface WebPubSubResource has a new optional parameter kind
   - Added Enum KnownServiceKind
-
-**Breaking Changes**
-
   - Interface CustomCertificate no longer has parameter systemData
   - Interface CustomDomain no longer has parameter systemData
   - Interface PrivateEndpointConnection no longer has parameter systemData
   - Interface SharedPrivateLinkResource no longer has parameter systemData
   - Interface WebPubSubHub no longer has parameter systemData
   - Interface WebPubSubResource no longer has parameter systemData
+
+**Breaking Changes**
+
   - Parameter location of interface TrackedResource is now required
     
     
