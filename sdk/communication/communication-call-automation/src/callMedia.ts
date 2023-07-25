@@ -213,7 +213,7 @@ export class CallMedia {
       const speechOptions: SpeechOptions = {
         endSilenceTimeoutInMs: recognizeOptions.endSilenceTimeoutInSeconds
           ? recognizeOptions.endSilenceTimeoutInSeconds * 1000
-          : 2,
+          : 2000,
       };
       const recognizeOptionsInternal: RecognizeOptions = {
         interruptPrompt: recognizeOptions.interruptPrompt,
@@ -245,7 +245,7 @@ export class CallMedia {
       const speechOptions: SpeechOptions = {
         endSilenceTimeoutInMs: recognizeOptions.endSilenceTimeoutInSeconds
           ? recognizeOptions.endSilenceTimeoutInSeconds * 1000
-          : 2,
+          : 2000,
       };
       const recognizeOptionsInternal: RecognizeOptions = {
         interruptPrompt: recognizeOptions.interruptPrompt,
