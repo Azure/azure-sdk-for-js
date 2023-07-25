@@ -61,7 +61,7 @@ const endpoint =
 const credential = new AzureKeyCredential(apiKey);
 const client = ClinicalMatchingRestClient(endpoint, credential);
 
-const clinicalInfoList: ClinicalCodedElement[] = [
+const clinicalInfoList = [
     {
       system: "http://www.nlm.nih.gov/research/umls",
       code: "C0006826",
@@ -94,27 +94,27 @@ const clinicalInfoList: ClinicalCodedElement[] = [
     }
   ];
 
-  const patientInfo: PatientInfo = {
+  const patientInfo = {
     sex: "MALE",
     birthDate: new Date(1965, 11, 26), // Note: Months are zero-based (11 represents December)
     clinicalInfo: clinicalInfoList,
   };
-  const docContent: DocumentContent = {sourceType: "INLINE", value: getPatientDocContent()};
-  const patientDataList: PatientDocument = {
+  const docContent = {sourceType: "INLINE", value: getPatientDocContent()};
+  const patientDataList = {
       type: "fhirBundle",
       id: "Consultation-14-Demo",
       content: docContent,
       clinicalType: "CONSULTATION"
   };
 
-  const patient1: PatientRecord = {
+  const patient1 = {
     id: "patient_id",
     info: patientInfo,
     data: [patientDataList]
   };
 
-  const geographicLocation: GeographicLocation = { countryOrRegion: "United States", city: "Gilbert", state: "Arizona" };
-  const registryFilters: ClinicalTrialRegistryFilter = {
+  const geographicLocation = { countryOrRegion: "United States", city: "Gilbert", state: "Arizona" };
+  const registryFilters = {
     conditions: ["Non-small cell lung cancer"],
     phases: ["PHASE1"],
     sources: ["CLINICALTRIALS_GOV"],
@@ -122,20 +122,20 @@ const clinicalInfoList: ClinicalCodedElement[] = [
     studyTypes: ["INTERVENTIONAL"]
   };
 
-  const clinicalTrials: ClinicalTrials = ({
+  const clinicalTrials = ({
     registryFilters: [registryFilters]
   });
 
-  const configuration: TrialMatcherModelConfiguration = {
+  const configuration = {
     clinicalTrials: clinicalTrials,
   };
 
-  const trialMatcherData: TrialMatcherData = {
+  const trialMatcherData = {
     patients: [patient1],
     configuration: configuration,
   };
 
-  const trialMatcherParameter: CreateJobBodyParam = {
+  const trialMatcherParameter = {
     body: trialMatcherData
   };
   
@@ -148,9 +148,9 @@ const trialMatcherResult = await poller.pollUntilDone();
 if (isUnexpected(trialMatcherResult)) {
 throw trialMatcherResult;
 }
-const resultBody = trialMatcherResult.body as TrialMatcherResultOutput;
+const resultBody = trialMatcherResult.body;
 if (resultBody.status === "succeeded") {
-  const results = resultBody.results as TrialMatcherResultsOutput;
+  const results = resultBody.results;
   const patients = results.patients;
   for (const patientResult of patients) {
       console.log(`Inferences of Patient ${patientResult.id}`);
