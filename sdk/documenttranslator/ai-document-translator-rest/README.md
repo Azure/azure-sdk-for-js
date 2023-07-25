@@ -124,6 +124,7 @@ the service documentation:
 
 - [Set up Azure Blob Storage containers][source_containers] with your documents
 - Optionally apply [glossaries][glossary] or a [custom model for translation][custom_model]
+- Generate [SAS tokens][sas_token] to your containers (or files)
 
 ### DocumentTranslator
 
@@ -231,5 +232,5 @@ If you'd like to contribute to this library, please read the [contributing guide
 [source_containers]: https://learn.microsoft.com/azure/ai-services/translator/document-translation/quickstarts/document-translation-rest-api?pivots=programming-language-javascript#create-azure-blob-storage-containers
 [glossary]: https://docs.microsoft.com/azure/cognitive-services/translator/document-translation/overview#supported-glossary-formats
 [custom_model]: https://docs.microsoft.com/azure/cognitive-services/translator/custom-translator/quickstart-build-deploy-custom-model
-[sas_token]: https://docs.microsoft.com/azure/cognitive-services/translator/document-translation/create-sas-tokens?tabs=Containers#create-your-sas-tokens-with-azure-storage-explorer
+[sas_token]: https://learn.microsoft.com/azure/ai-services/translator/document-translation/how-to-guides/create-sas-tokens?tabs=Containers
 [supported_languages]: https://docs.microsoft.com/azure/cognitive-services/translator/language-support#translate
