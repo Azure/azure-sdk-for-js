@@ -156,7 +156,7 @@ With the above initial proposals and the above considerations, we get our finali
   <tr>
     <td>
       <pre lang="typescript">
-Both Exported
+Both sub classical clients exported as well as models
 @azure/foo
 
 </pre>
@@ -175,7 +175,7 @@ ClientB
 </td>
 <td>
 <pre lang="typescript">
-Both Exported
+Both sub classical clients exported as well as models
 src
 src/rest
 </pre>
@@ -207,7 +207,7 @@ src/clientB/models
   <tr>
     <td>
       <pre lang="typescript">
-Both Exported
+Both sub classical clients exported as well as models
 @azure/foo
 
 </pre>
@@ -226,7 +226,7 @@ ClientB
 </td>
 <td>
 <pre lang="typescript">
-Both Exported
+Both sub classical clients exported as well as models
 src
 src/rest
 </pre>
