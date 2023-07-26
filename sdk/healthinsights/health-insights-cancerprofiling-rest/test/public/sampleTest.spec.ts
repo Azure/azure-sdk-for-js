@@ -20,7 +20,7 @@ const patient1 = {
   info: patientInfo,
 };
 
-let doc1 = "15.8.2021";
+const doc1 = "15.8.2021";
 ("Jane Doe 091175-8967");
 ("42 year old female, married with 3 children, works as a nurse. ");
 ("Healthy, no medications taken on a regular basis.");
@@ -55,7 +55,7 @@ const patientDoc1 = {
   createdDateTime: new Date(2021, 8, 15),
 };
 
-let doc2 = "Oncology Clinic ";
+const doc2 = "Oncology Clinic ";
 ("20.10.2021");
 ("Jane Doe 091175-8967");
 ("42-year-old healthy female who works as a nurse in the ER of this hospital. ");

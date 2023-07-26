@@ -63,7 +63,7 @@ export async function main() {
         birthDate: new Date(1979, 10, 8), // Note: Months are zero-based (11 represents December)
     };
 
-    let doc1 = "15.8.2021"
+    const doc1 = "15.8.2021"
         "Jane Doe 091175-8967"
         "42 year old female, married with 3 children, works as a nurse. "
         "Healthy, no medications taken on a regular basis."
@@ -98,7 +98,7 @@ export async function main() {
         createdDateTime: new Date(2021, 8, 15)
     };
 
-    let doc2 = "Oncology Clinic "
+    const doc2 = "Oncology Clinic "
        "20.10.2021"
        "Jane Doe 091175-8967"
        "42-year-old healthy female who works as a nurse in the ER of this hospital. "
@@ -139,7 +139,7 @@ export async function main() {
         createdDateTime: new Date(2021, 10, 20)
     };
 
-    let doc3 = "PATHOLOGY REPORT"
+    const doc3 = "PATHOLOGY REPORT"
        "                          Clinical Iדדnformation"
        "Ultrasound-guided biopsy; A. 18 mm mass; most likely diagnosis based on imaging:  IDC"
        "                               Diagnosis"
