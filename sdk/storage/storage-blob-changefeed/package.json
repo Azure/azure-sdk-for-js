@@ -142,7 +142,7 @@
     "ts-node": "^10.0.0",
     "typescript": "~5.0.0",
     "util": "^0.12.1",
-    "sinon": "^9.0.2"
+    "sinon": "^15.0.0"
   },
   "//sampleConfiguration": {
     "skipFolder": true,
