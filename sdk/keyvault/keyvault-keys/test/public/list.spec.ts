@@ -60,7 +60,7 @@ describe("Keys client - list keys in various ways", () => {
 
   it("can get the versions of a key", async function (this: Context) {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    let expectedVersions = 2;
+    const expectedVersions = 2;
 
     for (let i = 0; i < expectedVersions; ++i) {
       await client.createKey(keyName, "RSA");
@@ -97,7 +97,7 @@ describe("Keys client - list keys in various ways", () => {
   it("can get the versions of a key (paged)", async function (this: Context) {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
 
-    let expectedVersions = 2;
+    const expectedVersions = 2;
     for (let i = 0; i < expectedVersions; ++i) {
       await client.createKey(keyName, "RSA");
     }
