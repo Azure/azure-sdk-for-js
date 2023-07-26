@@ -163,7 +163,7 @@ export async function main() {
   if (isUnexpected(trialMatcherResult)) {
     throw trialMatcherResult;
   }
-  const resultBody = trialMatcherResult.body;
+  const resultBody: TrialMatcherResultOutput = trialMatcherResult.body;
   printResults(resultBody);
 }
 

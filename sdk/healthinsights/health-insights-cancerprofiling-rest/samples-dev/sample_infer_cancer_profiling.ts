@@ -14,8 +14,8 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
 import CancerProfilingRestClient, {
     getLongRunningPoller,
-    isUnexpected,
-    OncoPhenotypeResultOutput
+    isUnexpected, OncoPhenotypeData,
+    OncoPhenotypeResultOutput, PatientRecord
 } from "../src";
 dotenv.config();
 
@@ -61,11 +61,6 @@ export async function main() {
     const patientInfo = {
         sex: "FEMALE",
         birthDate: new Date(1979, 10, 8), // Note: Months are zero-based (11 represents December)
-    };
-
-    const patient1 = {
-        id: "patient_id",
-        info: patientInfo,
     };
 
     let doc1 = "15.8.2021"
@@ -179,13 +174,16 @@ export async function main() {
         createdDateTime: new Date(2022, 1, 1)
     };
 
-    patient1.data = [patientDoc1, patientDoc2, patientDoc3];
 
-    const configuration = {includeEvidence: true};
+    const patient1 = {
+        id: "patient_id",
+        info: patientInfo,
+        data: [patientDoc1, patientDoc2, patientDoc3]
+    };
 
-    const cancerProfilingData = {
+    const cancerProfilingData: OncoPhenotypeData = {
         patients: [patient1],
-        configuration: configuration
+        configuration: {includeEvidence: true}
     };
 
     const parameters = {
@@ -201,7 +199,7 @@ export async function main() {
   if (isUnexpected(cancerProfilingResult)) {
     throw cancerProfilingResult;
   }
-  const resultBody = cancerProfilingResult.body;
+  const resultBody: OncoPhenotypeResultOutput = cancerProfilingResult.body;
   printResults(resultBody);
 
 }

@@ -145,7 +145,7 @@ export async function main() {
   if (isUnexpected(res)) {
       throw initialResponse;
   }
-  const resultBody = res.body;
+  const resultBody: TrialMatcherResultOutput = res.body;
   printResults(resultBody);
 }
 
