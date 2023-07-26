@@ -14,7 +14,8 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
 import CancerProfilingRestClient, {
     getLongRunningPoller,
-    isUnexpected
+    isUnexpected,
+    OncoPhenotypeResultOutput
 } from "../src";
 dotenv.config();
 
@@ -22,7 +23,7 @@ dotenv.config();
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "https://eastus.api.cognitive.microsoft.com";
 const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
 
-function printResults(cancerProfilingResult: TrialMatcherResultOutput): void {
+function printResults(cancerProfilingResult: OncoPhenotypeResultOutput): void {
     if (cancerProfilingResult.status === "succeeded") {
         const results = cancerProfilingResult.results;
         const patients = results.patients;

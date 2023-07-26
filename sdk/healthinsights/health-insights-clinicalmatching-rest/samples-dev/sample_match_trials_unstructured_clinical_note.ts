@@ -12,7 +12,8 @@
 import * as dotenv from "dotenv";
 import ClinicalMatchingRestClient, {
     getLongRunningPoller,
-    isUnexpected
+    isUnexpected,
+    TrialMatcherResultOutput
 } from "../src";
 import { AzureKeyCredential } from "@azure/core-auth";
 

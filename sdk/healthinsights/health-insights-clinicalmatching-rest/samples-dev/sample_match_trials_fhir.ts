@@ -13,8 +13,8 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
 import * as fs from 'fs';
 import ClinicalMatchingRestClient, {
-    getLongRunningPoller,
-    isUnexpected
+  getLongRunningPoller,
+  isUnexpected, TrialMatcherResultOutput
 } from "../src";
 
 dotenv.config();
