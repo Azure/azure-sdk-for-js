@@ -121,6 +121,5 @@
     ],
     "disableDocsMs": true,
     "apiRefLink": "https://docs.microsoft.com/javascript/api"
-    //"apiRefLink": "https://docs.microsoft.com/javascript/api/@azure-rest/health-insights-clinicalmatching?view=azure-node-preview"
   }
 }
