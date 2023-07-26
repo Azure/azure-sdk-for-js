@@ -2338,6 +2338,11 @@ export interface EffectiveConnectivityConfiguration {
   readonly provisioningState?: ProvisioningState;
   /** Flag if need to remove current existing peerings. */
   deleteExistingPeering?: DeleteExistingPeering;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** Hub Item. */
@@ -2371,6 +2376,11 @@ export interface ConfigurationGroup {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** Result of the request to list active security admin rules. It contains a list of active security admin rules and a skiptoken to get the next set of results. */
@@ -2614,9 +2624,9 @@ export interface VirtualApplianceNicProperties {
 
 /** Network Virtual Appliance Additional NIC properties. */
 export interface VirtualApplianceAdditionalNicProperties {
-  /** Customer Name for additional nic */
+  /** Name of additional nic */
   name?: string;
-  /** Customer Intent for Public Ip on additional nic */
+  /** Flag (true or false) for Intent for Public Ip on additional nic */
   hasPublicIp?: boolean;
 }
 
@@ -9424,6 +9434,11 @@ export interface ApplicationGateway extends Resource {
   loadDistributionPolicies?: ApplicationGatewayLoadDistributionPolicy[];
   /** Global Configuration. */
   globalConfiguration?: ApplicationGatewayGlobalConfiguration;
+  /**
+   * The default predefined SSL Policy applied on the application gateway resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly defaultPredefinedSslPolicy?: ApplicationGatewaySslPolicyName;
 }
 
 /** A web application firewall rule set. */
@@ -10067,6 +10082,11 @@ export interface NetworkManager extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** Network profile resource. */
@@ -10424,6 +10444,8 @@ export interface VirtualNetworkGateway extends Resource {
   allowVirtualWanTraffic?: boolean;
   /** Configure this gateway to accept traffic from other Azure Virtual Networks. This configuration does not support connectivity to Azure Virtual WAN. */
   allowRemoteVnetTraffic?: boolean;
+  /** Property to indicate if the Express Route Gateway serves traffic when there are multiple Express Route Gateways in the vnet */
+  adminState?: AdminState;
 }
 
 /** A common class for general resource information. */
@@ -11016,6 +11038,11 @@ export interface ActiveSecurityAdminRule extends ActiveBaseSecurityAdminRule {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** Network default admin rule. */
@@ -11075,6 +11102,11 @@ export interface ActiveDefaultSecurityAdminRule
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** The Network Manager Connection resource */
@@ -11119,6 +11151,11 @@ export interface ConnectivityConfiguration extends ChildResource {
   readonly provisioningState?: ProvisioningState;
   /** Flag if need to remove current existing peerings. */
   deleteExistingPeering?: DeleteExistingPeering;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** The network group resource */
@@ -11135,6 +11172,11 @@ export interface NetworkGroup extends ChildResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** StaticMember Item. */
@@ -11194,6 +11236,11 @@ export interface SecurityAdminConfiguration extends ChildResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** Defines the admin rule collection. */
@@ -11212,6 +11259,11 @@ export interface AdminRuleCollection extends ChildResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** Network base admin rule. */
@@ -11253,6 +11305,11 @@ export interface EffectiveSecurityAdminRule
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** Network default admin rule. */
@@ -11312,6 +11369,11 @@ export interface EffectiveDefaultSecurityAdminRule
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** The properties of a packet capture session. */
@@ -11443,6 +11505,11 @@ export interface AdminRule extends BaseAdminRule {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** Network default admin rule. */
@@ -11501,6 +11568,11 @@ export interface DefaultAdminRule extends BaseAdminRule {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** Defines headers for AzureFirewalls_packetCapture operation. */
@@ -12411,8 +12483,6 @@ export enum KnownApplicationGatewayCustomErrorStatusCode {
   HttpStatus405 = "HttpStatus405",
   /** HttpStatus408 */
   HttpStatus408 = "HttpStatus408",
-  /** HttpStatus499 */
-  HttpStatus499 = "HttpStatus499",
   /** HttpStatus500 */
   HttpStatus500 = "HttpStatus500",
   /** HttpStatus502 */
@@ -12433,7 +12503,6 @@ export enum KnownApplicationGatewayCustomErrorStatusCode {
  * **HttpStatus404** \
  * **HttpStatus405** \
  * **HttpStatus408** \
- * **HttpStatus499** \
  * **HttpStatus500** \
  * **HttpStatus502** \
  * **HttpStatus503** \
@@ -15182,6 +15251,24 @@ export enum KnownVpnNatRuleMode {
  * **IngressSnat**
  */
 export type VpnNatRuleMode = string;
+
+/** Known values of {@link AdminState} that the service accepts. */
+export enum KnownAdminState {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for AdminState. \
+ * {@link KnownAdminState} can be used interchangeably with AdminState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type AdminState = string;
 
 /** Known values of {@link VirtualNetworkGatewayConnectionType} that the service accepts. */
 export enum KnownVirtualNetworkGatewayConnectionType {

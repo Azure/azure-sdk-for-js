@@ -19,6 +19,7 @@ import { createCommunicationAuthPolicy } from "@azure/communication-common";
 import { logger } from "./utils";
 import { tracingClient } from "./generated/src/tracing";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { createAlphaIDsPagingPolicy } from "./utils/customPipelinePolicies";
 
 /**
  * Client options used to configure the AlphaIdsClient API requests.
@@ -66,6 +67,9 @@ export class AlphaIdsClient {
     this.client = new AlphaIDsGeneratedClient(url, internalPipelineOptions);
     const authPolicy = createCommunicationAuthPolicy(credential);
     this.client.pipeline.addPolicy(authPolicy);
+    // This policy is a temporary workarounds to address compatibility issues with Azure Core V2.
+    const alphaIDsPagingPolicy = createAlphaIDsPagingPolicy(url);
+    this.client.pipeline.addPolicy(alphaIDsPagingPolicy);
   }
 
   public getDynamicAlphaIdConfiguration(

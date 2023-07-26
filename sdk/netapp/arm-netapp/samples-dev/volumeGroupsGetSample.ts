@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get details of the specified volume group
  *
  * @summary Get details of the specified volume group
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-09-01/examples/VolumeGroups_Get.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-11-01/examples/VolumeGroups_Get.json
  */
 async function volumeGroupsGet() {
   const subscriptionId =

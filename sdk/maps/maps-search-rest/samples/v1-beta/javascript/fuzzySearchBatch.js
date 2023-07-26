@@ -28,7 +28,7 @@ async function main() {
 
   /** Azure Active Directory (Azure AD) authentication */
   // const credential = new DefaultAzureCredential();
-  // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
+  // const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
   // const client = MapsSearch(credential, mapsClientId);
 
   /** Create batch items with an array of objects which accept the same properties as the fuzzy-search endpoint. */

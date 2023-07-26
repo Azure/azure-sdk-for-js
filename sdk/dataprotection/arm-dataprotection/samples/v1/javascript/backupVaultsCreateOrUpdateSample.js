@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates a BackupVault resource belonging to a resource group.
  *
  * @summary Creates or updates a BackupVault resource belonging to a resource group.
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-01-01/examples/VaultCRUD/PutBackupVault.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-05-01/examples/VaultCRUD/PutBackupVault.json
  */
 async function createBackupVault() {
   const subscriptionId =
@@ -27,8 +27,12 @@ async function createBackupVault() {
     identity: { type: "None" },
     location: "WestUS",
     properties: {
+      featureSettings: { crossRegionRestoreSettings: { state: "Enabled" } },
       monitoringSettings: {
         azureMonitorAlertSettings: { alertsForAllJobFailures: "Enabled" },
+      },
+      securitySettings: {
+        softDeleteSettings: { retentionDurationInDays: 14, state: "Enabled" },
       },
       storageSettings: [{ type: "LocallyRedundant", datastoreType: "VaultStore" }],
     },
@@ -48,7 +52,7 @@ async function createBackupVault() {
  * This sample demonstrates how to Creates or updates a BackupVault resource belonging to a resource group.
  *
  * @summary Creates or updates a BackupVault resource belonging to a resource group.
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-01-01/examples/VaultCRUD/PutBackupVaultWithMSI.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-05-01/examples/VaultCRUD/PutBackupVaultWithMSI.json
  */
 async function createBackupVaultWithMsi() {
   const subscriptionId =
@@ -59,8 +63,12 @@ async function createBackupVaultWithMsi() {
     identity: { type: "systemAssigned" },
     location: "WestUS",
     properties: {
+      featureSettings: { crossRegionRestoreSettings: { state: "Enabled" } },
       monitoringSettings: {
         azureMonitorAlertSettings: { alertsForAllJobFailures: "Enabled" },
+      },
+      securitySettings: {
+        softDeleteSettings: { retentionDurationInDays: 14, state: "Enabled" },
       },
       storageSettings: [{ type: "LocallyRedundant", datastoreType: "VaultStore" }],
     },

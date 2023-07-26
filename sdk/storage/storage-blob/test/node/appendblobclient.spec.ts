@@ -24,7 +24,7 @@ import {
 } from "../utils";
 import { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { Recorder } from "@azure-tools/test-recorder";
+import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
 import { Context } from "mocha";
 
@@ -37,6 +37,8 @@ describe("AppendBlobClient Node.js only", () => {
   let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
+  const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
+
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
@@ -339,4 +341,23 @@ describe("AppendBlobClient Node.js only", () => {
     assert.equal(await bodyToString(downloadResponse, content.length * 2), content + content);
     assert.equal(downloadResponse.contentLength!, content.length * 2);
   });
+
+  it("appendBlock - append large block", async function (this: Context) {
+    if (!isLiveMode()) {
+      // Recorder file larger than github limitation
+      this.skip();
+    }
+    await appendBlobClient.create();
+
+    const largeBlockSize = 100 * 1024 * 1024;
+    const content = new Uint8Array(largeBlockSize);
+    for (let i = 0; i < largeBlockSize; i = i + 1000) {
+      content[i] = i;
+    }
+    await appendBlobClient.appendBlock(content, content.length);
+
+    const downloadResponse = await appendBlobClient.downloadToBuffer(0);
+    assert.deepStrictEqual(downloadResponse, content);
+    assert.equal(downloadResponse.length, content.length);
+  }).timeout(timeoutForLargeFileUploadingTest);
 });

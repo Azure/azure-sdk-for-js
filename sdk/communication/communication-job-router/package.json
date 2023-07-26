@@ -30,6 +30,13 @@
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "unit-test:browser": "dev-tool run test:browser",
     "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
+    "unit-test-cpolicies:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/classificationPolicies.spec.ts'",
+    "unit-test-dpolicies:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/distributionPolicies.spec.ts'",
+    "unit-test-epolicies:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/exceptionPolicies.spec.ts'",
+    "unit-test-jobs:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/jobs.spec.ts'",
+    "unit-test-queues:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/queues.spec.ts'",
+    "unit-test-workers:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/workers.spec.ts'",
+    "unit-test-scenarios:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/scenarios/**.spec.ts'",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [

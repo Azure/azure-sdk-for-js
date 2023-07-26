@@ -97,6 +97,11 @@ export interface BackupVault {
   readonly isVaultProtectedByResourceGuard?: boolean;
   /** Feature Settings */
   featureSettings?: FeatureSettings;
+  /**
+   * Secure Score of Backup Vault
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly secureScore?: SecureScoreLevel;
 }
 
 /** Monitoring Settings */
@@ -158,12 +163,18 @@ export interface StorageSetting {
 export interface FeatureSettings {
   /** CrossSubscriptionRestore Settings */
   crossSubscriptionRestoreSettings?: CrossSubscriptionRestoreSettings;
+  crossRegionRestoreSettings?: CrossRegionRestoreSettings;
 }
 
 /** CrossSubscriptionRestore Settings */
 export interface CrossSubscriptionRestoreSettings {
   /** CrossSubscriptionRestore state */
   state?: CrossSubscriptionRestoreState;
+}
+
+export interface CrossRegionRestoreSettings {
+  /** CrossRegionRestore state */
+  state?: CrossRegionRestoreState;
 }
 
 /** Identity details */
@@ -178,8 +189,24 @@ export interface DppIdentityDetails {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
-  /** The identityType which can be either SystemAssigned or None */
+  /** The identityType which can be either SystemAssigned, UserAssigned, 'SystemAssigned,UserAssigned' or None */
   type?: string;
+  /** Gets or sets the user assigned identities. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
 }
 
 export interface DppBaseTrackedResource {
@@ -480,6 +507,11 @@ export interface BackupInstance {
   datasourceAuthCredentials?: AuthCredentialsUnion;
   /** Specifies the type of validation. In case of DeepValidation, all validations from /validateForBackup API will run again. */
   validationType?: ValidationType;
+  /**
+   * Contains information of the Identity Details for the BI.
+   * If it is null, default will be considered as System Assigned.
+   */
+  identityDetails?: IdentityDetails;
   objectType: string;
 }
 
@@ -499,6 +531,14 @@ export interface Datasource {
   resourceType?: string;
   /** Uri of the resource. */
   resourceUri?: string;
+  /** Properties specific to data source */
+  resourceProperties?: BaseResourceProperties;
+}
+
+/** Properties which are specific to datasource/datasourceSets */
+export interface BaseResourceProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  objectType: "BaseResourceProperties";
 }
 
 /** DatasourceSet details of datasource to be backed up */
@@ -517,6 +557,8 @@ export interface DatasourceSet {
   resourceType?: string;
   /** Uri of the resource. */
   resourceUri?: string;
+  /** Properties specific to data source set */
+  resourceProperties?: BaseResourceProperties;
 }
 
 /** Policy Info in backupInstance */
@@ -597,6 +639,13 @@ export interface AuthCredentials {
   objectType: "SecretStoreBasedAuthCredentials";
 }
 
+export interface IdentityDetails {
+  /** Specifies if the BI is protected by System Identity. */
+  useSystemAssignedIdentity?: boolean;
+  /** ARM URL for User Assigned Identity. */
+  userAssignedIdentityArmUrl?: string;
+}
+
 export interface DppProxyResource {
   /**
    * Proxy Resource Id represents the complete path to the resource.
@@ -675,6 +724,11 @@ export interface AzureBackupRestoreRequest {
   sourceDataStoreType: SourceDataStoreType;
   /** Fully qualified Azure Resource Manager ID of the datasource which is being recovered. */
   sourceResourceId?: string;
+  /**
+   * Contains information of the Identity Details for the BI.
+   * If it is null, default will be considered as System Assigned.
+   */
+  identityDetails?: IdentityDetails;
 }
 
 /** Base class common to RestoreTargetInfo and RestoreFilesTargetInfo */
@@ -763,6 +817,11 @@ export interface AzureBackupJob {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly progressUrl?: string;
+  /**
+   * Priority to be used for rehydration
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rehydrationPriority?: string;
   /**
    * It indicates the sub type of operation i.e. in case of Restore it can be ALR/OLR
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1114,6 +1173,14 @@ export interface BasePolicyRule {
   name: string;
 }
 
+/** Class to refer resources which contains namespace and name */
+export interface NamespacedNameResource {
+  /** Name of the resource */
+  name?: string;
+  /** Namespace in which the resource exists */
+  namespace?: string;
+}
+
 /** Source LifeCycle */
 export interface SourceLifeCycle {
   /** Delete Option */
@@ -1372,20 +1439,22 @@ export interface KubernetesClusterBackupDatasourceParameters
   extends BackupDatasourceParameters {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType: "KubernetesClusterBackupDatasourceParameters";
-  /** Gets or sets the volume snapshot property. This property if enabled will take volume snapshots during restore. */
+  /** Gets or sets the volume snapshot property. This property if enabled will take volume snapshots during backup. */
   snapshotVolumes: boolean;
-  /** Gets or sets the include cluster resources property. This property if enabled will include cluster scope resources during restore. */
+  /** Gets or sets the include cluster resources property. This property if enabled will include cluster scope resources during backup. */
   includeClusterScopeResources: boolean;
-  /** Gets or sets the include namespaces property. This property sets the namespaces to be included during restore. */
+  /** Gets or sets the include namespaces property. This property sets the namespaces to be included during backup. */
   includedNamespaces?: string[];
-  /** Gets or sets the exclude namespaces property. This property sets the namespaces to be excluded during restore. */
+  /** Gets or sets the exclude namespaces property. This property sets the namespaces to be excluded during backup. */
   excludedNamespaces?: string[];
-  /** Gets or sets the include resource types property. This property sets the resource types to be included during restore. */
+  /** Gets or sets the include resource types property. This property sets the resource types to be included during backup. */
   includedResourceTypes?: string[];
-  /** Gets or sets the exclude resource types property. This property sets the resource types to be excluded during restore. */
+  /** Gets or sets the exclude resource types property. This property sets the resource types to be excluded during backup. */
   excludedResourceTypes?: string[];
-  /** Gets or sets the LabelSelectors property. This property sets the resource with such label selectors to be included during restore. */
+  /** Gets or sets the LabelSelectors property. This property sets the resource with such label selectors to be included during backup. */
   labelSelectors?: string[];
+  /** Gets or sets the backup hook references. This property sets the hook reference to be executed during backup. */
+  backupHookReferences?: NamespacedNameResource[];
 }
 
 /** Parameters to be used during configuration of backup of blobs */
@@ -1655,6 +1724,8 @@ export interface KubernetesClusterRestoreCriteria
   conflictPolicy?: ExistingResourcePolicy;
   /** Gets or sets the Namespace Mappings property. This property sets if namespace needs to be change during restore. */
   namespaceMappings?: { [propertyName: string]: string };
+  /** Gets or sets the restore hook references. This property sets the hook reference to be executed during restore. */
+  restoreHookReferences?: NamespacedNameResource[];
 }
 
 /** Backup Vault Resource */
@@ -2011,6 +2082,51 @@ export enum KnownCrossSubscriptionRestoreState {
  * **Enabled**
  */
 export type CrossSubscriptionRestoreState = string;
+
+/** Known values of {@link CrossRegionRestoreState} that the service accepts. */
+export enum KnownCrossRegionRestoreState {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled"
+}
+
+/**
+ * Defines values for CrossRegionRestoreState. \
+ * {@link KnownCrossRegionRestoreState} can be used interchangeably with CrossRegionRestoreState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Enabled**
+ */
+export type CrossRegionRestoreState = string;
+
+/** Known values of {@link SecureScoreLevel} that the service accepts. */
+export enum KnownSecureScoreLevel {
+  /** None */
+  None = "None",
+  /** Minimum */
+  Minimum = "Minimum",
+  /** Adequate */
+  Adequate = "Adequate",
+  /** Maximum */
+  Maximum = "Maximum",
+  /** NotSupported */
+  NotSupported = "NotSupported"
+}
+
+/**
+ * Defines values for SecureScoreLevel. \
+ * {@link KnownSecureScoreLevel} can be used interchangeably with SecureScoreLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Minimum** \
+ * **Adequate** \
+ * **Maximum** \
+ * **NotSupported**
+ */
+export type SecureScoreLevel = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {

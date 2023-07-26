@@ -10,9 +10,9 @@ This page is to help you write and run tests quickly for Javascript Codegen SDK 
   - [Code structure](#code-structure)
   - [Run tests in record mode](#run-tests-in-record-mode)
   - [Run tests in playback mode](#run-tests-in-playback-mode)
-  - [How to Push Test recordings to Assets repo](#how-to-push-test-recordings-to-assets-repo)
+  - [How to push test recordings to assets repo](#how-to-push-test-recordings-to-assets-repo)
     - [Push test recording](#push-test-recording)
-      - [New Package - No Recorded Tests](#new-package---no-recorded-tests)
+      - [New Package - No recorded tests](#new-package---no-recorded-tests)
       - [Existing package - Tests have been pushed before](#existing-package---tests-have-been-pushed-before)
     - [How to find recording files](#how-to-find-recording-files)
       - [Find local recording files](#find-local-recording-files)
@@ -29,7 +29,7 @@ This page is to help you write and run tests quickly for Javascript Codegen SDK 
 
 The Azure SDK test framework uses the [`test-recorder`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md) library, which in turn rests upon on a HTTP recording system ([testproxy](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy)) that enables tests dependent on network interaction to be run offline.
 
-At the moment, tests in our repo depend on one of the two different versions of the recorder tool (`@azure-tools/test-recorder`) - `1.a.b` and `2.x.y`. And this quickstart is based on 2.x.y version.
+Please notice that this quickstart is based on 3.x.y version of recorder tool (`@azure-tools/test-recorder`).
 
 # Prerequisites
 
@@ -137,7 +137,7 @@ If we have existing recordings then the tests have been run against generated th
 > export TEST_MODE=playback
 > rushx test
 ```
-## How to Push Test recordings to Assets repo
+## How to push test recordings to assets repo
 We need to push test recording files to [asset repo](https://github.com/Azure/azure-sdk-assets) after testing your test cases.
 
 ### Push test recording
@@ -145,7 +145,7 @@ If your package is new without any recordings, go to the next section [New Packa
 
 If you already have an assets.json file in your package root directory, go to [Existing package - Tests have been pushed before](#existing-package---tests-have-been-pushed-before).
 
-#### New Package - No Recorded Tests
+#### New Package - No recorded tests
 This section assumes that your package is new to the JS repo and that you're trying to onboard your tests with recorder, and the asset-sync workflow.
 
 Generate an `sdk/<service-folder>/<package-name>/assets.json` file by running the following command.
@@ -262,7 +262,7 @@ const envSetupForPlayback: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  AZURE_SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
+  AZURE_SUBSCRIPTION_ID: "azure_subscription_id"
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
@@ -358,7 +358,7 @@ const envSetupForPlayback: Record<string, string> = {
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
-  envSetupForPlaayback,
+  envSetupForPlayback,
 };
 
 /**

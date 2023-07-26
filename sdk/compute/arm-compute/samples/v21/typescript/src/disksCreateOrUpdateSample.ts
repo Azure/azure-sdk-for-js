@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a disk.
  *
  * @summary Creates or updates a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_ConfidentialVMSupportedDiskEncryptedWithCMK.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskExamples/Disk_Create_ConfidentialVMSupportedDiskEncryptedWithCMK.json
  */
 async function createAConfidentialVMSupportedDiskEncryptedWithCustomerManagedKey() {
   const subscriptionId =
@@ -56,7 +56,7 @@ async function createAConfidentialVMSupportedDiskEncryptedWithCustomerManagedKey
  * This sample demonstrates how to Creates or updates a disk.
  *
  * @summary Creates or updates a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_WithDiskAccess.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskExamples/Disk_Create_WithDiskAccess.json
  */
 async function createAManagedDiskAndAssociateWithDiskAccessResource() {
   const subscriptionId =
@@ -86,7 +86,7 @@ async function createAManagedDiskAndAssociateWithDiskAccessResource() {
  * This sample demonstrates how to Creates or updates a disk.
  *
  * @summary Creates or updates a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_WithDiskEncryptionSet.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskExamples/Disk_Create_WithDiskEncryptionSet.json
  */
 async function createAManagedDiskAndAssociateWithDiskEncryptionSet() {
   const subscriptionId =
@@ -117,7 +117,7 @@ async function createAManagedDiskAndAssociateWithDiskEncryptionSet() {
  * This sample demonstrates how to Creates or updates a disk.
  *
  * @summary Creates or updates a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_ByCopyingASnapshot.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskExamples/Disk_Create_ByCopyingASnapshot.json
  */
 async function createAManagedDiskByCopyingASnapshot() {
   const subscriptionId =
@@ -147,7 +147,7 @@ async function createAManagedDiskByCopyingASnapshot() {
  * This sample demonstrates how to Creates or updates a disk.
  *
  * @summary Creates or updates a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_ByImportingBlobFromADifferentSubscription.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskExamples/Disk_Create_ByImportingBlobFromADifferentSubscription.json
  */
 async function createAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscription() {
   const subscriptionId =
@@ -179,7 +179,7 @@ async function createAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscri
  * This sample demonstrates how to Creates or updates a disk.
  *
  * @summary Creates or updates a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_ByImportingBlobFromTheSameSubscription.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskExamples/Disk_Create_ByImportingBlobFromTheSameSubscription.json
  */
 async function createAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscription() {
   const subscriptionId =
@@ -209,7 +209,7 @@ async function createAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscripti
  * This sample demonstrates how to Creates or updates a disk.
  *
  * @summary Creates or updates a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_FromImportSecure.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskExamples/Disk_Create_FromImportSecure.json
  */
 async function createAManagedDiskFromImportSecureCreateOption() {
   const subscriptionId =
@@ -247,7 +247,7 @@ async function createAManagedDiskFromImportSecureCreateOption() {
  * This sample demonstrates how to Creates or updates a disk.
  *
  * @summary Creates or updates a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_FromUploadPreparedSecure.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskExamples/Disk_Create_FromUploadPreparedSecure.json
  */
 async function createAManagedDiskFromUploadPreparedSecureCreateOption() {
   const subscriptionId =
@@ -278,7 +278,7 @@ async function createAManagedDiskFromUploadPreparedSecureCreateOption() {
  * This sample demonstrates how to Creates or updates a disk.
  *
  * @summary Creates or updates a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_FromAPlatformImage.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskExamples/Disk_Create_FromAPlatformImage.json
  */
 async function createAManagedDiskFromAPlatformImage() {
   const subscriptionId =
@@ -311,7 +311,7 @@ async function createAManagedDiskFromAPlatformImage() {
  * This sample demonstrates how to Creates or updates a disk.
  *
  * @summary Creates or updates a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_FromAnAzureComputeGalleryCommunityImage.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskExamples/Disk_Create_FromAnAzureComputeGalleryCommunityImage.json
  */
 async function createAManagedDiskFromAnAzureComputeGalleryCommunityImage() {
   const subscriptionId =
@@ -344,7 +344,7 @@ async function createAManagedDiskFromAnAzureComputeGalleryCommunityImage() {
  * This sample demonstrates how to Creates or updates a disk.
  *
  * @summary Creates or updates a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_FromAnAzureComputeGalleryDirectSharedImage.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskExamples/Disk_Create_FromAnAzureComputeGalleryDirectSharedImage.json
  */
 async function createAManagedDiskFromAnAzureComputeGalleryDirectSharedImage() {
   const subscriptionId =
@@ -377,7 +377,7 @@ async function createAManagedDiskFromAnAzureComputeGalleryDirectSharedImage() {
  * This sample demonstrates how to Creates or updates a disk.
  *
  * @summary Creates or updates a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_FromAnAzureComputeGalleryImage.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskExamples/Disk_Create_FromAnAzureComputeGalleryImage.json
  */
 async function createAManagedDiskFromAnAzureComputeGalleryImage() {
   const subscriptionId =
@@ -410,7 +410,7 @@ async function createAManagedDiskFromAnAzureComputeGalleryImage() {
  * This sample demonstrates how to Creates or updates a disk.
  *
  * @summary Creates or updates a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_FromAnExistingManagedDisk.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskExamples/Disk_Create_FromAnExistingManagedDisk.json
  */
 async function createAManagedDiskFromAnExistingManagedDiskInTheSameOrDifferentSubscription() {
   const subscriptionId =
@@ -440,7 +440,7 @@ async function createAManagedDiskFromAnExistingManagedDiskInTheSameOrDifferentSu
  * This sample demonstrates how to Creates or updates a disk.
  *
  * @summary Creates or updates a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_WithDataAccessAuthMode.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskExamples/Disk_Create_WithDataAccessAuthMode.json
  */
 async function createAManagedDiskWithDataAccessAuthMode() {
   const subscriptionId =
@@ -468,7 +468,7 @@ async function createAManagedDiskWithDataAccessAuthMode() {
  * This sample demonstrates how to Creates or updates a disk.
  *
  * @summary Creates or updates a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_WithOptimizedForFrequentAttach.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskExamples/Disk_Create_WithOptimizedForFrequentAttach.json
  */
 async function createAManagedDiskWithOptimizedForFrequentAttach() {
   const subscriptionId =
@@ -496,7 +496,7 @@ async function createAManagedDiskWithOptimizedForFrequentAttach() {
  * This sample demonstrates how to Creates or updates a disk.
  *
  * @summary Creates or updates a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_PerformancePlus.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskExamples/Disk_Create_PerformancePlus.json
  */
 async function createAManagedDiskWithPerformancePlus() {
   const subscriptionId =
@@ -522,7 +522,7 @@ async function createAManagedDiskWithPerformancePlus() {
  * This sample demonstrates how to Creates or updates a disk.
  *
  * @summary Creates or updates a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_WithPremiumV2_LRSAccountType.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskExamples/Disk_Create_WithPremiumV2_LRSAccountType.json
  */
 async function createAManagedDiskWithPremiumV2AccountType() {
   const subscriptionId =
@@ -552,7 +552,7 @@ async function createAManagedDiskWithPremiumV2AccountType() {
  * This sample demonstrates how to Creates or updates a disk.
  *
  * @summary Creates or updates a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_WithSecurityProfile.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskExamples/Disk_Create_WithSecurityProfile.json
  */
 async function createAManagedDiskWithSecurityProfile() {
   const subscriptionId =
@@ -586,7 +586,7 @@ async function createAManagedDiskWithSecurityProfile() {
  * This sample demonstrates how to Creates or updates a disk.
  *
  * @summary Creates or updates a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_WithSSDZRSAccountType.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskExamples/Disk_Create_WithSSDZRSAccountType.json
  */
 async function createAManagedDiskWithSsdZrsAccountType() {
   const subscriptionId =
@@ -614,7 +614,7 @@ async function createAManagedDiskWithSsdZrsAccountType() {
  * This sample demonstrates how to Creates or updates a disk.
  *
  * @summary Creates or updates a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_WithUltraSSD_ReadOnly.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskExamples/Disk_Create_WithUltraSSD_ReadOnly.json
  */
 async function createAManagedDiskWithUltraAccountTypeWithReadOnlyPropertySet() {
   const subscriptionId =
@@ -645,7 +645,7 @@ async function createAManagedDiskWithUltraAccountTypeWithReadOnlyPropertySet() {
  * This sample demonstrates how to Creates or updates a disk.
  *
  * @summary Creates or updates a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_UploadDisk.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskExamples/Disk_Create_UploadDisk.json
  */
 async function createAManagedUploadDisk() {
   const subscriptionId =
@@ -671,7 +671,7 @@ async function createAManagedUploadDisk() {
  * This sample demonstrates how to Creates or updates a disk.
  *
  * @summary Creates or updates a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_InExtendedLocation.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskExamples/Disk_Create_InExtendedLocation.json
  */
 async function createAnEmptyManagedDiskInExtendedLocation() {
   const subscriptionId =
@@ -699,7 +699,7 @@ async function createAnEmptyManagedDiskInExtendedLocation() {
  * This sample demonstrates how to Creates or updates a disk.
  *
  * @summary Creates or updates a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_Empty.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskExamples/Disk_Create_Empty.json
  */
 async function createAnEmptyManagedDisk() {
   const subscriptionId =
@@ -726,7 +726,7 @@ async function createAnEmptyManagedDisk() {
  * This sample demonstrates how to Creates or updates a disk.
  *
  * @summary Creates or updates a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_WithLogicalSectorSize.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskExamples/Disk_Create_WithLogicalSectorSize.json
  */
 async function createAnUltraManagedDiskWithLogicalSectorSize512E() {
   const subscriptionId =
