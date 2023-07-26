@@ -135,12 +135,10 @@ export async function main() {
     studyTypes: ["INTERVENTIONAL"]
   };
 
-  // Construct ClinicalTrial instance and attach the registry filter to it.
   const clinicalTrials = ({
     registryFilters: [registryFilters]
   });
 
-  // Create TrialMatcherRequest
   const configuration = {
     clinicalTrials: clinicalTrials,
   };
