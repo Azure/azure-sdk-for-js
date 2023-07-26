@@ -63,12 +63,7 @@ const patientInfo = {
         birthDate: new Date(1979, 10, 8), // Note: Months are zero-based (11 represents December)
     };
 
-const patient1 = {
-    id: "patient_id",
-    info: patientInfo,
-};
-
-let doc1 = "15.8.2021"
+const doc1 = "15.8.2021"
     "Jane Doe 091175-8967"
     "42 year old female, married with 3 children, works as a nurse. "
     "Healthy, no medications taken on a regular basis."
@@ -103,7 +98,7 @@ const patientDoc1 = {
     createdDateTime: new Date(2021, 8, 15)
 };
 
-let doc2 = "Oncology Clinic "
+const doc2 = "Oncology Clinic "
    "20.10.2021"
    "Jane Doe 091175-8967"
    "42-year-old healthy female who works as a nurse in the ER of this hospital. "
@@ -144,7 +139,7 @@ const patientDoc2 = {
     createdDateTime: new Date(2021, 10, 20)
 };
 
-let doc3 = "PATHOLOGY REPORT"
+const doc3 = "PATHOLOGY REPORT"
    "                          Clinical Iדדnformation"
    "Ultrasound-guided biopsy; A. 18 mm mass; most likely diagnosis based on imaging:  IDC"
    "                               Diagnosis"
@@ -179,20 +174,21 @@ const patientDoc3 = {
     createdDateTime: new Date(2022, 1, 1)
 };
 
-const patientDocList = [patientDoc1, patientDoc2, patientDoc3];
-patient1.data = patientDocList;
+const patient1 = {
+    id: "patient_id",
+    info: patientInfo,
+    data: [patientDoc1, patientDoc2, patientDoc3]
+};
 
-const configuration = {includeEvidence: true};
-
-const cancerProfilingData = {
+const cancerProfilingData: OncoPhenotypeData = {
     patients: [patient1],
-    configuration: configuration
+    configuration: {includeEvidence: true}
 };
 
 const parameters = {
     body: cancerProfilingData
 };
-    
+
 const initialResponse = await client.path("/oncophenotype/jobs").post(parameters);
 if (isUnexpected(initialResponse)) {
     throw initialResponse;

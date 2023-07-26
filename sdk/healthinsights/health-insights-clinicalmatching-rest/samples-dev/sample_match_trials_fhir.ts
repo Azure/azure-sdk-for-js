@@ -96,6 +96,7 @@ export async function main() {
     birthDate: new Date(1965, 11, 26), // Note: Months are zero-based (11 represents December)
     clinicalInfo: clinicalInfoList,
   };
+
   const docContent = {sourceType: "INLINE", value: getPatientDocContent()};
   const patientDataList = {
       type: "fhirBundle",

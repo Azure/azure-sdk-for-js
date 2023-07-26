@@ -174,7 +174,6 @@ export async function main() {
         createdDateTime: new Date(2022, 1, 1)
     };
 
-
     const patient1 = {
         id: "patient_id",
         info: patientInfo,
