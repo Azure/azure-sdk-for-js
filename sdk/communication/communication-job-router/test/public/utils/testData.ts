@@ -7,13 +7,14 @@ import {
   DistributionPolicy,
   ExceptionPolicy,
   ExceptionRule,
-  ExpressionRule,
-  JobQueue,
+  ExpressionRouterRule,
+  RouterQueue,
   PassThroughQueueSelectorAttachment,
-  QueueSelector,
-  RouterJob,
+  RouterQueueSelector,
   RouterWorker,
   StaticQueueSelectorAttachment,
+  CreateJobOptions,
+  CreateClassificationPolicyOptions,
 } from "../../../src";
 
 const queueId = "test-queue";
@@ -28,25 +29,25 @@ const region = "NA";
 const english = "EN";
 const french = "FR";
 
-const isO365: ExpressionRule = {
+const isO365: ExpressionRouterRule = {
   kind: "expression-rule",
   language: "powerFx",
   expression: `If(job.Product = "${product}", true, false)`,
 };
 
-const isEnglish: ExpressionRule = {
+const isEnglish: ExpressionRouterRule = {
   kind: "expression-rule",
   language: "powerFx",
   expression: `If(job.Language = "${english}", true, false)`,
 };
 
-const isFrench: ExpressionRule = {
+const isFrench: ExpressionRouterRule = {
   kind: "expression-rule",
   language: "powerFx",
   expression: `If(job.Language = "${french}", true, false)`,
 };
 
-function getQueueIdSelector(guid: string): QueueSelector {
+function getQueueIdSelector(guid: string): RouterQueueSelector {
   return {
     key: "Id",
     labelOperator: "equal",
@@ -54,19 +55,19 @@ function getQueueIdSelector(guid: string): QueueSelector {
   };
 }
 
-const queueDoesNotExistSelector: QueueSelector = {
+const queueDoesNotExistSelector: RouterQueueSelector = {
   key: "Id",
   labelOperator: "equal",
   value: { queueDoesNotExist: "queueDoesNotExist" },
 };
 
-const englishSelector: QueueSelector = {
+const englishSelector: RouterQueueSelector = {
   key: "Language",
   labelOperator: "equal",
   value: english,
 };
 
-const frenchSelector: QueueSelector = {
+const frenchSelector: RouterQueueSelector = {
   key: "Language",
   labelOperator: "equal",
   value: french,
@@ -74,7 +75,7 @@ const frenchSelector: QueueSelector = {
 
 const staticQueueDoesNotExistSelector: StaticQueueSelectorAttachment = {
   kind: "static",
-  labelSelector: queueDoesNotExistSelector,
+  queueSelector: queueDoesNotExistSelector,
 };
 
 const passThroughRegionSelector: PassThroughQueueSelectorAttachment = {
@@ -93,23 +94,23 @@ function getConditionalProductSelector(guid: string): ConditionalQueueSelectorAt
   return {
     kind: "conditional",
     condition: isO365,
-    labelSelectors: [getQueueIdSelector(guid)],
+    queueSelectors: [getQueueIdSelector(guid)],
   };
 }
 
 const conditionalEnglishSelector: ConditionalQueueSelectorAttachment = {
   kind: "conditional",
   condition: isEnglish,
-  labelSelectors: [englishSelector],
+  queueSelectors: [englishSelector],
 };
 
 const conditionalFrenchSelector: ConditionalQueueSelectorAttachment = {
   kind: "conditional",
   condition: isFrench,
-  labelSelectors: [frenchSelector],
+  queueSelectors: [frenchSelector],
 };
 
-export function getQueueEnglish(guid: string): JobQueue {
+export function getQueueEnglish(guid: string): RouterQueue {
   return {
     id: `${queueId}-english-${guid}`,
     name: `${queueId}-english-${guid}`,
@@ -118,7 +119,7 @@ export function getQueueEnglish(guid: string): JobQueue {
   };
 }
 
-export function getQueueFrench(guid: string): JobQueue {
+export function getQueueFrench(guid: string): RouterQueue {
   return {
     id: `${queueId}-french-${guid}`,
     name: `${queueId}-french-${guid}`,
@@ -168,58 +169,72 @@ export function getClassificationPolicyCombined(guid: string): ClassificationPol
   };
 }
 
-export function getJobFallback(guid: string): RouterJob {
+export interface TestJobRequest {
+  id: string;
+  options: CreateJobOptions;
+}
+export function getJobFallback(guid: string): TestJobRequest {
   return {
     id: `${jobId}-fallback-${guid}`,
-    channelId: "test-channel",
-    priority: 1,
-    classificationPolicyId: `${classificationPolicyId}-fallback-${guid}`,
+    options: {
+      channelId: "test-channel",
+      priority: 1,
+      classificationPolicyId: `${classificationPolicyId}-fallback-${guid}`,
+    },
   };
 }
 
-export function getJobConditional(guid: string): RouterJob {
+export function getJobConditional(guid: string): TestJobRequest {
   return {
     id: `${jobId}-conditional-${guid}`,
-    channelId: "test-channel",
-    priority: 1,
-    classificationPolicyId: `${classificationPolicyId}-conditional-${guid}`,
-    labels: { Product: product },
+    options: {
+      channelId: "test-channel",
+      priority: 1,
+      classificationPolicyId: `${classificationPolicyId}-conditional-${guid}`,
+      labels: { Product: product },
+    },
   };
 }
 
-export function getJobPassthrough(guid: string): RouterJob {
+export function getJobPassthrough(guid: string): TestJobRequest {
   return {
     id: `${jobId}-passthrough-${guid}`,
-    channelId: "test-channel",
-    priority: 1,
-    classificationPolicyId: `${classificationPolicyId}-passthrough-${guid}`,
-    labels: { Region: region, Language: english },
+    options: {
+      channelId: "test-channel",
+      priority: 1,
+      classificationPolicyId: `${classificationPolicyId}-passthrough-${guid}`,
+      labels: { Region: region, Language: english },
+    },
   };
 }
 
-export function getJobEnglish(guid: string): RouterJob {
+export function getJobEnglish(guid: string): TestJobRequest {
   return {
     id: `${jobId}-english-${guid}`,
-    channelId: "test-channel",
-    priority: 1,
-    classificationPolicyId: `${classificationPolicyId}-combined-${guid}`,
-    labels: { Product: product, Region: region, Language: english },
+    options: {
+      channelId: "test-channel",
+      priority: 1,
+      classificationPolicyId: `${classificationPolicyId}-combined-${guid}`,
+      labels: { Product: product, Region: region, Language: english },
+    },
   };
 }
 
-export function getJobFrench(guid: string): RouterJob {
+export function getJobFrench(guid: string): TestJobRequest {
   return {
     id: `${jobId}-french-${guid}`,
-    channelId: "test-channel",
-    priority: 1,
-    classificationPolicyId: `${classificationPolicyId}-combined-${guid}`,
-    labels: { Product: product, Region: region, Language: "FR" },
+    options: {
+      channelId: "test-channel",
+      priority: 1,
+      classificationPolicyId: `${classificationPolicyId}-combined-${guid}`,
+      labels: { Product: product, Region: region, Language: "FR" },
+    },
   };
 }
 
 export interface QueueRequest {
   queueId: string;
-  queueRequest: JobQueue;
+  queueRequest: RouterQueue;
 }
 export function getQueueRequest(guid: string): QueueRequest {
   const id = `${queueId}-${guid}`;
@@ -317,7 +332,7 @@ export function getDistributionPolicyRequest(guid: string): DistributionPolicyRe
     distributionPolicyRequest: {
       id,
       name: distributionPolicyId,
-      offerTtlSeconds: 60,
+      offerExpiresAfterSeconds: 60,
       mode: {
         kind: "longest-idle",
         minConcurrentOffers: 1,
@@ -330,14 +345,13 @@ export function getDistributionPolicyRequest(guid: string): DistributionPolicyRe
 
 export interface ClassificationPolicyRequest {
   classificationPolicyId: string;
-  classificationPolicyRequest: ClassificationPolicy;
+  classificationPolicyRequest: CreateClassificationPolicyOptions;
 }
 export function getClassificationPolicyRequest(guid: string): ClassificationPolicyRequest {
   const id = `${classificationPolicyId}-${guid}`;
   return {
     classificationPolicyId: id,
     classificationPolicyRequest: {
-      id,
       name: classificationPolicyId,
       fallbackQueueId: `${queueId}-${guid}`,
     },
@@ -346,19 +360,20 @@ export function getClassificationPolicyRequest(guid: string): ClassificationPoli
 
 export interface JobRequest {
   jobId: string;
-  jobRequest: RouterJob;
+  jobRequest: CreateJobOptions;
 }
 export function getJobRequest(guid: string): JobRequest {
   const id = `${jobId}-${guid}`;
   return {
     jobId: id,
     jobRequest: {
-      id: jobId,
       channelId: "test-channel",
       priority: 1,
       classificationPolicyId: `${classificationPolicyId}-${guid}`,
       queueId: `${queueId}-${guid}`,
       labels: {},
+      notes: [],
+      matchingMode: { queueAndMatchMode: {} },
     },
   };
 }

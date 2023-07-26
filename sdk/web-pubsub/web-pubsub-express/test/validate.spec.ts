@@ -16,7 +16,7 @@ describe("Abuse protection works", function () {
     assert.isFalse(result);
   });
 
-  it("When allow all endpoints the requested host should return", function () {
+  it("When allow all endpoints return *", function () {
     const req = new IncomingMessage(new Socket());
     req.headers["ce-awpsversion"] = "1.0";
     req.headers["webhook-request-origin"] = "a.com";
@@ -25,10 +25,10 @@ describe("Abuse protection works", function () {
 
     const result = dispatcher.handlePreflight(req, res);
     assert.isTrue(result);
-    assert.equal("a.com", res.getHeader("webhook-allowed-origin"));
+    assert.equal("*", res.getHeader("webhook-allowed-origin"));
   });
 
-  it("Support valid url in allowed endpoints and only return the one in the request", function () {
+  it("Support valid url in allowed endpoints and return them", function () {
     const req = new IncomingMessage(new Socket());
     req.headers["ce-awpsversion"] = "1.0";
     req.headers["webhook-request-origin"] = "a.com";
@@ -39,10 +39,10 @@ describe("Abuse protection works", function () {
 
     const result = dispatcher.handlePreflight(req, res);
     assert.isTrue(result);
-    assert.equal("a.com", res.getHeader("webhook-allowed-origin"));
+    assert.sameMembers(["a.com", "b.com"], res.getHeader("webhook-allowed-origin") as string[]);
   });
 
-  it("Not allowed endpoints should return 400", function () {
+  it("Not allowed endpoints should return 200 and we reply on service to do the validation", function () {
     const req = new IncomingMessage(new Socket());
     req.headers["ce-awpsversion"] = "1.0";
     req.headers["webhook-request-origin"] = "a.com";
@@ -53,6 +53,6 @@ describe("Abuse protection works", function () {
 
     const result = dispatcher.handlePreflight(req, res);
     assert.isTrue(result);
-    assert.equal(400, res.statusCode);
+    assert.sameMembers(["c.com", "b.com"], res.getHeader("webhook-allowed-origin") as string[]);
   });
 });

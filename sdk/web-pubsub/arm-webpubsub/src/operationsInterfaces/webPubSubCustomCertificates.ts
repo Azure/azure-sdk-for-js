@@ -23,8 +23,7 @@ import {
 export interface WebPubSubCustomCertificates {
   /**
    * List all custom certificates.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -35,8 +34,7 @@ export interface WebPubSubCustomCertificates {
   ): PagedAsyncIterableIterator<CustomCertificate>;
   /**
    * Get a custom certificate.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param certificateName Custom certificate name
    * @param options The options parameters.
@@ -49,8 +47,7 @@ export interface WebPubSubCustomCertificates {
   ): Promise<WebPubSubCustomCertificatesGetResponse>;
   /**
    * Create or update a custom certificate.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param certificateName Custom certificate name
    * @param parameters A custom certificate.
@@ -70,8 +67,7 @@ export interface WebPubSubCustomCertificates {
   >;
   /**
    * Create or update a custom certificate.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param certificateName Custom certificate name
    * @param parameters A custom certificate.
@@ -86,8 +82,7 @@ export interface WebPubSubCustomCertificates {
   ): Promise<WebPubSubCustomCertificatesCreateOrUpdateResponse>;
   /**
    * Delete a custom certificate.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param certificateName Custom certificate name
    * @param options The options parameters.

@@ -94,6 +94,13 @@ export class StandardMetrics {
   }
 
   /**
+   *Get OpenTelemetry MeterProvider
+   */
+  public getMeterProvider(): MeterProvider {
+    return this._meterProvider;
+  }
+
+  /**
    * Add extra attributes to Span so Ingestion doesn't aggregate the data again
    * @internal
    */

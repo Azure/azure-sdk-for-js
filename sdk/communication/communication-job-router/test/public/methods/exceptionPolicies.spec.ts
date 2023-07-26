@@ -2,15 +2,15 @@
 // Licensed under the MIT license.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import { ExceptionPolicy, RouterAdministrationClient } from "../../../src";
+import { ExceptionPolicy, JobRouterAdministrationClient } from "../../../src";
 import { assert } from "chai";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { Context } from "mocha";
 import { getExceptionPolicyRequest } from "../utils/testData";
 import { timeoutMs } from "../utils/constants";
 
-describe("RouterClient", function () {
-  let administrationClient: RouterAdministrationClient;
+describe("JobRouterClient", function () {
+  let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;
 
   const testRunId = "recorded-e-policies";
@@ -50,12 +50,24 @@ describe("RouterClient", function () {
     }).timeout(timeoutMs);
 
     it("should update an exception policy", async function () {
-      const patch: ExceptionPolicy = { ...exceptionPolicyRequest, name: "new-name" };
-      const result = await administrationClient.updateExceptionPolicy(exceptionPolicyId, patch);
+      const updatePatch = { ...exceptionPolicyRequest, name: "new-name" };
+      const updateResult = await administrationClient.updateExceptionPolicy(
+        exceptionPolicyId,
+        updatePatch
+      );
 
-      assert.isDefined(result);
-      assert.isDefined(result?.id);
-      assert.equal(result.name, patch.name);
+      const removePatch = { ...exceptionPolicyRequest, name: null! };
+      const removeResult = await administrationClient.updateExceptionPolicy(
+        exceptionPolicyId,
+        removePatch
+      );
+
+      assert.isDefined(updateResult);
+      assert.isDefined(updateResult.id);
+      assert.isDefined(removeResult);
+      assert.isDefined(removeResult.id);
+      assert.equal(updateResult.name, updatePatch.name);
+      assert.isUndefined(removeResult.name);
     }).timeout(timeoutMs);
 
     it("should list exception policies", async function () {

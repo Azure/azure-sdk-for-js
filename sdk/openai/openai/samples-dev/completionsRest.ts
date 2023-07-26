@@ -9,7 +9,7 @@
  */
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import OpenAIClient, { isUnexpected } from "@azure/openai/rest";
+import OpenAIClient, { isUnexpected } from "../src/rest/index.js";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";

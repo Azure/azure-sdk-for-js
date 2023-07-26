@@ -8,6 +8,14 @@
 
 import * as coreClient from "@azure/core-client";
 
+/** The request object containing targets groups and a connection filter */
+export interface AddToGroupsRequest {
+  /** A list of groups which target connections will be added into */
+  groups?: string[];
+  /** An OData filter which target connections satisfy */
+  filter?: string;
+}
+
 /** The error object. */
 export interface ErrorDetail {
   /** One of a server-defined set of error codes. */
@@ -33,6 +41,19 @@ export interface ClientTokenResponse {
   token?: string;
 }
 
+/** The request object containing targets groups and a connection filter */
+export interface RemoveFromGroupsRequest {
+  /** A list of groups which target connections will be removed from */
+  groups?: string[];
+  /** An OData filter which target connections satisfy */
+  filter?: string;
+}
+
+/** Defines headers for WebPubSub_addConnectionsToGroups operation. */
+export interface WebPubSubAddConnectionsToGroupsExceptionHeaders {
+  errorCode?: string;
+}
+
 /** Defines headers for WebPubSub_closeAllConnections operation. */
 export interface WebPubSubCloseAllConnectionsExceptionHeaders {
   errorCode?: string;
@@ -40,6 +61,11 @@ export interface WebPubSubCloseAllConnectionsExceptionHeaders {
 
 /** Defines headers for WebPubSub_generateClientToken operation. */
 export interface WebPubSubGenerateClientTokenExceptionHeaders {
+  errorCode?: string;
+}
+
+/** Defines headers for WebPubSub_removeConnectionsFromGroups operation. */
+export interface WebPubSubRemoveConnectionsFromGroupsExceptionHeaders {
   errorCode?: string;
 }
 
@@ -163,6 +189,10 @@ export interface HealthApiGetServiceStatusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
+export interface WebPubSubAddConnectionsToGroupsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
 export interface WebPubSubCloseAllConnectionsOptionalParams
   extends coreClient.OperationOptions {
   /** Exclude these connectionIds when closing the connections in the hub. */
@@ -188,12 +218,18 @@ export interface WebPubSubGenerateClientTokenOptionalParams
 export type WebPubSubGenerateClientTokenResponse = ClientTokenResponse;
 
 /** Optional parameters. */
+export interface WebPubSubRemoveConnectionsFromGroupsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
 export interface WebPubSubSendToAll$binaryOptionalParams
   extends coreClient.OperationOptions {
   /** Excluded connection Ids. */
   excludedConnections?: string[];
   /** Following OData filter syntax to filter out the subscribers receiving the messages. */
   filter?: string;
+  /** The time-to-live (TTL) value in seconds for messages sent to the service. 0 is the default value, which means the message never expires. 300 is the maximum value. If this parameter is non-zero, messages that are not consumed by the client within the specified TTL will be dropped by the service. This parameter can help when the client's bandwidth is limited. */
+  messageTtlSeconds?: number;
 }
 
 /** Optional parameters. */
@@ -203,6 +239,8 @@ export interface WebPubSubSendToAll$textOptionalParams
   excludedConnections?: string[];
   /** Following OData filter syntax to filter out the subscribers receiving the messages. */
   filter?: string;
+  /** The time-to-live (TTL) value in seconds for messages sent to the service. 0 is the default value, which means the message never expires. 300 is the maximum value. If this parameter is non-zero, messages that are not consumed by the client within the specified TTL will be dropped by the service. This parameter can help when the client's bandwidth is limited. */
+  messageTtlSeconds?: number;
 }
 
 /** Optional parameters. */
@@ -218,11 +256,17 @@ export interface WebPubSubConnectionExistsOptionalParams
 
 /** Optional parameters. */
 export interface WebPubSubSendToConnection$binaryOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** The time-to-live (TTL) value in seconds for messages sent to the service. 0 is the default value, which means the message never expires. 300 is the maximum value. If this parameter is non-zero, messages that are not consumed by the client within the specified TTL will be dropped by the service. This parameter can help when the client's bandwidth is limited. */
+  messageTtlSeconds?: number;
+}
 
 /** Optional parameters. */
 export interface WebPubSubSendToConnection$textOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** The time-to-live (TTL) value in seconds for messages sent to the service. 0 is the default value, which means the message never expires. 300 is the maximum value. If this parameter is non-zero, messages that are not consumed by the client within the specified TTL will be dropped by the service. This parameter can help when the client's bandwidth is limited. */
+  messageTtlSeconds?: number;
+}
 
 /** Optional parameters. */
 export interface WebPubSubRemoveConnectionFromAllGroupsOptionalParams
@@ -248,6 +292,8 @@ export interface WebPubSubSendToGroup$binaryOptionalParams
   excludedConnections?: string[];
   /** Following OData filter syntax to filter out the subscribers receiving the messages. */
   filter?: string;
+  /** The time-to-live (TTL) value in seconds for messages sent to the service. 0 is the default value, which means the message never expires. 300 is the maximum value. If this parameter is non-zero, messages that are not consumed by the client within the specified TTL will be dropped by the service. This parameter can help when the client's bandwidth is limited. */
+  messageTtlSeconds?: number;
 }
 
 /** Optional parameters. */
@@ -257,6 +303,8 @@ export interface WebPubSubSendToGroup$textOptionalParams
   excludedConnections?: string[];
   /** Following OData filter syntax to filter out the subscribers receiving the messages. */
   filter?: string;
+  /** The time-to-live (TTL) value in seconds for messages sent to the service. 0 is the default value, which means the message never expires. 300 is the maximum value. If this parameter is non-zero, messages that are not consumed by the client within the specified TTL will be dropped by the service. This parameter can help when the client's bandwidth is limited. */
+  messageTtlSeconds?: number;
 }
 
 /** Optional parameters. */
@@ -306,6 +354,8 @@ export interface WebPubSubSendToUser$binaryOptionalParams
   extends coreClient.OperationOptions {
   /** Following OData filter syntax to filter out the subscribers receiving the messages. */
   filter?: string;
+  /** The time-to-live (TTL) value in seconds for messages sent to the service. 0 is the default value, which means the message never expires. 300 is the maximum value. If this parameter is non-zero, messages that are not consumed by the client within the specified TTL will be dropped by the service. This parameter can help when the client's bandwidth is limited. */
+  messageTtlSeconds?: number;
 }
 
 /** Optional parameters. */
@@ -313,6 +363,8 @@ export interface WebPubSubSendToUser$textOptionalParams
   extends coreClient.OperationOptions {
   /** Following OData filter syntax to filter out the subscribers receiving the messages. */
   filter?: string;
+  /** The time-to-live (TTL) value in seconds for messages sent to the service. 0 is the default value, which means the message never expires. 300 is the maximum value. If this parameter is non-zero, messages that are not consumed by the client within the specified TTL will be dropped by the service. This parameter can help when the client's bandwidth is limited. */
+  messageTtlSeconds?: number;
 }
 
 /** Optional parameters. */

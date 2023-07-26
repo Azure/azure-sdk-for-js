@@ -79,6 +79,7 @@ export class CallMedia {
         sourceLocale: playSource.sourceLocale,
         voiceGender: playSource.voiceGender,
         voiceName: playSource.voiceName,
+        customVoiceEndpointId: playSource.customVoiceEndpointId,
       };
       return {
         sourceType: KnownPlaySourceType.Text,
@@ -88,6 +89,7 @@ export class CallMedia {
     } else if (playSource.kind === "ssmlSource") {
       const ssmlSource: SsmlSourceInternal = {
         ssmlText: playSource.ssmlText,
+        customVoiceEndpointId: playSource.customVoiceEndpointId,
       };
       return {
         sourceType: KnownPlaySourceType.Ssml,
@@ -116,6 +118,7 @@ export class CallMedia {
       playOptions: {
         loop: false,
       },
+      operationContext: playOptions.operationContext,
     };
 
     if (playOptions.loop !== undefined) {
@@ -141,6 +144,7 @@ export class CallMedia {
       playOptions: {
         loop: false,
       },
+      operationContext: playOptions.operationContext,
     };
 
     if (playOptions.loop !== undefined) {
@@ -215,6 +219,7 @@ export class CallMedia {
           : 5,
         targetParticipant: serializeCommunicationIdentifier(targetParticipant),
         speechOptions: speechOptions,
+        speechRecognitionModelEndpointId: recognizeOptions.speechModelEndpointId,
       };
       return {
         recognizeInputType: KnownRecognizeInputType.Speech,
@@ -246,9 +251,10 @@ export class CallMedia {
         targetParticipant: serializeCommunicationIdentifier(targetParticipant),
         speechOptions: speechOptions,
         dtmfOptions: dtmfOptionsInternal,
+        speechRecognitionModelEndpointId: recognizeOptions.speechModelEndpointId,
       };
       return {
-        recognizeInputType: KnownRecognizeInputType.Speech,
+        recognizeInputType: KnownRecognizeInputType.SpeechOrDtmf,
         playPrompt: recognizeOptions.playPrompt
           ? this.createPlaySourceInternal(recognizeOptions.playPrompt)
           : undefined,

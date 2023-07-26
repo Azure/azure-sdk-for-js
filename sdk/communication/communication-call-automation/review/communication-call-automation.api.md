@@ -27,6 +27,7 @@ export interface AddParticipantFailed extends Omit<RestAddParticipantFailed, "ca
 
 // @public
 export interface AddParticipantOptions extends OperationOptions {
+    callbackUrlOverride?: string;
     invitationTimeoutInSeconds?: number;
     operationContext?: string;
 }
@@ -99,6 +100,7 @@ export class CallConnection {
     getParticipant(targetParticipant: CommunicationIdentifier, options?: GetParticipantOptions): Promise<CallParticipant>;
     hangUp(isForEveryone: boolean, options?: HangUpOptions): Promise<void>;
     listParticipants(options?: GetParticipantOptions): Promise<ListParticipantsResult>;
+    muteParticipants(participant: CommunicationIdentifier, options?: MuteParticipantsOption): Promise<MuteParticipantsResult>;
     removeParticipant(participant: CommunicationIdentifier, options?: RemoveParticipantsOption): Promise<RemoveParticipantResult>;
     transferCallToParticipant(targetParticipant: CommunicationIdentifier, options?: TransferCallToParticipantOptions): Promise<TransferCallResult>;
 }
@@ -195,6 +197,8 @@ export interface CallMediaRecognizeOptions extends OperationOptions {
     // (undocumented)
     playPrompt?: FileSource | TextSource | SsmlSource;
     // (undocumented)
+    speechModelEndpointId?: string;
+    // (undocumented)
     stopCurrentOperations?: boolean;
 }
 
@@ -238,12 +242,14 @@ export class CallRecording {
 export type CallRejectReason = string;
 
 // @public
-export interface CallTransferAccepted extends Omit<RestCallTransferAccepted, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
+export interface CallTransferAccepted extends Omit<RestCallTransferAccepted, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation" | "transferee" | "transferTarget"> {
     callConnectionId: string;
     correlationId: string;
     kind: "CallTransferAccepted";
     resultInformation?: ResultInformation;
     serverCallId: string;
+    transferee: CommunicationIdentifier;
+    transferTarget: CommunicationIdentifier;
 }
 
 // @public
@@ -429,6 +435,16 @@ export type MediaStreamingContentType = string;
 export type MediaStreamingTransportType = string;
 
 // @public
+export interface MuteParticipantsOption extends OperationOptions {
+    operationContext?: string;
+}
+
+// @public
+export interface MuteParticipantsResult {
+    operationContext?: string;
+}
+
+// @public
 export function parseCallAutomationEvent(encodedEvents: string | Record<string, unknown>): CallAutomationEvent;
 
 // @public
@@ -577,6 +593,7 @@ export interface RemoveParticipantResult {
 
 // @public
 export interface RemoveParticipantsOption extends OperationOptions {
+    callbackUrlOverride?: string;
     operationContext?: string;
 }
 
@@ -634,6 +651,8 @@ export interface RestCallTransferAccepted {
     operationContext?: string;
     resultInformation?: RestResultInformation;
     serverCallId?: string;
+    readonly transferee?: CommunicationIdentifierModel;
+    readonly transferTarget?: CommunicationIdentifierModel;
 }
 
 // @public
@@ -778,11 +797,8 @@ export interface RestRemoveParticipantSucceeded {
 
 // @public (undocumented)
 export interface RestResultInformation {
-    // (undocumented)
     code?: number;
-    // (undocumented)
     message?: string;
-    // (undocumented)
     subCode?: number;
 }
 
@@ -849,6 +865,8 @@ export interface SendDtmfOptions extends OperationOptions {
 // @public
 export interface SsmlSource extends PlaySource {
     // (undocumented)
+    customVoiceEndpointId?: string;
+    // (undocumented)
     readonly kind: "ssmlSource";
     // (undocumented)
     ssmlText: string;
@@ -870,6 +888,8 @@ export type StopRecordingOptions = OperationOptions;
 
 // @public
 export interface TextSource extends PlaySource {
+    // (undocumented)
+    customVoiceEndpointId?: string;
     // (undocumented)
     readonly kind: "textSource";
     // (undocumented)
@@ -895,10 +915,12 @@ export interface TransferCallResult {
 
 // @public
 export interface TransferCallToParticipantOptions extends OperationOptions {
+    callbackUrlOverride?: string;
     operationContext?: string;
     sipHeaders?: {
         [propertyName: string]: string;
     };
+    transferee?: CommunicationIdentifier;
     voipHeaders?: {
         [propertyName: string]: string;
     };
