@@ -160,14 +160,14 @@ const patientDoc1 = {
        Could benefit from biological therapy. 
        Different treatment options were explained- the patient wants to get a second opinion.`;
 
-const docContent3 = {
+const docContent2 = {
     sourceType: "INLINE",
-    value: doc3
+    value: doc2
 };
 
-const patientDoc3 = {
+const patientDoc2 = {
     type: "NOTE",
-    id: "doc3",
+    id: "doc2",
     content: docContent3,
     clinicalType: "PATHOLOGY",
     language: "en",
@@ -177,7 +177,7 @@ const patientDoc3 = {
 const patient1 = {
     id: "patient_id",
     info: patientInfo,
-    data: [patientDoc1, patientDoc2, patientDoc3]
+    data: [patientDoc1, patientDoc2]
 };
 
 const cancerProfilingData: OncoPhenotypeData = {
