@@ -141,7 +141,7 @@ If we have existing recordings then the tests have been run against generated th
 We need to push test recording files to [asset repo](https://github.com/Azure/azure-sdk-assets) after testing your test cases.
 
 ### Push test recording
-If your package is new with no recorded tests,kip to the next section [New Package - No Recorded Tests](#new-package---no-recorded-tests)
+If your package is new without any recordings, go to the next section [New Package - No Recorded Tests](#new-package---no-recorded-tests)
 
 If you already have an assets.json file in your package root directory, skip to [Existing package - Tests have been pushed before](#existing-package---tests-have-been-pushed-before).
 
