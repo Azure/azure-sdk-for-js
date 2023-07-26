@@ -6,20 +6,11 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { createClient, createRecorder } from "./utils/recordedClient";
 import {
-  ClinicalCodedElement,
   ClinicalMatchingRestClient,
-  ClinicalTrialRegistryFilter,
-  ClinicalTrials,
-  GeographicLocation,
-  getLongRunningPoller,
-  CreateJobBodyParam,
-  PatientInfo,
-  PatientRecord,
-  TrialMatcherData,
-  TrialMatcherModelConfiguration,
+  getLongRunningPoller
 } from "../../src";
 
-const clinicalInfoList: ClinicalCodedElement[] = [
+const clinicalInfoList = [
   {
     system: "http://www.nlm.nih.gov/research/umls",
     code: "C0006826",
@@ -70,23 +61,23 @@ const clinicalInfoList: ClinicalCodedElement[] = [
   },
 ];
 
-const patientInfo: PatientInfo = {
+const patientInfo = {
   sex: "MALE",
   birthDate: new Date(1965, 11, 26), // Note: Months are zero-based (11 represents December)
   clinicalInfo: clinicalInfoList,
 };
 
-const patient1: PatientRecord = {
+const patient1 = {
   id: "patient_id",
   info: patientInfo,
 };
 
-const geographicLocation: GeographicLocation = {
+const geographicLocation = {
   countryOrRegion: "United States",
   city: "Gilbert",
   state: "Arizona",
 };
-const registryFilters: ClinicalTrialRegistryFilter = {
+const registryFilters = {
   conditions: ["Non-small cell lung cancer"],
   phases: ["PHASE1"],
   sources: ["CLINICALTRIALS_GOV"],
@@ -95,22 +86,22 @@ const registryFilters: ClinicalTrialRegistryFilter = {
 };
 
 // Construct ClinicalTrial instance and attach the registry filter to it.
-const clinicalTrials: ClinicalTrials = {
+const clinicalTrials = {
   registryFilters: [registryFilters],
 };
 
 // Create TrialMatcherRequest
-const configuration: TrialMatcherModelConfiguration = {
+const configuration = {
   clinicalTrials: clinicalTrials,
 };
 
-const trialMatcherData: TrialMatcherData = {
+const trialMatcherData = {
   patients: [patient1],
   configuration: configuration,
 };
 
-const trialMatcherParameter: CreateJobBodyParam = {
-  body: trialMatcherData,
+const trialMatcherParameter = {
+  body: trialMatcherData
 };
 
 describe("My test", () => {

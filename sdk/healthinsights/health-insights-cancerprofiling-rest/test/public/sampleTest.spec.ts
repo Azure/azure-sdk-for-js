@@ -7,22 +7,15 @@ import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import {
   CancerProfilingRestClient,
-  DocumentContent,
-  CreateJobBodyParam,
-  OncoPhenotypeData,
-  getLongRunningPoller,
-  OncoPhenotypeModelConfiguration,
-  PatientDocument,
-  PatientInfo,
-  PatientRecord,
+  getLongRunningPoller
 } from "../../src";
 
-const patientInfo: PatientInfo = {
+const patientInfo = {
   sex: "FEMALE",
   birthDate: new Date(1979, 10, 8), // Note: Months are zero-based (11 represents December)
 };
 
-const patient1: PatientRecord = {
+const patient1 = {
   id: "patient_id",
   info: patientInfo,
 };
@@ -48,12 +41,12 @@ let doc1 = "15.8.2021";
 ("Findings are suggestive of a working diagnosis of pneumonia. The patient is referred to a ");
 ("follow-up CXR in 2 weeks. ");
 
-const docContent: DocumentContent = {
+const docContent = {
   sourceType: "INLINE",
   value: doc1,
 };
 
-const patientDoc1: PatientDocument = {
+const patientDoc1 = {
   type: "NOTE",
   id: "doc1",
   content: docContent,
@@ -89,12 +82,12 @@ let doc2 = "Oncology Clinic ";
 ("Could benefit from biological therapy. ");
 ("Different treatment options were explained- the patient wants to get a second opinion.");
 
-const docContent2: DocumentContent = {
+const docContent2 = {
   sourceType: "INLINE",
   value: doc2,
 };
 
-const patientDoc2: PatientDocument = {
+const patientDoc2 = {
   type: "NOTE",
   id: "doc2",
   content: docContent2,
@@ -103,17 +96,17 @@ const patientDoc2: PatientDocument = {
   createdDateTime: new Date(2021, 10, 20),
 };
 
-const patientDocList: PatientDocument[] = [patientDoc1, patientDoc2];
+const patientDocList = [patientDoc1, patientDoc2];
 patient1.data = patientDocList;
 
-const configuration: OncoPhenotypeModelConfiguration = { includeEvidence: true };
+const configuration = { includeEvidence: true };
 
-const cancerProfilingData: OncoPhenotypeData = {
+const cancerProfilingData = {
   patients: [patient1],
   configuration: configuration,
 };
 
-const parameters: CreateJobBodyParam = {
+const parameters = {
   body: cancerProfilingData,
 };
 
