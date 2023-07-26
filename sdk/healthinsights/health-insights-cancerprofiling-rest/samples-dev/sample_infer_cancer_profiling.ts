@@ -26,17 +26,18 @@ const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
 function printResults(cancerProfilingResult: OncoPhenotypeResultOutput): void {
     if (cancerProfilingResult.status === "succeeded") {
         const results = cancerProfilingResult.results;
-        const patients = results.patients;
-        for (const patientResult of patients) {
-            console.log(`Inferences of Patient ${patientResult.id}`);
-            for (const inferences of patientResult.inferences) {
-                console.log(`Clinical Type: ${String(inferences.type)} Value: ${inferences.value}, ConfidenceScore: ${inferences.confidenceScore}`);
-                if (inferences.evidence != undefined) {
-                    for (const evidence of inferences.evidence) {
-                        if (evidence.patientDataEvidence != undefined)
-                        {
-                            let dataEvidence = evidence.patientDataEvidence;
-                            console.log(`Evidence: ${dataEvidence.id} ${dataEvidence.offset} ${dataEvidence.length} ${dataEvidence.text}`);
+        if (results != undefined) {
+            const patients = results.patients;
+            for (const patientResult of patients) {
+                console.log(`Inferences of Patient ${patientResult.id}`);
+                for (const inferences of patientResult.inferences) {
+                    console.log(`Clinical Type: ${String(inferences.type)} Value: ${inferences.value}, ConfidenceScore: ${inferences.confidenceScore}`);
+                    if (inferences.evidence != undefined) {
+                        for (const evidence of inferences.evidence) {
+                            if (evidence.patientDataEvidence != undefined) {
+                                let dataEvidence = evidence.patientDataEvidence;
+                                console.log(`Evidence: ${dataEvidence.id} ${dataEvidence.offset} ${dataEvidence.length} ${dataEvidence.text}`);
+                            }
                         }
                     }
                 }

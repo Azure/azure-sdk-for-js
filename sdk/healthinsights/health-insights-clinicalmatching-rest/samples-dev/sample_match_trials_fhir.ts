@@ -32,16 +32,18 @@ function getPatientDocContent(): string {
 function printResults(trialMatcherResult: TrialMatcherResultOutput): void {
     if (trialMatcherResult.status === "succeeded") {
       const results = trialMatcherResult.results;
-      const patients = results.patients;
-      for (const patientResult of patients) {
+      if (results != undefined) {
+        const patients = results.patients;
+        for (const patientResult of patients) {
           console.log(`Inferences of Patient ${patientResult.id}`);
           for (const tmInferences of patientResult.inferences) {
-              console.log(`Trial Id ${tmInferences.id}`);
-              console.log(`Type: ${String(tmInferences.type)}  Value: ${tmInferences.value}`);
-              console.log(`Description ${tmInferences.description}`);
+            console.log(`Trial Id ${tmInferences.id}`);
+            console.log(`Type: ${String(tmInferences.type)}  Value: ${tmInferences.value}`);
+            console.log(`Description ${tmInferences.description}`);
           }
+        }
       }
-  }
+    }
     else {
       const errors = trialMatcherResult.errors;
       if (errors) {
