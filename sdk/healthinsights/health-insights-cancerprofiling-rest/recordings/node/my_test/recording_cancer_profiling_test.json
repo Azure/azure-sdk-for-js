@@ -7,11 +7,11 @@
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
-        "Content-Length": "492",
+        "Content-Length": "3200",
         "Content-Type": "application/json; charset=UTF-8",
         "Ocp-Apim-Subscription-Key": "fake_key",
         "User-Agent": "azsdk-js-health-insights-cancerprofiling-rest/1.0.0-beta.1 core-rest-pipeline/1.11.1 Node/v18.12.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "07b63b7f-4736-42ad-9a07-7e56201e2395"
+        "x-ms-client-request-id": "6c4920f1-8d30-4e2c-bd75-706aa1a54b0f"
       },
       "RequestBody": {
         "patients": [
@@ -27,7 +27,7 @@
                 "id": "doc1",
                 "content": {
                   "sourceType": "INLINE",
-                  "value": "15.8.2021"
+                  "value": "15.8.2021\n        Jane Doe 091175-8967\n        42 year old female, married with 3 children, works as a nurse. \n        Healthy, no medications taken on a regular basis.\n        PMHx is significant for migraines with aura, uses Mirena for contraception.\n        Smoking history of 10 pack years (has stopped and relapsed several times).\n        She is in c/o 2 weeks of productive cough and shortness of breath.\n        She has a fever of 37.8 and general weakness. \n        Denies night sweats and rash. She denies symptoms of rhinosinusitis, asthma, and heartburn. \n        On PE:\n        GENERAL: mild pallor, no cyanosis. Regular breathing rate. \n        LUNGS: decreased breath sounds on the base of the right lung. Vesicular breathing.\n         No crackles, rales, and wheezes. Resonant percussion. \n        PLAN: \n        Will be referred for a chest x-ray. \n        ======================================\n        CXR showed mild nonspecific opacities in right lung base. \n        PLAN:\n        Findings are suggestive of a working diagnosis of pneumonia. The patient is referred to a \n        follow-up CXR in 2 weeks. "
                 },
                 "clinicalType": "IMAGING",
                 "language": "en",
@@ -38,7 +38,7 @@
                 "id": "doc2",
                 "content": {
                   "sourceType": "INLINE",
-                  "value": "Oncology Clinic "
+                  "value": "Oncology Clinic \n       20.10.2021\n       Jane Doe 091175-8967\n       42-year-old healthy female who works as a nurse in the ER of this hospital. \n       First menstruation at 11 years old. First delivery- 27 years old. She has 3 children.\n       Didn\u2019t breastfeed. \n       Contraception- Mirena.\n       Smoking- 10 pack years. \n       Mother- Belarusian. Father- Georgian. \n       About 3 months prior to admission, she stated she had SOB and was febrile. \n       She did a CXR as an outpatient which showed a finding in the base of the right lung- \n       possibly an infiltrate.\n       She was treated with antibiotics with partial response. \n       6 weeks later a repeat CXR was performed- a few solid dense findings in the right lung. \n       Therefore, she was referred for a PET-CT which demonstrated increased uptake in the right \n       breast, lymph nodes on the right a few areas in the lungs and liver. \n       On biopsy from the lesion in the right breast- triple negative adenocarcinoma. Genetic \n       testing has not been done thus far. \n       Genetic counseling- the patient denies a family history of breast, ovary, uterus, \n       and prostate cancer. Her mother has chronic lymphocytic leukemia (CLL). \n       She is planned to undergo genetic tests because the aggressive course of the disease, \n       and her young age. \n       Impression:\n       Stage 4 triple negative breast adenocarcinoma. \n       Could benefit from biological therapy. \n       Different treatment options were explained- the patient wants to get a second opinion."
                 },
                 "clinicalType": "PATHOLOGY",
                 "language": "en",
@@ -53,20 +53,20 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "191dba50-5e71-40c5-9773-6612f069651a",
+        "apim-request-id": "db5d7860-cd99-47e7-9412-c9027ed6704f",
         "Content-Length": "0",
-        "Date": "Wed, 26 Jul 2023 11:41:30 GMT",
-        "operation-location": "https://endpoint/healthinsights/oncophenotype/jobs/393ce628-f7cb-445b-93ed-af246fd02da0?api-version=2023-03-01-preview",
+        "Date": "Wed, 26 Jul 2023 14:54:27 GMT",
+        "operation-location": "https://endpoint/healthinsights/oncophenotype/jobs/029cd4e3-c064-42d3-b903-f2a797b6485f?api-version=2023-03-01-preview",
         "Retry-After": "5",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "334",
+        "x-envoy-upstream-service-time": "124",
         "x-ms-region": "East US"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/healthinsights/oncophenotype/jobs/393ce628-f7cb-445b-93ed-af246fd02da0?api-version=2023-03-01-preview",
+      "RequestUri": "https://endpoint/healthinsights/oncophenotype/jobs/029cd4e3-c064-42d3-b903-f2a797b6485f?api-version=2023-03-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -74,31 +74,31 @@
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "fake_key",
         "User-Agent": "azsdk-js-health-insights-cancerprofiling-rest/1.0.0-beta.1 core-rest-pipeline/1.11.1 Node/v18.12.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "b417015b-0b43-4678-85d4-f61cef402ea1"
+        "x-ms-client-request-id": "d45cfb4e-4bae-4ebf-bf44-3bdbc930877d"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "a6a3587c-2050-45bc-ad96-a5ece2d116e2",
-        "Content-Length": "196",
+        "apim-request-id": "d7d36b6f-d66d-41f0-86e1-482c18ab89e1",
+        "Content-Length": "199",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 26 Jul 2023 11:41:31 GMT",
-        "Retry-After": "3",
+        "Date": "Wed, 26 Jul 2023 14:54:28 GMT",
+        "Retry-After": "5",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "381",
+        "x-envoy-upstream-service-time": "70",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "393ce628-f7cb-445b-93ed-af246fd02da0",
-        "createdDateTime": "2023-07-26T11:41:30Z",
-        "expirationDateTime": "2023-07-27T11:41:30Z",
-        "lastUpdateDateTime": "2023-07-26T11:41:30Z",
-        "status": "running"
+        "jobId": "029cd4e3-c064-42d3-b903-f2a797b6485f",
+        "createdDateTime": "2023-07-26T14:54:28Z",
+        "expirationDateTime": "2023-07-27T14:54:28Z",
+        "lastUpdateDateTime": "2023-07-26T14:54:28Z",
+        "status": "notStarted"
       }
     },
     {
-      "RequestUri": "https://endpoint/healthinsights/oncophenotype/jobs/393ce628-f7cb-445b-93ed-af246fd02da0?api-version=2023-03-01-preview",
+      "RequestUri": "https://endpoint/healthinsights/oncophenotype/jobs/029cd4e3-c064-42d3-b903-f2a797b6485f?api-version=2023-03-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -106,18 +106,18 @@
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "fake_key",
         "User-Agent": "azsdk-js-health-insights-cancerprofiling-rest/1.0.0-beta.1 core-rest-pipeline/1.11.1 Node/v18.12.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "737ca8ea-541c-4c58-9580-c6760bdaf55e"
+        "x-ms-client-request-id": "eb6c6aee-fb26-4161-a7c7-e6e1f593a23d"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "109ee5a3-49db-4544-a077-ea7e20c452ca",
-        "Content-Length": "2558",
+        "apim-request-id": "dc201c3b-bfdf-41f8-b8c0-5f1a6680b7eb",
+        "Content-Length": "23208",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 26 Jul 2023 11:41:34 GMT",
+        "Date": "Wed, 26 Jul 2023 14:54:34 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "653",
+        "x-envoy-upstream-service-time": "94",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
@@ -132,24 +132,340 @@
                     {
                       "patientDataEvidence": {
                         "id": "doc2",
-                        "text": "Oncology Clinic",
-                        "offset": 0,
-                        "length": 15
+                        "text": "base",
+                        "offset": 526,
+                        "length": 4
                       },
-                      "importance": 0.3656
+                      "importance": 0.0949
                     },
                     {
                       "patientDataEvidence": {
                         "id": "doc1",
-                        "text": "15.8.2021",
+                        "text": "of pneumonia.",
+                        "offset": 1048,
+                        "length": 13
+                      },
+                      "importance": 0.0917
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "breast-",
+                        "offset": 963,
+                        "length": 7
+                      },
+                      "importance": 0.0898
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "ovary, uterus,",
+                        "offset": 1130,
+                        "length": 14
+                      },
+                      "importance": 0.0708
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "breast adenocarcinoma.",
+                        "offset": 1397,
+                        "length": 22
+                      },
+                      "importance": 0.0703
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "breast,",
+                        "offset": 847,
+                        "length": 7
+                      },
+                      "importance": 0.0463
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "prostate",
+                        "offset": 1157,
+                        "length": 8
+                      },
+                      "importance": 0.0427
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "base",
+                        "offset": 696,
+                        "length": 4
+                      },
+                      "importance": 0.0362
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "4 triple",
+                        "offset": 1379,
+                        "length": 8
+                      },
+                      "importance": 0.0311
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "possibly an",
+                        "offset": 558,
+                        "length": 11
+                      },
+                      "importance": 0.0273
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "disease,",
+                        "offset": 1310,
+                        "length": 8
+                      },
+                      "importance": 0.0247
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "lymphocytic",
+                        "offset": 1197,
+                        "length": 11
+                      },
+                      "importance": 0.0215
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "Impression:",
+                        "offset": 1354,
+                        "length": 11
+                      },
+                      "importance": 0.0174
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "adenocarcinoma.",
+                        "offset": 987,
+                        "length": 15
+                      },
+                      "importance": 0.0165
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "nurse.",
+                        "offset": 103,
+                        "length": 6
+                      },
+                      "importance": 0.015
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "base.",
+                        "offset": 972,
+                        "length": 5
+                      },
+                      "importance": 0.0149
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "Vesicular breathing.",
+                        "offset": 720,
+                        "length": 20
+                      },
+                      "importance": 0.0126
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "female,",
+                        "offset": 59,
+                        "length": 7
+                      },
+                      "importance": 0.0124
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "2 weeks.",
+                        "offset": 1117,
+                        "length": 8
+                      },
+                      "importance": 0.0123
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "aura,",
+                        "offset": 216,
+                        "length": 5
+                      },
+                      "importance": 0.0111
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "fever of 37.8",
+                        "offset": 429,
+                        "length": 13
+                      },
+                      "importance": 0.0089
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "Belarusian.",
+                        "offset": 344,
+                        "length": 11
+                      },
+                      "importance": 0.0089
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "cough",
+                        "offset": 380,
+                        "length": 5
+                      },
+                      "importance": 0.0085
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "Smoking",
+                        "offset": 261,
+                        "length": 7
+                      },
+                      "importance": 0.0084
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "biological",
+                        "offset": 1447,
+                        "length": 10
+                      },
+                      "importance": 0.0082
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "rhinosinusitis, asthma,",
+                        "offset": 527,
+                        "length": 23
+                      },
+                      "importance": 0.0072
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "lung-",
+                        "offset": 544,
+                        "length": 5
+                      },
+                      "importance": 0.0067
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "Oncology",
                         "offset": 0,
+                        "length": 8
+                      },
+                      "importance": 0.0064
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "weakness.",
+                        "offset": 455,
                         "length": 9
                       },
-                      "importance": 0.1145
+                      "importance": 0.0063
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "GENERAL:",
+                        "offset": 590,
+                        "length": 8
+                      },
+                      "importance": 0.0062
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "migraines",
+                        "offset": 201,
+                        "length": 9
+                      },
+                      "importance": 0.0045
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "breath.",
+                        "offset": 403,
+                        "length": 7
+                      },
+                      "importance": 0.0042
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "11 years",
+                        "offset": 176,
+                        "length": 8
+                      },
+                      "importance": 0.0033
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "Resonant",
+                        "offset": 783,
+                        "length": 8
+                      },
+                      "importance": 0.0022
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "sweats",
+                        "offset": 487,
+                        "length": 6
+                      },
+                      "importance": 0.0016
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "contraception.",
+                        "offset": 238,
+                        "length": 14
+                      },
+                      "importance": 0.0011
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "young",
+                        "offset": 1335,
+                        "length": 5
+                      },
+                      "importance": 0.0006
                     }
                   ],
-                  "value": "None",
-                  "confidenceScore": 0.8007
+                  "value": "C34.9",
+                  "description": "LUNG \u0026 BRONCHUS",
+                  "confidenceScore": 0.1489
                 },
                 {
                   "type": "histology",
@@ -157,24 +473,96 @@
                     {
                       "patientDataEvidence": {
                         "id": "doc2",
-                        "text": "Oncology Clinic",
-                        "offset": 0,
-                        "length": 15
+                        "text": "triple negative breast adenocarcinoma.",
+                        "offset": 1381,
+                        "length": 38
                       },
-                      "importance": 0.337
+                      "importance": 0.2796
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "triple negative adenocarcinoma.",
+                        "offset": 971,
+                        "length": 31
+                      },
+                      "importance": 0.1022
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "chronic lymphocytic",
+                        "offset": 1189,
+                        "length": 19
+                      },
+                      "importance": 0.062
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "prostate",
+                        "offset": 1157,
+                        "length": 8
+                      },
+                      "importance": 0.0318
                     },
                     {
                       "patientDataEvidence": {
                         "id": "doc1",
-                        "text": "15.8.2021",
-                        "offset": 0,
-                        "length": 9
+                        "text": "of pneumonia.",
+                        "offset": 1048,
+                        "length": 13
                       },
-                      "importance": 0.1292
+                      "importance": 0.0107
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "lung",
+                        "offset": 967,
+                        "length": 4
+                      },
+                      "importance": 0.0038
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "in",
+                        "offset": 1114,
+                        "length": 2
+                      },
+                      "importance": 0.0021
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "working",
+                        "offset": 1030,
+                        "length": 7
+                      },
+                      "importance": 0.0014
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "chest",
+                        "offset": 851,
+                        "length": 5
+                      },
+                      "importance": 0.0007
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "pallor,",
+                        "offset": 604,
+                        "length": 7
+                      },
+                      "importance": 0.0002
                     }
                   ],
-                  "value": "8140",
-                  "confidenceScore": 0.3151
+                  "value": "Unkn",
+                  "confidenceScore": 0.2025
                 },
                 {
                   "type": "clinicalStageT",
@@ -182,11 +570,200 @@
                     {
                       "patientDataEvidence": {
                         "id": "doc2",
-                        "text": "Oncology Clinic",
+                        "text": "breast- triple negative adenocarcinoma.",
+                        "offset": 963,
+                        "length": 39
+                      },
+                      "importance": 0.148
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "Stage 4 triple negative breast adenocarcinoma.",
+                        "offset": 1373,
+                        "length": 46
+                      },
+                      "importance": 0.1027
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "chronic lymphocytic",
+                        "offset": 1189,
+                        "length": 19
+                      },
+                      "importance": 0.0338
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "Oncology",
                         "offset": 0,
+                        "length": 8
+                      },
+                      "importance": 0.021
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "prostate",
+                        "offset": 1157,
+                        "length": 8
+                      },
+                      "importance": 0.0193
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "possibly an",
+                        "offset": 558,
+                        "length": 11
+                      },
+                      "importance": 0.0171
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "right lung-",
+                        "offset": 538,
+                        "length": 11
+                      },
+                      "importance": 0.0132
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "SOB",
+                        "offset": 436,
+                        "length": 3
+                      },
+                      "importance": 0.0127
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "cough",
+                        "offset": 380,
+                        "length": 5
+                      },
+                      "importance": 0.0064
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "febrile.",
+                        "offset": 448,
+                        "length": 8
+                      },
+                      "importance": 0.0064
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "Mirena.",
+                        "offset": 289,
+                        "length": 7
+                      },
+                      "importance": 0.0059
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "contraception.",
+                        "offset": 238,
+                        "length": 14
+                      },
+                      "importance": 0.0058
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "aura,",
+                        "offset": 216,
+                        "length": 5
+                      },
+                      "importance": 0.0051
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "migraines",
+                        "offset": 201,
+                        "length": 9
+                      },
+                      "importance": 0.0047
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "base",
+                        "offset": 526,
+                        "length": 4
+                      },
+                      "importance": 0.0044
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "of breath.",
+                        "offset": 400,
+                        "length": 10
+                      },
+                      "importance": 0.0043
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "Georgian.",
+                        "offset": 364,
+                        "length": 9
+                      },
+                      "importance": 0.0035
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "general weakness.",
+                        "offset": 447,
+                        "length": 17
+                      },
+                      "importance": 0.0034
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "relapsed",
+                        "offset": 311,
+                        "length": 8
+                      },
+                      "importance": 0.003
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "Smoking",
+                        "offset": 261,
+                        "length": 7
+                      },
+                      "importance": 0.0027
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "Belarusian.",
+                        "offset": 344,
+                        "length": 11
+                      },
+                      "importance": 0.0022
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "rhinosinusitis,",
+                        "offset": 527,
                         "length": 15
                       },
-                      "importance": 0.3385
+                      "importance": 0.0019
                     },
                     {
                       "patientDataEvidence": {
@@ -195,11 +772,65 @@
                         "offset": 0,
                         "length": 9
                       },
-                      "importance": 0.1048
+                      "importance": 0.0013
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "heartburn.",
+                        "offset": 555,
+                        "length": 10
+                      },
+                      "importance": 0.0011
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "Smoking-",
+                        "offset": 304,
+                        "length": 8
+                      },
+                      "importance": 0.001
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "nurse.",
+                        "offset": 103,
+                        "length": 6
+                      },
+                      "importance": 0.0009
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "She",
+                        "offset": 344,
+                        "length": 3
+                      },
+                      "importance": 0.0004
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "She",
+                        "offset": 220,
+                        "length": 3
+                      },
+                      "importance": 0.0004
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "Mirena",
+                        "offset": 227,
+                        "length": 6
+                      },
+                      "importance": 0.0001
                     }
                   ],
-                  "value": "None",
-                  "confidenceScore": 0.992
+                  "value": "T2",
+                  "confidenceScore": 0.5273
                 },
                 {
                   "type": "clinicalStageN",
@@ -207,11 +838,191 @@
                     {
                       "patientDataEvidence": {
                         "id": "doc2",
-                        "text": "Oncology Clinic",
-                        "offset": 0,
-                        "length": 15
+                        "text": "chronic lymphocytic leukemia",
+                        "offset": 1189,
+                        "length": 28
                       },
-                      "importance": 0.3365
+                      "importance": 0.0835
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "Stage 4 triple negative breast adenocarcinoma.",
+                        "offset": 1373,
+                        "length": 46
+                      },
+                      "importance": 0.0787
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "triple negative adenocarcinoma.",
+                        "offset": 971,
+                        "length": 31
+                      },
+                      "importance": 0.0585
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "lymph nodes",
+                        "offset": 855,
+                        "length": 11
+                      },
+                      "importance": 0.0581
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "possibly an",
+                        "offset": 558,
+                        "length": 11
+                      },
+                      "importance": 0.0423
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "biological",
+                        "offset": 1447,
+                        "length": 10
+                      },
+                      "importance": 0.0345
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "lung-",
+                        "offset": 544,
+                        "length": 5
+                      },
+                      "importance": 0.0255
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "the base of",
+                        "offset": 522,
+                        "length": 11
+                      },
+                      "importance": 0.0133
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "rhinosinusitis, asthma,",
+                        "offset": 527,
+                        "length": 23
+                      },
+                      "importance": 0.0112
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "contraception.",
+                        "offset": 238,
+                        "length": 14
+                      },
+                      "importance": 0.0101
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "aura, uses Mirena",
+                        "offset": 216,
+                        "length": 17
+                      },
+                      "importance": 0.0099
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "Mirena.",
+                        "offset": 289,
+                        "length": 7
+                      },
+                      "importance": 0.0087
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "year old female,",
+                        "offset": 50,
+                        "length": 16
+                      },
+                      "importance": 0.0062
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "general",
+                        "offset": 447,
+                        "length": 7
+                      },
+                      "importance": 0.0056
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "nurse.",
+                        "offset": 103,
+                        "length": 6
+                      },
+                      "importance": 0.0047
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "PMHx",
+                        "offset": 177,
+                        "length": 4
+                      },
+                      "importance": 0.0037
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "heartburn.",
+                        "offset": 555,
+                        "length": 10
+                      },
+                      "importance": 0.0037
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "migraines",
+                        "offset": 201,
+                        "length": 9
+                      },
+                      "importance": 0.0029
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "of pneumonia.",
+                        "offset": 1048,
+                        "length": 13
+                      },
+                      "importance": 0.0029
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "Smoking",
+                        "offset": 261,
+                        "length": 7
+                      },
+                      "importance": 0.0022
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "follow-up CXR in",
+                        "offset": 1100,
+                        "length": 16
+                      },
+                      "importance": 0.0022
                     },
                     {
                       "patientDataEvidence": {
@@ -220,11 +1031,101 @@
                         "offset": 0,
                         "length": 9
                       },
-                      "importance": 0.068
+                      "importance": 0.0019
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "GENERAL: mild",
+                        "offset": 590,
+                        "length": 13
+                      },
+                      "importance": 0.0018
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "lung.",
+                        "offset": 714,
+                        "length": 5
+                      },
+                      "importance": 0.0018
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "cough",
+                        "offset": 380,
+                        "length": 5
+                      },
+                      "importance": 0.0013
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "lung base.",
+                        "offset": 967,
+                        "length": 10
+                      },
+                      "importance": 0.001
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "PLAN:",
+                        "offset": 987,
+                        "length": 5
+                      },
+                      "importance": 0.0007
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "LUNGS:",
+                        "offset": 658,
+                        "length": 6
+                      },
+                      "importance": 0.0005
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "relapsed",
+                        "offset": 311,
+                        "length": 8
+                      },
+                      "importance": 0.0003
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "mild",
+                        "offset": 931,
+                        "length": 4
+                      },
+                      "importance": 0.0003
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "years",
+                        "offset": 288,
+                        "length": 5
+                      },
+                      "importance": 0.0002
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "c/o",
+                        "offset": 354,
+                        "length": 3
+                      },
+                      "importance": 0.0001
                     }
                   ],
-                  "value": "None",
-                  "confidenceScore": 0.998
+                  "value": "N0",
+                  "confidenceScore": 0.8315
                 },
                 {
                   "type": "clinicalStageM",
@@ -232,24 +1133,294 @@
                     {
                       "patientDataEvidence": {
                         "id": "doc2",
-                        "text": "Oncology Clinic",
-                        "offset": 0,
-                        "length": 15
+                        "text": "breast- triple negative adenocarcinoma.",
+                        "offset": 963,
+                        "length": 39
                       },
-                      "importance": 0.2702
+                      "importance": 0.0823
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "Stage 4 triple negative breast adenocarcinoma.",
+                        "offset": 1373,
+                        "length": 46
+                      },
+                      "importance": 0.0677
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "lymphocytic leukemia",
+                        "offset": 1197,
+                        "length": 20
+                      },
+                      "importance": 0.0519
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "possibly an",
+                        "offset": 558,
+                        "length": 11
+                      },
+                      "importance": 0.0371
                     },
                     {
                       "patientDataEvidence": {
                         "id": "doc1",
-                        "text": "15.8.2021",
-                        "offset": 0,
+                        "text": "for migraines with aura,",
+                        "offset": 197,
+                        "length": 24
+                      },
+                      "importance": 0.0314
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "rhinosinusitis,",
+                        "offset": 527,
+                        "length": 15
+                      },
+                      "importance": 0.025
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "course",
+                        "offset": 1296,
+                        "length": 6
+                      },
+                      "importance": 0.018
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "lung-",
+                        "offset": 544,
+                        "length": 5
+                      },
+                      "importance": 0.0136
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "general weakness.",
+                        "offset": 447,
+                        "length": 17
+                      },
+                      "importance": 0.0125
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "contraception.",
+                        "offset": 238,
+                        "length": 14
+                      },
+                      "importance": 0.0111
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "base of",
+                        "offset": 526,
+                        "length": 7
+                      },
+                      "importance": 0.0109
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "Belarusian.",
+                        "offset": 344,
+                        "length": 11
+                      },
+                      "importance": 0.0094
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "of pneumonia.",
+                        "offset": 1048,
+                        "length": 13
+                      },
+                      "importance": 0.0068
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "ovary, uterus,",
+                        "offset": 1130,
+                        "length": 14
+                      },
+                      "importance": 0.0067
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "children,",
+                        "offset": 82,
                         "length": 9
                       },
-                      "importance": 0.1041
+                      "importance": 0.006
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "Oncology",
+                        "offset": 0,
+                        "length": 8
+                      },
+                      "importance": 0.0059
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "GENERAL: mild pallor, no",
+                        "offset": 590,
+                        "length": 24
+                      },
+                      "importance": 0.0052
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "Georgian.",
+                        "offset": 364,
+                        "length": 9
+                      },
+                      "importance": 0.0042
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "Mirena.",
+                        "offset": 289,
+                        "length": 7
+                      },
+                      "importance": 0.004
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "mild nonspecific opacities",
+                        "offset": 931,
+                        "length": 26
+                      },
+                      "importance": 0.0035
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "in",
+                        "offset": 1114,
+                        "length": 2
+                      },
+                      "importance": 0.0031
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "Impression:",
+                        "offset": 1354,
+                        "length": 11
+                      },
+                      "importance": 0.003
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "She",
+                        "offset": 220,
+                        "length": 3
+                      },
+                      "importance": 0.0029
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "no",
+                        "offset": 128,
+                        "length": 2
+                      },
+                      "importance": 0.0023
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "lung base.",
+                        "offset": 967,
+                        "length": 10
+                      },
+                      "importance": 0.0021
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "female,",
+                        "offset": 59,
+                        "length": 7
+                      },
+                      "importance": 0.0016
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "Vesicular",
+                        "offset": 720,
+                        "length": 9
+                      },
+                      "importance": 0.0014
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "cough",
+                        "offset": 380,
+                        "length": 5
+                      },
+                      "importance": 0.0007
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "Regular",
+                        "offset": 625,
+                        "length": 7
+                      },
+                      "importance": 0.0007
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "Mirena",
+                        "offset": 227,
+                        "length": 6
+                      },
+                      "importance": 0.0006
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "LUNGS:",
+                        "offset": 658,
+                        "length": 6
+                      },
+                      "importance": 0.0001
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "sweats",
+                        "offset": 487,
+                        "length": 6
+                      },
+                      "importance": 0.0
                     }
                   ],
-                  "value": "None",
-                  "confidenceScore": 0.9319
+                  "value": "M0",
+                  "confidenceScore": 0.8386
                 },
                 {
                   "type": "pathologicStageT",
@@ -257,24 +1428,186 @@
                     {
                       "patientDataEvidence": {
                         "id": "doc2",
-                        "text": "Oncology Clinic",
-                        "offset": 0,
-                        "length": 15
+                        "text": "Stage 4 triple negative breast",
+                        "offset": 1373,
+                        "length": 30
                       },
-                      "importance": 0.2753
+                      "importance": 0.229
                     },
                     {
                       "patientDataEvidence": {
                         "id": "doc1",
-                        "text": "15.8.2021",
-                        "offset": 0,
+                        "text": "of pneumonia.",
+                        "offset": 1048,
+                        "length": 13
+                      },
+                      "importance": 0.0621
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "right lung-",
+                        "offset": 538,
+                        "length": 11
+                      },
+                      "importance": 0.0535
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "possibly an",
+                        "offset": 558,
+                        "length": 11
+                      },
+                      "importance": 0.0442
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "lung.",
+                        "offset": 735,
+                        "length": 5
+                      },
+                      "importance": 0.0276
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "lung",
+                        "offset": 967,
+                        "length": 4
+                      },
+                      "importance": 0.0275
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "lungs",
+                        "offset": 899,
+                        "length": 5
+                      },
+                      "importance": 0.0248
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "liver.",
+                        "offset": 909,
+                        "length": 6
+                      },
+                      "importance": 0.0224
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "breast- triple",
+                        "offset": 963,
+                        "length": 14
+                      },
+                      "importance": 0.017
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "breast, lymph",
+                        "offset": 847,
+                        "length": 13
+                      },
+                      "importance": 0.0134
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "the base",
+                        "offset": 522,
+                        "length": 8
+                      },
+                      "importance": 0.0133
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "Georgian.",
+                        "offset": 364,
                         "length": 9
                       },
-                      "importance": 0.1974
+                      "importance": 0.0106
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "lung.",
+                        "offset": 714,
+                        "length": 5
+                      },
+                      "importance": 0.0102
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "prostate",
+                        "offset": 1157,
+                        "length": 8
+                      },
+                      "importance": 0.0079
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "mild",
+                        "offset": 931,
+                        "length": 4
+                      },
+                      "importance": 0.0068
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "opacities",
+                        "offset": 948,
+                        "length": 9
+                      },
+                      "importance": 0.006
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "adenocarcinoma.",
+                        "offset": 987,
+                        "length": 15
+                      },
+                      "importance": 0.0058
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "febrile.",
+                        "offset": 448,
+                        "length": 8
+                      },
+                      "importance": 0.0054
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "working",
+                        "offset": 1030,
+                        "length": 7
+                      },
+                      "importance": 0.0022
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "in",
+                        "offset": 950,
+                        "length": 2
+                      },
+                      "importance": 0.0013
                     }
                   ],
                   "value": "None",
-                  "confidenceScore": 0.8248
+                  "confidenceScore": 0.3518
                 },
                 {
                   "type": "pathologicStageN",
@@ -282,59 +1615,509 @@
                     {
                       "patientDataEvidence": {
                         "id": "doc2",
-                        "text": "Oncology Clinic",
-                        "offset": 0,
-                        "length": 15
+                        "text": "triple negative adenocarcinoma.",
+                        "offset": 971,
+                        "length": 31
                       },
-                      "importance": 0.3651
+                      "importance": 0.1291
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "Stage 4 triple negative breast adenocarcinoma.",
+                        "offset": 1373,
+                        "length": 46
+                      },
+                      "importance": 0.0877
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "biological therapy.",
+                        "offset": 1447,
+                        "length": 19
+                      },
+                      "importance": 0.0619
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "chronic lymphocytic",
+                        "offset": 1189,
+                        "length": 19
+                      },
+                      "importance": 0.0579
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "liver.",
+                        "offset": 909,
+                        "length": 6
+                      },
+                      "importance": 0.0343
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "prostate",
+                        "offset": 1157,
+                        "length": 8
+                      },
+                      "importance": 0.0318
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "course of the disease,",
+                        "offset": 1296,
+                        "length": 22
+                      },
+                      "importance": 0.0282
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "lymph nodes",
+                        "offset": 855,
+                        "length": 11
+                      },
+                      "importance": 0.0201
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "lungs",
+                        "offset": 899,
+                        "length": 5
+                      },
+                      "importance": 0.0183
                     },
                     {
                       "patientDataEvidence": {
                         "id": "doc1",
-                        "text": "15.8.2021",
+                        "text": "of pneumonia.",
+                        "offset": 1048,
+                        "length": 13
+                      },
+                      "importance": 0.011
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "nonspecific opacities",
+                        "offset": 936,
+                        "length": 21
+                      },
+                      "importance": 0.004
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "working",
+                        "offset": 1030,
+                        "length": 7
+                      },
+                      "importance": 0.0035
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "Oncology",
                         "offset": 0,
+                        "length": 8
+                      },
+                      "importance": 0.0023
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "possibly an",
+                        "offset": 558,
+                        "length": 11
+                      },
+                      "importance": 0.0022
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "LUNGS:",
+                        "offset": 658,
+                        "length": 6
+                      },
+                      "importance": 0.0021
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "febrile.",
+                        "offset": 448,
+                        "length": 8
+                      },
+                      "importance": 0.0019
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "lung",
+                        "offset": 967,
+                        "length": 4
+                      },
+                      "importance": 0.0017
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "mild pallor,",
+                        "offset": 599,
+                        "length": 12
+                      },
+                      "importance": 0.0016
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "breath sounds",
+                        "offset": 675,
+                        "length": 13
+                      },
+                      "importance": 0.0013
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "Belarusian.",
+                        "offset": 344,
+                        "length": 11
+                      },
+                      "importance": 0.0007
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "SOB",
+                        "offset": 436,
+                        "length": 3
+                      },
+                      "importance": 0.0006
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "chest",
+                        "offset": 851,
+                        "length": 5
+                      },
+                      "importance": 0.0004
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "27",
+                        "offset": 206,
+                        "length": 2
+                      },
+                      "importance": 0.0003
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "breastfeed.",
+                        "offset": 254,
+                        "length": 11
+                      },
+                      "importance": 0.0003
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "Mirena.",
+                        "offset": 289,
+                        "length": 7
+                      },
+                      "importance": 0.0002
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "091175-8967",
+                        "offset": 51,
+                        "length": 11
+                      },
+                      "importance": 0.0001
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "42-year-old",
+                        "offset": 70,
+                        "length": 11
+                      },
+                      "importance": 0.0001
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "lung-",
+                        "offset": 544,
+                        "length": 5
+                      },
+                      "importance": 0.0001
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "Georgian.",
+                        "offset": 364,
                         "length": 9
                       },
-                      "importance": 0.1279
+                      "importance": 0.0
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "months",
+                        "offset": 390,
+                        "length": 6
+                      },
+                      "importance": 0.0
                     }
                   ],
-                  "value": "None",
-                  "confidenceScore": 0.7228
+                  "value": "N0",
+                  "confidenceScore": 0.3184
                 },
                 {
                   "type": "pathologicStageM",
                   "evidence": [
                     {
                       "patientDataEvidence": {
-                        "id": "doc2",
-                        "text": "Oncology Clinic",
-                        "offset": 0,
-                        "length": 15
+                        "id": "doc1",
+                        "text": "suggestive of a working diagnosis of pneumonia.",
+                        "offset": 1014,
+                        "length": 47
                       },
-                      "importance": 0.3375
+                      "importance": 0.0698
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "Stage 4 triple negative breast adenocarcinoma.",
+                        "offset": 1373,
+                        "length": 46
+                      },
+                      "importance": 0.0698
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "triple negative adenocarcinoma.",
+                        "offset": 971,
+                        "length": 31
+                      },
+                      "importance": 0.055
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "chronic lymphocytic leukemia",
+                        "offset": 1189,
+                        "length": 28
+                      },
+                      "importance": 0.0498
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "prostate",
+                        "offset": 1157,
+                        "length": 8
+                      },
+                      "importance": 0.0416
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "of",
+                        "offset": 1303,
+                        "length": 2
+                      },
+                      "importance": 0.0263
                     },
                     {
                       "patientDataEvidence": {
                         "id": "doc1",
-                        "text": "15.8.2021",
-                        "offset": 0,
+                        "text": "migraines",
+                        "offset": 201,
                         "length": 9
                       },
-                      "importance": 0.0912
+                      "importance": 0.0249
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "liver.",
+                        "offset": 909,
+                        "length": 6
+                      },
+                      "importance": 0.0223
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "possibly an",
+                        "offset": 558,
+                        "length": 11
+                      },
+                      "importance": 0.0219
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "Georgian.",
+                        "offset": 364,
+                        "length": 9
+                      },
+                      "importance": 0.0215
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "Belarusian.",
+                        "offset": 344,
+                        "length": 11
+                      },
+                      "importance": 0.0188
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "of rhinosinusitis, asthma, and heartburn.",
+                        "offset": 524,
+                        "length": 41
+                      },
+                      "importance": 0.0164
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "lung-",
+                        "offset": 544,
+                        "length": 5
+                      },
+                      "importance": 0.0143
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "disease,",
+                        "offset": 1310,
+                        "length": 8
+                      },
+                      "importance": 0.0097
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "Oncology",
+                        "offset": 0,
+                        "length": 8
+                      },
+                      "importance": 0.0091
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "lung",
+                        "offset": 967,
+                        "length": 4
+                      },
+                      "importance": 0.009
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "lungs",
+                        "offset": 899,
+                        "length": 5
+                      },
+                      "importance": 0.006
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "shortness of breath.",
+                        "offset": 390,
+                        "length": 20
+                      },
+                      "importance": 0.0052
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "base",
+                        "offset": 526,
+                        "length": 4
+                      },
+                      "importance": 0.0052
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "======================================",
+                        "offset": 873,
+                        "length": 38
+                      },
+                      "importance": 0.0025
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "mild nonspecific",
+                        "offset": 931,
+                        "length": 16
+                      },
+                      "importance": 0.0011
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "PLAN:",
+                        "offset": 987,
+                        "length": 5
+                      },
+                      "importance": 0.0009
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc1",
+                        "text": "fever",
+                        "offset": 429,
+                        "length": 5
+                      },
+                      "importance": 0.0004
+                    },
+                    {
+                      "patientDataEvidence": {
+                        "id": "doc2",
+                        "text": "SOB",
+                        "offset": 436,
+                        "length": 3
+                      },
+                      "importance": 0.0
                     }
                   ],
                   "value": "None",
-                  "confidenceScore": 0.9319
+                  "confidenceScore": 0.6036
                 }
               ]
             }
           ],
           "modelVersion": "2023-03-01-preview"
         },
-        "jobId": "393ce628-f7cb-445b-93ed-af246fd02da0",
-        "createdDateTime": "2023-07-26T11:41:30Z",
-        "expirationDateTime": "2023-07-27T11:41:30Z",
-        "lastUpdateDateTime": "2023-07-26T11:41:31Z",
+        "jobId": "029cd4e3-c064-42d3-b903-f2a797b6485f",
+        "createdDateTime": "2023-07-26T14:54:28Z",
+        "expirationDateTime": "2023-07-27T14:54:28Z",
+        "lastUpdateDateTime": "2023-07-26T14:54:33Z",
         "status": "succeeded"
       }
     }
