@@ -179,7 +179,20 @@ See the [JavaScript Codegen Quick Start for Test](https://github.com/Azure/azure
     rush build -t ${PACKAGE_NAME}
     SET TEST_MODE=playback&& rushx test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
+4. **Push recording to assets repo**
+    After running the test successfully, you need to push the recordings to [assets repo](https://github.com/Azure/azure-sdk-assets)
 
+    If your package is new or has never been pushed before, you could use below commands:
+    ```shell
+    npx dev-tool test-proxy init # this will generate assets.json file, you will get some info in this file.
+
+    npx dev-tool test-proxy push # this will push your local recordings to a tag in the `Azure/azure-sdk-assets` repo, and update the `assets.json` in your package root to reference the newly created tag
+    ```
+
+    You can find your local recording files in `./azure-sdk-for-js/.assets`.
+
+    And you can find your recording fils on `https://github.com/Azure/azure-sdk-assets/tree/xxx`, xxx is the value of tags in `assets.json`
+    
 
 # How to write samples
 

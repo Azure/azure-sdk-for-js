@@ -149,6 +149,20 @@ See the [Javascript Codegen Quick Start for Test](https://github.com/Azure/azure
     SET TEST_MODE=playback&& rushx test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
 
+4. **Push recording to assets repo**
+    After running the test successfully, you need to push the recordings to [assets repo](https://github.com/Azure/azure-sdk-assets)
+
+    If your package is new or has never been pushed before, you could use below commands:
+    ```shell
+    npx dev-tool test-proxy init # this will generate assets.json file, you will get some info in this file.
+
+    npx dev-tool test-proxy push # this will push your local recordings to a tag in the `Azure/azure-sdk-assets` repo, and update the `assets.json` in your package root to reference the newly created tag
+    ```
+
+    You can find your local recording files in `./azure-sdk-for-js/.assets`.
+
+    And you can find your recording fils on `https://github.com/Azure/azure-sdk-assets/tree/xxx`, xxx is the value of tags in `assets.json`
+    
 # How to write samples
 
 We highly encourage you to write some valid samples for your customer to get start your service with RLC. You may author TypeScript samples under the `samples-dev` folder. For quick start you can use [sample-dev template](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template/samples-dev) as reference and update the relevant information for your service such as package-name, sample code, description, etc. To learn more you could refer [the samples of MapsRouteClient here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route-rest/samples-dev).
