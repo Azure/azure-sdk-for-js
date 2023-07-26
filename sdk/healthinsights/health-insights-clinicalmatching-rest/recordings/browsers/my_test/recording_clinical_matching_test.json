@@ -28,7 +28,7 @@
             "id": "patient_id",
             "info": {
               "sex": "MALE",
-              "birthDate": "1965-12-25T22:00:00.000Z",
+              "birthDate": "1965-12-26T00:00:00.000Z",
               "clinicalInfo": [
                 {
                   "system": "http://www.nlm.nih.gov/research/umls",
