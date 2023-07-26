@@ -22,7 +22,7 @@ dotenv.config();
 const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "https://eastus.api.cognitive.microsoft.com";
 
-function printResults(trialMatcherResult): void {
+function printResults(trialMatcherResult: TrialMatcherResultOutput): void {
     if (trialMatcherResult.status === "succeeded") {
       const results = trialMatcherResult.results;
       const patients = results.patients;

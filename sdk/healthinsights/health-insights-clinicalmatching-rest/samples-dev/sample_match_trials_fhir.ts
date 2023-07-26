@@ -29,7 +29,7 @@ function getPatientDocContent(): string {
   return content;
 }
 
-function printResults(trialMatcherResult): void {
+function printResults(trialMatcherResult: TrialMatcherResultOutput): void {
     if (trialMatcherResult.status === "succeeded") {
       const results = trialMatcherResult.results;
       const patients = results.patients;
