@@ -23,7 +23,7 @@ import {
   PlayRequest as PlayRequestMapper,
   RecognizeRequest as RecognizeRequestMapper,
   ContinuousDtmfRecognitionRequest as ContinuousDtmfRecognitionRequestMapper,
-  SendDtmfRequest as SendDtmfRequestMapper,
+  SendDtmfTonesRequest as SendDtmfTonesRequestMapper,
   StartCallRecordingRequest as StartCallRecordingRequestMapper
 } from "../models/mappers";
 
@@ -184,9 +184,9 @@ export const continuousDtmfRecognitionRequest: OperationParameter = {
   mapper: ContinuousDtmfRecognitionRequestMapper
 };
 
-export const sendDtmfRequest: OperationParameter = {
-  parameterPath: "sendDtmfRequest",
-  mapper: SendDtmfRequestMapper
+export const sendDtmfTonesRequest: OperationParameter = {
+  parameterPath: "sendDtmfTonesRequest",
+  mapper: SendDtmfTonesRequestMapper
 };
 
 export const startCallRecording: OperationParameter = {

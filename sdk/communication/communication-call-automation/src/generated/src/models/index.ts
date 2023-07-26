@@ -291,7 +291,7 @@ export interface ContinuousDtmfRecognitionRequest {
   operationContext?: string;
 }
 
-export interface SendDtmfRequest {
+export interface SendDtmfTonesRequest {
   /** List of tones to be sent to target participant. */
   tones: Tone[];
   /** Target participant of send DTMF. */
@@ -300,7 +300,7 @@ export interface SendDtmfRequest {
   operationContext?: string;
 }
 
-export interface SendDtmfResult {
+export interface SendDtmfTonesResult {
   /** The operation context provided by client. */
   operationContext?: string;
 }
@@ -753,7 +753,7 @@ export interface ContinuousDtmfRecognitionStopped {
   resultInformation?: ResultInformation;
 }
 
-export interface SendDtmfCompleted {
+export interface SendDtmfTonesCompleted {
   /** Call connection ID. */
   callConnectionId?: string;
   /** Server call ID. */
@@ -766,7 +766,7 @@ export interface SendDtmfCompleted {
   resultInformation?: ResultInformation;
 }
 
-export interface SendDtmfFailed {
+export interface SendDtmfTonesFailed {
   /** Call connection ID. */
   callConnectionId?: string;
   /** Server call ID. */
@@ -1264,7 +1264,7 @@ export interface CallMediaStopContinuousDtmfRecognitionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface CallMediaSendDtmfOptionalParams
+export interface CallMediaSendDtmfTonesOptionalParams
   extends coreClient.OperationOptions {
   /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
   repeatabilityRequestID?: string;
@@ -1272,8 +1272,8 @@ export interface CallMediaSendDtmfOptionalParams
   repeatabilityFirstSent?: Date;
 }
 
-/** Contains response data for the sendDtmf operation. */
-export type CallMediaSendDtmfResponse = SendDtmfResult;
+/** Contains response data for the sendDtmfTones operation. */
+export type CallMediaSendDtmfTonesResponse = SendDtmfTonesResult;
 
 /** Optional parameters. */
 export interface CallRecordingStartRecordingOptionalParams
