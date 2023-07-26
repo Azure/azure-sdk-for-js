@@ -14,7 +14,7 @@ import {
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { timeoutMs } from "../utils/constants";
 
-describe("RouterClient", function () {
+describe("JobRouterClient", function () {
   let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;
 
@@ -75,15 +75,24 @@ describe("RouterClient", function () {
     }).timeout(timeoutMs);
 
     it("should update a classification policy", async function () {
-      const patch: ClassificationPolicy = { ...classificationPolicyRequest, name: "new name" };
-      const result = await administrationClient.updateClassificationPolicy(
+      const updatePatch = { ...classificationPolicyRequest, name: "new name" };
+      const updateResult = await administrationClient.updateClassificationPolicy(
         classificationPolicyId,
-        patch
+        updatePatch
       );
 
-      assert.isDefined(result);
-      assert.isDefined(result.id);
-      assert.equal(result.name, patch.name);
+      const removePatch = { ...classificationPolicyRequest, name: null! };
+      const removeResult = await administrationClient.updateClassificationPolicy(
+        classificationPolicyId,
+        removePatch
+      );
+
+      assert.isDefined(updateResult);
+      assert.isDefined(updateResult.id);
+      assert.isDefined(removeResult);
+      assert.isDefined(removeResult.id);
+      assert.equal(updatePatch.name, updateResult.name);
+      assert.isUndefined(removeResult.name);
     }).timeout(timeoutMs);
 
     it("should list classification policies", async function () {

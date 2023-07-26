@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Account,
   DeletedAccountsListOptionalParams,
@@ -51,7 +51,7 @@ export interface DeletedAccounts {
     resourceGroupName: string,
     accountName: string,
     options?: DeletedAccountsPurgeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Cognitive Services account from the resource group.
    * @param location Resource location.

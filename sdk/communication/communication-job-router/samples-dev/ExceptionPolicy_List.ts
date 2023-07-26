@@ -26,7 +26,7 @@ async function listExceptionPolicies(): Promise<void> {
   const receivedPagedItems: ExceptionPolicyItem[] = [];
 
   for await (const page of routerAdministrationClient
-    .listExceptionPolicies({ maxPageSize: maxPageSize })
+    .listExceptionPolicies({ maxPageSize })
     .byPage()) {
     ++pagesCount;
     console.log("page: " + pagesCount);

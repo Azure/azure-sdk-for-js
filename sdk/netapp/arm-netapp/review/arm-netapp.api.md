@@ -265,18 +265,6 @@ export interface BackupPolicy extends TrackedResource {
 }
 
 // @public
-export interface BackupPolicyDetails extends TrackedResource {
-    readonly backupPolicyId?: string;
-    dailyBackupsToKeep?: number;
-    enabled?: boolean;
-    monthlyBackupsToKeep?: number;
-    readonly provisioningState?: string;
-    readonly volumeBackups?: VolumeBackups[];
-    readonly volumesAssigned?: number;
-    weeklyBackupsToKeep?: number;
-}
-
-// @public
 export interface BackupPolicyPatch {
     readonly backupPolicyId?: string;
     dailyBackupsToKeep?: number;
@@ -511,6 +499,26 @@ export type EncryptionType = string;
 export type EndpointType = string;
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface ExportPolicyRule {
     allowedClients?: string;
     chownMode?: ChownMode;
@@ -540,6 +548,16 @@ export interface FilePathAvailabilityRequest {
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
+export interface GetGroupIdListForLdapUserRequest {
+    username: string;
+}
+
+// @public
+export interface GetGroupIdListForLdapUserResponse {
+    groupIdsForLdapUser?: string[];
+}
 
 // @public
 export interface HourlySchedule {
@@ -707,10 +725,14 @@ export enum KnownQosType {
 
 // @public
 export enum KnownRegionStorageToNetworkProximity {
+    AcrossT2 = "AcrossT2",
     Default = "Default",
     T1 = "T1",
+    T1AndAcrossT2 = "T1AndAcrossT2",
     T1AndT2 = "T1AndT2",
-    T2 = "T2"
+    T1AndT2AndAcrossT2 = "T1AndT2AndAcrossT2",
+    T2 = "T2",
+    T2AndAcrossT2 = "T2AndAcrossT2"
 }
 
 // @public
@@ -762,6 +784,7 @@ export enum KnownType {
 
 // @public
 export enum KnownVolumeStorageToNetworkProximity {
+    AcrossT2 = "AcrossT2",
     Default = "Default",
     T1 = "T1",
     T2 = "T2"
@@ -878,6 +901,7 @@ export interface NetAppAccountPatch {
     readonly disableShowmount?: boolean;
     encryption?: AccountEncryption;
     readonly id?: string;
+    identity?: ManagedServiceIdentity;
     location?: string;
     readonly name?: string;
     readonly provisioningState?: string;
@@ -1549,6 +1573,7 @@ export interface UserAssignedIdentity {
 
 // @public
 export interface Volume extends TrackedResource {
+    readonly actualThroughputMibps?: number;
     avsDataStore?: AvsDataStore;
     backupId?: string;
     readonly baremetalTenantId?: string;
@@ -1579,6 +1604,7 @@ export interface Volume extends TrackedResource {
     readonly mountTargets?: MountTargetProperties[];
     networkFeatures?: NetworkFeatures;
     readonly networkSiblingSetId?: string;
+    readonly originatingResourceId?: string;
     placementRules?: PlacementKeyValuePairs[];
     protocolTypes?: string[];
     readonly provisionedAvailabilityZone?: string;
@@ -1695,6 +1721,7 @@ export type VolumeGroupsListByNetAppAccountResponse = VolumeGroupList;
 
 // @public
 export interface VolumeGroupVolumeProperties {
+    readonly actualThroughputMibps?: number;
     avsDataStore?: AvsDataStore;
     backupId?: string;
     readonly baremetalTenantId?: string;
@@ -1726,6 +1753,7 @@ export interface VolumeGroupVolumeProperties {
     name?: string;
     networkFeatures?: NetworkFeatures;
     readonly networkSiblingSetId?: string;
+    readonly originatingResourceId?: string;
     placementRules?: PlacementKeyValuePairs[];
     protocolTypes?: string[];
     readonly provisionedAvailabilityZone?: string;
@@ -1773,6 +1801,7 @@ export interface VolumePatch {
     location?: string;
     readonly name?: string;
     serviceLevel?: ServiceLevel;
+    snapshotDirectoryVisible?: boolean;
     tags?: {
         [propertyName: string]: string;
     };
@@ -1907,6 +1936,8 @@ export interface Volumes {
     beginDeleteReplicationAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesDeleteReplicationOptionalParams): Promise<void>;
     beginFinalizeRelocation(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesFinalizeRelocationOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginFinalizeRelocationAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesFinalizeRelocationOptionalParams): Promise<void>;
+    beginListGetGroupIdListForLdapUser(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: GetGroupIdListForLdapUserRequest, options?: VolumesListGetGroupIdListForLdapUserOptionalParams): Promise<SimplePollerLike<OperationState<VolumesListGetGroupIdListForLdapUserResponse>, VolumesListGetGroupIdListForLdapUserResponse>>;
+    beginListGetGroupIdListForLdapUserAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: GetGroupIdListForLdapUserRequest, options?: VolumesListGetGroupIdListForLdapUserOptionalParams): Promise<VolumesListGetGroupIdListForLdapUserResponse>;
     beginPoolChange(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: PoolChangeRequest, options?: VolumesPoolChangeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginPoolChangeAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: PoolChangeRequest, options?: VolumesPoolChangeOptionalParams): Promise<void>;
     beginReestablishReplication(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: ReestablishReplicationRequest, options?: VolumesReestablishReplicationOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
@@ -1991,6 +2022,21 @@ export interface VolumesGetOptionalParams extends coreClient.OperationOptions {
 
 // @public
 export type VolumesGetResponse = Volume;
+
+// @public
+export interface VolumesListGetGroupIdListForLdapUserHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface VolumesListGetGroupIdListForLdapUserOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VolumesListGetGroupIdListForLdapUserResponse = GetGroupIdListForLdapUserResponse;
 
 // @public
 export interface VolumesListNextOptionalParams extends coreClient.OperationOptions {

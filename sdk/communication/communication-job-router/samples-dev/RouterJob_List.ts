@@ -22,14 +22,14 @@ async function listRouterJobs(): Promise<void> {
   const receivedPagedItems: RouterJobItem[] = [];
 
   for await (const page of routerClient
-    .listJobs({ jobStateSelector: "queued", maxPageSize: maxPageSize })
+    .listJobs({ statusSelector: "queued", maxPageSize })
     .byPage()) {
     ++pagesCount;
     console.log("page: " + pagesCount);
     for (const policy of page) {
-      if (policy.routerJob) {
+      if (policy.job) {
         receivedPagedItems.push(policy);
-        console.log("Listing router job with id: " + policy.routerJob.id);
+        console.log("Listing router job with id: " + policy.job.id);
       }
     }
     let pageSize = receivedPagedItems.length;

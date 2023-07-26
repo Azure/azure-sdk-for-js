@@ -27,7 +27,7 @@ async function updateDistributionPolicy(): Promise<void> {
       maxConcurrentOffers: 1,
       bypassSelectors: false,
     },
-    offerTtlSeconds: 15,
+    offerExpiresAfterSeconds: 15,
   };
 
   const request = distributionPolicyRequest;

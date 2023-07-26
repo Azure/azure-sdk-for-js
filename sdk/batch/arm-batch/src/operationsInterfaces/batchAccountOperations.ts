@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BatchAccount,
   BatchAccountListOptionalParams,
@@ -71,7 +71,7 @@ export interface BatchAccountOperations {
    * you must make sure your network allows outbound access to these endpoints. Failure to allow access
    * to these endpoints may cause Batch to mark the affected nodes as unusable. For more information
    * about creating a pool inside of a virtual network, see
-   * https://docs.microsoft.com/en-us/azure/batch/batch-virtual-network.
+   * https://docs.microsoft.com/azure/batch/batch-virtual-network.
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param options The options parameters.
@@ -98,8 +98,8 @@ export interface BatchAccountOperations {
     parameters: BatchAccountCreateParameters,
     options?: BatchAccountCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BatchAccountCreateResponse>,
+    SimplePollerLike<
+      OperationState<BatchAccountCreateResponse>,
       BatchAccountCreateResponse
     >
   >;
@@ -143,7 +143,7 @@ export interface BatchAccountOperations {
     resourceGroupName: string,
     accountName: string,
     options?: BatchAccountDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified Batch account.
    * @param resourceGroupName The name of the resource group that contains the Batch account.

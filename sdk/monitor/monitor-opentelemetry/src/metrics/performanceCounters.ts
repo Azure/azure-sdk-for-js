@@ -157,6 +157,13 @@ export class PerformanceCounterMetrics {
   }
 
   /**
+   *Get OpenTelemetry MeterProvider
+   */
+  public getMeterProvider(): MeterProvider {
+    return this._meterProvider;
+  }
+
+  /**
    * Record Span metrics
    */
   public recordSpan(span: ReadableSpan): void {

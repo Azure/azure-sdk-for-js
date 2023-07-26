@@ -16,16 +16,14 @@ matrix([["AzureAPIKey", "AAD", "OpenAIKey"]] as const, async function (authMetho
       if (!isNode && authMethod === "AAD") {
         this.skip();
       }
-      recorder = new Recorder(this.currentTest);
       recorder = await startRecorder(this.currentTest);
       client = createClient(authMethod, { recorder });
     });
 
     afterEach(async function () {
-      if (!isNode && authMethod === "AAD") {
-        this.skip();
+      if (recorder) {
+        await recorder.stop();
       }
-      await recorder.stop();
     });
 
     it("completions test", async function () {

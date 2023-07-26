@@ -8,10 +8,10 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const ShortCodes: coreClient.CompositeMapper = {
+export const AcquiredShortCodes: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ShortCodes",
+    className: "AcquiredShortCodes",
     modelProperties: {
       shortCodes: {
         serializedName: "shortCodes",
@@ -40,14 +40,8 @@ export const ShortCode: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ShortCode",
     modelProperties: {
-      number: {
-        serializedName: "number",
-        type: {
-          name: "String"
-        }
-      },
-      numberType: {
-        serializedName: "numberType",
+      value: {
+        serializedName: "value",
         type: {
           name: "String"
         }

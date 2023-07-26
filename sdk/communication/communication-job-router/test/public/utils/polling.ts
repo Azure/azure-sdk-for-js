@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { JobAssignment, JobOffer, RouterJob, RouterWorker } from "../../../src/generated/src";
 import { JobRouterClient } from "../../../src/jobRouterClient";
+import { RouterJob, RouterWorker, RouterJobAssignment, RouterJobOffer } from "../../../src";
 
 export async function pollForJobOffer(
   workerId: string,
   client: JobRouterClient
-): Promise<JobOffer> {
+): Promise<RouterJobOffer> {
   let worker: RouterWorker = {};
   while (worker.offers?.length === undefined || worker.offers.length < 1) {
     worker = await client.getWorker(workerId);
@@ -19,7 +19,7 @@ export async function pollForJobOffer(
 export async function pollForJobAssignment(
   jobId: string,
   client: JobRouterClient
-): Promise<JobAssignment> {
+): Promise<RouterJobAssignment> {
   let job: RouterJob = {};
   while (job.assignments === undefined || Object.keys(job.assignments).length < 1) {
     job = await client.getJob(jobId);
@@ -30,7 +30,7 @@ export async function pollForJobAssignment(
 
 export async function pollForJobQueued(jobId: string, client: JobRouterClient): Promise<RouterJob> {
   let job: RouterJob = {};
-  while (job.jobStatus !== "queued") {
+  while (job.status !== "queued") {
     job = await client.getJob(jobId);
   }
 
@@ -42,7 +42,7 @@ export async function pollForJobCancelled(
   client: JobRouterClient
 ): Promise<RouterJob> {
   let job: RouterJob = {};
-  while (job.jobStatus !== "cancelled") {
+  while (job.status !== "cancelled") {
     job = await client.getJob(jobId);
   }
 

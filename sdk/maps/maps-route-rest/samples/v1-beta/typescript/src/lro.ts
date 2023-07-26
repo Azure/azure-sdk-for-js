@@ -30,7 +30,7 @@ async function main() {
 
   /** Or use Azure AD authentication */
   // const credential = new DefaultAzureCredential();
-  // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
+  // const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
   // const client = new MapsRoute(credential, mapsClientId);
 
   const request = createRouteDirectionsBatchRequest([
@@ -88,8 +88,7 @@ function logBatchResponse(result: RouteGetRouteDirectionsBatch200Response) {
         );
         legs.forEach(({ summary, points }, idx) => {
           console.log(
-            `The ${idx + 1}th leg's length is ${summary.lengthInMeters} meters, and it takes ${
-              summary.travelTimeInSeconds
+            `The ${idx + 1}th leg's length is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds
             } seconds. Followings are the first 10 points: `
           );
           console.table(points.slice(0, 10));

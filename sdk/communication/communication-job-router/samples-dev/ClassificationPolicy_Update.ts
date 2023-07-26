@@ -28,7 +28,7 @@ async function updateClassificationPolicy(): Promise<void> {
     queueSelectors: [
       {
         kind: "conditional",
-        labelSelectors: [
+        queueSelectors: [
           {
             key: "foo",
             labelOperator: "lessThan",

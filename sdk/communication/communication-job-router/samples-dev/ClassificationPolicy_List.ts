@@ -27,7 +27,7 @@ async function listClassificationPolicies(): Promise<void> {
   const receivedPagedItems: ClassificationPolicyItem[] = [];
 
   for await (const page of routerAdministrationClient
-    .listClassificationPolicies({ maxPageSize: maxPageSize })
+    .listClassificationPolicies({ maxPageSize })
     .byPage()) {
     ++pagesCount;
 
