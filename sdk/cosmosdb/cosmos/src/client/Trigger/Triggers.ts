@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
-import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
+import { DiagnosticNodeInternal, DiagnosticNodeType, prepareClientOperationData } from "../../CosmosDiagnostics";
+import { getIdFromLink, getPathFromLink, isResourceValid, OperationType, ResourceType } from "../../common";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
@@ -39,8 +40,9 @@ export class Triggers {
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
     const path = getPathFromLink(this.container.url, ResourceType.trigger);
     const id = getIdFromLink(this.container.url);
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.trigger, OperationType.Query));
 
-    return new QueryIterator(this.clientContext, query, options, (innerOptions) => {
+    return new QueryIterator(diagnosticNode, this.clientContext, query, options, (diagNode, innerOptions) => {
       return this.clientContext.queryFeed({
         path,
         resourceType: ResourceType.trigger,
@@ -48,6 +50,7 @@ export class Triggers {
         resultFn: (result) => result.Triggers,
         query,
         options: innerOptions,
+        diagnosticNode: diagNode
       });
     });
   }
@@ -82,6 +85,7 @@ export class Triggers {
 
     const path = getPathFromLink(this.container.url, ResourceType.trigger);
     const id = getIdFromLink(this.container.url);
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.trigger, OperationType.Create));
 
     const response = await this.clientContext.create<TriggerDefinition>({
       body,
@@ -89,6 +93,7 @@ export class Triggers {
       resourceType: ResourceType.trigger,
       resourceId: id,
       options,
+      diagnosticNode
     });
     const ref = new Trigger(this.container, response.result.id, this.clientContext);
     return new TriggerResponse(
@@ -96,7 +101,7 @@ export class Triggers {
       response.headers,
       response.code,
       ref,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 }

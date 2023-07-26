@@ -1,11 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
+import { DiagnosticNodeInternal, DiagnosticNodeType, prepareClientOperationData } from "../../CosmosDiagnostics";
 import {
   createPermissionUri,
   getIdFromLink,
   getPathFromLink,
   isResourceValid,
+  OperationType,
   ResourceType,
 } from "../../common";
 import { RequestOptions } from "../../request/RequestOptions";
@@ -43,19 +45,21 @@ export class Permission {
   public async read(options?: RequestOptions): Promise<PermissionResponse> {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.permission, OperationType.Read));
 
     const response = await this.clientContext.read<PermissionDefinition & PermissionBody>({
       path,
       resourceType: ResourceType.permission,
       resourceId: id,
       options,
+      diagnosticNode
     });
     return new PermissionResponse(
       response.result,
       response.headers,
       response.code,
       this,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 
@@ -74,6 +78,7 @@ export class Permission {
 
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.permission, OperationType.Read));
 
     const response = await this.clientContext.replace<PermissionDefinition & PermissionBody>({
       body,
@@ -81,13 +86,14 @@ export class Permission {
       resourceType: ResourceType.permission,
       resourceId: id,
       options,
+      diagnosticNode
     });
     return new PermissionResponse(
       response.result,
       response.headers,
       response.code,
       this,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 
@@ -97,19 +103,21 @@ export class Permission {
   public async delete(options?: RequestOptions): Promise<PermissionResponse> {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.permission, OperationType.Read));
 
     const response = await this.clientContext.delete<PermissionDefinition & PermissionBody>({
       path,
       resourceType: ResourceType.permission,
       resourceId: id,
       options,
+      diagnosticNode
     });
     return new PermissionResponse(
       response.result,
       response.headers,
       response.code,
       this,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 }

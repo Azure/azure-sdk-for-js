@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
-import { Constants, isResourceValid, ResourceType, StatusCodes } from "../../common";
+import { Constants, isResourceValid, OperationType, ResourceType, StatusCodes } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
 import { FetchFunctionCallback, mergeHeaders, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
@@ -12,6 +12,7 @@ import { DatabaseDefinition } from "./DatabaseDefinition";
 import { DatabaseRequest } from "./DatabaseRequest";
 import { DatabaseResponse } from "./DatabaseResponse";
 import { validateOffer } from "../../utils/offers";
+import { DiagnosticNodeInternal, DiagnosticNodeType, prepareClientOperationData } from "../../CosmosDiagnostics";
 
 /**
  * Operations for creating new databases, and reading/querying all databases
@@ -68,7 +69,9 @@ export class Databases {
    */
   public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
-    const cb: FetchFunctionCallback = (innerOptions) => {
+
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.database, OperationType.Query));
+    const cb: FetchFunctionCallback = (diagNode: DiagnosticNodeInternal, innerOptions) => {
       return this.clientContext.queryFeed({
         path: "/dbs",
         resourceType: ResourceType.database,
@@ -76,9 +79,10 @@ export class Databases {
         resultFn: (result) => result.Databases,
         query,
         options: innerOptions,
+        diagnosticNode: diagNode
       });
     };
-    return new QueryIterator(this.clientContext, query, options, cb);
+    return new QueryIterator(diagnosticNode, this.clientContext, query, options, cb);
   }
 
   /**
@@ -105,6 +109,7 @@ export class Databases {
     }
 
     validateOffer(body);
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.database, OperationType.Create));
 
     if (body.maxThroughput) {
       const autoscaleParams: {
@@ -141,15 +146,18 @@ export class Databases {
       path,
       resourceType: ResourceType.database,
       resourceId: undefined,
+      diagnosticNode,
       options,
     });
     const ref = new Database(this.client, body.id, this.clientContext);
+    const diagnostic = diagnosticNode.toDiagnostic()
+    this.clientContext.recoredDiagnostics(diagnostic)
     return new DatabaseResponse(
       response.result,
       response.headers,
       response.code,
       ref,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 

@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
-import { CosmosDiagnosticContext } from "../../CosmosDiagnosticsContext";
+import { DiagnosticNodeInternal, DiagnosticNodeType, prepareClientOperationData } from "../../CosmosDiagnostics";
 import {
   createDocumentUri,
   getIdFromLink,
   getPathFromLink,
   isItemResourceValid,
+  OperationType,
   ResourceType,
   StatusCodes,
 } from "../../common";
@@ -14,7 +15,7 @@ import { PartitionKey, PartitionKeyInternal, convertToInternalPartitionKey } fro
 import { extractPartitionKeys, undefinedPartitionKey } from "../../extractPartitionKey";
 import { RequestOptions, Response } from "../../request";
 import { PatchRequestBody } from "../../utils/patch";
-import { readAndRecordPartitionKeyDefinition } from "../ClientUtils";
+import { readPartitionKeyDefinition } from "../ClientUtils";
 import { Container } from "../Container";
 import { Resource } from "../Resource";
 import { ItemDefinition } from "./ItemDefinition";
@@ -77,11 +78,11 @@ export class Item {
   public async read<T extends ItemDefinition = any>(
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
-    let diagnosticContext: CosmosDiagnosticContext;
+
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.item, OperationType.Read));
     if (this.partitionKey === undefined) {
-      const partitionKeyResponse = await readAndRecordPartitionKeyDefinition(this.container);
-      this.partitionKey = undefinedPartitionKey(partitionKeyResponse.partitionKeyDefinition);
-      diagnosticContext = partitionKeyResponse.diagnosticContext;
+      const partitionKeyDefinition = await readPartitionKeyDefinition(diagnosticNode, this.container);
+      this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
     }
 
     const path = getPathFromLink(this.url);
@@ -94,7 +95,7 @@ export class Item {
         resourceId: id,
         options,
         partitionKey: this.partitionKey,
-        diagnosticContext,
+        diagnosticNode,
       });
     } catch (error: any) {
       if (error.code !== StatusCodes.NotFound) {
@@ -109,7 +110,7 @@ export class Item {
       response.code,
       response.substatus,
       this,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 
@@ -144,11 +145,10 @@ export class Item {
     body: T,
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
-    let diagnosticContext: CosmosDiagnosticContext;
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.item, OperationType.Replace));
     if (this.partitionKey === undefined) {
-      const partitionKeyResponse = await readAndRecordPartitionKeyDefinition(this.container);
-      this.partitionKey = extractPartitionKeys(body, partitionKeyResponse.partitionKeyDefinition);
-      diagnosticContext = partitionKeyResponse.diagnosticContext;
+      const partitionKeyResponse = await readPartitionKeyDefinition(diagnosticNode, this.container);
+      this.partitionKey = extractPartitionKeys(body, partitionKeyResponse);
     }
 
     const err = {};
@@ -166,7 +166,7 @@ export class Item {
       resourceId: id,
       options,
       partitionKey: this.partitionKey,
-      diagnosticContext,
+      diagnosticNode,
     });
     return new ItemResponse(
       response.result,
@@ -174,7 +174,7 @@ export class Item {
       response.code,
       response.substatus,
       this,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 
@@ -189,11 +189,11 @@ export class Item {
   public async delete<T extends ItemDefinition = any>(
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
-    let diagnosticContext: CosmosDiagnosticContext;
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.item, OperationType.Delete));
+
     if (this.partitionKey === undefined) {
-      const partitionKeyResponse = await readAndRecordPartitionKeyDefinition(this.container);
-      this.partitionKey = undefinedPartitionKey(partitionKeyResponse.partitionKeyDefinition);
-      diagnosticContext = partitionKeyResponse.diagnosticContext;
+      const partitionKeyResponse = await readPartitionKeyDefinition(diagnosticNode, this.container);
+      this.partitionKey = undefinedPartitionKey(partitionKeyResponse);
     }
 
     const path = getPathFromLink(this.url);
@@ -205,7 +205,7 @@ export class Item {
       resourceId: id,
       options,
       partitionKey: this.partitionKey,
-      diagnosticContext,
+      diagnosticNode,
     });
     return new ItemResponse(
       response.result,
@@ -213,7 +213,7 @@ export class Item {
       response.code,
       response.substatus,
       this,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 
@@ -229,11 +229,10 @@ export class Item {
     body: PatchRequestBody,
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
-    let diagnosticContext: CosmosDiagnosticContext;
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.item, OperationType.Delete));
     if (this.partitionKey === undefined) {
-      const partitionKeyResponse = await readAndRecordPartitionKeyDefinition(this.container);
-      this.partitionKey = extractPartitionKeys(body, partitionKeyResponse.partitionKeyDefinition);
-      diagnosticContext = partitionKeyResponse.diagnosticContext;
+      const partitionKeyResponse = await readPartitionKeyDefinition(diagnosticNode, this.container);
+      this.partitionKey = extractPartitionKeys(body, partitionKeyResponse);
     }
 
     const path = getPathFromLink(this.url);
@@ -246,7 +245,7 @@ export class Item {
       resourceId: id,
       options,
       partitionKey: this.partitionKey,
-      diagnosticContext,
+      diagnosticNode,
     });
     return new ItemResponse(
       response.result,
@@ -254,7 +253,7 @@ export class Item {
       response.code,
       response.substatus,
       this,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 }

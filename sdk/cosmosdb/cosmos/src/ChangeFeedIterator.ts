@@ -6,6 +6,7 @@ import { ChangeFeedResponse } from "./ChangeFeedResponse";
 import { Resource } from "./client";
 import { ClientContext } from "./ClientContext";
 import { Constants, ResourceType, StatusCodes } from "./common";
+import { DiagnosticNodeInternal } from "./CosmosDiagnostics";
 import { PartitionKey } from "./documents";
 import { FeedOptions } from "./request";
 import { Response } from "./request";
@@ -30,7 +31,8 @@ export class ChangeFeedIterator<T> {
     private resourceId: string,
     private resourceLink: string,
     private partitionKey: PartitionKey,
-    private changeFeedOptions: ChangeFeedOptions
+    private changeFeedOptions: ChangeFeedOptions,
+    private diagnosticNode: DiagnosticNodeInternal
   ) {
     // partition key XOR partition key range id
     const partitionKeyValid = partitionKey !== undefined;
@@ -123,6 +125,7 @@ export class ChangeFeedIterator<T> {
       query: undefined,
       options: feedOptions,
       partitionKey: this.partitionKey,
+      diagnosticNode: this.diagnosticNode
     }) as Promise<any>); // TODO: some funky issues with query feed. Probably need to change it up.
 
     return new ChangeFeedResponse(

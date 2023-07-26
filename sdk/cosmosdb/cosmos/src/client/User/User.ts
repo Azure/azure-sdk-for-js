@@ -1,11 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
+import { DiagnosticNodeInternal, DiagnosticNodeType, prepareClientOperationData } from "../../CosmosDiagnostics";
 import {
   createUserUri,
   getIdFromLink,
   getPathFromLink,
   isResourceValid,
+  OperationType,
   ResourceType,
 } from "../../common";
 import { RequestOptions } from "../../request";
@@ -61,18 +63,20 @@ export class User {
   public async read(options?: RequestOptions): Promise<UserResponse> {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.user, OperationType.Create));
     const response = await this.clientContext.read<UserDefinition>({
       path,
       resourceType: ResourceType.user,
       resourceId: id,
       options,
+      diagnosticNode
     });
     return new UserResponse(
       response.result,
       response.headers,
       response.code,
       this,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 
@@ -88,6 +92,7 @@ export class User {
 
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.user, OperationType.Replace));
 
     const response = await this.clientContext.replace<UserDefinition>({
       body,
@@ -95,13 +100,14 @@ export class User {
       resourceType: ResourceType.user,
       resourceId: id,
       options,
+      diagnosticNode
     });
     return new UserResponse(
       response.result,
       response.headers,
       response.code,
       this,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 
@@ -111,19 +117,21 @@ export class User {
   public async delete(options?: RequestOptions): Promise<UserResponse> {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.user, OperationType.Delete));
 
     const response = await this.clientContext.delete<UserDefinition>({
       path,
       resourceType: ResourceType.user,
       resourceId: id,
       options,
+      diagnosticNode
     });
     return new UserResponse(
       response.result,
       response.headers,
       response.code,
       this,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 }

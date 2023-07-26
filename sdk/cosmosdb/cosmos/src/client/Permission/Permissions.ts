@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
-import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
+import { DiagnosticNodeInternal, DiagnosticNodeType, prepareClientOperationData } from "../../CosmosDiagnostics";
+import { getIdFromLink, getPathFromLink, isResourceValid, OperationType, ResourceType } from "../../common";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
@@ -37,8 +38,9 @@ export class Permissions {
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
     const path = getPathFromLink(this.user.url, ResourceType.permission);
     const id = getIdFromLink(this.user.url);
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.permission, OperationType.Query));
 
-    return new QueryIterator(this.clientContext, query, options, (innerOptions) => {
+    return new QueryIterator(diagnosticNode, this.clientContext, query, options, (diagNode, innerOptions) => {
       return this.clientContext.queryFeed({
         path,
         resourceType: ResourceType.permission,
@@ -46,6 +48,7 @@ export class Permissions {
         resultFn: (result) => result.Permissions,
         query,
         options: innerOptions,
+        diagnosticNode: diagNode
       });
     });
   }
@@ -79,12 +82,14 @@ export class Permissions {
 
     const path = getPathFromLink(this.user.url, ResourceType.permission);
     const id = getIdFromLink(this.user.url);
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.permission, OperationType.Create));
 
     const response = await this.clientContext.create<PermissionDefinition, PermissionBody>({
       body,
       path,
       resourceType: ResourceType.permission,
       resourceId: id,
+      diagnosticNode,
       options,
     });
     const ref = new Permission(this.user, response.result.id, this.clientContext);
@@ -93,7 +98,7 @@ export class Permissions {
       response.headers,
       response.code,
       ref,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 
@@ -114,6 +119,7 @@ export class Permissions {
 
     const path = getPathFromLink(this.user.url, ResourceType.permission);
     const id = getIdFromLink(this.user.url);
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.permission, OperationType.Upsert));
 
     const response = await this.clientContext.upsert<PermissionDefinition, PermissionBody>({
       body,
@@ -121,6 +127,7 @@ export class Permissions {
       resourceType: ResourceType.permission,
       resourceId: id,
       options,
+      diagnosticNode
     });
     const ref = new Permission(this.user, response.result.id, this.clientContext);
     return new PermissionResponse(
@@ -128,7 +135,7 @@ export class Permissions {
       response.headers,
       response.code,
       ref,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 }

@@ -11,6 +11,15 @@ export interface PartitionKeyRangePropertiesNames {
 /**
  * @hidden
  */
+export enum DiagnosticLevel {
+  silent = "silent",
+  verbose = "verbose",
+  verbose2 = "verbose2"
+}
+
+/**
+ * @hidden
+ */
 export const Constants = {
   HttpHeaders: {
     Authorization: "authorization",
@@ -191,6 +200,16 @@ export const Constants = {
   AzurePackageName: "@azure/cosmos",
   SDKName: "azure-cosmos-js",
   SDKVersion: "4.0.0",
+
+  // Diagnostics
+  DiagnosticLevelEnvVarName: "AZURE_COSMOSDB_DIAGNOSTICS_LEVEL",
+  DefaultDiagnosticLevelValue: DiagnosticLevel.silent,
+
+  DiagnosticOutputFilePathEnvVarName: "AZURE_COSMOSDB_DIAGNOSTICS_OUTPUT_FILE_PATH",
+  DefaultDiagnosticOutputFilePath: 'cosmosdb.diagnostics',
+
+  DiagnosticCrashOnInitializationFailureEnvVarName: "AZURE_COSMOSDB_DIAGNOSTICS_CRASH_ON_INITIALIZATION_FAILURE",
+  DefaultDiagnosticCrashOnInitializationFailure: true,
 
   // Bulk Operations
   DefaultMaxBulkRequestBodySizeInBytes: 220201,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
-import { createDatabaseUri, getIdFromLink, getPathFromLink, ResourceType } from "../../common";
+import { createDatabaseUri, getIdFromLink, getPathFromLink, OperationType, ResourceType } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
 import { RequestOptions } from "../../request";
 import { Container, Containers } from "../Container";
@@ -10,6 +10,7 @@ import { DatabaseDefinition } from "./DatabaseDefinition";
 import { DatabaseResponse } from "./DatabaseResponse";
 import { OfferResponse, OfferDefinition, Offer } from "../Offer";
 import { Resource } from "../Resource";
+import { DiagnosticNodeInternal, DiagnosticNodeType, prepareClientOperationData } from "../../CosmosDiagnostics";
 
 /**
  * Operations for reading or deleting an existing database.
@@ -87,18 +88,22 @@ export class Database {
   public async read(options?: RequestOptions): Promise<DatabaseResponse> {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.database, OperationType.Read));
+
+
     const response = await this.clientContext.read<DatabaseDefinition>({
       path,
       resourceType: ResourceType.database,
       resourceId: id,
       options,
+      diagnosticNode
     });
     return new DatabaseResponse(
       response.result,
       response.headers,
       response.code,
       this,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 
@@ -106,18 +111,21 @@ export class Database {
   public async delete(options?: RequestOptions): Promise<DatabaseResponse> {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.database, OperationType.Read));
+
     const response = await this.clientContext.delete<DatabaseDefinition>({
       path,
       resourceType: ResourceType.database,
       resourceId: id,
       options,
+      diagnosticNode
     });
     return new DatabaseResponse(
       response.result,
       response.headers,
       response.code,
       this,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 
@@ -128,6 +136,8 @@ export class Database {
     const { resource: record } = await this.read();
     const path = "/offers";
     const url = record._self;
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.database, OperationType.Read));
+
     const response = await this.clientContext.queryFeed<OfferDefinition & Resource[]>({
       path,
       resourceId: "",
@@ -135,6 +145,7 @@ export class Database {
       query: `SELECT * from root where root.resource = "${url}"`,
       resultFn: (result) => result.Offers,
       options,
+      diagnosticNode
     });
     const offer = response.result[0]
       ? new Offer(this.client, response.result[0].id, this.clientContext)
@@ -143,7 +154,7 @@ export class Database {
       response.result[0],
       response.headers,
       response.code,
-      response.diagnostics,
+      diagnosticNode.toDiagnostic(),
       offer
     );
   }

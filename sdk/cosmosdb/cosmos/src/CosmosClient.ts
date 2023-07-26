@@ -7,6 +7,7 @@ import { parseConnectionString } from "./common";
 import { Constants } from "./common/constants";
 import { getUserAgent } from "./common/platform";
 import { CosmosClientOptions } from "./CosmosClientOptions";
+import { DiagnosticNodeInternal, DiagnosticNodeType } from "./CosmosDiagnostics";
 import { DatabaseAccount, defaultConnectionPolicy } from "./documents";
 import { GlobalEndpointManager } from "./globalEndpointManager";
 import { RequestOptions, ResourceResponse } from "./request";
@@ -91,7 +92,7 @@ export class CosmosClient {
 
     const globalEndpointManager = new GlobalEndpointManager(
       optionsOrConnectionString,
-      async (opts: RequestOptions) => this.getDatabaseAccount(opts)
+      async (diagnosticNode: DiagnosticNodeInternal, opts: RequestOptions) => this.getDatabaseAccount(diagnosticNode, opts)
     );
     this.clientContext = new ClientContext(optionsOrConnectionString, globalEndpointManager);
     if (
@@ -115,12 +116,13 @@ export class CosmosClient {
   public async getDatabaseAccount(
     options?: RequestOptions
   ): Promise<ResourceResponse<DatabaseAccount>> {
-    const response = await this.clientContext.getDatabaseAccount(options);
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null);
+    const response = await this.clientContext.getDatabaseAccount(diagnosticNode, options);
     return new ResourceResponse<DatabaseAccount>(
       response.result,
       response.headers,
       response.code,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 
@@ -130,7 +132,8 @@ export class CosmosClient {
    * The url may contain a region suffix (e.g. "-eastus") if we're using location specific endpoints.
    */
   public getWriteEndpoint(): Promise<string> {
-    return this.clientContext.getWriteEndpoint();
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null);
+    return this.clientContext.getWriteEndpoint(diagnosticNode);
   }
 
   /**
@@ -139,7 +142,8 @@ export class CosmosClient {
    * The url may contain a region suffix (e.g. "-eastus") if we're using location specific endpoints.
    */
   public getReadEndpoint(): Promise<string> {
-    return this.clientContext.getReadEndpoint();
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null);
+    return this.clientContext.getReadEndpoint(diagnosticNode);
   }
 
   /**
@@ -201,7 +205,7 @@ export class CosmosClient {
   ) {
     this.endpointRefresher = setInterval(() => {
       try {
-        globalEndpointManager.refreshEndpointList();
+        globalEndpointManager.refreshEndpointList(new DiagnosticNodeInternal(DiagnosticNodeType.BACKGROUND_REFRESH_THREAD, null));
       } catch (e: any) {
         console.warn("Failed to refresh endpoints", e);
       }

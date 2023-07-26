@@ -4,8 +4,8 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { ClientContext } from "./ClientContext";
-import { CosmosDiagnosticContext } from "./CosmosDiagnosticsContext";
-import { getPathFromLink, ResourceType, StatusCodes } from "./common";
+import { CosmosDiagnostics, DiagnosticNodeInternal, DiagnosticNodeType, prepareClientOperationData } from "./CosmosDiagnostics";
+import { getPathFromLink, OperationType, ResourceType, StatusCodes } from "./common";
 import {
   CosmosHeaders,
   DefaultQueryExecutionContext,
@@ -32,15 +32,16 @@ export class QueryIterator<T> {
   private queryExecutionContext: ExecutionContext;
   private queryPlanPromise: Promise<Response<PartitionedQueryExecutionInfo>>;
   private isInitialized: boolean;
+  private currentDiagnosticNode: DiagnosticNodeInternal;
   /**
    * @hidden
    */
   constructor(
+    diagnosticNode: DiagnosticNodeInternal,
     private clientContext: ClientContext,
     private query: SqlQuerySpec | string,
     private options: FeedOptions,
     private fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[],
-    private diagnosticContext: CosmosDiagnosticContext = new CosmosDiagnosticContext(),
     private resourceLink?: string,
     private resourceType?: ResourceType
   ) {
@@ -51,6 +52,7 @@ export class QueryIterator<T> {
     this.fetchAllLastResHeaders = getInitialHeader();
     this.reset();
     this.isInitialized = false;
+    this.currentDiagnosticNode = diagnosticNode;
   }
 
   /**
@@ -94,11 +96,12 @@ export class QueryIterator<T> {
           throw error;
         }
       }
+      
       const feedResponse = new FeedResponse<T>(
         response.result,
         response.headers,
         this.queryExecutionContext.hasMoreResults(),
-        this.diagnosticContext.resetAndGetDiagnostics()
+        this.readAndResetDiagnosticContext()
       );
       if (response.result !== undefined) {
         yield feedResponse;
@@ -158,11 +161,13 @@ export class QueryIterator<T> {
         throw error;
       }
     }
+    const diagnostic = this.readAndResetDiagnosticContext();
+    this.clientContext.recoredDiagnostics(diagnostic);
     return new FeedResponse<T>(
       response.result,
       response.headers,
       this.queryExecutionContext.hasMoreResults(),
-      this.diagnosticContext.resetAndGetDiagnostics()
+      diagnostic  
     );
   }
 
@@ -176,8 +181,14 @@ export class QueryIterator<T> {
     this.queryExecutionContext = new DefaultQueryExecutionContext(
       this.options,
       this.fetchFunctions,
-      this.diagnosticContext
+      this.currentDiagnosticNode
     );
+  }
+
+  private readAndResetDiagnosticContext(): CosmosDiagnostics {
+    const diagnosticNodeToSwap = this.currentDiagnosticNode;
+    this.currentDiagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(this.resourceType, OperationType.Query));
+    return diagnosticNodeToSwap.toDiagnostic();
   }
 
   private async toArrayImplementation(): Promise<FeedResponse<T>> {
@@ -209,7 +220,7 @@ export class QueryIterator<T> {
       this.fetchAllTempResources,
       this.fetchAllLastResHeaders,
       this.queryExecutionContext.hasMoreResults(),
-      this.diagnosticContext.resetAndGetDiagnostics()
+      this.readAndResetDiagnosticContext()
     );
   }
 
@@ -232,7 +243,7 @@ export class QueryIterator<T> {
       this.query,
       this.options,
       queryPlan,
-      this.diagnosticContext
+      this.currentDiagnosticNode
     );
   }
 
@@ -244,7 +255,8 @@ export class QueryIterator<T> {
           ResourceType.item,
           this.resourceLink,
           this.query,
-          this.options
+          this.options,
+          this.currentDiagnosticNode
         )
         .catch((error: any) => error); // Without this catch, node reports an unhandled rejection. So we stash the promise as resolved even if it errored.
     }

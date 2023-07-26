@@ -8,7 +8,6 @@ import { hashObject } from "../../utils/hashObject";
 import { Aggregator, createAggregator } from "../Aggregators";
 import { getInitialHeader, mergeHeaders } from "../headerUtils";
 import { emptyGroup, extractAggregateResult } from "./emptyGroup";
-import { getEmptyCosmosDiagnostics } from "../../CosmosDiagnostics";
 
 interface GroupByResponse {
   result: GroupByResult;
@@ -38,7 +37,6 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
       return {
         result: this.aggregateResultArray.pop(),
         headers: getInitialHeader(),
-        diagnostics: getEmptyCosmosDiagnostics(),
       };
     }
 
@@ -46,7 +44,6 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
       return {
         result: undefined,
         headers: getInitialHeader(),
-        diagnostics: getEmptyCosmosDiagnostics(),
       };
     }
 
@@ -93,7 +90,6 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
       return {
         result: undefined,
         headers: aggregateHeaders,
-        diagnostics: getEmptyCosmosDiagnostics(),
       };
     }
     // If no results are left in the underlying execution context, convert our aggregate results to an array
@@ -104,7 +100,6 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
     return {
       result: this.aggregateResultArray.pop(),
       headers: aggregateHeaders,
-      diagnostics: getEmptyCosmosDiagnostics(),
     };
   }
 

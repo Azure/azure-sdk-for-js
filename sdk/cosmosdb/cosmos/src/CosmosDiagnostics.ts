@@ -3,7 +3,10 @@
 
 import { v4 } from "uuid";
 import { Location } from "./documents";
-import { CosmosDiagnosticContext } from "./CosmosDiagnosticsContext";
+import { getCurrentTimestampInMs } from "./CosmosDiagnosticsContext";
+import { Resource } from "./client";
+import { Response } from "./request";
+import { Constants, OperationType, ResourceType } from "./common";
 
 /**
  * This is a Cosmos Diagnostic type that holds diagnostic information during client operations. ie. Item.read().
@@ -23,17 +26,118 @@ export class CosmosDiagnostics {
   constructor(
     public readonly id: string,
     clientSideRequestStatistics: ClientSideRequestStatistics,
-    private readonly cosmosDiagnosticContext: CosmosDiagnosticContext
   ) {
     this.clientSideRequestStatistics = clientSideRequestStatistics;
   }
 
+  public readonly diagnosticNode: DiagnosticNode;
   public readonly clientSideRequestStatistics: ClientSideRequestStatistics;
 
   public get getContactedRegionNames(): Set<string> {
-    const locations = this.cosmosDiagnosticContext.locationEndpointsContacted.values();
+    const locations = this.clientSideRequestStatistics?.locationEndpointsContacted ?? [];
     return new Set([...locations].map((location) => location.name));
   }
+}
+
+export enum DiagnosticDataType {
+  SELECTED_LOCATION = 'selectedLocation',
+  ACTIVITAY_ID = 'activityId',
+  REQUEST_ATTEMPT_NUMBER = 'requestAttempNumber',
+  REQUEST_PAYLOAD_SIZE = 'requestPayloadSize',
+  RESPONSE_PAYLOAD_SIZE = 'responsePayloadSize',
+  FROM_CACHE = 'fromCache',
+  OPERATION_TYPE = 'operationType',
+  RESOURCE_TYPE = 'resourceType',
+  FAILED_ATTEMPTED = 'failedAttempty',
+  SUCCESSFUL_RETRY_POLICY = 'successfulRetryPolicy'
+} 
+
+export function prepareClientOperationData(resourceType: ResourceType, operationType: OperationType): {[key in DiagnosticDataType]?: any;} {
+  return {
+    operationType,
+    resourceType
+  }
+}
+
+export class DiagnosticNodeInternal implements DiagnosticNode {
+  type: DiagnosticNodeType;
+  parent: DiagnosticNodeInternal;
+  children: DiagnosticNodeInternal[];
+  data: {[key in DiagnosticDataType]?: any;}
+  startTimeUTCInMs: number;
+  durationInMs: number;
+
+  constructor(type: DiagnosticNodeType, parent: DiagnosticNodeInternal, data: {[key in DiagnosticDataType]?: any;} = {}, startTimeUTCInMs: number = getCurrentTimestampInMs()) {
+    this.type = type;
+    this.startTimeUTCInMs = startTimeUTCInMs;
+    this.data = data;
+    this.children = [];
+    this.durationInMs = 0;
+    this.parent = parent;
+  }
+
+  public updateDuration(endTimeUTCInMs: number = getCurrentTimestampInMs()) {
+    this.durationInMs = endTimeUTCInMs - this.startTimeUTCInMs;
+  }
+
+  public addData(data: {[key in DiagnosticDataType]?: any;}) {
+    this.data = {...this.data, ...data};
+    this.updateDuration();
+  }
+
+  public addChildNode(child: DiagnosticNodeInternal): DiagnosticNodeInternal {
+    this.children.push(child);
+    return child;
+  }
+
+  public initializeChildNode(type: DiagnosticNodeType): DiagnosticNodeInternal {
+    const child = new DiagnosticNodeInternal(type, this);
+    this.children.push(child);
+    return child;
+  }
+
+  public getParent(): DiagnosticNodeInternal {
+    return this.parent;
+  }
+
+  public recordFieldsFromResponse(resource: Response<Resource>): void {
+    this.data.activityId = resource.headers[Constants.HttpHeaders.ActivityId] || '';
+  }
+
+  public toDiagnosticNode(): DiagnosticNode {
+    return {
+      type: this.type,
+      children: this.children.map(child => child.toDiagnosticNode()),
+      data: this.data,
+      startTimeUTCInMs: this.startTimeUTCInMs,
+      durationInMs: this.durationInMs
+    }
+  }
+
+  public toDiagnostic(): CosmosDiagnostics {
+    return null;
+  }
+}
+
+export interface DiagnosticNode {
+  type: DiagnosticNodeType;
+  children: DiagnosticNode[];
+  data: {[key: string]: any;}
+  startTimeUTCInMs: number;
+  durationInMs: number;
+}
+
+export enum DiagnosticNodeType {
+  HTTP_REQUEST = 'REQUEST_ATTEMPT',
+  CLIENT_REQUEST = 'CLIENT_REQUEST',
+  BATCH_REQUEST = 'BATCH_REQUEST',
+  PARALLEL_QUERY_NODE = 'PARALLEL_QUERY_NODE',
+  PARALLEL_QUERY_SPLIT_NODE = 'PARALLEL_QUERY_SPLIT_NODE',
+  BACKGROUND_REFRESH_THREAD = 'BACKGROUND_REFRESH_THREAD',
+}
+
+export function markNodeFinished(node: DiagnosticNodeInternal, endTimeUTCInMs: number = getCurrentTimestampInMs()) {
+  node.durationInMs = endTimeUTCInMs - node.startTimeUTCInMs;
 }
 
 /**
@@ -79,6 +183,7 @@ export enum MetadataLookUpType {
   PartitionKeyRangeLookUp = "PARTITION_KEY_RANGE_LOOK_UP",
   ServerAddressLookUp = "SERVER_ADDRESS_LOOK_UP",
   DatabaseAccountLookUp = "DATABASE_ACCOUNT_LOOK_UP",
+  QueryDataCalls = "QUERY_DATA_CALL",
 }
 
 /**
@@ -141,6 +246,5 @@ export function getEmptyCosmosDiagnostics(): CosmosDiagnostics {
       requestPayloadLengthInBytes: 0,
       responsePayloadLengthInBytes: 0,
     },
-    new CosmosDiagnosticContext()
   );
 }

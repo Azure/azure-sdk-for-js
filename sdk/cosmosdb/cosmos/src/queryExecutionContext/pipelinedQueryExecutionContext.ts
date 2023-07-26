@@ -15,7 +15,7 @@ import { OrderByQueryExecutionContext } from "./orderByQueryExecutionContext";
 import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext";
 import { GroupByValueEndpointComponent } from "./EndpointComponent/GroupByValueEndpointComponent";
 import { SqlQuerySpec } from "./SqlQuerySpec";
-import { CosmosDiagnosticContext } from "../CosmosDiagnosticsContext";
+import { DiagnosticNodeInternal } from "../CosmosDiagnostics";
 
 /** @hidden */
 export class PipelinedQueryExecutionContext implements ExecutionContext {
@@ -30,7 +30,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     private query: string | SqlQuerySpec,
     private options: FeedOptions,
     private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
-    private diagnosticContext: CosmosDiagnosticContext
+    private diagnosticNode: DiagnosticNodeInternal
   ) {
     this.endpoint = null;
     this.pageSize = options["maxItemCount"];
@@ -50,7 +50,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           this.query,
           this.options,
           this.partitionedQueryExecutionInfo,
-          this.diagnosticContext
+          this.diagnosticNode
         )
       );
     } else {
@@ -60,7 +60,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         this.query,
         this.options,
         this.partitionedQueryExecutionInfo,
-        this.diagnosticContext
+        this.diagnosticNode
       );
     }
     if (
@@ -126,7 +126,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
 
   private async _fetchMoreImplementation(): Promise<Response<any>> {
     try {
-      const { result: item, headers, diagnostics } = await this.endpoint.nextItem();
+      const { result: item, headers } = await this.endpoint.nextItem();
       mergeHeaders(this.fetchMoreRespHeaders, headers);
       if (item === undefined) {
         // no more results
@@ -134,13 +134,12 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           return {
             result: undefined,
             headers: this.fetchMoreRespHeaders,
-            diagnostics,
           };
         } else {
           // Just give what we have
           const temp = this.fetchBuffer;
           this.fetchBuffer = [];
-          return { result: temp, headers: this.fetchMoreRespHeaders, diagnostics };
+          return { result: temp, headers: this.fetchMoreRespHeaders };
         }
       } else {
         // append the result
@@ -149,7 +148,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           // fetched enough results
           const temp = this.fetchBuffer.slice(0, this.pageSize);
           this.fetchBuffer = this.fetchBuffer.splice(this.pageSize);
-          return { result: temp, headers: this.fetchMoreRespHeaders, diagnostics };
+          return { result: temp, headers: this.fetchMoreRespHeaders };
         } else {
           // recursively fetch more
           // TODO: is recursion a good idea?

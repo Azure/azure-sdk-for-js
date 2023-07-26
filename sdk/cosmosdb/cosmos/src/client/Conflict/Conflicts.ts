@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
-import { getIdFromLink, getPathFromLink, ResourceType } from "../../common";
+import { DiagnosticNodeInternal, DiagnosticNodeType, prepareClientOperationData } from "../../CosmosDiagnostics";
+import { getIdFromLink, getPathFromLink, OperationType, ResourceType } from "../../common";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions } from "../../request";
@@ -37,8 +38,9 @@ export class Conflicts {
   public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
     const path = getPathFromLink(this.container.url, ResourceType.conflicts);
     const id = getIdFromLink(this.container.url);
-
-    return new QueryIterator(this.clientContext, query, options, (innerOptions) => {
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.conflicts, OperationType.Query));
+    
+    return new QueryIterator(diagnosticNode, this.clientContext, query, options, (diagNode: DiagnosticNodeInternal,innerOptions) => {
       return this.clientContext.queryFeed({
         path,
         resourceType: ResourceType.conflicts,
@@ -46,6 +48,7 @@ export class Conflicts {
         resultFn: (result) => result.Conflicts,
         query,
         options: innerOptions,
+        diagnosticNode: diagNode
       });
     });
   }

@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
-import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
+import { DiagnosticNodeInternal, DiagnosticNodeType, prepareClientOperationData } from "../../CosmosDiagnostics";
+import { getIdFromLink, getPathFromLink, isResourceValid, OperationType, ResourceType } from "../../common";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
@@ -59,8 +60,9 @@ export class StoredProcedures {
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
     const path = getPathFromLink(this.container.url, ResourceType.sproc);
     const id = getIdFromLink(this.container.url);
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.sproc, OperationType.Query));
 
-    return new QueryIterator(this.clientContext, query, options, (innerOptions) => {
+    return new QueryIterator(diagnosticNode, this.clientContext, query, options, (diagNode, innerOptions) => {
       return this.clientContext.queryFeed({
         path,
         resourceType: ResourceType.sproc,
@@ -68,6 +70,7 @@ export class StoredProcedures {
         resultFn: (result) => result.StoredProcedures,
         query,
         options: innerOptions,
+        diagnosticNode: diagNode
       });
     });
   }
@@ -107,6 +110,7 @@ export class StoredProcedures {
 
     const path = getPathFromLink(this.container.url, ResourceType.sproc);
     const id = getIdFromLink(this.container.url);
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.sproc, OperationType.Create));
 
     const response = await this.clientContext.create<StoredProcedureDefinition>({
       body,
@@ -114,6 +118,7 @@ export class StoredProcedures {
       resourceType: ResourceType.sproc,
       resourceId: id,
       options,
+      diagnosticNode
     });
     const ref = new StoredProcedure(this.container, response.result.id, this.clientContext);
     return new StoredProcedureResponse(
@@ -121,7 +126,7 @@ export class StoredProcedures {
       response.headers,
       response.code,
       ref,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 }

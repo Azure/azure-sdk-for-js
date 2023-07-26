@@ -17,11 +17,10 @@ export class OrderByEndpointComponent implements ExecutionContext {
    * Execute a provided function on the next element in the OrderByEndpointComponent.
    */
   public async nextItem(): Promise<Response<any>> {
-    const { result: item, headers, diagnostics } = await this.executionContext.nextItem();
+    const { result: item, headers } = await this.executionContext.nextItem();
     return {
       result: item !== undefined ? item.payload : undefined,
       headers,
-      diagnostics,
     };
   }
 

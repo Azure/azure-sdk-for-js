@@ -7,6 +7,7 @@ import {
   getPathFromLink,
   HTTPMethod,
   isResourceValid,
+  OperationType,
   ResourceType,
 } from "../../common";
 import { PartitionKey, PartitionKeyDefinition } from "../../documents";
@@ -24,8 +25,7 @@ import { PartitionKeyRange } from "./PartitionKeyRange";
 import { Offer, OfferDefinition } from "../Offer";
 import { OfferResponse } from "../Offer/OfferResponse";
 import { Resource } from "../Resource";
-import { getEmptyCosmosDiagnostics } from "../../CosmosDiagnostics";
-import { CosmosDiagnosticContext } from "../../CosmosDiagnosticsContext";
+import { DiagnosticNodeInternal, DiagnosticNodeType, getEmptyCosmosDiagnostics, prepareClientOperationData } from "../../CosmosDiagnostics";
 
 /**
  * Operations for reading, replacing, or deleting a specific, existing container by id.
@@ -97,7 +97,7 @@ export class Container {
     public readonly database: Database,
     public readonly id: string,
     private readonly clientContext: ClientContext
-  ) {}
+  ) { }
 
   /**
    * Used to read, replace, or delete a specific, existing {@link Item} by id.
@@ -125,6 +125,35 @@ export class Container {
 
   /** Read the container's definition */
   public async read(options?: RequestOptions): Promise<ContainerResponse> {
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.container, OperationType.Read));
+    return await this.readInternal(diagnosticNode, options);
+  }
+
+  private async readInternal(diagnosticNode: DiagnosticNodeInternal, options?: RequestOptions) {
+    const path = getPathFromLink(this.url);
+    const id = getIdFromLink(this.url);
+    const response = await this.clientContext.read<ContainerDefinition>({
+      path,
+      resourceType: ResourceType.container,
+      resourceId: id,
+      options,
+      diagnosticNode
+    });
+    this.clientContext.partitionKeyDefinitionCache[this.url] = response.result.partitionKey;
+    return new ContainerResponse(
+      response.result,
+      response.headers,
+      response.code,
+      this,
+      diagnosticNode.toDiagnostic()
+    );
+  }
+
+  /**
+   * Read the container's definition
+   *  @hidden
+   */
+  public async readWithTrace(diagnosticNode: DiagnosticNodeInternal, options?: RequestOptions): Promise<ContainerResponse> {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
@@ -133,6 +162,7 @@ export class Container {
       resourceType: ResourceType.container,
       resourceId: id,
       options,
+      diagnosticNode
     });
     this.clientContext.partitionKeyDefinitionCache[this.url] = response.result.partitionKey;
     return new ContainerResponse(
@@ -140,7 +170,7 @@ export class Container {
       response.headers,
       response.code,
       this,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 
@@ -156,6 +186,7 @@ export class Container {
 
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.container, OperationType.Replace));
 
     const response = await this.clientContext.replace<ContainerDefinition>({
       body,
@@ -163,13 +194,14 @@ export class Container {
       resourceType: ResourceType.container,
       resourceId: id,
       options,
+      diagnosticNode
     });
     return new ContainerResponse(
       response.result,
       response.headers,
       response.code,
       this,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 
@@ -177,19 +209,21 @@ export class Container {
   public async delete(options?: RequestOptions): Promise<ContainerResponse> {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.container, OperationType.Replace));
 
     const response = await this.clientContext.delete<ContainerDefinition>({
       path,
       resourceType: ResourceType.container,
       resourceId: id,
       options,
+      diagnosticNode
     });
     return new ContainerResponse(
       response.result,
       response.headers,
       response.code,
       this,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 
@@ -198,17 +232,19 @@ export class Container {
    * @deprecated This method has been renamed to readPartitionKeyDefinition.
    */
   public async getPartitionKeyDefinition(): Promise<ResourceResponse<PartitionKeyDefinition>> {
-    return this.readPartitionKeyDefinition();
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, { resourceType: ResourceType.partitionkey, operationType: OperationType.Read });
+    return this.readPartitionKeyDefinition(diagnosticNode);
   }
 
   /**
    * Gets the partition key definition first by looking into the cache otherwise by reading the collection.
    * @hidden
    */
-  public async readPartitionKeyDefinition(): Promise<ResourceResponse<PartitionKeyDefinition>> {
+  public async readPartitionKeyDefinition(diagnosticNode: DiagnosticNodeInternal): Promise<ResourceResponse<PartitionKeyDefinition>> {
     // $ISSUE-felixfan-2016-03-17: Make name based path and link based path use the same key
     // $ISSUE-felixfan-2016-03-17: Refresh partitionKeyDefinitionCache when necessary
     if (this.url in this.clientContext.partitionKeyDefinitionCache) {
+      diagnosticNode.addData({ fromCache: true })
       return new ResourceResponse<PartitionKeyDefinition>(
         this.clientContext.partitionKeyDefinitionCache[this.url],
         {},
@@ -233,6 +269,8 @@ export class Container {
     const { resource: container } = await this.read();
     const path = "/offers";
     const url = container._self;
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.offer, OperationType.Read));
+
     const response = await this.clientContext.queryFeed<OfferDefinition & Resource[]>({
       path,
       resourceId: "",
@@ -240,6 +278,7 @@ export class Container {
       query: `SELECT * from root where root.resource = "${url}"`,
       resultFn: (result) => result.Offers,
       options,
+      diagnosticNode
     });
     const offer = response.result[0]
       ? new Offer(this.database.client, response.result[0].id, this.clientContext)
@@ -248,7 +287,7 @@ export class Container {
       response.result[0],
       response.headers,
       response.code,
-      response.diagnostics,
+      diagnosticNode.toDiagnostic(),
       offer
     );
   }
@@ -257,19 +296,25 @@ export class Container {
     query: string | SqlQuerySpec
   ): Promise<Response<PartitionedQueryExecutionInfo>> {
     const path = getPathFromLink(this.url);
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.item, OperationType.Query));
+
     return this.clientContext.getQueryPlan(
       path + "/docs",
       ResourceType.item,
       getIdFromLink(this.url),
-      query
+      query,
+      {},
+      diagnosticNode
     );
   }
 
   public readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange> {
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.partitionkey, OperationType.Read));
+
     feedOptions = feedOptions || {};
     return this.clientContext.queryPartitionKeyRanges(
+      diagnosticNode,
       this.url,
-      new CosmosDiagnosticContext(),
       undefined,
       feedOptions
     );
@@ -286,6 +331,8 @@ export class Container {
     let path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
     path = path + "/operations/partitionkeydelete";
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.item, OperationType.Delete));
+
     const response = await this.clientContext.delete<ContainerDefinition>({
       path,
       resourceType: ResourceType.container,
@@ -293,13 +340,14 @@ export class Container {
       options,
       partitionKey: partitionKey,
       method: HTTPMethod.post,
+      diagnosticNode
     });
     return new ContainerResponse(
       response.result,
       response.headers,
       response.code,
       this,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 }

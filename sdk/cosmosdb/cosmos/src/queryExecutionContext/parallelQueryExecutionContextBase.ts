@@ -14,8 +14,7 @@ import { DocumentProducer } from "./documentProducer";
 import { ExecutionContext } from "./ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { SqlQuerySpec } from "./SqlQuerySpec";
-import { CosmosDiagnosticContext } from "../CosmosDiagnosticsContext";
-import { getEmptyCosmosDiagnostics } from "../CosmosDiagnostics";
+import { DiagnosticNodeInternal, DiagnosticNodeType } from "../CosmosDiagnostics";
 
 /** @hidden */
 const logger: AzureLogger = createClientLogger("parallelQueryExecutionContextBase");
@@ -58,7 +57,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     private query: string | SqlQuerySpec,
     private options: FeedOptions,
     private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
-    private diagnosticContext: CosmosDiagnosticContext
+    private diagnosticNode: DiagnosticNodeInternal
   ) {
     this.clientContext = clientContext;
     this.collectionLink = collectionLink;
@@ -118,7 +117,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           // TODO: any partitionTargetRange
           // no async callback
           targetPartitionQueryExecutionContextList.push(
-            this._createTargetPartitionQueryExecutionContext(partitionTargetRange)
+            this._createTargetPartitionQueryExecutionContext(this.diagnosticNode.initializeChildNode(DiagnosticNodeType.PARALLEL_QUERY_NODE), partitionTargetRange)
           );
         });
 
@@ -193,7 +192,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     return this.routingProvider.getOverlappingRanges(
       this.collectionLink,
       queryRanges,
-      this.diagnosticContext
+      this.diagnosticNode
     );
   }
 
@@ -211,7 +210,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     return this.routingProvider.getOverlappingRanges(
       this.collectionLink,
       [queryRange],
-      this.diagnosticContext
+      this.diagnosticNode
     );
   }
 
@@ -303,6 +302,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     } catch (err: any) {
       if (ParallelQueryExecutionContextBase._needPartitionKeyRangeCacheRefresh(err)) {
         // Split has happened so we need to repair execution context before continueing
+        const splitDiagnosticNode = this.diagnosticNode.initializeChildNode(DiagnosticNodeType.PARALLEL_QUERY_SPLIT_NODE);
+        this.diagnosticNode = splitDiagnosticNode;
         return this._repairExecutionContext(ifCallback);
       } else {
         // Something actually bad happened ...
@@ -340,7 +341,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           return resolve({
             result: undefined,
             headers: this._getAndResetActiveResponseHeaders(),
-            diagnostics: getEmptyCosmosDiagnostics(),
           });
         }
 
@@ -367,12 +367,10 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
           let item: any;
           let headers: CosmosHeaders;
-          let diagnostics;
           try {
             const response = await documentProducer.nextItem();
             item = response.result;
             headers = response.headers;
-            diagnostics = response.diagnostics;
             this._mergeWithActiveResponseHeaders(headers);
             if (item === undefined) {
               // this should never happen
@@ -387,7 +385,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               return resolve({
                 result: undefined,
                 headers: this._getAndResetActiveResponseHeaders(),
-                diagnostics,
               });
             }
           } catch (err: any) {
@@ -442,7 +439,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           return resolve({
             result: item,
             headers: this._getAndResetActiveResponseHeaders(),
-            diagnostics,
           });
         };
         this._repairExecutionContextIfNeeded(ifCallback, elseCallback).catch(reject);
@@ -465,6 +461,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * Creates document producers
    */
   private _createTargetPartitionQueryExecutionContext(
+    diagnosticNode: DiagnosticNodeInternal,
     partitionKeyTargetRange: any,
     continuationToken?: any
   ): DocumentProducer {
@@ -496,7 +493,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       sqlQuerySpec,
       partitionKeyTargetRange,
       options,
-      this.diagnosticContext
+      diagnosticNode
     );
   }
 }

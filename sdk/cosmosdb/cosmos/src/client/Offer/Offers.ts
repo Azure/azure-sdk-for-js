@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
-import { ResourceType } from "../../common";
+import { OperationType, ResourceType } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
+import { DiagnosticNodeInternal, DiagnosticNodeType, prepareClientOperationData } from "../../CosmosDiagnostics";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions } from "../../request";
@@ -35,7 +36,8 @@ export class Offers {
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
-    return new QueryIterator(this.clientContext, query, options, (innerOptions) => {
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.offer, OperationType.Query));
+    return new QueryIterator(diagnosticNode, this.clientContext, query, options, (diagNode, innerOptions) => {
       return this.clientContext.queryFeed<T>({
         path: "/offers",
         resourceType: ResourceType.offer,
@@ -43,6 +45,7 @@ export class Offers {
         resultFn: (result) => result.Offers,
         query,
         options: innerOptions,
+        diagnosticNode: diagNode
       });
     });
   }

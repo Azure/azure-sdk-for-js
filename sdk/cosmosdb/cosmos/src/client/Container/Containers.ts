@@ -6,6 +6,7 @@ import {
   getIdFromLink,
   getPathFromLink,
   isResourceValid,
+  OperationType,
   ResourceType,
   StatusCodes,
 } from "../../common";
@@ -20,6 +21,7 @@ import { ContainerDefinition } from "./ContainerDefinition";
 import { ContainerRequest } from "./ContainerRequest";
 import { ContainerResponse } from "./ContainerResponse";
 import { validateOffer } from "../../utils/offers";
+import { DiagnosticNodeInternal, DiagnosticNodeType, prepareClientOperationData } from "../../CosmosDiagnostics";
 
 /**
  * Operations for creating new containers, and reading/querying all containers
@@ -71,8 +73,9 @@ export class Containers {
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
     const path = getPathFromLink(this.database.url, ResourceType.container);
     const id = getIdFromLink(this.database.url);
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.container, OperationType.Read));
 
-    return new QueryIterator(this.clientContext, query, options, (innerOptions) => {
+    return new QueryIterator(diagnosticNode, this.clientContext, query, options, (diagNode: DiagnosticNodeInternal, innerOptions) => {
       return this.clientContext.queryFeed<ContainerDefinition>({
         path,
         resourceType: ResourceType.container,
@@ -80,6 +83,7 @@ export class Containers {
         resultFn: (result) => result.DocumentCollections,
         query,
         options: innerOptions,
+        diagnosticNode: diagNode
       });
     });
   }
@@ -111,6 +115,7 @@ export class Containers {
     }
     const path = getPathFromLink(this.database.url, ResourceType.container);
     const id = getIdFromLink(this.database.url);
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.container, OperationType.Create));
 
     validateOffer(body);
 
@@ -158,12 +163,13 @@ export class Containers {
         paths: [DEFAULT_PARTITION_KEY_PATH],
       };
     }
-
+    
     const response = await this.clientContext.create<ContainerRequest, ContainerDefinition>({
       body,
       path,
       resourceType: ResourceType.container,
       resourceId: id,
+      diagnosticNode,
       options,
     });
     const ref = new Container(this.database, response.result.id, this.clientContext);
@@ -172,7 +178,7 @@ export class Containers {
       response.headers,
       response.code,
       ref,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 

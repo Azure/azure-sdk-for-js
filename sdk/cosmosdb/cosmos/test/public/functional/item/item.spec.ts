@@ -23,6 +23,7 @@ import {
   replaceOrUpsertItem,
   addEntropy,
   getTestContainer,
+  validateDiagnostics,
 } from "../../common/TestHelpers";
 import { endpoint } from "../../common/_testConfig";
 import { masterKey } from "../../common/_fakeTestSecrets";
@@ -32,6 +33,7 @@ import {
   PartitionKeyDefinitionVersion,
   PartitionKeyKind,
 } from "../../../../src/documents";
+import { getCurrentTimestampInMs } from "../../../../src/CosmosDiagnosticsContext";
 
 /**
  * Tests Item api.
@@ -520,6 +522,53 @@ describe("Create, Upsert, Read, Update, Replace, Delete Operations on Item", fun
     const { resource } = await container.items.create({});
     assert.ok(resource.id);
   });
+  it("Test diagnostics for item CRUD", async function () {
+    const container = await getTestContainer("db1", undefined, { partitionKey: "/id" });
+    const createTimestamp = getCurrentTimestampInMs();
+    const itemId = "2";
+    const { diagnostics: createDiagnostics } = await container.items.create({id: itemId});
+    validateDiagnostics(createDiagnostics, {
+      requestStartTimeUTCInMsLowerLimit: createTimestamp,
+      requestEndTimeUTCInMsHigherLimit: getCurrentTimestampInMs(),
+      retryCount: 0,
+      metadataCallCount: 2, // One call for database account + data query call.
+      locationEndpointsContacted: 1
+    });
+    const readTimestamp = getCurrentTimestampInMs();
+    const { diagnostics: readDiagnostics } = await container.item(itemId, itemId).read();
+    validateDiagnostics(readDiagnostics, {
+      requestStartTimeUTCInMsLowerLimit: readTimestamp,
+      requestEndTimeUTCInMsHigherLimit: getCurrentTimestampInMs(),
+      retryCount: 0,
+      metadataCallCount: 1, // One call for database account + data query call.
+      locationEndpointsContacted: 1
+    });
+    const upsertTimestamp = getCurrentTimestampInMs();
+    const { diagnostics: upsertDiagnostics } = await container.items.upsert({
+      id: itemId,
+      value: '3'
+    });
+    validateDiagnostics(upsertDiagnostics, {
+      requestStartTimeUTCInMsLowerLimit: upsertTimestamp,
+      requestEndTimeUTCInMsHigherLimit: getCurrentTimestampInMs(),
+      retryCount: 0,
+      metadataCallCount: 2, // One call for database account + data query call.
+      locationEndpointsContacted: 1
+    });
+
+    const replaceTimestamp = getCurrentTimestampInMs();
+    const { diagnostics: replaceDiagnostics } = await container.item(itemId, itemId).replace({
+      id: itemId,
+      value: '4'
+    });
+    validateDiagnostics(replaceDiagnostics, {
+      requestStartTimeUTCInMsLowerLimit: replaceTimestamp,
+      requestEndTimeUTCInMsHigherLimit: getCurrentTimestampInMs(),
+      retryCount: 0,
+      metadataCallCount: 1, // One call for database account + data query call.
+      locationEndpointsContacted: 1
+    });
+  })
 });
 // TODO: Non-deterministic test. We can't guarantee we see any response with a 429 status code since the retries happen within the response
 describe("item read retries", async function () {

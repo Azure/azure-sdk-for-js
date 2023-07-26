@@ -5,7 +5,7 @@ const uuid = v4;
 import { ChangeFeedIterator } from "../../ChangeFeedIterator";
 import { ChangeFeedOptions } from "../../ChangeFeedOptions";
 import { ClientContext } from "../../ClientContext";
-import { getIdFromLink, getPathFromLink, isItemResourceValid, ResourceType } from "../../common";
+import { getIdFromLink, getPathFromLink, isItemResourceValid, OperationType, ResourceType } from "../../common";
 import { extractPartitionKeys } from "../../extractPartitionKey";
 import { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
@@ -25,11 +25,11 @@ import {
   splitBatchBasedOnBodySize,
   BulkOperationResponse,
 } from "../../utils/batch";
-import { CosmosDiagnosticContext } from "../../CosmosDiagnosticsContext";
-import { readAndRecordPartitionKeyDefinition } from "../ClientUtils";
+import { readPartitionKeyDefinition } from "../ClientUtils";
 import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks";
 import { hashPartitionKey } from "../../utils/hashing/hash";
 import { PartitionKey, PartitionKeyDefinition } from "../../documents";
+import { DiagnosticNodeInternal, DiagnosticNodeType, prepareClientOperationData } from "../../CosmosDiagnostics";
 
 /**
  * @hidden
@@ -89,10 +89,11 @@ export class Items {
   public query<T>(query: string | SqlQuerySpec, options: FeedOptions = {}): QueryIterator<T> {
     const path = getPathFromLink(this.container.url, ResourceType.item);
     const id = getIdFromLink(this.container.url);
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.item, OperationType.Query));
 
     const fetchFunction: FetchFunctionCallback = async (
+      digNode: DiagnosticNodeInternal,
       innerOptions: FeedOptions,
-      diagnosticContext: CosmosDiagnosticContext
     ) => {
       const response = await this.clientContext.queryFeed({
         path,
@@ -102,17 +103,17 @@ export class Items {
         query,
         options: innerOptions,
         partitionKey: options.partitionKey,
+        diagnosticNode: digNode
       });
-      diagnosticContext.mergeDiagnostics(response.diagnostics);
       return response;
     };
 
     return new QueryIterator(
+      diagnosticNode,
       this.clientContext,
       query,
       options,
       fetchFunction,
-      new CosmosDiagnosticContext(),
       this.container.url,
       ResourceType.item
     );
@@ -216,7 +217,8 @@ export class Items {
 
     const path = getPathFromLink(this.container.url, ResourceType.item);
     const id = getIdFromLink(this.container.url);
-    return new ChangeFeedIterator<T>(this.clientContext, id, path, partitionKey, changeFeedOptions);
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.item, OperationType.Read));
+    return new ChangeFeedIterator<T>(this.clientContext, id, path, partitionKey, changeFeedOptions, diagnosticNode);
   }
 
   /**
@@ -270,9 +272,9 @@ export class Items {
     if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
       body.id = uuid();
     }
-
-    const { diagnosticContext, partitionKeyDefinition } = await readAndRecordPartitionKeyDefinition(
-      this.container
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.item, OperationType.Create));
+    const partitionKeyDefinition = await readPartitionKeyDefinition(
+      diagnosticNode, this.container
     );
     const partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
 
@@ -289,9 +291,9 @@ export class Items {
       path,
       resourceType: ResourceType.item,
       resourceId: id,
+      diagnosticNode,
       options,
       partitionKey,
-      diagnosticContext,
     });
 
     const ref = new Item(
@@ -306,7 +308,7 @@ export class Items {
       response.code,
       response.substatus,
       ref,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 
@@ -341,8 +343,10 @@ export class Items {
     body: T,
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
-    const { diagnosticContext, partitionKeyDefinition } = await readAndRecordPartitionKeyDefinition(
-      this.container
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.item, OperationType.Upsert));
+
+    const partitionKeyDefinition = await readPartitionKeyDefinition(
+      diagnosticNode, this.container
     );
     const partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
 
@@ -367,7 +371,7 @@ export class Items {
       resourceId: id,
       options,
       partitionKey,
-      diagnosticContext,
+      diagnosticNode,
     });
 
     const ref = new Item(
@@ -382,7 +386,7 @@ export class Items {
       response.code,
       response.substatus,
       ref,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 
@@ -419,11 +423,12 @@ export class Items {
     bulkOptions?: BulkOptions,
     options?: RequestOptions
   ): Promise<BulkOperationResponse> {
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.item, OperationType.Batch));
     const { resources: partitionKeyRanges } = await this.container
       .readPartitionKeyRanges()
       .fetchAll();
-    const { diagnosticContext, partitionKeyDefinition } = await readAndRecordPartitionKeyDefinition(
-      this.container
+    const partitionKeyDefinition = await readPartitionKeyDefinition(
+      diagnosticNode, this.container
     );
     const batches: Batch[] = partitionKeyRanges.map((keyRange: PartitionKeyRange) => {
       return {
@@ -456,8 +461,8 @@ export class Items {
               resourceId: this.container.url,
               bulkOptions,
               options,
+              diagnosticNode: diagnosticNode.initializeChildNode(DiagnosticNodeType.BATCH_REQUEST)
             });
-            diagnosticContext.mergeDiagnostics(response.diagnostics);
             response.result.forEach((operationResponse: OperationResponse, index: number) => {
               orderedResponses[batch.indexes[index]] = operationResponse;
             });
@@ -476,7 +481,7 @@ export class Items {
         })
     );
     const response: any = orderedResponses;
-    response.diagnostics = diagnosticContext.getDiagnostics();
+    response.diagnostics = diagnosticNode.toDiagnostic();
     return response;
   }
 
@@ -549,6 +554,7 @@ export class Items {
     partitionKey?: PartitionKey,
     options?: RequestOptions
   ): Promise<Response<OperationResponse[]>> {
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.item, OperationType.Batch));
     operations.map((operation) => decorateBatchOperation(operation, options));
 
     const path = getPathFromLink(this.container.url, ResourceType.item);
@@ -563,6 +569,7 @@ export class Items {
         path,
         resourceId: this.container.url,
         options,
+        diagnosticNode
       });
       return response;
     } catch (err: any) {

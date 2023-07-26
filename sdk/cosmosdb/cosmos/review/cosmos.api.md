@@ -98,7 +98,7 @@ export class ClientContext {
         partitionKey: PartitionKey;
         resourceId: string;
         options?: RequestOptions;
-        diagnosticContext?: CosmosDiagnosticContext;
+        diagnosticContext: CosmosDiagnosticContext;
     }): Promise<Response_2<any>>;
     // (undocumented)
     bulk<T>({ body, path, partitionKeyRangeId, resourceId, bulkOptions, options, diagnosticContext, }: {
@@ -108,19 +108,19 @@ export class ClientContext {
         resourceId: string;
         bulkOptions?: BulkOptions;
         options?: RequestOptions;
-        diagnosticContext?: CosmosDiagnosticContext;
+        diagnosticContext: CosmosDiagnosticContext;
     }): Promise<Response_2<any>>;
     // (undocumented)
     clearSessionToken(path: string): void;
     // (undocumented)
-    create<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticContext, }: {
+    create<T, U = T>({ body, path, resourceType, resourceId, diagnosticContext, options, partitionKey, }: {
         body: T;
         path: string;
         resourceType: ResourceType;
         resourceId: string;
+        diagnosticContext: CosmosDiagnosticContext;
         options?: RequestOptions;
         partitionKey?: PartitionKey;
-        diagnosticContext?: CosmosDiagnosticContext;
     }): Promise<Response_2<T & U & Resource>>;
     // (undocumented)
     delete<T>({ path, resourceType, resourceId, options, partitionKey, method, diagnosticContext, }: {
@@ -130,7 +130,7 @@ export class ClientContext {
         options?: RequestOptions;
         partitionKey?: PartitionKey;
         method?: HTTPMethod;
-        diagnosticContext?: CosmosDiagnosticContext;
+        diagnosticContext: CosmosDiagnosticContext;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
     execute<T>({ sprocLink, params, options, partitionKey, diagnosticContext, }: {
@@ -138,11 +138,11 @@ export class ClientContext {
         params?: any[];
         options?: RequestOptions;
         partitionKey?: PartitionKey;
-        diagnosticContext?: CosmosDiagnosticContext;
+        diagnosticContext: CosmosDiagnosticContext;
     }): Promise<Response_2<T>>;
-    getDatabaseAccount(options?: RequestOptions, diagnosticContext?: CosmosDiagnosticContext): Promise<Response_2<DatabaseAccount>>;
+    getDatabaseAccount(options: RequestOptions, diagnosticContext: CosmosDiagnosticContext): Promise<Response_2<DatabaseAccount>>;
     // (undocumented)
-    getQueryPlan(path: string, resourceType: ResourceType, resourceId: string, query: SqlQuerySpec | string, options?: FeedOptions, diagnosticContext?: CosmosDiagnosticContext): Promise<Response_2<PartitionedQueryExecutionInfo>>;
+    getQueryPlan(path: string, resourceType: ResourceType, resourceId: string, query: SqlQuerySpec | string, options: FeedOptions, diagnosticContext: CosmosDiagnosticContext): Promise<Response_2<PartitionedQueryExecutionInfo>>;
     // (undocumented)
     getReadEndpoint(): Promise<string>;
     // (undocumented)
@@ -151,6 +151,8 @@ export class ClientContext {
     getWriteEndpoint(): Promise<string>;
     // (undocumented)
     getWriteEndpoints(): Promise<readonly string[]>;
+    // (undocumented)
+    initializeCosmosDiagnosticContext(): CosmosDiagnosticContext;
     // (undocumented)
     partitionKeyDefinitionCache: {
         [containerUrl: string]: any;
@@ -163,10 +165,10 @@ export class ClientContext {
         resourceId: string;
         options?: RequestOptions;
         partitionKey?: PartitionKey;
-        diagnosticContext?: CosmosDiagnosticContext;
+        diagnosticContext: CosmosDiagnosticContext;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
-    queryFeed<T>({ path, resourceType, resourceId, resultFn, query, options, partitionKeyRangeId, partitionKey, diagnosticContext, }: {
+    queryFeed<T>({ path, resourceType, resourceId, resultFn, query, options, diagnosticContext, partitionKeyRangeId, partitionKey, }: {
         path: string;
         resourceType: ResourceType;
         resourceId: string;
@@ -175,9 +177,9 @@ export class ClientContext {
         }) => any[];
         query: SqlQuerySpec | string;
         options: FeedOptions;
+        diagnosticContext: CosmosDiagnosticContext;
         partitionKeyRangeId?: string;
         partitionKey?: PartitionKey;
-        diagnosticContext?: CosmosDiagnosticContext;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
     queryPartitionKeyRanges(collectionLink: string, diagnosticContext: CosmosDiagnosticContext, query?: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<PartitionKeyRange>;
@@ -188,8 +190,10 @@ export class ClientContext {
         resourceId: string;
         options?: RequestOptions;
         partitionKey?: PartitionKey;
-        diagnosticContext?: CosmosDiagnosticContext;
+        diagnosticContext: CosmosDiagnosticContext;
     }): Promise<Response_2<T & Resource>>;
+    // (undocumented)
+    recoredDiagnostics(diagnostic: CosmosDiagnostics): void;
     // (undocumented)
     replace<T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticContext, }: {
         body: any;
@@ -198,7 +202,7 @@ export class ClientContext {
         resourceId: string;
         options?: RequestOptions;
         partitionKey?: PartitionKey;
-        diagnosticContext?: CosmosDiagnosticContext;
+        diagnosticContext: CosmosDiagnosticContext;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
     upsert<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticContext, }: {
@@ -208,7 +212,7 @@ export class ClientContext {
         resourceId: string;
         options?: RequestOptions;
         partitionKey?: PartitionKey;
-        diagnosticContext?: CosmosDiagnosticContext;
+        diagnosticContext: CosmosDiagnosticContext;
     }): Promise<Response_2<T & U & Resource>>;
 }
 
@@ -444,6 +448,12 @@ export const Constants: {
     AzurePackageName: string;
     SDKName: string;
     SDKVersion: string;
+    DiagnosticLevelEnvVarName: string;
+    DefaultDiagnosticLevelValue: DiagnosticLevel;
+    DiagnosticOutputFilePathEnvVarName: string;
+    DefaultDiagnosticOutputFilePath: string;
+    DiagnosticCrashOnInitializationFailureEnvVarName: string;
+    DefaultDiagnosticCrashOnInitializationFailure: boolean;
     DefaultMaxBulkRequestBodySizeInBytes: number;
     Quota: {
         CollectionSize: string;
@@ -584,6 +594,8 @@ export interface CosmosClientOptions {
     //
     // (undocumented)
     defaultHeaders?: CosmosHeaders_2;
+    // (undocumented)
+    diagnosticLevel?: DiagnosticLevel;
     endpoint: string;
     key?: string;
     permissionFeed?: PermissionDefinition[];
@@ -1043,6 +1055,8 @@ export enum MetadataLookUpType {
     // (undocumented)
     PartitionKeyRangeLookUp = "PARTITION_KEY_RANGE_LOOK_UP",
     // (undocumented)
+    QueryDataCalls = "QUERY_DATA_CALL",
+    // (undocumented)
     ServerAddressLookUp = "SERVER_ADDRESS_LOOK_UP"
 }
 
@@ -1370,7 +1384,7 @@ export interface QueryInfo {
 // @public
 export class QueryIterator<T> {
     // Warning: (ae-forgotten-export) The symbol "FetchFunctionCallback" needs to be exported by the entry point index.d.ts
-    constructor(clientContext: ClientContext, query: SqlQuerySpec | string, options: FeedOptions, fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[], diagnosticContext?: CosmosDiagnosticContext, resourceLink?: string, resourceType?: ResourceType);
+    constructor(clientContext: ClientContext, query: SqlQuerySpec | string, options: FeedOptions, fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[], diagnosticContext: CosmosDiagnosticContext, resourceLink?: string, resourceType?: ResourceType);
     fetchAll(): Promise<FeedResponse<T>>;
     fetchNext(): Promise<FeedResponse<T>>;
     getAsyncIterator(): AsyncIterable<FeedResponse<T>>;
@@ -2239,7 +2253,8 @@ export class Users {
 
 // Warnings were encountered during analysis:
 //
-// src/ClientContext.ts:97:5 - (ae-forgotten-export) The symbol "CosmosDiagnosticContext" needs to be exported by the entry point index.d.ts
+// src/ClientContext.ts:104:5 - (ae-forgotten-export) The symbol "CosmosDiagnosticContext" needs to be exported by the entry point index.d.ts
+// src/common/constants.ts:23:23 - (ae-forgotten-export) The symbol "DiagnosticLevel" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

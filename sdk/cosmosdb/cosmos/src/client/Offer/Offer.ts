@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
-import { Constants, isResourceValid, ResourceType } from "../../common";
+import { Constants, isResourceValid, OperationType, ResourceType } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
+import { DiagnosticNodeInternal, DiagnosticNodeType, prepareClientOperationData } from "../../CosmosDiagnostics";
 import { RequestOptions } from "../../request";
 import { OfferDefinition } from "./OfferDefinition";
 import { OfferResponse } from "./OfferResponse";
@@ -34,17 +35,20 @@ export class Offer {
    * Read the {@link OfferDefinition} for the given {@link Offer}.
    */
   public async read(options?: RequestOptions): Promise<OfferResponse> {
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.offer, OperationType.Read));
+
     const response = await this.clientContext.read<OfferDefinition>({
       path: this.url,
       resourceType: ResourceType.offer,
       resourceId: this.id,
       options,
+      diagnosticNode
     });
     return new OfferResponse(
       response.result,
       response.headers,
       response.code,
-      response.diagnostics,
+      diagnosticNode.toDiagnostic(),
       this
     );
   }
@@ -58,18 +62,20 @@ export class Offer {
     if (!isResourceValid(body, err)) {
       throw err;
     }
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.offer, OperationType.Replace));
     const response = await this.clientContext.replace<OfferDefinition>({
       body,
       path: this.url,
       resourceType: ResourceType.offer,
       resourceId: this.id,
       options,
+      diagnosticNode
     });
     return new OfferResponse(
       response.result,
       response.headers,
       response.code,
-      response.diagnostics,
+      diagnosticNode.toDiagnostic(),
       this
     );
   }

@@ -3,9 +3,10 @@
 import { OperationType, ResourceType, isReadRequest } from "./common";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { Location, DatabaseAccount } from "./documents";
-import { MetadataLookUpType, RequestContext, RequestOptions } from "./index";
+import { RequestOptions } from "./index";
 import { Constants } from "./common/constants";
 import { ResourceResponse } from "./request";
+import { DiagnosticNodeInternal, DiagnosticNodeType } from "./CosmosDiagnostics";
 
 /**
  * @hidden
@@ -37,7 +38,9 @@ export class GlobalEndpointManager {
   constructor(
     options: CosmosClientOptions,
     private readDatabaseAccount: (
-      opts: RequestOptions
+      diagnosticNode: DiagnosticNodeInternal,
+      opts: RequestOptions,
+
     ) => Promise<ResourceResponse<DatabaseAccount>>
   ) {
     this.options = options;
@@ -50,15 +53,15 @@ export class GlobalEndpointManager {
   /**
    * Gets the current read endpoint from the endpoint cache.
    */
-  public async getReadEndpoint(): Promise<string> {
-    return this.resolveServiceEndpoint(ResourceType.item, OperationType.Read);
+  public async getReadEndpoint(diagnosticNode: DiagnosticNodeInternal): Promise<string> {
+    return this.resolveServiceEndpoint(diagnosticNode, ResourceType.item, OperationType.Read);
   }
 
   /**
    * Gets the current write endpoint from the endpoint cache.
    */
-  public async getWriteEndpoint(): Promise<string> {
-    return this.resolveServiceEndpoint(ResourceType.item, OperationType.Replace);
+  public async getWriteEndpoint(diagnosticNode: DiagnosticNodeInternal): Promise<string> {
+    return this.resolveServiceEndpoint(diagnosticNode, ResourceType.item, OperationType.Replace);
   }
 
   public async getReadEndpoints(): Promise<ReadonlyArray<string>> {
@@ -69,8 +72,8 @@ export class GlobalEndpointManager {
     return this.writeableLocations.map((loc) => loc.databaseAccountEndpoint);
   }
 
-  public async markCurrentLocationUnavailableForRead(endpoint: string): Promise<void> {
-    await this.refreshEndpointList();
+  public async markCurrentLocationUnavailableForRead(diagnosticNode: DiagnosticNodeInternal, endpoint: string): Promise<void> {
+    await this.refreshEndpointList(diagnosticNode);
     const location = this.readableLocations.find((loc) => loc.databaseAccountEndpoint === endpoint);
     if (location) {
       location.unavailable = true;
@@ -79,8 +82,8 @@ export class GlobalEndpointManager {
     }
   }
 
-  public async markCurrentLocationUnavailableForWrite(endpoint: string): Promise<void> {
-    await this.refreshEndpointList();
+  public async markCurrentLocationUnavailableForWrite(diagnosticNode: DiagnosticNodeInternal, endpoint: string): Promise<void> {
+    await this.refreshEndpointList(diagnosticNode);
     const location = this.writeableLocations.find(
       (loc) => loc.databaseAccountEndpoint === endpoint
     );
@@ -108,32 +111,30 @@ export class GlobalEndpointManager {
   }
 
   public async resolveServiceEndpoint(
+    diagnosticNode: DiagnosticNodeInternal,
     resourceType: ResourceType,
-    operationType: OperationType,
-    requestContext?: RequestContext
+    operationType: OperationType
   ): Promise<string> {
     // If endpoint discovery is disabled, always use the user provided endpoint
+    
+    const localDiagnosticNode: DiagnosticNodeInternal = diagnosticNode.initializeChildNode(DiagnosticNodeType.HTTP_REQUEST);
     if (!this.options.connectionPolicy.enableEndpointDiscovery) {
+      localDiagnosticNode.addData({selectedLocation: this.defaultEndpoint})
       return this.defaultEndpoint;
     }
 
     // If getting the database account, always use the user provided endpoint
     if (resourceType === ResourceType.none) {
+      localDiagnosticNode.addData({selectedLocation: this.defaultEndpoint})
       return this.defaultEndpoint;
     }
 
     if (this.readableLocations.length === 0 || this.writeableLocations.length === 0) {
-      const { resource: databaseAccount, diagnostics } = await this.readDatabaseAccount({
+      const resourceResponse = await this.readDatabaseAccount(localDiagnosticNode, {
         urlConnection: this.defaultEndpoint,
       });
-      this.writeableLocations = databaseAccount.writableLocations;
-      this.readableLocations = databaseAccount.readableLocations;
-      if (requestContext !== undefined) {
-        requestContext.diagnosticContext.recordMetaDataLookup(
-          diagnostics,
-          MetadataLookUpType.DatabaseAccountLookUp
-        );
-      }
+      this.writeableLocations = resourceResponse.resource.writableLocations;
+      this.readableLocations = resourceResponse.resource.readableLocations;
     }
 
     const locations = isReadRequest(operationType)
@@ -162,9 +163,7 @@ export class GlobalEndpointManager {
       });
     }
     location = location ? location : { name: "", databaseAccountEndpoint: this.defaultEndpoint };
-    if (requestContext !== undefined) {
-      requestContext.diagnosticContext.recordEndpointContactEvent(location);
-    }
+    localDiagnosticNode.addData({selectedLocation: location})
     return location.databaseAccountEndpoint;
   }
 
@@ -174,10 +173,10 @@ export class GlobalEndpointManager {
    *  and then updating the locations cache.
    *  We skip the refreshing if enableEndpointDiscovery is set to False
    */
-  public async refreshEndpointList(): Promise<void> {
+  public async refreshEndpointList(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
     if (!this.isRefreshing && this.enableEndpointDiscovery) {
       this.isRefreshing = true;
-      const databaseAccount = await this.getDatabaseAccountFromAnyEndpoint();
+      const databaseAccount = await this.getDatabaseAccountFromAnyEndpoint(diagnosticNode);
       if (databaseAccount) {
         this.refreshStaleUnavailableLocations();
         this.refreshEndpoints(databaseAccount);
@@ -256,10 +255,10 @@ export class GlobalEndpointManager {
    * use the endpoints for the preferred locations in the order they are specified to get
    * the database account.
    */
-  private async getDatabaseAccountFromAnyEndpoint(): Promise<DatabaseAccount> {
+  private async getDatabaseAccountFromAnyEndpoint(diagnosticNode: DiagnosticNodeInternal): Promise<DatabaseAccount> {
     try {
       const options = { urlConnection: this.defaultEndpoint };
-      const { resource: databaseAccount } = await this.readDatabaseAccount(options);
+      const { resource: databaseAccount } = await this.readDatabaseAccount(diagnosticNode, options);
       return databaseAccount;
       // If for any reason(non - globaldb related), we are not able to get the database
       // account from the above call to readDatabaseAccount,
@@ -279,7 +278,7 @@ export class GlobalEndpointManager {
             location
           );
           const options = { urlConnection: locationalEndpoint };
-          const { resource: databaseAccount } = await this.readDatabaseAccount(options);
+          const { resource: databaseAccount } = await this.readDatabaseAccount(diagnosticNode, options);
           if (databaseAccount) {
             return databaseAccount;
           }

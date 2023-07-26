@@ -18,23 +18,22 @@ import { Response as CosmosResponse } from "./Response";
 import { TimeoutError } from "./TimeoutError";
 import { getCachedDefaultHttpClient } from "../utils/cachedClient";
 import { AzureLogger, createClientLogger } from "@azure/logger";
-import { CosmosDiagnostics } from "../CosmosDiagnostics";
+import { DiagnosticNodeInternal } from "../CosmosDiagnostics";
 
 const logger: AzureLogger = createClientLogger("RequestHandler");
 
-async function executeRequest(requestContext: RequestContext): Promise<CosmosResponse<any>> {
-  return executePlugins(requestContext, httpRequest, PluginOn.request);
+async function executeRequest(diagnosticNode: DiagnosticNodeInternal, requestContext: RequestContext): Promise<CosmosResponse<any>> {
+  return executePlugins(diagnosticNode, requestContext, httpRequest, PluginOn.request);
 }
 
 /**
  * @hidden
  */
-async function httpRequest(requestContext: RequestContext): Promise<{
+async function httpRequest(diagnosticNode: DiagnosticNodeInternal, requestContext: RequestContext): Promise<{
   headers: any;
   result: any;
   code: number;
   substatus: number;
-  diagnostics: CosmosDiagnostics;
 }> {
   const controller = new AbortController();
   const signal = controller.signal;
@@ -59,7 +58,7 @@ async function httpRequest(requestContext: RequestContext): Promise<{
 
   if (requestContext.body) {
     requestContext.body = bodyFromData(requestContext.body);
-    requestContext.diagnosticContext.recordRequestPayload(requestContext.body);
+    diagnosticNode.addData({requestPayloadSize : requestContext.body.length})
   }
 
   const httpsClient = getCachedDefaultHttpClient();
@@ -105,16 +104,16 @@ async function httpRequest(requestContext: RequestContext): Promise<{
     response.status === 204 || response.status === 304 || response.bodyAsText === ""
       ? null
       : JSON.parse(response.bodyAsText);
-  const headers = response.headers.toJSON();
-  requestContext.diagnosticContext.recordResponseStats(result, reqHeaders);
+  const responseHeaders = response.headers.toJSON();
+  diagnosticNode.addData({responsePayloadSize : requestContext.body.length})
 
-  const substatus = headers[Constants.HttpHeaders.SubStatus]
-    ? parseInt(headers[Constants.HttpHeaders.SubStatus], 10)
+  const substatus = responseHeaders[Constants.HttpHeaders.SubStatus]
+    ? parseInt(responseHeaders[Constants.HttpHeaders.SubStatus], 10)
     : undefined;
 
   if (response.status >= 400) {
     const errorResponse: ErrorResponse = new ErrorResponse(result.message);
-    errorResponse.diagnostics = requestContext.diagnosticContext.getDiagnostics();
+    errorResponse.diagnostics = diagnosticNode.toDiagnostic()
     logger.warning(
       response.status +
         " " +
@@ -127,18 +126,18 @@ async function httpRequest(requestContext: RequestContext): Promise<{
 
     errorResponse.code = response.status;
     errorResponse.body = result;
-    errorResponse.headers = headers;
+    errorResponse.headers = responseHeaders;
 
-    if (Constants.HttpHeaders.ActivityId in headers) {
-      errorResponse.activityId = headers[Constants.HttpHeaders.ActivityId];
+    if (Constants.HttpHeaders.ActivityId in responseHeaders) {
+      errorResponse.activityId = responseHeaders[Constants.HttpHeaders.ActivityId];
     }
 
-    if (Constants.HttpHeaders.SubStatus in headers) {
+    if (Constants.HttpHeaders.SubStatus in responseHeaders) {
       errorResponse.substatus = substatus;
     }
 
-    if (Constants.HttpHeaders.RetryAfterInMs in headers) {
-      errorResponse.retryAfterInMs = parseInt(headers[Constants.HttpHeaders.RetryAfterInMs], 10);
+    if (Constants.HttpHeaders.RetryAfterInMs in responseHeaders) {
+      errorResponse.retryAfterInMs = parseInt(responseHeaders[Constants.HttpHeaders.RetryAfterInMs], 10);
       Object.defineProperty(errorResponse, "retryAfterInMilliseconds", {
         get: () => {
           return errorResponse.retryAfterInMs;
@@ -149,18 +148,17 @@ async function httpRequest(requestContext: RequestContext): Promise<{
     throw errorResponse;
   }
   return {
-    headers,
+    headers: responseHeaders,
     result,
     code: response.status,
     substatus,
-    diagnostics: requestContext.diagnosticContext.getDiagnostics(),
   };
 }
 
 /**
  * @hidden
  */
-async function request<T>(requestContext: RequestContext): Promise<CosmosResponse<T>> {
+async function request<T>(diagnosticNode: DiagnosticNodeInternal, requestContext: RequestContext): Promise<CosmosResponse<T>> {
   if (requestContext.body) {
     requestContext.body = bodyFromData(requestContext.body);
     if (!requestContext.body) {
@@ -169,6 +167,7 @@ async function request<T>(requestContext: RequestContext): Promise<CosmosRespons
   }
 
   return RetryUtility.execute({
+    diagnosticNode,
     requestContext,
     executeRequest,
   });

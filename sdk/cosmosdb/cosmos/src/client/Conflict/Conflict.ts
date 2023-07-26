@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
-import { Constants, getIdFromLink, getPathFromLink, ResourceType } from "../../common";
+import { Constants, getIdFromLink, getPathFromLink, OperationType, ResourceType } from "../../common";
 import { RequestOptions } from "../../request";
 import { Container } from "../Container";
 import { ConflictDefinition } from "./ConflictDefinition";
 import { ConflictResponse } from "./ConflictResponse";
 import { undefinedPartitionKey } from "../../extractPartitionKey";
 import { PartitionKey } from "../../documents";
+import { DiagnosticNodeInternal, DiagnosticNodeType, prepareClientOperationData } from "../../CosmosDiagnostics";
 
 /**
  * Use to read or delete a given {@link Conflict} by id.
@@ -41,19 +42,22 @@ export class Conflict {
   public async read(options?: RequestOptions): Promise<ConflictResponse> {
     const path = getPathFromLink(this.url, ResourceType.conflicts);
     const id = getIdFromLink(this.url);
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.conflicts, OperationType.Read));
 
     const response = await this.clientContext.read<ConflictDefinition>({
       path,
       resourceType: ResourceType.user,
       resourceId: id,
       options,
+      diagnosticNode
     });
+
     return new ConflictResponse(
       response.result,
       response.headers,
       response.code,
       this,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 
@@ -61,9 +65,10 @@ export class Conflict {
    * Delete the given {@link ConflictDefinition}.
    */
   public async delete(options?: RequestOptions): Promise<ConflictResponse> {
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.conflicts, OperationType.Delete));
     if (this.partitionKey === undefined) {
       const { resource: partitionKeyDefinition } =
-        await this.container.readPartitionKeyDefinition();
+        await this.container.readPartitionKeyDefinition(diagnosticNode);
       this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
     }
     const path = getPathFromLink(this.url);
@@ -75,13 +80,14 @@ export class Conflict {
       resourceId: id,
       options,
       partitionKey: this.partitionKey,
+      diagnosticNode
     });
     return new ConflictResponse(
       response.result,
       response.headers,
       response.code,
       this,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 }

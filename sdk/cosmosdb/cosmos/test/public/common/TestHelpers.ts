@@ -4,6 +4,7 @@ import assert from "assert";
 import {
   Container,
   CosmosClient,
+  CosmosDiagnostics,
   Database,
   DatabaseDefinition,
   extractPartitionKey,
@@ -20,6 +21,7 @@ import { endpoint } from "../common/_testConfig";
 import { masterKey } from "../common/_fakeTestSecrets";
 import { DatabaseRequest } from "../../../src";
 import { ContainerRequest } from "../../../src";
+import { expect } from "chai";
 
 const defaultRoutingGatewayPort: string = ":8081";
 const defaultComputeGatewayPort: string = ":8903";
@@ -62,6 +64,38 @@ export async function removeAllDatabases(client: CosmosClient = defaultClient): 
     console.log("An error occured", err);
     assert.fail(err);
     throw err;
+  }
+}
+
+export type CosmosDiagnosticsTestSpec = {
+  requestStartTimeUTCInMsLowerLimit?: number,
+  requestEndTimeUTCInMsHigherLimit?: number,
+  retryCount?: number,
+  metadataCallCount?: number,
+  locationEndpointsContacted?: number
+}
+
+export function validateDiagnostics(diagnostics: CosmosDiagnostics, spec: CosmosDiagnosticsTestSpec): void {
+  expect(diagnostics, "Diagnostics object should not be undefined or null").to.exist;
+  if(spec.requestStartTimeUTCInMsLowerLimit !== undefined) {
+    expect(diagnostics.clientSideRequestStatistics.requestStartTimeUTCInMs, "requestStartTimeUTCInMs should exist").to.exist
+    expect(spec.requestStartTimeUTCInMsLowerLimit, "requestStartTimeUTCInMs should be later than given timestamp.").to.be.lessThanOrEqual(diagnostics.clientSideRequestStatistics.requestStartTimeUTCInMs);
+  }
+  if(spec.requestEndTimeUTCInMsHigherLimit !== undefined) {
+    expect(diagnostics.clientSideRequestStatistics.requestEndTimeUTCInMs).to.exist
+    expect(spec.requestEndTimeUTCInMsHigherLimit, "requestEndTimeUTCInMs should be earlier than given timestamp.").to.be.greaterThanOrEqual(diagnostics.clientSideRequestStatistics.requestEndTimeUTCInMs);
+  }
+  if(spec.retryCount !== undefined) {
+    expect(diagnostics.clientSideRequestStatistics.retryDiagnostics.failedAttempts, "retryDiagnostics.failedAttempts should have existed.").to.exist
+    expect(diagnostics.clientSideRequestStatistics.retryDiagnostics.failedAttempts.length, "Number of failedAttempts should match.").to.be.equal(spec.retryCount);
+  }
+  if(spec.metadataCallCount !== undefined) {
+    expect(diagnostics.clientSideRequestStatistics.metadataDiagnostics.metadataLookups, "metadataDiagnostics.metadataLookups should have existed.").to.exist
+    expect(diagnostics.clientSideRequestStatistics.metadataDiagnostics.metadataLookups.length, "Number of metadataLookups should match.").to.be.equal(spec.metadataCallCount);
+  }
+  if(spec.locationEndpointsContacted !== undefined) {
+    expect(diagnostics.clientSideRequestStatistics.locationEndpointsContacted, "locationEndpointsContacted should have existed.").to.exist
+    expect(diagnostics.clientSideRequestStatistics.locationEndpointsContacted.length, "Number of locationEndpointsContacted should match.").to.be.equal(spec.locationEndpointsContacted);
   }
 }
 

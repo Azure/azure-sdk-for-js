@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
-import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
+import { DiagnosticNodeInternal, DiagnosticNodeType, prepareClientOperationData } from "../../CosmosDiagnostics";
+import { getIdFromLink, getPathFromLink, isResourceValid, OperationType, ResourceType } from "../../common";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
@@ -39,8 +40,9 @@ export class UserDefinedFunctions {
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
     const path = getPathFromLink(this.container.url, ResourceType.udf);
     const id = getIdFromLink(this.container.url);
-
-    return new QueryIterator(this.clientContext, query, options, (innerOptions) => {
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.udf, OperationType.Query));
+    
+    return new QueryIterator(diagnosticNode, this.clientContext, query, options, (diagNode, innerOptions) => {
       return this.clientContext.queryFeed({
         path,
         resourceType: ResourceType.udf,
@@ -48,6 +50,7 @@ export class UserDefinedFunctions {
         resultFn: (result) => result.UserDefinedFunctions,
         query,
         options: innerOptions,
+        diagnosticNode: diagNode
       });
     });
   }
@@ -86,6 +89,7 @@ export class UserDefinedFunctions {
 
     const path = getPathFromLink(this.container.url, ResourceType.udf);
     const id = getIdFromLink(this.container.url);
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.udf, OperationType.Create));
 
     const response = await this.clientContext.create<UserDefinedFunctionDefinition>({
       body,
@@ -93,6 +97,7 @@ export class UserDefinedFunctions {
       resourceType: ResourceType.udf,
       resourceId: id,
       options,
+      diagnosticNode
     });
     const ref = new UserDefinedFunction(this.container, response.result.id, this.clientContext);
     return new UserDefinedFunctionResponse(
@@ -100,7 +105,7 @@ export class UserDefinedFunctions {
       response.headers,
       response.code,
       ref,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 }

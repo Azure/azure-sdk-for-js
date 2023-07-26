@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
-import { CosmosDiagnosticContext } from "../../CosmosDiagnosticsContext";
+import { DiagnosticNodeInternal, DiagnosticNodeType, prepareClientOperationData } from "../../CosmosDiagnostics";
 import {
   createStoredProcedureUri,
   getIdFromLink,
   getPathFromLink,
   isResourceValid,
+  OperationType,
   ResourceType,
 } from "../../common";
 import { PartitionKey } from "../../documents/PartitionKey";
 import { undefinedPartitionKey } from "../../extractPartitionKey";
 import { RequestOptions, ResourceResponse } from "../../request";
-import { readAndRecordPartitionKeyDefinition } from "../ClientUtils";
+import { readPartitionKeyDefinition } from "../ClientUtils";
 import { Container } from "../Container";
 import { StoredProcedureDefinition } from "./StoredProcedureDefinition";
 import { StoredProcedureResponse } from "./StoredProcedureResponse";
@@ -47,18 +48,21 @@ export class StoredProcedure {
   public async read(options?: RequestOptions): Promise<StoredProcedureResponse> {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.sproc, OperationType.Read));
+
     const response = await this.clientContext.read<StoredProcedureDefinition>({
       path,
       resourceType: ResourceType.sproc,
       resourceId: id,
       options,
+      diagnosticNode
     });
     return new StoredProcedureResponse(
       response.result,
       response.headers,
       response.code,
       this,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 
@@ -81,6 +85,7 @@ export class StoredProcedure {
 
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.sproc, OperationType.Replace));
 
     const response = await this.clientContext.replace<StoredProcedureDefinition>({
       body,
@@ -88,13 +93,14 @@ export class StoredProcedure {
       resourceType: ResourceType.sproc,
       resourceId: id,
       options,
+      diagnosticNode
     });
     return new StoredProcedureResponse(
       response.result,
       response.headers,
       response.code,
       this,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 
@@ -104,19 +110,21 @@ export class StoredProcedure {
   public async delete(options?: RequestOptions): Promise<StoredProcedureResponse> {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.sproc, OperationType.Delete));
 
     const response = await this.clientContext.delete<StoredProcedureDefinition>({
       path,
       resourceType: ResourceType.sproc,
       resourceId: id,
       options,
+      diagnosticNode
     });
     return new StoredProcedureResponse(
       response.result,
       response.headers,
       response.code,
       this,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 
@@ -135,24 +143,24 @@ export class StoredProcedure {
     params?: any[],
     options?: RequestOptions
   ): Promise<ResourceResponse<T>> {
-    let diagnosticContext: CosmosDiagnosticContext;
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.sproc, OperationType.Execute));
+
     if (partitionKey === undefined) {
-      const partitionKeyResponse = await readAndRecordPartitionKeyDefinition(this.container);
-      diagnosticContext = partitionKeyResponse.diagnosticContext;
-      partitionKey = undefinedPartitionKey(partitionKeyResponse.partitionKeyDefinition);
+      const partitionKeyResponse = await readPartitionKeyDefinition(diagnosticNode, this.container);
+      partitionKey = undefinedPartitionKey(partitionKeyResponse);
     }
     const response = await this.clientContext.execute<T>({
       sprocLink: this.url,
       params,
       options,
       partitionKey,
-      diagnosticContext,
+      diagnosticNode,
     });
     return new ResourceResponse<T>(
       response.result,
       response.headers,
       response.code,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 }

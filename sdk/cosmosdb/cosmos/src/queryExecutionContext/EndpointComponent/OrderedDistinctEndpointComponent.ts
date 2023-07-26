@@ -10,15 +10,15 @@ export class OrderedDistinctEndpointComponent implements ExecutionContext {
   constructor(private executionContext: ExecutionContext) {}
 
   public async nextItem(): Promise<Response<any>> {
-    const { headers, result, diagnostics } = await this.executionContext.nextItem();
+    const { headers, result } = await this.executionContext.nextItem();
     if (result) {
       const hashedResult = await hashObject(result);
       if (hashedResult === this.hashedLastResult) {
-        return { result: undefined, headers, diagnostics };
+        return { result: undefined, headers };
       }
       this.hashedLastResult = hashedResult;
     }
-    return { result, headers, diagnostics };
+    return { result, headers };
   }
 
   public hasMoreResults(): boolean {

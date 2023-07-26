@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
-import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
+import { DiagnosticNodeInternal, DiagnosticNodeType, prepareClientOperationData } from "../../CosmosDiagnostics";
+import { getIdFromLink, getPathFromLink, isResourceValid, OperationType, ResourceType } from "../../common";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
@@ -36,8 +37,9 @@ export class Users {
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
     const path = getPathFromLink(this.database.url, ResourceType.user);
     const id = getIdFromLink(this.database.url);
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.user, OperationType.Query));
 
-    return new QueryIterator(this.clientContext, query, options, (innerOptions) => {
+    return new QueryIterator(diagnosticNode, this.clientContext, query, options, (diagNode, innerOptions) => {
       return this.clientContext.queryFeed({
         path,
         resourceType: ResourceType.user,
@@ -45,6 +47,7 @@ export class Users {
         resultFn: (result) => result.Users,
         query,
         options: innerOptions,
+        diagnosticNode: diagNode
       });
     });
   }
@@ -72,12 +75,14 @@ export class Users {
 
     const path = getPathFromLink(this.database.url, ResourceType.user);
     const id = getIdFromLink(this.database.url);
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.user, OperationType.Create));
     const response = await this.clientContext.create<UserDefinition>({
       body,
       path,
       resourceType: ResourceType.user,
       resourceId: id,
       options,
+      diagnosticNode
     });
     const ref = new User(this.database, response.result.id, this.clientContext);
     return new UserResponse(
@@ -85,7 +90,7 @@ export class Users {
       response.headers,
       response.code,
       ref,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 
@@ -101,13 +106,15 @@ export class Users {
 
     const path = getPathFromLink(this.database.url, ResourceType.user);
     const id = getIdFromLink(this.database.url);
-
+    const diagnosticNode = new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST, null, prepareClientOperationData(ResourceType.user, OperationType.Upsert));
+    
     const response = await this.clientContext.upsert<UserDefinition>({
       body,
       path,
       resourceType: ResourceType.user,
       resourceId: id,
       options,
+      diagnosticNode
     });
     const ref = new User(this.database, response.result.id, this.clientContext);
     return new UserResponse(
@@ -115,7 +122,7 @@ export class Users {
       response.headers,
       response.code,
       ref,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 }
