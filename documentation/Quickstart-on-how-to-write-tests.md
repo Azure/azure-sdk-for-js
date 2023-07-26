@@ -143,7 +143,7 @@ We need to push test recording files to [asset repo](https://github.com/Azure/az
 ### Push test recording
 If your package is new without any recordings, go to the next section [New Package - No Recorded Tests](#new-package---no-recorded-tests)
 
-If you already have an assets.json file in your package root directory, skip to [Existing package - Tests have been pushed before](#existing-package---tests-have-been-pushed-before).
+If you already have an assets.json file in your package root directory, go to [Existing package - Tests have been pushed before](#existing-package---tests-have-been-pushed-before).
 
 #### New Package - No Recorded Tests
 This section assumes that your package is new to the JS repo and that you're trying to onboard your tests with recorder, and the asset-sync workflow.
