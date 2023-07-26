@@ -15,7 +15,7 @@ import * as dotenv from "dotenv";
 import CancerProfilingRestClient, {
     getLongRunningPoller,
     isUnexpected, OncoPhenotypeData,
-    OncoPhenotypeResultOutput, PatientRecord
+    OncoPhenotypeResultOutput
 } from "../src";
 dotenv.config();
 
@@ -199,7 +199,7 @@ export async function main() {
   if (isUnexpected(cancerProfilingResult)) {
     throw cancerProfilingResult;
   }
-  const resultBody: OncoPhenotypeResultOutput = cancerProfilingResult.body;
+  const resultBody = cancerProfilingResult.body as OncoPhenotypeResultOutput;
   printResults(resultBody);
 
 }
