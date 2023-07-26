@@ -15,11 +15,6 @@ const patientInfo = {
   birthDate: new Date(1979, 10, 8), // Note: Months are zero-based (11 represents December)
 };
 
-const patient1 = {
-  id: "patient_id",
-  info: patientInfo,
-};
-
 const doc1 = "15.8.2021";
 ("Jane Doe 091175-8967");
 ("42 year old female, married with 3 children, works as a nurse. ");
@@ -96,8 +91,11 @@ const patientDoc2 = {
   createdDateTime: new Date(2021, 10, 20),
 };
 
-const patientDocList = [patientDoc1, patientDoc2];
-patient1.data = patientDocList;
+const patient1 = {
+  id: "patient_id",
+  info: patientInfo,
+  data: [patientDoc1, patientDoc2]
+};
 
 const configuration = { includeEvidence: true };
 
