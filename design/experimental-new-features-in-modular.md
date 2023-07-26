@@ -5,18 +5,29 @@
 Although we have provide beta release to preview some new service version in our JavaScript SDK, it can still be annoying and potentially diffcult for our customers to try it out. which can be tell from the NPM download data.
 ![NPM download data for @azure/arm-eventhub in different tag](image.png)  
 
-However, sometimes we want customers to try the preview feature, so that we can get early feedback about those preview features. By providing a separate subpath export for experimental features alongside with the GA release of Modular, we can gather valuable feedback from our customers who have tried these new features while ensuring that our mainline releases remain stable and reliable. And if we have some client-side features that we want our customers to have a try first, we can also put those features under the separate subpath export.
+However, sometimes we want customers to try the preview feature, so that we can get early feedback about those preview features. By providing a separate subpath export for experimental features alongside with the GA release of Modular, we can gather valuable feedback from our customers who have tried these new features while ensuring that our mainline releases remain stable and reliable.  
 
-## Key Takeaways
+## Key Concepts
 
 **_Experimental Features_**:  
 Experimental features could be either client side features or service preview features or both.  
 
-**_Api version picking strategy_**:  
-The api version we choose to generate the experimental code is latest preview, if there's a latest newer GA version, then we will use that GA version when there are some client side features under `./beta`.  
-
 **_Client side features_**:  
-The client side features should be some innovative ideas or some new proposals which is meant to improve SDK user experience or performance. It should not happen very often.  
+The client side features means some features that are not bind with some specific service providers. It could be some common SDK pattern or user experience change.
+
+**_Service preview features_**:  
+The service features that only exists in their preview api version which usually means some new apis.
+
+**_Beta package_**:  
+A package with version suffix like `-beta.x`.
+
+**_Beta subpath_**:  
+A package with `./beta` subpath export.  
+
+**_Stable code_**:  
+This means the code for non `./beta` subpath export part.
+
+_NOTE_: It's possible that in some cases, we will need to release a beta package with beta subpath exports in it.
 
 ## Proposal
 
@@ -63,8 +74,6 @@ In the case of single-client,
     <td>
       <pre lang="typescript">
 @azure/foo
-@azure/foo/api
-@azure/foo/models
 </pre>
 <pre lang="typescript">
 @azure/foo/clientA
@@ -80,8 +89,6 @@ In the case of single-client,
 <td>
 <pre lang="typescript">
 @azure/foo/beta
-@azure/foo/beta/api
-@azure/foo/beta/models
 </pre>
 <pre lang="typescript">
 @azure/foo/beta/clientA
@@ -105,8 +112,8 @@ In the case of single-client,
 1. Release a major beta version package if we are previewing any service-side/client-side breaking features to prepare for the GA.
 1. `/beta` subpath export are not required to be continue exists until service goes GA or deprecated. It can be removed when we decide to not proceed with the experimental features.  
 1. We still keep the ability of using beta packages to preview some features if necessary.
-1. If we are planning to GA only service side features that include breaking changes from both service side and client side and client side features have not ready for GA yet, we will release a major version beta package with `/beta` subpath export where the preview service version is in the stable code and client-side feature is in the `/beta` subpath export. which can be reflect as the below scenario 5 to 6.
-1. If we are planning to GA only client side features that include breaking changes from both service side and client side and service side features have not ready for GA yet, we will release a major beta version with `/beta` subpath export where the stable service version with client side feature is in the stable code and preview service version with client side feature is in the `/beta` subpath export. which can be reflect to scenario 7 to 8.
+1. If we are planning to GA only service side features that include breaking changes from both service side and client side, and client side features have not been ready for GA yet, we will release a major version beta package with `/beta` subpath export where we use preview service version to generate the stable code and client-side feature is in the `/beta` subpath export. which can be reflect as the below scenario 5 to 6.
+1. If we are planning to GA only client side features that include breaking changes from both service side and client side, and service side features have not ready for GA yet, we will release a major beta version with `/beta` subpath export where we use the stable service version with client side feature to generate the stable code and preview service version with client side feature to generate the `/beta` subpath export code. which can be reflect to scenario 7 to 8.
 
 ### Some examples of the SDK version strategies.
 Here're the examples of showing how the SDK version policies would impact the SDK version and api version in stable code and `/beta` code.
@@ -125,17 +132,17 @@ Here're the examples of showing how the SDK version policies would impact the SD
 
 Basically, the `./beta` subpath exists when we want to use stable version SDK with `./beta` to get more publicity to our experimental features. and it disappears once we have prepared for the GA or we decide to not process with this experimental features. If we have both service side features and client side features under the `./beta` subpath, it will get removed when both of them are GA.   **Customers should not rely on the `./beta` subpath for long term support**. 
 
-It is important to note that the lifecycle of experimental features on the service API side depends entirely on the service team. However, scenarios where a service feature remains in preview for an extended period without any official announcements regarding its GA status or deprecation are worth to think about.
+It is important to note that the lifecycle of experimental features on the service API side depends entirely on the service team.  
 
-For experimental features on client side new features, it depends on how complex we want to design it.
+However, scenarios where a service feature remains in preview for an extended period without any official announcements regarding its GA status or deprecation are worth to think about.
 
 ## Client-Side Experimental Features Considerations
 
-1. **Experimental Features Frequency**:  
-  How common will the client-side experimental features happen will have impact on how complex we want to design it in the codegen side. The current design intention is that client side features should not be a common event.
+1. **Frequency**:  
+  The current design intention is that client side features should not be very common.
 
 1. **Changes to Code Structure**:  
-  It's important to note that some features may require code structure change compared with the non-experimental code. For instance, in the context of the previous track2 SDK, Modular itself can be considered an experimental feature. This implies that within the same packages, the stable code and experimental code may provide very different code structures or user experience.
+  It's important to note that some features may require code structure change compared with the non-experimental code. For instance, in the context of the current track2 SDK, if we think Modular as an experimental feature, we can see that the stable code and experimental code may provide very different code structures or user experience.
 
 1. **Impact on Common Dependencies**:  
   It's very likely that experimental features can rely on newer common dependencies used by the stable code. If such case happens, we should use one latest version of the common dependencies as much as possible. If it turns out we can not use one common version dependencies, we could leverage the following configuration.
@@ -149,4 +156,4 @@ For experimental features on client side new features, it depends on how complex
 
 ## Conclusion
 
-In conclusion, this design review mainly shows how to ship experimental features with subpath export in Modular, so that we could have better publicity to our customers for those feature we want to gather valuable customer feedbacks from the earlier stage. Besides, we also discussed our SDK version policies during the experimental features. and how it would impact the stable code and experimental code and the lifecycle of the experimental `./beta` subpath export and our considerations over the client side experimental features.
+In conclusion, this design review mainly shows how to ship experimental features with subpath export in Modular, so that we could have better publicity to our customers for those feature we want to gather valuable customer feedbacks from the earlier stage.  
