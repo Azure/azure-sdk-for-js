@@ -548,6 +548,10 @@
 /sdk/managedapplications/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/managednetworkfabric/arm-managednetworkfabric/ @qiaozha @MaryGao
+/sdk/managednetworkfabric/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/managementgroups/arm-managementgroups/ @qiaozha @MaryGao
 /sdk/managementgroups/ci.mgmt.yml @qiaozha @MaryGao
 
