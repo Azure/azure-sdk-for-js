@@ -21,7 +21,7 @@ import {
   SipDomain,
   SipTrunk,
   SipTrunkRoute,
-  SipRoutingTestRoutesWithNumberOptionalParams,
+  SipRoutingTestRoutesWithNumberOperationParams,
 } from "./models";
 import {
   transformFromRestModel,
@@ -408,11 +408,11 @@ export class SipRoutingClient {
   }
 
   public async matchNumberToRoutes(
-    number: string,
-    options: SipRoutingTestRoutesWithNumberOptionalParams = {}
+    phoneNumber: string,
+    options: SipRoutingTestRoutesWithNumberOperationParams
   ): Promise<SipTrunkRoute[]> {
     const config = await this.client.sipRouting.get(options);
-    const apiResult = await this.client.sipRouting.testRoutesWithNumber(number, config);
+    const apiResult = await this.client.sipRouting.testRoutesWithNumber(phoneNumber, config);
 
     return apiResult.matchingRoutes ?? [];
   }

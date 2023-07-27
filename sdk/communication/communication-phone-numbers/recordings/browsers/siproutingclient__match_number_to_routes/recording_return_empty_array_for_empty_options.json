@@ -1,0 +1,530 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/sip?api-version=2023-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+<<<<<<<< HEAD:sdk/communication/communication-phone-numbers/recordings/node/siproutingclient__match_number_to_routes/recording_should_match_number_to_routes.json
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230626.1 core-rest-pipeline/1.10.4 Node/v16.20.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Thu, 08 Jun 2023 10:58:43 GMT"
+========
+<<<<<<<< HEAD:sdk/communication/communication-phone-numbers/recordings/node/siproutingclient__match_number_to_routes_/recording_should_match_number_to_routes.json
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.10.4 Node/v16.20.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Mon, 29 May 2023 07:42:21 GMT"
+========
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Thu, 27 Jul 2023 14:51:51 GMT",
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230626.1 core-rest-pipeline/1.10.4 OS"
+>>>>>>>> 9f260aa960 (fix review comment):sdk/communication/communication-phone-numbers/recordings/browsers/siproutingclient__match_number_to_routes/recording_return_empty_array_for_empty_options.json
+>>>>>>>> 611334bf01 (fix review comment):sdk/communication/communication-phone-numbers/recordings/browsers/siproutingclient__match_number_to_routes/recording_return_empty_array_for_empty_options.json
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-deprecated-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview",
+        "api-supported-versions": "2023-03-01, 2023-04-01-preview",
+        "Content-Length": "67",
+        "Content-Type": "application/json; charset=utf-8",
+<<<<<<<< HEAD:sdk/communication/communication-phone-numbers/recordings/node/siproutingclient__match_number_to_routes/recording_should_match_number_to_routes.json
+        "Date": "Thu, 08 Jun 2023 10:59:13 GMT",
+        "MS-CV": "Mkg/hSKKP0GS1TzG2\u002BkYOA.0",
+========
+<<<<<<<< HEAD:sdk/communication/communication-phone-numbers/recordings/node/siproutingclient__match_number_to_routes_/recording_should_match_number_to_routes.json
+        "Date": "Mon, 29 May 2023 07:42:35 GMT",
+        "MS-CV": "l3YYwiN/nUKYJzFWlX8x/w.0",
+>>>>>>>> 611334bf01 (fix review comment):sdk/communication/communication-phone-numbers/recordings/browsers/siproutingclient__match_number_to_routes/recording_return_empty_array_for_empty_options.json
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0gLSBZAAAAACp5DeWHu2ORKsfeL/NbLWURlJBMjMxMDUwNDE3MDUzAGNjOTI3NThkLTA1ZjctNGFkNi1hYTVlLTBmYTk3MThkODk4NQ==",
+        "X-Cache": "CONFIG_NOCACHE",
+<<<<<<<< HEAD:sdk/communication/communication-phone-numbers/recordings/node/siproutingclient__match_number_to_routes/recording_should_match_number_to_routes.json
+        "X-Processing-Time": "853ms"
+========
+        "X-Processing-Time": "459ms"
+========
+        "Date": "Thu, 27 Jul 2023 14:51:52 GMT",
+        "MS-CV": "GtXCtLEs4ki6Y9yps\u002BZeng.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0h4TCZAAAAACt4v99jQx6S6/ZHjpbR3vZUFJHMDFFREdFMDkxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "588ms"
+>>>>>>>> 9f260aa960 (fix review comment):sdk/communication/communication-phone-numbers/recordings/browsers/siproutingclient__match_number_to_routes/recording_return_empty_array_for_empty_options.json
+>>>>>>>> 611334bf01 (fix review comment):sdk/communication/communication-phone-numbers/recordings/browsers/siproutingclient__match_number_to_routes/recording_return_empty_array_for_empty_options.json
+      },
+      "ResponseBody": {
+        "domains": {
+          "tw54f5.net": {
+            "enabled": true
+          }
+        },
+        "trunks": {},
+        "routes": []
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/sip?api-version=2023-04-01-preview",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "132",
+        "Content-Type": "application/merge-patch\u002Bjson",
+<<<<<<<< HEAD:sdk/communication/communication-phone-numbers/recordings/node/siproutingclient__match_number_to_routes/recording_should_match_number_to_routes.json
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230626.1 core-rest-pipeline/1.10.4 Node/v16.20.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "TkOx1ZBHmHHE1ztkCt3esKTNrvzzxp4eGpr9ZE10N7g=",
+        "x-ms-date": "Thu, 08 Jun 2023 10:58:45 GMT"
+========
+<<<<<<<< HEAD:sdk/communication/communication-phone-numbers/recordings/node/siproutingclient__match_number_to_routes_/recording_should_match_number_to_routes.json
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.10.4 Node/v16.20.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "VA0KrjIA342QzqKVxtKVrcdCq7A7UW2lYHj8mYAsdqo=",
+        "x-ms-date": "Mon, 29 May 2023 07:42:21 GMT"
+========
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "TkOx1ZBHmHHE1ztkCt3esKTNrvzzxp4eGpr9ZE10N7g=",
+        "x-ms-date": "Thu, 27 Jul 2023 14:51:52 GMT",
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230626.1 core-rest-pipeline/1.10.4 OS"
+>>>>>>>> 9f260aa960 (fix review comment):sdk/communication/communication-phone-numbers/recordings/browsers/siproutingclient__match_number_to_routes/recording_return_empty_array_for_empty_options.json
+>>>>>>>> 611334bf01 (fix review comment):sdk/communication/communication-phone-numbers/recordings/browsers/siproutingclient__match_number_to_routes/recording_return_empty_array_for_empty_options.json
+      },
+      "RequestBody": {
+        "trunks": {
+          "test1.tw54f5.net": {
+            "sipSignalingPort": 6001,
+            "enabled": true
+          },
+          "test2.tw54f5.net": {
+            "sipSignalingPort": 6002,
+            "enabled": true
+          }
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-deprecated-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview",
+        "api-supported-versions": "2023-03-01, 2023-04-01-preview",
+        "Content-Length": "186",
+        "Content-Type": "application/json; charset=utf-8",
+<<<<<<<< HEAD:sdk/communication/communication-phone-numbers/recordings/node/siproutingclient__match_number_to_routes/recording_should_match_number_to_routes.json
+        "Date": "Thu, 08 Jun 2023 10:59:15 GMT",
+        "MS-CV": "HHaiM4wG/kSZCt3zhHiRBA.0",
+========
+<<<<<<<< HEAD:sdk/communication/communication-phone-numbers/recordings/node/siproutingclient__match_number_to_routes_/recording_should_match_number_to_routes.json
+        "Date": "Mon, 29 May 2023 07:42:36 GMT",
+        "MS-CV": "2KdPajXY3E2Y3Wc4wxKRgw.0",
+>>>>>>>> 611334bf01 (fix review comment):sdk/communication/communication-phone-numbers/recordings/browsers/siproutingclient__match_number_to_routes/recording_return_empty_array_for_empty_options.json
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0gbSBZAAAAACAY03st5y/T7x1Y95yFwvBRlJBMjMxMDUwNDE3MDUzAGNjOTI3NThkLTA1ZjctNGFkNi1hYTVlLTBmYTk3MThkODk4NQ==",
+        "X-Cache": "CONFIG_NOCACHE",
+<<<<<<<< HEAD:sdk/communication/communication-phone-numbers/recordings/node/siproutingclient__match_number_to_routes/recording_should_match_number_to_routes.json
+        "X-Processing-Time": "1860ms"
+========
+        "X-Processing-Time": "1258ms"
+========
+        "Date": "Thu, 27 Jul 2023 14:51:53 GMT",
+        "MS-CV": "Bjelt0IWt0yY4LvgPkSQdg.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0iITCZAAAAADL6Kof44jiSIBzjCkOyrhiUFJHMDFFREdFMDkxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "1356ms"
+>>>>>>>> 9f260aa960 (fix review comment):sdk/communication/communication-phone-numbers/recordings/browsers/siproutingclient__match_number_to_routes/recording_return_empty_array_for_empty_options.json
+>>>>>>>> 611334bf01 (fix review comment):sdk/communication/communication-phone-numbers/recordings/browsers/siproutingclient__match_number_to_routes/recording_return_empty_array_for_empty_options.json
+      },
+      "ResponseBody": {
+        "domains": {
+          "tw54f5.net": {
+            "enabled": true
+          }
+        },
+        "trunks": {
+          "test1.tw54f5.net": {
+            "enabled": true,
+            "sipSignalingPort": 6001
+          },
+          "test2.tw54f5.net": {
+            "enabled": true,
+            "sipSignalingPort": 6002
+          }
+        },
+        "routes": []
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/sip?api-version=2023-04-01-preview",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "230",
+        "Content-Type": "application/merge-patch\u002Bjson",
+<<<<<<<< HEAD:sdk/communication/communication-phone-numbers/recordings/node/siproutingclient__match_number_to_routes/recording_should_match_number_to_routes.json
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230626.1 core-rest-pipeline/1.10.4 Node/v16.20.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "tspzM4woP1T04JCkNC6KmsmtbSfE4niBUf0PedEdyLk=",
+        "x-ms-date": "Thu, 08 Jun 2023 10:58:47 GMT"
+========
+<<<<<<<< HEAD:sdk/communication/communication-phone-numbers/recordings/node/siproutingclient__match_number_to_routes_/recording_should_match_number_to_routes.json
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.10.4 Node/v16.20.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "bnFqD1PPTa/bL6Ay/q8jzmDfxHxHU\u002B/JqC1eV9DXA/o=",
+        "x-ms-date": "Mon, 29 May 2023 07:42:23 GMT"
+========
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "Qax79nrFP8WfEXoQLf0xSDgdCjZi3rCkZnIwN6nANGQ=",
+        "x-ms-date": "Thu, 27 Jul 2023 14:51:53 GMT",
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230626.1 core-rest-pipeline/1.10.4 OS"
+>>>>>>>> 9f260aa960 (fix review comment):sdk/communication/communication-phone-numbers/recordings/browsers/siproutingclient__match_number_to_routes/recording_return_empty_array_for_empty_options.json
+>>>>>>>> 611334bf01 (fix review comment):sdk/communication/communication-phone-numbers/recordings/browsers/siproutingclient__match_number_to_routes/recording_return_empty_array_for_empty_options.json
+      },
+      "RequestBody": {
+        "routes": [
+          {
+            "description": "us route",
+            "name": "Us route",
+            "numberPattern": "^\\\u002B1(\\d{10})$",
+            "trunks": [
+              "test1.tw54f5.net"
+            ]
+          },
+          {
+            "description": "nz route",
+            "name": "Nz route",
+            "numberPattern": "^\\\u002B6(\\d{10})$",
+            "trunks": [
+              "test2.tw54f5.net"
+            ]
+          }
+        ]
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-deprecated-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview",
+        "api-supported-versions": "2023-03-01, 2023-04-01-preview",
+        "Content-Length": "403",
+        "Content-Type": "application/json; charset=utf-8",
+<<<<<<<< HEAD:sdk/communication/communication-phone-numbers/recordings/node/siproutingclient__match_number_to_routes/recording_should_match_number_to_routes.json
+        "Date": "Thu, 08 Jun 2023 10:59:16 GMT",
+        "MS-CV": "w7BSuNQ3Qk6gCZOxBgCeGA.0",
+========
+<<<<<<<< HEAD:sdk/communication/communication-phone-numbers/recordings/node/siproutingclient__match_number_to_routes_/recording_should_match_number_to_routes.json
+        "Date": "Mon, 29 May 2023 07:42:37 GMT",
+        "MS-CV": "Gn0lqK9eo0efoEkpwvYANw.0",
+>>>>>>>> 611334bf01 (fix review comment):sdk/communication/communication-phone-numbers/recordings/browsers/siproutingclient__match_number_to_routes/recording_return_empty_array_for_empty_options.json
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0g7SBZAAAAAD3EotZpMjwSpyYFjDlqNzJRlJBMjMxMDUwNDE3MDUzAGNjOTI3NThkLTA1ZjctNGFkNi1hYTVlLTBmYTk3MThkODk4NQ==",
+        "X-Cache": "CONFIG_NOCACHE",
+<<<<<<<< HEAD:sdk/communication/communication-phone-numbers/recordings/node/siproutingclient__match_number_to_routes/recording_should_match_number_to_routes.json
+        "X-Processing-Time": "719ms"
+========
+        "X-Processing-Time": "730ms"
+========
+        "Date": "Thu, 27 Jul 2023 14:51:54 GMT",
+        "MS-CV": "RxvvIaaYeE6V2jAzPin2uw.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0ioTCZAAAAACZ7wisBKP9Sb5gJDdOobguUFJHMDFFREdFMDkxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "896ms"
+>>>>>>>> 9f260aa960 (fix review comment):sdk/communication/communication-phone-numbers/recordings/browsers/siproutingclient__match_number_to_routes/recording_return_empty_array_for_empty_options.json
+>>>>>>>> 611334bf01 (fix review comment):sdk/communication/communication-phone-numbers/recordings/browsers/siproutingclient__match_number_to_routes/recording_return_empty_array_for_empty_options.json
+      },
+      "ResponseBody": {
+        "domains": {
+          "tw54f5.net": {
+            "enabled": true
+          }
+        },
+        "trunks": {
+          "test1.tw54f5.net": {
+            "enabled": true,
+            "sipSignalingPort": 6001
+          },
+          "test2.tw54f5.net": {
+            "enabled": true,
+            "sipSignalingPort": 6002
+          }
+        },
+        "routes": [
+          {
+            "description": "us route",
+            "name": "Us route",
+            "numberPattern": "^\\\u002B1(\\d{10})$",
+            "trunks": [
+              "test1.tw54f5.net"
+            ]
+          },
+          {
+            "description": "nz route",
+            "name": "Nz route",
+            "numberPattern": "^\\\u002B6(\\d{10})$",
+            "trunks": [
+              "test2.tw54f5.net"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/sip?api-version=2023-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+<<<<<<<< HEAD:sdk/communication/communication-phone-numbers/recordings/node/siproutingclient__match_number_to_routes/recording_should_match_number_to_routes.json
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230626.1 core-rest-pipeline/1.10.4 Node/v16.20.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Thu, 08 Jun 2023 10:58:48 GMT"
+========
+<<<<<<<< HEAD:sdk/communication/communication-phone-numbers/recordings/node/siproutingclient__match_number_to_routes_/recording_should_match_number_to_routes.json
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.10.4 Node/v16.20.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Mon, 29 May 2023 07:42:24 GMT"
+========
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Thu, 27 Jul 2023 14:51:54 GMT",
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230626.1 core-rest-pipeline/1.10.4 OS"
+>>>>>>>> 9f260aa960 (fix review comment):sdk/communication/communication-phone-numbers/recordings/browsers/siproutingclient__match_number_to_routes/recording_return_empty_array_for_empty_options.json
+>>>>>>>> 611334bf01 (fix review comment):sdk/communication/communication-phone-numbers/recordings/browsers/siproutingclient__match_number_to_routes/recording_return_empty_array_for_empty_options.json
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-deprecated-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview",
+        "api-supported-versions": "2023-03-01, 2023-04-01-preview",
+        "Content-Length": "403",
+        "Content-Type": "application/json; charset=utf-8",
+<<<<<<<< HEAD:sdk/communication/communication-phone-numbers/recordings/node/siproutingclient__match_number_to_routes/recording_should_match_number_to_routes.json
+        "Date": "Thu, 08 Jun 2023 10:59:17 GMT",
+        "MS-CV": "ctZMVWXATku7CUP9z/FPtQ.0",
+========
+<<<<<<<< HEAD:sdk/communication/communication-phone-numbers/recordings/node/siproutingclient__match_number_to_routes_/recording_should_match_number_to_routes.json
+        "Date": "Mon, 29 May 2023 07:42:38 GMT",
+        "MS-CV": "vJd\u002B79SQBUmLPzch7oLJgg.0",
+>>>>>>>> 611334bf01 (fix review comment):sdk/communication/communication-phone-numbers/recordings/browsers/siproutingclient__match_number_to_routes/recording_return_empty_array_for_empty_options.json
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0hLSBZAAAAAA3HT1tXazVR60HeCKQsQHtRlJBMjMxMDUwNDE3MDUzAGNjOTI3NThkLTA1ZjctNGFkNi1hYTVlLTBmYTk3MThkODk4NQ==",
+        "X-Cache": "CONFIG_NOCACHE",
+<<<<<<<< HEAD:sdk/communication/communication-phone-numbers/recordings/node/siproutingclient__match_number_to_routes/recording_should_match_number_to_routes.json
+        "X-Processing-Time": "471ms"
+========
+        "X-Processing-Time": "460ms"
+========
+        "Date": "Thu, 27 Jul 2023 14:51:55 GMT",
+        "MS-CV": "/V6Y8D6tu0WTCbYt1QCRnw.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0i4TCZAAAAACNJzd1u\u002BkeTppkXe3yDg7qUFJHMDFFREdFMDkxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "586ms"
+>>>>>>>> 9f260aa960 (fix review comment):sdk/communication/communication-phone-numbers/recordings/browsers/siproutingclient__match_number_to_routes/recording_return_empty_array_for_empty_options.json
+>>>>>>>> 611334bf01 (fix review comment):sdk/communication/communication-phone-numbers/recordings/browsers/siproutingclient__match_number_to_routes/recording_return_empty_array_for_empty_options.json
+      },
+      "ResponseBody": {
+        "domains": {
+          "tw54f5.net": {
+            "enabled": true
+          }
+        },
+        "trunks": {
+          "test1.tw54f5.net": {
+            "enabled": true,
+            "sipSignalingPort": 6001
+          },
+          "test2.tw54f5.net": {
+            "enabled": true,
+            "sipSignalingPort": 6002
+          }
+        },
+        "routes": [
+          {
+            "description": "us route",
+            "name": "Us route",
+            "numberPattern": "^\\\u002B1(\\d{10})$",
+            "trunks": [
+              "test1.tw54f5.net"
+            ]
+          },
+          {
+            "description": "nz route",
+            "name": "Nz route",
+            "numberPattern": "^\\\u002B6(\\d{10})$",
+            "trunks": [
+              "test2.tw54f5.net"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/sip:testRoutesWithNumber?api-version=2023-04-01-preview\u0026targetPhoneNumber=%2B72345678901",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "403",
+        "Content-Type": "application/json",
+<<<<<<<< HEAD:sdk/communication/communication-phone-numbers/recordings/node/siproutingclient__match_number_to_routes/recording_should_match_number_to_routes.json
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230626.1 core-rest-pipeline/1.10.4 Node/v16.20.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "\u002BsvUo2C0JqztRNfpI0HOAEGv5bSpVmrfybkQxYED1qk=",
+        "x-ms-date": "Thu, 08 Jun 2023 10:58:48 GMT"
+========
+<<<<<<<< HEAD:sdk/communication/communication-phone-numbers/recordings/node/siproutingclient__match_number_to_routes_/recording_should_match_number_to_routes.json
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.10.4 Node/v16.20.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "zM1tZtJFEjgOhSILovXU/30viN\u002BpYwkRip0aVQeiyVk=",
+        "x-ms-date": "Mon, 29 May 2023 07:42:24 GMT"
+========
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "tY\u002BohZlc62Ux0AeI0GU2mKaLSDVCD8DVVT\u002B9cauwRzg=",
+        "x-ms-date": "Thu, 27 Jul 2023 14:51:55 GMT",
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230626.1 core-rest-pipeline/1.10.4 OS"
+>>>>>>>> 9f260aa960 (fix review comment):sdk/communication/communication-phone-numbers/recordings/browsers/siproutingclient__match_number_to_routes/recording_return_empty_array_for_empty_options.json
+>>>>>>>> 611334bf01 (fix review comment):sdk/communication/communication-phone-numbers/recordings/browsers/siproutingclient__match_number_to_routes/recording_return_empty_array_for_empty_options.json
+      },
+      "RequestBody": {
+        "domains": {
+          "tw54f5.net": {
+            "enabled": true
+          }
+        },
+        "trunks": {
+          "test1.tw54f5.net": {
+            "sipSignalingPort": 6001,
+            "enabled": true
+          },
+          "test2.tw54f5.net": {
+            "sipSignalingPort": 6002,
+            "enabled": true
+          }
+        },
+        "routes": [
+          {
+            "description": "us route",
+            "name": "Us route",
+            "numberPattern": "^\\\u002B1(\\d{10})$",
+            "trunks": [
+              "test1.tw54f5.net"
+            ]
+          },
+          {
+            "description": "nz route",
+            "name": "Nz route",
+            "numberPattern": "^\\\u002B6(\\d{10})$",
+            "trunks": [
+              "test2.tw54f5.net"
+            ]
+          }
+        ]
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2023-04-01-preview",
+        "Content-Length": "21",
+        "Content-Type": "application/json; charset=utf-8",
+<<<<<<<< HEAD:sdk/communication/communication-phone-numbers/recordings/node/siproutingclient__match_number_to_routes/recording_should_match_number_to_routes.json
+        "Date": "Thu, 08 Jun 2023 10:59:17 GMT",
+        "MS-CV": "reSunlr1eEOi9eUV8qV35w.0",
+========
+<<<<<<<< HEAD:sdk/communication/communication-phone-numbers/recordings/node/siproutingclient__match_number_to_routes_/recording_should_match_number_to_routes.json
+        "Date": "Mon, 29 May 2023 07:42:38 GMT",
+        "MS-CV": "ShAfrgMvukKysf8kyCiLfA.0",
+>>>>>>>> 611334bf01 (fix review comment):sdk/communication/communication-phone-numbers/recordings/browsers/siproutingclient__match_number_to_routes/recording_return_empty_array_for_empty_options.json
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0hbSBZAAAAAC2DKuAtU2/Tb4L8LLvaU/KRlJBMjMxMDUwNDE3MDUzAGNjOTI3NThkLTA1ZjctNGFkNi1hYTVlLTBmYTk3MThkODk4NQ==",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "157ms"
+      },
+      "ResponseBody": {
+        "matchingRoutes": [
+          {
+            "description": null,
+            "name": "Us route",
+            "numberPattern": "^\\\u002B1(\\d{10})$",
+            "trunks": [
+              "test1.tw54f5.net"
+            ]
+          }
+        ]
+========
+        "Date": "Thu, 27 Jul 2023 14:51:55 GMT",
+        "MS-CV": "9Lr8Im3DIU\u002BeF68Qd6fYJg.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0i4TCZAAAAAB4k5itk0A5T7uA2SCxuZy1UFJHMDFFREdFMDkxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "155ms"
+      },
+      "ResponseBody": {
+        "matchingRoutes": []
+>>>>>>>> 9f260aa960 (fix review comment):sdk/communication/communication-phone-numbers/recordings/browsers/siproutingclient__match_number_to_routes/recording_return_empty_array_for_empty_options.json
+      }
+    }
+  ],
+  "Variables": {
+    "fqdn-1": "test1.tw54f5.net",
+    "fqdn-2": "test2.tw54f5.net"
+  }
+}

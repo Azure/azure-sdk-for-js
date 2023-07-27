@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 import { assert } from "chai";
 import { Context } from "mocha";
-import { SipRoutingClient, SipRoutingTestRoutesWithNumberOptionalParams } from "../../../src";
-
+import { SipRoutingClient, SipRoutingTestRoutesWithNumberOperationParams } from "../../../src";
 import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import {
   clearSipConfiguration,
@@ -23,11 +22,14 @@ matrix([[false, true]], async function (useAad) {
     let trunkNz: string;
     const domain: string = getAzureTestDomain();
 
+    before(() => {
+      resetUniqueFqdns();
+    });
+
     beforeEach(async function (this: Context) {
       ({ client, recorder } = useAad
         ? await createRecordedClientWithToken(this)
         : await createRecordedClient(this));
-      resetUniqueFqdns();
 
       trunkUs = getUniqueFqdn(recorder);
       trunkNz = getUniqueFqdn(recorder);
@@ -38,8 +40,18 @@ matrix([[false, true]], async function (useAad) {
       ]);
 
       await client.setRoutes([
-        { name: "Us route", numberPattern: "^\\+1(\\d{10})$", trunks: [trunkUs] },
-        { name: "Nz route", numberPattern: "^\\+6(\\d{10})$", trunks: [trunkNz] },
+        {
+          name: "Us route",
+          numberPattern: "^\\+1(\\d{10})$",
+          trunks: [trunkUs],
+          description: "us route",
+        },
+        {
+          name: "Nz route",
+          numberPattern: "^\\+6(\\d{10})$",
+          trunks: [trunkNz],
+          description: "nz route",
+        },
       ]);
     });
 
@@ -53,6 +65,10 @@ matrix([[false, true]], async function (useAad) {
       }
     });
 
+    after(() => {
+      resetUniqueFqdns();
+    });
+
     it("should match number to routes", async function () {
       const matchedRoutes = await client.matchNumberToRoutes("+12345678901", {});
       const expected = [
@@ -60,7 +76,7 @@ matrix([[false, true]], async function (useAad) {
           name: "Us route",
           numberPattern: "^\\+1(\\d{10})$",
           trunks: [trunkUs],
-          description: null,
+          description: "us route",
         },
       ];
 
@@ -72,7 +88,7 @@ matrix([[false, true]], async function (useAad) {
       const configuration = { [domain]: { domainName: domain, enabled: true } };
       const matchedRoutes = await client.matchNumberToRoutes(
         "+72345678901",
-        configuration as SipRoutingTestRoutesWithNumberOptionalParams
+        configuration as SipRoutingTestRoutesWithNumberOperationParams
       );
 
       assert.isArray(matchedRoutes);
