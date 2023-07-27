@@ -66,16 +66,14 @@ export class ChangeFeedIterator<T> {
     get hasMoreResults(): boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface ChangeFeedIteratorOptions {
-    continuationToken?: string;
-    epkRange?: PartitionKeyRange | IEpkRange;
+    // Warning: (ae-forgotten-export) The symbol "ChangeFeedResource" needs to be exported by the entry point index.d.ts
+    changeFeedResource?: ChangeFeedResource;
+    // Warning: (ae-forgotten-export) The symbol "ChangeFeedStartType" needs to be exported by the entry point index.d.ts
+    changeFeedStartType?: ChangeFeedStartType;
     maxItemCount?: number;
-    partitionKey?: PartitionKey;
     sessionToken?: string;
-    startFromBeginning?: boolean;
-    startFromNow?: boolean;
-    startTime?: Date;
 }
 
 // @public
@@ -91,14 +89,14 @@ export class ChangeFeedIteratorResponse<T> {
     readonly SubStatusCode?: number;
 }
 
-// @public (undocumented)
+// @public
 export abstract class ChangeFeedIteratorV2<T> {
     // (undocumented)
     abstract fetchAllFeedRanges(): Promise<void>;
     // (undocumented)
     abstract fetchContinuationTokenFeedRanges(continuationToken: string): Promise<boolean>;
     // (undocumented)
-    abstract fetchOverLappingFeedRanges(epkRange: PartitionKeyRange | IEpkRange): Promise<void>;
+    abstract fetchOverLappingFeedRanges(epkRange: PartitionKeyRange): Promise<void>;
     // (undocumented)
     abstract get hasMoreResults(): boolean;
     // (undocumented)
@@ -115,6 +113,16 @@ export interface ChangeFeedOptions {
 }
 
 // @public
+export enum ChangeFeedResourceType {
+    // (undocumented)
+    Container = 2,
+    // (undocumented)
+    EpkRange = 0,
+    // (undocumented)
+    PartitionKey = 1
+}
+
+// @public
 export class ChangeFeedResponse<T> {
     get activityId(): string;
     get continuation(): string;
@@ -125,6 +133,18 @@ export class ChangeFeedResponse<T> {
     readonly result: T;
     get sessionToken(): string;
     readonly statusCode: number;
+}
+
+// @public
+export enum ChangeFeedStartFrom {
+    // (undocumented)
+    Beginning = 0,
+    // (undocumented)
+    ContinuationToken = 3,
+    // (undocumented)
+    Now = 1,
+    // (undocumented)
+    StartTime = 2
 }
 
 // @public (undocumented)
@@ -1028,7 +1048,6 @@ export class Items {
     // (undocumented)
     readonly container: Container;
     create<T extends ItemDefinition = any>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
-    // (undocumented)
     getChangeFeedIterator<T>(changeFeedOptions: ChangeFeedIteratorOptions): Promise<ChangeFeedIteratorV2<T>>;
     query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
     query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;

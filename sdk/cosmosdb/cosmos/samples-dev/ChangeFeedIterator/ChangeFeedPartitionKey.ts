@@ -12,9 +12,12 @@ import { finish, handleError, logSampleHeader } from "../Shared/handleError";
 import {
   CosmosClient,
   PartitionKeyDefinitionVersion,
-  PartitionKeyKindHash,
+  PartitionKeyKind,
   Container,
   StatusCodes,
+  ChangeFeedIteratorOptions,
+  ChangeFeedStartFrom,
+  ChangeFeedResourceType,
 } from "@azure/cosmos";
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
@@ -45,11 +48,12 @@ const client = new CosmosClient({ endpoint, key });
 async function iterateChangeFeedTillNow(container: Container): Promise<string> {
   console.log("fetching changefeed until now");
 
-  const feedIterator = await container.items.getChangeFeedIterator({
-    partitionKey: ["0", 0],
-    startFromBeginning: true,
+  const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
     maxItemCount: 1,
-  });
+    changeFeedStartType: { startFrom: ChangeFeedStartFrom.Beginning },
+    changeFeedResource: { resource: ChangeFeedResourceType.PartitionKey, value: [0, "0"] },
+  };
+  const feedIterator = await container.items.getChangeFeedIterator(changeFeedIteratorOptions);
 
   let continuationToken: string = "";
 
@@ -79,7 +83,7 @@ async function run(): Promise<void> {
     partitionKey: {
       paths: ["/key1", "/key2"],
       version: PartitionKeyDefinitionVersion.V2,
-      kind: PartitionKeyKindHash.MultiHash,
+      kind: PartitionKeyKind.MultiHash,
     },
     throughput: 11000,
   };
@@ -91,12 +95,15 @@ async function run(): Promise<void> {
 
     // fetch the continuation token, so that we can start from the same point in time
     const continuationToken = await iterateChangeFeedTillNow(container);
-    const feedIterator = await container.items.getChangeFeedIterator({
-      partitionKey: [0, "0"],
-      continuationToken: continuationToken,
+    const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
       maxItemCount: 1,
-    });
-
+      changeFeedStartType: {
+        startFrom: ChangeFeedStartFrom.ContinuationToken,
+        continuationToken: continuationToken,
+      },
+      changeFeedResource: { resource: ChangeFeedResourceType.PartitionKey, value: [0, "0"] },
+    };
+    const feedIterator = await container.items.getChangeFeedIterator(changeFeedIteratorOptions);
     // ingest some new data after fetching the continuation token
     await ingestData(container, 11, 21);
     let timeout = 0;

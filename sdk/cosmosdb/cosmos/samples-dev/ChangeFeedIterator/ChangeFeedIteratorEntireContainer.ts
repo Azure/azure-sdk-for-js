@@ -9,7 +9,15 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 import { finish, handleError, logSampleHeader } from "../Shared/handleError";
-import { CosmosClient, PartitionKeyDefinitionVersion, Container, StatusCodes } from "@azure/cosmos";
+import {
+  CosmosClient,
+  PartitionKeyDefinitionVersion,
+  Container,
+  StatusCodes,
+  ChangeFeedIteratorOptions,
+  ChangeFeedResourceType,
+  ChangeFeedStartFrom,
+} from "@azure/cosmos";
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
@@ -39,10 +47,12 @@ const client = new CosmosClient({ endpoint, key });
 async function iterateChangeFeedTillNow(container: Container): Promise<string> {
   console.log("fetching changefeed until now");
 
-  const feedIterator = await container.items.getChangeFeedIterator({
-    startFromBeginning: true,
+  const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
     maxItemCount: 1,
-  });
+    changeFeedStartType: { startFrom: ChangeFeedStartFrom.Beginning },
+    changeFeedResource: { resource: ChangeFeedResourceType.Container },
+  };
+  const feedIterator = await container.items.getChangeFeedIterator(changeFeedIteratorOptions);
 
   let continuationToken: string = "";
 
@@ -83,10 +93,15 @@ async function run(): Promise<void> {
 
     // fetch the continuation token, so that we can start from the same point in time
     const continuationToken = await iterateChangeFeedTillNow(container);
-    const feedIterator = await container.items.getChangeFeedIterator({
-      continuationToken: continuationToken,
+    const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
       maxItemCount: 1,
-    });
+      changeFeedStartType: {
+        startFrom: ChangeFeedStartFrom.ContinuationToken,
+        continuationToken: continuationToken,
+      },
+      changeFeedResource: { resource: ChangeFeedResourceType.Container },
+    };
+    const feedIterator = await container.items.getChangeFeedIterator(changeFeedIteratorOptions);
 
     // ingest some new data after fetching the continuation token
     await ingestData(container, 11, 21);
