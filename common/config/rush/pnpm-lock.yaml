@@ -4881,7 +4881,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230726
+      typescript: 5.2.0-dev.20230727
     dev: false
 
   /duplexer3/0.1.5:
@@ -10394,8 +10394,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230726:
-    resolution: {integrity: sha512-WXVjQVYHgcJwZh0r5TzBl42dzg6ap9VS0+8dm76/i0T/BhLnmC3CIBsLHZ5WQ3l1CqO/W5kSuywX94xVg98otA==}
+  /typescript/5.2.0-dev.20230727:
+    resolution: {integrity: sha512-HTNqxwU5roYnvWrrdTxKLREZ+fygKOpf7q2DAhfZntqgyQNxZzZdDypigMS8tNmeQN2X/ohbNzX9PnhHoCCmfw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -15368,7 +15368,7 @@ packages:
     dev: false
 
   file:projects/arm-networkcloud.tgz:
-    resolution: {integrity: sha512-cHWm3T/AtDMfqqcJ5pGQE1VwgTNhMekMLzxL4oRhrLwqfAMUHeUKShOxKjnK3ijV29GLU2NzOxWLnHnKKHijZA==, tarball: file:projects/arm-networkcloud.tgz}
+    resolution: {integrity: sha512-Rho447UvDnX2mK63B1gR1WUlVjeyDNzq534BZwwvf03aZ+tQHWIvg/eAvzAwB54dxliI3OBfn7eQbc0e171z9g==, tarball: file:projects/arm-networkcloud.tgz}
     name: '@rush-temp/arm-networkcloud'
     version: 0.0.0
     dependencies:
@@ -19508,7 +19508,7 @@ packages:
     dev: false
 
   file:projects/iot-modelsrepository.tgz:
-    resolution: {integrity: sha512-veQsKjb2aSG7+DzdJSMIWo+RYWYCz7h7h61urb9t4aDAYHggApgTnL0gfy9YOM31+eZDP8Pn1SMU1TAkoG92WA==, tarball: file:projects/iot-modelsrepository.tgz}
+    resolution: {integrity: sha512-aBqZUGAYocA5q7N1c63xMiX60ROVIWwhVUJdY738FUZtQgH7CYeIGVBKCkyybjj4BL0EsVXQGKJ9L3xVFruyXA==, tarball: file:projects/iot-modelsrepository.tgz}
     name: '@rush-temp/iot-modelsrepository'
     version: 0.0.0
     dependencies:
@@ -19532,6 +19532,7 @@ packages:
       karma-junit-reporter: 2.0.1_karma@6.4.2
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5_karma@6.4.2
+      karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.2.1_mocha@7.2.0
       nyc: 15.1.0
@@ -21734,7 +21735,7 @@ packages:
     dev: false
 
   file:projects/synapse-access-control.tgz:
-    resolution: {integrity: sha512-2JB2aB7Gyecc9rlbRbriaooT6LH5vyTeDLKmnw/yB50DBH/Jd7q1nDC8YKLIAZDY2132k0Zt5QtnDWEkr0pWTA==, tarball: file:projects/synapse-access-control.tgz}
+    resolution: {integrity: sha512-Dk8sF9iglcupQ+7W6ytjva4I9sag0ck0hJOPNkOQ4IV8bAK4UciN8FZJpJqxqvxpfz0gkJkwvyGCJNfoQmO3sQ==, tarball: file:projects/synapse-access-control.tgz}
     name: '@rush-temp/synapse-access-control'
     version: 0.0.0
     dependencies:
