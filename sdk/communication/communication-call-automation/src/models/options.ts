@@ -22,7 +22,6 @@ import {
 export interface CallMediaRecognizeOptions extends OperationOptions {
   playPrompt?: FileSource | TextSource | SsmlSource;
   interruptCallMediaOperation?: boolean;
-  stopCurrentOperations?: boolean;
   operationContext?: string;
   interruptPrompt?: boolean;
   initialSilenceTimeoutInSeconds?: number;

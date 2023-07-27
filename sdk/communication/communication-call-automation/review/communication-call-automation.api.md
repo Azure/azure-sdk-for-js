@@ -198,8 +198,6 @@ export interface CallMediaRecognizeOptions extends OperationOptions {
     playPrompt?: FileSource | TextSource | SsmlSource;
     // (undocumented)
     speechModelEndpointId?: string;
-    // (undocumented)
-    stopCurrentOperations?: boolean;
 }
 
 // @public
