@@ -309,16 +309,11 @@ export interface ContinuousDtmfRecognitionToneReceived extends Omit<RestContinuo
 // @public
 export interface CreateCallOptions extends OperationOptions {
     azureCognitiveServicesEndpointUrl?: string;
+    customContext?: CustomContext;
     mediaStreamingConfiguration?: MediaStreamingConfiguration;
     operationContext?: string;
-    sipHeaders?: {
-        [propertyName: string]: string;
-    };
     sourceCallIdNumber?: PhoneNumberIdentifier;
     sourceDisplayName?: string;
-    voipHeaders?: {
-        [propertyName: string]: string;
-    };
 }
 
 // @public
@@ -946,14 +941,9 @@ export interface TransferCallResult {
 // @public
 export interface TransferCallToParticipantOptions extends OperationOptions {
     callbackUrlOverride?: string;
+    customContext?: CustomContext;
     operationContext?: string;
-    sipHeaders?: {
-        [propertyName: string]: string;
-    };
     transferee?: CommunicationIdentifier;
-    voipHeaders?: {
-        [propertyName: string]: string;
-    };
 }
 
 // @public

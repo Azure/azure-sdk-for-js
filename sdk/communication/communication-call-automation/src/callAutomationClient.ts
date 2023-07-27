@@ -262,8 +262,8 @@ export class CallAutomationClient {
       azureCognitiveServicesEndpointUrl: options.azureCognitiveServicesEndpointUrl,
       mediaStreamingConfiguration: options.mediaStreamingConfiguration,
       customContext: {
-        sipHeaders: options.sipHeaders,
-        voipHeaders: options.voipHeaders,
+        sipHeaders: options.customContext?.sipHeaders,
+        voipHeaders: options.customContext?.voipHeaders,
       },
       sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(options.sourceCallIdNumber),
       sourceDisplayName: options.sourceDisplayName,
