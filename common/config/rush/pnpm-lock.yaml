@@ -2839,12 +2839,6 @@ packages:
       '@sinonjs/commons': 1.8.6
     dev: false
 
-  /@sinonjs/fake-timers/8.1.0:
-    resolution: {integrity: sha512-OAPJUAtgeINhh/TAlUID4QTs53Njm7xzddaVlEs/SXwgtiD1tW22zAB/W1wdqfrpmikgaWQ9Fw6Ws+hsiRm5Vg==}
-    dependencies:
-      '@sinonjs/commons': 1.8.6
-    dev: false
-
   /@sinonjs/samsam/5.3.1:
     resolution: {integrity: sha512-1Hc0b1TtyfBu8ixF/tpfSHTVWKwCBLY4QJbkgnE7HcwyvT2xArDxb4K7dMgqRm3szI+LJbzmW/s4xxEhv6hwDg==}
     dependencies:
@@ -2853,10 +2847,10 @@ packages:
       type-detect: 4.0.8
     dev: false
 
-  /@sinonjs/samsam/6.1.3:
-    resolution: {integrity: sha512-nhOb2dWPeb1sd3IQXL/dVPnKHDOAFfvichtBf4xV00/rU1QbPCQqKMbvIheIjqwVjh7qIgf2AHTHi391yMOMpQ==}
+  /@sinonjs/samsam/8.0.0:
+    resolution: {integrity: sha512-Bp8KUVlLp8ibJZrnvq2foVhP0IVX2CIprMJPK0vqGqgrDa0OHVKeZyBykqskkrdxV6yKBPmGasO8LVjAKR3Gew==}
     dependencies:
-      '@sinonjs/commons': 1.8.6
+      '@sinonjs/commons': 2.0.0
       lodash.get: 4.4.2
       type-detect: 4.0.8
     dev: false
@@ -4887,7 +4881,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230725
+      typescript: 5.2.0-dev.20230726
     dev: false
 
   /duplexer3/0.1.5:
@@ -9607,12 +9601,12 @@ packages:
       simple-concat: 1.0.1
     dev: false
 
-  /sinon/12.0.1:
-    resolution: {integrity: sha512-iGu29Xhym33ydkAT+aNQFBINakjq69kKO6ByPvTsm3yyIACfyQttRTP03aBP/I8GfhFmLzrnKwNNkr0ORb1udg==}
+  /sinon/15.2.0:
+    resolution: {integrity: sha512-nPS85arNqwBXaIsFCkolHjGIkFo+Oxu9vbgmBJizLAhqe6P2o3Qmj3KCUoRkfhHtvgDhZdWD3risLHAUJ8npjw==}
     dependencies:
-      '@sinonjs/commons': 1.8.6
-      '@sinonjs/fake-timers': 8.1.0
-      '@sinonjs/samsam': 6.1.3
+      '@sinonjs/commons': 3.0.0
+      '@sinonjs/fake-timers': 10.3.0
+      '@sinonjs/samsam': 8.0.0
       diff: 5.1.0
       nise: 5.1.4
       supports-color: 7.2.0
@@ -10400,8 +10394,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230725:
-    resolution: {integrity: sha512-ckVbPpSTdPA/Fxnrq1/mzO+LgzA64VPjm6YvV/axwZKgxviVHiUy0VvKS5EGBOpgFBwCNuN+ir24KIBGYWQCgQ==}
+  /typescript/5.2.0-dev.20230726:
+    resolution: {integrity: sha512-WXVjQVYHgcJwZh0r5TzBl42dzg6ap9VS0+8dm76/i0T/BhLnmC3CIBsLHZ5WQ3l1CqO/W5kSuywX94xVg98otA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -11163,7 +11157,7 @@ packages:
     dev: false
 
   file:projects/ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-1y7P4nTVyouiTgUbTLFX1dnIeJkRss1NGeBzsrr1e6zDJT4AZ2EGNew1q/WDetqu8AJyHBpHkKg2YyDYxqJB8g==, tarball: file:projects/ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-fQse3qc6Xtz4SDBaquAj1rVW7nV/Fa74dgZ7uK8ZQRb9mgnnS9SM88E/AZr6+krkcEuDblT0+bP2I1p25J5Abg==, tarball: file:projects/ai-form-recognizer.tgz}
     name: '@rush-temp/ai-form-recognizer'
     version: 0.0.0
     dependencies:
@@ -11174,7 +11168,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
       '@types/prettier': 2.6.4
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       chai: 4.3.7
       chai-as-promised: 7.1.1_chai@4.3.7
       cross-env: 7.0.3
@@ -11197,7 +11191,7 @@ packages:
       prettier: 2.8.8
       rimraf: 3.0.2
       rollup: 2.79.1
-      sinon: 9.2.4
+      sinon: 15.2.0
       source-map-support: 0.5.21
       tslib: 2.6.0
       typescript: 5.0.4
@@ -11209,7 +11203,7 @@ packages:
     dev: false
 
   file:projects/ai-language-conversations.tgz:
-    resolution: {integrity: sha512-WpgYm3YOxL7bNXqs9Wf9udWftB17STAsqJsMfilVMHtddDDDbdJueamzJYMxO02seNDKSP1Fzti5wNPawLRmoQ==, tarball: file:projects/ai-language-conversations.tgz}
+    resolution: {integrity: sha512-eAoobpPVGYke9AriktYTeCYXpsIPSaPxyCfY54jEwmBeL37m7KQTzRXXsTUbZ9sExDo2ygtdtkdBcbZSMvIfbQ==, tarball: file:projects/ai-language-conversations.tgz}
     name: '@rush-temp/ai-language-conversations'
     version: 0.0.0
     dependencies:
@@ -11219,7 +11213,7 @@ packages:
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       chai: 4.3.7
       chai-as-promised: 7.1.1_chai@4.3.7
       cross-env: 7.0.3
@@ -11241,7 +11235,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       source-map-support: 0.5.21
       ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.0
@@ -11257,7 +11251,7 @@ packages:
     dev: false
 
   file:projects/ai-language-text.tgz:
-    resolution: {integrity: sha512-GmkfWcoelGFZzZAC6UkXDOYEJzIm7Z+zfUIs/EO6TBPKNIWjFB1DXn86VBzkC993/K8CwdfrAzB/MDERzkgoMQ==, tarball: file:projects/ai-language-text.tgz}
+    resolution: {integrity: sha512-daw3IhY7ceisEeLpntS2kJ58rAy6XaWSF0LwlTK2+XA9Iu7zxdXWInboCJ0PN3XGxiQEP/FRrTuZGnfJ+hjINw==, tarball: file:projects/ai-language-text.tgz}
     name: '@rush-temp/ai-language-text'
     version: 0.0.0
     dependencies:
@@ -11268,7 +11262,7 @@ packages:
       '@types/decompress': 4.2.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       chai: 4.3.7
       chai-as-promised: 7.1.1_chai@4.3.7
       cross-env: 7.0.3
@@ -11290,7 +11284,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       source-map-support: 0.5.21
       ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.0
@@ -11327,7 +11321,7 @@ packages:
     dev: false
 
   file:projects/ai-metrics-advisor.tgz:
-    resolution: {integrity: sha512-znBeEiUeD3LOrq9nUn5B4KwF0641M2/xk6MKuR2J1Ux3Z76ZYZEtIXYyWcZRY70tk13PSEtMoYO222FiHKrDCw==, tarball: file:projects/ai-metrics-advisor.tgz}
+    resolution: {integrity: sha512-uSM5GvFTIOyOdy13mw9NTANK49yZKqKgGd/vxeJA1cS9JVcgEgf+LjjOvlbTpsPpuo348ZoPiqWpL5F903nLng==, tarball: file:projects/ai-metrics-advisor.tgz}
     name: '@rush-temp/ai-metrics-advisor'
     version: 0.0.0
     dependencies:
@@ -11337,7 +11331,7 @@ packages:
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       chai: 4.3.7
       chai-as-promised: 7.1.1_chai@4.3.7
       cross-env: 7.0.3
@@ -11357,7 +11351,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       source-map-support: 0.5.21
       ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.0
@@ -11412,7 +11406,7 @@ packages:
     dev: false
 
   file:projects/ai-text-analytics.tgz:
-    resolution: {integrity: sha512-egZvNBx96XkYjmHPfdzsCVxzCJIklcIVxgiXxuT2LETATAprG+DBxozkNGdqKHUfpDA9NsXbfJA/IlWB8IJmfw==, tarball: file:projects/ai-text-analytics.tgz}
+    resolution: {integrity: sha512-T5/PB9xxSwr5dlA37vlFi4c06wmrCtv0QTd40YeRvG+OXL2p5OJZNNCnUVERstGQVj12QIEeVxrQTFpr6cZssQ==, tarball: file:projects/ai-text-analytics.tgz}
     name: '@rush-temp/ai-text-analytics'
     version: 0.0.0
     dependencies:
@@ -11422,7 +11416,7 @@ packages:
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       chai: 4.3.7
       chai-as-promised: 7.1.1_chai@4.3.7
       cross-env: 7.0.3
@@ -11443,7 +11437,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       source-map-support: 0.5.21
       ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.0
@@ -11499,7 +11493,7 @@ packages:
     dev: false
 
   file:projects/api-management-custom-widgets-scaffolder.tgz:
-    resolution: {integrity: sha512-NWKab5pgYL+CkpFOM++wxwOX8IIrLWfL8hvmzAh0Nd/b2qr86OHSuZ0zBMnEZ6FhYGb3PMbzIHgRgX0wprkQuA==, tarball: file:projects/api-management-custom-widgets-scaffolder.tgz}
+    resolution: {integrity: sha512-fsqRqHNX8+F35bz91M8iLgKvGxMYkAYcda57w1OPXigOKkRnkHlOorTjnlN7WGx6SUS/XyV/9NV/CxE31YlfiA==, tarball: file:projects/api-management-custom-widgets-scaffolder.tgz}
     name: '@rush-temp/api-management-custom-widgets-scaffolder'
     version: 0.0.0
     dependencies:
@@ -11510,7 +11504,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/mustache': 4.2.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       '@types/yargs': 17.0.24
       '@types/yargs-parser': 21.0.0
       chai: 4.3.7
@@ -11528,7 +11522,7 @@ packages:
       prettier: 2.8.8
       rimraf: 3.0.2
       rollup: 2.79.1
-      sinon: 9.2.4
+      sinon: 15.2.0
       tslib: 2.6.0
       typescript: 5.0.4
       util: 0.12.5
@@ -11539,7 +11533,7 @@ packages:
     dev: false
 
   file:projects/api-management-custom-widgets-tools.tgz:
-    resolution: {integrity: sha512-lKaKeae0skUv1FxRc0OqwT+lrogwyMtjS69RKifhOixMBE9nYy/ar4jnhyAFhvvHVgt7WuVPSaD4ySh9w7LDIA==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
+    resolution: {integrity: sha512-ntljTsV5BnaHI3wFjK5WB2sDs9kNmdclE4rzVvZhlf5vPCkgC8W/f4+1yHgQ4NXiVuB2aZfOKhSg2ngrj21Y7Q==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
     name: '@rush-temp/api-management-custom-widgets-tools'
     version: 0.0.0
     dependencies:
@@ -11551,7 +11545,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/mustache': 4.2.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       '@types/yargs': 17.0.24
       '@types/yargs-parser': 21.0.0
       chai: 4.3.7
@@ -11576,7 +11570,7 @@ packages:
       prettier: 2.8.8
       rimraf: 3.0.2
       rollup: 2.79.1
-      sinon: 9.2.4
+      sinon: 15.2.0
       tslib: 2.6.0
       typescript: 5.0.4
       util: 0.12.5
@@ -11588,7 +11582,7 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-5R4wwlRo90W51z4bTHKdt65R3xHFDlZ9POdZWoeSywlwNur04yS0zDxMRo3bzq0jcM2H8d2y6Ahbbfqabj7IFQ==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-KXWLaA3DyICmY7ni3nXMEqBhIWm8k9stcUh3w/adjZEByxc0YN+Ekjh3FwMG88ciDffUuRBMlyU/Ai3jsh1PZA==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
@@ -11597,7 +11591,7 @@ packages:
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       '@types/uuid': 8.3.4
       chai: 4.3.7
       cross-env: 7.0.3
@@ -11619,7 +11613,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.0
       typescript: 5.0.4
@@ -17600,7 +17594,7 @@ packages:
     dev: false
 
   file:projects/communication-alpha-ids.tgz:
-    resolution: {integrity: sha512-ViL/SHRCgdEI4kiGXH4bSMYtZvfHHbJCGQD+SL2EmdSKIRzaTkPyVZUzJVpijFK3n7/SFD72Jt7erHhNoNCUDQ==, tarball: file:projects/communication-alpha-ids.tgz}
+    resolution: {integrity: sha512-Z5UKcnMA79I3zXDvLr02SA8y89FbXoR+Dtoqcqv0NBj3FJd4vvZMyrIc6tgdkAxBNKj0RqU85YIo0QUct8REsQ==, tarball: file:projects/communication-alpha-ids.tgz}
     name: '@rush-temp/communication-alpha-ids'
     version: 0.0.0
     dependencies:
@@ -17610,7 +17604,7 @@ packages:
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -17630,7 +17624,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       tslib: 2.6.0
       typescript: 5.0.4
     transitivePeerDependencies:
@@ -17641,7 +17635,7 @@ packages:
     dev: false
 
   file:projects/communication-call-automation.tgz:
-    resolution: {integrity: sha512-IRdS/57jo2pxVcVQfh1110Z+o6Xl08ajVRnZgu7KxC9xZlppm20YhYSH/DZXQCEKMf8fhCdqLlhCXqDxrg1Cqg==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-7Ng/AjkrIc3m2R0KG7q9XufhEd/Qy73xtYIC5ReVd3kXDsC+88rZqcZ5JxEB8ITVq6DjfdJxNed3W4YKVKcfBg==, tarball: file:projects/communication-call-automation.tgz}
     name: '@rush-temp/communication-call-automation'
     version: 0.0.0
     dependencies:
@@ -17650,7 +17644,7 @@ packages:
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       '@types/uuid': 8.3.4
       chai: 4.3.7
       cross-env: 7.0.3
@@ -17674,7 +17668,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       tslib: 2.6.0
       typescript: 5.0.4
       util: 0.12.5
@@ -17687,7 +17681,7 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-MB1++kyRLMbYIurUuO+7xH3MErwtcESN4QydP45Da5+H5OKjaLtxXxsJnPM0wH7/dI8WQM8sZlsM48m1+8Segg==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-FMkN4n+h3qb1ImhoUYAe0jaifbM9GOye+rjLG7hL+bx+snNG8ib4wa8Q+uJtx9IYmkIpJxBqAc8zNDe/yeoOmg==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
@@ -17697,7 +17691,7 @@ packages:
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       '@types/uuid': 8.3.4
       chai: 4.3.7
       cross-env: 7.0.3
@@ -17721,7 +17715,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       tslib: 2.6.0
       typescript: 5.0.4
       util: 0.12.5
@@ -17735,7 +17729,7 @@ packages:
     dev: false
 
   file:projects/communication-common.tgz:
-    resolution: {integrity: sha512-2FskKabW0uGKFn28ZZw6pdnRPx4z3KWVq0ejXoe6TY7C7PVXjIzSb9jGUwFvTIRF9p3u0uAEKaM3OzQcDLerlQ==, tarball: file:projects/communication-common.tgz}
+    resolution: {integrity: sha512-teplVWHwClDfFQBSoX9ZtFRtBjASirO38u09zKkBJ/9lWtT9rLTkXHJiaEoamtr9biQjhl1c9bss/D7vHyuSAA==, tarball: file:projects/communication-common.tgz}
     name: '@rush-temp/communication-common'
     version: 0.0.0
     dependencies:
@@ -17744,7 +17738,7 @@ packages:
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       chai: 4.3.7
       chai-as-promised: 7.1.1_chai@4.3.7
       cross-env: 7.0.3
@@ -17767,7 +17761,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       tslib: 2.6.0
       typescript: 5.0.4
       util: 0.12.5
@@ -17819,7 +17813,7 @@ packages:
     dev: false
 
   file:projects/communication-identity.tgz:
-    resolution: {integrity: sha512-RMlSbsSRIqSjeSrf5y9Cqwf8EexxVJqjT9FTrxedIzxzx164tkYt0hwh2cCCj7USACC0+hh58ANhyF8TENXxJw==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-XdEt+fZopV37FE740CxY7jgymaurdBpL/5cYUTwbbCzZz+lwJXsV7emc7D6Pdgbdyww9ocxNO/eD/Px+hihTZA==, tarball: file:projects/communication-identity.tgz}
     name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:
@@ -17830,7 +17824,7 @@ packages:
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -17855,7 +17849,7 @@ packages:
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-shim: 1.0.0
-      sinon: 9.2.4
+      sinon: 15.2.0
       tslib: 2.6.0
       typescript: 5.0.4
     transitivePeerDependencies:
@@ -17866,7 +17860,7 @@ packages:
     dev: false
 
   file:projects/communication-job-router.tgz:
-    resolution: {integrity: sha512-fHqiV8NwGhlBOAYEFgnUin+nNd4IcJfi9oobhgntKdyqngNwTh4W5iYilQBHNN87thchqqWA3hrbkFx60+vT3g==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-JvMfIQ5HvZ4JkxeRHHaEFX3ZzJJG17rg7v7UdxGOgVWRX7nKUQmoJs6dLRGMTAnTPD32f3WZbMrHF0zSGu4E3w==, tarball: file:projects/communication-job-router.tgz}
     name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:
@@ -17875,7 +17869,7 @@ packages:
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       '@types/uuid': 8.3.4
       chai: 4.3.7
       cross-env: 7.0.3
@@ -17899,7 +17893,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       tslib: 2.6.0
       typescript: 5.0.4
       util: 0.12.5
@@ -17912,7 +17906,7 @@ packages:
     dev: false
 
   file:projects/communication-network-traversal.tgz:
-    resolution: {integrity: sha512-1PPdlTa/NURC8K9BZo3V2DI72vwIGFc7TUXBdcEiM1s5Bq03/sGcY98wJoN+zmD+jI0XJn/vKpXWCx8qXuBmjQ==, tarball: file:projects/communication-network-traversal.tgz}
+    resolution: {integrity: sha512-jYLmMYquA0/oAMQzvyTWxgWUKyFNXJjo/Ka7uZoB3krgx6FU5ppDR6WSvMJD6GokMVtm9PjmWqoS819KwGaW+Q==, tarball: file:projects/communication-network-traversal.tgz}
     name: '@rush-temp/communication-network-traversal'
     version: 0.0.0
     dependencies:
@@ -17922,7 +17916,7 @@ packages:
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -17945,7 +17939,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       tslib: 2.6.0
       typescript: 5.0.4
     transitivePeerDependencies:
@@ -17956,7 +17950,7 @@ packages:
     dev: false
 
   file:projects/communication-phone-numbers.tgz:
-    resolution: {integrity: sha512-TM8AMxkyQvqIo9wnX1HZ142Oy1URT8N1IllGd/P9F83gaimN5zi11ADR2taQINvSwR/UlxVptx+71q3m69oOVQ==, tarball: file:projects/communication-phone-numbers.tgz}
+    resolution: {integrity: sha512-J6F05e38mMENAkgMFCaj2gmXYpT0drtX4GI3rxWARj3xT310C1i+fga3CIpI1yANY1L7OxvkOsKot4oB5v7L7Q==, tarball: file:projects/communication-phone-numbers.tgz}
     name: '@rush-temp/communication-phone-numbers'
     version: 0.0.0
     dependencies:
@@ -17966,7 +17960,7 @@ packages:
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       '@types/uuid': 8.3.4
       chai: 4.3.7
       cross-env: 7.0.3
@@ -17988,7 +17982,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       tslib: 2.6.0
       typescript: 5.0.4
       uuid: 8.3.2
@@ -18000,7 +17994,7 @@ packages:
     dev: false
 
   file:projects/communication-recipient-verification.tgz:
-    resolution: {integrity: sha512-+AvYYXbB4nVPnax2iVzW0mqycQcAwB244eBnzX/Yd2ZfJwtIcFeP4J3GdZMUKlpNICuYmP4N+gNb4w18Rta/1Q==, tarball: file:projects/communication-recipient-verification.tgz}
+    resolution: {integrity: sha512-fxNyuzFduhTzUnkODS6Kjd5dGbqwHP51y4hztnnQbF9FJM9/lStEq+krK8ldrLzhsx5DnvzCJvur/tEwtd93xA==, tarball: file:projects/communication-recipient-verification.tgz}
     name: '@rush-temp/communication-recipient-verification'
     version: 0.0.0
     dependencies:
@@ -18010,7 +18004,7 @@ packages:
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       '@types/uuid': 8.3.4
       chai: 4.3.7
       cross-env: 7.0.3
@@ -18032,7 +18026,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       tslib: 2.6.0
       typescript: 5.0.4
       uuid: 8.3.2
@@ -18044,7 +18038,7 @@ packages:
     dev: false
 
   file:projects/communication-rooms.tgz:
-    resolution: {integrity: sha512-1jxME+P4umHDyg1wNfAWpx4pTbspvARTojOKayxAUPp6cEj0FqFIxb/GAW62LQRE3RcHwH7oxPZQuEozv2Ocww==, tarball: file:projects/communication-rooms.tgz}
+    resolution: {integrity: sha512-eoKnwAI1rsg3Pv6HtW0otcNshJNsNFuY5lie2VfoN5DZg/N8sG/DK/Jicf4gDqCNueNt1Ql5Gmar1fksJIqDJA==, tarball: file:projects/communication-rooms.tgz}
     name: '@rush-temp/communication-rooms'
     version: 0.0.0
     dependencies:
@@ -18066,7 +18060,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       tslib: 1.14.1
       typescript: 5.0.4
       uuid: 8.3.2
@@ -18078,7 +18072,7 @@ packages:
     dev: false
 
   file:projects/communication-short-codes.tgz:
-    resolution: {integrity: sha512-GqjEiAnQ7d6WjKXU8hW5OvGLmc+lD3g9/2QcbroCbhqFNmifw7YyN5656Rr4CQ/XbgcdjLn6I1wlx90wnSPApw==, tarball: file:projects/communication-short-codes.tgz}
+    resolution: {integrity: sha512-QF0DtgeQXD1GeayjuQxGNIuN+p8O6kHEu9zx0SSXY+ri3XvK+xxyUcRVM1jdf2d09fsevOdRp61ElD8ps8ovhg==, tarball: file:projects/communication-short-codes.tgz}
     name: '@rush-temp/communication-short-codes'
     version: 0.0.0
     dependencies:
@@ -18088,7 +18082,7 @@ packages:
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       '@types/uuid': 8.3.4
       chai: 4.3.7
       cross-env: 7.0.3
@@ -18110,7 +18104,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       tslib: 2.6.0
       typescript: 5.0.4
       uuid: 8.3.2
@@ -18122,7 +18116,7 @@ packages:
     dev: false
 
   file:projects/communication-sms.tgz:
-    resolution: {integrity: sha512-M4K2oFJbwDNQdRwiHQ8GedQ/BH17IMTFGb73pqt3tXwRpjbAtwLhgp7bdkOt4hnBQZwcyD1lLl7W/a6ZaFPCMw==, tarball: file:projects/communication-sms.tgz}
+    resolution: {integrity: sha512-+jTS98EeCdr89JdrHzZxf7DNR4j6asf9aRCfkLFflLjHyuVaFx3rLEVAOJd4tjZJIt9B6RtoplW1lNPneujXZQ==, tarball: file:projects/communication-sms.tgz}
     name: '@rush-temp/communication-sms'
     version: 0.0.0
     dependencies:
@@ -18132,7 +18126,7 @@ packages:
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       '@types/uuid': 8.3.4
       chai: 4.3.7
       cross-env: 7.0.3
@@ -18154,7 +18148,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       tslib: 2.6.0
       typescript: 5.0.4
       util: 0.12.5
@@ -18167,7 +18161,7 @@ packages:
     dev: false
 
   file:projects/communication-tiering.tgz:
-    resolution: {integrity: sha512-zym5Gh8ntlYl6yvsJHNwMGkrr/JVyK155DZjK/JEurf7RHz8MBzHEP4dVzUeqgruDhZy5+1uhwpedlNbZnNtwg==, tarball: file:projects/communication-tiering.tgz}
+    resolution: {integrity: sha512-l15YPrV+qJjtC1pDaVRf/6lx9tth/m8zVrRjWeMuJkKZj9dxmOkuvv9fx/+MHmXQrN1tscRuL83t6XX3lv90Rg==, tarball: file:projects/communication-tiering.tgz}
     name: '@rush-temp/communication-tiering'
     version: 0.0.0
     dependencies:
@@ -18177,7 +18171,7 @@ packages:
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       '@types/uuid': 8.3.4
       chai: 4.3.7
       cross-env: 7.0.3
@@ -18199,7 +18193,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       tslib: 2.6.0
       typescript: 5.0.4
       uuid: 8.3.2
@@ -18211,7 +18205,7 @@ packages:
     dev: false
 
   file:projects/communication-toll-free-verification.tgz:
-    resolution: {integrity: sha512-tEbb2X57aezkEjuGn0Sfggw8Jv9ln+5DvZPp307DJuYODDtUqm6gjkBDdPqJgKMrOTsIsERq+DG5ndKlWok6QQ==, tarball: file:projects/communication-toll-free-verification.tgz}
+    resolution: {integrity: sha512-rWsfDsNMknegcQSpIf9kzldiH9c6Ps/sBXNhTlU9lwk/ggtQyCFXS60yF2hNOmA4yzluHyOTt7ds5sk5jt0uIQ==, tarball: file:projects/communication-toll-free-verification.tgz}
     name: '@rush-temp/communication-toll-free-verification'
     version: 0.0.0
     dependencies:
@@ -18221,7 +18215,7 @@ packages:
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       '@types/uuid': 8.3.4
       chai: 4.3.7
       cross-env: 7.0.3
@@ -18242,7 +18236,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       tslib: 2.6.0
       typescript: 5.0.4
       uuid: 8.3.2
@@ -18321,7 +18315,7 @@ packages:
     dev: false
 
   file:projects/core-amqp.tgz:
-    resolution: {integrity: sha512-1ouZrCFj4zfd8bS8G/XOkyGNHmEiMda0qhVyQGjXupWVtywcNe+8bBiAqgsXQj3RvnxxXsUsIkhiiGcuwePOmg==, tarball: file:projects/core-amqp.tgz}
+    resolution: {integrity: sha512-+SAkBV7fqAketk4q1nOKI0b8ViGfSPidqJlCJUWkjwg1T0cSMFpoAyeTDVxDj3ayLdtx6/G39qs/huAxmjyq6Q==, tarball: file:projects/core-amqp.tgz}
     name: '@rush-temp/core-amqp'
     version: 0.0.0
     dependencies:
@@ -18336,7 +18330,7 @@ packages:
       '@types/debug': 4.1.8
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       '@types/ws': 7.4.7
       buffer: 6.0.3
       chai: 4.3.7
@@ -18360,7 +18354,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.6.3_dmbj5memikchm63lpeyt6ukdau
-      sinon: 9.2.4
+      sinon: 15.2.0
       ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.0
       typescript: 5.0.4
@@ -18401,7 +18395,7 @@ packages:
     dev: false
 
   file:projects/core-client-1.tgz:
-    resolution: {integrity: sha512-5sHkrEPMCuYAzDKF7v5HqW4Kka4vNYDwuXRwg9kKvIMBIldLK4zhiwZuGeMdx8zZADm13ihuZ2cxtlz0M6Db1A==, tarball: file:projects/core-client-1.tgz}
+    resolution: {integrity: sha512-VnzVYfpBMnTmrIojrKNKxOWKlSCzLdbp/L59acB4QsE2hrqfmnN50V9i75jAdNRRoGioPizCQj4aNBlccWzIjw==, tarball: file:projects/core-client-1.tgz}
     name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
@@ -18409,7 +18403,7 @@ packages:
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       chai: 4.3.7
       cross-env: 7.0.3
       downlevel-dts: 0.10.1
@@ -18428,7 +18422,7 @@ packages:
       mocha-junit-reporter: 2.2.1_mocha@7.2.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.0
       typescript: 5.0.4
@@ -18443,7 +18437,7 @@ packages:
     dev: false
 
   file:projects/core-client.tgz:
-    resolution: {integrity: sha512-0f6tvrsFDRRLUf6atVFtPIUCMCDCIZDBMFSobCRb25oZ/1UFenVZLZ60MYTTtTswPKJfR3gvlwt4J5JCCACxOg==, tarball: file:projects/core-client.tgz}
+    resolution: {integrity: sha512-HO5OoqOXpW8i8SLdCEERXPVFTo8PfymDzVPd5WsiNdFqJ+iUzdca6VOGW6V6371U7GmSqhJtY86/CaKKI42SNw==, tarball: file:projects/core-client.tgz}
     name: '@rush-temp/core-client'
     version: 0.0.0
     dependencies:
@@ -18451,7 +18445,7 @@ packages:
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       chai: 4.3.7
       cross-env: 7.0.3
       eslint: 8.45.0
@@ -18469,7 +18463,7 @@ packages:
       mocha-junit-reporter: 2.2.1_mocha@7.2.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       tslib: 2.6.0
       typescript: 5.0.4
     transitivePeerDependencies:
@@ -18499,7 +18493,7 @@ packages:
     dev: false
 
   file:projects/core-http.tgz:
-    resolution: {integrity: sha512-5bhbPiSwFlTzzwo5bnVHLVjEr3+wdhJqSqyWSvsFd1ZpY68JEPe/ZMOf9My9K64JyrHavkZXqbCrs66QbVa9SQ==, tarball: file:projects/core-http.tgz}
+    resolution: {integrity: sha512-lhKl7UujbseGtvMww3XNRQNCDOwciRy9C+sfS53/LQIwGxozcYUf1WicDPitkJu+4JWrlG1LXBwtog3M6lozmw==, tarball: file:projects/core-http.tgz}
     name: '@rush-temp/core-http'
     version: 0.0.0
     dependencies:
@@ -18512,7 +18506,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
       '@types/node-fetch': 2.6.4
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       '@types/tough-cookie': 4.0.2
       '@types/trusted-types': 2.0.3
       '@types/tunnel': 0.0.3
@@ -18542,7 +18536,7 @@ packages:
       regenerator-runtime: 0.13.11
       rimraf: 3.0.2
       shx: 0.3.4
-      sinon: 9.2.4
+      sinon: 15.2.0
       tough-cookie: 4.1.3
       ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.0
@@ -18633,7 +18627,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-w7+WDGbMMzEvo8fCEHA24rPSClZpqH1BcyG+0n64M1qbV8Czkyxnc9iZy01qR80hQBgXC+qhHvGKrRYij+IB7Q==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-ODe7CYUYnMCXEHHCMe8Kw1oPt7aqY8+ND9gXH780U4fDTcXxgCWYt/H9Ik7E3U9SoW1ltuBeItK1Ikaqgod8Hw==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -18643,7 +18637,7 @@ packages:
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       chai: 4.3.7
       chai-as-promised: 7.1.1_chai@4.3.7
       cross-env: 7.0.3
@@ -18667,7 +18661,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1_typescript@5.0.4
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       source-map-support: 0.5.21
       ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.0
@@ -18684,7 +18678,7 @@ packages:
     dev: false
 
   file:projects/core-tracing.tgz:
-    resolution: {integrity: sha512-0XoPnHoW9tQmQX7PvoE5LKMwEtz4DTHVRw2sALBPUyexjZSZZcww+8D7p+KZjH5J4oQZdRV5IGHdHXANGKehFw==, tarball: file:projects/core-tracing.tgz}
+    resolution: {integrity: sha512-o63KAP936mJ0iLTH1En54VfVfJNJ8VBPQyphYMwbuMG1URwblwTzZ+BpLFF4Qxw0aiXZDfmBOUz5DYnh2ZhSWg==, tarball: file:projects/core-tracing.tgz}
     name: '@rush-temp/core-tracing'
     version: 0.0.0
     dependencies:
@@ -18692,7 +18686,7 @@ packages:
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       chai: 4.3.7
       cross-env: 7.0.3
       eslint: 8.45.0
@@ -18710,7 +18704,7 @@ packages:
       mocha-junit-reporter: 2.2.1_mocha@7.2.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       tslib: 2.6.0
       typescript: 5.0.4
       util: 0.12.5
@@ -18722,7 +18716,7 @@ packages:
     dev: false
 
   file:projects/core-util.tgz:
-    resolution: {integrity: sha512-Gie8zdhZyaZL3HBKfAaq7kv7Fci9+iSSzltEYoQVcMfV7qnbclxTKqVWto1Xv4tDswe3LtW12wTeBPvTezhScA==, tarball: file:projects/core-util.tgz}
+    resolution: {integrity: sha512-JDyflz1AIZqdcU0NQ3J2ph0OF23CuHG3t97LYV5GclLcxSA1fVm8o/uq07BWzT+njG1JK6JWOZK2MXyJ4wRazQ==, tarball: file:projects/core-util.tgz}
     name: '@rush-temp/core-util'
     version: 0.0.0
     dependencies:
@@ -18731,7 +18725,7 @@ packages:
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       chai: 4.3.7
       chai-as-promised: 7.1.1_chai@4.3.7
       cross-env: 7.0.3
@@ -18751,7 +18745,7 @@ packages:
       mocha-junit-reporter: 2.2.1_mocha@7.2.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       tslib: 2.6.0
       typescript: 5.0.4
       util: 0.12.5
@@ -18763,7 +18757,7 @@ packages:
     dev: false
 
   file:projects/core-xml.tgz:
-    resolution: {integrity: sha512-/1chY8ykIxbBI8EQhmrfojcuAum55yHvWGN5h1cpW5P/CVPj5LKejlHEGw6Bci1LIwIpzRvaeDrrIy+dGP9YBQ==, tarball: file:projects/core-xml.tgz}
+    resolution: {integrity: sha512-v3OXnOCq37ZMbLQRLMwKzpXZJ/8UP6I29WPGcZx51Xuj63p8vVkHMzsNX4H6YotT5EbNjrv2+fNqfNW5tyHe8A==, tarball: file:projects/core-xml.tgz}
     name: '@rush-temp/core-xml'
     version: 0.0.0
     dependencies:
@@ -18807,7 +18801,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-LJz+1OIFq2SgnmWTitdaXdnVjEhoeYKGPGZpktlZRmqzTYQXHYXuxgNW2wvvJrKUfJ2eKkOnf3P5HFBSCAw2DQ==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-ZHND9SD/Ugb8uAIAGt7mqKwyEstUI0Sj/RYHBEHzlGrLs+28leaE3VFnc2VKWrE+kHQHMwzLS+J6sTVM/aflFQ==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
@@ -18819,7 +18813,7 @@ packages:
       '@types/node': 14.18.54
       '@types/priorityqueuejs': 1.0.1
       '@types/semaphore': 1.1.1
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       '@types/sinonjs__fake-timers': 8.1.2
       '@types/underscore': 1.11.6
       '@types/uuid': 8.3.4
@@ -18841,7 +18835,7 @@ packages:
       requirejs: 2.3.6
       rimraf: 3.0.2
       semaphore: 1.1.0
-      sinon: 9.2.4
+      sinon: 15.2.0
       source-map-support: 0.5.21
       ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.0
@@ -18855,7 +18849,7 @@ packages:
     dev: false
 
   file:projects/data-tables.tgz:
-    resolution: {integrity: sha512-Vl7xXjjcjrLwXjlHCkLk0MEeJ8cdnRz3CSyTXD9oAfa7grd2BPzIUbFPuzuni2dY7lWKnhmGyKdoOw1wF9gy5w==, tarball: file:projects/data-tables.tgz}
+    resolution: {integrity: sha512-3uKzT7ubPnPbSfYzE+4fClDsJwDJA7LOoIn7oUpHpGSJKsrzL7eijbqMCyxk7W9Puxm7v4IgP9xg50jwJctSSQ==, tarball: file:projects/data-tables.tgz}
     name: '@rush-temp/data-tables'
     version: 0.0.0
     dependencies:
@@ -18864,7 +18858,7 @@ packages:
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       '@types/uuid': 8.3.4
       chai: 4.3.7
       cross-env: 7.0.3
@@ -18886,7 +18880,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.0
       typescript: 5.0.4
@@ -19005,7 +18999,7 @@ packages:
     dev: false
 
   file:projects/digital-twins-core.tgz:
-    resolution: {integrity: sha512-BvT/p88EA7iOLJVFui63omI6AFqD6+9BQxKA6DwvJ9nPA9suHPHQ/z9AwqcYB86i8FQAUQ+t6Mt7+UwmuXpbgQ==, tarball: file:projects/digital-twins-core.tgz}
+    resolution: {integrity: sha512-DW+ywUzSg+WKTLvM88q7LcZOwNOUdu0YI1kPDGBUhbLawudr0gyDc0Yfb+ai/tg0G0WfeC/FJ3KDojF9c/jnLA==, tarball: file:projects/digital-twins-core.tgz}
     name: '@rush-temp/digital-twins-core'
     version: 0.0.0
     dependencies:
@@ -19014,7 +19008,7 @@ packages:
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       '@types/uuid': 8.3.4
       chai: 4.3.7
       cross-env: 7.0.3
@@ -19035,7 +19029,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       tslib: 2.6.0
       typescript: 5.0.4
       util: 0.12.5
@@ -19084,7 +19078,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-gWIMpjnSkfrpV7EzfgC5kS8aJBGGlh8UX3AVbY/Te1giyKgWRqQv+GrniPZBKqQ3ZQRxZurj+wWIER0NKmgUiQ==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-r0dWDJjl27ml+k+ZY18oxFPRginr1zI8D/bZmRIrlXKg/E5nXgQtxaICbCt0yAXDO4WDQTe0vDOFLZ8jIL1arg==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
@@ -19104,7 +19098,7 @@ packages:
       '@types/debug': 4.1.8
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       '@types/ws': 7.4.7
       buffer: 6.0.3
       chai: 4.3.7
@@ -19142,7 +19136,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.6.3_dmbj5memikchm63lpeyt6ukdau
-      sinon: 9.2.4
+      sinon: 15.2.0
       ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.0
       typescript: 5.0.4
@@ -19157,7 +19151,7 @@ packages:
     dev: false
 
   file:projects/eventgrid.tgz:
-    resolution: {integrity: sha512-haoy30Mf/IWOFYrMdwt8zF85QImViMbgR3D+4wFqPeravjIKKntmeJX1h8E1SNE71wilfb2CnvCGdHLzw7Y6ew==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-R+jLaDEiZz+PrT8DZg1ZtEpXQpErn6pKMFWJnIdqvHOIxvIfiBprzClJOD82l9EW4unkiT4tviwdMfsJjisneg==, tarball: file:projects/eventgrid.tgz}
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
@@ -19166,7 +19160,7 @@ packages:
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       '@types/uuid': 8.3.4
       chai: 4.3.7
       chai-as-promised: 7.1.1_chai@4.3.7
@@ -19187,7 +19181,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       source-map-support: 0.5.21
       ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.0
@@ -19344,7 +19338,7 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-t4q/qDCG6Da9KgZVJ0lUuH3vIgGFIbSkdy9OJu96mL1uwgZLU9lmylfPXzKjHjRoegDqgtAf1CFHRFJT/+wIhQ==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-OxWxgC4gdlQxK+Q1FyEHhpI1CaUs/OyCjWaxjpjfa5OKKUsAfNS9nouKOzQXrOhfbqFOe4YCwbaMVjv6kf2oOw==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
@@ -19356,7 +19350,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
       '@types/qs': 6.9.7
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.45.0
@@ -19367,7 +19361,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1_typescript@5.0.4
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       tslib: 2.6.0
       typescript: 5.0.4
       util: 0.12.5
@@ -19379,7 +19373,7 @@ packages:
     dev: false
 
   file:projects/identity-vscode.tgz:
-    resolution: {integrity: sha512-6BQACKvUDXyReCzj4SHRyrjtPoCh3jO0zG/Mf0DNZoSY8cOVK20N+iUTz+tlqvCIkUx7QlpBTFxlp/UcjX9Z3Q==, tarball: file:projects/identity-vscode.tgz}
+    resolution: {integrity: sha512-wDKNyGIReLPyg3p9787MAcZv6AIWGjKyhcwBHvv9X0A3pPZdVcwUEvVgOSB/u8RaJ04zK1bockLQx5nPtf7rqw==, tarball: file:projects/identity-vscode.tgz}
     name: '@rush-temp/identity-vscode'
     version: 0.0.0
     dependencies:
@@ -19389,7 +19383,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
       '@types/qs': 6.9.7
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       '@types/uuid': 8.3.4
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -19401,7 +19395,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1_typescript@5.0.4
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       tslib: 2.6.0
       typescript: 5.0.4
       util: 0.12.5
@@ -19413,7 +19407,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-0ZL4m1d/xrtCI4h6UEjF4BN6z5EpPMOzCQylzyWugxddB3AtSWXQ/JWOCAWanQGXZv86d1Wa0lT82suCNXQydA==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-/kySmAm81oINVSZ1PLEPXtAce08BL8gSSaHYDPHo7aFbXvi53akxMO8xmBwcWWsL867BpUcOyiZa7CEWk6teYw==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
@@ -19427,7 +19421,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/ms': 0.7.31
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       '@types/stoppable': 1.1.1
       '@types/uuid': 8.3.4
       chai: 4.3.7
@@ -19454,7 +19448,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1_typescript@5.0.4
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       stoppable: 1.1.0
       ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.0
@@ -19514,7 +19508,7 @@ packages:
     dev: false
 
   file:projects/iot-modelsrepository.tgz:
-    resolution: {integrity: sha512-IIHExMeYgPAhKwfLUvsVuQHOdODO6vOY4uxg12nIgxAE3//JMPgwnu6KF+pKB4EKBZ940SLdik/qPyRxlbCnfQ==, tarball: file:projects/iot-modelsrepository.tgz}
+    resolution: {integrity: sha512-veQsKjb2aSG7+DzdJSMIWo+RYWYCz7h7h61urb9t4aDAYHggApgTnL0gfy9YOM31+eZDP8Pn1SMU1TAkoG92WA==, tarball: file:projects/iot-modelsrepository.tgz}
     name: '@rush-temp/iot-modelsrepository'
     version: 0.0.0
     dependencies:
@@ -19522,7 +19516,7 @@ packages:
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       chai: 4.3.7
       cross-env: 7.0.3
       eslint: 8.45.0
@@ -19543,7 +19537,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.0
       typescript: 5.0.4
@@ -19558,7 +19552,7 @@ packages:
     dev: false
 
   file:projects/keyvault-admin.tgz:
-    resolution: {integrity: sha512-+H90PlBZjYksRF58FjtzOTyEsLZ2rrx12uCVsJZICR350OsPxSLcmjVVxnzdhUeGIaT5fFhuTWTpwBXCdxOnHw==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-SrTAKUGpts1Q+Y0Ef7lut58sXPPo4D8XfK2cmyUtuueR+ssPD2FPVlFjTnkXQZ91Sw+yRdGuIZArrpu25kp0Ig==, tarball: file:projects/keyvault-admin.tgz}
     name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
@@ -19566,7 +19560,7 @@ packages:
       '@microsoft/api-extractor': 7.36.3_@types+node@14.18.54
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       '@types/uuid': 8.3.4
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -19577,7 +19571,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       source-map-support: 0.5.21
       tslib: 2.6.0
       typescript: 5.0.4
@@ -19587,7 +19581,7 @@ packages:
     dev: false
 
   file:projects/keyvault-certificates.tgz:
-    resolution: {integrity: sha512-TzbiI84b/MrKoz77hFGdxOs7TR+3AUZm3zaa3VeFENUCIO6usQ4qfPEkvLFPCD/XwXUVCS9s01Lj2qxDvvUApw==, tarball: file:projects/keyvault-certificates.tgz}
+    resolution: {integrity: sha512-bFENtls8qGl4f+vNfhkXdklyFjziHR8BEG66dtVHNys/ttvZ0YdR/cLrlRWBLzoxoSsOaiEtLnKUYYQT24eXaA==, tarball: file:projects/keyvault-certificates.tgz}
     name: '@rush-temp/keyvault-certificates'
     version: 0.0.0
     dependencies:
@@ -19596,7 +19590,7 @@ packages:
       '@microsoft/api-extractor': 7.36.3_@types+node@14.18.54
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.45.0
@@ -19618,7 +19612,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1_typescript@5.0.4
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       source-map-support: 0.5.21
       tslib: 2.6.0
       typescript: 5.0.4
@@ -19631,7 +19625,7 @@ packages:
     dev: false
 
   file:projects/keyvault-common.tgz:
-    resolution: {integrity: sha512-GtHCi8PHHs2N+Jy+/Oz8Ea5irXuuWtZMM6fZGmK8nF4oceG1Y3pnS72oxZ63sDWyeGeuNzgz5/RvX3LvITnUMQ==, tarball: file:projects/keyvault-common.tgz}
+    resolution: {integrity: sha512-mEsgkH5a+9rHFcc9fsWHq4MDdVBJoImNbvgPtDOC/MOPUOPYtLSSzF2Ui6GfJVm1xijhVERpAZKPLU2Em7XFNw==, tarball: file:projects/keyvault-common.tgz}
     name: '@rush-temp/keyvault-common'
     version: 0.0.0
     dependencies:
@@ -19645,7 +19639,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1_typescript@5.0.4
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       source-map-support: 0.5.21
       tslib: 2.6.0
       typescript: 5.0.4
@@ -19658,7 +19652,7 @@ packages:
     dev: false
 
   file:projects/keyvault-keys.tgz:
-    resolution: {integrity: sha512-Tq9MBQ2oG6WBa4vesnoNLItYCWDfFUzeq1LtMg+0RbImo55Z0SO+6anZRHn61Q9wZ4LaIj8ZdmWN2rCZmTrl0g==, tarball: file:projects/keyvault-keys.tgz}
+    resolution: {integrity: sha512-Mwfj1VJ8oPsgeVPW10LG7cbV3kFin33Sr/NrQJlmkJWkrFYBmjbWBTpFLPzD1UA4QMte7ihOZVqWYDovn3lyXQ==, tarball: file:projects/keyvault-keys.tgz}
     name: '@rush-temp/keyvault-keys'
     version: 0.0.0
     dependencies:
@@ -19667,7 +19661,7 @@ packages:
       '@microsoft/api-extractor': 7.36.3_@types+node@14.18.54
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       cross-env: 7.0.3
       dayjs: 1.11.9
       dotenv: 16.3.1
@@ -19690,7 +19684,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1_typescript@5.0.4
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       source-map-support: 0.5.21
       tslib: 2.6.0
       typescript: 5.0.4
@@ -19703,7 +19697,7 @@ packages:
     dev: false
 
   file:projects/keyvault-secrets.tgz:
-    resolution: {integrity: sha512-ql5KiGQVD0vdqn5YJJnF1oMsK0R/J8bk+Vp8R+ryVbwvYZ6ySdX2MMtTndHpKXo1LKQC8wW1eHquxq5y7sTMsg==, tarball: file:projects/keyvault-secrets.tgz}
+    resolution: {integrity: sha512-uFYkTZ2VbEFG7vpLoEms0bK+2Dc1dwAPJJ6wOQDVGwXUhUJSvg+5aiJXEPf3esnSfohx9+NFMSXrppvX1W9wOw==, tarball: file:projects/keyvault-secrets.tgz}
     name: '@rush-temp/keyvault-secrets'
     version: 0.0.0
     dependencies:
@@ -19712,7 +19706,7 @@ packages:
       '@microsoft/api-extractor': 7.36.3_@types+node@14.18.54
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.45.0
@@ -19732,7 +19726,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1_typescript@5.0.4
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       source-map-support: 0.5.21
       tslib: 2.6.0
       typescript: 5.0.4
@@ -19788,7 +19782,7 @@ packages:
     dev: false
 
   file:projects/logger.tgz:
-    resolution: {integrity: sha512-dRX6QntOdMFFxYjDlD0+XZqlUcUrikt0pijXKn/YvU1JG2Nzj3KpraZ4q2eqHiLKw0BcOz/PQCmf9j17rvEceg==, tarball: file:projects/logger.tgz}
+    resolution: {integrity: sha512-Xvm/0RnmqKL0U4XXUOl5vbP9E7bfLgANrhGSBUlfM2uLK/l3kuX85GPMvHO9meMwopCU/pmkJYxS2Leem7hsdg==, tarball: file:projects/logger.tgz}
     name: '@rush-temp/logger'
     version: 0.0.0
     dependencies:
@@ -19796,7 +19790,7 @@ packages:
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -19816,7 +19810,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1_typescript@5.0.4
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.0
       typescript: 5.0.4
@@ -20120,7 +20114,7 @@ packages:
     dev: false
 
   file:projects/monitor-ingestion.tgz:
-    resolution: {integrity: sha512-yV+EJqMoAKH6mWoIlnSZxgc4Q26azQNJ6xsPRYLGYvsaBIrI7zUHMTb4z77Ec8wV3Hx6LDLswf9Q0cZR6ZK7Jw==, tarball: file:projects/monitor-ingestion.tgz}
+    resolution: {integrity: sha512-4EVSNICQSRoro1C9T5rwuq27C4kQsZSN9q+nr0l+qspdUghRcaXq+cd51HcYoRidDbArm2HJLg5vUXAWBSKhdQ==, tarball: file:projects/monitor-ingestion.tgz}
     name: '@rush-temp/monitor-ingestion'
     version: 0.0.0
     dependencies:
@@ -20130,7 +20124,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
       '@types/pako': 2.0.0
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -20154,7 +20148,7 @@ packages:
       pako: 2.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       source-map-support: 0.5.21
       tslib: 2.6.0
       typescript: 5.0.4
@@ -20167,7 +20161,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:
-    resolution: {integrity: sha512-yV2jAXiReUvAhvkoDJjafuH40MO3aHXUSoxx7ZZcQWNFiQvCLL3/DjgwJ1XdN40sYxVo14Hcro5WikuEZSRk5A==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-pWUwWLvJIcg6nuBFRZ7YDIeCC9BGu182YyR1177WQkeSISIuN7WnQY0zR9J+QshUxiX3hKwlpDyF3Gsb4Pzubw==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
@@ -20193,7 +20187,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.0
       typescript: 5.0.4
@@ -20204,7 +20198,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-Vlfs6jp0H76iyPbFcBkI6rLKcK6AYu0iAvJ5COSbRmfzgk+AmA/nMoQRtQmnplK93GKbbEku3WBj0BcbrHjQBQ==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-urgqG9ODF6cCD1fT1F1Y7/3kncijLE3pp1DVIWzQmIBpsQ1kVln4jJaqCAMT3zx5x3CrI8ivmJNXEjibBNBPPA==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -20241,7 +20235,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.0
       typescript: 5.0.4
@@ -20396,7 +20390,7 @@ packages:
     dev: false
 
   file:projects/opentelemetry-instrumentation-azure-sdk.tgz:
-    resolution: {integrity: sha512-TVVoHQHY/vQmUPg6ygmefLk3cZdEhFRa4MPR5l1SBGULRnVlHoYh5roqL3osqiGjnlBNrol8VHg4+h/vM+5V1g==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
+    resolution: {integrity: sha512-ok2NJEfqLemu8HtWgw2006hvPFitwJ19nUv1vzb/rk1SC+hjtLS42/WrctqcwYvVSwHX1/AzmelpF58ji2NQdA==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
     name: '@rush-temp/opentelemetry-instrumentation-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -20430,7 +20424,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 12.0.1
+      sinon: 15.2.0
       source-map-support: 0.5.21
       tslib: 2.6.0
       typescript: 5.0.4
@@ -21132,7 +21126,7 @@ packages:
     dev: false
 
   file:projects/quantum-jobs.tgz:
-    resolution: {integrity: sha512-I0yPunNXavYKQ6fcFOjXD2NaH/lyCeE66QctIKx3QGR5PO72ubvIYEJHjUzOnKAaT7xyjAL39/Regs0w5lz45g==, tarball: file:projects/quantum-jobs.tgz}
+    resolution: {integrity: sha512-2GNXdtQ+gnRQO9QQuL/pHegMXp2gaHNHUdALtbJNhQwm+POGM7Xz6mDFKnekFZVBp8e6Ds2fW81tVP0ajm/Aqw==, tarball: file:projects/quantum-jobs.tgz}
     name: '@rush-temp/quantum-jobs'
     version: 0.0.0
     dependencies:
@@ -21141,7 +21135,7 @@ packages:
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -21162,7 +21156,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       tslib: 2.6.0
       typescript: 5.0.4
       util: 0.12.5
@@ -21266,7 +21260,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-69gz9qDgktW7r9tJxcwXcn+nxxqH/DOUJhNZi4AEVEZ6nnYnkQ8Jc3uVXY6dfy6Z6Owq+KB2PRoiUCsSAAo8PA==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-GTdz20iZiS43TpHBaHb5MO4RFbtT0KWrtT61IYtSPdM0ULxdN7zn+6Jx5meK9fWnPwlOgsvBdgBNbF73DpCkqA==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
@@ -21276,7 +21270,7 @@ packages:
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -21299,7 +21293,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.0
       typescript: 5.0.4
@@ -21314,7 +21308,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-2eI8I6JGOycPNqYaSXxosSC3Hyi4xY452HrQHlKcGgdhgQIS1jH6mXYzUO92lGN7nQsIvJDdfBtZRmtNJ9QnEg==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-qvVOV0bSUUvTDVQx7HLbRFysx5pj1GjRxn5DnReuV89SKRd1tSbDUv6ns911YGFCnnYG6fT+47f4SCh06VC3tw==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
@@ -21333,7 +21327,7 @@ packages:
       '@types/is-buffer': 2.0.0
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       '@types/uuid': 8.3.4
       '@types/ws': 7.4.7
       buffer: 6.0.3
@@ -21373,7 +21367,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.6.3_dmbj5memikchm63lpeyt6ukdau
-      sinon: 9.2.4
+      sinon: 15.2.0
       ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.0
       typescript: 5.0.4
@@ -21389,7 +21383,7 @@ packages:
     dev: false
 
   file:projects/storage-blob-changefeed.tgz:
-    resolution: {integrity: sha512-hDvmuPp1bYZsM+h6+YaPFEypNwB1zyrwShN1+6RsHRm7bSyRwr0TpHk89XpeacIX4lnu1Xi4ZSe80uqKLBstaw==, tarball: file:projects/storage-blob-changefeed.tgz}
+    resolution: {integrity: sha512-eShbz6VAtuY2aTnsRJuGiEeisnpxrxNYdTMVHeEAu+Ka5vXGlGWsySFqkTb3p2yLTl6JGBsDN0SqB7VgxHbePA==, tarball: file:projects/storage-blob-changefeed.tgz}
     name: '@rush-temp/storage-blob-changefeed'
     version: 0.0.0
     dependencies:
@@ -21397,7 +21391,7 @@ packages:
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -21424,7 +21418,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1_typescript@5.0.4
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       source-map-support: 0.5.21
       ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.0
@@ -21493,7 +21487,7 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-shK922LDzJCz+hs32tYqtjck5+UAhVRmKHHWnECdX1UPjkQl36kNuTC3aa6cey0EOz3Q1iXOCIIbEXzkx5NUnA==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-4W0W9dqaZ0BatXenm4/ZP7VtG1Fpx+ax5rPYSyFF2wkwhwwoLkSiWQY2qZ3OO9nK6zS3gKMTt5BWNhzN7tNeGg==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -21502,7 +21496,7 @@ packages:
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -21529,7 +21523,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1_typescript@5.0.4
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       source-map-support: 0.5.21
       ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.0
@@ -21546,7 +21540,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-RBBA/3/edoGRXf3UXRKbIhEPsydPcNuzE4iAJwoCL+EmFayR37M44zG7/Fcj9k8JLUI9Os+GcPVGn9zuLNr9Yw==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-XKoapSGfj9adWoSaAEOMkONC7brW8Pez+vfuoU0Viw46LuU2KTH9ZMWkRYDub+3xt331YRTyWuxdwvbKVzk/Kg==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
@@ -21554,7 +21548,7 @@ packages:
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       '@types/uuid': 8.3.4
       chai: 4.3.7
       cross-env: 7.0.3
@@ -21580,7 +21574,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1_typescript@5.0.4
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       source-map-support: 0.5.21
       ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.0
@@ -21694,7 +21688,7 @@ packages:
     dev: false
 
   file:projects/synapse-access-control-1.tgz:
-    resolution: {integrity: sha512-9j9nvsgXoaFy/YmwJSk07x5WelucnZRR6K73juVicUczp/GLBbkO54UiQjBPeb2uYoX53M8mvMiXysSeGkib4w==, tarball: file:projects/synapse-access-control-1.tgz}
+    resolution: {integrity: sha512-w5W1gMKru2EoK2rvNVq87ahKVUq0DjGltjlpDoXxrpR+T55C7jtm/8cp/VE3ukuK4TWGbEO9RbmnxUulKNuo8A==, tarball: file:projects/synapse-access-control-1.tgz}
     name: '@rush-temp/synapse-access-control-1'
     version: 0.0.0
     dependencies:
@@ -21703,7 +21697,7 @@ packages:
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       chai: 4.3.7
       chai-as-promised: 7.1.1_chai@4.3.7
       cross-env: 7.0.3
@@ -21724,7 +21718,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       source-map-support: 0.5.21
       ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.0
@@ -21740,7 +21734,7 @@ packages:
     dev: false
 
   file:projects/synapse-access-control.tgz:
-    resolution: {integrity: sha512-VxW8HuFBJVFSOY4e63sVlPh3nCpGWDrR+pDJG1RV18BuxdDpQNIEcCJgm/zVG6s4EzvoEKYzaorHXBuND+mhUw==, tarball: file:projects/synapse-access-control.tgz}
+    resolution: {integrity: sha512-2JB2aB7Gyecc9rlbRbriaooT6LH5vyTeDLKmnw/yB50DBH/Jd7q1nDC8YKLIAZDY2132k0Zt5QtnDWEkr0pWTA==, tarball: file:projects/synapse-access-control.tgz}
     name: '@rush-temp/synapse-access-control'
     version: 0.0.0
     dependencies:
@@ -21750,7 +21744,7 @@ packages:
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       '@types/uuid': 8.3.4
       chai: 4.3.7
       chai-as-promised: 7.1.1_chai@4.3.7
@@ -21774,7 +21768,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       source-map-support: 0.5.21
       ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.0
@@ -21791,7 +21785,7 @@ packages:
     dev: false
 
   file:projects/synapse-artifacts.tgz:
-    resolution: {integrity: sha512-H39tJAMjZlPPWUFyEuTiryJqSHCbQcUhG8OOD/ESm93UoWUC3bMZ943L5ZOobOufxbtD+K059gR8cwl80NoKxA==, tarball: file:projects/synapse-artifacts.tgz}
+    resolution: {integrity: sha512-a3t9WQAwAL4yGTrCNEjWwLy1F8WZvlCUJH/gvTvAByCDQFyMxXnzHnmwjyfX6mqwMwMI1xrg21friMobdmRM6A==, tarball: file:projects/synapse-artifacts.tgz}
     name: '@rush-temp/synapse-artifacts'
     version: 0.0.0
     dependencies:
@@ -21801,7 +21795,7 @@ packages:
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       chai: 4.3.7
       chai-as-promised: 7.1.1_chai@4.3.7
       cross-env: 7.0.3
@@ -21824,7 +21818,7 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       source-map-support: 0.5.21
       ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.0
@@ -22123,7 +22117,7 @@ packages:
     dev: false
 
   file:projects/test-utils.tgz:
-    resolution: {integrity: sha512-Wy0S0vayAGiSA4J2fnKMJXE27YPx+gVshcwBYxfOrllj1TsuKoEkr6UY7d8VxVlOXygs+mM/KIYbnaXOHtc1Lw==, tarball: file:projects/test-utils.tgz}
+    resolution: {integrity: sha512-Fl7GVqhNITogF4D7MBMMalpxngmJjKx8LAbI2o+Ihk/Xc4e5p76IRkcTOuUigw+tP9ShEHUY6nhH/3xDwa8Tog==, tarball: file:projects/test-utils.tgz}
     name: '@rush-temp/test-utils'
     version: 0.0.0
     dependencies:
@@ -22133,7 +22127,7 @@ packages:
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       chai: 4.3.7
       chai-as-promised: 7.1.1_chai@4.3.7
       chai-exclude: 2.1.0_chai@4.3.7
@@ -22146,7 +22140,7 @@ packages:
       mocha: 7.2.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       tslib: 2.6.0
       typescript: 5.0.4
     transitivePeerDependencies:
@@ -22157,7 +22151,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub-client-protobuf.tgz:
-    resolution: {integrity: sha512-aokSqasE/rWDSBHZWgJubBzYT8dLrM56VX/pe1I0E1WWSI/G21GWvRKD9IcPy/wjd0WmIhGgMmmZE37d+wj3sQ==, tarball: file:projects/web-pubsub-client-protobuf.tgz}
+    resolution: {integrity: sha512-fHCTeO82ma0CN31oDoB4cS+hna9EWAWNjlpdmuHbP4To1X6CO47Ss+4LAwyuzu1Jsb5jYnJYy80ixIOif9YJzw==, tarball: file:projects/web-pubsub-client-protobuf.tgz}
     name: '@rush-temp/web-pubsub-client-protobuf'
     version: 0.0.0
     dependencies:
@@ -22170,7 +22164,7 @@ packages:
       '@types/jsonwebtoken': 9.0.2
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       '@types/ws': 7.4.7
       chai: 4.3.7
       copyfiles: 2.4.1
@@ -22202,7 +22196,7 @@ packages:
       protobufjs-cli: 1.1.1_protobufjs@7.2.4
       puppeteer: 19.11.1_typescript@5.0.4
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       source-map-support: 0.5.21
       tslib: 2.6.0
       typescript: 5.0.4
@@ -22216,7 +22210,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub-client.tgz:
-    resolution: {integrity: sha512-q2lCg+jgktrcov4eum90AusbKjZTs4CCUNqndJXJSjYboC0Qeoi6fmaaSH/I1igqtRsTxcPJMOr7X4xD7tD76g==, tarball: file:projects/web-pubsub-client.tgz}
+    resolution: {integrity: sha512-MTzYrl0UldWEF/Wo7xXC0/DtyCBLxotyyYOYEvdaWI5Tx1qP6039sYSBB8/v0YyWslqUskSBSCfck61+Klqaug==, tarball: file:projects/web-pubsub-client.tgz}
     name: '@rush-temp/web-pubsub-client'
     version: 0.0.0
     dependencies:
@@ -22228,7 +22222,7 @@ packages:
       '@types/jsonwebtoken': 9.0.2
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       '@types/ws': 7.4.7
       buffer: 6.0.3
       chai: 4.3.7
@@ -22255,7 +22249,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1_typescript@5.0.4
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       source-map-support: 0.5.21
       tslib: 2.6.0
       typescript: 5.0.4
@@ -22270,7 +22264,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub-express.tgz:
-    resolution: {integrity: sha512-W923zH2v7FuJAQJgdvElha6GLVR2AtHPp5YJ6PU6xsy4CPFzIu22K0qkqbseDBQl/hdwiGPngdTmCVnEMJ7s7w==, tarball: file:projects/web-pubsub-express.tgz}
+    resolution: {integrity: sha512-zcO7QdopobRlJBFVbcH9ZnFRg3MkRQUMAPOQNdBCqIHOE4f/IyBMRLY7wJzXWIxdJGNXnLqahv/skfBs73GFZQ==, tarball: file:projects/web-pubsub-express.tgz}
     name: '@rush-temp/web-pubsub-express'
     version: 0.0.0
     dependencies:
@@ -22281,7 +22275,7 @@ packages:
       '@types/jsonwebtoken': 9.0.2
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -22294,7 +22288,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1_typescript@5.0.4
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       source-map-support: 0.5.21
       tslib: 2.6.0
       typescript: 5.0.4
@@ -22306,7 +22300,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub.tgz:
-    resolution: {integrity: sha512-GsdNaMtwK2kDw5GhnnzMc5D+gEAgwCSLxFDzDNg3KzYv3Ha0FtIbcLCDjnSm8W6pKjDwwcQlRQ19719hIRqH3w==, tarball: file:projects/web-pubsub.tgz}
+    resolution: {integrity: sha512-DgnoCj5BtxoiOynfaPPV1vySMGGxMtoZlmnq61WDJyJ0u3BwRVy9gBE8z+23EH1gthMWCyjSCV9E78Xt71W/Uw==, tarball: file:projects/web-pubsub.tgz}
     name: '@rush-temp/web-pubsub'
     version: 0.0.0
     dependencies:
@@ -22315,7 +22309,7 @@ packages:
       '@types/jsonwebtoken': 9.0.2
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       '@types/ws': 8.5.5
       chai: 4.3.7
       cross-env: 7.0.3
@@ -22338,7 +22332,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1_typescript@5.0.4
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       source-map-support: 0.5.21
       tslib: 2.6.0
       typescript: 5.0.4
