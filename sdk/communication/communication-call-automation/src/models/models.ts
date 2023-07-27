@@ -156,15 +156,15 @@ export enum RecognizeInputType {
 /** Custom Context header base class */
 abstract class CustomContextHeader {
   // The CustomContext Key name.
-  public readonly Key: string;
+  public readonly key: string;
 
   // The CustomContext Key value.
-  public readonly Value: string;
+  public readonly value: string;
 
   // Creates a new CustomContextHeader
   protected constructor(key: string, value: string) {
-    this.Key = key;
-    this.Value = value;
+    this.key = key;
+    this.value = value;
   }
 }
 
@@ -194,15 +194,15 @@ export class VoipHeader extends CustomContextHeader {
 
 export class CustomContext {
   // Dictionary of VOIP headers.
-  public VoipHeaders: { [key: string]: string };
+  public voipHeaders: { [key: string]: string };
 
   // Dictionary of SIP headers.
-  public SipHeaders: { [key: string]: string };
+  public sipHeaders: { [key: string]: string };
 
   // Creates a new CustomContext.
   constructor(sipHeaders: { [key: string]: string }, voipHeaders: { [key: string]: string }) {
-    this.SipHeaders = sipHeaders;
-    this.VoipHeaders = voipHeaders;
+    this.sipHeaders = sipHeaders;
+    this.voipHeaders = voipHeaders;
   }
 
   // Add a custom context sip or voip header.

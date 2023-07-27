@@ -183,8 +183,8 @@ export class CallConnection {
       invitationTimeoutInSeconds: options.invitationTimeoutInSeconds,
       operationContext: options.operationContext,
       customContext: {
-        sipHeaders: targetParticipant.sipHeaders,
-        voipHeaders: targetParticipant.voipHeaders,
+        sipHeaders: targetParticipant.customContext?.sipHeaders,
+        voipHeaders: targetParticipant.customContext?.voipHeaders,
       },
       callbackUriOverride: options.callbackUrlOverride,
     };

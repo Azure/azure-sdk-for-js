@@ -231,8 +231,8 @@ export class CallAutomationClient {
       azureCognitiveServicesEndpointUrl: options.azureCognitiveServicesEndpointUrl,
       mediaStreamingConfiguration: options.mediaStreamingConfiguration,
       customContext: {
-        sipHeaders: targetParticipant.customContext.sipHeaders,
-        voipHeaders: targetParticipant.customContext.voipHeaders,
+        sipHeaders: targetParticipant.customContext?.sipHeaders,
+        voipHeaders: targetParticipant.customContext?.voipHeaders,
       },
       sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(
         targetParticipant.sourceCallIdNumber
@@ -355,8 +355,8 @@ export class CallAutomationClient {
       incomingCallContext: incomingCallContext,
       target: communicationIdentifierModelConverter(targetParticipant.targetParticipant),
       customContext: {
-        sipHeaders: targetParticipant.sipHeaders ?? options.sipHeaders ?? undefined,
-        voipHeaders: targetParticipant.voipHeaders ?? options.voipHeaders ?? undefined,
+        sipHeaders: targetParticipant.customContext?.sipHeaders ?? options.sipHeaders ?? undefined,
+        voipHeaders: targetParticipant.customContext?.voipHeaders ?? options.voipHeaders ?? undefined,
       },
     };
     const optionsInternal = {
