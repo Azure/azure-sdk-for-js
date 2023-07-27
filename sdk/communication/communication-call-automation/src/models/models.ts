@@ -153,6 +153,81 @@ export enum RecognizeInputType {
   Choices = "choices",
 }
 
+/** Custom Context header base class */
+abstract class CustomContextHeader {
+  // The CustomContext Key name.
+  public readonly Key: string;
+
+  // The CustomContext Key value.
+  public readonly Value: string;
+
+  // Creates a new CustomContextHeader
+  protected constructor(key: string, value: string) {
+    this.Key = key;
+    this.Value = value;
+  }
+}
+
+/** Custom Context SIP header */
+export class SIPCustomHeader extends CustomContextHeader {
+  // Create a new SIP custom header.
+  constructor(key: string, value: string) {
+    super("X-MS-Custom-" + key, value);
+  }
+}
+
+/** Custom Context SIP User-to-User header */
+export class SIPUUIHeader extends CustomContextHeader {
+  // Create a new SIP UUI header.
+  constructor(value: string) {
+    super("User-to-User", value);
+  }
+}
+
+/** Custom Context VOIP header */
+export class VoipHeader extends CustomContextHeader {
+  // Create a new voip header.
+  constructor(key: string, value: string) {
+    super(key, value);
+  }
+}
+
+export class CustomContext {
+  // Dictionary of VOIP headers.
+  public VoipHeaders: { [key: string]: string };
+
+  // Dictionary of SIP headers.
+  public SipHeaders: { [key: string]: string };
+
+  // Creates a new CustomContext.
+  constructor(sipHeaders: { [key: string]: string }, voipHeaders: { [key: string]: string }) {
+    this.SipHeaders = sipHeaders;
+    this.VoipHeaders = voipHeaders;
+  }
+
+  // Add a custom context sip or voip header.
+  public Add(header: CustomContextHeader): void {
+    if (header instanceof SIPUUIHeader) {
+      if (this.SipHeaders == null) {
+        throw new Error("Cannot add sip header, SipHeaders is null.");
+      }
+      this.SipHeaders[header.Key] = header.Value;
+    } else if (header instanceof SIPCustomHeader) {
+      if (this.SipHeaders == null) {
+        throw new Error("Cannot add sip header, SipHeaders is null.");
+      }
+      this.SipHeaders[header.Key] = header.Value;
+    } else if (header instanceof VoipHeader) {
+      if (this.VoipHeaders == null) {
+        throw new Error("Cannot add voip header, VoipHeaders is null");
+      }
+      this.VoipHeaders[header.Key] = header.Value;
+    } else {
+      throw new Error("Unknown custom context header type.");
+    }
+  }
+}
+
 /** Call invitee details. */
 export interface CallInvite {
   /** The Target's PhoneNumberIdentifier or CommunicationUserIdentifier. */
@@ -160,10 +235,8 @@ export interface CallInvite {
   /** Caller's phone number identifier. */
   readonly sourceCallIdNumber?: PhoneNumberIdentifier;
   sourceDisplayName?: string;
-  /** Custom context for PSTN. */
-  readonly sipHeaders?: { [propertyName: string]: string };
-  /** Custom context for voipr. */
-  readonly voipHeaders?: { [propertyName: string]: string };
+  /** The Custom Context. */
+  customContext?: CustomContext;
 }
 
 /** The locator type of a call. */
