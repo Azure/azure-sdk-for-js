@@ -39,6 +39,11 @@ Please notice that this quickstart is based on 3.x.y version of recorder tool (`
 - A C++ compiler toolchain and Python (for compiling machine-code modules)
   - Refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for more details
 
+To be able to leverage the asset-sync workflow
+- Install [Powershell](https://github.com/PowerShell/PowerShell)
+  - Make sure "pwsh" command works at this step (If you follow the above link, "pwsh" is typically added to the system environment variables by default)
+- Add `dev-tool` to the `devDependencies` in the `package.json`.
+
 # How to run test
 
 This section describes how to run the SDK tests. If you want to run the tests of a specific project, go to that project's folder and execute `rushx test`. All of the tests will automatically run both in NodeJS and in the browser. To target these environments individually, you can run `rushx test:node` and `rushx test:browser`. Let's take `purview-catalog-rest` as an example.
@@ -140,10 +145,9 @@ If we have existing recordings then the tests have been run against generated th
 ## How to push test recordings to assets repo
 We need to push test recording files to [asset repo](https://github.com/Azure/azure-sdk-assets) after testing your test cases.
 
-### Push test recording
-If your package is new without any recordings, go to the next section [New Package - No Recorded Tests](#new-package---no-recorded-tests)
+Before push your recording file, you must confirm that you are able to push recordings to the "azure-sdk-assets" repo, you need write-access to the assets repo.[Permissions to `Azure/azure-sdk-assets`](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/785/Externalizing-Recordings-(Asset-Sync)?anchor=permissions-to-%60azure/azure-sdk-assets%60)
 
-If you already have an assets.json file in your package root directory, go to [Existing package - Tests have been pushed before](#existing-package---tests-have-been-pushed-before).
+### Push test recording
 
 #### New Package - No recorded tests
 This section assumes that your package is new to the JS repo and that you're trying to onboard your tests with recorder, and the asset-sync workflow.
@@ -184,16 +188,6 @@ This command will:
 1. Push your local recordings to a tag in the `Azure/azure-sdk-assets` repo, and
 1. Update the `assets.json` in your package root to reference the newly created tag.
 
-Example `assets.json` from "arm-network" SDK:
-```
-{
-  "AssetsRepo": "Azure/azure-sdk-assets",
-  "AssetsRepoPrefixPath": "js",
-  "TagPrefix": "js/network/arm-network",
-  "Tag": "js/network/arm-network_bec01aa795"
-}
-```
-
 You should stage and commit the `assets.json` update as part of your PR. If you don't run the `push` command before creating a PR, the CI (and anyone else who tries to run your recorded tests) will use the old recordings, which will cause failures.
 
 
@@ -205,9 +199,17 @@ you can find your recording files in `./azure-sdk-for-js/.assets`
 If you want to search your recording quickly, you can open `.breadcrumb` file and search your package in which folder.
 
 #### Find recording files in assets repo
-You can get `Tags` in `assets.json`, and it's value is the tag in the `Azure/azure-sdk-assets` repo.
+You can get the tag in assets.json in your package root, which is a tag pointing to your recordings in the Azure/azure-sdk-assets repo
 
-In example `assets.json` from "arm-network" SDK:
+Example `assets.json` from "arm-network" SDK:
+```
+{
+  "AssetsRepo": "Azure/azure-sdk-assets",
+  "AssetsRepoPrefixPath": "js",
+  "TagPrefix": "js/network/arm-network",
+  "Tag": "js/network/arm-network_bec01aa795"
+}
+```
 
 the recordings are located at :https://github.com/Azure/azure-sdk-assets/tree/js/network/arm-network_bec01aa795
 
