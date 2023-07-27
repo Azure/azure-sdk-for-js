@@ -82,7 +82,7 @@ describe("JsonSerializer", async function () {
 
     // Example Json schema
     const schema = JSON.stringify({
-      $schema: "http://json-schema.org/draft-04/schema#",
+      $schema: "https://json-schema.org/draft/2020-12/schema",
       $id: "person",
       title: "Student",
       description: "A student in the class",
