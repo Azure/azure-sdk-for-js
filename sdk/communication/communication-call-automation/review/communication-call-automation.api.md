@@ -133,16 +133,11 @@ export interface CallDisconnected extends Omit<RestCallDisconnected, "callConnec
 
 // @public
 export interface CallInvite {
-    readonly sipHeaders?: {
-        [propertyName: string]: string;
-    };
+    customContext?: CustomContext;
     readonly sourceCallIdNumber?: PhoneNumberIdentifier;
     // (undocumented)
     sourceDisplayName?: string;
     readonly targetParticipant: PhoneNumberIdentifier | CommunicationUserIdentifier;
-    readonly voipHeaders?: {
-        [propertyName: string]: string;
-    };
 }
 
 // @public
@@ -328,6 +323,23 @@ export interface CreateCallOptions extends OperationOptions {
 
 // @public
 export type CreateCallResult = CallResult;
+
+// @public
+export class CustomContext {
+    constructor(sipHeaders: {
+        [key: string]: string;
+    }, voipHeaders: {
+        [key: string]: string;
+    });
+    // Warning: (ae-forgotten-export) The symbol "CustomContextHeader" needs to be exported by the entry point index.d.ts
+    add(header: CustomContextHeader): void;
+    sipHeaders: {
+        [key: string]: string;
+    };
+    voipHeaders: {
+        [key: string]: string;
+    };
+}
 
 // @public
 export type DeleteRecordingOptions = OperationOptions;
@@ -863,6 +875,16 @@ export interface SendDtmfOptions extends OperationOptions {
 }
 
 // @public
+export class SIPCustomHeader extends CustomContextHeader {
+    constructor(key: string, value: string);
+}
+
+// @public
+export class SIPUUIHeader extends CustomContextHeader {
+    constructor(value: string);
+}
+
+// @public
 export interface SsmlSource extends PlaySource {
     // (undocumented)
     customVoiceEndpointId?: string;
@@ -924,6 +946,11 @@ export interface TransferCallToParticipantOptions extends OperationOptions {
     voipHeaders?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export class VoipHeader extends CustomContextHeader {
+    constructor(key: string, value: string);
 }
 
 // (No @packageDocumentation comment for this package)

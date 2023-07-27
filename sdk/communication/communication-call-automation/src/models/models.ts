@@ -192,11 +192,12 @@ export class VoipHeader extends CustomContextHeader {
   }
 }
 
+/** Custom Context */
 export class CustomContext {
-  // Dictionary of VOIP headers.
+  /** Dictionary of VOIP headers. */
   public voipHeaders: { [key: string]: string };
 
-  // Dictionary of SIP headers.
+  /** Dictionary of SIP headers. */
   public sipHeaders: { [key: string]: string };
 
   // Creates a new CustomContext.
@@ -205,8 +206,8 @@ export class CustomContext {
     this.voipHeaders = voipHeaders;
   }
 
-  // Add a custom context sip or voip header.
-  public Add(header: CustomContextHeader): void {
+  /** Add a custom context sip or voip header. */
+  public add(header: CustomContextHeader): void {
     if (header instanceof SIPUUIHeader) {
       if (this.sipHeaders == null) {
         throw new Error("Cannot add sip header, SipHeaders is null.");
