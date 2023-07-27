@@ -5,4 +5,6 @@ export { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions";
 export { ChangeFeedForPartitionKey } from "./ChangeFeedForPartitionKey";
 export { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
 export { ChangeFeedIteratorV2 } from "./ChangeFeedIteratorV2";
+export { ChangeFeedStartFrom, ChangeFeedResourceType } from "./ChangeFeedEnums";
 export { IEpkRange } from "./IEpkRange";
+export { buildInternalChangeFeedOptions } from "./changeFeedUtils";

@@ -3,18 +3,33 @@
 /**
  * Specifies options for the change feed
  *
- * Some of these options control where and when to start reading from the change feed. The order of precedence is:
- * - continuation
- * - startTime
- * - startFromNow
- * - startFromBeginning
- *
- * If none of those options are set, it will start reading changes from the first `ChangeFeedIterator.fetchNext()` call.
+ * If none of those options are set, it will start reading changes from the beginning for the entire container.
  */
 import { PartitionKeyRange } from "../../client";
 import { PartitionKey } from "../../documents";
+import { ChangeFeedStartFrom, ChangeFeedResourceType } from "./ChangeFeedEnums";
 import { IEpkRange } from "./IEpkRange";
 
+/**
+ * Specifies startType and corresponding value for the change feed
+ */
+type ChangeFeedStartType =
+  | { startFrom: ChangeFeedStartFrom.Beginning }
+  | { startFrom: ChangeFeedStartFrom.Now }
+  | { startFrom: ChangeFeedStartFrom.StartTime; startTime: Date }
+  | { startFrom: ChangeFeedStartFrom.ContinuationToken; continuationToken: string };
+
+/**
+ * Specifies resource for which change feed is being fetched
+ */
+type ChangeFeedResource =
+  | { resource: ChangeFeedResourceType.Container }
+  | { resource: ChangeFeedResourceType.PartitionKey; value: PartitionKey }
+  | { resource: ChangeFeedResourceType.EpkRange; value: PartitionKeyRange | IEpkRange };
+
+/**
+ * Specifies options for the change feed
+ */
 export interface ChangeFeedIteratorOptions {
   /**
    * Max amount of items to return per page
@@ -25,27 +40,11 @@ export interface ChangeFeedIteratorOptions {
    */
   sessionToken?: string;
   /**
-   * Signals whether to start from the beginning or not.
+   * Signals where to start from in the change feed.
    */
-  startFromBeginning?: boolean;
+  changeFeedStartType?: ChangeFeedStartType;
   /**
-   * Start from current time.
+   * Signals the resource for which change feed is to be fetched.
    */
-  startFromNow?: boolean;
-  /**
-   * Specified the start time to start reading changes from.
-   */
-  startTime?: Date;
-  /**
-   * Specifies the continuation token to start reading changes from.
-   */
-  continuationToken?: string;
-  /**
-   * EpkRange for which changes need to be read.
-   */
-  epkRange?: PartitionKeyRange | IEpkRange;
-  /**
-   * Partition key for which changes need to be read.
-   */
-  partitionKey?: PartitionKey;
+  changeFeedResource?: ChangeFeedResource;
 }

@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 import { ChangeFeedRange } from "./ChangeFeedRange";
 import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
-import { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions";
 import { PartitionKeyRangeCache, QueryRange } from "../../routing";
 import { FeedRangeQueue } from "./FeedRangeQueue";
 import { ClientContext } from "../../ClientContext";
@@ -14,8 +13,10 @@ import { CompositeContinuationToken } from "./CompositeContinuationToken";
 import { ChangeFeedIteratorV2 } from "./ChangeFeedIteratorV2";
 import { checkEpkHeaders } from "./changeFeedUtils";
 import { CosmosDiagnosticContext } from "../../CosmosDiagnosticsContext";
+import { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
 import { IEpkRange } from "./IEpkRange";
 /**
+ * @hidden
  * Provides iterator for change feed.
  *
  * Use `Items.getChangeFeedIterator()` to get an instance of the iterator.
@@ -34,33 +35,18 @@ export class ChangeFeedForEpkRange<T> extends ChangeFeedIteratorV2<T> {
     private resourceLink: string,
     private url: string,
     private rId: string,
-    private changeFeedOptions: ChangeFeedIteratorOptions,
+    private changeFeedOptions: InternalChangeFeedIteratorOptions,
     private diagnosticContext: CosmosDiagnosticContext
   ) {
     super();
 
     this.queue = new FeedRangeQueue<ChangeFeedRange>();
-
-    let canUseStartFromBeginning = true;
-    if (changeFeedOptions.continuationToken) {
-      canUseStartFromBeginning = false;
-      this.continuationToken = JSON.parse(changeFeedOptions.continuationToken);
-    }
-
-    if (changeFeedOptions.startTime) {
-      this.startTime = changeFeedOptions.startTime.toUTCString();
-      canUseStartFromBeginning = false;
-    }
-
-    if (
-      canUseStartFromBeginning &&
-      changeFeedOptions.startFromBeginning !== undefined &&
-      !changeFeedOptions.startFromBeginning
-    ) {
-      throw new ErrorResponse(
-        "startFromBeginning must be true if no start time or continuation is specified."
-      );
-    }
+    this.continuationToken = changeFeedOptions.continuationToken
+      ? JSON.parse(changeFeedOptions.continuationToken)
+      : undefined;
+    this.startTime = changeFeedOptions.startTime
+      ? changeFeedOptions.startTime.toUTCString()
+      : undefined;
   }
 
   private continuationTokenRidMatchContainerRid(): boolean {

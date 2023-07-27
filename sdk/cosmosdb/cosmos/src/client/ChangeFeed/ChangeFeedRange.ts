@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /**
- * @hidden
  * @internal
  * FeedRange for which change feed is being requested.
  */

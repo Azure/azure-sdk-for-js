@@ -3,7 +3,10 @@
 import { Resource } from "../Resource";
 import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
 import { PartitionKeyRange } from "../../client";
-import { IEpkRange } from "./IEpkRange";
+
+/**
+ * Use `await Items.getChangeFeedIterator()` to return an iterator that can iterate over all the changes in a partition key, epk range or entire container.
+ */
 export abstract class ChangeFeedIteratorV2<T> {
   abstract get hasMoreResults(): boolean;
 
@@ -11,7 +14,7 @@ export abstract class ChangeFeedIteratorV2<T> {
 
   abstract fetchAllFeedRanges(): Promise<void>;
 
-  abstract fetchOverLappingFeedRanges(epkRange: PartitionKeyRange | IEpkRange): Promise<void>;
+  abstract fetchOverLappingFeedRanges(epkRange: PartitionKeyRange): Promise<void>;
 
   abstract fetchContinuationTokenFeedRanges(continuationToken: string): Promise<boolean>;
 }

@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions";
+import { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
 import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
 import { Resource } from "../../client";
 import { ClientContext } from "../../ClientContext";
@@ -11,8 +11,8 @@ import { ChangeFeedIteratorV2 } from "./ChangeFeedIteratorV2";
 import { PartitionKey } from "../../documents";
 import { PartitionKeyRange } from "../../client";
 import { IEpkRange } from "./IEpkRange";
-
 /**
+ * @hidden
  * Provides iterator for change feed.
  *
  * Use `Items.getChangeFeedIterator()` to get an instance of the iterator.
@@ -30,12 +30,10 @@ export class ChangeFeedForPartitionKey<T> extends ChangeFeedIteratorV2<T> {
     private resourceLink: string,
     private rId: string,
     private partitionKey: PartitionKey,
-    private changeFeedOptions: ChangeFeedIteratorOptions
+    private changeFeedOptions: InternalChangeFeedIteratorOptions
   ) {
     super();
-    let canUseStartFromBeginning = true;
     if (changeFeedOptions.continuationToken) {
-      canUseStartFromBeginning = false;
       this.continuationToken = JSON.parse(changeFeedOptions.continuationToken);
     } else {
       this.continuationToken = new ContinuationTokenForPartitionKey(rId, partitionKey, "");
@@ -43,17 +41,6 @@ export class ChangeFeedForPartitionKey<T> extends ChangeFeedIteratorV2<T> {
 
     if (changeFeedOptions.startTime) {
       this.startTime = changeFeedOptions.startTime.toUTCString();
-      canUseStartFromBeginning = false;
-    }
-
-    if (
-      canUseStartFromBeginning &&
-      changeFeedOptions.startFromBeginning !== undefined &&
-      !changeFeedOptions.startFromBeginning
-    ) {
-      throw new ErrorResponse(
-        "startFromBeginning must be true if no start time or continuation is specified."
-      );
     }
 
     if (this.continuationToken) {

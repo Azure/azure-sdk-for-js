@@ -4,16 +4,15 @@ import { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions";
 import { ErrorResponse } from "../../request";
 import { PartitionKeyRange } from "../Container";
 import { ChangeFeedRange } from "./ChangeFeedRange";
-import { IEpkRange } from "./IEpkRange";
-/**
- * Checks if more than one option is passed from where changefeed should start.
- */
-const isMoreThanOneStartFromKeyPresent = (options: ChangeFeedIteratorOptions): boolean => {
-  const keys = ["continuationToken", "startTime", "startFromBeginning", "startFromNow"];
-  const presentKeys = Object.keys(options).filter((key) => keys.includes(key));
-  return presentKeys.length > 1;
-};
+import { ChangeFeedStartFrom } from "./ChangeFeedEnums";
+import { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
 
+/**
+ *
+ * @internal
+ *
+ * Validates the change feed options passed by the user
+ */
 export function validateChangeFeedOptions(options: ChangeFeedIteratorOptions): void {
   if (options?.maxItemCount && typeof options?.maxItemCount !== "number") {
     throw new ErrorResponse("maxItemCount must be number");
@@ -21,19 +20,10 @@ export function validateChangeFeedOptions(options: ChangeFeedIteratorOptions): v
   if (options?.maxItemCount !== undefined && options?.maxItemCount < 1) {
     throw new ErrorResponse("maxItemCount must be a positive number");
   }
-
-  if (options?.epkRange && options?.partitionKey) {
-    throw new ErrorResponse("PartitionKey and EpkRange cannot be specified at the same time");
-  }
-
-  if (isMoreThanOneStartFromKeyPresent(options)) {
-    throw new ErrorResponse(
-      "Only one of startFromBeginning, startFromNow, startTime, continuationToken can be specified"
-    );
-  }
 }
 
 /**
+ * @internal
  * Checks if pkRange entirely covers the given overLapping range or there is only partial overlap.
  *
  * If no complete overlap, exact range which overlaps is retured which is used to set minEpk and maxEpk headers while quering change feed.
@@ -67,12 +57,43 @@ export async function checkEpkHeaders(
   }
 }
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-export function isEpkRange(obj: any): obj is PartitionKeyRange | IEpkRange {
+/**
+ * @interal
+ * Checks if the object is a valid EpkRange
+ */
+export function isEpkRange(obj: any): obj is PartitionKeyRange {
   return (
     obj &&
     typeof obj.minInclusive === "string" &&
     typeof obj.maxExclusive === "string" &&
     obj.minInclusive >= "" &&
-    obj.maxExclusive <= "FF"
+    obj.maxExclusive <= "FF" &&
+    obj.maxExclusive > obj.minInclusive
   );
+}
+
+/**
+ * @internal
+ * Converts changeFeedIteratorOptions to InternalChangeFeedIteratorOptions used internally only.
+ */
+export function buildInternalChangeFeedOptions(
+  options: ChangeFeedIteratorOptions
+): InternalChangeFeedIteratorOptions {
+  const returnOptions = {} as InternalChangeFeedIteratorOptions;
+  returnOptions.maxItemCount = options?.maxItemCount;
+  returnOptions.sessionToken = options?.sessionToken;
+  returnOptions.continuationToken =
+    options?.changeFeedStartType?.startFrom === ChangeFeedStartFrom.ContinuationToken
+      ? options.changeFeedStartType.continuationToken
+      : undefined;
+  returnOptions.startTime =
+    options?.changeFeedStartType?.startFrom === ChangeFeedStartFrom.StartTime
+      ? options.changeFeedStartType.startTime
+      : undefined;
+  returnOptions.startTime =
+    options?.changeFeedStartType?.startFrom === ChangeFeedStartFrom.Now
+      ? new Date()
+      : returnOptions.startTime;
+
+  return returnOptions;
 }

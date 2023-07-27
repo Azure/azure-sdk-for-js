@@ -103,6 +103,8 @@ export {
   ChangeFeedIteratorV2,
   ChangeFeedIteratorOptions,
   ChangeFeedIteratorResponse,
+  ChangeFeedStartFrom,
+  ChangeFeedResourceType,
   IEpkRange,
 } from "./client/ChangeFeed";
 

@@ -3,7 +3,7 @@
 import { PartitionKey } from "../../documents";
 /**
  * Continuation token for change feed of entire container, or a specific Epk Range.
- * @hidden
+ * @internal
  */
 export class ContinuationTokenForPartitionKey {
   /**

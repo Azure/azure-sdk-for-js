@@ -36,6 +36,8 @@ import {
   ChangeFeedIteratorOptions,
   ChangeFeedForEpkRange,
   ChangeFeedForPartitionKey,
+  ChangeFeedResourceType,
+  buildInternalChangeFeedOptions,
 } from "../../client/ChangeFeed";
 import { isEpkRange, validateChangeFeedOptions } from "../../client/ChangeFeed/changeFeedUtils";
 import { ErrorResponse } from "../../request";
@@ -233,6 +235,9 @@ export class Items {
     return new ChangeFeedIterator<T>(this.clientContext, id, path, partitionKey, changeFeedOptions);
   }
 
+  /**
+   * Returns an to iterate over pages of changes. The iterator returned can be used to fetch changes for a single partition key, epk range or entire container.
+   */
   public async getChangeFeedIterator<T>(
     changeFeedOptions: ChangeFeedIteratorOptions
   ): Promise<ChangeFeedIteratorV2<T>> {
@@ -240,63 +245,70 @@ export class Items {
     const path = getPathFromLink(this.container.url, ResourceType.item);
     const id = getIdFromLink(this.container.url);
     const { resource } = await this.container.read();
-    let partitionKey: PartitionKey;
 
     const cfOptions = isChangeFeedOptions(changeFeedOptions) ? changeFeedOptions : {};
-
-    let isPartitionKeyValue = isPartitionKey(cfOptions?.partitionKey);
-    if (isPartitionKeyValue) {
-      partitionKey = cfOptions.partitionKey;
-    }
     validateChangeFeedOptions(cfOptions);
-    if (cfOptions.startFromNow !== undefined && cfOptions.startFromNow === true) {
-      cfOptions.startTime = new Date();
-    }
-    if (cfOptions?.continuationToken !== undefined) {
-      const continuationToken = JSON.parse(cfOptions?.continuationToken);
-      if (continuationToken.partitionKey !== undefined) {
-        isPartitionKeyValue = isPartitionKey(continuationToken.partitionKey);
-        partitionKey = continuationToken.partitionKey;
-      }
-    }
-
     let iterator: ChangeFeedIteratorV2<T>;
-    if (isPartitionKeyValue) {
-      iterator = new ChangeFeedForPartitionKey(
-        this.clientContext,
-        id,
-        path,
-        resource?._rid,
-        partitionKey,
-        cfOptions
-      );
-    } else {
-      iterator = new ChangeFeedForEpkRange(
-        this.clientContext,
-        this.partitionKeyRangeCache,
-        id,
-        path,
-        this.container.url,
-        resource._rid,
-        cfOptions,
-        diagnosticContext
-      );
-      if (!cfOptions?.continuationToken) {
-        if (cfOptions?.epkRange !== undefined) {
-          if (isEpkRange(cfOptions?.epkRange)) {
-            await iterator.fetchOverLappingFeedRanges(cfOptions?.epkRange);
+    let cfResource = cfOptions?.changeFeedResource;
+    if (cfResource === undefined) {
+      cfResource = { resource: ChangeFeedResourceType.Container };
+    }
+    const internalCfOptions = buildInternalChangeFeedOptions(cfOptions);
+
+    switch (cfResource.resource) {
+      case ChangeFeedResourceType.PartitionKey:
+        let isPartitionKeyValue = isPartitionKey(cfResource.value);
+        if (isPartitionKeyValue) {
+          iterator = new ChangeFeedForPartitionKey(
+            this.clientContext,
+            id,
+            path,
+            resource?._rid,
+            cfResource.value,
+            internalCfOptions
+          );
+        } else {
+          throw new ErrorResponse("Invalid Partition key");
+        }
+        break;
+      case ChangeFeedResourceType.EpkRange:
+        if (isEpkRange(cfResource.value)) {
+          iterator = new ChangeFeedForEpkRange(
+            this.clientContext,
+            this.partitionKeyRangeCache,
+            id,
+            path,
+            this.container.url,
+            resource._rid,
+            internalCfOptions,
+            diagnosticContext
+          );
+          if (internalCfOptions?.continuationToken) {
+            await iterator.fetchContinuationTokenFeedRanges(internalCfOptions.continuationToken);
           } else {
-            throw new ErrorResponse("EpkRange is not valid");
+            await iterator.fetchOverLappingFeedRanges(cfResource.value);
           }
+        } else {
+          throw new ErrorResponse("Invalid EpkRange");
+        }
+        break;
+      default:
+        iterator = new ChangeFeedForEpkRange(
+          this.clientContext,
+          this.partitionKeyRangeCache,
+          id,
+          path,
+          this.container.url,
+          resource._rid,
+          internalCfOptions,
+          diagnosticContext
+        );
+        if (internalCfOptions?.continuationToken) {
+          await iterator.fetchContinuationTokenFeedRanges(internalCfOptions.continuationToken);
         } else {
           await iterator.fetchAllFeedRanges();
         }
-      } else {
-        const response = await iterator.fetchContinuationTokenFeedRanges(
-          cfOptions?.continuationToken
-        );
-        if (response) return iterator;
-      }
+        break;
     }
     return iterator;
   }
