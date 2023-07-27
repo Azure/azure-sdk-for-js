@@ -21,7 +21,7 @@ import {
   CallConnection,
   CallInvite,
   ContinuousDtmfRecognitionOptions,
-  SendDtmfOptions,
+  SendDtmfTonesOptions,
 } from "../src";
 
 // Current directory imports
@@ -189,24 +189,24 @@ describe("CallMedia Unit Tests", async function () {
     assert.equal(request.method, "POST");
   });
 
-  it("makes successful SendDtmf request", async function () {
+  it("makes successful SendDtmfTones request", async function () {
     const mockHttpClient = generateHttpClient(202);
 
     callMedia = createMediaClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
     const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
-    const sendDtmfOptions: SendDtmfOptions = {
+    const sendDtmfTonesOptions: SendDtmfTonesOptions = {
       operationContext: "test_operation_context",
     };
     const tones = ["one", "two", "three", "pound"];
 
-    await callMedia.sendDtmf(tones, targetParticipant, sendDtmfOptions);
+    await callMedia.sendDtmfTones(tones, targetParticipant, sendDtmfTonesOptions);
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.deepEqual(data.targetParticipant, serializeCommunicationIdentifier(targetParticipant));
     assert.deepEqual(data.tones, tones);
-    assert.equal(data.operationContext, sendDtmfOptions.operationContext);
+    assert.equal(data.operationContext, sendDtmfTonesOptions.operationContext);
     assert.equal(request.method, "POST");
   });
 });
@@ -419,9 +419,13 @@ describe("Call Media Client Live Tests", function () {
 
     await callConnection.getCallMedia().startContinuousDtmfRecognition(receiverPhoneUser);
 
-    await callConnection.getCallMedia().sendDtmf([DtmfTone.Pound], receiverPhoneUser);
-    const sendDtmfCompleted = await waitForEvent("SendDtmfCompleted", callConnectionId, 8000);
-    assert.isDefined(sendDtmfCompleted);
+    await callConnection.getCallMedia().sendDtmfTones([DtmfTone.Pound], receiverPhoneUser);
+    const sendDtmfTonesCompleted = await waitForEvent(
+      "SendDtmfTonesCompleted",
+      callConnectionId,
+      8000
+    );
+    assert.isDefined(sendDtmfTonesCompleted);
 
     const continuousDtmfRecognitionToneReceivedEvent = await waitForEvent(
       "ContinuousDtmfRecognitionToneReceived",

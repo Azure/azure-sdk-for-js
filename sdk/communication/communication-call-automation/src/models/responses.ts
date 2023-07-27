@@ -70,7 +70,7 @@ export interface RecordingStateResult {
 }
 
 /** The response payload for sending DTMF tones. */
-export interface SendDtmfResult {
+export interface SendDtmfTonesResult {
   /** The operation context provided by client. */
   operationContext?: string;
 }

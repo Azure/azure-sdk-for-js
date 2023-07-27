@@ -247,9 +247,9 @@ export interface ContinuousDtmfRecognitionOptions extends OperationOptions {
 }
 
 /**
- * Options to send Dtmf tone.
+ * Options to send Dtmf tones.
  */
-export interface SendDtmfOptions extends OperationOptions {
+export interface SendDtmfTonesOptions extends OperationOptions {
   /** The value to identify context of the operation. */
   operationContext?: string;
 }

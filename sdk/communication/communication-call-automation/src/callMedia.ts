@@ -15,7 +15,7 @@ import {
   CallAutomationApiClient,
   CallAutomationApiClientOptionalParams,
   ContinuousDtmfRecognitionRequest,
-  SendDtmfRequest,
+  SendDtmfTonesRequest,
   Tone,
   SpeechOptions,
 } from "./generated/src";
@@ -35,12 +35,12 @@ import {
   CallMediaRecognizeDtmfOptions,
   CallMediaRecognizeChoiceOptions,
   ContinuousDtmfRecognitionOptions,
-  SendDtmfOptions,
+  SendDtmfTonesOptions,
   CallMediaRecognizeSpeechOptions,
   CallMediaRecognizeSpeechOrDtmfOptions,
 } from "./models/options";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { SendDtmfResult } from "./models/responses";
+import { SendDtmfTonesResult } from "./models/responses";
 import { v4 as uuidv4 } from "uuid";
 
 /**
@@ -342,31 +342,31 @@ export class CallMedia {
    * Send Dtmf tones.
    * @param tones - List of tones to be sent to target participant.
    * @param targetParticipant - Target participant.
-   * @param sendDtmfOptions - Additional attributes for send Dtmf tones.
+   * @param sendDtmfTonesOptions - Additional attributes for send Dtmf tones.
    * */
-  public async sendDtmf(
+  public async sendDtmfTones(
     tones: Tone[],
     targetParticipant: CommunicationIdentifier,
-    sendDtmfOptions: SendDtmfOptions = {}
-  ): Promise<SendDtmfResult> {
-    const sendDtmfRequest: SendDtmfRequest = {
+    sendDtmfTonesOptions: SendDtmfTonesOptions = {}
+  ): Promise<SendDtmfTonesResult> {
+    const sendDtmfTonesRequest: SendDtmfTonesRequest = {
       tones: tones,
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      operationContext: sendDtmfOptions.operationContext,
+      operationContext: sendDtmfTonesOptions.operationContext,
     };
     const optionsInternal = {
-      ...sendDtmfOptions,
+      ...sendDtmfTonesOptions,
       repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: uuidv4(),
     };
-    const result = await this.callMedia.sendDtmf(
+    const result = await this.callMedia.sendDtmfTones(
       this.callConnectionId,
-      sendDtmfRequest,
+      sendDtmfTonesRequest,
       optionsInternal
     );
-    const sendDtmfResult: SendDtmfResult = {
+    const sendDtmfTonesResult: SendDtmfTonesResult = {
       ...result,
     };
-    return sendDtmfResult;
+    return sendDtmfTonesResult;
   }
 }
