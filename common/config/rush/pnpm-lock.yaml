@@ -2306,6 +2306,13 @@ packages:
     resolution: {integrity: sha512-yOlFc+7UtL/89t2ZhjPvvB/DeAr3r+Dq58IgzsFkOAvVC6NMJXmCGjbptdXdR9qsX7pKcTL+s87FtYREi2dEEQ==}
     dev: false
 
+  /@types/ajv/1.0.0:
+    resolution: {integrity: sha512-yGSqw9/QKd5FXbTNrSANcJ6IHWeNhA+gokXqmlPquJgLDC87d4g2FGPs+AlCeGG0GuZXmPq42hOFA2hnPymCLw==}
+    deprecated: This is a stub types definition for ajv (https://github.com/epoberezkin/ajv). ajv provides its own type definitions, so you don't need @types/ajv installed!
+    dependencies:
+      ajv: 8.12.0
+    dev: false
+
   /@types/argparse/1.0.38:
     resolution: {integrity: sha512-ebDJ9b0e702Yr7pWgB0jzm+CX4Srzz8RcXtLJDJB+BSccqMa36uyH/zUsSYao5+BD1ytv3k3rPYCq4mAE1hsXA==}
     dev: false
@@ -3951,7 +3958,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.1.0-dev.20230331
+      typescript: 5.2.0-dev.20230724
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8809,9 +8816,15 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.1.0-dev.20230331:
-    resolution: {integrity: sha512-PLypvuK09nEU9B7OTAx/4oG8foaYoeDTCBYlypMo5bF4L4MN54uLTy6dUwHdnw0QkTl6gjFKZQ4f/dUSZV/NFw==}
-    engines: {node: '>=12.20'}
+  /typescript/5.1.6:
+    resolution: {integrity: sha512-zaWCozRZ6DLEWAWFrVDz1H6FVXzUSfTy5FUMWsQlU8Ym5JP9eO4xkTIROFCQvhQf61z6O/G6ugw3SgAnvvm+HA==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: false
+
+  /typescript/5.2.0-dev.20230724:
+    resolution: {integrity: sha512-imp5MKTFe3BmE+opYLWqglHjPJ3HQtmwcFX0zYKhky/m/ncUpMqnVnjZSoncvTkKGI8s4Ng88LqOEgvLa4brFg==}
+    engines: {node: '>=14.17'}
     hasBin: true
     dev: false
 
@@ -16872,7 +16885,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript/5.0.3
+      '@_ts/max': /typescript/5.1.6
       '@_ts/min': /typescript/4.2.4
       '@microsoft/api-extractor': 7.34.4_@types+node@14.18.41
       '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
@@ -19107,16 +19120,24 @@ packages:
     dev: false
 
   file:projects/schema-registry-json.tgz:
-    resolution: {integrity: sha512-z5emYE2b+L+WL1SpJsgRzM3krjLx29Css1Zggpx4vOuLUmfSBJYZWRoda93XxSBcgyRBv8I4BahJcoxYBsSK1Q==, tarball: file:projects/schema-registry-json.tgz}
+    resolution: {integrity: sha512-CaU+wVIEFhTO8CnXAiG66sGwWkm1U/ONzLNHl/t6/JLyo2Cf3U1TqsFPJD3KpTSOkMe6HH1zGhMyb1k/b0U+gw==, tarball: file:projects/schema-registry-json.tgz}
     name: '@rush-temp/schema-registry-json'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
       '@azure/schema-registry': 1.3.0-beta.1
       '@microsoft/api-extractor': 7.34.4_@types+node@16.18.21
+      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
+      '@rollup/plugin-inject': 5.0.3_rollup@2.79.1
+      '@types/ajv': 1.0.0
+      '@types/chai': 4.3.4
+      '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
       '@types/node': 16.18.21
+      '@types/uuid': 8.3.4
       ajv: 8.12.0
+      chai: 4.3.7
+      chai-as-promised: 7.1.1_chai@4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
       eslint: 8.36.0
@@ -19138,9 +19159,12 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.7
       rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-shim: 1.0.0
       source-map-support: 0.5.21
       tslib: 2.5.0
       typescript: 5.0.3
+      uuid: 8.3.2
     transitivePeerDependencies:
       - bufferutil
       - debug

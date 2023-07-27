@@ -14,7 +14,7 @@
  *    to read from corresponding event hubs
  */
 
-import { JsonSerializer, MessageAdapter } from "../../src";
+import { JsonSerializer } from "../../src";
 import { EventData, createEventDataAdapter } from "@azure/event-hubs";
 import { MessagingTestClient } from "./clients/models";
 import { assert } from "chai";
@@ -25,27 +25,16 @@ import { matrix } from "@azure/test-utils";
 import { testGroup } from "./utils/dummies";
 import { Recorder, env } from "@azure-tools/test-recorder";
 
-/**
- * An interface to group different bits needed by the tests for each messaging service
- */
-interface ScenariosTestInfo<T> {
-  messageAdapter: MessageAdapter<T>;
-  messagingServiceName: string;
-  /**
-   * Each unit test correspond to one of the scenarios below
-   */
-  createScenario1Client: () => MessagingTestClient<T>;
-}
-
-describe("With messaging clients", function () {
+matrix([[false]] as const, async (skipParsingBodyAsJson: boolean) => {
   const eventHubsConnectionString = env.EVENTHUB_JSON_CONNECTION_STRING || "";
   const eventHubName = env.EVENTHUB_NAME || "";
   const alreadyEnqueued = env.CROSS_LANGUAGE !== undefined;
 
   function createEventHubsTestClient(settings: {
     eventHubName: string;
+    skipParsingBodyAsJson?: boolean;
   }): MessagingTestClient<EventData> {
-    const { eventHubName: inputEventHubName } = settings;
+    const { eventHubName: inputEventHubName, skipParsingBodyAsJson } = settings;
     const client = createMockedMessagingClient(() =>
       createEventHubsClient({
         alreadyEnqueued,
@@ -53,137 +42,141 @@ describe("With messaging clients", function () {
         eventHubsConnectionString,
       })
     );
-    client.initialize();
+    client.initialize({
+      skipParsingBodyAsJson,
+    });
     return client;
   }
 
-  const eventDataTestInfo: ScenariosTestInfo<EventData> = {
-    messageAdapter: createEventDataAdapter({
-      properties: {
-        language: "js",
-      },
-    }),
-    messagingServiceName: "Event Hub",
-    createScenario1Client: () =>
-      createEventHubsTestClient({
-        eventHubName: "scenario_1",
-      }),
-  };
-  matrix([[eventDataTestInfo]] as const, async (testInfo: ScenariosTestInfo<any>) => {
-    const { messageAdapter, messagingServiceName, createScenario1Client } = testInfo;
-    describe(messagingServiceName, async function () {
-      let recorder: Recorder;
-      let serializer: JsonSerializer<any>;
+  const client = createEventHubsTestClient({
+    eventHubName: "scenario_1",
+    skipParsingBodyAsJson,
+  });
 
-      async function roundtrip(settings: {
-        client: MessagingTestClient<any>;
-        value: unknown;
-        writerSchema: string;
-        processMessage: (p: Promise<unknown>) => Promise<void>;
-        eventCount?: number;
-      }): Promise<void> {
-        const {
-          client,
-          value,
-          processMessage,
-          writerSchema,
-          /**
-           * if messages are already enqueued, then we can expect they have been
-           * sent from all four languages and we would like receive from all four
-           * of them.
-           */
-          eventCount = alreadyEnqueued ? 4 : 1,
-        } = settings;
-        if (!alreadyEnqueued) {
-          try {
-            const message = await serializer.serialize(value, writerSchema);
-            await client.send(message);
-          } catch (e: any) {
-            await client.cleanup();
-            throw e;
-          }
-        }
-        const errors: {
-          error: Error;
-          language: string;
-        }[] = [];
-        for await (const receivedMessage of client.receive({
-          eventCount,
-        })) {
-          try {
-            await processMessage(serializer.deserialize(receivedMessage));
-          } catch (e: any) {
-            errors.push({
-              error: e as Error,
-              language: receivedMessage.properties.language,
-            });
-          }
-        }
-        await client.cleanup();
-        if (errors.length > 0) {
-          throw new Error(
-            "The following error(s) occurred:\n" +
-              errors.map(({ error, language }) => `${language}:\t${error.message}`).join("\n")
-          );
+  const messageAdapter = createEventDataAdapter({
+    properties: {
+      language: "js",
+    },
+  });
+
+  describe("Event Hub Test With Messaging Client", async function () {
+    let recorder: Recorder;
+    let serializer: JsonSerializer<any>;
+    let writerSchema: string;
+    let value: object;
+
+    async function roundtrip(settings: {
+      client: MessagingTestClient<any>;
+      value: unknown;
+      writerSchema: string;
+      skipParsingBodyAsJson: boolean;
+      eventCount?: number;
+    }): Promise<void> {
+      const {
+        client,
+        value,
+        skipParsingBodyAsJson,
+        writerSchema,
+        /**
+         * if messages are already enqueued, then we can expect they have been
+         * sent from all four languages and we would like receive from all four
+         * of them.
+         */
+        eventCount = alreadyEnqueued ? 4 : 1,
+      } = settings;
+      if (!alreadyEnqueued) {
+        try {
+          const message = await serializer.serialize(value, writerSchema);
+          await client.send(message);
+        } catch (e: any) {
+          await client.cleanup();
+          throw e;
         }
       }
+      const errors: {
+        error: Error;
+        language: string;
+      }[] = [];
+      for await (const receivedMessage of client.receive({
+        eventCount,
+      })) {
+        try {
+          if (skipParsingBodyAsJson) {
+            assert.deepEqual(await serializer.deserialize(receivedMessage), value);
+          } else {
+            assert.deepEqual(receivedMessage.body, value);
+          }
+        } catch (e: any) {
+          errors.push({
+            error: e as Error,
+            language: receivedMessage.properties.language,
+          });
+        }
+      }
+      await client.cleanup();
+      if (errors.length > 0) {
+        throw new Error(
+          "The following error(s) occurred:\n" +
+            errors.map(({ error, language }) => `${language}:\t${error.message}`).join("\n")
+        );
+      }
+    }
 
-      beforeEach(async function () {
-        recorder = new Recorder(this.currentTest);
-        serializer = await createTestSerializer({
-          serializerOptions: {
-            autoRegisterSchemas: true,
-            groupName: testGroup,
-            messageAdapter,
-          },
-          recorder,
-        });
+    beforeEach(async function () {
+      recorder = new Recorder(this.currentTest);
+      serializer = await createTestSerializer({
+        serializerOptions: {
+          autoRegisterSchemas: true,
+          groupName: testGroup,
+          messageAdapter,
+        },
+        recorder,
       });
-
-      it("Test schema with fields of type string/boolean/number/array/object", async () => {
-        const writerSchema = JSON.stringify({
-          $schema: "http://json-schema.org/draft-04/schema#",
-          $id: "1",
-          title: "Product",
-          description: "A product from Acme's catalog",
-          type: "object",
-          properties: {
-            name: {
-              type: "string",
-              description: "The name of the student",
-            },
-            age: {
-              type: "integer",
-              description: "The age of the student",
-            },
-            sibling: {
-              type: "boolean",
-              description: "Whether the student has any sibling",
-            },
-            friend: {
-              type: "array",
-              description: "The names of friends the student plays with",
-            },
-            class: {
-              type: "object",
-              description: "The subject the student studies",
-            },
+      writerSchema = JSON.stringify({
+        $schema: "https://json-schema.org/draft/2020-12/schema",
+        $id: "product",
+        title: "Product",
+        description: "A product from Acme's catalog",
+        type: "object",
+        properties: {
+          name: {
+            type: "string",
+            description: "The name of the student",
           },
-          required: ["name", "age", "sibling", "friend", "class"],
-        });
-        const value = {
-          name: "Ben",
-          age: 3,
-          sibling: false,
-          friend: ["Bob", "Anne"],
-          class: { subject: "math", type: "morning" },
-        };
-        await roundtrip({
-          client: createScenario1Client(),
-          value,
-          writerSchema,
-          processMessage: async (p: Promise<unknown>) => assert.deepStrictEqual(await p, value),
-        });
+          age: {
+            type: "integer",
+            description: "The age of the student",
+          },
+          sibling: {
+            type: "boolean",
+            description: "Whether the student has any sibling",
+          },
+          friend: {
+            type: "array",
+            description: "The names of friends the student plays with",
+          },
+          class: {
+            type: "object",
+            description: "The subject the student studies",
+          },
+        },
+        required: ["name", "age", "sibling", "friend", "class"],
+      });
+      value = {
+        name: "Ben",
+        age: 3,
+        sibling: false,
+        friend: ["Bob", "Anne"],
+        class: { subject: "math", type: "morning" },
+      };
+    });
+
+    it("Test schema with fields of type string/boolean/number/array/object", async () => {
+      await roundtrip({
+        client,
+        value,
+        writerSchema,
+        skipParsingBodyAsJson,
       });
     });
   });

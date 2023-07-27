@@ -133,8 +133,9 @@ export class JsonSerializer<MessageT = MessageContent> {
     }
     return returnedMessage;
   }
+
   private async getSchemaById(schemaId: string): Promise<string> {
-    const cached = getCacheById(schemaId);
+    const cached = this.cacheById.get(schemaId);
     if (cached) {
       return cached;
     }
@@ -148,7 +149,7 @@ export class JsonSerializer<MessageT = MessageContent> {
         `Schema with ID '${schemaResponse.properties.id}' has format '${schemaResponse.properties.format}', not 'json'.`
       );
     }
-    return cache(schemaResponse.definition, schemaId).schema;
+    return this.cache(schemaResponse.definition, schemaId).schema;
   }
 
   private async getSchemaById(schemaId: string): Promise<string> {
