@@ -9,19 +9,43 @@ import {
 } from "./models";
 import { KnownSchemaFormats, SchemaDescription, SchemaRegistry } from "@azure/schema-registry";
 import { isMessageContent } from "./utility";
-import {
-  CacheEntry,
-  SchemaObject,
-  cache,
-  getCacheByDefinition,
-  getCacheById,
-  getSchemaObject,
-} from "./cache";
 import { errorWithCause, wrapError } from "./errors";
+import LRUCache from "lru-cache";
+import LRUCacheOptions = LRUCache.Options;
+import { logger } from "./logger";
 
 const jsonMimeType = "application/json";
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
+
+interface CacheEntry {
+  /** Schema ID */
+  id: string;
+  /** Schema string */
+  schema: string;
+}
+interface SchemaObject {
+  $id?: string;
+  $schema?: string;
+}
+function getSchemaObject(schema: string): SchemaObject {
+  return wrapError(
+    () => JSON.parse(schema),
+    `Parsing Json schema failed:\n\n\t${schema}\n\nSee 'cause' for more details.`
+  );
+}
+
+const cacheOptions: LRUCacheOptions<string, any> = {
+  max: 128,
+  /**
+   * This is needed in order to specify `sizeCalculation` but we do not intend
+   * to limit the size just yet.
+   */
+  maxSize: Number.MAX_VALUE,
+  sizeCalculation: (_value: any, key: string) => {
+    return key.length;
+  },
+};
 
 /**
  * Json serializer that obtains schemas from a schema registry and does not
@@ -45,6 +69,9 @@ export class JsonSerializer<MessageT = MessageContent> {
   private readonly registry: SchemaRegistry;
   private readonly autoRegisterSchemas: boolean;
   private readonly messageAdapter?: MessageAdapter<MessageT>;
+  private readonly cacheIdByDefinition = new LRUCache<string, string>(cacheOptions);
+  private readonly cacheById = new LRUCache<string, string>(cacheOptions);
+
   /**
    * serializes the value parameter according to the input schema and creates a message
    * with the serialized data.
@@ -57,7 +84,7 @@ export class JsonSerializer<MessageT = MessageContent> {
    * Thrown if the schema can not be parsed or the value does not match the schema.
    */
   async serialize(value: unknown, schema: string): Promise<MessageT> {
-    const entry = await this.getSchemaId(schema);
+    const entry = await this.getSchemaByDefinition(schema);
     const data = wrapError(
       () => encoder.encode(JSON.stringify(value)),
       `Json serialization failed. See 'cause' for more details. Schema ID: ${entry.id}`
@@ -98,23 +125,16 @@ export class JsonSerializer<MessageT = MessageContent> {
     );
     const validate = options?.validateCallback;
     if (validate) {
-      const isValid = validate(returnedMessage, schema);
-      if (typeof isValid === "object") {
-        throw errorWithCause(
-          `Json validation failed with schema ID (${schemaId}). See 'cause' for more details.`,
-          new Error(`${isValid.message}`)
-        );
-      } else if (isValid === false) {
-        throw errorWithCause(
-          `Json validation failed with schema ID (${schemaId}). See 'cause' for more details.`,
-          new Error(`validate function returns false`)
-        );
-      }
+      wrapError(
+        () => validate(returnedMessage, schema),
+        `Json serialization failed. See 'cause' for more details. Schema ID: ${schemaId}`
+      );
     }
     return returnedMessage;
   }
+
   private async getSchemaById(schemaId: string): Promise<string> {
-    const cached = getCacheById(schemaId);
+    const cached = this.cacheById.get(schemaId);
     if (cached) {
       return cached;
     }
@@ -128,13 +148,13 @@ export class JsonSerializer<MessageT = MessageContent> {
         `Schema with ID '${schemaResponse.properties.id}' has format '${schemaResponse.properties.format}', not 'json'.`
       );
     }
-    return cache(schemaResponse.definition, schemaId).schema;
+    return this.cache(schemaResponse.definition, schemaId).schema;
   }
 
-  private async getSchemaId(definition: string): Promise<CacheEntry> {
-    const cached = getCacheByDefinition(definition);
-    if (cached) {
-      return cached;
+  private async getSchemaByDefinition(definition: string): Promise<CacheEntry> {
+    const schemaId = this.cacheIdByDefinition.get(definition);
+    if (schemaId) {
+      return { id: schemaId, schema: definition };
     }
     if (!this.schemaGroup) {
       throw new Error(
@@ -165,8 +185,17 @@ export class JsonSerializer<MessageT = MessageContent> {
         }
       }
     }
+    return this.cache(definition, id);
+  }
 
-    return cache(definition, id);
+  private cache(schema: string, id: string): CacheEntry {
+    const entry = { schema, id };
+    this.cacheIdByDefinition.set(schema, id);
+    this.cacheById.set(id, schema);
+    logger.verbose(
+      `Cache entry added or updated. Total number of entries: ${this.cacheIdByDefinition.size}; Total schema length ${this.cacheIdByDefinition.calculatedSize}`
+    );
+    return entry;
   }
 }
 
