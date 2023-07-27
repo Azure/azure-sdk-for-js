@@ -208,20 +208,20 @@ export class CustomContext {
   // Add a custom context sip or voip header.
   public Add(header: CustomContextHeader): void {
     if (header instanceof SIPUUIHeader) {
-      if (this.SipHeaders == null) {
+      if (this.sipHeaders == null) {
         throw new Error("Cannot add sip header, SipHeaders is null.");
       }
-      this.SipHeaders[header.Key] = header.Value;
+      this.sipHeaders[header.key] = header.value;
     } else if (header instanceof SIPCustomHeader) {
-      if (this.SipHeaders == null) {
+      if (this.sipHeaders == null) {
         throw new Error("Cannot add sip header, SipHeaders is null.");
       }
-      this.SipHeaders[header.Key] = header.Value;
+      this.sipHeaders[header.key] = header.value;
     } else if (header instanceof VoipHeader) {
-      if (this.VoipHeaders == null) {
+      if (this.voipHeaders == null) {
         throw new Error("Cannot add voip header, VoipHeaders is null");
       }
-      this.VoipHeaders[header.Key] = header.Value;
+      this.voipHeaders[header.key] = header.value;
     } else {
       throw new Error("Unknown custom context header type.");
     }
