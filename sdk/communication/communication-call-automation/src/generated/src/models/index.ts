@@ -294,7 +294,7 @@ export interface ContinuousDtmfRecognitionRequest {
 export interface SendDtmfTonesRequest {
   /** List of tones to be sent to target participant. */
   tones: Tone[];
-  /** Target participant of send DTMF. */
+  /** Target participant of send Dtmf tones. */
   targetParticipant: CommunicationIdentifierModel;
   /** The value to identify context of the operation. */
   operationContext?: string;

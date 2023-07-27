@@ -78,7 +78,7 @@ export interface CallMedia {
   /**
    * Send dtmf tones.
    * @param callConnectionId The call connection id
-   * @param sendDtmfTonesRequest The send dtmf request
+   * @param sendDtmfTonesRequest The send dtmf tones request
    * @param options The options parameters.
    */
   sendDtmfTones(
