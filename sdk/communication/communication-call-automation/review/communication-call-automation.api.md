@@ -875,12 +875,20 @@ export interface SendDtmfOptions extends OperationOptions {
 }
 
 // @public
-export class SIPCustomHeader extends CustomContextHeader {
+export interface SIPCustomHeader extends CustomContextHeader {
+}
+
+// @public
+export class SIPCustomHeader implements CustomContextHeader {
     constructor(key: string, value: string);
 }
 
 // @public
-export class SIPUUIHeader extends CustomContextHeader {
+export interface SIPUUIHeader extends CustomContextHeader {
+}
+
+// @public
+export class SIPUUIHeader implements CustomContextHeader {
     constructor(value: string);
 }
 
@@ -949,7 +957,11 @@ export interface TransferCallToParticipantOptions extends OperationOptions {
 }
 
 // @public
-export class VoipHeader extends CustomContextHeader {
+export interface VoipHeader extends CustomContextHeader {
+}
+
+// @public
+export class VoipHeader implements CustomContextHeader {
     constructor(key: string, value: string);
 }
 

@@ -356,7 +356,8 @@ export class CallAutomationClient {
       target: communicationIdentifierModelConverter(targetParticipant.targetParticipant),
       customContext: {
         sipHeaders: targetParticipant.customContext?.sipHeaders ?? options.sipHeaders ?? undefined,
-        voipHeaders: targetParticipant.customContext?.voipHeaders ?? options.voipHeaders ?? undefined,
+        voipHeaders:
+          targetParticipant.customContext?.voipHeaders ?? options.voipHeaders ?? undefined,
       },
     };
     const optionsInternal = {

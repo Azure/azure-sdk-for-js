@@ -153,42 +153,43 @@ export enum RecognizeInputType {
   Choices = "choices",
 }
 
-/** Custom Context header base class */
-abstract class CustomContextHeader {
-  // The CustomContext Key name.
-  public readonly key: string;
+interface CustomContextHeader {
+  key: string;
+  value: string;
+}
 
-  // The CustomContext Key value.
-  public readonly value: string;
+/** SIPCustomHeader */
+export interface SIPCustomHeader extends CustomContextHeader {}
 
-  // Creates a new CustomContextHeader
-  protected constructor(key: string, value: string) {
-    this.key = key;
+/** SIPUUIHeader */
+export interface SIPUUIHeader extends CustomContextHeader {}
+
+/** VoipHeader */
+export interface VoipHeader extends CustomContextHeader {}
+
+/** Custom Context SIP header */
+export class SIPCustomHeader implements CustomContextHeader {
+  // Create a new SIP custom header.
+  constructor(key: string, value: string) {
+    this.key = "X-MS-Custom-" + key;
     this.value = value;
   }
 }
 
-/** Custom Context SIP header */
-export class SIPCustomHeader extends CustomContextHeader {
-  // Create a new SIP custom header.
-  constructor(key: string, value: string) {
-    super("X-MS-Custom-" + key, value);
-  }
-}
-
 /** Custom Context SIP User-to-User header */
-export class SIPUUIHeader extends CustomContextHeader {
+export class SIPUUIHeader implements CustomContextHeader {
   // Create a new SIP UUI header.
   constructor(value: string) {
-    super("User-to-User", value);
+    this.key = "User-to-User";
+    this.value = value;
   }
 }
 
 /** Custom Context VOIP header */
-export class VoipHeader extends CustomContextHeader {
-  // Create a new voip header.
+export class VoipHeader implements CustomContextHeader {
   constructor(key: string, value: string) {
-    super(key, value);
+    this.key = key;
+    this.value = value;
   }
 }
 
