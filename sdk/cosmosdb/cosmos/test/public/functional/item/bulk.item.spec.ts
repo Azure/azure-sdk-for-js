@@ -783,7 +783,7 @@ describe("test bulk operations", async function () {
         readItemId = addEntropy("item1");
         const dataset: BulkTestDataSet = {
           ...defaultBulkTestDataSet,
-          dbName: addEntropy('respects order'),
+          dbName: addEntropy("respects order"),
           documentToCreate: [{ id: readItemId, key: "A", class: "2010" }],
           operations: [
             {
@@ -813,7 +813,7 @@ describe("test bulk operations", async function () {
       it("424 errors for operations after an error", async function () {
         const dataset: BulkTestDataSet = {
           ...defaultBulkTestDataSet,
-          dbName: addEntropy('424 errors'),
+          dbName: addEntropy("424 errors"),
           documentToCreate: [],
           operations: [
             {
@@ -837,7 +837,7 @@ describe("test bulk operations", async function () {
       it("Continues after errors with continueOnError true", async function () {
         const dataset: BulkTestDataSet = {
           ...defaultBulkTestDataSet,
-          dbName: addEntropy('continueOnError'),
+          dbName: addEntropy("continueOnError"),
           documentToCreate: [],
           bulkOperationOptions: {
             continueOnError: true,
@@ -865,7 +865,7 @@ describe("test bulk operations", async function () {
       it("autogenerates IDs for Create operations", async function () {
         const dataset: BulkTestDataSet = {
           ...defaultBulkTestDataSet,
-          dbName: addEntropy('autogenerateIDs'),
+          dbName: addEntropy("autogenerateIDs"),
           operations: [
             {
               description: "Operation should fail with invalid ttl.",
@@ -886,7 +886,7 @@ describe("test bulk operations", async function () {
         const item3Id = addEntropy("item2");
         const dataset: BulkTestDataSet = {
           ...defaultBulkTestDataSet,
-          dbName: addEntropy('handle special partition keys'),
+          dbName: addEntropy("handle special partition keys"),
           documentToCreate: [
             { id: item1Id, key: null, class: "2010" },
             { id: item2Id, key: 0 },
