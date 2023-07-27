@@ -2,7 +2,7 @@
 
 [Azure Cognitive Service for Language](https://azure.microsoft.com/services/cognitive-services/language-service/) is a cloud-based service that provides advanced natural language processing over raw text, and includes the following main features:
 
-**Note:** This SDK targets Azure Cognitive Service for Language API version 2022-10-01-preview.
+**Note:** This SDK targets Azure Cognitive Service for Language API version 2023-04-01.
 
 - Language Detection
 - Sentiment Analysis
@@ -39,10 +39,8 @@ Please see the [Migration Guide](https://github.com/azure/azure-sdk-for-js/blob/
 
 ## What's New
 
-* [Abstractive Summarization](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#abstractive-summarization):
-To get started, submit a request for access [here](https://aka.ms/applyforgatedsummarizationfeatures).
-* [Script Detection](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#language-detection)
-* [Specifying healthcare document type for better FHIR results](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#healthcare-analysis)
+* [Abstractive Summarization](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#abstractive-summarization)
+* [Healthcare Analysis](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/Samples.md#healthcare-analysis)
 
 
 ## Getting started

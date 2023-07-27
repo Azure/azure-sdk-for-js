@@ -288,7 +288,7 @@ export class EventProcessor {
       await this._startPump(ownershipRequest.partitionId, abortSignal);
     } catch (err: any) {
       logger.warning(
-        `[${this.id}] Failed to claim ownership of partition ${ownershipRequest.partitionId}`
+        `[${this._id}] Failed to claim ownership of partition ${ownershipRequest.partitionId}`
       );
       logErrorStackTrace(err);
       await this._handleSubscriptionError(err);
@@ -322,7 +322,7 @@ export class EventProcessor {
         eventHubName: this._eventHubName,
         consumerGroup: this._consumerGroup,
         partitionId: partitionId,
-        eventProcessorId: this.id,
+        eventProcessorId: this._id,
       }
     );
 

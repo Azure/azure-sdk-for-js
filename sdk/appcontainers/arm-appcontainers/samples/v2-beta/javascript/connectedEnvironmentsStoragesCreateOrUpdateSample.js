@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { ContainerAppsAPIClient } = require("@azure/arm-appcontainers");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create or update storage for a connectedEnvironment.
  *
  * @summary Create or update storage for a connectedEnvironment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-06-01-preview/examples/ConnectedEnvironmentsStorages_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/ConnectedEnvironmentsStorages_CreateOrUpdate.json
  */
 async function createOrUpdateEnvironmentsStorage() {
-  const subscriptionId = "8efdecc5-919e-44eb-b179-915dca89ebf9";
-  const resourceGroupName = "examplerg";
+  const subscriptionId =
+    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] || "8efdecc5-919e-44eb-b179-915dca89ebf9";
+  const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
   const connectedEnvironmentName = "env";
   const storageName = "jlaw-demo1";
   const storageEnvelope = {
@@ -43,4 +45,8 @@ async function createOrUpdateEnvironmentsStorage() {
   console.log(result);
 }
 
-createOrUpdateEnvironmentsStorage().catch(console.error);
+async function main() {
+  createOrUpdateEnvironmentsStorage();
+}
+
+main().catch(console.error);

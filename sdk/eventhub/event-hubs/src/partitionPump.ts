@@ -84,6 +84,7 @@ export class PartitionPump {
     this._receiver = createReceiver(
       this._context,
       this._partitionProcessor.consumerGroup,
+      this._partitionProcessor.eventProcessorId,
       partitionId,
       currentEventPosition,
       {
@@ -91,6 +92,7 @@ export class PartitionPump {
         trackLastEnqueuedEventProperties: this._processorOptions.trackLastEnqueuedEventProperties,
         retryOptions: this._processorOptions.retryOptions,
         skipParsingBodyAsJson: this._processorOptions.skipParsingBodyAsJson,
+        prefetchCount: this._processorOptions.prefetchCount,
       }
     );
 

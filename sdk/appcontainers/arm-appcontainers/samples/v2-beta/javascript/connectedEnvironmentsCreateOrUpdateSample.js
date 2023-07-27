@@ -10,21 +10,23 @@
 // Licensed under the MIT License.
 const { ContainerAppsAPIClient } = require("@azure/arm-appcontainers");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates or updates an connectedEnvironment.
  *
  * @summary Creates or updates an connectedEnvironment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-06-01-preview/examples/ConnectedEnvironments_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/ConnectedEnvironments_CreateOrUpdate.json
  */
 async function createKubeEnvironments() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = "examplerg";
+  const subscriptionId =
+    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
   const connectedEnvironmentName = "testenv";
   const environmentEnvelope = {
     customDomainConfiguration: {
-      certificatePassword: Buffer.from("private key password"),
-      certificateValue: Buffer.from("PFX-or-PEM-blob"),
+      certificatePassword: "private key password",
+      certificateValue: Buffer.from("Y2VydA=="),
       dnsSuffix: "www.my-name.com",
     },
     daprAIConnectionString:
@@ -42,4 +44,8 @@ async function createKubeEnvironments() {
   console.log(result);
 }
 
-createKubeEnvironments().catch(console.error);
+async function main() {
+  createKubeEnvironments();
+}
+
+main().catch(console.error);

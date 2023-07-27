@@ -1,5 +1,23 @@
 # Release History
 
+## 3.2.4 (2023-07-21)
+
+### Bug Fixes
+- Fixed a bug related to [Managed Identity Credential intermixing wrong scopes](https://github.com/Azure/azure-sdk-for-js/pull/26566) for successive `getToken()` calls.
+
+## 3.2.3 (2023-06-20)
+
+### Bug Fixes
+ - Dependency Upgrades of MSAL libraries to the latest versions for incorporating underlying [bug fix](https://github.com/AzureAD/microsoft-authentication-library-for-js/issues/4879#issuecomment-1462949837) to resolve [this issue](https://github.com/Azure/azure-sdk-for-js/issues/23331).
+### Other Changes
+#### Behavioral breaking change
+- Moved `AzureDeveloperCliCredential` to the end of the `DefaultAzureCredential` chain.
+
+## 3.2.2 (2023-05-15)
+
+### Bug Fixes
+ - Remove console logging in `processMultitenantRequest` for tenant id and resolved tenant.
+
 ## 3.2.1 (2023-05-10)
 
 ### Bug Fixes

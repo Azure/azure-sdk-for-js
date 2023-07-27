@@ -3,7 +3,7 @@
 /**
  * @summary router worker crud
  */
-import { RouterClient, RouterWorkerResponse } from "@azure/communication-job-router";
+import { JobRouterClient, RouterWorkerResponse } from "@azure/communication-job-router";
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
@@ -11,11 +11,10 @@ dotenv.config();
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
-
 // Update a router worker
 async function updateRouterWorker(): Promise<void> {
   // Create the Router Client
-  const routerClient: RouterClient = new RouterClient(connectionString);
+  const routerClient: JobRouterClient = new JobRouterClient(connectionString);
 
   const request: RouterWorkerResponse = {
     id: "router-worker-123",
@@ -23,22 +22,21 @@ async function updateRouterWorker(): Promise<void> {
     totalCapacity: 50,
     queueAssignments: {
       MainQueue: {},
-      SecondaryQueue: {}
+      SecondaryQueue: {},
     },
     channelConfigurations: {
       CustomChatChannel: {
-        capacityCostPerJob: 2
+        capacityCostPerJob: 2,
       },
       CustomVoiceChannel: {
-        capacityCostPerJob: 5
-      }
-    }
+        capacityCostPerJob: 5,
+      },
+    },
   };
 
   const result = await routerClient.updateWorker(request.id, request);
 
   console.log("router worker: " + result);
-
-};
+}
 
 updateRouterWorker().catch(console.error);

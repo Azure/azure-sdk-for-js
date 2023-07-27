@@ -18,9 +18,10 @@ optional-response-headers: true
 v3: true
 disable-async-iterators: true
 add-credentials: false
+core-http-compat-mode: true
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20210218.1"
-package-version: 12.12.0
+  "@autorest/typescript": "6.0.3"
+package-version: 12.20.0
 ```
 
 ## Customizations for Track 2 Generator

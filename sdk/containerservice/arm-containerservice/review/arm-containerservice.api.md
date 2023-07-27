@@ -11,6 +11,12 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
+export interface AbsoluteMonthlySchedule {
+    dayOfMonth: number;
+    intervalMonths: number;
+}
+
+// @public
 export interface AgentPool extends SubResource {
     availabilityZones?: string[];
     count?: number;
@@ -278,7 +284,6 @@ export interface ContainerServiceLinuxProfile {
 // @public
 export interface ContainerServiceNetworkProfile {
     dnsServiceIP?: string;
-    dockerBridgeCidr?: string;
     ipFamilies?: IpFamily[];
     loadBalancerProfile?: ManagedClusterLoadBalancerProfile;
     loadBalancerSku?: LoadBalancerSku;
@@ -322,6 +327,17 @@ export interface CredentialResult {
 // @public
 export interface CredentialResults {
     readonly kubeconfigs?: CredentialResult[];
+}
+
+// @public
+export interface DailySchedule {
+    intervalDays: number;
+}
+
+// @public
+export interface DateSpan {
+    end: Date;
+    start: Date;
 }
 
 // @public
@@ -524,6 +540,7 @@ export enum KnownOSDiskType {
 
 // @public
 export enum KnownOssku {
+    AzureLinux = "AzureLinux",
     CBLMariner = "CBLMariner",
     Ubuntu = "Ubuntu",
     Windows2019 = "Windows2019",
@@ -580,6 +597,15 @@ export enum KnownScaleSetPriority {
 // @public
 export enum KnownSnapshotType {
     NodePool = "NodePool"
+}
+
+// @public
+export enum KnownType {
+    First = "First",
+    Fourth = "Fourth",
+    Last = "Last",
+    Second = "Second",
+    Third = "Third"
 }
 
 // @public
@@ -671,6 +697,7 @@ export type LoadBalancerSku = string;
 
 // @public
 export interface MaintenanceConfiguration extends SubResource {
+    maintenanceWindow?: MaintenanceWindow;
     notAllowedTime?: TimeSpan[];
     readonly systemData?: SystemData;
     timeInWeek?: TimeInWeek[];
@@ -721,6 +748,16 @@ export interface MaintenanceConfigurationsListByManagedClusterOptionalParams ext
 
 // @public
 export type MaintenanceConfigurationsListByManagedClusterResponse = MaintenanceConfigurationListResult;
+
+// @public
+export interface MaintenanceWindow {
+    durationHours: number;
+    notAllowedDates?: DateSpan[];
+    schedule: Schedule;
+    startDate?: Date;
+    startTime: string;
+    utcOffset?: string;
+}
 
 // @public
 export interface ManagedCluster extends TrackedResource {
@@ -1619,6 +1656,13 @@ export interface PrivateLinkServiceConnectionState {
 export type PublicNetworkAccess = string;
 
 // @public
+export interface RelativeMonthlySchedule {
+    dayOfWeek: WeekDay;
+    intervalMonths: number;
+    weekIndex: Type;
+}
+
+// @public
 export interface ResolvePrivateLinkServiceId {
     post(resourceGroupName: string, resourceName: string, parameters: PrivateLinkResource, options?: ResolvePrivateLinkServiceIdPostOptionalParams): Promise<ResolvePrivateLinkServiceIdPostResponse>;
 }
@@ -1672,6 +1716,14 @@ export type ScaleSetEvictionPolicy = string;
 
 // @public
 export type ScaleSetPriority = string;
+
+// @public
+export interface Schedule {
+    absoluteMonthly?: AbsoluteMonthlySchedule;
+    daily?: DailySchedule;
+    relativeMonthly?: RelativeMonthlySchedule;
+    weekly?: WeeklySchedule;
+}
 
 // @public
 export interface Snapshot extends TrackedResource {
@@ -1834,6 +1886,9 @@ export interface TrackedResource extends Resource {
 }
 
 // @public
+export type Type = string;
+
+// @public
 export type UpgradeChannel = string;
 
 // @public
@@ -1845,6 +1900,12 @@ export interface UserAssignedIdentity {
 
 // @public
 export type WeekDay = string;
+
+// @public
+export interface WeeklySchedule {
+    dayOfWeek: WeekDay;
+    intervalWeeks: number;
+}
 
 // @public
 export interface WindowsGmsaProfile {

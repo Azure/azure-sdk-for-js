@@ -31,15 +31,13 @@ export class OrganizationsImpl implements Organizations {
   /**
    * Fetch User API Key from internal database, if it was generated and stored while creating the
    * Elasticsearch Organization.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
    * @param options The options parameters.
    */
   getApiKey(
-    resourceGroupName: string,
     options?: OrganizationsGetApiKeyOptionalParams
   ): Promise<OrganizationsGetApiKeyResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, options },
+      { options },
       getApiKeyOperationSpec
     );
   }
@@ -49,7 +47,7 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getApiKeyOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/getOrganizationApiKey",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Elastic/getOrganizationApiKey",
   httpMethod: "POST",
   responses: {
     200: {
@@ -61,11 +59,7 @@ const getApiKeyOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.body6,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer

@@ -1,15 +1,32 @@
 # Release History
+    
+## 19.1.0 (2023-07-03)
+    
+**Features**
 
-## 18.0.1 (Unreleased)
+  - Added Interface AbsoluteMonthlySchedule
+  - Added Interface DailySchedule
+  - Added Interface DateSpan
+  - Added Interface MaintenanceWindow
+  - Added Interface RelativeMonthlySchedule
+  - Added Interface Schedule
+  - Added Interface WeeklySchedule
+  - Added Type Alias Type
+  - Interface MaintenanceConfiguration has a new optional parameter maintenanceWindow
+  - Added Enum KnownType
+    
+    
+## 19.0.0 (2023-05-19)
+    
+**Features**
 
-### Features Added
+  - Enum KnownOssku has a new value AzureLinux
 
-### Breaking Changes
+**Breaking Changes**
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface ContainerServiceNetworkProfile no longer has parameter dockerBridgeCidr
+    
+    
 ## 18.0.0 (2023-04-23)
     
 **Features**

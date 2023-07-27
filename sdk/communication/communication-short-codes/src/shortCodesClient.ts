@@ -8,6 +8,7 @@ import {
   FileType,
   GetUSProgramBriefOptions,
   ListShortCodesOptions,
+  ListShortCodeCostsOptions,
   ListUSProgramBriefsOptions,
   ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams,
   ShortCodesDeleteUSProgramBriefAttachmentOptionalParams,
@@ -20,6 +21,7 @@ import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-a
 import {
   ProgramBriefAttachment,
   ShortCode,
+  ShortCodeCost,
   ShortCodesUpsertUSProgramBriefOptionalParams,
   USProgramBrief,
 } from "./generated/src/models/";
@@ -94,7 +96,27 @@ export class ShortCodesClient {
       options
     );
     try {
-      return this.client.shortCodesOperations.listShortCodes(updatedOptions);
+      return this.client.shortCodes.listShortCodes(updatedOptions);
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public listShortCodeCosts(
+    options: ListShortCodeCostsOptions = {}
+  ): PagedAsyncIterableIterator<ShortCodeCost> {
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "ShortCodesClient-listShortCodeCosts",
+      options
+    );
+    try {
+      return this.client.shortCodes.listCosts(updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -114,10 +136,7 @@ export class ShortCodesClient {
       "ShortCodesClient-upsertUSProgramBrief",
       options,
       (updatedOptions) => {
-        return this.client.shortCodesOperations.upsertUSProgramBrief(
-          programBriefId,
-          updatedOptions
-        );
+        return this.client.shortCodes.upsertUSProgramBrief(programBriefId, updatedOptions);
       }
     );
   }
@@ -130,10 +149,7 @@ export class ShortCodesClient {
       "ShortCodesClient-deleteUSProgramBrief",
       options,
       (updatedOptions) => {
-        return this.client.shortCodesOperations.deleteUSProgramBrief(
-          programBriefId,
-          updatedOptions
-        );
+        return this.client.shortCodes.deleteUSProgramBrief(programBriefId, updatedOptions);
       }
     );
   }
@@ -146,7 +162,7 @@ export class ShortCodesClient {
       "ShortCodesClient-getUSProgramBrief",
       options,
       (updatedOptions) => {
-        return this.client.shortCodesOperations.getUSProgramBrief(programBriefId, updatedOptions);
+        return this.client.shortCodes.getUSProgramBrief(programBriefId, updatedOptions);
       }
     );
   }
@@ -159,7 +175,7 @@ export class ShortCodesClient {
       options
     );
     try {
-      return this.client.shortCodesOperations.listUSProgramBriefs(updatedOptions);
+      return this.client.shortCodes.listUSProgramBriefs(updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -179,10 +195,7 @@ export class ShortCodesClient {
       "ShortCodesClient-submitUSProgramBrief",
       options,
       (updatedOptions) => {
-        return this.client.shortCodesOperations.submitUSProgramBrief(
-          programBriefId,
-          updatedOptions
-        );
+        return this.client.shortCodes.submitUSProgramBrief(programBriefId, updatedOptions);
       }
     );
   }
@@ -196,7 +209,7 @@ export class ShortCodesClient {
       "ShortCodesClient-getUSProgramBriefAttachment",
       options,
       (updatedOptions) => {
-        return this.client.shortCodesOperations.getUSProgramBriefAttachment(
+        return this.client.shortCodes.getUSProgramBriefAttachment(
           programBriefId,
           attachmentId,
           updatedOptions
@@ -214,10 +227,7 @@ export class ShortCodesClient {
       options
     );
     try {
-      return this.client.shortCodesOperations.listUSProgramBriefAttachments(
-        programBriefId,
-        updatedOptions
-      );
+      return this.client.shortCodes.listUSProgramBriefAttachments(programBriefId, updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -238,7 +248,7 @@ export class ShortCodesClient {
       "ShortCodesClient-deleteUSProgramBriefAttachment",
       options,
       (updatedOptions) => {
-        return this.client.shortCodesOperations.deleteUSProgramBriefAttachment(
+        return this.client.shortCodes.deleteUSProgramBriefAttachment(
           programBriefId,
           attachmentId,
           updatedOptions
@@ -260,7 +270,7 @@ export class ShortCodesClient {
       "ShortCodesClient-createOrReplaceUSProgramBriefAttachment",
       options,
       (updatedOptions) => {
-        return this.client.shortCodesOperations.createOrReplaceUSProgramBriefAttachment(
+        return this.client.shortCodes.createOrReplaceUSProgramBriefAttachment(
           programBriefId,
           attachmentId,
           attachmentId,

@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get the list of diagnostics for a Managed Environment used to host container apps.
  *
  * @summary Get the list of diagnostics for a Managed Environment used to host container apps.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-06-01-preview/examples/ManagedEnvironmentDiagnostics_List.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/ManagedEnvironmentDiagnostics_List.json
  */
 async function getTheListOfAvailableDiagnosticDataForAManagedEnvironments() {
-  const subscriptionId = "f07f3711-b45e-40fe-a941-4e6d93f851e6";
-  const resourceGroupName = "mikono-workerapp-test-rg";
+  const subscriptionId =
+    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
+    "f07f3711-b45e-40fe-a941-4e6d93f851e6";
+  const resourceGroupName =
+    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "mikono-workerapp-test-rg";
   const environmentName = "mikonokubeenv";
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
@@ -30,6 +36,8 @@ async function getTheListOfAvailableDiagnosticDataForAManagedEnvironments() {
   console.log(result);
 }
 
-getTheListOfAvailableDiagnosticDataForAManagedEnvironments().catch(
-  console.error
-);
+async function main() {
+  getTheListOfAvailableDiagnosticDataForAManagedEnvironments();
+}
+
+main().catch(console.error);

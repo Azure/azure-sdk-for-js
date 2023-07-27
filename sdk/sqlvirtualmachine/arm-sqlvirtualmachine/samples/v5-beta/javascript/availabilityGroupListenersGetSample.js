@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets an availability group listener.
  *
  * @summary Gets an availability group listener.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-07-01-preview/examples/GetAvailabilityGroupListener.json
+ * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/GetAvailabilityGroupListener.json
  */
 async function getsAnAvailabilityGroupListener() {
   const subscriptionId =

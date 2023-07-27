@@ -6,17 +6,31 @@
 
 /// <reference types="node" />
 
+import { AbortSignalLike } from '@azure/abort-controller';
 import { HttpClient } from '@azure/core-rest-pipeline';
 import { KeyCredential } from '@azure/core-auth';
 import { LogPolicyOptions } from '@azure/core-rest-pipeline';
+import { OperationTracingOptions } from '@azure/core-tracing';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { PipelinePolicy } from '@azure/core-rest-pipeline';
 import { PipelineRequest } from '@azure/core-rest-pipeline';
+import { PipelineResponse } from '@azure/core-rest-pipeline';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
+import { RequestBodyType } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
+import { TransferProgressEvent } from '@azure/core-rest-pipeline';
+
+// @public
+export function addCredentialPipelinePolicy(pipeline: Pipeline, baseUrl: string, options?: AddCredentialPipelinePolicyOptions): void;
+
+// @public
+export interface AddCredentialPipelinePolicyOptions {
+    clientOptions?: ClientOptions;
+    credential?: TokenCredential | KeyCredential;
+}
 
 // @public
 export interface AdditionalPolicyConfig {
@@ -63,6 +77,13 @@ export interface ErrorResponse {
 }
 
 // @public
+export interface FullOperationResponse extends PipelineResponse {
+    parsedBody?: RequestBodyType;
+    rawHeaders?: RawHttpHeaders;
+    request: PipelineRequest;
+}
+
+// @public
 export function getClient(baseUrl: string, options?: ClientOptions): Client;
 
 // @public
@@ -93,6 +114,27 @@ export interface InnerError {
 }
 
 // @public
+export interface OperationOptions {
+    abortSignal?: AbortSignalLike;
+    onResponse?: RawResponseCallback;
+    requestOptions?: OperationRequestOptions;
+    tracingOptions?: OperationTracingOptions;
+}
+
+// @public
+export function operationOptionsToRequestParameters(options: OperationOptions): RequestParameters;
+
+// @public
+export interface OperationRequestOptions {
+    allowInsecureConnection?: boolean;
+    headers?: RawHttpHeadersInput;
+    onDownloadProgress?: (progress: TransferProgressEvent) => void;
+    onUploadProgress?: (progress: TransferProgressEvent) => void;
+    skipUrlEncoding?: boolean;
+    timeout?: number;
+}
+
+// @public
 export type PathParameters<TRoute extends string> = TRoute extends `${infer _Head}/{${infer _Param}}${infer Tail}` ? [
 pathParameter: string,
 ...pathParameters: PathParameters<Tail>
@@ -108,6 +150,9 @@ export type PathUncheckedResponse = HttpResponse & {
 };
 
 // @public
+export type RawResponseCallback = (rawResponse: FullOperationResponse, error?: unknown) => void;
+
+// @public
 export type RequestParameters = {
     headers?: RawHttpHeadersInput;
     accept?: string;
@@ -117,6 +162,12 @@ export type RequestParameters = {
     allowInsecureConnection?: boolean;
     skipUrlEncoding?: boolean;
     pathParameters?: Record<string, any>;
+    timeout?: number;
+    onUploadProgress?: (progress: TransferProgressEvent) => void;
+    onDownloadProgress?: (progress: TransferProgressEvent) => void;
+    abortSignal?: AbortSignalLike;
+    tracingOptions?: OperationTracingOptions;
+    onResponse?: RawResponseCallback;
 };
 
 // @public

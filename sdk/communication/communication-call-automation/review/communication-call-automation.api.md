@@ -27,6 +27,7 @@ export interface AddParticipantFailed extends Omit<RestAddParticipantFailed, "ca
 
 // @public
 export interface AddParticipantOptions extends OperationOptions {
+    callbackUrlOverride?: string;
     invitationTimeoutInSeconds?: number;
     operationContext?: string;
 }
@@ -99,6 +100,7 @@ export class CallConnection {
     getParticipant(targetParticipant: CommunicationIdentifier, options?: GetParticipantOptions): Promise<CallParticipant>;
     hangUp(isForEveryone: boolean, options?: HangUpOptions): Promise<void>;
     listParticipants(options?: GetParticipantOptions): Promise<ListParticipantsResult>;
+    muteParticipants(participant: CommunicationIdentifier, options?: MuteParticipantsOption): Promise<MuteParticipantsResult>;
     removeParticipant(participant: CommunicationIdentifier, options?: RemoveParticipantsOption): Promise<RemoveParticipantResult>;
     transferCallToParticipant(targetParticipant: CommunicationIdentifier, options?: TransferCallToParticipantOptions): Promise<TransferCallResult>;
 }
@@ -158,22 +160,27 @@ export type CallLocatorType = "serverCallLocator" | "groupCallLocator";
 export class CallMedia {
     constructor(callConnectionId: string, endpoint: string, credential: KeyCredential | TokenCredential, options?: CallAutomationApiClientOptionalParams);
     cancelAllOperations(): Promise<void>;
-    play(playSource: FileSource, playTo: CommunicationIdentifier[], playOptions?: PlayOptions): Promise<void>;
-    playToAll(playSource: FileSource, playOptions?: PlayOptions): Promise<void>;
+    play(playSource: FileSource | TextSource | SsmlSource, playTo: CommunicationIdentifier[], playOptions?: PlayOptions): Promise<void>;
+    playToAll(playSource: FileSource | TextSource | SsmlSource, playOptions?: PlayOptions): Promise<void>;
     // Warning: (ae-forgotten-export) The symbol "Tone" needs to be exported by the entry point index.d.ts
-    sendDtmf(targetParticipant: CommunicationIdentifier, tones: Tone[], sendDtmfOptions?: SendDtmfOptions): Promise<void>;
+    sendDtmf(tones: Tone[], targetParticipant: CommunicationIdentifier, sendDtmfOptions?: SendDtmfOptions): Promise<void>;
     startContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, continuousDtmfRecognitionOptions?: ContinuousDtmfRecognitionOptions): Promise<void>;
-    startRecognizing(targetParticipant: CommunicationIdentifier, maxTonesToCollect: number, recognizeOptions: CallMediaRecognizeDtmfOptions): Promise<void>;
+    startRecognizing(targetParticipant: CommunicationIdentifier, maxTonesToCollect: number, recognizeOptions: CallMediaRecognizeDtmfOptions | CallMediaRecognizeChoiceOptions | CallMediaRecognizeSpeechOptions | CallMediaRecognizeSpeechOrDtmfOptions): Promise<void>;
     stopContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, continuousDtmfRecognitionOptions?: ContinuousDtmfRecognitionOptions): Promise<void>;
 }
 
 // @public
-export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions {
+export interface CallMediaRecognizeChoiceOptions extends CallMediaRecognizeOptions {
+    choices: Choice[];
     // (undocumented)
+    readonly kind: "callMediaRecognizeChoiceOptions";
+}
+
+// @public
+export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions {
     interToneTimeoutInSeconds?: number;
     // (undocumented)
     readonly kind: "callMediaRecognizeDtmfOptions";
-    // (undocumented)
     stopDtmfTones?: DtmfTone[];
 }
 
@@ -188,9 +195,27 @@ export interface CallMediaRecognizeOptions extends OperationOptions {
     // (undocumented)
     operationContext?: string;
     // (undocumented)
-    playPrompt?: FileSource;
+    playPrompt?: FileSource | TextSource | SsmlSource;
+    // (undocumented)
+    speechModelEndpointId?: string;
     // (undocumented)
     stopCurrentOperations?: boolean;
+}
+
+// @public
+export interface CallMediaRecognizeSpeechOptions extends CallMediaRecognizeOptions {
+    endSilenceTimeoutInMs?: number;
+    // (undocumented)
+    readonly kind: "callMediaRecognizeSpeechOptions";
+}
+
+// @public
+export interface CallMediaRecognizeSpeechOrDtmfOptions extends CallMediaRecognizeOptions {
+    endSilenceTimeoutInMs?: number;
+    interToneTimeoutInSeconds?: number;
+    // (undocumented)
+    readonly kind: "callMediaRecognizeSpeechOrDtmfOptions";
+    stopDtmfTones?: DtmfTone[];
 }
 
 // @public
@@ -217,12 +242,14 @@ export class CallRecording {
 export type CallRejectReason = string;
 
 // @public
-export interface CallTransferAccepted extends Omit<RestCallTransferAccepted, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
+export interface CallTransferAccepted extends Omit<RestCallTransferAccepted, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation" | "transferee" | "transferTarget"> {
     callConnectionId: string;
     correlationId: string;
     kind: "CallTransferAccepted";
     resultInformation?: ResultInformation;
     serverCallId: string;
+    transferee: CommunicationIdentifier;
+    transferTarget: CommunicationIdentifier;
 }
 
 // @public
@@ -241,12 +268,20 @@ export interface ChannelAffinity {
 }
 
 // @public
+export interface Choice {
+    label: string;
+    phrases: string[];
+    // (undocumented)
+    tone?: DtmfTone;
+}
+
+// @public
 export interface ContinuousDtmfRecognitionOptions extends OperationOptions {
     operationContext?: string;
 }
 
 // @public
-export interface ContinuousDtmfRecognitionStopped extends Omit<RestContinuousDtmfRecognitionStopped, "callConnectionId" | "serverCallId" | "correlationId | operationContext | resultInformation"> {
+export interface ContinuousDtmfRecognitionStopped extends Omit<RestContinuousDtmfRecognitionStopped, "callConnectionId" | "serverCallId" | "correlationId" | "operationContext" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "ContinuousDtmfRecognitionStopped";
@@ -256,19 +291,21 @@ export interface ContinuousDtmfRecognitionStopped extends Omit<RestContinuousDtm
 }
 
 // @public
-export interface ContinuousDtmfRecognitionToneFailed extends Omit<RestContinuousDtmfRecognitionToneFailed, "callConnectionId" | "serverCallId" | "correlationId | resultInformation"> {
+export interface ContinuousDtmfRecognitionToneFailed extends Omit<RestContinuousDtmfRecognitionToneFailed, "callConnectionId" | "serverCallId" | "correlationId" | "operationContext" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "ContinuousDtmfRecognitionToneFailed";
+    operationContext?: string;
     resultInformation?: ResultInformation;
     serverCallId: string;
 }
 
 // @public
-export interface ContinuousDtmfRecognitionToneReceived extends Omit<RestContinuousDtmfRecognitionToneReceived, "toneInfo | callConnectionId" | "serverCallId" | "correlationId | resultInformation"> {
+export interface ContinuousDtmfRecognitionToneReceived extends Omit<RestContinuousDtmfRecognitionToneReceived, "toneInfo" | "callConnectionId" | "serverCallId" | "correlationId" | "operationContext" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "ContinuousDtmfRecognitionToneReceived";
+    operationContext?: string;
     resultInformation?: ResultInformation;
     serverCallId: string;
     toneInfo: ToneInfo;
@@ -334,6 +371,12 @@ export interface FileSource extends PlaySource {
 }
 
 // @public
+export enum Gender {
+    Female = "female",
+    Male = "male"
+}
+
+// @public
 export type GetCallConnectionPropertiesOptions = OperationOptions;
 
 // @public
@@ -390,6 +433,16 @@ export type MediaStreamingContentType = string;
 
 // @public
 export type MediaStreamingTransportType = string;
+
+// @public
+export interface MuteParticipantsOption extends OperationOptions {
+    operationContext?: string;
+}
+
+// @public
+export interface MuteParticipantsResult {
+    operationContext?: string;
+}
 
 // @public
 export function parseCallAutomationEvent(encodedEvents: string | Record<string, unknown>): CallAutomationEvent;
@@ -540,6 +593,7 @@ export interface RemoveParticipantResult {
 
 // @public
 export interface RemoveParticipantsOption extends OperationOptions {
+    callbackUrlOverride?: string;
     operationContext?: string;
 }
 
@@ -597,6 +651,8 @@ export interface RestCallTransferAccepted {
     operationContext?: string;
     resultInformation?: RestResultInformation;
     serverCallId?: string;
+    readonly transferee?: CommunicationIdentifierModel;
+    readonly transferTarget?: CommunicationIdentifierModel;
 }
 
 // @public
@@ -621,6 +677,7 @@ export interface RestContinuousDtmfRecognitionStopped {
 export interface RestContinuousDtmfRecognitionToneFailed {
     callConnectionId?: string;
     correlationId?: string;
+    operationContext?: string;
     resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
@@ -629,6 +686,7 @@ export interface RestContinuousDtmfRecognitionToneFailed {
 export interface RestContinuousDtmfRecognitionToneReceived {
     callConnectionId?: string;
     correlationId?: string;
+    operationContext?: string;
     resultInformation?: RestResultInformation;
     serverCallId?: string;
     toneInfo?: RestToneInfo;
@@ -739,11 +797,8 @@ export interface RestRemoveParticipantSucceeded {
 
 // @public (undocumented)
 export interface RestResultInformation {
-    // (undocumented)
     code?: number;
-    // (undocumented)
     message?: string;
-    // (undocumented)
     subCode?: number;
 }
 
@@ -767,7 +822,6 @@ export interface RestSendDtmfFailed {
 
 // @public
 export interface RestToneInfo {
-    participantId?: string;
     sequenceId: number;
     // (undocumented)
     tone: Tone;
@@ -784,7 +838,7 @@ export interface ResultInformation extends Omit<RestResultInformation, "code" | 
 export type ResumeRecordingOptions = OperationOptions;
 
 // @public
-export interface SendDtmfCompleted extends Omit<RestSendDtmfCompleted, "callConnectionId" | "serverCallId" | "correlationId | operationContext | resultInformation"> {
+export interface SendDtmfCompleted extends Omit<RestSendDtmfCompleted, "callConnectionId" | "serverCallId" | "correlationId" | "operationContext" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "SendDtmfCompleted";
@@ -794,7 +848,7 @@ export interface SendDtmfCompleted extends Omit<RestSendDtmfCompleted, "callConn
 }
 
 // @public
-export interface SendDtmfFailed extends Omit<RestSendDtmfFailed, "callConnectionId" | "serverCallId" | "correlationId | operationContext | resultInformation"> {
+export interface SendDtmfFailed extends Omit<RestSendDtmfFailed, "callConnectionId" | "serverCallId" | "correlationId" | "operationContext" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "SendDtmfFailed";
@@ -806,6 +860,16 @@ export interface SendDtmfFailed extends Omit<RestSendDtmfFailed, "callConnection
 // @public
 export interface SendDtmfOptions extends OperationOptions {
     operationContext?: string;
+}
+
+// @public
+export interface SsmlSource extends PlaySource {
+    // (undocumented)
+    customVoiceEndpointId?: string;
+    // (undocumented)
+    readonly kind: "ssmlSource";
+    // (undocumented)
+    ssmlText: string;
 }
 
 // @public
@@ -823,8 +887,23 @@ export interface StartRecordingOptions extends OperationOptions {
 export type StopRecordingOptions = OperationOptions;
 
 // @public
-export interface ToneInfo extends Omit<RestToneInfo, "sequenceId" | "tone" | "participantId"> {
-    participantId?: string;
+export interface TextSource extends PlaySource {
+    // (undocumented)
+    customVoiceEndpointId?: string;
+    // (undocumented)
+    readonly kind: "textSource";
+    // (undocumented)
+    sourceLocale?: string;
+    // (undocumented)
+    text: string;
+    // (undocumented)
+    voiceGender?: Gender;
+    // (undocumented)
+    voiceName?: string;
+}
+
+// @public
+export interface ToneInfo extends Omit<RestToneInfo, "sequenceId" | "tone"> {
     sequenceId: number;
     tone: Tone;
 }
@@ -836,10 +915,12 @@ export interface TransferCallResult {
 
 // @public
 export interface TransferCallToParticipantOptions extends OperationOptions {
+    callbackUrlOverride?: string;
     operationContext?: string;
     sipHeaders?: {
         [propertyName: string]: string;
     };
+    transferee?: CommunicationIdentifier;
     voipHeaders?: {
         [propertyName: string]: string;
     };

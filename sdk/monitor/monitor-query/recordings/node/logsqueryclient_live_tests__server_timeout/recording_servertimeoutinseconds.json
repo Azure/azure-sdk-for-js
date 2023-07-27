@@ -8,42 +8,38 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "73",
+        "Content-Length": "77",
         "Content-Type": "application/json",
         "Prefer": "wait=1",
-        "User-Agent": "azsdk-js-monitor-query/1.0.1 azsdk-js-monitor-log-query/1.0.1 core-rest-pipeline/1.5.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "88b1ed9d-d932-4bcc-9310-ca12806b521f"
+        "User-Agent": "azsdk-js-monitor-query/1.1.0 azsdk-js-monitor-log-query/1.1.0 core-rest-pipeline/1.10.4 Node/v18.16.0 OS/(x64-Linux-6.2.10-arch1-1)",
+        "x-ms-client-request-id": "691e0e20-d37e-41a8-a1ac-6a1bec3e7ac2"
       },
       "RequestBody": {
-        "query": "range x from 1 to 10000000000 step 1 | count",
-        "timespan": "P24H"
+        "query": "range x from 1 to 10000000000000 step 1 | count",
+        "timespan": "PT24H"
       },
       "StatusCode": 504,
       "ResponseHeaders": {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Expose-Headers": "Retry-After,Age,WWW-Authenticate,x-resource-identities,x-ms-status-location",
         "Connection": "keep-alive",
-        "Content-Length": "245",
+        "Content-Length": "189",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 11 Feb 2022 23:21:01 GMT",
+        "Date": "Thu, 25 May 2023 21:38:00 GMT",
         "Preference-Applied": "wait=1",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Vary": "Accept-Encoding",
-        "Via": "1.1 draft-oms-5565f6c877-8hmw8",
+        "Via": "1.1 draft-oms-7487455674-s94mt",
         "X-Content-Type-Options": "nosniff"
       },
       "ResponseBody": {
         "error": {
           "message": "Gateway timeout",
           "code": "GatewayTimeout",
-          "correlationId": "b189ff9a-7a1e-4bb5-87f7-5c0a31ee1f9f",
+          "correlationId": "9d0e4ba3-54c6-4758-b0c3-8cd2510e9fdb",
           "innererror": {
             "code": "GatewayTimeout",
-            "message": "Connection error",
-            "statusDetails": {
-              "code": "ESOCKETTIMEDOUT",
-              "connect": false
-            }
+            "message": "ADX query timed out"
           }
         }
       }

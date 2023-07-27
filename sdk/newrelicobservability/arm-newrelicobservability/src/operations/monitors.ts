@@ -57,6 +57,7 @@ import {
   MonitorsGetMetricStatusResponse,
   SwitchBillingRequest,
   MonitorsSwitchBillingOptionalParams,
+  MonitorsSwitchBillingResponse,
   MonitorsVmHostPayloadOptionalParams,
   MonitorsVmHostPayloadResponse,
   MonitorsListBySubscriptionNextResponse,
@@ -789,7 +790,7 @@ export class MonitorsImpl implements Monitors {
     monitorName: string,
     request: SwitchBillingRequest,
     options?: MonitorsSwitchBillingOptionalParams
-  ): Promise<void> {
+  ): Promise<MonitorsSwitchBillingResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, request, options },
       switchBillingOperationSpec
@@ -1163,6 +1164,12 @@ const switchBillingOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/switchBilling",
   httpMethod: "POST",
   responses: {
+    200: {
+      bodyMapper: Mappers.NewRelicMonitorResource
+    },
+    202: {
+      headersMapper: Mappers.MonitorsSwitchBillingHeaders
+    },
     204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse

@@ -5,6 +5,7 @@ import { OperationOptions } from "@azure/core-client";
 import {
   ShortCodesGetShortCodesOptionalParams,
   ShortCodesGetUSProgramBriefsOptionalParams,
+  ShortCodesGetCostsOptionalParams,
 } from ".";
 
 /**
@@ -28,6 +29,11 @@ export interface SubmitUSProgramBriefOptions extends OperationOptions {}
 export interface ListShortCodesOptions extends ShortCodesGetShortCodesOptionalParams {}
 
 /**
+ * Additional options for the List Short Code Costs request.
+ */
+export interface ListShortCodeCostsOptions extends ShortCodesGetCostsOptionalParams {}
+
+/**
  * Additional options for the List US Program Brief request.
  */
 export interface ListUSProgramBriefsOptions extends ShortCodesGetUSProgramBriefsOptionalParams {}
@@ -43,6 +49,7 @@ export {
   MessageDetails,
   TrafficDetails,
   ShortCodesGetShortCodesOptionalParams,
+  ShortCodesGetCostsOptionalParams,
   ShortCodesUpsertUSProgramBriefOptionalParams,
   BillingFrequency,
   CallToActionType,

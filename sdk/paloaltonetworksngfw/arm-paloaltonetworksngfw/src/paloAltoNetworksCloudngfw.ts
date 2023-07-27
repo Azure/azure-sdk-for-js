@@ -24,6 +24,7 @@ import {
   OperationsImpl,
   FirewallsImpl,
   LocalRulestacksImpl,
+  FirewallStatusImpl,
   CertificateObjectLocalRulestackImpl,
   FqdnListLocalRulestackImpl,
   LocalRulesImpl,
@@ -39,6 +40,7 @@ import {
   Operations,
   Firewalls,
   LocalRulestacks,
+  FirewallStatus,
   CertificateObjectLocalRulestack,
   FqdnListLocalRulestack,
   LocalRules,
@@ -49,7 +51,7 @@ import { PaloAltoNetworksCloudngfwOptionalParams } from "./models";
 export class PaloAltoNetworksCloudngfw extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the PaloAltoNetworksCloudngfw class.
@@ -61,12 +63,26 @@ export class PaloAltoNetworksCloudngfw extends coreClient.ServiceClient {
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: PaloAltoNetworksCloudngfwOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: PaloAltoNetworksCloudngfwOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: PaloAltoNetworksCloudngfwOptionalParams | string,
+    options?: PaloAltoNetworksCloudngfwOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -78,7 +94,7 @@ export class PaloAltoNetworksCloudngfw extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-paloaltonetworksngfw/1.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-paloaltonetworksngfw/1.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -131,7 +147,7 @@ export class PaloAltoNetworksCloudngfw extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-08-29-preview";
+    this.apiVersion = options.apiVersion || "2022-08-29";
     this.globalRulestack = new GlobalRulestackImpl(this);
     this.certificateObjectGlobalRulestack = new CertificateObjectGlobalRulestackImpl(
       this
@@ -143,6 +159,7 @@ export class PaloAltoNetworksCloudngfw extends coreClient.ServiceClient {
     this.operations = new OperationsImpl(this);
     this.firewalls = new FirewallsImpl(this);
     this.localRulestacks = new LocalRulestacksImpl(this);
+    this.firewallStatus = new FirewallStatusImpl(this);
     this.certificateObjectLocalRulestack = new CertificateObjectLocalRulestackImpl(
       this
     );
@@ -189,6 +206,7 @@ export class PaloAltoNetworksCloudngfw extends coreClient.ServiceClient {
   operations: Operations;
   firewalls: Firewalls;
   localRulestacks: LocalRulestacks;
+  firewallStatus: FirewallStatus;
   certificateObjectLocalRulestack: CertificateObjectLocalRulestack;
   fqdnListLocalRulestack: FqdnListLocalRulestack;
   localRules: LocalRules;

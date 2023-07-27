@@ -244,4 +244,11 @@ export {
   AcsIncomingCallCustomContext,
   DataBoxStageName,
   StorageTaskCompletedStatus,
+  ContainerServiceClusterSupportEndedEventData,
+  ContainerServiceClusterSupportEndingEventData,
+  ContainerServiceNodePoolRollingStartedEventData,
+  ContainerServiceNodePoolRollingSucceededEventData,
+  ContainerServiceNodePoolRollingFailedEventData,
+  ContainerServiceClusterSupportEventData,
+  ContainerServiceNodePoolRollingEventData,
 } from "./generated/models";

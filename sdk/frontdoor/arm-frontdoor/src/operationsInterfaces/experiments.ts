@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Experiment,
   ExperimentsListByProfileOptionalParams,
@@ -63,8 +63,8 @@ export interface Experiments {
     parameters: Experiment,
     options?: ExperimentsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ExperimentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ExperimentsCreateOrUpdateResponse>,
       ExperimentsCreateOrUpdateResponse
     >
   >;
@@ -98,8 +98,8 @@ export interface Experiments {
     parameters: ExperimentUpdateModel,
     options?: ExperimentsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ExperimentsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ExperimentsUpdateResponse>,
       ExperimentsUpdateResponse
     >
   >;
@@ -130,7 +130,7 @@ export interface Experiments {
     profileName: string,
     experimentName: string,
     options?: ExperimentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an Experiment
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
