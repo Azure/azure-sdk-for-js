@@ -56,11 +56,12 @@ export async function checkEpkHeaders(
     return [overLappingRange.minInclusive, pkRange.maxExclusive];
   }
 }
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /**
  * @interal
  * Checks if the object is a valid EpkRange
  */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 export function isEpkRange(obj: any): obj is PartitionKeyRange {
   return (
     obj &&

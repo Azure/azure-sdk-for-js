@@ -257,8 +257,7 @@ export class Items {
 
     switch (cfResource.resource) {
       case ChangeFeedResourceType.PartitionKey:
-        let isPartitionKeyValue = isPartitionKey(cfResource.value);
-        if (isPartitionKeyValue) {
+        if (isPartitionKey(cfResource.value)) {
           iterator = new ChangeFeedForPartitionKey(
             this.clientContext,
             id,
