@@ -9,9 +9,8 @@ import { createTestRegistry } from "./utils/mockedRegistryClient";
 import { createTestSerializer } from "./utils/mockedSerializer";
 import { encoder, testGroup} from "./utils/dummies";
 import { Recorder } from "@azure-tools/test-recorder";
-// import { assertError } from "./utils/assertError";
-import Ajv from "ajv";
 import { assertError } from "./utils/assertError";
+import Ajv from "ajv";
 
 chaiUse(chaiPromises);
 
@@ -44,7 +43,9 @@ describe("Deserialize Validation", function () {
         const ajv = new Ajv();
         const validator = ajv.compile(JSON.parse(schema));
         const valid = validator(message);
-        return valid ? valid : { isValid: valid, message: JSON.stringify(validator.errors) };
+        if (!valid){
+          throw new Error(JSON.stringify(validator.errors))
+        }
       },
     };
     ({ id } = await registry.registerSchema({
@@ -69,7 +70,7 @@ describe("Deserialize Validation", function () {
     }));
   });
 
-  describe.skip("Value validation", function () {
+  describe("Value validation", function () {
     it("succeeds with incompatible data", async function () {
       const data = {
         favoriteNumber: "four",
@@ -97,7 +98,7 @@ describe("Deserialize Validation", function () {
           validateWithAjvOption
         ),
         {
-          message: /Json validation failed with schema ID/,
+          message: /Json validation failed/,
           causeMessage: /must have required property 'name'/,
         }
       );
@@ -117,7 +118,7 @@ describe("Deserialize Validation", function () {
           validateWithAjvOption
         ),
         {
-          message: /Json validation failed with schema ID/,
+          message: /Json validation failed/,
           causeMessage: /must be integer/,
         }
       );
