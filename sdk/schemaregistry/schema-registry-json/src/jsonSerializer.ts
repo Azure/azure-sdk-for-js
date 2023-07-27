@@ -127,7 +127,7 @@ export class JsonSerializer<MessageT = MessageContent> {
     if (validate) {
       wrapError(
         () => validate(returnedMessage, schema),
-        `Json serialization failed. See 'cause' for more details. Schema ID: ${schemaId}`
+        `Json validation failed. See 'cause' for more details. Schema ID: ${schemaId}`
       );
     }
     return returnedMessage;
