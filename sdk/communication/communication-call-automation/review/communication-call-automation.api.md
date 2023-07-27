@@ -884,11 +884,11 @@ export class SIPCustomHeader implements CustomContextHeader {
 }
 
 // @public
-export interface SIPUUIHeader extends CustomContextHeader {
+export interface SIPUserToUserHeader extends CustomContextHeader {
 }
 
 // @public
-export class SIPUUIHeader implements CustomContextHeader {
+export class SIPUserToUserHeader implements CustomContextHeader {
     constructor(value: string);
 }
 

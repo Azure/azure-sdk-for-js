@@ -161,8 +161,8 @@ interface CustomContextHeader {
 /** SIPCustomHeader */
 export interface SIPCustomHeader extends CustomContextHeader {}
 
-/** SIPUUIHeader */
-export interface SIPUUIHeader extends CustomContextHeader {}
+/** SIPUserToUserHeader */
+export interface SIPUserToUserHeader extends CustomContextHeader {}
 
 /** VoipHeader */
 export interface VoipHeader extends CustomContextHeader {}
@@ -177,7 +177,7 @@ export class SIPCustomHeader implements CustomContextHeader {
 }
 
 /** Custom Context SIP User-to-User header */
-export class SIPUUIHeader implements CustomContextHeader {
+export class SIPUserToUserHeader implements CustomContextHeader {
   // Create a new SIP UUI header.
   constructor(value: string) {
     this.key = "User-to-User";
@@ -209,7 +209,7 @@ export class CustomContext {
 
   /** Add a custom context sip or voip header. */
   public add(header: CustomContextHeader): void {
-    if (header instanceof SIPUUIHeader) {
+    if (header instanceof SIPUserToUserHeader) {
       if (this.sipHeaders == null) {
         throw new Error("Cannot add sip header, SipHeaders is null.");
       }
