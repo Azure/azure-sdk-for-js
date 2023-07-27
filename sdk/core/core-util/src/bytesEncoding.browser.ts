@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+declare global {
+  // stub these out for the browser
+  function btoa(input: string): string;
+  function atob(input: string): string;
+}
+
 export type EncodingType = "utf-8" | "base64" | "base64url";
 
 /**
@@ -42,7 +48,7 @@ export function stringToUint8Array(value: string, format: EncodingType): Uint8Ar
  * @internal
  */
 export function uint8ArrayToBase64(bytes: Uint8Array): string {
-  return Buffer.from(bytes).toString("base64");
+  return btoa(String.fromCharCode.apply(null, bytes as any as number[]));
 }
 
 /**
@@ -50,7 +56,10 @@ export function uint8ArrayToBase64(bytes: Uint8Array): string {
  * @internal
  */
 export function uint8ArrayToBase64Url(bytes: Uint8Array): string {
-  return Buffer.from(bytes).toString("base64url");
+  return btoa(String.fromCharCode.apply(null, bytes as any as number[]))
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=/g, "");
 }
 
 /**
@@ -58,7 +67,7 @@ export function uint8ArrayToBase64Url(bytes: Uint8Array): string {
  * @internal
  */
 export function uint8ArrayToUtf8String(bytes: Uint8Array): string {
-  return Buffer.from(bytes).toString("utf-8");
+  return String.fromCharCode.apply(null, bytes as any as number[]);
 }
 
 /**
@@ -66,7 +75,7 @@ export function uint8ArrayToUtf8String(bytes: Uint8Array): string {
  * @internal
  */
 export function utf8StringToUint8Array(value: string): Uint8Array {
-  return Buffer.from(value);
+  return Uint8Array.from(value, (c) => c.charCodeAt(0));
 }
 
 /**
@@ -74,7 +83,7 @@ export function utf8StringToUint8Array(value: string): Uint8Array {
  * @internal
  */
 export function base64ToUint8Array(value: string): Uint8Array {
-  return Buffer.from(value, "base64");
+  return Uint8Array.from(atob(value), (c) => c.charCodeAt(0));
 }
 
 /**
@@ -82,5 +91,5 @@ export function base64ToUint8Array(value: string): Uint8Array {
  * @internal
  */
 export function base64UrlToUint8Array(value: string): Uint8Array {
-  return Buffer.from(value, "base64url");
+  return Uint8Array.from(atob(value.replace(/-/g, "+").replace(/_/g, "/")), (c) => c.charCodeAt(0));
 }
