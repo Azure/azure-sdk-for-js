@@ -59,5 +59,5 @@ export interface DeserializeOptions {
   /**
    * Validate the value against the schema. Raise an error if the validation is not successful.
    */
-  validateCallback?: (message: string, schema: string) => boolean | { isValid: false; message: string };
+  validateCallback?: (message: string, schema: string) => void;
 }
