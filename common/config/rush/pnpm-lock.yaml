@@ -350,6 +350,7 @@ specifiers:
   '@rush-temp/web-pubsub-client': file:./projects/web-pubsub-client.tgz
   '@rush-temp/web-pubsub-client-protobuf': file:./projects/web-pubsub-client-protobuf.tgz
   '@rush-temp/web-pubsub-express': file:./projects/web-pubsub-express.tgz
+  path-scurry: 1.6.3
 
 dependencies:
   '@rush-temp/abort-controller': file:projects/abort-controller.tgz
@@ -701,6 +702,7 @@ dependencies:
   '@rush-temp/web-pubsub-client': file:projects/web-pubsub-client.tgz
   '@rush-temp/web-pubsub-client-protobuf': file:projects/web-pubsub-client-protobuf.tgz
   '@rush-temp/web-pubsub-express': file:projects/web-pubsub-express.tgz
+  path-scurry: 1.6.3
 
 packages:
 
@@ -4803,7 +4805,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230727
+      typescript: 5.2.0-dev.20230728
     dev: false
 
   /duplexer3/0.1.5:
@@ -5885,7 +5887,7 @@ packages:
       fs.realpath: 1.0.0
       minimatch: 8.0.4
       minipass: 4.2.8
-      path-scurry: 1.10.1
+      path-scurry: 1.6.3
     dev: false
 
   /global-dirs/3.0.1:
@@ -7320,11 +7322,6 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
-  /lru-cache/10.0.0:
-    resolution: {integrity: sha512-svTf/fzsKHffP42sujkO/Rjs37BCIsQVRCeNYIm9WN8rgT7ffoUnRtZCqU+6BqcSBdv8gwJeTz8knJpgACeQMw==}
-    engines: {node: 14 || >=16.14}
-    dev: false
-
   /lru-cache/5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
     dependencies:
@@ -7666,11 +7663,6 @@ packages:
   /minipass/5.0.0:
     resolution: {integrity: sha512-3FnjYuehv9k6ovOEbyOswadCDPX1piCfhV8ncmYtHOjuPwylVWsghTLo7rabjC3Rx5xD4HDx8Wm1xnMF7S5qFQ==}
     engines: {node: '>=8'}
-    dev: false
-
-  /minipass/7.0.2:
-    resolution: {integrity: sha512-eL79dXrE1q9dBbDCLg7xfn/vl7MS4F1gvJAgjJrQli/jbQWdUttuVawphqpffoIYfRdq78LHx6GP4bU/EQ2ATA==}
-    engines: {node: '>=16 || 14 >=14.17'}
     dev: false
 
   /minizlib/2.1.2:
@@ -8460,12 +8452,12 @@ packages:
     resolution: {integrity: sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==}
     dev: false
 
-  /path-scurry/1.10.1:
-    resolution: {integrity: sha512-MkhCqzzBEpPvxxQ71Md0b1Kk51W01lrYvlMzSUaIzNsODdd7mqhiimSZlr+VegAz5Z6Vzt9Xg2ttE//XBhH3EQ==}
+  /path-scurry/1.6.3:
+    resolution: {integrity: sha512-RAmB+n30SlN+HnNx6EbcpoDy9nwdpcGPnEKrJnu6GZoDWBdIjo1UQMVtW2ybtC7LC2oKLcMq8y5g8WnKLiod9g==}
     engines: {node: '>=16 || 14 >=14.17'}
     dependencies:
-      lru-cache: 10.0.0
-      minipass: 7.0.2
+      lru-cache: 7.18.3
+      minipass: 4.2.8
     dev: false
 
   /path-to-regexp/0.1.7:
@@ -10300,8 +10292,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230727:
-    resolution: {integrity: sha512-HTNqxwU5roYnvWrrdTxKLREZ+fygKOpf7q2DAhfZntqgyQNxZzZdDypigMS8tNmeQN2X/ohbNzX9PnhHoCCmfw==}
+  /typescript/5.2.0-dev.20230728:
+    resolution: {integrity: sha512-pI6gdSexHd/ESfy6Vwmd6bdId1UIYl1fkE8d2o/n/frQCeD6oupH93WTh0syCk3mYMpnx++flvR1X2WHJS1oVg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -11399,7 +11391,7 @@ packages:
     dev: false
 
   file:projects/api-management-custom-widgets-scaffolder.tgz:
-    resolution: {integrity: sha512-fsqRqHNX8+F35bz91M8iLgKvGxMYkAYcda57w1OPXigOKkRnkHlOorTjnlN7WGx6SUS/XyV/9NV/CxE31YlfiA==, tarball: file:projects/api-management-custom-widgets-scaffolder.tgz}
+    resolution: {integrity: sha512-HqvtFrQZuvn5yqxDBjhXtBlVaTEoVAMdBg4rpjl5vTK+dP85BQPTcC80vbWQFAaQpi1vYyXI8iTKwqmfglAZaQ==, tarball: file:projects/api-management-custom-widgets-scaffolder.tgz}
     name: '@rush-temp/api-management-custom-widgets-scaffolder'
     version: 0.0.0
     dependencies:
@@ -11429,12 +11421,15 @@ packages:
       rimraf: 3.0.2
       rollup: 2.79.1
       sinon: 15.2.0
+      ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.1
       typescript: 5.0.4
       util: 0.12.5
       yargs: 17.7.2
       yargs-parser: 21.1.1
     transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
       - supports-color
     dev: false
 
@@ -16757,7 +16752,7 @@ packages:
     dev: false
 
   file:projects/arm-sql.tgz:
-    resolution: {integrity: sha512-EpSU2v4ZtF6cBet3xtDZP6CVKFpIueokt1QWq2L94nDbejTY0apqrB5ld7Y1wMFd2eCjkWdyOemcoMU3aiEpng==, tarball: file:projects/arm-sql.tgz}
+    resolution: {integrity: sha512-JPKp259J5nN+vVi2wzvaIMG+pNlhqHdbjgBFZtF9W1gs3cBR9RX6ZLdzc1FU4ETQ5incWZTpV0+hr/9cWQ7pYg==, tarball: file:projects/arm-sql.tgz}
     name: '@rush-temp/arm-sql'
     version: 0.0.0
     dependencies:
@@ -21689,7 +21684,7 @@ packages:
     dev: false
 
   file:projects/synapse-artifacts.tgz:
-    resolution: {integrity: sha512-a3t9WQAwAL4yGTrCNEjWwLy1F8WZvlCUJH/gvTvAByCDQFyMxXnzHnmwjyfX6mqwMwMI1xrg21friMobdmRM6A==, tarball: file:projects/synapse-artifacts.tgz}
+    resolution: {integrity: sha512-dH+gWGwhkEd1ZO/50EEX8BpsXZ+rFqXznGGCIhIW9Q5tbi21QsY2/0k13eGQxRHJjPvKrYRmVSTs926Ll3feKQ==, tarball: file:projects/synapse-artifacts.tgz}
     name: '@rush-temp/synapse-artifacts'
     version: 0.0.0
     dependencies:
