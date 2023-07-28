@@ -48,7 +48,7 @@ By default, the serializer will create messages structured as follows:
   message payload and into the schema registry.
 
 - `contentType`: a string of the following format `application/json+<Schema ID>` where
-  the `application/json` part signals that this message has an Json-serialized payload
+  the `application/json` part signals that this message has a Json-serialized payload
   and the `<Schema Id>` part is the Schema ID the Schema Registry service assigned
   to the schema used to serialize this payload.
 
