@@ -18,24 +18,25 @@ dotenv.config();
  * This sample demonstrates how to Create a new layer 2 (L2) network or update the properties of the existing network.
  *
  * @summary Create a new layer 2 (L2) network or update the properties of the existing network.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2022-12-12-preview/examples/L2Networks_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2023-05-01-preview/examples/L2Networks_Create.json
  */
 async function createOrUpdateL2Network() {
   const subscriptionId =
-    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] || "subscriptionId";
+    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
+    "123e4567-e89b-12d3-a456-426655440000";
   const resourceGroupName =
     process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
   const l2NetworkName = "l2NetworkName";
   const l2NetworkParameters: L2Network = {
     extendedLocation: {
       name:
-        "/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterExtendedLocationName",
+        "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterExtendedLocationName",
       type: "CustomLocation"
     },
     hybridAksPluginType: "DPDK",
     interfaceName: "eth0",
     l2IsolationDomainId:
-      "/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/l2IsolationDomainName",
+      "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/l2IsolationDomainName",
     location: "location",
     tags: { key1: "myvalue1", key2: "myvalue2" }
   };

@@ -18,11 +18,12 @@ dotenv.config();
  * This sample demonstrates how to Get a list of layer 3 (L3) networks in the provided subscription.
  *
  * @summary Get a list of layer 3 (L3) networks in the provided subscription.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2022-12-12-preview/examples/L3Networks_ListBySubscription.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2023-05-01-preview/examples/L3Networks_ListBySubscription.json
  */
 async function listL3NetworksForSubscription() {
   const subscriptionId =
-    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] || "subscriptionId";
+    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
+    "123e4567-e89b-12d3-a456-426655440000";
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const resArray = new Array();

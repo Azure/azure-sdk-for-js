@@ -18,28 +18,27 @@ dotenv.config();
  * This sample demonstrates how to Create a new layer 3 (L3) network or update the properties of the existing network.
  *
  * @summary Create a new layer 3 (L3) network or update the properties of the existing network.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2022-12-12-preview/examples/L3Networks_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2023-05-01-preview/examples/L3Networks_Create.json
  */
 async function createOrUpdateL3Network() {
   const subscriptionId =
-    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] || "subscriptionId";
+    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
+    "123e4567-e89b-12d3-a456-426655440000";
   const resourceGroupName =
     process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
   const l3NetworkName = "l3NetworkName";
   const l3NetworkParameters: L3Network = {
     extendedLocation: {
       name:
-        "/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterExtendedLocationName",
+        "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterExtendedLocationName",
       type: "CustomLocation"
     },
-    hybridAksIpamEnabled: "True",
-    hybridAksPluginType: "DPDK",
     interfaceName: "eth0",
     ipAllocationType: "DualStack",
     ipv4ConnectedPrefix: "198.51.100.0/24",
     ipv6ConnectedPrefix: "2001:db8::/64",
     l3IsolationDomainId:
-      "/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/l3IsolationDomainName",
+      "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/l3IsolationDomainName",
     location: "location",
     tags: { key1: "myvalue1", key2: "myvalue2" },
     vlan: 12

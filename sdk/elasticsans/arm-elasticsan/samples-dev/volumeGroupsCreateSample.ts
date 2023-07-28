@@ -18,24 +18,27 @@ dotenv.config();
  * This sample demonstrates how to Create a Volume Group.
  *
  * @summary Create a Volume Group.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/VolumeGroups_Create_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2022-12-01-preview/examples/VolumeGroups_Create_MaximumSet_Gen.json
  */
 async function volumeGroupsCreateMaximumSetGen() {
   const subscriptionId =
-    process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaa";
+    process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName =
-    process.env["ELASTICSANS_RESOURCE_GROUP"] || "rgelasticsan";
-  const elasticSanName = "ti7q-k952-1qB3J_5";
-  const volumeGroupName = "u_5I_1j4t3";
+    process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
+  const elasticSanName = "elasticsanname";
+  const volumeGroupName = "volumegroupname";
   const parameters: VolumeGroup = {
     encryption: "EncryptionAtRestWithPlatformKey",
     networkAcls: {
       virtualNetworkRules: [
-        { action: "Allow", virtualNetworkResourceId: "aaaaaaaaaaaaaaaa" }
+        {
+          action: "Allow",
+          virtualNetworkResourceId:
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}"
+        }
       ]
     },
-    protocolType: "Iscsi",
-    tags: { key5933: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa" }
+    protocolType: "Iscsi"
   };
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
@@ -52,15 +55,15 @@ async function volumeGroupsCreateMaximumSetGen() {
  * This sample demonstrates how to Create a Volume Group.
  *
  * @summary Create a Volume Group.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/VolumeGroups_Create_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2022-12-01-preview/examples/VolumeGroups_Create_MinimumSet_Gen.json
  */
 async function volumeGroupsCreateMinimumSetGen() {
   const subscriptionId =
-    process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaa";
+    process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName =
-    process.env["ELASTICSANS_RESOURCE_GROUP"] || "rgelasticsan";
-  const elasticSanName = "ti7q-k952-1qB3J_5";
-  const volumeGroupName = "u_5I_1j4t3";
+    process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
+  const elasticSanName = "elasticsanname";
+  const volumeGroupName = "volumegroupname";
   const parameters: VolumeGroup = {};
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);

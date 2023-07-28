@@ -38,6 +38,7 @@ import {
   PhoneNumberIdentifierModelConverter,
 } from "./utli/converters";
 import { v4 as uuidv4 } from "uuid";
+import { createCallAutomationAuthPolicy } from "./credential/callAutomationAuthPolicy";
 
 /**
  * Client options used to configure CallAutomation Client API requests.
@@ -108,11 +109,27 @@ export class CallAutomationClient {
     };
 
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
-    const authPolicy = createCommunicationAuthPolicy(credential);
 
     this.credential = credential;
-    this.callAutomationApiClient = new CallAutomationApiClient(url, this.internalPipelineOptions);
-    this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
+
+    // read environment variable for callAutomation auth
+    const customEnabled = process.env.COMMUNICATION_CUSTOM_ENDPOINT_ENABLED;
+    const customUrl = process.env.COMMUNICATION_CUSTOM_URL;
+
+    if (customEnabled?.toLowerCase() === "true" && customUrl) {
+      // add custom header for Call Automation auth when flag is true
+      this.callAutomationApiClient = new CallAutomationApiClient(
+        customUrl,
+        this.internalPipelineOptions
+      );
+      const callAutomationAuthPolicy = createCallAutomationAuthPolicy(credential, url);
+      this.callAutomationApiClient.pipeline.addPolicy(callAutomationAuthPolicy);
+    } else {
+      this.callAutomationApiClient = new CallAutomationApiClient(url, this.internalPipelineOptions);
+      const authPolicy = createCommunicationAuthPolicy(credential);
+      this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
+    }
+
     this.sourceIdentity = communicationUserIdentifierModelConverter(options.sourceIdentity);
   }
 
@@ -214,8 +231,8 @@ export class CallAutomationClient {
       azureCognitiveServicesEndpointUrl: options.azureCognitiveServicesEndpointUrl,
       mediaStreamingConfiguration: options.mediaStreamingConfiguration,
       customContext: {
-        sipHeaders: targetParticipant.sipHeaders,
-        voipHeaders: targetParticipant.voipHeaders,
+        sipHeaders: targetParticipant.customContext?.sipHeaders,
+        voipHeaders: targetParticipant.customContext?.voipHeaders,
       },
       sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(
         targetParticipant.sourceCallIdNumber
@@ -245,8 +262,8 @@ export class CallAutomationClient {
       azureCognitiveServicesEndpointUrl: options.azureCognitiveServicesEndpointUrl,
       mediaStreamingConfiguration: options.mediaStreamingConfiguration,
       customContext: {
-        sipHeaders: options.sipHeaders,
-        voipHeaders: options.voipHeaders,
+        sipHeaders: options.customContext?.sipHeaders,
+        voipHeaders: options.customContext?.voipHeaders,
       },
       sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(options.sourceCallIdNumber),
       sourceDisplayName: options.sourceDisplayName,
@@ -338,8 +355,9 @@ export class CallAutomationClient {
       incomingCallContext: incomingCallContext,
       target: communicationIdentifierModelConverter(targetParticipant.targetParticipant),
       customContext: {
-        sipHeaders: targetParticipant.sipHeaders ?? options.sipHeaders ?? undefined,
-        voipHeaders: targetParticipant.voipHeaders ?? options.voipHeaders ?? undefined,
+        sipHeaders: targetParticipant.customContext?.sipHeaders ?? options.sipHeaders ?? undefined,
+        voipHeaders:
+          targetParticipant.customContext?.voipHeaders ?? options.voipHeaders ?? undefined,
       },
     };
     const optionsInternal = {

@@ -18,11 +18,12 @@ dotenv.config();
  * This sample demonstrates how to Create a new virtual machine console or update the properties of the existing virtual machine console.
  *
  * @summary Create a new virtual machine console or update the properties of the existing virtual machine console.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2022-12-12-preview/examples/Consoles_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2023-05-01-preview/examples/Consoles_Create.json
  */
 async function createOrUpdateVirtualMachineConsole() {
   const subscriptionId =
-    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] || "subscriptionId";
+    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
+    "123e4567-e89b-12d3-a456-426655440000";
   const resourceGroupName =
     process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
   const virtualMachineName = "virtualMachineName";
@@ -32,7 +33,7 @@ async function createOrUpdateVirtualMachineConsole() {
     expiration: new Date("2022-06-01T01:27:03.008Z"),
     extendedLocation: {
       name:
-        "/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterManagerExtendedLocationName",
+        "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterManagerExtendedLocationName",
       type: "CustomLocation"
     },
     location: "location",

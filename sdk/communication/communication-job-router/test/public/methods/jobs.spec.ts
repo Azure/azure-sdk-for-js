@@ -5,7 +5,6 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import {
   CreateJobOptions,
-  JobMatchModeType,
   JobRouterAdministrationClient,
   JobRouterClient,
   RouterJob,
@@ -41,8 +40,8 @@ describe("JobRouterClient", function () {
   function getScheduledJob(scheduledTime: string): CreateJobOptions | UpdateJobOptions {
     return {
       ...jobRequest,
+      notes: [],
       matchingMode: {
-        modeType: JobMatchModeType.ScheduleAndSuspendMode,
         scheduleAndSuspendMode: { scheduleAt: new Date(scheduledTime) },
       },
     };
@@ -129,19 +128,28 @@ describe("JobRouterClient", function () {
     it("should update a job", async function () {
       await client.createJob(jobId, jobRequest);
       await sleep(1500); // This test is flaky
-      const patch: UpdateJobOptions = { ...jobRequest, priority: 5 };
-      const result = await client.updateJob(jobId, patch);
 
-      assert.isDefined(result);
-      assert.isDefined(result.id);
-      assert.equal(result.id, jobId);
-      assert.equal(result.priority, patch.priority);
+      const updatePatch = { ...jobRequest, priority: 25, dispositionCode: "testCode" };
+      const updateResult = await client.updateJob(jobId, updatePatch);
+
+      const removePatch = { ...jobRequest, priority: null!, dispositionCode: null! };
+      const removeResult = await client.updateJob(jobId, removePatch);
+
+      assert.isDefined(updateResult);
+      assert.isDefined(updateResult.id);
+      assert.isDefined(removeResult);
+      assert.isDefined(removeResult.id);
+      assert.equal(updateResult.id, jobId);
+      assert.equal(removeResult.id, jobId);
+      assert.equal(updateResult.priority, updatePatch.priority);
+      assert.equal(removeResult.priority, 1);
+      assert.isUndefined(removeResult.dispositionCode);
     }).timeout(timeoutMs);
 
     it("should get queue position for a job", async function () {
       await client.createJob(jobId, jobRequest);
       await pollForJobQueued(jobId, client);
-      const result = await client.getQueuePosition(jobId);
+      const result = await client.getJobQueuePosition(jobId);
 
       assert.isDefined(result);
       assert.isDefined(result.position);
@@ -165,7 +173,7 @@ describe("JobRouterClient", function () {
       await client.createJob(jobId, jobRequest);
 
       const result: RouterJob[] = [];
-      for await (const job of client.listJobs({ maxpagesize: 20 })) {
+      for await (const job of client.listJobs({ maxPageSize: 20 })) {
         result.push(job.job!);
       }
 
@@ -182,7 +190,7 @@ describe("JobRouterClient", function () {
 
       const result: RouterJob[] = [];
       for await (const job of client.listJobs({
-        maxpagesize: 20,
+        maxPageSize: 20,
         scheduledBefore: new Date(scheduledTime),
       })) {
         result.push(job.job!);

@@ -1,15 +1,50 @@
 # Release History
+    
+## 2.0.0-beta.1 (2023-07-11)
+    
+**Features**
 
-## 1.1.1 (Unreleased)
+  - Added operation group WebPubSubReplicas
+  - Added operation WebPubSub.listReplicaSkus
+  - Added Interface Replica
+  - Added Interface ReplicaList
+  - Added Interface WebPubSubListReplicaSkusOptionalParams
+  - Added Interface WebPubSubRegenerateKeyHeaders
+  - Added Interface WebPubSubReplicasCreateOrUpdateOptionalParams
+  - Added Interface WebPubSubReplicasDeleteOptionalParams
+  - Added Interface WebPubSubReplicasGetOptionalParams
+  - Added Interface WebPubSubReplicasListNextOptionalParams
+  - Added Interface WebPubSubReplicasListOptionalParams
+  - Added Interface WebPubSubReplicasRestartHeaders
+  - Added Interface WebPubSubReplicasRestartOptionalParams
+  - Added Interface WebPubSubReplicasUpdateHeaders
+  - Added Interface WebPubSubReplicasUpdateOptionalParams
+  - Added Interface WebPubSubRestartHeaders
+  - Added Interface WebPubSubUpdateHeaders
+  - Added Type Alias ServiceKind
+  - Added Type Alias WebPubSubListReplicaSkusResponse
+  - Added Type Alias WebPubSubReplicasCreateOrUpdateResponse
+  - Added Type Alias WebPubSubReplicasGetResponse
+  - Added Type Alias WebPubSubReplicasListNextResponse
+  - Added Type Alias WebPubSubReplicasListResponse
+  - Added Type Alias WebPubSubReplicasRestartResponse
+  - Added Type Alias WebPubSubReplicasUpdateResponse
+  - Added Type Alias WebPubSubRestartResponse
+  - Interface Resource has a new optional parameter systemData
+  - Interface WebPubSubResource has a new optional parameter kind
+  - Added Enum KnownServiceKind
+  - Interface CustomCertificate no longer has parameter systemData
+  - Interface CustomDomain no longer has parameter systemData
+  - Interface PrivateEndpointConnection no longer has parameter systemData
+  - Interface SharedPrivateLinkResource no longer has parameter systemData
+  - Interface WebPubSubHub no longer has parameter systemData
+  - Interface WebPubSubResource no longer has parameter systemData
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Parameter location of interface TrackedResource is now required
+    
+    
 ## 1.1.0 (2023-03-09)
     
 **Features**

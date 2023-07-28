@@ -18,11 +18,12 @@ dotenv.config();
  * This sample demonstrates how to Create a new virtual machine or update the properties of the existing virtual machine.
  *
  * @summary Create a new virtual machine or update the properties of the existing virtual machine.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2022-12-12-preview/examples/VirtualMachines_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2023-05-01-preview/examples/VirtualMachines_Create.json
  */
 async function createOrUpdateVirtualMachine() {
   const subscriptionId =
-    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] || "subscriptionId";
+    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
+    "123e4567-e89b-12d3-a456-426655440000";
   const resourceGroupName =
     process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
   const virtualMachineName = "virtualMachineName";
@@ -31,13 +32,13 @@ async function createOrUpdateVirtualMachine() {
     bootMethod: "UEFI",
     cloudServicesNetworkAttachment: {
       attachedNetworkId:
-        "/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.NetworkCloud/cloudServicesNetworks/cloudServicesNetworkName",
+        "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.NetworkCloud/cloudServicesNetworks/cloudServicesNetworkName",
       ipAllocationMethod: "Dynamic"
     },
     cpuCores: 2,
     extendedLocation: {
       name:
-        "/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterExtendedLocationName",
+        "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterExtendedLocationName",
       type: "CustomLocation"
     },
     location: "location",
@@ -45,7 +46,7 @@ async function createOrUpdateVirtualMachine() {
     networkAttachments: [
       {
         attachedNetworkId:
-          "/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.NetworkCloud/l3Networks/l3NetworkName",
+          "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.NetworkCloud/l3Networks/l3NetworkName",
         defaultGateway: "True",
         ipAllocationMethod: "Dynamic",
         ipv4Address: "198.51.100.1",
@@ -58,7 +59,7 @@ async function createOrUpdateVirtualMachine() {
       {
         hintType: "Affinity",
         resourceId:
-          "/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.NetworkCloud/racks/rackName",
+          "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.NetworkCloud/racks/rackName",
         schedulingExecution: "Hard",
         scope: ""
       }
@@ -76,7 +77,7 @@ async function createOrUpdateVirtualMachine() {
         diskSizeGB: 120
       },
       volumeAttachments: [
-        "/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.NetworkCloud/volumes/volumeName"
+        "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.NetworkCloud/volumes/volumeName"
       ]
     },
     tags: { key1: "myvalue1", key2: "myvalue2" },

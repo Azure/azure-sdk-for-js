@@ -502,6 +502,10 @@ export interface Path {
    * Expiry time of the path.
    */
   expiresOn?: Date;
+  /**
+   * Specifies the encryption context to set on the file.
+   */
+  encryptionContext?: string;
 }
 
 export interface PathList {
@@ -705,6 +709,10 @@ export interface PathCreateOptions extends CommonOptions {
    * Does not apply to directories.
    */
   expiresOn?: number | Date;
+  /**
+   * Optional. Specifies the encryption context to set on the file.
+   */
+  encryptionContext?: string;
 }
 
 export interface PathCreateIfNotExistsOptions extends CommonOptions {
@@ -744,6 +752,10 @@ export interface PathCreateIfNotExistsOptions extends CommonOptions {
    * Does not apply to directories.
    */
   expiresOn?: number | Date;
+  /**
+   * Optional. Specifies the encryption context to set on the file.
+   */
+  encryptionContext?: string;
 }
 
 export interface PathDeleteOptions extends CommonOptions {
@@ -959,6 +971,13 @@ export interface PathGetPropertiesHeaders {
    * The time the file will expire.
    */
   expiresOn?: Date;
+  /**
+   * Optional. Specifies the encryption context to set on the file.
+   */
+  encryptionContext?: string;
+  owner?: string;
+  group?: string;
+  permissions?: PathPermissions;
 }
 
 export type PathGetPropertiesResponse = WithResponse<
@@ -1175,6 +1194,13 @@ export interface FileReadHeaders {
   encryptionKeySha256?: string;
   fileContentMD5?: Uint8Array; // Content MD5 for whole file
   contentCrc64?: Uint8Array;
+  /**
+   * Specifies the encryption context to set on the file.
+   */
+  encryptionContext?: string;
+  owner?: string;
+  group?: string;
+  permissions?: PathPermissions;
 }
 
 export type FileReadResponse = WithResponse<
@@ -1333,6 +1359,10 @@ export interface FileParallelUploadOptions extends CommonOptions {
    * Customer Provided Key Info.
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Specifies the encryption context to set on the file.
+   */
+  encryptionContext?: string;
 }
 
 /**
