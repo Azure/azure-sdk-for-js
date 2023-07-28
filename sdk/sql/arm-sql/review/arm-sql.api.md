@@ -7474,6 +7474,7 @@ export type PrincipalType = string;
 
 // @public
 export interface PrivateEndpointConnection extends ProxyResource {
+    readonly groupIds?: string[];
     privateEndpoint?: PrivateEndpointProperty;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty;
     readonly provisioningState?: PrivateEndpointProvisioningState;

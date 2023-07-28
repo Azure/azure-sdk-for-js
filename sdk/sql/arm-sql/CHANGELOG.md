@@ -1,6 +1,6 @@
 # Release History
     
-## 10.1.0-beta.1 (2023-07-12)
+## 10.1.0-beta.1 (2023-07-28)
     
 **Features**
 
@@ -17,6 +17,7 @@
   - Interface ElasticPoolUpdate has a new optional parameter preferredEnclaveType
   - Interface ManagedDatabase has a new optional parameter isLedgerOn
   - Interface ManagedDatabaseUpdate has a new optional parameter isLedgerOn
+  - Interface PrivateEndpointConnection has a new optional parameter groupIds
   - Interface SqlVulnerabilityAssessmentScanRecord has a new optional parameter lastScanTime
     
     
