@@ -31,7 +31,7 @@ export function createEventHubsClient(settings: {
     isInitialized() {
       return initialized;
     },
-    async initialize( { skipParsingBodyAsJson } = {}) {
+    async initialize({ skipParsingBodyAsJson } = {}) {
       const clientOptions = {
         onSendEventsErrorHandler: (ctx: OnSendEventsErrorContext) => {
           this.cleanup();

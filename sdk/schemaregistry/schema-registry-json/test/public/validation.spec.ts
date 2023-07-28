@@ -7,7 +7,7 @@ import { SchemaRegistry } from "@azure/schema-registry";
 import chaiPromises from "chai-as-promised";
 import { createTestRegistry } from "./utils/mockedRegistryClient";
 import { createTestSerializer } from "./utils/mockedSerializer";
-import { encoder, testGroup} from "./utils/dummies";
+import { encoder, testGroup } from "./utils/dummies";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assertError } from "./utils/assertError";
 import Ajv from "ajv";
@@ -43,8 +43,8 @@ describe("Deserialize Validation", function () {
         const ajv = new Ajv();
         const validator = ajv.compile(JSON.parse(schema));
         const valid = validator(message);
-        if (!valid){
-          throw new Error(JSON.stringify(validator.errors))
+        if (!valid) {
+          throw new Error(JSON.stringify(validator.errors));
         }
       },
     };

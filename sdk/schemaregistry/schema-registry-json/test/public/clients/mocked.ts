@@ -19,12 +19,12 @@ export function createMockedMessagingClient<MessageT>(
   const messageBuffer: MessageT[] = [];
   let skipParsingBodyAsJson = false;
   let initialized = false;
-  
+
   return {
     isInitialized(): boolean {
       return initialized;
     },
-    async initialize( options = {}): Promise<void> {
+    async initialize(options = {}): Promise<void> {
       initialized = true;
       skipParsingBodyAsJson = options.skipParsingBodyAsJson ?? false;
     },
@@ -37,15 +37,14 @@ export function createMockedMessagingClient<MessageT>(
         const message = messageBuffer.shift();
         if (message !== undefined) {
           ++currEventCount;
-          if (!skipParsingBodyAsJson){
+          if (!skipParsingBodyAsJson) {
             const messageBody = decoder.decode((message as any).body);
-            yield { ...message, body: JSON.parse(messageBody) }
+            yield { ...message, body: JSON.parse(messageBody) };
           } else {
             yield message;
           }
         }
       }
-
     },
     async cleanup(): Promise<void> {
       initialized = false;

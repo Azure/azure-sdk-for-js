@@ -25,7 +25,7 @@ interface CacheEntry {
   schema: string;
 }
 interface SchemaObject {
-  id: string;
+  id?: string;
   $id?: string;
   $schema?: string;
 }

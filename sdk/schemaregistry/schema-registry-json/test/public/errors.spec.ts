@@ -138,8 +138,8 @@ describe("Error scenarios", function () {
       );
     });
     it("schema with invalid enum", async function () {
-      if (!isLiveMode()){
-        this.skip()
+      if (!isLiveMode()) {
+        this.skip();
       }
       await assertError(
         serializer.serialize(
@@ -184,8 +184,8 @@ describe("Error scenarios", function () {
       );
     });
     it("schema with invalid type", async function () {
-      if (!isLiveMode()){
-        this.skip()
+      if (!isLiveMode()) {
+        this.skip();
       }
       await assertError(
         serializer.serialize(

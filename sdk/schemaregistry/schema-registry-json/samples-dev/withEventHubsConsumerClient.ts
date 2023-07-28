@@ -113,8 +113,7 @@ export async function main() {
         console.log(`Error on partition "${context.partitionId}": ${err}`);
       },
     },
-    { startPosition: earliestEventPosition,
-      skipParsingBodyAsJson: true }
+    { startPosition: earliestEventPosition, skipParsingBodyAsJson: true }
   );
 
   // Wait for a bit before cleaning up the sample
