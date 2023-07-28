@@ -4,7 +4,7 @@
 import { QuantumJobClient } from "../../src";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { bodyKeySanitizers, regexSanitizers } from "./recorderUtils";
+import { getSanitizers } from "./recorderUtils";
 import { Test } from "mocha";
 
 export async function authenticate(testContext: Test | undefined): Promise<any> {
@@ -18,12 +18,9 @@ export async function authenticate(testContext: Test | undefined): Promise<any> 
       AZURE_CLIENT_SECRET: "clientsecret",
       AZURE_TENANT_ID: "00000000-0000-0000-0000-000000000000",
       AZURE_QUANTUM_WORKSPACE_LOCATION: "eastus",
-    },
-    sanitizerOptions: {
-      uriSanitizers: regexSanitizers,
-      bodyKeySanitizers: bodyKeySanitizers,
-    },
+    }
   });
+  await recorder.addSanitizers(getSanitizers());
 
   const credential = createTestCredential();
 

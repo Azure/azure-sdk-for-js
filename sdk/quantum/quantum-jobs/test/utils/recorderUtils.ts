@@ -24,52 +24,59 @@ function getUriSanitizerForQueryParam(paramName: string) {
   };
 }
 
-const sasParams = ["se", "sig", "sip", "sp", "spr", "srt", "ss", "sr", "st", "sv"];
-export const regexSanitizers : UriSanitizers = sasParams.map(getUriSanitizerForQueryParam);
-regexSanitizers.push({
-  regex: true,
-  target: `https\:\/\/(?<account>.*?).blob.core.windows.net`,
-  groupForReplace: "account",
-  value: "dummystorageaccount",
-});
-regexSanitizers.push({
-  target: assertEnvironmentVariable("SUBSCRIPTION_ID"),
-  value: "00000000-0000-0000-0000-000000000000",
-});
-regexSanitizers.push({
-  target: assertEnvironmentVariable("AZURE_RESOURCE_GROUP"),
-  value: "myresourcegroup",
-});
-regexSanitizers.push({
-  target: assertEnvironmentVariable("AZURE_QUANTUM_WORKSPACE_NAME"),
-  value: "myworkspace",
-});
-regexSanitizers.push({
-  target: assertEnvironmentVariable("AZURE_QUANTUM_WORKSPACE_LOCATION"),
-  value: "eastus",
-});
+export function getSanitizers() {
+  const sasParams = ["se", "sig", "sip", "sp", "spr", "srt", "ss", "sr", "st", "sv"];
+  const regexSanitizers : UriSanitizers = sasParams.map(getUriSanitizerForQueryParam);
+  regexSanitizers.push({
+    regex: true,
+    target: `https\:\/\/(?<account>.*?).blob.core.windows.net`,
+    groupForReplace: "account",
+    value: "dummystorageaccount",
+  });
+  regexSanitizers.push({
+    target: assertEnvironmentVariable("SUBSCRIPTION_ID"),
+    value: "00000000-0000-0000-0000-000000000000",
+  });
+  regexSanitizers.push({
+    target: assertEnvironmentVariable("AZURE_RESOURCE_GROUP"),
+    value: "myresourcegroup",
+  });
+  regexSanitizers.push({
+    target: assertEnvironmentVariable("AZURE_QUANTUM_WORKSPACE_NAME"),
+    value: "myworkspace",
+  });
+  regexSanitizers.push({
+    target: assertEnvironmentVariable("AZURE_QUANTUM_WORKSPACE_LOCATION"),
+    value: "eastus",
+  });
 
-export const bodyKeySanitizers : BodyKeySanitizers = [
-  {
-    regex: "(?:\\?(sv|sig|se|srt|ss|sp)=)(?<secret>.*)",
-    value: "Sanitized",
-    groupForReplace: "secret",
-    jsonPath: "$"
-  },
-  {
-    value: "Sanitized",
-    jsonPath: "$..sasUri"
-  },
-  {
-    value: "Sanitized",
-    jsonPath: "$..containerUri"
-  },
-  {
-    value: "Sanitized",
-    jsonPath: "$..inputDataUri"
-  },
-  {
-    value: "Sanitized",
-    jsonPath: "$..outputDataUri"
-  },
-];
+  const bodyKeySanitizers : BodyKeySanitizers = [
+    {
+      regex: "(?:\\?(sv|sig|se|srt|ss|sp)=)(?<secret>.*)",
+      value: "Sanitized",
+      groupForReplace: "secret",
+      jsonPath: "$"
+    },
+    {
+      value: "Sanitized",
+      jsonPath: "$..sasUri"
+    },
+    {
+      value: "Sanitized",
+      jsonPath: "$..containerUri"
+    },
+    {
+      value: "Sanitized",
+      jsonPath: "$..inputDataUri"
+    },
+    {
+      value: "Sanitized",
+      jsonPath: "$..outputDataUri"
+    },
+  ];
+
+  return {
+    uriSanitizers: regexSanitizers,
+    bodyKeySanitizers: bodyKeySanitizers,
+  };
+}
