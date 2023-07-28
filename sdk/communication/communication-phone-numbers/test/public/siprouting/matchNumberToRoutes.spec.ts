@@ -22,15 +22,12 @@ matrix([[false, true]], async function (useAad) {
     let trunkNz: string;
     const domain: string = getAzureTestDomain();
 
-    before(() => {
-      resetUniqueFqdns();
-    });
-
     beforeEach(async function (this: Context) {
       ({ client, recorder } = useAad
         ? await createRecordedClientWithToken(this)
         : await createRecordedClient(this));
 
+      resetUniqueFqdns();
       trunkUs = getUniqueFqdn(recorder);
       trunkNz = getUniqueFqdn(recorder);
 
@@ -63,9 +60,6 @@ matrix([[false, true]], async function (useAad) {
       if (!isPlaybackMode()) {
         await clearSipConfiguration();
       }
-    });
-
-    after(() => {
       resetUniqueFqdns();
     });
 
@@ -96,7 +90,10 @@ matrix([[false, true]], async function (useAad) {
     });
 
     it("return empty array for empty options", async function () {
-      const matchedRoutes = await client.matchNumberToRoutes("+72345678901");
+      const matchedRoutes = await client.matchNumberToRoutes(
+        "+72345678901",
+        {} as SipRoutingTestRoutesWithNumberOperationParams
+      );
 
       assert.isArray(matchedRoutes);
       assert.isEmpty(matchedRoutes);
