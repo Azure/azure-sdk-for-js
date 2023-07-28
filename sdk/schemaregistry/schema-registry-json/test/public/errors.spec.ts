@@ -1,20 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, use as chaiUse } from "chai";
+import { assert, isNode } from "@azure/test-utils";
 import { JsonSerializer } from "../../src";
 import { Context } from "mocha";
 import { SchemaRegistry } from "@azure/schema-registry";
 import { assertError } from "./utils/assertError";
-import chaiPromises from "chai-as-promised";
 import { createTestRegistry } from "./utils/mockedRegistryClient";
 import { createTestSerializer } from "./utils/mockedSerializer";
 import { testGroup, testSchema } from "./utils/dummies";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { v4 as uuid } from "uuid";
-import { isNode } from "@azure/test-utils";
-
-chaiUse(chaiPromises);
+import { randomUUID } from "@azure/core-util";
 
 describe("Error scenarios", function () {
   let serializer: JsonSerializer;
@@ -81,7 +77,7 @@ describe("Error scenarios", function () {
       await assert.isRejected(
         serializerNoAutoReg.deserialize({
           data: Uint8Array.from([0]),
-          contentType: `application/json+${uuid()}`,
+          contentType: `application/json+${randomUUID()}`,
         }),
         /does not exist/
       );
@@ -106,10 +102,6 @@ describe("Error scenarios", function () {
         },
         testSchema
       );
-      serializer.deserialize({
-        data,
-        contentType: `application/json+${id}`,
-      });
       await assertError(
         serializer.deserialize({
           data,
@@ -207,9 +199,6 @@ describe("Error scenarios", function () {
     });
 
     it("parsing json errors", async function () {
-      if (!isNode) {
-        this.skip();
-      }
       const serializedValue = await serializer.serialize(
         {
           favoriteNumber: 1,
@@ -224,19 +213,34 @@ describe("Error scenarios", function () {
           44, 34, 110, 97, 109, 101, 34, 58, 34, 120, 34, 125,
         ])
       );
-      serializedValue.data = Buffer.from([
+      // const nodeMessage = /Unexpected end of JSON input/;
+      serializedValue.data = Uint8Array.from([
         123, 34, 102, 97, 118, 111, 114, 105, 116, 101, 78, 117, 109, 98, 101, 114,
       ]);
-      await assertError(serializer.deserialize(serializedValue), {
-        causeMessage: /Unexpected end of JSON input/,
-      });
-      serializedValue.data = Buffer.from([
+      if (isNode){
+        await assertError(serializer.deserialize(serializedValue), {
+          causeMessage: /Unexpected end of JSON input/,
+        });
+      } else {
+        await assertError(serializer.deserialize(serializedValue), {
+          causeMessage: /Unterminated string in JSON at position/,
+        });
+      }
+      serializedValue.data = Uint8Array.from([
         123, 34, 102, 97, 118, 111, 114, 105, 116, 101, 78, 117, 109, 98, 101, 114, 34, 58, 49, 44,
         34, 110, 97, 109, 101, 34, 58, 34, 120, 34, 125, 110,
       ]);
-      await assertError(serializer.deserialize(serializedValue), {
-        causeMessage: /Unexpected token n in JSON at position 31/,
-      });
+
+      if (isNode) {
+        await assertError(serializer.deserialize(serializedValue), {
+          causeMessage: /Unexpected token n in JSON at position/,
+        });
+      } else {
+        await assertError(serializer.deserialize(serializedValue), {
+          causeMessage: /Unexpected non-whitespace character/,
+        });
+      }
+
     });
   });
 });

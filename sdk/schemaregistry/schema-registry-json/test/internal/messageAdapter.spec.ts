@@ -9,8 +9,7 @@ import {
 } from "@azure/event-hubs";
 import { AssertEqualKeys } from "../utils/utils";
 import { MessageAdapter } from "../../src/models";
-import { assert } from "chai";
-import { matrix } from "@azure/test-utils";
+import { assert, matrix } from "@azure/test-utils";
 
 function isMessageAdapter<MessageT>(obj: any): obj is MessageAdapter<MessageT> {
   return typeof obj.produce === "function" && typeof obj.consume === "function";

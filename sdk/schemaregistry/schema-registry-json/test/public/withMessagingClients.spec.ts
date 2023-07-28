@@ -17,7 +17,7 @@
 import { JsonSerializer } from "../../src";
 import { EventData, createEventDataAdapter } from "@azure/event-hubs";
 import { MessagingTestClient } from "./clients/models";
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import { createEventHubsClient } from "./clients/eventHubs";
 import { createMockedMessagingClient } from "./clients/mocked";
 import { createTestSerializer } from "./utils/mockedSerializer";
@@ -25,7 +25,7 @@ import { matrix } from "@azure/test-utils";
 import { testGroup } from "./utils/dummies";
 import { Recorder, env } from "@azure-tools/test-recorder";
 
-matrix([[false]] as const, async (skipParsingBodyAsJson: boolean) => {
+matrix([[true, false]] as const, async (skipParsingBodyAsJson: boolean) => {
   const eventHubsConnectionString = env.EVENTHUB_JSON_CONNECTION_STRING || "";
   const eventHubName = env.EVENTHUB_NAME || "";
   const alreadyEnqueued = env.CROSS_LANGUAGE !== undefined;
@@ -59,7 +59,7 @@ matrix([[false]] as const, async (skipParsingBodyAsJson: boolean) => {
     },
   });
 
-  describe("Event Hub Test With Messaging Client", async function () {
+  describe(`Event Hub Test With Messaging Client with skipParsingBodyAsJson=${skipParsingBodyAsJson}`, async function () {
     let recorder: Recorder;
     let serializer: JsonSerializer<any>;
     let writerSchema: string;

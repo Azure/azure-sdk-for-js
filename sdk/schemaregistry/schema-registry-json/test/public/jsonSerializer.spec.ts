@@ -6,16 +6,13 @@ import {
   createTestSerializer,
   registerTestSchema,
 } from "./utils/mockedSerializer";
-import { assert, use as chaiUse } from "chai";
+import { assert } from "@azure/test-utils";
 import { encoder, testGroup, testSchema, testValue } from "./utils/dummies";
 import { Context } from "mocha";
 import { MessageContent } from "../../src";
-import chaiPromises from "chai-as-promised";
 import { createTestRegistry } from "./utils/mockedRegistryClient";
-import { Recorder } from "@azure-tools/test-recorder";
+import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { SchemaRegistry } from "@azure/schema-registry";
-
-chaiUse(chaiPromises);
 
 describe("JsonSerializer", async function () {
   let noAutoRegisterOptions: CreateTestSerializerOptions<any>;
@@ -38,7 +35,6 @@ describe("JsonSerializer", async function () {
       registry,
     });
     const { contentType, data } = await serializer.serialize(testValue, testSchema);
-    assert.isUndefined((data as Buffer).readBigInt64BE);
     assert.strictEqual(`application/json+${schemaId}`, contentType);
     assert.deepStrictEqual(data, encoder.encode(JSON.stringify(testValue)));
   });
@@ -106,5 +102,66 @@ describe("JsonSerializer", async function () {
     const deserializedValue = await serializer.deserialize(message);
 
     assert.deepStrictEqual(deserializedValue, value);
+  });
+
+  it("cache size growth is bounded", async function (this: Context) {
+    /**
+     * This test is very expensive to run in live because it registers too many
+     * schemas but the standard-tier resource allows for up to 25 schemas only
+     */
+    if (isLiveMode()) {
+      this.skip();
+    }
+    function makeRndStr(length: number): string {
+      let result = "";
+      const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+      for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+      }
+      return result;
+    }
+
+    const serializer = await createTestSerializer({ registry, recorder });
+    /**
+     * The standard tier resource supports registering up to 25 schemas per a schema group.
+     */
+    const maxSchemaCount = 25;
+    const maxCacheEntriesCount = Math.floor(maxSchemaCount / 2);
+    (serializer["cacheById"] as any).max = maxCacheEntriesCount;
+    (serializer["cacheIdByDefinition"] as any).max = maxCacheEntriesCount;
+    const itersCount = 2 * maxCacheEntriesCount;
+    assert.isAtLeast(itersCount, maxCacheEntriesCount + 1);
+    console.log("count", itersCount, maxCacheEntriesCount)
+    let i = 0;
+    for (; i < itersCount; ++i) {
+      const field1 = makeRndStr(10);
+      const field2 = makeRndStr(10);
+      const valueToBeSerialized = JSON.parse(`{ "${field1}": "Nick", "${field2}": 42 }`);
+      const schemaToSerializeWith = JSON.stringify({
+        $schema: "https://json-schema.org/draft/2020-12/schema",
+        $id: "student",
+        title: "Student",
+        description: "A student in the class",
+        type: "object",
+        properties: {
+          [field1]: {
+            type: "string",
+            description: "The name of the student",
+          },
+          [field2]: {
+            type: "integer",
+            description: "The favorite number of the student",
+          },
+        },
+      });
+      await serializer.serialize(valueToBeSerialized, schemaToSerializeWith);
+      if (i < maxCacheEntriesCount) {
+        assert.equal(serializer["cacheById"].size, i + 1);
+        assert.equal(serializer["cacheIdByDefinition"].size, i + 1);
+      } else {
+        assert.equal(serializer["cacheById"].size, maxCacheEntriesCount);
+        assert.equal(serializer["cacheIdByDefinition"].size, maxCacheEntriesCount);
+      }
+    }
   });
 });

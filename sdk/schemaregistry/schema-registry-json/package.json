@@ -15,7 +15,7 @@
     "build:node": "tsc -p . && dev-tool run bundle --browser-test=false",
     "build:samples": "echo Obsolete.",
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
-    "build": "npm run clean && tsc -p . && dev-tool run bundle --browser-test=false  && api-extractor run --local",
+    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
@@ -88,14 +88,9 @@
     "@rollup/plugin-commonjs": "^24.0.0",
     "@rollup/plugin-inject": "^5.0.0",
     "@types/ajv": "^1.0.0",
-    "@types/chai": "^4.1.6",
-    "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "^7.0.2",
     "@types/node": "^16.0.0",
-    "@types/uuid": "^8.3.0",
     "ajv": "^8.12.0",
-    "chai": "^4.2.0",
-    "chai-as-promised": "^7.1.1",
     "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
@@ -119,7 +114,6 @@
     "rollup": "^2.0.0",
     "rollup-plugin-shim": "^1.0.0",
     "source-map-support": "^0.5.9",
-    "typescript": "~5.0.0",
-    "uuid": "^8.3.0"
+    "typescript": "~5.0.0"
   }
 }

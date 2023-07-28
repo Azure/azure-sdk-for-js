@@ -113,6 +113,7 @@ export async function main() {
         console.log(`Error on partition "${context.partitionId}": ${err}`);
       },
     },
+    // Set the skipParsingBodyAsJson option to disable automatic parsing to Json object
     { startPosition: earliestEventPosition, skipParsingBodyAsJson: true }
   );
 
