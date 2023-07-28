@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 import { assert } from "chai";
 import { Context } from "mocha";
-import { SipRoutingClient, SipRoutingTestRoutesWithNumberOptionalParams } from "../../../src";
-
+import { SipRoutingClient, SipRoutingTestRoutesWithNumberOperationParams } from "../../../src";
 import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import {
   clearSipConfiguration,
@@ -27,8 +26,8 @@ matrix([[false, true]], async function (useAad) {
       ({ client, recorder } = useAad
         ? await createRecordedClientWithToken(this)
         : await createRecordedClient(this));
-      resetUniqueFqdns();
 
+      resetUniqueFqdns();
       trunkUs = getUniqueFqdn(recorder);
       trunkNz = getUniqueFqdn(recorder);
 
@@ -38,8 +37,18 @@ matrix([[false, true]], async function (useAad) {
       ]);
 
       await client.setRoutes([
-        { name: "Us route", numberPattern: "^\\+1(\\d{10})$", trunks: [trunkUs] },
-        { name: "Nz route", numberPattern: "^\\+6(\\d{10})$", trunks: [trunkNz] },
+        {
+          name: "Us route",
+          numberPattern: "^\\+1(\\d{10})$",
+          trunks: [trunkUs],
+          description: "us route",
+        },
+        {
+          name: "Nz route",
+          numberPattern: "^\\+6(\\d{10})$",
+          trunks: [trunkNz],
+          description: "nz route",
+        },
       ]);
     });
 
@@ -51,6 +60,7 @@ matrix([[false, true]], async function (useAad) {
       if (!isPlaybackMode()) {
         await clearSipConfiguration();
       }
+      resetUniqueFqdns();
     });
 
     it("should match number to routes", async function () {
@@ -60,7 +70,7 @@ matrix([[false, true]], async function (useAad) {
           name: "Us route",
           numberPattern: "^\\+1(\\d{10})$",
           trunks: [trunkUs],
-          description: null,
+          description: "us route",
         },
       ];
 
@@ -72,7 +82,17 @@ matrix([[false, true]], async function (useAad) {
       const configuration = { [domain]: { domainName: domain, enabled: true } };
       const matchedRoutes = await client.matchNumberToRoutes(
         "+72345678901",
-        configuration as SipRoutingTestRoutesWithNumberOptionalParams
+        configuration as SipRoutingTestRoutesWithNumberOperationParams
+      );
+
+      assert.isArray(matchedRoutes);
+      assert.isEmpty(matchedRoutes);
+    });
+
+    it("return empty array for empty options", async function () {
+      const matchedRoutes = await client.matchNumberToRoutes(
+        "+72345678901",
+        {} as SipRoutingTestRoutesWithNumberOperationParams
       );
 
       assert.isArray(matchedRoutes);
