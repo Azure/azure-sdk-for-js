@@ -12,7 +12,7 @@ For new service the error usually happens, Fix spelling in code or in markdown a
 
 # Push failure\
 
-## spawn pwsh ENOENT
+## Spawn pwsh ENOENT
 
 ![image](./images/Push-failure.png)
 
