@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MobileNetworkManagementClient } from "../mobileNetworkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Sim,
   SimsListByGroupNextOptionalParams,
@@ -146,14 +150,14 @@ export class SimsImpl implements Sims {
     simGroupName: string,
     simName: string,
     options?: SimsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -186,15 +190,15 @@ export class SimsImpl implements Sims {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, simGroupName, simName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, simGroupName, simName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -256,8 +260,8 @@ export class SimsImpl implements Sims {
     parameters: Sim,
     options?: SimsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SimsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SimsCreateOrUpdateResponse>,
       SimsCreateOrUpdateResponse
     >
   > {
@@ -267,7 +271,7 @@ export class SimsImpl implements Sims {
     ): Promise<SimsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -300,15 +304,18 @@ export class SimsImpl implements Sims {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, simGroupName, simName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, simGroupName, simName, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SimsCreateOrUpdateResponse,
+      OperationState<SimsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -369,8 +376,8 @@ export class SimsImpl implements Sims {
     parameters: SimUploadList,
     options?: SimsBulkUploadOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SimsBulkUploadResponse>,
+    SimplePollerLike<
+      OperationState<SimsBulkUploadResponse>,
       SimsBulkUploadResponse
     >
   > {
@@ -380,7 +387,7 @@ export class SimsImpl implements Sims {
     ): Promise<SimsBulkUploadResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -413,15 +420,18 @@ export class SimsImpl implements Sims {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, simGroupName, parameters, options },
-      bulkUploadOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, simGroupName, parameters, options },
+      spec: bulkUploadOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SimsBulkUploadResponse,
+      OperationState<SimsBulkUploadResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -462,8 +472,8 @@ export class SimsImpl implements Sims {
     parameters: SimDeleteList,
     options?: SimsBulkDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SimsBulkDeleteResponse>,
+    SimplePollerLike<
+      OperationState<SimsBulkDeleteResponse>,
       SimsBulkDeleteResponse
     >
   > {
@@ -473,7 +483,7 @@ export class SimsImpl implements Sims {
     ): Promise<SimsBulkDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -506,15 +516,18 @@ export class SimsImpl implements Sims {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, simGroupName, parameters, options },
-      bulkDeleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, simGroupName, parameters, options },
+      spec: bulkDeleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SimsBulkDeleteResponse,
+      OperationState<SimsBulkDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -555,8 +568,8 @@ export class SimsImpl implements Sims {
     parameters: EncryptedSimUploadList,
     options?: SimsBulkUploadEncryptedOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SimsBulkUploadEncryptedResponse>,
+    SimplePollerLike<
+      OperationState<SimsBulkUploadEncryptedResponse>,
       SimsBulkUploadEncryptedResponse
     >
   > {
@@ -566,7 +579,7 @@ export class SimsImpl implements Sims {
     ): Promise<SimsBulkUploadEncryptedResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -599,15 +612,18 @@ export class SimsImpl implements Sims {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, simGroupName, parameters, options },
-      bulkUploadEncryptedOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, simGroupName, parameters, options },
+      spec: bulkUploadEncryptedOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SimsBulkUploadEncryptedResponse,
+      OperationState<SimsBulkUploadEncryptedResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -725,7 +741,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters8,
+  requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -781,7 +797,7 @@ const bulkUploadOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters9,
+  requestBody: Parameters.parameters11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -814,7 +830,7 @@ const bulkDeleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters10,
+  requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -847,7 +863,7 @@ const bulkUploadEncryptedOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters11,
+  requestBody: Parameters.parameters13,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

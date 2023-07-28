@@ -10,8 +10,11 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   PacketCoreControlPlaneVersion,
   PacketCoreControlPlaneVersionsListOptionalParams,
+  PacketCoreControlPlaneVersionsListBySubscriptionOptionalParams,
   PacketCoreControlPlaneVersionsGetOptionalParams,
-  PacketCoreControlPlaneVersionsGetResponse
+  PacketCoreControlPlaneVersionsGetResponse,
+  PacketCoreControlPlaneVersionsGetBySubscriptionOptionalParams,
+  PacketCoreControlPlaneVersionsGetBySubscriptionResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -25,6 +28,13 @@ export interface PacketCoreControlPlaneVersions {
     options?: PacketCoreControlPlaneVersionsListOptionalParams
   ): PagedAsyncIterableIterator<PacketCoreControlPlaneVersion>;
   /**
+   * Lists all supported packet core control planes versions.
+   * @param options The options parameters.
+   */
+  listBySubscription(
+    options?: PacketCoreControlPlaneVersionsListBySubscriptionOptionalParams
+  ): PagedAsyncIterableIterator<PacketCoreControlPlaneVersion>;
+  /**
    * Gets information about the specified packet core control plane version.
    * @param versionName The name of the packet core control plane version.
    * @param options The options parameters.
@@ -33,4 +43,13 @@ export interface PacketCoreControlPlaneVersions {
     versionName: string,
     options?: PacketCoreControlPlaneVersionsGetOptionalParams
   ): Promise<PacketCoreControlPlaneVersionsGetResponse>;
+  /**
+   * Gets information about the specified packet core control plane version.
+   * @param versionName The name of the packet core control plane version.
+   * @param options The options parameters.
+   */
+  getBySubscription(
+    versionName: string,
+    options?: PacketCoreControlPlaneVersionsGetBySubscriptionOptionalParams
+  ): Promise<PacketCoreControlPlaneVersionsGetBySubscriptionResponse>;
 }
