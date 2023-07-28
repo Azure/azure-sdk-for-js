@@ -59,7 +59,6 @@ export class ChainedTokenCredential implements TokenCredential {
     let token: AccessToken | null = null;
     let successfulCredential: TokenCredential;
     const errors: Error[] = [];
-
     return tracingClient.withSpan(
       "ChainedTokenCredential.getToken",
       options,
