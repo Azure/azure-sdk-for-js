@@ -3,7 +3,6 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 import { SipRoutingClient, SipRoutingTestRoutesWithNumberOperationParams } from "../../../src";
-
 import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import {
   clearSipConfiguration,
@@ -41,8 +40,18 @@ matrix([[false, true]], async function (useAad) {
       ]);
 
       await client.setRoutes([
-        { name: "Us route", numberPattern: "^\\+1(\\d{10})$", trunks: [trunkUs], description: "us route" },
-        { name: "Nz route", numberPattern: "^\\+6(\\d{10})$", trunks: [trunkNz], description: "nz route" },
+        {
+          name: "Us route",
+          numberPattern: "^\\+1(\\d{10})$",
+          trunks: [trunkUs],
+          description: "us route",
+        },
+        {
+          name: "Nz route",
+          numberPattern: "^\\+6(\\d{10})$",
+          trunks: [trunkNz],
+          description: "nz route",
+        },
       ]);
     });
 
@@ -67,7 +76,7 @@ matrix([[false, true]], async function (useAad) {
           name: "Us route",
           numberPattern: "^\\+1(\\d{10})$",
           trunks: [trunkUs],
-          description: "us route"
+          description: "us route",
         },
       ];
 
