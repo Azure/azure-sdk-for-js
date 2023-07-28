@@ -12,6 +12,7 @@
 - Added `credential` property for LinkedService
 - Added `isolationLevel` property for SQLServerSource
 - Added new apis of Create/Cancel/GetStatus/GetSnapshot for RunNotebook
+
 ## 1.0.0-beta.12 (2023-01-10)
 
 ### Features Added
