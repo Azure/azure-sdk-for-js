@@ -71,7 +71,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   queryParameters: [
-    Parameters.apiVersion3,
+    Parameters.apiVersion2,
     Parameters.maintenanceWindowOptionsName
   ],
   urlParameters: [
