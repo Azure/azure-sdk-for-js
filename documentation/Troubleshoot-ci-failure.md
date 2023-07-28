@@ -22,11 +22,12 @@ Install [Powershell](https://github.com/PowerShell/PowerShell). Make sure "pwsh"
 
 ![image](./images/Authorization-issue.png)
 
-If you are from service team, External to azure-sdk, join [a partner write team](https://eng.ms/docs/products/azure-developer-experience/onboard/access-teams)
-
+If you are from service team, External to azure-sdk, you can follow these steps:
 1. To request write access, join the an appropriate team from [this list](https://github.com/orgs/Azure/teams?query=azure-sdk-write-)([same list](https://repos.opensource.microsoft.com/teams?q=azure-sdk-write-) on MS OpenSource portal) that corresponds with the product or org that you work in. **Be sure to join only one team.**
 
 2. If you don't see your team in the list? Contact **Scott Kurtzeborn** : <scotk@microsoft.com> to create a new one for your service team.
+
+For more details, join [a partner write team](https://eng.ms/docs/products/azure-developer-experience/onboard/access-teams)
 
 **Note**
 For merge permissions to `main` branches, you must be a member of an `azure-sdk-push` team. These permissions are assigned on case-by-case basis only. Reach out to **Scott Kurtzeborn** : <scotk@microsoft.com> if you think that your team needs that permission.
