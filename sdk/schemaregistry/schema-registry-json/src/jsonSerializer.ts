@@ -25,7 +25,6 @@ interface CacheEntry {
   schema: string;
 }
 interface SchemaObject {
-  id?: string;
   $id?: string;
   $schema?: string;
 }
@@ -230,7 +229,7 @@ function convertMessage<MessageT>(
 }
 
 function getSchemaName(schema: SchemaObject): string {
-  const id = schema.$id || schema.id;
+  const id = schema.$id;
   if (!id) {
     throw new Error("Schema must have an ID.");
   }

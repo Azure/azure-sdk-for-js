@@ -38,7 +38,7 @@ function createLiveTestRegistry(settings: {
   // implemented below, but if we're running live, then use the real
   // service for end-to-end integration testing.
   const client = new SchemaRegistryClient(
-    getEnvVar("SCHEMAREGISTRY_AVRO_FULLY_QUALIFIED_NAMESPACE"),
+    getEnvVar("SCHEMAREGISTRY_JSON_FULLY_QUALIFIED_NAMESPACE"),
     createTestCredential(),
     recorder?.configureClientOptions({})
   );
