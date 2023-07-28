@@ -167,7 +167,7 @@ export interface SipDomain {
   enabled: boolean;
 }
 
-export interface SipRoutingTestRoutesWithNumberOptionalParams extends OperationOptions {
+export interface SipRoutingTestRoutesWithNumberOperationParams extends OperationOptions {
   /**
    * Validated Domains.
    * Map key is domain.
