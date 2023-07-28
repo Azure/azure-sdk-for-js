@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-job-router",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Azure client library for Azure Communication Job Router services",
   "sdk-type": "client",
   "main": "dist/index.js",

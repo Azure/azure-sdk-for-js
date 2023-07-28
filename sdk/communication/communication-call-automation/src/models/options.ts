@@ -16,6 +16,7 @@ import {
   RecordingFormat,
   CallLocator,
   ChannelAffinity,
+  CustomContext,
 } from "./models";
 
 /** Options to configure the recognize operation. */
@@ -80,10 +81,8 @@ export interface CreateCallOptions extends OperationOptions {
   azureCognitiveServicesEndpointUrl?: string;
   /** Configuration of Media streaming. */
   mediaStreamingConfiguration?: MediaStreamingConfiguration;
-  /** Headers for SIP calls */
-  sipHeaders?: { [propertyName: string]: string };
-  /** Headers for VOIP calls */
-  voipHeaders?: { [propertyName: string]: string };
+  /** The Custom Context. */
+  customContext?: CustomContext;
 }
 
 /**
@@ -122,10 +121,8 @@ export interface RejectCallOptions extends OperationOptions {
 export interface TransferCallToParticipantOptions extends OperationOptions {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Custom context for PSTN. */
-  sipHeaders?: { [propertyName: string]: string };
-  /** Custom context for voip. */
-  voipHeaders?: { [propertyName: string]: string };
+  /** The Custom Context. */
+  customContext?: CustomContext;
   /** Call back URI override for this request */
   callbackUrlOverride?: string;
   /** Participant that is being transferred away */
