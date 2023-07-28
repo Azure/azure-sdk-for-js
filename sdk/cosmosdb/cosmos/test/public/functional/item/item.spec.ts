@@ -522,7 +522,7 @@ describe("Create, Upsert, Read, Update, Replace, Delete Operations on Item", fun
   });
 
   describe("Upsert when collection partitioned on id", async () => {
-    //https://github.com/Azure/azure-sdk-for-js/issues/21383
+    // https://github.com/Azure/azure-sdk-for-js/issues/21383
     it("should create a new resource if /id is not passed", async function () {
       const container = await getTestContainer("db1", undefined, { partitionKey: "/id" });
       const { resource: resource } = await container.items.upsert({ key1: 0, key2: 0 });
