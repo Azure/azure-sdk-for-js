@@ -58,7 +58,7 @@ export async function checkEpkHeaders(
 }
 
 /**
- * @interal
+ * @internal
  * Checks if the object is a valid EpkRange
  */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
