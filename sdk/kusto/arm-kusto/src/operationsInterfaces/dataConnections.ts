@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DataConnectionUnion,
   DataConnectionsListByDatabaseOptionalParams,
@@ -31,7 +31,7 @@ import {
 export interface DataConnections {
   /**
    * Returns the list of data connections of the given Kusto database.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param options The options parameters.
@@ -44,7 +44,7 @@ export interface DataConnections {
   ): PagedAsyncIterableIterator<DataConnectionUnion>;
   /**
    * Checks that the data connection parameters are valid.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param parameters The data connection parameters supplied to the CreateOrUpdate operation.
@@ -57,14 +57,14 @@ export interface DataConnections {
     parameters: DataConnectionValidation,
     options?: DataConnectionsDataConnectionValidationOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DataConnectionsDataConnectionValidationResponse>,
+    SimplePollerLike<
+      OperationState<DataConnectionsDataConnectionValidationResponse>,
       DataConnectionsDataConnectionValidationResponse
     >
   >;
   /**
    * Checks that the data connection parameters are valid.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param parameters The data connection parameters supplied to the CreateOrUpdate operation.
@@ -79,7 +79,7 @@ export interface DataConnections {
   ): Promise<DataConnectionsDataConnectionValidationResponse>;
   /**
    * Checks that the data connection name is valid and is not already in use.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param dataConnectionName The name of the data connection.
@@ -94,7 +94,7 @@ export interface DataConnections {
   ): Promise<DataConnectionsCheckNameAvailabilityResponse>;
   /**
    * Returns a data connection.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param dataConnectionName The name of the data connection.
@@ -109,7 +109,7 @@ export interface DataConnections {
   ): Promise<DataConnectionsGetResponse>;
   /**
    * Creates or updates a data connection.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param dataConnectionName The name of the data connection.
@@ -124,14 +124,14 @@ export interface DataConnections {
     parameters: DataConnectionUnion,
     options?: DataConnectionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DataConnectionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DataConnectionsCreateOrUpdateResponse>,
       DataConnectionsCreateOrUpdateResponse
     >
   >;
   /**
    * Creates or updates a data connection.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param dataConnectionName The name of the data connection.
@@ -148,7 +148,7 @@ export interface DataConnections {
   ): Promise<DataConnectionsCreateOrUpdateResponse>;
   /**
    * Updates a data connection.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param dataConnectionName The name of the data connection.
@@ -163,14 +163,14 @@ export interface DataConnections {
     parameters: DataConnectionUnion,
     options?: DataConnectionsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DataConnectionsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DataConnectionsUpdateResponse>,
       DataConnectionsUpdateResponse
     >
   >;
   /**
    * Updates a data connection.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param dataConnectionName The name of the data connection.
@@ -187,7 +187,7 @@ export interface DataConnections {
   ): Promise<DataConnectionsUpdateResponse>;
   /**
    * Deletes the data connection with the given name.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param dataConnectionName The name of the data connection.
@@ -199,10 +199,10 @@ export interface DataConnections {
     databaseName: string,
     dataConnectionName: string,
     options?: DataConnectionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the data connection with the given name.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param dataConnectionName The name of the data connection.

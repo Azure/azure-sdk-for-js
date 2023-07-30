@@ -396,11 +396,6 @@ const listSupportedVirtualMachineSkusNextOperationSpec: coreClient.OperationSpec
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.maxresults,
-    Parameters.filter
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -421,11 +416,6 @@ const listSupportedCloudServiceSkusNextOperationSpec: coreClient.OperationSpec =
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.maxresults,
-    Parameters.filter
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

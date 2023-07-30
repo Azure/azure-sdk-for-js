@@ -14,10 +14,18 @@ import {
 import {
   RoleAssignmentCreateParameters as RoleAssignmentCreateParametersMapper,
   RoleDefinition as RoleDefinitionMapper,
+  AccessReviewHistoryDefinitionProperties as AccessReviewHistoryDefinitionPropertiesMapper,
+  AccessReviewScheduleDefinitionProperties as AccessReviewScheduleDefinitionPropertiesMapper,
+  AccessReviewInstanceProperties as AccessReviewInstancePropertiesMapper,
+  AccessReviewScheduleSettings as AccessReviewScheduleSettingsMapper,
+  RecordAllDecisionsProperties as RecordAllDecisionsPropertiesMapper,
+  AccessReviewDecisionProperties as AccessReviewDecisionPropertiesMapper,
   RoleAssignmentScheduleRequest as RoleAssignmentScheduleRequestMapper,
   RoleEligibilityScheduleRequest as RoleEligibilityScheduleRequestMapper,
   RoleManagementPolicy as RoleManagementPolicyMapper,
-  RoleManagementPolicyAssignment as RoleManagementPolicyAssignmentMapper
+  RoleManagementPolicyAssignment as RoleManagementPolicyAssignmentMapper,
+  Alert as AlertMapper,
+  AlertConfiguration as AlertConfigurationMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -297,6 +305,32 @@ export const roleAssignmentId: OperationURLParameter = {
   skipEncoding: true
 };
 
+export const apiVersion2: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-05-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const resourceName2: OperationURLParameter = {
+  parameterPath: "resourceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(".+")
+    },
+    serializedName: "resourceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const roleDefinitionId: OperationURLParameter = {
   parameterPath: "roleDefinitionId",
   mapper: {
@@ -325,10 +359,118 @@ export const roleId: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const apiVersion2: OperationQueryParameter = {
+export const apiVersion3: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2020-10-01",
+    defaultValue: "2021-12-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const historyDefinitionId: OperationURLParameter = {
+  parameterPath: "historyDefinitionId",
+  mapper: {
+    serializedName: "historyDefinitionId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const properties: OperationParameter = {
+  parameterPath: "properties",
+  mapper: AccessReviewHistoryDefinitionPropertiesMapper
+};
+
+export const instanceId: OperationURLParameter = {
+  parameterPath: "instanceId",
+  mapper: {
+    serializedName: "instanceId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const scheduleDefinitionId: OperationURLParameter = {
+  parameterPath: "scheduleDefinitionId",
+  mapper: {
+    serializedName: "scheduleDefinitionId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const properties1: OperationParameter = {
+  parameterPath: "properties",
+  mapper: AccessReviewScheduleDefinitionPropertiesMapper
+};
+
+export const id: OperationURLParameter = {
+  parameterPath: "id",
+  mapper: {
+    serializedName: "id",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const properties2: OperationParameter = {
+  parameterPath: "properties",
+  mapper: AccessReviewInstancePropertiesMapper
+};
+
+export const properties3: OperationParameter = {
+  parameterPath: "properties",
+  mapper: AccessReviewScheduleSettingsMapper
+};
+
+export const scope1: OperationURLParameter = {
+  parameterPath: "scope",
+  mapper: {
+    serializedName: "scope",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const properties4: OperationParameter = {
+  parameterPath: "properties",
+  mapper: RecordAllDecisionsPropertiesMapper
+};
+
+export const decisionId: OperationURLParameter = {
+  parameterPath: "decisionId",
+  mapper: {
+    serializedName: "decisionId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const properties5: OperationParameter = {
+  parameterPath: "properties",
+  mapper: AccessReviewDecisionPropertiesMapper
+};
+
+export const apiVersion4: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2020-10-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -369,6 +511,18 @@ export const roleAssignmentScheduleRequestName: OperationURLParameter = {
   mapper: {
     serializedName: "roleAssignmentScheduleRequestName",
     required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const apiVersion5: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-04-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
     type: {
       name: "String"
     }
@@ -443,4 +597,74 @@ export const roleManagementPolicyAssignmentName: OperationURLParameter = {
 export const parameters4: OperationParameter = {
   parameterPath: "parameters",
   mapper: RoleManagementPolicyAssignmentMapper
+};
+
+export const alertId: OperationURLParameter = {
+  parameterPath: "alertId",
+  mapper: {
+    serializedName: "alertId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+
+export const apiVersion6: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-08-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters5: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: AlertMapper
+};
+
+export const parameters6: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: AlertConfigurationMapper
+};
+
+export const alertDefinitionId: OperationURLParameter = {
+  parameterPath: "alertDefinitionId",
+  mapper: {
+    serializedName: "alertDefinitionId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+
+export const alertIncidentId: OperationURLParameter = {
+  parameterPath: "alertIncidentId",
+  mapper: {
+    serializedName: "alertIncidentId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    serializedName: "operationId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
 };

@@ -18,11 +18,12 @@ dotenv.config();
  * This sample demonstrates how to Create a new baseboard management controller key set or update the existing one for the provided cluster.
  *
  * @summary Create a new baseboard management controller key set or update the existing one for the provided cluster.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2022-12-12-preview/examples/BmcKeySets_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2023-05-01-preview/examples/BmcKeySets_Create.json
  */
 async function createOrUpdateBaseboardManagementControllerKeySetOfCluster() {
   const subscriptionId =
-    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] || "subscriptionId";
+    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
+    "123e4567-e89b-12d3-a456-426655440000";
   const resourceGroupName =
     process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
   const clusterName = "clusterName";
@@ -32,7 +33,7 @@ async function createOrUpdateBaseboardManagementControllerKeySetOfCluster() {
     expiration: new Date("2022-12-31T23:59:59.008Z"),
     extendedLocation: {
       name:
-        "/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterExtendedLocationName",
+        "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterExtendedLocationName",
       type: "CustomLocation"
     },
     location: "location",

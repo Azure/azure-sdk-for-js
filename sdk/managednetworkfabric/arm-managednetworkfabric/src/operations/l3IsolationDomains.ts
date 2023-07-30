@@ -38,13 +38,10 @@ import {
   UpdateAdministrativeState,
   L3IsolationDomainsUpdateAdministrativeStateOptionalParams,
   L3IsolationDomainsUpdateAdministrativeStateResponse,
-  L3IsolationDomainsUpdateOptionBAdministrativeStateOptionalParams,
-  L3IsolationDomainsUpdateOptionBAdministrativeStateResponse,
-  EnableDisableOnResources,
-  L3IsolationDomainsClearArpTableOptionalParams,
-  L3IsolationDomainsClearArpTableResponse,
-  L3IsolationDomainsClearNeighborTableOptionalParams,
-  L3IsolationDomainsClearNeighborTableResponse,
+  L3IsolationDomainsValidateConfigurationOptionalParams,
+  L3IsolationDomainsValidateConfigurationResponse,
+  L3IsolationDomainsCommitConfigurationOptionalParams,
+  L3IsolationDomainsCommitConfigurationResponse,
   L3IsolationDomainsListByResourceGroupNextResponse,
   L3IsolationDomainsListBySubscriptionNextResponse
 } from "../models";
@@ -190,7 +187,7 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
    * communication with external services .This configuration is applied on the devices only after the
    * creation of networks is completed and isolation domain is enabled.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3 Isolation Domain
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -266,7 +263,7 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
    * communication with external services .This configuration is applied on the devices only after the
    * creation of networks is completed and isolation domain is enabled.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3 Isolation Domain
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -288,7 +285,7 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
   /**
    * Retrieves details of this L3 Isolation Domain.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3 Isolation Domain
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
    * @param options The options parameters.
    */
   get(
@@ -305,7 +302,7 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
   /**
    * API to update certain properties of the L3 Isolation Domain resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3 Isolation Domain
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
    * @param body API to update certain properties of the L3 Isolation Domain resource.
    * @param options The options parameters.
    */
@@ -379,7 +376,7 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
   /**
    * API to update certain properties of the L3 Isolation Domain resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3 Isolation Domain
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
    * @param body API to update certain properties of the L3 Isolation Domain resource.
    * @param options The options parameters.
    */
@@ -401,7 +398,7 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
   /**
    * Deletes layer 3 connectivity between compute nodes by managed by named L3 Isolation name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3 Isolation Domain
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -465,7 +462,7 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
   /**
    * Deletes layer 3 connectivity between compute nodes by managed by named L3 Isolation name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3 Isolation Domain
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -512,7 +509,7 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
   /**
    * Enables racks for this Isolation Domain.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -586,7 +583,7 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
   /**
    * Enables racks for this Isolation Domain.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -606,29 +603,25 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
   }
 
   /**
-   * Update administrative state of option B on CE devices
+   * Validates the configuration of the resources.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param body Request payload.
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
    * @param options The options parameters.
    */
-  async beginUpdateOptionBAdministrativeState(
+  async beginValidateConfiguration(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    body: UpdateAdministrativeState,
-    options?: L3IsolationDomainsUpdateOptionBAdministrativeStateOptionalParams
+    options?: L3IsolationDomainsValidateConfigurationOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        L3IsolationDomainsUpdateOptionBAdministrativeStateResponse
-      >,
-      L3IsolationDomainsUpdateOptionBAdministrativeStateResponse
+      OperationState<L3IsolationDomainsValidateConfigurationResponse>,
+      L3IsolationDomainsValidateConfigurationResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<L3IsolationDomainsUpdateOptionBAdministrativeStateResponse> => {
+    ): Promise<L3IsolationDomainsValidateConfigurationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -666,12 +659,12 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, l3IsolationDomainName, body, options },
-      spec: updateOptionBAdministrativeStateOperationSpec
+      args: { resourceGroupName, l3IsolationDomainName, options },
+      spec: validateConfigurationOperationSpec
     });
     const poller = await createHttpPoller<
-      L3IsolationDomainsUpdateOptionBAdministrativeStateResponse,
-      OperationState<L3IsolationDomainsUpdateOptionBAdministrativeStateResponse>
+      L3IsolationDomainsValidateConfigurationResponse,
+      OperationState<L3IsolationDomainsValidateConfigurationResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -682,49 +675,44 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
   }
 
   /**
-   * Update administrative state of option B on CE devices
+   * Validates the configuration of the resources.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param body Request payload.
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
    * @param options The options parameters.
    */
-  async beginUpdateOptionBAdministrativeStateAndWait(
+  async beginValidateConfigurationAndWait(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    body: UpdateAdministrativeState,
-    options?: L3IsolationDomainsUpdateOptionBAdministrativeStateOptionalParams
-  ): Promise<L3IsolationDomainsUpdateOptionBAdministrativeStateResponse> {
-    const poller = await this.beginUpdateOptionBAdministrativeState(
+    options?: L3IsolationDomainsValidateConfigurationOptionalParams
+  ): Promise<L3IsolationDomainsValidateConfigurationResponse> {
+    const poller = await this.beginValidateConfiguration(
       resourceGroupName,
       l3IsolationDomainName,
-      body,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Clears ARP tables for this Isolation Domain.
+   * Commits the configuration of the given resources.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param body Request payload.
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
    * @param options The options parameters.
    */
-  async beginClearArpTable(
+  async beginCommitConfiguration(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    body: EnableDisableOnResources,
-    options?: L3IsolationDomainsClearArpTableOptionalParams
+    options?: L3IsolationDomainsCommitConfigurationOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<L3IsolationDomainsClearArpTableResponse>,
-      L3IsolationDomainsClearArpTableResponse
+      OperationState<L3IsolationDomainsCommitConfigurationResponse>,
+      L3IsolationDomainsCommitConfigurationResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<L3IsolationDomainsClearArpTableResponse> => {
+    ): Promise<L3IsolationDomainsCommitConfigurationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -762,12 +750,12 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, l3IsolationDomainName, body, options },
-      spec: clearArpTableOperationSpec
+      args: { resourceGroupName, l3IsolationDomainName, options },
+      spec: commitConfigurationOperationSpec
     });
     const poller = await createHttpPoller<
-      L3IsolationDomainsClearArpTableResponse,
-      OperationState<L3IsolationDomainsClearArpTableResponse>
+      L3IsolationDomainsCommitConfigurationResponse,
+      OperationState<L3IsolationDomainsCommitConfigurationResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -778,118 +766,19 @@ export class L3IsolationDomainsImpl implements L3IsolationDomains {
   }
 
   /**
-   * Clears ARP tables for this Isolation Domain.
+   * Commits the configuration of the given resources.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param body Request payload.
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
    * @param options The options parameters.
    */
-  async beginClearArpTableAndWait(
+  async beginCommitConfigurationAndWait(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    body: EnableDisableOnResources,
-    options?: L3IsolationDomainsClearArpTableOptionalParams
-  ): Promise<L3IsolationDomainsClearArpTableResponse> {
-    const poller = await this.beginClearArpTable(
+    options?: L3IsolationDomainsCommitConfigurationOptionalParams
+  ): Promise<L3IsolationDomainsCommitConfigurationResponse> {
+    const poller = await this.beginCommitConfiguration(
       resourceGroupName,
       l3IsolationDomainName,
-      body,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Clears IPv6 neighbor tables for this Isolation Domain.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param body Request payload.
-   * @param options The options parameters.
-   */
-  async beginClearNeighborTable(
-    resourceGroupName: string,
-    l3IsolationDomainName: string,
-    body: EnableDisableOnResources,
-    options?: L3IsolationDomainsClearNeighborTableOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<L3IsolationDomainsClearNeighborTableResponse>,
-      L3IsolationDomainsClearNeighborTableResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<L3IsolationDomainsClearNeighborTableResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, l3IsolationDomainName, body, options },
-      spec: clearNeighborTableOperationSpec
-    });
-    const poller = await createHttpPoller<
-      L3IsolationDomainsClearNeighborTableResponse,
-      OperationState<L3IsolationDomainsClearNeighborTableResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Clears IPv6 neighbor tables for this Isolation Domain.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param body Request payload.
-   * @param options The options parameters.
-   */
-  async beginClearNeighborTableAndWait(
-    resourceGroupName: string,
-    l3IsolationDomainName: string,
-    body: EnableDisableOnResources,
-    options?: L3IsolationDomainsClearNeighborTableOptionalParams
-  ): Promise<L3IsolationDomainsClearNeighborTableResponse> {
-    const poller = await this.beginClearNeighborTable(
-      resourceGroupName,
-      l3IsolationDomainName,
-      body,
       options
     );
     return poller.pollUntilDone();
@@ -951,7 +840,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body12,
+  requestBody: Parameters.body15,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1006,7 +895,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body13,
+  requestBody: Parameters.body16,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1085,22 +974,22 @@ const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.L3IsolationDomainsUpdateAdministrativeStateHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
     },
     201: {
-      headersMapper: Mappers.L3IsolationDomainsUpdateAdministrativeStateHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
     },
     202: {
-      headersMapper: Mappers.L3IsolationDomainsUpdateAdministrativeStateHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
     },
     204: {
-      headersMapper: Mappers.L3IsolationDomainsUpdateAdministrativeStateHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body10,
+  requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1112,32 +1001,27 @@ const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const updateOptionBAdministrativeStateOperationSpec: coreClient.OperationSpec = {
+const validateConfigurationOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/updateOptionBAdministrativeState",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/validateConfiguration",
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper:
-        Mappers.L3IsolationDomainsUpdateOptionBAdministrativeStateHeaders
+      bodyMapper: Mappers.ValidateConfigurationResponse
     },
     201: {
-      headersMapper:
-        Mappers.L3IsolationDomainsUpdateOptionBAdministrativeStateHeaders
+      bodyMapper: Mappers.ValidateConfigurationResponse
     },
     202: {
-      headersMapper:
-        Mappers.L3IsolationDomainsUpdateOptionBAdministrativeStateHeaders
+      bodyMapper: Mappers.ValidateConfigurationResponse
     },
     204: {
-      headersMapper:
-        Mappers.L3IsolationDomainsUpdateOptionBAdministrativeStateHeaders
+      bodyMapper: Mappers.ValidateConfigurationResponse
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body10,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1145,32 +1029,30 @@ const updateOptionBAdministrativeStateOperationSpec: coreClient.OperationSpec = 
     Parameters.resourceGroupName,
     Parameters.l3IsolationDomainName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
+  headerParameters: [Parameters.accept],
   serializer
 };
-const clearArpTableOperationSpec: coreClient.OperationSpec = {
+const commitConfigurationOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/clearArpTable",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/commitConfiguration",
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.L3IsolationDomainsClearArpTableHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
     },
     201: {
-      headersMapper: Mappers.L3IsolationDomainsClearArpTableHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
     },
     202: {
-      headersMapper: Mappers.L3IsolationDomainsClearArpTableHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
     },
     204: {
-      headersMapper: Mappers.L3IsolationDomainsClearArpTableHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1178,41 +1060,7 @@ const clearArpTableOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.l3IsolationDomainName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const clearNeighborTableOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/clearNeighborTable",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      headersMapper: Mappers.L3IsolationDomainsClearNeighborTableHeaders
-    },
-    201: {
-      headersMapper: Mappers.L3IsolationDomainsClearNeighborTableHeaders
-    },
-    202: {
-      headersMapper: Mappers.L3IsolationDomainsClearNeighborTableHeaders
-    },
-    204: {
-      headersMapper: Mappers.L3IsolationDomainsClearNeighborTableHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.body11,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.l3IsolationDomainName
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {

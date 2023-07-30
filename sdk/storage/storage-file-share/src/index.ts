@@ -39,6 +39,15 @@ export {
   isPipelineLike,
   newPipeline,
   StoragePipelineOptions,
+  RequestPolicyFactory,
+  RequestPolicy,
+  RequestPolicyOptions,
+  WebResource,
+  HttpOperationResponse,
+  HttpHeaders,
+  HttpRequestBody,
+  IHttpClient,
+  StorageOAuthScopes,
   ServiceClientOptions,
 } from "../../storage-blob/src/Pipeline";
 export * from "../../storage-blob/src/policies/AnonymousCredentialPolicy";

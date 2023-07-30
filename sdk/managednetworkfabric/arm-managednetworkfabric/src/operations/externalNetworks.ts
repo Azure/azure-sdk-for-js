@@ -21,9 +21,9 @@ import {
 import { createLroSpec } from "../lroImpl";
 import {
   ExternalNetwork,
-  ExternalNetworksListNextOptionalParams,
-  ExternalNetworksListOptionalParams,
-  ExternalNetworksListResponse,
+  ExternalNetworksListByL3IsolationDomainNextOptionalParams,
+  ExternalNetworksListByL3IsolationDomainOptionalParams,
+  ExternalNetworksListByL3IsolationDomainResponse,
   ExternalNetworksCreateOptionalParams,
   ExternalNetworksCreateResponse,
   ExternalNetworksGetOptionalParams,
@@ -35,16 +35,9 @@ import {
   UpdateAdministrativeState,
   ExternalNetworksUpdateAdministrativeStateOptionalParams,
   ExternalNetworksUpdateAdministrativeStateResponse,
-  ExternalNetworksUpdateBgpAdministrativeStateOptionalParams,
-  ExternalNetworksUpdateBgpAdministrativeStateResponse,
-  ExternalNetworksUpdateBfdForBgpAdministrativeStateOptionalParams,
-  ExternalNetworksUpdateBfdForBgpAdministrativeStateResponse,
-  EnableDisableOnResources,
-  ExternalNetworksClearIpv6NeighborsOptionalParams,
-  ExternalNetworksClearIpv6NeighborsResponse,
-  ExternalNetworksClearArpEntriesOptionalParams,
-  ExternalNetworksClearArpEntriesResponse,
-  ExternalNetworksListNextResponse
+  ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
+  ExternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse,
+  ExternalNetworksListByL3IsolationDomainNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -63,15 +56,15 @@ export class ExternalNetworksImpl implements ExternalNetworks {
   /**
    * Implements External Networks list by resource group GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
    * @param options The options parameters.
    */
-  public list(
+  public listByL3IsolationDomain(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    options?: ExternalNetworksListOptionalParams
+    options?: ExternalNetworksListByL3IsolationDomainOptionalParams
   ): PagedAsyncIterableIterator<ExternalNetwork> {
-    const iter = this.listPagingAll(
+    const iter = this.listByL3IsolationDomainPagingAll(
       resourceGroupName,
       l3IsolationDomainName,
       options
@@ -87,7 +80,7 @@ export class ExternalNetworksImpl implements ExternalNetworks {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
+        return this.listByL3IsolationDomainPagingPage(
           resourceGroupName,
           l3IsolationDomainName,
           options,
@@ -97,16 +90,16 @@ export class ExternalNetworksImpl implements ExternalNetworks {
     };
   }
 
-  private async *listPagingPage(
+  private async *listByL3IsolationDomainPagingPage(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    options?: ExternalNetworksListOptionalParams,
+    options?: ExternalNetworksListByL3IsolationDomainOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<ExternalNetwork[]> {
-    let result: ExternalNetworksListResponse;
+    let result: ExternalNetworksListByL3IsolationDomainResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
+      result = await this._listByL3IsolationDomain(
         resourceGroupName,
         l3IsolationDomainName,
         options
@@ -117,7 +110,7 @@ export class ExternalNetworksImpl implements ExternalNetworks {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
+      result = await this._listByL3IsolationDomainNext(
         resourceGroupName,
         l3IsolationDomainName,
         continuationToken,
@@ -130,12 +123,12 @@ export class ExternalNetworksImpl implements ExternalNetworks {
     }
   }
 
-  private async *listPagingAll(
+  private async *listByL3IsolationDomainPagingAll(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    options?: ExternalNetworksListOptionalParams
+    options?: ExternalNetworksListByL3IsolationDomainOptionalParams
   ): AsyncIterableIterator<ExternalNetwork> {
-    for await (const page of this.listPagingPage(
+    for await (const page of this.listByL3IsolationDomainPagingPage(
       resourceGroupName,
       l3IsolationDomainName,
       options
@@ -147,8 +140,8 @@ export class ExternalNetworksImpl implements ExternalNetworks {
   /**
    * Creates ExternalNetwork PUT method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain
-   * @param externalNetworkName Name of the ExternalNetwork
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param externalNetworkName Name of the External Network.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -229,8 +222,8 @@ export class ExternalNetworksImpl implements ExternalNetworks {
   /**
    * Creates ExternalNetwork PUT method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain
-   * @param externalNetworkName Name of the ExternalNetwork
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param externalNetworkName Name of the External Network.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -254,8 +247,8 @@ export class ExternalNetworksImpl implements ExternalNetworks {
   /**
    * Implements ExternalNetworks GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain
-   * @param externalNetworkName Name of the ExternalNetwork
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param externalNetworkName Name of the External Network.
    * @param options The options parameters.
    */
   get(
@@ -278,8 +271,8 @@ export class ExternalNetworksImpl implements ExternalNetworks {
   /**
    * API to update certain properties of the ExternalNetworks resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain
-   * @param externalNetworkName Name of the ExternalNetwork
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param externalNetworkName Name of the External Network.
    * @param body ExternalNetwork properties to update. Only annotations are supported.
    * @param options The options parameters.
    */
@@ -351,7 +344,7 @@ export class ExternalNetworksImpl implements ExternalNetworks {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -360,8 +353,8 @@ export class ExternalNetworksImpl implements ExternalNetworks {
   /**
    * API to update certain properties of the ExternalNetworks resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain
-   * @param externalNetworkName Name of the ExternalNetwork
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param externalNetworkName Name of the External Network.
    * @param body ExternalNetwork properties to update. Only annotations are supported.
    * @param options The options parameters.
    */
@@ -385,8 +378,8 @@ export class ExternalNetworksImpl implements ExternalNetworks {
   /**
    * Implements ExternalNetworks DELETE method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain
-   * @param externalNetworkName Name of the ExternalNetwork
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param externalNetworkName Name of the External Network.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -456,8 +449,8 @@ export class ExternalNetworksImpl implements ExternalNetworks {
   /**
    * Implements ExternalNetworks DELETE method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain
-   * @param externalNetworkName Name of the ExternalNetwork
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param externalNetworkName Name of the External Network.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -478,25 +471,25 @@ export class ExternalNetworksImpl implements ExternalNetworks {
   /**
    * Implements External Networks list by resource group GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
    * @param options The options parameters.
    */
-  private _list(
+  private _listByL3IsolationDomain(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    options?: ExternalNetworksListOptionalParams
-  ): Promise<ExternalNetworksListResponse> {
+    options?: ExternalNetworksListByL3IsolationDomainOptionalParams
+  ): Promise<ExternalNetworksListByL3IsolationDomainResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, l3IsolationDomainName, options },
-      listOperationSpec
+      listByL3IsolationDomainOperationSpec
     );
   }
 
   /**
    * Executes update operation to enable or disable administrative State for externalNetwork.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param externalNetworkName Name of the ExternalNetwork.
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param externalNetworkName Name of the External Network.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -577,8 +570,8 @@ export class ExternalNetworksImpl implements ExternalNetworks {
   /**
    * Executes update operation to enable or disable administrative State for externalNetwork.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param externalNetworkName Name of the ExternalNetwork.
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param externalNetworkName Name of the External Network.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -600,138 +593,31 @@ export class ExternalNetworksImpl implements ExternalNetworks {
   }
 
   /**
-   * Update BGP for externalNetwork.
+   * Update Static Route BFD for external Network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param externalNetworkName Name of the ExternalNetwork.
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param externalNetworkName Name of the External Network.
    * @param body Request payload.
    * @param options The options parameters.
    */
-  async beginUpdateBgpAdministrativeState(
+  async beginUpdateStaticRouteBfdAdministrativeState(
     resourceGroupName: string,
     l3IsolationDomainName: string,
     externalNetworkName: string,
     body: UpdateAdministrativeState,
-    options?: ExternalNetworksUpdateBgpAdministrativeStateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ExternalNetworksUpdateBgpAdministrativeStateResponse>,
-      ExternalNetworksUpdateBgpAdministrativeStateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<ExternalNetworksUpdateBgpAdministrativeStateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        l3IsolationDomainName,
-        externalNetworkName,
-        body,
-        options
-      },
-      spec: updateBgpAdministrativeStateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      ExternalNetworksUpdateBgpAdministrativeStateResponse,
-      OperationState<ExternalNetworksUpdateBgpAdministrativeStateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Update BGP for externalNetwork.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param externalNetworkName Name of the ExternalNetwork.
-   * @param body Request payload.
-   * @param options The options parameters.
-   */
-  async beginUpdateBgpAdministrativeStateAndWait(
-    resourceGroupName: string,
-    l3IsolationDomainName: string,
-    externalNetworkName: string,
-    body: UpdateAdministrativeState,
-    options?: ExternalNetworksUpdateBgpAdministrativeStateOptionalParams
-  ): Promise<ExternalNetworksUpdateBgpAdministrativeStateResponse> {
-    const poller = await this.beginUpdateBgpAdministrativeState(
-      resourceGroupName,
-      l3IsolationDomainName,
-      externalNetworkName,
-      body,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Update BfdForBgp for externalNetwork.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param externalNetworkName Name of the ExternalNetwork.
-   * @param body Request payload.
-   * @param options The options parameters.
-   */
-  async beginUpdateBfdForBgpAdministrativeState(
-    resourceGroupName: string,
-    l3IsolationDomainName: string,
-    externalNetworkName: string,
-    body: UpdateAdministrativeState,
-    options?: ExternalNetworksUpdateBfdForBgpAdministrativeStateOptionalParams
+    options?: ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<
-        ExternalNetworksUpdateBfdForBgpAdministrativeStateResponse
+        ExternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse
       >,
-      ExternalNetworksUpdateBfdForBgpAdministrativeStateResponse
+      ExternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ExternalNetworksUpdateBfdForBgpAdministrativeStateResponse> => {
+    ): Promise<ExternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -776,11 +662,13 @@ export class ExternalNetworksImpl implements ExternalNetworks {
         body,
         options
       },
-      spec: updateBfdForBgpAdministrativeStateOperationSpec
+      spec: updateStaticRouteBfdAdministrativeStateOperationSpec
     });
     const poller = await createHttpPoller<
-      ExternalNetworksUpdateBfdForBgpAdministrativeStateResponse,
-      OperationState<ExternalNetworksUpdateBfdForBgpAdministrativeStateResponse>
+      ExternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse,
+      OperationState<
+        ExternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse
+      >
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -791,21 +679,21 @@ export class ExternalNetworksImpl implements ExternalNetworks {
   }
 
   /**
-   * Update BfdForBgp for externalNetwork.
+   * Update Static Route BFD for external Network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param externalNetworkName Name of the ExternalNetwork.
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param externalNetworkName Name of the External Network.
    * @param body Request payload.
    * @param options The options parameters.
    */
-  async beginUpdateBfdForBgpAdministrativeStateAndWait(
+  async beginUpdateStaticRouteBfdAdministrativeStateAndWait(
     resourceGroupName: string,
     l3IsolationDomainName: string,
     externalNetworkName: string,
     body: UpdateAdministrativeState,
-    options?: ExternalNetworksUpdateBfdForBgpAdministrativeStateOptionalParams
-  ): Promise<ExternalNetworksUpdateBfdForBgpAdministrativeStateResponse> {
-    const poller = await this.beginUpdateBfdForBgpAdministrativeState(
+    options?: ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams
+  ): Promise<ExternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse> {
+    const poller = await this.beginUpdateStaticRouteBfdAdministrativeState(
       resourceGroupName,
       l3IsolationDomainName,
       externalNetworkName,
@@ -816,235 +704,22 @@ export class ExternalNetworksImpl implements ExternalNetworks {
   }
 
   /**
-   * clearIpv6Neighbors for externalNetwork.
+   * ListByL3IsolationDomainNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param externalNetworkName Name of the ExternalNetwork.
-   * @param body Request payload.
+   * @param l3IsolationDomainName Name of the L3 Isolation Domain.
+   * @param nextLink The nextLink from the previous successful call to the ListByL3IsolationDomain
+   *                 method.
    * @param options The options parameters.
    */
-  async beginClearIpv6Neighbors(
-    resourceGroupName: string,
-    l3IsolationDomainName: string,
-    externalNetworkName: string,
-    body: EnableDisableOnResources,
-    options?: ExternalNetworksClearIpv6NeighborsOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ExternalNetworksClearIpv6NeighborsResponse>,
-      ExternalNetworksClearIpv6NeighborsResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<ExternalNetworksClearIpv6NeighborsResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        l3IsolationDomainName,
-        externalNetworkName,
-        body,
-        options
-      },
-      spec: clearIpv6NeighborsOperationSpec
-    });
-    const poller = await createHttpPoller<
-      ExternalNetworksClearIpv6NeighborsResponse,
-      OperationState<ExternalNetworksClearIpv6NeighborsResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * clearIpv6Neighbors for externalNetwork.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param externalNetworkName Name of the ExternalNetwork.
-   * @param body Request payload.
-   * @param options The options parameters.
-   */
-  async beginClearIpv6NeighborsAndWait(
-    resourceGroupName: string,
-    l3IsolationDomainName: string,
-    externalNetworkName: string,
-    body: EnableDisableOnResources,
-    options?: ExternalNetworksClearIpv6NeighborsOptionalParams
-  ): Promise<ExternalNetworksClearIpv6NeighborsResponse> {
-    const poller = await this.beginClearIpv6Neighbors(
-      resourceGroupName,
-      l3IsolationDomainName,
-      externalNetworkName,
-      body,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * clearArpEntries for externalNetwork.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param externalNetworkName Name of the ExternalNetwork.
-   * @param body Request payload.
-   * @param options The options parameters.
-   */
-  async beginClearArpEntries(
-    resourceGroupName: string,
-    l3IsolationDomainName: string,
-    externalNetworkName: string,
-    body: EnableDisableOnResources,
-    options?: ExternalNetworksClearArpEntriesOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ExternalNetworksClearArpEntriesResponse>,
-      ExternalNetworksClearArpEntriesResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<ExternalNetworksClearArpEntriesResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        l3IsolationDomainName,
-        externalNetworkName,
-        body,
-        options
-      },
-      spec: clearArpEntriesOperationSpec
-    });
-    const poller = await createHttpPoller<
-      ExternalNetworksClearArpEntriesResponse,
-      OperationState<ExternalNetworksClearArpEntriesResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * clearArpEntries for externalNetwork.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain.
-   * @param externalNetworkName Name of the ExternalNetwork.
-   * @param body Request payload.
-   * @param options The options parameters.
-   */
-  async beginClearArpEntriesAndWait(
-    resourceGroupName: string,
-    l3IsolationDomainName: string,
-    externalNetworkName: string,
-    body: EnableDisableOnResources,
-    options?: ExternalNetworksClearArpEntriesOptionalParams
-  ): Promise<ExternalNetworksClearArpEntriesResponse> {
-    const poller = await this.beginClearArpEntries(
-      resourceGroupName,
-      l3IsolationDomainName,
-      externalNetworkName,
-      body,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * ListNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l3IsolationDomainName Name of the L3IsolationDomain
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  private _listNext(
+  private _listByL3IsolationDomainNext(
     resourceGroupName: string,
     l3IsolationDomainName: string,
     nextLink: string,
-    options?: ExternalNetworksListNextOptionalParams
-  ): Promise<ExternalNetworksListNextResponse> {
+    options?: ExternalNetworksListByL3IsolationDomainNextOptionalParams
+  ): Promise<ExternalNetworksListByL3IsolationDomainNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, l3IsolationDomainName, nextLink, options },
-      listNextOperationSpec
+      listByL3IsolationDomainNextOperationSpec
     );
   }
 }
@@ -1072,7 +747,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body16,
+  requestBody: Parameters.body19,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1129,7 +804,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body17,
+  requestBody: Parameters.body20,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1166,7 +841,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listOperationSpec: coreClient.OperationSpec = {
+const listByL3IsolationDomainOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/externalNetworks",
   httpMethod: "GET",
@@ -1194,22 +869,22 @@ const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.ExternalNetworksUpdateAdministrativeStateHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
     },
     201: {
-      headersMapper: Mappers.ExternalNetworksUpdateAdministrativeStateHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
     },
     202: {
-      headersMapper: Mappers.ExternalNetworksUpdateAdministrativeStateHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
     },
     204: {
-      headersMapper: Mappers.ExternalNetworksUpdateAdministrativeStateHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body10,
+  requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1222,28 +897,28 @@ const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const updateBgpAdministrativeStateOperationSpec: coreClient.OperationSpec = {
+const updateStaticRouteBfdAdministrativeStateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/externalNetworks/{externalNetworkName}/updateBgpAdministrativeState",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/externalNetworks/{externalNetworkName}/updateStaticRouteBfdAdministrativeState",
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.ExternalNetworksUpdateBgpAdministrativeStateHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
     },
     201: {
-      headersMapper: Mappers.ExternalNetworksUpdateBgpAdministrativeStateHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
     },
     202: {
-      headersMapper: Mappers.ExternalNetworksUpdateBgpAdministrativeStateHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
     },
     204: {
-      headersMapper: Mappers.ExternalNetworksUpdateBgpAdministrativeStateHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body10,
+  requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1256,113 +931,7 @@ const updateBgpAdministrativeStateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const updateBfdForBgpAdministrativeStateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/externalNetworks/{externalNetworkName}/updateBfdForBgpAdministrativeState",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      headersMapper:
-        Mappers.ExternalNetworksUpdateBfdForBgpAdministrativeStateHeaders
-    },
-    201: {
-      headersMapper:
-        Mappers.ExternalNetworksUpdateBfdForBgpAdministrativeStateHeaders
-    },
-    202: {
-      headersMapper:
-        Mappers.ExternalNetworksUpdateBfdForBgpAdministrativeStateHeaders
-    },
-    204: {
-      headersMapper:
-        Mappers.ExternalNetworksUpdateBfdForBgpAdministrativeStateHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.body10,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.l3IsolationDomainName,
-    Parameters.externalNetworkName
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const clearIpv6NeighborsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/externalNetworks/{externalNetworkName}/clearIpv6Neighbors",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      headersMapper: Mappers.ExternalNetworksClearIpv6NeighborsHeaders
-    },
-    201: {
-      headersMapper: Mappers.ExternalNetworksClearIpv6NeighborsHeaders
-    },
-    202: {
-      headersMapper: Mappers.ExternalNetworksClearIpv6NeighborsHeaders
-    },
-    204: {
-      headersMapper: Mappers.ExternalNetworksClearIpv6NeighborsHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.body11,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.l3IsolationDomainName,
-    Parameters.externalNetworkName
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const clearArpEntriesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/externalNetworks/{externalNetworkName}/clearArpEntries",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      headersMapper: Mappers.ExternalNetworksClearArpEntriesHeaders
-    },
-    201: {
-      headersMapper: Mappers.ExternalNetworksClearArpEntriesHeaders
-    },
-    202: {
-      headersMapper: Mappers.ExternalNetworksClearArpEntriesHeaders
-    },
-    204: {
-      headersMapper: Mappers.ExternalNetworksClearArpEntriesHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.body11,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.l3IsolationDomainName,
-    Parameters.externalNetworkName
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const listNextOperationSpec: coreClient.OperationSpec = {
+const listByL3IsolationDomainNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

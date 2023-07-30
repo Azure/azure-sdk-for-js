@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */{
+ */ {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -14,7 +14,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.89.0",
+  "rushVersion": "5.100.2",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -652,11 +652,13 @@
     },
     {
       "packageName": "@azure-rest/maps-render",
-      "projectFolder": "sdk/maps/maps-render-rest"
+      "projectFolder": "sdk/maps/maps-render-rest",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure-rest/maps-geolocation",
-      "projectFolder": "sdk/maps/maps-geolocation-rest"
+      "projectFolder": "sdk/maps/maps-geolocation-rest",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure-rest/maps-search",
@@ -2026,6 +2028,16 @@
     {
       "packageName": "@azure/arm-managednetworkfabric",
       "projectFolder": "sdk/managednetworkfabric/arm-managednetworkfabric",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-iotfirmwaredefense",
+      "projectFolder": "sdk/iotfirmwaredefense/arm-iotfirmwaredefense",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-quantum",
+      "projectFolder": "sdk/quantum/arm-quantum",
       "versionPolicyName": "management"
     }
   ]

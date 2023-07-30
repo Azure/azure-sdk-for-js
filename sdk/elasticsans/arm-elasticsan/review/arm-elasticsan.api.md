@@ -6,9 +6,12 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
+
+// @public
+export type ActionType = string;
 
 // @public
 export type CreatedByType = string;
@@ -18,9 +21,9 @@ export interface ElasticSan extends TrackedResource {
     availabilityZones?: string[];
     baseSizeTiB: number;
     extendedCapacitySizeTiB: number;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningStates;
     sku: Sku;
-    readonly systemData?: SystemData;
     readonly totalIops?: number;
     readonly totalMBps?: number;
     readonly totalSizeTiB?: number;
@@ -31,7 +34,7 @@ export interface ElasticSan extends TrackedResource {
 // @public
 export interface ElasticSanList {
     readonly nextLink?: string;
-    value: ElasticSan[];
+    value?: ElasticSan[];
 }
 
 // @public (undocumented)
@@ -45,6 +48,10 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
     elasticSans: ElasticSans;
     // (undocumented)
     operations: Operations;
+    // (undocumented)
+    privateEndpointConnections: PrivateEndpointConnections;
+    // (undocumented)
+    privateLinkResources: PrivateLinkResources;
     // (undocumented)
     skus: Skus;
     // (undocumented)
@@ -63,33 +70,12 @@ export interface ElasticSanManagementOptionalParams extends coreClient.ServiceCl
 }
 
 // @public
-export interface ElasticSanOperationDisplay {
-    description: string;
-    operation: string;
-    provider: string;
-    resource: string;
-}
-
-// @public
-export interface ElasticSanOperationListResult {
-    nextLink?: string;
-    value: ElasticSanRPOperation[];
-}
-
-// @public
-export interface ElasticSanRPOperation {
-    readonly display?: ElasticSanOperationDisplay;
-    readonly isDataAction?: boolean;
-    name: string;
-}
-
-// @public
 export interface ElasticSans {
-    beginCreate(resourceGroupName: string, elasticSanName: string, parameters: ElasticSan, options?: ElasticSansCreateOptionalParams): Promise<PollerLike<PollOperationState<ElasticSansCreateResponse>, ElasticSansCreateResponse>>;
+    beginCreate(resourceGroupName: string, elasticSanName: string, parameters: ElasticSan, options?: ElasticSansCreateOptionalParams): Promise<SimplePollerLike<OperationState<ElasticSansCreateResponse>, ElasticSansCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, elasticSanName: string, parameters: ElasticSan, options?: ElasticSansCreateOptionalParams): Promise<ElasticSansCreateResponse>;
-    beginDelete(resourceGroupName: string, elasticSanName: string, options?: ElasticSansDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, elasticSanName: string, options?: ElasticSansDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, elasticSanName: string, options?: ElasticSansDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, elasticSanName: string, parameters: ElasticSanUpdate, options?: ElasticSansUpdateOptionalParams): Promise<PollerLike<PollOperationState<ElasticSansUpdateResponse>, ElasticSansUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, elasticSanName: string, parameters: ElasticSanUpdate, options?: ElasticSansUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ElasticSansUpdateResponse>, ElasticSansUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, elasticSanName: string, parameters: ElasticSanUpdate, options?: ElasticSansUpdateOptionalParams): Promise<ElasticSansUpdateResponse>;
     get(resourceGroupName: string, elasticSanName: string, options?: ElasticSansGetOptionalParams): Promise<ElasticSansGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ElasticSansListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ElasticSan>;
@@ -104,6 +90,12 @@ export interface ElasticSansCreateOptionalParams extends coreClient.OperationOpt
 
 // @public
 export type ElasticSansCreateResponse = ElasticSan;
+
+// @public
+export interface ElasticSansDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface ElasticSansDeleteOptionalParams extends coreClient.OperationOptions {
@@ -147,6 +139,12 @@ export interface ElasticSansListBySubscriptionOptionalParams extends coreClient.
 export type ElasticSansListBySubscriptionResponse = ElasticSanList;
 
 // @public
+export interface ElasticSansUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface ElasticSansUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -174,17 +172,17 @@ export interface ErrorAdditionalInfo {
 }
 
 // @public
-export interface ErrorModel {
-    error?: ErrorResponse;
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
 }
 
 // @public
 export interface ErrorResponse {
-    readonly additionalInfo?: ErrorAdditionalInfo[];
-    readonly code?: string;
-    readonly details?: ErrorResponse[];
-    readonly message?: string;
-    readonly target?: string;
+    error?: ErrorDetail;
 }
 
 // @public
@@ -197,6 +195,11 @@ export interface IscsiTargetInfo {
     readonly targetIqn?: string;
     readonly targetPortalHostname?: string;
     readonly targetPortalPort?: number;
+}
+
+// @public
+export enum KnownActionType {
+    Internal = "Internal"
 }
 
 // @public
@@ -222,6 +225,21 @@ export enum KnownOperationalStatus {
     Unhealthy = "Unhealthy",
     Unknown = "Unknown",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownOrigin {
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
+}
+
+// @public
+export enum KnownPrivateEndpointServiceConnectionStatus {
+    Approved = "Approved",
+    Failed = "Failed",
+    Pending = "Pending",
+    Rejected = "Rejected"
 }
 
 // @public
@@ -259,11 +277,34 @@ export interface NetworkRuleSet {
 }
 
 // @public
+export interface Operation {
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
+    readonly isDataAction?: boolean;
+    readonly name?: string;
+    readonly origin?: Origin;
+}
+
+// @public
 export type OperationalStatus = string;
 
 // @public
+export interface OperationDisplay {
+    readonly description?: string;
+    readonly operation?: string;
+    readonly provider?: string;
+    readonly resource?: string;
+}
+
+// @public
+export interface OperationListResult {
+    readonly nextLink?: string;
+    readonly value?: Operation[];
+}
+
+// @public
 export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<ElasticSanRPOperation>;
+    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
@@ -271,18 +312,122 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 }
 
 // @public
-export type OperationsListResponse = ElasticSanOperationListResult;
+export type OperationsListResponse = OperationListResult;
+
+// @public
+export type Origin = string;
+
+// @public
+export interface PrivateEndpoint {
+    readonly id?: string;
+}
+
+// @public
+export interface PrivateEndpointConnection extends Resource {
+    groupIds?: string[];
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: ProvisioningStates;
+}
+
+// @public
+export interface PrivateEndpointConnectionListResult {
+    readonly nextLink?: string;
+    value?: PrivateEndpointConnection[];
+}
+
+// @public
+export interface PrivateEndpointConnections {
+    beginCreate(resourceGroupName: string, elasticSanName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsCreateResponse>, PrivateEndpointConnectionsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, elasticSanName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams): Promise<PrivateEndpointConnectionsCreateResponse>;
+    beginDelete(resourceGroupName: string, elasticSanName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, elasticSanName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, elasticSanName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
+    list(resourceGroupName: string, elasticSanName: string, options?: PrivateEndpointConnectionsListOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
+}
+
+// @public
+export interface PrivateEndpointConnectionsCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PrivateEndpointConnectionsCreateResponse = PrivateEndpointConnection;
+
+// @public
+export interface PrivateEndpointConnectionsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
+
+// @public
+export interface PrivateEndpointConnectionsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
+
+// @public
+export type PrivateEndpointServiceConnectionStatus = string;
+
+// @public
+export interface PrivateLinkResource extends Resource {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
+}
+
+// @public
+export interface PrivateLinkResourceListResult {
+    readonly nextLink?: string;
+    value?: PrivateLinkResource[];
+}
+
+// @public
+export interface PrivateLinkResources {
+    listByElasticSan(resourceGroupName: string, elasticSanName: string, options?: PrivateLinkResourcesListByElasticSanOptionalParams): Promise<PrivateLinkResourcesListByElasticSanResponse>;
+}
+
+// @public
+export interface PrivateLinkResourcesListByElasticSanOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkResourcesListByElasticSanResponse = PrivateLinkResourceListResult;
+
+// @public
+export interface PrivateLinkServiceConnectionState {
+    actionsRequired?: string;
+    description?: string;
+    status?: PrivateEndpointServiceConnectionStatus;
+}
 
 // @public
 export type ProvisioningStates = string;
 
 // @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -310,6 +455,7 @@ export interface SkuInformation {
 
 // @public
 export interface SkuInformationList {
+    readonly nextLink?: string;
     readonly value?: SkuInformation[];
 }
 
@@ -362,7 +508,10 @@ export interface SystemData {
 
 // @public
 export interface TrackedResource extends Resource {
-    location?: string;
+    location: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -373,36 +522,35 @@ export interface VirtualNetworkRule {
 }
 
 // @public
-export interface Volume extends Resource {
+export interface Volume extends ProxyResource {
     creationData?: SourceCreationData;
-    sizeGiB?: number;
+    sizeGiB: number;
     readonly storageTarget?: IscsiTargetInfo;
-    readonly systemData?: SystemData;
     readonly volumeId?: string;
 }
 
 // @public
-export interface VolumeGroup extends Resource {
+export interface VolumeGroup extends ProxyResource {
     encryption?: EncryptionType;
     networkAcls?: NetworkRuleSet;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
     protocolType?: StorageTargetType;
     readonly provisioningState?: ProvisioningStates;
-    readonly systemData?: SystemData;
 }
 
 // @public
 export interface VolumeGroupList {
     readonly nextLink?: string;
-    value: VolumeGroup[];
+    value?: VolumeGroup[];
 }
 
 // @public
 export interface VolumeGroups {
-    beginCreate(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: VolumeGroup, options?: VolumeGroupsCreateOptionalParams): Promise<PollerLike<PollOperationState<VolumeGroupsCreateResponse>, VolumeGroupsCreateResponse>>;
+    beginCreate(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: VolumeGroup, options?: VolumeGroupsCreateOptionalParams): Promise<SimplePollerLike<OperationState<VolumeGroupsCreateResponse>, VolumeGroupsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: VolumeGroup, options?: VolumeGroupsCreateOptionalParams): Promise<VolumeGroupsCreateResponse>;
-    beginDelete(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, options?: VolumeGroupsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, options?: VolumeGroupsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, options?: VolumeGroupsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: VolumeGroupUpdate, options?: VolumeGroupsUpdateOptionalParams): Promise<PollerLike<PollOperationState<VolumeGroupsUpdateResponse>, VolumeGroupsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: VolumeGroupUpdate, options?: VolumeGroupsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VolumeGroupsUpdateResponse>, VolumeGroupsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, parameters: VolumeGroupUpdate, options?: VolumeGroupsUpdateOptionalParams): Promise<VolumeGroupsUpdateResponse>;
     get(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, options?: VolumeGroupsGetOptionalParams): Promise<VolumeGroupsGetResponse>;
     listByElasticSan(resourceGroupName: string, elasticSanName: string, options?: VolumeGroupsListByElasticSanOptionalParams): PagedAsyncIterableIterator<VolumeGroup>;
@@ -416,6 +564,12 @@ export interface VolumeGroupsCreateOptionalParams extends coreClient.OperationOp
 
 // @public
 export type VolumeGroupsCreateResponse = VolumeGroup;
+
+// @public
+export interface VolumeGroupsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface VolumeGroupsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -445,6 +599,12 @@ export interface VolumeGroupsListByElasticSanOptionalParams extends coreClient.O
 export type VolumeGroupsListByElasticSanResponse = VolumeGroupList;
 
 // @public
+export interface VolumeGroupsUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface VolumeGroupsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -458,24 +618,21 @@ export interface VolumeGroupUpdate {
     encryption?: EncryptionType;
     networkAcls?: NetworkRuleSet;
     protocolType?: StorageTargetType;
-    tags?: {
-        [propertyName: string]: string;
-    };
 }
 
 // @public
 export interface VolumeList {
     readonly nextLink?: string;
-    value: Volume[];
+    value?: Volume[];
 }
 
 // @public
 export interface Volumes {
-    beginCreate(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, parameters: Volume, options?: VolumesCreateOptionalParams): Promise<PollerLike<PollOperationState<VolumesCreateResponse>, VolumesCreateResponse>>;
+    beginCreate(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, parameters: Volume, options?: VolumesCreateOptionalParams): Promise<SimplePollerLike<OperationState<VolumesCreateResponse>, VolumesCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, parameters: Volume, options?: VolumesCreateOptionalParams): Promise<VolumesCreateResponse>;
-    beginDelete(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, options?: VolumesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, options?: VolumesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, options?: VolumesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, parameters: VolumeUpdate, options?: VolumesUpdateOptionalParams): Promise<PollerLike<PollOperationState<VolumesUpdateResponse>, VolumesUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, parameters: VolumeUpdate, options?: VolumesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VolumesUpdateResponse>, VolumesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, parameters: VolumeUpdate, options?: VolumesUpdateOptionalParams): Promise<VolumesUpdateResponse>;
     get(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, options?: VolumesGetOptionalParams): Promise<VolumesGetResponse>;
     listByVolumeGroup(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, options?: VolumesListByVolumeGroupOptionalParams): PagedAsyncIterableIterator<Volume>;
@@ -489,6 +646,12 @@ export interface VolumesCreateOptionalParams extends coreClient.OperationOptions
 
 // @public
 export type VolumesCreateResponse = Volume;
+
+// @public
+export interface VolumesDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface VolumesDeleteOptionalParams extends coreClient.OperationOptions {
@@ -518,6 +681,12 @@ export interface VolumesListByVolumeGroupOptionalParams extends coreClient.Opera
 export type VolumesListByVolumeGroupResponse = VolumeList;
 
 // @public
+export interface VolumesUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface VolumesUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -529,9 +698,6 @@ export type VolumesUpdateResponse = Volume;
 // @public
 export interface VolumeUpdate {
     sizeGiB?: number;
-    tags?: {
-        [propertyName: string]: string;
-    };
 }
 
 // (No @packageDocumentation comment for this package)

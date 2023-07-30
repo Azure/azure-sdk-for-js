@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   NetworkInterface,
-  NetworkInterfacesListOptionalParams,
+  NetworkInterfacesListByNetworkDeviceOptionalParams,
   NetworkInterfacesCreateOptionalParams,
   NetworkInterfacesCreateResponse,
   NetworkInterfacesGetOptionalParams,
@@ -19,8 +19,6 @@ import {
   NetworkInterfacesUpdateOptionalParams,
   NetworkInterfacesUpdateResponse,
   NetworkInterfacesDeleteOptionalParams,
-  NetworkInterfacesGetStatusOptionalParams,
-  NetworkInterfacesGetStatusResponse,
   UpdateAdministrativeState,
   NetworkInterfacesUpdateAdministrativeStateOptionalParams,
   NetworkInterfacesUpdateAdministrativeStateResponse
@@ -32,19 +30,19 @@ export interface NetworkInterfaces {
   /**
    * List all the Network Interface resources in a given resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice.
+   * @param networkDeviceName Name of the Network Device.
    * @param options The options parameters.
    */
-  list(
+  listByNetworkDevice(
     resourceGroupName: string,
     networkDeviceName: string,
-    options?: NetworkInterfacesListOptionalParams
+    options?: NetworkInterfacesListByNetworkDeviceOptionalParams
   ): PagedAsyncIterableIterator<NetworkInterface>;
   /**
    * Create a Network Interface resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice
-   * @param networkInterfaceName Name of the NetworkInterface
+   * @param networkDeviceName Name of the Network Device.
+   * @param networkInterfaceName Name of the Network Interface.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -63,8 +61,8 @@ export interface NetworkInterfaces {
   /**
    * Create a Network Interface resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice
-   * @param networkInterfaceName Name of the NetworkInterface
+   * @param networkDeviceName Name of the Network Device.
+   * @param networkInterfaceName Name of the Network Interface.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -78,8 +76,8 @@ export interface NetworkInterfaces {
   /**
    * Get the Network Interface resource details.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice
-   * @param networkInterfaceName Name of the NetworkInterfaceName
+   * @param networkDeviceName Name of the Network Device.
+   * @param networkInterfaceName Name of the Network Interface.
    * @param options The options parameters.
    */
   get(
@@ -91,8 +89,8 @@ export interface NetworkInterfaces {
   /**
    * Update certain properties of the Network Interface resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice
-   * @param networkInterfaceName Name of the NetworkInterfaceName
+   * @param networkDeviceName Name of the Network Device.
+   * @param networkInterfaceName Name of the Network Interface.
    * @param body NetworkInterface properties to update. Only tags are supported.
    * @param options The options parameters.
    */
@@ -111,8 +109,8 @@ export interface NetworkInterfaces {
   /**
    * Update certain properties of the Network Interface resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice
-   * @param networkInterfaceName Name of the NetworkInterfaceName
+   * @param networkDeviceName Name of the Network Device.
+   * @param networkInterfaceName Name of the Network Interface.
    * @param body NetworkInterface properties to update. Only tags are supported.
    * @param options The options parameters.
    */
@@ -126,8 +124,8 @@ export interface NetworkInterfaces {
   /**
    * Delete the Network Interface resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice
-   * @param networkInterfaceName Name of the NetworkInterfaceName
+   * @param networkDeviceName Name of the Network Device.
+   * @param networkInterfaceName Name of the Network Interface.
    * @param options The options parameters.
    */
   beginDelete(
@@ -139,8 +137,8 @@ export interface NetworkInterfaces {
   /**
    * Delete the Network Interface resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice
-   * @param networkInterfaceName Name of the NetworkInterfaceName
+   * @param networkDeviceName Name of the Network Device.
+   * @param networkInterfaceName Name of the Network Interface.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
@@ -150,41 +148,10 @@ export interface NetworkInterfaces {
     options?: NetworkInterfacesDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Get the running status of the Network Interface.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice.
-   * @param networkInterfaceName Name of the NetworkInterface
-   * @param options The options parameters.
-   */
-  beginGetStatus(
-    resourceGroupName: string,
-    networkDeviceName: string,
-    networkInterfaceName: string,
-    options?: NetworkInterfacesGetStatusOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<NetworkInterfacesGetStatusResponse>,
-      NetworkInterfacesGetStatusResponse
-    >
-  >;
-  /**
-   * Get the running status of the Network Interface.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice.
-   * @param networkInterfaceName Name of the NetworkInterface
-   * @param options The options parameters.
-   */
-  beginGetStatusAndWait(
-    resourceGroupName: string,
-    networkDeviceName: string,
-    networkInterfaceName: string,
-    options?: NetworkInterfacesGetStatusOptionalParams
-  ): Promise<NetworkInterfacesGetStatusResponse>;
-  /**
    * Update the admin state of the Network Interface.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice.
-   * @param networkInterfaceName Name of the NetworkInterface
+   * @param networkDeviceName Name of the Network Device.
+   * @param networkInterfaceName Name of the Network Interface.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -203,8 +170,8 @@ export interface NetworkInterfaces {
   /**
    * Update the admin state of the Network Interface.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice.
-   * @param networkInterfaceName Name of the NetworkInterface
+   * @param networkDeviceName Name of the Network Device.
+   * @param networkInterfaceName Name of the Network Interface.
    * @param body Request payload.
    * @param options The options parameters.
    */

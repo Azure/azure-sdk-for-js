@@ -10,6 +10,8 @@
 
 ### Bugs Fixed
 
+- Fix a TypeError in React Native when `Platform.constants` is undefined [Issue #26609](https://github.com/Azure/azure-sdk-for-js/issues/26609)
+
 ### Other Changes
 
 ## 1.11.0 (2023-06-01)

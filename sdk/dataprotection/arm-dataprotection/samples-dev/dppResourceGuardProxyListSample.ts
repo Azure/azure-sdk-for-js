@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns the list of ResourceGuardProxies associated with the vault
  *
  * @summary Returns the list of ResourceGuardProxies associated with the vault
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-01-01/examples/ResourceGuardProxyCRUD/ListResourceGuardProxy.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-05-01/examples/ResourceGuardProxyCRUD/ListResourceGuardProxy.json
  */
 async function getResourceGuardProxies() {
   const subscriptionId =

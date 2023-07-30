@@ -19,8 +19,8 @@
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 04 Jul 2023 22:30:25 GMT",
-        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 OS"
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:26 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -28,12 +28,12 @@
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
         "Content-Length": "1428",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 04 Jul 2023 22:30:25 GMT",
-        "MS-CV": "a9it8zkidE6FLH2HdJdgbg.0",
+        "Date": "Tue, 25 Jul 2023 18:04:26 GMT",
+        "MS-CV": "Flr7BmzAW0KDSPLliE\u002B\u002Bzg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0gZ2kZAAAAAAmzhhOKb2iQ5QqTictt8IcREZXMzBFREdFMTYxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0qw7AZAAAAABTFW5iZIUrRolV8u0I6yWbREZXMzBFREdFMTYxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "461ms"
+        "X-Processing-Time": "328ms"
       },
       "ResponseBody": {
         "shortCodeCosts": [

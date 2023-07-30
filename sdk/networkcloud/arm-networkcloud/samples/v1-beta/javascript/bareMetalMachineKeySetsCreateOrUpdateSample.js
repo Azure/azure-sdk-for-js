@@ -16,10 +16,11 @@ require("dotenv").config();
  * This sample demonstrates how to Create a new bare metal machine key set or update the existing one for the provided cluster.
  *
  * @summary Create a new bare metal machine key set or update the existing one for the provided cluster.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2022-12-12-preview/examples/BareMetalMachineKeySets_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2023-05-01-preview/examples/BareMetalMachineKeySets_Create.json
  */
 async function createOrUpdateBareMetalMachineKeySetOfCluster() {
-  const subscriptionId = process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] || "subscriptionId";
+  const subscriptionId =
+    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] || "123e4567-e89b-12d3-a456-426655440000";
   const resourceGroupName = process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
   const clusterName = "clusterName";
   const bareMetalMachineKeySetName = "bareMetalMachineKeySetName";
@@ -27,7 +28,7 @@ async function createOrUpdateBareMetalMachineKeySetOfCluster() {
     azureGroupId: "f110271b-XXXX-4163-9b99-214d91660f0e",
     expiration: new Date("2022-12-31T23:59:59.008Z"),
     extendedLocation: {
-      name: "/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterExtendedLocationName",
+      name: "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterExtendedLocationName",
       type: "CustomLocation",
     },
     jumpHostsAllowed: ["192.0.2.1", "192.0.2.5"],

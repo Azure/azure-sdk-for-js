@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a disk encryption set.
  *
  * @summary Deletes a disk encryption set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Delete.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Delete.json
  */
 async function deleteADiskEncryptionSet() {
   const subscriptionId =

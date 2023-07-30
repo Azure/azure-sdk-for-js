@@ -8,8 +8,8 @@ import {
   RouterQueue,
   JobRouterAdministrationClient,
   JobRouterClient,
-  RouterWorkerResponse,
   CreateJobOptions,
+  UpdateWorkerOptions,
 } from "@azure/communication-job-router";
 
 // Load the .env file (you will need to set these environment variables)
@@ -20,8 +20,8 @@ const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
 async function quickStart(): Promise<void> {
   // Create the Router Client
-  const routerClient: JobRouterClient = new JobRouterClient(connectionString);
-  const routerAdministrationClient: JobRouterAdministrationClient =
+  const jobRouterClient: JobRouterClient = new JobRouterClient(connectionString);
+  const jobRouterAdministrationClient: JobRouterAdministrationClient =
     new JobRouterAdministrationClient(connectionString);
 
   // Create a Distribution Policy
@@ -36,7 +36,7 @@ async function quickStart(): Promise<void> {
     },
     offerExpiresAfterSeconds: 15,
   };
-  await routerAdministrationClient.createDistributionPolicy(
+  await jobRouterAdministrationClient.createDistributionPolicy(
     distributionPolicyId,
     distributionPolicyRequest
   );
@@ -49,7 +49,7 @@ async function quickStart(): Promise<void> {
     name: "Main",
     labels: {},
   };
-  await routerAdministrationClient.createQueue(queueId, queueRequest);
+  await jobRouterAdministrationClient.createQueue(queueId, queueRequest);
 
   // Create a Job
   const jobId = "router-job-123";
@@ -59,20 +59,19 @@ async function quickStart(): Promise<void> {
     labels: {},
   };
 
-  await routerClient.createJob(jobId, options);
+  await jobRouterClient.createJob(jobId, options);
 
   // Register a Worker
   // Register a worker associated with the queue that was just created. We will assign labels to the
   // worker to include all relevant information for example, skills, which will be used to determine
   // whether a job can be offered to a worker or not.
-  const workerRequest: RouterWorkerResponse = {
-    id: "router-worker-123",
-    loadRatio: 1,
+  const workerId = "router-worker-123"
+  const workerRequest: UpdateWorkerOptions = {
     totalCapacity: 100,
     queueAssignments: {
       "queue-123": {},
     },
-    labels: {},
+    labels: { "language": "English" },
     channelConfigurations: {
       CustomChatChannel: {
         capacityCostPerJob: 10,
@@ -83,7 +82,7 @@ async function quickStart(): Promise<void> {
     },
   };
 
-  await routerClient.registerWorker(workerRequest.id);
+  await jobRouterClient.updateWorker(workerId, { ...workerRequest, availableForOffers: true });
 
   // Check offers to a Worker
   // Once the worker has been registered, Router will send an offer to the worker if the worker satisfies requirements
@@ -93,28 +92,28 @@ async function quickStart(): Promise<void> {
 
   // However, we could also wait a few seconds and then query the worker directly against the Job Router API to see if
   // an offer was issued to it.
-  const workerResult = await routerClient.getWorker(workerRequest.id);
+  const workerResult = await jobRouterClient.getWorker(workerId);
   for await (let offer of workerResult.offers!) {
-    console.log(`Worker ${workerRequest.id} has an active offer for job ${offer.jobId}`);
+    console.log(`Worker ${workerId} has an active offer for job ${offer.jobId}`);
   }
 
   // Accepting an offer
   // Once a worker receives an offer, it can take two possible actions: accept or decline. We are going to accept the offer.
   // fetching the offer id
-  var jobOffer = workerResult.offers![0];
+  const jobOffer = workerResult.offers![0];
 
-  var offerId = jobOffer.offerId; // `OfferId` can be retrieved directly from consuming event from Event grid
+  const offerId = jobOffer.offerId; // `OfferId` can be retrieved directly from consuming event from Event grid
 
   // accepting the offer sent to `worker-1`
-  var acceptJobOfferResult = await routerClient.acceptJobOffer(workerRequest.id, offerId);
+  const acceptJobOfferResult = await jobRouterClient.acceptJobOffer(workerId, offerId);
 
-  console.log(`Offer: ${jobOffer.offerId} sent to worker: ${workerRequest.id} has been accepted`);
+  console.log(`Offer: ${jobOffer.offerId} sent to worker: ${workerId} has been accepted`);
   console.log(
-    `Job has been assigned to worker: ${workerRequest.id} with assignment: ${acceptJobOfferResult.assignmentId}`
+    `Job has been assigned to worker: ${workerId} with assignment: ${acceptJobOfferResult.assignmentId}`
   );
 
   // verify job assignment is populated when querying job
-  var updatedJob = await routerClient.getJob(jobId);
+  let updatedJob = await jobRouterClient.getJob(jobId);
   console.log(`Job assignment has been successful: 
   ${updatedJob.status == "assigned" &&
     updatedJob.assignments!.hasOwnProperty(acceptJobOfferResult.assignmentId)
@@ -122,8 +121,8 @@ async function quickStart(): Promise<void> {
 
   // Completing a job
   // Once the worker is done with the job, the worker has to mark the job as `completed`.
-  var completeJob = await routerClient.completeJob(jobId, acceptJobOfferResult.assignmentId, {
-    note: `Job has been completed by ${workerRequest.id} at ${new Date()}`,
+  const completeJob = await jobRouterClient.completeJob(jobId, acceptJobOfferResult.assignmentId, {
+    note: `Job has been completed by ${workerId} at ${new Date()}`,
   });
 
   console.log(`Job has been successfully completed: ${completeJob}`);
@@ -131,25 +130,25 @@ async function quickStart(): Promise<void> {
   // Closing a job
   // After a job has been completed, the worker can perform wrap up actions to the job before closing the job and finally
   // releasing its capacity to accept more incoming jobs
-  var closeJob = await routerClient.closeJob(jobId, acceptJobOfferResult.assignmentId, {
-    note: `Job has been closed by ${workerRequest.id} at ${new Date()}`,
+  const closeJob = await jobRouterClient.closeJob(jobId, acceptJobOfferResult.assignmentId, {
+    note: `Job has been closed by ${workerId} at ${new Date()}`,
   });
 
   console.log(`Job has been successfully closed: ${closeJob}`);
 
   // Optionally, a job can also be set up to be marked as closed in the future.
-  var t = new Date();
-  t.setSeconds(t.getSeconds() + 2);
-  var closeJobInFuture = await routerClient.closeJob(jobId, acceptJobOfferResult.assignmentId, {
-    closeTime: t, // this will mark the job as closed after 2 seconds
-    note: `Job has been marked to close in the future by ${workerRequest.id} at ${t}`,
+  const afterTwoSeconds = new Date();
+  afterTwoSeconds.setSeconds(afterTwoSeconds.getSeconds() + 2);
+  const closeJobInFuture = await jobRouterClient.closeJob(jobId, acceptJobOfferResult.assignmentId, {
+    closeAt: afterTwoSeconds, // this will mark the job as closed after 2 seconds
+    note: `Job has been marked to close in the future by ${workerId} at ${afterTwoSeconds}`,
   });
 
   console.log(`Job has been marked to close: ${closeJobInFuture}`); // You'll received a 202 in that case
 
   await delay(2000);
 
-  updatedJob = await routerClient.getJob(jobId);
+  updatedJob = await jobRouterClient.getJob(jobId);
   console.log(`Updated job status: ${updatedJob.status == "closed"}`);
 }
 

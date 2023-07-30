@@ -31,7 +31,7 @@ import {
   NetworkRacksCreateResponse,
   NetworkRacksGetOptionalParams,
   NetworkRacksGetResponse,
-  NetworkRackPatch,
+  TagsUpdate,
   NetworkRacksUpdateOptionalParams,
   NetworkRacksUpdateResponse,
   NetworkRacksDeleteOptionalParams,
@@ -178,7 +178,7 @@ export class NetworkRacksImpl implements NetworkRacks {
   /**
    * Create Network Rack resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkRackName Name of the Network Rack
+   * @param networkRackName Name of the Network Rack.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -252,7 +252,7 @@ export class NetworkRacksImpl implements NetworkRacks {
   /**
    * Create Network Rack resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkRackName Name of the Network Rack
+   * @param networkRackName Name of the Network Rack.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -274,7 +274,7 @@ export class NetworkRacksImpl implements NetworkRacks {
   /**
    * Get Network Rack resource details.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkRackName Name of the Network Rack
+   * @param networkRackName Name of the Network Rack.
    * @param options The options parameters.
    */
   get(
@@ -291,14 +291,14 @@ export class NetworkRacksImpl implements NetworkRacks {
   /**
    * Update certain properties of the Network Rack resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkRackName Name of the Network Rack
+   * @param networkRackName Name of the Network Rack.
    * @param body Network Rack properties to update.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
     networkRackName: string,
-    body: NetworkRackPatch,
+    body: TagsUpdate,
     options?: NetworkRacksUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
@@ -365,14 +365,14 @@ export class NetworkRacksImpl implements NetworkRacks {
   /**
    * Update certain properties of the Network Rack resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkRackName Name of the Network Rack
+   * @param networkRackName Name of the Network Rack.
    * @param body Network Rack properties to update.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
     networkRackName: string,
-    body: NetworkRackPatch,
+    body: TagsUpdate,
     options?: NetworkRacksUpdateOptionalParams
   ): Promise<NetworkRacksUpdateResponse> {
     const poller = await this.beginUpdate(
@@ -387,7 +387,7 @@ export class NetworkRacksImpl implements NetworkRacks {
   /**
    * Delete Network Rack resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkRackName Name of the Network Rack
+   * @param networkRackName Name of the Network Rack.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -451,7 +451,7 @@ export class NetworkRacksImpl implements NetworkRacks {
   /**
    * Delete Network Rack resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkRackName Name of the Network Rack
+   * @param networkRackName Name of the Network Rack.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -551,7 +551,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body29,
+  requestBody: Parameters.body39,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -606,7 +606,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body30,
+  requestBody: Parameters.body40,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
