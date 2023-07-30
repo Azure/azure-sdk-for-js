@@ -682,39 +682,11 @@ export const CreateChatThreadRequest: coreClient.CompositeMapper = {
           }
         }
       },
-      retentionPolicy: {
-        serializedName: "retentionPolicy",
-        type: {
-          name: "Composite",
-          className: "ChatRetentionPolicy"
-        }
-      },
       metadata: {
         serializedName: "metadata",
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
-        }
-      }
-    }
-  }
-};
-
-export const ChatRetentionPolicy: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ChatRetentionPolicy",
-    uberParent: "ChatRetentionPolicy",
-    polymorphicDiscriminator: {
-      serializedName: "kind",
-      clientName: "kind"
-    },
-    modelProperties: {
-      kind: {
-        serializedName: "kind",
-        required: true,
-        type: {
-          name: "String"
         }
       }
     }
@@ -789,13 +761,6 @@ export const ChatThreadProperties: coreClient.CompositeMapper = {
           name: "DateTime"
         }
       },
-      retentionPolicy: {
-        serializedName: "retentionPolicy",
-        type: {
-          name: "Composite",
-          className: "ChatRetentionPolicy"
-        }
-      },
       metadata: {
         serializedName: "metadata",
         type: {
@@ -867,13 +832,6 @@ export const ChatThreadItem: coreClient.CompositeMapper = {
         type: {
           name: "DateTime"
         }
-      },
-      retentionPolicy: {
-        serializedName: "retentionPolicy",
-        type: {
-          name: "Composite",
-          className: "ChatRetentionPolicy"
-        }
       }
     }
   }
@@ -914,29 +872,4 @@ export const SendTypingNotificationRequest: coreClient.CompositeMapper = {
       }
     }
   }
-};
-
-export const ThreadCreationDateRetentionPolicy: coreClient.CompositeMapper = {
-  serializedName: "threadCreationDate",
-  type: {
-    name: "Composite",
-    className: "ThreadCreationDateRetentionPolicy",
-    uberParent: "ChatRetentionPolicy",
-    polymorphicDiscriminator: ChatRetentionPolicy.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ChatRetentionPolicy.type.modelProperties,
-      deleteThreadAfterDays: {
-        serializedName: "deleteThreadAfterDays",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export let discriminators = {
-  ChatRetentionPolicy: ChatRetentionPolicy,
-  "ChatRetentionPolicy.threadCreationDate": ThreadCreationDateRetentionPolicy
 };

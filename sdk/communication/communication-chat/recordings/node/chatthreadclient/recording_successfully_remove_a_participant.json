@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3AYeqTbVRRRygi7c81LBW5ILppampOYuNyi-E7OX_mVcc1%40thread.v2/participants/:remove?api-version=2023-07-01-preview",
+      "RequestUri": "https://endpoint/chat/threads/19%3ALW6y9Fa5WICFy_d9H-4TZBAG0rfuqresKhlqPuU3Jro1%40thread.v2/participants/:remove?api-version=2023-07-01-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,25 +10,25 @@
         "Connection": "keep-alive",
         "Content-Length": "200",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-communication-chat/1.3.2 core-rest-pipeline/1.11.1 Node/v16.14.2 OS/(arm64-Darwin-22.5.0)",
-        "x-ms-client-request-id": "8039cbed-6aa7-432a-9254-5f78e333f761"
+        "User-Agent": "azsdk-js-communication-chat/1.3.2 core-rest-pipeline/1.11.1 Node/v16.14.2 OS/(arm64-Darwin-22.6.0)",
+        "x-ms-client-request-id": "e90e2a4f-8660-4968-bb10-0aca6a1caead"
       },
       "RequestBody": {
-        "rawId": "8:acs:357e39d2-a29a-4bf6-88cc-fda0afc2c0ed_00000019-f6ab-fbc3-1000-343a0d0011e1",
+        "rawId": "8:acs:357e39d2-a29a-4bf6-88cc-fda0afc2c0ed_0000001a-4905-5ec2-4ff7-343a0d00d40e",
         "communicationUser": {
-          "id": "8:acs:357e39d2-a29a-4bf6-88cc-fda0afc2c0ed_00000019-f6ab-fbc3-1000-343a0d0011e1"
+          "id": "8:acs:357e39d2-a29a-4bf6-88cc-fda0afc2c0ed_0000001a-4905-5ec2-4ff7-343a0d00d40e"
         }
       },
       "StatusCode": 204,
       "ResponseHeaders": {
         "Access-Control-Expose-Headers": "*",
         "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview, 2023-07-01-preview",
-        "Date": "Fri, 14 Jul 2023 23:44:12 GMT",
-        "MS-CV": "D08DEz7eIkiTP4gv9\u002BF4gQ.0",
+        "Date": "Sun, 30 Jul 2023 23:30:41 GMT",
+        "MS-CV": "zMLQ29tl5kGi8fwcDaqrQw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0zN2xZAAAAAB3r20ooHhBRrWmPpNuQSIJV1NURURHRTA4MTEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0ofLGZAAAAABzoYN\u002B1T0uTaKwqjEGfupUV1NURURHRTAxMjEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "203ms"
+        "X-Processing-Time": "221ms"
       },
       "ResponseBody": null
     }

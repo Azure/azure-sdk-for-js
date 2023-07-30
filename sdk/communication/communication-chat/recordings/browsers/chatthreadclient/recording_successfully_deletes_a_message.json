@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3AucCcrRTDhTGKCxD9hMYNtNZGvQQb8kuxBm50uw-EcpI1%40thread.v2/messages/1689378257133?api-version=2023-07-01-preview",
+      "RequestUri": "https://endpoint/chat/threads/19%3AcYy7Q2MA1aW6nGooCVWflDz_H1wNaQVbcms8D8a4JT41%40thread.v2/messages/1690759849448?api-version=2023-07-01-preview",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -18,7 +18,7 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "ac75b292-ace8-4d69-91f5-d9f99f1236b9",
+        "x-ms-client-request-id": "ad68826c-8f9e-455d-8049-71232ac2d683",
         "x-ms-useragent": "azsdk-js-communication-chat/1.3.2 core-rest-pipeline/1.11.1 OS"
       },
       "RequestBody": null,
@@ -27,12 +27,12 @@
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Expose-Headers": "Location",
         "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview, 2023-07-01-preview",
-        "Date": "Fri, 14 Jul 2023 23:44:18 GMT",
-        "MS-CV": "WeiaHkpFFEKLI8QCGCGOxg.0",
+        "Date": "Sun, 30 Jul 2023 23:30:50 GMT",
+        "MS-CV": "GzPyTlcZGU\u002B7LVpNWryrAQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "00t2xZAAAAACCEFQibNtxS7d4EE/V9gcOV1NURURHRTA4MTcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0qvLGZAAAAAAzdx3273vJTrzhQ/P8KUlZV1NURURHRTA4MTcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "136ms"
+        "X-Processing-Time": "182ms"
       },
       "ResponseBody": null
     }

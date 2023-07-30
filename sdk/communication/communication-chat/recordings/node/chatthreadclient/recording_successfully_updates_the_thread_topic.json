@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3AYeqTbVRRRygi7c81LBW5ILppampOYuNyi-E7OX_mVcc1%40thread.v2?api-version=2023-07-01-preview",
+      "RequestUri": "https://endpoint/chat/threads/19%3ALW6y9Fa5WICFy_d9H-4TZBAG0rfuqresKhlqPuU3Jro1%40thread.v2?api-version=2023-07-01-preview",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "21",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-chat/1.3.2 core-rest-pipeline/1.11.1 Node/v16.14.2 OS/(arm64-Darwin-22.5.0)",
-        "x-ms-client-request-id": "3ece58bc-8753-41bc-8e3f-9b900ce32cee"
+        "User-Agent": "azsdk-js-communication-chat/1.3.2 core-rest-pipeline/1.11.1 Node/v16.14.2 OS/(arm64-Darwin-22.6.0)",
+        "x-ms-client-request-id": "2a3a5dc1-fabe-4e3f-b0b2-23b77a1f48aa"
       },
       "RequestBody": {
         "topic": "new topic"
@@ -20,25 +20,25 @@
       "ResponseHeaders": {
         "Access-Control-Expose-Headers": "*",
         "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview, 2023-07-01-preview",
-        "Date": "Fri, 14 Jul 2023 23:44:09 GMT",
-        "MS-CV": "hJgq4jZh/E6AW5IMCTYsWA.0",
+        "Date": "Sun, 30 Jul 2023 23:30:38 GMT",
+        "MS-CV": "WHIayc1JAky8o6K8UDkzuw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0yd2xZAAAAADrSMeSiy3fRKTnihNCLB\u002B5V1NURURHRTA4MTEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0n/LGZAAAAAAur9VnaHGESKMaOolx3FuPV1NURURHRTAxMjEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "262ms"
+        "X-Processing-Time": "225ms"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3AYeqTbVRRRygi7c81LBW5ILppampOYuNyi-E7OX_mVcc1%40thread.v2?api-version=2023-07-01-preview",
+      "RequestUri": "https://endpoint/chat/threads/19%3ALW6y9Fa5WICFy_d9H-4TZBAG0rfuqresKhlqPuU3Jro1%40thread.v2?api-version=2023-07-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-chat/1.3.2 core-rest-pipeline/1.11.1 Node/v16.14.2 OS/(arm64-Darwin-22.5.0)",
-        "x-ms-client-request-id": "2dd8285d-d1f0-43fc-8f43-3563edbc505b"
+        "User-Agent": "azsdk-js-communication-chat/1.3.2 core-rest-pipeline/1.11.1 Node/v16.14.2 OS/(arm64-Darwin-22.6.0)",
+        "x-ms-client-request-id": "7c574ee1-1f5f-4e20-87ed-0c233e150b60"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -47,21 +47,21 @@
         "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview, 2023-07-01-preview",
         "Content-Length": "421",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 14 Jul 2023 23:44:09 GMT",
-        "MS-CV": "uJkSPZgHtEizxOv6N6SHHw.0",
+        "Date": "Sun, 30 Jul 2023 23:30:38 GMT",
+        "MS-CV": "P64C51U/80a2B7PCNHkOaA.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0yd2xZAAAAAARsdHXlV/vSKBqsL3pZiEnV1NURURHRTA4MTEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0n/LGZAAAAABHbibtWZUDS4alOD4O4eM\u002BV1NURURHRTAxMjEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "97ms"
+        "X-Processing-Time": "82ms"
       },
       "ResponseBody": {
-        "id": "19:YeqTbVRRRygi7c81LBW5ILppampOYuNyi-E7OX_mVcc1@thread.v2",
+        "id": "19:LW6y9Fa5WICFy_d9H-4TZBAG0rfuqresKhlqPuU3Jro1@thread.v2",
         "topic": "new topic",
-        "createdOn": "2023-07-14T23:44:08Z",
+        "createdOn": "2023-07-30T23:30:38Z",
         "createdByCommunicationIdentifier": {
-          "rawId": "8:acs:357e39d2-a29a-4bf6-88cc-fda0afc2c0ed_00000019-f6ab-fbb0-6a0b-343a0d0023cf",
+          "rawId": "8:acs:357e39d2-a29a-4bf6-88cc-fda0afc2c0ed_0000001a-4905-5e7f-4ff7-343a0d00d40d",
           "communicationUser": {
-            "id": "8:acs:357e39d2-a29a-4bf6-88cc-fda0afc2c0ed_00000019-f6ab-fbb0-6a0b-343a0d0023cf"
+            "id": "8:acs:357e39d2-a29a-4bf6-88cc-fda0afc2c0ed_0000001a-4905-5e7f-4ff7-343a0d00d40d"
           }
         },
         "metadata": {
