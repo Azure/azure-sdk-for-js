@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3ApgJQICUAb6Y7Itb1SaQi8g89M-0ZJpiuxxgehVK975w1%40thread.v2/readReceipts?api-version=2023-07-01-preview",
+      "RequestUri": "https://endpoint/chat/threads/19%3Ae9ARCRYju2ETKP7JbltjEtL0Ng2mwzhplRmmbVii3D81%40thread.v2/readReceipts?api-version=2023-07-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -9,7 +9,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-communication-chat/1.3.2-beta.3 core-rest-pipeline/1.11.1 Node/v16.14.2 OS/(arm64-Darwin-22.6.0)",
-        "x-ms-client-request-id": "aca1fdce-aded-4a39-8d1e-7e5e6c43d4d2"
+        "x-ms-client-request-id": "92ac35a5-0c8a-4496-8284-af80de443320"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -18,24 +18,24 @@
         "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview, 2023-07-01-preview",
         "Content-Length": "310",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 11 Aug 2023 19:38:28 GMT",
-        "MS-CV": "EEMobS2Rq0uHRrQ9Ep51Jg.0",
+        "Date": "Fri, 11 Aug 2023 19:50:15 GMT",
+        "MS-CV": "xiaOpvfxX0\u002B05Kx6QcScvw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0NI7WZAAAAAAWdDVCTo0xQKEK4Xx1MkahV1NURURHRTA4MTAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0\u002BJDWZAAAAAAc2k1sQ99sTa7TTxAbNCXzV1NURURHRTAxMTIAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "134ms"
+        "X-Processing-Time": "143ms"
       },
       "ResponseBody": {
         "value": [
           {
             "senderCommunicationIdentifier": {
-              "rawId": "8:acs:357e39d2-a29a-4bf6-88cc-fda0afc2c0ed_0000001a-85fd-11b6-4ff7-343a0d00c9f2",
+              "rawId": "8:acs:357e39d2-a29a-4bf6-88cc-fda0afc2c0ed_0000001a-8607-d79a-78fe-343a0d00d0e2",
               "communicationUser": {
-                "id": "8:acs:357e39d2-a29a-4bf6-88cc-fda0afc2c0ed_0000001a-85fd-11b6-4ff7-343a0d00c9f2"
+                "id": "8:acs:357e39d2-a29a-4bf6-88cc-fda0afc2c0ed_0000001a-8607-d79a-78fe-343a0d00d0e2"
               }
             },
-            "chatMessageId": "1691782706112",
-            "readOn": "2023-08-11T19:38:26Z"
+            "chatMessageId": "1691783412729",
+            "readOn": "2023-08-11T19:50:13Z"
           }
         ]
       }

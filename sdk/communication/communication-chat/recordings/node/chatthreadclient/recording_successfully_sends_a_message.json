@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3ApgJQICUAb6Y7Itb1SaQi8g89M-0ZJpiuxxgehVK975w1%40thread.v2/messages?api-version=2023-07-01-preview",
+      "RequestUri": "https://endpoint/chat/threads/19%3Ae9ARCRYju2ETKP7JbltjEtL0Ng2mwzhplRmmbVii3D81%40thread.v2/messages?api-version=2023-07-01-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -11,7 +11,7 @@
         "Content-Length": "51",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-communication-chat/1.3.2-beta.3 core-rest-pipeline/1.11.1 Node/v16.14.2 OS/(arm64-Darwin-22.6.0)",
-        "x-ms-client-request-id": "186fe20f-fff4-4924-b4d0-ebbe62e8e395"
+        "x-ms-client-request-id": "e07452dc-34fa-45e5-bb36-39e65d673e94"
       },
       "RequestBody": {
         "content": "content",
@@ -25,16 +25,16 @@
         "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview, 2023-07-01-preview",
         "Content-Length": "22",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 11 Aug 2023 19:38:25 GMT",
-        "Location": "https://endpoint/chat/threads/19%3ApgJQICUAb6Y7Itb1SaQi8g89M-0ZJpiuxxgehVK975w1@thread.v2/messages/1691782706112",
-        "MS-CV": "jODN2E3WVU2jniazoRCEjQ.0",
+        "Date": "Fri, 11 Aug 2023 19:50:11 GMT",
+        "Location": "https://endpoint/chat/threads/19%3Ae9ARCRYju2ETKP7JbltjEtL0Ng2mwzhplRmmbVii3D81@thread.v2/messages/1691783412729",
+        "MS-CV": "sjU6h82Ax0iQU18l47FVEw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0Mo7WZAAAAAAVG09Bt7TsSZceZ/klxK3fV1NURURHRTA4MTAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "09JDWZAAAAABApmbtF8K6SIqUUfiNK4edV1NURURHRTAxMTIAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "167ms"
+        "X-Processing-Time": "182ms"
       },
       "ResponseBody": {
-        "id": "1691782706112"
+        "id": "1691783412729"
       }
     }
   ],
