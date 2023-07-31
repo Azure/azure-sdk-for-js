@@ -119,14 +119,14 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     if (persistenceProvider !== undefined && options.tokenCachePersistenceOptions?.enabled) {
       const nonCaeOptions = {
         name: `${options.tokenCachePersistenceOptions.name}.nocae`,
-        ...options.tokenCachePersistenceOptions
-      }
+        ...options.tokenCachePersistenceOptions,
+      };
       const caeOptions = {
         name: `${options.tokenCachePersistenceOptions.name}.cae`,
-        ...options.tokenCachePersistenceOptions
-      }
+        ...options.tokenCachePersistenceOptions,
+      };
       this.createCachePlugin = () => persistenceProvider!(nonCaeOptions);
-      this.createCachePluginCae = () => persistenceProvider!(caeOptions)
+      this.createCachePluginCae = () => persistenceProvider!(caeOptions);
     } else if (options.tokenCachePersistenceOptions?.enabled) {
       throw new Error(
         [

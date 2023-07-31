@@ -59,12 +59,11 @@ export class MsalOpenBrowser extends MsalNode {
     request: msalNode.AuthorizationCodeRequest,
     enableCae?: boolean
   ): Promise<msalNode.AuthenticationResult | null> {
-      if(enableCae){
-        return this.publicAppCae!.acquireTokenByCode(request);
-      }        
-      else {
-        return this.publicApp!.acquireTokenByCode(request);
-      }    
+    if (enableCae) {
+      return this.publicAppCae!.acquireTokenByCode(request);
+    } else {
+      return this.publicApp!.acquireTokenByCode(request);
+    }
   }
 
   protected doGetToken(
@@ -102,7 +101,7 @@ export class MsalOpenBrowser extends MsalNode {
           codeVerifier: this.pkceCodes?.verifier,
         };
 
-        this.acquireTokenByCode(tokenRequest,options?.enableCae)
+        this.acquireTokenByCode(tokenRequest, options?.enableCae)
           .then((authResponse) => {
             if (authResponse?.account) {
               this.account = msalToPublic(this.clientId, authResponse.account);
@@ -244,10 +243,9 @@ export class MsalOpenBrowser extends MsalNode {
       codeChallengeMethod: "S256", // Use SHA256 Algorithm
     };
     let response;
-    if(options?.enableCae){
+    if (options?.enableCae) {
       response = await this.publicAppCae!.getAuthCodeUrl(authCodeUrlParameters);
-    }
-    else {
+    } else {
       response = await this.publicApp!.getAuthCodeUrl(authCodeUrlParameters);
     }
     try {

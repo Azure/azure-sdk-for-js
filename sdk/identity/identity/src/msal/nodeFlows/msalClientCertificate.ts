@@ -156,7 +156,6 @@ export class MsalClientCertificate extends MsalNode {
     options: CredentialFlowGetTokenOptions = {}
   ): Promise<AccessToken> {
     try {
-    
       const clientCredReq: ClientCredentialRequest = {
         scopes,
         correlationId: options.correlationId,
@@ -165,12 +164,11 @@ export class MsalClientCertificate extends MsalNode {
         claims: options.claims,
       };
       let result;
-      if(options.enableCae){
+      if (options.enableCae) {
         result = await this.confidentialAppCae!.acquireTokenByClientCredential(clientCredReq);
-      }
-      else{
+      } else {
         result = await this.confidentialApp!.acquireTokenByClientCredential(clientCredReq);
-      }      
+      }
       // Even though we're providing the same default in memory persistence cache that we use for DeviceCodeCredential,
       // The Client Credential flow does not return the account information from the authentication service,
       // so each time getToken gets called, we will have to acquire a new token through the service.

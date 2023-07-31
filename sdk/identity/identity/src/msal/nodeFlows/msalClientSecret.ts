@@ -33,7 +33,7 @@ export class MsalClientSecret extends MsalNode {
   ): Promise<AccessToken> {
     try {
       let result;
-      if(options.enableCae){
+      if (options.enableCae) {
         result = await this.confidentialAppCae!.acquireTokenByClientCredential({
           scopes,
           correlationId: options.correlationId,
@@ -41,8 +41,7 @@ export class MsalClientSecret extends MsalNode {
           authority: options.authority,
           claims: options.claims,
         });
-      }
-      else {
+      } else {
         result = await this.confidentialApp!.acquireTokenByClientCredential({
           scopes,
           correlationId: options.correlationId,

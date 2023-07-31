@@ -41,12 +41,11 @@ export class MsalDeviceCode extends MsalNode {
         claims: options?.claims,
       };
       let promise;
-      if(options?.enableCae){
+      if (options?.enableCae) {
         promise = this.publicAppCae!.acquireTokenByDeviceCode(requestOptions);
-      }
-      else {
+      } else {
         promise = this.publicApp!.acquireTokenByDeviceCode(requestOptions);
-      }      
+      }
       const deviceResponse = await this.withCancellation(promise, options?.abortSignal, () => {
         requestOptions.cancel = true;
       });
