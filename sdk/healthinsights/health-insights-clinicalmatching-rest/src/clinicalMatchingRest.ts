@@ -22,8 +22,7 @@ export default function createClient(
   options = {
     ...options,
     credentials: {
-      apiKeyHeaderName:
-        options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
+      apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
     },
   };
 
@@ -42,11 +41,7 @@ export default function createClient(
     },
   };
 
-  const client = getClient(
-    baseUrl,
-    credentials,
-    options
-  ) as ClinicalMatchingRestClient;
+  const client = getClient(baseUrl, credentials, options) as ClinicalMatchingRestClient;
 
   return client;
 }

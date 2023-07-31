@@ -5,10 +5,7 @@ import { assert } from "chai";
 import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { createClient, createRecorder } from "./utils/recordedClient";
-import {
-  ClinicalMatchingRestClient,
-  getLongRunningPoller
-} from "../../src";
+import { ClinicalMatchingRestClient, getLongRunningPoller } from "../../src";
 
 const clinicalInfoList = [
   {
@@ -101,7 +98,7 @@ const trialMatcherData = {
 };
 
 const trialMatcherParameter = {
-  body: trialMatcherData
+  body: trialMatcherData,
 };
 
 describe("My test", () => {

@@ -5,17 +5,14 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
-import {
-  CancerProfilingRestClient,
-  getLongRunningPoller
-} from "../../src";
+import { CancerProfilingRestClient, getLongRunningPoller } from "../../src";
 
 const patientInfo = {
   sex: "FEMALE",
   birthDate: new Date("1979-10-08T00:00:00.000Z"), // Note: Months are zero-based (11 represents December)
 };
 
- const doc1 = `15.8.2021
+const doc1 = `15.8.2021
         Jane Doe 091175-8967
         42 year old female, married with 3 children, works as a nurse. 
         Healthy, no medications taken on a regular basis.
@@ -36,21 +33,21 @@ const patientInfo = {
         Findings are suggestive of a working diagnosis of pneumonia. The patient is referred to a 
         follow-up CXR in 2 weeks. `;
 
-    const docContent = {
-        sourceType: "INLINE",
-        value: doc1
-    };
+const docContent = {
+  sourceType: "INLINE",
+  value: doc1,
+};
 
-    const patientDoc1 = {
-        type: "NOTE",
-        id: "doc1",
-        content: docContent,
-        clinicalType: "IMAGING",
-        language: "en",
-        createdDateTime: new Date("2021-08-15T00:00:00.000Z")
-    };
+const patientDoc1 = {
+  type: "NOTE",
+  id: "doc1",
+  content: docContent,
+  clinicalType: "IMAGING",
+  language: "en",
+  createdDateTime: new Date("2021-08-15T00:00:00.000Z"),
+};
 
-    const doc2 = `Oncology Clinic 
+const doc2 = `Oncology Clinic 
        20.10.2021
        Jane Doe 091175-8967
        42-year-old healthy female who works as a nurse in the ER of this hospital. 
@@ -77,24 +74,24 @@ const patientInfo = {
        Could benefit from biological therapy. 
        Different treatment options were explained- the patient wants to get a second opinion.`;
 
-    const docContent2 = {
-        sourceType: "INLINE",
-        value: doc2
-    };
+const docContent2 = {
+  sourceType: "INLINE",
+  value: doc2,
+};
 
-    const patientDoc2 = {
-        type: "NOTE",
-        id: "doc2",
-        content: docContent2,
-        clinicalType: "PATHOLOGY",
-        language: "en",
-        createdDateTime: new Date("2021-10-20T00:00:00.000Z")
-    };
+const patientDoc2 = {
+  type: "NOTE",
+  id: "doc2",
+  content: docContent2,
+  clinicalType: "PATHOLOGY",
+  language: "en",
+  createdDateTime: new Date("2021-10-20T00:00:00.000Z"),
+};
 
 const patient1 = {
   id: "patient_id",
   info: patientInfo,
-  data: [patientDoc1, patientDoc2]
+  data: [patientDoc1, patientDoc2],
 };
 
 const configuration = { includeEvidence: true };

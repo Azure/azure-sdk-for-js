@@ -13,18 +13,14 @@ import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface GetJob {
   /** Gets the status and details of the Onco Phenotype job. */
-  get(
-    options?: GetJobParameters
-  ): StreamableMethod<GetJob200Response | GetJobDefaultResponse>;
+  get(options?: GetJobParameters): StreamableMethod<GetJob200Response | GetJobDefaultResponse>;
 }
 
 export interface CreateJob {
   /** Creates an Onco Phenotype job with the given request body. */
   post(
     options?: CreateJobParameters
-  ): StreamableMethod<
-    CreateJob200Response | CreateJob202Response | CreateJobDefaultResponse
-  >;
+  ): StreamableMethod<CreateJob200Response | CreateJob202Response | CreateJobDefaultResponse>;
 }
 
 export interface Routes {
