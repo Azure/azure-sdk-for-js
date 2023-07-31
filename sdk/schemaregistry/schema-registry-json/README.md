@@ -103,6 +103,12 @@ const message = await serializer.serialize(value, schema);
 const deserializedValue = await serializer.deserialize(message);
 ```
 
+Validation may be useful for your application since JSON deserialization is flexible. 
+Deserializing on its own will not verify that the value matches a given schema, 
+so implementing the validation method will be a much more reliable way to enforce schema adherance.
+To see how the validation might be implemented, please take a look at the `schemaRegistryJsonWithValidation.ts` 
+sample [here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/schemaregistry/schema-registry-json/samples/schemaRegistryJsonWithValidation.ts)
+
 ## Troubleshooting
 
 The Json serializer communicates with the [Schema Registry][schema_registry] service as needed to register or query schemas and those service calls could throw a [RestError][resterror]. Furthermore, errors of type `Error` will be thrown when serialization or deserialization fails. The `cause` property will contain the underlying error that was thrown from the Json implementation library.

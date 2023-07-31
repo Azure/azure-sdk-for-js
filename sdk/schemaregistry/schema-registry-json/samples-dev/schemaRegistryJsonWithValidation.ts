@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the use of JsonSerializer to create messages with json-serialized payload using schema from Schema Registry.
+ * @summary Demonstrates the use of JsonSerializer to create messages with json-serialized payload using schema from Schema Registry with validation using a third party library.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
