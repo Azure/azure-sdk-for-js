@@ -24,7 +24,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { AuthenticationRecord } from "../types";
 import { AuthenticationRequiredError } from "../../errors";
 import { CredentialFlowGetTokenOptions } from "../credentials";
-import { DeveloperSignOnClientId } from "../../constants";
+import { CACHE_CAE_SUFFIX,CACHE_NON_CAE_SUFFIX, DeveloperSignOnClientId } from "../../constants";
 import { IdentityClient } from "../../client/identityClient";
 import { LogPolicyOptions } from "@azure/core-rest-pipeline";
 import { MultiTenantTokenCredentialOptions } from "../../credentials/multiTenantTokenCredentialOptions";
@@ -118,11 +118,11 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     // If persistence has been configured
     if (persistenceProvider !== undefined && options.tokenCachePersistenceOptions?.enabled) {
       const nonCaeOptions = {
-        name: `${options.tokenCachePersistenceOptions.name}.nocae`,
+        name: `${options.tokenCachePersistenceOptions.name}.${CACHE_NON_CAE_SUFFIX}`,
         ...options.tokenCachePersistenceOptions,
       };
       const caeOptions = {
-        name: `${options.tokenCachePersistenceOptions.name}.cae`,
+        name: `${options.tokenCachePersistenceOptions.name}.${CACHE_CAE_SUFFIX}`,
         ...options.tokenCachePersistenceOptions,
       };
       this.createCachePlugin = () => persistenceProvider!(nonCaeOptions);
@@ -160,10 +160,8 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
       loggingOptions: options.loggingOptions,
     });
 
-    let clientCapabilities: string[] = ["cp1"];
-    if (process.env.AZURE_IDENTITY_DISABLE_CP1) {
-      clientCapabilities = [];
-    }
+    let clientCapabilities: string[] = [];
+
     return {
       auth: {
         clientId,
