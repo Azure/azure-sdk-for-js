@@ -8,7 +8,7 @@ import { SchemaRegistry } from "@azure/schema-registry";
 import { assertError } from "./utils/assertError";
 import { createTestRegistry } from "./utils/mockedRegistryClient";
 import { createTestSerializer } from "./utils/mockedSerializer";
-import { testGroup, testSchema } from "./utils/dummies";
+import { createContentType, testGroup, testSchema } from "./utils/dummies";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { randomUUID } from "@azure/core-util";
 
@@ -105,7 +105,7 @@ describe("Error scenarios", function () {
       await assertError(
         serializer.deserialize({
           data,
-          contentType: `application/json+${id}`,
+          contentType: createContentType(id),
         }),
         {
           causeMessage: /Unexpected end of JSON input/,
@@ -217,7 +217,7 @@ describe("Error scenarios", function () {
       serializedValue.data = Uint8Array.from([
         123, 34, 102, 97, 118, 111, 114, 105, 116, 101, 78, 117, 109, 98, 101, 114,
       ]);
-      if (isNode){
+      if (isNode) {
         await assertError(serializer.deserialize(serializedValue), {
           causeMessage: /Unexpected end of JSON input/,
         });
@@ -240,7 +240,6 @@ describe("Error scenarios", function () {
           causeMessage: /Unexpected non-whitespace character/,
         });
       }
-
     });
   });
 });

@@ -131,7 +131,6 @@ describe("JsonSerializer", async function () {
     (serializer["cacheIdByDefinition"] as any).max = maxCacheEntriesCount;
     const itersCount = 2 * maxCacheEntriesCount;
     assert.isAtLeast(itersCount, maxCacheEntriesCount + 1);
-    console.log("count", itersCount, maxCacheEntriesCount)
     let i = 0;
     for (; i < itersCount; ++i) {
       const field1 = makeRndStr(10);

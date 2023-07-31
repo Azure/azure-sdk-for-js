@@ -34,3 +34,7 @@ export const testValue = { name: "Nick", favoriteNumber: 42 };
 
 export const encoder = new TextEncoder();
 export const decoder = new TextDecoder();
+
+export function createContentType(id: string): string {
+  return `application/json+${id}`;
+}

@@ -6,7 +6,7 @@ import { DeserializeOptions, JsonSerializer } from "../../src";
 import { SchemaRegistry } from "@azure/schema-registry";
 import { createTestRegistry } from "./utils/mockedRegistryClient";
 import { createTestSerializer } from "./utils/mockedSerializer";
-import { encoder, testGroup } from "./utils/dummies";
+import { createContentType, encoder, testGroup } from "./utils/dummies";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assertError } from "./utils/assertError";
 import Ajv from "ajv";
@@ -75,7 +75,7 @@ describe("Deserialize Validation", function () {
       const deserialedData = await serializer.deserialize(
         {
           data: encoder.encode(JSON.stringify(data)),
-          contentType: `application/json+${id}`,
+          contentType: createContentType(id),
         },
         skipValidationOption
       );
@@ -90,7 +90,7 @@ describe("Deserialize Validation", function () {
         await serializer.deserialize(
           {
             data: encoder.encode(JSON.stringify(data)),
-            contentType: `application/json+${id}`,
+            contentType: createContentType(id),
           },
           validateWithAjvOption
         ),
@@ -106,7 +106,7 @@ describe("Deserialize Validation", function () {
         serializer.deserialize(
           {
             data: encoder.encode(JSON.stringify(data)),
-            contentType: `application/json+${id}`,
+            contentType: createContentType(id),
           },
           validateWithAjvOption
         ),
@@ -126,7 +126,7 @@ describe("Deserialize Validation", function () {
         serializer.deserialize(
           {
             data: encoder.encode(JSON.stringify(data)),
-            contentType: `application/json+${id}`,
+            contentType: createContentType(id),
           },
           validateWithAjvOption
         ),
@@ -184,7 +184,7 @@ describe("Validation Error", function () {
         serializer.deserialize(
           {
             data: encoder.encode(JSON.stringify(testData)),
-            contentType: `application/json+${id}`,
+            contentType: createContentType(id),
           },
           validateWithAjvOption
         ),
@@ -210,7 +210,7 @@ describe("Validation Error", function () {
         serializer.deserialize(
           {
             data: encoder.encode(JSON.stringify(testData)),
-            contentType: `application/json+${id}`,
+            contentType: createContentType(id),
           },
           validateWithAjvOption
         ),
@@ -222,7 +222,7 @@ describe("Validation Error", function () {
     });
 
     it("integer", async function () {
-      const testData = "x"
+      const testData = "x";
       const { id } = await registry.registerSchema({
         definition: JSON.stringify({
           $id: "testId",
@@ -236,7 +236,7 @@ describe("Validation Error", function () {
         serializer.deserialize(
           {
             data: encoder.encode(JSON.stringify(testData)),
-            contentType: `application/json+${id}`,
+            contentType: createContentType(id),
           },
           validateWithAjvOption
         ),
@@ -262,7 +262,7 @@ describe("Validation Error", function () {
         serializer.deserialize(
           {
             data: encoder.encode(JSON.stringify(testData)),
-            contentType: `application/json+${id}`,
+            contentType: createContentType(id),
           },
           validateWithAjvOption
         ),
@@ -288,7 +288,7 @@ describe("Validation Error", function () {
         serializer.deserialize(
           {
             data: encoder.encode(JSON.stringify(testData)),
-            contentType: `application/json+${id}`,
+            contentType: createContentType(id),
           },
           validateWithAjvOption
         ),
@@ -314,7 +314,7 @@ describe("Validation Error", function () {
         serializer.deserialize(
           {
             data: encoder.encode(JSON.stringify(testData)),
-            contentType: `application/json+${id}`,
+            contentType: createContentType(id),
           },
           validateWithAjvOption
         ),
@@ -326,7 +326,7 @@ describe("Validation Error", function () {
     });
 
     it("object", async function () {
-      const testData = "x"
+      const testData = "x";
       const { id } = await registry.registerSchema({
         definition: JSON.stringify({
           $id: "testId",
@@ -345,7 +345,7 @@ describe("Validation Error", function () {
         serializer.deserialize(
           {
             data: encoder.encode(JSON.stringify(testData)),
-            contentType: `application/json+${id}`,
+            contentType: createContentType(id),
           },
           validateWithAjvOption
         ),

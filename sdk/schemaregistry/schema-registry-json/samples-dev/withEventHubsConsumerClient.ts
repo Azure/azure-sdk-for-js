@@ -113,7 +113,7 @@ export async function main() {
         console.log(`Error on partition "${context.partitionId}": ${err}`);
       },
     },
-    // Set the skipParsingBodyAsJson option to disable automatic parsing to Json object
+    // Set the skipParsingBodyAsJson option to disable automatic JSON parsing of the message so we can deserialize it with the JSON serializer instead.
     { startPosition: earliestEventPosition, skipParsingBodyAsJson: true }
   );
 
