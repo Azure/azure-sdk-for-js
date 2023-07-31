@@ -19,7 +19,7 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "50f1ddf6-286f-4fa1-91b2-530fc1d9e41b",
+        "x-ms-client-request-id": "bf9bca37-33b5-41aa-8e28-cfe70fec8547",
         "x-ms-useragent": "azsdk-js-health-insights-cancerprofiling-rest/1.0.0-beta.1 core-rest-pipeline/1.11.1 OS"
       },
       "RequestBody": {
@@ -28,7 +28,7 @@
             "id": "patient_id",
             "info": {
               "sex": "FEMALE",
-              "birthDate": "1979-11-08T00:00:00.000Z"
+              "birthDate": "1979-10-08T00:00:00.000Z"
             },
             "data": [
               {
@@ -40,7 +40,7 @@
                 },
                 "clinicalType": "IMAGING",
                 "language": "en",
-                "createdDateTime": "2021-09-15T00:00:00.000Z"
+                "createdDateTime": "2021-08-15T00:00:00.000Z"
               },
               {
                 "type": "NOTE",
@@ -51,7 +51,7 @@
                 },
                 "clinicalType": "PATHOLOGY",
                 "language": "en",
-                "createdDateTime": "2021-11-20T00:00:00.000Z"
+                "createdDateTime": "2021-10-20T00:00:00.000Z"
               }
             ]
           }
@@ -62,20 +62,20 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "7c9dcf72-737b-4bad-87a4-637865cea0c0",
+        "apim-request-id": "56ecc819-de6f-419f-829f-e5c7b532e230",
         "Content-Length": "0",
-        "Date": "Wed, 26 Jul 2023 14:54:41 GMT",
-        "operation-location": "https://endpoint/healthinsights/oncophenotype/jobs/dc3cb8b3-3e66-478a-9f29-df6b5f92cb3e?api-version=2023-03-01-preview",
+        "Date": "Mon, 31 Jul 2023 06:15:30 GMT",
+        "operation-location": "https://endpoint/healthinsights/oncophenotype/jobs/e13a0b09-f2f7-4be5-8f67-d201ea7943b5?api-version=2023-03-01-preview",
         "Retry-After": "5",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "316",
+        "x-envoy-upstream-service-time": "52",
         "x-ms-region": "East US"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/healthinsights/oncophenotype/jobs/dc3cb8b3-3e66-478a-9f29-df6b5f92cb3e?api-version=2023-03-01-preview",
+      "RequestUri": "https://endpoint/healthinsights/oncophenotype/jobs/e13a0b09-f2f7-4be5-8f67-d201ea7943b5?api-version=2023-03-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -91,32 +91,32 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "f364f14d-5e68-44aa-8c4d-3dea17b9ceb7",
+        "x-ms-client-request-id": "824ea779-2ed3-48f4-b7e0-995ded28a6db",
         "x-ms-useragent": "azsdk-js-health-insights-cancerprofiling-rest/1.0.0-beta.1 core-rest-pipeline/1.11.1 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "68490edf-5807-495c-a01b-8aec3df9ee1b",
+        "apim-request-id": "0f6702ad-03f4-4ea4-9b91-7fe0e2d176b6",
         "Content-Length": "196",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 26 Jul 2023 14:54:42 GMT",
+        "Date": "Mon, 31 Jul 2023 06:15:30 GMT",
         "Retry-After": "3",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "18",
+        "x-envoy-upstream-service-time": "20",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "dc3cb8b3-3e66-478a-9f29-df6b5f92cb3e",
-        "createdDateTime": "2023-07-26T14:54:42Z",
-        "expirationDateTime": "2023-07-27T14:54:42Z",
-        "lastUpdateDateTime": "2023-07-26T14:54:42Z",
+        "jobId": "e13a0b09-f2f7-4be5-8f67-d201ea7943b5",
+        "createdDateTime": "2023-07-31T06:15:30Z",
+        "expirationDateTime": "2023-08-01T06:15:30Z",
+        "lastUpdateDateTime": "2023-07-31T06:15:30Z",
         "status": "running"
       }
     },
     {
-      "RequestUri": "https://endpoint/healthinsights/oncophenotype/jobs/dc3cb8b3-3e66-478a-9f29-df6b5f92cb3e?api-version=2023-03-01-preview",
+      "RequestUri": "https://endpoint/healthinsights/oncophenotype/jobs/e13a0b09-f2f7-4be5-8f67-d201ea7943b5?api-version=2023-03-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -132,19 +132,19 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "a38c1833-a20c-4b8b-bd04-4b900c027c22",
+        "x-ms-client-request-id": "1707a8d6-65c7-43a9-987c-8168b43d6c36",
         "x-ms-useragent": "azsdk-js-health-insights-cancerprofiling-rest/1.0.0-beta.1 core-rest-pipeline/1.11.1 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "62c0f6ff-8b84-4652-b95c-0523b71339d8",
+        "apim-request-id": "7a3b382c-b359-4552-b366-4a8560d32d8b",
         "Content-Length": "23208",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 26 Jul 2023 14:54:45 GMT",
+        "Date": "Mon, 31 Jul 2023 06:15:33 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "24",
+        "x-envoy-upstream-service-time": "23",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
@@ -2141,10 +2141,10 @@
           ],
           "modelVersion": "2023-03-01-preview"
         },
-        "jobId": "dc3cb8b3-3e66-478a-9f29-df6b5f92cb3e",
-        "createdDateTime": "2023-07-26T14:54:42Z",
-        "expirationDateTime": "2023-07-27T14:54:42Z",
-        "lastUpdateDateTime": "2023-07-26T14:54:43Z",
+        "jobId": "e13a0b09-f2f7-4be5-8f67-d201ea7943b5",
+        "createdDateTime": "2023-07-31T06:15:30Z",
+        "expirationDateTime": "2023-08-01T06:15:30Z",
+        "lastUpdateDateTime": "2023-07-31T06:15:32Z",
         "status": "succeeded"
       }
     }
