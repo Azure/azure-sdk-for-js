@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { decoder } from "../utils/dummies";
 import { MessagingTestClient } from "./models";
 import { isLiveMode } from "@azure-tools/test-recorder";
 
@@ -16,13 +17,16 @@ export function createMockedMessagingClient<MessageT>(
     return createLiveClient();
   }
   const messageBuffer: MessageT[] = [];
+  let skipParsingBodyAsJson = false;
   let initialized = false;
+
   return {
     isInitialized(): boolean {
       return initialized;
     },
-    async initialize(): Promise<void> {
+    async initialize(options = {}): Promise<void> {
       initialized = true;
+      skipParsingBodyAsJson = options.skipParsingBodyAsJson ?? false;
     },
     async send(inputMessage: MessageT): Promise<void> {
       messageBuffer.push(inputMessage);
@@ -33,7 +37,12 @@ export function createMockedMessagingClient<MessageT>(
         const message = messageBuffer.shift();
         if (message !== undefined) {
           ++currEventCount;
-          yield message;
+          if (!skipParsingBodyAsJson) {
+            const messageBody = decoder.decode((message as any).body);
+            yield { ...message, body: JSON.parse(messageBody) };
+          } else {
+            yield message;
+          }
         }
       }
     },

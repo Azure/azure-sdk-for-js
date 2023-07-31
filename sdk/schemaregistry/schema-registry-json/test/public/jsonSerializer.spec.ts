@@ -7,9 +7,9 @@ import {
   registerTestSchema,
 } from "./utils/mockedSerializer";
 import { assert } from "@azure/test-utils";
-import { decoder, testDeserialize, testGroup, testSchema, testValue } from "./utils/dummies";
+import { encoder, testGroup, testSchema, testValue } from "./utils/dummies";
 import { Context } from "mocha";
-import { MessageContent } from "../../src/";
+import { MessageContent } from "../../src";
 import { createTestRegistry } from "./utils/mockedRegistryClient";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { SchemaRegistry } from "@azure/schema-registry";
@@ -35,8 +35,8 @@ describe("JsonSerializer", async function () {
       registry,
     });
     const { contentType, data } = await serializer.serialize(testValue, testSchema);
-    assert.strictEqual(`json/binary+${schemaId}`, contentType);
-    assert.deepStrictEqual(testDeserialize(decoder.decode(data)), testValue);
+    assert.strictEqual(`application/json+${schemaId}`, contentType);
+    assert.deepStrictEqual(data, encoder.encode(JSON.stringify(testValue)));
   });
 
   it("deserializes from the expected format", async () => {
@@ -45,11 +45,11 @@ describe("JsonSerializer", async function () {
       ...noAutoRegisterOptions,
       registry,
     });
-    const data = testJsonType.toBuffer(testValue);
+    const data = encoder.encode(JSON.stringify(testValue));
     assert.deepStrictEqual(
       await serializer.deserialize({
         data,
-        contentType: `json/binary+${schemaId}`,
+        contentType: `application/json+${schemaId}`,
       }),
       testValue
     );
@@ -78,14 +78,22 @@ describe("JsonSerializer", async function () {
 
     // Example Json schema
     const schema = JSON.stringify({
-      type: "record",
-      name: "Rating",
-      namespace: "my.example",
-      fields: [{ name: "score", type: "int" }],
+      $schema: "https://json-schema.org/draft/2020-12/schema",
+      $id: "person",
+      title: "Student",
+      description: "A student in the class",
+      type: "object",
+      properties: {
+        name: {
+          type: "string",
+          description: "The name of the student",
+        },
+      },
+      required: ["name"],
     });
 
     // Example value that matches the Json schema above
-    const value = { score: 42 };
+    const value = { name: "Bob" };
 
     // serialize value to a message
     const message = await serializer.serialize(value, schema);
@@ -94,56 +102,6 @@ describe("JsonSerializer", async function () {
     const deserializedValue = await serializer.deserialize(message);
 
     assert.deepStrictEqual(deserializedValue, value);
-  });
-
-  it("deserializes from a compatible reader schema", async () => {
-    const serializer = await createTestSerializer({ recorder });
-    const message = await serializer.serialize(testValue, testSchema);
-    const deserializedValue: any = await serializer.deserialize(message, {
-      /**
-       * This schema is missing the favoriteNumber field that exists in the writer schema
-       * and adds an "age" field with a default value.
-       */
-      schema: JSON.stringify({
-        type: "record",
-        name: "JsonUser",
-        namespace: "com.azure.schemaregistry.samples",
-        fields: [
-          {
-            name: "name",
-            type: "string",
-          },
-          {
-            name: "age",
-            type: "int",
-            default: 30,
-          },
-        ],
-      }),
-    });
-    assert.isUndefined(deserializedValue.favoriteNumber);
-    assert.equal(deserializedValue.name, testValue.name);
-    assert.equal(deserializedValue.age, 30);
-  });
-
-  it("ignores the old format", async () => {
-    const schemaId = await registerTestSchema(registry);
-    const serializer = await createTestSerializer<MessageContent>({
-      ...noAutoRegisterOptions,
-      registry,
-    });
-    const payload = testJsonType.toBuffer(testValue);
-    const data = Buffer.alloc(36 + payload.length);
-
-    data.write(schemaId, 4, 32, "utf-8");
-    payload.copy(data, 36);
-    await assert.isRejected(
-      serializer.deserialize({
-        data,
-        contentType: `json/binary+${uuid()}`,
-      }),
-      /Schema id .* does not exist/
-    );
   });
 
   it("cache size growth is bounded", async function (this: Context) {
@@ -170,7 +128,7 @@ describe("JsonSerializer", async function () {
     const maxSchemaCount = 25;
     const maxCacheEntriesCount = Math.floor(maxSchemaCount / 2);
     (serializer["cacheById"] as any).max = maxCacheEntriesCount;
-    (serializer["cacheBySchemaDefinition"] as any).max = maxCacheEntriesCount;
+    (serializer["cacheIdByDefinition"] as any).max = maxCacheEntriesCount;
     const itersCount = 2 * maxCacheEntriesCount;
     assert.isAtLeast(itersCount, maxCacheEntriesCount + 1);
     let i = 0;
@@ -179,27 +137,29 @@ describe("JsonSerializer", async function () {
       const field2 = makeRndStr(10);
       const valueToBeSerialized = JSON.parse(`{ "${field1}": "Nick", "${field2}": 42 }`);
       const schemaToSerializeWith = JSON.stringify({
-        type: "record",
-        name: makeRndStr(8),
-        namespace: "com.azure.schemaregistry.samples",
-        fields: [
-          {
-            name: field1,
+        $schema: "https://json-schema.org/draft/2020-12/schema",
+        $id: "student",
+        title: "Student",
+        description: "A student in the class",
+        type: "object",
+        properties: {
+          [field1]: {
             type: "string",
+            description: "The name of the student",
           },
-          {
-            name: field2,
-            type: "int",
+          [field2]: {
+            type: "integer",
+            description: "The favorite number of the student",
           },
-        ],
+        },
       });
       await serializer.serialize(valueToBeSerialized, schemaToSerializeWith);
       if (i < maxCacheEntriesCount) {
         assert.equal(serializer["cacheById"].size, i + 1);
-        assert.equal(serializer["cacheBySchemaDefinition"].size, i + 1);
+        assert.equal(serializer["cacheIdByDefinition"].size, i + 1);
       } else {
         assert.equal(serializer["cacheById"].size, maxCacheEntriesCount);
-        assert.equal(serializer["cacheBySchemaDefinition"].size, maxCacheEntriesCount);
+        assert.equal(serializer["cacheIdByDefinition"].size, maxCacheEntriesCount);
       }
     }
   });

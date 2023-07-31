@@ -31,7 +31,7 @@ export function createEventHubsClient(settings: {
     isInitialized() {
       return initialized;
     },
-    async initialize() {
+    async initialize({ skipParsingBodyAsJson } = {}) {
       const clientOptions = {
         onSendEventsErrorHandler: (ctx: OnSendEventsErrorContext) => {
           this.cleanup();
@@ -59,7 +59,10 @@ export function createEventHubsClient(settings: {
             throw err;
           },
         },
-        { startPosition: alreadyEnqueued ? earliestEventPosition : latestEventPosition }
+        {
+          startPosition: alreadyEnqueued ? earliestEventPosition : latestEventPosition,
+          skipParsingBodyAsJson,
+        }
       );
       initialized = true;
     },
