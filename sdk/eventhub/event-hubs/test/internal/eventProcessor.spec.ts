@@ -14,7 +14,7 @@ import {
   earliestEventPosition,
   latestEventPosition,
 } from "../../src";
-import { Dictionary, generate_uuid } from "rhea-promise";
+import { Dictionary } from "rhea-promise";
 import { EnvVarKeys, getEnvVars, loopUntil } from "../public/utils/testUtils";
 import { EventProcessor, FullEventProcessorOptions } from "../../src/eventProcessor";
 import {
@@ -38,6 +38,7 @@ import { isLatestPosition } from "../../src/eventPosition";
 import { loggerForTest } from "../public/utils/logHelpers";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 import { getRandomName } from "../../src/util/utils";
+import { randomUUID } from "@azure/core-util";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -854,14 +855,14 @@ testWithServiceTypes((serviceVersion) => {
           fullyQualifiedNamespace: "myNamespace.servicebus.windows.net",
           eventHubName: "myEventHub",
           consumerGroup: EventHubConsumerClient.defaultConsumerGroupName,
-          ownerId: generate_uuid(),
+          ownerId: randomUUID(),
           partitionId: "0",
         };
         const partitionOwnership2: PartitionOwnership = {
           fullyQualifiedNamespace: "myNamespace.servicebus.windows.net",
           eventHubName: "myEventHub",
           consumerGroup: EventHubConsumerClient.defaultConsumerGroupName,
-          ownerId: generate_uuid(),
+          ownerId: randomUUID(),
           partitionId: "1",
         };
         const partitionOwnership = await inMemoryCheckpointStore.claimOwnership([

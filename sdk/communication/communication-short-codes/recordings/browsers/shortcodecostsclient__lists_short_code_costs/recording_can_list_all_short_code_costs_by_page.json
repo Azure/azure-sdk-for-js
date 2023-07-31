@@ -1,0 +1,438 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/shortCodes/costs?skip=0\u0026top=1\u0026api-version=2022-09-06",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:27 GMT",
+        "x-ms-useragent": "fake-useragent"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Content-Length": "265",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 25 Jul 2023 18:04:27 GMT",
+        "MS-CV": "fqwfCS9Ahkqi/itvvxndgA.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0qw7AZAAAAACUwY\u002BYBWHjR4MqvinYc/c2REZXMzBFREdFMTYxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "319ms"
+      },
+      "ResponseBody": {
+        "shortCodeCosts": [
+          {
+            "amount": 3000.0,
+            "currencyCode": "USD",
+            "countryCode": "CA",
+            "billingFrequency": "once"
+          }
+        ],
+        "costs": [
+          {
+            "amount": 3000.0,
+            "currencyCode": "USD",
+            "countryCode": "CA",
+            "billingFrequency": "once"
+          }
+        ],
+        "nextLink": "/shortCodes/costs?skip=1\u0026top=1\u0026api-version=2022-09-06"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/costs?skip=1\u0026top=1\u0026api-version=2022-09-06",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:27 GMT",
+        "x-ms-useragent": "fake-useragent"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Content-Length": "323",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 25 Jul 2023 18:04:27 GMT",
+        "MS-CV": "q3kCj4qOVkuRHYu\u002BXNpQpw.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0rA7AZAAAAAAZPUAxWYogTLtTEjHy8o7fREZXMzBFREdFMTYxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "306ms"
+      },
+      "ResponseBody": {
+        "shortCodeCosts": [
+          {
+            "amount": 1000.0,
+            "currencyCode": "USD",
+            "countryCode": "CA",
+            "isVanityShortCode": false,
+            "billingFrequency": "monthly"
+          }
+        ],
+        "costs": [
+          {
+            "amount": 1000.0,
+            "currencyCode": "USD",
+            "countryCode": "CA",
+            "isVanityShortCode": false,
+            "billingFrequency": "monthly"
+          }
+        ],
+        "nextLink": "/shortCodes/costs?skip=2\u0026top=1\u0026api-version=2022-09-06"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/costs?skip=2\u0026top=1\u0026api-version=2022-09-06",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:28 GMT",
+        "x-ms-useragent": "fake-useragent"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Content-Length": "259",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 25 Jul 2023 18:04:28 GMT",
+        "MS-CV": "TIEXP9XfhEiaQ\u002BxTBWahBQ.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0rA7AZAAAAAAVUxvgKBDYT6TfANJpoHUhREZXMzBFREdFMTYxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "420ms"
+      },
+      "ResponseBody": {
+        "shortCodeCosts": [
+          {
+            "amount": 0.0,
+            "currencyCode": "USD",
+            "countryCode": "GB",
+            "billingFrequency": "once"
+          }
+        ],
+        "costs": [
+          {
+            "amount": 0.0,
+            "currencyCode": "USD",
+            "countryCode": "GB",
+            "billingFrequency": "once"
+          }
+        ],
+        "nextLink": "/shortCodes/costs?skip=3\u0026top=1\u0026api-version=2022-09-06"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/costs?skip=3\u0026top=1\u0026api-version=2022-09-06",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:28 GMT",
+        "x-ms-useragent": "fake-useragent"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Content-Length": "323",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 25 Jul 2023 18:04:28 GMT",
+        "MS-CV": "Wd8N8ftQQ0WFQKADeDDIWQ.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0rA7AZAAAAADpqvK1Vh5IQ7nBJ50O\u002BzcVREZXMzBFREdFMTYxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "324ms"
+      },
+      "ResponseBody": {
+        "shortCodeCosts": [
+          {
+            "amount": 1600.0,
+            "currencyCode": "USD",
+            "countryCode": "GB",
+            "isVanityShortCode": false,
+            "billingFrequency": "monthly"
+          }
+        ],
+        "costs": [
+          {
+            "amount": 1600.0,
+            "currencyCode": "USD",
+            "countryCode": "GB",
+            "isVanityShortCode": false,
+            "billingFrequency": "monthly"
+          }
+        ],
+        "nextLink": "/shortCodes/costs?skip=4\u0026top=1\u0026api-version=2022-09-06"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/costs?skip=4\u0026top=1\u0026api-version=2022-09-06",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:28 GMT",
+        "x-ms-useragent": "fake-useragent"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Content-Length": "263",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 25 Jul 2023 18:04:28 GMT",
+        "MS-CV": "omFLCgNDFUmd33OhPW12Nw.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0rQ7AZAAAAAAFCSvDEFH/S5lZR78ZHDWCREZXMzBFREdFMTYxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "307ms"
+      },
+      "ResponseBody": {
+        "shortCodeCosts": [
+          {
+            "amount": 650.0,
+            "currencyCode": "USD",
+            "countryCode": "US",
+            "billingFrequency": "once"
+          }
+        ],
+        "costs": [
+          {
+            "amount": 650.0,
+            "currencyCode": "USD",
+            "countryCode": "US",
+            "billingFrequency": "once"
+          }
+        ],
+        "nextLink": "/shortCodes/costs?skip=5\u0026top=1\u0026api-version=2022-09-06"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/costs?skip=5\u0026top=1\u0026api-version=2022-09-06",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:29 GMT",
+        "x-ms-useragent": "fake-useragent"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Content-Length": "321",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 25 Jul 2023 18:04:29 GMT",
+        "MS-CV": "vAGGead9w0GDeaxOHlnM8Q.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0rQ7AZAAAAACK7Ew1TH9BT7JnUiryDusEREZXMzBFREdFMTYxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "317ms"
+      },
+      "ResponseBody": {
+        "shortCodeCosts": [
+          {
+            "amount": 1500.0,
+            "currencyCode": "USD",
+            "countryCode": "US",
+            "isVanityShortCode": true,
+            "billingFrequency": "monthly"
+          }
+        ],
+        "costs": [
+          {
+            "amount": 1500.0,
+            "currencyCode": "USD",
+            "countryCode": "US",
+            "isVanityShortCode": true,
+            "billingFrequency": "monthly"
+          }
+        ],
+        "nextLink": "/shortCodes/costs?skip=6\u0026top=1\u0026api-version=2022-09-06"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/costs?skip=6\u0026top=1\u0026api-version=2022-09-06",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:29 GMT",
+        "x-ms-useragent": "fake-useragent"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Content-Length": "323",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 25 Jul 2023 18:04:29 GMT",
+        "MS-CV": "s6jo15pstUeEDFTtAuSuNg.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0rQ7AZAAAAAD2\u002BciO7uOGQItftWPx1MMcREZXMzBFREdFMTYxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "373ms"
+      },
+      "ResponseBody": {
+        "shortCodeCosts": [
+          {
+            "amount": 1000.0,
+            "currencyCode": "USD",
+            "countryCode": "US",
+            "isVanityShortCode": false,
+            "billingFrequency": "monthly"
+          }
+        ],
+        "costs": [
+          {
+            "amount": 1000.0,
+            "currencyCode": "USD",
+            "countryCode": "US",
+            "isVanityShortCode": false,
+            "billingFrequency": "monthly"
+          }
+        ],
+        "nextLink": "/shortCodes/costs?skip=7\u0026top=1\u0026api-version=2022-09-06"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/costs?skip=7\u0026top=1\u0026api-version=2022-09-06",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:30 GMT",
+        "x-ms-useragent": "fake-useragent"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Content-Length": "32",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 25 Jul 2023 18:04:30 GMT",
+        "MS-CV": "ic6bfJtthkWQrAXhuxjXjg.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0rg7AZAAAAACb8w6Ar/tNTLAavvRXlICUREZXMzBFREdFMTYxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "341ms"
+      },
+      "ResponseBody": {
+        "shortCodeCosts": [],
+        "costs": []
+      }
+    }
+  ],
+  "Variables": {}
+}

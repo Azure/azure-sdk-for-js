@@ -1037,9 +1037,9 @@ matrix(
               assert.equal(result.id, "100");
             });
 
-            it("should handle patchAsync", async () => {
-              const resourceLocationPath = `/patchasync/succeeded`;
-              const pollingPath = `/patchasync/operationresults/123`;
+            it("should handle patchAsyncLocationHeader", async () => {
+              const resourceLocationPath = `/patchasynclocationheader/succeeded`;
+              const pollingPath = `/patchasynclocationheader/operationresults/123`;
               const result = await runLro({
                 routes: [
                   {
@@ -1068,6 +1068,44 @@ matrix(
                   {
                     method: "GET",
                     path: resourceLocationPath,
+                    status: 200,
+                    body: `{ "name": "sku" , "id": "100" }`,
+                  },
+                ],
+              });
+              assert.equal(result.name, "sku");
+              assert.equal(result.id, "100");
+            });
+
+            it("should handle patchAsyncNoLocationHeader", async () => {
+              const initialResourcePath = `/patchasyncnolocationheader/succeeded`;
+              const pollingPath = `/patchasyncnolocationheader/operationresults/123`;
+              const result = await runLro({
+                routes: [
+                  {
+                    method: "PATCH",
+                    status: 201,
+                    path: initialResourcePath,
+                    headers: {
+                      [headerName]: pollingPath,
+                    },
+                    body: `{ "properties": { "provisioningState": "Updating" } }`,
+                  },
+                  {
+                    method: "GET",
+                    path: pollingPath,
+                    status: 200,
+                    body: `{ "status": "InProgress"}`,
+                  },
+                  {
+                    method: "GET",
+                    path: pollingPath,
+                    status: 200,
+                    body: `{ "status": "Succeeded"}`,
+                  },
+                  {
+                    method: "GET",
+                    path: initialResourcePath,
                     status: 200,
                     body: `{ "name": "sku" , "id": "100" }`,
                   },
@@ -2592,6 +2630,41 @@ matrix(
             throwOnNon2xxResponse,
           });
           assert.equal(poller.getResult()?.properties?.provisioningState, "Canceled");
+        });
+        it("prints an error message based on the error in the status monitor", async () => {
+          const pollingPath = "/postlocation/retry/succeeded/operationResults/200/";
+          const code = "InvalidRequest";
+          const message = "Bad Request";
+          const body = { status: "Failed", error: { code, message } };
+          await assertDivergentBehavior({
+            op: runLro({
+              routes: [
+                {
+                  method: "POST",
+                  status: 202,
+                  headers: {
+                    "Operation-Location": pollingPath,
+                  },
+                  body: `{"status":"Running"}`,
+                },
+                {
+                  method: "GET",
+                  path: pollingPath,
+                  status: 200,
+                  body: JSON.stringify(body),
+                },
+              ],
+            }),
+            throwOnNon2xxResponse,
+            throwing: {
+              messagePattern: new RegExp(
+                `The long-running operation has failed. ${code}. ${message}`
+              ),
+            },
+            notThrowing: {
+              result: { ...body, statusCode: 200 },
+            },
+          });
         });
       });
     });

@@ -1,12 +1,20 @@
 # Release History
 
-## 3.3.0 (Unreleased)
+## 4.0.0 (Unreleased)
 
 ### Features Added
 
+- Changed `TokenProvider` to use native crypto libraries.  This changes the signature from `getToken` from being sync to async.
+
 ### Breaking Changes
 
+- The `TokenProvider` and the `getToken` method has been changed to be async as it uses the underlying native crypto which is async.
+
 ### Bugs Fixed
+
+### Other Changes
+
+## 3.3.0 (2023-04-06)
 
 ### Other Changes
 

@@ -1,15 +1,67 @@
 # Release History
+    
+## 19.1.0 (2023-07-03)
+    
+**Features**
 
-## 17.4.1 (Unreleased)
+  - Added Interface AbsoluteMonthlySchedule
+  - Added Interface DailySchedule
+  - Added Interface DateSpan
+  - Added Interface MaintenanceWindow
+  - Added Interface RelativeMonthlySchedule
+  - Added Interface Schedule
+  - Added Interface WeeklySchedule
+  - Added Type Alias Type
+  - Interface MaintenanceConfiguration has a new optional parameter maintenanceWindow
+  - Added Enum KnownType
+    
+    
+## 19.0.0 (2023-05-19)
+    
+**Features**
 
-### Features Added
+  - Enum KnownOssku has a new value AzureLinux
 
-### Breaking Changes
+**Breaking Changes**
 
-### Bugs Fixed
+  - Interface ContainerServiceNetworkProfile no longer has parameter dockerBridgeCidr
+    
+    
+## 18.0.0 (2023-04-23)
+    
+**Features**
 
-### Other Changes
+  - Added operation ManagedClusters.listKubernetesVersions
+  - Added Interface KubernetesPatchVersion
+  - Added Interface KubernetesVersion
+  - Added Interface KubernetesVersionCapabilities
+  - Added Interface KubernetesVersionListResult
+  - Added Interface ManagedClusterSecurityProfileImageCleaner
+  - Added Interface ManagedClusterSecurityProfileWorkloadIdentity
+  - Added Interface ManagedClustersListKubernetesVersionsOptionalParams
+  - Added Type Alias KubernetesSupportPlan
+  - Added Type Alias ManagedClustersListKubernetesVersionsResponse
+  - Added Type Alias NetworkDataplane
+  - Added Type Alias NetworkPluginMode
+  - Interface ContainerServiceNetworkProfile has a new optional parameter networkDataplane
+  - Interface ContainerServiceNetworkProfile has a new optional parameter networkPluginMode
+  - Interface ManagedCluster has a new optional parameter supportPlan
+  - Interface ManagedClusterSecurityProfile has a new optional parameter imageCleaner
+  - Interface ManagedClusterSecurityProfile has a new optional parameter workloadIdentity
+  - Added Enum KnownKubernetesSupportPlan
+  - Added Enum KnownNetworkDataplane
+  - Added Enum KnownNetworkPluginMode
+  - Enum KnownManagedClusterSKUTier has a new value Premium
+  - Enum KnownNetworkPolicy has a new value Cilium
 
+**Breaking Changes**
+
+  - Removed Enum KnownContainerServiceStorageProfileTypes
+  - Removed Enum KnownContainerServiceVMSizeTypes
+  - Enum KnownManagedClusterSKUName no longer has value Basic
+  - Enum KnownManagedClusterSKUTier no longer has value Paid
+    
+    
 ## 17.4.0 (2023-03-09)
     
 **Features**

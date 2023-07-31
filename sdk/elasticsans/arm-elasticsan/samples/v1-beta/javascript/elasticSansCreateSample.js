@@ -16,19 +16,19 @@ require("dotenv").config();
  * This sample demonstrates how to Create ElasticSan.
  *
  * @summary Create ElasticSan.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/ElasticSans_Create_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2022-12-01-preview/examples/ElasticSans_Create_MaximumSet_Gen.json
  */
 async function elasticSansCreateMaximumSetGen() {
-  const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaa";
-  const resourceGroupName = process.env["ELASTICSANS_RESOURCE_GROUP"] || "rgelasticsan";
-  const elasticSanName = "ti7q-k952-1qB3J_5";
+  const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
+  const resourceGroupName = process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
+  const elasticSanName = "elasticsanname";
   const parameters = {
-    availabilityZones: ["aaaaaaaaaaaaaaaaa"],
-    baseSizeTiB: 26,
-    extendedCapacitySizeTiB: 7,
-    location: "aaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    availabilityZones: ["1"],
+    baseSizeTiB: 5,
+    extendedCapacitySizeTiB: 25,
+    location: "South Central US",
     sku: { name: "Premium_LRS", tier: "Premium" },
-    tags: { key896: "aaaaaaaaaaaaaaaaaa" },
+    tags: { key9316: "ihndtieqibtob" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
@@ -44,15 +44,16 @@ async function elasticSansCreateMaximumSetGen() {
  * This sample demonstrates how to Create ElasticSan.
  *
  * @summary Create ElasticSan.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/ElasticSans_Create_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2022-12-01-preview/examples/ElasticSans_Create_MinimumSet_Gen.json
  */
 async function elasticSansCreateMinimumSetGen() {
-  const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaa";
-  const resourceGroupName = process.env["ELASTICSANS_RESOURCE_GROUP"] || "rgelasticsan";
-  const elasticSanName = "ti7q-k952-1qB3J_5";
+  const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
+  const resourceGroupName = process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
+  const elasticSanName = "elasticsanname";
   const parameters = {
-    baseSizeTiB: 26,
-    extendedCapacitySizeTiB: 7,
+    baseSizeTiB: 5,
+    extendedCapacitySizeTiB: 25,
+    location: "South Central US",
     sku: { name: "Premium_LRS" },
   };
   const credential = new DefaultAzureCredential();

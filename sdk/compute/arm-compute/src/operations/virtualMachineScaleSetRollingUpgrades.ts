@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ComputeManagementClient } from "../computeManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   VirtualMachineScaleSetRollingUpgradesCancelOptionalParams,
   VirtualMachineScaleSetRollingUpgradesStartOSUpgradeOptionalParams,
@@ -44,14 +48,14 @@ export class VirtualMachineScaleSetRollingUpgradesImpl
     resourceGroupName: string,
     vmScaleSetName: string,
     options?: VirtualMachineScaleSetRollingUpgradesCancelOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -84,13 +88,13 @@ export class VirtualMachineScaleSetRollingUpgradesImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vmScaleSetName, options },
-      cancelOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vmScaleSetName, options },
+      spec: cancelOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -128,14 +132,14 @@ export class VirtualMachineScaleSetRollingUpgradesImpl
     resourceGroupName: string,
     vmScaleSetName: string,
     options?: VirtualMachineScaleSetRollingUpgradesStartOSUpgradeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -168,13 +172,13 @@ export class VirtualMachineScaleSetRollingUpgradesImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vmScaleSetName, options },
-      startOSUpgradeOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vmScaleSetName, options },
+      spec: startOSUpgradeOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -214,14 +218,14 @@ export class VirtualMachineScaleSetRollingUpgradesImpl
     resourceGroupName: string,
     vmScaleSetName: string,
     options?: VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -254,13 +258,13 @@ export class VirtualMachineScaleSetRollingUpgradesImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vmScaleSetName, options },
-      startExtensionUpgradeOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vmScaleSetName, options },
+      spec: startExtensionUpgradeOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

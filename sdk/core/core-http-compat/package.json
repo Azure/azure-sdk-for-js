@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-http-compat",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Core HTTP Compatibility Library to bridge the gap between Core V1 & V2 packages.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -70,6 +70,9 @@
     "downlevel-dts": "^0.10.0",
     "cross-env": "^7.0.2",
     "prettier": "^2.5.1",
-    "typescript": "~4.8.0"
+    "typescript": "~5.0.0"
+  },
+  "//metadata": {
+    "migrationDate": "2023-03-08T18:36:03.000Z"
   }
 }

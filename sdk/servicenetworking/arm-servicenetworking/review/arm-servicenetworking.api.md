@@ -6,16 +6,16 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type ActionType = string;
 
 // @public
 export interface Association extends TrackedResource {
-    associationType?: "subnets";
+    associationType?: AssociationType;
     readonly provisioningState?: ProvisioningState;
     subnet?: AssociationSubnet;
 }
@@ -28,9 +28,9 @@ export interface AssociationListResult {
 
 // @public
 export interface AssociationsInterface {
-    beginCreateOrUpdate(resourceGroupName: string, trafficControllerName: string, associationName: string, resource: Association, options?: AssociationsInterfaceCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<AssociationsInterfaceCreateOrUpdateResponse>, AssociationsInterfaceCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, trafficControllerName: string, associationName: string, resource: Association, options?: AssociationsInterfaceCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AssociationsInterfaceCreateOrUpdateResponse>, AssociationsInterfaceCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, trafficControllerName: string, associationName: string, resource: Association, options?: AssociationsInterfaceCreateOrUpdateOptionalParams): Promise<AssociationsInterfaceCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, trafficControllerName: string, associationName: string, options?: AssociationsInterfaceDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, trafficControllerName: string, associationName: string, options?: AssociationsInterfaceDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, trafficControllerName: string, associationName: string, options?: AssociationsInterfaceDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, trafficControllerName: string, associationName: string, options?: AssociationsInterfaceGetOptionalParams): Promise<AssociationsInterfaceGetResponse>;
     listByTrafficController(resourceGroupName: string, trafficControllerName: string, options?: AssociationsInterfaceListByTrafficControllerOptionalParams): PagedAsyncIterableIterator<Association>;
@@ -53,7 +53,6 @@ export type AssociationsInterfaceCreateOrUpdateResponse = Association;
 
 // @public
 export interface AssociationsInterfaceDeleteHeaders {
-    // (undocumented)
     location?: string;
     retryAfter?: number;
 }
@@ -98,17 +97,20 @@ export interface AssociationSubnet {
 }
 
 // @public
-export interface AssociationUpdate {
-    properties?: AssociationUpdateProperties;
-    tags?: {
-        [propertyName: string]: string;
-    };
+export interface AssociationSubnetUpdate {
+    id?: string;
 }
 
 // @public
-export interface AssociationUpdateProperties {
-    associationType?: "subnets";
-    subnet?: AssociationSubnet;
+export type AssociationType = string;
+
+// @public
+export interface AssociationUpdate {
+    associationType?: AssociationType;
+    subnet?: AssociationSubnetUpdate;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -136,14 +138,9 @@ export interface ErrorResponse {
 
 // @public
 export interface Frontend extends TrackedResource {
-    ipAddressVersion?: FrontendIPAddressVersion;
-    mode?: "public";
+    readonly fqdn?: string;
     readonly provisioningState?: ProvisioningState;
-    publicIPAddress?: FrontendPropertiesIPAddress;
 }
-
-// @public
-export type FrontendIPAddressVersion = "IPv4" | "IPv6";
 
 // @public
 export interface FrontendListResult {
@@ -152,15 +149,10 @@ export interface FrontendListResult {
 }
 
 // @public
-export interface FrontendPropertiesIPAddress {
-    id: string;
-}
-
-// @public
 export interface FrontendsInterface {
-    beginCreateOrUpdate(resourceGroupName: string, trafficControllerName: string, frontendName: string, resource: Frontend, options?: FrontendsInterfaceCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<FrontendsInterfaceCreateOrUpdateResponse>, FrontendsInterfaceCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, trafficControllerName: string, frontendName: string, resource: Frontend, options?: FrontendsInterfaceCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FrontendsInterfaceCreateOrUpdateResponse>, FrontendsInterfaceCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, trafficControllerName: string, frontendName: string, resource: Frontend, options?: FrontendsInterfaceCreateOrUpdateOptionalParams): Promise<FrontendsInterfaceCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, trafficControllerName: string, frontendName: string, options?: FrontendsInterfaceDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, trafficControllerName: string, frontendName: string, options?: FrontendsInterfaceDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, trafficControllerName: string, frontendName: string, options?: FrontendsInterfaceDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, trafficControllerName: string, frontendName: string, options?: FrontendsInterfaceGetOptionalParams): Promise<FrontendsInterfaceGetResponse>;
     listByTrafficController(resourceGroupName: string, trafficControllerName: string, options?: FrontendsInterfaceListByTrafficControllerOptionalParams): PagedAsyncIterableIterator<Frontend>;
@@ -183,7 +175,6 @@ export type FrontendsInterfaceCreateOrUpdateResponse = Frontend;
 
 // @public
 export interface FrontendsInterfaceDeleteHeaders {
-    // (undocumented)
     location?: string;
     retryAfter?: number;
 }
@@ -224,17 +215,9 @@ export type FrontendsInterfaceUpdateResponse = Frontend;
 
 // @public
 export interface FrontendUpdate {
-    properties?: FrontendUpdateProperties;
     tags?: {
         [propertyName: string]: string;
     };
-}
-
-// @public
-export interface FrontendUpdateProperties {
-    ipAddressVersion?: FrontendIPAddressVersion;
-    mode?: "public";
-    publicIPAddress?: FrontendPropertiesIPAddress;
 }
 
 // @public
@@ -243,6 +226,11 @@ export function getContinuationToken(page: unknown): string | undefined;
 // @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownAssociationType {
+    Subnets = "subnets"
 }
 
 // @public
@@ -328,7 +316,7 @@ export interface Resource {
 }
 
 // @public
-export interface ResourceID {
+export interface ResourceId {
     id: string;
 }
 
@@ -378,17 +366,17 @@ export interface TrackedResource extends Resource {
 
 // @public
 export interface TrafficController extends TrackedResource {
-    readonly associations?: ResourceID[];
+    readonly associations?: ResourceId[];
     readonly configurationEndpoints?: string[];
-    readonly frontends?: ResourceID[];
+    readonly frontends?: ResourceId[];
     readonly provisioningState?: ProvisioningState;
 }
 
 // @public
 export interface TrafficControllerInterface {
-    beginCreateOrUpdate(resourceGroupName: string, trafficControllerName: string, resource: TrafficController, options?: TrafficControllerInterfaceCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<TrafficControllerInterfaceCreateOrUpdateResponse>, TrafficControllerInterfaceCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, trafficControllerName: string, resource: TrafficController, options?: TrafficControllerInterfaceCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<TrafficControllerInterfaceCreateOrUpdateResponse>, TrafficControllerInterfaceCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, trafficControllerName: string, resource: TrafficController, options?: TrafficControllerInterfaceCreateOrUpdateOptionalParams): Promise<TrafficControllerInterfaceCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, trafficControllerName: string, options?: TrafficControllerInterfaceDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, trafficControllerName: string, options?: TrafficControllerInterfaceDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, trafficControllerName: string, options?: TrafficControllerInterfaceDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, trafficControllerName: string, options?: TrafficControllerInterfaceGetOptionalParams): Promise<TrafficControllerInterfaceGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: TrafficControllerInterfaceListByResourceGroupOptionalParams): PagedAsyncIterableIterator<TrafficController>;
@@ -412,7 +400,6 @@ export type TrafficControllerInterfaceCreateOrUpdateResponse = TrafficController
 
 // @public
 export interface TrafficControllerInterfaceDeleteHeaders {
-    // (undocumented)
     location?: string;
     retryAfter?: number;
 }
@@ -473,7 +460,6 @@ export interface TrafficControllerListResult {
 
 // @public
 export interface TrafficControllerUpdate {
-    properties?: Record<string, unknown>;
     tags?: {
         [propertyName: string]: string;
     };

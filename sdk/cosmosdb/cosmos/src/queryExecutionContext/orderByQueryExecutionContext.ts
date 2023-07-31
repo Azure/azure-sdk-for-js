@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../ClientContext";
+import { CosmosDiagnosticContext } from "../CosmosDiagnosticsContext";
 import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { FeedOptions } from "../request/FeedOptions";
 import { DocumentProducer } from "./documentProducer";
@@ -33,10 +34,18 @@ export class OrderByQueryExecutionContext
     collectionLink: string,
     query: string | SqlQuerySpec,
     options: FeedOptions,
-    partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo
+    partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
+    diagnosticContext: CosmosDiagnosticContext
   ) {
     // Calling on base class constructor
-    super(clientContext, collectionLink, query, options, partitionedQueryExecutionInfo);
+    super(
+      clientContext,
+      collectionLink,
+      query,
+      options,
+      partitionedQueryExecutionInfo,
+      diagnosticContext
+    );
     this.orderByComparator = new OrderByDocumentProducerComparator(this.sortOrders);
   }
   // Instance members are inherited

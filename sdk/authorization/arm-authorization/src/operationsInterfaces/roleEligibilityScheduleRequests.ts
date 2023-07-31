@@ -14,7 +14,9 @@ import {
   RoleEligibilityScheduleRequestsCreateResponse,
   RoleEligibilityScheduleRequestsGetOptionalParams,
   RoleEligibilityScheduleRequestsGetResponse,
-  RoleEligibilityScheduleRequestsCancelOptionalParams
+  RoleEligibilityScheduleRequestsCancelOptionalParams,
+  RoleEligibilityScheduleRequestsValidateOptionalParams,
+  RoleEligibilityScheduleRequestsValidateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -72,4 +74,17 @@ export interface RoleEligibilityScheduleRequests {
     roleEligibilityScheduleRequestName: string,
     options?: RoleEligibilityScheduleRequestsCancelOptionalParams
   ): Promise<void>;
+  /**
+   * Validates a new role eligibility schedule request.
+   * @param scope The scope of the role eligibility request to validate.
+   * @param roleEligibilityScheduleRequestName The name of the role eligibility request to validate.
+   * @param parameters Parameters for the role eligibility schedule request.
+   * @param options The options parameters.
+   */
+  validate(
+    scope: string,
+    roleEligibilityScheduleRequestName: string,
+    parameters: RoleEligibilityScheduleRequest,
+    options?: RoleEligibilityScheduleRequestsValidateOptionalParams
+  ): Promise<RoleEligibilityScheduleRequestsValidateResponse>;
 }

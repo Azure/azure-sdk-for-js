@@ -5,14 +5,14 @@
 ## Configuration
 
 ```yaml
-package-name: azure-communication-call-automation
+package-name: "@azure/communication-call-automation"
 title: CallAutomationApiClient
 description: Call Automation Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 tag: V2023-01-15-preview
-input-file: https://raw.githubusercontent.com/williamzhao87/azure-rest-api-specs/0d0cd5af40aa17af76ce0307ac5512351c38e3bc/specification/communication/data-plane/CallAutomation/preview/2023-01-15-preview/communicationservicescallautomation.json
+input-file: https://github.com/juntuchen-msft/azure-rest-api-specs/blob/0a316f5346cf6dc37200403d6b20e2400157721c/specification/communication/data-plane/CallAutomation/preview/2023-01-15-preview/communicationservicescallautomation.json
 package-version: 1.0.0-beta.1
 model-date-time-as-string: false
 optional-response-headers: true
@@ -49,4 +49,10 @@ directive:
 - rename-model:
     from: RecognizeInputType
     to: RecognizeInputTypeInternal
+- rename-model:
+    from: TextSource
+    to: TextSourceInternal
+- rename-model:
+    from: SsmlSource
+    to: SsmlSourceInternal
 ```

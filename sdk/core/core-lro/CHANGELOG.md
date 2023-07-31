@@ -1,6 +1,28 @@
 # Release History
 
-## 2.5.2 (Unreleased)
+## 2.5.5 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 2.5.4 (2023-07-24)
+
+### Bugs Fixed
+
+- Support non-standard PATCH operations.
+
+## 2.5.3 (2023-05-04)
+
+### Other Changes
+
+- Include detailed error information in failed polling error messages.
+
+## 2.5.2 (2023-04-06)
 
 ### Bugs Fixed
 

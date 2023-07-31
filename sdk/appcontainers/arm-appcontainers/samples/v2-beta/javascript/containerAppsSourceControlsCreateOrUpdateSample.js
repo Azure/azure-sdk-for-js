@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { ContainerAppsAPIClient } = require("@azure/arm-appcontainers");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create or update the SourceControl for a Container App.
  *
  * @summary Create or update the SourceControl for a Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-06-01-preview/examples/SourceControls_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/SourceControls_CreateOrUpdate.json
  */
 async function createOrUpdateContainerAppSourceControl() {
-  const subscriptionId = "651f8027-33e8-4ec4-97b4-f6e9f3dc8744";
-  const resourceGroupName = "workerapps-rg-xj";
+  const subscriptionId =
+    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] || "651f8027-33e8-4ec4-97b4-f6e9f3dc8744";
+  const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "workerapps-rg-xj";
   const containerAppName = "testcanadacentral";
   const sourceControlName = "current";
   const sourceControlEnvelope = {
@@ -51,4 +53,8 @@ async function createOrUpdateContainerAppSourceControl() {
   console.log(result);
 }
 
-createOrUpdateContainerAppSourceControl().catch(console.error);
+async function main() {
+  createOrUpdateContainerAppSourceControl();
+}
+
+main().catch(console.error);

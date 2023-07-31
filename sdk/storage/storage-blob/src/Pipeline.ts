@@ -43,7 +43,6 @@ import { getCachedDefaultHttpClient } from "./utils/cache";
 import { storageBrowserPolicy } from "./policies/StorageBrowserPolicyV2";
 import { storageRetryPolicy } from "./policies/StorageRetryPolicyV2";
 import { storageSharedKeyCredentialPolicy } from "./policies/StorageSharedKeyCredentialPolicyV2";
-import { pathParameterWorkaroundPolicy } from "./policies/PathParameterWorkaroundPolicy";
 import { StorageBrowserPolicyFactory } from "./StorageBrowserPolicyFactory";
 
 // Export following interfaces and types for customers who want to implement their
@@ -300,7 +299,6 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
     });
     corePipeline.removePolicy({ phase: "Retry" });
     corePipeline.removePolicy({ name: decompressResponsePolicyName });
-    corePipeline.addPolicy(pathParameterWorkaroundPolicy());
     corePipeline.addPolicy(storageRetryPolicy(restOptions.retryOptions), { phase: "Retry" });
     corePipeline.addPolicy(storageBrowserPolicy());
     const downlevelResults = processDownlevelPipeline(pipeline);

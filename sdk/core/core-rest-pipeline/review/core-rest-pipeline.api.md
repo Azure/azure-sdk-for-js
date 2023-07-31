@@ -49,6 +49,19 @@ export interface AuthorizeRequestOptions {
 }
 
 // @public
+export function auxiliaryAuthenticationHeaderPolicy(options: AuxiliaryAuthenticationHeaderPolicyOptions): PipelinePolicy;
+
+// @public
+export const auxiliaryAuthenticationHeaderPolicyName = "auxiliaryAuthenticationHeaderPolicy";
+
+// @public
+export interface AuxiliaryAuthenticationHeaderPolicyOptions {
+    credentials?: TokenCredential[];
+    logger?: AzureLogger;
+    scopes: string | string[];
+}
+
+// @public
 export function bearerTokenAuthenticationPolicy(options: BearerTokenAuthenticationPolicyOptions): PipelinePolicy;
 
 // @public
@@ -195,6 +208,7 @@ export interface PipelineOptions {
     proxyOptions?: ProxySettings;
     redirectOptions?: RedirectPolicyOptions;
     retryOptions?: PipelineRetryOptions;
+    telemetryOptions?: TelemetryOptions;
     tlsOptions?: TlsSettings;
     userAgentOptions?: UserAgentPolicyOptions;
 }
@@ -385,6 +399,11 @@ export interface SystemErrorRetryPolicyOptions {
     maxRetries?: number;
     maxRetryDelayInMs?: number;
     retryDelayInMs?: number;
+}
+
+// @public
+export interface TelemetryOptions {
+    clientRequestIdHeaderName?: string;
 }
 
 // @public

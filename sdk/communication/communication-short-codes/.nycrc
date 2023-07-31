@@ -3,8 +3,7 @@
     "dist-esm/src/**/*.js"
   ],
   "exclude": [
-    "**/*.d.ts",
-    "dist-esm/src/generated/*"
+    "**/*.d.ts"
   ],
   "reporter": [
     "text-summary",

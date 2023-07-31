@@ -15,6 +15,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  AmlFilesystemsImpl,
   OperationsImpl,
   SkusImpl,
   UsageModelsImpl,
@@ -22,10 +23,10 @@ import {
   AscUsagesImpl,
   CachesImpl,
   StorageTargetsImpl,
-  StorageTargetOperationsImpl,
-  AmlFilesystemsImpl
+  StorageTargetOperationsImpl
 } from "./operations";
 import {
+  AmlFilesystems,
   Operations,
   Skus,
   UsageModels,
@@ -33,8 +34,7 @@ import {
   AscUsages,
   Caches,
   StorageTargets,
-  StorageTargetOperations,
-  AmlFilesystems
+  StorageTargetOperations
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -77,7 +77,7 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-storagecache/7.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-storagecache/7.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -130,7 +130,8 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-03-01-preview";
+    this.apiVersion = options.apiVersion || "2023-05-01";
+    this.amlFilesystems = new AmlFilesystemsImpl(this);
     this.operations = new OperationsImpl(this);
     this.skus = new SkusImpl(this);
     this.usageModels = new UsageModelsImpl(this);
@@ -139,7 +140,6 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
     this.caches = new CachesImpl(this);
     this.storageTargets = new StorageTargetsImpl(this);
     this.storageTargetOperations = new StorageTargetOperationsImpl(this);
-    this.amlFilesystems = new AmlFilesystemsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -195,6 +195,7 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
     );
   }
 
+  amlFilesystems: AmlFilesystems;
   operations: Operations;
   skus: Skus;
   usageModels: UsageModels;
@@ -203,7 +204,6 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
   caches: Caches;
   storageTargets: StorageTargets;
   storageTargetOperations: StorageTargetOperations;
-  amlFilesystems: AmlFilesystems;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);

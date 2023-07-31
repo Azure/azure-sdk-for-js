@@ -19,9 +19,9 @@ export function apiVersionPolicy(options: ClientOptions): PipelinePolicy {
       // Append one if there is no apiVesion and we have one at client options
       const url = new URL(req.url);
       if (!url.searchParams.get("api-version") && options.apiVersion) {
-        // append the apiVersion with client one
-        url.searchParams.append("api-version", options.apiVersion);
-        req.url = url.toString();
+        req.url = `${req.url}${
+          Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
+        }api-version=${options.apiVersion}`;
       }
 
       return next(req);

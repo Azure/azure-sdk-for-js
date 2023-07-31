@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns all the resources of a particular type belonging to a resource group
  *
  * @summary Returns all the resources of a particular type belonging to a resource group
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-12-01/examples/ListAccountsByResourceGroup.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2023-05-01/examples/ListAccountsByResourceGroup.json
  */
 async function listAccountsByResourceGroup() {
   const subscriptionId =

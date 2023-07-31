@@ -13,16 +13,22 @@ import {
   MicrosoftElastic
 } from "@azure/arm-elastic";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create and Associate IP traffic filter for the given deployment.
  *
  * @summary Create and Associate IP traffic filter for the given deployment.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2022-07-01-preview/examples/IPTrafficFilter_Create.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/IPTrafficFilter_Create.json
  */
 async function createAndAssociateIPFilterCreate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["ELASTIC_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["ELASTIC_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const ips = "192.168.131.0, 192.168.132.6/22";
   const options: CreateAndAssociateIPFilterCreateOptionalParams = { ips };
@@ -36,4 +42,8 @@ async function createAndAssociateIPFilterCreate() {
   console.log(result);
 }
 
-createAndAssociateIPFilterCreate().catch(console.error);
+async function main() {
+  createAndAssociateIPFilterCreate();
+}
+
+main().catch(console.error);

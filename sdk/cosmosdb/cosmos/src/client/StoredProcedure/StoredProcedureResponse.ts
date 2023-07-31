@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { CosmosDiagnostics } from "../../CosmosDiagnostics";
 import { CosmosHeaders } from "../../queryExecutionContext";
 import { ResourceResponse } from "../../request";
 import { Resource } from "../Resource";
@@ -13,9 +14,10 @@ export class StoredProcedureResponse extends ResourceResponse<
     resource: StoredProcedureDefinition & Resource,
     headers: CosmosHeaders,
     statusCode: number,
-    storedProcedure: StoredProcedure
+    storedProcedure: StoredProcedure,
+    diagnostics: CosmosDiagnostics
   ) {
-    super(resource, headers, statusCode);
+    super(resource, headers, statusCode, diagnostics);
     this.storedProcedure = storedProcedure;
   }
   /**

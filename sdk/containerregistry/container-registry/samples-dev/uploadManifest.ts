@@ -39,18 +39,19 @@ async function main() {
   const { digest: configDigest, sizeInBytes: configSize } = await client.uploadBlob(config);
 
   const manifest: OciImageManifest = {
+    schemaVersion: 2,
     config: {
       mediaType: "application/vnd.oci.image.config.v1+json",
       digest: configDigest,
-      sizeInBytes: configSize,
+      size: configSize,
     },
     layers: [
       {
         mediaType: "application/vnd.oci.image.layer.v1.tar",
         digest: layerDigest,
-        sizeInBytes: layerSize,
+        size: layerSize,
         annotations: {
-          title: "artifact.txt",
+          "org.opencontainers.image.title": "artifact.txt",
         },
       },
     ],

@@ -10,12 +10,15 @@
 // Licensed under the MIT License.
 import { SubscriptionClient } from "@azure/arm-resources-subscriptions";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets details about a specified subscription.
  *
  * @summary Gets details about a specified subscription.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-01-01/examples/GetSubscription.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-12-01/examples/GetSubscription.json
  */
 async function getASingleSubscription() {
   const subscriptionId = "291bba3f-e0a5-47bc-a099-3bdcb2a50a05";
@@ -25,4 +28,8 @@ async function getASingleSubscription() {
   console.log(result);
 }
 
-getASingleSubscription().catch(console.error);
+async function main() {
+  getASingleSubscription();
+}
+
+main().catch(console.error);

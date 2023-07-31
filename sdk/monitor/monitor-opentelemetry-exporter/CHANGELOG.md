@@ -1,5 +1,37 @@
 # Release History
 
+## 1.0.0-beta.14 (2023-06-15)
+
+### Features Added
+
+- Update OpenTelemetry dependency packages.
+
+### Bugs Fixed
+
+- Fix issues with Breeze events format for new Resource attributes telemetry event
+  and legacy Application Insights events.
+- Metrics Exporter use delta aggregation temporality.
+
+## 1.0.0-beta.13 (2023-06-06)
+
+### Features Added
+
+- Update opentelemetry/instrumentation packages.
+- Add support for Application Insights log events.
+- Add AiCloudRole and AiCloudRoleInstance to OTel Resource event.
+- Add OTel resource metric envelope.
+- Add OpenTelemetry Log Exporter
+- Use Kubernetes resource attributes to populate cloud role and role instance.
+
+## 1.0.0-beta.12 (2023-04-04)
+
+### Features Added
+
+- Use Prefix/Distro version if available.
+- Remove standard metrics custom handling.
+- Remove mapped Span attributes and remaining as properties.
+- Updated OpenTelemetry dependencies to their latest available versions.
+
 ## 1.0.0-beta.11 (2023-02-02)
 
 ### Features Added
@@ -25,7 +57,6 @@
 ### Breaking Changes
 
 - Azure Monitor OpenTelemetry Metrics Exporter Configuration updated.
-
 
 ### Bugs Fixed
 

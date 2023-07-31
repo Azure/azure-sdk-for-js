@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes an Appliance with the specified Resource Name, Resource Group, and Subscription Id.
  *
  * @summary Deletes an Appliance with the specified Resource Name, Resource Group, and Subscription Id.
- * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/preview/2022-04-15-preview/examples/AppliancesDelete.json
+ * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/stable/2022-10-27/examples/AppliancesDelete.json
  */
 async function deleteAppliance() {
   const subscriptionId =

@@ -4,16 +4,17 @@ These sample programs show how to use the TypeScript client libraries for in som
 
 | **File Name**                                                             | **Description**                                                                                                                                                                                                                                 |
 | ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [gitHubOAuthCallbackSample.ts][githuboauthcallbacksample]                 | Callback URL to hit once authenticated with GitHub App to have the service store the OAuth token. x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-04-01-preview/examples/GitHubOAuthCallback.json |
-| [gitHubOAuthSample.ts][githuboauthsample]                                 | Gets GitHubOAuth info used to authenticate users with the Developer Hub GitHub App. x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-04-01-preview/examples/GitHubOAuth.json                       |
-| [listGitHubOAuthSample.ts][listgithuboauthsample]                         | Callback URL to hit once authenticated with GitHub App to have the service store the OAuth token. x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-04-01-preview/examples/GitHubOAuth_List.json    |
-| [operationsListSample.ts][operationslistsample]                           | Returns list of operations. x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-04-01-preview/examples/Operation_List.json                                                                            |
-| [workflowCreateOrUpdateSample.ts][workflowcreateorupdatesample]           | Creates or updates a workflow x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-04-01-preview/examples/Workflow_CreateOrUpdate.json                                                                 |
-| [workflowDeleteSample.ts][workflowdeletesample]                           | Deletes a workflow x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-04-01-preview/examples/Workflow_Delete.json                                                                                    |
-| [workflowGetSample.ts][workflowgetsample]                                 | Gets a workflow. x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-04-01-preview/examples/Workflow_Get.json                                                                                         |
-| [workflowListByResourceGroupSample.ts][workflowlistbyresourcegroupsample] | Gets a list of workflows within a resource group. x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-04-01-preview/examples/Workflow_ListByResourceGroup.json                                        |
-| [workflowListSample.ts][workflowlistsample]                               | Gets a list of workflows associated with the specified subscription. x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-04-01-preview/examples/Workflow_List.json                                    |
-| [workflowUpdateTagsSample.ts][workflowupdatetagssample]                   | Updates tags on a workflow. x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-04-01-preview/examples/Workflow_UpdateTags.json                                                                       |
+| [generatePreviewArtifactsSample.ts][generatepreviewartifactssample]       | Generate preview dockerfile and manifests. x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/GeneratePreviewArtifacts.json                                                   |
+| [gitHubOAuthCallbackSample.ts][githuboauthcallbacksample]                 | Callback URL to hit once authenticated with GitHub App to have the service store the OAuth token. x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/GitHubOAuthCallback.json |
+| [gitHubOAuthSample.ts][githuboauthsample]                                 | Gets GitHubOAuth info used to authenticate users with the Developer Hub GitHub App. x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/GitHubOAuth.json                       |
+| [listGitHubOAuthSample.ts][listgithuboauthsample]                         | Callback URL to hit once authenticated with GitHub App to have the service store the OAuth token. x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/GitHubOAuth_List.json    |
+| [operationsListSample.ts][operationslistsample]                           | Returns list of operations. x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/Operation_List.json                                                                            |
+| [workflowCreateOrUpdateSample.ts][workflowcreateorupdatesample]           | Creates or updates a workflow x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/Workflow_CreateOrUpdate.json                                                                 |
+| [workflowDeleteSample.ts][workflowdeletesample]                           | Deletes a workflow x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/Workflow_Delete.json                                                                                    |
+| [workflowGetSample.ts][workflowgetsample]                                 | Gets a workflow. x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/Workflow_Get.json                                                                                         |
+| [workflowListByResourceGroupSample.ts][workflowlistbyresourcegroupsample] | Gets a list of workflows within a resource group. x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/Workflow_ListByResourceGroup.json                                        |
+| [workflowListSample.ts][workflowlistsample]                               | Gets a list of workflows associated with the specified subscription. x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/Workflow_List.json                                    |
+| [workflowUpdateTagsSample.ts][workflowupdatetagssample]                   | Updates tags on a workflow. x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/Workflow_UpdateTags.json                                                                       |
 
 ## Prerequisites
 
@@ -52,19 +53,20 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/gitHubOAuthCallbackSample.js
+node dist/generatePreviewArtifactsSample.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env DEVHUB_SUBSCRIPTION_ID="<devhub subscription id>" node dist/gitHubOAuthCallbackSample.js
+npx cross-env DEVHUB_SUBSCRIPTION_ID="<devhub subscription id>" node dist/generatePreviewArtifactsSample.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
+[generatepreviewartifactssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/generatePreviewArtifactsSample.ts
 [githuboauthcallbacksample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/gitHubOAuthCallbackSample.ts
 [githuboauthsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/gitHubOAuthSample.ts
 [listgithuboauthsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/listGitHubOAuthSample.ts

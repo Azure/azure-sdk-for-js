@@ -322,6 +322,12 @@ export const MonitorProperties: coreClient.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      generateApiKey: {
+        serializedName: "generateApiKey",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -463,7 +469,7 @@ export const UserInfo: coreClient.CompositeMapper = {
       },
       companyName: {
         constraints: {
-          MaxLength: 50
+          MaxLength: 64
         },
         serializedName: "companyName",
         type: {
@@ -508,7 +514,7 @@ export const CompanyInfo: coreClient.CompositeMapper = {
       },
       business: {
         constraints: {
-          MaxLength: 50
+          MaxLength: 64
         },
         serializedName: "business",
         type: {
@@ -526,7 +532,7 @@ export const CompanyInfo: coreClient.CompositeMapper = {
       },
       state: {
         constraints: {
-          MaxLength: 50
+          MaxLength: 64
         },
         serializedName: "state",
         type: {
@@ -535,7 +541,7 @@ export const CompanyInfo: coreClient.CompositeMapper = {
       },
       country: {
         constraints: {
-          MaxLength: 50
+          MaxLength: 64
         },
         serializedName: "country",
         type: {
@@ -614,6 +620,64 @@ export const SystemData: coreClient.CompositeMapper = {
         serializedName: "lastModifiedAt",
         type: {
           name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const ElasticVersionsListResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ElasticVersionsListResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ElasticVersionListFormat"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ElasticVersionListFormat: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ElasticVersionListFormat",
+    modelProperties: {
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ElasticVersionListProperties"
+        }
+      }
+    }
+  }
+};
+
+export const ElasticVersionListProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ElasticVersionListProperties",
+    modelProperties: {
+      version: {
+        serializedName: "version",
+        type: {
+          name: "String"
         }
       }
     }
@@ -719,6 +783,63 @@ export const DeploymentInfoResponse: coreClient.CompositeMapper = {
       diskCapacity: {
         serializedName: "diskCapacity",
         readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      deploymentUrl: {
+        serializedName: "deploymentUrl",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      marketplaceSaasInfo: {
+        serializedName: "marketplaceSaasInfo",
+        type: {
+          name: "Composite",
+          className: "MarketplaceSaaSInfo"
+        }
+      }
+    }
+  }
+};
+
+export const MarketplaceSaaSInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MarketplaceSaaSInfo",
+    modelProperties: {
+      marketplaceSubscription: {
+        serializedName: "marketplaceSubscription",
+        type: {
+          name: "Composite",
+          className: "MarketplaceSaaSInfoMarketplaceSubscription"
+        }
+      },
+      marketplaceName: {
+        serializedName: "marketplaceName",
+        type: {
+          name: "String"
+        }
+      },
+      marketplaceResourceId: {
+        serializedName: "marketplaceResourceId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MarketplaceSaaSInfoMarketplaceSubscription: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MarketplaceSaaSInfoMarketplaceSubscription",
+    modelProperties: {
+      id: {
+        serializedName: "id",
         type: {
           name: "String"
         }
@@ -1180,6 +1301,52 @@ export const ElasticTrafficFilterRule: coreClient.CompositeMapper = {
       },
       id: {
         serializedName: "id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const UserEmailId: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserEmailId",
+    modelProperties: {
+      emailId: {
+        serializedName: "emailId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const UserApiKeyResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserApiKeyResponse",
+    modelProperties: {
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "UserApiKeyResponseProperties"
+        }
+      }
+    }
+  }
+};
+
+export const UserApiKeyResponseProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserApiKeyResponseProperties",
+    modelProperties: {
+      apiKey: {
+        serializedName: "apiKey",
         type: {
           name: "String"
         }

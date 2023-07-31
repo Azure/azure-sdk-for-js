@@ -8,6 +8,7 @@ import {
   isSendNotificationOptions,
 } from "../utils/optionUtils.js";
 import { BrowserPushChannel } from "../models/installation.js";
+import { NonNullableRecord } from "../utils/utils.js";
 import { Notification } from "../models/notification.js";
 import { NotificationHubsClientContext } from "./index.js";
 import { NotificationHubsMessageResponse } from "../models/notificationDetails.js";
@@ -44,7 +45,10 @@ export function sendNotification(
         endpoint.searchParams.append("test", "true");
       }
 
-      const headers = await context.createHeaders("sendNotification", notification.headers);
+      const headers = await context.createHeaders(
+        "sendNotification",
+        notification.headers as NonNullableRecord
+      );
       headers.set("ServiceBusNotification-Format", notification.platform);
 
       let body = notification.body;

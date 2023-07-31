@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { ContainerAppsAPIClient } = require("@azure/arm-appcontainers");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Delete a Container App.
  *
  * @summary Delete a Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-06-01-preview/examples/ContainerApps_Delete.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/ContainerApps_Delete.json
  */
 async function deleteContainerApp() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = "rg";
+  const subscriptionId =
+    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "rg";
   const containerAppName = "testWorkerApp0";
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
@@ -27,4 +29,8 @@ async function deleteContainerApp() {
   console.log(result);
 }
 
-deleteContainerApp().catch(console.error);
+async function main() {
+  deleteContainerApp();
+}
+
+main().catch(console.error);

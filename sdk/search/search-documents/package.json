@@ -1,6 +1,6 @@
 {
   "name": "@azure/search-documents",
-  "version": "12.0.0-beta.1",
+  "version": "12.0.0-beta.2",
   "description": "Azure client library to use Cognitive Search for node.js and browser.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -18,6 +18,7 @@
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "generate:client": "autorest --typescript swagger/Service.md & autorest --typescript swagger/Data.md & wait",
     "integration-test:browser": "dev-tool run test:browser",
     "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -45,12 +46,20 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/data/searchClientContext.ts",
-        "prefix": "packageVersion"
+        "path": "swagger/Service.md",
+        "prefix": "package-version"
       },
       {
-        "path": "src/generated/service/searchServiceClientContext.ts",
-        "prefix": "packageVersion"
+        "path": "swagger/Data.md",
+        "prefix": "package-version"
+      },
+      {
+        "path": "src/generated/data/searchClient.ts",
+        "prefix": "packageDetails"
+      },
+      {
+        "path": "src/generated/service/searchServiceClient.ts",
+        "prefix": "packageDetails"
       },
       {
         "path": "src/constants.ts",
@@ -85,6 +94,7 @@
     "events": "^3.0.0"
   },
   "devDependencies": {
+    "@azure/openai": "1.0.0-beta.2",
     "@azure/test-utils": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
@@ -93,7 +103,7 @@
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
     "@types/node": "^14.0.0",
-    "@types/sinon": "^9.0.4",
+    "@types/sinon": "^10.0.0",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
@@ -115,9 +125,9 @@
     "nyc": "^15.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
-    "sinon": "^9.0.2",
+    "sinon": "^15.0.0",
     "ts-node": "^10.0.0",
-    "typescript": "~4.8.0",
+    "typescript": "~5.0.0",
     "util": "^0.12.1"
   },
   "//sampleConfiguration": {

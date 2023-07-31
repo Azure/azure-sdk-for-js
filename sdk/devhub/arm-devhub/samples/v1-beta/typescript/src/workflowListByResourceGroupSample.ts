@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of workflows within a resource group.
  *
  * @summary Gets a list of workflows within a resource group.
- * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-04-01-preview/examples/Workflow_ListByResourceGroup.json
+ * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/Workflow_ListByResourceGroup.json
  */
 async function listWorkflows() {
   const subscriptionId =

@@ -91,7 +91,7 @@ export interface EncryptionProperties {
 /** KeyVault configuration when using an encryption KeySource of Microsoft.KeyVault. */
 export interface KeyVaultProperties {
   /**
-   * Full path to the versioned secret. Example https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053. To be usable the following prerequisites must be met:
+   * Full path to the secret with or without version. Example https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053. or https://mykeyvault.vault.azure.net/keys/testkey. To be usable the following prerequisites must be met:
    *
    *  The Batch Account has a System Assigned identity
    *  The account identity has been granted Key/Get, Key/Unwrap and Key/Wrap permissions
@@ -582,7 +582,7 @@ export interface DataDisk {
 /** The configuration for container-enabled pools. */
 export interface ContainerConfiguration {
   /** The container technology to be used. */
-  type: "DockerCompatible";
+  type: ContainerType;
   /** This is the full image reference, as would be specified to "docker pull". An image will be sourced from the default Docker registry unless the image is fully qualified with an alternative registry. */
   containerImageNames?: string[];
   /** If any images must be downloaded from a private registry which requires credentials, then those credentials must be provided here. */
@@ -625,6 +625,8 @@ export interface VMExtension {
   typeHandlerVersion?: string;
   /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
   autoUpgradeMinorVersion?: boolean;
+  /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available. */
+  enableAutomaticUpgrade?: boolean;
   /** JSON formatted public settings for the extension. */
   settings?: Record<string, unknown>;
   /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
@@ -703,6 +705,8 @@ export interface NetworkConfiguration {
   endpointConfiguration?: PoolEndpointConfiguration;
   /** This property is only supported on Pools with the virtualMachineConfiguration property. */
   publicIPAddressConfiguration?: PublicIPAddressConfiguration;
+  /** Accelerated networking enables single root I/O virtualization (SR-IOV) to a VM, which may lead to improved networking performance. For more details, see: https://learn.microsoft.com/azure/virtual-network/accelerated-networking-overview. */
+  enableAcceleratedNetworking?: boolean;
 }
 
 /** The endpoint configuration for a pool. */
@@ -1504,6 +1508,23 @@ export interface PoolStopResizeHeaders {
   eTag?: string;
 }
 
+/** Known values of {@link ContainerType} that the service accepts. */
+export enum KnownContainerType {
+  /** A Docker compatible container technology will be used to launch the containers. */
+  DockerCompatible = "DockerCompatible",
+  /** A CRI based technology will be used to launch the containers. */
+  CriCompatible = "CriCompatible"
+}
+
+/**
+ * Defines values for ContainerType. \
+ * {@link KnownContainerType} can be used interchangeably with ContainerType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DockerCompatible**: A Docker compatible container technology will be used to launch the containers. \
+ * **CriCompatible**: A CRI based technology will be used to launch the containers.
+ */
+export type ContainerType = string;
 /** Defines values for AutoStorageAuthenticationMode. */
 export type AutoStorageAuthenticationMode =
   | "StorageKeys"
@@ -1763,10 +1784,7 @@ export type ApplicationPackageListResponse = ListApplicationPackagesResult;
 
 /** Optional parameters. */
 export interface ApplicationPackageListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of items to return in the response. */
-  maxresults?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ApplicationPackageListNextResponse = ListApplicationPackagesResult;
@@ -1811,10 +1829,7 @@ export type ApplicationListResponse = ListApplicationsResult;
 
 /** Optional parameters. */
 export interface ApplicationListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of items to return in the response. */
-  maxresults?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ApplicationListNextResponse = ListApplicationsResult;
@@ -1859,24 +1874,14 @@ export type LocationCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
 
 /** Optional parameters. */
 export interface LocationListSupportedVirtualMachineSkusNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of items to return in the response. */
-  maxresults?: number;
-  /** OData filter expression. Valid properties for filtering are "familyName". */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSupportedVirtualMachineSkusNext operation. */
 export type LocationListSupportedVirtualMachineSkusNextResponse = SupportedSkusResult;
 
 /** Optional parameters. */
 export interface LocationListSupportedCloudServiceSkusNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of items to return in the response. */
-  maxresults?: number;
-  /** OData filter expression. Valid properties for filtering are "familyName". */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSupportedCloudServiceSkusNext operation. */
 export type LocationListSupportedCloudServiceSkusNextResponse = SupportedSkusResult;
@@ -1957,14 +1962,7 @@ export type CertificateCancelDeletionResponse = CertificateCancelDeletionHeaders
 
 /** Optional parameters. */
 export interface CertificateListByBatchAccountNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of items to return in the response. */
-  maxresults?: number;
-  /** OData filter expression. Valid properties for filtering are "properties/provisioningState", "properties/provisioningStateTransitionTime", "name". */
-  filter?: string;
-  /** Comma separated list of properties that should be returned. e.g. "properties/provisioningState". Only top level properties under properties/ are valid for selection. */
-  select?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBatchAccountNext operation. */
 export type CertificateListByBatchAccountNextResponse = ListCertificatesResult;
@@ -1988,10 +1986,7 @@ export type PrivateLinkResourceGetResponse = PrivateLinkResource;
 
 /** Optional parameters. */
 export interface PrivateLinkResourceListByBatchAccountNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of items to return in the response. */
-  maxresults?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBatchAccountNext operation. */
 export type PrivateLinkResourceListByBatchAccountNextResponse = ListPrivateLinkResourcesResult;
@@ -2041,10 +2036,7 @@ export type PrivateEndpointConnectionDeleteResponse = PrivateEndpointConnectionD
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionListByBatchAccountNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of items to return in the response. */
-  maxresults?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBatchAccountNext operation. */
 export type PrivateEndpointConnectionListByBatchAccountNextResponse = ListPrivateEndpointConnectionsResult;
@@ -2127,28 +2119,7 @@ export type PoolStopResizeResponse = PoolStopResizeHeaders & Pool;
 
 /** Optional parameters. */
 export interface PoolListByBatchAccountNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of items to return in the response. */
-  maxresults?: number;
-  /**
-   * OData filter expression. Valid properties for filtering are:
-   *
-   *  name
-   *  properties/allocationState
-   *  properties/allocationStateTransitionTime
-   *  properties/creationTime
-   *  properties/provisioningState
-   *  properties/provisioningStateTransitionTime
-   *  properties/lastModified
-   *  properties/vmSize
-   *  properties/interNodeCommunication
-   *  properties/scaleSettings/autoScale
-   *  properties/scaleSettings/fixedScale
-   */
-  filter?: string;
-  /** Comma separated list of properties that should be returned. e.g. "properties/provisioningState". Only top level properties under properties/ are valid for selection. */
-  select?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBatchAccountNext operation. */
 export type PoolListByBatchAccountNextResponse = ListPoolsResult;

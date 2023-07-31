@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all available Appliances operations.
  *
  * @summary Lists all available Appliances operations.
- * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/preview/2022-04-15-preview/examples/AppliancesListOperations.json
+ * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/stable/2022-10-27/examples/AppliancesListOperations.json
  */
 async function listAppliancesOperations() {
   const subscriptionId =

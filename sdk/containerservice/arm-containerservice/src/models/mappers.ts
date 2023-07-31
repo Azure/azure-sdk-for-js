@@ -202,6 +202,104 @@ export const OSOptionProperty: coreClient.CompositeMapper = {
   }
 };
 
+export const KubernetesVersionListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KubernetesVersionListResult",
+    modelProperties: {
+      values: {
+        serializedName: "values",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "KubernetesVersion"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const KubernetesVersion: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KubernetesVersion",
+    modelProperties: {
+      version: {
+        serializedName: "version",
+        type: {
+          name: "String"
+        }
+      },
+      capabilities: {
+        serializedName: "capabilities",
+        type: {
+          name: "Composite",
+          className: "KubernetesVersionCapabilities"
+        }
+      },
+      isPreview: {
+        serializedName: "isPreview",
+        type: {
+          name: "Boolean"
+        }
+      },
+      patchVersions: {
+        serializedName: "patchVersions",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "KubernetesPatchVersion" }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const KubernetesVersionCapabilities: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KubernetesVersionCapabilities",
+    modelProperties: {
+      supportPlan: {
+        serializedName: "supportPlan",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const KubernetesPatchVersion: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KubernetesPatchVersion",
+    modelProperties: {
+      upgrades: {
+        serializedName: "upgrades",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ManagedClusterListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1401,6 +1499,12 @@ export const ContainerServiceNetworkProfile: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      networkPluginMode: {
+        serializedName: "networkPluginMode",
+        type: {
+          name: "String"
+        }
+      },
       networkPolicy: {
         serializedName: "networkPolicy",
         type: {
@@ -1409,6 +1513,12 @@ export const ContainerServiceNetworkProfile: coreClient.CompositeMapper = {
       },
       networkMode: {
         serializedName: "networkMode",
+        type: {
+          name: "String"
+        }
+      },
+      networkDataplane: {
+        serializedName: "networkDataplane",
         type: {
           name: "String"
         }
@@ -1445,18 +1555,6 @@ export const ContainerServiceNetworkProfile: coreClient.CompositeMapper = {
           )
         },
         serializedName: "dnsServiceIP",
-        type: {
-          name: "String"
-        }
-      },
-      dockerBridgeCidr: {
-        defaultValue: "172.17.0.1/16",
-        constraints: {
-          Pattern: new RegExp(
-            "^([0-9]{1,3}\\.){3}[0-9]{1,3}(\\/([0-9]|[1-2][0-9]|3[0-2]))?$"
-          )
-        },
-        serializedName: "dockerBridgeCidr",
         type: {
           name: "String"
         }
@@ -2075,6 +2173,20 @@ export const ManagedClusterSecurityProfile: coreClient.CompositeMapper = {
           name: "Composite",
           className: "AzureKeyVaultKms"
         }
+      },
+      workloadIdentity: {
+        serializedName: "workloadIdentity",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterSecurityProfileWorkloadIdentity"
+        }
+      },
+      imageCleaner: {
+        serializedName: "imageCleaner",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterSecurityProfileImageCleaner"
+        }
       }
     }
   }
@@ -2145,6 +2257,42 @@ export const AzureKeyVaultKms: coreClient.CompositeMapper = {
         serializedName: "keyVaultResourceId",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterSecurityProfileWorkloadIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterSecurityProfileWorkloadIdentity",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterSecurityProfileImageCleaner: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterSecurityProfileImageCleaner",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      intervalHours: {
+        serializedName: "intervalHours",
+        type: {
+          name: "Number"
         }
       }
     }
@@ -2669,6 +2817,243 @@ export const TimeSpan: coreClient.CompositeMapper = {
         serializedName: "end",
         type: {
           name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const MaintenanceWindow: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MaintenanceWindow",
+    modelProperties: {
+      schedule: {
+        serializedName: "schedule",
+        type: {
+          name: "Composite",
+          className: "Schedule"
+        }
+      },
+      durationHours: {
+        defaultValue: 24,
+        constraints: {
+          InclusiveMaximum: 24,
+          InclusiveMinimum: 4
+        },
+        serializedName: "durationHours",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      utcOffset: {
+        constraints: {
+          Pattern: new RegExp("^(-|\\+)[0-9]{2}:[0-9]{2}$")
+        },
+        serializedName: "utcOffset",
+        type: {
+          name: "String"
+        }
+      },
+      startDate: {
+        serializedName: "startDate",
+        type: {
+          name: "Date"
+        }
+      },
+      startTime: {
+        constraints: {
+          Pattern: new RegExp("^\\d{2}:\\d{2}$")
+        },
+        serializedName: "startTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      notAllowedDates: {
+        serializedName: "notAllowedDates",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DateSpan"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const Schedule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Schedule",
+    modelProperties: {
+      daily: {
+        serializedName: "daily",
+        type: {
+          name: "Composite",
+          className: "DailySchedule"
+        }
+      },
+      weekly: {
+        serializedName: "weekly",
+        type: {
+          name: "Composite",
+          className: "WeeklySchedule"
+        }
+      },
+      absoluteMonthly: {
+        serializedName: "absoluteMonthly",
+        type: {
+          name: "Composite",
+          className: "AbsoluteMonthlySchedule"
+        }
+      },
+      relativeMonthly: {
+        serializedName: "relativeMonthly",
+        type: {
+          name: "Composite",
+          className: "RelativeMonthlySchedule"
+        }
+      }
+    }
+  }
+};
+
+export const DailySchedule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DailySchedule",
+    modelProperties: {
+      intervalDays: {
+        constraints: {
+          InclusiveMaximum: 7,
+          InclusiveMinimum: 1
+        },
+        serializedName: "intervalDays",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const WeeklySchedule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WeeklySchedule",
+    modelProperties: {
+      intervalWeeks: {
+        constraints: {
+          InclusiveMaximum: 4,
+          InclusiveMinimum: 1
+        },
+        serializedName: "intervalWeeks",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      dayOfWeek: {
+        serializedName: "dayOfWeek",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AbsoluteMonthlySchedule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AbsoluteMonthlySchedule",
+    modelProperties: {
+      intervalMonths: {
+        constraints: {
+          InclusiveMaximum: 6,
+          InclusiveMinimum: 1
+        },
+        serializedName: "intervalMonths",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      dayOfMonth: {
+        constraints: {
+          InclusiveMaximum: 31,
+          InclusiveMinimum: 1
+        },
+        serializedName: "dayOfMonth",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const RelativeMonthlySchedule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RelativeMonthlySchedule",
+    modelProperties: {
+      intervalMonths: {
+        constraints: {
+          InclusiveMaximum: 6,
+          InclusiveMinimum: 1
+        },
+        serializedName: "intervalMonths",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      weekIndex: {
+        serializedName: "weekIndex",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      dayOfWeek: {
+        serializedName: "dayOfWeek",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DateSpan: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DateSpan",
+    modelProperties: {
+      start: {
+        serializedName: "start",
+        required: true,
+        type: {
+          name: "Date"
+        }
+      },
+      end: {
+        serializedName: "end",
+        required: true,
+        type: {
+          name: "Date"
         }
       }
     }
@@ -3246,112 +3631,6 @@ export const SnapshotListResult: coreClient.CompositeMapper = {
   }
 };
 
-export const ContainerServiceMasterProfile: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ContainerServiceMasterProfile",
-    modelProperties: {
-      count: {
-        defaultValue: "1",
-        serializedName: "count",
-        type: {
-          name: "Enum",
-          allowedValues: [1, 3, 5]
-        }
-      },
-      dnsPrefix: {
-        serializedName: "dnsPrefix",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      vmSize: {
-        serializedName: "vmSize",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      osDiskSizeGB: {
-        constraints: {
-          InclusiveMaximum: 2048,
-          InclusiveMinimum: 0
-        },
-        serializedName: "osDiskSizeGB",
-        type: {
-          name: "Number"
-        }
-      },
-      vnetSubnetID: {
-        serializedName: "vnetSubnetID",
-        type: {
-          name: "String"
-        }
-      },
-      firstConsecutiveStaticIP: {
-        defaultValue: "10.240.255.5",
-        serializedName: "firstConsecutiveStaticIP",
-        type: {
-          name: "String"
-        }
-      },
-      storageProfile: {
-        serializedName: "storageProfile",
-        type: {
-          name: "String"
-        }
-      },
-      fqdn: {
-        serializedName: "fqdn",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ContainerServiceDiagnosticsProfile: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ContainerServiceDiagnosticsProfile",
-    modelProperties: {
-      vmDiagnostics: {
-        serializedName: "vmDiagnostics",
-        type: {
-          name: "Composite",
-          className: "ContainerServiceVMDiagnostics"
-        }
-      }
-    }
-  }
-};
-
-export const ContainerServiceVMDiagnostics: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ContainerServiceVMDiagnostics",
-    modelProperties: {
-      enabled: {
-        serializedName: "enabled",
-        required: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      storageUri: {
-        serializedName: "storageUri",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const ManagedClusterAgentPoolProfile: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3441,6 +3720,13 @@ export const MaintenanceConfiguration: coreClient.CompositeMapper = {
               className: "TimeSpan"
             }
           }
+        }
+      },
+      maintenanceWindow: {
+        serializedName: "properties.maintenanceWindow",
+        type: {
+          name: "Composite",
+          className: "MaintenanceWindow"
         }
       }
     }
@@ -3891,6 +4177,12 @@ export const ManagedCluster: coreClient.CompositeMapper = {
         serializedName: "properties.enableRBAC",
         type: {
           name: "Boolean"
+        }
+      },
+      supportPlan: {
+        serializedName: "properties.supportPlan",
+        type: {
+          name: "String"
         }
       },
       enablePodSecurityPolicy: {

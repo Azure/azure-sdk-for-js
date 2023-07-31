@@ -15,6 +15,7 @@ export type BackupPolicyUnion =
 export type DataTransferDataSourceSinkUnion =
   | DataTransferDataSourceSink
   | CosmosCassandraDataTransferDataSourceSink
+  | CosmosMongoDataTransferDataSourceSink
   | CosmosSqlDataTransferDataSourceSink
   | AzureBlobDataTransferDataSourceSink;
 export type ServiceResourcePropertiesUnion =
@@ -436,6 +437,16 @@ export interface DatabaseAccountConnectionString {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly description?: string;
+  /**
+   * Kind of the connection string key
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly keyKind?: Kind;
+  /**
+   * Type of the connection string
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: Type;
 }
 
 /** Cosmos DB region to online or offline. */
@@ -942,6 +953,8 @@ export interface SqlContainerResource {
   restoreParameters?: ResourceRestoreParameters;
   /** Enum to indicate the mode of resource creation. */
   createMode?: CreateMode;
+  /** The configuration for defining Materialized Views. This must be specified only for creating a Materialized View container. */
+  materializedViewDefinition?: MaterializedViewDefinition;
 }
 
 /** Cosmos DB indexing policy */
@@ -1052,6 +1065,19 @@ export interface ClientEncryptionIncludedPath {
   encryptionType: string;
   /** The encryption algorithm which will be used. Eg - AEAD_AES_256_CBC_HMAC_SHA256. */
   encryptionAlgorithm: string;
+}
+
+/** Materialized View definition for the container. */
+export interface MaterializedViewDefinition {
+  /**
+   * An unique identifier for the source collection. This is a system generated property.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceCollectionRid?: string;
+  /** The name of the source container on which the Materialized View will be created. */
+  sourceCollectionId: string;
+  /** The definition should be an SQL query which would be used to fetch data from the source container to populate into the Materialized View container. */
+  definition: string;
 }
 
 /** The properties of an Azure Cosmos DB merge operations */
@@ -1389,11 +1415,6 @@ export interface LocationListResult {
 /** Cosmos DB location metadata */
 export interface LocationProperties {
   /**
-   * The current status of location in Azure.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: string;
-  /**
    * Flag indicating whether the location supports availability zones or not.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -1408,6 +1429,21 @@ export interface LocationProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly backupStorageRedundancies?: BackupStorageRedundancy[];
+  /**
+   * Flag indicating whether the subscription have access in region for Non-Availability Zones.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isSubscriptionRegionAccessAllowedForRegular?: boolean;
+  /**
+   * Flag indicating whether the subscription have access in region for Availability Zones(Az).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isSubscriptionRegionAccessAllowedForAz?: boolean;
+  /**
+   * Enum to indicate current buildout status of the region.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: Status;
 }
 
 /** The List operation response, that contains the Cassandra views and their properties. */
@@ -1470,7 +1506,11 @@ export interface DataTransferJobProperties {
 /** Base class for all DataTransfer source/sink */
 export interface DataTransferDataSourceSink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  component: "CosmosDBCassandra" | "CosmosDBSql" | "AzureBlobStorage";
+  component:
+    | "CosmosDBCassandra"
+    | "CosmosDBMongo"
+    | "CosmosDBSql"
+    | "AzureBlobStorage";
 }
 
 /** The List operation response, that contains the Data Transfer jobs and their properties. */
@@ -1505,7 +1545,7 @@ export interface ClusterResourceProperties {
   cassandraVersion?: string;
   /** If you need to set the clusterName property in cassandra.yaml to something besides the resource name of the cluster, set the value to use on this property. */
   clusterNameOverride?: string;
-  /** Which authentication method Cassandra should use to authenticate clients. 'None' turns off authentication, so should not be used except in emergencies. 'Cassandra' is the default password based authentication. The default is 'Cassandra'. 'Ldap' is in preview. */
+  /** Which authentication method Cassandra should use to authenticate clients. 'None' turns off authentication, so should not be used except in emergencies. 'Cassandra' is the default password based authentication. The default is 'Cassandra'. */
   authenticationMethod?: AuthenticationMethod;
   /** Initial password for clients connecting as admin to the cluster. Should be changed after cluster creation. Returns null on GET. This field only applies when the authenticationMethod field is 'Cassandra'. */
   initialCassandraAdminPassword?: string;
@@ -1529,12 +1569,14 @@ export interface ClusterResourceProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly seedNodes?: SeedNode[];
-  /** Number of hours to wait between taking a backup of the cluster. To disable backups, set this property to 0. */
+  /** (Deprecated) Number of hours to wait between taking a backup of the cluster. */
   hoursBetweenBackups?: number;
   /** Whether the cluster and associated data centers has been deallocated. */
   deallocated?: boolean;
   /** Whether Cassandra audit logging is enabled */
   cassandraAuditLoggingEnabled?: boolean;
+  /** Error related to resource provisioning. */
+  provisionError?: CassandraError;
 }
 
 export interface SeedNode {
@@ -1545,6 +1587,17 @@ export interface SeedNode {
 export interface Certificate {
   /** PEM formatted public key. */
   pem?: string;
+}
+
+export interface CassandraError {
+  /** The code of error that occurred. */
+  code?: string;
+  /** The message of the error. */
+  message?: string;
+  /** The target resource of the error. */
+  target?: string;
+  /** Additional information about the error. */
+  additionalErrorInfo?: string;
 }
 
 /** The core properties of ARM resources. */
@@ -1656,12 +1709,16 @@ export interface DataCenterResourceProperties {
   sku?: string;
   /** Disk SKU used for data centers. Default value is P30. */
   diskSku?: string;
-  /** Number of disk used for data centers. Default value is 4. */
+  /** Number of disks attached to each node. Default is 4. */
   diskCapacity?: number;
-  /** If the data center has Availability Zone feature, apply it to the Virtual Machine ScaleSet that host the cassandra data center virtual machines. */
+  /** If the data center has Availability Zone support, apply it to the Virtual Machine ScaleSet that host the cassandra data center virtual machines. */
   availabilityZone?: boolean;
   /** Ldap authentication method properties. This feature is in preview. */
   authenticationMethodLdapProperties?: AuthenticationMethodLdapProperties;
+  /** Whether the data center has been deallocated. */
+  deallocated?: boolean;
+  /** Error related to resource provisioning. */
+  provisionError?: CassandraError;
 }
 
 /** Ldap authentication method properties. This feature is in preview. */
@@ -1679,6 +1736,8 @@ export interface AuthenticationMethodLdapProperties {
   /** Template to use for searching. Defaults to (cn=%s) where %s will be replaced by the username used to login. */
   searchFilterTemplate?: string;
   serverCertificates?: Certificate[];
+  /** Timeout for connecting to the LDAP server in miliseconds. The default is 5000 ms. */
+  connectionTimeoutInMs?: number;
 }
 
 /** Properties of a managed Cassandra cluster public status. */
@@ -1687,6 +1746,8 @@ export interface CassandraClusterPublicStatus {
   reaperStatus?: ManagedCassandraReaperStatus;
   /** List relevant information about any connection errors to the Datacenters. */
   connectionErrors?: ConnectionError[];
+  /** List relevant information about any errors about cluster, data center and connection error. */
+  errors?: CassandraError[];
   /** List of the status of each datacenter in this cluster. */
   dataCenters?: CassandraClusterPublicStatusDataCentersItem[];
 }
@@ -1726,6 +1787,8 @@ export interface ComponentsM9L909SchemasCassandraclusterpublicstatusPropertiesDa
   /** The state of the node in Cassandra ring. */
   state?: NodeState;
   status?: string;
+  /** Cassandra service status on this node */
+  cassandraProcessStatus?: string;
   /** The amount of file system data in the data directory (e.g., 47.66 kB), excluding all content in the snapshots subdirectories. Because all SSTable data files are included, any data that is not cleaned up (such as TTL-expired cells or tombstones) is counted. */
   load?: string;
   /** List of tokens this node covers. */
@@ -1735,7 +1798,7 @@ export interface ComponentsM9L909SchemasCassandraclusterpublicstatusPropertiesDa
   hostID?: string;
   /** The rack this node is part of. */
   rack?: string;
-  /** The timestamp at which that snapshot of these usage statistics were taken. */
+  /** The timestamp when these statistics were captured. */
   timestamp?: string;
   /** The amount of disk used, in kB, of the directory /var/lib/cassandra. */
   diskUsedKB?: number;
@@ -1751,6 +1814,201 @@ export interface ComponentsM9L909SchemasCassandraclusterpublicstatusPropertiesDa
   memoryTotalKB?: number;
   /** A float representing the current system-wide CPU utilization as a percentage. */
   cpuUsage?: number;
+}
+
+/** A list of mongo clusters. */
+export interface MongoClusterListResult {
+  /** The list of mongo clusters */
+  value?: MongoCluster[];
+  /**
+   * The link used to get the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Parameters used for restore operations */
+export interface MongoClusterRestoreParameters {
+  /** UTC point in time to restore a mongo cluster */
+  pointInTimeUTC?: Date;
+  /** Resource ID to locate the source cluster to restore */
+  sourceResourceId?: string;
+}
+
+/** The properties of the node group on a cluster. */
+export interface NodeGroupProperties {
+  /** The resource sku for the node group. This defines the size of CPU and memory that is provisioned for each node. Example values: 'M30', 'M40'. */
+  sku?: string;
+  /** The disk storage size for the node group in GB. Example values: 128, 256, 512, 1024. */
+  diskSizeGB?: number;
+  /** Whether high availability is enabled on the node group. */
+  enableHa?: boolean;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface ResourceAutoGenerated {
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponseAutoGenerated {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** Represents a mongo cluster resource for updates. */
+export interface MongoClusterUpdate {
+  /** Application-specific metadata in the form of key-value pairs. */
+  tags?: { [propertyName: string]: string };
+  /** The mode to create a mongo cluster. */
+  createMode?: CreateMode;
+  /** Parameters used for restore operations */
+  restoreParameters?: MongoClusterRestoreParameters;
+  /** The administrator's login for the mongo cluster. */
+  administratorLogin?: string;
+  /**
+   * The password of the administrator login.
+   * This value contains a credential. Consider obscuring before showing to users
+   */
+  administratorLoginPassword?: string;
+  /** The Mongo DB server version. Defaults to the latest available version if not specified. */
+  serverVersion?: string;
+  /**
+   * The default mongo connection string for the cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly connectionString?: string;
+  /**
+   * Earliest restore timestamp in UTC ISO8601 format.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly earliestRestoreTime?: string;
+  /**
+   * A provisioning state of the mongo cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * A status of the mongo cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clusterStatus?: MongoClusterStatus;
+  /** The list of node group specs in the cluster. */
+  nodeGroupSpecs?: NodeGroupSpec[];
+}
+
+/** A list of firewall rules. */
+export interface FirewallRuleListResult {
+  /** The list of firewall rules in a mongo cluster. */
+  value?: FirewallRule[];
+  /**
+   * The link used to get the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The check availability request body. */
+export interface CheckNameAvailabilityRequest {
+  /** The name of the resource for which availability needs to be checked. */
+  name?: string;
+  /** The resource type. */
+  type?: string;
+}
+
+/** The check availability result. */
+export interface CheckNameAvailabilityResponse {
+  /** Indicates if the resource name is available. */
+  nameAvailable?: boolean;
+  /** The reason why the given name is not available. */
+  reason?: CheckNameAvailabilityReason;
+  /** Detailed reason why the given name is available. */
+  message?: string;
+}
+
+/** The connection strings for the given mongo cluster. */
+export interface ListConnectionStringsResult {
+  /**
+   * An array that contains the connection strings for a mongo cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly connectionStrings?: ConnectionString[];
+}
+
+/** Connection string for the mongo cluster */
+export interface ConnectionString {
+  /**
+   * Value of the connection string
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly connectionString?: string;
+  /**
+   * Description of the connection string
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
 }
 
 /** The set of data plane operations permitted through this Role Definition. */
@@ -3497,6 +3755,15 @@ export interface CosmosCassandraDataTransferDataSourceSink
 }
 
 /** A CosmosDB Cassandra API data source/sink */
+export interface CosmosMongoDataTransferDataSourceSink
+  extends DataTransferDataSourceSink {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  component: "CosmosDBMongo";
+  databaseName: string;
+  collectionName: string;
+}
+
+/** A CosmosDB Cassandra API data source/sink */
 export interface CosmosSqlDataTransferDataSourceSink
   extends DataTransferDataSourceSink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -3519,6 +3786,25 @@ export interface ClusterResource extends ManagedCassandraARMResourceProperties {
   /** Properties of a managed Cassandra cluster. */
   properties?: ClusterResourceProperties;
 }
+
+/** Specification for a node group. */
+export interface NodeGroupSpec extends NodeGroupProperties {
+  /** The node type deployed in the node group. */
+  kind?: NodeKind;
+  /** The number of nodes in the node group. */
+  nodeCount?: number;
+}
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends ResourceAutoGenerated {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResourceAutoGenerated extends ResourceAutoGenerated {}
 
 /** Properties for DataTransferServiceResource. */
 export interface DataTransferServiceResourceProperties
@@ -3610,6 +3896,58 @@ export interface PrivateEndpointConnection extends ProxyResource {
   groupId?: string;
   /** Provisioning state of the private endpoint. */
   provisioningState?: string;
+}
+
+/** Represents a mongo cluster resource. */
+export interface MongoCluster extends TrackedResource {
+  /** The mode to create a mongo cluster. */
+  createMode?: CreateMode;
+  /** Parameters used for restore operations */
+  restoreParameters?: MongoClusterRestoreParameters;
+  /** The administrator's login for the mongo cluster. */
+  administratorLogin?: string;
+  /**
+   * The password of the administrator login.
+   * This value contains a credential. Consider obscuring before showing to users
+   */
+  administratorLoginPassword?: string;
+  /** The Mongo DB server version. Defaults to the latest available version if not specified. */
+  serverVersion?: string;
+  /**
+   * The default mongo connection string for the cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly connectionString?: string;
+  /**
+   * Earliest restore timestamp in UTC ISO8601 format.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly earliestRestoreTime?: string;
+  /**
+   * A provisioning state of the mongo cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * A status of the mongo cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clusterStatus?: MongoClusterStatus;
+  /** The list of node group specs in the cluster. */
+  nodeGroupSpecs?: NodeGroupSpec[];
+}
+
+/** Represents a mongo cluster firewall rule. */
+export interface FirewallRule extends ProxyResourceAutoGenerated {
+  /**
+   * The provisioning state of the firewall rule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The start IP address of the mongo cluster firewall rule. Must be IPv4 format. */
+  startIpAddress: string;
+  /** The end IP address of the mongo cluster firewall rule. Must be IPv4 format. */
+  endIpAddress: string;
 }
 
 /** Defines headers for DatabaseAccounts_delete operation. */
@@ -3726,6 +4064,14 @@ export interface SqlResourcesCreateUpdateSqlContainerHeaders {
 
 /** Defines headers for SqlResources_deleteSqlContainer operation. */
 export interface SqlResourcesDeleteSqlContainerHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for SqlResources_sqlDatabasePartitionMerge operation. */
+export interface SqlResourcesSqlDatabasePartitionMergeHeaders {
   /** URI to poll for completion status. */
   azureAsyncOperation?: string;
   /** URI to poll for completion status. */
@@ -3926,6 +4272,14 @@ export interface MongoDBResourcesCreateUpdateMongoDBCollectionHeaders {
 
 /** Defines headers for MongoDBResources_deleteMongoDBCollection operation. */
 export interface MongoDBResourcesDeleteMongoDBCollectionHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for MongoDBResources_mongoDBDatabasePartitionMerge operation. */
+export interface MongoDBResourcesMongoDBDatabasePartitionMergeHeaders {
   /** URI to poll for completion status. */
   azureAsyncOperation?: string;
   /** URI to poll for completion status. */
@@ -4204,6 +4558,21 @@ export interface GremlinResourcesMigrateGremlinGraphToManualThroughputHeaders {
   location?: string;
 }
 
+/** Defines headers for MongoClusters_delete operation. */
+export interface MongoClustersDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for MongoClusters_update operation. */
+export interface MongoClustersUpdateHeaders {
+  location?: string;
+}
+
+/** Defines headers for MongoClusters_deleteFirewallRule operation. */
+export interface MongoClustersDeleteFirewallRuleHeaders {
+  location?: string;
+}
+
 /** Defines headers for Service_delete operation. */
 export interface ServiceDeleteHeaders {
   /** URI to poll for completion status. */
@@ -4313,7 +4682,9 @@ export enum KnownCreateMode {
   /** Default */
   Default = "Default",
   /** Restore */
-  Restore = "Restore"
+  Restore = "Restore",
+  /** PointInTimeRestore */
+  PointInTimeRestore = "PointInTimeRestore"
 }
 
 /**
@@ -4322,7 +4693,8 @@ export enum KnownCreateMode {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Default** \
- * **Restore**
+ * **Restore** \
+ * **PointInTimeRestore**
  */
 export type CreateMode = string;
 
@@ -4427,6 +4799,69 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
+
+/** Known values of {@link Kind} that the service accepts. */
+export enum KnownKind {
+  /** Primary */
+  Primary = "Primary",
+  /** Secondary */
+  Secondary = "Secondary",
+  /** PrimaryReadonly */
+  PrimaryReadonly = "PrimaryReadonly",
+  /** SecondaryReadonly */
+  SecondaryReadonly = "SecondaryReadonly"
+}
+
+/**
+ * Defines values for Kind. \
+ * {@link KnownKind} can be used interchangeably with Kind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Primary** \
+ * **Secondary** \
+ * **PrimaryReadonly** \
+ * **SecondaryReadonly**
+ */
+export type Kind = string;
+
+/** Known values of {@link Type} that the service accepts. */
+export enum KnownType {
+  /** Sql */
+  Sql = "Sql",
+  /** Table */
+  Table = "Table",
+  /** MongoDB */
+  MongoDB = "MongoDB",
+  /** Cassandra */
+  Cassandra = "Cassandra",
+  /** CassandraConnectorMetadata */
+  CassandraConnectorMetadata = "CassandraConnectorMetadata",
+  /** Gremlin */
+  Gremlin = "Gremlin",
+  /** SqlDedicatedGateway */
+  SqlDedicatedGateway = "SqlDedicatedGateway",
+  /** GremlinV2 */
+  GremlinV2 = "GremlinV2",
+  /** Undefined */
+  Undefined = "Undefined"
+}
+
+/**
+ * Defines values for Type. \
+ * {@link KnownType} can be used interchangeably with Type,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Sql** \
+ * **Table** \
+ * **MongoDB** \
+ * **Cassandra** \
+ * **CassandraConnectorMetadata** \
+ * **Gremlin** \
+ * **SqlDedicatedGateway** \
+ * **GremlinV2** \
+ * **Undefined**
+ */
+export type Type = string;
 
 /** Known values of {@link KeyKind} that the service accepts. */
 export enum KnownKeyKind {
@@ -4755,10 +5190,39 @@ export enum KnownBackupStorageRedundancy {
  */
 export type BackupStorageRedundancy = string;
 
+/** Known values of {@link Status} that the service accepts. */
+export enum KnownStatus {
+  /** Uninitialized */
+  Uninitialized = "Uninitialized",
+  /** Initializing */
+  Initializing = "Initializing",
+  /** InternallyReady */
+  InternallyReady = "InternallyReady",
+  /** Online */
+  Online = "Online",
+  /** Deleting */
+  Deleting = "Deleting"
+}
+
+/**
+ * Defines values for Status. \
+ * {@link KnownStatus} can be used interchangeably with Status,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Uninitialized** \
+ * **Initializing** \
+ * **InternallyReady** \
+ * **Online** \
+ * **Deleting**
+ */
+export type Status = string;
+
 /** Known values of {@link DataTransferComponent} that the service accepts. */
 export enum KnownDataTransferComponent {
   /** CosmosDBCassandra */
   CosmosDBCassandra = "CosmosDBCassandra",
+  /** CosmosDBMongo */
+  CosmosDBMongo = "CosmosDBMongo",
   /** CosmosDBSql */
   CosmosDBSql = "CosmosDBSql",
   /** AzureBlobStorage */
@@ -4771,6 +5235,7 @@ export enum KnownDataTransferComponent {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **CosmosDBCassandra** \
+ * **CosmosDBMongo** \
  * **CosmosDBSql** \
  * **AzureBlobStorage**
  */
@@ -4901,6 +5366,102 @@ export enum KnownNodeState {
  * **Stopped**
  */
 export type NodeState = string;
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** InProgress */
+  InProgress = "InProgress",
+  /** Updating */
+  Updating = "Updating",
+  /** Dropping */
+  Dropping = "Dropping"
+}
+
+/**
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **InProgress** \
+ * **Updating** \
+ * **Dropping**
+ */
+export type ProvisioningState = string;
+
+/** Known values of {@link MongoClusterStatus} that the service accepts. */
+export enum KnownMongoClusterStatus {
+  /** Ready */
+  Ready = "Ready",
+  /** Provisioning */
+  Provisioning = "Provisioning",
+  /** Updating */
+  Updating = "Updating",
+  /** Starting */
+  Starting = "Starting",
+  /** Stopping */
+  Stopping = "Stopping",
+  /** Stopped */
+  Stopped = "Stopped",
+  /** Dropping */
+  Dropping = "Dropping"
+}
+
+/**
+ * Defines values for MongoClusterStatus. \
+ * {@link KnownMongoClusterStatus} can be used interchangeably with MongoClusterStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Ready** \
+ * **Provisioning** \
+ * **Updating** \
+ * **Starting** \
+ * **Stopping** \
+ * **Stopped** \
+ * **Dropping**
+ */
+export type MongoClusterStatus = string;
+
+/** Known values of {@link NodeKind} that the service accepts. */
+export enum KnownNodeKind {
+  /** Shard */
+  Shard = "Shard"
+}
+
+/**
+ * Defines values for NodeKind. \
+ * {@link KnownNodeKind} can be used interchangeably with NodeKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Shard**
+ */
+export type NodeKind = string;
+
+/** Known values of {@link CheckNameAvailabilityReason} that the service accepts. */
+export enum KnownCheckNameAvailabilityReason {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** AlreadyExists */
+  AlreadyExists = "AlreadyExists"
+}
+
+/**
+ * Defines values for CheckNameAvailabilityReason. \
+ * {@link KnownCheckNameAvailabilityReason} can be used interchangeably with CheckNameAvailabilityReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **AlreadyExists**
+ */
+export type CheckNameAvailabilityReason = string;
 
 /** Known values of {@link NotebookWorkspaceName} that the service accepts. */
 export enum KnownNotebookWorkspaceName {
@@ -5579,6 +6140,18 @@ export interface SqlResourcesDeleteSqlContainerOptionalParams
 export type SqlResourcesDeleteSqlContainerResponse = SqlResourcesDeleteSqlContainerHeaders;
 
 /** Optional parameters. */
+export interface SqlResourcesSqlDatabasePartitionMergeOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the sqlDatabasePartitionMerge operation. */
+export type SqlResourcesSqlDatabasePartitionMergeResponse = PhysicalPartitionStorageInfoCollection;
+
+/** Optional parameters. */
 export interface SqlResourcesListSqlContainerPartitionMergeOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -6043,6 +6616,18 @@ export interface MongoDBResourcesDeleteMongoDBCollectionOptionalParams
 
 /** Contains response data for the deleteMongoDBCollection operation. */
 export type MongoDBResourcesDeleteMongoDBCollectionResponse = MongoDBResourcesDeleteMongoDBCollectionHeaders;
+
+/** Optional parameters. */
+export interface MongoDBResourcesMongoDBDatabasePartitionMergeOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the mongoDBDatabasePartitionMerge operation. */
+export type MongoDBResourcesMongoDBDatabasePartitionMergeResponse = PhysicalPartitionStorageInfoCollection;
 
 /** Optional parameters. */
 export interface MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams
@@ -6902,6 +7487,136 @@ export interface CassandraDataCentersUpdateOptionalParams
 
 /** Contains response data for the update operation. */
 export type CassandraDataCentersUpdateResponse = DataCenterResource;
+
+/** Optional parameters. */
+export interface MongoClustersListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type MongoClustersListResponse = MongoClusterListResult;
+
+/** Optional parameters. */
+export interface MongoClustersListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type MongoClustersListByResourceGroupResponse = MongoClusterListResult;
+
+/** Optional parameters. */
+export interface MongoClustersCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type MongoClustersCreateOrUpdateResponse = MongoCluster;
+
+/** Optional parameters. */
+export interface MongoClustersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type MongoClustersGetResponse = MongoCluster;
+
+/** Optional parameters. */
+export interface MongoClustersDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type MongoClustersDeleteResponse = MongoClustersDeleteHeaders;
+
+/** Optional parameters. */
+export interface MongoClustersUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type MongoClustersUpdateResponse = MongoCluster;
+
+/** Optional parameters. */
+export interface MongoClustersCreateOrUpdateFirewallRuleOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdateFirewallRule operation. */
+export type MongoClustersCreateOrUpdateFirewallRuleResponse = FirewallRule;
+
+/** Optional parameters. */
+export interface MongoClustersDeleteFirewallRuleOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the deleteFirewallRule operation. */
+export type MongoClustersDeleteFirewallRuleResponse = MongoClustersDeleteFirewallRuleHeaders;
+
+/** Optional parameters. */
+export interface MongoClustersGetFirewallRuleOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getFirewallRule operation. */
+export type MongoClustersGetFirewallRuleResponse = FirewallRule;
+
+/** Optional parameters. */
+export interface MongoClustersListFirewallRulesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listFirewallRules operation. */
+export type MongoClustersListFirewallRulesResponse = FirewallRuleListResult;
+
+/** Optional parameters. */
+export interface MongoClustersCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkNameAvailability operation. */
+export type MongoClustersCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
+
+/** Optional parameters. */
+export interface MongoClustersListConnectionStringsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listConnectionStrings operation. */
+export type MongoClustersListConnectionStringsResponse = ListConnectionStringsResult;
+
+/** Optional parameters. */
+export interface MongoClustersListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type MongoClustersListNextResponse = MongoClusterListResult;
+
+/** Optional parameters. */
+export interface MongoClustersListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type MongoClustersListByResourceGroupNextResponse = MongoClusterListResult;
+
+/** Optional parameters. */
+export interface MongoClustersListFirewallRulesNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listFirewallRulesNext operation. */
+export type MongoClustersListFirewallRulesNextResponse = FirewallRuleListResult;
 
 /** Optional parameters. */
 export interface NotebookWorkspacesListByDatabaseAccountOptionalParams

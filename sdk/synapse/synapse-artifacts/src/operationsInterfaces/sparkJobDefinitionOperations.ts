@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SparkJobDefinitionResource,
   SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceOptionalParams,
@@ -45,8 +45,8 @@ export interface SparkJobDefinitionOperations {
     sparkJobDefinition: SparkJobDefinitionResource,
     options?: SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse
       >,
       SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse
@@ -80,7 +80,7 @@ export interface SparkJobDefinitionOperations {
   beginDeleteSparkJobDefinition(
     sparkJobDefinitionName: string,
     options?: SparkJobDefinitionDeleteSparkJobDefinitionOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Spark Job Definition.
    * @param sparkJobDefinitionName The spark job definition name.
@@ -99,8 +99,8 @@ export interface SparkJobDefinitionOperations {
     sparkJobDefinitionName: string,
     options?: SparkJobDefinitionExecuteSparkJobDefinitionOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SparkJobDefinitionExecuteSparkJobDefinitionResponse>,
+    SimplePollerLike<
+      OperationState<SparkJobDefinitionExecuteSparkJobDefinitionResponse>,
       SparkJobDefinitionExecuteSparkJobDefinitionResponse
     >
   >;
@@ -123,7 +123,7 @@ export interface SparkJobDefinitionOperations {
     sparkJobDefinitionName: string,
     request: ArtifactRenameRequest,
     options?: SparkJobDefinitionRenameSparkJobDefinitionOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Renames a sparkJobDefinition.
    * @param sparkJobDefinitionName The spark job definition name.
@@ -144,8 +144,8 @@ export interface SparkJobDefinitionOperations {
     sparkJobDefinitionAzureResource: SparkJobDefinitionResource,
     options?: SparkJobDefinitionDebugSparkJobDefinitionOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SparkJobDefinitionDebugSparkJobDefinitionResponse>,
+    SimplePollerLike<
+      OperationState<SparkJobDefinitionDebugSparkJobDefinitionResponse>,
       SparkJobDefinitionDebugSparkJobDefinitionResponse
     >
   >;

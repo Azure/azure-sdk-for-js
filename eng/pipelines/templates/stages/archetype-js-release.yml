@@ -228,7 +228,6 @@ stages:
                           PRBranchName: post-release-automation-${{ parameters.ServiceDirectory }}-$(Build.BuildId)
                           CommitMsg: "Post release automated changes for ${{ artifact.name }}"
                           PRTitle: "Post release automated changes for ${{ parameters.ServiceDirectory }} releases"
-                          PRLabels: "auto-merge"
                           CloseAfterOpenForTesting: '${{ parameters.TestPipeline }}'
 
 
@@ -321,3 +320,5 @@ stages:
               - ci-configs/packages-latest.json
               - ci-configs/packages-preview.json
             DocValidationImageId: "$(DocValidationImageId)"
+
+        - template: /eng/common/pipelines/templates/steps/docsms-ensure-validation.yml

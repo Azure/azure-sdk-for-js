@@ -61,3 +61,5 @@ export const windows365ArticlePart2 = `
          “The impact that I believe we are finding, and the impact that we’re going to find going forward, is being able to access specialists from outside the territory and organizations outside the territory to come in and help us with our projects, being able to get people on staff with us to help us deliver the day-to-day expertise that we need to run the government,” he said.
          “Being able to improve healthcare, being able to improve education, economic development is going to improve the quality of life in the communities.”
          `;
+
+export const authModes = [["APIKey", "AAD"]] as const;

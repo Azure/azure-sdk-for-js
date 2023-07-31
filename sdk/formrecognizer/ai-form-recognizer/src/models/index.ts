@@ -5,6 +5,7 @@ export {
   DocumentPhoneNumberField,
   DocumentDateField,
   DocumentNumberField,
+  DocumentBooleanField,
   DocumentTimeField,
   DocumentArrayField,
   DocumentObjectField,
@@ -33,4 +34,8 @@ export {
   DocumentWord,
   HasBoundingPolygon,
   DocumentPage,
+  DocumentAnnotation,
+  DocumentBarcode,
+  DocumentFormula,
+  DocumentImage,
 } from "./documentElements";

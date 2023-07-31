@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DeploymentResource,
   DeploymentsListOptionalParams,
@@ -99,8 +99,8 @@ export interface Deployments {
     deploymentResource: DeploymentResource,
     options?: DeploymentsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DeploymentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DeploymentsCreateOrUpdateResponse>,
       DeploymentsCreateOrUpdateResponse
     >
   >;
@@ -137,7 +137,7 @@ export interface Deployments {
     appName: string,
     deploymentName: string,
     options?: DeploymentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Operation to delete a Deployment.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -172,8 +172,8 @@ export interface Deployments {
     deploymentResource: DeploymentResource,
     options?: DeploymentsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DeploymentsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DeploymentsUpdateResponse>,
       DeploymentsUpdateResponse
     >
   >;
@@ -210,7 +210,7 @@ export interface Deployments {
     appName: string,
     deploymentName: string,
     options?: DeploymentsStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Start the deployment.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -242,7 +242,7 @@ export interface Deployments {
     appName: string,
     deploymentName: string,
     options?: DeploymentsStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Stop the deployment.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -274,7 +274,7 @@ export interface Deployments {
     appName: string,
     deploymentName: string,
     options?: DeploymentsRestartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Restart the deployment.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -307,8 +307,8 @@ export interface Deployments {
     deploymentName: string,
     options?: DeploymentsEnableRemoteDebuggingOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DeploymentsEnableRemoteDebuggingResponse>,
+    SimplePollerLike<
+      OperationState<DeploymentsEnableRemoteDebuggingResponse>,
       DeploymentsEnableRemoteDebuggingResponse
     >
   >;
@@ -344,8 +344,8 @@ export interface Deployments {
     deploymentName: string,
     options?: DeploymentsDisableRemoteDebuggingOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DeploymentsDisableRemoteDebuggingResponse>,
+    SimplePollerLike<
+      OperationState<DeploymentsDisableRemoteDebuggingResponse>,
       DeploymentsDisableRemoteDebuggingResponse
     >
   >;
@@ -414,7 +414,7 @@ export interface Deployments {
     deploymentName: string,
     diagnosticParameters: DiagnosticParameters,
     options?: DeploymentsGenerateHeapDumpOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Generate Heap Dump
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -450,7 +450,7 @@ export interface Deployments {
     deploymentName: string,
     diagnosticParameters: DiagnosticParameters,
     options?: DeploymentsGenerateThreadDumpOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Generate Thread Dump
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -486,7 +486,7 @@ export interface Deployments {
     deploymentName: string,
     diagnosticParameters: DiagnosticParameters,
     options?: DeploymentsStartJFROptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Start JFR
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

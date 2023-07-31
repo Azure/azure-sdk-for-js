@@ -14,6 +14,12 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { GraphServices } from "../graphServices";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
   AccountResource,
   AccountsListByResourceGroupNextOptionalParams,
   AccountsListByResourceGroupOptionalParams,
@@ -21,6 +27,14 @@ import {
   AccountsListBySubscriptionNextOptionalParams,
   AccountsListBySubscriptionOptionalParams,
   AccountsListBySubscriptionResponse,
+  AccountsGetOptionalParams,
+  AccountsGetResponse,
+  AccountsCreateAndUpdateOptionalParams,
+  AccountsCreateAndUpdateResponse,
+  AccountPatchResource,
+  AccountsUpdateOptionalParams,
+  AccountsUpdateResponse,
+  AccountsDeleteOptionalParams,
   AccountsListByResourceGroupNextResponse,
   AccountsListBySubscriptionNextResponse
 } from "../models";
@@ -190,6 +204,155 @@ export class AccountsImpl implements Accounts {
   }
 
   /**
+   * Returns account resource for a given name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the resource.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: AccountsGetOptionalParams
+  ): Promise<AccountsGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, resourceName, options },
+      getOperationSpec
+    );
+  }
+
+  /**
+   * Create or update account resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the resource.
+   * @param accountResource Account details.
+   * @param options The options parameters.
+   */
+  async beginCreateAndUpdate(
+    resourceGroupName: string,
+    resourceName: string,
+    accountResource: AccountResource,
+    options?: AccountsCreateAndUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AccountsCreateAndUpdateResponse>,
+      AccountsCreateAndUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<AccountsCreateAndUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, accountResource, options },
+      spec: createAndUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AccountsCreateAndUpdateResponse,
+      OperationState<AccountsCreateAndUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Create or update account resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the resource.
+   * @param accountResource Account details.
+   * @param options The options parameters.
+   */
+  async beginCreateAndUpdateAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    accountResource: AccountResource,
+    options?: AccountsCreateAndUpdateOptionalParams
+  ): Promise<AccountsCreateAndUpdateResponse> {
+    const poller = await this.beginCreateAndUpdate(
+      resourceGroupName,
+      resourceName,
+      accountResource,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Update account details.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the resource.
+   * @param accountResource Account patch details.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    resourceName: string,
+    accountResource: AccountPatchResource,
+    options?: AccountsUpdateOptionalParams
+  ): Promise<AccountsUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, resourceName, accountResource, options },
+      updateOperationSpec
+    );
+  }
+
+  /**
+   * Deletes a account resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the resource.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: AccountsDeleteOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, resourceName, options },
+      deleteOperationSpec
+    );
+  }
+
+  /**
    * ListByResourceGroupNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
@@ -259,6 +422,106 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.GraphServices/accounts/{resourceName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AccountResource
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createAndUpdateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.GraphServices/accounts/{resourceName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AccountResource
+    },
+    201: {
+      bodyMapper: Mappers.AccountResource
+    },
+    202: {
+      bodyMapper: Mappers.AccountResource
+    },
+    204: {
+      bodyMapper: Mappers.AccountResource
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.accountResource,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.GraphServices/accounts/{resourceName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AccountResource
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.accountResource1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.GraphServices/accounts/{resourceName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns the cluster user credentials for the dedicated appliance.
  *
  * @summary Returns the cluster user credentials for the dedicated appliance.
- * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/preview/2022-04-15-preview/examples/AppliancesListClusterUserCredential.json
+ * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/stable/2022-10-27/examples/AppliancesListClusterUserCredential.json
  */
 async function listClusterUserCredentialAppliance() {
   const subscriptionId =

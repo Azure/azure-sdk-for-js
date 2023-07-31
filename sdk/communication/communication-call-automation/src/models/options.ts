@@ -5,32 +5,63 @@ import { PhoneNumberIdentifier, CommunicationIdentifier } from "@azure/communica
 import { OperationOptions } from "@azure/core-client";
 import {
   MediaStreamingConfiguration,
-  ServerCallLocator,
-  GroupCallLocator,
   CallRejectReason,
-  RecognizeInputType,
   FileSource,
+  TextSource,
+  SsmlSource,
   DtmfTone,
+  Choice,
+  RecordingContent,
+  RecordingChannel,
+  RecordingFormat,
+  CallLocator,
+  ChannelAffinity,
+  CustomContext,
 } from "./models";
 
 /** Options to configure the recognize operation. */
 export interface CallMediaRecognizeOptions extends OperationOptions {
-  recognizeInputType: RecognizeInputType;
-  playPrompt?: FileSource;
+  playPrompt?: FileSource | TextSource | SsmlSource;
   interruptCallMediaOperation?: boolean;
   stopCurrentOperations?: boolean;
   operationContext?: string;
   interruptPrompt?: boolean;
   initialSilenceTimeoutInSeconds?: number;
-  targetParticipant: CommunicationIdentifier;
+  speechModelEndpointId?: string;
 }
 
 /** The recognize configuration specific to Dtmf. */
 export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions {
+  /** Time to wait between DTMF inputs to stop recognizing. */
   interToneTimeoutInSeconds?: number;
-  maxTonesToCollect: number;
+  /** List of tones that will stop recognizing. */
   stopDtmfTones?: DtmfTone[];
-  readonly kind?: "callMediaRecognizeDtmfOptions";
+  readonly kind: "callMediaRecognizeDtmfOptions";
+}
+
+/** The recognize configuration specific to Choices. */
+export interface CallMediaRecognizeChoiceOptions extends CallMediaRecognizeOptions {
+  /** The IvR choices for recognize. */
+  choices: Choice[];
+  readonly kind: "callMediaRecognizeChoiceOptions";
+}
+
+/** The recognize configuration specific to Speech. */
+export interface CallMediaRecognizeSpeechOptions extends CallMediaRecognizeOptions {
+  /** The length of end silence when user stops speaking and cogservice send response. */
+  endSilenceTimeoutInMs?: number;
+  readonly kind: "callMediaRecognizeSpeechOptions";
+}
+
+/** The recognize configuration for Speech or Dtmf  */
+export interface CallMediaRecognizeSpeechOrDtmfOptions extends CallMediaRecognizeOptions {
+  /** The length of end silence when user stops speaking and cogservice send response. */
+  endSilenceTimeoutInMs?: number;
+  /** Time to wait between DTMF inputs to stop recognizing. */
+  interToneTimeoutInSeconds?: number;
+  /** List of tones that will stop recognizing. */
+  stopDtmfTones?: DtmfTone[];
+  readonly kind: "callMediaRecognizeSpeechOrDtmfOptions";
 }
 
 /**
@@ -50,6 +81,8 @@ export interface CreateCallOptions extends OperationOptions {
   azureCognitiveServicesEndpointUrl?: string;
   /** Configuration of Media streaming. */
   mediaStreamingConfiguration?: MediaStreamingConfiguration;
+  /** The Custom Context. */
+  customContext?: CustomContext;
 }
 
 /**
@@ -60,12 +93,19 @@ export interface AnswerCallOptions extends OperationOptions {
   azureCognitiveServicesEndpointUrl?: string;
   /** Configuration of Media streaming. */
   mediaStreamingConfiguration?: MediaStreamingConfiguration;
+  /** The operation context. */
+  operationContext?: string;
 }
 
 /**
  * Options to redirect call.
  */
-export type RedirectCallOptions = OperationOptions;
+export interface RedirectCallOptions extends OperationOptions {
+  /** Headers for SIP calls */
+  sipHeaders?: { [propertyName: string]: string };
+  /** Headers for VOIP calls */
+  voipHeaders?: { [propertyName: string]: string };
+}
 
 /**
  * Options to reject call.
@@ -81,6 +121,12 @@ export interface RejectCallOptions extends OperationOptions {
 export interface TransferCallToParticipantOptions extends OperationOptions {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
+  /** The Custom Context. */
+  customContext?: CustomContext;
+  /** Call back URI override for this request */
+  callbackUrlOverride?: string;
+  /** Participant that is being transferred away */
+  transferee?: CommunicationIdentifier;
 }
 
 /** Options to add participants. */
@@ -92,12 +138,24 @@ export interface AddParticipantOptions extends OperationOptions {
   invitationTimeoutInSeconds?: number;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
+  /** Call back URI override for this request */
+  callbackUrlOverride?: string;
 }
 
 /**
  * Options to remove participants.
  */
-export interface RemoveParticipantsOptions extends OperationOptions {
+export interface RemoveParticipantsOption extends OperationOptions {
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** Call back URI override for this request */
+  callbackUrlOverride?: string;
+}
+
+/**
+ * Options to mute participants.
+ */
+export interface MuteParticipantsOption extends OperationOptions {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
 }
@@ -130,15 +188,15 @@ export type GetParticipantOptions = OperationOptions;
  */
 export interface StartRecordingOptions extends OperationOptions {
   /** The call locator. */
-  callLocator: ServerCallLocator | GroupCallLocator;
-  /** The uri to send notifications to. */
-  recordingStateCallbackEndpoint?: string;
+  callLocator: CallLocator;
+  /** The url to send notifications to. */
+  recordingStateCallbackEndpointUrl?: string;
   /** The content type of call recording. */
-  recordingContent?: string;
+  recordingContent?: RecordingContent;
   /** The channel type of call recording. */
-  recordingChannel?: string;
+  recordingChannel?: RecordingChannel;
   /** The format type of call recording. */
-  recordingFormat?: string;
+  recordingFormat?: RecordingFormat;
   /**
    * The sequential order in which audio channels are assigned to participants in the unmixed recording.
    * When 'recordingChannelType' is set to 'unmixed' and `audioChannelParticipantOrdering` is not specified,
@@ -146,8 +204,12 @@ export interface StartRecordingOptions extends OperationOptions {
    * first audio was detected.  Channel to participant mapping details can be found in the metadata of the recording.
    */
   audioChannelParticipantOrdering?: CommunicationIdentifier[];
-  /** Recording storage mode. `External` enables bring your own storage. */
-  recordingStorageType?: string;
+  /**
+   * The channel affinity of call recording
+   * When 'recordingChannelType' is set to 'unmixed', if channelAffinity is not specified, 'channel' will be automatically assigned.
+   * Channel-Participant mapping details can be found in the metadata of the recording.
+   */
+  channelAffinity?: ChannelAffinity[];
 }
 
 /**
@@ -183,4 +245,20 @@ export interface DownloadRecordingOptions extends OperationOptions {
   offset?: number;
   /** Max content length in bytes. */
   length?: number;
+}
+
+/**
+ * Options to continuous Dtmf recognition.
+ */
+export interface ContinuousDtmfRecognitionOptions extends OperationOptions {
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+}
+
+/**
+ * Options to send Dtmf tone.
+ */
+export interface SendDtmfOptions extends OperationOptions {
+  /** The value to identify context of the operation. */
+  operationContext?: string;
 }

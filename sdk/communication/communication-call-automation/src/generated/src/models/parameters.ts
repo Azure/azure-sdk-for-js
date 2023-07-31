@@ -23,6 +23,9 @@ import {
   UnmuteParticipantsRequest as UnmuteParticipantsRequestMapper,
   PlayRequest as PlayRequestMapper,
   RecognizeRequest as RecognizeRequestMapper,
+  ContinuousDtmfRecognitionRequest as ContinuousDtmfRecognitionRequestMapper,
+  SendDtmfRequest as SendDtmfRequestMapper,
+  StartDialogRequest as StartDialogRequestMapper,
   StartCallRecordingRequest as StartCallRecordingRequestMapper
 } from "../models/mappers";
 
@@ -94,7 +97,7 @@ export const repeatabilityFirstSent: OperationParameter = {
   mapper: {
     serializedName: "Repeatability-First-Sent",
     type: {
-      name: "String"
+      name: "DateTimeRfc1123"
     }
   }
 };
@@ -161,6 +164,18 @@ export const participantRawId: OperationURLParameter = {
   }
 };
 
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+
 export const playRequest: OperationParameter = {
   parameterPath: "playRequest",
   mapper: PlayRequestMapper
@@ -169,6 +184,32 @@ export const playRequest: OperationParameter = {
 export const recognizeRequest: OperationParameter = {
   parameterPath: "recognizeRequest",
   mapper: RecognizeRequestMapper
+};
+
+export const continuousDtmfRecognitionRequest: OperationParameter = {
+  parameterPath: "continuousDtmfRecognitionRequest",
+  mapper: ContinuousDtmfRecognitionRequestMapper
+};
+
+export const sendDtmfRequest: OperationParameter = {
+  parameterPath: "sendDtmfRequest",
+  mapper: SendDtmfRequestMapper
+};
+
+export const startDialogRequest: OperationParameter = {
+  parameterPath: "startDialogRequest",
+  mapper: StartDialogRequestMapper
+};
+
+export const dialogId: OperationURLParameter = {
+  parameterPath: "dialogId",
+  mapper: {
+    serializedName: "dialogId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const startCallRecording: OperationParameter = {
