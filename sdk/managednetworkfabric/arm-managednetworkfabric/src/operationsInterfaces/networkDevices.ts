@@ -20,24 +20,17 @@ import {
   NetworkDevicesUpdateOptionalParams,
   NetworkDevicesUpdateResponse,
   NetworkDevicesDeleteOptionalParams,
+  RebootProperties,
   NetworkDevicesRebootOptionalParams,
   NetworkDevicesRebootResponse,
-  NetworkDevicesRestoreConfigOptionalParams,
-  NetworkDevicesRestoreConfigResponse,
-  UpdateVersionProperties,
-  NetworkDevicesUpdateVersionOptionalParams,
-  NetworkDevicesUpdateVersionResponse,
-  NetworkDevicesGenerateSupportPackageOptionalParams,
-  NetworkDevicesGenerateSupportPackageResponse,
-  UpdatePowerCycleProperties,
-  NetworkDevicesUpdatePowerCycleOptionalParams,
-  NetworkDevicesUpdatePowerCycleResponse,
-  NetworkDevicesGetStatusOptionalParams,
-  NetworkDevicesGetStatusResponse,
-  NetworkDevicesGetStaticInterfaceMapsOptionalParams,
-  NetworkDevicesGetStaticInterfaceMapsResponse,
-  NetworkDevicesGetDynamicInterfaceMapsOptionalParams,
-  NetworkDevicesGetDynamicInterfaceMapsResponse
+  NetworkDevicesRefreshConfigurationOptionalParams,
+  NetworkDevicesRefreshConfigurationResponse,
+  UpdateDeviceAdministrativeState,
+  NetworkDevicesUpdateAdministrativeStateOptionalParams,
+  NetworkDevicesUpdateAdministrativeStateResponse,
+  UpdateVersion,
+  NetworkDevicesUpgradeOptionalParams,
+  NetworkDevicesUpgradeResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -62,7 +55,7 @@ export interface NetworkDevices {
   /**
    * Create a Network Device resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the Network Device
+   * @param networkDeviceName Name of the Network Device.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -80,7 +73,7 @@ export interface NetworkDevices {
   /**
    * Create a Network Device resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the Network Device
+   * @param networkDeviceName Name of the Network Device.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -91,9 +84,9 @@ export interface NetworkDevices {
     options?: NetworkDevicesCreateOptionalParams
   ): Promise<NetworkDevicesCreateResponse>;
   /**
-   * Get the Network Device resource details.
+   * Gets the Network Device resource details.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the Network Device
+   * @param networkDeviceName Name of the Network Device.
    * @param options The options parameters.
    */
   get(
@@ -104,7 +97,7 @@ export interface NetworkDevices {
   /**
    * Update certain properties of the Network Device resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the Network Device
+   * @param networkDeviceName Name of the Network Device.
    * @param body Network Device properties to update.
    * @param options The options parameters.
    */
@@ -122,7 +115,7 @@ export interface NetworkDevices {
   /**
    * Update certain properties of the Network Device resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the Network Device
+   * @param networkDeviceName Name of the Network Device.
    * @param body Network Device properties to update.
    * @param options The options parameters.
    */
@@ -135,7 +128,7 @@ export interface NetworkDevices {
   /**
    * Delete the Network Device resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the Network Device
+   * @param networkDeviceName Name of the Network Device.
    * @param options The options parameters.
    */
   beginDelete(
@@ -146,7 +139,7 @@ export interface NetworkDevices {
   /**
    * Delete the Network Device resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the Network Device
+   * @param networkDeviceName Name of the Network Device.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
@@ -157,12 +150,14 @@ export interface NetworkDevices {
   /**
    * Reboot the Network Device.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice.
+   * @param networkDeviceName Name of the Network Device.
+   * @param body Request payload.
    * @param options The options parameters.
    */
   beginReboot(
     resourceGroupName: string,
     networkDeviceName: string,
+    body: RebootProperties,
     options?: NetworkDevicesRebootOptionalParams
   ): Promise<
     SimplePollerLike<
@@ -173,209 +168,103 @@ export interface NetworkDevices {
   /**
    * Reboot the Network Device.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice.
+   * @param networkDeviceName Name of the Network Device.
+   * @param body Request payload.
    * @param options The options parameters.
    */
   beginRebootAndWait(
     resourceGroupName: string,
     networkDeviceName: string,
+    body: RebootProperties,
     options?: NetworkDevicesRebootOptionalParams
   ): Promise<NetworkDevicesRebootResponse>;
   /**
-   * Restore the configuration of the Network Device resource to last known good configuration.
+   * Refreshes the configuration the Network Device.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice.
+   * @param networkDeviceName Name of the Network Device.
    * @param options The options parameters.
    */
-  beginRestoreConfig(
+  beginRefreshConfiguration(
     resourceGroupName: string,
     networkDeviceName: string,
-    options?: NetworkDevicesRestoreConfigOptionalParams
+    options?: NetworkDevicesRefreshConfigurationOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<NetworkDevicesRestoreConfigResponse>,
-      NetworkDevicesRestoreConfigResponse
+      OperationState<NetworkDevicesRefreshConfigurationResponse>,
+      NetworkDevicesRefreshConfigurationResponse
     >
   >;
   /**
-   * Restore the configuration of the Network Device resource to last known good configuration.
+   * Refreshes the configuration the Network Device.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice.
+   * @param networkDeviceName Name of the Network Device.
    * @param options The options parameters.
    */
-  beginRestoreConfigAndWait(
+  beginRefreshConfigurationAndWait(
     resourceGroupName: string,
     networkDeviceName: string,
-    options?: NetworkDevicesRestoreConfigOptionalParams
-  ): Promise<NetworkDevicesRestoreConfigResponse>;
+    options?: NetworkDevicesRefreshConfigurationOptionalParams
+  ): Promise<NetworkDevicesRefreshConfigurationResponse>;
   /**
-   * Update the SKU version of the Network Device resource.
+   * Updates the Administrative state of the Network Device.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice.
+   * @param networkDeviceName Name of the Network Device.
    * @param body Request payload.
    * @param options The options parameters.
    */
-  beginUpdateVersion(
+  beginUpdateAdministrativeState(
     resourceGroupName: string,
     networkDeviceName: string,
-    body: UpdateVersionProperties,
-    options?: NetworkDevicesUpdateVersionOptionalParams
+    body: UpdateDeviceAdministrativeState,
+    options?: NetworkDevicesUpdateAdministrativeStateOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<NetworkDevicesUpdateVersionResponse>,
-      NetworkDevicesUpdateVersionResponse
+      OperationState<NetworkDevicesUpdateAdministrativeStateResponse>,
+      NetworkDevicesUpdateAdministrativeStateResponse
     >
   >;
   /**
-   * Update the SKU version of the Network Device resource.
+   * Updates the Administrative state of the Network Device.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice.
+   * @param networkDeviceName Name of the Network Device.
    * @param body Request payload.
    * @param options The options parameters.
    */
-  beginUpdateVersionAndWait(
+  beginUpdateAdministrativeStateAndWait(
     resourceGroupName: string,
     networkDeviceName: string,
-    body: UpdateVersionProperties,
-    options?: NetworkDevicesUpdateVersionOptionalParams
-  ): Promise<NetworkDevicesUpdateVersionResponse>;
+    body: UpdateDeviceAdministrativeState,
+    options?: NetworkDevicesUpdateAdministrativeStateOptionalParams
+  ): Promise<NetworkDevicesUpdateAdministrativeStateResponse>;
   /**
-   * Generate Support Package for the given Network Device.
+   * Upgrades the version of the Network Device.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice.
-   * @param options The options parameters.
-   */
-  beginGenerateSupportPackage(
-    resourceGroupName: string,
-    networkDeviceName: string,
-    options?: NetworkDevicesGenerateSupportPackageOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<NetworkDevicesGenerateSupportPackageResponse>,
-      NetworkDevicesGenerateSupportPackageResponse
-    >
-  >;
-  /**
-   * Generate Support Package for the given Network Device.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice.
-   * @param options The options parameters.
-   */
-  beginGenerateSupportPackageAndWait(
-    resourceGroupName: string,
-    networkDeviceName: string,
-    options?: NetworkDevicesGenerateSupportPackageOptionalParams
-  ): Promise<NetworkDevicesGenerateSupportPackageResponse>;
-  /**
-   * Update PDU power cycle of the Network Device.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice.
+   * @param networkDeviceName Name of the Network Device.
    * @param body Request payload.
    * @param options The options parameters.
    */
-  beginUpdatePowerCycle(
+  beginUpgrade(
     resourceGroupName: string,
     networkDeviceName: string,
-    body: UpdatePowerCycleProperties,
-    options?: NetworkDevicesUpdatePowerCycleOptionalParams
+    body: UpdateVersion,
+    options?: NetworkDevicesUpgradeOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<NetworkDevicesUpdatePowerCycleResponse>,
-      NetworkDevicesUpdatePowerCycleResponse
+      OperationState<NetworkDevicesUpgradeResponse>,
+      NetworkDevicesUpgradeResponse
     >
   >;
   /**
-   * Update PDU power cycle of the Network Device.
+   * Upgrades the version of the Network Device.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice.
+   * @param networkDeviceName Name of the Network Device.
    * @param body Request payload.
    * @param options The options parameters.
    */
-  beginUpdatePowerCycleAndWait(
+  beginUpgradeAndWait(
     resourceGroupName: string,
     networkDeviceName: string,
-    body: UpdatePowerCycleProperties,
-    options?: NetworkDevicesUpdatePowerCycleOptionalParams
-  ): Promise<NetworkDevicesUpdatePowerCycleResponse>;
-  /**
-   * Get the running status of the Network Device.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice.
-   * @param options The options parameters.
-   */
-  beginGetStatus(
-    resourceGroupName: string,
-    networkDeviceName: string,
-    options?: NetworkDevicesGetStatusOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<NetworkDevicesGetStatusResponse>,
-      NetworkDevicesGetStatusResponse
-    >
-  >;
-  /**
-   * Get the running status of the Network Device.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice.
-   * @param options The options parameters.
-   */
-  beginGetStatusAndWait(
-    resourceGroupName: string,
-    networkDeviceName: string,
-    options?: NetworkDevicesGetStatusOptionalParams
-  ): Promise<NetworkDevicesGetStatusResponse>;
-  /**
-   * Get the static interface maps for the given Network Device.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice.
-   * @param options The options parameters.
-   */
-  beginGetStaticInterfaceMaps(
-    resourceGroupName: string,
-    networkDeviceName: string,
-    options?: NetworkDevicesGetStaticInterfaceMapsOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<NetworkDevicesGetStaticInterfaceMapsResponse>,
-      NetworkDevicesGetStaticInterfaceMapsResponse
-    >
-  >;
-  /**
-   * Get the static interface maps for the given Network Device.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice.
-   * @param options The options parameters.
-   */
-  beginGetStaticInterfaceMapsAndWait(
-    resourceGroupName: string,
-    networkDeviceName: string,
-    options?: NetworkDevicesGetStaticInterfaceMapsOptionalParams
-  ): Promise<NetworkDevicesGetStaticInterfaceMapsResponse>;
-  /**
-   * Get the dynamic interface maps for the given Network Device.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice.
-   * @param options The options parameters.
-   */
-  beginGetDynamicInterfaceMaps(
-    resourceGroupName: string,
-    networkDeviceName: string,
-    options?: NetworkDevicesGetDynamicInterfaceMapsOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<NetworkDevicesGetDynamicInterfaceMapsResponse>,
-      NetworkDevicesGetDynamicInterfaceMapsResponse
-    >
-  >;
-  /**
-   * Get the dynamic interface maps for the given Network Device.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice.
-   * @param options The options parameters.
-   */
-  beginGetDynamicInterfaceMapsAndWait(
-    resourceGroupName: string,
-    networkDeviceName: string,
-    options?: NetworkDevicesGetDynamicInterfaceMapsOptionalParams
-  ): Promise<NetworkDevicesGetDynamicInterfaceMapsResponse>;
+    body: UpdateVersion,
+    options?: NetworkDevicesUpgradeOptionalParams
+  ): Promise<NetworkDevicesUpgradeResponse>;
 }

@@ -8,20 +8,20 @@
  *  These tests will be skipped in Live Mode since the public tests run in live mode only.
  */
 
-import { matrix } from "@azure/test-utils";
 import { Recorder, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
+import { matrix } from "@azure/test-utils";
+import { Context } from "mocha";
 import * as sinon from "sinon";
+import { SmsClient } from "../../src";
 import { Uuid } from "../../src/utils/uuid";
+import sendSmsSuites from "../public/suites/smsClient.send";
 import {
   createRecordedSmsClient,
   createRecordedSmsClientWithToken,
 } from "../public/utils/recordedClient";
-import { Context } from "mocha";
-import sendSmsSuites from "../public/suites/smsClient.send";
-import { SmsClient } from "../../src";
 
 matrix([[true, false]], async function (useAad: boolean) {
-  describe(`SmsClient [Playback/Record]${useAad ? " [AAD]" : ""}`, async () => {
+  describe(`SmsClient [Playback/Record]${useAad ? " [AAD]" : ""}`, async function () {
     let recorder: Recorder;
     let client: SmsClient;
 

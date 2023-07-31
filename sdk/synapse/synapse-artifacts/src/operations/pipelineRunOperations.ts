@@ -138,7 +138,7 @@ const queryPipelineRunsByWorkspaceOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.filterParameters,
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -155,8 +155,8 @@ const getPipelineRunOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
-  urlParameters: [Parameters.endpoint, Parameters.runId],
+  queryParameters: [Parameters.apiVersion5],
+  urlParameters: [Parameters.endpoint, Parameters.runId1],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -172,11 +172,11 @@ const queryActivityRunsOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.filterParameters,
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.endpoint,
     Parameters.pipelineName,
-    Parameters.runId
+    Parameters.runId1
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -191,8 +191,8 @@ const cancelPipelineRunOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4, Parameters.isRecursive],
-  urlParameters: [Parameters.endpoint, Parameters.runId],
+  queryParameters: [Parameters.apiVersion5, Parameters.isRecursive],
+  urlParameters: [Parameters.endpoint, Parameters.runId1],
   headerParameters: [Parameters.accept],
   serializer
 };
