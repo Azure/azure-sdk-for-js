@@ -29,7 +29,7 @@ export interface CredentialFlowGetTokenOptions extends GetTokenOptions {
   /**
    * Indicates to allow Continuous Access Evaluation or not
    */
-  enableCAE?: boolean;
+  enableCae?: boolean;
   /**
    * Client Assertion
    */

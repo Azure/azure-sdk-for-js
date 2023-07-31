@@ -46,8 +46,8 @@ export class MsalAuthorizationCode extends MsalNode {
   ): Promise<AccessToken> {
     try {
       let result = undefined;
-      if (options?.enableCAE) {
-        result = await (this.confidentialAppCAE || this.publicAppCAE)?.acquireTokenByCode({
+      if (options?.enableCae) {
+        result = await (this.confidentialAppCae || this.publicAppCae)?.acquireTokenByCode({
           scopes,
           redirectUri: this.redirectUri,
           code: this.authorizationCode,

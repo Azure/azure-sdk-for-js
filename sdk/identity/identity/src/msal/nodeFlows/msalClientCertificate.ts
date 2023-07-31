@@ -165,8 +165,8 @@ export class MsalClientCertificate extends MsalNode {
         claims: options.claims,
       };
       let result;
-      if(options.enableCAE){
-        result = await this.confidentialAppCAE!.acquireTokenByClientCredential(clientCredReq);
+      if(options.enableCae){
+        result = await this.confidentialAppCae!.acquireTokenByClientCredential(clientCredReq);
       }
       else{
         result = await this.confidentialApp!.acquireTokenByClientCredential(clientCredReq);

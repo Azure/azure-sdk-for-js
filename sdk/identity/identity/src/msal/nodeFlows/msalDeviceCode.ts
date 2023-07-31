@@ -41,8 +41,8 @@ export class MsalDeviceCode extends MsalNode {
         claims: options?.claims,
       };
       let promise;
-      if(options?.enableCAE){
-        promise = this.publicAppCAE!.acquireTokenByDeviceCode(requestOptions);
+      if(options?.enableCae){
+        promise = this.publicAppCae!.acquireTokenByDeviceCode(requestOptions);
       }
       else {
         promise = this.publicApp!.acquireTokenByDeviceCode(requestOptions);

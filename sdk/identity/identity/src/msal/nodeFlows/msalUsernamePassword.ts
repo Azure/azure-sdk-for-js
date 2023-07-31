@@ -43,8 +43,8 @@ export class MsalUsernamePassword extends MsalNode {
         claims: options?.claims,
       };
       let result;
-      if(options?.enableCAE){
-        result = await this.publicAppCAE!.acquireTokenByUsernamePassword(requestOptions);
+      if(options?.enableCae){
+        result = await this.publicAppCae!.acquireTokenByUsernamePassword(requestOptions);
       }
       else {
         result = await this.publicApp!.acquireTokenByUsernamePassword(requestOptions);

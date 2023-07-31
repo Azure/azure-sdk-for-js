@@ -81,9 +81,9 @@ export const msalNodeFlowCacheControl = {
  */
 export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected publicApp: msalNode.PublicClientApplication | undefined;
-  protected publicAppCAE: msalNode.PublicClientApplication | undefined;
+  protected publicAppCae: msalNode.PublicClientApplication | undefined;
   protected confidentialApp: msalNode.ConfidentialClientApplication | undefined;
-  protected confidentialAppCAE: msalNode.ConfidentialClientApplication | undefined;
+  protected confidentialAppCae: msalNode.ConfidentialClientApplication | undefined;
   protected msalConfig: msalNode.Configuration;
   protected clientId: string;
   protected tenantId: string;
@@ -197,16 +197,16 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
         this.identityClient!.abortRequests(options.correlationId);
       });
     }
-    if (options?.enableCAE) {
+    if (options?.enableCae) {
       this.msalConfig.auth.clientCapabilities = ["cp1"];
-      if (this.publicAppCAE || this.confidentialAppCAE) {
+      if (this.publicAppCae || this.confidentialAppCae) {
         return;
       }
     }
     if (this.publicApp || this.confidentialApp) {
       return;
     }
-    if (options?.enableCAE && this.createCachePluginCAE !== undefined) {
+    if (options?.enableCae && this.createCachePluginCAE !== undefined) {
       this.msalConfig.cache = {
         cachePlugin: await this.createCachePluginCAE(),
       };
@@ -217,8 +217,8 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
       };
     }
 
-    if (options?.enableCAE) {
-      this.publicAppCAE = new msalNode.PublicClientApplication(this.msalConfig);
+    if (options?.enableCae) {
+      this.publicAppCae = new msalNode.PublicClientApplication(this.msalConfig);
     } else {
       this.publicApp = new msalNode.PublicClientApplication(this.msalConfig);
     }
@@ -232,8 +232,8 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
       this.msalConfig.auth.clientAssertion ||
       this.msalConfig.auth.clientCertificate
     ) {
-      if (options?.enableCAE) {
-        this.confidentialAppCAE = new msalNode.ConfidentialClientApplication(this.msalConfig);
+      if (options?.enableCae) {
+        this.confidentialAppCae = new msalNode.ConfidentialClientApplication(this.msalConfig);
       } else {
         this.confidentialApp = new msalNode.ConfidentialClientApplication(this.msalConfig);
       }
@@ -271,13 +271,13 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   /**
    * Returns the existing account, attempts to load the account from MSAL.
    */
-  async getActiveAccount(enableCAE?: boolean): Promise<AuthenticationRecord | undefined> {
+  async getActiveAccount(enableCae?: boolean): Promise<AuthenticationRecord | undefined> {
     if (this.account) {
       return this.account;
     }
     let cache: msalNode.TokenCache | undefined;
-    if (enableCAE) {
-      cache = this.confidentialAppCAE?.getTokenCache() ?? this.publicAppCAE?.getTokenCache();
+    if (enableCae) {
+      cache = this.confidentialAppCae?.getTokenCache() ?? this.publicAppCae?.getTokenCache();
     } else {
       cache = this.confidentialApp?.getTokenCache() ?? this.publicApp?.getTokenCache();
     }
@@ -310,7 +310,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     scopes: string[],
     options?: CredentialFlowGetTokenOptions
   ): Promise<AccessToken> {
-    await this.getActiveAccount(options?.enableCAE);
+    await this.getActiveAccount(options?.enableCae);
     if (!this.account) {
       throw new AuthenticationRequiredError({
         scopes,
@@ -337,12 +337,12 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
        * `authenticationRecord` parameter. See issue - https://github.com/Azure/azure-sdk-for-js/issues/24349#issuecomment-1496715651
        * This workaround serves as a workoaround for silent authentication not happening when authenticationRecord is passed.
        */
-      if (options?.enableCAE) {
-        await (this.publicAppCAE || this.confidentialAppCAE)?.getTokenCache().getAllAccounts();
+      if (options?.enableCae) {
+        await (this.publicAppCae || this.confidentialAppCae)?.getTokenCache().getAllAccounts();
 
         const response =
-          (await this.confidentialAppCAE?.acquireTokenSilent(silentRequest)) ??
-          (await this.publicAppCAE!.acquireTokenSilent(silentRequest));
+          (await this.confidentialAppCae?.acquireTokenSilent(silentRequest)) ??
+          (await this.publicAppCae!.acquireTokenSilent(silentRequest));
         return this.handleResult(scopes, this.clientId, response || undefined);
       } else {
         await (this.publicApp || this.confidentialApp)?.getTokenCache().getAllAccounts();

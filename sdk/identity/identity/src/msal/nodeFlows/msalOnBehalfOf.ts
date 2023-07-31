@@ -80,8 +80,8 @@ export class MsalOnBehalfOf extends MsalNode {
   ): Promise<AccessToken> {
     try {
       let result;
-      if(options.enableCAE){
-        result = await this.confidentialAppCAE!.acquireTokenOnBehalfOf({
+      if(options.enableCae){
+        result = await this.confidentialAppCae!.acquireTokenOnBehalfOf({
           scopes,
           correlationId: options.correlationId,
           authority: options.authority,
