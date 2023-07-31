@@ -13,7 +13,7 @@ import {
 } from "@azure/schema-registry";
 import { DeserializeOptions, JsonSerializer } from "@azure/schema-registry-json";
 
-import Ajv from "ajv";
+import Ajv, { ValidateFunction } from "ajv";
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -60,18 +60,6 @@ const schemaDescription: SchemaDescription = {
   definition: schema,
 };
 
-// Validation using a third party library
-const validateOptions: DeserializeOptions = {
-  validateCallback(message, schema) {
-    const ajv = new Ajv();
-    const validator = ajv.compile(JSON.parse(schema));
-    const valid = validator(message);
-    if (!valid) {
-      throw new Error(JSON.stringify(validator.errors));
-    }
-  },
-};
-
 export async function main() {
   // Create a new client
   const client = new SchemaRegistryClient(
@@ -92,6 +80,25 @@ export async function main() {
   const message = await serializer.serialize(value, schema);
   console.log("Created message:");
   console.log(JSON.stringify(message));
+
+  // Validation using a third party library
+  const ajv = new Ajv();
+  const validator = ajv.compile(JSON.parse(schema));
+  let validationOptions = new Map<string, ValidateFunction>();
+  validationOptions.set(schema, validator)
+
+  const validateOptions: DeserializeOptions = {
+    validateCallback(message, schema) {
+      const validator = validationOptions.get(schema);
+      if (validator) {
+        const valid = validator(message);
+        if (!valid){
+          throw new Error(JSON.stringify(validator.errors));
+        }
+      }
+      throw new Error("Unable to find validator")
+    },
+  };
 
   // deserialize the message back to an object with validation
   const deserializedObject = await serializer.deserialize(message, validateOptions);
