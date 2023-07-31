@@ -3,7 +3,7 @@
 ## 3.3.0-beta.1 (Unreleased)
 
 ### Features Added
--  Enabled support for logging personally identifiable information, required for customer support through the `enableSupportLogging` option on `TokenCredentialOptions`.
+-  Enabled support for logging [personally identifiable information](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/wiki/PII), required for customer support through the `enableSupportLogging` option on `loggingOptions` under `TokenCredentialOptions`.
 
 ### Bug Fixes
 

@@ -342,7 +342,7 @@ Object ID of the authenticated user, and if possible the User Principal Name.
 
 For example, using the `DefaultAzureCredential`:
 
-```js
+```ts
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
@@ -356,6 +356,21 @@ Once that credential authenticates, the following message will appear in the log
 
 ```
 azure:identity:info [Authenticated account] Client ID: HIDDEN. Tenant ID: HIDDEN. User Principal Name: HIDDEN. Object ID (user): HIDDEN
+```
+
+In cases where the user's [Personally Identifiable Information](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/wiki/PII) needs to be logged for customer support, developers can set `enableSupportLogging` to true in the
+`loggingOptions`.
+
+For example, using the `DefaultAzureCredential`:
+
+```ts
+import { setLogLevel } from "@azure/logger";
+
+setLogLevel("info");
+
+const credential = new DefaultAzureCredential({
+  loggingOptions: { enableSupportLogging: true },
+});
 ```
 
 For assistance with troubleshooting, see the [troubleshooting guide](https://aka.ms/azsdk/js/identity/troubleshoot).
