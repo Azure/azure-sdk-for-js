@@ -93,7 +93,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected requiresConfidential: boolean = false;
   protected azureRegion?: string;
   protected createCachePlugin: (() => Promise<msalCommon.ICachePlugin>) | undefined;
-  protected createCachePluginCAE: (() => Promise<msalCommon.ICachePlugin>) | undefined;
+  protected createCachePluginCae: (() => Promise<msalCommon.ICachePlugin>) | undefined;
 
   /**
    * MSAL currently caches the tokens depending on the claims used to retrieve them.
@@ -126,7 +126,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
         ...options.tokenCachePersistenceOptions
       }
       this.createCachePlugin = () => persistenceProvider!(nonCaeOptions);
-      this.createCachePluginCAE = () => persistenceProvider!(caeOptions)
+      this.createCachePluginCae = () => persistenceProvider!(caeOptions)
     } else if (options.tokenCachePersistenceOptions?.enabled) {
       throw new Error(
         [
@@ -206,9 +206,9 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     if (this.publicApp || this.confidentialApp) {
       return;
     }
-    if (options?.enableCae && this.createCachePluginCAE !== undefined) {
+    if (options?.enableCae && this.createCachePluginCae !== undefined) {
       this.msalConfig.cache = {
-        cachePlugin: await this.createCachePluginCAE(),
+        cachePlugin: await this.createCachePluginCae(),
       };
     }
     if (this.createCachePlugin !== undefined) {
