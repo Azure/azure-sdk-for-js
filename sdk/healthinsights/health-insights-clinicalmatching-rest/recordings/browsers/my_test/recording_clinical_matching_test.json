@@ -19,7 +19,7 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "3b5ede8a-3406-4c2c-9b2a-45a816ebab36",
+        "x-ms-client-request-id": "6187e699-1b4f-4e50-b81e-a132caf8bf1e",
         "x-ms-useragent": "azsdk-js-health-insights-clinicalmatching-rest/1.0.0-beta.1 core-rest-pipeline/1.11.1 OS"
       },
       "RequestBody": {
@@ -28,7 +28,7 @@
             "id": "patient_id",
             "info": {
               "sex": "MALE",
-              "birthDate": "1965-12-26T00:00:00.000Z",
+              "birthDate": "1965-11-26T00:00:00.000Z",
               "clinicalInfo": [
                 {
                   "system": "http://www.nlm.nih.gov/research/umls",
@@ -112,20 +112,20 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "16759f1d-1398-41fe-b064-3ba70e21eb5b",
+        "apim-request-id": "8801fbcf-5b50-476e-90a3-06350ce8a69d",
         "Content-Length": "0",
-        "Date": "Wed, 26 Jul 2023 11:43:49 GMT",
-        "operation-location": "https://endpoint/healthinsights/trialmatcher/jobs/74388733-b6a4-439c-9f51-0c92de24105f?api-version=2023-03-01-preview",
+        "Date": "Mon, 31 Jul 2023 06:16:18 GMT",
+        "operation-location": "https://endpoint/healthinsights/trialmatcher/jobs/acdf58f3-ffb2-4368-9add-09a597b4466a?api-version=2023-03-01-preview",
         "Retry-After": "1",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "76",
+        "x-envoy-upstream-service-time": "46",
         "x-ms-region": "East US"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/healthinsights/trialmatcher/jobs/74388733-b6a4-439c-9f51-0c92de24105f?api-version=2023-03-01-preview",
+      "RequestUri": "https://endpoint/healthinsights/trialmatcher/jobs/acdf58f3-ffb2-4368-9add-09a597b4466a?api-version=2023-03-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -141,16 +141,57 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "91a520a7-f7fa-4dbe-aba0-005ad5830e58",
+        "x-ms-client-request-id": "70273af9-6715-4991-9904-2e1ec3831f79",
         "x-ms-useragent": "azsdk-js-health-insights-clinicalmatching-rest/1.0.0-beta.1 core-rest-pipeline/1.11.1 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "8f1c780b-4ecc-4053-9128-d9d480ed01b1",
+        "apim-request-id": "01c3d224-44b1-45ec-ac5c-a6b38cadd40a",
         "Content-Length": "196",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 26 Jul 2023 11:43:50 GMT",
+        "Date": "Mon, 31 Jul 2023 06:16:18 GMT",
+        "Retry-After": "1",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "17",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": {
+        "jobId": "acdf58f3-ffb2-4368-9add-09a597b4466a",
+        "createdDateTime": "2023-07-31T06:16:19Z",
+        "expirationDateTime": "2023-08-01T06:16:19Z",
+        "lastUpdateDateTime": "2023-07-31T06:16:19Z",
+        "status": "running"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/healthinsights/trialmatcher/jobs/acdf58f3-ffb2-4368-9add-09a597b4466a?api-version=2023-03-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "fake_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "a259d50e-c520-4bef-b9bf-2103a92b0130",
+        "x-ms-useragent": "azsdk-js-health-insights-clinicalmatching-rest/1.0.0-beta.1 core-rest-pipeline/1.11.1 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "95d16d18-6410-417d-b423-09388a3ec4b9",
+        "Content-Length": "196",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 31 Jul 2023 06:16:19 GMT",
         "Retry-After": "1",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
@@ -158,15 +199,15 @@
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "74388733-b6a4-439c-9f51-0c92de24105f",
-        "createdDateTime": "2023-07-26T11:43:50Z",
-        "expirationDateTime": "2023-07-27T11:43:50Z",
-        "lastUpdateDateTime": "2023-07-26T11:43:50Z",
+        "jobId": "acdf58f3-ffb2-4368-9add-09a597b4466a",
+        "createdDateTime": "2023-07-31T06:16:19Z",
+        "expirationDateTime": "2023-08-01T06:16:19Z",
+        "lastUpdateDateTime": "2023-07-31T06:16:19Z",
         "status": "running"
       }
     },
     {
-      "RequestUri": "https://endpoint/healthinsights/trialmatcher/jobs/74388733-b6a4-439c-9f51-0c92de24105f?api-version=2023-03-01-preview",
+      "RequestUri": "https://endpoint/healthinsights/trialmatcher/jobs/acdf58f3-ffb2-4368-9add-09a597b4466a?api-version=2023-03-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -182,32 +223,32 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "73b32d65-9ee7-4853-935a-5ba4fe2abf41",
+        "x-ms-client-request-id": "b4b35376-259e-45dd-b4f0-07d7d7d56b94",
         "x-ms-useragent": "azsdk-js-health-insights-clinicalmatching-rest/1.0.0-beta.1 core-rest-pipeline/1.11.1 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "7d9d235c-025a-4913-a5ca-1340e610564e",
+        "apim-request-id": "e4764647-8fa7-4a3f-b545-f9cee61bd7ed",
         "Content-Length": "196",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 26 Jul 2023 11:43:51 GMT",
+        "Date": "Mon, 31 Jul 2023 06:16:21 GMT",
         "Retry-After": "1",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "18",
+        "x-envoy-upstream-service-time": "14",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
-        "jobId": "74388733-b6a4-439c-9f51-0c92de24105f",
-        "createdDateTime": "2023-07-26T11:43:50Z",
-        "expirationDateTime": "2023-07-27T11:43:50Z",
-        "lastUpdateDateTime": "2023-07-26T11:43:50Z",
+        "jobId": "acdf58f3-ffb2-4368-9add-09a597b4466a",
+        "createdDateTime": "2023-07-31T06:16:19Z",
+        "expirationDateTime": "2023-08-01T06:16:19Z",
+        "lastUpdateDateTime": "2023-07-31T06:16:19Z",
         "status": "running"
       }
     },
     {
-      "RequestUri": "https://endpoint/healthinsights/trialmatcher/jobs/74388733-b6a4-439c-9f51-0c92de24105f?api-version=2023-03-01-preview",
+      "RequestUri": "https://endpoint/healthinsights/trialmatcher/jobs/acdf58f3-ffb2-4368-9add-09a597b4466a?api-version=2023-03-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -223,19 +264,19 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "d197b832-e994-40d4-85cf-84304ff7c1fa",
+        "x-ms-client-request-id": "15bc63e3-cfc2-43c5-9c9b-ed701f478cc4",
         "x-ms-useragent": "azsdk-js-health-insights-clinicalmatching-rest/1.0.0-beta.1 core-rest-pipeline/1.11.1 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "4d5d1802-5398-4bb9-a635-0ca6d24dcd53",
+        "apim-request-id": "a6ed84e7-8483-4b25-b9d1-98d6dc022734",
         "Content-Length": "1748",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 26 Jul 2023 11:43:52 GMT",
+        "Date": "Mon, 31 Jul 2023 06:16:22 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "14",
+        "x-envoy-upstream-service-time": "12",
         "x-ms-region": "East US"
       },
       "ResponseBody": {
@@ -244,13 +285,6 @@
             {
               "id": "patient_id",
               "inferences": [
-                {
-                  "type": "trialEligibility",
-                  "id": "NCT04200963",
-                  "source": "clinicaltrials.gov",
-                  "value": "Ineligible",
-                  "confidenceScore": 0.0
-                },
                 {
                   "type": "trialEligibility",
                   "id": "NCT05099172",
@@ -267,7 +301,14 @@
                 },
                 {
                   "type": "trialEligibility",
-                  "id": "NCT02716116",
+                  "id": "NCT04200963",
+                  "source": "clinicaltrials.gov",
+                  "value": "Ineligible",
+                  "confidenceScore": 0.0
+                },
+                {
+                  "type": "trialEligibility",
+                  "id": "NCT04476797",
                   "source": "clinicaltrials.gov",
                   "value": "Eligible",
                   "confidenceScore": 0.0
@@ -281,7 +322,7 @@
                 },
                 {
                   "type": "trialEligibility",
-                  "id": "NCT04476797",
+                  "id": "NCT02716116",
                   "source": "clinicaltrials.gov",
                   "value": "Eligible",
                   "confidenceScore": 0.0
@@ -323,12 +364,12 @@
             }
           ],
           "modelVersion": "2023-03-01-preview",
-          "knowledgeGraphLastUpdateDate": "2023-05-22"
+          "knowledgeGraphLastUpdateDate": "2023-07-23"
         },
-        "jobId": "74388733-b6a4-439c-9f51-0c92de24105f",
-        "createdDateTime": "2023-07-26T11:43:50Z",
-        "expirationDateTime": "2023-07-27T11:43:50Z",
-        "lastUpdateDateTime": "2023-07-26T11:43:52Z",
+        "jobId": "acdf58f3-ffb2-4368-9add-09a597b4466a",
+        "createdDateTime": "2023-07-31T06:16:19Z",
+        "expirationDateTime": "2023-08-01T06:16:19Z",
+        "lastUpdateDateTime": "2023-07-31T06:16:22Z",
         "status": "succeeded"
       }
     }
