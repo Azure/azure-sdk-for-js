@@ -47,7 +47,6 @@ export class InteractiveBrowserCredential implements TokenCredential {
   constructor(
     options: InteractiveBrowserCredentialInBrowserOptions | InteractiveBrowserCredentialNodeOptions
   ) {
-    options.loggingOptions?.allowLoggingAccountIdentifiers;
     if (!options?.clientId) {
       const error = new Error(
         "The parameter `clientId` cannot be left undefined for the `InteractiveBrowserCredential`"
