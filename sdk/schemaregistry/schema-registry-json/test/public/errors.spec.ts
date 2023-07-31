@@ -218,19 +218,15 @@ describe("Error scenarios", function () {
         123, 34, 102, 97, 118, 111, 114, 105, 116, 101, 78, 117, 109, 98, 101, 114,
       ]);
 
-      await assertError(serializer.deserialize(serializedValue), isNode ? {
-        causeMessage: /Unexpected end of JSON input/,
-      } : {
-        causeMessage: /Unterminated string in JSON at position/,
+      await assertError(serializer.deserialize(serializedValue), {
+        causeMessage: isNode ? /Unexpected end of JSON input/ : /Unterminated string in JSON at position/,
       });
       serializedValue.data = Uint8Array.from([
         123, 34, 102, 97, 118, 111, 114, 105, 116, 101, 78, 117, 109, 98, 101, 114, 34, 58, 49, 44,
         34, 110, 97, 109, 101, 34, 58, 34, 120, 34, 125, 110,
       ]);
-      await assertError(serializer.deserialize(serializedValue), isNode ? {
-        causeMessage: /Unexpected token n in JSON at position/,
-      } : {
-        causeMessage: /Unexpected non-whitespace character/,
+      await assertError(serializer.deserialize(serializedValue), {
+        causeMessage: isNode ? /Unexpected token n in JSON at position/ : /Unexpected non-whitespace character/,
       });
     });
   });

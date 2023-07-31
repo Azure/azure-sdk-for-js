@@ -84,12 +84,12 @@ export async function main() {
   // Validation using a third party library
   const ajv = new Ajv();
   const validator = ajv.compile(JSON.parse(schema));
-  let validationOptions = new Map<string, ValidateFunction>();
-  validationOptions.set(schema, validator)
+  let validators = new Map<string, ValidateFunction>();
+  validators.set(schema, validator)
 
   const validateOptions: DeserializeOptions = {
     validateCallback(message, schema) {
-      const validator = validationOptions.get(schema);
+      const validator = validators.get(schema);
       if (validator) {
         const valid = validator(message);
         if (!valid){
