@@ -1,5 +1,16 @@
 # Release History
 
+## 3.3.0-beta.1 (Unreleased)
+
+### Features Added
+-  Enabled support for logging personally identifiable information, required for customer support through the `enableSupportLogging` option on `TokenCredentialOptions`.
+
+### Bug Fixes
+
+### Breaking Changes
+
+### Other Changes
+
 ## 3.2.4 (2023-07-21)
 
 ### Bug Fixes
