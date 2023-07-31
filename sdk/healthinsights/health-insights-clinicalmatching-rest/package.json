@@ -103,7 +103,7 @@
     "karma": "^6.2.0",
     "nyc": "^15.0.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-clinicalmatching-rest/README.md",
   "//metadata": {
     "constantPaths": [
       {
