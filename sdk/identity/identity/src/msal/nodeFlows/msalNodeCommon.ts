@@ -185,7 +185,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   }
   protected getApp(
     appType: "publicFirst" | "confidentialFirst",
-    enableCae?: Boolean
+    enableCae?: boolean
   ): msalNode.ConfidentialClientApplication | msalNode.PublicClientApplication;
   protected getApp(appType: "public", enableCae?: Boolean): msalNode.PublicClientApplication;
 
