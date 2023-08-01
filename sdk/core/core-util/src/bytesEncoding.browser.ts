@@ -6,9 +6,11 @@ declare global {
   function btoa(input: string): string;
   function atob(input: string): string;
   class TextDecoder {
+    constructor(encoding?: string);
     decode(input?: ArrayBufferView | ArrayBuffer): string;
   }
   class TextEncoder {
+    constructor(encoding?: string);
     encode(input?: string): Uint8Array;
   }
 }
@@ -72,8 +74,10 @@ export function uint8ArrayToBase64Url(bytes: Uint8Array): string {
  * Decodes a Uint8Array into a javascript string.
  * @internal
  */
-export function uint8ArrayToUtf8String(bytes: Uint8Array): string {
-  return String.fromCharCode.apply(null, bytes as any as number[]);
+export function uint8ArrayToUtf8String(uint8Array: Uint8Array): string {
+  const decoder = new TextDecoder("utf-8");
+  const dataString = decoder.decode(uint8Array);
+  return dataString;
 }
 
 /**
@@ -81,7 +85,7 @@ export function uint8ArrayToUtf8String(bytes: Uint8Array): string {
  * @internal
  */
 export function utf8StringToUint8Array(value: string): Uint8Array {
-  return Uint8Array.from(value, (c) => c.charCodeAt(0));
+  return new TextEncoder("utf-8").encode(value);
 }
 
 /**
@@ -97,5 +101,6 @@ export function base64ToUint8Array(value: string): Uint8Array {
  * @internal
  */
 export function base64UrlToUint8Array(value: string): Uint8Array {
-  return Uint8Array.from(atob(value.replace(/-/g, "+").replace(/_/g, "/")), (c) => c.charCodeAt(0));
+  const base64String = value.replace(/-/g, "+").replace(/_/g, "/");
+  return base64ToUint8Array(base64String);
 }
