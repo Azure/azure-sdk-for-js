@@ -20,9 +20,9 @@ import {
   ContinuousDtmfRecognitionRequest,
   CallMediaStartContinuousDtmfRecognitionOptionalParams,
   CallMediaStopContinuousDtmfRecognitionOptionalParams,
-  SendDtmfRequest,
-  CallMediaSendDtmfOptionalParams,
-  CallMediaSendDtmfResponse
+  SendDtmfTonesRequest,
+  CallMediaSendDtmfTonesOptionalParams,
+  CallMediaSendDtmfTonesResponse
 } from "../models";
 
 /** Class containing CallMedia operations. */
@@ -123,17 +123,17 @@ export class CallMediaImpl implements CallMedia {
   /**
    * Send dtmf tones.
    * @param callConnectionId The call connection id
-   * @param sendDtmfRequest The send dtmf request
+   * @param sendDtmfTonesRequest The send dtmf tones request
    * @param options The options parameters.
    */
-  sendDtmf(
+  sendDtmfTones(
     callConnectionId: string,
-    sendDtmfRequest: SendDtmfRequest,
-    options?: CallMediaSendDtmfOptionalParams
-  ): Promise<CallMediaSendDtmfResponse> {
+    sendDtmfTonesRequest: SendDtmfTonesRequest,
+    options?: CallMediaSendDtmfTonesOptionalParams
+  ): Promise<CallMediaSendDtmfTonesResponse> {
     return this.client.sendOperationRequest(
-      { callConnectionId, sendDtmfRequest, options },
-      sendDtmfOperationSpec
+      { callConnectionId, sendDtmfTonesRequest, options },
+      sendDtmfTonesOperationSpec
     );
   }
 }
@@ -220,18 +220,18 @@ const stopContinuousDtmfRecognitionOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const sendDtmfOperationSpec: coreClient.OperationSpec = {
-  path: "/calling/callConnections/{callConnectionId}:sendDtmf",
+const sendDtmfTonesOperationSpec: coreClient.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}:sendDtmfTones",
   httpMethod: "POST",
   responses: {
     202: {
-      bodyMapper: Mappers.SendDtmfResponse
+      bodyMapper: Mappers.SendDtmfTonesResult
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  requestBody: Parameters.sendDtmfRequest,
+  requestBody: Parameters.sendDtmfTonesRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [

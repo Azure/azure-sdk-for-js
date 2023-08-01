@@ -9,7 +9,7 @@ import {
   TextSource,
   SsmlSource,
   DtmfTone,
-  Choice,
+  RecognitionChoice,
   RecordingContent,
   RecordingChannel,
   RecordingFormat,
@@ -28,8 +28,11 @@ export interface CallMediaRecognizeOptions extends OperationOptions {
 
 /** The recognize configuration specific to Dtmf. */
 export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions {
+  /** Time to wait between DTMF inputs to stop recognizing. */
   interToneTimeoutInSeconds?: number;
+  /** List of tones that will stop recognizing. */
   stopDtmfTones?: DtmfTone[];
+  /** Maximum number of DTMF tones to be collected. */
   maxTonesToCollect?: number;
   readonly kind: "callMediaRecognizeDtmfOptions";
 }
@@ -37,7 +40,7 @@ export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions
 /** The recognize configuration specific to Choices. */
 export interface CallMediaRecognizeChoiceOptions extends CallMediaRecognizeOptions {
   /** The IvR choices for recognize. */
-  choices: Choice[];
+  choices: RecognitionChoice[];
   /** Speech language to be recognized, If not set default is en-US */
   speechLanguage?: string;
   /** Endpoint where the custom model was deployed. */
@@ -48,7 +51,7 @@ export interface CallMediaRecognizeChoiceOptions extends CallMediaRecognizeOptio
 /** The recognize configuration specific to Speech. */
 export interface CallMediaRecognizeSpeechOptions extends CallMediaRecognizeOptions {
   /** The length of end silence when user stops speaking and cogservice send response. */
-  endSilenceTimeoutInMs?: number;
+  endSilenceTimeoutInSeconds?: number;
   /** Speech language to be recognized, If not set default is en-US */
   speechLanguage?: string;
   /** Endpoint where the custom model was deployed. */
@@ -59,7 +62,7 @@ export interface CallMediaRecognizeSpeechOptions extends CallMediaRecognizeOptio
 /** The recognize configuration for Speech or Dtmf  */
 export interface CallMediaRecognizeSpeechOrDtmfOptions extends CallMediaRecognizeOptions {
   /** The length of end silence when user stops speaking and cogservice send response. */
-  endSilenceTimeoutInMs?: number;
+  endSilenceTimeoutInSeconds?: number;
   /** Time to wait between DTMF inputs to stop recognizing. */
   interToneTimeoutInSeconds?: number;
   /** List of tones that will stop recognizing. */
@@ -87,7 +90,7 @@ export interface CreateCallOptions extends OperationOptions {
   /** The operation context. */
   operationContext?: string;
   /** The Azure cognitive services end point url. */
-  azureCognitiveServicesEndpointUrl?: string;
+  cognitiveServicesEndpoint?: string;
 }
 
 /**
@@ -95,7 +98,7 @@ export interface CreateCallOptions extends OperationOptions {
  */
 export interface AnswerCallOptions extends OperationOptions {
   /** The Azure cognitive services end point url. */
-  azureCognitiveServicesEndpointUrl?: string;
+  cognitiveServicesEndpoint?: string;
   /** The operation context. */
   operationContext?: string;
 }
@@ -141,9 +144,9 @@ export interface RemoveParticipantsOption extends OperationOptions {
 }
 
 /**
- * Options to mute participants.
+ * Options to mute participant.
  */
-export interface MuteParticipantsOption extends OperationOptions {
+export interface MuteParticipantOption extends OperationOptions {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
 }
@@ -244,9 +247,9 @@ export interface ContinuousDtmfRecognitionOptions extends OperationOptions {
 }
 
 /**
- * Options to send Dtmf tone.
+ * Options to send Dtmf tones.
  */
-export interface SendDtmfOptions extends OperationOptions {
+export interface SendDtmfTonesOptions extends OperationOptions {
   /** The value to identify context of the operation. */
   operationContext?: string;
 }

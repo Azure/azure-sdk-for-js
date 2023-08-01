@@ -7,7 +7,10 @@
 - Recognize supports choices and freeform speech.
 - Start/Stop continuous DTMF recognition by subscribing/unsubscribing to tones.
 - Send DTMF tones to a participant in the call.
-- Mute participants in the call.
+- Mute participant in the call.
+
+### Breaking Changes
+- Maximum number of DTMF tones to be collected for startRecognizing is now need to set in DTMF sepecific recognizeOptions.
 
 
 ## 1.0.0 (2023-06-14)

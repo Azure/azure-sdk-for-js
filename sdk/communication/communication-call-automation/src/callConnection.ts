@@ -10,8 +10,8 @@ import {
   AddParticipantRequest,
   CallAutomationApiClient,
   CallAutomationApiClientOptionalParams,
-  RemoveParticipantRequest,
   MuteParticipantsRequest,
+  RemoveParticipantRequest,
   TransferToParticipantRequest,
 } from "./generated/src";
 import { CallConnectionImpl } from "./generated/src/operations";
@@ -21,8 +21,8 @@ import {
   GetCallConnectionPropertiesOptions,
   GetParticipantOptions,
   HangUpOptions,
+  MuteParticipantOption,
   RemoveParticipantsOption,
-  MuteParticipantsOption,
   TransferCallToParticipantOptions,
 } from "./models/options";
 import {
@@ -30,7 +30,7 @@ import {
   TransferCallResult,
   AddParticipantResult,
   RemoveParticipantResult,
-  MuteParticipantsResult,
+  MuteParticipantResult,
 } from "./models/responses";
 import {
   callParticipantConverter,
@@ -148,16 +148,20 @@ export class CallConnection {
   public async listParticipants(
     options: GetParticipantOptions = {}
   ): Promise<ListParticipantsResult> {
-    const result = await this.callConnection.listParticipants(this.callConnectionId, options);
-    let participant = await result.next();
+    const result = this.callConnection.listParticipants(this.callConnectionId, options);
+    const participants = [];
+    const pages = result?.byPage();
 
-    const listParticipantResponse: ListParticipantsResult = { values: [] };
-
-    while (!participant.done) {
-      listParticipantResponse.values?.push(callParticipantConverter(participant.value));
-      participant = await result.next();
+    for await (const page of pages) {
+      for (const participant of page) {
+        participants.push(callParticipantConverter(participant));
+      }
     }
 
+    const listParticipantResponse: ListParticipantsResult = {
+      ...result,
+      values: participants,
+    };
     return listParticipantResponse;
   }
 
@@ -258,14 +262,15 @@ export class CallConnection {
   }
 
   /**
-   * Mute participants from the call.
+   * Mute participant from the call.
    *
    * @param participant - Participant to be muted from the call.
+   * @param options - Additional attributes for mute participant.
    */
-  public async muteParticipants(
+  public async muteParticipant(
     participant: CommunicationIdentifier,
-    options: MuteParticipantsOption = {}
-  ): Promise<MuteParticipantsResult> {
+    options: MuteParticipantOption = {}
+  ): Promise<MuteParticipantResult> {
     const muteParticipantsRequest: MuteParticipantsRequest = {
       targetParticipants: [communicationIdentifierModelConverter(participant)],
       operationContext: options.operationContext,
@@ -280,9 +285,9 @@ export class CallConnection {
       muteParticipantsRequest,
       optionsInternal
     );
-    const muteParticipantsResult: MuteParticipantsResult = {
+    const muteParticipantResult: MuteParticipantResult = {
       ...result,
     };
-    return muteParticipantsResult;
+    return muteParticipantResult;
   }
 }

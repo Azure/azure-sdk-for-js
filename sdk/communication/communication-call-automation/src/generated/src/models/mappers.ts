@@ -59,8 +59,8 @@ export const CreateCallRequest: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      azureCognitiveServicesEndpointUrl: {
-        serializedName: "azureCognitiveServicesEndpointUrl",
+      cognitiveServicesEndpoint: {
+        serializedName: "cognitiveServicesEndpoint",
         type: {
           name: "String"
         }
@@ -340,8 +340,8 @@ export const AnswerCallRequest: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      azureCognitiveServicesEndpointUrl: {
-        serializedName: "azureCognitiveServicesEndpointUrl",
+      cognitiveServicesEndpoint: {
+        serializedName: "cognitiveServicesEndpoint",
         type: {
           name: "String"
         }
@@ -511,15 +511,15 @@ export const PlaySourceInternal: coreClient.CompositeMapper = {
           className: "FileSourceInternal"
         }
       },
-      textSource: {
-        serializedName: "textSource",
+      text: {
+        serializedName: "text",
         type: {
           name: "Composite",
           className: "TextSourceInternal"
         }
       },
-      ssmlSource: {
-        serializedName: "ssmlSource",
+      ssml: {
+        serializedName: "ssml",
         type: {
           name: "Composite",
           className: "SsmlSourceInternal"
@@ -563,8 +563,8 @@ export const TextSourceInternal: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      voiceGender: {
-        serializedName: "voiceGender",
+      voiceKind: {
+        serializedName: "voiceKind",
         type: {
           name: "String"
         }
@@ -842,10 +842,10 @@ export const ContinuousDtmfRecognitionRequest: coreClient.CompositeMapper = {
   }
 };
 
-export const SendDtmfRequest: coreClient.CompositeMapper = {
+export const SendDtmfTonesRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SendDtmfRequest",
+    className: "SendDtmfTonesRequest",
     modelProperties: {
       tones: {
         serializedName: "tones",
@@ -876,10 +876,10 @@ export const SendDtmfRequest: coreClient.CompositeMapper = {
   }
 };
 
-export const SendDtmfResponse: coreClient.CompositeMapper = {
+export const SendDtmfTonesResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SendDtmfResponse",
+    className: "SendDtmfTonesResult",
     modelProperties: {
       operationContext: {
         serializedName: "operationContext",
@@ -1073,10 +1073,10 @@ export const MuteParticipantsRequest: coreClient.CompositeMapper = {
   }
 };
 
-export const MuteParticipantsResponse: coreClient.CompositeMapper = {
+export const MuteParticipantsResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "MuteParticipantsResponse",
+    className: "MuteParticipantsResult",
     modelProperties: {
       operationContext: {
         serializedName: "operationContext",
@@ -2139,10 +2139,10 @@ export const ContinuousDtmfRecognitionStopped: coreClient.CompositeMapper = {
   }
 };
 
-export const SendDtmfCompleted: coreClient.CompositeMapper = {
+export const SendDtmfTonesCompleted: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SendDtmfCompleted",
+    className: "SendDtmfTonesCompleted",
     modelProperties: {
       callConnectionId: {
         serializedName: "callConnectionId",
@@ -2179,10 +2179,10 @@ export const SendDtmfCompleted: coreClient.CompositeMapper = {
   }
 };
 
-export const SendDtmfFailed: coreClient.CompositeMapper = {
+export const SendDtmfTonesFailed: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SendDtmfFailed",
+    className: "SendDtmfTonesFailed",
     modelProperties: {
       callConnectionId: {
         serializedName: "callConnectionId",

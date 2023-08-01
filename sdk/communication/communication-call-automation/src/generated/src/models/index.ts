@@ -26,7 +26,7 @@ export interface CreateCallRequest {
   /** The callback URI. */
   callbackUri: string;
   /** The identifier of the Cognitive Service resource assigned to this call. */
-  azureCognitiveServicesEndpointUrl?: string;
+  cognitiveServicesEndpoint?: string;
 }
 
 /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
@@ -130,7 +130,7 @@ export interface AnswerCallRequest {
   /** A customer set value used to track the answering of a call. */
   operationContext?: string;
   /** The endpoint URL of the Azure Cognitive Services resource attached */
-  azureCognitiveServicesEndpointUrl?: string;
+  cognitiveServicesEndpoint?: string;
   /** The identifier of the call automation entity which answers the call */
   answeredBy?: CommunicationUserIdentifierModel;
 }
@@ -187,9 +187,9 @@ export interface PlaySourceInternal {
   /** Defines the file source info to be used for play */
   file?: FileSourceInternal;
   /** Defines the text source info to be used for play */
-  textSource?: TextSourceInternal;
+  text?: TextSourceInternal;
   /** Defines the ssml(Speech Synthesis Markup Language) source info to be used for play */
-  ssmlSource?: SsmlSourceInternal;
+  ssml?: SsmlSourceInternal;
 }
 
 export interface FileSourceInternal {
@@ -205,8 +205,8 @@ export interface TextSourceInternal {
    * Refer to available locales here: <seealso href="https://learn.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support?tabs=stt-tts" />
    */
   sourceLocale?: string;
-  /** Voice gender type */
-  voiceGender?: Gender;
+  /** Voice kind type */
+  voiceKind?: VoiceKind;
   /**
    * Voice name to be played
    * Refer to available Text-to-speech voices here: <seealso href="https://learn.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support?tabs=stt-tts" />
@@ -291,16 +291,16 @@ export interface ContinuousDtmfRecognitionRequest {
   operationContext?: string;
 }
 
-export interface SendDtmfRequest {
+export interface SendDtmfTonesRequest {
   /** List of tones to be sent to target participant. */
   tones: Tone[];
-  /** Target participant of send DTMF. */
+  /** Target participant of send Dtmf tones. */
   targetParticipant: CommunicationIdentifierModel;
   /** The value to identify context of the operation. */
   operationContext?: string;
 }
 
-export interface SendDtmfResponse {
+export interface SendDtmfTonesResult {
   /** The operation context provided by client. */
   operationContext?: string;
 }
@@ -377,8 +377,8 @@ export interface MuteParticipantsRequest {
   operationContext?: string;
 }
 
-/** The response payload for muting participants from the call. */
-export interface MuteParticipantsResponse {
+/** The result payload for muting participants from the call. */
+export interface MuteParticipantsResult {
   /** The operation context provided by client. */
   operationContext?: string;
 }
@@ -753,7 +753,7 @@ export interface ContinuousDtmfRecognitionStopped {
   resultInformation?: ResultInformation;
 }
 
-export interface SendDtmfCompleted {
+export interface SendDtmfTonesCompleted {
   /** Call connection ID. */
   callConnectionId?: string;
   /** Server call ID. */
@@ -766,7 +766,7 @@ export interface SendDtmfCompleted {
   resultInformation?: ResultInformation;
 }
 
-export interface SendDtmfFailed {
+export interface SendDtmfTonesFailed {
   /** Call connection ID. */
   callConnectionId?: string;
   /** Server call ID. */
@@ -899,8 +899,8 @@ export enum KnownPlaySourceType {
  */
 export type PlaySourceType = string;
 
-/** Known values of {@link Gender} that the service accepts. */
-export enum KnownGender {
+/** Known values of {@link VoiceKind} that the service accepts. */
+export enum KnownVoiceKind {
   /** Male */
   Male = "male",
   /** Female */
@@ -908,14 +908,14 @@ export enum KnownGender {
 }
 
 /**
- * Defines values for Gender. \
- * {@link KnownGender} can be used interchangeably with Gender,
+ * Defines values for VoiceKind. \
+ * {@link KnownVoiceKind} can be used interchangeably with VoiceKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **male** \
  * **female**
  */
-export type Gender = string;
+export type VoiceKind = string;
 
 /** Known values of {@link RecognizeInputType} that the service accepts. */
 export enum KnownRecognizeInputType {
@@ -1227,7 +1227,7 @@ export interface CallConnectionMuteOptionalParams
 }
 
 /** Contains response data for the mute operation. */
-export type CallConnectionMuteResponse = MuteParticipantsResponse;
+export type CallConnectionMuteResponse = MuteParticipantsResult;
 
 /** Optional parameters. */
 export interface CallConnectionGetParticipantOptionalParams
@@ -1264,7 +1264,7 @@ export interface CallMediaStopContinuousDtmfRecognitionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface CallMediaSendDtmfOptionalParams
+export interface CallMediaSendDtmfTonesOptionalParams
   extends coreClient.OperationOptions {
   /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
   repeatabilityRequestID?: string;
@@ -1272,8 +1272,8 @@ export interface CallMediaSendDtmfOptionalParams
   repeatabilityFirstSent?: Date;
 }
 
-/** Contains response data for the sendDtmf operation. */
-export type CallMediaSendDtmfResponse = SendDtmfResponse;
+/** Contains response data for the sendDtmfTones operation. */
+export type CallMediaSendDtmfTonesResponse = SendDtmfTonesResult;
 
 /** Optional parameters. */
 export interface CallRecordingStartRecordingOptionalParams
