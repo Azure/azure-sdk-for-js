@@ -1,14 +1,10 @@
 # Release History
 
-## 1.3.3 (Unreleased)
+## 1.4.0 (2023-08-03)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Adds extra environment checks for browser or other environments [PR #26018](https://github.com/Azure/azure-sdk-for-js/pull/26018)
 
 ## 1.3.2 (2023-05-05)
 
