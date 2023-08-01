@@ -31,6 +31,8 @@ async function scenarioCheckpointStore() {
     testName: "checkpointStore-memLeak",
   });
   let terminalCase = false;
+  
+  defaultClientAppInsights.trackException({ exception: { name: "DummyException", message: "Dummy exception to make sure exception tracking is working" }, time: new Date() });
   const storageAccountConnectionString = process.env.AZURE_STORAGE_CONNNECTION_STRING;
   const containerName = `container-${Math.floor(Math.random() * 1000)}`;
   const connectionString = process.env.EVENTHUBS_CONNECTION_STRING;

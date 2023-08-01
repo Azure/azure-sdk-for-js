@@ -75,7 +75,6 @@ export class EventHubsStressTester {
     this.eventProperties["memory.arrayBuffers"] = arrayBuffers;
     this.eventProperties["memory.rss"] = rss;
     this.eventProperties["memory.heapUsed"] = heapUsed;
-    this._numErrors = 0;
 
     defaultClientAppInsights.trackEvent({
       name: "summary",
