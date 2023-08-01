@@ -1,18 +1,14 @@
 # Release History
 
-## 1.11.1 (Unreleased)
+## 1.11.1 (2023-08-08)
 
 ### Features Added
 
 - Add CommonTelemetryOptions in PipelineOptions to allow customizing the client request id header name [PR #26424](https://github.com/Azure/azure-sdk-for-js/pull/26424)
 
-### Breaking Changes
-
 ### Bugs Fixed
 
 - Fix a TypeError in React Native when `Platform.constants` is undefined [Issue #26609](https://github.com/Azure/azure-sdk-for-js/issues/26609)
-
-### Other Changes
 
 ## 1.11.0 (2023-06-01)
 
