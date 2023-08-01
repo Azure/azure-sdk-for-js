@@ -21,7 +21,7 @@ import {
   resolveTenantId,
 } from "../../util/tenantIdUtils";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { AuthenticationRecord } from "../types";
+import { AppType, AuthenticationRecord } from "../types";
 import { AuthenticationRequiredError } from "../../errors";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { CACHE_CAE_SUFFIX, CACHE_NON_CAE_SUFFIX, DeveloperSignOnClientId } from "../../constants";
@@ -183,10 +183,23 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
       },
     };
   }
+  protected getApp(
+    appType: "publicFirst" | "confidentialFirst",
+    enableCae?: Boolean
+  ): msalNode.ConfidentialClientApplication | msalNode.PublicClientApplication;
+  protected getApp(
+    appType: "public",
+    enableCae?: Boolean
+  ): msalNode.PublicClientApplication;
 
   protected getApp(
-    enableCae?: Boolean,
-    appType?: string
+    appType: "confidential",
+    enableCae?: Boolean
+  ): msalNode.ConfidentialClientApplication;
+
+  protected getApp(
+    appType: AppType,
+    enableCae?: Boolean    
   ): msalNode.ConfidentialClientApplication | msalNode.PublicClientApplication {
     if (enableCae) {
       if (appType === "publicFirst") {
@@ -197,7 +210,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
         return this.confidentialAppCae!;
       } else if (appType === "public") {
         return this.publicAppCae!;
-      } else {
+      }else{
         return this.publicAppCae!;
       }
     } else {
@@ -209,7 +222,8 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
         return this.confidentialApp!;
       } else if (appType === "public") {
         return this.publicApp!;
-      } else {
+      }
+      else{
         return this.publicApp!;
       }
     }
@@ -366,11 +380,11 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
        * `authenticationRecord` parameter. See issue - https://github.com/Azure/azure-sdk-for-js/issues/24349#issuecomment-1496715651
        * This workaround serves as a workaround for silent authentication not happening when authenticationRecord is passed.
        */
-      await this.getApp(options?.enableCae, "publicFirst")?.getTokenCache().getAllAccounts();
+      await this.getApp("publicFirst", options?.enableCae)?.getTokenCache().getAllAccounts();
       const response =
-        (await this.getApp(options?.enableCae, "confidential")?.acquireTokenSilent(
+        (await this.getApp("confidential",options?.enableCae)?.acquireTokenSilent(
           silentRequest
-        )) ?? (await this.getApp(options?.enableCae, "public").acquireTokenSilent(silentRequest));
+        )) ?? (await this.getApp("public", options?.enableCae).acquireTokenSilent(silentRequest));
       return this.handleResult(scopes, this.clientId, response || undefined);
     } catch (err: any) {
       throw this.handleError(scopes, err, options);

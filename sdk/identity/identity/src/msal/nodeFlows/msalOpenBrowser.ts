@@ -242,7 +242,7 @@ export class MsalOpenBrowser extends MsalNode {
       codeChallenge: this.pkceCodes.challenge,
       codeChallengeMethod: "S256", // Use SHA256 Algorithm
     };
-    const response = await this.getApp(options?.enableCae, "public")!.getAuthCodeUrl(
+    const response = await this.getApp("public", options?.enableCae)!.getAuthCodeUrl(
       authCodeUrlParameters
     );
     try {

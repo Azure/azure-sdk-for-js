@@ -5,7 +5,6 @@ import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
 import { AccessToken } from "@azure/core-auth";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { isError } from "@azure/core-util";
-import { ConfidentialClientApplication } from "@azure/msal-node";
 
 /**
  * Options that can be passed to configure MSAL to handle client assertions.
@@ -37,8 +36,7 @@ export class MsalClientAssertion extends MsalNode {
     try {
       const assertion = await this.getAssertion();
       const result = await (
-        this.getApp(options.enableCae, "confidential") as ConfidentialClientApplication
-      ).acquireTokenByClientCredential({
+        this.getApp("confidential", options.enableCae)).acquireTokenByClientCredential({
         scopes,
         correlationId: options.correlationId,
         azureRegion: this.azureRegion,

@@ -45,7 +45,7 @@ export class MsalAuthorizationCode extends MsalNode {
     options?: CredentialFlowGetTokenOptions
   ): Promise<AccessToken> {
     try {
-      const result = await this.getApp(options?.enableCae, "confidentialFirst")?.acquireTokenByCode(
+      const result = await this.getApp("confidentialFirst", options?.enableCae)?.acquireTokenByCode(
         {
           scopes,
           redirectUri: this.redirectUri,

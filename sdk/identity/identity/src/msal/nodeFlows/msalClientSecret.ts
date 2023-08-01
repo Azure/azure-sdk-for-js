@@ -4,7 +4,6 @@
 import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
 import { AccessToken } from "@azure/core-auth";
 import { CredentialFlowGetTokenOptions } from "../credentials";
-import { ConfidentialClientApplication } from "@azure/msal-node";
 
 /**
  * Options that can be passed to configure MSAL to handle client secrets.
@@ -34,9 +33,9 @@ export class MsalClientSecret extends MsalNode {
   ): Promise<AccessToken> {
     try {
       const result = await (this.getApp(
-        options.enableCae,
-        "confidential"
-      ) as ConfidentialClientApplication)!.acquireTokenByClientCredential({
+        "confidential",
+        options.enableCae        
+      ))!.acquireTokenByClientCredential({
         scopes,
         correlationId: options.correlationId,
         azureRegion: this.azureRegion,
