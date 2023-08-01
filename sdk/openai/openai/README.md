@@ -122,6 +122,8 @@ const client = new OpenAIClient(new OpenAIKeyCredential("<API key>"));
 The main concept to understand is [Completions][azure_openai_completions_docs]. Briefly explained, completions provides its functionality in the form of a text prompt, which by using a specific [model](https://learn.microsoft.com/azure/cognitive-services/openai/concepts/models), will then attempt to match the context and patterns, providing an output text. The following code snippet provides a rough overview:
 
 ```javascript
+const { OpenAIClient } = require("@azure/openai");
+
 const client = new OpenAIClient(
   "https://your-azure-openai-resource.com/",
   new AzureKeyCredential("your-azure-openai-resource-api-key"));
@@ -144,6 +146,8 @@ You can familiarize yourself with different APIs using [Samples](https://github.
 This example authenticates using a DefaultAzureCredential, then generates chat responses to input chat question and messages.
 
 ```javascript
+const { OpenAIClient } = require("@azure/openai");
+
 const endpoint = "https://myaccount.openai.azure.com/";
 const client = new OpenAIClient(endpoint, new DefaultAzureCredential());
 
@@ -174,6 +178,8 @@ for await (const event of events) {
 This example generates text responses to input prompts using an Azure subscription key
 
 ```javascript
+const { OpenAIClient } = require("@azure/openai");
+
 // Replace with your Azure OpenAI key
 const key = "YOUR_AZURE_OPENAI_KEY";
 const endpoint = "https://myaccount.openai.azure.com/";
@@ -190,7 +196,7 @@ const examplePrompts = [
 const deploymentName = "text-davinci-003";
 
 let promptIndex = 0;
-const { choices } = await client.getCompletions(deploymentName, examplePrompts);
+const { choices } = client.getCompletions(deploymentName, examplePrompts);
 for (const choice of choices) {
   const completion = choice.text;
   console.log(`Input: ${examplePrompts[promptIndex++]}`);
@@ -203,6 +209,8 @@ for (const choice of choices) {
 This example generates a summarization of the given input prompt.
 
 ```javascript
+const { OpenAIClient } = require("@azure/openai");
+
 const endpoint = "https://myaccount.openai.azure.com/";
 const client = new OpenAIClient(endpoint, new DefaultAzureCredential());
 
