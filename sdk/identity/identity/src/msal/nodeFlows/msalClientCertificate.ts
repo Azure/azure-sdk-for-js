@@ -166,7 +166,7 @@ export class MsalClientCertificate extends MsalNode {
       const result = await this.getApp(
         "confidential",
         options.enableCae
-      )!.acquireTokenByClientCredential(clientCredReq);
+      ).acquireTokenByClientCredential(clientCredReq);
       // Even though we're providing the same default in memory persistence cache that we use for DeviceCodeCredential,
       // The Client Credential flow does not return the account information from the authentication service,
       // so each time getToken gets called, we will have to acquire a new token through the service.
