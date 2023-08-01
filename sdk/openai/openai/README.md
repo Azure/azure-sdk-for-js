@@ -196,7 +196,7 @@ const examplePrompts = [
 const deploymentName = "text-davinci-003";
 
 let promptIndex = 0;
-const { choices } = client.getCompletions(deploymentName, examplePrompts);
+const { choices } = await client.getCompletions(deploymentName, examplePrompts);
 for (const choice of choices) {
   const completion = choice.text;
   console.log(`Input: ${examplePrompts[promptIndex++]}`);
