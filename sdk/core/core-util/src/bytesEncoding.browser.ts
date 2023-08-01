@@ -56,7 +56,7 @@ export function uint8ArrayToBase64(bytes: Uint8Array): string {
  * @internal
  */
 export function uint8ArrayToBase64Url(bytes: Uint8Array): string {
-  return btoa(String.fromCharCode.apply(null, bytes as any as number[]))
+  return uint8ArrayToBase64(bytes)
     .replace(/\+/g, "-")
     .replace(/\//g, "_")
     .replace(/=/g, "");
