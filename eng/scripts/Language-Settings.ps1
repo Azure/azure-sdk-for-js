@@ -232,10 +232,11 @@ function ValidatePackagesForDocs($packages, $DocValidationImageId) {
 
   $scriptRoot = $PSScriptRoot
   # Run this in parallel as each step takes a long time to run
-  $validationOutput = $packages | Foreach-Object -Parallel {
+  $validationOutput = $packages | ForEach-Object { [PSCustomObject]$_ } | Foreach-Object -Parallel {
     # Get value for variables outside of the Foreach-Object scope
     $scriptRoot = "$using:scriptRoot"
     $workingDirectory = "$using:tempDirectory"
+    Write-Host "`"$scriptRoot\validate-docs-package.ps1`" -Package $_ -DocValidationImageId `"$($using:DocValidationImageId)`" -WorkingDirectory $workingDirectory"
     return ."$scriptRoot\validate-docs-package.ps1" -Package $_ -DocValidationImageId "$using:DocValidationImageId" -WorkingDirectory $workingDirectory 
   }
 
