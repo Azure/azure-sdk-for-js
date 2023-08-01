@@ -24,7 +24,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { AuthenticationRecord } from "../types";
 import { AuthenticationRequiredError } from "../../errors";
 import { CredentialFlowGetTokenOptions } from "../credentials";
-import { CACHE_CAE_SUFFIX,CACHE_NON_CAE_SUFFIX, DeveloperSignOnClientId } from "../../constants";
+import { CACHE_CAE_SUFFIX, CACHE_NON_CAE_SUFFIX, DeveloperSignOnClientId } from "../../constants";
 import { IdentityClient } from "../../client/identityClient";
 import { LogPolicyOptions } from "@azure/core-rest-pipeline";
 import { MultiTenantTokenCredentialOptions } from "../../credentials/multiTenantTokenCredentialOptions";
@@ -184,6 +184,37 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     };
   }
 
+  protected getApp(
+    enableCae?: Boolean,
+    appType?: string
+  ): msalNode.ConfidentialClientApplication | msalNode.PublicClientApplication {
+    if (enableCae) {
+      if (appType === "publicFirst") {
+        return (this.publicAppCae || this.confidentialAppCae)!;
+      } else if (appType === "confidentialFirst") {
+        return (this.confidentialAppCae || this.publicAppCae)!;
+      } else if (appType === "confidential") {
+        return this.confidentialAppCae!;
+      } else if (appType === "public") {
+        return this.publicAppCae!;
+      } else {
+        return this.publicAppCae!;
+      }
+    } else {
+      if (appType === "publicFirst") {
+        return (this.publicApp || this.confidentialApp)!;
+      } else if (appType === "confidentialFirst") {
+        return (this.confidentialApp || this.publicApp)!;
+      } else if (appType === "confidential") {
+        return this.confidentialApp!;
+      } else if (appType === "public") {
+        return this.publicApp!;
+      } else {
+        return this.publicApp!;
+      }
+    }
+  }
+
   /**
    * Prepares the MSAL applications.
    */
@@ -333,23 +364,14 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
        * The following code to retrieve all accounts is done as a workaround in an attempt to force the
        * refresh of the token cache with the token and the account passed in through the
        * `authenticationRecord` parameter. See issue - https://github.com/Azure/azure-sdk-for-js/issues/24349#issuecomment-1496715651
-       * This workaround serves as a workoaround for silent authentication not happening when authenticationRecord is passed.
+       * This workaround serves as a workaround for silent authentication not happening when authenticationRecord is passed.
        */
-      if (options?.enableCae) {
-        await (this.publicAppCae || this.confidentialAppCae)?.getTokenCache().getAllAccounts();
-
-        const response =
-          (await this.confidentialAppCae?.acquireTokenSilent(silentRequest)) ??
-          (await this.publicAppCae!.acquireTokenSilent(silentRequest));
-        return this.handleResult(scopes, this.clientId, response || undefined);
-      } else {
-        await (this.publicApp || this.confidentialApp)?.getTokenCache().getAllAccounts();
-
-        const response =
-          (await this.confidentialApp?.acquireTokenSilent(silentRequest)) ??
-          (await this.publicApp!.acquireTokenSilent(silentRequest));
-        return this.handleResult(scopes, this.clientId, response || undefined);
-      }
+      await this.getApp(options?.enableCae, "publicFirst")?.getTokenCache().getAllAccounts();
+      const response =
+        (await this.getApp(options?.enableCae, "confidential")?.acquireTokenSilent(
+          silentRequest
+        )) ?? (await this.getApp(options?.enableCae, "public").acquireTokenSilent(silentRequest));
+      return this.handleResult(scopes, this.clientId, response || undefined);
     } catch (err: any) {
       throw this.handleError(scopes, err, options);
     }

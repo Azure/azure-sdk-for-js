@@ -242,12 +242,9 @@ export class MsalOpenBrowser extends MsalNode {
       codeChallenge: this.pkceCodes.challenge,
       codeChallengeMethod: "S256", // Use SHA256 Algorithm
     };
-    let response;
-    if (options?.enableCae) {
-      response = await this.publicAppCae!.getAuthCodeUrl(authCodeUrlParameters);
-    } else {
-      response = await this.publicApp!.getAuthCodeUrl(authCodeUrlParameters);
-    }
+    const response = await this.getApp(options?.enableCae, "public")!.getAuthCodeUrl(
+      authCodeUrlParameters
+    );
     try {
       // A new instance on macOS only which allows it to not hang, does not fix the issue on linux
       await interactiveBrowserMockable.open(response, { wait: true, newInstance: true });

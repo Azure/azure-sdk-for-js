@@ -6,6 +6,7 @@ import { AccessToken } from "@azure/core-auth";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { formatError } from "../../util/logging";
 import { parseCertificate } from "./msalClientCertificate";
+import { ConfidentialClientApplication } from "@azure/msal-node";
 
 /**
  * Options that can be passed to configure MSAL to handle On-Behalf-Of authentication requests.
@@ -79,24 +80,16 @@ export class MsalOnBehalfOf extends MsalNode {
     options: CredentialFlowGetTokenOptions = {}
   ): Promise<AccessToken> {
     try {
-      let result;
-      if (options.enableCae) {
-        result = await this.confidentialAppCae!.acquireTokenOnBehalfOf({
-          scopes,
-          correlationId: options.correlationId,
-          authority: options.authority,
-          claims: options.claims,
-          oboAssertion: this.userAssertionToken,
-        });
-      } else {
-        result = await this.confidentialApp!.acquireTokenOnBehalfOf({
-          scopes,
-          correlationId: options.correlationId,
-          authority: options.authority,
-          claims: options.claims,
-          oboAssertion: this.userAssertionToken,
-        });
-      }
+      const result = await (this.getApp(
+        options.enableCae,
+        "confidential"
+      ) as ConfidentialClientApplication)!.acquireTokenOnBehalfOf({
+        scopes,
+        correlationId: options.correlationId,
+        authority: options.authority,
+        claims: options.claims,
+        oboAssertion: this.userAssertionToken,
+      });
       return this.handleResult(scopes, this.clientId, result || undefined);
     } catch (err: any) {
       throw this.handleError(scopes, err, options);

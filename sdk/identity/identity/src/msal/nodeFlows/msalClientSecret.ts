@@ -4,6 +4,7 @@
 import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
 import { AccessToken } from "@azure/core-auth";
 import { CredentialFlowGetTokenOptions } from "../credentials";
+import { ConfidentialClientApplication } from "@azure/msal-node";
 
 /**
  * Options that can be passed to configure MSAL to handle client secrets.
@@ -32,24 +33,16 @@ export class MsalClientSecret extends MsalNode {
     options: CredentialFlowGetTokenOptions = {}
   ): Promise<AccessToken> {
     try {
-      let result;
-      if (options.enableCae) {
-        result = await this.confidentialAppCae!.acquireTokenByClientCredential({
-          scopes,
-          correlationId: options.correlationId,
-          azureRegion: this.azureRegion,
-          authority: options.authority,
-          claims: options.claims,
-        });
-      } else {
-        result = await this.confidentialApp!.acquireTokenByClientCredential({
-          scopes,
-          correlationId: options.correlationId,
-          azureRegion: this.azureRegion,
-          authority: options.authority,
-          claims: options.claims,
-        });
-      }
+      const result = await (this.getApp(
+        options.enableCae,
+        "confidential"
+      ) as ConfidentialClientApplication)!.acquireTokenByClientCredential({
+        scopes,
+        correlationId: options.correlationId,
+        azureRegion: this.azureRegion,
+        authority: options.authority,
+        claims: options.claims,
+      });
       // The Client Credential flow does not return an account,
       // so each time getToken gets called, we will have to acquire a new token through the service.
       return this.handleResult(scopes, this.clientId, result || undefined);

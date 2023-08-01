@@ -54,6 +54,5 @@ export const DefaultAuthorityHost = AzureAuthorityHosts.AzurePublicCloud;
  */
 export const ALL_TENANTS: string[] = ["*"];
 
-
-export const CACHE_CAE_SUFFIX = ".cae"
-export const CACHE_NON_CAE_SUFFIX = ".nocae"
+export const CACHE_CAE_SUFFIX = ".cae";
+export const CACHE_NON_CAE_SUFFIX = ".nocae";
