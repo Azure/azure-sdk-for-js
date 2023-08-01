@@ -124,17 +124,23 @@ The main concept to understand is [Completions][azure_openai_completions_docs]. 
 ```javascript
 const { OpenAIClient } = require("@azure/openai");
 
-const client = new OpenAIClient(
+async function main(){
+  const client = new OpenAIClient(
   "https://your-azure-openai-resource.com/",
   new AzureKeyCredential("your-azure-openai-resource-api-key"));
 
-const { choices } = await client.getCompletions(
-  "text-davinci-003", // assumes a matching model deployment or model name
-  ["Hello, world!"]);
+  const { choices } = await client.getCompletions(
+    "text-davinci-003", // assumes a matching model deployment or model name
+    ["Hello, world!"]);
 
-for (const choice of choices) {
-  console.log(choice.text);
+  for (const choice of choices) {
+    console.log(choice.text);
+  }
 }
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
 ```
 
 ## Examples
@@ -148,29 +154,35 @@ This example authenticates using a DefaultAzureCredential, then generates chat r
 ```javascript
 const { OpenAIClient } = require("@azure/openai");
 
-const endpoint = "https://myaccount.openai.azure.com/";
-const client = new OpenAIClient(endpoint, new DefaultAzureCredential());
+async function main(){
+  const endpoint = "https://myaccount.openai.azure.com/";
+  const client = new OpenAIClient(endpoint, new DefaultAzureCredential());
 
-const deploymentId = "gpt-35-turbo";
+  const deploymentId = "gpt-35-turbo";
 
-const messages = [
-  { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
-  { role: "user", content: "Can you help me?" },
-  { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
-  { role: "user", content: "What's the best way to train a parrot?" },
-];
+  const messages = [
+    { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
+    { role: "user", content: "Can you help me?" },
+    { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
+    { role: "user", content: "What's the best way to train a parrot?" },
+  ];
 
-console.log(`Messages: ${messages.map((m) => m.content).join("\n")}`);
+  console.log(`Messages: ${messages.map((m) => m.content).join("\n")}`);
 
-const events = await client.listChatCompletions(deploymentId, messages, { maxTokens: 128 });
-for await (const event of events) {
-  for (const choice of event.choices) {
-    const delta = choice.delta?.content;
-    if (delta !== undefined) {
-      console.log(`Chatbot: ${delta}`);
+  const events = await client.listChatCompletions(deploymentId, messages, { maxTokens: 128 });
+  for await (const event of events) {
+    for (const choice of event.choices) {
+      const delta = choice.delta?.content;
+      if (delta !== undefined) {
+        console.log(`Chatbot: ${delta}`);
+      }
     }
   }
 }
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
 ```
 
 ### Generate Multiple Completions With Subscription Key
@@ -180,28 +192,34 @@ This example generates text responses to input prompts using an Azure subscripti
 ```javascript
 const { OpenAIClient } = require("@azure/openai");
 
-// Replace with your Azure OpenAI key
-const key = "YOUR_AZURE_OPENAI_KEY";
-const endpoint = "https://myaccount.openai.azure.com/";
-const client = new OpenAIClient(endpoint, new AzureKeyCredential(key));
+async function main(){
+  // Replace with your Azure OpenAI key
+  const key = "YOUR_AZURE_OPENAI_KEY";
+  const endpoint = "https://myaccount.openai.azure.com/";
+  const client = new OpenAIClient(endpoint, new AzureKeyCredential(key));
 
-const examplePrompts = [
-  "How are you today?",
-  "What is Azure OpenAI?",
-  "Why do children love dinosaurs?",
-  "Generate a proof of Euler's identity",
-  "Describe in single words only the good things that come into your mind about your mother.",
-];
+  const examplePrompts = [
+    "How are you today?",
+    "What is Azure OpenAI?",
+    "Why do children love dinosaurs?",
+    "Generate a proof of Euler's identity",
+    "Describe in single words only the good things that come into your mind about your mother.",
+  ];
 
-const deploymentName = "text-davinci-003";
+  const deploymentName = "text-davinci-003";
 
-let promptIndex = 0;
-const { choices } = await client.getCompletions(deploymentName, examplePrompts);
-for (const choice of choices) {
-  const completion = choice.text;
-  console.log(`Input: ${examplePrompts[promptIndex++]}`);
-  console.log(`Chatbot: ${completion}`);
+  let promptIndex = 0;
+  const { choices } = await client.getCompletions(deploymentName, examplePrompts);
+  for (const choice of choices) {
+    const completion = choice.text;
+    console.log(`Input: ${examplePrompts[promptIndex++]}`);
+    console.log(`Chatbot: ${completion}`);
+  }
 }
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
 ```
 
 ### Summarize Text with Completion
@@ -211,35 +229,41 @@ This example generates a summarization of the given input prompt.
 ```javascript
 const { OpenAIClient } = require("@azure/openai");
 
-const endpoint = "https://myaccount.openai.azure.com/";
-const client = new OpenAIClient(endpoint, new DefaultAzureCredential());
+async function main(){
+  const endpoint = "https://myaccount.openai.azure.com/";
+  const client = new OpenAIClient(endpoint, new DefaultAzureCredential());
 
-const textToSummarize = `
-  Two independent experiments reported their results this morning at CERN, Europe's high-energy physics laboratory near Geneva in Switzerland. Both show convincing evidence of a new boson particle weighing around 125 gigaelectronvolts, which so far fits predictions of the Higgs previously made by theoretical physicists.
+  const textToSummarize = `
+    Two independent experiments reported their results this morning at CERN, Europe's high-energy physics laboratory near Geneva in Switzerland. Both show convincing evidence of a new boson particle weighing around 125 gigaelectronvolts, which so far fits predictions of the Higgs previously made by theoretical physicists.
 
-  ""As a layman I would say: 'I think we have it'. Would you agree?"" Rolf-Dieter Heuer, CERN's director-general, asked the packed auditorium. The physicists assembled there burst into applause.
- :`;
+    ""As a layman I would say: 'I think we have it'. Would you agree?"" Rolf-Dieter Heuer, CERN's director-general, asked the packed auditorium. The physicists assembled there burst into applause.
+  :`;
 
-const summarizationPrompt = [`
-  Summarize the following text.
+  const summarizationPrompt = [`
+    Summarize the following text.
 
-  Text:
-  """"""
-  ${textToSummarize}
-  """"""
+    Text:
+    """"""
+    ${textToSummarize}
+    """"""
 
-  Summary:
-`];
+    Summary:
+  `];
 
-console.log(`Input: ${summarizationPrompt}`);
+  console.log(`Input: ${summarizationPrompt}`);
 
-const deploymentName = "text-davinci-003";
+  const deploymentName = "text-davinci-003";
 
-const { choices } = await client.getCompletions(deploymentName, examplePrompts, {
-  maxTokens: 64
+  const { choices } = await client.getCompletions(deploymentName, examplePrompts, {
+    maxTokens: 64
+  });
+  const completion = choices[0].text;
+  console.log(`Summarization: ${completion}`);
+}
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
 });
-const completion = choices[0].text;
-console.log(`Summarization: ${completion}`);
 ```
 
 ## Troubleshooting
