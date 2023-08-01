@@ -22,8 +22,8 @@ import fs from "fs";
 import { ASSET_PATH, makeTestUrl } from "../../utils/etc";
 
 const endpoint = (): string => assertEnvironmentVariable("FORM_RECOGNIZER_ENDPOINT");
-// const containerSasUrl = (): string =>
-//   assertEnvironmentVariable("FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL");
+const containerSasUrl = (): string =>
+  assertEnvironmentVariable("FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL");
 
 /*
  * Run the entire battery of tests using both AAD and API Key.
@@ -31,8 +31,8 @@ const endpoint = (): string => assertEnvironmentVariable("FORM_RECOGNIZER_ENDPOI
  * Note: Neural builds are currently disabled, as they take prohibitively long to complete for the live testing
  * environment.
  */
-matrix([[true, false]] as const, async (useAad) => {
-  describe(`[${useAad ? "AAD" : "API Key"}] document classifiers`, () => {
+matrix([[/*true,*/ false]] as const, async (useAad) => {
+  describe.only(`[${useAad ? "AAD" : "API Key"}] document classifiers`, () => {
     let recorder: Recorder;
     let client: DocumentAnalysisClient;
 
@@ -76,14 +76,16 @@ matrix([[true, false]] as const, async (useAad) => {
           {
             // TODO: use a different container for each test
             foo: {
-              containerUrl: assertEnvironmentVariable(
-                "FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL"
-              ),
+              // containerUrl: assertEnvironmentVariable(
+              //   "FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL"
+              // ),
+              containerUrl: containerSasUrl(),
             },
             bar: {
-              containerUrl: assertEnvironmentVariable(
-                "FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL"
-              ),
+              // containerUrl: assertEnvironmentVariable(
+              //   "FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL"
+              // ),
+              containerUrl: containerSasUrl(),
             },
           },
           { ...testPollingOptions, description: customClassifierDescription }

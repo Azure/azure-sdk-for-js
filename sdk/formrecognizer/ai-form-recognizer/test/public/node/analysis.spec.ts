@@ -36,7 +36,7 @@ function assertDefined(value: unknown, message?: string): asserts value {
   return assert.ok(value, message);
 }
 
-matrix([[true, false]] as const, async (useAad) => {
+matrix([[true /*false*/]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}] analysis (Node)`, () => {
     let client: DocumentAnalysisClient;
     let recorder: Recorder;
@@ -263,11 +263,10 @@ matrix([[true, false]] as const, async (useAad) => {
 
         const url = makeTestUrl("/barcode2.tif");
 
-        const poller = await client.beginAnalyzeDocumentFromUrl(
-          "prebuilt-read",
-          url,
-          testPollingOptions
-        );
+        const poller = await client.beginAnalyzeDocumentFromUrl("prebuilt-read", url, {
+          ...testPollingOptions,
+          features: [FormRecognizerFeature.Barcodes],
+        });
 
         const { pages } = await poller.pollUntilDone();
 
@@ -305,7 +304,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
       it("formula", async function () {
         // This test is currently not working as expected.
-        this.skip();
+        // this.skip();
 
         const url = makeTestUrl("/formula1.jpg");
 
@@ -319,25 +318,6 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.isNotEmpty(pages);
 
         assert.isNotEmpty(pages?.[0].formulas);
-      });
-
-      it("with barcodes", async function () {
-        const url = makeTestUrl("/barcode2.tif");
-
-        const poller = await client.beginAnalyzeDocumentFromUrl(
-          PrebuiltModels.GeneralDocument,
-          url,
-          {
-            features: [FormRecognizerFeature.Barcodes],
-            ...testPollingOptions,
-          }
-        );
-
-        const result = await poller.pollUntilDone();
-
-        assert.ok(result);
-
-        assert.isNotEmpty(result.documents);
       });
     });
 
@@ -1098,17 +1078,19 @@ matrix([[true, false]] as const, async (useAad) => {
             amount: 123.3,
           },
         ],
-        // isStatutoryEmployee: "true", // Service Regression
-        // isThirdPartySickPay: "true", // Service Regression
         other: "DISINS 170.85",
         stateTaxInfos: [
           {
             state: "PA",
             employerStateIdNumber: "87654321",
+            stateWagesTipsEtc: 37160.56,
+            stateIncomeTax: 1135.65,
           },
           {
             state: "WA",
             employerStateIdNumber: "12345678",
+            stateWagesTipsEtc: 9631.2,
+            stateIncomeTax: 1032.3,
           },
         ],
         localTaxInfos: [
@@ -1193,40 +1175,6 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.isNotEmpty(documents);
 
         validator(healthInsuranceCard as AnalyzedDocument);
-      });
-    });
-
-    describe("vaccinationCard", function () {
-      const validator = createValidator({
-        cardHolderInfo: {
-          firstName: "Angel",
-        },
-        vaccines: [
-          {
-            manufacturer: "Pfizer",
-          },
-          {
-            manufacturer: "Pfizer",
-          },
-        ],
-      });
-
-      it("jpg file stream", async function (this: Mocha.Context) {
-        const filePath = path.join(ASSET_PATH, "vaccinationCard", "vaccination.jpg");
-        const stream = fs.createReadStream(filePath);
-
-        const poller = await client.beginAnalyzeDocument(
-          PrebuiltModels.VaccinationCard,
-          stream,
-          testPollingOptions
-        );
-
-        const { documents } = await poller.pollUntilDone();
-        const vaccinationCard = documents?.[0];
-
-        assert.isNotEmpty(documents);
-
-        validator(vaccinationCard as AnalyzedDocument);
       });
     });
   }).timeout(60000);

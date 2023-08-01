@@ -4,7 +4,7 @@
 // Model:       prebuilt-businessCard
 // Description: Extract key information from business cards.
 // API Version: 2023-07-31
-// Created:     Wed Apr 05 2023
+// Created:     Tue Aug 01 2023
 
 import * as fr from "../../../src";
 
@@ -70,7 +70,9 @@ export interface BusinessCardFields {
   /**
    * `BusinessCard` "ContactNames" field
    */
-  contactNames?: fr.DocumentArrayField<fr.DocumentObjectField<BusinessCardContactNamesElement>>;
+  contactNames?: fr.DocumentArrayField<
+    fr.DocumentObjectField<BusinessCardContactNamesElement>
+  >;
   /**
    * `BusinessCard` "CompanyNames" field
    */
@@ -134,7 +136,7 @@ function modelInfo() {
   return {
     modelId: "prebuilt-businessCard",
     description: "Extract key information from business cards.",
-    createdOn: "2023-02-28T00:00:00.000Z",
+    createdOn: "2023-07-31T00:00:00.000Z",
     apiVersion: "2023-07-31",
     docTypes: {
       businessCard: {

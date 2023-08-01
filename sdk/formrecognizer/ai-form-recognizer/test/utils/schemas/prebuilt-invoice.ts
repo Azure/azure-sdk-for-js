@@ -4,7 +4,7 @@
 // Model:       prebuilt-invoice
 // Description: Extract key information from invoices.
 // API Version: 2023-07-31
-// Created:     Wed Apr 05 2023
+// Created:     Tue Aug 01 2023
 
 import * as fr from "../../../src";
 
@@ -194,11 +194,15 @@ export interface InvoiceFields {
   /**
    * List of payment details
    */
-  paymentDetails?: fr.DocumentArrayField<fr.DocumentObjectField<InvoicePaymentDetailsElement>>;
+  paymentDetails?: fr.DocumentArrayField<
+    fr.DocumentObjectField<InvoicePaymentDetailsElement>
+  >;
   /**
    * List of tax details
    */
-  taxDetails?: fr.DocumentArrayField<fr.DocumentObjectField<InvoiceTaxDetailsElement>>;
+  taxDetails?: fr.DocumentArrayField<
+    fr.DocumentObjectField<InvoiceTaxDetailsElement>
+  >;
   /**
    * List of line items
    */
@@ -288,7 +292,7 @@ function modelInfo() {
   return {
     modelId: "prebuilt-invoice",
     description: "Extract key information from invoices.",
-    createdOn: "2023-02-28T00:00:00.000Z",
+    createdOn: "2023-07-31T00:00:00.000Z",
     apiVersion: "2023-07-31",
     docTypes: {
       invoice: {
@@ -311,7 +315,8 @@ function modelInfo() {
           },
           InvoiceId: {
             type: "string",
-            description: "ID for this specific invoice (often 'Invoice Number')",
+            description:
+              "ID for this specific invoice (often 'Invoice Number')",
             example: "INV-100",
           },
           InvoiceDate: {
@@ -401,7 +406,8 @@ function modelInfo() {
           },
           RemittanceAddress: {
             type: "address",
-            description: "Explicit remittance or payment address for the customer",
+            description:
+              "Explicit remittance or payment address for the customer",
             example: "123 Remit St New York, NY, 10001",
           },
           RemittanceAddressRecipient: {
@@ -411,7 +417,8 @@ function modelInfo() {
           },
           ServiceAddress: {
             type: "address",
-            description: "Explicit service address or property address for the customer",
+            description:
+              "Explicit service address or property address for the customer",
             example: "123 Service St, Redmond WA, 98052",
           },
           ServiceAddressRecipient: {
@@ -438,12 +445,14 @@ function modelInfo() {
           },
           CustomerTaxId: {
             type: "string",
-            description: "The government ID number associated with the customer",
+            description:
+              "The government ID number associated with the customer",
             example: "765432-1",
           },
           PaymentTerm: {
             type: "string",
-            description: "The terms under which the payment is meant to be paid",
+            description:
+              "The terms under which the payment is meant to be paid",
             example: "Net90",
           },
           PaymentDetails: {
@@ -493,7 +502,8 @@ function modelInfo() {
             items: {
               type: "object",
               description: "A single line item",
-              example: "3/4/2021\nA123\nConsulting Services\n2 hours\n$30.00\n10%\n$60.00",
+              example:
+                "3/4/2021\nA123\nConsulting Services\n2 hours\n$30.00\n10%\n$60.00",
               properties: {
                 Amount: {
                   type: "currency",
