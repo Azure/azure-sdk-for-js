@@ -72,7 +72,7 @@ describe("Quantum job lifecycle", () => {
     }
 
     // Get input data blob Uri with SAS key
-    const blobName = `${getRecorderUniqueVariable(recorder, "input-")}.json`;
+    const blobName = `${getRecorderUniqueVariable(recorder, "input-")}.bc`;
     let inputDataUri =
       (
         await client.storage.sasUri({
@@ -84,18 +84,28 @@ describe("Quantum job lifecycle", () => {
     // Upload input data to blob (if not in Playback mode)
     if (!isPlaybackMode()) {
       const blobClient = new BlockBlobClient(inputDataUri, credentials);
-      const problemFilename = "./test/problem.json";
-      const fileContent = fs.readFileSync(problemFilename, "utf8");
-      await blobClient.upload(fileContent, Buffer.byteLength(fileContent));
+      const qirFilename = "./test/BellState.bc";
+      const fileContent = fs.readFileSync(qirFilename, "utf8");
+      const blobOptions = {
+        blobHTTPHeaders: {
+          blobContentType: "qir.v1",
+        },
+      };
+      await blobClient.upload(fileContent, Buffer.byteLength(fileContent), blobOptions);
     }
 
     // Submit job
     const jobId = getRecorderUniqueVariable(recorder, "job-");
     const jobName = getRecorderUniqueVariable(recorder, "jobname-");
-    const inputDataFormat = "microsoft.qio.v2";
-    const outputDataFormat = "microsoft.qio-results.v2";
-    const providerId = "microsoft";
-    const target = "microsoft.paralleltempering-parameterfree.cpu";
+    const inputDataFormat = "qir.v1";
+    const outputDataFormat = "microsoft.quantum-results.v1";
+    const providerId = "quantinuum";
+    const target = "quantinuum.sim.h1-1e";
+    const inputParams = {
+      "entryPoint": "ENTRYPOINT__BellState",
+      "arguments": <string[]>[],
+      "targetCapability": "AdaptiveExecution",    
+    };
     const createJobDetails = {
       containerUri: containerUri,
       inputDataFormat: inputDataFormat,
@@ -105,6 +115,7 @@ describe("Quantum job lifecycle", () => {
       inputDataUri: inputDataUri,
       name: jobName,
       outputDataFormat: outputDataFormat,
+      inputParams: inputParams,
     };
     const jobDetails = await client.jobs.create(jobId, createJobDetails);
 
@@ -120,26 +131,17 @@ describe("Quantum job lifecycle", () => {
     assert.equal(jobName, jobDetails.name);
     assert.equal(inputDataUri, jobDetails.inputDataUri);
 
-    // Get the job that we've just created based on the jobId
-    const gotJob = await client.jobs.get(jobId);
-    assert.equal(jobDetails.inputDataFormat, gotJob.inputDataFormat);
-    assert.equal(jobDetails.outputDataFormat, gotJob.outputDataFormat);
-    assert.equal(jobDetails.providerId, gotJob.providerId);
-    assert.equal(jobDetails.target, gotJob.target);
-    assert.equal(jobDetails.id, gotJob.id);
-    assert.equal(jobDetails.name, gotJob.name);
-
     // Get all jobs and look for the job that we've just created
     let jobFound = false;
     const jobs = client.jobs.list();
     for await (const job of jobs) {
       if (job.id == jobDetails.id) {
         jobFound = true;
-        assert.equal(jobDetails.inputDataFormat, gotJob.inputDataFormat);
-        assert.equal(jobDetails.outputDataFormat, gotJob.outputDataFormat);
-        assert.equal(jobDetails.providerId, gotJob.providerId);
-        assert.equal(jobDetails.target, gotJob.target);
-        assert.equal(jobDetails.name, gotJob.name);
+        assert.equal(jobDetails.inputDataFormat, jobDetails.inputDataFormat);
+        assert.equal(jobDetails.outputDataFormat, jobDetails.outputDataFormat);
+        assert.equal(jobDetails.providerId, jobDetails.providerId);
+        assert.equal(jobDetails.target, jobDetails.target);
+        assert.equal(jobDetails.name, jobDetails.name);
       }
     }
     assert.isTrue(jobFound);

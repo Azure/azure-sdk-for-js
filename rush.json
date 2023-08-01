@@ -2039,6 +2039,11 @@
       "packageName": "@azure/arm-quantum",
       "projectFolder": "sdk/quantum/arm-quantum",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-sphere",
+      "projectFolder": "sdk/sphere/arm-sphere",
+      "versionPolicyName": "management"
     }
   ]
 }
