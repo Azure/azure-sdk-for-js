@@ -144,8 +144,8 @@ export const ShortCodeCosts: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ShortCodeCosts",
     modelProperties: {
-      shortCodeCosts: {
-        serializedName: "shortCodeCosts",
+      costs: {
+        serializedName: "costs",
         type: {
           name: "Sequence",
           element: {
@@ -173,35 +173,30 @@ export const ShortCodeCost: coreClient.CompositeMapper = {
     modelProperties: {
       amount: {
         serializedName: "amount",
-        required: true,
         type: {
           name: "Number"
         }
       },
       currencyCode: {
         serializedName: "currencyCode",
-        required: true,
         type: {
           name: "String"
         }
       },
       countryCode: {
         serializedName: "countryCode",
-        required: true,
         type: {
           name: "String"
         }
       },
       isVanityShortCode: {
         serializedName: "isVanityShortCode",
-        required: true,
         type: {
           name: "Boolean"
         }
       },
       billingFrequency: {
         serializedName: "billingFrequency",
-        required: true,
         type: {
           name: "String"
         }
