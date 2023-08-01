@@ -157,6 +157,7 @@ function updateMocha(packageJson: PackageJsonType) {
     integrationTestScript.includes("test:node-ts-input")
   ) {
     packageJson.mocha = {
+      require: "ts-node/register",
       loader: "ts-node/esm",
     };
   }
