@@ -4,7 +4,7 @@
 // Model:       prebuilt-receipt
 // Description: Extract key information from receipts.
 // API Version: 2023-07-31
-// Created:     Wed Apr 05 2023
+// Created:     Tue Aug 01 2023
 
 import * as fr from "../../../src";
 
@@ -231,7 +231,9 @@ export interface ReceiptFields {
   /**
    * `Receipt` "TaxDetails" field
    */
-  taxDetails?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptTaxDetailsElement>>;
+  taxDetails?: fr.DocumentArrayField<
+    fr.DocumentObjectField<ReceiptTaxDetailsElement>
+  >;
 }
 
 /**
@@ -317,11 +319,15 @@ export interface ReceiptRetailMealFields {
   /**
    * `ReceiptRetailMeal` "Items" field
    */
-  items?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptRetailMealItemsElement>>;
+  items?: fr.DocumentArrayField<
+    fr.DocumentObjectField<ReceiptRetailMealItemsElement>
+  >;
   /**
    * `ReceiptRetailMeal` "TaxDetails" field
    */
-  taxDetails?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptRetailMealTaxDetailsElement>>;
+  taxDetails?: fr.DocumentArrayField<
+    fr.DocumentObjectField<ReceiptRetailMealTaxDetailsElement>
+  >;
 }
 
 /**
@@ -407,11 +413,15 @@ export interface ReceiptCreditCardFields {
   /**
    * `ReceiptCreditCard` "Items" field
    */
-  items?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptCreditCardItemsElement>>;
+  items?: fr.DocumentArrayField<
+    fr.DocumentObjectField<ReceiptCreditCardItemsElement>
+  >;
   /**
    * `ReceiptCreditCard` "TaxDetails" field
    */
-  taxDetails?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptCreditCardTaxDetailsElement>>;
+  taxDetails?: fr.DocumentArrayField<
+    fr.DocumentObjectField<ReceiptCreditCardTaxDetailsElement>
+  >;
 }
 
 /**
@@ -501,7 +511,9 @@ export interface ReceiptGasFields {
   /**
    * `ReceiptGas` "TaxDetails" field
    */
-  taxDetails?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptGasTaxDetailsElement>>;
+  taxDetails?: fr.DocumentArrayField<
+    fr.DocumentObjectField<ReceiptGasTaxDetailsElement>
+  >;
 }
 
 /**
@@ -587,11 +599,15 @@ export interface ReceiptParkingFields {
   /**
    * `ReceiptParking` "Items" field
    */
-  items?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptParkingItemsElement>>;
+  items?: fr.DocumentArrayField<
+    fr.DocumentObjectField<ReceiptParkingItemsElement>
+  >;
   /**
    * `ReceiptParking` "TaxDetails" field
    */
-  taxDetails?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptParkingTaxDetailsElement>>;
+  taxDetails?: fr.DocumentArrayField<
+    fr.DocumentObjectField<ReceiptParkingTaxDetailsElement>
+  >;
 }
 
 /**
@@ -673,7 +689,9 @@ export interface ReceiptHotelFields {
   /**
    * `ReceiptHotel` "Items" field
    */
-  items?: fr.DocumentArrayField<fr.DocumentObjectField<ReceiptHotelItemsElement>>;
+  items?: fr.DocumentArrayField<
+    fr.DocumentObjectField<ReceiptHotelItemsElement>
+  >;
 }
 
 /**
@@ -705,7 +723,7 @@ function modelInfo() {
   return {
     modelId: "prebuilt-receipt",
     description: "Extract key information from receipts.",
-    createdOn: "2023-02-28T00:00:00.000Z",
+    createdOn: "2023-07-31T00:00:00.000Z",
     apiVersion: "2023-07-31",
     docTypes: {
       receipt: {

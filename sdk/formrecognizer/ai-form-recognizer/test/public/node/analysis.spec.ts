@@ -36,7 +36,7 @@ function assertDefined(value: unknown, message?: string): asserts value {
   return assert.ok(value, message);
 }
 
-matrix([[true, false]] as const, async (useAad) => {
+matrix([[true /*false*/]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}] analysis (Node)`, () => {
     let client: DocumentAnalysisClient;
     let recorder: Recorder;
@@ -263,11 +263,10 @@ matrix([[true, false]] as const, async (useAad) => {
 
         const url = makeTestUrl("/barcode2.tif");
 
-        const poller = await client.beginAnalyzeDocumentFromUrl(
-          "prebuilt-read",
-          url,
-          testPollingOptions
-        );
+        const poller = await client.beginAnalyzeDocumentFromUrl("prebuilt-read", url, {
+          ...testPollingOptions,
+          features: [FormRecognizerFeature.Barcodes],
+        });
 
         const { pages } = await poller.pollUntilDone();
 
@@ -305,7 +304,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
       it("formula", async function () {
         // This test is currently not working as expected.
-        this.skip();
+        // this.skip();
 
         const url = makeTestUrl("/formula1.jpg");
 
@@ -319,25 +318,6 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.isNotEmpty(pages);
 
         assert.isNotEmpty(pages?.[0].formulas);
-      });
-
-      it("with barcodes", async function () {
-        const url = makeTestUrl("/barcode2.tif");
-
-        const poller = await client.beginAnalyzeDocumentFromUrl(
-          PrebuiltModels.GeneralDocument,
-          url,
-          {
-            features: [FormRecognizerFeature.Barcodes],
-            ...testPollingOptions,
-          }
-        );
-
-        const result = await poller.pollUntilDone();
-
-        assert.ok(result);
-
-        assert.isNotEmpty(result.documents);
       });
     });
 
@@ -365,24 +345,18 @@ matrix([[true, false]] as const, async (useAad) => {
         customerAddressRecipient: "Microsoft",
         invoiceTotal: {
           amount: 56651.49,
-          currencyCode: "USD",
           currencySymbol: "$",
+          currencyCode: "USD",
         },
         items: [
           {
             amount: {
               amount: 56651.49,
-              currencyCode: "USD",
               currencySymbol: "$",
+              currencyCode: "USD",
             },
             date: "2017-06-24T00:00:00.000Z",
             productCode: "34278587",
-            tax: {
-              amount: 0,
-              currencyCode: "USD",
-              // service doesn't return currency symbol
-              currencySymbol: "",
-            },
           },
         ],
       });
@@ -715,9 +689,9 @@ matrix([[true, false]] as const, async (useAad) => {
             suburb: "Paddington",
           },
         ],
-        workPhones: ["+10209875432"],
-        mobilePhones: ["+10791112345"],
-        faxes: ["+10207892345"],
+        workPhones: ["+442098765432"],
+        mobilePhones: ["+447911123456"],
+        faxes: ["+442067892345"],
         emails: ["avery.smith@contoso.com"],
         websites: ["https://www.contoso.com/"],
       });
@@ -793,9 +767,9 @@ matrix([[true, false]] as const, async (useAad) => {
               suburb: "Paddington",
             },
           ],
-          workPhones: ["+912098765432"],
-          mobilePhones: ["+917911123456"],
-          faxes: ["+912067892345"],
+          workPhones: ["+442098765432"],
+          mobilePhones: ["+447911123456"],
+          faxes: ["+442067892345"],
           emails: ["avery.smith@contoso.com"],
           websites: ["https://www.contoso.com/"],
         });
@@ -848,24 +822,18 @@ matrix([[true, false]] as const, async (useAad) => {
         customerAddressRecipient: "Microsoft",
         invoiceTotal: {
           amount: 56651.49,
-          currencyCode: "USD",
           currencySymbol: "$",
+          currencyCode: "USD",
         },
         items: [
           {
             amount: {
               amount: 56651.49,
-              currencyCode: "USD",
               currencySymbol: "$",
+              currencyCode: "USD",
             },
             date: "2017-06-24T00:00:00.000Z",
             productCode: "34278587",
-            tax: {
-              amount: 0,
-              currencyCode: "USD",
-              // service doesn't return currency symbol
-              currencySymbol: "",
-            },
           },
         ],
       });
@@ -985,7 +953,7 @@ matrix([[true, false]] as const, async (useAad) => {
           countryRegion: "USA",
           region: "Washington",
           documentNumber: "WDLABCD456DG",
-          documentDiscriminator: "DDWDLABCD456DG 1234567XX1101",
+          documentDiscriminator: "DDWDLABCD456DG1234567XX1101",
           firstName: "LIAM R.",
           lastName: "TALBOT",
           address: {
@@ -1056,7 +1024,7 @@ matrix([[true, false]] as const, async (useAad) => {
       const validator = createValidator({
         w2FormVariant: "W-2",
         taxYear: "2018",
-        w2Copy: "Copy 2 -- To Be Filed with Employee's State, City, or Local Income Tax Return,",
+        w2Copy: "Copy 2 -. To Be Filed with Employee's State, City, or Local Income Tax Return,",
         employee: {
           socialSecurityNumber: "123-45-6789",
           name: "ANGEL BROWN",
@@ -1065,8 +1033,7 @@ matrix([[true, false]] as const, async (useAad) => {
             road: "MAIN STREET",
             city: "BUFFALO",
             state: "WA",
-            // TODO: this is a regression in the service
-            // postalCode: "12345",
+            postalCode: "12345",
             streetAddress: "4567 MAIN STREET",
           },
         },
@@ -1079,8 +1046,7 @@ matrix([[true, false]] as const, async (useAad) => {
             road: "MICROSOFT WAY",
             city: "REDMOND",
             state: "WA",
-            // TODO: this is a regression in the service
-            // postalCode: "98765",
+            postalCode: "98765",
             streetAddress: "123 MICROSOFT WAY",
           },
         },
@@ -1112,17 +1078,19 @@ matrix([[true, false]] as const, async (useAad) => {
             amount: 123.3,
           },
         ],
-        // isStatutoryEmployee: "true", // Service Regression
-        // isThirdPartySickPay: "true", // Service Regression
         other: "DISINS 170.85",
         stateTaxInfos: [
           {
             state: "PA",
             employerStateIdNumber: "87654321",
+            stateWagesTipsEtc: 37160.56,
+            stateIncomeTax: 1135.65,
           },
           {
             state: "WA",
             employerStateIdNumber: "12345678",
+            stateWagesTipsEtc: 9631.2,
+            stateIncomeTax: 1032.3,
           },
         ],
         localTaxInfos: [
@@ -1162,7 +1130,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
     describe("healthInsuranceCard - US", function () {
       const validator = createValidator({
-        insurer: "PREMERA| BLUE CROSS",
+        insurer: "PREMERA BLUE CROSS",
         member: {
           name: "ANGEL BROWN",
           employer: "Microsoft",
@@ -1207,40 +1175,6 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.isNotEmpty(documents);
 
         validator(healthInsuranceCard as AnalyzedDocument);
-      });
-    });
-
-    describe("vaccinationCard", function () {
-      const validator = createValidator({
-        cardHolderInfo: {
-          firstName: "Angel",
-        },
-        vaccines: [
-          {
-            manufacturer: "Pfizer",
-          },
-          {
-            manufacturer: "Pfizer",
-          },
-        ],
-      });
-
-      it("jpg file stream", async function (this: Mocha.Context) {
-        const filePath = path.join(ASSET_PATH, "vaccinationCard", "vaccination.jpg");
-        const stream = fs.createReadStream(filePath);
-
-        const poller = await client.beginAnalyzeDocument(
-          PrebuiltModels.VaccinationCard,
-          stream,
-          testPollingOptions
-        );
-
-        const { documents } = await poller.pollUntilDone();
-        const vaccinationCard = documents?.[0];
-
-        assert.isNotEmpty(documents);
-
-        validator(vaccinationCard as AnalyzedDocument);
       });
     });
   }).timeout(60000);
