@@ -1,12 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-
 /**
  * @internal
  */
 export type AppType = "public" | "confidential" | "publicFirst" | "confidentialFirst";
-
 
 /**
  * The shape we use return the token (and the expiration date).

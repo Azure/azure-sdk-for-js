@@ -32,10 +32,10 @@ export class MsalClientSecret extends MsalNode {
     options: CredentialFlowGetTokenOptions = {}
   ): Promise<AccessToken> {
     try {
-      const result = await (this.getApp(
+      const result = await this.getApp(
         "confidential",
-        options.enableCae        
-      ))!.acquireTokenByClientCredential({
+        options.enableCae
+      )!.acquireTokenByClientCredential({
         scopes,
         correlationId: options.correlationId,
         azureRegion: this.azureRegion,

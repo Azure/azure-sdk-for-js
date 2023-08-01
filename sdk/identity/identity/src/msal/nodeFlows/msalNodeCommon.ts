@@ -187,10 +187,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     appType: "publicFirst" | "confidentialFirst",
     enableCae?: Boolean
   ): msalNode.ConfidentialClientApplication | msalNode.PublicClientApplication;
-  protected getApp(
-    appType: "public",
-    enableCae?: Boolean
-  ): msalNode.PublicClientApplication;
+  protected getApp(appType: "public", enableCae?: Boolean): msalNode.PublicClientApplication;
 
   protected getApp(
     appType: "confidential",
@@ -199,7 +196,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
 
   protected getApp(
     appType: AppType,
-    enableCae?: Boolean    
+    enableCae?: Boolean
   ): msalNode.ConfidentialClientApplication | msalNode.PublicClientApplication {
     if (enableCae) {
       if (appType === "publicFirst") {
@@ -210,7 +207,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
         return this.confidentialAppCae!;
       } else if (appType === "public") {
         return this.publicAppCae!;
-      }else{
+      } else {
         return this.publicAppCae!;
       }
     } else {
@@ -222,8 +219,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
         return this.confidentialApp!;
       } else if (appType === "public") {
         return this.publicApp!;
-      }
-      else{
+      } else {
         return this.publicApp!;
       }
     }
@@ -382,7 +378,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
        */
       await this.getApp("publicFirst", options?.enableCae)?.getTokenCache().getAllAccounts();
       const response =
-        (await this.getApp("confidential",options?.enableCae)?.acquireTokenSilent(
+        (await this.getApp("confidential", options?.enableCae)?.acquireTokenSilent(
           silentRequest
         )) ?? (await this.getApp("public", options?.enableCae).acquireTokenSilent(silentRequest));
       return this.handleResult(scopes, this.clientId, response || undefined);
