@@ -891,6 +891,10 @@
 /sdk/quantum/arm-quantum/ @qiaozha @MaryGao
 /sdk/quantum/ci.mgmt.yml @qiaozha @MaryGao
 
+# PRLabel: %Mgmt
+/sdk/sphere/arm-sphere/ @qiaozha @MaryGao
+/sdk/sphere/ci.mgmt.yml @qiaozha @MaryGao
+
 # ServiceLabel: %AAD %Service Attention
 #/<NotInRepo>/          @adamedx
 
