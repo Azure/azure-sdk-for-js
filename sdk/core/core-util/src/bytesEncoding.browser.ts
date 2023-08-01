@@ -5,6 +5,12 @@ declare global {
   // stub these out for the browser
   function btoa(input: string): string;
   function atob(input: string): string;
+  class TextDecoder {
+    decode(input?: ArrayBufferView | ArrayBuffer): string;
+  }
+  class TextEncoder {
+    encode(input?: string): Uint8Array;
+  }
 }
 
 /** The supported character encoding type */
@@ -48,8 +54,10 @@ export function stringToUint8Array(value: string, format: EncodingType): Uint8Ar
  * Decodes a Uint8Array into a Base64 string.
  * @internal
  */
-export function uint8ArrayToBase64(bytes: Uint8Array): string {
-  return btoa(String.fromCharCode.apply(null, bytes as any as number[]));
+export function uint8ArrayToBase64(uint8Array: Uint8Array): string {
+  const decoder = new TextDecoder();
+  const dataString = decoder.decode(uint8Array);
+  return btoa(dataString);
 }
 
 /**
@@ -81,7 +89,7 @@ export function utf8StringToUint8Array(value: string): Uint8Array {
  * @internal
  */
 export function base64ToUint8Array(value: string): Uint8Array {
-  return Uint8Array.from(atob(value), (c) => c.charCodeAt(0));
+  return new TextEncoder().encode(atob(value));
 }
 
 /**
