@@ -3,7 +3,7 @@
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { credentialLogger, formatError, formatSuccess } from "../util/logging";
-import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
+import { ensureValidScopeForDevTimeCreds, getScopeResource } from "../util/scopeUtils";
 import { AzureCliCredentialOptions } from "./azureCliCredentialOptions";
 import { CredentialUnavailableError } from "../errors";
 import child_process from "child_process";
@@ -120,7 +120,7 @@ export class AzureCliCredential implements TokenCredential {
 
     const scope = typeof scopes === "string" ? scopes : scopes[0];
     logger.getToken.info(`Using the scope ${scope}`);
-    ensureValidScope(scope, logger);
+    ensureValidScopeForDevTimeCreds(scope, logger);
     const resource = getScopeResource(scope);
 
     return tracingClient.withSpan(`${this.constructor.name}.getToken`, options, async () => {
