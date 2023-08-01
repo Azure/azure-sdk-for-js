@@ -45,7 +45,7 @@ export class MsalUsernamePassword extends MsalNode {
       const result = await this.getApp(
         "public",
         options?.enableCae
-      )!.acquireTokenByUsernamePassword(requestOptions);
+      ).acquireTokenByUsernamePassword(requestOptions);
       return this.handleResult(scopes, this.clientId, result || undefined);
     } catch (error: any) {
       throw this.handleError(scopes, error, options);
