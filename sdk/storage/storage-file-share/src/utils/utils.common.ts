@@ -754,3 +754,14 @@ export function ConvertInternalResponseOfListHandles(
 
   return wrappedResponse;
 }
+
+/**
+ * A small helper to handle converting an empty string "" into undefined
+ * This is used in the case of query parameters (like continuation token) where
+ * we don't want to send an empty query parameter to the service since the signing
+ * policy for shared key will fail.
+ * @internal
+ */
+export function removeEmptyString(value: string | undefined): string | undefined {
+  return value ? value : undefined;
+}
