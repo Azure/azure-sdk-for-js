@@ -38,17 +38,21 @@ function Set-javascript-DocsPackageOnboarding($moniker, $metadata, $docRepoLocat
     -Value ($onboardingSpec | ConvertTo-Json -Depth 100)
 }
 
-function GetPackageInfoFromDocsMsConfig($packageInfo) { 
-  $name = $packageInfo.name
+function GetPackageInfoFromDocsMsConfig($packageName) {
+  if (!$packageName) { 
+    throw "Package name must not be empty"
+  }
+
+  $name = $packageName
   $version = ''
-  if ($packageInfo.name.IndexOf('@', 1) -ne -1) {
-    $secondAtIndex = $packageInfo.name.IndexOf('@', 1)
+  if ($packageName.IndexOf('@', 1) -ne -1) {
+    $secondAtIndex = $packageName.IndexOf('@', 1)
 
     # "@azure/package@1.2.3" -> "@azure/package"
-    $name = $packageInfo.name.Substring(0, $secondAtIndex)
+    $name = $packageName.Substring(0, $secondAtIndex)
 
     # "@azure/package@1.2.3" -> "1.2.3"
-    $version = $packageInfo.name.Substring($secondAtIndex + 1)
+    $version = $packageName.Substring($secondAtIndex + 1)
   }
 
   return @{
@@ -66,7 +70,7 @@ function Get-javascript-DocsPackagesAlreadyOnboarded($docRepoLocation, $moniker)
   $onboardedPackages = @{}
   $onboardingSpec = ConvertFrom-Json (Get-Content $packageOnboardingFile -Raw)
   foreach ($spec in $onboardingSpec.npm_package_sources) {
-    $packageInfo = GetPackageInfoFromDocsMsConfig $spec    
+    $packageInfo = GetPackageInfoFromDocsMsConfig $spec.name
     $onboardedPackages[$packageInfo.Name] = $packageInfo
   }
 

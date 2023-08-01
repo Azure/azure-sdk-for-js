@@ -1,3 +1,15 @@
+function GetOnboardingFile($docRepoLocation, $moniker) { 
+  $packageOnboardingFile = "$docRepoLocation/ci-configs/packages-latest.json"
+  if ("preview" -eq $moniker) {
+    $packageOnboardingFile = "$docRepoLocation/ci-configs/packages-preview.json"
+  }
+  elseif ("legacy" -eq $moniker) { 
+    $packageOnboardingFile = "$docRepoLocation/ci-configs/packages-legacy.json"
+  }
+
+  return $packageOnboardingFile
+}
+
 function Get-javascript-OnboardedDocsMsPackages($DocRepoLocation) {
   $packageOnboardingFiles = @(
     "$DocRepoLocation/ci-configs/packages-latest.json",
@@ -21,14 +33,10 @@ function Get-javascript-OnboardedDocsMsPackages($DocRepoLocation) {
 }
 
 function Get-javascript-OnboardedDocsMsPackagesForMoniker($DocRepoLocation, $moniker) {
-  $packageOnboardingFile = ""
-  if ("latest" -eq $moniker) {
-    $packageOnboardingFile = "$DocRepoLocation/ci-configs/packages-latest.json"
-  }
-  if ("preview" -eq $moniker) {
-    $packageOnboardingFile = "$DocRepoLocation/ci-configs/packages-preview.json"
-  }
-
+  $packageOnboardingFile = GetOnboardingFile `
+    -docRepoLocation $DocRepoLocation `
+    -moniker $moniker
+  
   $onboardedPackages = @{}
   $onboardingSpec = ConvertFrom-Json (Get-Content $packageOnboardingFile -Raw)
   foreach ($spec in $onboardingSpec.npm_package_sources) {
