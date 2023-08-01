@@ -59,11 +59,7 @@ export class MsalOpenBrowser extends MsalNode {
     request: msalNode.AuthorizationCodeRequest,
     enableCae?: boolean
   ): Promise<msalNode.AuthenticationResult | null> {
-    if (enableCae) {
-      return this.publicAppCae!.acquireTokenByCode(request);
-    } else {
-      return this.publicApp!.acquireTokenByCode(request);
-    }
+    return this.getApp("public", enableCae).acquireTokenByCode(request);
   }
 
   protected doGetToken(
