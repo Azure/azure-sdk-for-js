@@ -217,8 +217,6 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
         return (this.confidentialApp || this.publicApp)!;
       } else if (appType === "confidential") {
         return this.confidentialApp!;
-      } else if (appType === "public") {
-        return this.publicApp!;
       } else {
         return this.publicApp!;
       }
