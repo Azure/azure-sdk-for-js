@@ -31,7 +31,7 @@ export interface DelayOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// @public (undocumented)
+// @public
 export type EncodingType = "utf-8" | "base64" | "base64url";
 
 // @public
@@ -76,10 +76,10 @@ export function objectHasProperty<Thing, PropertyName extends string>(thing: Thi
 // @public
 export function randomUUID(): string;
 
-// @public (undocumented)
+// @public
 export function stringToUint8Array(value: string, format: EncodingType): Uint8Array;
 
-// @public (undocumented)
+// @public
 export function uint8ArrayToString(bytes: Uint8Array, format: EncodingType): string;
 
 // @public
