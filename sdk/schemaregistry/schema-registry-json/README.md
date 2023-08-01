@@ -7,10 +7,10 @@ Json-serialized data.
 
 Key links:
 
-- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/schemaregistry/schema-registry-json)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/schemaregistryjson-init/sdk/schemaregistry/schema-registry-json)
 - [Package (npm)](https://www.npmjs.com/package/@azure/schema-registry-json)
-- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/schema-registry-json)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/schemaregistry/schema-registry-json/samples)
+- [API Reference Documentation](https://aka.ms/schemaregistryjson-js-api)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/schemaregistryjson-init/sdk/schemaregistry/schema-registry-json/samples)
 
 ## Getting started
 
@@ -107,7 +107,7 @@ Validation may be useful for your application since JSON deserialization is flex
 Deserializing on its own will not verify that the value matches a given schema, 
 so implementing the validation method will be a much more reliable way to enforce schema adherance.
 To see how the validation might be implemented, please take a look at the `schemaRegistryJsonWithValidation.ts` 
-sample [here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/schemaregistry/schema-registry-json/samples/schemaRegistryJsonWithValidation.ts)
+sample [here](https://github.com/Azure/azure-sdk-for-js/tree/schemaregistryjson-init/sdk/schemaregistry/schema-registry-json/samples-dev/schemaRegistryJsonWithValidation.ts)
 
 ## Troubleshooting
 
@@ -129,7 +129,7 @@ setLogLevel("info");
 ## Next steps
 
 Please take a look at the
-[samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/schemaregistry/schema-registry-json/samples)
+[samples](https://github.com/Azure/azure-sdk-for-js/tree/schemaregistryjson-init/sdk/schemaregistry/schema-registry-json/samples)
 directory for detailed examples on how to use this library.
 
 ## Contributing

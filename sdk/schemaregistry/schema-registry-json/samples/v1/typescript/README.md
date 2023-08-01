@@ -61,11 +61,11 @@ npx cross-env SCHEMA_REGISTRY_ENDPOINT="<schema registry endpoint>" SCHEMA_REGIS
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[schemaregistryjsonsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-json/samples/v1/typescript/src/schemaRegistryJsonSample.ts
-[witheventhubsbufferedproducerclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-json/samples/v1/typescript/src/withEventHubsBufferedProducerClient.ts
-[witheventhubsconsumerclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-json/samples/v1/typescript/src/withEventHubsConsumerClient.ts
-[witheventhubsproducerclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-json/samples/v1/typescript/src/withEventHubsProducerClient.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/schema-registry-json
+[schemaregistryjsonsample]: https://github.com/Azure/azure-sdk-for-js/tree/schemaregistryjson-init/sdk/schemaregistry/schema-registry-json/samples/v1/typescript/src/schemaRegistryJsonSample.ts
+[witheventhubsbufferedproducerclient]: https://github.com/Azure/azure-sdk-for-js/tree/schemaregistryjson-init/sdk/schemaregistry/schema-registry-json/samples/v1/typescript/src/withEventHubsBufferedProducerClient.ts
+[witheventhubsconsumerclient]: https://github.com/Azure/azure-sdk-for-js/tree/schemaregistryjson-init/sdk/schemaregistry/schema-registry-json/samples/v1/typescript/src/withEventHubsConsumerClient.ts
+[witheventhubsproducerclient]: https://github.com/Azure/azure-sdk-for-js/tree/schemaregistryjson-init/sdk/schemaregistry/schema-registry-json/samples/v1/typescript/src/withEventHubsProducerClient.ts
+[apiref]: https://aka.ms/schemaregistryjson-js-api
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureschemaregistryresource]: https://aka.ms/schemaregistry
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/schemaregistry/schema-registry-json/README.md
