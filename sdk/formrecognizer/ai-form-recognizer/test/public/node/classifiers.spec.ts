@@ -32,7 +32,7 @@ const containerSasUrl = (): string =>
  * environment.
  */
 matrix([[/*true,*/ false]] as const, async (useAad) => {
-  describe.only(`[${useAad ? "AAD" : "API Key"}] document classifiers`, () => {
+  describe(`[${useAad ? "AAD" : "API Key"}] document classifiers`, () => {
     let recorder: Recorder;
     let client: DocumentAnalysisClient;
 
