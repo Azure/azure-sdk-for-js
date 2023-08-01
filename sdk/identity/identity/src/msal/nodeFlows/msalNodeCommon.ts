@@ -310,7 +310,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   /**
    * Returns the existing account, attempts to load the account from MSAL.
    */
-  async getActiveAccount(enableCae?: boolean): Promise<AuthenticationRecord | undefined> {
+  async getActiveAccount(enableCae = false): Promise<AuthenticationRecord | undefined> {
     if (this.account) {
       return this.account;
     }
