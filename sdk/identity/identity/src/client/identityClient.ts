@@ -67,7 +67,6 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
   public authorityHost: string;
   private allowLoggingAccountIdentifiers?: boolean;
   private abortControllers: Map<string, AbortController[] | undefined>;
-  private isChainedCredential: boolean = false;
   // used for WorkloadIdentity
   private tokenCredentialOptions: TokenCredentialOptions;
 
@@ -101,9 +100,6 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     this.tokenCredentialOptions = { ...options };
   }
 
-  isThisChainedCredential(): boolean{
-    return this.isChainedCredential;
-  }
   async sendTokenRequest(request: PipelineRequest): Promise<TokenResponse | null> {
     logger.info(`IdentityClient: sending token request to [${request.url}]`);
     const response = await this.sendRequest(request);
