@@ -35,7 +35,7 @@ export class MsalClientSecret extends MsalNode {
       const result = await this.getApp(
         "confidential",
         options.enableCae
-      )!.acquireTokenByClientCredential({
+      ).acquireTokenByClientCredential({
         scopes,
         correlationId: options.correlationId,
         azureRegion: this.azureRegion,
