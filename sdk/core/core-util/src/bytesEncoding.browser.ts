@@ -57,10 +57,7 @@ export function uint8ArrayToBase64(bytes: Uint8Array): string {
  * @internal
  */
 export function uint8ArrayToBase64Url(bytes: Uint8Array): string {
-  return uint8ArrayToBase64(bytes)
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=/g, "");
+  return uint8ArrayToBase64(bytes).replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
 }
 
 /**
