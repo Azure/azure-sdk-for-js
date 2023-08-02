@@ -250,9 +250,9 @@ This code sample show common scenario operation with the Azure Health Insights C
 -->
 
 ### Additional documentation
-<!--
-For more extensive documentation on Azure Health Insights Cancer Profiling, see the [Cancer Profiling documentation](https://review.learn.microsoft.com/en-us/azure/cognitive-services/health-decision-support/oncophenotype/overview?branch=main) on docs.microsoft.com.
--->
+
+For more extensive documentation on Azure Health Insights Cancer Profiling, see the [Cancer Profiling documentation](https://learn.microsoft.com/azure/azure-health-insights/oncophenotype/overview) on docs.microsoft.com.
+
 
 ## Contributing
 
