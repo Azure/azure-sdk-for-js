@@ -310,13 +310,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     if (this.account) {
       return this.account;
     }
-    let cache: msalNode.TokenCache | undefined;
-    if (enableCae) {
-      cache = this.confidentialAppCae?.getTokenCache() ?? this.publicAppCae?.getTokenCache();
-    } else {
-      cache = this.confidentialApp?.getTokenCache() ?? this.publicApp?.getTokenCache();
-    }
-
+    const cache = this.getApp("confidentialFirst", enableCae).getTokenCache();
     const accountsByTenant = await cache?.getAllAccounts();
 
     if (!accountsByTenant) {

@@ -35,9 +35,9 @@ export class MsalAuthorizationCode extends MsalNode {
     }
   }
 
-  async getAuthCodeUrl(options: { scopes: string[]; redirectUri: string }): Promise<string> {
+  async getAuthCodeUrl(options: { scopes: string[]; redirectUri: string, enableCae?: boolean }): Promise<string> {
     await this.init();
-    return (this.confidentialApp || this.publicApp)!.getAuthCodeUrl(options);
+    return (this.getApp("confidentialFirst",options.enableCae)).getAuthCodeUrl({scopes: options.scopes, redirectUri: options.redirectUri});
   }
 
   protected async doGetToken(
