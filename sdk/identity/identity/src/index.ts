@@ -76,7 +76,7 @@ export {
   DeviceCodeInfo,
 } from "./credentials/deviceCodeCredentialOptions";
 export { DeviceCodeCredentialOptions } from "./credentials/deviceCodeCredentialOptions";
-
+export { BrowserCustomizationOptions } from "./credentials/browserCustomizationOptions";
 export { AuthorizationCodeCredential } from "./credentials/authorizationCodeCredential";
 export { AuthorizationCodeCredentialOptions } from "./credentials/authorizationCodeCredentialOptions";
 export { AzurePowerShellCredential } from "./credentials/azurePowerShellCredential";
