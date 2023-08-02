@@ -80,10 +80,18 @@ export const msalNodeFlowCacheControl = {
  * @internal
  */
 export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
-  protected publicApp: msalNode.PublicClientApplication | undefined;
-  protected publicAppCae: msalNode.PublicClientApplication | undefined;
-  protected confidentialApp: msalNode.ConfidentialClientApplication | undefined;
-  protected confidentialAppCae: msalNode.ConfidentialClientApplication | undefined;
+  // protected publicApp: msalNode.PublicClientApplication | undefined;
+  // protected publicAppCae: msalNode.PublicClientApplication | undefined;
+  // protected confidentialApp: msalNode.ConfidentialClientApplication | undefined;
+  // protected confidentialAppCae: msalNode.ConfidentialClientApplication | undefined;
+  private app: {
+    public?: msalNode.PublicClientApplication;
+    confidential?: msalNode.ConfidentialClientApplication;
+  } = {};
+  private caeApp: {
+    public?: msalNode.PublicClientApplication;
+    confidential?: msalNode.ConfidentialClientApplication;
+  } = {};
   protected msalConfig: msalNode.Configuration;
   protected clientId: string;
   protected tenantId: string;
@@ -198,26 +206,15 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     appType: AppType,
     enableCae?: Boolean
   ): msalNode.ConfidentialClientApplication | msalNode.PublicClientApplication {
-    if (enableCae) {
-      if (appType === "publicFirst") {
-        return (this.publicAppCae || this.confidentialAppCae)!;
-      } else if (appType === "confidentialFirst") {
-        return (this.confidentialAppCae || this.publicAppCae)!;
-      } else if (appType === "confidential") {
-        return this.confidentialAppCae!;
-      } else {
-        return this.publicAppCae!;
-      }
+    const app = enableCae ? this.caeApp : this.app
+    if (appType === "publicFirst") {
+      return (app.public || app.confidential)!;
+    } else if (appType === "confidentialFirst") {
+      return (app.confidential || app.public)!;
+    } else if (appType === "confidential") {
+      return app.confidential!;
     } else {
-      if (appType === "publicFirst") {
-        return (this.publicApp || this.confidentialApp)!;
-      } else if (appType === "confidentialFirst") {
-        return (this.confidentialApp || this.publicApp)!;
-      } else if (appType === "confidential") {
-        return this.confidentialApp!;
-      } else {
-        return this.publicApp!;
-      }
+      return app.public!;
     }
   }
 
@@ -232,13 +229,12 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
         this.identityClient!.abortRequests(options.correlationId);
       });
     }
+
+    const app = options?.enableCae? this.caeApp : this.app;
     if (options?.enableCae) {
       this.msalConfig.auth.clientCapabilities = ["cp1"];
-      if (this.publicAppCae || this.confidentialAppCae) {
-        return;
-      }
     }
-    if (this.publicApp || this.confidentialApp) {
+    if (app.public || app.confidential) {
       return;
     }
     if (options?.enableCae && this.createCachePluginCae !== undefined) {
@@ -253,9 +249,9 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     }
 
     if (options?.enableCae) {
-      this.publicAppCae = new msalNode.PublicClientApplication(this.msalConfig);
+      this.caeApp.public = new msalNode.PublicClientApplication(this.msalConfig);
     } else {
-      this.publicApp = new msalNode.PublicClientApplication(this.msalConfig);
+      this.app.public = new msalNode.PublicClientApplication(this.msalConfig);
     }
 
     if (this.getAssertion) {
@@ -268,9 +264,9 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
       this.msalConfig.auth.clientCertificate
     ) {
       if (options?.enableCae) {
-        this.confidentialAppCae = new msalNode.ConfidentialClientApplication(this.msalConfig);
+        this.caeApp.confidential = new msalNode.ConfidentialClientApplication(this.msalConfig);
       } else {
-        this.confidentialApp = new msalNode.ConfidentialClientApplication(this.msalConfig);
+        this.app.confidential = new msalNode.ConfidentialClientApplication(this.msalConfig);
       }
     } else {
       if (this.requiresConfidential) {
