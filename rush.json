@@ -14,7 +14,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.89.0",
+  "rushVersion": "5.100.2",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -2038,6 +2038,11 @@
     {
       "packageName": "@azure/arm-quantum",
       "projectFolder": "sdk/quantum/arm-quantum",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-sphere",
+      "projectFolder": "sdk/sphere/arm-sphere",
       "versionPolicyName": "management"
     }
   ]

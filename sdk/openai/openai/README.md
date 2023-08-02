@@ -242,7 +242,7 @@ async function main(){
 
   const deploymentName = "text-davinci-003";
 
-  const { choices } = await client.getCompletions(deploymentName, examplePrompts, {
+  const { choices } = await client.getCompletions(deploymentName, summarizationPrompt, {
     maxTokens: 64
   });
   const completion = choices[0].text;

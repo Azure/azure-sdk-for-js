@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 32.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 32.0.0 (2023-07-06)
     
 **Features**

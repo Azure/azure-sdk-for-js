@@ -56,7 +56,7 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion3, Parameters.include],
+  queryParameters: [Parameters.apiVersion2, Parameters.include],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PacketCoreControlPlane,
   PacketCoreControlPlanesListBySubscriptionOptionalParams,
@@ -17,7 +17,7 @@ import {
   PacketCoreControlPlanesGetResponse,
   PacketCoreControlPlanesCreateOrUpdateOptionalParams,
   PacketCoreControlPlanesCreateOrUpdateResponse,
-  TagsObject,
+  IdentityAndTagsObject,
   PacketCoreControlPlanesUpdateTagsOptionalParams,
   PacketCoreControlPlanesUpdateTagsResponse,
   PacketCoreControlPlanesRollbackOptionalParams,
@@ -58,7 +58,7 @@ export interface PacketCoreControlPlanes {
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
     options?: PacketCoreControlPlanesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified packet core control plane.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -94,8 +94,8 @@ export interface PacketCoreControlPlanes {
     parameters: PacketCoreControlPlane,
     options?: PacketCoreControlPlanesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PacketCoreControlPlanesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PacketCoreControlPlanesCreateOrUpdateResponse>,
       PacketCoreControlPlanesCreateOrUpdateResponse
     >
   >;
@@ -113,16 +113,16 @@ export interface PacketCoreControlPlanes {
     options?: PacketCoreControlPlanesCreateOrUpdateOptionalParams
   ): Promise<PacketCoreControlPlanesCreateOrUpdateResponse>;
   /**
-   * Updates packet core control planes tags.
+   * Patch packet core control plane resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
-   * @param parameters Parameters supplied to update packet core control plane tags.
+   * @param parameters Parameters supplied to patch packet core control plane resource.
    * @param options The options parameters.
    */
   updateTags(
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
-    parameters: TagsObject,
+    parameters: IdentityAndTagsObject,
     options?: PacketCoreControlPlanesUpdateTagsOptionalParams
   ): Promise<PacketCoreControlPlanesUpdateTagsResponse>;
   /**
@@ -137,8 +137,8 @@ export interface PacketCoreControlPlanes {
     packetCoreControlPlaneName: string,
     options?: PacketCoreControlPlanesRollbackOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PacketCoreControlPlanesRollbackResponse>,
+    SimplePollerLike<
+      OperationState<PacketCoreControlPlanesRollbackResponse>,
       PacketCoreControlPlanesRollbackResponse
     >
   >;
@@ -166,8 +166,8 @@ export interface PacketCoreControlPlanes {
     packetCoreControlPlaneName: string,
     options?: PacketCoreControlPlanesReinstallOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PacketCoreControlPlanesReinstallResponse>,
+    SimplePollerLike<
+      OperationState<PacketCoreControlPlanesReinstallResponse>,
       PacketCoreControlPlanesReinstallResponse
     >
   >;
@@ -198,10 +198,8 @@ export interface PacketCoreControlPlanes {
     parameters: PacketCoreControlPlaneCollectDiagnosticsPackage,
     options?: PacketCoreControlPlanesCollectDiagnosticsPackageOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        PacketCoreControlPlanesCollectDiagnosticsPackageResponse
-      >,
+    SimplePollerLike<
+      OperationState<PacketCoreControlPlanesCollectDiagnosticsPackageResponse>,
       PacketCoreControlPlanesCollectDiagnosticsPackageResponse
     >
   >;

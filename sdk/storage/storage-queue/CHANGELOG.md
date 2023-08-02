@@ -12,6 +12,19 @@
 
 - Migrated dependency on `@azure/core-http` to `@azure/core-rest-pipeline`.
 
+## 12.14.0 (2023-07-12)
+
+### Features Added
+
+- Added support for service version 2023-01-03.
+
+## 12.13.0 (2023-04-13)
+
+### Features Added
+
+- Added support for service version 2022-11-02.
+
+
 ## 12.12.0 (Unreleased)
 
 ### Features Added
