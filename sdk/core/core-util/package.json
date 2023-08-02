@@ -7,7 +7,8 @@
   "module": "dist-esm/src/index.js",
   "browser": {
     "./dist-esm/src/sha256.js": "./dist-esm/src/sha256.browser.js",
-    "./dist-esm/src/uuidUtils.js": "./dist-esm/src/uuidUtils.browser.js"
+    "./dist-esm/src/uuidUtils.js": "./dist-esm/src/uuidUtils.browser.js",
+    "./dist-esm/src/bytesEncoding.js": "./dist-esm/src/bytesEncoding.browser.js"
   },
   "react-native": {
     "./dist/index.js": "./dist-esm/src/index.js",

@@ -5,6 +5,7 @@
 ### Features Added
 
 - Adds extra environment checks for browser or other environments [PR #26018](https://github.com/Azure/azure-sdk-for-js/pull/26018)
+- Add helper functions `uint8ArrayToString` and `stringToUint8Array` for transform between string and bytes array with different character encodings.
 
 ## 1.3.2 (2023-05-05)
 
