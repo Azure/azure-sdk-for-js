@@ -52,7 +52,6 @@ export interface AnalyzeDocumentOptions<Result = AnalyzeResult<AnalyzedDocument>
     features?: string[];
     locale?: string;
     pages?: string;
-    queryFields?: string[];
 }
 
 // @public
@@ -83,7 +82,7 @@ export interface AzureBlobContentSource {
 }
 
 // @public
-export interface AzureBlobFileListSource {
+export interface AzureBlobFileListContentSource {
     containerUrl: string;
     fileList: string;
 }
@@ -114,7 +113,7 @@ export interface BoundingRegion extends HasBoundingPolygon {
 
 // @public
 export interface ClassifierDocumentTypeDetails {
-    azureBlobFileListSource?: AzureBlobFileListSource;
+    azureBlobFileListSource?: AzureBlobFileListContentSource;
     azureBlobSource?: AzureBlobContentSource;
 }
 
@@ -198,11 +197,7 @@ export interface DocumentAnalysisPollOperationState<Result = AnalyzeResult<Analy
 // @public
 export interface DocumentAnnotation extends HasBoundingPolygon {
     confidence: number;
-    kind: DocumentAnnotationKind;
 }
-
-// @public
-export type DocumentAnnotationKind = string;
 
 // @public
 export interface DocumentArrayField<T = DocumentField> extends DocumentFieldCommon {
@@ -241,6 +236,9 @@ export interface DocumentClassifierBuildOperationDetails extends OperationDetail
     kind: "documentClassifierBuild";
     result?: DocumentClassifierDetails;
 }
+
+// @public
+export type DocumentClassifierContentSource = AzureBlobContentSource | AzureBlobFileListContentSource;
 
 // @public
 export interface DocumentClassifierDetails {
@@ -322,13 +320,6 @@ export interface DocumentFormula extends HasBoundingPolygon {
 export type DocumentFormulaKind = string;
 
 // @public
-export interface DocumentImage extends HasBoundingPolygon {
-    confidence: number;
-    pageNumber: number;
-    span: DocumentSpan;
-}
-
-// @public
 export interface DocumentIntegerField extends DocumentValueField<number> {
     kind: "integer";
 }
@@ -342,7 +333,6 @@ export interface DocumentKeyValueElement {
 
 // @public
 export interface DocumentKeyValuePair {
-    commonName?: string;
     confidence: number;
     key: DocumentKeyValueElement;
     value?: DocumentKeyValueElement;
@@ -375,9 +365,10 @@ export class DocumentModelAdministrationClient {
     constructor(endpoint: string, credential: KeyCredential, options?: DocumentModelAdministrationClientOptions);
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: DocumentModelAdministrationClientOptions);
     beginBuildDocumentClassifier(classifierId: string, docTypes: {
-        [docType: string]: ClassifierDocumentTypeDetails;
+        [docType: string]: DocumentClassifierContentSource;
     }, options?: BeginBuildDocumentClassifierOptions): Promise<DocumentClassifierPoller>;
     beginBuildDocumentModel(modelId: string, containerUrl: string, buildMode: DocumentModelBuildMode, options?: BeginBuildDocumentModelOptions): Promise<DocumentModelPoller>;
+    beginBuildDocumentModel(modelId: string, contentSource: DocumentModelContentSource, buildMode: DocumentModelBuildMode, options?: BeginBuildDocumentModelOptions): Promise<DocumentModelPoller>;
     beginComposeDocumentModel(modelId: string, componentModelIds: Iterable<string>, options?: BeginComposeDocumentModelOptions): Promise<DocumentModelPoller>;
     beginCopyModelTo(sourceModelId: string, authorization: CopyAuthorization, options?: BeginCopyModelOptions): Promise<DocumentModelPoller>;
     deleteDocumentClassifier(classifierId: string, options?: OperationOptions): Promise<void>;
@@ -416,6 +407,9 @@ export interface DocumentModelComposeOperationDetails extends OperationDetails {
     kind: "documentModelCompose";
     result?: DocumentModelDetails;
 }
+
+// @public
+export type DocumentModelContentSource = AzureBlobContentSource | AzureBlobFileListContentSource;
 
 // @public
 export interface DocumentModelCopyToOperationDetails extends OperationDetails {
@@ -473,12 +467,9 @@ export interface DocumentObjectField<Properties = {
 // @public
 export interface DocumentPage {
     angle?: number;
-    annotations?: DocumentAnnotation[];
     barcodes?: DocumentBarcode[];
     formulas?: DocumentFormula[];
     height?: number;
-    images?: DocumentImage[];
-    kind: DocumentPageKind;
     lines?: DocumentLine[];
     pageNumber: number;
     selectionMarks?: DocumentSelectionMark[];
@@ -487,9 +478,6 @@ export interface DocumentPage {
     width?: number;
     words?: DocumentWord[];
 }
-
-// @public
-export type DocumentPageKind = string;
 
 // @public
 export interface DocumentParagraph {
@@ -624,10 +612,9 @@ export type FormRecognizerApiVersion = (typeof FormRecognizerApiVersion)[keyof t
 
 // @public
 export const FormRecognizerApiVersion: {
-    readonly Latest: "2023-02-28-preview";
-    readonly Stable: "2022-08-31";
+    readonly Latest: "2023-07-31";
+    readonly Stable: "2023-07-31";
     readonly "2022-08-31": "2022-08-31";
-    readonly "2023-02-28-preview": "2023-02-28-preview";
 };
 
 // @public
@@ -640,10 +627,12 @@ export type FormRecognizerFeature = (typeof FormRecognizerFeature)[keyof typeof 
 
 // @public (undocumented)
 export const FormRecognizerFeature: {
-    readonly QueryFieldsPremium: "queryFields.premium";
-    readonly OcrFont: "ocr.font";
-    readonly OcrHighResolution: "ocr.highResolution";
-    readonly OcrFormula: "ocr.formula";
+    readonly Fonts: "styleFont";
+    readonly OcrHighResolution: "ocrHighResolution";
+    readonly Formulas: "formulas";
+    readonly Languages: "languages";
+    readonly Barcodes: "barcodes";
+    readonly KeyValuePairs: "keyValuePairs";
 };
 
 // @public
@@ -675,12 +664,6 @@ export interface InnerError {
     code: string;
     innererror?: InnerError;
     message?: string;
-}
-
-// @public
-export enum KnownDocumentAnnotationKind {
-    Check = "check",
-    Cross = "cross"
 }
 
 // @public
@@ -732,14 +715,6 @@ export enum KnownDocumentFieldType {
 export enum KnownDocumentFormulaKind {
     Display = "display",
     Inline = "inline"
-}
-
-// @public
-export enum KnownDocumentPageKind {
-    Document = "document",
-    Image = "image",
-    Sheet = "sheet",
-    Slide = "slide"
 }
 
 // @public
