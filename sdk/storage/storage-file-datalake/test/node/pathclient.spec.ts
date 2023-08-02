@@ -23,6 +23,7 @@ import {
   getDataLakeServiceClient,
   recorderEnvSetup,
   getDataLakeFileSystemClientWithSASCredential,
+  getDataLakeServiceClientWithDefaultCredential,
 } from "../utils";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
 
@@ -52,6 +53,72 @@ describe("DataLakePathClient Node.js only", () => {
   afterEach(async function () {
     await fileSystemClient.deleteIfExists();
     await recorder.stop();
+  });
+
+  it.skip("DataLakeDirectoryClient pagenated delete", async function (this: Context) {
+    // To run this test, the NamespaceTenant AAD info needs to be set to an AAD app that does not have any RBAC permissions,
+    const directoryName1 = recorder.getUniqueName("directory1");
+    const directoryClient = fileSystemClient.getDirectoryClient(directoryName1);
+    await directoryClient.create();
+
+    for (let i = 0; i < 5020; i++) {
+      const fileClient = directoryClient.getFileClient(recorder.getUniqueName("file" + i));
+      await fileClient.create();
+    }
+
+    const rootDirectory = fileSystemClient.getDirectoryClient("/");
+
+    const originAcls = await rootDirectory.getAccessControl();
+    const acls: PathAccessControlItem[] = [];
+
+    originAcls.acl.forEach((entry) => {
+      if (entry.accessControlType === "other") {
+        entry.permissions = {
+          read: true,
+          write: true,
+          execute: true,
+        };
+      }
+      acls.push(entry);
+    });
+
+    await rootDirectory.setAccessControlRecursive(acls);
+
+    const oauthService = getDataLakeServiceClientWithDefaultCredential();
+    oauthService;
+    const oauthDirectory = oauthService
+      .getFileSystemClient(fileSystemName)
+      .getDirectoryClient(directoryName1);
+    await oauthDirectory.delete(true);
+  }).timeout(10 * 60 * 60 * 1000);
+
+  it.skip("DataLakeFileClient delete without pagenated", async function (this: Context) {
+    // To run this test, the NamespaceTenant AAD info needs to be set to an AAD app that does not have any RBAC permissions,
+    const fileName1 = recorder.getUniqueName("file1");
+    const fileClient1 = fileSystemClient.getFileClient(fileName1);
+    await fileClient1.create();
+
+    const rootDirectory = fileSystemClient.getDirectoryClient("/");
+
+    const originAcls = await rootDirectory.getAccessControl();
+    const acls: PathAccessControlItem[] = [];
+
+    originAcls.acl.forEach((entry) => {
+      if (entry.accessControlType === "other") {
+        entry.permissions = {
+          read: true,
+          write: true,
+          execute: true,
+        };
+      }
+      acls.push(entry);
+    });
+
+    await rootDirectory.setAccessControlRecursive(acls);
+
+    const oauthService = getDataLakeServiceClientWithDefaultCredential();
+    const oauthFile = oauthService.getFileSystemClient(fileSystemName).getFileClient(fileName1);
+    await oauthFile.delete();
   });
 
   it("DataLakeFileClient create with owner", async () => {

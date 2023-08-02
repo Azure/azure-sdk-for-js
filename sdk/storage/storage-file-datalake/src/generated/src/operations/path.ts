@@ -524,6 +524,9 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
     200: {
       headersMapper: Mappers.PathDeleteHeaders
     },
+    202: {
+      headersMapper: Mappers.PathDeleteHeaders
+    },
     default: {
       bodyMapper: Mappers.StorageError,
       headersMapper: Mappers.PathDeleteExceptionHeaders
@@ -532,7 +535,8 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.continuation,
     Parameters.timeout,
-    Parameters.recursive1
+    Parameters.recursive1,
+    Parameters.paginated
   ],
   urlParameters: [Parameters.url],
   headerParameters: [

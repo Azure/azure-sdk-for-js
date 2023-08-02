@@ -1,5 +1,12 @@
 # Release History
 
+## ## 12.16.0-beta.1 (Unreleased)
+
+### Features Added
+
+- Added support for service version 2023-08-03.
+- Added rehydrate-pending-to-cold value to ArchiveStatus enum.
+
 ## 12.15.0 (2023-07-12)
 
 ### Features Added

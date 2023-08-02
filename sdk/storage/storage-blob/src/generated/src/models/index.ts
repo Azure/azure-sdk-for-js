@@ -1148,7 +1148,7 @@ export interface BlobGetPropertiesHeaders {
   accessTier?: string;
   /** For page blobs on a premium storage account only. If the access tier is not explicitly set on the blob, the tier is inferred based on its content length and this header will be returned with true value. */
   accessTierInferred?: boolean;
-  /** For blob storage LRS accounts, valid values are rehydrate-pending-to-hot/rehydrate-pending-to-cool. If the blob is being rehydrated and is not complete then this header is returned indicating that rehydrate is pending and also tells the destination tier. */
+  /** For blob storage LRS accounts, valid values are rehydrate-pending-to-hot/rehydrate-pending-to-cool/rehydrate-pending-to-cold. If the blob is being rehydrated and is not complete then this header is returned indicating that rehydrate is pending and also tells the destination tier. */
   archiveStatus?: string;
   /** The time the tier was changed on the object. This is only returned if the tier on the block blob was ever set. */
   accessTierChangedOn?: Date;
@@ -2725,7 +2725,8 @@ export type AccessTier =
 /** Defines values for ArchiveStatus. */
 export type ArchiveStatus =
   | "rehydrate-pending-to-hot"
-  | "rehydrate-pending-to-cool";
+  | "rehydrate-pending-to-cool"
+  | "rehydrate-pending-to-cold";
 /** Defines values for RehydratePriority. */
 export type RehydratePriority = "High" | "Standard";
 /** Defines values for BlobImmutabilityPolicyMode. */

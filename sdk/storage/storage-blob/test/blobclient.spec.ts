@@ -545,6 +545,24 @@ describe("BlobClient", () => {
     }
   });
 
+  it("setAccessTier set archive to cold", async () => {
+    await blockBlobClient.setAccessTier("Archive");
+    let properties = await blockBlobClient.getProperties();
+    assert.equal(properties.accessTier!.toLowerCase(), "archive");
+
+    await blockBlobClient.setAccessTier("Cold");
+    for await (const blobItem of containerClient.listBlobsFlat()) {
+      if (blobItem.name === blockBlobClient.name) {
+        if (blobItem.properties.archiveStatus) {
+          assert.equal(
+            blobItem.properties.archiveStatus.toLowerCase(),
+            "rehydrate-pending-to-cold"
+          );
+        }
+      }
+    }
+  });
+
   it("setAccessTier set to/from cold", async () => {
     await blockBlobClient.setAccessTier("Cold");
     const properties = await blockBlobClient.getProperties();

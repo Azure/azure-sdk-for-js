@@ -114,7 +114,7 @@ export const timeout: OperationQueryParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2023-01-03",
+    defaultValue: "2023-08-03",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {
@@ -863,6 +863,17 @@ export const recursive1: OperationQueryParameter = {
   mapper: {
     serializedName: "recursive",
     xmlName: "recursive",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
+export const paginated: OperationQueryParameter = {
+  parameterPath: ["options", "paginated"],
+  mapper: {
+    serializedName: "paginated",
+    xmlName: "paginated",
     type: {
       name: "Boolean"
     }
