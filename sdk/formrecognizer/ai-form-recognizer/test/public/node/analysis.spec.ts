@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, assertEnvironmentVariable, isLiveMode } from "@azure-tools/test-recorder";
+import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { matrix } from "@azure/test-utils";
 import { assert } from "chai";
 import fs from "fs";
@@ -187,10 +187,10 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.isNotEmpty(pages);
 
         /* There should be a table on the page, but the layout engine does not recognize it, maybe because it is too small and sparse.
-          assert.isNotEmpty(tables);
-          const [table] = tables;
-          assert.ok(table.boundingRegions?.[0].boundingBox);
-          assert.equal(table.boundingRegions?.[0].pageNumber, 1);*/
+        assert.isNotEmpty(tables);
+        const [table] = tables;
+        assert.ok(table.boundingRegions?.[0].boundingBox);
+        assert.equal(table.boundingRegions?.[0].pageNumber, 1);*/
 
         assert.equal(pages?.[0].pageNumber, 1);
         assert.isNotEmpty(pages?.[0].selectionMarks);
@@ -256,11 +256,6 @@ matrix([[true, false]] as const, async (useAad) => {
       });
 
       it("barcode", async function () {
-        if (!isLiveMode()) {
-          // Currently need to skip this test in record/playback mode but we can run it live.
-          this.skip();
-        }
-
         const url = makeTestUrl("/barcode2.tif");
 
         const poller = await client.beginAnalyzeDocumentFromUrl("prebuilt-read", url, {
@@ -284,11 +279,6 @@ matrix([[true, false]] as const, async (useAad) => {
       });
 
       it("annotations", async function () {
-        if (!isLiveMode()) {
-          // Currently need to skip this test in record/playback mode but we can run it live.
-          this.skip();
-        }
-
         const url = makeTestUrl("/annotations.jpg");
 
         const poller = await client.beginAnalyzeDocumentFromUrl(
@@ -303,9 +293,6 @@ matrix([[true, false]] as const, async (useAad) => {
       });
 
       it("formula", async function () {
-        // This test is currently not working as expected.
-        // this.skip();
-
         const url = makeTestUrl("/formula1.jpg");
 
         const poller = await client.beginAnalyzeDocumentFromUrl("prebuilt-document", url, {
@@ -392,6 +379,7 @@ matrix([[true, false]] as const, async (useAad) => {
         return _model;
       }
 
+      // hits invalid argument error
       it("with selection marks", async () => {
         const { modelId } = await requireModel();
 
@@ -411,10 +399,10 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.ok(pages?.[0]);
 
         /* There should be a table in the response, but it isn't recognized (maybe because it's too small or sparse)
-          assert.isNotEmpty(tables);
-          const [table] = tables!;
-          assert.ok(table.boundingRegions?.[0].boundingBox);
-          assert.equal(table.boundingRegions?.[0].pageNumber, 1);*/
+        assert.isNotEmpty(tables);
+        const [table] = tables!;
+        assert.ok(table.boundingRegions?.[0].boundingBox);
+        assert.equal(table.boundingRegions?.[0].pageNumber, 1);*/
 
         assert.equal(pages?.[0].pageNumber, 1);
         assert.isNotEmpty(pages?.[0].selectionMarks);
