@@ -36,7 +36,7 @@ function assertDefined(value: unknown, message?: string): asserts value {
   return assert.ok(value, message);
 }
 
-matrix([[true /*false*/]] as const, async (useAad) => {
+matrix([[true, false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}] analysis (Node)`, () => {
     let client: DocumentAnalysisClient;
     let recorder: Recorder;

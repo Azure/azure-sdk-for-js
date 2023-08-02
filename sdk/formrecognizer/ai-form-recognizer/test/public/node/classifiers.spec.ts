@@ -31,8 +31,8 @@ const containerSasUrl = (): string =>
  * Note: Neural builds are currently disabled, as they take prohibitively long to complete for the live testing
  * environment.
  */
-matrix([[/*true,*/ false]] as const, async (useAad) => {
-  describe.only(`[${useAad ? "AAD" : "API Key"}] document classifiers`, () => {
+matrix([[true, false]] as const, async (useAad) => {
+  describe(`[${useAad ? "AAD" : "API Key"}] document classifiers`, () => {
     let recorder: Recorder;
     let client: DocumentAnalysisClient;
 

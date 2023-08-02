@@ -263,7 +263,9 @@ export class DocumentModelAdministrationClient {
     options: BeginBuildDocumentModelOptions = {}
   ): Promise<DocumentModelPoller> {
     const sourceInfo =
-      typeof urlOrSource === "string" ? { containerUrl: urlOrSource } : toBuildOptions(urlOrSource);
+      typeof urlOrSource === "string"
+        ? toBuildOptions({ containerUrl: urlOrSource })
+        : toBuildOptions(urlOrSource);
 
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.beginBuildDocumentModel",
