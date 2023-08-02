@@ -1,6 +1,6 @@
 # Release History
 
-## 4.7.3 (Unreleased)
+## 4.8.0-beta.1 (Unreleased)
 
 ### Features Added
 

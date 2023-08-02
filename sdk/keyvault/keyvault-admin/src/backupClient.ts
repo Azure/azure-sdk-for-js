@@ -101,7 +101,7 @@ export class KeyVaultBackupClient {
   }
 
   /**
-   * Starts generating a backup of an Azure Key Vault on the specified Storage Blob account.
+   * Starts generating a backup of an Azure Key Vault on the specified Storage Blob account using the provided SAS token to access the account.
    *
    * This function returns a Long Running Operation poller that allows you to wait indefinitely until the Key Vault backup is generated.
    *
@@ -134,16 +134,69 @@ export class KeyVaultBackupClient {
   public async beginBackup(
     blobStorageUri: string,
     sasToken: string,
-    options: KeyVaultBeginBackupOptions = {}
+    options?: KeyVaultBeginBackupOptions
+  ): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>>;
+
+  /**
+   * Starts generating a backup of an Azure Key Vault on the specified Storage Blob account using a user-assigned Managed Identity to access the account.
+   *
+   * This function returns a Long Running Operation poller that allows you to wait indefinitely until the Key Vault backup is generated.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new KeyVaultBackupClient(url, credentials);
+   *
+   * const blobStorageUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
+   * const sasToken = "<sas-token>";
+   * const poller = await client.beginBackup(blobStorageUri, sasToken);
+   *
+   * // Serializing the poller
+   * //
+   * //   const serialized = poller.toString();
+   * //
+   * // A new poller can be created with:
+   * //
+   * //   await client.beginBackup(blobStorageUri, sasToken, { resumeFrom: serialized });
+   * //
+   *
+   * // Waiting until it's done
+   * const backupUri = await poller.pollUntilDone();
+   * console.log(backupUri);
+   * ```
+   * Starts a full backup operation.
+   * @param blobStorageUri - The URL of the blob storage resource, including the path to the container where the backup will end up being stored.
+   * @param sasToken - The SAS token.
+   * @param options - The optional parameters.
+   */
+  public async beginBackup(
+    blobStorageUri: string,
+    options?: KeyVaultBeginBackupOptions
+  ): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>>;
+
+  public async beginBackup(
+    blobStorageUri: string,
+    sasTokenOrOptions: string | KeyVaultBeginBackupOptions = {},
+    options?: KeyVaultBeginBackupOptions
   ): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>> {
+    let sasToken: string | undefined;
+    let actualOptions: KeyVaultBeginBackupOptions;
+
+    if (typeof sasTokenOrOptions === "string") {
+      sasToken = sasTokenOrOptions;
+      actualOptions = options ?? {};
+    } else {
+      sasToken = undefined;
+      actualOptions = sasTokenOrOptions;
+    }
+
     const poller = new KeyVaultBackupPoller({
       blobStorageUri,
       sasToken,
       client: this.client,
       vaultUrl: this.vaultUrl,
-      intervalInMs: options.intervalInMs,
-      resumeFrom: options.resumeFrom,
-      requestOptions: options,
+      intervalInMs: actualOptions.intervalInMs,
+      resumeFrom: actualOptions.resumeFrom,
+      requestOptions: actualOptions,
     });
 
     // This will initialize the poller's operation (the generation of the backup).
@@ -186,7 +239,7 @@ export class KeyVaultBackupClient {
    */
   public async beginRestore(
     folderUri: string,
-    sasToken: string,
+    sasToken?: string,
     options: KeyVaultBeginRestoreOptions = {}
   ): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>> {
     const poller = new KeyVaultRestorePoller({
@@ -241,7 +294,7 @@ export class KeyVaultBackupClient {
   public async beginSelectiveKeyRestore(
     keyName: string,
     folderUri: string,
-    sasToken: string,
+    sasToken?: string,
     options: KeyVaultBeginSelectiveKeyRestoreOptions = {}
   ): Promise<
     PollerLike<KeyVaultSelectiveKeyRestoreOperationState, KeyVaultSelectiveKeyRestoreResult>

@@ -52,6 +52,7 @@ export function getKeyFromKeyBundle(
       recoveryLevel: attributes.recoveryLevel,
       exportable: attributes.exportable,
       releasePolicy: keyBundle.releasePolicy,
+      hsmPlatform: attributes.hsmPlatform,
 
       vaultUrl: parsedId.vaultUrl,
       version: parsedId.version,
@@ -111,6 +112,7 @@ export function getKeyPropertiesFromKeyItem(keyItem: KeyItem): KeyProperties {
     notBefore: attributes?.notBefore,
     recoverableDays: attributes?.recoverableDays,
     recoveryLevel: attributes?.recoveryLevel,
+    hsmPlatform: attributes?.hsmPlatform,
     tags: keyItem.tags,
     updatedOn: attributes.updated,
     vaultUrl: parsedId.vaultUrl,

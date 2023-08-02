@@ -12,7 +12,7 @@ import { KeyVaultSelectiveKeyRestoreResult } from "../../backupClientModels";
 export interface KeyVaultSelectiveKeyRestorePollerOptions extends KeyVaultAdminPollerOptions {
   keyName: string;
   folderUri: string;
-  sasToken: string;
+  sasToken?: string;
   folderName: string;
 }
 
