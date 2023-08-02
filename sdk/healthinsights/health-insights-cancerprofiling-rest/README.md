@@ -244,10 +244,10 @@ setLogLevel("info");
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger) package docs.
 
 ## Next steps
-<!--
-This code sample show common scenario operation with the Azure Health Insights Cancer Profiling library. More samples can be found under the [samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/azure-healthinsights-cancerprofiling/samples/) directory.
-- Infer Cancer Profiling: [sample_infer_cancer_profiling.ts](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/healthinsights/azure-healthinsights-cancerprofiling/samples/sample_infer_cancer_profiling.ts)
--->
+
+This code sample show common scenario operation with the Azure Health Insights Cancer Profiling library. More samples can be found under the [samples]("./samples-dev") directory.
+- Infer Cancer Profiling: [sample_infer_cancer_profiling.ts]("./samples-dev/sample_infer_cancer_profiling.ts")
+
 
 ### Additional documentation
 
