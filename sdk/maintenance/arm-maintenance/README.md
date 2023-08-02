@@ -6,7 +6,7 @@ Azure Maintenance Management Client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maintenance/arm-maintenance) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-maintenance) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-maintenance?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-maintenance?view=azure-node-preview?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

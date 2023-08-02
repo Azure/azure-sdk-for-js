@@ -116,6 +116,6 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-maintenance?view=azure-node-preview"
+    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-maintenance?view=azure-node-preview?view=azure-node-preview"
   }
 }

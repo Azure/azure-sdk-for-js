@@ -111,6 +111,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [publicmaintenanceconfigurationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maintenance/arm-maintenance/samples/v1-beta/javascript/publicMaintenanceConfigurationsListSample.js
 [updateslistparentsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maintenance/arm-maintenance/samples/v1-beta/javascript/updatesListParentSample.js
 [updateslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maintenance/arm-maintenance/samples/v1-beta/javascript/updatesListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-maintenance?view=azure-node-preview
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-maintenance?view=azure-node-preview?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maintenance/arm-maintenance/README.md
