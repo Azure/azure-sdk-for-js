@@ -1,14 +1,10 @@
 # Release History
 
-## 1.3.3 (Unreleased)
+## 1.3.3 (2023-08-01)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Add helper functions `uint8ArrayToString` and `stringToUint8Array` for transform between string and bytes array with different character encodings.
 
 ## 1.3.2 (2023-05-05)
 
