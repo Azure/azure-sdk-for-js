@@ -137,10 +137,6 @@ async function main(){
     console.log(choice.text);
   }
 }
-
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-});
 ```
 
 ## Examples
@@ -179,10 +175,6 @@ async function main(){
     }
   }
 }
-
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-});
 ```
 
 ### Generate Multiple Completions With Subscription Key
@@ -216,10 +208,6 @@ async function main(){
     console.log(`Chatbot: ${completion}`);
   }
 }
-
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-});
 ```
 
 ### Summarize Text with Completion
@@ -260,10 +248,6 @@ async function main(){
   const completion = choices[0].text;
   console.log(`Summarization: ${completion}`);
 }
-
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-});
 ```
 
 ## Troubleshooting
