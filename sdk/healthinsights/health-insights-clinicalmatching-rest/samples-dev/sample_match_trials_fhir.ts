@@ -93,7 +93,7 @@ export async function main() {
 
   const patientInfo = {
     sex: "MALE",
-    birthDate: new Date(1965, 11, 26), // Note: Months are zero-based (11 represents December)
+    birthDate: new Date("1965-11-26T00:00:00.000Z"), // Note: Months are zero-based (11 represents December)
     clinicalInfo: clinicalInfoList,
   };
 

@@ -60,7 +60,7 @@ export async function main() {
 
     const patientInfo = {
         sex: "FEMALE",
-        birthDate: new Date(1979, 10, 8), // Note: Months are zero-based (11 represents December)
+        birthDate: new Date("1979-10-08T00:00:00.000Z"), // Note: Months are zero-based (11 represents December)
     };
 
     const doc1 = "15.8.2021"
@@ -95,7 +95,7 @@ export async function main() {
         content: docContent,
         clinicalType: "IMAGING",
         language: "en",
-        createdDateTime: new Date(2021, 8, 15)
+        createdDateTime: new Date("2021-08-15T00:00:00.000Z")
     };
 
     const doc2 = `Oncology Clinic 
@@ -136,7 +136,7 @@ export async function main() {
         content: docContent2,
         clinicalType: "PATHOLOGY",
         language: "en",
-        createdDateTime: new Date(2021, 10, 20)
+        createdDateTime: new Date("2021-10-20T00:00:00.000Z")
     };
 
     const doc3 = `PATHOLOGY REPORT
@@ -171,7 +171,7 @@ export async function main() {
         content: docContent3,
         clinicalType: "PATHOLOGY",
         language: "en",
-        createdDateTime: new Date(2022, 1, 1)
+        createdDateTime: new Date("2022-01-01T00:00:00.000Z")
     };
 
     const patient1 = {

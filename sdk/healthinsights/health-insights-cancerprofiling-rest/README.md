@@ -27,7 +27,7 @@ npm install @azure-rest/health-insights-cancerprofiling
 
 |SDK version|Supported API version of service |
 |-------------|---------------|
-|1.0.0b1 | 2023-03-01-preview|
+|1.0.0-beta.1 | 2023-03-01-preview|
 
 ### Create and authenticate a `CancerProfilingRestClient`
 
@@ -60,7 +60,7 @@ const client = CancerProfilingRestClient(endpoint, credential);
 
 const patientInfo = {
         sex: "FEMALE",
-        birthDate: new Date(1979, 10, 8), // Note: Months are zero-based (11 represents December)
+        birthDate: new Date("1979-10-08T00:00:00.000Z"), // Note: Months are zero-based (11 represents December)
     };
 
 const doc1 = "15.8.2021"
@@ -94,8 +94,8 @@ const patientDoc1 = {
     id: "doc1",
     content: docContent,
     clinicalType: "IMAGING",
-    language: "en",
-    createdDateTime: new Date(2021, 8, 15)
+    language: "en", 
+    createdDateTime: new Date("2021-15-08T00:00:00.000Z")
 };
 
  const doc1 = `15.8.2021
@@ -129,8 +129,8 @@ const patientDoc1 = {
         id: "doc1",
         content: docContent,
         clinicalType: "IMAGING",
-        language: "en",
-        createdDateTime: new Date(2021, 8, 15)
+        language: "en", 
+        createdDateTime: new Date("2021-15-08T00:00:00.000Z")
     };
 
     const doc2 = `Oncology Clinic 
@@ -170,8 +170,8 @@ const patientDoc2 = {
     id: "doc2",
     content: docContent3,
     clinicalType: "PATHOLOGY",
-    language: "en",
-    createdDateTime: new Date(2022, 1, 1)
+    language: "en", 
+    createdDateTime: new Date("2022-01-01T00:00:00.000Z")
 };
 
 const patient1 = {
@@ -241,7 +241,7 @@ const { setLogLevel } = require("@azure/logger");
 setLogLevel("info");
 ```
 
-For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger) package docs.
 
 ## Next steps
 <!--

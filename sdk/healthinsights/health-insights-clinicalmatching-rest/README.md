@@ -27,7 +27,7 @@ npm install @azure-rest/health-insights-clinicalmatching
 
 |SDK version|Supported API version of service |
 |-------------|---------------|
-|1.0.0b1 | 2023-03-01-preview|
+|1.0.0-beta.1 | 2023-03-01-preview|
 
 ### Create and authenticate a `ClinicalMatchingRestClient`
 
@@ -96,7 +96,7 @@ const clinicalInfoList = [
 
   const patientInfo = {
     sex: "MALE",
-    birthDate: new Date(1965, 11, 26), // Note: Months are zero-based (11 represents December)
+    birthDate: new Date("1965-11-26T00:00:00.000Z"), // Note: Months are zero-based (11 represents December)
     clinicalInfo: clinicalInfoList,
   };
   const docContent = {sourceType: "INLINE", value: getPatientDocContent()};
