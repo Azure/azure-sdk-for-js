@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
+import { DiagnosticNodeInternal } from "../../CosmosDiagnostics";
+import { startTracing } from "../../CosmosDiagnosticsContext";
 import {
   createUserDefinedFunctionUri,
   getIdFromLink,
@@ -40,22 +42,25 @@ export class UserDefinedFunction {
    * Read the {@link UserDefinedFunctionDefinition} for the given {@link UserDefinedFunction}.
    */
   public async read(options?: RequestOptions): Promise<UserDefinedFunctionResponse> {
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
+    return await startTracing(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.read<UserDefinedFunctionDefinition>({
-      path,
-      resourceType: ResourceType.udf,
-      resourceId: id,
-      options,
-    });
-    return new UserDefinedFunctionResponse(
-      response.result,
-      response.headers,
-      response.code,
-      this,
-      response.diagnostics
-    );
+      const response = await this.clientContext.read<UserDefinedFunctionDefinition>({
+        path,
+        resourceType: ResourceType.udf,
+        resourceId: id,
+        options,
+        diagnosticNode,
+      });
+      return new UserDefinedFunctionResponse(
+        response.result,
+        response.headers,
+        response.code,
+        this,
+        diagnosticNode.toDiagnostic()
+      );
+    }, this.clientContext);
   }
 
   /**
@@ -66,53 +71,59 @@ export class UserDefinedFunction {
     body: UserDefinedFunctionDefinition,
     options?: RequestOptions
   ): Promise<UserDefinedFunctionResponse> {
-    if (body.body) {
-      body.body = body.body.toString();
-    }
+    return await startTracing(async (diagnosticNode: DiagnosticNodeInternal) => {
+      if (body.body) {
+        body.body = body.body.toString();
+      }
 
-    const err = {};
-    if (!isResourceValid(body, err)) {
-      throw err;
-    }
+      const err = {};
+      if (!isResourceValid(body, err)) {
+        throw err;
+      }
 
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.replace<UserDefinedFunctionDefinition>({
-      body,
-      path,
-      resourceType: ResourceType.udf,
-      resourceId: id,
-      options,
-    });
-    return new UserDefinedFunctionResponse(
-      response.result,
-      response.headers,
-      response.code,
-      this,
-      response.diagnostics
-    );
+      const response = await this.clientContext.replace<UserDefinedFunctionDefinition>({
+        body,
+        path,
+        resourceType: ResourceType.udf,
+        resourceId: id,
+        options,
+        diagnosticNode,
+      });
+      return new UserDefinedFunctionResponse(
+        response.result,
+        response.headers,
+        response.code,
+        this,
+        diagnosticNode.toDiagnostic()
+      );
+    }, this.clientContext);
   }
 
   /**
    * Delete the given {@link UserDefined}.
    */
   public async delete(options?: RequestOptions): Promise<UserDefinedFunctionResponse> {
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
+    return await startTracing(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete({
-      path,
-      resourceType: ResourceType.udf,
-      resourceId: id,
-      options,
-    });
-    return new UserDefinedFunctionResponse(
-      response.result,
-      response.headers,
-      response.code,
-      this,
-      response.diagnostics
-    );
+      const response = await this.clientContext.delete({
+        path,
+        resourceType: ResourceType.udf,
+        resourceId: id,
+        options,
+        diagnosticNode,
+      });
+      return new UserDefinedFunctionResponse(
+        response.result,
+        response.headers,
+        response.code,
+        this,
+        diagnosticNode.toDiagnostic()
+      );
+    }, this.clientContext);
   }
 }

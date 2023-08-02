@@ -3,6 +3,7 @@
 import { Constants } from "../common/constants";
 import { sleep } from "../common/helper";
 import { StatusCodes, SubStatusCodes } from "../common/statusCodes";
+import { DiagnosticNodeInternal, DiagnosticNodeType } from "../CosmosDiagnostics";
 import { Response } from "../request";
 import { RequestContext } from "../request/RequestContext";
 import { DefaultRetryPolicy } from "./defaultRetryPolicy";
@@ -17,9 +18,13 @@ import { SessionRetryPolicy } from "./sessionRetryPolicy";
  */
 interface ExecuteArgs {
   retryContext?: RetryContext;
+  diagnosticNode: DiagnosticNodeInternal;
   retryPolicies?: RetryPolicies;
   requestContext: RequestContext;
-  executeRequest: (requestContext: RequestContext) => Promise<Response<any>>;
+  executeRequest: (
+    diagnosticNode: DiagnosticNodeInternal,
+    requestContext: RequestContext
+  ) => Promise<Response<any>>;
 }
 
 /**
@@ -36,12 +41,15 @@ interface RetryPolicies {
  * @hidden
  */
 export async function execute({
+  diagnosticNode,
   retryContext = { retryCount: 0 },
   retryPolicies,
   requestContext,
   executeRequest,
 }: ExecuteArgs): Promise<Response<any>> {
   // TODO: any response
+  const localDiagnosticNode = diagnosticNode.initializeChildNode(DiagnosticNodeType.HTTP_REQUEST);
+  localDiagnosticNode.addData({ requestAttempNumber: retryContext.retryCount });
   if (!retryPolicies) {
     retryPolicies = {
       endpointDiscoveryRetryPolicy: new EndpointDiscoveryRetryPolicy(
@@ -67,11 +75,12 @@ export async function execute({
     delete requestContext.headers["x-ms-session-token"];
   }
   requestContext.endpoint = await requestContext.globalEndpointManager.resolveServiceEndpoint(
+    localDiagnosticNode,
     requestContext.resourceType,
     requestContext.operationType
   );
   try {
-    const response = await executeRequest(requestContext);
+    const response = await executeRequest(localDiagnosticNode, requestContext);
     response.headers[Constants.ThrottleRetryCount] =
       retryPolicies.resourceThrottleRetryPolicy.currentRetryAttemptCount;
     response.headers[Constants.ThrottleRetryWaitTimeInMs] =
@@ -99,24 +108,33 @@ export async function execute({
     } else {
       retryPolicy = retryPolicies.defaultRetryPolicy;
     }
-    const results = await retryPolicy.shouldRetry(err, retryContext, requestContext.endpoint);
+    const results = await retryPolicy.shouldRetry(
+      err,
+      localDiagnosticNode,
+      retryContext,
+      requestContext.endpoint
+    );
     if (!results) {
       headers[Constants.ThrottleRetryCount] =
         retryPolicies.resourceThrottleRetryPolicy.currentRetryAttemptCount;
       headers[Constants.ThrottleRetryWaitTimeInMs] =
         retryPolicies.resourceThrottleRetryPolicy.cummulativeWaitTimeinMs;
       err.headers = { ...err.headers, ...headers };
-      err.diagnostics = requestContext.diagnosticContext.getDiagnostics();
+      err.diagnostics = diagnosticNode.toDiagnostic();
       throw err;
     } else {
-      requestContext.retryCount++;
       const newUrl = (results as any)[1]; // TODO: any hack
       if (newUrl !== undefined) {
         requestContext.endpoint = newUrl;
       }
       await sleep(retryPolicy.retryAfterInMs);
-      requestContext.diagnosticContext.recordFailedAttempt(err.code);
+      localDiagnosticNode.recordFailedAttempt(
+        retryContext.retryCount,
+        err.code,
+        err.subsstatusCode
+      );
       return execute({
+        diagnosticNode,
         executeRequest,
         requestContext,
         retryContext,

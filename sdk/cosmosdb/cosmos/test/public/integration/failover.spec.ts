@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { expect } from "chai";
 import { CosmosClient, PluginOn, CosmosClientOptions, PluginConfig } from "../../../src";
 import { getEmptyCosmosDiagnostics } from "../../../src/CosmosDiagnostics";
 import { masterKey } from "../common/_fakeTestSecrets";
@@ -155,7 +156,8 @@ describe("Region Failover", () => {
     const plugins: PluginConfig[] = [
       {
         on: PluginOn.request,
-        plugin: async (context) => {
+        plugin: async (context, diagNode) => {
+          expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
           const response = responses[requestIndex];
           lastEndpointCalled = context.endpoint;
           requestIndex++;
@@ -196,7 +198,8 @@ describe("Region Failover", () => {
     const plugins: PluginConfig[] = [
       {
         on: PluginOn.request,
-        plugin: async (context) => {
+        plugin: async (context, diagNode) => {
+          expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
           const response = responses[requestIndex];
           lastEndpointCalled = context.endpoint;
           requestIndex++;
@@ -239,7 +242,8 @@ describe("Region Failover", () => {
     const plugins: PluginConfig[] = [
       {
         on: PluginOn.request,
-        plugin: async (context) => {
+        plugin: async (context, diagNode) => {
+          expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
           const response = responses[requestIndex];
           lastEndpointCalled = context.endpoint;
           requestIndex++;

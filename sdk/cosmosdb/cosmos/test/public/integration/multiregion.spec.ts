@@ -3,10 +3,11 @@
 import assert from "assert";
 import { Suite } from "mocha";
 
-import { CosmosClient, RequestContext } from "../../../src";
+import { CosmosClient } from "../../../src";
 import { masterKey } from "../common/_fakeTestSecrets";
 import { PluginOn, PluginConfig, CosmosClientOptions } from "../../../src";
 import { getEmptyCosmosDiagnostics } from "../../../src/CosmosDiagnostics";
+import { expect } from "chai";
 
 const endpoint = "https://failovertest.documents.azure.com/";
 
@@ -130,7 +131,8 @@ describe("Multi-region tests", function (this: Suite) {
     const plugins: PluginConfig[] = [
       {
         on: PluginOn.request,
-        plugin: async (context: RequestContext) => {
+        plugin: async (context, diagNode) => {
+          expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
           const response = responses[requestIndex];
           if (context.endpoint) {
             lastEndpointCalled = context.endpoint;
@@ -173,7 +175,8 @@ describe("Multi-region tests", function (this: Suite) {
     const plugins: PluginConfig[] = [
       {
         on: PluginOn.request,
-        plugin: async (context: RequestContext) => {
+        plugin: async (context, diagNode) => {
+          expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
           const response = responses[requestIndex];
           if (context.endpoint) {
             lastEndpointCalled = context.endpoint;

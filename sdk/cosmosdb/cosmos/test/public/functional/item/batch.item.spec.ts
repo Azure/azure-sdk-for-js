@@ -3,11 +3,12 @@
 
 import assert from "assert";
 import { Container, CosmosClient, OperationResponse, PatchOperationType } from "../../../../src";
-import { addEntropy } from "../../common/TestHelpers";
+import { addEntropy, validateDiagnostics } from "../../common/TestHelpers";
 import { BulkOperationType, OperationInput } from "../../../../src";
 import { PartitionKeyKind } from "../../../../src/documents";
 import { endpoint } from "../../common/_testConfig";
 import { masterKey } from "../../common/_fakeTestSecrets";
+import { getCurrentTimestampInMs } from "../../../../src/CosmosDiagnosticsContext";
 
 describe("test batch operations", function () {
   describe("v2 multi partition container", async function () {
@@ -219,6 +220,45 @@ describe("test batch operations", function () {
       const { resource: readItem } = await container.item(otherItemId).read();
       assert.strictEqual(readItem, undefined);
       assert(isOperationResponse(deleteResponse.result[0]));
+    });
+
+    it("test diagnostics for batch api", async function () {
+      const operations: OperationInput[] = [
+        {
+          operationType: BulkOperationType.Create,
+          resourceBody: { id: createItemId, key: "A", school: "high" },
+        },
+        {
+          operationType: BulkOperationType.Upsert,
+          resourceBody: { id: upsertItemId, key: "A", school: "elementary" },
+        },
+        {
+          operationType: BulkOperationType.Replace,
+          id: replaceItemId,
+          resourceBody: { id: replaceItemId, key: "A", school: "junior high" },
+        },
+        {
+          operationType: BulkOperationType.Delete,
+          id: deleteItemId,
+        },
+        {
+          operationType: BulkOperationType.Patch,
+          id: patchItemId,
+          resourceBody: {
+            operations: [{ op: PatchOperationType.add, path: "/good", value: "greatValue" }],
+            condition: "from c where NOT IS_DEFINED(c.newImproved)",
+          },
+        },
+      ];
+      const startTimestamp = getCurrentTimestampInMs();
+      const { diagnostics } = await container.items.batch(operations, "A");
+      validateDiagnostics(diagnostics, {
+        requestStartTimeUTCInMsLowerLimit: startTimestamp,
+        requestEndTimeUTCInMsHigherLimit: getCurrentTimestampInMs(),
+        retryCount: 0,
+        metadataCallCount: 1, // One call for database account + data query call.
+        locationEndpointsContacted: 1,
+      });
     });
 
     function isOperationResponse(object: unknown): object is OperationResponse {

@@ -8,6 +8,9 @@ import { ConflictDefinition } from "./ConflictDefinition";
 import { ConflictResponse } from "./ConflictResponse";
 import { undefinedPartitionKey } from "../../extractPartitionKey";
 import { PartitionKey } from "../../documents";
+import { DiagnosticNodeInternal } from "../../CosmosDiagnostics";
+import { readPartitionKeyDefinition } from "../ClientUtils";
+import { startTracing } from "../../CosmosDiagnosticsContext";
 
 /**
  * Use to read or delete a given {@link Conflict} by id.
@@ -39,49 +42,58 @@ export class Conflict {
    * Read the {@link ConflictDefinition} for the given {@link Conflict}.
    */
   public async read(options?: RequestOptions): Promise<ConflictResponse> {
-    const path = getPathFromLink(this.url, ResourceType.conflicts);
-    const id = getIdFromLink(this.url);
+    return await startTracing(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const path = getPathFromLink(this.url, ResourceType.conflicts);
+      const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.read<ConflictDefinition>({
-      path,
-      resourceType: ResourceType.user,
-      resourceId: id,
-      options,
-    });
-    return new ConflictResponse(
-      response.result,
-      response.headers,
-      response.code,
-      this,
-      response.diagnostics
-    );
+      const response = await this.clientContext.read<ConflictDefinition>({
+        path,
+        resourceType: ResourceType.user,
+        resourceId: id,
+        options,
+        diagnosticNode,
+      });
+
+      return new ConflictResponse(
+        response.result,
+        response.headers,
+        response.code,
+        this,
+        diagnosticNode.toDiagnostic()
+      );
+    }, this.clientContext);
   }
 
   /**
    * Delete the given {@link ConflictDefinition}.
    */
   public async delete(options?: RequestOptions): Promise<ConflictResponse> {
-    if (this.partitionKey === undefined) {
-      const { resource: partitionKeyDefinition } =
-        await this.container.readPartitionKeyDefinition();
-      this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
-    }
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
+    return await startTracing(async (diagnosticNode: DiagnosticNodeInternal) => {
+      if (this.partitionKey === undefined) {
+        const partitionKeyDefinition = await readPartitionKeyDefinition(
+          diagnosticNode,
+          this.container
+        );
+        this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
+      }
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete<ConflictDefinition>({
-      path,
-      resourceType: ResourceType.conflicts,
-      resourceId: id,
-      options,
-      partitionKey: this.partitionKey,
-    });
-    return new ConflictResponse(
-      response.result,
-      response.headers,
-      response.code,
-      this,
-      response.diagnostics
-    );
+      const response = await this.clientContext.delete<ConflictDefinition>({
+        path,
+        resourceType: ResourceType.conflicts,
+        resourceId: id,
+        options,
+        partitionKey: this.partitionKey,
+        diagnosticNode,
+      });
+      return new ConflictResponse(
+        response.result,
+        response.headers,
+        response.code,
+        this,
+        diagnosticNode.toDiagnostic()
+      );
+    }, this.clientContext);
   }
 }

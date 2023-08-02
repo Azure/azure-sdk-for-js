@@ -7,6 +7,7 @@ import { endpoint } from "../common/_testConfig";
 import { masterKey } from "../common/_fakeTestSecrets";
 import { SubStatusCodes } from "../../../src/common";
 import assert from "assert";
+import { expect } from "chai";
 
 const splitError = new Error("Fake Partition Split") as any;
 splitError.code = 410;
@@ -50,7 +51,8 @@ describe("Partition Splits", () => {
     const plugins: PluginConfig[] = [
       {
         on: PluginOn.request,
-        plugin: async (context, next) => {
+        plugin: async (context, diagNode, next) => {
+          expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
           // This plugin throws a single 410 on the *second* time we see the same partition key range ID
           const partitionKeyRangeId = context?.headers[Constants.HttpHeaders.PartitionKeyRangeID];
           if (partitionKeyRanges.has(partitionKeyRangeId) && hasSplit === false) {
@@ -89,7 +91,8 @@ describe("Partition Splits", () => {
     const plugins: PluginConfig[] = [
       {
         on: PluginOn.request,
-        plugin: async (context, next) => {
+        plugin: async (context, diagNode, next) => {
+          expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
           // This plugin throws a single 410 for partition key range ID 0 on every single request
           const partitionKeyRangeId = context?.headers[Constants.HttpHeaders.PartitionKeyRangeID];
           if (partitionKeyRangeId === "0") {

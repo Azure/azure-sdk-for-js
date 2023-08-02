@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 import assert from "assert";
 import { Suite } from "mocha";
-import { removeAllDatabases, getTestContainer } from "../common/TestHelpers";
+import { removeAllDatabases, getTestContainer, validateDiagnostics } from "../common/TestHelpers";
+import { getCurrentTimestampInMs } from "../../../src/CosmosDiagnosticsContext";
 
 describe("Conflicts", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
@@ -24,6 +25,20 @@ describe("Conflicts", function (this: Suite) {
         .query("SELECT * from C", { forceQueryPlan: true })
         .fetchNext();
       assert.equal(resources.length, 0);
+    });
+  });
+  it("Test diagnostics for conflict", async function () {
+    const container = await getTestContainer("conflicts");
+    const timestamp = getCurrentTimestampInMs();
+    const { diagnostics } = await container.conflicts
+      .query("SELECT * from C", { forceQueryPlan: true })
+      .fetchNext();
+    validateDiagnostics(diagnostics, {
+      requestStartTimeUTCInMsLowerLimit: timestamp,
+      requestEndTimeUTCInMsHigherLimit: getCurrentTimestampInMs(),
+      retryCount: 0,
+      metadataCallCount: 2, // One call for database account + data query call.
+      locationEndpointsContacted: 1,
     });
   });
 });

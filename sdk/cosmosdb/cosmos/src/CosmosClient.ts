@@ -7,6 +7,8 @@ import { parseConnectionString } from "./common";
 import { Constants } from "./common/constants";
 import { getUserAgent } from "./common/platform";
 import { CosmosClientOptions } from "./CosmosClientOptions";
+import { DiagnosticNodeInternal, DiagnosticNodeType } from "./CosmosDiagnostics";
+import { startTracing } from "./CosmosDiagnosticsContext";
 import { DatabaseAccount, defaultConnectionPolicy } from "./documents";
 import { GlobalEndpointManager } from "./globalEndpointManager";
 import { RequestOptions, ResourceResponse } from "./request";
@@ -91,7 +93,8 @@ export class CosmosClient {
 
     const globalEndpointManager = new GlobalEndpointManager(
       optionsOrConnectionString,
-      async (opts: RequestOptions) => this.getDatabaseAccount(opts)
+      async (diagnosticNode: DiagnosticNodeInternal, opts: RequestOptions) =>
+        this.getDatabaseAccountInternal(diagnosticNode, opts)
     );
     this.clientContext = new ClientContext(optionsOrConnectionString, globalEndpointManager);
     if (
@@ -115,12 +118,24 @@ export class CosmosClient {
   public async getDatabaseAccount(
     options?: RequestOptions
   ): Promise<ResourceResponse<DatabaseAccount>> {
-    const response = await this.clientContext.getDatabaseAccount(options);
+    return await startTracing(async (diagnosticNode: DiagnosticNodeInternal) => {
+      return await this.getDatabaseAccountInternal(diagnosticNode, options);
+    }, this.clientContext);
+  }
+
+  /**
+   * @hidden
+   */
+  public async getDatabaseAccountInternal(
+    diagnosticNode: DiagnosticNodeInternal,
+    options?: RequestOptions
+  ): Promise<ResourceResponse<DatabaseAccount>> {
+    const response = await this.clientContext.getDatabaseAccount(diagnosticNode, options);
     return new ResourceResponse<DatabaseAccount>(
       response.result,
       response.headers,
       response.code,
-      response.diagnostics
+      diagnosticNode.toDiagnostic()
     );
   }
 
@@ -129,8 +144,10 @@ export class CosmosClient {
    *
    * The url may contain a region suffix (e.g. "-eastus") if we're using location specific endpoints.
    */
-  public getWriteEndpoint(): Promise<string> {
-    return this.clientContext.getWriteEndpoint();
+  public async getWriteEndpoint(): Promise<string> {
+    return await startTracing(async (diagnosticNode: DiagnosticNodeInternal) => {
+      return this.clientContext.getWriteEndpoint(diagnosticNode);
+    }, this.clientContext);
   }
 
   /**
@@ -138,8 +155,10 @@ export class CosmosClient {
    *
    * The url may contain a region suffix (e.g. "-eastus") if we're using location specific endpoints.
    */
-  public getReadEndpoint(): Promise<string> {
-    return this.clientContext.getReadEndpoint();
+  public async getReadEndpoint(): Promise<string> {
+    return await startTracing(async (diagnosticNode: DiagnosticNodeInternal) => {
+      return this.clientContext.getReadEndpoint(diagnosticNode);
+    }, this.clientContext);
   }
 
   /**
@@ -201,7 +220,13 @@ export class CosmosClient {
   ) {
     this.endpointRefresher = setInterval(() => {
       try {
-        globalEndpointManager.refreshEndpointList();
+        return startTracing(
+          async (diagnosticNode: DiagnosticNodeInternal) => {
+            return globalEndpointManager.refreshEndpointList(diagnosticNode);
+          },
+          this.clientContext,
+          DiagnosticNodeType.BACKGROUND_REFRESH_THREAD
+        );
       } catch (e: any) {
         console.warn("Failed to refresh endpoints", e);
       }

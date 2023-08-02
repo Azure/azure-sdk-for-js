@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
+import { DiagnosticNodeInternal } from "../../CosmosDiagnostics";
+import { startTracing } from "../../CosmosDiagnosticsContext";
 import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
@@ -38,7 +40,7 @@ export class Permissions {
     const path = getPathFromLink(this.user.url, ResourceType.permission);
     const id = getIdFromLink(this.user.url);
 
-    return new QueryIterator(this.clientContext, query, options, (innerOptions) => {
+    return new QueryIterator(this.clientContext, query, options, (diagNode, innerOptions) => {
       return this.clientContext.queryFeed({
         path,
         resourceType: ResourceType.permission,
@@ -46,6 +48,7 @@ export class Permissions {
         resultFn: (result) => result.Permissions,
         query,
         options: innerOptions,
+        diagnosticNode: diagNode,
       });
     });
   }
@@ -72,29 +75,32 @@ export class Permissions {
     body: PermissionDefinition,
     options?: RequestOptions
   ): Promise<PermissionResponse> {
-    const err = {};
-    if (!isResourceValid(body, err)) {
-      throw err;
-    }
+    return await startTracing(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const err = {};
+      if (!isResourceValid(body, err)) {
+        throw err;
+      }
 
-    const path = getPathFromLink(this.user.url, ResourceType.permission);
-    const id = getIdFromLink(this.user.url);
+      const path = getPathFromLink(this.user.url, ResourceType.permission);
+      const id = getIdFromLink(this.user.url);
 
-    const response = await this.clientContext.create<PermissionDefinition, PermissionBody>({
-      body,
-      path,
-      resourceType: ResourceType.permission,
-      resourceId: id,
-      options,
-    });
-    const ref = new Permission(this.user, response.result.id, this.clientContext);
-    return new PermissionResponse(
-      response.result,
-      response.headers,
-      response.code,
-      ref,
-      response.diagnostics
-    );
+      const response = await this.clientContext.create<PermissionDefinition, PermissionBody>({
+        body,
+        path,
+        resourceType: ResourceType.permission,
+        resourceId: id,
+        diagnosticNode,
+        options,
+      });
+      const ref = new Permission(this.user, response.result.id, this.clientContext);
+      return new PermissionResponse(
+        response.result,
+        response.headers,
+        response.code,
+        ref,
+        diagnosticNode.toDiagnostic()
+      );
+    }, this.clientContext);
   }
 
   /**
@@ -107,28 +113,31 @@ export class Permissions {
     body: PermissionDefinition,
     options?: RequestOptions
   ): Promise<PermissionResponse> {
-    const err = {};
-    if (!isResourceValid(body, err)) {
-      throw err;
-    }
+    return await startTracing(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const err = {};
+      if (!isResourceValid(body, err)) {
+        throw err;
+      }
 
-    const path = getPathFromLink(this.user.url, ResourceType.permission);
-    const id = getIdFromLink(this.user.url);
+      const path = getPathFromLink(this.user.url, ResourceType.permission);
+      const id = getIdFromLink(this.user.url);
 
-    const response = await this.clientContext.upsert<PermissionDefinition, PermissionBody>({
-      body,
-      path,
-      resourceType: ResourceType.permission,
-      resourceId: id,
-      options,
-    });
-    const ref = new Permission(this.user, response.result.id, this.clientContext);
-    return new PermissionResponse(
-      response.result,
-      response.headers,
-      response.code,
-      ref,
-      response.diagnostics
-    );
+      const response = await this.clientContext.upsert<PermissionDefinition, PermissionBody>({
+        body,
+        path,
+        resourceType: ResourceType.permission,
+        resourceId: id,
+        options,
+        diagnosticNode,
+      });
+      const ref = new Permission(this.user, response.result.id, this.clientContext);
+      return new PermissionResponse(
+        response.result,
+        response.headers,
+        response.code,
+        ref,
+        diagnosticNode.toDiagnostic()
+      );
+    }, this.clientContext);
   }
 }

@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
+import { DiagnosticNodeInternal } from "../../CosmosDiagnostics";
+import { startTracing } from "../../CosmosDiagnosticsContext";
 import {
   createUserUri,
   getIdFromLink,
@@ -59,21 +61,24 @@ export class User {
    * Read the {@link UserDefinition} for the given {@link User}.
    */
   public async read(options?: RequestOptions): Promise<UserResponse> {
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
-    const response = await this.clientContext.read<UserDefinition>({
-      path,
-      resourceType: ResourceType.user,
-      resourceId: id,
-      options,
-    });
-    return new UserResponse(
-      response.result,
-      response.headers,
-      response.code,
-      this,
-      response.diagnostics
-    );
+    return await startTracing(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
+      const response = await this.clientContext.read<UserDefinition>({
+        path,
+        resourceType: ResourceType.user,
+        resourceId: id,
+        options,
+        diagnosticNode,
+      });
+      return new UserResponse(
+        response.result,
+        response.headers,
+        response.code,
+        this,
+        diagnosticNode.toDiagnostic()
+      );
+    }, this.clientContext);
   }
 
   /**
@@ -81,49 +86,55 @@ export class User {
    * @param body - The specified {@link UserDefinition} to replace the definition.
    */
   public async replace(body: UserDefinition, options?: RequestOptions): Promise<UserResponse> {
-    const err = {};
-    if (!isResourceValid(body, err)) {
-      throw err;
-    }
+    return await startTracing(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const err = {};
+      if (!isResourceValid(body, err)) {
+        throw err;
+      }
 
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.replace<UserDefinition>({
-      body,
-      path,
-      resourceType: ResourceType.user,
-      resourceId: id,
-      options,
-    });
-    return new UserResponse(
-      response.result,
-      response.headers,
-      response.code,
-      this,
-      response.diagnostics
-    );
+      const response = await this.clientContext.replace<UserDefinition>({
+        body,
+        path,
+        resourceType: ResourceType.user,
+        resourceId: id,
+        options,
+        diagnosticNode,
+      });
+      return new UserResponse(
+        response.result,
+        response.headers,
+        response.code,
+        this,
+        diagnosticNode.toDiagnostic()
+      );
+    }, this.clientContext);
   }
 
   /**
    * Delete the given {@link User}.
    */
   public async delete(options?: RequestOptions): Promise<UserResponse> {
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
+    return await startTracing(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete<UserDefinition>({
-      path,
-      resourceType: ResourceType.user,
-      resourceId: id,
-      options,
-    });
-    return new UserResponse(
-      response.result,
-      response.headers,
-      response.code,
-      this,
-      response.diagnostics
-    );
+      const response = await this.clientContext.delete<UserDefinition>({
+        path,
+        resourceType: ResourceType.user,
+        resourceId: id,
+        options,
+        diagnosticNode,
+      });
+      return new UserResponse(
+        response.result,
+        response.headers,
+        response.code,
+        this,
+        diagnosticNode.toDiagnostic()
+      );
+    }, this.clientContext);
   }
 }

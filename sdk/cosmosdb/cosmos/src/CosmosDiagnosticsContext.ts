@@ -1,16 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { v4 } from "uuid";
-import { Constants } from "./common";
-import { Location } from "./documents";
+import { Constants, DiagnosticLevel } from "./common";
 import { CosmosHeaders } from "./queryExecutionContext";
 import {
+  ClientSideRequestStatistics,
   CosmosDiagnostics,
+  DiagnosticDataValue,
+  DiagnosticNodeInternal,
+  DiagnosticNodeType,
   FailedRequestAttemptDiagnostic,
+  GatewayStatistics,
   MetadataLookUpDiagnostic,
   MetadataLookUpType,
 } from "./CosmosDiagnostics";
+import { getDiagnosticLevel } from "./diagnostics";
+import { RequestContext, Response } from "./request";
+import { ClientContext } from "./ClientContext";
 
 /**
  * @hidden
@@ -23,20 +29,18 @@ import {
  */
 export class CosmosDiagnosticContext {
   private requestStartTimeUTCinMs: number;
-  private requestEndTimeUTCinMs: number;
-  private retryStartTimeUTCinMs: number;
   private headers: CosmosHeaders = {};
-  private retryAttemptNumber: number;
   private failedAttempts: FailedRequestAttemptDiagnostic[] = [];
   private metadataLookups: MetadataLookUpDiagnostic[] = [];
   private requestPayloadLength: number;
   private responsePayloadLength: number;
-
-  public locationEndpointsContacted: Map<string, Location> = new Map();
+  private totalRequestPayloadLengthInBytes: number;
+  private totalResponsePayloadLengthInBytes: number;
+  private gaterwayStatistics?: GatewayStatistics;
+  public locationEndpointsContacted: Set<string> = new Set();
 
   public constructor() {
     this.requestStartTimeUTCinMs = getCurrentTimestampInMs();
-    this.retryStartTimeUTCinMs = this.requestStartTimeUTCinMs;
   }
 
   public recordRequestPayload(payload: string): void {
@@ -48,29 +52,49 @@ export class CosmosDiagnosticContext {
     this.headers = { ...this.headers, ...headers };
   }
 
-  public recordFailedAttempt(statusCode: string): void {
+  public recordFailedAttempt(
+    diagnosticNode: DiagnosticNodeInternal,
+    retryAttemptNumber: number,
+    statusCode: number,
+    substatusCode: number
+  ): void {
     const attempt: FailedRequestAttemptDiagnostic = {
-      id: v4(),
-      attemptNumber: this.retryAttemptNumber,
-      startTimeUTCInMs: this.retryStartTimeUTCinMs,
-      endTimeUTCInMs: getCurrentTimestampInMs(),
+      attemptNumber: retryAttemptNumber,
+      startTimeUTCInMs: diagnosticNode.startTimeUTCInMs,
+      durationInMs: getCurrentTimestampInMs() - diagnosticNode.startTimeUTCInMs,
       statusCode,
+      substatusCode,
     };
-    this.retryStartTimeUTCinMs = getCurrentTimestampInMs();
-    this.retryAttemptNumber++;
     this.failedAttempts.push(attempt);
   }
 
+  public recordGatewayStatistics(
+    request: RequestContext,
+    diagnosticNode: DiagnosticNodeInternal,
+    response: Response<any>
+  ) {
+    this.gaterwayStatistics = {
+      operationType: request.operationType,
+      resourceType: request.resourceType,
+      statusCode: response.code,
+      subStatusCode: response.substatus,
+      requestCharge: Number(response.headers[Constants.HttpHeaders.RequestCharge]) || 0,
+      startTimeUTCInMs: diagnosticNode.startTimeUTCInMs,
+      durationInMs: diagnosticNode.durationInMs,
+      partitionKeyRangeId: request.partitionKeyRangeId,
+    };
+  }
+
   public recordMetaDataLookup(
-    diagnostics: CosmosDiagnostics,
+    activityId: string,
+    startTimeUTCInMs: number,
     metaDataType: MetadataLookUpType
   ): void {
     const metaDataRequest = {
-      startTimeUTCInMs: diagnostics.clientSideRequestStatistics.requestStartTimeUTCInMs,
-      endTimeUTCInMs: diagnostics.clientSideRequestStatistics.requestEndTimeUTCInMs,
-      activityId: diagnostics.clientSideRequestStatistics.activityId,
+      startTimeUTCInMs,
+      durationInMs: getCurrentTimestampInMs() - startTimeUTCInMs,
+      activityId,
       metaDataType,
-      id: v4(),
     };
     this.metadataLookups.push(metaDataRequest);
   }
@@ -79,65 +103,50 @@ export class CosmosDiagnosticContext {
 
   //   public recordResponse() {}
 
-  public mergeDiagnostics(diagnostics: CosmosDiagnostics): void {
-    diagnostics.clientSideRequestStatistics.locationEndpointsContacted.forEach((endpoint) =>
-      this.locationEndpointsContacted.set(endpoint.databaseAccountEndpoint, endpoint)
+  public mergeDiagnostics(diagnostics: CosmosDiagnosticContext): void {
+    diagnostics.locationEndpointsContacted.forEach((endpoint) =>
+      this.locationEndpointsContacted.add(endpoint)
     );
-    diagnostics.clientSideRequestStatistics.metadataDiagnostics.metadataLookups.forEach((lookup) =>
-      this.metadataLookups.push(lookup)
-    );
-    diagnostics.clientSideRequestStatistics.retryDiagnostics.failedAttempts.forEach((lookup) =>
-      this.failedAttempts.push(lookup)
-    );
+    diagnostics.metadataLookups.forEach((lookup) => this.metadataLookups.push(lookup));
+    diagnostics.failedAttempts.forEach((lookup) => this.failedAttempts.push(lookup));
   }
 
-  public recordEndpointContactEvent(location: Location): void {
-    this.locationEndpointsContacted.set(location.databaseAccountEndpoint, location);
+  public getClientSideStats(
+    endTimeUTCInMs: number = getCurrentTimestampInMs()
+  ): ClientSideRequestStatistics {
+    return {
+      activityId: this.getActivityId(),
+      requestStartTimeUTCInMs: this.requestStartTimeUTCinMs,
+      requestDurationInMs: endTimeUTCInMs - this.requestStartTimeUTCinMs,
+      totalRequestPayloadLengthInBytes: this.totalRequestPayloadLengthInBytes,
+      totalResponsePayloadLengthInBytes: this.totalResponsePayloadLengthInBytes,
+      locationEndpointsContacted: [...this.locationEndpointsContacted.values()],
+      metadataDiagnostics: {
+        metadataLookups: [...this.metadataLookups],
+      },
+      retryDiagnostics: {
+        failedAttempts: [...this.failedAttempts],
+      },
+      gatewayStatistics: this.gaterwayStatistics,
+      requestPayloadLengthInBytes: this.requestPayloadLength,
+      responsePayloadLengthInBytes: this.responsePayloadLength,
+    };
+  }
+
+  public recordEndpointResolution(location: string): void {
+    this.locationEndpointsContacted.add(location);
   }
 
   public reset(): void {
     this.requestStartTimeUTCinMs = getCurrentTimestampInMs();
-    this.requestEndTimeUTCinMs = getCurrentTimestampInMs();
-    this.retryStartTimeUTCinMs = 0;
     this.headers = {};
-    this.retryAttemptNumber = 0;
     this.failedAttempts = [];
     this.metadataLookups = [];
     this.requestPayloadLength = 0;
     this.responsePayloadLength = 0;
-    this.locationEndpointsContacted = new Map();
-  }
-
-  public resetAndGetDiagnostics(): CosmosDiagnostics {
-    const diagnostic = this.getDiagnostics();
-    this.reset();
-    return diagnostic;
-  }
-
-  public getDiagnostics(): CosmosDiagnostics {
-    this.recordSessionEnd();
-    return new CosmosDiagnostics(
-      v4(),
-      {
-        activityId: this.getActivityId(),
-        requestStartTimeUTCInMs: this.requestStartTimeUTCinMs,
-        requestEndTimeUTCInMs: this.requestEndTimeUTCinMs,
-        locationEndpointsContacted: [...this.locationEndpointsContacted.values()],
-        metadataDiagnostics: {
-          metadataLookups: [...this.metadataLookups],
-        },
-        retryDiagnostics: {
-          failedAttempts: [...this.failedAttempts],
-        },
-        requestPayloadLengthInBytes: this.requestPayloadLength,
-        responsePayloadLengthInBytes: this.responsePayloadLength,
-      },
-      this
-    );
-  }
-
-  private recordSessionEnd() {
-    this.requestEndTimeUTCinMs = getCurrentTimestampInMs();
+    this.locationEndpointsContacted = new Set();
+    this.totalRequestPayloadLengthInBytes = 0;
+    this.totalResponsePayloadLengthInBytes = 0;
   }
 
   private getActivityId(): string {
@@ -152,4 +161,37 @@ export class CosmosDiagnosticContext {
  */
 export function getCurrentTimestampInMs(): number {
   return Date.now();
+}
+
+export async function withTracing<
+  Callback extends (node: DiagnosticNodeInternal) => ReturnType<Callback>
+>(
+  callback: Callback,
+  node: DiagnosticNodeInternal,
+  type: DiagnosticNodeType,
+  data: Partial<DiagnosticDataValue> = {}
+): Promise<ReturnType<Callback>> {
+  let childNode;
+  if (getDiagnosticLevel() === DiagnosticLevel.silent) {
+    childNode = node;
+  } else {
+    childNode = node.initializeChildNode(type, data);
+  }
+  const response = await callback(childNode);
+  childNode.updateDuration();
+  return response;
+}
+
+export async function startTracing<
+  Callback extends (node: DiagnosticNodeInternal) => ReturnType<Callback>
+>(
+  callback: Callback,
+  clientContext: ClientContext,
+  type: DiagnosticNodeType = DiagnosticNodeType.CLIENT_REQUEST_NODE
+): Promise<ReturnType<Callback>> {
+  const diagnosticNode = new DiagnosticNodeInternal(type, null);
+  const response: any = await callback(diagnosticNode);
+  const diagnostic: CosmosDiagnostics = response.diagnostic;
+  clientContext.recoredDiagnostics(diagnostic);
+  return response;
 }

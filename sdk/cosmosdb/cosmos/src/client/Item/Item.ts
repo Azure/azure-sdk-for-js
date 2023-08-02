@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
-import { CosmosDiagnosticContext } from "../../CosmosDiagnosticsContext";
+import { DiagnosticNodeInternal } from "../../CosmosDiagnostics";
+import { startTracing } from "../../CosmosDiagnosticsContext";
 import {
   createDocumentUri,
   getIdFromLink,
@@ -14,7 +15,7 @@ import { PartitionKey, PartitionKeyInternal, convertToInternalPartitionKey } fro
 import { extractPartitionKeys, undefinedPartitionKey } from "../../extractPartitionKey";
 import { RequestOptions, Response } from "../../request";
 import { PatchRequestBody } from "../../utils/patch";
-import { readAndRecordPartitionKeyDefinition } from "../ClientUtils";
+import { readPartitionKeyDefinition } from "../ClientUtils";
 import { Container } from "../Container";
 import { Resource } from "../Resource";
 import { ItemDefinition } from "./ItemDefinition";
@@ -77,40 +78,43 @@ export class Item {
   public async read<T extends ItemDefinition = any>(
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
-    let diagnosticContext: CosmosDiagnosticContext;
-    if (this.partitionKey === undefined) {
-      const partitionKeyResponse = await readAndRecordPartitionKeyDefinition(this.container);
-      this.partitionKey = undefinedPartitionKey(partitionKeyResponse.partitionKeyDefinition);
-      diagnosticContext = partitionKeyResponse.diagnosticContext;
-    }
-
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
-    let response: Response<T & Resource>;
-    try {
-      response = await this.clientContext.read<T>({
-        path,
-        resourceType: ResourceType.item,
-        resourceId: id,
-        options,
-        partitionKey: this.partitionKey,
-        diagnosticContext,
-      });
-    } catch (error: any) {
-      if (error.code !== StatusCodes.NotFound) {
-        throw error;
+    return await startTracing(async (diagnosticNode: DiagnosticNodeInternal) => {
+      if (this.partitionKey === undefined) {
+        const partitionKeyDefinition = await readPartitionKeyDefinition(
+          diagnosticNode,
+          this.container
+        );
+        this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
       }
-      response = error;
-    }
 
-    return new ItemResponse(
-      response.result,
-      response.headers,
-      response.code,
-      response.substatus,
-      this,
-      response.diagnostics
-    );
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
+      let response: Response<T & Resource>;
+      try {
+        response = await this.clientContext.read<T>({
+          path,
+          resourceType: ResourceType.item,
+          resourceId: id,
+          options,
+          partitionKey: this.partitionKey,
+          diagnosticNode,
+        });
+      } catch (error: any) {
+        if (error.code !== StatusCodes.NotFound) {
+          throw error;
+        }
+        response = error;
+      }
+
+      return new ItemResponse(
+        response.result,
+        response.headers,
+        response.code,
+        response.substatus,
+        this,
+        diagnosticNode.toDiagnostic()
+      );
+    }, this.clientContext);
   }
 
   /**
@@ -144,38 +148,41 @@ export class Item {
     body: T,
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
-    let diagnosticContext: CosmosDiagnosticContext;
-    if (this.partitionKey === undefined) {
-      const partitionKeyResponse = await readAndRecordPartitionKeyDefinition(this.container);
-      this.partitionKey = extractPartitionKeys(body, partitionKeyResponse.partitionKeyDefinition);
-      diagnosticContext = partitionKeyResponse.diagnosticContext;
-    }
+    return await startTracing(async (diagnosticNode: DiagnosticNodeInternal) => {
+      if (this.partitionKey === undefined) {
+        const partitionKeyResponse = await readPartitionKeyDefinition(
+          diagnosticNode,
+          this.container
+        );
+        this.partitionKey = extractPartitionKeys(body, partitionKeyResponse);
+      }
 
-    const err = {};
-    if (!isItemResourceValid(body, err)) {
-      throw err;
-    }
+      const err = {};
+      if (!isItemResourceValid(body, err)) {
+        throw err;
+      }
 
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.replace<T>({
-      body,
-      path,
-      resourceType: ResourceType.item,
-      resourceId: id,
-      options,
-      partitionKey: this.partitionKey,
-      diagnosticContext,
-    });
-    return new ItemResponse(
-      response.result,
-      response.headers,
-      response.code,
-      response.substatus,
-      this,
-      response.diagnostics
-    );
+      const response = await this.clientContext.replace<T>({
+        body,
+        path,
+        resourceType: ResourceType.item,
+        resourceId: id,
+        options,
+        partitionKey: this.partitionKey,
+        diagnosticNode,
+      });
+      return new ItemResponse(
+        response.result,
+        response.headers,
+        response.code,
+        response.substatus,
+        this,
+        diagnosticNode.toDiagnostic()
+      );
+    }, this.clientContext);
   }
 
   /**
@@ -189,32 +196,35 @@ export class Item {
   public async delete<T extends ItemDefinition = any>(
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
-    let diagnosticContext: CosmosDiagnosticContext;
-    if (this.partitionKey === undefined) {
-      const partitionKeyResponse = await readAndRecordPartitionKeyDefinition(this.container);
-      this.partitionKey = undefinedPartitionKey(partitionKeyResponse.partitionKeyDefinition);
-      diagnosticContext = partitionKeyResponse.diagnosticContext;
-    }
+    return await startTracing(async (diagnosticNode: DiagnosticNodeInternal) => {
+      if (this.partitionKey === undefined) {
+        const partitionKeyResponse = await readPartitionKeyDefinition(
+          diagnosticNode,
+          this.container
+        );
+        this.partitionKey = undefinedPartitionKey(partitionKeyResponse);
+      }
 
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete<T>({
-      path,
-      resourceType: ResourceType.item,
-      resourceId: id,
-      options,
-      partitionKey: this.partitionKey,
-      diagnosticContext,
-    });
-    return new ItemResponse(
-      response.result,
-      response.headers,
-      response.code,
-      response.substatus,
-      this,
-      response.diagnostics
-    );
+      const response = await this.clientContext.delete<T>({
+        path,
+        resourceType: ResourceType.item,
+        resourceId: id,
+        options,
+        partitionKey: this.partitionKey,
+        diagnosticNode,
+      });
+      return new ItemResponse(
+        response.result,
+        response.headers,
+        response.code,
+        response.substatus,
+        this,
+        diagnosticNode.toDiagnostic()
+      );
+    }, this.clientContext);
   }
 
   /**
@@ -229,32 +239,35 @@ export class Item {
     body: PatchRequestBody,
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
-    let diagnosticContext: CosmosDiagnosticContext;
-    if (this.partitionKey === undefined) {
-      const partitionKeyResponse = await readAndRecordPartitionKeyDefinition(this.container);
-      this.partitionKey = extractPartitionKeys(body, partitionKeyResponse.partitionKeyDefinition);
-      diagnosticContext = partitionKeyResponse.diagnosticContext;
-    }
+    return await startTracing(async (diagnosticNode: DiagnosticNodeInternal) => {
+      if (this.partitionKey === undefined) {
+        const partitionKeyResponse = await readPartitionKeyDefinition(
+          diagnosticNode,
+          this.container
+        );
+        this.partitionKey = extractPartitionKeys(body, partitionKeyResponse);
+      }
 
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.patch<T>({
-      body,
-      path,
-      resourceType: ResourceType.item,
-      resourceId: id,
-      options,
-      partitionKey: this.partitionKey,
-      diagnosticContext,
-    });
-    return new ItemResponse(
-      response.result,
-      response.headers,
-      response.code,
-      response.substatus,
-      this,
-      response.diagnostics
-    );
+      const response = await this.clientContext.patch<T>({
+        body,
+        path,
+        resourceType: ResourceType.item,
+        resourceId: id,
+        options,
+        partitionKey: this.partitionKey,
+        diagnosticNode,
+      });
+      return new ItemResponse(
+        response.result,
+        response.headers,
+        response.code,
+        response.substatus,
+        this,
+        diagnosticNode.toDiagnostic()
+      );
+    }, this.clientContext);
   }
 }

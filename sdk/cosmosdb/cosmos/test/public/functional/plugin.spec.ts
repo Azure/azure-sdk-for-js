@@ -5,7 +5,8 @@ import { RequestContext } from "../../../src";
 import { Plugin, Next, PluginConfig } from "../../../src";
 
 import * as assert from "assert";
-import { getEmptyCosmosDiagnostics } from "../../../src/CosmosDiagnostics";
+import { DiagnosticNodeInternal, getEmptyCosmosDiagnostics } from "../../../src/CosmosDiagnostics";
+import { expect } from "chai";
 
 describe("Plugin", function () {
   it("should handle all requests", async function () {
@@ -19,7 +20,11 @@ describe("Plugin", function () {
     };
     let requestCount = 0;
     const FAILCOUNT = 2;
-    const sometimesThrow: Plugin<any> = async (context: RequestContext) => {
+    const sometimesThrow: Plugin<any> = async (
+      context: RequestContext,
+      diagNode: DiagnosticNodeInternal
+    ) => {
+      expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
       requestCount++;
       if (context.path.includes("dbs") && requestCount <= FAILCOUNT) {
         throw {
@@ -110,7 +115,8 @@ describe("Plugin", function () {
 
     let requestCount = 0;
     let responseCount = 0;
-    const counts: Plugin<any> = async (context: RequestContext, next: Next<any>) => {
+    const counts: Plugin<any> = async (context: RequestContext, diagNode, next: Next<any>) => {
+      expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
       requestCount++;
       const response = await next(context);
       responseCount++;

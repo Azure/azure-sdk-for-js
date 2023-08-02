@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
+import { DiagnosticNodeInternal } from "../../CosmosDiagnostics";
+import { startTracing } from "../../CosmosDiagnosticsContext";
 import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
@@ -40,7 +42,7 @@ export class Triggers {
     const path = getPathFromLink(this.container.url, ResourceType.trigger);
     const id = getIdFromLink(this.container.url);
 
-    return new QueryIterator(this.clientContext, query, options, (innerOptions) => {
+    return new QueryIterator(this.clientContext, query, options, (diagNode, innerOptions) => {
       return this.clientContext.queryFeed({
         path,
         resourceType: ResourceType.trigger,
@@ -48,6 +50,7 @@ export class Triggers {
         resultFn: (result) => result.Triggers,
         query,
         options: innerOptions,
+        diagnosticNode: diagNode,
       });
     });
   }
@@ -71,32 +74,35 @@ export class Triggers {
    * For additional details, refer to the server-side JavaScript API documentation.
    */
   public async create(body: TriggerDefinition, options?: RequestOptions): Promise<TriggerResponse> {
-    if (body.body) {
-      body.body = body.body.toString();
-    }
+    return await startTracing(async (diagnosticNode: DiagnosticNodeInternal) => {
+      if (body.body) {
+        body.body = body.body.toString();
+      }
 
-    const err = {};
-    if (!isResourceValid(body, err)) {
-      throw err;
-    }
+      const err = {};
+      if (!isResourceValid(body, err)) {
+        throw err;
+      }
 
-    const path = getPathFromLink(this.container.url, ResourceType.trigger);
-    const id = getIdFromLink(this.container.url);
+      const path = getPathFromLink(this.container.url, ResourceType.trigger);
+      const id = getIdFromLink(this.container.url);
 
-    const response = await this.clientContext.create<TriggerDefinition>({
-      body,
-      path,
-      resourceType: ResourceType.trigger,
-      resourceId: id,
-      options,
-    });
-    const ref = new Trigger(this.container, response.result.id, this.clientContext);
-    return new TriggerResponse(
-      response.result,
-      response.headers,
-      response.code,
-      ref,
-      response.diagnostics
-    );
+      const response = await this.clientContext.create<TriggerDefinition>({
+        body,
+        path,
+        resourceType: ResourceType.trigger,
+        resourceId: id,
+        options,
+        diagnosticNode,
+      });
+      const ref = new Trigger(this.container, response.result.id, this.clientContext);
+      return new TriggerResponse(
+        response.result,
+        response.headers,
+        response.code,
+        ref,
+        diagnosticNode.toDiagnostic()
+      );
+    }, this.clientContext);
   }
 }
