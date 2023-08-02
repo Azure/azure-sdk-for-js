@@ -7,14 +7,14 @@
  */
 
 // Model:       prebuilt-tax.us.1098E
-// Description: Extract key information from United States Internal Revenue Service Form 1098-E (2021-2022).
+// Description: Extract key information from United States Internal Revenue Service Form 1098-E (2021-current).
 // API Version: 2023-07-31
-// Created:     Thu Apr 06 2023
+// Created:     Wed Aug 02 2023
 
 import * as fr from "@azure/ai-form-recognizer";
 
 /**
- * Extract key information from United States Internal Revenue Service Form 1098-E (2021-2022).
+ * Extract key information from United States Internal Revenue Service Form 1098-E (2021-current).
  */
 export const PrebuiltTaxUs1098EModel = fr.createModelFromSchema(
   modelInfo()
@@ -153,8 +153,8 @@ function modelInfo() {
   return {
     modelId: "prebuilt-tax.us.1098E",
     description:
-      "Extract key information from United States Internal Revenue Service Form 1098-E (2021-2022).",
-    createdOn: "2023-02-28T00:00:00.000Z",
+      "Extract key information from United States Internal Revenue Service Form 1098-E (2021-current).",
+    createdOn: "2023-07-31T00:00:00.000Z",
     apiVersion: "2023-07-31",
     docTypes: {
       "tax.us.1098E": {
@@ -183,7 +183,7 @@ function modelInfo() {
                 description: "Borrower's address",
                 example: "123 Microsoft Way, Redmond WA 98052",
               },
-              "Account Number": {
+              AccountNumber: {
                 type: "string",
                 description: "Borrower's account number",
                 example: "55123456789",
