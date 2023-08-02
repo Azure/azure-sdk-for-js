@@ -25,7 +25,6 @@ describe("Deserialize Validation", function () {
     serializer = await createTestSerializer({
       registry,
       serializerOptions: {
-        autoRegisterSchemas: true,
         groupName: testGroup,
       },
       recorder,
@@ -151,7 +150,6 @@ describe("Validation Error", function () {
     serializer = await createTestSerializer({
       registry,
       serializerOptions: {
-        autoRegisterSchemas: true,
         groupName: testGroup,
       },
       recorder,
@@ -173,12 +171,12 @@ describe("Validation Error", function () {
       const testData = "x";
       const { id } = await registry.registerSchema({
         definition: JSON.stringify({
-          $id: "testId",
+          $id: "boolean",
           type: "boolean",
         }),
         format: "json",
         groupName: testGroup,
-        name: "test",
+        name: "boolean",
       });
       await assertError(
         serializer.deserialize(
@@ -199,12 +197,12 @@ describe("Validation Error", function () {
       const testData = 1;
       const { id } = await registry.registerSchema({
         definition: JSON.stringify({
-          $id: "testId",
+          $id: "string",
           type: "string",
         }),
         format: "json",
         groupName: testGroup,
-        name: "test",
+        name: "string",
       });
       await assertError(
         serializer.deserialize(
@@ -225,12 +223,12 @@ describe("Validation Error", function () {
       const testData = "x";
       const { id } = await registry.registerSchema({
         definition: JSON.stringify({
-          $id: "testId",
+          $id: "integer",
           type: "integer",
         }),
         format: "json",
         groupName: testGroup,
-        name: "test",
+        name: "integer",
       });
       await assertError(
         serializer.deserialize(
@@ -251,12 +249,12 @@ describe("Validation Error", function () {
       const testData = "x";
       const { id } = await registry.registerSchema({
         definition: JSON.stringify({
-          $id: "testId",
+          $id: "null",
           type: "null",
         }),
         format: "json",
         groupName: testGroup,
-        name: "test",
+        name: "null",
       });
       await assertError(
         serializer.deserialize(
@@ -277,12 +275,12 @@ describe("Validation Error", function () {
       const testData = "x";
       const { id } = await registry.registerSchema({
         definition: JSON.stringify({
-          $id: "testId",
+          $id: "number",
           type: "number",
         }),
         format: "json",
         groupName: testGroup,
-        name: "test",
+        name: "number",
       });
       await assertError(
         serializer.deserialize(
@@ -303,12 +301,12 @@ describe("Validation Error", function () {
       const testData = "x";
       const { id } = await registry.registerSchema({
         definition: JSON.stringify({
-          $id: "testId",
+          $id: "array",
           type: "array",
         }),
         format: "json",
         groupName: testGroup,
-        name: "test",
+        name: "array",
       });
       await assertError(
         serializer.deserialize(
@@ -329,7 +327,7 @@ describe("Validation Error", function () {
       const testData = "x";
       const { id } = await registry.registerSchema({
         definition: JSON.stringify({
-          $id: "testId",
+          $id: "object",
           type: "object",
           properties: {
             field: {
@@ -339,7 +337,7 @@ describe("Validation Error", function () {
         }),
         format: "json",
         groupName: testGroup,
-        name: "test",
+        name: "object",
       });
       await assertError(
         serializer.deserialize(

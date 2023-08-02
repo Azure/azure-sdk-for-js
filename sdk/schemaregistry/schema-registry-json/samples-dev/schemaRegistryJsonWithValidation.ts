@@ -85,18 +85,18 @@ export async function main() {
   const ajv = new Ajv();
   const validator = ajv.compile(JSON.parse(schema));
   let validators = new Map<string, ValidateFunction>();
-  validators.set(schema, validator)
+  validators.set(schema, validator);
 
   const validateOptions: DeserializeOptions = {
-    validateCallback(message, schema) {
+    validateCallback(value, schema) {
       const validator = validators.get(schema);
       if (validator) {
-        const valid = validator(message);
-        if (!valid){
+        const valid = validator(value);
+        if (!valid) {
           throw new Error(JSON.stringify(validator.errors));
         }
       }
-      throw new Error("Unable to find validator")
+      throw new Error("Unable to find validator");
     },
   };
 

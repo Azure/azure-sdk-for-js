@@ -7,14 +7,13 @@ import { Context } from "mocha";
 import { SchemaRegistry } from "@azure/schema-registry";
 import { assertError } from "./utils/assertError";
 import { createTestRegistry } from "./utils/mockedRegistryClient";
-import { createTestSerializer } from "./utils/mockedSerializer";
+import { createTestSerializer, registerTestSchema } from "./utils/mockedSerializer";
 import { createContentType, testGroup, testSchema } from "./utils/dummies";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { randomUUID } from "@azure/core-util";
 
 describe("Error scenarios", function () {
   let serializer: JsonSerializer;
-  let serializerNoAutoReg: JsonSerializer;
   let registry: SchemaRegistry;
   let recorder: Recorder;
 
@@ -24,14 +23,6 @@ describe("Error scenarios", function () {
     serializer = await createTestSerializer({
       registry,
       serializerOptions: {
-        autoRegisterSchemas: true,
-        groupName: testGroup,
-      },
-      recorder,
-    });
-    serializerNoAutoReg = await createTestSerializer({
-      serializerOptions: {
-        autoRegisterSchemas: false,
         groupName: testGroup,
       },
       recorder,
@@ -71,11 +62,11 @@ describe("Error scenarios", function () {
           },
         },
       });
-      await assert.isRejected(serializerNoAutoReg.serialize({ name: "Bob" }, schema), /not found/);
+      await assert.isRejected(serializer.serialize({ name: "Bob" }, schema), /not found/);
     });
     it("schema to deserialize with is not found", async function () {
       await assert.isRejected(
-        serializerNoAutoReg.deserialize({
+        serializer.deserialize({
           data: Uint8Array.from([0]),
           contentType: `application/json+${randomUUID()}`,
         }),
@@ -89,12 +80,7 @@ describe("Error scenarios", function () {
       if (isLiveMode()) {
         this.skip();
       }
-      const { id } = await registry.registerSchema({
-        definition: testSchema,
-        format: "json",
-        groupName: testGroup,
-        name: "test",
-      });
+      const id = await registerTestSchema(registry);
       const { data } = await serializer.serialize(
         {
           name: "",
@@ -133,27 +119,30 @@ describe("Error scenarios", function () {
       if (!isLiveMode()) {
         this.skip();
       }
-      await assertError(
-        serializer.serialize(
-          null,
-          JSON.stringify({
-            $schema: "https://json-schema.org/draft/2020-12/schema",
-            $id: "studentTest",
-            title: "Student",
-            description: "A student in the class",
-            type: "object",
-            properties: {
-              name: {
-                type: "array",
-                items: {
-                  type: "string",
-                  enum: "string",
-                },
-              },
+      const schema = JSON.stringify({
+        $schema: "https://json-schema.org/draft/2020-12/schema",
+        $id: "studentTest",
+        title: "Student",
+        description: "A student in the class",
+        type: "object",
+        properties: {
+          name: {
+            type: "array",
+            items: {
+              type: "string",
+              enum: "string",
             },
-            required: ["name"],
-          })
-        ),
+          },
+        },
+        required: ["name"],
+      });
+      await assertError(
+        registry.registerSchema({
+          groupName: testGroup,
+          name: `studentTest`,
+          format: "json",
+          definition: schema,
+        }),
         {
           message: /Unexpected token encountered when reading value for 'enum'/,
         }
@@ -179,26 +168,29 @@ describe("Error scenarios", function () {
       if (!isLiveMode()) {
         this.skip();
       }
+
+      const schema = JSON.stringify({
+        $schema: "https://json-schema.org/draft/2020-12/schema",
+        $id: "student",
+        title: "Student",
+        description: "A student in the class",
+        type: "none",
+      });
+
       await assertError(
-        serializer.serialize(
-          {
-            name: "Anne",
-          },
-          JSON.stringify({
-            $schema: "https://json-schema.org/draft/2020-12/schema",
-            $id: "student",
-            title: "Student",
-            description: "A student in the class",
-            type: "none",
-          })
-        ),
+        registry.registerSchema({
+          groupName: testGroup,
+          name: `studentTest`,
+          format: "json",
+          definition: schema,
+        }),
         {
           message: /Invalid JSON schema type: none/,
         }
       );
     });
-
     it("parsing json errors", async function () {
+      await registerTestSchema(registry);
       const serializedValue = await serializer.serialize(
         {
           favoriteNumber: 1,
@@ -219,14 +211,18 @@ describe("Error scenarios", function () {
       ]);
 
       await assertError(serializer.deserialize(serializedValue), {
-        causeMessage: isNode ? /Unexpected end of JSON input/ : /Unterminated string in JSON at position/,
+        causeMessage: isNode
+          ? /Unexpected end of JSON input/
+          : /Unterminated string in JSON at position/,
       });
       serializedValue.data = Uint8Array.from([
         123, 34, 102, 97, 118, 111, 114, 105, 116, 101, 78, 117, 109, 98, 101, 114, 34, 58, 49, 44,
         34, 110, 97, 109, 101, 34, 58, 34, 120, 34, 125, 110,
       ]);
       await assertError(serializer.deserialize(serializedValue), {
-        causeMessage: isNode ? /Unexpected token n in JSON at position/ : /Unexpected non-whitespace character/,
+        causeMessage: isNode
+          ? /Unexpected token n in JSON at position/
+          : /Unexpected non-whitespace character/,
       });
     });
   });

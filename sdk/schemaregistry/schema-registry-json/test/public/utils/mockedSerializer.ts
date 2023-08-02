@@ -17,12 +17,9 @@ export async function createTestSerializer<T>(
   options: CreateTestSerializerOptions<T> = {}
 ): Promise<JsonSerializer<T>> {
   const {
-    serializerOptions = { autoRegisterSchemas: true, groupName: testGroup },
+    serializerOptions = { groupName: testGroup },
     registry = createTestRegistry({ recorder: options.recorder }),
   } = options;
-  if (!serializerOptions.autoRegisterSchemas) {
-    await registerTestSchema(registry);
-  }
   return new JsonSerializer(registry as any, serializerOptions);
 }
 

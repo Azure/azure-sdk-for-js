@@ -24,11 +24,15 @@ import { createTestSerializer } from "./utils/mockedSerializer";
 import { matrix } from "@azure/test-utils";
 import { testGroup } from "./utils/dummies";
 import { Recorder, env } from "@azure-tools/test-recorder";
+import { SchemaRegistry } from "@azure/schema-registry";
+import { createTestRegistry } from "./utils/mockedRegistryClient";
 
 matrix([[true, false]] as const, async (skipParsingBodyAsJson: boolean) => {
   const eventHubsConnectionString = env.EVENTHUB_JSON_CONNECTION_STRING || "";
   const eventHubName = env.EVENTHUB_NAME || "";
   const alreadyEnqueued = env.CROSS_LANGUAGE !== undefined;
+  let client: MessagingTestClient<EventData>;
+  let registry: SchemaRegistry;
 
   function createEventHubsTestClient(settings: {
     eventHubName: string;
@@ -47,17 +51,6 @@ matrix([[true, false]] as const, async (skipParsingBodyAsJson: boolean) => {
     });
     return client;
   }
-
-  const client = createEventHubsTestClient({
-    eventHubName: "scenario_1",
-    skipParsingBodyAsJson,
-  });
-
-  const messageAdapter = createEventDataAdapter({
-    properties: {
-      language: "js",
-    },
-  });
 
   describe(`Event Hub Test With Messaging Client with skipParsingBodyAsJson=${skipParsingBodyAsJson}`, async function () {
     let recorder: Recorder;
@@ -124,9 +117,16 @@ matrix([[true, false]] as const, async (skipParsingBodyAsJson: boolean) => {
 
     beforeEach(async function () {
       recorder = new Recorder(this.currentTest);
+      const messageAdapter = createEventDataAdapter({
+        properties: {
+          language: "js",
+        },
+      });
+      registry = createTestRegistry({ recorder });
+
       serializer = await createTestSerializer({
+        registry,
         serializerOptions: {
-          autoRegisterSchemas: true,
           groupName: testGroup,
           messageAdapter,
         },
@@ -172,6 +172,16 @@ matrix([[true, false]] as const, async (skipParsingBodyAsJson: boolean) => {
     });
 
     it("Test schema with fields of type string/boolean/number/array/object", async () => {
+      client = createEventHubsTestClient({
+        eventHubName: "scenario_1",
+        skipParsingBodyAsJson,
+      });
+      await registry.registerSchema({
+        definition: writerSchema,
+        format: "json",
+        groupName: testGroup,
+        name: "product",
+      });
       await roundtrip({
         client,
         value,

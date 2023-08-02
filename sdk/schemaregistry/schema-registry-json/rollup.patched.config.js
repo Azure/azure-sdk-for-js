@@ -14,16 +14,11 @@ export function makeBrowserTestConfigPatchProcess() {
   const config = { ...makeBrowserTestConfig(require("./package.json")) };
   config.plugins.push(
     inject({
-      // avsc uses NodeJS's buffers so we inject an import to the browser polyfill one
       exclude: "./**/package.json",
       modules: {
         Buffer: ["buffer", "Buffer"],
         process: "process",
       },
-    }),
-    // avsc uses NodeJS's internal streams so we shim them there.
-    shim({
-      stream: `export default {}`,
     })
   );
 

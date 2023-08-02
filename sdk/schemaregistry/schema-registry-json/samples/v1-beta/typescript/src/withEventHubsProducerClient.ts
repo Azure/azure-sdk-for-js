@@ -29,19 +29,18 @@ const eventHubName = process.env["EVENTHUB_NAME"] || "";
 
 // Sample Json Schema for user with first and last names
 const schemaObject = {
-  type: "record",
-  name: "User",
-  namespace: "com.azure.schemaregistry.samples",
-  fields: [
-    {
-      name: "firstName",
+  $schema: "https://json-schema.org/draft/2020-12/schema",
+  $id: "student",
+  type: "object",
+  properties: {
+    firstName: {
       type: "string",
     },
-    {
-      name: "lastName",
+    lastName: {
       type: "string",
     },
-  ],
+  },
+  required: ["firstName", "lastName"],
 };
 
 // Matching TypeScript interface for schema
@@ -54,7 +53,7 @@ const schema = JSON.stringify(schemaObject);
 
 // Description of the schema for registration
 const schemaDescription: SchemaDescription = {
-  name: `${schemaObject.namespace}.${schemaObject.name}`,
+  name: `${schemaObject.$id}`,
   groupName,
   format: "Json",
   definition: schema,

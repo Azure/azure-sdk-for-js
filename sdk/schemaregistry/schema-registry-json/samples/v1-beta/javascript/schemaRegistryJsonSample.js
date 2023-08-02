@@ -6,7 +6,7 @@
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
-const { SchemaRegistryClient } = require("@azure/schema-registry");
+const { SchemaRegistryClient, KnownSchemaFormats } = require("@azure/schema-registry");
 const { JsonSerializer } = require("@azure/schema-registry-json");
 
 // Load the .env file if it exists
@@ -16,33 +16,35 @@ require("dotenv").config();
 const schemaRegistryFullyQualifiedNamespace =
   process.env["SCHEMA_REGISTRY_ENDPOINT"] || "<endpoint>";
 
-// The schema group to use for schema registeration or lookup
+// The schema group to use for schema registration or lookup
 const groupName = process.env["SCHEMA_REGISTRY_GROUP"] || "AzureSdkSampleGroup";
 
 // Sample Json Schema for user with first and last names
 const schemaObject = {
-  type: "record",
-  name: "User",
-  namespace: "com.azure.schemaregistry.samples",
-  fields: [
-    {
-      name: "firstName",
+  $schema: "https://json-schema.org/draft/2020-12/schema",
+  $id: "https://example.com/product.schema.json",
+  title: "User",
+  description: "A user for the product",
+  type: "object",
+  properties: {
+    firstName: {
       type: "string",
+      required: true,
     },
-    {
-      name: "lastName",
+    lastName: {
       type: "string",
+      required: true,
     },
-  ],
+  },
 };
 
 const schema = JSON.stringify(schemaObject);
 
 // Description of the schema for registration
 const schemaDescription = {
-  name: `${schemaObject.namespace}.${schemaObject.name}`,
+  name: schemaObject.$id,
   groupName,
-  format: "Json",
+  format: KnownSchemaFormats.Json,
   definition: schema,
 };
 
@@ -77,4 +79,4 @@ main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
 
-module.exports = { main };
+module.exports = { schemaObject, main };

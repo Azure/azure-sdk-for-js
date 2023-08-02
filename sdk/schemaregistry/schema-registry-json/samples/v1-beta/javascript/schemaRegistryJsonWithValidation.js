@@ -2,13 +2,14 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the use of JsonSerializer to create messages with json-serialized payload using schema from Schema Registry.
+ * @summary Demonstrates the use of JsonSerializer to create messages with json-serialized payload using schema from Schema Registry with validation using a third party library.
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
-const { SchemaRegistryClient } = require("@azure/schema-registry");
+const { SchemaRegistryClient, KnownSchemaFormats } = require("@azure/schema-registry");
 const { JsonSerializer } = require("@azure/schema-registry-json");
 
+const Ajv = require("ajv").default;
 // Load the .env file if it exists
 require("dotenv").config();
 
@@ -16,33 +17,35 @@ require("dotenv").config();
 const schemaRegistryFullyQualifiedNamespace =
   process.env["SCHEMA_REGISTRY_ENDPOINT"] || "<endpoint>";
 
-// The schema group to use for schema registeration or lookup
+// The schema group to use for schema registration or lookup
 const groupName = process.env["SCHEMA_REGISTRY_GROUP"] || "AzureSdkSampleGroup";
 
 // Sample Json Schema for user with first and last names
 const schemaObject = {
-  type: "record",
-  name: "User",
-  namespace: "com.azure.schemaregistry.samples",
-  fields: [
-    {
-      name: "firstName",
+  $schema: "https://json-schema.org/draft/2020-12/schema",
+  $id: "https://example.com/product.schema.json",
+  title: "User",
+  description: "A user for the product",
+  type: "object",
+  properties: {
+    firstName: {
       type: "string",
+      required: true,
     },
-    {
-      name: "lastName",
+    lastName: {
       type: "string",
+      required: true,
     },
-  ],
+  },
 };
 
 const schema = JSON.stringify(schemaObject);
 
 // Description of the schema for registration
 const schemaDescription = {
-  name: `${schemaObject.namespace}.${schemaObject.name}`,
+  name: schemaObject.$id,
   groupName,
-  format: "Json",
+  format: KnownSchemaFormats.Json,
   definition: schema,
 };
 
@@ -67,8 +70,27 @@ async function main() {
   console.log("Created message:");
   console.log(JSON.stringify(message));
 
-  // deserialize the message back to an object
-  const deserializedObject = await serializer.deserialize(message);
+  // Validation using a third party library
+  const ajv = new Ajv();
+  const validator = ajv.compile(JSON.parse(schema));
+  let validators = new Map();
+  validators.set(schema, validator);
+
+  const validateOptions = {
+    validateCallback(value, schema) {
+      const validator = validators.get(schema);
+      if (validator) {
+        const valid = validator(value);
+        if (!valid) {
+          throw new Error(JSON.stringify(validator.errors));
+        }
+      }
+      throw new Error("Unable to find validator");
+    },
+  };
+
+  // deserialize the message back to an object with validation
+  const deserializedObject = await serializer.deserialize(message, validateOptions);
   console.log("Deserialized object:");
   console.log(JSON.stringify(deserializedObject));
 }
@@ -77,4 +99,4 @@ main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
 
-module.exports = { main };
+module.exports = { schemaObject, main };

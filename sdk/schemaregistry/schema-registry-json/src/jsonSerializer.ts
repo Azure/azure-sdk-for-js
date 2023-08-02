@@ -62,13 +62,11 @@ export class JsonSerializer<MessageT = MessageContent> {
   constructor(client: SchemaRegistry, options?: JsonSerializerOptions<MessageT>) {
     this.registry = client;
     this.schemaGroup = options?.groupName;
-    this.autoRegisterSchemas = options?.autoRegisterSchemas ?? false;
     this.messageAdapter = options?.messageAdapter;
   }
 
   private readonly schemaGroup?: string;
   private readonly registry: SchemaRegistry;
-  private readonly autoRegisterSchemas: boolean;
   private readonly messageAdapter?: MessageAdapter<MessageT>;
   private readonly cacheIdByDefinition = new LRUCache<string, string>(cacheOptions);
   private readonly cacheById = new LRUCache<string, string>(cacheOptions);
@@ -170,22 +168,20 @@ export class JsonSerializer<MessageT = MessageContent> {
       definition,
     };
     let id: string;
-    if (this.autoRegisterSchemas) {
-      id = (await this.registry.registerSchema(description)).id;
-    } else {
-      try {
-        id = (await this.registry.getSchemaProperties(description)).id;
-      } catch (e) {
-        if ((e as any).statusCode === 404) {
-          throw errorWithCause(
-            `Schema '${description.name}' not found in registry group '${description.groupName}', or not found to have matching definition.`,
-            e as Error
-          );
-        } else {
-          throw e;
-        }
+
+    try {
+      id = (await this.registry.getSchemaProperties(description)).id;
+    } catch (e) {
+      if ((e as any).statusCode === 404) {
+        throw errorWithCause(
+          `Schema '${description.name}' not found in registry group '${description.groupName}', or not found to have matching definition.`,
+          e as Error
+        );
+      } else {
+        throw e;
       }
     }
+
     return this.cache(definition, id);
   }
 

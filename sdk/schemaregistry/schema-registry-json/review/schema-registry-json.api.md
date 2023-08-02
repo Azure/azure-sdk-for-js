@@ -8,7 +8,7 @@ import { SchemaRegistry } from '@azure/schema-registry';
 
 // @public
 export interface DeserializeOptions {
-    validateCallback?: (message: string, schema: string) => void;
+    validateCallback?: (value: unknown, schema: string) => void;
 }
 
 // @public
@@ -20,7 +20,6 @@ export class JsonSerializer<MessageT = MessageContent> {
 
 // @public
 export interface JsonSerializerOptions<MessageT> {
-    autoRegisterSchemas?: boolean;
     groupName?: string;
     messageAdapter?: MessageAdapter<MessageT>;
 }

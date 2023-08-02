@@ -15,15 +15,15 @@ import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { SchemaRegistry } from "@azure/schema-registry";
 
 describe("JsonSerializer", async function () {
-  let noAutoRegisterOptions: CreateTestSerializerOptions<any>;
+  let serializerOptions: CreateTestSerializerOptions<any>;
   let recorder: Recorder;
   let registry: SchemaRegistry;
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     registry = createTestRegistry({ recorder });
-    noAutoRegisterOptions = {
-      serializerOptions: { autoRegisterSchemas: false, groupName: testGroup },
+    serializerOptions = {
+      serializerOptions: { groupName: testGroup },
       recorder,
     };
   });
@@ -31,7 +31,7 @@ describe("JsonSerializer", async function () {
   it("serializes to the expected format", async () => {
     const schemaId = await registerTestSchema(registry);
     const serializer = await createTestSerializer<MessageContent>({
-      ...noAutoRegisterOptions,
+      ...serializerOptions,
       registry,
     });
     const { contentType, data } = await serializer.serialize(testValue, testSchema);
@@ -42,7 +42,7 @@ describe("JsonSerializer", async function () {
   it("deserializes from the expected format", async () => {
     const schemaId = await registerTestSchema(registry);
     const serializer = await createTestSerializer<MessageContent>({
-      ...noAutoRegisterOptions,
+      ...serializerOptions,
       registry,
     });
     const data = encoder.encode(JSON.stringify(testValue));
@@ -57,19 +57,19 @@ describe("JsonSerializer", async function () {
 
   it("serializes and deserializes in round trip", async () => {
     let serializer = await createTestSerializer({ recorder });
+    await registerTestSchema(registry);
     let message = await serializer.serialize(testValue, testSchema);
     assert.deepStrictEqual(await serializer.deserialize(message), testValue);
-
     // again for cache hit coverage on serialize
     message = await serializer.serialize(testValue, testSchema);
     assert.deepStrictEqual(await serializer.deserialize(message), testValue);
 
     // throw away serializer for cache miss coverage on deserialize
-    serializer = await createTestSerializer(noAutoRegisterOptions);
+    serializer = await createTestSerializer();
     assert.deepStrictEqual(await serializer.deserialize(message), testValue);
 
     // throw away serializer again and cover getSchemaProperties instead of registerSchema
-    serializer = await createTestSerializer(noAutoRegisterOptions);
+    serializer = await createTestSerializer();
     assert.deepStrictEqual(await serializer.serialize(testValue, testSchema), message);
   });
 
@@ -90,6 +90,13 @@ describe("JsonSerializer", async function () {
         },
       },
       required: ["name"],
+    });
+
+    await registry.registerSchema({
+      name: "person",
+      definition: schema,
+      format: "json",
+      groupName: testGroup,
     });
 
     // Example value that matches the Json schema above
@@ -152,6 +159,12 @@ describe("JsonSerializer", async function () {
             description: "The favorite number of the student",
           },
         },
+      });
+      await registry.registerSchema({
+        name: "test",
+        definition: schemaToSerializeWith,
+        format: "json",
+        groupName: testGroup,
       });
       await serializer.serialize(valueToBeSerialized, schemaToSerializeWith);
       if (i < maxCacheEntriesCount) {

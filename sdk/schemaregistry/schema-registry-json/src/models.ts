@@ -35,13 +35,6 @@ export interface MessageAdapter<MessageT> {
  */
 export interface JsonSerializerOptions<MessageT> {
   /**
-   * When true, register new schemas passed to serialize. Otherwise, and by
-   * default, fail if schema has not already been registered.
-   *
-   * Automatic schema registration is NOT recommended for production scenarios.
-   */
-  autoRegisterSchemas?: boolean;
-  /**
    * The group name to be used when registering/looking up a schema. Must be specified
    * if `serialize` will be called.
    */
@@ -59,5 +52,5 @@ export interface DeserializeOptions {
   /**
    * Validate the value against the schema. Raise an error if the validation is not successful.
    */
-  validateCallback?: (message: string, schema: string) => void;
+  validateCallback?: (value: unknown, schema: string) => void;
 }

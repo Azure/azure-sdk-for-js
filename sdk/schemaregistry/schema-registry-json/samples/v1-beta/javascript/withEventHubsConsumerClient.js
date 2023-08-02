@@ -35,26 +35,25 @@ const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "";
 
 // Sample Json Schema for user with first and last names
 const schemaObject = {
-  type: "record",
-  name: "User",
-  namespace: "com.azure.schemaregistry.samples",
-  fields: [
-    {
-      name: "firstName",
+  $schema: "https://json-schema.org/draft/2020-12/schema",
+  $id: "student",
+  type: "object",
+  properties: {
+    firstName: {
       type: "string",
     },
-    {
-      name: "lastName",
+    lastName: {
       type: "string",
     },
-  ],
+  },
+  required: ["firstName", "lastName"],
 };
 
 const schema = JSON.stringify(schemaObject);
 
 // Description of the schema for registration
 const schemaDescription = {
-  name: `${schemaObject.namespace}.${schemaObject.name}`,
+  name: `${schemaObject.$id}`,
   groupName,
   format: "Json",
   definition: schema,
@@ -113,7 +112,8 @@ async function main() {
         console.log(`Error on partition "${context.partitionId}": ${err}`);
       },
     },
-    { startPosition: earliestEventPosition }
+    // Set the skipParsingBodyAsJson option to disable automatic JSON parsing of the message so we can deserialize it with the JSON serializer instead.
+    { startPosition: earliestEventPosition, skipParsingBodyAsJson: true }
   );
 
   // Wait for a bit before cleaning up the sample
