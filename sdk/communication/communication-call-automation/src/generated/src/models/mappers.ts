@@ -528,8 +528,8 @@ export const TransferToParticipantRequest: coreClient.CompositeMapper = {
           className: "CommunicationIdentifierModel"
         }
       },
-      callbackUriOverride: {
-        serializedName: "callbackUriOverride",
+      callbackUri: {
+        serializedName: "callbackUri",
         type: {
           name: "String"
         }
@@ -1170,8 +1170,8 @@ export const AddParticipantRequest: coreClient.CompositeMapper = {
           className: "CustomContext"
         }
       },
-      callbackUriOverride: {
-        serializedName: "callbackUriOverride",
+      callbackUri: {
+        serializedName: "callbackUri",
         type: {
           name: "String"
         }
@@ -1220,8 +1220,8 @@ export const RemoveParticipantRequest: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      callbackUriOverride: {
-        serializedName: "callbackUriOverride",
+      callbackUri: {
+        serializedName: "callbackUri",
         type: {
           name: "String"
         }
