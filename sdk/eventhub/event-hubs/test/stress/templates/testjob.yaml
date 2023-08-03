@@ -10,7 +10,7 @@ spec:
   containers:
     - name: eh-stress
       imagePullPolicy: Always
-      command: ["node", "--max-old-space-size=5120 /app/dist/src/{{ .Stress.testTarget }}.js"]
+      command: ["node", "--max-old-space-size=5120", "/app/dist/src/{{ .Stress.testTarget }}.js"]
       image: {{ .Stress.imageTag }}
       {{- include "stress-test-addons.container-env" . | nindent 6 }}
 {{- end -}}

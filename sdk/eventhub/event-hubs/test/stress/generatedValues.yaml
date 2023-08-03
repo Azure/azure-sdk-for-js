@@ -1,7 +1,8 @@
 scenarios:
-- memory: 1.5Gi
+- Scenario: node18-checkpointStore
+  memory: 6Gi
+  cpu: "1"
   image: Dockerfile
-  Scenario: node18-checkpointStore
   testTarget: scenarioCheckpointStore
-  imageTag: stresspgs7b6dif73rup6.azurecr.io/harshan-eh-5-11-1-mem-leak/jseh/dockerfile:harshanalluru
+  imageTag: stresspgs7b6dif73rup6.azurecr.io/harshan-eh-5-11-1-aug-3/jseh/dockerfile:harshanalluru
 
