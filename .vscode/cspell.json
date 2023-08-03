@@ -281,6 +281,10 @@
       ]
     },
     {
+      "filename": "sdk/communication/communication-call-automation/review/**/*.md",
+      "words": ["ssml", "Ssml"]
+    },
+    {
       "filename": "sdk/communication/communication-common/review/**/*.md",
       "words": [
         "gcch"
