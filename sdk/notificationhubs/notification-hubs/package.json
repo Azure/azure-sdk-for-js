@@ -140,7 +140,7 @@
     "util": "^0.12.4"
   },
   "dependencies": {
-    "@azure/core-auth": "~1.4.1",
+    "@azure/core-auth": "^1.4.1",
     "@azure/abort-controller": "^1.1.0",
     "@azure/core-lro": "^2.4.0",
     "@azure/core-paging": "^1.3.0",
