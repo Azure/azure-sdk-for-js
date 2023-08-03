@@ -101,7 +101,7 @@ class NotificationHubsServiceClient implements NotificationHubsClientContext {
     return headers;
   }
 
-  async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
+  sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
     return this.client.pipeline.sendRequest(this.httpClient, request);
   }
 
