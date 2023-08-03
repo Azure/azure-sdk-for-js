@@ -27,11 +27,10 @@ import { Recorder, env } from "@azure-tools/test-recorder";
 import { SchemaRegistry } from "@azure/schema-registry";
 import { createTestRegistry } from "./utils/mockedRegistryClient";
 
-matrix([[true, false]] as const, async (skipParsingBodyAsJson: boolean) => {
+matrix([[true, false]] as const, async (skipParsingJson: boolean) => {
   const eventHubsConnectionString = env.EVENTHUB_JSON_CONNECTION_STRING || "";
   const eventHubName = env.EVENTHUB_NAME || "";
   const alreadyEnqueued = env.CROSS_LANGUAGE !== undefined;
-  let client: MessagingTestClient<EventData>;
   let registry: SchemaRegistry;
 
   function createEventHubsTestClient(settings: {
@@ -52,11 +51,9 @@ matrix([[true, false]] as const, async (skipParsingBodyAsJson: boolean) => {
     return client;
   }
 
-  describe(`Event Hub Test With Messaging Client with skipParsingBodyAsJson=${skipParsingBodyAsJson}`, async function () {
+  describe(`Event Hub Test With Messaging Client with skipParsingBodyAsJson=${skipParsingJson}`, async function () {
     let recorder: Recorder;
     let serializer: JsonSerializer<any>;
-    let writerSchema: string;
-    let value: object;
 
     async function roundtrip(settings: {
       client: MessagingTestClient<any>;
@@ -120,12 +117,16 @@ matrix([[true, false]] as const, async (skipParsingBodyAsJson: boolean) => {
         language: "js",
       },
     });
-    
+
+    let client: MessagingTestClient<EventData>;
+    let writerSchema: string;
+    let value: object;
+
     beforeEach(async function () {
       recorder = new Recorder(this.currentTest);
       client = createEventHubsTestClient({
         eventHubName: "scenario_1",
-        skipParsingBodyAsJson,
+        skipParsingBodyAsJson: skipParsingJson,
       });
       registry = createTestRegistry({ recorder });
 
@@ -187,7 +188,7 @@ matrix([[true, false]] as const, async (skipParsingBodyAsJson: boolean) => {
         client,
         value,
         writerSchema,
-        skipParsingBodyAsJson,
+        skipParsingBodyAsJson: skipParsingJson,
       });
     });
   });

@@ -65,11 +65,11 @@ describe("JsonSerializer", async function () {
     assert.deepStrictEqual(await serializer.deserialize(message), testValue);
 
     // throw away serializer for cache miss coverage on deserialize
-    serializer = await createTestSerializer({registry});
+    serializer = await createTestSerializer({ registry });
     assert.deepStrictEqual(await serializer.deserialize(message), testValue);
 
     // throw away serializer again and cover getSchemaProperties instead of registerSchema
-    serializer = await createTestSerializer({registry});
+    serializer = await createTestSerializer({ registry });
     assert.deepStrictEqual(await serializer.serialize(testValue, testSchema), message);
   });
 
