@@ -174,6 +174,8 @@ export interface SearchRequest {
   semanticFields?: string;
   /** The query parameters for vector and hybrid search queries. */
   vector?: Vector;
+  /** The query parameters for multi-vector search queries. */
+  vectors?: Vector[];
 }
 
 /** The query parameters for vector and hybrid search queries. */
