@@ -7,6 +7,7 @@ import {
   HttpHeaders,
   PipelineRequest,
   PipelineResponse,
+  RestError,
   createDefaultHttpClient,
   createHttpHeaders,
 } from "@azure/core-rest-pipeline";
@@ -76,10 +77,15 @@ class NotificationHubsServiceClient implements NotificationHubsClientContext {
       parsedConnection.sharedAccessKeyName
     );
 
-    this.httpClient = createDefaultHttpClient();
+    const packageDetails = `azsdk-js-notificationhubs/${constants.SDK_VERSION}`;
+    const userAgentPrefix = options.userAgentOptions?.userAgentPrefix
+      ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+      : `${packageDetails}`;
+
+    this.httpClient = options?.httpClient ?? createDefaultHttpClient();
     this.client = getClient(this.baseUrl, {
       userAgentOptions: {
-        userAgentPrefix: `azsdk-js-messaging-notificationhubs/${constants.SDK_VERSION}`,
+        userAgentPrefix,
       },
       ...options,
     });
@@ -90,8 +96,12 @@ class NotificationHubsServiceClient implements NotificationHubsClientContext {
     rawHeaders?: Record<string, string>
   ): Promise<HttpHeaders> {
     const authorization = await this.sasTokenCredential.getToken(this.baseUrl);
+    if (!authorization) {
+      throw new RestError("Failed to get the authorization header", { statusCode: 401 });
+    }
+
     const headers = createHttpHeaders(rawHeaders);
-    headers.set("Authorization", authorization!.token);
+    headers.set("Authorization", authorization.token);
     headers.set("x-ms-version", API_VERSION);
     headers.set(
       "x-ms-azsdk-telemetry",
