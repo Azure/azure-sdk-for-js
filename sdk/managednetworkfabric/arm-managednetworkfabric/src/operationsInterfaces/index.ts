@@ -7,6 +7,8 @@
  */
 
 export * from "./accessControlLists";
+export * from "./internetGateways";
+export * from "./internetGatewayRules";
 export * from "./ipCommunities";
 export * from "./ipExtendedCommunities";
 export * from "./ipPrefixes";
@@ -14,6 +16,7 @@ export * from "./l2IsolationDomains";
 export * from "./l3IsolationDomains";
 export * from "./internalNetworks";
 export * from "./externalNetworks";
+export * from "./neighborGroups";
 export * from "./networkDeviceSkus";
 export * from "./networkDevices";
 export * from "./networkInterfaces";
@@ -21,7 +24,9 @@ export * from "./networkFabricControllers";
 export * from "./networkFabricSkus";
 export * from "./networkFabrics";
 export * from "./networkToNetworkInterconnects";
-export * from "./networkRackSkus";
+export * from "./networkPacketBrokers";
 export * from "./networkRacks";
+export * from "./networkTapRules";
+export * from "./networkTaps";
 export * from "./operations";
 export * from "./routePolicies";

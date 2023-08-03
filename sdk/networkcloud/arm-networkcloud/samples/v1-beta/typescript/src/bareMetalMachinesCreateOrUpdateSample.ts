@@ -20,11 +20,12 @@ All customer initiated requests will be rejected as the life cycle of this resou
  *
  * @summary Create a new bare metal machine or update the properties of the existing one.
 All customer initiated requests will be rejected as the life cycle of this resource is managed by the system.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2022-12-12-preview/examples/BareMetalMachines_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2023-05-01-preview/examples/BareMetalMachines_Create.json
  */
 async function createOrUpdateBareMetalMachine() {
   const subscriptionId =
-    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] || "subscriptionId";
+    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
+    "123e4567-e89b-12d3-a456-426655440000";
   const resourceGroupName =
     process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
   const bareMetalMachineName = "bareMetalMachineName";
@@ -35,7 +36,7 @@ async function createOrUpdateBareMetalMachine() {
     bootMacAddress: "00:00:4e:00:58:af",
     extendedLocation: {
       name:
-        "/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterExtendedLocationName",
+        "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterExtendedLocationName",
       type: "CustomLocation"
     },
     location: "location",
@@ -43,7 +44,7 @@ async function createOrUpdateBareMetalMachine() {
     machineName: "r01c001",
     machineSkuId: "684E-3B16-399E",
     rackId:
-      "/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.NetworkCloud/racks/rackName",
+      "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.NetworkCloud/racks/rackName",
     rackSlot: 1,
     serialNumber: "BM1219XXX",
     tags: { key1: "myvalue1", key2: "myvalue2" }

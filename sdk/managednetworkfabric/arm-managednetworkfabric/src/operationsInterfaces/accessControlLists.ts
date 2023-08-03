@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AccessControlList,
   AccessControlListsListByResourceGroupOptionalParams,
@@ -18,7 +19,15 @@ import {
   AccessControlListPatch,
   AccessControlListsUpdateOptionalParams,
   AccessControlListsUpdateResponse,
-  AccessControlListsDeleteOptionalParams
+  AccessControlListsDeleteOptionalParams,
+  AccessControlListsDeleteResponse,
+  UpdateAdministrativeState,
+  AccessControlListsUpdateAdministrativeStateOptionalParams,
+  AccessControlListsUpdateAdministrativeStateResponse,
+  AccessControlListsResyncOptionalParams,
+  AccessControlListsResyncResponse,
+  AccessControlListsValidateConfigurationOptionalParams,
+  AccessControlListsValidateConfigurationResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,11 +52,29 @@ export interface AccessControlLists {
   /**
    * Implements Access Control List PUT method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accessControlListName Name of the Access Control List
+   * @param accessControlListName Name of the Access Control List.
    * @param body Request payload.
    * @param options The options parameters.
    */
-  create(
+  beginCreate(
+    resourceGroupName: string,
+    accessControlListName: string,
+    body: AccessControlList,
+    options?: AccessControlListsCreateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AccessControlListsCreateResponse>,
+      AccessControlListsCreateResponse
+    >
+  >;
+  /**
+   * Implements Access Control List PUT method.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accessControlListName Name of the Access Control List.
+   * @param body Request payload.
+   * @param options The options parameters.
+   */
+  beginCreateAndWait(
     resourceGroupName: string,
     accessControlListName: string,
     body: AccessControlList,
@@ -56,7 +83,7 @@ export interface AccessControlLists {
   /**
    * Implements Access Control List GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accessControlListName Name of the Access Control List
+   * @param accessControlListName Name of the Access Control List.
    * @param options The options parameters.
    */
   get(
@@ -67,11 +94,29 @@ export interface AccessControlLists {
   /**
    * API to update certain properties of the Access Control List resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accessControlListName Name of the Access Control List
+   * @param accessControlListName Name of the Access Control List.
    * @param body Access Control List properties to update.
    * @param options The options parameters.
    */
-  update(
+  beginUpdate(
+    resourceGroupName: string,
+    accessControlListName: string,
+    body: AccessControlListPatch,
+    options?: AccessControlListsUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AccessControlListsUpdateResponse>,
+      AccessControlListsUpdateResponse
+    >
+  >;
+  /**
+   * API to update certain properties of the Access Control List resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accessControlListName Name of the Access Control List.
+   * @param body Access Control List properties to update.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
     resourceGroupName: string,
     accessControlListName: string,
     body: AccessControlListPatch,
@@ -80,12 +125,113 @@ export interface AccessControlLists {
   /**
    * Implements Access Control List DELETE method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accessControlListName Name of the Access Control List
+   * @param accessControlListName Name of the Access Control List.
    * @param options The options parameters.
    */
-  delete(
+  beginDelete(
     resourceGroupName: string,
     accessControlListName: string,
     options?: AccessControlListsDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AccessControlListsDeleteResponse>,
+      AccessControlListsDeleteResponse
+    >
+  >;
+  /**
+   * Implements Access Control List DELETE method.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accessControlListName Name of the Access Control List.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    accessControlListName: string,
+    options?: AccessControlListsDeleteOptionalParams
+  ): Promise<AccessControlListsDeleteResponse>;
+  /**
+   * Implements the operation to the underlying resources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accessControlListName Name of the Access Control List.
+   * @param body Request payload.
+   * @param options The options parameters.
+   */
+  beginUpdateAdministrativeState(
+    resourceGroupName: string,
+    accessControlListName: string,
+    body: UpdateAdministrativeState,
+    options?: AccessControlListsUpdateAdministrativeStateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AccessControlListsUpdateAdministrativeStateResponse>,
+      AccessControlListsUpdateAdministrativeStateResponse
+    >
+  >;
+  /**
+   * Implements the operation to the underlying resources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accessControlListName Name of the Access Control List.
+   * @param body Request payload.
+   * @param options The options parameters.
+   */
+  beginUpdateAdministrativeStateAndWait(
+    resourceGroupName: string,
+    accessControlListName: string,
+    body: UpdateAdministrativeState,
+    options?: AccessControlListsUpdateAdministrativeStateOptionalParams
+  ): Promise<AccessControlListsUpdateAdministrativeStateResponse>;
+  /**
+   * Implements the operation to the underlying resources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accessControlListName Name of the Access Control List.
+   * @param options The options parameters.
+   */
+  beginResync(
+    resourceGroupName: string,
+    accessControlListName: string,
+    options?: AccessControlListsResyncOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AccessControlListsResyncResponse>,
+      AccessControlListsResyncResponse
+    >
+  >;
+  /**
+   * Implements the operation to the underlying resources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accessControlListName Name of the Access Control List.
+   * @param options The options parameters.
+   */
+  beginResyncAndWait(
+    resourceGroupName: string,
+    accessControlListName: string,
+    options?: AccessControlListsResyncOptionalParams
+  ): Promise<AccessControlListsResyncResponse>;
+  /**
+   * Implements the operation to the underlying resources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accessControlListName Name of the Access Control List.
+   * @param options The options parameters.
+   */
+  beginValidateConfiguration(
+    resourceGroupName: string,
+    accessControlListName: string,
+    options?: AccessControlListsValidateConfigurationOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AccessControlListsValidateConfigurationResponse>,
+      AccessControlListsValidateConfigurationResponse
+    >
+  >;
+  /**
+   * Implements the operation to the underlying resources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accessControlListName Name of the Access Control List.
+   * @param options The options parameters.
+   */
+  beginValidateConfigurationAndWait(
+    resourceGroupName: string,
+    accessControlListName: string,
+    options?: AccessControlListsValidateConfigurationOptionalParams
+  ): Promise<AccessControlListsValidateConfigurationResponse>;
 }

@@ -548,6 +548,10 @@
 /sdk/managedapplications/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/managednetworkfabric/arm-managednetworkfabric/ @qiaozha @MaryGao
+/sdk/managednetworkfabric/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/managementgroups/arm-managementgroups/ @qiaozha @MaryGao
 /sdk/managementgroups/ci.mgmt.yml @qiaozha @MaryGao
 
@@ -886,6 +890,10 @@
 # PRLabel: %Mgmt
 /sdk/quantum/arm-quantum/ @qiaozha @MaryGao
 /sdk/quantum/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/sphere/arm-sphere/ @qiaozha @MaryGao
+/sdk/sphere/ci.mgmt.yml @qiaozha @MaryGao
 
 # ServiceLabel: %AAD %Service Attention
 #/<NotInRepo>/          @adamedx

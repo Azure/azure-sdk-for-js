@@ -11,214 +11,28 @@
         "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 04 Jul 2023 22:30:15 GMT"
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:15 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Content-Length": "5392",
+        "Content-Length": "20",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 04 Jul 2023 22:30:16 GMT",
-        "MS-CV": "ZqnZMjRCo0iz5TOqXLuyiw.0",
+        "Date": "Tue, 25 Jul 2023 18:04:15 GMT",
+        "MS-CV": "tPSD6P5hIkyPbA/TeG\u002Bbaw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0eJ2kZAAAAAChQYR8eaORTLzcov9sbPZSREZXMzBFREdFMTYxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0nw7AZAAAAABedVyRe4dKRafbw81g0w7UREZXMzBFREdFMTUyMgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "495ms"
+        "X-Processing-Time": "425ms"
       },
       "ResponseBody": {
-        "programBriefs": [
-          {
-            "id": "7aacbe88-86de-42ea-9237-6e349475265b",
-            "status": "draft",
-            "costs": [
-              {
-                "amount": 650.0,
-                "currencyCode": "USD",
-                "countryCode": "US",
-                "billingFrequency": "once"
-              },
-              {
-                "amount": 1000.0,
-                "currencyCode": "USD",
-                "countryCode": "US",
-                "billingFrequency": "monthly"
-              }
-            ],
-            "statusUpdatedDate": "2023-05-07T23:06:24\u002B00:00",
-            "programDetails": {
-              "isVanity": false,
-              "numberType": "shortCode",
-              "isPoliticalCampaign": false,
-              "callToAction": "Contoso bot - Would you like to receive appointment reminders through text message to the phone number you\u0027ve saved in your account? Messages and data rates may apply. If you want to opt in, say YES, say NO to skip.  End-User - YES"
-            },
-            "messageDetails": {
-              "supportedProtocol": "sms",
-              "recurrence": "subscription",
-              "helpAnswerToUser": "Contoso Appointment reminders: Get help at support@contoso.com or 1-800 123 4567.Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out.",
-              "optOutAnswerToUser": "Contoso Appointment reminders : You have been unsubscribed and will no longer receive any messages. Get help at support@contoso.com or 1-800 123 4567.",
-              "optInMessageToUser": "Contoso Appointment reminders: Reply Y to receive appt reminders.",
-              "optInAnswerFromUser": "Y",
-              "optInConfirmationMessageToUser": "Contoso Appointment reminders. You\u0027re now subscribed to appt reminders. Msg freq varies.",
-              "directionality": "twoWay",
-              "useCases": [
-                {
-                  "contentType": "accountNotificationInformationalAlerts",
-                  "customContentType": "",
-                  "examples": [
-                    {
-                      "messages": [
-                        {
-                          "direction": "toUser",
-                          "text": "Contoso Appointment reminders: Your appt is confirmed for 30th Apr. Txt R to reschedule. Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out."
-                        },
-                        {
-                          "direction": "fromUser",
-                          "text": "Y"
-                        },
-                        {
-                          "direction": "toUser",
-                          "text": "Contoso Appointment reminders: thanks for confirming your reservation."
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "trafficDetails": {
-              "isSpiky": false
-            }
-          },
-          {
-            "id": "9df88de7-171b-4733-8ae8-4fe332d6b0f8",
-            "status": "draft",
-            "costs": [
-              {
-                "amount": 650.0,
-                "currencyCode": "USD",
-                "countryCode": "US",
-                "billingFrequency": "once"
-              },
-              {
-                "amount": 1000.0,
-                "currencyCode": "USD",
-                "countryCode": "US",
-                "billingFrequency": "monthly"
-              }
-            ],
-            "statusUpdatedDate": "2023-05-07T23:06:29\u002B00:00",
-            "programDetails": {
-              "isVanity": false,
-              "numberType": "shortCode",
-              "isPoliticalCampaign": false,
-              "callToAction": "Contoso bot - Would you like to receive appointment reminders through text message to the phone number you\u0027ve saved in your account? Messages and data rates may apply. If you want to opt in, say YES, say NO to skip.  End-User - YES"
-            },
-            "messageDetails": {
-              "supportedProtocol": "sms",
-              "recurrence": "subscription",
-              "helpAnswerToUser": "Contoso Appointment reminders: Get help at support@contoso.com or 1-800 123 4567.Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out.",
-              "optOutAnswerToUser": "Contoso Appointment reminders : You have been unsubscribed and will no longer receive any messages. Get help at support@contoso.com or 1-800 123 4567.",
-              "optInMessageToUser": "Contoso Appointment reminders: Reply Y to receive appt reminders.",
-              "optInAnswerFromUser": "Y",
-              "optInConfirmationMessageToUser": "Contoso Appointment reminders. You\u0027re now subscribed to appt reminders. Msg freq varies.",
-              "directionality": "twoWay",
-              "useCases": [
-                {
-                  "contentType": "accountNotificationInformationalAlerts",
-                  "customContentType": "",
-                  "examples": [
-                    {
-                      "messages": [
-                        {
-                          "direction": "toUser",
-                          "text": "Contoso Appointment reminders: Your appt is confirmed for 30th Apr. Txt R to reschedule. Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out."
-                        },
-                        {
-                          "direction": "fromUser",
-                          "text": "Y"
-                        },
-                        {
-                          "direction": "toUser",
-                          "text": "Contoso Appointment reminders: thanks for confirming your reservation."
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "trafficDetails": {
-              "isSpiky": false
-            }
-          },
-          {
-            "id": "64c97405-9cd6-46e8-8084-824d6cf74ddb",
-            "status": "draft",
-            "costs": [
-              {
-                "amount": 650.0,
-                "currencyCode": "USD",
-                "countryCode": "US",
-                "billingFrequency": "once"
-              },
-              {
-                "amount": 1000.0,
-                "currencyCode": "USD",
-                "countryCode": "US",
-                "billingFrequency": "monthly"
-              }
-            ],
-            "statusUpdatedDate": "2023-05-07T23:06:34\u002B00:00",
-            "programDetails": {
-              "isVanity": false,
-              "numberType": "shortCode",
-              "isPoliticalCampaign": false,
-              "callToAction": "Contoso bot - Would you like to receive appointment reminders through text message to the phone number you\u0027ve saved in your account? Messages and data rates may apply. If you want to opt in, say YES, say NO to skip.  End-User - YES"
-            },
-            "messageDetails": {
-              "supportedProtocol": "sms",
-              "recurrence": "subscription",
-              "helpAnswerToUser": "Contoso Appointment reminders: Get help at support@contoso.com or 1-800 123 4567.Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out.",
-              "optOutAnswerToUser": "Contoso Appointment reminders : You have been unsubscribed and will no longer receive any messages. Get help at support@contoso.com or 1-800 123 4567.",
-              "optInMessageToUser": "Contoso Appointment reminders: Reply Y to receive appt reminders.",
-              "optInAnswerFromUser": "Y",
-              "optInConfirmationMessageToUser": "Contoso Appointment reminders. You\u0027re now subscribed to appt reminders. Msg freq varies.",
-              "directionality": "twoWay",
-              "useCases": [
-                {
-                  "contentType": "accountNotificationInformationalAlerts",
-                  "customContentType": "",
-                  "examples": [
-                    {
-                      "messages": [
-                        {
-                          "direction": "toUser",
-                          "text": "Contoso Appointment reminders: Your appt is confirmed for 30th Apr. Txt R to reschedule. Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out."
-                        },
-                        {
-                          "direction": "fromUser",
-                          "text": "Y"
-                        },
-                        {
-                          "direction": "toUser",
-                          "text": "Contoso Appointment reminders: thanks for confirming your reservation."
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "trafficDetails": {
-              "isSpiky": false
-            }
-          }
-        ]
+        "programBriefs": []
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/26183eee-4a0c-4493-b5b0-387eb47035b6?api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/4ae62da0-3c4a-4a1f-b433-38a6248c8dde?api-version=2022-09-06",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -228,30 +42,31 @@
         "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 04 Jul 2023 22:30:16 GMT"
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:16 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 404,
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
         "Content-Type": "application/json",
-        "Date": "Tue, 04 Jul 2023 22:30:16 GMT",
-        "MS-CV": "IVOeZlY760O8TnTsNm66aw.0",
+        "Date": "Tue, 25 Jul 2023 18:04:16 GMT",
+        "MS-CV": "X\u002B0xDgR99E6oE\u002BFPV/Rjkw.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0eJ2kZAAAAADvL0e\u002BmH4eRJRz\u002BuRcoRNUREZXMzBFREdFMTYxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0oA7AZAAAAABQPbULd\u002BumR7IpewLY5PIKREZXMzBFREdFMTUyMgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "315ms"
+        "X-Processing-Time": "283ms"
       },
       "ResponseBody": {
         "error": {
           "code": "NotFound",
-          "message": "Could not find the ProgramBrief with key \u0027Azure|ac80d96a-85de-48b1-995d-a3a3fa3627c8|26183eee-4a0c-4493-b5b0-387eb47035b6\u0027"
+          "message": "Could not find the ProgramBrief with key \u0027Azure|ac80d96a-85de-48b1-995d-a3a3fa3627c8|4ae62da0-3c4a-4a1f-b433-38a6248c8dde\u0027"
         }
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/92e6d4d6-4ee9-409b-b36f-ca0d638e22f8?api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/a0e4c4a9-e457-4c85-be22-3323cf734d56?api-version=2022-09-06",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -261,30 +76,31 @@
         "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 04 Jul 2023 22:30:16 GMT"
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:16 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 404,
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
         "Content-Type": "application/json",
-        "Date": "Tue, 04 Jul 2023 22:30:17 GMT",
-        "MS-CV": "vF58H2mQv0SoyiOJwxYolQ.0",
+        "Date": "Tue, 25 Jul 2023 18:04:16 GMT",
+        "MS-CV": "BYAmVSeflUqjz87cW/Zb7A.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0eJ2kZAAAAACgBFz6qH0aQIunQMYgo/jIREZXMzBFREdFMTYxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0oA7AZAAAAABeSYHgNJhQQo8QlWRm1EDuREZXMzBFREdFMTUxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "451ms"
+        "X-Processing-Time": "392ms"
       },
       "ResponseBody": {
         "error": {
           "code": "NotFound",
-          "message": "Could not find the ProgramBrief with key \u0027Azure|ac80d96a-85de-48b1-995d-a3a3fa3627c8|92e6d4d6-4ee9-409b-b36f-ca0d638e22f8\u0027"
+          "message": "Could not find the ProgramBrief with key \u0027Azure|ac80d96a-85de-48b1-995d-a3a3fa3627c8|a0e4c4a9-e457-4c85-be22-3323cf734d56\u0027"
         }
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/26183eee-4a0c-4493-b5b0-387eb47035b6?api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/4ae62da0-3c4a-4a1f-b433-38a6248c8dde?api-version=2022-09-06",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -296,10 +112,11 @@
         "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 04 Jul 2023 22:30:16 GMT"
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:16 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": {
-        "id": "26183eee-4a0c-4493-b5b0-387eb47035b6",
+        "id": "4ae62da0-3c4a-4a1f-b433-38a6248c8dde",
         "programDetails": {
           "isVanity": false,
           "numberType": "shortCode",
@@ -394,16 +211,16 @@
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
         "Content-Length": "2283",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 04 Jul 2023 22:30:17 GMT",
-        "Location": "https://endpoint/shortCodes/countries/US/programBriefs/26183eee-4a0c-4493-b5b0-387eb47035b6",
-        "MS-CV": "0tNq97/Yskmi1Bg9/NZrJA.0",
+        "Date": "Tue, 25 Jul 2023 18:04:17 GMT",
+        "Location": "https://endpoint/shortCodes/countries/US/programBriefs/4ae62da0-3c4a-4a1f-b433-38a6248c8dde",
+        "MS-CV": "2su7BZxHhkm4otf2Ou4p/A.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0eJ2kZAAAAAAy9jiD2tNMRZ7Hw/Ygp0\u002BqREZXMzBFREdFMTYxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0oA7AZAAAAADou3V5D4dJSa\u002BY\u002Bks9F72fREZXMzBFREdFMTUyMgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "799ms"
+        "X-Processing-Time": "714ms"
       },
       "ResponseBody": {
-        "id": "26183eee-4a0c-4493-b5b0-387eb47035b6",
+        "id": "4ae62da0-3c4a-4a1f-b433-38a6248c8dde",
         "status": "draft",
         "costs": [
           {
@@ -419,7 +236,7 @@
             "billingFrequency": "monthly"
           }
         ],
-        "statusUpdatedDate": "2023-07-04T22:30:17\u002B00:00",
+        "statusUpdatedDate": "2023-07-25T18:04:17\u002B00:00",
         "programDetails": {
           "isVanity": false,
           "numberType": "shortCode",
@@ -511,7 +328,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/92e6d4d6-4ee9-409b-b36f-ca0d638e22f8?api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/a0e4c4a9-e457-4c85-be22-3323cf734d56?api-version=2022-09-06",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -523,10 +340,11 @@
         "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 04 Jul 2023 22:30:16 GMT"
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:16 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": {
-        "id": "92e6d4d6-4ee9-409b-b36f-ca0d638e22f8",
+        "id": "a0e4c4a9-e457-4c85-be22-3323cf734d56",
         "programDetails": {
           "isVanity": false,
           "numberType": "shortCode",
@@ -621,16 +439,16 @@
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
         "Content-Length": "2283",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 04 Jul 2023 22:30:18 GMT",
-        "Location": "https://endpoint/shortCodes/countries/US/programBriefs/92e6d4d6-4ee9-409b-b36f-ca0d638e22f8",
-        "MS-CV": "G92RM5t1qky0vYp6YR6I3w.0",
+        "Date": "Tue, 25 Jul 2023 18:04:17 GMT",
+        "Location": "https://endpoint/shortCodes/countries/US/programBriefs/a0e4c4a9-e457-4c85-be22-3323cf734d56",
+        "MS-CV": "mM0G2s6NaUO8h4N\u002B4BzDDQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0eZ2kZAAAAADOCd\u002B3pALwRaA66zvqO8kDREZXMzBFREdFMTYxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0oA7AZAAAAADfwULIaadZSKZac6C80R/9REZXMzBFREdFMTUxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "967ms"
+        "X-Processing-Time": "951ms"
       },
       "ResponseBody": {
-        "id": "92e6d4d6-4ee9-409b-b36f-ca0d638e22f8",
+        "id": "a0e4c4a9-e457-4c85-be22-3323cf734d56",
         "status": "draft",
         "costs": [
           {
@@ -646,7 +464,7 @@
             "billingFrequency": "monthly"
           }
         ],
-        "statusUpdatedDate": "2023-07-04T22:30:17\u002B00:00",
+        "statusUpdatedDate": "2023-07-25T18:04:17\u002B00:00",
         "programDetails": {
           "isVanity": false,
           "numberType": "shortCode",
@@ -748,25 +566,26 @@
         "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 04 Jul 2023 22:30:17 GMT"
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:17 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Content-Length": "9960",
+        "Content-Length": "4587",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 04 Jul 2023 22:30:18 GMT",
-        "MS-CV": "DN\u002BaRYNrOUKmF\u002BRLf7X0lA.0",
+        "Date": "Tue, 25 Jul 2023 18:04:17 GMT",
+        "MS-CV": "2qsExfrrNEernR\u002Bp\u002BIUe/A.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0ep2kZAAAAADB3fwtx2RTQIhUQC8mOeguREZXMzBFREdFMTYxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0oQ7AZAAAAAC83lBkM586RojvmFdcd9vfREZXMzBFREdFMTUxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "464ms"
+        "X-Processing-Time": "446ms"
       },
       "ResponseBody": {
         "programBriefs": [
           {
-            "id": "7aacbe88-86de-42ea-9237-6e349475265b",
+            "id": "4ae62da0-3c4a-4a1f-b433-38a6248c8dde",
             "status": "draft",
             "costs": [
               {
@@ -782,193 +601,7 @@
                 "billingFrequency": "monthly"
               }
             ],
-            "statusUpdatedDate": "2023-05-07T23:06:24\u002B00:00",
-            "programDetails": {
-              "isVanity": false,
-              "numberType": "shortCode",
-              "isPoliticalCampaign": false,
-              "callToAction": "Contoso bot - Would you like to receive appointment reminders through text message to the phone number you\u0027ve saved in your account? Messages and data rates may apply. If you want to opt in, say YES, say NO to skip.  End-User - YES"
-            },
-            "messageDetails": {
-              "supportedProtocol": "sms",
-              "recurrence": "subscription",
-              "helpAnswerToUser": "Contoso Appointment reminders: Get help at support@contoso.com or 1-800 123 4567.Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out.",
-              "optOutAnswerToUser": "Contoso Appointment reminders : You have been unsubscribed and will no longer receive any messages. Get help at support@contoso.com or 1-800 123 4567.",
-              "optInMessageToUser": "Contoso Appointment reminders: Reply Y to receive appt reminders.",
-              "optInAnswerFromUser": "Y",
-              "optInConfirmationMessageToUser": "Contoso Appointment reminders. You\u0027re now subscribed to appt reminders. Msg freq varies.",
-              "directionality": "twoWay",
-              "useCases": [
-                {
-                  "contentType": "accountNotificationInformationalAlerts",
-                  "customContentType": "",
-                  "examples": [
-                    {
-                      "messages": [
-                        {
-                          "direction": "toUser",
-                          "text": "Contoso Appointment reminders: Your appt is confirmed for 30th Apr. Txt R to reschedule. Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out."
-                        },
-                        {
-                          "direction": "fromUser",
-                          "text": "Y"
-                        },
-                        {
-                          "direction": "toUser",
-                          "text": "Contoso Appointment reminders: thanks for confirming your reservation."
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "trafficDetails": {
-              "isSpiky": false
-            }
-          },
-          {
-            "id": "9df88de7-171b-4733-8ae8-4fe332d6b0f8",
-            "status": "draft",
-            "costs": [
-              {
-                "amount": 650.0,
-                "currencyCode": "USD",
-                "countryCode": "US",
-                "billingFrequency": "once"
-              },
-              {
-                "amount": 1000.0,
-                "currencyCode": "USD",
-                "countryCode": "US",
-                "billingFrequency": "monthly"
-              }
-            ],
-            "statusUpdatedDate": "2023-05-07T23:06:29\u002B00:00",
-            "programDetails": {
-              "isVanity": false,
-              "numberType": "shortCode",
-              "isPoliticalCampaign": false,
-              "callToAction": "Contoso bot - Would you like to receive appointment reminders through text message to the phone number you\u0027ve saved in your account? Messages and data rates may apply. If you want to opt in, say YES, say NO to skip.  End-User - YES"
-            },
-            "messageDetails": {
-              "supportedProtocol": "sms",
-              "recurrence": "subscription",
-              "helpAnswerToUser": "Contoso Appointment reminders: Get help at support@contoso.com or 1-800 123 4567.Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out.",
-              "optOutAnswerToUser": "Contoso Appointment reminders : You have been unsubscribed and will no longer receive any messages. Get help at support@contoso.com or 1-800 123 4567.",
-              "optInMessageToUser": "Contoso Appointment reminders: Reply Y to receive appt reminders.",
-              "optInAnswerFromUser": "Y",
-              "optInConfirmationMessageToUser": "Contoso Appointment reminders. You\u0027re now subscribed to appt reminders. Msg freq varies.",
-              "directionality": "twoWay",
-              "useCases": [
-                {
-                  "contentType": "accountNotificationInformationalAlerts",
-                  "customContentType": "",
-                  "examples": [
-                    {
-                      "messages": [
-                        {
-                          "direction": "toUser",
-                          "text": "Contoso Appointment reminders: Your appt is confirmed for 30th Apr. Txt R to reschedule. Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out."
-                        },
-                        {
-                          "direction": "fromUser",
-                          "text": "Y"
-                        },
-                        {
-                          "direction": "toUser",
-                          "text": "Contoso Appointment reminders: thanks for confirming your reservation."
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "trafficDetails": {
-              "isSpiky": false
-            }
-          },
-          {
-            "id": "64c97405-9cd6-46e8-8084-824d6cf74ddb",
-            "status": "draft",
-            "costs": [
-              {
-                "amount": 650.0,
-                "currencyCode": "USD",
-                "countryCode": "US",
-                "billingFrequency": "once"
-              },
-              {
-                "amount": 1000.0,
-                "currencyCode": "USD",
-                "countryCode": "US",
-                "billingFrequency": "monthly"
-              }
-            ],
-            "statusUpdatedDate": "2023-05-07T23:06:34\u002B00:00",
-            "programDetails": {
-              "isVanity": false,
-              "numberType": "shortCode",
-              "isPoliticalCampaign": false,
-              "callToAction": "Contoso bot - Would you like to receive appointment reminders through text message to the phone number you\u0027ve saved in your account? Messages and data rates may apply. If you want to opt in, say YES, say NO to skip.  End-User - YES"
-            },
-            "messageDetails": {
-              "supportedProtocol": "sms",
-              "recurrence": "subscription",
-              "helpAnswerToUser": "Contoso Appointment reminders: Get help at support@contoso.com or 1-800 123 4567.Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out.",
-              "optOutAnswerToUser": "Contoso Appointment reminders : You have been unsubscribed and will no longer receive any messages. Get help at support@contoso.com or 1-800 123 4567.",
-              "optInMessageToUser": "Contoso Appointment reminders: Reply Y to receive appt reminders.",
-              "optInAnswerFromUser": "Y",
-              "optInConfirmationMessageToUser": "Contoso Appointment reminders. You\u0027re now subscribed to appt reminders. Msg freq varies.",
-              "directionality": "twoWay",
-              "useCases": [
-                {
-                  "contentType": "accountNotificationInformationalAlerts",
-                  "customContentType": "",
-                  "examples": [
-                    {
-                      "messages": [
-                        {
-                          "direction": "toUser",
-                          "text": "Contoso Appointment reminders: Your appt is confirmed for 30th Apr. Txt R to reschedule. Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out."
-                        },
-                        {
-                          "direction": "fromUser",
-                          "text": "Y"
-                        },
-                        {
-                          "direction": "toUser",
-                          "text": "Contoso Appointment reminders: thanks for confirming your reservation."
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "trafficDetails": {
-              "isSpiky": false
-            }
-          },
-          {
-            "id": "26183eee-4a0c-4493-b5b0-387eb47035b6",
-            "status": "draft",
-            "costs": [
-              {
-                "amount": 650.0,
-                "currencyCode": "USD",
-                "countryCode": "US",
-                "billingFrequency": "once"
-              },
-              {
-                "amount": 1000.0,
-                "currencyCode": "USD",
-                "countryCode": "US",
-                "billingFrequency": "monthly"
-              }
-            ],
-            "statusUpdatedDate": "2023-07-04T22:30:17\u002B00:00",
+            "statusUpdatedDate": "2023-07-25T18:04:17\u002B00:00",
             "programDetails": {
               "isVanity": false,
               "numberType": "shortCode",
@@ -1059,7 +692,7 @@
             }
           },
           {
-            "id": "92e6d4d6-4ee9-409b-b36f-ca0d638e22f8",
+            "id": "a0e4c4a9-e457-4c85-be22-3323cf734d56",
             "status": "draft",
             "costs": [
               {
@@ -1075,7 +708,7 @@
                 "billingFrequency": "monthly"
               }
             ],
-            "statusUpdatedDate": "2023-07-04T22:30:17\u002B00:00",
+            "statusUpdatedDate": "2023-07-25T18:04:17\u002B00:00",
             "programDetails": {
               "isVanity": false,
               "numberType": "shortCode",
@@ -1169,7 +802,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs?skip=0\u0026top=2\u0026api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs?skip=0\u0026top=1\u0026api-version=2022-09-06",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1179,25 +812,26 @@
         "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 04 Jul 2023 22:30:18 GMT"
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:18 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Content-Length": "3689",
+        "Content-Length": "2391",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 04 Jul 2023 22:30:19 GMT",
-        "MS-CV": "k\u002B4Ewzydf0W3EkyQDQhgNg.0",
+        "Date": "Tue, 25 Jul 2023 18:04:18 GMT",
+        "MS-CV": "TvV8sAdwakman5JLhWBvXQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0ep2kZAAAAADxtdsctMtyRoQpWJDVe7u5REZXMzBFREdFMTYxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0og7AZAAAAACMH3CKhxiqSIarz2awf62rREZXMzBFREdFMTUxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "460ms"
+        "X-Processing-Time": "418ms"
       },
       "ResponseBody": {
         "programBriefs": [
           {
-            "id": "7aacbe88-86de-42ea-9237-6e349475265b",
+            "id": "4ae62da0-3c4a-4a1f-b433-38a6248c8dde",
             "status": "draft",
             "costs": [
               {
@@ -1213,225 +847,7 @@
                 "billingFrequency": "monthly"
               }
             ],
-            "statusUpdatedDate": "2023-05-07T23:06:24\u002B00:00",
-            "programDetails": {
-              "isVanity": false,
-              "numberType": "shortCode",
-              "isPoliticalCampaign": false,
-              "callToAction": "Contoso bot - Would you like to receive appointment reminders through text message to the phone number you\u0027ve saved in your account? Messages and data rates may apply. If you want to opt in, say YES, say NO to skip.  End-User - YES"
-            },
-            "messageDetails": {
-              "supportedProtocol": "sms",
-              "recurrence": "subscription",
-              "helpAnswerToUser": "Contoso Appointment reminders: Get help at support@contoso.com or 1-800 123 4567.Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out.",
-              "optOutAnswerToUser": "Contoso Appointment reminders : You have been unsubscribed and will no longer receive any messages. Get help at support@contoso.com or 1-800 123 4567.",
-              "optInMessageToUser": "Contoso Appointment reminders: Reply Y to receive appt reminders.",
-              "optInAnswerFromUser": "Y",
-              "optInConfirmationMessageToUser": "Contoso Appointment reminders. You\u0027re now subscribed to appt reminders. Msg freq varies.",
-              "directionality": "twoWay",
-              "useCases": [
-                {
-                  "contentType": "accountNotificationInformationalAlerts",
-                  "customContentType": "",
-                  "examples": [
-                    {
-                      "messages": [
-                        {
-                          "direction": "toUser",
-                          "text": "Contoso Appointment reminders: Your appt is confirmed for 30th Apr. Txt R to reschedule. Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out."
-                        },
-                        {
-                          "direction": "fromUser",
-                          "text": "Y"
-                        },
-                        {
-                          "direction": "toUser",
-                          "text": "Contoso Appointment reminders: thanks for confirming your reservation."
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "trafficDetails": {
-              "isSpiky": false
-            }
-          },
-          {
-            "id": "9df88de7-171b-4733-8ae8-4fe332d6b0f8",
-            "status": "draft",
-            "costs": [
-              {
-                "amount": 650.0,
-                "currencyCode": "USD",
-                "countryCode": "US",
-                "billingFrequency": "once"
-              },
-              {
-                "amount": 1000.0,
-                "currencyCode": "USD",
-                "countryCode": "US",
-                "billingFrequency": "monthly"
-              }
-            ],
-            "statusUpdatedDate": "2023-05-07T23:06:29\u002B00:00",
-            "programDetails": {
-              "isVanity": false,
-              "numberType": "shortCode",
-              "isPoliticalCampaign": false,
-              "callToAction": "Contoso bot - Would you like to receive appointment reminders through text message to the phone number you\u0027ve saved in your account? Messages and data rates may apply. If you want to opt in, say YES, say NO to skip.  End-User - YES"
-            },
-            "messageDetails": {
-              "supportedProtocol": "sms",
-              "recurrence": "subscription",
-              "helpAnswerToUser": "Contoso Appointment reminders: Get help at support@contoso.com or 1-800 123 4567.Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out.",
-              "optOutAnswerToUser": "Contoso Appointment reminders : You have been unsubscribed and will no longer receive any messages. Get help at support@contoso.com or 1-800 123 4567.",
-              "optInMessageToUser": "Contoso Appointment reminders: Reply Y to receive appt reminders.",
-              "optInAnswerFromUser": "Y",
-              "optInConfirmationMessageToUser": "Contoso Appointment reminders. You\u0027re now subscribed to appt reminders. Msg freq varies.",
-              "directionality": "twoWay",
-              "useCases": [
-                {
-                  "contentType": "accountNotificationInformationalAlerts",
-                  "customContentType": "",
-                  "examples": [
-                    {
-                      "messages": [
-                        {
-                          "direction": "toUser",
-                          "text": "Contoso Appointment reminders: Your appt is confirmed for 30th Apr. Txt R to reschedule. Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out."
-                        },
-                        {
-                          "direction": "fromUser",
-                          "text": "Y"
-                        },
-                        {
-                          "direction": "toUser",
-                          "text": "Contoso Appointment reminders: thanks for confirming your reservation."
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "trafficDetails": {
-              "isSpiky": false
-            }
-          }
-        ],
-        "nextLink": "/shortCodes/countries/US/programBriefs?skip=2\u0026top=2\u0026api-version=2022-09-06"
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs?skip=2\u0026top=2\u0026api-version=2022-09-06",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "Sanitized",
-        "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 04 Jul 2023 22:30:18 GMT"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Content-Length": "4182",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 04 Jul 2023 22:30:19 GMT",
-        "MS-CV": "lqGclQSTWUKQWV8UUEkM8A.0",
-        "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0e52kZAAAAACpDb/axft4S6T/i1uLaIR4REZXMzBFREdFMTYxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
-        "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "439ms"
-      },
-      "ResponseBody": {
-        "programBriefs": [
-          {
-            "id": "64c97405-9cd6-46e8-8084-824d6cf74ddb",
-            "status": "draft",
-            "costs": [
-              {
-                "amount": 650.0,
-                "currencyCode": "USD",
-                "countryCode": "US",
-                "billingFrequency": "once"
-              },
-              {
-                "amount": 1000.0,
-                "currencyCode": "USD",
-                "countryCode": "US",
-                "billingFrequency": "monthly"
-              }
-            ],
-            "statusUpdatedDate": "2023-05-07T23:06:34\u002B00:00",
-            "programDetails": {
-              "isVanity": false,
-              "numberType": "shortCode",
-              "isPoliticalCampaign": false,
-              "callToAction": "Contoso bot - Would you like to receive appointment reminders through text message to the phone number you\u0027ve saved in your account? Messages and data rates may apply. If you want to opt in, say YES, say NO to skip.  End-User - YES"
-            },
-            "messageDetails": {
-              "supportedProtocol": "sms",
-              "recurrence": "subscription",
-              "helpAnswerToUser": "Contoso Appointment reminders: Get help at support@contoso.com or 1-800 123 4567.Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out.",
-              "optOutAnswerToUser": "Contoso Appointment reminders : You have been unsubscribed and will no longer receive any messages. Get help at support@contoso.com or 1-800 123 4567.",
-              "optInMessageToUser": "Contoso Appointment reminders: Reply Y to receive appt reminders.",
-              "optInAnswerFromUser": "Y",
-              "optInConfirmationMessageToUser": "Contoso Appointment reminders. You\u0027re now subscribed to appt reminders. Msg freq varies.",
-              "directionality": "twoWay",
-              "useCases": [
-                {
-                  "contentType": "accountNotificationInformationalAlerts",
-                  "customContentType": "",
-                  "examples": [
-                    {
-                      "messages": [
-                        {
-                          "direction": "toUser",
-                          "text": "Contoso Appointment reminders: Your appt is confirmed for 30th Apr. Txt R to reschedule. Msg\u0026Data Rates May Apply. Txt HELP for help. Txt STOP to opt-out."
-                        },
-                        {
-                          "direction": "fromUser",
-                          "text": "Y"
-                        },
-                        {
-                          "direction": "toUser",
-                          "text": "Contoso Appointment reminders: thanks for confirming your reservation."
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "trafficDetails": {
-              "isSpiky": false
-            }
-          },
-          {
-            "id": "26183eee-4a0c-4493-b5b0-387eb47035b6",
-            "status": "draft",
-            "costs": [
-              {
-                "amount": 650.0,
-                "currencyCode": "USD",
-                "countryCode": "US",
-                "billingFrequency": "once"
-              },
-              {
-                "amount": 1000.0,
-                "currencyCode": "USD",
-                "countryCode": "US",
-                "billingFrequency": "monthly"
-              }
-            ],
-            "statusUpdatedDate": "2023-07-04T22:30:17\u002B00:00",
+            "statusUpdatedDate": "2023-07-25T18:04:17\u002B00:00",
             "programDetails": {
               "isVanity": false,
               "numberType": "shortCode",
@@ -1522,11 +938,11 @@
             }
           }
         ],
-        "nextLink": "/shortCodes/countries/US/programBriefs?skip=4\u0026top=2\u0026api-version=2022-09-06"
+        "nextLink": "/shortCodes/countries/US/programBriefs?skip=1\u0026top=1\u0026api-version=2022-09-06"
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs?skip=4\u0026top=2\u0026api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs?skip=1\u0026top=1\u0026api-version=2022-09-06",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1536,25 +952,26 @@
         "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 04 Jul 2023 22:30:19 GMT"
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:18 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Content-Length": "2303",
+        "Content-Length": "2391",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 04 Jul 2023 22:30:20 GMT",
-        "MS-CV": "iQQAt42RHUerNx5Z2UGttw.0",
+        "Date": "Tue, 25 Jul 2023 18:04:18 GMT",
+        "MS-CV": "OSUdr7uqx02ugg6J1/G3pA.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0e52kZAAAAAAMgwqivUnBRoXKCkqEZwnTREZXMzBFREdFMTYxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0og7AZAAAAABswqiZFEW3R4eT5TrzmZRdREZXMzBFREdFMTUxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "426ms"
+        "X-Processing-Time": "417ms"
       },
       "ResponseBody": {
         "programBriefs": [
           {
-            "id": "92e6d4d6-4ee9-409b-b36f-ca0d638e22f8",
+            "id": "a0e4c4a9-e457-4c85-be22-3323cf734d56",
             "status": "draft",
             "costs": [
               {
@@ -1570,7 +987,7 @@
                 "billingFrequency": "monthly"
               }
             ],
-            "statusUpdatedDate": "2023-07-04T22:30:17\u002B00:00",
+            "statusUpdatedDate": "2023-07-25T18:04:17\u002B00:00",
             "programDetails": {
               "isVanity": false,
               "numberType": "shortCode",
@@ -1660,63 +1077,12 @@
               "estimatedRampUpTimeInDays": 0
             }
           }
-        ]
+        ],
+        "nextLink": "/shortCodes/countries/US/programBriefs?skip=2\u0026top=1\u0026api-version=2022-09-06"
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/26183eee-4a0c-4493-b5b0-387eb47035b6?api-version=2022-09-06",
-      "RequestMethod": "DELETE",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "Sanitized",
-        "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 04 Jul 2023 22:30:19 GMT"
-      },
-      "RequestBody": null,
-      "StatusCode": 204,
-      "ResponseHeaders": {
-        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Date": "Tue, 04 Jul 2023 22:30:20 GMT",
-        "MS-CV": "pAwi/uP3mkKl7Kixbdg6Ew.0",
-        "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0fJ2kZAAAAABrbg00L3/KQYuxNkbnJKGrREZXMzBFREdFMTYxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
-        "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "246ms"
-      },
-      "ResponseBody": null
-    },
-    {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/92e6d4d6-4ee9-409b-b36f-ca0d638e22f8?api-version=2022-09-06",
-      "RequestMethod": "DELETE",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "Sanitized",
-        "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 04 Jul 2023 22:30:19 GMT"
-      },
-      "RequestBody": null,
-      "StatusCode": 204,
-      "ResponseHeaders": {
-        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Date": "Tue, 04 Jul 2023 22:30:20 GMT",
-        "MS-CV": "SV/JMGBTY0OHJdHoxT1\u002BEA.0",
-        "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0fJ2kZAAAAAC8/\u002BxBMWcETp2HZYL1qwF0REZXMzBFREdFMTYxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
-        "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "238ms"
-      },
-      "ResponseBody": null
-    },
-    {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/92e6d4d6-4ee9-409b-b36f-ca0d638e22f8?api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs?skip=2\u0026top=1\u0026api-version=2022-09-06",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1726,30 +1092,116 @@
         "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 04 Jul 2023 22:30:19 GMT"
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:19 GMT",
+        "x-ms-useragent": "fake-useragent"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Content-Length": "20",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 25 Jul 2023 18:04:19 GMT",
+        "MS-CV": "H6LQFlNiz0yDq393vFLYyA.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0ow7AZAAAAAANutxFbI\u002B/QLcEEw6/FzydREZXMzBFREdFMTUxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "446ms"
+      },
+      "ResponseBody": {
+        "programBriefs": []
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/4ae62da0-3c4a-4a1f-b433-38a6248c8dde?api-version=2022-09-06",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:19 GMT",
+        "x-ms-useragent": "fake-useragent"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Date": "Tue, 25 Jul 2023 18:04:19 GMT",
+        "MS-CV": "2hZ7mxJkEECIjYOK0JYavA.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0ow7AZAAAAAB3ALvjzVC2QrpXGmKRFqb4REZXMzBFREdFMTUxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "258ms"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/a0e4c4a9-e457-4c85-be22-3323cf734d56?api-version=2022-09-06",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:19 GMT",
+        "x-ms-useragent": "fake-useragent"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Date": "Tue, 25 Jul 2023 18:04:19 GMT",
+        "MS-CV": "4xlUd/LYxUGv64rT4tToGQ.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0ow7AZAAAAAALvIEtPlVQRr\u002B1rMTfy1jPREZXMzBFREdFMTUyMgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "261ms"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/4ae62da0-3c4a-4a1f-b433-38a6248c8dde?api-version=2022-09-06",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:19 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 404,
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
         "Content-Type": "application/json",
-        "Date": "Tue, 04 Jul 2023 22:30:20 GMT",
-        "MS-CV": "wrsV2MsaG0ix6ZiOWpTAbA.0",
+        "Date": "Tue, 25 Jul 2023 18:04:19 GMT",
+        "MS-CV": "ZYNSC/65vE6zkEh0TOKOqA.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0fJ2kZAAAAABuNOdvngzjQ5FYyOFmmWPSREZXMzBFREdFMTYxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0pA7AZAAAAACRet2eU3kMRJPjLkxmBSmeREZXMzBFREdFMTUxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "303ms"
+        "X-Processing-Time": "272ms"
       },
       "ResponseBody": {
         "error": {
           "code": "NotFound",
-          "message": "Could not find the ProgramBrief with key \u0027Azure|ac80d96a-85de-48b1-995d-a3a3fa3627c8|92e6d4d6-4ee9-409b-b36f-ca0d638e22f8\u0027"
+          "message": "Could not find the ProgramBrief with key \u0027Azure|ac80d96a-85de-48b1-995d-a3a3fa3627c8|4ae62da0-3c4a-4a1f-b433-38a6248c8dde\u0027"
         }
       }
     },
     {
-      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/26183eee-4a0c-4493-b5b0-387eb47035b6?api-version=2022-09-06",
+      "RequestUri": "https://endpoint/shortCodes/countries/US/programBriefs/a0e4c4a9-e457-4c85-be22-3323cf734d56?api-version=2022-09-06",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1759,31 +1211,32 @@
         "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 04 Jul 2023 22:30:19 GMT"
+        "x-ms-date": "Tue, 25 Jul 2023 18:04:19 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 404,
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
         "Content-Type": "application/json",
-        "Date": "Tue, 04 Jul 2023 22:30:20 GMT",
-        "MS-CV": "X/v2DNCsUkGxokkCytInpw.0",
+        "Date": "Tue, 25 Jul 2023 18:04:20 GMT",
+        "MS-CV": "J\u002Bk8zT5p7EOBVPODb5KioA.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0fJ2kZAAAAAALSn8y72gXS5hN1fjFLLeCREZXMzBFREdFMTYxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0pA7AZAAAAACLVlHeM8FKTarrFBapYtcwREZXMzBFREdFMTUyMgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "319ms"
+        "X-Processing-Time": "270ms"
       },
       "ResponseBody": {
         "error": {
           "code": "NotFound",
-          "message": "Could not find the ProgramBrief with key \u0027Azure|ac80d96a-85de-48b1-995d-a3a3fa3627c8|26183eee-4a0c-4493-b5b0-387eb47035b6\u0027"
+          "message": "Could not find the ProgramBrief with key \u0027Azure|ac80d96a-85de-48b1-995d-a3a3fa3627c8|a0e4c4a9-e457-4c85-be22-3323cf734d56\u0027"
         }
       }
     }
   ],
   "Variables": {
-    "pb-var-0": "26183eee-4a0c-4493-b5b0-387eb47035b6",
-    "pb-var-1": "92e6d4d6-4ee9-409b-b36f-ca0d638e22f8"
+    "pb-var-0": "a0e4c4a9-e457-4c85-be22-3323cf734d56",
+    "pb-var-1": "4ae62da0-3c4a-4a1f-b433-38a6248c8dde"
   }
 }

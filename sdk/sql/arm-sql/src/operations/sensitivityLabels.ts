@@ -536,7 +536,7 @@ const listCurrentByDatabaseOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.skipToken,
     Parameters.filter1,
-    Parameters.apiVersion3,
+    Parameters.apiVersion2,
     Parameters.count
   ],
   urlParameters: [
@@ -554,8 +554,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/currentSensitivityLabels",
   httpMethod: "PATCH",
   responses: { 200: {}, default: {} },
-  requestBody: Parameters.parameters73,
-  queryParameters: [Parameters.apiVersion3],
+  requestBody: Parameters.parameters70,
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -580,7 +580,7 @@ const listRecommendedByDatabaseOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.skipToken,
     Parameters.filter1,
-    Parameters.apiVersion3,
+    Parameters.apiVersion2,
     Parameters.includeDisabledRecommendations
   ],
   urlParameters: [
@@ -598,7 +598,7 @@ const enableRecommendationOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}/enable",
   httpMethod: "POST",
   responses: { 200: {}, default: {} },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -617,7 +617,7 @@ const disableRecommendationOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}/disable",
   httpMethod: "POST",
   responses: { 200: {}, default: {} },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -641,7 +641,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -669,8 +669,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters72,
-  queryParameters: [Parameters.apiVersion3],
+  requestBody: Parameters.parameters69,
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -691,7 +691,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}",
   httpMethod: "DELETE",
   responses: { 200: {}, default: {} },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
