@@ -18,9 +18,9 @@ export type OperationDetailsUnion =
 
 /** Document analysis parameters. */
 export interface AnalyzeDocumentRequest {
-  /** Document URL to analyze */
+  /** Document URL to analyze.  Either urlSource or base64Source must be specified. */
   urlSource?: string;
-  /** Base64 encoding of the document to analyze */
+  /** Base64 encoding of the document to analyze.  Either urlSource or base64Source must be specified. */
   base64Source?: Uint8Array;
 }
 
@@ -96,8 +96,6 @@ export interface AnalyzeResult {
 
 /** Content and layout elements extracted from a page from the input. */
 export interface DocumentPage {
-  /** Kind of document page. */
-  kind?: DocumentPageKind;
   /** 1-based page number in the input document. */
   pageNumber: number;
   /** The general orientation of the content in clockwise direction, measured in degrees between (-180, 180]. */
@@ -116,14 +114,10 @@ export interface DocumentPage {
   selectionMarks?: DocumentSelectionMark[];
   /** Extracted lines from the page, potentially containing both textual and visual elements. */
   lines?: DocumentLine[];
-  /** Extracted annotations from the page. */
-  annotations?: DocumentAnnotation[];
   /** Extracted barcodes from the page. */
   barcodes?: DocumentBarcode[];
   /** Extracted formulas from the page. */
   formulas?: DocumentFormula[];
-  /** Extracted images from the page. */
-  images?: DocumentImage[];
 }
 
 /** Contiguous region of the concatenated content property, specified as an offset and length. */
@@ -168,16 +162,6 @@ export interface DocumentLine {
   spans: DocumentSpan[];
 }
 
-/** An annotation object that represents a visual annotation in the document, such as checks ✓ and crosses X. */
-export interface DocumentAnnotation {
-  /** Annotation kind. */
-  kind: DocumentAnnotationKind;
-  /** Bounding polygon of the annotation. */
-  polygon: number[];
-  /** Confidence of correctly extracting the annotation. */
-  confidence: number;
-}
-
 /** A barcode object. */
 export interface DocumentBarcode {
   /** Barcode kind. */
@@ -203,18 +187,6 @@ export interface DocumentFormula {
   /** Location of the formula in the reading order concatenated content. */
   span: DocumentSpan;
   /** Confidence of correctly extracting the formula. */
-  confidence: number;
-}
-
-/** An image object detected in the page. */
-export interface DocumentImage {
-  /** Bounding polygon of the image. */
-  polygon?: number[];
-  /** Location of the image in the reading order concatenated content. */
-  span: DocumentSpan;
-  /** 1-based page number of the page that contains the image. */
-  pageNumber: number;
-  /** Confidence of correctly identifying the image. */
   confidence: number;
 }
 
@@ -278,8 +250,6 @@ export interface DocumentKeyValuePair {
   key: DocumentKeyValueElement;
   /** Field value of the key-value pair. */
   value?: DocumentKeyValueElement;
-  /** Common name of the key-value pair. */
-  commonName?: string;
   /** Confidence of correctly extracting the key-value pair. */
   confidence: number;
 }
@@ -433,10 +403,10 @@ export interface BuildDocumentModelRequest {
   description?: string;
   /** Custom document model build mode. */
   buildMode: DocumentBuildMode;
-  /** Azure Blob Storage location containing the training data. */
+  /** Azure Blob Storage location containing the training data.  Either azureBlobSource or azureBlobFileListSource must be specified. */
   azureBlobSource?: AzureBlobContentSource;
-  /** Azure Blob Storage file list specifying the training data. */
-  azureBlobFileListSource?: AzureBlobFileListSource;
+  /** Azure Blob Storage file list specifying the training data.  Either azureBlobSource or azureBlobFileListSource must be specified. */
+  azureBlobFileListSource?: AzureBlobFileListContentSource;
   /** List of key-value tag attributes associated with the document model. */
   tags?: { [propertyName: string]: string };
 }
@@ -450,7 +420,7 @@ export interface AzureBlobContentSource {
 }
 
 /** File list in Azure Blob Storage. */
-export interface AzureBlobFileListSource {
+export interface AzureBlobFileListContentSource {
   /** Azure Blob Storage container URL. */
   containerUrl: string;
   /** Path to a JSONL file within the container specifying a subset of documents for training. */
@@ -637,12 +607,12 @@ export interface BuildDocumentClassifierRequest {
   docTypes: { [propertyName: string]: ClassifierDocumentTypeDetails };
 }
 
-/** Training data source. */
+/** Classifier document type info. */
 export interface ClassifierDocumentTypeDetails {
-  /** Azure Blob Storage location containing the training data. */
+  /** Azure Blob Storage location containing the training data for a classifier document type.  Either azureBlobSource or azureBlobFileListSource must be specified. */
   azureBlobSource?: AzureBlobContentSource;
-  /** Azure Blob Storage file list specifying the training data. */
-  azureBlobFileListSource?: AzureBlobFileListSource;
+  /** Azure Blob Storage file list specifying the training data for a classifier document type.  Either azureBlobSource or azureBlobFileListSource must be specified. */
+  azureBlobFileListSource?: AzureBlobFileListContentSource;
 }
 
 /** List document classifiers response object. */
@@ -671,9 +641,9 @@ export interface DocumentClassifierDetails {
 
 /** Document classification parameters. */
 export interface ClassifyDocumentRequest {
-  /** Document URL to classify */
+  /** Document URL to classify.  Either urlSource or base64Source must be specified. */
   urlSource?: string;
-  /** Base64 encoding of the document to classify */
+  /** Base64 encoding of the document to classify.  Either urlSource or base64Source must be specified. */
   base64Source?: Uint8Array;
 }
 
@@ -796,13 +766,17 @@ export type StringIndexType = string;
 /** Known values of {@link DocumentAnalysisFeature} that the service accepts. */
 export enum KnownDocumentAnalysisFeature {
   /** Perform OCR at a higher resolution to handle documents with fine print. */
-  OcrHighResolution = "ocr.highResolution",
-  /** Enable the detection of mathematical expressions the document. */
-  OcrFormula = "ocr.formula",
+  OcrHighResolution = "ocrHighResolution",
+  /** Enable the detection of the text content language. */
+  Languages = "languages",
+  /** Enable the detection of barcodes in the document. */
+  Barcodes = "barcodes",
+  /** Enable the detection of mathematical expressions in the document. */
+  Formulas = "formulas",
+  /** Enable the detection of general key value pairs (form fields) in the document. */
+  KeyValuePairs = "keyValuePairs",
   /** Enable the recognition of various font styles. */
-  OcrFont = "ocr.font",
-  /** Enable extraction of additional fields via the queryFields query parameter. */
-  QueryFieldsPremium = "queryFields.premium"
+  StyleFont = "styleFont"
 }
 
 /**
@@ -810,36 +784,14 @@ export enum KnownDocumentAnalysisFeature {
  * {@link KnownDocumentAnalysisFeature} can be used interchangeably with DocumentAnalysisFeature,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **ocr.highResolution**: Perform OCR at a higher resolution to handle documents with fine print. \
- * **ocr.formula**: Enable the detection of mathematical expressions the document. \
- * **ocr.font**: Enable the recognition of various font styles. \
- * **queryFields.premium**: Enable extraction of additional fields via the queryFields query parameter.
+ * **ocrHighResolution**: Perform OCR at a higher resolution to handle documents with fine print. \
+ * **languages**: Enable the detection of the text content language. \
+ * **barcodes**: Enable the detection of barcodes in the document. \
+ * **formulas**: Enable the detection of mathematical expressions in the document. \
+ * **keyValuePairs**: Enable the detection of general key value pairs (form fields) in the document. \
+ * **styleFont**: Enable the recognition of various font styles.
  */
 export type DocumentAnalysisFeature = string;
-
-/** Known values of {@link DocumentPageKind} that the service accepts. */
-export enum KnownDocumentPageKind {
-  /** A page from a PDF or image file.  All content from Office/HTML files is represented as a single page. */
-  Document = "document",
-  /** A sheet from a spreadsheet. */
-  Sheet = "sheet",
-  /** A slide from a presentation. */
-  Slide = "slide",
-  /** An embedded image from an Office/HTML file. */
-  Image = "image"
-}
-
-/**
- * Defines values for DocumentPageKind. \
- * {@link KnownDocumentPageKind} can be used interchangeably with DocumentPageKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **document**: A page from a PDF or image file.  All content from Office\/HTML files is represented as a single page. \
- * **sheet**: A sheet from a spreadsheet. \
- * **slide**: A slide from a presentation. \
- * **image**: An embedded image from an Office\/HTML file.
- */
-export type DocumentPageKind = string;
 
 /** Known values of {@link LengthUnit} that the service accepts. */
 export enum KnownLengthUnit {
@@ -876,24 +828,6 @@ export enum KnownSelectionMarkState {
  * **unselected**: The selection mark is not selected.
  */
 export type SelectionMarkState = string;
-
-/** Known values of {@link DocumentAnnotationKind} that the service accepts. */
-export enum KnownDocumentAnnotationKind {
-  /** A visual check ✓. */
-  Check = "check",
-  /** A visual cross X. */
-  Cross = "cross"
-}
-
-/**
- * Defines values for DocumentAnnotationKind. \
- * {@link KnownDocumentAnnotationKind} can be used interchangeably with DocumentAnnotationKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **check**: A visual check ✓. \
- * **cross**: A visual cross X.
- */
-export type DocumentAnnotationKind = string;
 
 /** Known values of {@link DocumentBarcodeKind} that the service accepts. */
 export enum KnownDocumentBarcodeKind {
@@ -1222,8 +1156,6 @@ export interface DocumentModelsAnalyzeDocument$binaryOptionalParams
   locale?: string;
   /** List of optional analysis features. */
   features?: DocumentAnalysisFeature[];
-  /** List of additional fields to extract.  Ex. "NumberOfGuests,StoreNumber" */
-  queryFields?: string[];
 }
 
 /** Optional parameters. */
@@ -1237,8 +1169,6 @@ export interface DocumentModelsAnalyzeDocument$textOptionalParams
   locale?: string;
   /** List of optional analysis features. */
   features?: DocumentAnalysisFeature[];
-  /** List of additional fields to extract.  Ex. "NumberOfGuests,StoreNumber" */
-  queryFields?: string[];
 }
 
 /** Optional parameters. */
@@ -1252,8 +1182,6 @@ export interface DocumentModelsAnalyzeDocument$jsonOptionalParams
   locale?: string;
   /** List of optional analysis features. */
   features?: DocumentAnalysisFeature[];
-  /** List of additional fields to extract.  Ex. "NumberOfGuests,StoreNumber" */
-  queryFields?: string[];
 }
 
 /** Contains response data for the analyzeDocument operation. */

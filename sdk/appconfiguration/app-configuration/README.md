@@ -199,7 +199,7 @@ await client.addConfigurationSetting({
   label
 });
 
-const poller = await this.beginCreateSnapshot({
+const poller = await client.beginCreateSnapshot({
   name:"testsnapshot",
   retentionPeriod: 2592000,
   filters: [{key, label}],
@@ -246,11 +246,11 @@ for await (const snapshot of snapshots) {
 ### Recover and archive the snapshot
 ```javascript
 // Snapshot is in ready status
-let archivedSnapshot = await client.archiveSnapshot("testsnapshot");
+let archivedSnapshot = await client.archiveSnapshot({name: "testsnapshot"});
 console.log("Snapshot updated status is:", archivedSnapshot.status);
 
 // Snapshot is in archive status
-let recoverSnapshot = await client.recoverSnapshot("testsnapshot");
+let recoverSnapshot = await client.recoverSnapshot({name: "testsnapshot"});
 console.log("Snapshot updated status is:", recoverSnapshot.status);
 ```
 ## Troubleshooting

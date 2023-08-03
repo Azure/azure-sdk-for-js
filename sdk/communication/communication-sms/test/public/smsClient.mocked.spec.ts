@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode } from "@azure/core-util";
-import { HttpClient } from "@azure/core-rest-pipeline";
 import { AzureKeyCredential } from "@azure/core-auth";
+import { HttpClient } from "@azure/core-rest-pipeline";
+import { isNode } from "@azure/core-util";
+import { TokenCredential } from "@azure/identity";
 import { assert } from "chai";
 import sinon from "sinon";
 import { SmsClient, SmsClientOptions, SmsSendRequest } from "../../src";
 import { MockHttpClient } from "./utils/mockHttpClient";
-import { TokenCredential } from "@azure/identity";
 
 const TEST_NUMBER = "+14255550123";
 
-describe("[mocked] SmsClient", async () => {
+describe("[mocked] SmsClient", async function () {
   const baseUri = "https://contoso.api.fake";
   const connectionString = `endpoint=${baseUri};accesskey=banana`;
   const dateHeader = "x-ms-date";
@@ -25,16 +25,16 @@ describe("[mocked] SmsClient", async () => {
     message: "message",
   };
 
-  describe("when instantiating SMS client", () => {
-    it("can instantiate with a connection string", async () => {
+  describe("when instantiating SMS client", function () {
+    it("can instantiate with a connection string", async function () {
       new SmsClient(connectionString);
     });
 
-    it("can instantiate with a url and KeyCredential ", async () => {
+    it("can instantiate with a url and KeyCredential ", async function () {
       new SmsClient(baseUri, new AzureKeyCredential("banana"));
     });
 
-    it("can instantiate with a token", async () => {
+    it("can instantiate with a token", async function () {
       const fakeToken: TokenCredential = {
         getToken: async (_scopes) => {
           return { token: "testToken", expiresOnTimestamp: 11111 };
@@ -44,9 +44,9 @@ describe("[mocked] SmsClient", async () => {
     });
   });
 
-  describe("when sending an SMS", () => {
+  describe("when sending an SMS", function () {
     let smsClient: SmsClient;
-    beforeEach(() => {
+    beforeEach(function () {
       sendRequestSpy = sinon.spy(mockHttpClient, "sendRequest");
       sinon.useFakeTimers();
       // workaround: casting because min testing has issues with httpClient newer versions having extra optional fields
@@ -55,7 +55,7 @@ describe("[mocked] SmsClient", async () => {
       } as SmsClientOptions);
     });
 
-    it("sends with the correct headers", async () => {
+    it("sends with the correct headers", async function () {
       await smsClient.send(testSendRequest);
 
       const request = sendRequestSpy.getCall(0).args[0];
@@ -70,7 +70,7 @@ describe("[mocked] SmsClient", async () => {
       );
     });
 
-    it("returns the correct results", async () => {
+    it("returns the correct results", async function () {
       const smsTestResults = await smsClient.send(testSendRequest);
 
       const smsTestResult = smsTestResults[0];
@@ -79,7 +79,7 @@ describe("[mocked] SmsClient", async () => {
       assert.equal(smsTestResult.messageId, "id");
     });
 
-    afterEach(() => {
+    afterEach(function () {
       sinon.restore();
     });
   });

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Sim,
   SimsListByGroupOptionalParams,
@@ -53,7 +53,7 @@ export interface Sims {
     simGroupName: string,
     simName: string,
     options?: SimsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified SIM.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -95,8 +95,8 @@ export interface Sims {
     parameters: Sim,
     options?: SimsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SimsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SimsCreateOrUpdateResponse>,
       SimsCreateOrUpdateResponse
     >
   >;
@@ -128,8 +128,8 @@ export interface Sims {
     parameters: SimUploadList,
     options?: SimsBulkUploadOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SimsBulkUploadResponse>,
+    SimplePollerLike<
+      OperationState<SimsBulkUploadResponse>,
       SimsBulkUploadResponse
     >
   >;
@@ -159,8 +159,8 @@ export interface Sims {
     parameters: SimDeleteList,
     options?: SimsBulkDeleteOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SimsBulkDeleteResponse>,
+    SimplePollerLike<
+      OperationState<SimsBulkDeleteResponse>,
       SimsBulkDeleteResponse
     >
   >;
@@ -190,8 +190,8 @@ export interface Sims {
     parameters: EncryptedSimUploadList,
     options?: SimsBulkUploadEncryptedOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SimsBulkUploadEncryptedResponse>,
+    SimplePollerLike<
+      OperationState<SimsBulkUploadEncryptedResponse>,
       SimsBulkUploadEncryptedResponse
     >
   >;

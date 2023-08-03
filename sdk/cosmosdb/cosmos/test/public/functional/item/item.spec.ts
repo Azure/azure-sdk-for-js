@@ -520,7 +520,39 @@ describe("Create, Upsert, Read, Update, Replace, Delete Operations on Item", fun
     const { resource } = await container.items.create({});
     assert.ok(resource.id);
   });
+
+  describe("Upsert when collection partitioned on id", async () => {
+    // https://github.com/Azure/azure-sdk-for-js/issues/21383
+    it("should create a new resource if /id is not passed", async function () {
+      const container = await getTestContainer("db1", undefined, { partitionKey: "/id" });
+      const { resource: resource } = await container.items.upsert({ key1: 0, key2: 0 });
+      assert.ok(resource.id);
+    });
+
+    it("should create a new resource if /id is passed and resource doesn't exist", async function () {
+      const container = await getTestContainer("db1", undefined, { partitionKey: "/id" });
+      const { resource: resource } = await container.items.upsert({
+        id: "1ee929e0-40aa-4143-978c-8415914056d4",
+        key1: 0,
+        key2: 0,
+      });
+      assert.ok(resource.id);
+    });
+    it("should update a resource if /id is passed and exists in container", async function () {
+      const container = await getTestContainer("db1", undefined, { partitionKey: "/id" });
+      const { resource: resource1 } = await container.items.upsert({ key1: 0, key2: 1 });
+      assert.ok(resource1.id);
+
+      const { resource: resource2 } = await container.items.upsert({
+        id: resource1.id,
+        key1: 0,
+        key2: 2,
+      });
+      assert.strictEqual(resource1.id, resource2.id);
+    });
+  });
 });
+
 // TODO: Non-deterministic test. We can't guarantee we see any response with a 429 status code since the retries happen within the response
 describe("item read retries", async function () {
   it("retries on 429", async function () {

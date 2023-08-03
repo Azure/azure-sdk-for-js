@@ -19,7 +19,8 @@ import {
   IpExtendedCommunityPatch,
   IpExtendedCommunitiesUpdateOptionalParams,
   IpExtendedCommunitiesUpdateResponse,
-  IpExtendedCommunitiesDeleteOptionalParams
+  IpExtendedCommunitiesDeleteOptionalParams,
+  IpExtendedCommunitiesDeleteResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,7 +45,7 @@ export interface IpExtendedCommunities {
   /**
    * Implements IP Extended Community PUT method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community
+   * @param ipExtendedCommunityName Name of the IP Extended Community.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -62,7 +63,7 @@ export interface IpExtendedCommunities {
   /**
    * Implements IP Extended Community PUT method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community
+   * @param ipExtendedCommunityName Name of the IP Extended Community.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -75,7 +76,7 @@ export interface IpExtendedCommunities {
   /**
    * Implements IP Extended Community GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community
+   * @param ipExtendedCommunityName Name of the IP Extended Community.
    * @param options The options parameters.
    */
   get(
@@ -86,7 +87,7 @@ export interface IpExtendedCommunities {
   /**
    * API to update certain properties of the IP Extended Community resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community
+   * @param ipExtendedCommunityName Name of the IP Extended Community.
    * @param body IP Extended Community properties to update.
    * @param options The options parameters.
    */
@@ -104,7 +105,7 @@ export interface IpExtendedCommunities {
   /**
    * API to update certain properties of the IP Extended Community resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community
+   * @param ipExtendedCommunityName Name of the IP Extended Community.
    * @param body IP Extended Community properties to update.
    * @param options The options parameters.
    */
@@ -117,23 +118,28 @@ export interface IpExtendedCommunities {
   /**
    * Implements IP Extended Community DELETE method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community
+   * @param ipExtendedCommunityName Name of the IP Extended Community.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     ipExtendedCommunityName: string,
     options?: IpExtendedCommunitiesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<IpExtendedCommunitiesDeleteResponse>,
+      IpExtendedCommunitiesDeleteResponse
+    >
+  >;
   /**
    * Implements IP Extended Community DELETE method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param ipExtendedCommunityName Name of the IP Extended Community
+   * @param ipExtendedCommunityName Name of the IP Extended Community.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     ipExtendedCommunityName: string,
     options?: IpExtendedCommunitiesDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<IpExtendedCommunitiesDeleteResponse>;
 }
