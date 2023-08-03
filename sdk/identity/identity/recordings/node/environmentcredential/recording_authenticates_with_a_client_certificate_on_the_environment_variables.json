@@ -7,7 +7,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "User-Agent": "User-Agent",
-        "x-ms-client-request-id": "d86ac241-30d2-48e1-8c84-713ea1977747"
+        "x-ms-client-request-id": "8e5be855-78ec-403f-8054-0c5c71896f3c"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -16,14 +16,16 @@
         "Access-Control-Allow-Origin": "*",
         "Cache-Control": "max-age=86400, private",
         "Content-Length": "980",
+        "Content-Security-Policy-Report-Only": "script-src \u0027self\u0027 \u0027nonce-KFFCwWwY0Cwv5pJfgJ_GjA\u0027 \u0027unsafe-eval\u0027 \u0027unsafe-inline\u0027 \u0027report-sample\u0027; object-src \u0027none\u0027; base-uri \u0027self\u0027; report-uri https://csp.microsoft.com/report/ESTS-UX-All",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 08 Mar 2022 23:50:45 GMT",
+        "Date": "Thu, 03 Aug 2023 00:58:06 GMT",
         "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
-        "Set-Cookie": "fpc=secret_cookie; expires=Thu, 07-Apr-2022 23:50:46 GMT; path=/; secure; HttpOnly; SameSite=None",
+        "Set-Cookie": "fpc=secret_cookie; expires=Sat, 02-Sep-2023 00:58:07 GMT; path=/; secure; HttpOnly; SameSite=None",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-ests-server": "2.1.12559.4 - WUS2 ProdSlices",
-        "x-ms-request-id": "c485bf65-5092-4fce-8632-bf3d25008300"
+        "x-ms-ests-server": "2.1.15984.6 - WUS2 ProdSlices",
+        "x-ms-request-id": "44864e96-e2a7-4614-8a2b-b662dd115800",
+        "X-XSS-Protection": "0"
       },
       "ResponseBody": {
         "tenant_discovery_endpoint": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/v2.0/.well-known/openid-configuration",
@@ -79,7 +81,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "User-Agent": "User-Agent",
-        "x-ms-client-request-id": "ab4d382f-ef7b-42b6-8834-6fde6de29bd4"
+        "x-ms-client-request-id": "1d6c6e85-5ca6-4d70-b726-26948b31afe9"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -89,13 +91,14 @@
         "Cache-Control": "max-age=86400, private",
         "Content-Length": "1753",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 08 Mar 2022 23:50:45 GMT",
+        "Date": "Thu, 03 Aug 2023 00:58:06 GMT",
         "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
-        "Set-Cookie": "fpc=secret_cookie; expires=Thu, 07-Apr-2022 23:50:46 GMT; path=/; secure; HttpOnly; SameSite=None",
+        "Set-Cookie": "fpc=secret_cookie; expires=Sat, 02-Sep-2023 00:58:07 GMT; path=/; secure; HttpOnly; SameSite=None",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-ests-server": "2.1.12559.4 - WUS2 ProdSlices",
-        "x-ms-request-id": "29ca30cd-2e2f-4f9d-8f52-d2c52a0a1f00"
+        "x-ms-ests-server": "2.1.15984.6 - EUS ProdSlices",
+        "x-ms-request-id": "32760a6a-97ac-41e0-80fa-7509af12a000",
+        "X-XSS-Protection": "0"
       },
       "ResponseBody": {
         "token_endpoint": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
@@ -171,33 +174,40 @@
       "RequestHeaders": {
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
-        "Content-Length": "612",
+        "Content-Length": "484",
         "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
         "User-Agent": "User-Agent",
-        "x-ms-client-request-id": "79afb4af-22ff-4fbb-b536-a9cad29405b8"
+        "x-ms-client-request-id": "ac372d4f-e0af-48ab-aecc-6a245a8b02f3"
       },
-      "RequestBody": "client_id=azure_client_id\u0026scope=https%3A%2F%2Fvault.azure.net%2F.default\u0026grant_type=client_credentials\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|771,2,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026client-request-id=client-request-id\u0026client_assertion=client_assertion\u0026client_assertion_type=urn%3Aietf%3Aparams%3Aoauth%3Aclient-assertion-type%3Ajwt-bearer\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
-      "StatusCode": 200,
+      "RequestBody": "client_id=azure_client_id\u0026scope=https%3A%2F%2Fvault.azure.net%2F.default\u0026grant_type=client_credentials\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|771,2,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026client-request-id=client-request-id\u0026client_assertion=client_assertion\u0026client_assertion_type=urn%3Aietf%3Aparams%3Aoauth%3Aclient-assertion-type%3Ajwt-bearer",
+      "StatusCode": 401,
       "ResponseHeaders": {
         "Cache-Control": "no-store, no-cache",
-        "Content-Length": "95",
+        "Content-Length": "1093",
+        "Content-Security-Policy-Report-Only": "script-src \u0027self\u0027 \u0027nonce-iSHiMXLv1-ECGWf4RmMN3w\u0027 \u0027unsafe-eval\u0027 \u0027unsafe-inline\u0027 \u0027report-sample\u0027; object-src \u0027none\u0027; base-uri \u0027self\u0027; report-uri https://csp.microsoft.com/report/ESTS-UX-All",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 08 Mar 2022 23:50:45 GMT",
+        "Date": "Thu, 03 Aug 2023 00:58:07 GMT",
         "Expires": "-1",
         "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
         "Pragma": "no-cache",
-        "Set-Cookie": "fpc=secret_cookie; expires=Thu, 07-Apr-2022 23:50:46 GMT; path=/; secure; HttpOnly; SameSite=None",
+        "Set-Cookie": "fpc=secret_cookie; expires=Sat, 02-Sep-2023 00:58:07 GMT; path=/; secure; HttpOnly; SameSite=None",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-clitelem": "1,0,0,,",
-        "x-ms-ests-server": "2.1.12559.4 - WUS2 ProdSlices",
-        "x-ms-request-id": "28fb170d-9094-44e1-aedd-678011352100"
+        "x-ms-clitelem": "1,700027,0,,",
+        "x-ms-ests-server": "2.1.15984.6 - WUS2 ProdSlices",
+        "x-ms-request-id": "12965a21-08c3-40bf-a9e9-bbd086ecaa00",
+        "X-XSS-Protection": "0"
       },
       "ResponseBody": {
-        "token_type": "Bearer",
-        "expires_in": 86399,
-        "ext_expires_in": 86399,
-        "access_token": "access_token"
+        "error": "invalid_client",
+        "error_description": "AADSTS700027: The certificate with identifier used to sign the client assertion is not registered on application. [Reason - The key was not found., Thumbprint of key used by client: \u00279ECDA770893ECA02A4C38C32332E9F7EE74F7DE5\u0027, Please visit the Azure Portal, Graph Explorer or directly use MS Graph to see configured keys for app Id \u0027azure_client_id\u0027. Review the documentation at https://docs.microsoft.com/en-us/graph/deployments to determine the corresponding service endpoint and https://docs.microsoft.com/en-us/graph/api/application-get?view=graph-rest-1.0\u0026tabs=http to build a query request URL, such as \u0027https://graph.microsoft.com/beta/applications/azure_client_id\u0027].\r\nTrace ID: 12965a21-08c3-40bf-a9e9-bbd086ecaa00\r\nCorrelation ID: ac372d4f-e0af-48ab-aecc-6a245a8b02f3\r\nTimestamp: 2023-08-03 00:58:07Z",
+        "error_codes": [
+          700027
+        ],
+        "timestamp": "2023-08-03 00:58:07Z",
+        "trace_id": "12965a21-08c3-40bf-a9e9-bbd086ecaa00",
+        "correlation_id": "ac372d4f-e0af-48ab-aecc-6a245a8b02f3",
+        "error_uri": "https://login.microsoftonline.com/error?code=700027"
       }
     }
   ],

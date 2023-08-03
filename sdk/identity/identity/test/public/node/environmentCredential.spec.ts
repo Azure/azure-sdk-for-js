@@ -11,7 +11,7 @@ import { assert } from "@azure/test-utils";
 import { getError } from "../../authTestUtils";
 import sinon from "sinon";
 
-describe("EnvironmentCredential", function () {
+describe.only("EnvironmentCredential", function () {
   let cleanup: MsalTestCleanup;
   let recorder: Recorder;
   const environmentVariableNames = [
@@ -68,7 +68,7 @@ describe("EnvironmentCredential", function () {
     process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
     process.env.AZURE_CLIENT_CERTIFICATE_PATH =
       cachedValues.AZURE_CLIENT_CERTIFICATE_PATH || "assets/fake-cert.pem";
-
+    console.log(process.env.AZURE_CLIENT_CERTIFICATE_PATH)
     const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
 
     const token = await credential.getToken(scope);
@@ -138,7 +138,7 @@ describe("EnvironmentCredential", function () {
     );
   });
 
-  it("supports tracing with environment client certificate", async function (this: Context) {
+  it.only("supports tracing with environment client certificate", async function (this: Context) {
     if (isLiveMode()) {
       // Live test run not supported on CI at the moment. Locally should work though.
       this.skip();
