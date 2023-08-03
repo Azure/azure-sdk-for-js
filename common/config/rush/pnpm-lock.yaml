@@ -2807,8 +2807,8 @@ packages:
     engines: {node: '>= 10'}
     dev: false
 
-  /@ts-morph/common/0.19.0:
-    resolution: {integrity: sha512-Unz/WHmd4pGax91rdIKWi51wnVUW11QttMEPpBiBgIewnc9UQIX7UDLxr5vRlqeByXCwhkF6VabSsI0raWcyAQ==}
+  /@ts-morph/common/0.20.0:
+    resolution: {integrity: sha512-7uKjByfbPpwuzkstL3L5MQyuXPSKdoNG93Fmi2JoDcTf3pEP731JdRFAduRVkOs8oqxPsXKA+ScrWkdQ8t/I+Q==}
     dependencies:
       fast-glob: 3.3.1
       minimatch: 7.4.6
@@ -4818,7 +4818,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230802
+      typescript: 5.2.0-dev.20230803
     dev: false
 
   /duplexer3/0.1.5:
@@ -10083,10 +10083,10 @@ packages:
     resolution: {integrity: sha512-0z3j8R7MCjy10kc/g+qg7Ln3alJTodw9aDuVWZa3uiWqfuBMKeAeP2ocWcxoyM3D73yz3Jt/Pu4qPr4wHSdB/Q==}
     dev: false
 
-  /ts-morph/18.0.0:
-    resolution: {integrity: sha512-Kg5u0mk19PIIe4islUI/HWRvm9bC1lHejK4S0oh1zaZ77TMZAEmQC0sHQYiu2RgCQFZKXz1fMVi/7nOOeirznA==}
+  /ts-morph/19.0.0:
+    resolution: {integrity: sha512-D6qcpiJdn46tUqV45vr5UGM2dnIEuTGNxVhg0sk5NX11orcouwj6i1bMqZIz2mZTZB1Hcgy7C3oEVhAT+f6mbQ==}
     dependencies:
-      '@ts-morph/common': 0.19.0
+      '@ts-morph/common': 0.20.0
       code-block-writer: 12.0.0
     dev: false
 
@@ -10335,8 +10335,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230802:
-    resolution: {integrity: sha512-rBvAnzaaMhwBAS2UaKejYhaED3VM74/xng/+xcVSst0PbkJBqggj19w/gwJ/4q07oOjKMgwunklsSjwe+iw2ZA==}
+  /typescript/5.2.0-dev.20230803:
+    resolution: {integrity: sha512-DwCyutWHyT7Il7xpJCxtx4/S5F4qjAo2SE6QDRSLhEUtBFGwGHTHCvuyfm9KNrdwn67jGitdlw4gpbSTVVjoww==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -18867,7 +18867,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-MFnha/Pq6OtGF6N+o4PAVdk/52njt7puW4PTc5sBV0kc91wILhZXurzCaYc/NZHpvs7bII5sIal/+xPpTVxSfg==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-JKB9w9L05hVqdXANjJZEU/6UityYviuZy7t1j+LoQmXkozwg9DCeNcG8jV2TAV8QTSJ12BmMdSmAa+S1UWeDSg==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -18914,7 +18914,7 @@ packages:
       rollup-plugin-visualizer: 5.9.2_rollup@2.79.1
       semver: 7.5.4
       strip-json-comments: 5.0.1
-      ts-morph: 18.0.0
+      ts-morph: 19.0.0
       ts-node: 10.9.1_rj4luzizacc4lverevdf7zm2ti
       tslib: 2.6.1
       typescript: 5.0.4
@@ -20409,7 +20409,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-FCdWABf3EgpULN8AvClM8zv9lCeDVvuNSA2dAb2upZBiJ6WftNFfdDLY/q8whjc97R5c1SmG9zriNqRGu0Xm6g==, tarball: file:projects/perf-ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-+05JR31WLH5d8FD+GslDQxNHYPLOrvExWUugJJNalgNZpbtoqzQF0837G7tKGDg98VU4XjK6qZA7Gjo2n7O3yg==, tarball: file:projects/perf-ai-form-recognizer.tgz}
     name: '@rush-temp/perf-ai-form-recognizer'
     version: 0.0.0
     dependencies:
@@ -21512,7 +21512,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-XKoapSGfj9adWoSaAEOMkONC7brW8Pez+vfuoU0Viw46LuU2KTH9ZMWkRYDub+3xt331YRTyWuxdwvbKVzk/Kg==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-tbnZhWCWiQTtvxAeRQm8UDHo89yoMoWis4kDc+5OvIxpTyXUk3Fwz3h1e2czVSscQUckjus9VILPNKxfEbQhsA==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
