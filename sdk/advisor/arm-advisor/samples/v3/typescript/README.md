@@ -62,7 +62,7 @@ node dist/configurationsCreateInResourceGroupSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node dist/configurationsCreateInResourceGroupSample.js
+npx cross-env ADVISOR_SUBSCRIPTION_ID="<advisor subscription id>" node dist/configurationsCreateInResourceGroupSample.js
 ```
 
 ## Next Steps
