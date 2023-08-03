@@ -100,11 +100,11 @@ This error indicates that the authenticated application or user does not have pe
    - [Access policies](https://docs.microsoft.com/azure/key-vault/general/assign-access-policy) (Key Vault)
    - [Role-Based Access Control (RBAC)](https://docs.microsoft.com/azure/key-vault/general/rbac-guide) (Key Vault and Managed HSM)
 2. If the appropriate permissions are assigned to your application or user, make sure you are authenticating as that user.
-   - If using the [DefaultAzureCredential] a different credential might've been used than one you expected. [Enable logging](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#logging) and you will see which credential the [DefaultAzureCredential] used as shown below, and why previously-attempted credentials were rejected.
+   - Are you using [DefaultAzureCredential]? If so, ensure that it is selecting the correct underlying credential type. [Enable logging](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#logging) to see which credential type was used.
 
 ### Other Authentication Errors
 
-See the [`@azure/identity` troubleshooting guide] for general guidance on authentication errors.
+See the [`@azure/identity` troubleshooting guide][identity-troubleshooting-guide] for general guidance on authentication errors.
 
 #### Multi-tenant Authentication Issues
 
@@ -155,4 +155,4 @@ See our [Azure Key Vault throttling guide](https://docs.microsoft.com/azure/key-
 For additional support, please search our [existing issues](https://github.com/Azure/azure-sdk-for-js/issues) or [open a new issue](https://github.com/Azure/azure-sdk-for-net/issues/new/choose). You may also find existing answers on community sites like [Stack Overflow](https://stackoverflow.com/questions/tagged/azure-keyvault+node.js).
 
 [DefaultAzureCredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#defaultazurecredential
-[`@azure/identity` troubleshooting guide]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/TROUBLESHOOTING.md
+[identity-troubleshooting-guide]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/TROUBLESHOOTING.md
