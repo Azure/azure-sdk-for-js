@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { AccessToken, TokenCredential } from "@azure/core-auth";
 import { signString } from "./hmacSha256.js";
 
 /**
@@ -41,11 +41,10 @@ export class SasTokenCredential implements TokenCredential {
 
   /**
    * Gets the sas token for the specified audience
-   * @param scopes - The audience for which the token is desired.
+   * @param scopes - The scope for which the token is desired.
    */
   async getToken(
-    scopes: string | string[],
-    _options?: GetTokenOptions
+    scopes: string | string[]
   ): Promise<AccessToken | null> {
     const audience = Array.isArray(scopes) ? scopes[0] : scopes;
     return createToken(
