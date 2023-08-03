@@ -19,10 +19,17 @@ import {
 
 /** Options to configure the recognize operation. */
 export interface CallMediaRecognizeOptions extends OperationOptions {
+  /** The source of the audio to be played for recognition. */
   playPrompt?: FileSource | TextSource | SsmlSource;
+  /** If set recognize can barge into other existing queued-up/currently-processing requests. */
   interruptCallMediaOperation?: boolean;
+  /** @deprecated Not in use, instead use interruptCallMediaOperation for similar functionality*/
+  stopCurrentOperations?: boolean;
+  /** The value to identify context of the operation. */
   operationContext?: string;
+  /** Determines if we interrupt the prompt and start recognizing. */
   interruptPrompt?: boolean;
+  /** Time to wait for first input after prompt. */
   initialSilenceTimeoutInSeconds?: number;
 }
 

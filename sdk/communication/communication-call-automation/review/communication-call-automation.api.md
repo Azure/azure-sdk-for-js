@@ -180,16 +180,13 @@ export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions
 
 // @public
 export interface CallMediaRecognizeOptions extends OperationOptions {
-    // (undocumented)
     initialSilenceTimeoutInSeconds?: number;
-    // (undocumented)
     interruptCallMediaOperation?: boolean;
-    // (undocumented)
     interruptPrompt?: boolean;
-    // (undocumented)
     operationContext?: string;
-    // (undocumented)
     playPrompt?: FileSource | TextSource | SsmlSource;
+    // @deprecated (undocumented)
+    stopCurrentOperations?: boolean;
 }
 
 // @public
