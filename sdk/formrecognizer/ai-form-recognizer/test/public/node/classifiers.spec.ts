@@ -76,16 +76,14 @@ matrix([[true, false]] as const, async (useAad) => {
           {
             // TODO: use a different container for each test
             foo: {
-              // containerUrl: assertEnvironmentVariable(
-              //   "FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL"
-              // ),
-              containerUrl: containerSasUrl(),
+              azureBlobSource: {
+                containerUrl: containerSasUrl(),
+              },
             },
             bar: {
-              // containerUrl: assertEnvironmentVariable(
-              //   "FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL"
-              // ),
-              containerUrl: containerSasUrl(),
+              azureBlobSource: {
+                containerUrl: containerSasUrl(),
+              },
             },
           },
           { ...testPollingOptions, description: customClassifierDescription }

@@ -36,7 +36,11 @@ async function main() {
 
   const poller = await client.beginBuildDocumentModel(
     modelId,
-    trainingDataSasUrl,
+    {
+      azureBlobSource: {
+        containerUrl: trainingDataSasUrl,
+      },
+    },
     DocumentModelBuildMode.Template
   );
   const model = await poller.pollUntilDone();
