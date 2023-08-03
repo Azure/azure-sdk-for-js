@@ -115,12 +115,17 @@ matrix([[true, false]] as const, async (skipParsingBodyAsJson: boolean) => {
       }
     }
 
+    const messageAdapter = createEventDataAdapter({
+      properties: {
+        language: "js",
+      },
+    });
+    
     beforeEach(async function () {
       recorder = new Recorder(this.currentTest);
-      const messageAdapter = createEventDataAdapter({
-        properties: {
-          language: "js",
-        },
+      client = createEventHubsTestClient({
+        eventHubName: "scenario_1",
+        skipParsingBodyAsJson,
       });
       registry = createTestRegistry({ recorder });
 
@@ -172,10 +177,6 @@ matrix([[true, false]] as const, async (skipParsingBodyAsJson: boolean) => {
     });
 
     it("Test schema with fields of type string/boolean/number/array/object", async () => {
-      client = createEventHubsTestClient({
-        eventHubName: "scenario_1",
-        skipParsingBodyAsJson,
-      });
       await registry.registerSchema({
         definition: writerSchema,
         format: "json",

@@ -56,7 +56,7 @@ describe("JsonSerializer", async function () {
   });
 
   it("serializes and deserializes in round trip", async () => {
-    let serializer = await createTestSerializer({ recorder });
+    let serializer = await createTestSerializer({ registry, recorder });
     await registerTestSchema(registry);
     let message = await serializer.serialize(testValue, testSchema);
     assert.deepStrictEqual(await serializer.deserialize(message), testValue);
@@ -65,16 +65,16 @@ describe("JsonSerializer", async function () {
     assert.deepStrictEqual(await serializer.deserialize(message), testValue);
 
     // throw away serializer for cache miss coverage on deserialize
-    serializer = await createTestSerializer();
+    serializer = await createTestSerializer({registry});
     assert.deepStrictEqual(await serializer.deserialize(message), testValue);
 
     // throw away serializer again and cover getSchemaProperties instead of registerSchema
-    serializer = await createTestSerializer();
+    serializer = await createTestSerializer({registry});
     assert.deepStrictEqual(await serializer.serialize(testValue, testSchema), message);
   });
 
   it("works with trivial example in README", async () => {
-    const serializer = await createTestSerializer({ recorder });
+    const serializer = await createTestSerializer({ registry, recorder });
 
     // Example Json schema
     const schema = JSON.stringify({
