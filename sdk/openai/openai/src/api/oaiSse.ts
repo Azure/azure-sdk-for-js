@@ -18,9 +18,14 @@ export async function* getOaiSSEs<TEvent>(
   toEvent: (obj: Record<string, any>) => TEvent
 ): AsyncIterable<TEvent> {
   const stream = await getSSEs(response);
+  let isDone = false;
   for await (const event of stream) {
-    if (event.data === "[DONE]") {
-      break;
+    if (isDone) {
+      // handle a case where the service sends excess stream
+      // data after the [DONE] event
+      continue;
+    } else if (event.data === "[DONE]") {
+      isDone = true;
     } else {
       yield toEvent(
         wrapError(

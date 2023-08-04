@@ -10,7 +10,14 @@
  */
 
 import { StreamableMethod } from "@azure-rest/core-client";
-import { EventMessage, onSSE } from "./sse.js";
+import { EventMessage, toSSE } from "./sse.js";
+
+export async function getSSEs(
+  response: StreamableMethod<unknown>
+): Promise<AsyncIterable<EventMessage>> {
+  const iter = await getStream(response);
+  return toSSE(iter);
+}
 
 async function* toAsyncIterable<T>(stream: ReadableStream<T>): AsyncIterable<T> {
   const reader = stream.getReader();
@@ -18,7 +25,7 @@ async function* toAsyncIterable<T>(stream: ReadableStream<T>): AsyncIterable<T> 
     while (true) {
       const { value, done } = await reader.read();
       if (done) {
-        break;
+        return;
       }
       yield value;
     }
@@ -33,23 +40,4 @@ async function getStream<TResponse>(
   const stream = (await response.asBrowserStream()).body;
   if (!stream) throw new Error("No stream found in response. Did you enable the stream option?");
   return toAsyncIterable(stream);
-}
-
-export async function getSSEs(
-  response: StreamableMethod<unknown>,
-  options: { onError?: (reason: any) => void } = {}
-): Promise<AsyncIterable<EventMessage>> {
-  const iter = await getStream(response);
-  return toAsyncIterable(
-    new ReadableStream({
-      start(controller) {
-        function onMessage(msg: EventMessage): void {
-          controller.enqueue(msg);
-        }
-        return onSSE(iter, onMessage)
-          .catch(options.onError)
-          .finally(() => controller.close());
-      },
-    })
-  );
 }

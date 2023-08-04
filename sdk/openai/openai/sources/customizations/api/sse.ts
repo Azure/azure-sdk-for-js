@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { errorWithCause, onStream } from "./util.js";
-
 const enum ControlChars {
   NewLine = 10,
   CarriageReturn = 13,
@@ -25,14 +23,32 @@ export interface EventMessage {
   retry?: number;
 }
 
-function getLines(
-  onLine: (line: Uint8Array, fieldLen: number) => void
-): (chunk: Uint8Array) => void {
+function concatBuffer(a: Uint8Array, b: Uint8Array): Uint8Array {
+  const res = new Uint8Array(a.length + b.length);
+  res.set(a);
+  res.set(b, a.length);
+  return res;
+}
+
+type PartialSome<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+
+function createMessage(): PartialSome<EventMessage, "data"> {
+  return {
+    data: undefined,
+    event: "",
+    id: "",
+    retry: undefined,
+  };
+}
+
+async function* toLine(
+  chunkIter: AsyncIterable<Uint8Array>
+): AsyncIterable<{ line: Uint8Array; fieldLen: number }> {
   let buf: Uint8Array | undefined;
-  let bufIdx: number;
-  let fieldLen: number;
+  let bufIdx = 0;
+  let fieldLen = -1;
   let discardTrailingNewline = false;
-  return function onChunk(chunk: Uint8Array) {
+  for await (const chunk of chunkIter) {
     if (buf === undefined) {
       buf = chunk;
       bufIdx = 0;
@@ -73,7 +89,7 @@ function getLines(
         // Wait for the next chunk and then continue parsing:
         break;
       }
-      onLine(buf.subarray(start, end), fieldLen);
+      yield { line: buf.subarray(start, end), fieldLen };
       start = bufIdx; // we're now on the next line
       fieldLen = -1;
     }
@@ -84,27 +100,17 @@ function getLines(
       buf = buf.subarray(start);
       bufIdx -= start;
     }
-  };
+  }
 }
-
-function concatBuffer(a: Uint8Array, b: Uint8Array): Uint8Array {
-  const res = new Uint8Array(a.length + b.length);
-  res.set(a);
-  res.set(b, a.length);
-  return res;
-}
-
-function getMessages(
-  onId: (id: string) => void,
-  onRetry: (intervalInMs: number) => void,
-  onMessage: (msg: EventMessage) => void
-): (line: Uint8Array, fieldLen: number) => void {
+async function* toMessage(
+  lineIter: AsyncIterable<{ line: Uint8Array; fieldLen: number }>
+): AsyncIterable<EventMessage> {
   let message = createMessage();
   const decoder = new TextDecoder();
-  return function onLine(line: Uint8Array, fieldLen: number) {
+  for await (const { line, fieldLen } of lineIter) {
     if (line.length === 0 && message.data !== undefined) {
-      // empty line denotes end of message. Trigger the callback and start a new message:
-      onMessage(message as EventMessage);
+      // empty line denotes end of message. Yield and start a new message:
+      yield message as EventMessage;
       message = createMessage();
     } else if (fieldLen > 0) {
       // exclude comments and lines with no values
@@ -122,45 +128,20 @@ function getMessages(
           message.event = value;
           break;
         case "id":
-          onId((message.id = value));
+          message.id = value;
           break;
         case "retry": {
           const retry = parseInt(value, 10);
           if (!isNaN(retry)) {
-            onRetry((message.retry = retry));
+            message.retry = retry;
           }
           break;
         }
       }
     }
-  };
+  }
 }
 
-type PartialSome<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
-
-function createMessage(): PartialSome<EventMessage, "data"> {
-  return {
-    data: undefined,
-    event: "",
-    id: "",
-    retry: undefined,
-  };
-}
-
-export function onSSE(
-  iter: AsyncIterable<Uint8Array>,
-  onMessage: (msg: EventMessage) => void
-): Promise<void> {
-  function onId(): void {
-    /** empty body */
-  }
-  function onRetry(): void {
-    /** empty body */
-  }
-  return onStream(iter, getLines(getMessages(onId, onRetry, onMessage))).catch((reason) => {
-    throw errorWithCause(
-      "Error reading the server-sent events stream. See 'cause' for more details",
-      reason
-    );
-  });
+export function toSSE(chunkIter: AsyncIterable<Uint8Array>): AsyncIterable<EventMessage> {
+  return toMessage(toLine(chunkIter));
 }

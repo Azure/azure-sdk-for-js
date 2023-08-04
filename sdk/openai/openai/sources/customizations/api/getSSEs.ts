@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 
 import { StreamableMethod } from "@azure-rest/core-client";
-import { EventMessage, onSSE } from "./sse.js";
-import { PassThrough } from "stream";
+import { EventMessage, toSSE } from "./sse.js";
 
 export async function getStream<TResponse>(
   response: StreamableMethod<TResponse>
@@ -14,16 +13,8 @@ export async function getStream<TResponse>(
 }
 
 export async function getSSEs(
-  response: StreamableMethod<unknown>,
-  options: { onError?: (reason: any) => void } = {}
+  response: StreamableMethod<unknown>
 ): Promise<AsyncIterable<EventMessage>> {
-  const stream = new PassThrough({ objectMode: true });
-  function onMessage(msg: EventMessage): void {
-    stream.write(msg);
-  }
-  // eslint-disable-next-line promise/catch-or-return
-  onSSE(await getStream(response), onMessage)
-    .catch(options.onError)
-    .finally(() => stream.end());
-  return stream;
+  const chunkIterator = await getStream(response);
+  return toSSE(chunkIterator);
 }
