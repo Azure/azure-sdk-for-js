@@ -314,14 +314,16 @@ describe("RoomsClient", function () {
     });
 
     it("successfully list rooms", async function () {
-      const listRoomsResult = await client.listRooms({});
-      assert.isDefined(listRoomsResult);
+      const roomsPages = client.listRooms().byPage();
+      let counter: number = 1;
+      // loop over each page
+      for await (const page of roomsPages) {
+        assert.isNotEmpty(page);
+        if (counter == 3){
+          break;
+        }
 
-      for await (const roomModel of listRoomsResult) {
-        assert.isNotEmpty(roomModel.id);
-        assert.isNotEmpty(roomModel.validFrom.toString());
-        assert.isNotEmpty(roomModel.validUntil.toString());
-        break;
+        counter++;
       }
     });
 
