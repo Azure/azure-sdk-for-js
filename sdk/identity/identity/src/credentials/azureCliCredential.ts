@@ -120,11 +120,11 @@ export class AzureCliCredential implements TokenCredential {
 
     const scope = typeof scopes === "string" ? scopes : scopes[0];
     logger.getToken.info(`Using the scope ${scope}`);
-    ensureValidScopeForDevTimeCreds(scope, logger);
-    const resource = getScopeResource(scope);
 
     return tracingClient.withSpan(`${this.constructor.name}.getToken`, options, async () => {
       try {
+        ensureValidScopeForDevTimeCreds(scope, logger);
+        const resource = getScopeResource(scope);
         const obj = await cliCredentialInternals.getAzureCliAccessToken(
           resource,
           tenantId,

@@ -185,11 +185,11 @@ export class AzurePowerShellCredential implements TokenCredential {
         this.additionallyAllowedTenantIds
       );
       const scope = typeof scopes === "string" ? scopes : scopes[0];
-      ensureValidScopeForDevTimeCreds(scope, logger);
-      logger.getToken.info(`Using the scope ${scope}`);
-      const resource = getScopeResource(scope);
 
       try {
+        ensureValidScopeForDevTimeCreds(scope, logger);
+        logger.getToken.info(`Using the scope ${scope}`);
+        const resource = getScopeResource(scope);
         const response = await this.getAzurePowerShellAccessToken(resource, tenantId, this.timeout);
         logger.getToken.info(formatSuccess(scopes));
         return {

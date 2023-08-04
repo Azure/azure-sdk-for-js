@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CredentialUnavailableError } from "../errors";
 import { CredentialLogger, formatError } from "./logging";
 
 /**
@@ -18,7 +17,7 @@ export function ensureScopes(scopes: string | string[]): string[] {
  */
 export function ensureValidScopeForDevTimeCreds(scope: string, logger: CredentialLogger): void {
   if (!scope.match(/^[0-9a-zA-Z-.:/]+$/)) {
-    const error = new CredentialUnavailableError("Invalid scope was specified by the user or calling client");
+    const error = new Error("Invalid scope was specified by the user or calling client");
     logger.getToken.info(formatError(scope, error));
     throw error;
   }
