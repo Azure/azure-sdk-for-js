@@ -11,7 +11,7 @@ import { assert } from "@azure/test-utils";
 import { getError } from "../../authTestUtils";
 import sinon from "sinon";
 
-describe.only("EnvironmentCredential", function () {
+describe("EnvironmentCredential", function () {
   let cleanup: MsalTestCleanup;
   let recorder: Recorder;
   const environmentVariableNames = [
@@ -138,7 +138,7 @@ describe.only("EnvironmentCredential", function () {
     );
   });
 
-  it.only("supports tracing with environment client certificate", async function (this: Context) {
+  it("supports tracing with environment client certificate", async function (this: Context) {
     if (isLiveMode()) {
       // Live test run not supported on CI at the moment. Locally should work though.
       this.skip();
