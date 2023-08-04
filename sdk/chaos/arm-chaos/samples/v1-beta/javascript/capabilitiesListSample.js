@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get a list of Capability resources that extend a Target resource..
  *
  * @summary Get a list of Capability resources that extend a Target resource..
- * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2022-10-01-preview/examples/ListCapabilities.json
+ * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2023-04-15-preview/examples/ListCapabilities.json
  */
 async function listAllCapabilitiesThatExtendAVirtualMachineTargetResource() {
   const subscriptionId =
