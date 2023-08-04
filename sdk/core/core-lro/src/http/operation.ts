@@ -90,6 +90,7 @@ export function inferLroMode(inputs: {
   const pollingUrl = getOperationLocationPollingUrl({ operationLocation, azureAsyncOperation });
   const location = getLocationHeader(rawResponse);
   const normalizedRequestMethod = requestMethod?.toLocaleUpperCase();
+  logger.verbose(`LRO: inferLroMode: pollingUrl: ${pollingUrl}, location: ${location}, requestPath: ${requestPath}`);
   if (pollingUrl !== undefined) {
     return {
       mode: "OperationLocation",
