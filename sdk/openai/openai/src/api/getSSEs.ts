@@ -12,7 +12,7 @@
 import { StreamableMethod } from "@azure-rest/core-client";
 import { EventMessage, toSSE } from "./sse.js";
 
-export async function getStream<TResponse>(
+async function getStream<TResponse>(
   response: StreamableMethod<TResponse>
 ): Promise<AsyncIterable<Uint8Array>> {
   const stream = (await response.asNodeStream()).body;

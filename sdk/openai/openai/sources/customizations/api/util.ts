@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export function errorWithCause(message: string, cause: Error): Error {
+function errorWithCause(message: string, cause: Error): Error {
   return new Error(
     message,
     // TS v4.6 and below do not yet recognize the cause option in the Error constructor
@@ -20,13 +20,4 @@ export function wrapError<T>(f: () => T, message: string): T {
     throw errorWithCause(message, cause as Error);
   }
   return result;
-}
-
-export async function onStream<T>(
-  stream: AsyncIterable<T>,
-  process: (chunk: T) => void
-): Promise<void> {
-  for await (const chunk of stream) {
-    process(chunk);
-  }
 }
