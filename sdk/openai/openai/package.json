@@ -6,7 +6,7 @@
   "main": "dist/index.cjs",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "./dist-esm/src/api/getStream.js": "./dist-esm/src/api/getStream.browser.js"
+    "./dist-esm/src/api/getSSEs.js": "./dist-esm/src/api/getSSEs.browser.js"
   },
   "type": "module",
   "exports": {
@@ -46,7 +46,7 @@
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"sources/customizations/**/*.ts\" \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "npm run unit-test:browser",
-    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 \"dist-esm/test/**/*.spec.js\"",
+    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 \"dist-esm/test/public/{,!(browser)/**/}/*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint README.md package.json api-extractor.json src test --ext .ts,.javascript,.js --fix --fix-type [problem,suggestion]",
     "lint": "eslint README.md package.json api-extractor.json src test --ext .ts,.javascript,.js",
@@ -55,7 +55,7 @@
     "test:node": "npm run clean && tsc -p . && npm run integration-test:node",
     "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
     "unit-test:browser": "dev-tool run test:browser -- karma.conf.cjs",
-    "unit-test:node": "dev-tool run test:node-ts-input -- \"test/internal/unit/{,!(browser)/**/}*.spec.ts\" \"test/public/{,!(browser)/**/}*.spec.ts\"",
+    "unit-test:node": "dev-tool run test:node-ts-input -- \"test/internal/{,!(browser)/**/}*.spec.ts\" \"test/public/{,!(browser)/**/}*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
@@ -94,14 +94,12 @@
     "@azure-tools/test-credential": "^1.0.0",
     "@azure/test-utils": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
-    "@types/fs-extra": "^9.0.0",
     "@types/mocha": "^7.0.2",
     "@types/node": "^14.0.0",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",
     "eslint": "^8.16.0",
     "esm": "^3.2.25",
-    "fs-extra": "^10.0.0",
     "karma": "^6.4.0",
     "karma-chrome-launcher": "^3.1.1",
     "karma-coverage": "^2.2.0",
