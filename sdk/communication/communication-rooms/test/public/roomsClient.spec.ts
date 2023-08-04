@@ -319,7 +319,8 @@ describe("RoomsClient", function () {
       // loop over each page
       for await (const page of roomsPages) {
         assert.isNotEmpty(page);
-        if (counter === 3){
+
+        if (counter === 3) {
           break;
         }
 
