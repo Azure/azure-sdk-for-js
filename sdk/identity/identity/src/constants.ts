@@ -53,3 +53,6 @@ export const DefaultAuthorityHost = AzureAuthorityHosts.AzurePublicCloud;
  * Allow acquiring tokens for any tenant for multi-tentant auth.
  */
 export const ALL_TENANTS: string[] = ["*"];
+
+export const CACHE_CAE_SUFFIX = ".cae";
+export const CACHE_NON_CAE_SUFFIX = ".nocae";
