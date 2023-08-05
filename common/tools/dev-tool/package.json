@@ -44,7 +44,7 @@
     "@_ts/min": "npm:typescript@~4.2.4",
     "@_ts/max": "npm:typescript@latest",
     "axios": "^1.2.1",
-    "concurrently": "^7.6.0",
+    "concurrently": "^8.2.0",
     "chalk": "~4.1.1",
     "decompress": "^4.2.1",
     "dotenv": "^16.0.0",
