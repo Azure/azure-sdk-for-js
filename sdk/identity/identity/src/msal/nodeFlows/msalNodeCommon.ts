@@ -168,7 +168,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
       loggingOptions: options.loggingOptions,
     });
 
-    let clientCapabilities: string[] = [];
+    const clientCapabilities: string[] = [];
 
     return {
       auth: {
@@ -195,16 +195,16 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     appType: "publicFirst" | "confidentialFirst",
     enableCae?: boolean
   ): msalNode.ConfidentialClientApplication | msalNode.PublicClientApplication;
-  protected getApp(appType: "public", enableCae?: Boolean): msalNode.PublicClientApplication;
+  protected getApp(appType: "public", enableCae?: boolean): msalNode.PublicClientApplication;
 
   protected getApp(
     appType: "confidential",
-    enableCae?: Boolean
+    enableCae?: boolean
   ): msalNode.ConfidentialClientApplication;
 
   protected getApp(
     appType: AppType,
-    enableCae?: Boolean
+    enableCae?: boolean
   ): msalNode.ConfidentialClientApplication | msalNode.PublicClientApplication {
     const app = enableCae ? this.caeApp : this.app
     if (appType === "publicFirst") {
@@ -230,7 +230,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
       });
     }
 
-    const app = options?.enableCae? this.caeApp : this.app;
+    const app = options?.enableCae ? this.caeApp : this.app;
     if (options?.enableCae) {
       this.msalConfig.auth.clientCapabilities = ["cp1"];
     }
