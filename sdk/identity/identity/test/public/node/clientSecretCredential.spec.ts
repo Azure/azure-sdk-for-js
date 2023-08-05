@@ -45,7 +45,7 @@ describe("ClientSecretCredential", function () {
       recorder.configureClientOptions({})
     );
 
-    const token = await credential.getToken(scope,{enableCae: true});
+    const token = await credential.getToken(scope, { enableCae: true });
     assert.ok(token?.token);
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });

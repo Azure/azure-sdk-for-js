@@ -206,7 +206,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     appType: AppType,
     enableCae?: boolean
   ): msalNode.ConfidentialClientApplication | msalNode.PublicClientApplication {
-    const app = enableCae ? this.caeApp : this.app
+    const app = enableCae ? this.caeApp : this.app;
     if (appType === "publicFirst") {
       return (app.public || app.confidential)!;
     } else if (appType === "confidentialFirst") {

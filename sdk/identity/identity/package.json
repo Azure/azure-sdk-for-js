@@ -80,7 +80,7 @@
         "prefix": "SDK_VERSION"
       }
     ]
-  }, 
+  },
   "engines": {
     "node": ">=14.0.0"
   },
