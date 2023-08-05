@@ -1645,7 +1645,7 @@ packages:
       '@rushstack/ts-command-line': 4.15.1
       colors: 1.2.5
       lodash: 4.17.21
-      resolve: 1.22.2
+      resolve: 1.22.3
       semver: 7.5.4
       source-map: 0.6.1
       typescript: 5.0.4
@@ -1665,7 +1665,7 @@ packages:
       '@rushstack/ts-command-line': 4.15.1
       colors: 1.2.5
       lodash: 4.17.21
-      resolve: 1.22.2
+      resolve: 1.22.3
       semver: 7.5.4
       source-map: 0.6.1
       typescript: 5.0.4
@@ -1685,7 +1685,7 @@ packages:
       '@rushstack/ts-command-line': 4.15.1
       colors: 1.2.5
       lodash: 4.17.21
-      resolve: 1.22.2
+      resolve: 1.22.3
       semver: 7.5.4
       source-map: 0.6.1
       typescript: 5.0.4
@@ -2459,7 +2459,7 @@ packages:
       deepmerge: 4.3.1
       is-builtin-module: 3.2.1
       is-module: 1.0.0
-      resolve: 1.22.2
+      resolve: 1.22.3
       rollup: 2.79.1
     dev: false
 
@@ -2477,7 +2477,7 @@ packages:
       deepmerge: 4.3.1
       is-builtin-module: 3.2.1
       is-module: 1.0.0
-      resolve: 1.22.2
+      resolve: 1.22.3
       rollup: 3.27.0
     dev: false
 
@@ -2523,7 +2523,7 @@ packages:
         optional: true
     dependencies:
       '@rollup/pluginutils': 5.0.2_rollup@3.27.0
-      resolve: 1.22.2
+      resolve: 1.22.3
       rollup: 3.27.0
       tslib: 2.6.1
       typescript: 5.0.4
@@ -2618,7 +2618,7 @@ packages:
       fs-extra: 7.0.1
       import-lazy: 4.0.0
       jju: 1.4.0
-      resolve: 1.22.2
+      resolve: 1.22.3
       semver: 7.5.4
       z-schema: 5.0.5
     dev: false
@@ -2636,7 +2636,7 @@ packages:
       fs-extra: 7.0.1
       import-lazy: 4.0.0
       jju: 1.4.0
-      resolve: 1.22.2
+      resolve: 1.22.3
       semver: 7.5.4
       z-schema: 5.0.5
     dev: false
@@ -2654,7 +2654,7 @@ packages:
       fs-extra: 7.0.1
       import-lazy: 4.0.0
       jju: 1.4.0
-      resolve: 1.22.2
+      resolve: 1.22.3
       semver: 7.5.4
       z-schema: 5.0.5
     dev: false
@@ -2684,7 +2684,7 @@ packages:
   /@rushstack/rig-package/0.4.0:
     resolution: {integrity: sha512-FnM1TQLJYwSiurP6aYSnansprK5l8WUK8VG38CmAaZs29ZeL1msjK0AP1VS4ejD33G0kE/2cpsPsS9jDenBMxw==}
     dependencies:
-      resolve: 1.22.2
+      resolve: 1.22.3
       strip-json-comments: 3.1.1
     dev: false
 
@@ -2761,12 +2761,6 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /@sinonjs/commons/1.8.6:
-    resolution: {integrity: sha512-Ky+XkAkqPZSm3NLBeUng77EBQl3cmeJhITaGHdYH8kjVB+aun3S4XBRti2zt17mtt0mIUDiNxYeoJm6drVvBJQ==}
-    dependencies:
-      type-detect: 4.0.8
-    dev: false
-
   /@sinonjs/commons/2.0.0:
     resolution: {integrity: sha512-uLa0j859mMrg2slwQYdO/AkrOfmH+X6LTVmNTS9CqexuE2IvVORIkSpJLqePAbEnKJ77aMmCwr1NUZ57120Xcg==}
     dependencies:
@@ -2783,20 +2777,6 @@ packages:
     resolution: {integrity: sha512-V4BG07kuYSUkTCSBHG8G8TNhM+F19jXFWnQtzj+we8DrkpSBCee9Z3Ms8yiGer/dlmhe35/Xdgyo3/0rQKg7YA==}
     dependencies:
       '@sinonjs/commons': 3.0.0
-    dev: false
-
-  /@sinonjs/fake-timers/6.0.1:
-    resolution: {integrity: sha512-MZPUxrmFubI36XS1DI3qmI0YdN1gks62JtFZvxR67ljjSNCeK6U08Zx4msEWOXuofgqUt6zPHSi1H9fbjR/NRA==}
-    dependencies:
-      '@sinonjs/commons': 1.8.6
-    dev: false
-
-  /@sinonjs/samsam/5.3.1:
-    resolution: {integrity: sha512-1Hc0b1TtyfBu8ixF/tpfSHTVWKwCBLY4QJbkgnE7HcwyvT2xArDxb4K7dMgqRm3szI+LJbzmW/s4xxEhv6hwDg==}
-    dependencies:
-      '@sinonjs/commons': 1.8.6
-      lodash.get: 4.4.2
-      type-detect: 4.0.8
     dev: false
 
   /@sinonjs/samsam/8.0.0:
@@ -3163,12 +3143,6 @@ packages:
 
   /@types/sinon/10.0.15:
     resolution: {integrity: sha512-3lrFNQG0Kr2LDzvjyjB6AMJk4ge+8iYhQfdnSwIwlG88FUOV43kPcQqDZkDa/h3WSZy6i8Fr0BSjfQtB1B3xuQ==}
-    dependencies:
-      '@types/sinonjs__fake-timers': 8.1.2
-    dev: false
-
-  /@types/sinon/9.0.11:
-    resolution: {integrity: sha512-PwP4UY33SeeVKodNE37ZlOsR9cReypbMJOhZ7BVE0lB+Hix3efCOxiJWiE5Ia+yL9Cn2Ch72EjFTRze8RZsNtg==}
     dependencies:
       '@types/sinonjs__fake-timers': 8.1.2
     dev: false
@@ -4714,7 +4688,7 @@ packages:
       query-ast: 1.0.5
       readdirp: 3.6.0
       require-package-name: 2.0.1
-      resolve: 1.22.2
+      resolve: 1.22.3
       sass: 1.64.1
       scss-parser: 1.0.6
       semver: 7.5.4
@@ -4844,7 +4818,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.2.0-dev.20230803
+      typescript: 5.2.0-dev.20230804
     dev: false
 
   /duplexer3/0.1.5:
@@ -5076,7 +5050,7 @@ packages:
     dependencies:
       debug: 3.2.7
       is-core-module: 2.12.1
-      resolve: 1.22.2
+      resolve: 1.22.3
     dev: false
 
   /eslint-module-utils/2.8.0_eslint@8.46.0:
@@ -5158,7 +5132,7 @@ packages:
       eslint-utils: 2.1.0
       ignore: 5.2.4
       minimatch: 3.1.2
-      resolve: 1.22.2
+      resolve: 1.22.3
       semver: 6.3.1
     dev: false
 
@@ -7907,16 +7881,6 @@ packages:
     resolution: {integrity: sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==}
     dev: false
 
-  /nise/4.1.0:
-    resolution: {integrity: sha512-eQMEmGN/8arp0xsvGoQ+B1qvSkR73B1nWSCh7nOt5neMCtwcQVYQGdzQMhcNscktTsWB54xnlSQFzOAPJD8nXA==}
-    dependencies:
-      '@sinonjs/commons': 1.8.6
-      '@sinonjs/fake-timers': 6.0.1
-      '@sinonjs/text-encoding': 0.7.2
-      just-extend: 4.2.1
-      path-to-regexp: 1.8.0
-    dev: false
-
   /nise/5.1.4:
     resolution: {integrity: sha512-8+Ib8rRJ4L0o3kfmyVCL7gzrohyDe0cMFTBa2d364yIrEGMEoetznKJx899YxjybU6bL9SQkYPSBBs1gyYs8Xg==}
     dependencies:
@@ -8017,7 +7981,7 @@ packages:
     resolution: {integrity: sha512-/5CMN3T0R4XTj4DcGaexo+roZSdSFW/0AOOTROrjxzCG1wrWXEsGbRKevjlIL+ZDE4sZlJr5ED4YW0yqmkK+eA==}
     dependencies:
       hosted-git-info: 2.8.9
-      resolve: 1.22.2
+      resolve: 1.22.3
       semver: 5.7.2
       validate-npm-package-license: 3.0.4
     dev: false
@@ -9096,7 +9060,7 @@ packages:
     resolution: {integrity: sha512-HFM8rkZ+i3zrV+4LQjwQ0W+ez98pApMGM3HUrN04j3CqzPOzl9nmP15Y8YXNm8QHGv/eacOVEjqhmWpkRV0NAw==}
     engines: {node: '>= 0.10'}
     dependencies:
-      resolve: 1.22.2
+      resolve: 1.22.3
     dev: false
 
   /redent/3.0.0:
@@ -9162,7 +9126,7 @@ packages:
     dependencies:
       debug: 4.3.4
       module-details-from-path: 1.0.3
-      resolve: 1.22.2
+      resolve: 1.22.3
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -9206,15 +9170,6 @@ packages:
     dependencies:
       is-core-module: 2.12.1
       path-parse: 1.0.7
-    dev: false
-
-  /resolve/1.22.2:
-    resolution: {integrity: sha512-Sb+mjNHOULsBv818T40qSPeRiuWLyaGMa5ewydRLFimneixmVy2zdivRl+AF6jaYPC8ERxGDmFSiqui6SfPd+g==}
-    hasBin: true
-    dependencies:
-      is-core-module: 2.12.1
-      path-parse: 1.0.7
-      supports-preserve-symlinks-flag: 1.0.0
     dev: false
 
   /resolve/1.22.3:
@@ -9597,17 +9552,6 @@ packages:
       '@sinonjs/samsam': 8.0.0
       diff: 5.1.0
       nise: 5.1.4
-      supports-color: 7.2.0
-    dev: false
-
-  /sinon/9.2.4:
-    resolution: {integrity: sha512-zljcULZQsJxVra28qIAL6ow1Z9tpattkCTEJR4RBP3TGc00FcttsP5pK284Nas5WjMZU5Yzy3kAIp3B3KRf5Yg==}
-    dependencies:
-      '@sinonjs/commons': 1.8.6
-      '@sinonjs/fake-timers': 6.0.1
-      '@sinonjs/samsam': 5.3.1
-      diff: 4.0.2
-      nise: 4.1.0
       supports-color: 7.2.0
     dev: false
 
@@ -10382,8 +10326,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.2.0-dev.20230803:
-    resolution: {integrity: sha512-DwCyutWHyT7Il7xpJCxtx4/S5F4qjAo2SE6QDRSLhEUtBFGwGHTHCvuyfm9KNrdwn67jGitdlw4gpbSTVVjoww==}
+  /typescript/5.2.0-dev.20230804:
+    resolution: {integrity: sha512-4g7zcF85Th+zpaMgR7CHzM1MqjJ0Fv3+2PUxzCUMW8tc7aRYGPtQBfnAyN0+yXChZaV6lVejmrh7hle1DMAEcw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -19356,7 +19300,7 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-OxWxgC4gdlQxK+Q1FyEHhpI1CaUs/OyCjWaxjpjfa5OKKUsAfNS9nouKOzQXrOhfbqFOe4YCwbaMVjv6kf2oOw==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-suRodhlNh4+HKHblrqtOmgcd0v93ubPFRNq17B5XYbNYKyI2Od9n8dyx888Ncq111F0AkZ18ZuHtfOlGGj2kMA==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
@@ -19425,7 +19369,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-XvZZahX7sU/LFrMO9MbNyyClVom4kDd1ZOMQlg5pYiTDKiDjmZz/UgPkGjFLORpvHJBppefZ5DFjOo45TeYgyg==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-pr7qqvdP8qxZ+3Y4MLANU4NKoms2H7w8X3jrNrWwqtETVROBCI7cYtOY2b9V4sAjuJx4zq24Fq+4w/Q7T62/6g==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
@@ -19439,7 +19383,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/ms': 0.7.31
       '@types/node': 14.18.54
-      '@types/sinon': 9.0.11
+      '@types/sinon': 10.0.15
       '@types/stoppable': 1.1.1
       '@types/uuid': 8.3.4
       chai: 4.3.7
@@ -19466,7 +19410,7 @@ packages:
       prettier: 2.8.8
       puppeteer: 19.11.1_typescript@5.0.4
       rimraf: 3.0.2
-      sinon: 9.2.4
+      sinon: 15.2.0
       stoppable: 1.1.0
       ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.1
