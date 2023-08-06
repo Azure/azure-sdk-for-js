@@ -245,8 +245,8 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ## Next steps
 
-This code sample show common scenario operation with the Azure Health Insights Cancer Profiling library. More samples can be found under the [samples]("./samples-dev") directory.
-- Infer Cancer Profiling: [sample_infer_cancer_profiling.ts]("./samples-dev/sample_infer_cancer_profiling.ts")
+This code sample show common scenario operation with the Azure Health Insights Cancer Profiling library. More samples can be found under the [samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-cancerprofiling-rest/samples/v1-beta/typescript/src/) directory.
+- Infer Cancer Profiling: [sample_infer_cancer_profiling.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-cancerprofiling-rest/samples/v1-beta/typescript/src/sample_infer_cancer_profiling.ts)
 
 
 ### Additional documentation

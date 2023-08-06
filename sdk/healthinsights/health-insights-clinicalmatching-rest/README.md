@@ -187,15 +187,13 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ## Next steps
 
-This code sample show common scenario operation with the Azure Health Insights Clinical Matching library. More samples can be found under the [samples]("./samples-dev/") directory.
+This code sample show common scenario operation with the Azure Health Insights Clinical Matching library. More samples can be found under the [samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-clinicalmatching-rest/samples/v1-beta/typescript/src/) directory.
 
-- Match Trials FHIR: [sample_match_trials_fhir.py]("./samples-dev/sample_match_trials_fhir.ts")
+- Match Trials FHIR: [sample_match_trials_fhir.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-clinicalmatching-rest/samples/v1-beta/typescript/src/sample_match_trials_fhir.ts)
 
-- Match Trials Structured Coded Elements: [sample_match_trials_structured_coded_elements.py]("./samples-dev/sample_match_trials_structured_coded_elements.ts")
+- Match Trials Structured Coded Elements: [sample_match_trials_structured_coded_elements.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-clinicalmatching-rest/samples/v1-beta/typescript/src/sample_match_trials_structured_coded_elements.ts)
 
-- Match Trials Structured Coded Elements Sync: [sample_match_trials_structured_coded_elements_sync.py]("./samples-dev/sample_match_trials_structured_coded_elements_sync.ts")
-
-- Match Trials Unstructured Clinical Note: [sample_match_trials_unstructured_clinical_note.py]("./samples-dev/sample_match_trials_unstructured_clinical_note.ts")
+- Match Trials Unstructured Clinical Note: [sample_match_trials_unstructured_clinical_note.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-clinicalmatching-rest/samples/v1-beta/typescript/src/sample_match_trials_unstructured_clinical_note.ts)
 
 
 ### Additional documentation
