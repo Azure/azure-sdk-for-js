@@ -56,6 +56,6 @@ export interface CreateJobDefaultResponse extends HttpResponse {
 
 /** The final response for long-running createJob operation */
 export interface CreateJobLogicalResponse extends HttpResponse {
-  status: "200",
-  body: TrialMatcherResultOutput
+  status: "200";
+  body: TrialMatcherResultOutput;
 }
