@@ -225,6 +225,8 @@ export interface CreateJobHeaders {
 // @public
 export interface CreateJobLogicalResponse extends HttpResponse {
     // (undocumented)
+    body: TrialMatcherResultOutput;
+    // (undocumented)
     status: "200";
 }
 
