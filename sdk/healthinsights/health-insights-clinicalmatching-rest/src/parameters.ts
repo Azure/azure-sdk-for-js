@@ -22,6 +22,4 @@ export interface CreateJobHeaderParam {
   headers?: RawHttpHeadersInput & CreateJobHeaders;
 }
 
-export type CreateJobParameters = CreateJobHeaderParam &
-  CreateJobBodyParam &
-  RequestParameters;
+export type CreateJobParameters = CreateJobHeaderParam & CreateJobBodyParam & RequestParameters;
