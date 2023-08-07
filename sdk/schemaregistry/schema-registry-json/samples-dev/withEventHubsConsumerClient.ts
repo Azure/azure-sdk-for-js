@@ -68,8 +68,6 @@ export async function main() {
   );
 
   // Register the schema. This would generally have been done somewhere else.
-  // You can also skip this step and let `serialize` automatically register
-  // schemas using autoRegisterSchemas=true, but that is NOT recommended in production.
   await schemaRegistryClient.registerSchema(schemaDescription);
 
   // Create a new serializer backed by the client
@@ -88,12 +86,6 @@ export async function main() {
     {
       // The callback where you add your code to process incoming events
       processEvents: async (events, context) => {
-        // Note: It is possible for `events` to be an empty array.
-        // This can happen if there were no new events to receive
-        // in the `maxWaitTimeInSeconds`, which is defaulted to
-        // 60 seconds.
-        // The `maxWaitTimeInSeconds` can be changed by setting
-        // it in the `options` passed to `subscribe()`.
         for (const event of events) {
           console.log(
             `Received event: '${JSON.stringify(event)}' from partition: '${
@@ -102,7 +94,7 @@ export async function main() {
           );
           if (event.contentType !== undefined && event.body) {
             const contentTypeParts = event.contentType.split("+");
-            if (contentTypeParts[0] === "json/binary") {
+            if (contentTypeParts[0] === "application/json") {
               const deserializedEvent = await serializer.deserialize(event);
               console.log(`Deserialized message: '${JSON.stringify(deserializedEvent)}'`);
             }

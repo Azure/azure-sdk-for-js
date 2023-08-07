@@ -33,7 +33,7 @@ npm install @azure/schema-registry-json
 
 ### JsonSerializer
 
-Provides API to serialize to and deserialize from Json Binary Encoding wrapped in a message
+Provides API to serialize to and deserialize from JSON wrapped in a message
 with a content type field containing the schema ID. Uses
 `SchemaRegistryClient` from the [@azure/schema-registry](https://www.npmjs.com/package/@azure/schema-registry) package
 to get schema IDs from schema definition or vice versa. The provided API has internal cache to avoid calling the schema registry service when possible.
@@ -42,10 +42,7 @@ to get schema IDs from schema definition or vice versa. The provided API has int
 
 By default, the serializer will create messages structured as follows:
 
-- `data`: a byte array containing data in the Json Binary Encoding. Note that it
-  is NOT Json Object Container File. The latter includes the schema and creating
-  it defeats the purpose of using this serializer to move the schema out of the
-  message payload and into the schema registry.
+- `data`: a byte array containing JSON data.
 
 - `contentType`: a string of the following format `application/json+<Schema ID>` where
   the `application/json` part signals that this message has a Json-serialized payload
@@ -103,15 +100,15 @@ const message = await serializer.serialize(value, schema);
 const deserializedValue = await serializer.deserialize(message);
 ```
 
-Validation may be useful for your application since JSON deserialization is flexible. 
-Deserializing on its own will not verify that the value matches a given schema, 
-so implementing the validation method will be a much more reliable way to enforce schema adherance.
-To see how the validation might be implemented, please take a look at the `schemaRegistryJsonWithValidation.ts` 
-sample [here](https://github.com/Azure/azure-sdk-for-js/tree/schemaregistryjson-init/sdk/schemaregistry/schema-registry-json/samples-dev/schemaRegistryJsonWithValidation.ts)
+The serializer doesn't check whether the deserialized value matches the schema 
+but provides an option to implement such validation. The application can pass a 
+validation callback function as one of the options to the deserialize method where schema validation can be implemented.
+To see how the validation might be implemented, please checkout the [`schemaRegistryJsonWithValidation`](https://github.com/Azure/azure-sdk-for-js/tree/schemaregistryjson-init/sdk/schemaregistry/schema-registry-json/samples-dev/schemaRegistryJsonWithValidation.ts)
+sample.
 
 ## Troubleshooting
 
-The Json serializer communicates with the [Schema Registry][schema_registry] service as needed to register or query schemas and those service calls could throw a [RestError][resterror]. Furthermore, errors of type `Error` will be thrown when serialization or deserialization fails. The `cause` property will contain the underlying error that was thrown from the Json implementation library.
+The Json serializer communicates with the [Schema Registry][schema_registry] service as needed to register or query schemas and those service calls could throw a [RestError][resterror]. Furthermore, errors of type `Error` will be thrown when serialization or deserialization fails. The `cause` property will contain the underlying error that was thrown from the JSON parser.
 
 ### Logging
 

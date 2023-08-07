@@ -68,7 +68,7 @@ describe("Error scenarios", function () {
       await assert.isRejected(
         serializer.deserialize({
           data: Uint8Array.from([0]),
-          contentType: `application/json+${randomUUID()}`,
+          contentType: createContentType(randomUUID()),
         }),
         /does not exist/
       );
