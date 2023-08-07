@@ -198,7 +198,7 @@ export async function main() {
   if (isUnexpected(cancerProfilingResult)) {
     throw cancerProfilingResult;
   }
-  const resultBody = cancerProfilingResult.body as OncoPhenotypeResultOutput;
+  const resultBody = cancerProfilingResult.body;
   printResults(resultBody);
 
 }
