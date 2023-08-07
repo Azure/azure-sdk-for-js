@@ -1,10 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View } from 'react-native';
+
+import './shims';
+import {runAppConfigSample} from './appConfigSample';
 
 export default function App() {
   return (
     <View style={styles.container}>
       <Text>Open up App.js to start working on your app!</Text>
+      <Button title="Click me!" onPress={() => runAppConfigSample()} />
       <StatusBar style="auto" />
     </View>
   );
