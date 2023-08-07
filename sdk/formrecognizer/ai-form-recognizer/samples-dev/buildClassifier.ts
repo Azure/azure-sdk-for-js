@@ -42,14 +42,10 @@ async function main() {
       type1: {
         // `azureBlobSource` isn't the only way to provide training data to the service. For more information, see
         // the documentation of the `ClassifierDocumentTypeDetails` type.
-        azureBlobSource: {
-          containerUrl: trainingDataSasUrl1,
-        },
+        containerUrl: trainingDataSasUrl1,
       },
       type2: {
-        azureBlobSource: {
-          containerUrl: trainingDataSasUrl2,
-        },
+        containerUrl: trainingDataSasUrl2,
       },
     },
     {

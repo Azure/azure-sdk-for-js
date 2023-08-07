@@ -13,6 +13,7 @@ export class AdvisorManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AdvisorManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: AdvisorManagementClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -24,7 +25,7 @@ export class AdvisorManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     recommendations: Recommendations;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
     // (undocumented)
     suppressions: Suppressions;
 }
@@ -301,9 +302,6 @@ export type RecommendationsGetResponse = ResourceRecommendationBase;
 
 // @public
 export interface RecommendationsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -429,8 +427,6 @@ export type SuppressionsGetResponse = SuppressionContract;
 
 // @public
 export interface SuppressionsListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
-    top?: number;
 }
 
 // @public

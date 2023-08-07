@@ -124,7 +124,7 @@ export interface TransferCallToParticipantOptions extends OperationOptions {
   /** The Custom Context. */
   customContext?: CustomContext;
   /** Call back URI override for this request */
-  callbackUrlOverride?: string;
+  callbackUrl?: string;
   /** Participant that is being transferred away */
   transferee?: CommunicationIdentifier;
 }
@@ -139,7 +139,7 @@ export interface AddParticipantOptions extends OperationOptions {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
   /** Call back URI override for this request */
-  callbackUrlOverride?: string;
+  callbackUrl?: string;
 }
 
 /**
@@ -149,7 +149,7 @@ export interface RemoveParticipantsOption extends OperationOptions {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
   /** Call back URI override for this request */
-  callbackUrlOverride?: string;
+  callbackUrl?: string;
 }
 
 /**

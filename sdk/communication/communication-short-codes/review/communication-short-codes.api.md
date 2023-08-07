@@ -173,11 +173,11 @@ export interface ShortCode {
 
 // @public
 export interface ShortCodeCost {
-    amount: number;
-    billingFrequency: BillingFrequency;
-    countryCode: string;
-    currencyCode: string;
-    isVanityShortCode: boolean;
+    amount?: number;
+    billingFrequency?: BillingFrequency;
+    countryCode?: string;
+    currencyCode?: string;
+    isVanityShortCode?: boolean;
 }
 
 // @public (undocumented)

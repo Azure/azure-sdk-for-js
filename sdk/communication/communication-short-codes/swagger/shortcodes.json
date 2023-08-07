@@ -110,7 +110,7 @@
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink",
-          "itemName": "shortCodeCosts"
+          "itemName": "costs"
         },
         "x-ms-examples": {
           "List ShortCode Costs": {
@@ -1007,13 +1007,6 @@
     },
     "ShortCodeCost": {
       "description": "The incurred cost for a single short code.",
-      "required": [
-        "amount",
-        "billingFrequency",
-        "countryCode",
-        "currencyCode",
-        "isVanityShortCode"
-      ],
       "type": "object",
       "properties": {
         "amount": {
@@ -1051,7 +1044,7 @@
       "description": "A wrapper for a list of short code costs entities.",
       "type": "object",
       "properties": {
-        "shortCodeCosts": {
+        "costs": {
           "description": "List of short code costs.",
           "type": "array",
           "items": {

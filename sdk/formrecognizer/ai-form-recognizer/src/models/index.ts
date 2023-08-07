@@ -37,5 +37,11 @@ export {
   DocumentAnnotation,
   DocumentBarcode,
   DocumentFormula,
-  DocumentImage,
 } from "./documentElements";
+
+export {
+  DocumentModelContentSource,
+  DocumentClassifierContentSource,
+  AzureBlobFileListContentSource,
+  AzureBlobContentSource,
+} from "./contentSource";

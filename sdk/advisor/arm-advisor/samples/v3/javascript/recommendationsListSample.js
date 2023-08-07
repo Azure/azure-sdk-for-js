@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AdvisorManagementClient } = require("@azure/arm-advisor");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Obtains cached recommendations for a subscription. The recommendations are generated or computed by invoking generateRecommendations.
@@ -18,7 +19,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2020-01-01/examples/ListRecommendations.json
  */
 async function listRecommendations() {
-  const subscriptionId = "subscriptionId";
+  const subscriptionId = process.env["ADVISOR_SUBSCRIPTION_ID"] || "subscriptionId";
   const top = 10;
   const options = { top };
   const credential = new DefaultAzureCredential();
@@ -30,4 +31,8 @@ async function listRecommendations() {
   console.log(resArray);
 }
 
-listRecommendations().catch(console.error);
+async function main() {
+  listRecommendations();
+}
+
+main().catch(console.error);

@@ -9,9 +9,9 @@
         "Connection": "keep-alive",
         "Content-Length": "197",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-messaging-notificationhubs/1.0.0-beta.9 core-rest-pipeline/1.10.1 Node/v19.2.0 OS/(arm64-Darwin-22.2.0)",
+        "User-Agent": "azsdk-js-messaging-notificationhubs/1.0.3 core-rest-pipeline/1.11.1 Node/v18.17.0 OS/(arm64-Darwin-22.6.0)",
         "x-ms-azsdk-telemetry": "class=NotificationHubsServiceClient;method=createOrUpdateInstallation",
-        "x-ms-client-request-id": "4c01da17-31b4-495a-9487-4ce3aa55f7c0",
+        "x-ms-client-request-id": "14a71718-7129-4b0b-a2dd-f43cce1a049d",
         "x-ms-version": "2020-06"
       },
       "RequestBody": {
@@ -26,12 +26,11 @@
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Length": "0",
-        "Content-Type": "application/xml; charset=utf-8",
-        "Date": "Wed, 14 Dec 2022 20:24:15 GMT",
-        "Server": "Microsoft-HTTPAPI/2.0",
+        "Date": "Thu, 03 Aug 2023 15:53:54 GMT",
+        "Server": "Kestrel",
         "Strict-Transport-Security": "max-age=2592000",
-        "TrackingId": "7fbf5a66-8361-4475-b757-f4b701270780",
-        "x-ms-correlation-request-id": "821d8fe8-b54f-450a-91aa-389d299893c8"
+        "TrackingId": "592794a2-412c-4a7b-a155-d13ef96b8fd0",
+        "x-ms-correlation-request-id": "c374e1d0-84b6-4644-ad4f-0313e2902074"
       },
       "ResponseBody": null
     },
@@ -42,21 +41,19 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-messaging-notificationhubs/1.0.0-beta.9 core-rest-pipeline/1.10.1 Node/v19.2.0 OS/(arm64-Darwin-22.2.0)",
+        "User-Agent": "azsdk-js-messaging-notificationhubs/1.0.3 core-rest-pipeline/1.11.1 Node/v18.17.0 OS/(arm64-Darwin-22.6.0)",
         "x-ms-azsdk-telemetry": "class=NotificationHubsServiceClient;method=deleteInstallation",
-        "x-ms-client-request-id": "2e72a571-8e32-4146-838f-e2bfa1a39edc",
+        "x-ms-client-request-id": "d97692d5-e999-4a3a-9245-dfa4c2a095c9",
         "x-ms-version": "2020-06"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
-        "Content-Length": "0",
-        "Content-Type": "application/xml; charset=utf-8",
-        "Date": "Wed, 14 Dec 2022 20:24:16 GMT",
-        "Server": "Microsoft-HTTPAPI/2.0",
+        "Date": "Thu, 03 Aug 2023 15:53:54 GMT",
+        "Server": "Kestrel",
         "Strict-Transport-Security": "max-age=2592000",
-        "TrackingId": "e6a657e5-7f88-4d18-8d5a-c940af2f27f4",
-        "x-ms-correlation-request-id": "79b03ef4-5d4f-4693-a47f-6567e5e04cba"
+        "TrackingId": "c7f77b63-f46d-4327-9f2d-c2ae8e8228dd",
+        "x-ms-correlation-request-id": "9d79f304-c605-45b6-938b-8be387de1250"
       },
       "ResponseBody": null
     }

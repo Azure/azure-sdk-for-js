@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AccessToken, TokenCredential } from "@azure/core-auth";
 import { signString } from "./hmacSha256.js";
 
 /**
@@ -19,63 +20,12 @@ export interface NamedKeyCredential {
 }
 
 /**
- * Represents an access token for a SAS Credential.
- */
-export interface AccessToken {
-  /**
-   * The SAS Token.
-   */
-  token: string;
-
-  /**
-   * The expiration time of the token.
-   */
-  expiresOnTimestamp: number;
-}
-
-/**
- * A SasTokenProvider provides an alternative to TokenCredential for providing an `AccessToken`.
- * @hidden
- */
-export interface SasTokenProvider {
-  /**
-   * Property used to distinguish SasTokenProvider from TokenCredential.
-   */
-  isSasTokenProvider: true;
-
-  /**
-   * Gets the token provided by this provider.
-   *
-   * This method is called automatically by Azure SDK client libraries.
-   *
-   * @param audience - The audience for which the token is desired.
-   */
-  getToken(audience: string): Promise<AccessToken>;
-}
-
-/**
- * Creates a token provider from the provided shared access data.
- * @param data - The sharedAccessKeyName/sharedAccessKey pair or the sharedAccessSignature.
- * @hidden
- */
-export function createSasTokenProvider(data: NamedKeyCredential): SasTokenProvider {
-  return new SasTokenProviderImpl(data);
-}
-
-/**
  * A TokenProvider that generates a Sas token:
  * `SharedAccessSignature sr=<resource>&sig=<signature>&se=<expiry>&skn=<keyname>`
  *
  * @internal
  */
-export class SasTokenProviderImpl implements SasTokenProvider {
-  /**
-   * Property used to distinguish TokenProvider from TokenCredential.
-   */
-  get isSasTokenProvider(): true {
-    return true;
-  }
-
+export class SasTokenCredential implements TokenCredential {
   /**
    * The SASCredential containing the key name and secret key value.
    */
@@ -91,9 +41,10 @@ export class SasTokenProviderImpl implements SasTokenProvider {
 
   /**
    * Gets the sas token for the specified audience
-   * @param audience - The audience for which the token is desired.
+   * @param scopes - The scope for which the token is desired.
    */
-  async getToken(audience: string): Promise<AccessToken> {
+  async getToken(scopes: string | string[]): Promise<AccessToken | null> {
+    const audience = Array.isArray(scopes) ? scopes[0] : scopes;
     return createToken(
       this._credential.sharedAccessKeyName,
       this._credential.sharedAccessKey,
