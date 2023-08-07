@@ -1192,12 +1192,6 @@ export interface BareMetalMachineRunReadCommandsParameters {
   limitTimeSeconds: number;
 }
 
-/** BareMetalMachineValidateHardwareParameters represents the body of the request to validate the physical hardware of a bare metal machine. */
-export interface BareMetalMachineValidateHardwareParameters {
-  /** The category of hardware validation to perform. */
-  validationCategory: BareMetalMachineHardwareValidationCategory;
-}
-
 /** CloudServicesNetworkPatchParameters represents the body of the request to patch the cloud services network. */
 export interface CloudServicesNetworkPatchParameters {
   /** The Azure resource tags that will replace the existing ones. */
@@ -1406,25 +1400,6 @@ export interface StorageApplianceEnableRemoteVendorManagementParameters {
   supportEndpoints?: string[];
 }
 
-/** StorageApplianceRunReadCommandsParameters represents the body of request containing list of read-only commands to run for a storage appliance. */
-export interface StorageApplianceRunReadCommandsParameters {
-  /** The list of read-only commands to run. */
-  commands: StorageApplianceCommandSpecification[];
-  /**
-   * The maximum time the commands are allowed to run.
-   * If the execution time exceeds the maximum, the script will be stopped, any output produced until then will be captured, and the exit code matching a timeout will be returned (252).
-   */
-  limitTimeSeconds: number;
-}
-
-/** StorageApplianceCommandSpecification represents the read-only command and optional arguments to execute against a storage appliance. */
-export interface StorageApplianceCommandSpecification {
-  /** The list of string arguments that will be passed to the script in order as separate arguments. */
-  arguments?: string[];
-  /** The read-only command to execute against the storage appliance. */
-  command: string;
-}
-
 /** TrunkedNetworkPatchParameters represents the body of the request to patch the Trunked network. */
 export interface TrunkedNetworkPatchParameters {
   /** The Azure resource tags that will replace the existing ones. */
@@ -1437,12 +1412,6 @@ export interface VirtualMachinePatchParameters {
   tags?: { [propertyName: string]: string };
   /** The credentials used to login to the image repository that has access to the specified image. */
   vmImageRepositoryCredentials?: ImageRepositoryCredentials;
-}
-
-/** VirtualMachineVolumeParameters represents the body of the request to handle attachment and detachment of volumes for the virtual machine. */
-export interface VirtualMachineVolumeParameters {
-  /** The resource ID of the volume. */
-  volumeId: string;
 }
 
 /** ConsoleList represents a list of virtual machine consoles. */
@@ -2576,12 +2545,6 @@ export interface BareMetalMachinesUncordonHeaders {
   location?: string;
 }
 
-/** Defines headers for BareMetalMachines_validateHardware operation. */
-export interface BareMetalMachinesValidateHardwareHeaders {
-  /** The URL to retrieve the status of the asynchronous operation. */
-  location?: string;
-}
-
 /** Defines headers for CloudServicesNetworks_createOrUpdate operation. */
 export interface CloudServicesNetworksCreateOrUpdateHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
@@ -2738,12 +2701,6 @@ export interface StorageAppliancesEnableRemoteVendorManagementHeaders {
   location?: string;
 }
 
-/** Defines headers for StorageAppliances_runReadCommands operation. */
-export interface StorageAppliancesRunReadCommandsHeaders {
-  /** The URL to retrieve the status of the asynchronous operation. */
-  location?: string;
-}
-
 /** Defines headers for TrunkedNetworks_createOrUpdate operation. */
 export interface TrunkedNetworksCreateOrUpdateHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
@@ -2772,18 +2729,6 @@ export interface VirtualMachinesDeleteHeaders {
 export interface VirtualMachinesUpdateHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
   azureAsyncOperation?: string;
-}
-
-/** Defines headers for VirtualMachines_attachVolume operation. */
-export interface VirtualMachinesAttachVolumeHeaders {
-  /** The URL to retrieve the status of the asynchronous operation. */
-  location?: string;
-}
-
-/** Defines headers for VirtualMachines_detachVolume operation. */
-export interface VirtualMachinesDetachVolumeHeaders {
-  /** The URL to retrieve the status of the asynchronous operation. */
-  location?: string;
 }
 
 /** Defines headers for VirtualMachines_powerOff operation. */
@@ -4559,21 +4504,6 @@ export enum KnownBareMetalMachineSkipShutdown {
  */
 export type BareMetalMachineSkipShutdown = string;
 
-/** Known values of {@link BareMetalMachineHardwareValidationCategory} that the service accepts. */
-export enum KnownBareMetalMachineHardwareValidationCategory {
-  /** BasicValidation */
-  BasicValidation = "BasicValidation"
-}
-
-/**
- * Defines values for BareMetalMachineHardwareValidationCategory. \
- * {@link KnownBareMetalMachineHardwareValidationCategory} can be used interchangeably with BareMetalMachineHardwareValidationCategory,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **BasicValidation**
- */
-export type BareMetalMachineHardwareValidationCategory = string;
-
 /** Known values of {@link BareMetalMachineKeySetDetailedStatus} that the service accepts. */
 export enum KnownBareMetalMachineKeySetDetailedStatus {
   /** AllActive */
@@ -5108,18 +5038,6 @@ export interface BareMetalMachinesUncordonOptionalParams
 
 /** Contains response data for the uncordon operation. */
 export type BareMetalMachinesUncordonResponse = BareMetalMachinesUncordonHeaders;
-
-/** Optional parameters. */
-export interface BareMetalMachinesValidateHardwareOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the validateHardware operation. */
-export type BareMetalMachinesValidateHardwareResponse = BareMetalMachinesValidateHardwareHeaders;
 
 /** Optional parameters. */
 export interface BareMetalMachinesListBySubscriptionNextOptionalParams
@@ -5752,18 +5670,6 @@ export interface StorageAppliancesEnableRemoteVendorManagementOptionalParams
 export type StorageAppliancesEnableRemoteVendorManagementResponse = StorageAppliancesEnableRemoteVendorManagementHeaders;
 
 /** Optional parameters. */
-export interface StorageAppliancesRunReadCommandsOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the runReadCommands operation. */
-export type StorageAppliancesRunReadCommandsResponse = StorageAppliancesRunReadCommandsHeaders;
-
-/** Optional parameters. */
 export interface StorageAppliancesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -5898,30 +5804,6 @@ export interface VirtualMachinesUpdateOptionalParams
 
 /** Contains response data for the update operation. */
 export type VirtualMachinesUpdateResponse = VirtualMachine;
-
-/** Optional parameters. */
-export interface VirtualMachinesAttachVolumeOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the attachVolume operation. */
-export type VirtualMachinesAttachVolumeResponse = VirtualMachinesAttachVolumeHeaders;
-
-/** Optional parameters. */
-export interface VirtualMachinesDetachVolumeOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the detachVolume operation. */
-export type VirtualMachinesDetachVolumeResponse = VirtualMachinesDetachVolumeHeaders;
 
 /** Optional parameters. */
 export interface VirtualMachinesPowerOffOptionalParams

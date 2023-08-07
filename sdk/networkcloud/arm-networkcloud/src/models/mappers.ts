@@ -2921,22 +2921,6 @@ export const BareMetalMachineRunReadCommandsParameters: coreClient.CompositeMapp
   }
 };
 
-export const BareMetalMachineValidateHardwareParameters: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BareMetalMachineValidateHardwareParameters",
-    modelProperties: {
-      validationCategory: {
-        serializedName: "validationCategory",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const CloudServicesNetworkPatchParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3568,69 +3552,6 @@ export const StorageApplianceEnableRemoteVendorManagementParameters: coreClient.
   }
 };
 
-export const StorageApplianceRunReadCommandsParameters: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "StorageApplianceRunReadCommandsParameters",
-    modelProperties: {
-      commands: {
-        constraints: {
-          MinItems: 1
-        },
-        serializedName: "commands",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "StorageApplianceCommandSpecification"
-            }
-          }
-        }
-      },
-      limitTimeSeconds: {
-        constraints: {
-          InclusiveMaximum: 14400,
-          InclusiveMinimum: 60
-        },
-        serializedName: "limitTimeSeconds",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const StorageApplianceCommandSpecification: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "StorageApplianceCommandSpecification",
-    modelProperties: {
-      arguments: {
-        serializedName: "arguments",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      command: {
-        serializedName: "command",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const TrunkedNetworkPatchParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3664,22 +3585,6 @@ export const VirtualMachinePatchParameters: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ImageRepositoryCredentials"
-        }
-      }
-    }
-  }
-};
-
-export const VirtualMachineVolumeParameters: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "VirtualMachineVolumeParameters",
-    modelProperties: {
-      volumeId: {
-        serializedName: "volumeId",
-        required: true,
-        type: {
-          name: "String"
         }
       }
     }
@@ -6345,21 +6250,6 @@ export const BareMetalMachinesUncordonHeaders: coreClient.CompositeMapper = {
   }
 };
 
-export const BareMetalMachinesValidateHardwareHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BareMetalMachinesValidateHardwareHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const CloudServicesNetworksCreateOrUpdateHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -6750,21 +6640,6 @@ export const StorageAppliancesEnableRemoteVendorManagementHeaders: coreClient.Co
   }
 };
 
-export const StorageAppliancesRunReadCommandsHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "StorageAppliancesRunReadCommandsHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const TrunkedNetworksCreateOrUpdateHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -6832,36 +6707,6 @@ export const VirtualMachinesUpdateHeaders: coreClient.CompositeMapper = {
     modelProperties: {
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const VirtualMachinesAttachVolumeHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "VirtualMachinesAttachVolumeHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const VirtualMachinesDetachVolumeHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "VirtualMachinesDetachVolumeHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
         type: {
           name: "String"
         }
