@@ -49,7 +49,7 @@ export interface AnalyzedDocument {
 
 // @public
 export interface AnalyzeDocumentOptions<Result = AnalyzeResult<AnalyzedDocument>> extends OperationOptions, PollerOptions<DocumentAnalysisPollOperationState<Result>> {
-    features?: string[];
+    features?: FormRecognizerFeature[];
     locale?: string;
     pages?: string;
 }
@@ -67,7 +67,7 @@ export interface AnalyzeResult<Document = AnalyzedDocument> extends AnalyzeResul
 
 // @public
 export interface AnalyzeResultCommon {
-    apiVersion: FormRecognizerApiVersion;
+    apiVersion: string;
     content: string;
     modelId: string;
 }
@@ -76,15 +76,27 @@ export interface AnalyzeResultCommon {
 export type AnalyzeResultOperationStatus = "notStarted" | "running" | "failed" | "succeeded";
 
 // @public
-export interface AzureBlobContentSource {
-    containerUrl: string;
-    prefix?: string;
+export interface AzureBlobFileListSource {
+    azureBlobFileListSource: AzureBlobFileListSourceDetails;
+    azureBlobSource?: undefined;
 }
 
 // @public
-export interface AzureBlobFileListContentSource {
+export interface AzureBlobFileListSourceDetails {
     containerUrl: string;
     fileList: string;
+}
+
+// @public
+export interface AzureBlobSource {
+    azureBlobFileListSource?: undefined;
+    azureBlobSource: AzureBlobSourceDetails;
+}
+
+// @public
+export interface AzureBlobSourceDetails {
+    containerUrl: string;
+    prefix?: string;
 }
 
 export { AzureKeyCredential }
@@ -113,8 +125,8 @@ export interface BoundingRegion extends HasBoundingPolygon {
 
 // @public
 export interface ClassifierDocumentTypeDetails {
-    azureBlobFileListSource?: AzureBlobFileListContentSource;
-    azureBlobSource?: AzureBlobContentSource;
+    azureBlobFileListSource?: AzureBlobFileListSourceDetails;
+    azureBlobSource?: AzureBlobSourceDetails;
 }
 
 // @public
@@ -181,7 +193,7 @@ export class DocumentAnalysisClient {
 }
 
 // @public
-export interface DocumentAnalysisClientOptions extends FormRecognizerCommonClientOptions {
+export interface DocumentAnalysisClientOptions extends CommonClientOptions {
     stringIndexType?: StringIndexType;
 }
 
@@ -238,9 +250,6 @@ export interface DocumentClassifierBuildOperationDetails extends OperationDetail
 }
 
 // @public
-export type DocumentClassifierContentSource = AzureBlobContentSource | AzureBlobFileListContentSource;
-
-// @public
 export interface DocumentClassifierDetails {
     apiVersion: string;
     classifierId: string;
@@ -253,11 +262,19 @@ export interface DocumentClassifierDetails {
 }
 
 // @public
+export interface DocumentClassifierDocumentTypeSources {
+    [docType: string]: DocumentClassifierSource;
+}
+
+// @public
 export interface DocumentClassifierOperationState extends PollOperationState<DocumentClassifierDetails>, ModelAdministrationOperationStateCommon {
 }
 
 // @public
 export type DocumentClassifierPoller = PollerLike<DocumentClassifierOperationState, DocumentClassifierDetails>;
+
+// @public
+export type DocumentClassifierSource = AzureBlobSource | AzureBlobFileListSource;
 
 // @public
 export interface DocumentCountryRegionField extends DocumentFieldCommon {
@@ -354,7 +371,7 @@ export interface DocumentLine extends HasBoundingPolygon {
 
 // @public
 export interface DocumentModel<Result> {
-    apiVersion?: FormRecognizerApiVersion;
+    apiVersion?: string;
     modelId: string;
     transformResult: (input: AnalyzeResult) => Result;
 }
@@ -364,11 +381,9 @@ export class DocumentModelAdministrationClient {
     constructor(endpoint: string, credential: TokenCredential, options?: DocumentModelAdministrationClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: DocumentModelAdministrationClientOptions);
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: DocumentModelAdministrationClientOptions);
-    beginBuildDocumentClassifier(classifierId: string, docTypes: {
-        [docType: string]: DocumentClassifierContentSource;
-    }, options?: BeginBuildDocumentClassifierOptions): Promise<DocumentClassifierPoller>;
+    beginBuildDocumentClassifier(classifierId: string, docTypeSources: DocumentClassifierDocumentTypeSources, options?: BeginBuildDocumentClassifierOptions): Promise<DocumentClassifierPoller>;
     beginBuildDocumentModel(modelId: string, containerUrl: string, buildMode: DocumentModelBuildMode, options?: BeginBuildDocumentModelOptions): Promise<DocumentModelPoller>;
-    beginBuildDocumentModel(modelId: string, contentSource: DocumentModelContentSource, buildMode: DocumentModelBuildMode, options?: BeginBuildDocumentModelOptions): Promise<DocumentModelPoller>;
+    beginBuildDocumentModel(modelId: string, contentSource: DocumentModelSource, buildMode: DocumentModelBuildMode, options?: BeginBuildDocumentModelOptions): Promise<DocumentModelPoller>;
     beginComposeDocumentModel(modelId: string, componentModelIds: Iterable<string>, options?: BeginComposeDocumentModelOptions): Promise<DocumentModelPoller>;
     beginCopyModelTo(sourceModelId: string, authorization: CopyAuthorization, options?: BeginCopyModelOptions): Promise<DocumentModelPoller>;
     deleteDocumentClassifier(classifierId: string, options?: OperationOptions): Promise<void>;
@@ -384,7 +399,7 @@ export class DocumentModelAdministrationClient {
 }
 
 // @public
-export interface DocumentModelAdministrationClientOptions extends FormRecognizerCommonClientOptions {
+export interface DocumentModelAdministrationClientOptions extends CommonClientOptions {
 }
 
 // @public
@@ -407,9 +422,6 @@ export interface DocumentModelComposeOperationDetails extends OperationDetails {
     kind: "documentModelCompose";
     result?: DocumentModelDetails;
 }
-
-// @public
-export type DocumentModelContentSource = AzureBlobContentSource | AzureBlobFileListContentSource;
 
 // @public
 export interface DocumentModelCopyToOperationDetails extends OperationDetails {
@@ -438,6 +450,9 @@ export interface DocumentModelOperationState extends PollOperationState<Document
 
 // @public
 export type DocumentModelPoller = PollerLike<DocumentModelOperationState, DocumentModelDetails>;
+
+// @public
+export type DocumentModelSource = AzureBlobSource | AzureBlobFileListSource;
 
 // @public
 export interface DocumentModelSummary {
@@ -608,24 +623,9 @@ export type FontStyle = string;
 export type FontWeight = string;
 
 // @public
-export type FormRecognizerApiVersion = (typeof FormRecognizerApiVersion)[keyof typeof FormRecognizerApiVersion];
-
-// @public
-export const FormRecognizerApiVersion: {
-    readonly Latest: "2023-07-31";
-    readonly Stable: "2023-07-31";
-    readonly "2022-08-31": "2022-08-31";
-};
-
-// @public
-export interface FormRecognizerCommonClientOptions extends CommonClientOptions {
-    apiVersion?: FormRecognizerApiVersion;
-}
-
-// @public
 export type FormRecognizerFeature = (typeof FormRecognizerFeature)[keyof typeof FormRecognizerFeature] | (string & {});
 
-// @public (undocumented)
+// @public
 export const FormRecognizerFeature: {
     readonly Fonts: "styleFont";
     readonly OcrHighResolution: "ocrHighResolution";
@@ -813,7 +813,7 @@ export interface OperationDetails {
     };
 }
 
-// @public (undocumented)
+// @public
 export type OperationDetailsUnion = OperationDetails | DocumentModelBuildOperationDetails | DocumentModelComposeOperationDetails | DocumentModelCopyToOperationDetails | DocumentClassifierBuildOperationDetails;
 
 // @public
