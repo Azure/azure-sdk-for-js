@@ -4265,24 +4265,9 @@ packages:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
     dev: false
 
-  /concurrently/6.5.1:
-    resolution: {integrity: sha512-FlSwNpGjWQfRwPLXvJ/OgysbBxPkWpiVjy1042b0U7on7S7qwwMIILRj7WTN1mTgqa582bG6NFuScOoh6Zgdag==}
-    engines: {node: '>=10.0.0'}
-    hasBin: true
-    dependencies:
-      chalk: 4.1.2
-      date-fns: 2.30.0
-      lodash: 4.17.21
-      rxjs: 6.6.7
-      spawn-command: 0.0.2-1
-      supports-color: 8.1.1
-      tree-kill: 1.2.2
-      yargs: 16.2.0
-    dev: false
-
-  /concurrently/7.6.0:
-    resolution: {integrity: sha512-BKtRgvcJGeZ4XttiDiNcFiRlxoAeZOseqUvyYRUp/Vtd+9p1ULmeoSqGsDA+2ivdeDFpqrJvGvmI+StKfKl5hw==}
-    engines: {node: ^12.20.0 || ^14.13.0 || >=16.0.0}
+  /concurrently/8.2.0:
+    resolution: {integrity: sha512-nnLMxO2LU492mTUj9qX/az/lESonSZu81UznYDoXtz1IQf996ixVqPAgHXwvHiHCAef/7S8HIK+fTFK7Ifk8YA==}
+    engines: {node: ^14.13.0 || >=16.0.0}
     hasBin: true
     dependencies:
       chalk: 4.1.2
@@ -4290,7 +4275,7 @@ packages:
       lodash: 4.17.21
       rxjs: 7.8.1
       shell-quote: 1.8.1
-      spawn-command: 0.0.2-1
+      spawn-command: 0.0.2
       supports-color: 8.1.1
       tree-kill: 1.2.2
       yargs: 17.7.2
@@ -9617,8 +9602,8 @@ packages:
     engines: {node: '>= 8'}
     dev: false
 
-  /spawn-command/0.0.2-1:
-    resolution: {integrity: sha512-n98l9E2RMSJ9ON1AKisHzz7V42VDiBQGY6PB1BwRglz99wpVsSuGzQ+jOi6lFXBGVTCrRpltvjm+/XA+tpeJrg==}
+  /spawn-command/0.0.2:
+    resolution: {integrity: sha512-zC8zGoGkmc8J9ndvml8Xksr1Amk9qBujgbF0JAIWO7kXr43w0h/0GJNM/Vustixu+YE8N/MTrQ7N31FvHUACxQ==}
     dev: false
 
   /spawn-wrap/2.0.0:
@@ -18842,7 +18827,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-JKB9w9L05hVqdXANjJZEU/6UityYviuZy7t1j+LoQmXkozwg9DCeNcG8jV2TAV8QTSJ12BmMdSmAa+S1UWeDSg==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-tn/C0N/B7CCcb3Ng09j3rfVAXGf9iJXgw3s6VTLKPHNjCCBE2KEFOZb8xmvE+49h4kf02bWSQbIbM2oR1Z37ZA==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -18868,7 +18853,7 @@ packages:
       chai: 4.3.7
       chai-as-promised: 7.1.1_chai@4.3.7
       chalk: 4.1.2
-      concurrently: 7.6.0
+      concurrently: 8.2.0
       cross-env: 7.0.3
       decompress: 4.2.1
       dotenv: 16.3.1
@@ -20500,13 +20485,13 @@ packages:
     dev: false
 
   file:projects/perf-core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-Z/EIj7GJ8QD6L7TB1BeRIUdFBcmN3PLudTevcBNR3dgi6/vWc+aMwMuDei7HrGUn+Vdfuzy/c8pff5BUZ275vQ==, tarball: file:projects/perf-core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-t5LVffH+X5AxPQi79t6Nm90R/SMu3TrUaUOUz17SALU+rpuGFuab0Dol6SHJz5QUAUSnOXlW+rwIPNv4A4X9nA==, tarball: file:projects/perf-core-rest-pipeline.tgz}
     name: '@rush-temp/perf-core-rest-pipeline'
     version: 0.0.0
     dependencies:
       '@types/express': 4.17.17
       '@types/node': 16.18.39
-      concurrently: 6.5.1
+      concurrently: 8.2.0
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.46.0
@@ -21985,7 +21970,7 @@ packages:
     dev: false
 
   file:projects/test-recorder.tgz:
-    resolution: {integrity: sha512-HGwnbweJs9HjFjKYEkMs392pfHzMytKbbtb5w862bz+zDJtCJ5vmVRPCdogHDTJKc2dWnNnZneejPwXUzG1z8A==, tarball: file:projects/test-recorder.tgz}
+    resolution: {integrity: sha512-iGSqTpodj/UITSejJyZNdoNLrkBeYn2R2nNSluvsNYNEHFyx0dDfH4twZf4uGovsVLhM3Xj3MD+1TMYuYp9Kqg==, tarball: file:projects/test-recorder.tgz}
     name: '@rush-temp/test-recorder'
     version: 0.0.0
     dependencies:
@@ -21996,7 +21981,7 @@ packages:
       '@types/node': 14.18.54
       '@types/uuid': 8.3.4
       chai: 4.3.7
-      concurrently: 7.6.0
+      concurrently: 8.2.0
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.46.0
