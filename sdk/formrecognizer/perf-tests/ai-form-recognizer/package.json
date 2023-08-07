@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure/ai-form-recognizer": "^4.0.0",
+    "@azure/ai-form-recognizer": "^5.0.0",
     "@azure/identity": "^2.0.1",
     "@azure/test-utils-perf": "^1.0.0",
     "@azure/core-util": "^1.3.1",
