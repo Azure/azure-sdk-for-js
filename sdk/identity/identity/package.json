@@ -26,6 +26,7 @@
     "./dist-esm/src/credentials/azureApplicationCredential.js": "./dist-esm/src/credentials/azureApplicationCredential.browser.js",
     "./dist-esm/src/credentials/onBehalfOfCredential.js": "./dist-esm/src/credentials/onBehalfOfCredential.browser.js",
     "./dist-esm/src/credentials/workloadIdentityCredential.js": "./dist-esm/src/credentials/workloadIdentityCredential.browser.js",
+    "./dist-esm/src/msal/utils.js": "./dist-esm/src/msal/utils.browser.js",
     "./dist-esm/src/util/authHostEnv.js": "./dist-esm/src/util/authHostEnv.browser.js",
     "./dist-esm/src/util/processMultiTenantRequest.js": "./dist-esm/src/util/processMultiTenantRequest.browser.js",
     "./dist-esm/src/tokenCache/TokenCachePersistence.js": "./dist-esm/src/tokenCache/TokenCachePersistence.browser.js",
@@ -112,9 +113,8 @@
     "@azure/core-tracing": "^1.0.0",
     "@azure/core-util": "^1.0.0",
     "@azure/logger": "^1.0.0",
-    "@azure/msal-browser": "^2.38.2",
-    "@azure/msal-common": "^13.3.0",
-    "@azure/msal-node": "^1.18.3",
+    "@azure/msal-browser": "^3.1.0",
+    "@azure/msal-node": "^2.2.0-alpha.0",
     "events": "^3.0.0",
     "jws": "^4.0.0",
     "open": "^8.0.0",
@@ -161,7 +161,6 @@
     "ts-node": "^10.0.0",
     "typescript": "~5.0.0",
     "util": "^0.12.1",
-    "uuid": "^8.3.2",
     "esm": "^3.2.18"
   }
 }
