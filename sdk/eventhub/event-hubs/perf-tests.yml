@@ -30,7 +30,7 @@ Tests:
   Arguments:
   - --event-size 1024 --batch-size 100 --parallel 64
 
-- Test: receive-events
+- Test: process-events-batch
   Class: SubscribeTest
   Arguments:
   - --event-size 1024 --max-batch-size 100 --events 1000000

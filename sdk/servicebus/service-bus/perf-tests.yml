@@ -36,7 +36,7 @@ Tests:
   Arguments:
   - --size 10240 --batch-size 10
 
-- Test: receive-queue-messages
+- Test: process-queue-messages
   Class: SubscribeTest
   Arguments:
   - --message-size 2000 --messages 10000 --mcc 1000
