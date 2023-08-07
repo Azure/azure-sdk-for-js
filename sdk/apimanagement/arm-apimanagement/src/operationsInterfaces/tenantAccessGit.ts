@@ -16,7 +16,7 @@ import {
 export interface TenantAccessGit {
   /**
    * Regenerate primary access key for GIT.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param accessName The identifier of the Access configuration.
    * @param options The options parameters.
@@ -29,7 +29,7 @@ export interface TenantAccessGit {
   ): Promise<void>;
   /**
    * Regenerate secondary access key for GIT.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param accessName The identifier of the Access configuration.
    * @param options The options parameters.

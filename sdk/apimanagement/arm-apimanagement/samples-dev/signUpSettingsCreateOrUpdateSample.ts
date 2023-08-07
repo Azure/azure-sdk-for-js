@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Create or Update Sign-Up settings.
  *
  * @summary Create or Update Sign-Up settings.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementPortalSettingsPutSignUp.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementPortalSettingsPutSignUp.json
  */
 async function apiManagementPortalSettingsUpdateSignUp() {
   const subscriptionId =

@@ -27,7 +27,7 @@ import {
 export interface ApiIssue {
   /**
    * Lists all issues associated with the specified API.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -40,7 +40,7 @@ export interface ApiIssue {
   ): PagedAsyncIterableIterator<IssueContract>;
   /**
    * Gets the entity state (Etag) version of the Issue for an API specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
@@ -55,7 +55,7 @@ export interface ApiIssue {
   ): Promise<ApiIssueGetEntityTagResponse>;
   /**
    * Gets the details of the Issue for an API specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
@@ -70,7 +70,7 @@ export interface ApiIssue {
   ): Promise<ApiIssueGetResponse>;
   /**
    * Creates a new Issue for an API or updates an existing one.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
@@ -87,7 +87,7 @@ export interface ApiIssue {
   ): Promise<ApiIssueCreateOrUpdateResponse>;
   /**
    * Updates an existing issue for an API.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
@@ -107,7 +107,7 @@ export interface ApiIssue {
   ): Promise<ApiIssueUpdateResponse>;
   /**
    * Deletes the specified Issue from an API.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
