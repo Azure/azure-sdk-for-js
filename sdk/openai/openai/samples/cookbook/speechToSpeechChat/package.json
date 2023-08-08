@@ -1,7 +1,7 @@
 {
   "name": "azure-openai-speech-to-speech-chat",
   "version": "1.0.0",
-  "description": "SPA to demonstrate Speech to Speech chat using Azure OpenAI and Azure JS Speech SDK",
+  "description": "SPA to demonstrate Speech to Speech chat using Azure OpenAI and Azure Speech JS SDKs",
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode=production --node-env=production",
