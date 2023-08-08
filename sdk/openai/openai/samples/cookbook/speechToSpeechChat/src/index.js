@@ -26,13 +26,13 @@ function startChatFromSpeech() {
 
   recognizer.canceled = (s, e) => {
     console.log(e);
-    statusDiv.innerHTML = "(Recognition Canceled) Reason: " + SpeechSDK.CancellationReason[e.reason];
+    statusDiv.innerHTML = `(Recognition Canceled) Reason: ${SpeechSDK.CancellationReason[e.reason]}`;
     if (e.reason === SpeechSDK.CancellationReason.Error) {
-        statusDiv.innerHTML += ": " + e.errorDetails;
+        statusDiv.innerHTML += `: ${e.errorDetails}`;
     }
     statusDiv.innerHTML += "\r\n";
     recognizer.close();
-    recognizer = undefined;
+    recognizer = null;
   };
 
   try {
@@ -42,7 +42,7 @@ function startChatFromSpeech() {
       function (err) {
         window.console.log(err);
         recognizer.close();
-        recognizer = undefined;
+        recognizer = null;
       });
   } catch (e) {
     console.log(e);
@@ -52,10 +52,10 @@ function startChatFromSpeech() {
 function sendTextToChatGPT(text) {
   if (!client) {
     const deploymentId = document.getElementById("deploymentId");
-    const azureKey = document.getElementById("azureKey");
+    const azureOpenAIKey = document.getElementById("azureOpenAIKey");
     const endpoint = document.getElementById("endpoint");
 
-    const credential = new AzureKeyCredential(azureKey.value);
+    const credential = new AzureKeyCredential(azureOpenAIKey.value);
     client = new OpenAIClient(endpoint.value, credential);
   }
 
@@ -81,15 +81,15 @@ function speakText(text) {
     text,
     function (result) {
       if (result.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted) {
-        statusDiv.innerHTML += "\n\nsynthesis finished for [" + text + "].\n";
+        statusDiv.innerHTML += `\n\nsynthesis finished for [${text}].\n`;
       } else if (result.reason === SpeechSDK.ResultReason.Canceled) {
-        statusDiv.innerHTML += "\n\nsynthesis failed. Error detail: " + result.errorDetails + "\n";
+        statusDiv.innerHTML += `\n\nsynthesis failed. Error detail: ${result.errorDetails}\n`;
       }
     },
     function (err) {
       window.console.log(err);
       synthesizer.close();
-      synthesizer = undefined;
+      synthesizer = null;
     });
 }
 
@@ -99,7 +99,7 @@ function stopChatFromSpeech() {
       function () {
         statusDiv.innerHTML = "Chat Stopped";
         recognizer.close();
-        recognizer = undefined;
+        recognizer = null;
       });
   }
 }

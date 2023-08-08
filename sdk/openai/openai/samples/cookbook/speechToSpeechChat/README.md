@@ -2,14 +2,17 @@ This is a browser page demonstrating speech to speech chat implementation using 
 
 To run:
 1.
+Open command line and change directory to where these files have been downloaded.
+
+2.
 ```
 npm install
 ```
 
-2.
+3.
 ```
 webpack --mode=development
 ```
 
-3.
+4.
 Open speechToSpeechChat.html in your web browser
