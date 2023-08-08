@@ -7,19 +7,21 @@
  * @summary detects change points.
  */
 
-import { AzureKeyCredential } from "@azure/core-auth";
+import {AzureKeyCredential} from "@azure/core-auth";
 
 import * as dotenv from "dotenv";
 import ClinicalMatchingRestClient, {
+  CreateJobParameters,
   getLongRunningPoller,
   isUnexpected,
   TrialMatcherResultOutput
 } from "../src";
+
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
 const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
-const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "https://eastus.api.cognitive.microsoft.com";
+const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 // Print the inference results for a patient's cancer attributes
 function printResults(trialMatcherResult: TrialMatcherResultOutput): void {
@@ -47,10 +49,8 @@ function printResults(trialMatcherResult: TrialMatcherResultOutput): void {
   }
 }
 
-export async function main() {
-  const credential = new AzureKeyCredential(apiKey);
-  const client = ClinicalMatchingRestClient(endpoint, credential);
-
+// Create request body for clinical matching
+function createRequestBody(): CreateJobParameters {
   // Define patient information and clinical info
   const clinicalInfoList = [
     {
@@ -148,10 +148,17 @@ export async function main() {
     configuration: configuration,
   };
 
-  const trialMatcherParameter = {
+  return {
     body: trialMatcherData
   };
+}
 
+export async function main() {
+  const credential = new AzureKeyCredential(apiKey);
+  const client = ClinicalMatchingRestClient(endpoint, credential);
+
+  // Create request body for clinical matching
+  const trialMatcherParameter = createRequestBody()
   // Initiate clinical matching job and retrieve results
   const initialResponse = await client.path("/trialmatcher/jobs").post(trialMatcherParameter);
   if (isUnexpected(initialResponse)) {

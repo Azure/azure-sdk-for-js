@@ -61,6 +61,7 @@ const endpoint =
 const credential = new AzureKeyCredential(apiKey);
 const client = ClinicalMatchingRestClient(endpoint, credential);
 
+// Create request body for clinical matching
 const clinicalInfoList = [
     {
       system: "http://www.nlm.nih.gov/research/umls",

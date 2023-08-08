@@ -8,18 +8,21 @@
  * @summary detects change points.
  */
 
-import { AzureKeyCredential } from "@azure/core-auth";
+import {AzureKeyCredential} from "@azure/core-auth";
 
 import * as dotenv from "dotenv";
 import CancerProfilingRestClient, {
+    CreateJobParameters,
     getLongRunningPoller,
-    isUnexpected, OncoPhenotypeData,
+    isUnexpected,
+    OncoPhenotypeData,
     OncoPhenotypeResultOutput
 } from "../src";
+
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
-const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "https://eastus.api.cognitive.microsoft.com";
+const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
 
 // Print the inference results
@@ -53,11 +56,8 @@ function printResults(cancerProfilingResult: OncoPhenotypeResultOutput): void {
     }
 }
 
-
-export async function main() {
-    const credential = new AzureKeyCredential(apiKey);
-    const client = CancerProfilingRestClient(endpoint, credential);
-
+// Create request body for cancer profiling
+function createRequestBody(): CreateJobParameters {
     // Define patient information and clinical documents
     const patientInfo = {
         sex: "FEMALE",
@@ -187,23 +187,28 @@ export async function main() {
         configuration: {includeEvidence: true}
     };
 
-    const parameters = {
+    return {
         body: cancerProfilingData
     };
 
+}
+export async function main() {
+    const credential = new AzureKeyCredential(apiKey);
+    const client = CancerProfilingRestClient(endpoint, credential);
+    // Create body request for cancer profiling
+    const parameters = createRequestBody();
     // Initiate cancer profiling job and retrieve results
-  const initialResponse = await client.path("/oncophenotype/jobs").post(parameters);
-  if (isUnexpected(initialResponse)) {
-    throw initialResponse;
-  }
-  const poller = await getLongRunningPoller(client, initialResponse);
-  const cancerProfilingResult = await poller.pollUntilDone();
-  if (isUnexpected(cancerProfilingResult)) {
-    throw cancerProfilingResult;
-  }
-  const resultBody = cancerProfilingResult.body;
-  printResults(resultBody);
-
+    const initialResponse = await client.path("/oncophenotype/jobs").post(parameters);
+    if (isUnexpected(initialResponse)) {
+        throw initialResponse;
+    }
+    const poller = await getLongRunningPoller(client, initialResponse);
+    const cancerProfilingResult = await poller.pollUntilDone();
+    if (isUnexpected(cancerProfilingResult)) {
+         throw cancerProfilingResult;
+    }
+    const resultBody = cancerProfilingResult.body;
+    printResults(resultBody);
 }
 
 main().catch((err) => {

@@ -58,7 +58,7 @@ const endpoint =
 const credential = new AzureKeyCredential(apiKey);
 const client = CancerProfilingRestClient(endpoint, credential);
 
-// Define patient information and clinical documents
+// Define patient information and clinical documents for the request body
 const patientInfo = {
         sex: "FEMALE",
         birthDate: new Date("1979-10-08T00:00:00.000Z"), // Note: Months are zero-based (11 represents December)

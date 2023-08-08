@@ -7,21 +7,24 @@
  * @summary detects change points.
  */
 
-import { AzureKeyCredential } from "@azure/core-auth";
+import {AzureKeyCredential} from "@azure/core-auth";
 
 import * as dotenv from "dotenv";
 import * as fs from 'fs';
 import ClinicalMatchingRestClient, {
+  CreateJobParameters,
   getLongRunningPoller,
-  isUnexpected, TrialMatcherResultOutput
+  isUnexpected,
+  TrialMatcherResultOutput
 } from "../src";
 
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
 const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
-const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "https://eastus.api.cognitive.microsoft.com";
+const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
+// Get patient data in fhir format
 function getPatientDocContent(): string {
   const content = fs.readFileSync("./example-data/match_trial_fhir_data.txt").toString();
   return content;
@@ -53,10 +56,8 @@ function printResults(trialMatcherResult: TrialMatcherResultOutput): void {
   }
 }
 
-export async function main() {
-  const credential = new AzureKeyCredential(apiKey);
-  const client = ClinicalMatchingRestClient(endpoint, credential);
-
+// Create request body for clinical matching
+function createRequestBody(): CreateJobParameters {
   // Define patient information and clinical info
   const clinicalInfoList = [
     {
@@ -133,21 +134,28 @@ export async function main() {
     configuration: configuration,
   };
 
-  const trialMatcherParameter = {
+  return {
     body: trialMatcherData
   };
+}
 
+export async function main() {
+  const credential = new AzureKeyCredential(apiKey);
+  const client = ClinicalMatchingRestClient(endpoint, credential);
+
+  // Create request body for clinical matching
+  const trialMatcherParameter = createRequestBody()
   // Initiate clinical matching job and retrieve results
   const initialResponse = await client.path("/trialmatcher/jobs").post(trialMatcherParameter);
   if (isUnexpected(initialResponse)) {
     throw initialResponse;
   }
   const poller = await getLongRunningPoller(client, initialResponse);
-  const res = await poller.pollUntilDone();
-  if (isUnexpected(res)) {
-      throw initialResponse;
+  const trialMatcherResult = await poller.pollUntilDone();
+  if (isUnexpected(trialMatcherResult)) {
+      throw trialMatcherResult;
   }
-  const resultBody = res.body;
+  const resultBody = trialMatcherResult.body;
   printResults(resultBody);
 }
 
