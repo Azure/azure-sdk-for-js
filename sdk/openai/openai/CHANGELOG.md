@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fix a bug where server-sent events were not being parsed correctly.
+
 ### Other Changes
 
 ## 1.0.0-beta.3 (2023-07-13)

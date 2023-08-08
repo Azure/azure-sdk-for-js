@@ -36,7 +36,7 @@ import {
   OpenAIClientOptions,
 } from "./index.js";
 import { OpenAIContext } from "./rest/clientDefinitions.js";
-import { getSSEs } from "./api/sse.js";
+import { getOaiSSEs } from "./api/oaiSse.js";
 
 export { OpenAIClientOptions } from "./api/OpenAIContext.js";
 
@@ -182,13 +182,13 @@ export class OpenAIClient {
     deploymentName: string,
     prompt: string[],
     options: GetCompletionsOptions = {}
-  ): Promise<AsyncIterable<Omit<Completions, "usage">>> {
+  ): AsyncIterable<Omit<Completions, "usage">> {
     this.setModel(deploymentName, options);
     const response = _getCompletionsSend(this._client, prompt, deploymentName, {
       ...options,
       stream: true,
     });
-    return getSSEs(response, getCompletionsResult);
+    return getOaiSSEs(response, getCompletionsResult);
   }
 
   /**
@@ -234,13 +234,13 @@ export class OpenAIClient {
     deploymentName: string,
     messages: ChatMessage[],
     options: GetChatCompletionsOptions = { requestOptions: {} }
-  ): Promise<AsyncIterable<Omit<ChatCompletions, "usage">>> {
+  ): AsyncIterable<Omit<ChatCompletions, "usage">> {
     this.setModel(deploymentName, options);
     const response = _getChatCompletionsSend(this._client, messages, deploymentName, {
       ...options,
       stream: true,
     });
-    return getSSEs(response, getChatCompletionsResult);
+    return getOaiSSEs(response, getChatCompletionsResult);
   }
 
   private setModel(model: string, options: { model?: string }): void {

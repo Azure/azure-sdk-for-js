@@ -40,8 +40,11 @@ export {
 } from "./documentElements";
 
 export {
-  DocumentModelContentSource,
-  DocumentClassifierContentSource,
-  AzureBlobFileListContentSource,
-  AzureBlobContentSource,
+  DocumentModelSource,
+  DocumentClassifierSource,
+  DocumentClassifierDocumentTypeSources,
+  AzureBlobSource,
+  AzureBlobSourceDetails,
+  AzureBlobFileListSource,
+  AzureBlobFileListSourceDetails,
 } from "./contentSource";

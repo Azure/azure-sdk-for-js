@@ -14,7 +14,6 @@ import {
   OperationSummary,
   OperationDetails,
   DocumentClassifierDetails,
-  ClassifierDocumentTypeDetails,
 } from "./generated";
 import { accept1 } from "./generated/models/parameters";
 import {
@@ -48,12 +47,11 @@ import {
 } from "./options/BuildModelOptions";
 import { Mappers, SERIALIZER, makeServiceClient } from "./util";
 import { FullOperationResponse, OperationOptions } from "@azure/core-client";
-import { DocumentModelContentSource } from "./models";
 import {
-  DocumentClassifierContentSource,
-  toBuildOptions,
-  toClassifierDetails,
-} from "./models/contentSource";
+  DocumentModelSource,
+  DocumentClassifierDocumentTypeSources,
+  AzureBlobSource,
+} from "./models";
 
 /**
  * A client for interacting with the Form Recognizer service's model management features, such as creating, reading,
@@ -251,21 +249,25 @@ export class DocumentModelAdministrationClient {
    */
   public async beginBuildDocumentModel(
     modelId: string,
-    contentSource: DocumentModelContentSource,
+    contentSource: DocumentModelSource,
     buildMode: DocumentModelBuildMode,
     options?: BeginBuildDocumentModelOptions
   ): Promise<DocumentModelPoller>;
 
   public async beginBuildDocumentModel(
     modelId: string,
-    urlOrSource: string | DocumentModelContentSource,
+    urlOrSource: string | DocumentModelSource,
     buildMode: DocumentModelBuildMode,
     options: BeginBuildDocumentModelOptions = {}
   ): Promise<DocumentModelPoller> {
     const sourceInfo =
       typeof urlOrSource === "string"
-        ? toBuildOptions({ containerUrl: urlOrSource })
-        : toBuildOptions(urlOrSource);
+        ? ({
+            azureBlobSource: {
+              containerUrl: urlOrSource,
+            },
+          } as AzureBlobSource)
+        : urlOrSource;
 
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.beginBuildDocumentModel",
@@ -515,21 +517,16 @@ export class DocumentModelAdministrationClient {
    * ```
    *
    * @param classifierId - the unique ID of the classifier to create
-   * @param docTypes - the document types to include in the classifier (a map of document type names to `ClassifierDocumentTypeDetails`)
+   * @param docTypeSources - the document types to include in the classifier and their sources (a map of document type
+   *                         names to `ClassifierDocumentTypeDetails`)
    * @param options - optional settings for the classifier build operation
    * @returns a long-running operation (poller) that will eventually produce the created classifier details or an error
    */
   public async beginBuildDocumentClassifier(
     classifierId: string,
-    docTypes: { [docType: string]: DocumentClassifierContentSource },
+    docTypeSources: DocumentClassifierDocumentTypeSources,
     options: BeginBuildDocumentClassifierOptions = {}
   ): Promise<DocumentClassifierPoller> {
-    const inputDocTypes: { [docType: string]: ClassifierDocumentTypeDetails } = {};
-
-    for (const [k, v] of Object.entries(docTypes)) {
-      inputDocTypes[k] = toClassifierDetails(v);
-    }
-
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.beginBuildDocumentClassifier",
       options,
@@ -541,7 +538,7 @@ export class DocumentModelAdministrationClient {
               {
                 classifierId,
                 description: finalOptions.description,
-                docTypes: inputDocTypes,
+                docTypes: docTypeSources,
               },
               finalOptions
             ),

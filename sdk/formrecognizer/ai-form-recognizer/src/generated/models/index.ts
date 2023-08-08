@@ -9,6 +9,9 @@
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 
+/**
+ * Details about any of several different types of Form Recognizer management operations.
+ */
 export type OperationDetailsUnion =
   | OperationDetails
   | DocumentModelBuildOperationDetails
@@ -698,8 +701,7 @@ export interface DocumentModelCopyToOperationDetails extends OperationDetails {
 }
 
 /** Get Operation response object. */
-export interface DocumentClassifierBuildOperationDetails
-  extends OperationDetails {
+export interface DocumentClassifierBuildOperationDetails extends OperationDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "documentClassifierBuild";
   /** Operation result upon success. */
@@ -749,7 +751,7 @@ export enum KnownStringIndexType {
   /** Character unit represented by a single unicode code point.  Used by Python 3. */
   UnicodeCodePoint = "unicodeCodePoint",
   /** Character unit represented by a 16-bit Unicode code unit.  Used by JavaScript, Java, and .NET. */
-  Utf16CodeUnit = "utf16CodeUnit"
+  Utf16CodeUnit = "utf16CodeUnit",
 }
 
 /**
@@ -776,7 +778,7 @@ export enum KnownDocumentAnalysisFeature {
   /** Enable the detection of general key value pairs (form fields) in the document. */
   KeyValuePairs = "keyValuePairs",
   /** Enable the recognition of various font styles. */
-  StyleFont = "styleFont"
+  StyleFont = "styleFont",
 }
 
 /**
@@ -798,7 +800,7 @@ export enum KnownLengthUnit {
   /** Length unit for image files. */
   Pixel = "pixel",
   /** Length unit for PDF files. */
-  Inch = "inch"
+  Inch = "inch",
 }
 
 /**
@@ -816,7 +818,7 @@ export enum KnownSelectionMarkState {
   /** The selection mark is selected, often indicated by a check ✓ or cross X inside the selection mark. */
   Selected = "selected",
   /** The selection mark is not selected. */
-  Unselected = "unselected"
+  Unselected = "unselected",
 }
 
 /**
@@ -864,7 +866,7 @@ export enum KnownDocumentBarcodeKind {
   /** Data matrix code, as defined in ISO/IEC 16022:2006. */
   DataMatrix = "DataMatrix",
   /** MaxiCode, as defined in ISO/IEC 16023:2000. */
-  MaxiCode = "MaxiCode"
+  MaxiCode = "MaxiCode",
 }
 
 /**
@@ -897,7 +899,7 @@ export enum KnownDocumentFormulaKind {
   /** A formula embedded within the content of a paragraph. */
   Inline = "inline",
   /** A formula in display mode that takes up an entire line. */
-  Display = "display"
+  Display = "display",
 }
 
 /**
@@ -925,7 +927,7 @@ export enum KnownParagraphRole {
   /** A note usually placed after the main content on a page. */
   Footnote = "footnote",
   /** A block of formulas, often with shared alignment. */
-  FormulaBlock = "formulaBlock"
+  FormulaBlock = "formulaBlock",
 }
 
 /**
@@ -954,7 +956,7 @@ export enum KnownDocumentTableCellKind {
   /** Describes the row headers, usually located at the top left corner of a table. */
   StubHead = "stubHead",
   /** Describes the content in (parts of) the table. */
-  Description = "description"
+  Description = "description",
 }
 
 /**
@@ -975,7 +977,7 @@ export enum KnownFontStyle {
   /** Characters are represented normally. */
   Normal = "normal",
   /** Characters are visually slanted to the right. */
-  Italic = "italic"
+  Italic = "italic",
 }
 
 /**
@@ -993,7 +995,7 @@ export enum KnownFontWeight {
   /** Characters are represented normally. */
   Normal = "normal",
   /** Characters are represented with thicker strokes. */
-  Bold = "bold"
+  Bold = "bold",
 }
 
 /**
@@ -1035,7 +1037,7 @@ export enum KnownDocumentFieldType {
   /** Parsed address. */
   Address = "address",
   /** Boolean value, normalized to true or false. */
-  Boolean = "boolean"
+  Boolean = "boolean",
 }
 
 /**
@@ -1065,7 +1067,7 @@ export enum KnownDocumentSignatureType {
   /** A signature is detected. */
   Signed = "signed",
   /** No signatures are detected. */
-  Unsigned = "unsigned"
+  Unsigned = "unsigned",
 }
 
 /**
@@ -1083,7 +1085,7 @@ export enum KnownDocumentBuildMode {
   /** Target documents with similar visual templates. */
   Template = "template",
   /** Support documents with diverse visual templates. */
-  Neural = "neural"
+  Neural = "neural",
 }
 
 /**
@@ -1105,7 +1107,7 @@ export enum KnownOperationKind {
   /** Copy an existing document model to potentially a different resource, region, or subscription. */
   DocumentModelCopyTo = "documentModelCopyTo",
   /** Build a new custom classifier model. */
-  DocumentClassifierBuild = "documentClassifierBuild"
+  DocumentClassifierBuild = "documentClassifierBuild",
 }
 
 /**
@@ -1132,18 +1134,9 @@ export type ContentType =
   | "image/png"
   | "image/tiff";
 /** Defines values for AnalyzeResultOperationStatus. */
-export type AnalyzeResultOperationStatus =
-  | "notStarted"
-  | "running"
-  | "failed"
-  | "succeeded";
+export type AnalyzeResultOperationStatus = "notStarted" | "running" | "failed" | "succeeded";
 /** Defines values for OperationStatus. */
-export type OperationStatus =
-  | "notStarted"
-  | "running"
-  | "failed"
-  | "succeeded"
-  | "canceled";
+export type OperationStatus = "notStarted" | "running" | "failed" | "succeeded" | "canceled";
 
 /** Optional parameters. */
 export interface DocumentModelsAnalyzeDocument$binaryOptionalParams
@@ -1188,22 +1181,19 @@ export interface DocumentModelsAnalyzeDocument$jsonOptionalParams
 export type DocumentModelsAnalyzeDocumentResponse = DocumentModelsAnalyzeDocumentHeaders;
 
 /** Optional parameters. */
-export interface DocumentModelsGetAnalyzeResultOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DocumentModelsGetAnalyzeResultOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAnalyzeResult operation. */
 export type DocumentModelsGetAnalyzeResultResponse = AnalyzeResultOperation;
 
 /** Optional parameters. */
-export interface DocumentModelsBuildModelOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DocumentModelsBuildModelOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the buildModel operation. */
 export type DocumentModelsBuildModelResponse = DocumentModelsBuildModelHeaders;
 
 /** Optional parameters. */
-export interface DocumentModelsComposeModelOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DocumentModelsComposeModelOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the composeModel operation. */
 export type DocumentModelsComposeModelResponse = DocumentModelsComposeModelHeaders;
@@ -1216,54 +1206,46 @@ export interface DocumentModelsAuthorizeModelCopyOptionalParams
 export type DocumentModelsAuthorizeModelCopyResponse = CopyAuthorization;
 
 /** Optional parameters. */
-export interface DocumentModelsCopyModelToOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DocumentModelsCopyModelToOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the copyModelTo operation. */
 export type DocumentModelsCopyModelToResponse = DocumentModelsCopyModelToHeaders;
 
 /** Optional parameters. */
-export interface DocumentModelsListModelsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DocumentModelsListModelsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listModels operation. */
 export type DocumentModelsListModelsResponse = GetDocumentModelsResponse;
 
 /** Optional parameters. */
-export interface DocumentModelsGetModelOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DocumentModelsGetModelOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getModel operation. */
 export type DocumentModelsGetModelResponse = DocumentModelDetails;
 
 /** Optional parameters. */
-export interface DocumentModelsDeleteModelOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DocumentModelsDeleteModelOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface DocumentModelsListModelsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DocumentModelsListModelsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listModelsNext operation. */
 export type DocumentModelsListModelsNextResponse = GetDocumentModelsResponse;
 
 /** Optional parameters. */
-export interface MiscellaneousListOperationsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface MiscellaneousListOperationsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOperations operation. */
 export type MiscellaneousListOperationsResponse = GetOperationsResponse;
 
 /** Optional parameters. */
-export interface MiscellaneousGetOperationOptionalParams
-  extends coreClient.OperationOptions {}
+export interface MiscellaneousGetOperationOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getOperation operation. */
 export type MiscellaneousGetOperationResponse = OperationDetailsUnion;
 
 /** Optional parameters. */
-export interface MiscellaneousGetResourceInfoOptionalParams
-  extends coreClient.OperationOptions {}
+export interface MiscellaneousGetResourceInfoOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getResourceInfo operation. */
 export type MiscellaneousGetResourceInfoResponse = ResourceDetails;
@@ -1322,7 +1304,8 @@ export interface DocumentClassifiersClassifyDocument$jsonOptionalParams
 }
 
 /** Contains response data for the classifyDocument operation. */
-export type DocumentClassifiersClassifyDocumentResponse = DocumentClassifiersClassifyDocumentHeaders;
+export type DocumentClassifiersClassifyDocumentResponse =
+  DocumentClassifiersClassifyDocumentHeaders;
 
 /** Optional parameters. */
 export interface DocumentClassifiersGetClassifyResultOptionalParams
@@ -1339,8 +1322,7 @@ export interface DocumentClassifiersListClassifiersNextOptionalParams
 export type DocumentClassifiersListClassifiersNextResponse = GetDocumentClassifiersResponse;
 
 /** Optional parameters. */
-export interface GeneratedClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface GeneratedClientOptionalParams extends coreClient.ServiceClientOptions {
   /** Method used to compute string offset and length. */
   stringIndexType?: StringIndexType;
   /** Api Version */

@@ -16,7 +16,7 @@ input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/sp
 override-client-name: GeneratedClient
 add-credentials: false
 typescript: true
-package-version: "4.1.0"
+package-version: "5.0.0"
 use-extension:
   "@autorest/typescript": "6.0.0-alpha.20.20220622.1"
 ```
@@ -89,14 +89,4 @@ directive:
     where: $.parameters.PathOperationId
     transform: >
       delete $["format"];
-```
-
-### Mark `kind` optional
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions.DocumentPage
-    transform: >
-      $.required = $.required.filter((r) => r !== "kind");
 ```
