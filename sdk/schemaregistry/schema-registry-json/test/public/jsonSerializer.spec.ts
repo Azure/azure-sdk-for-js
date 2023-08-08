@@ -7,7 +7,7 @@ import {
   registerTestSchema,
 } from "./utils/mockedSerializer";
 import { assert } from "@azure/test-utils";
-import { encoder, testGroup, testSchema, testValue } from "./utils/dummies";
+import { createContentType, encoder, testGroup, testSchema, testValue } from "./utils/dummies";
 import { Context } from "mocha";
 import { MessageContent } from "../../src";
 import { createTestRegistry } from "./utils/mockedRegistryClient";
@@ -35,7 +35,7 @@ describe("JsonSerializer", async function () {
       registry,
     });
     const { contentType, data } = await serializer.serialize(testValue, testSchema);
-    assert.strictEqual(`application/json+${schemaId}`, contentType);
+    assert.strictEqual(createContentType(schemaId), contentType);
     assert.deepStrictEqual(data, encoder.encode(JSON.stringify(testValue)));
   });
 
@@ -49,7 +49,7 @@ describe("JsonSerializer", async function () {
     assert.deepStrictEqual(
       await serializer.deserialize({
         data,
-        contentType: `application/json+${schemaId}`,
+        contentType: createContentType(schemaId),
       }),
       testValue
     );
