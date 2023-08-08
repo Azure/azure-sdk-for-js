@@ -66,6 +66,81 @@ export const mockMessage: RestModel.ChatMessage = {
   metadata: { tags: "tag" },
 };
 
+export const mockMessageContent: RestModel.ChatMessageContent = {
+  message: "content",
+  topic: "topic",
+  participants: [mockParticipant],
+  attachments: [
+    {
+      id: "id",
+      attachmentType: "teamsInlineImage",
+      contentType: "png",
+      name: "images",
+      url: "url",
+      previewUrl: "previewUrl",
+    },
+    {
+      id: "id1",
+      attachmentType: "teamsImage",
+      contentType: "png",
+      name: "picture1.png",
+      url: "url1",
+      previewUrl: "previewUrl1",
+    },
+    {
+      id: "id2",
+      attachmentType: "file",
+      contentType: "docx",
+      name: "report.docx",
+      url: "url2",
+      previewUrl: "previewUrl2",
+    },
+  ],
+  initiatorCommunicationIdentifier: mockCommunicationIdentifier,
+};
+
+export const mockMessageWithAttachment: RestModel.ChatMessage = {
+  id: "id",
+  type: "text",
+  version: "version",
+  sequenceId: "sequenceId",
+  content: {
+    message: "content",
+    topic: "topic",
+    attachments: [
+      {
+        id: "id",
+        attachmentType: "teamsInlineImage",
+        contentType: "png",
+        name: "images",
+        url: "url",
+        previewUrl: "previewUrl",
+      },
+      {
+        id: "id1",
+        attachmentType: "teamsImage",
+        contentType: "png",
+        name: "picture1.png",
+        url: "url1",
+        previewUrl: "previewUrl1",
+      },
+      {
+        id: "id2",
+        attachmentType: "file",
+        contentType: "docx",
+        name: "report.docx",
+        url: "url2",
+        previewUrl: "previewUrl2",
+      },
+    ],
+  },
+  createdOn: new Date("2020-06-26T18:06:06Z"),
+  senderDisplayName: "senderDisplayName",
+  senderCommunicationIdentifier: mockCommunicationIdentifier,
+  deletedOn: new Date("2020-06-26T18:06:06Z"),
+  metadata: { tags: "tag" },
+};
+
 export const mockChatMessageReadReceipt: RestModel.ChatMessageReadReceipt = {
   senderCommunicationIdentifier: mockCommunicationIdentifier,
   chatMessageId: mockMessage.id,
