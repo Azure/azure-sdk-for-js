@@ -164,6 +164,20 @@ describe("Error scenarios", function () {
         }
       );
     });
+    it("schema with invalid ID", async function () {
+      await assertError(
+        serializer.serialize(
+          null,
+          JSON.stringify({
+            $schema: "https://json-schema.org/draft/2020-12/schema",
+            $id: "https://example.com/product.schema.json",
+          })
+        ),
+        {
+          message: /contain invalid characters/,
+        }
+      );
+    });
     it("schema with invalid type", async function () {
       if (!isLiveMode()) {
         this.skip();
