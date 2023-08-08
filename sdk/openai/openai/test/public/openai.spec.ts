@@ -6,6 +6,7 @@ import { assert, isNode, matrix } from "@azure/test-utils";
 import { Context } from "mocha";
 import { OpenAIClient } from "../../src/OpenAIClient.js";
 import { AuthMethod, createClient, startRecorder } from "./utils/recordedClient.js";
+import { ImageLocation } from "../../src/api/models.js";
 
 matrix([["AzureAPIKey", "AAD", "OpenAIKey"]] as const, async function (authMethod: AuthMethod) {
   describe(`[${authMethod}] Client`, () => {
@@ -117,6 +118,34 @@ namespace Function1
       assert.isNotNull(embeddings.data[0].embedding);
       assert.equal(embeddings.data[0].embedding.length > 0, true);
       assert.isNotNull(embeddings.usage);
+    });
+
+    it.only("images test", async function () {
+      function delay(ms: number) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+      }
+      const prompt = "monkey eating banana";
+      const numberOfImages = 2;
+      const size = "256x256";
+      let imageLinks = await client.getImages(prompt, { n: numberOfImages, size: size });
+      while (imageLinks.status === "notRunning" || imageLinks.status === "running") {
+        await delay(5000);
+        imageLinks = await client.getAzureBatchImageGenerationOperationStatus(imageLinks.id);
+      }
+      assert.equal(imageLinks.status, "succeeded");
+      assert.isNotNull(imageLinks.result);
+      // console.log(JSON.stringify(imageLinks.result))
+      const data = imageLinks.result?.data as ImageLocation[];
+      // console.log(JSON.stringify(imageLinks.result))
+      assert.equal(data.length, numberOfImages);
+      const firstResult = data[0];
+      assert.isNotNull(firstResult.url);
+      // console.log(JSON.stringify(imageLinks.result))
+      const url = "https://dalleproduse.blob.core.windows.net/private/images";
+      assert.include(firstResult.url, url, "Invalid URL");
+      const secondResult = data[1];
+      assert.isNotNull(secondResult.url);
+      assert.include(secondResult.url, url, "Invalid URL");
     });
   });
 });

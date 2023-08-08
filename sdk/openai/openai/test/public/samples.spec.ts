@@ -6,6 +6,7 @@ import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
 import { OpenAIClient } from "../../src/OpenAIClient.js";
 import { createClient, startRecorder } from "./utils/recordedClient.js";
+import { ImageLocation } from "../../src/api/models.js";
 
 describe("README samples", () => {
   let recorder: Recorder;
@@ -87,5 +88,31 @@ describe("README samples", () => {
     const { choices } = await client.getCompletions(deploymentName, summarizationPrompt);
     const completion = choices[0].text;
     assert.isDefined(completion);
+  });
+
+  it("Generate Batch Image", async function () {
+    function delay(ms: number) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
+    const PROMPT = "a monkey eating a banana";
+    const SIZE = "256x256";
+    const numberOfImages = 3;
+
+    let operationState = await client.beginAzureBatchImageGeneration(PROMPT, {
+      n: numberOfImages,
+      size: SIZE,
+    });
+
+    while (operationState.status === "notRunning" || operationState.status === "running") {
+      await delay(5000);
+      operationState = await client.getAzureBatchImageGenerationOperationStatus(operationState.id);
+    }
+
+    assert.equal(operationState.status, "succeeded", "Image generation failed");
+
+    for (const image of operationState.result?.data as ImageLocation[]) {
+      assert.isDefined(image.url, "Image generation result URL is not defined");
+    }
   });
 });
