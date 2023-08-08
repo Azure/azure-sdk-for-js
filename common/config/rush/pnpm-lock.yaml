@@ -139,6 +139,7 @@ specifiers:
   '@rush-temp/arm-mediaservices': file:./projects/arm-mediaservices.tgz
   '@rush-temp/arm-migrate': file:./projects/arm-migrate.tgz
   '@rush-temp/arm-mixedreality': file:./projects/arm-mixedreality.tgz
+  '@rush-temp/arm-mobilecore': file:./projects/arm-mobilecore.tgz
   '@rush-temp/arm-mobilenetwork': file:./projects/arm-mobilenetwork.tgz
   '@rush-temp/arm-monitor': file:./projects/arm-monitor.tgz
   '@rush-temp/arm-monitor-profile-2020-09-01-hybrid': file:./projects/arm-monitor-profile-2020-09-01-hybrid.tgz
@@ -492,6 +493,7 @@ dependencies:
   '@rush-temp/arm-mediaservices': file:projects/arm-mediaservices.tgz
   '@rush-temp/arm-migrate': file:projects/arm-migrate.tgz
   '@rush-temp/arm-mixedreality': file:projects/arm-mixedreality.tgz
+  '@rush-temp/arm-mobilecore': file:projects/arm-mobilecore.tgz
   '@rush-temp/arm-mobilenetwork': file:projects/arm-mobilenetwork.tgz
   '@rush-temp/arm-monitor': file:projects/arm-monitor.tgz
   '@rush-temp/arm-monitor-profile-2020-09-01-hybrid': file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz
@@ -14977,6 +14979,34 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-mobilecore.tgz:
+    resolution: {integrity: sha512-1mlROcDFQl7O2H8DX5kxg5yE3uJN9IwSB/kZEc/JD4U04Yilqlh+2Zi4ZZGRSXpLSCVxqmXJ62U5KkufjGhCpg==, tarball: file:projects/arm-mobilecore.tgz}
+    name: '@rush-temp/arm-mobilecore'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.36.3_@types+node@14.18.54
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.5
+      '@types/node': 14.18.54
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_dmbj5memikchm63lpeyt6ukdau
+      tslib: 2.6.1
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   file:projects/arm-mobilenetwork.tgz:
     resolution: {integrity: sha512-y5agWbhlFgWc70Dtmboxah1b5+DReFXjJ7qgjoLV3IeI7IZ8LqyqgNjdgX1ml1o9YsZ4UHl1R59lybmOFkN85w==, tarball: file:projects/arm-mobilenetwork.tgz}
     name: '@rush-temp/arm-mobilenetwork'
@@ -20276,7 +20306,7 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-P2Kt7ieMv/lI2IQF2IYFl/xUaX++zno8QLczqULMhbQpAQ+0i19LZ+pAZR9tnL3BpMS/dyuz3QxIMekW2cyOUA==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-N8E0x1oZNJ/0S88emgJ97tMxe0iZmc59ZDKR/eNoY5XEqZumAlO1u4R5KLKOHphDdDt30md1DVa/VY68Ql8x2A==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
@@ -20368,7 +20398,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-+05JR31WLH5d8FD+GslDQxNHYPLOrvExWUugJJNalgNZpbtoqzQF0837G7tKGDg98VU4XjK6qZA7Gjo2n7O3yg==, tarball: file:projects/perf-ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-W/M7XPCsmg8eZBzlsl8J6yyEH+1DoeC7F4keU6px84ohKSVn3vZHTYM2xj9e61MzYDWUjormNqquQD9oeB+qEA==, tarball: file:projects/perf-ai-form-recognizer.tgz}
     name: '@rush-temp/perf-ai-form-recognizer'
     version: 0.0.0
     dependencies:
