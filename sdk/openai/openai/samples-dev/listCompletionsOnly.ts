@@ -9,8 +9,7 @@
  */
 
 import { AzureKeyCredential } from "@azure/openai";
-import { listCompletions } from "@azure/openai/api";
-import OpenAIClient from "@azure/openai/rest";
+import { listCompletions, createOpenAI } from "@azure/openai/api";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -25,7 +24,7 @@ const prompt = ["What is Azure OpenAI?"];
 export async function main() {
   console.log("== Stream Completions Sample ==");
 
-  const client = OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
+  const client = createOpenAI(endpoint, new AzureKeyCredential(azureApiKey));
   const deploymentId = "text-davinci-003";
   const events = listCompletions(client, prompt, deploymentId, { maxTokens: 128 });
 
