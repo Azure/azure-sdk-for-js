@@ -28,7 +28,7 @@ const groupName = process.env["SCHEMA_REGISTRY_GROUP"] || "AzureSdkSampleGroup";
 // Sample Json Schema for user with first and last names
 export const schemaObject = {
   $schema: "https://json-schema.org/draft/2020-12/schema",
-  $id: "https://example.com/product.schema.json",
+  $id: "user",
   title: "User",
   description: "A user for the product",
   type: "object",
