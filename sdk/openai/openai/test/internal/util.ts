@@ -30,6 +30,7 @@ const dataPrefix = encoder.encode("data: ");
 const idPrefix = encoder.encode("id: ");
 const commentPrefix = encoder.encode(":");
 const eventPrefix = encoder.encode("event: ");
+const retryPrefix = encoder.encode("retry: ");
 const eventEnd = encoder.encode("\n\n");
 const lineEnd = encoder.encode("\n");
 
@@ -51,6 +52,10 @@ export function createId(data: Uint8Array): Uint8Array {
 
 export function createType(data: Uint8Array): Uint8Array {
   return concatBuffer(eventPrefix, concatBuffer(data, lineEnd));
+}
+
+export function createRetry(data: Uint8Array): Uint8Array {
+  return concatBuffer(retryPrefix, concatBuffer(data, lineEnd));
 }
 
 export function* createChunkedEvent(str: string, chunkLen: number): Iterable<Uint8Array> {

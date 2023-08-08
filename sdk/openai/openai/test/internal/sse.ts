@@ -17,6 +17,7 @@ import {
   genEvents,
   genLines,
   genStrs,
+  createRetry,
 } from "./util.js";
 import { assert, matrix } from "@azure/test-utils";
 
@@ -128,6 +129,66 @@ export function buildSseTests<StreamT>(
       );
       await assertAsyncIterable(await getSSEs(client.pathUnchecked("/foo").get()), 1, (event) => {
         assert.equal(event.event, "foo");
+      });
+    });
+
+    it("handles retry", async function () {
+      const client = createClient(() =>
+        createStream((write) => {
+          write(createDataLine(encoder.encode("foo")));
+          write(createRetry(encoder.encode("1")));
+          write(encoder.encode("\n\n"));
+        })
+      );
+      await assertAsyncIterable(await getSSEs(client.pathUnchecked("/foo").get()), 1, (event) => {
+        assert.equal(event.retry, 1);
+      });
+    });
+
+    it("handles multiple colons", async function () {
+      const str = "foo:bar:baz";
+      const client = createClient(() =>
+        createStream((write) => {
+          write(createDataEvent(encoder.encode(str)));
+        })
+      );
+      await assertAsyncIterable(await getSSEs(client.pathUnchecked("/foo").get()), 1, (event) => {
+        assert.equal(event.data, str);
+      });
+    });
+
+    it("ignores lines without fields", async function () {
+      const client = createClient(() =>
+        createStream((write) => {
+          write(encoder.encode("foo"));
+        })
+      );
+      await assertAsyncIterable(await getSSEs(client.pathUnchecked("/foo").get()), 0, () => {
+        assert.fail("should not have received any events");
+      });
+    });
+
+    it("ignores lines with unknown fields", async function () {
+      const client = createClient(() =>
+        createStream((write) => {
+          write(encoder.encode("foo: bar"));
+        })
+      );
+      await assertAsyncIterable(await getSSEs(client.pathUnchecked("/foo").get()), 0, () => {
+        assert.fail("should not have received any events");
+      });
+    });
+
+    it("ignores non-integer retry", async function () {
+      const client = createClient(() =>
+        createStream((write) => {
+          write(createDataLine(encoder.encode("foo")));
+          write(createRetry(encoder.encode("bar")));
+          write(encoder.encode("\n\n"));
+        })
+      );
+      await assertAsyncIterable(await getSSEs(client.pathUnchecked("/foo").get()), 1, (event) => {
+        assert.isUndefined(event.retry);
       });
     });
   });
