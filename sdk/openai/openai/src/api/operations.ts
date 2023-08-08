@@ -432,7 +432,7 @@ export function listChatCompletions(
   messages: ChatMessage[],
   deploymentName: string,
   options: GetChatCompletionsOptions = { requestOptions: {} }
-) {
+): AsyncIterable<Omit<ChatCompletions, "usage">> {
   const response = _getChatCompletionsSend(context, messages, deploymentName, {
     ...options,
     stream: true,
