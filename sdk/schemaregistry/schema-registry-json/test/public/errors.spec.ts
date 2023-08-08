@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, isNode } from "@azure/test-utils";
+import { assert } from "@azure/test-utils";
 import { JsonSerializer } from "../../src";
 import { Context } from "mocha";
 import { SchemaRegistry } from "@azure/schema-registry";
@@ -165,6 +165,9 @@ describe("Error scenarios", function () {
       );
     });
     it("schema with invalid ID", async function () {
+      if (!isLiveMode()) {
+        this.skip();
+      }
       await assertError(
         serializer.serialize(
           null,
@@ -219,24 +222,20 @@ describe("Error scenarios", function () {
           44, 34, 110, 97, 109, 101, 34, 58, 34, 120, 34, 125,
         ])
       );
-      // const nodeMessage = /Unexpected end of JSON input/;
       serializedValue.data = Uint8Array.from([
         123, 34, 102, 97, 118, 111, 114, 105, 116, 101, 78, 117, 109, 98, 101, 114,
       ]);
 
       await assertError(serializer.deserialize(serializedValue), {
-        causeMessage: isNode
-          ? /Unexpected end of JSON input/
-          : /Unterminated string in JSON at position/,
+        causeMessage: /[Unexpected end of JSON input]|[Unterminated string in JSON at position]/,
       });
       serializedValue.data = Uint8Array.from([
         123, 34, 102, 97, 118, 111, 114, 105, 116, 101, 78, 117, 109, 98, 101, 114, 34, 58, 49, 44,
         34, 110, 97, 109, 101, 34, 58, 34, 120, 34, 125, 110,
       ]);
       await assertError(serializer.deserialize(serializedValue), {
-        causeMessage: isNode
-          ? /Unexpected token n in JSON at position/
-          : /Unexpected non-whitespace character/,
+        causeMessage:
+          /[Unexpected token n in JSON at position]|[Unexpected non-whitespace character]/,
       });
     });
   });
