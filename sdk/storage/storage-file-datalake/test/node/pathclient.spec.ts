@@ -62,8 +62,8 @@ describe("DataLakePathClient Node.js only", () => {
     await directoryClient.create();
 
     for (let i = 0; i < 5020; i++) {
-      const fileClient = directoryClient.getFileClient(recorder.getUniqueName("file" + i));
-      await fileClient.create();
+      const fileClientInternal = directoryClient.getFileClient(recorder.getUniqueName("file" + i));
+      await fileClientInternal.create();
     }
 
     const rootDirectory = fileSystemClient.getDirectoryClient("/");
@@ -85,7 +85,6 @@ describe("DataLakePathClient Node.js only", () => {
     await rootDirectory.setAccessControlRecursive(acls);
 
     const oauthService = getDataLakeServiceClientWithDefaultCredential();
-    oauthService;
     const oauthDirectory = oauthService
       .getFileSystemClient(fileSystemName)
       .getDirectoryClient(directoryName1);

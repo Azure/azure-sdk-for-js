@@ -468,7 +468,7 @@ export class DataLakePathClient extends StorageClient {
           }
         });
       }
-      let paginated = recursive === true && this.isTokenCredential === true;
+      const paginated = recursive === true && this.isTokenCredential === true;
       let continuation;
       let response;
 

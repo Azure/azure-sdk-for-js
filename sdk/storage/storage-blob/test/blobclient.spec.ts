@@ -547,7 +547,7 @@ describe("BlobClient", () => {
 
   it("setAccessTier set archive to cold", async () => {
     await blockBlobClient.setAccessTier("Archive");
-    let properties = await blockBlobClient.getProperties();
+    const properties = await blockBlobClient.getProperties();
     assert.equal(properties.accessTier!.toLowerCase(), "archive");
 
     await blockBlobClient.setAccessTier("Cold");

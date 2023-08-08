@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.blob.core.windows.net/filesystem162072635474309322",
+   "url": "https://fakestorageaccount.blob.core.windows.net/filesystem169154766292501076",
    "query": {
     "restype": "container"
    },
@@ -11,18 +11,18 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Tue, 11 May 2021 09:45:55 GMT",
-    "etag": "\"0x8D914619311BA80\"",
-    "last-modified": "Tue, 11 May 2021 09:45:56 GMT",
+    "date": "Wed, 09 Aug 2023 02:21:02 GMT",
+    "etag": "\"0x8DB987F472B96FE\"",
+    "last-modified": "Wed, 09 Aug 2023 02:21:02 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "x-ms-client-request-id": "c34700e4-698d-45af-bc3f-b52538837727",
-    "x-ms-request-id": "68f9dad4-501e-0069-1f4a-4674ec000000",
-    "x-ms-version": "2020-06-12"
+    "x-ms-client-request-id": "6e566476-dbd2-44d3-80b7-e50744576ecf",
+    "x-ms-request-id": "63fe1d8e-301e-005b-2268-cac03a000000",
+    "x-ms-version": "2023-08-03"
    }
   },
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem162072635474309322/file0162072635630702378",
+   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem169154766292501076/file0169154766319701204",
    "query": {
     "resource": "file"
    },
@@ -31,19 +31,19 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Tue, 11 May 2021 09:45:57 GMT",
-    "etag": "\"0x8D91461940A7679\"",
-    "last-modified": "Tue, 11 May 2021 09:45:57 GMT",
+    "date": "Wed, 09 Aug 2023 02:21:02 GMT",
+    "etag": "\"0x8DB987F4757CF84\"",
+    "last-modified": "Wed, 09 Aug 2023 02:21:02 GMT",
     "server": "Windows-Azure-HDFS/1.0 Microsoft-HTTPAPI/2.0",
-    "x-ms-client-request-id": "45d2e290-4c41-4da5-b2bf-e94cff540b05",
-    "x-ms-request-id": "743df081-901f-0014-474a-4605cf000000",
+    "x-ms-client-request-id": "7ab729f2-1b5e-4127-8608-f106ba8c6257",
+    "x-ms-request-id": "ba4f97f4-201f-0025-3768-ca507d000000",
     "x-ms-request-server-encrypted": "true",
-    "x-ms-version": "2020-06-12"
+    "x-ms-version": "2023-08-03"
    }
   },
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem162072635474309322/file1162072635787809330",
+   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem169154766292501076/file1169154766345407389",
    "query": {
     "resource": "file"
    },
@@ -52,19 +52,19 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Tue, 11 May 2021 09:45:58 GMT",
-    "etag": "\"0x8D914619466ACA5\"",
-    "last-modified": "Tue, 11 May 2021 09:45:58 GMT",
+    "date": "Wed, 09 Aug 2023 02:21:02 GMT",
+    "etag": "\"0x8DB987F477AE704\"",
+    "last-modified": "Wed, 09 Aug 2023 02:21:03 GMT",
     "server": "Windows-Azure-HDFS/1.0 Microsoft-HTTPAPI/2.0",
-    "x-ms-client-request-id": "a9947c95-2fd4-4387-bbbd-dd2e88fe9415",
-    "x-ms-request-id": "743df0e6-901f-0014-2c4a-4605cf000000",
+    "x-ms-client-request-id": "9db905d7-aae5-4043-94b5-ff2bdcf73522",
+    "x-ms-request-id": "ba4f97fe-201f-0025-4168-ca507d000000",
     "x-ms-request-server-encrypted": "true",
-    "x-ms-version": "2020-06-12"
+    "x-ms-version": "2023-08-03"
    }
   },
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem162072635474309322/file2162072635848007162",
+   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem169154766292501076/file2169154766368304768",
    "query": {
     "resource": "file"
    },
@@ -73,37 +73,39 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Tue, 11 May 2021 09:45:58 GMT",
-    "etag": "\"0x8D9146194C15D93\"",
-    "last-modified": "Tue, 11 May 2021 09:45:58 GMT",
+    "date": "Wed, 09 Aug 2023 02:21:02 GMT",
+    "etag": "\"0x8DB987F479DDA42\"",
+    "last-modified": "Wed, 09 Aug 2023 02:21:03 GMT",
     "server": "Windows-Azure-HDFS/1.0 Microsoft-HTTPAPI/2.0",
-    "x-ms-client-request-id": "589e5ad3-57fd-4365-885e-e1d8c5c4cc6d",
-    "x-ms-request-id": "743df125-901f-0014-6b4a-4605cf000000",
+    "x-ms-client-request-id": "0df1afc4-d3ba-4e8f-898b-c4ca21ad42bb",
+    "x-ms-request-id": "ba4f9809-201f-0025-4c68-ca507d000000",
     "x-ms-request-server-encrypted": "true",
-    "x-ms-version": "2020-06-12"
+    "x-ms-version": "2023-08-03"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem162072635474309322/file0162072635630702378",
-   "query": {},
+   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem169154766292501076/file0169154766319701204",
+   "query": {
+    "paginated": "false"
+   },
    "requestBody": null,
    "status": 200,
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Tue, 11 May 2021 09:45:59 GMT",
+    "date": "Wed, 09 Aug 2023 02:21:02 GMT",
     "server": "Windows-Azure-HDFS/1.0 Microsoft-HTTPAPI/2.0",
-    "x-ms-client-request-id": "4f45820b-df74-457c-b584-094f8c804d2c",
+    "x-ms-client-request-id": "337bd397-1788-44ad-9839-55ec9c1bd823",
     "x-ms-delete-type-permanent": "false",
-    "x-ms-deletion-id": "132651999595695650",
-    "x-ms-request-id": "743df14e-901f-0014-124a-4605cf000000",
-    "x-ms-version": "2020-06-12"
+    "x-ms-deletion-id": "133360212635502745",
+    "x-ms-request-id": "ba4f9812-201f-0025-5568-ca507d000000",
+    "x-ms-version": "2023-08-03"
    }
   },
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem162072635474309322/file0162072635630702378",
+   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem169154766292501076/file0169154766319701204",
    "query": {
     "resource": "file"
    },
@@ -112,55 +114,59 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Tue, 11 May 2021 09:45:59 GMT",
-    "etag": "\"0x8D914619550661F\"",
-    "last-modified": "Tue, 11 May 2021 09:45:59 GMT",
+    "date": "Wed, 09 Aug 2023 02:21:03 GMT",
+    "etag": "\"0x8DB987F47DB1985\"",
+    "last-modified": "Wed, 09 Aug 2023 02:21:03 GMT",
     "server": "Windows-Azure-HDFS/1.0 Microsoft-HTTPAPI/2.0",
-    "x-ms-client-request-id": "e530e6d2-6c32-4339-8b52-35200e0390cb",
-    "x-ms-request-id": "743df172-901f-0014-364a-4605cf000000",
+    "x-ms-client-request-id": "27b896ef-940f-4f6e-8b09-865c7c3d6236",
+    "x-ms-request-id": "ba4f981a-201f-0025-5d68-ca507d000000",
     "x-ms-request-server-encrypted": "true",
-    "x-ms-version": "2020-06-12"
+    "x-ms-version": "2023-08-03"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem162072635474309322/file0162072635630702378",
-   "query": {},
+   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem169154766292501076/file0169154766319701204",
+   "query": {
+    "paginated": "false"
+   },
    "requestBody": null,
    "status": 200,
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Tue, 11 May 2021 09:46:00 GMT",
+    "date": "Wed, 09 Aug 2023 02:21:03 GMT",
     "server": "Windows-Azure-HDFS/1.0 Microsoft-HTTPAPI/2.0",
-    "x-ms-client-request-id": "6f67cd8e-b372-4ba0-bd62-1d7220d7fde1",
+    "x-ms-client-request-id": "cc8c26db-fe77-4b0b-b54f-b432164d7e52",
     "x-ms-delete-type-permanent": "false",
-    "x-ms-deletion-id": "132651999602086877",
-    "x-ms-request-id": "743df196-901f-0014-5a4a-4605cf000000",
-    "x-ms-version": "2020-06-12"
+    "x-ms-deletion-id": "133360212637952344",
+    "x-ms-request-id": "ba4f9821-201f-0025-6468-ca507d000000",
+    "x-ms-version": "2023-08-03"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem162072635474309322/file1162072635787809330",
-   "query": {},
+   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem169154766292501076/file1169154766345407389",
+   "query": {
+    "paginated": "false"
+   },
    "requestBody": null,
    "status": 200,
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Tue, 11 May 2021 09:46:00 GMT",
+    "date": "Wed, 09 Aug 2023 02:21:03 GMT",
     "server": "Windows-Azure-HDFS/1.0 Microsoft-HTTPAPI/2.0",
-    "x-ms-client-request-id": "9d063f72-9f6e-4dd3-a7c5-f5b444b2b973",
+    "x-ms-client-request-id": "c9121b98-ed13-4c1d-80f9-ae20e5ece702",
     "x-ms-delete-type-permanent": "false",
-    "x-ms-deletion-id": "132651999608282962",
-    "x-ms-request-id": "743df1cf-901f-0014-124a-4605cf000000",
-    "x-ms-version": "2020-06-12"
+    "x-ms-deletion-id": "133360212640481944",
+    "x-ms-request-id": "ba4f982c-201f-0025-6f68-ca507d000000",
+    "x-ms-version": "2023-08-03"
    }
   },
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem162072635474309322/file1162072635787809330",
+   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem169154766292501076/file1169154766345407389",
    "query": {
     "resource": "file"
    },
@@ -169,55 +175,59 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Tue, 11 May 2021 09:46:01 GMT",
-    "etag": "\"0x8D914619610094C\"",
-    "last-modified": "Tue, 11 May 2021 09:46:01 GMT",
+    "date": "Wed, 09 Aug 2023 02:21:03 GMT",
+    "etag": "\"0x8DB987F4827DDD6\"",
+    "last-modified": "Wed, 09 Aug 2023 02:21:04 GMT",
     "server": "Windows-Azure-HDFS/1.0 Microsoft-HTTPAPI/2.0",
-    "x-ms-client-request-id": "45a82350-d9b1-48fd-a32e-ec1b1df817c4",
-    "x-ms-request-id": "743df1f2-901f-0014-354a-4605cf000000",
+    "x-ms-client-request-id": "abaa8e7c-e0d9-4380-840e-9ad7ae431852",
+    "x-ms-request-id": "ba4f982d-201f-0025-7068-ca507d000000",
     "x-ms-request-server-encrypted": "true",
-    "x-ms-version": "2020-06-12"
+    "x-ms-version": "2023-08-03"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem162072635474309322/file1162072635787809330",
-   "query": {},
+   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem169154766292501076/file1169154766345407389",
+   "query": {
+    "paginated": "false"
+   },
    "requestBody": null,
    "status": 200,
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Tue, 11 May 2021 09:46:01 GMT",
+    "date": "Wed, 09 Aug 2023 02:21:03 GMT",
     "server": "Windows-Azure-HDFS/1.0 Microsoft-HTTPAPI/2.0",
-    "x-ms-client-request-id": "df6b2bda-2d58-4e6e-b531-81c40723b03d",
+    "x-ms-client-request-id": "7c207fd9-81bd-4418-be07-eb91aa4c58a3",
     "x-ms-delete-type-permanent": "false",
-    "x-ms-deletion-id": "132651999614662724",
-    "x-ms-request-id": "743df200-901f-0014-434a-4605cf000000",
-    "x-ms-version": "2020-06-12"
+    "x-ms-deletion-id": "133360212643057638",
+    "x-ms-request-id": "ba4f9830-201f-0025-7368-ca507d000000",
+    "x-ms-version": "2023-08-03"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem162072635474309322/file2162072635848007162",
-   "query": {},
+   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem169154766292501076/file2169154766368304768",
+   "query": {
+    "paginated": "false"
+   },
    "requestBody": null,
    "status": 200,
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Tue, 11 May 2021 09:46:01 GMT",
+    "date": "Wed, 09 Aug 2023 02:21:03 GMT",
     "server": "Windows-Azure-HDFS/1.0 Microsoft-HTTPAPI/2.0",
-    "x-ms-client-request-id": "8c2edd9d-a9a3-4f85-b58a-a18b718aa456",
+    "x-ms-client-request-id": "34d8b00b-d7d3-4647-a171-e5112a05548b",
     "x-ms-delete-type-permanent": "false",
-    "x-ms-deletion-id": "132651999620841833",
-    "x-ms-request-id": "743df26b-901f-0014-2e4a-4605cf000000",
-    "x-ms-version": "2020-06-12"
+    "x-ms-deletion-id": "133360212645436284",
+    "x-ms-request-id": "ba4f9843-201f-0025-0668-ca507d000000",
+    "x-ms-version": "2023-08-03"
    }
   },
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem162072635474309322/file2162072635848007162",
+   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem169154766292501076/file2169154766368304768",
    "query": {
     "resource": "file"
    },
@@ -226,37 +236,39 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Tue, 11 May 2021 09:46:02 GMT",
-    "etag": "\"0x8D9146196CEE5AB\"",
-    "last-modified": "Tue, 11 May 2021 09:46:02 GMT",
+    "date": "Wed, 09 Aug 2023 02:21:04 GMT",
+    "etag": "\"0x8DB987F487433B2\"",
+    "last-modified": "Wed, 09 Aug 2023 02:21:04 GMT",
     "server": "Windows-Azure-HDFS/1.0 Microsoft-HTTPAPI/2.0",
-    "x-ms-client-request-id": "956d35c8-9c34-4fb9-a93e-d3161f4fe9b5",
-    "x-ms-request-id": "743df2ca-901f-0014-0d4a-4605cf000000",
+    "x-ms-client-request-id": "cf827a30-a9ed-4402-a50c-26a806ceb6a6",
+    "x-ms-request-id": "ba4f985a-201f-0025-1d68-ca507d000000",
     "x-ms-request-server-encrypted": "true",
-    "x-ms-version": "2020-06-12"
+    "x-ms-version": "2023-08-03"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem162072635474309322/file2162072635848007162",
-   "query": {},
+   "url": "https://fakestorageaccount.dfs.core.windows.net/filesystem169154766292501076/file2169154766368304768",
+   "query": {
+    "paginated": "false"
+   },
    "requestBody": null,
    "status": 200,
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Tue, 11 May 2021 09:46:02 GMT",
+    "date": "Wed, 09 Aug 2023 02:21:04 GMT",
     "server": "Windows-Azure-HDFS/1.0 Microsoft-HTTPAPI/2.0",
-    "x-ms-client-request-id": "51836fc9-8028-4491-814a-ec8b1e5faadc",
+    "x-ms-client-request-id": "b7366923-01a2-4d41-a789-dd8d3309d145",
     "x-ms-delete-type-permanent": "false",
-    "x-ms-deletion-id": "132651999627147506",
-    "x-ms-request-id": "743df30d-901f-0014-504a-4605cf000000",
-    "x-ms-version": "2020-06-12"
+    "x-ms-deletion-id": "133360212648074222",
+    "x-ms-request-id": "ba4f986b-201f-0025-2e68-ca507d000000",
+    "x-ms-version": "2023-08-03"
    }
   },
   {
    "method": "GET",
-   "url": "https://fakestorageaccount.blob.core.windows.net/filesystem162072635474309322",
+   "url": "https://fakestorageaccount.blob.core.windows.net/filesystem169154766292501076",
    "query": {
     "restype": "container",
     "comp": "list",
@@ -264,20 +276,20 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.blob.core.windows.net/\" ContainerName=\"filesystem162072635474309322\"><Blobs><Blob><Name>file0162072635630702378</Name><DeletionId>132651999595695650</DeletionId><Deleted>true</Deleted><Properties><Creation-Time>Tue, 11 May 2021 09:45:57 GMT</Creation-Time><Last-Modified>Tue, 11 May 2021 09:45:57 GMT</Last-Modified><Expiry-Time>Thu, 13 May 2021 09:45:59 GMT</Expiry-Time><Etag>0x8D91461940A7679</Etag><Content-Length>0</Content-Length><Content-Type>application/octet-stream</Content-Type><Content-Encoding /><Content-Language /><Content-CRC64>AAAAAAAAAAA=</Content-CRC64><Content-MD5 /><Cache-Control /><Content-Disposition /><BlobType>BlockBlob</BlobType><AccessTier>Hot</AccessTier><AccessTierInferred>true</AccessTierInferred><ServerEncrypted>true</ServerEncrypted><DeletedTime>Tue, 11 May 2021 09:45:59 GMT</DeletedTime><RemainingRetentionDays>1</RemainingRetentionDays></Properties><OrMetadata /></Blob><Blob><Name>file0162072635630702378</Name><DeletionId>132651999602086877</DeletionId><Deleted>true</Deleted><Properties><Creation-Time>Tue, 11 May 2021 09:45:59 GMT</Creation-Time><Last-Modified>Tue, 11 May 2021 09:45:59 GMT</Last-Modified><Expiry-Time>Thu, 13 May 2021 09:46:00 GMT</Expiry-Time><Etag>0x8D914619550661F</Etag><Content-Length>0</Content-Length><Content-Type>application/octet-stream</Content-Type><Content-Encoding /><Content-Language /><Content-CRC64>AAAAAAAAAAA=</Content-CRC64><Content-MD5 /><Cache-Control /><Content-Disposition /><BlobType>BlockBlob</BlobType><AccessTier>Hot</AccessTier><AccessTierInferred>true</AccessTierInferred><ServerEncrypted>true</ServerEncrypted><DeletedTime>Tue, 11 May 2021 09:46:00 GMT</DeletedTime><RemainingRetentionDays>1</RemainingRetentionDays></Properties><OrMetadata /></Blob><Blob><Name>file1162072635787809330</Name><DeletionId>132651999608282962</DeletionId><Deleted>true</Deleted><Properties><Creation-Time>Tue, 11 May 2021 09:45:58 GMT</Creation-Time><Last-Modified>Tue, 11 May 2021 09:45:58 GMT</Last-Modified><Expiry-Time>Thu, 13 May 2021 09:46:00 GMT</Expiry-Time><Etag>0x8D914619466ACA5</Etag><Content-Length>0</Content-Length><Content-Type>application/octet-stream</Content-Type><Content-Encoding /><Content-Language /><Content-CRC64>AAAAAAAAAAA=</Content-CRC64><Content-MD5 /><Cache-Control /><Content-Disposition /><BlobType>BlockBlob</BlobType><AccessTier>Hot</AccessTier><AccessTierInferred>true</AccessTierInferred><ServerEncrypted>true</ServerEncrypted><DeletedTime>Tue, 11 May 2021 09:46:00 GMT</DeletedTime><RemainingRetentionDays>1</RemainingRetentionDays></Properties><OrMetadata /></Blob><Blob><Name>file1162072635787809330</Name><DeletionId>132651999614662724</DeletionId><Deleted>true</Deleted><Properties><Creation-Time>Tue, 11 May 2021 09:46:01 GMT</Creation-Time><Last-Modified>Tue, 11 May 2021 09:46:01 GMT</Last-Modified><Expiry-Time>Thu, 13 May 2021 09:46:01 GMT</Expiry-Time><Etag>0x8D914619610094C</Etag><Content-Length>0</Content-Length><Content-Type>application/octet-stream</Content-Type><Content-Encoding /><Content-Language /><Content-CRC64>AAAAAAAAAAA=</Content-CRC64><Content-MD5 /><Cache-Control /><Content-Disposition /><BlobType>BlockBlob</BlobType><AccessTier>Hot</AccessTier><AccessTierInferred>true</AccessTierInferred><ServerEncrypted>true</ServerEncrypted><DeletedTime>Tue, 11 May 2021 09:46:01 GMT</DeletedTime><RemainingRetentionDays>1</RemainingRetentionDays></Properties><OrMetadata /></Blob><Blob><Name>file2162072635848007162</Name><DeletionId>132651999620841833</DeletionId><Deleted>true</Deleted><Properties><Creation-Time>Tue, 11 May 2021 09:45:58 GMT</Creation-Time><Last-Modified>Tue, 11 May 2021 09:45:58 GMT</Last-Modified><Expiry-Time>Thu, 13 May 2021 09:46:02 GMT</Expiry-Time><Etag>0x8D9146194C15D93</Etag><Content-Length>0</Content-Length><Content-Type>application/octet-stream</Content-Type><Content-Encoding /><Content-Language /><Content-CRC64>AAAAAAAAAAA=</Content-CRC64><Content-MD5 /><Cache-Control /><Content-Disposition /><BlobType>BlockBlob</BlobType><AccessTier>Hot</AccessTier><AccessTierInferred>true</AccessTierInferred><ServerEncrypted>true</ServerEncrypted><DeletedTime>Tue, 11 May 2021 09:46:02 GMT</DeletedTime><RemainingRetentionDays>1</RemainingRetentionDays></Properties><OrMetadata /></Blob><Blob><Name>file2162072635848007162</Name><DeletionId>132651999627147506</DeletionId><Deleted>true</Deleted><Properties><Creation-Time>Tue, 11 May 2021 09:46:02 GMT</Creation-Time><Last-Modified>Tue, 11 May 2021 09:46:02 GMT</Last-Modified><Expiry-Time>Thu, 13 May 2021 09:46:02 GMT</Expiry-Time><Etag>0x8D9146196CEE5AB</Etag><Content-Length>0</Content-Length><Content-Type>application/octet-stream</Content-Type><Content-Encoding /><Content-Language /><Content-CRC64>AAAAAAAAAAA=</Content-CRC64><Content-MD5 /><Cache-Control /><Content-Disposition /><BlobType>BlockBlob</BlobType><AccessTier>Hot</AccessTier><AccessTierInferred>true</AccessTierInferred><ServerEncrypted>true</ServerEncrypted><DeletedTime>Tue, 11 May 2021 09:46:02 GMT</DeletedTime><RemainingRetentionDays>1</RemainingRetentionDays></Properties><OrMetadata /></Blob></Blobs><NextMarker /></EnumerationResults>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.blob.core.windows.net/\" ContainerName=\"filesystem169154766292501076\"><Blobs><Blob><Name>file0169154766319701204</Name><DeletionId>133360212635502745</DeletionId><Deleted>true</Deleted><Properties><Creation-Time>Wed, 09 Aug 2023 02:21:02 GMT</Creation-Time><Last-Modified>Wed, 09 Aug 2023 02:21:02 GMT</Last-Modified><Expiry-Time>Wed, 16 Aug 2023 02:21:03 GMT</Expiry-Time><Etag>0x8DB987F4757CF84</Etag><ResourceType>file</ResourceType><Content-Length>0</Content-Length><Content-Type>application/octet-stream</Content-Type><Content-Encoding /><Content-Language /><Content-CRC64>AAAAAAAAAAA=</Content-CRC64><Content-MD5 /><Cache-Control /><Content-Disposition /><BlobType>BlockBlob</BlobType><AccessTier>Hot</AccessTier><AccessTierInferred>true</AccessTierInferred><ServerEncrypted>true</ServerEncrypted><DeletedTime>Wed, 09 Aug 2023 02:21:03 GMT</DeletedTime><RemainingRetentionDays>6</RemainingRetentionDays></Properties><OrMetadata /></Blob><Blob><Name>file0169154766319701204</Name><DeletionId>133360212637952344</DeletionId><Deleted>true</Deleted><Properties><Creation-Time>Wed, 09 Aug 2023 02:21:03 GMT</Creation-Time><Last-Modified>Wed, 09 Aug 2023 02:21:03 GMT</Last-Modified><Expiry-Time>Wed, 16 Aug 2023 02:21:03 GMT</Expiry-Time><Etag>0x8DB987F47DB1985</Etag><ResourceType>file</ResourceType><Content-Length>0</Content-Length><Content-Type>application/octet-stream</Content-Type><Content-Encoding /><Content-Language /><Content-CRC64>AAAAAAAAAAA=</Content-CRC64><Content-MD5 /><Cache-Control /><Content-Disposition /><BlobType>BlockBlob</BlobType><AccessTier>Hot</AccessTier><AccessTierInferred>true</AccessTierInferred><ServerEncrypted>true</ServerEncrypted><DeletedTime>Wed, 09 Aug 2023 02:21:03 GMT</DeletedTime><RemainingRetentionDays>6</RemainingRetentionDays></Properties><OrMetadata /></Blob><Blob><Name>file1169154766345407389</Name><DeletionId>133360212640481944</DeletionId><Deleted>true</Deleted><Properties><Creation-Time>Wed, 09 Aug 2023 02:21:03 GMT</Creation-Time><Last-Modified>Wed, 09 Aug 2023 02:21:03 GMT</Last-Modified><Expiry-Time>Wed, 16 Aug 2023 02:21:04 GMT</Expiry-Time><Etag>0x8DB987F477AE704</Etag><ResourceType>file</ResourceType><Content-Length>0</Content-Length><Content-Type>application/octet-stream</Content-Type><Content-Encoding /><Content-Language /><Content-CRC64>AAAAAAAAAAA=</Content-CRC64><Content-MD5 /><Cache-Control /><Content-Disposition /><BlobType>BlockBlob</BlobType><AccessTier>Hot</AccessTier><AccessTierInferred>true</AccessTierInferred><ServerEncrypted>true</ServerEncrypted><DeletedTime>Wed, 09 Aug 2023 02:21:04 GMT</DeletedTime><RemainingRetentionDays>6</RemainingRetentionDays></Properties><OrMetadata /></Blob><Blob><Name>file1169154766345407389</Name><DeletionId>133360212643057638</DeletionId><Deleted>true</Deleted><Properties><Creation-Time>Wed, 09 Aug 2023 02:21:04 GMT</Creation-Time><Last-Modified>Wed, 09 Aug 2023 02:21:04 GMT</Last-Modified><Expiry-Time>Wed, 16 Aug 2023 02:21:04 GMT</Expiry-Time><Etag>0x8DB987F4827DDD6</Etag><ResourceType>file</ResourceType><Content-Length>0</Content-Length><Content-Type>application/octet-stream</Content-Type><Content-Encoding /><Content-Language /><Content-CRC64>AAAAAAAAAAA=</Content-CRC64><Content-MD5 /><Cache-Control /><Content-Disposition /><BlobType>BlockBlob</BlobType><AccessTier>Hot</AccessTier><AccessTierInferred>true</AccessTierInferred><ServerEncrypted>true</ServerEncrypted><DeletedTime>Wed, 09 Aug 2023 02:21:04 GMT</DeletedTime><RemainingRetentionDays>6</RemainingRetentionDays></Properties><OrMetadata /></Blob><Blob><Name>file2169154766368304768</Name><DeletionId>133360212645436284</DeletionId><Deleted>true</Deleted><Properties><Creation-Time>Wed, 09 Aug 2023 02:21:03 GMT</Creation-Time><Last-Modified>Wed, 09 Aug 2023 02:21:03 GMT</Last-Modified><Expiry-Time>Wed, 16 Aug 2023 02:21:04 GMT</Expiry-Time><Etag>0x8DB987F479DDA42</Etag><ResourceType>file</ResourceType><Content-Length>0</Content-Length><Content-Type>application/octet-stream</Content-Type><Content-Encoding /><Content-Language /><Content-CRC64>AAAAAAAAAAA=</Content-CRC64><Content-MD5 /><Cache-Control /><Content-Disposition /><BlobType>BlockBlob</BlobType><AccessTier>Hot</AccessTier><AccessTierInferred>true</AccessTierInferred><ServerEncrypted>true</ServerEncrypted><DeletedTime>Wed, 09 Aug 2023 02:21:04 GMT</DeletedTime><RemainingRetentionDays>6</RemainingRetentionDays></Properties><OrMetadata /></Blob><Blob><Name>file2169154766368304768</Name><DeletionId>133360212648074222</DeletionId><Deleted>true</Deleted><Properties><Creation-Time>Wed, 09 Aug 2023 02:21:04 GMT</Creation-Time><Last-Modified>Wed, 09 Aug 2023 02:21:04 GMT</Last-Modified><Expiry-Time>Wed, 16 Aug 2023 02:21:04 GMT</Expiry-Time><Etag>0x8DB987F487433B2</Etag><ResourceType>file</ResourceType><Content-Length>0</Content-Length><Content-Type>application/octet-stream</Content-Type><Content-Encoding /><Content-Language /><Content-CRC64>AAAAAAAAAAA=</Content-CRC64><Content-MD5 /><Cache-Control /><Content-Disposition /><BlobType>BlockBlob</BlobType><AccessTier>Hot</AccessTier><AccessTierInferred>true</AccessTierInferred><ServerEncrypted>true</ServerEncrypted><DeletedTime>Wed, 09 Aug 2023 02:21:04 GMT</DeletedTime><RemainingRetentionDays>6</RemainingRetentionDays></Properties><OrMetadata /></Blob></Blobs><NextMarker /></EnumerationResults>",
    "responseHeaders": {
     "content-type": "application/xml",
-    "date": "Tue, 11 May 2021 09:46:02 GMT",
+    "date": "Wed, 09 Aug 2023 02:21:04 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
-    "x-ms-client-request-id": "62048a20-b8ec-4b91-bca4-3685e0abd640",
-    "x-ms-request-id": "68f9dec2-501e-0069-484a-4674ec000000",
-    "x-ms-version": "2020-06-12"
+    "x-ms-client-request-id": "78f873ea-46e2-4d6e-9568-3cf5304c04c6",
+    "x-ms-request-id": "63fe2020-301e-005b-0268-cac03a000000",
+    "x-ms-version": "2023-08-03"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://fakestorageaccount.blob.core.windows.net/filesystem162072635474309322",
+   "url": "https://fakestorageaccount.blob.core.windows.net/filesystem169154766292501076",
    "query": {
     "restype": "container"
    },
@@ -286,22 +298,22 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Tue, 11 May 2021 09:46:03 GMT",
+    "date": "Wed, 09 Aug 2023 02:21:05 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "x-ms-client-request-id": "3c5ada4b-a596-4385-b096-7424e4ffd8d6",
-    "x-ms-request-id": "68f9df2e-501e-0069-164a-4674ec000000",
-    "x-ms-version": "2020-06-12"
+    "x-ms-client-request-id": "aaa54037-ef84-46f5-be78-fba1d427d2fe",
+    "x-ms-request-id": "63fe2076-301e-005b-5468-cac03a000000",
+    "x-ms-version": "2023-08-03"
    }
   }
  ],
  "uniqueTestInfo": {
   "uniqueName": {
-   "filesystem": "filesystem162072635474309322",
-   "file0": "file0162072635630702378",
-   "file1": "file1162072635787809330",
-   "file2": "file2162072635848007162"
+   "filesystem": "filesystem169154766292501076",
+   "file0": "file0169154766319701204",
+   "file1": "file1169154766345407389",
+   "file2": "file2169154766368304768"
   },
   "newDate": {}
  },
- "hash": "6d2f1d2c590ff4ea3aecf597809d82c9"
+ "hash": "9678d339ab5cc4b2611053d1c688cdc7"
 }
