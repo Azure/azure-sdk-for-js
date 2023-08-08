@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "version": "1.0.0-beta.1",
-  "description": "A generated SDK for HealthInsightsClinicalmatchingRest",
+  "description": "A generated SDK for Health Insights Clinical Matching Rest",
   "keywords": [
     "node",
     "azure",

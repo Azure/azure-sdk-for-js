@@ -139,6 +139,7 @@ const clinicalInfoList = [
     body: trialMatcherData
   };
   
+  // Initiate clinical matching job and retrieve results
 const initialResponse = await client.path("/trialmatcher/jobs").post(trialMatcherParameter);
 if (isUnexpected(initialResponse)) {
 throw initialResponse;
@@ -149,6 +150,8 @@ if (isUnexpected(trialMatcherResult)) {
 throw trialMatcherResult;
 }
 const resultBody = trialMatcherResult.body;
+
+// Print the inference results for a patient's cancer attributes
 if (resultBody.status === "succeeded") {
   const results = resultBody.results;
   const patients = results.patients;

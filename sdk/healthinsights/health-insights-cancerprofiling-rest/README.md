@@ -58,6 +58,7 @@ const endpoint =
 const credential = new AzureKeyCredential(apiKey);
 const client = CancerProfilingRestClient(endpoint, credential);
 
+// Define patient information and clinical documents
 const patientInfo = {
         sex: "FEMALE",
         birthDate: new Date("1979-10-08T00:00:00.000Z"), // Note: Months are zero-based (11 represents December)
@@ -189,18 +190,18 @@ const parameters = {
     body: cancerProfilingData
 };
 
+// Initiate cancer profiling job and retrieve results
 const initialResponse = await client.path("/oncophenotype/jobs").post(parameters);
 if (isUnexpected(initialResponse)) {
     throw initialResponse;
 }
-
 const poller = await getLongRunningPoller(client, initialResponse);
 const cancerProfilingResult = await poller.pollUntilDone();
 if (isUnexpected(cancerProfilingResult)) {
     throw cancerProfilingResult;
 }
 const resultBody = cancerProfilingResult.body;
-
+// Print the inference results for a patient's cancer attributes
 if (cancerProfilingResult.status === "succeeded") {
     const results = cancerProfilingResult.results;
     const patients = results.patients;

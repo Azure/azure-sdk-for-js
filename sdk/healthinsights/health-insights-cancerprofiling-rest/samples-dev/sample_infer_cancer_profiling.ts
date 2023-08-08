@@ -10,7 +10,6 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 
-// Load the .env file if it exists
 import * as dotenv from "dotenv";
 import CancerProfilingRestClient, {
     getLongRunningPoller,
@@ -23,6 +22,7 @@ dotenv.config();
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "https://eastus.api.cognitive.microsoft.com";
 const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
 
+// Print the inference results
 function printResults(cancerProfilingResult: OncoPhenotypeResultOutput): void {
     if (cancerProfilingResult.status === "succeeded") {
         const results = cancerProfilingResult.results;
@@ -58,6 +58,7 @@ export async function main() {
     const credential = new AzureKeyCredential(apiKey);
     const client = CancerProfilingRestClient(endpoint, credential);
 
+    // Define patient information and clinical documents
     const patientInfo = {
         sex: "FEMALE",
         birthDate: new Date("1979-10-08T00:00:00.000Z"), // Note: Months are zero-based (11 represents December)
@@ -98,6 +99,7 @@ export async function main() {
         createdDateTime: new Date("2021-08-15T00:00:00.000Z")
     };
 
+    // Define patientDoc2 and patientDoc3 similarly
     const doc2 = `Oncology Clinic 
        20.10.2021
        Jane Doe 091175-8967
@@ -189,6 +191,7 @@ export async function main() {
         body: cancerProfilingData
     };
 
+    // Initiate cancer profiling job and retrieve results
   const initialResponse = await client.path("/oncophenotype/jobs").post(parameters);
   if (isUnexpected(initialResponse)) {
     throw initialResponse;

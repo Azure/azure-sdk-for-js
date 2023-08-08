@@ -9,7 +9,6 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 
-// Load the .env file if it exists
 import * as dotenv from "dotenv";
 import ClinicalMatchingRestClient, {
   getLongRunningPoller,
@@ -19,10 +18,10 @@ import ClinicalMatchingRestClient, {
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
-
 const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "https://eastus.api.cognitive.microsoft.com";
 
+// Print the inference results for a patient's cancer attributes
 function printResults(trialMatcherResult: TrialMatcherResultOutput): void {
     if (trialMatcherResult.status === "succeeded") {
       const results = trialMatcherResult.results;
@@ -52,6 +51,7 @@ export async function main() {
   const credential = new AzureKeyCredential(apiKey);
   const client = ClinicalMatchingRestClient(endpoint, credential);
 
+  // Define patient information and clinical info
   const clinicalInfoList = [
     {
       system: "http://www.nlm.nih.gov/research/umls",
@@ -152,6 +152,7 @@ export async function main() {
     body: trialMatcherData
   };
 
+  // Initiate clinical matching job and retrieve results
   const initialResponse = await client.path("/trialmatcher/jobs").post(trialMatcherParameter);
   if (isUnexpected(initialResponse)) {
     throw initialResponse;
