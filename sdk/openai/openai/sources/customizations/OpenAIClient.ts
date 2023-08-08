@@ -16,7 +16,7 @@ import {
   OpenAIClientOptions,
 } from "../generated/api/index.js";
 import { getChatCompletionsResult, getCompletionsResult } from "./api/operations.js";
-import { getSSEs } from "./api/sse.js";
+import { getOaiSSEs } from "./api/oaiSse.js";
 import { ChatCompletions, Completions, Embeddings } from "../generated/api/models.js";
 import { _getChatCompletionsSend, _getCompletionsSend } from "../generated/api/operations.js";
 import { ImageGenerationOptions } from "./api/operations.js";
@@ -154,90 +154,90 @@ export class OpenAIClient {
 
   /**
    * Returns textual completions as configured for a given prompt.
-   * @param deploymentOrModelName - Specifies either the model deployment name (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
+   * @param deploymentName - Specifies either the model deployment name (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
    * @param prompt - The prompt to use for this request.
    * @param options - The options for this completions request.
    * @returns The completions for the given prompt.
    */
   getCompletions(
-    deploymentOrModelName: string,
+    deploymentName: string,
     prompt: string[],
     options: GetCompletionsOptions = { requestOptions: {} }
   ): Promise<Completions> {
-    this.setModel(deploymentOrModelName, options);
-    return getCompletions(this._client, prompt, deploymentOrModelName, options);
+    this.setModel(deploymentName, options);
+    return getCompletions(this._client, prompt, deploymentName, options);
   }
 
   /**
    * Lists the completions tokens as they become available for a given prompt.
-   * @param deploymentOrModelName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
+   * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
    * @param prompt - The prompt to use for this request.
    * @param options - The completions options for this completions request.
    * @returns An asynchronous iterable of completions tokens.
    */
   listCompletions(
-    deploymentOrModelName: string,
+    deploymentName: string,
     prompt: string[],
     options: GetCompletionsOptions = {}
-  ): Promise<AsyncIterable<Omit<Completions, "usage">>> {
-    this.setModel(deploymentOrModelName, options);
-    const response = _getCompletionsSend(this._client, prompt, deploymentOrModelName, {
+  ): AsyncIterable<Omit<Completions, "usage">> {
+    this.setModel(deploymentName, options);
+    const response = _getCompletionsSend(this._client, prompt, deploymentName, {
       ...options,
       stream: true,
     });
-    return getSSEs(response, getCompletionsResult);
+    return getOaiSSEs(response, getCompletionsResult);
   }
 
   /**
    * Return the computed embeddings for a given prompt.
-   * @param deploymentOrModelName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
+   * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
    * @param input - The prompt to use for this request.
    * @param options - The embeddings options for this embeddings request.
    * @returns The embeddings for the given prompt.
    */
   getEmbeddings(
-    deploymentOrModelName: string,
+    deploymentName: string,
     input: string[],
     options: GetEmbeddingsOptions = { requestOptions: {} }
   ): Promise<Embeddings> {
-    this.setModel(deploymentOrModelName, options);
-    return getEmbeddings(this._client, input, deploymentOrModelName, options);
+    this.setModel(deploymentName, options);
+    return getEmbeddings(this._client, input, deploymentName, options);
   }
 
   /**
    * Get chat completions for provided chat context messages.
-   * @param deploymentOrModelName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
+   * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
    * @param messages - The chat context messages to use for this request.
    * @param options - The chat completions options for this completions request.
    * @returns The chat completions for the given chat context messages.
    */
   getChatCompletions(
-    deploymentOrModelName: string,
+    deploymentName: string,
     messages: ChatMessage[],
     options: GetChatCompletionsOptions = { requestOptions: {} }
   ): Promise<ChatCompletions> {
-    this.setModel(deploymentOrModelName, options);
-    return getChatCompletions(this._client, messages, deploymentOrModelName, options);
+    this.setModel(deploymentName, options);
+    return getChatCompletions(this._client, messages, deploymentName, options);
   }
 
   /**
    * Lists the chat completions tokens as they become available for a chat context.
-   * @param deploymentOrModelName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
+   * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
    * @param messages - The chat context messages to use for this request.
    * @param options - The chat completions options for this chat completions request.
    * @returns An asynchronous iterable of chat completions tokens.
    */
   listChatCompletions(
-    deploymentOrModelName: string,
+    deploymentName: string,
     messages: ChatMessage[],
     options: GetChatCompletionsOptions = { requestOptions: {} }
-  ): Promise<AsyncIterable<Omit<ChatCompletions, "usage">>> {
-    this.setModel(deploymentOrModelName, options);
-    const response = _getChatCompletionsSend(this._client, messages, deploymentOrModelName, {
+  ): AsyncIterable<Omit<ChatCompletions, "usage">> {
+    this.setModel(deploymentName, options);
+    const response = _getChatCompletionsSend(this._client, messages, deploymentName, {
       ...options,
       stream: true,
     });
-    return getSSEs(response, getChatCompletionsResult);
+    return getOaiSSEs(response, getChatCompletionsResult);
   }
 
   /**
