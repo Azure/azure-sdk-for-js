@@ -40,6 +40,10 @@ import {
   ContainerAppsListSecretsResponse,
   ContainerAppsGetAuthTokenOptionalParams,
   ContainerAppsGetAuthTokenResponse,
+  ContainerAppsStartOptionalParams,
+  ContainerAppsStartResponse,
+  ContainerAppsStopOptionalParams,
+  ContainerAppsStopResponse,
   ContainerAppsListBySubscriptionNextResponse,
   ContainerAppsListByResourceGroupNextResponse
 } from "../models";
@@ -561,6 +565,188 @@ export class ContainerAppsImpl implements ContainerApps {
   }
 
   /**
+   * Start a container app
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param containerAppName Name of the Container App.
+   * @param options The options parameters.
+   */
+  async beginStart(
+    resourceGroupName: string,
+    containerAppName: string,
+    options?: ContainerAppsStartOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ContainerAppsStartResponse>,
+      ContainerAppsStartResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ContainerAppsStartResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, containerAppName, options },
+      spec: startOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ContainerAppsStartResponse,
+      OperationState<ContainerAppsStartResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Start a container app
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param containerAppName Name of the Container App.
+   * @param options The options parameters.
+   */
+  async beginStartAndWait(
+    resourceGroupName: string,
+    containerAppName: string,
+    options?: ContainerAppsStartOptionalParams
+  ): Promise<ContainerAppsStartResponse> {
+    const poller = await this.beginStart(
+      resourceGroupName,
+      containerAppName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Stop a container app
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param containerAppName Name of the Container App.
+   * @param options The options parameters.
+   */
+  async beginStop(
+    resourceGroupName: string,
+    containerAppName: string,
+    options?: ContainerAppsStopOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ContainerAppsStopResponse>,
+      ContainerAppsStopResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ContainerAppsStopResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, containerAppName, options },
+      spec: stopOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ContainerAppsStopResponse,
+      OperationState<ContainerAppsStopResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Stop a container app
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param containerAppName Name of the Container App.
+   * @param options The options parameters.
+   */
+  async beginStopAndWait(
+    resourceGroupName: string,
+    containerAppName: string,
+    options?: ContainerAppsStopOptionalParams
+  ): Promise<ContainerAppsStopResponse> {
+    const poller = await this.beginStop(
+      resourceGroupName,
+      containerAppName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListBySubscriptionNext
    * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
@@ -811,6 +997,68 @@ const getAuthTokenOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.containerAppName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const startOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/start",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ContainerApp
+    },
+    201: {
+      bodyMapper: Mappers.ContainerApp
+    },
+    202: {
+      bodyMapper: Mappers.ContainerApp
+    },
+    204: {
+      bodyMapper: Mappers.ContainerApp
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.containerAppName1
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const stopOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/stop",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ContainerApp
+    },
+    201: {
+      bodyMapper: Mappers.ContainerApp
+    },
+    202: {
+      bodyMapper: Mappers.ContainerApp
+    },
+    204: {
+      bodyMapper: Mappers.ContainerApp
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.containerAppName1
   ],
   headerParameters: [Parameters.accept],
   serializer
