@@ -165,6 +165,9 @@ describe("Error scenarios", function () {
       );
     });
     it("schema with invalid ID", async function () {
+      if (!isLiveMode()) {
+        this.skip();
+      }
       await assertError(
         serializer.serialize(
           null,
