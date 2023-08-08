@@ -1,0 +1,101 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/identities?api-version=2022-10-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "34",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-communication-identity/1.2.1 core-rest-pipeline/1.11.1 Node/v18.16.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "e6850a6b-249f-4421-87d5-36ba32c27e12",
+        "x-ms-content-sha256": "k4k9IoKBLYipoiXK3LctfBcfghISSb6AI45ji7ILZfg=",
+        "x-ms-date": "Fri, 04 Aug 2023 20:28:45 GMT"
+      },
+      "RequestBody": {
+        "createTokenWithScopes": [
+          "voip"
+        ]
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-10-31-preview, 2021-11-01, 2022-06-01, 2022-10-01, 2023-08-01",
+        "Connection": "keep-alive",
+        "Content-Length": "220",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 04 Aug 2023 20:28:45 GMT",
+        "MS-CV": "0M74ZukSTEy1OVZni5FUWw.0",
+        "Request-Context": "appId=",
+        "Strict-Transport-Security": "max-age=2592000",
+        "x-azure-ref": "20230804T202845Z-0yx534m0d53gr3r90a7axt86mn0000000320000000007ybc",
+        "X-Cache": "CONFIG_NOCACHE",
+        "x-ms-client-request-id": "e6850a6b-249f-4421-87d5-36ba32c27e12",
+        "X-Processing-Time": "23ms"
+      },
+      "ResponseBody": {
+        "identity": {
+          "id": "Sanitized"
+        },
+        "accessToken": {
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTExODQ1MjAuOTkyfQ==.adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs",
+          "expiresOn": "2023-08-05T20:28:45.8287734\u002B00:00"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/rooms?api-version=2023-06-14",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "98",
+        "Content-Type": "application/json",
+        "Repeatability-First-Sent": "Fri, 04 Aug 2023 20:28:45 GMT",
+        "Repeatability-Request-ID": "574ef8dc-0ad2-42ff-a2e3-63ac1f765acb",
+        "User-Agent": "azsdk-js-communication-rooms/1.0.0 core-rest-pipeline/1.11.1 Node/v18.16.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "9769d495-abcd-45d6-bfbd-0e1566ee0471",
+        "x-ms-content-sha256": "Qjtz9K/8BXfbbXzCVhj0QZtt\u002B25p\u002B//Co7Xkbuh\u002B5Sk=",
+        "x-ms-date": "Fri, 04 Aug 2023 20:28:45 GMT"
+      },
+      "RequestBody": {
+        "validFrom": "2023-08-04T20:28:40.000Z",
+        "validUntil": "2023-08-04T20:23:40.000Z",
+        "participants": {}
+      },
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 04 Aug 2023 20:28:46 GMT",
+        "MS-CV": "gJ0zibFfYkK2yC0FMdQoSA.0",
+        "Request-Context": "appId=",
+        "Transfer-Encoding": "chunked",
+        "x-azure-ref": "20230804T202845Z-0yx534m0d53gr3r90a7axt86mn0000000320000000007ybm",
+        "X-Cache": "CONFIG_NOCACHE",
+        "x-ms-error-code": "BadRequest"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "BadRequest",
+          "message": "The request could not be understood by the server due to malformed syntax.",
+          "details": [
+            {
+              "code": "BadArgument",
+              "message": "The time range end is in the past.",
+              "target": "ValidUntil"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "Variables": {
+    "validFrom": "Fri Aug 04 2023 13:28:40 GMT-0700 (Pacific Daylight Saving Time)",
+    "validUntil": "Fri Aug 04 2023 13:23:40 GMT-0700 (Pacific Daylight Saving Time)"
+  }
+}

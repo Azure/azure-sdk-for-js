@@ -216,6 +216,10 @@
 /sdk/apimanagement/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/appcontainers/arm-appcontainers/ @qiaozha @MaryGao
+/sdk/appcontainers/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/appconfiguration/arm-appconfiguration/ @qiaozha @MaryGao
 /sdk/appconfiguration/ci.mgmt.yml @qiaozha @MaryGao
 
@@ -463,6 +467,10 @@
 /sdk/iotcentral/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/iotfirmwaredefense/arm-iotfirmwaredefense @qiaozha @MaryGao
+/sdk/iotfirmwaredefense/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/iothub/arm-iothub/ @qiaozha @MaryGao
 /sdk/iothub/ci.mgmt.yml @qiaozha @MaryGao
 
@@ -538,6 +546,10 @@
 # PRLabel: %Mgmt
 /sdk/managedapplications/arm-managedapplications/ @qiaozha @MaryGao
 /sdk/managedapplications/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/managednetworkfabric/arm-managednetworkfabric/ @qiaozha @MaryGao
+/sdk/managednetworkfabric/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/managementgroups/arm-managementgroups/ @qiaozha @MaryGao
@@ -874,6 +886,14 @@
 /sdk/monitor/monitor-opentelemetry @hectorhdzg @JacksonWeber
 /sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @JacksonWeber
 /sdk/monitor/monitor-query/ @KarishmaGhiya @sarangan12
+
+# PRLabel: %Mgmt
+/sdk/quantum/arm-quantum/ @qiaozha @MaryGao
+/sdk/quantum/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/sphere/arm-sphere/ @qiaozha @MaryGao
+/sdk/sphere/ci.mgmt.yml @qiaozha @MaryGao
 
 # ServiceLabel: %AAD %Service Attention
 #/<NotInRepo>/          @adamedx

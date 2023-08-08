@@ -13,29 +13,30 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Deletes a PostgreSQL server firewall rule.
+ * This sample demonstrates how to Deletes a migration.
  *
- * @summary Deletes a PostgreSQL server firewall rule.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/FirewallRuleDelete.json
+ * @summary Deletes a migration.
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/Migrations_Delete.json
  */
-async function firewallRuleDelete() {
+async function migrationsDelete() {
   const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
-  const serverName = "testserver";
-  const firewallRuleName = "rule1";
+  const targetDbServerName = "testtarget";
+  const migrationName = "testmigration";
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
-  const result = await client.firewallRules.beginDeleteAndWait(
+  const result = await client.migrations.delete(
+    subscriptionId,
     resourceGroupName,
-    serverName,
-    firewallRuleName
+    targetDbServerName,
+    migrationName
   );
   console.log(result);
 }
 
 async function main() {
-  firewallRuleDelete();
+  migrationsDelete();
 }
 
 main().catch(console.error);

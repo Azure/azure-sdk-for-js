@@ -19,7 +19,7 @@ import {
 export interface PrivateLinkResources {
   /**
    * Returns the list of private link resources.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
@@ -30,7 +30,7 @@ export interface PrivateLinkResources {
   ): PagedAsyncIterableIterator<PrivateLinkResource>;
   /**
    * Gets a private link resource.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param privateLinkResourceName The name of the private link resource.
    * @param options The options parameters.

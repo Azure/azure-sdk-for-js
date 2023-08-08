@@ -19,14 +19,18 @@ import {
   SkusImpl,
   ElasticSansImpl,
   VolumeGroupsImpl,
-  VolumesImpl
+  VolumesImpl,
+  PrivateEndpointConnectionsImpl,
+  PrivateLinkResourcesImpl
 } from "./operations";
 import {
   Operations,
   Skus,
   ElasticSans,
   VolumeGroups,
-  Volumes
+  Volumes,
+  PrivateEndpointConnections,
+  PrivateLinkResources
 } from "./operationsInterfaces";
 import { ElasticSanManagementOptionalParams } from "./models";
 
@@ -62,7 +66,7 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-elasticsan/1.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-elasticsan/1.0.0-beta.3`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -115,12 +119,14 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-11-20-preview";
+    this.apiVersion = options.apiVersion || "2022-12-01-preview";
     this.operations = new OperationsImpl(this);
     this.skus = new SkusImpl(this);
     this.elasticSans = new ElasticSansImpl(this);
     this.volumeGroups = new VolumeGroupsImpl(this);
     this.volumes = new VolumesImpl(this);
+    this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
+    this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -157,4 +163,6 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
   elasticSans: ElasticSans;
   volumeGroups: VolumeGroups;
   volumes: Volumes;
+  privateEndpointConnections: PrivateEndpointConnections;
+  privateLinkResources: PrivateLinkResources;
 }

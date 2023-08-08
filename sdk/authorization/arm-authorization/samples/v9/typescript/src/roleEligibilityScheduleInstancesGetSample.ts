@@ -21,15 +21,12 @@ dotenv.config();
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2020-10-01/examples/GetRoleEligibilityScheduleInstanceByName.json
  */
 async function getRoleEligibilityScheduleInstanceByName() {
-  const subscriptionId =
-    process.env["AUTHORIZATION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const scope =
     "providers/Microsoft.Subscription/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f";
   const roleEligibilityScheduleInstanceName =
     "21e4b59a-0499-4fe0-a3c3-43a3055b773a";
   const credential = new DefaultAzureCredential();
-  const client = new AuthorizationManagementClient(credential, subscriptionId);
+  const client = new AuthorizationManagementClient(credential);
   const result = await client.roleEligibilityScheduleInstances.get(
     scope,
     roleEligibilityScheduleInstanceName

@@ -4,7 +4,6 @@
 import { DocumentFieldSchema, DocumentModelDetails } from "./generated";
 import { AnalyzedDocument, AnalyzeResult } from "./lro/analysis";
 import { DocumentField } from "./models/fields";
-import { FormRecognizerApiVersion } from "./options";
 import { isAcronymic, uncapitalize } from "./util";
 
 /**
@@ -21,7 +20,7 @@ export interface DocumentModel<Result> {
   /**
    * The API version of the model.
    */
-  apiVersion?: FormRecognizerApiVersion;
+  apiVersion?: string;
   /**
    * An associated transformation that is used to conver the base (weak) Result type to the strong version.
    */
@@ -94,7 +93,7 @@ export function createModelFromSchema(
 ): DocumentModel<AnalyzeResult<unknown>> {
   return {
     modelId: schema.modelId,
-    apiVersion: schema.apiVersion as FormRecognizerApiVersion,
+    apiVersion: schema.apiVersion,
     transformResult(baseResult: AnalyzeResult): AnalyzeResult<unknown> {
       const hasDocuments = Object.entries(schema.docTypes ?? {}).length > 0;
 

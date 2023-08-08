@@ -18,11 +18,12 @@ dotenv.config();
  * This sample demonstrates how to Get the properties of the provided rack SKU.
  *
  * @summary Get the properties of the provided rack SKU.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2022-12-12-preview/examples/RackSkus_Get.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2023-05-01-preview/examples/RackSkus_Get.json
  */
 async function getRackSkuResource() {
   const subscriptionId =
-    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] || "subscriptionId";
+    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
+    "123e4567-e89b-12d3-a456-426655440000";
   const rackSkuName = "rackSkuName";
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);

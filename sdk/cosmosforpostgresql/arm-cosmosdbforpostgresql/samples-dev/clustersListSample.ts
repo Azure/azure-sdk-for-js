@@ -17,8 +17,8 @@ dotenv.config();
 /**
  * This sample demonstrates how to Lists all clusters in a subscription.
  *
- * @summary Lists all clusters in a subscription.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ClusterList.json
+ * @summary List all the servers in a given subscription.
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/ServerList.json
  */
 async function listAllTheClusters() {
   const subscriptionId =

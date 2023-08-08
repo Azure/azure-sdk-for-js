@@ -17,13 +17,16 @@ dotenv.config();
 /**
  * This sample demonstrates how to Get the Container Apps Jobs in a given subscription.
  *
- * @summary Get the Container Apps Jobs in a given subscription.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/Jobs_ListBySubscription.json
+ * @summary Get the Certificates in a given managed environment.
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/Certificates_ListByManagedEnvironment.json
  */
-async function listContainerAppsJobsBySubscription() {
+async function listCertificatesByManagedEnvironment() {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName =
+    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
+  const environmentName = "testcontainerenv";
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const resArray = new Array();
@@ -34,7 +37,7 @@ async function listContainerAppsJobsBySubscription() {
 }
 
 async function main() {
-  listContainerAppsJobsBySubscription();
+  listCertificatesByManagedEnvironment();
 }
 
 main().catch(console.error);

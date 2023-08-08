@@ -60,7 +60,7 @@ export interface CommunicationError {
 /** A wrapper for a list of short code costs entities. */
 export interface ShortCodeCosts {
   /** List of short code costs. */
-  shortCodeCosts?: ShortCodeCost[];
+  costs?: ShortCodeCost[];
   /** Represents the URL link to the next page of short code results. */
   nextLink?: string;
 }
@@ -68,15 +68,15 @@ export interface ShortCodeCosts {
 /** The incurred cost for a single short code. */
 export interface ShortCodeCost {
   /** The cost amount. */
-  amount: number;
+  amount?: number;
   /** The ISO 4217 currency code for the cost amount, e.g. USD. */
-  currencyCode: string;
+  currencyCode?: string;
   /** The ISO 3166-2 code of the phone number's country, e.g. US. */
-  countryCode: string;
+  countryCode?: string;
   /** Indicate whether a shortcode is vanity. */
-  isVanityShortCode: boolean;
+  isVanityShortCode?: boolean;
   /** The frequency with which the cost gets billed. */
-  billingFrequency: BillingFrequency;
+  billingFrequency?: BillingFrequency;
 }
 
 /**

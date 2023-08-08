@@ -21,12 +21,9 @@ dotenv.config();
  * This sample demonstrates how to Create a network manager connection on this management group.
  *
  * @summary Create a network manager connection on this management group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkManagerConnectionManagementGroupPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/NetworkManagerConnectionManagementGroupPut.json
  */
 async function createOrUpdateManagementGroupNetworkManagerConnection() {
-  const subscriptionId =
-    process.env["NETWORK_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const managementGroupId = "managementGroupA";
   const networkManagerConnectionName = "TestNMConnection";
   const parameters: NetworkManagerConnection = {
@@ -34,7 +31,7 @@ async function createOrUpdateManagementGroupNetworkManagerConnection() {
       "/subscriptions/subscriptionC/resourceGroup/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager"
   };
   const credential = new DefaultAzureCredential();
-  const client = new NetworkManagementClient(credential, subscriptionId);
+  const client = new NetworkManagementClient(credential);
   const result = await client.managementGroupNetworkManagerConnections.createOrUpdate(
     managementGroupId,
     networkManagerConnectionName,

@@ -8,41 +8,38 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
+import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
 dotenv.config();
 
 /**
- * This sample demonstrates how to Deletes a database.
+ * This sample demonstrates how to Deletes the database with the given name.
  *
- * @summary Deletes a database.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/DatabaseDelete.json
+ * @summary Deletes the database with the given name.
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-05-02/examples/KustoDatabasesDelete.json
  */
-async function deleteADatabase() {
+async function kustoDatabasesDelete() {
   const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
+    process.env["KUSTO_SUBSCRIPTION_ID"] ||
+    "12345678-1234-1234-1234-123456789098";
   const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
-  const serverName = "testserver";
-  const databaseName = "db1";
+    process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
+  const clusterName = "kustoCluster";
+  const databaseName = "KustoDatabase8";
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId
-  );
+  const client = new KustoManagementClient(credential, subscriptionId);
   const result = await client.databases.beginDeleteAndWait(
     resourceGroupName,
-    serverName,
+    clusterName,
     databaseName
   );
   console.log(result);
 }
 
 async function main() {
-  deleteADatabase();
+  kustoDatabasesDelete();
 }
 
 main().catch(console.error);

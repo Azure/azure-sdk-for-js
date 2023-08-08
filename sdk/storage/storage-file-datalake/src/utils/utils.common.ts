@@ -3,7 +3,7 @@
 import { createHttpHeaders, HttpHeaders } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
 import { ContainerEncryptionScope, WithResponse } from "@azure/storage-blob";
-import { CpkInfo, FileSystemEncryptionScope } from "../models";
+import { CpkInfo, FileSystemEncryptionScope, PathPermissions } from "../models";
 
 import {
   DevelopmentConnectionString,
@@ -12,6 +12,9 @@ import {
   PathStylePorts,
   UrlConstants,
 } from "./constants";
+import { HttpResponse } from "@azure/storage-blob";
+import { HttpHeadersLike } from "@azure/core-http-compat";
+import { toPermissions } from "../transforms";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -193,7 +196,11 @@ export function extractConnectionStringParts(connectionString: string): Connecti
     // SAS connection string
 
     const accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
-    const accountName = getAccountNameFromUrl(blobEndpoint);
+    let accountName = getValueInConnString(connectionString, "AccountName");
+    // if accountName is empty, try to read it from BlobEndpoint
+    if (!accountName) {
+      accountName = getAccountNameFromUrl(blobEndpoint);
+    }
     if (!blobEndpoint) {
       throw new Error("Invalid BlobEndpoint in the provided SAS Connection String");
     } else if (!accountSas) {
@@ -544,11 +551,11 @@ export function isIpEndpointStyle(parsedUrl: URL): boolean {
   const host = parsedUrl.host;
 
   // Case 1: Ipv6, use a broad regex to find out candidates whose host contains two ':'.
-  // Case 2: localhost(:port), use broad regex to match port part.
+  // Case 2: localhost(:port) or host.docker.internal, use broad regex to match port part.
   // Case 3: Ipv4, use broad regex which just check if host contains Ipv4.
   // For valid host please refer to https://man7.org/linux/man-pages/man7/hostname.7.html.
   return (
-    /^.*:.*:.*$|^localhost(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
+    /^.*:.*:.*$|^(localhost|host.docker.internal)(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
       host
     ) ||
     (Boolean(parsedUrl.port) && PathStylePorts.includes(parsedUrl.port))
@@ -627,4 +634,53 @@ export function assertResponse<T extends object, Headers = undefined, Body = und
   }
 
   throw new TypeError(`Unexpected response object ${response}`);
+}
+
+export interface PathGetPropertiesRawResponseWithExtraPropertiesLike {
+  encryptionContext?: string;
+  owner?: string;
+  group?: string;
+  permissions?: PathPermissions;
+  _response: HttpResponse & {
+    parsedHeaders: {
+      encryptionContext?: string;
+      owner?: string;
+      group?: string;
+      permissions?: PathPermissions;
+    };
+  };
+}
+
+function ParseHeaderValue(
+  rawResponse: PathGetPropertiesRawResponseWithExtraPropertiesLike,
+  headerName: string
+): string | undefined {
+  if (rawResponse._response) {
+    const headers = rawResponse._response.headers as HttpHeadersLike;
+    if (headers) {
+      return headers.get(headerName);
+    }
+  }
+
+  return undefined;
+}
+
+/**
+ * Parse extra properties values from headers in raw response.
+ */
+export function ParsePathGetPropertiesExtraHeaderValues(
+  rawResponse: PathGetPropertiesRawResponseWithExtraPropertiesLike
+): PathGetPropertiesRawResponseWithExtraPropertiesLike {
+  const response = rawResponse;
+  response.encryptionContext = ParseHeaderValue(rawResponse, "x-ms-encryption-context");
+  response.owner = ParseHeaderValue(rawResponse, "x-ms-owner");
+  response.group = ParseHeaderValue(rawResponse, "x-ms-group");
+  response.permissions = toPermissions(ParseHeaderValue(rawResponse, "x-ms-permissions"));
+  if (response._response?.parsedHeaders) {
+    response._response.parsedHeaders.encryptionContext = response.encryptionContext;
+    response._response.parsedHeaders.owner = response.owner;
+    response._response.parsedHeaders.group = response.group;
+    response._response.parsedHeaders.permissions = response.permissions;
+  }
+  return response;
 }

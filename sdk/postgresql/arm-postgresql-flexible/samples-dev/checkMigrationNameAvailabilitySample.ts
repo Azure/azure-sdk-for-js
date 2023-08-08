@@ -9,7 +9,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  MigrationNameAvailabilityResource,
+  LtrBackupRequest,
   PostgreSQLManagementFlexibleServerClient
 } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -18,38 +18,37 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to This method checks whether a proposed migration name is valid and available.
+ * This sample demonstrates how to Start the Long Term Retention Backup operation
  *
- * @summary This method checks whether a proposed migration name is valid and available.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/CheckMigrationNameAvailability.json
+ * @summary Start the Long Term Retention Backup operation
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/LongTermRetentionBackup.json
  */
-async function checkMigrationNameAvailability() {
+async function sampleExecuteBackup() {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
-  const targetDbServerName = "testtarget";
-  const parameters: MigrationNameAvailabilityResource = {
-    name: "name1",
-    type: "Microsoft.DBforPostgreSQL/flexibleServers/migrations"
+    process.env["POSTGRESQL_RESOURCE_GROUP"] || "rgLongTermRetention";
+  const serverName = "pgsqlltrtestserver";
+  const parameters: LtrBackupRequest = {
+    backupSettings: { backupName: "backup1" },
+    targetDetails: { sasUriList: ["sasuri"] }
   };
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(
     credential,
     subscriptionId
   );
-  const result = await client.checkMigrationNameAvailability(
-    subscriptionId,
+  const result = await client.flexibleServer.beginStartLtrBackupAndWait(
     resourceGroupName,
-    targetDbServerName,
+    serverName,
     parameters
   );
   console.log(result);
 }
 
 async function main() {
-  checkMigrationNameAvailability();
+  sampleExecuteBackup();
 }
 
 main().catch(console.error);

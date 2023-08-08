@@ -17,8 +17,8 @@ dotenv.config();
 /**
  * This sample demonstrates how to Deletes a cluster firewall rule.
  *
- * @summary Deletes a cluster firewall rule.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/FirewallRuleDelete.json
+ * @summary Deletes a PostgreSQL server firewall rule.
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/FirewallRuleDelete.json
  */
 async function deleteTheFirewallRuleOfTheCluster() {
   const subscriptionId =

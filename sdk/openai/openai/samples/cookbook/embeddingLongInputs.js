@@ -18,7 +18,6 @@ https://platform.openai.com/docs/guides/embeddings.
 First, we set up the client, select the model, and define a function to get embeddings from the API.
 */
 
-import { backOff } from "exponential-backoff";
 const tiktoken = require("tiktoken-node");
 const mathjs = require("mathjs");
 const { OpenAIClient } = require("@azure/openai");
@@ -37,17 +36,16 @@ const embeddingEncoding = 'cl100k_base';
 
 const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
 
-const backOffOptions = { numOfAttempts: 6 };
-
-function getEmbeddings(text) {
-  return backOff(() => client.getEmbeddings(model, text), backOffOptions);
+async function getEmbeddings(text) {
+  const res = await client.getEmbeddings(model, text);
+  return res.data[0].embedding;
 }
 
 /*
 The text-embedding-ada-002 model has a context length of 8191 tokens with the cl100k_base encoding, 
 and we can see that going over that limit causes an error.
 */
-const longText = "AGI ".repeat(1000);
+const longText = "AGI ".repeat(5000);
 
 async function attemptLongEmbeddingError() {
     try {
@@ -106,15 +104,11 @@ or combine them in some way, such as averaging (weighted by the size of each chu
 Using the following chunking function, we can break up our long text into chunks of a specified size.
 */
 
-function chunkSubstr(str, size) {
-  const numChunks = Math.ceil(str.length / size)
-  const chunks = new Array(numChunks)
-
-  for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
-    chunks[i] = str.substr(o, size)
+function* batched(arr, size) {
+  if (size <= 0) throw new Error("size must be at least one");
+  for (let i = 0; i < arr.length;) {
+    yield arr.slice(i, i+=size);
   }
-
-  return chunks
 }
 
 /*
@@ -124,8 +118,7 @@ Now we define a function that encodes a string into tokens and then breaks it up
 function chunkedTokens(text, encodingName, chunkSize) {
   const encoding = tiktoken.getEncoding(encodingName);
   const tokens = encoding.encode(text);
-  const chunks = chunkSubstr(tokens, chunkSize);
-  return chunks;
+  return batched(tokens, chunkSize);
 }
 
 /*
@@ -134,7 +127,7 @@ Also, we define a function giving the weighted average of a list of embeddings o
 
 function weightedAverage(nums, weights) {
     const sum = Array(nums[0].length).fill(0);
-    const weightSum = 0;
+    let weightSum = 0;
     for (let i = 0; i < nums.length; i++) {
         for (let j = 0; j < nums[0].length; j++) {
             sum[j] += nums[i][j] * weights[i];
@@ -154,13 +147,17 @@ or False to simply return the unmodified list of chunk embeddings.
 
 */
 
-function safeGetEmbeddings(text, model = model, maxTokens = embeddingCTXLength, encodingName = embeddingEncoding, average = true) {
-  const chunks = chunkedTokens(text, encodingName, maxTokens);
-  const weights = chunks.map((chunk) => chunk.length);
-  const embeddings = chunks.map((chunk) => getEmbeddings(chunk, model));
+async function safeGetEmbeddings(text, embeddingModel = model, maxTokens = embeddingCTXLength, encodingName = embeddingEncoding, average = true) {
+  const embeddings = [];
+  const weights = [];
+  for (const chunk of chunkedTokens(text, encodingName, maxTokens)) {
+    embeddings.push(await getEmbeddings(chunk, embeddingModel));
+    weights.push(chunk.length);
+  }
   if (average) {
     const averageEmbeddings = weightedAverage(embeddings, weights);
-    return averageEmbeddings.map((x) => x / mathjs.norm(x, "fro"));
+    const norm = mathjs.norm(averageEmbeddings, "fro");
+    return averageEmbeddings.map((x) => x / norm);
   }
   return embeddings;
 }
@@ -169,10 +166,15 @@ function safeGetEmbeddings(text, model = model, maxTokens = embeddingCTXLength, 
 Once again, we can now handle long input texts.
 */
 
-const averageEmbeddingVector = safeGetEmbeddings(longText);
-const chunksEmbeddingVector = safeGetEmbeddings(longText, model, embeddingCTXLength, embeddingEncoding, false);
-console.log(`Setting average=true gives us a single ${averageEmbeddingVector.length}-dimensional embedding vector for our long text.`);
-console.log(`Setting average=false gives us ${chunksEmbeddingVector.length} embedding vectors, one for each chunk.`);
+async function main() {
+  const averageEmbeddingVector = await safeGetEmbeddings(longText);
+  const chunksEmbeddingVector = await safeGetEmbeddings(longText, model, embeddingCTXLength, embeddingEncoding, false);
+  console.log(`Setting average=true gives us a single ${averageEmbeddingVector.length}-dimensional embedding vector for our long text.`);
+  console.log(`Setting average=false gives us ${chunksEmbeddingVector.length} embedding vectors, one for each chunk.`);
+  
+}
+
+main();
 
 /*
 In some cases, it may make sense to split chunks on paragraph boundaries or sentence boundaries to help preserve the meaning of the text.

@@ -17,15 +17,15 @@ dotenv.config();
 /**
  * This sample demonstrates how to List secrets for a container apps job
  *
- * @summary List secrets for a container apps job
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/Job_ListSecrets.json
+ * @summary List secrets for a container app
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/ContainerApps_ListSecrets.json
  */
-async function listContainerAppsJobSecrets() {
+async function listContainerAppsSecrets() {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "rg";
-  const jobName = "testcontainerAppsJob0";
+  const containerAppName = "testcontainerApp0";
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.jobs.listSecrets(resourceGroupName, jobName);
@@ -33,7 +33,7 @@ async function listContainerAppsJobSecrets() {
 }
 
 async function main() {
-  listContainerAppsJobSecrets();
+  listContainerAppsSecrets();
 }
 
 main().catch(console.error);

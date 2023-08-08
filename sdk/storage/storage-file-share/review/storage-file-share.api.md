@@ -8,26 +8,26 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AzureLogger } from '@azure/logger';
-import { CompatResponse } from '@azure/core-http-compat';
 import * as coreClient from '@azure/core-client';
 import * as coreHttpCompat from '@azure/core-http-compat';
 import * as coreRestPipeline from '@azure/core-rest-pipeline';
-import { HttpHeadersLike } from '@azure/core-http-compat';
+import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
+import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
 import { HttpPipelineLogLevel } from '@azure/core-http-compat';
+import { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
 import { KeepAliveOptions } from '@azure/core-http-compat';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { ProxySettings } from '@azure/core-rest-pipeline';
 import { Readable } from 'stream';
-import { RequestBodyType } from '@azure/core-rest-pipeline';
 import { RequestPolicy } from '@azure/core-http-compat';
 import { RequestPolicyFactory } from '@azure/core-http-compat';
-import { RequestPolicyOptionsLike } from '@azure/core-http-compat';
+import { RequestPolicyOptionsLike as RequestPolicyOptions } from '@azure/core-http-compat';
 import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 import { TransferProgressEvent } from '@azure/core-rest-pipeline';
 import { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
-import { WebResourceLike } from '@azure/core-http-compat';
+import { WebResourceLike as WebResource } from '@azure/core-http-compat';
 
 // @public
 export interface AccessPolicy {
@@ -95,11 +95,11 @@ export class AnonymousCredentialPolicy extends CredentialPolicy {
 export abstract class BaseRequestPolicy implements RequestPolicy {
     protected constructor(
     _nextPolicy: RequestPolicy,
-    _options: RequestPolicyOptionsLike);
+    _options: RequestPolicyOptions);
     log(logLevel: HttpPipelineLogLevel, message: string): void;
     readonly _nextPolicy: RequestPolicy;
-    readonly _options: RequestPolicyOptionsLike;
-    abstract sendRequest(webResource: WebResourceLike): Promise<CompatResponse>;
+    readonly _options: RequestPolicyOptions;
+    abstract sendRequest(webResource: WebResource): Promise<HttpOperationResponse>;
     shouldLog(logLevel: HttpPipelineLogLevel): boolean;
 }
 
@@ -591,6 +591,8 @@ export interface FileDownloadHeaders {
 
 // @public
 export interface FileDownloadOptionalParams extends coreClient.OperationOptions {
+    allowTrailingDot?: boolean;
+    fileRequestIntent?: ShareTokenIntent;
     leaseAccessConditions?: LeaseAccessConditions;
     range?: string;
     rangeGetContentMD5?: boolean;
@@ -998,6 +1000,8 @@ export interface FileUploadRangeFromURLHeaders {
 
 // @public
 export interface FileUploadRangeFromURLOptionalParams extends coreClient.OperationOptions {
+    allowSourceTrailingDot?: boolean;
+    allowTrailingDot?: boolean;
     copySourceAuthorization?: string;
     fileLastWrittenMode?: FileLastWrittenMode;
     leaseAccessConditions?: LeaseAccessConditions;
@@ -1063,6 +1067,8 @@ export function generateFileSASQueryParameters(fileSASSignatureValues: FileSASSi
 
 // @public
 export interface HandleItem {
+    // (undocumented)
+    accessRightList?: ShareFileHandleAccessRights[];
     clientIp: string;
     fileId: string;
     handleId: string;
@@ -1086,8 +1092,25 @@ export interface HttpResponse {
     status: number;
 }
 
+export { HttpOperationResponse }
+
+export { HttpRequestBody }
+
+// @public
+export interface HttpResponse {
+    headers: HttpHeaders;
+    request: WebResource;
+    status: number;
+}
+
 // @public
 export function isPipelineLike(pipeline: unknown): pipeline is PipelineLike;
+
+// @public
+export enum KnownShareTokenIntent {
+    // (undocumented)
+    Backup = "backup"
+}
 
 // @public
 export interface LeaseAccessConditions {
@@ -1252,6 +1275,30 @@ export type RawFileDownloadResponse = FileDownloadHeaders & {
     readableStreamBody?: NodeJS.ReadableStream;
 };
 
+export { RequestPolicy as IHttpClient }
+export { RequestPolicy }
+
+// @public
+export interface ResponseLike {
+    _response: HttpResponse;
+}
+
+// @public
+export interface ResponseWithBody<Headers, Body> {
+    _response: HttpResponse & {
+        parsedHeaders: Headers;
+        bodyAsText: string;
+        parsedBody: Body;
+    };
+}
+
+// @public
+export interface ResponseWithHeaders<Headers> {
+    _response: HttpResponse & {
+        parsedHeaders: Headers;
+    };
+}
+
 // @public
 export interface ResponseLike {
     _response: HttpResponse;
@@ -1394,9 +1441,10 @@ export type ShareAccessTier = "TransactionOptimized" | "Hot" | "Cool";
 //
 // @public
 export class ShareClient extends StorageClient {
-    constructor(connectionString: string, name: string, options?: StoragePipelineOptions);
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
+    constructor(connectionString: string, name: string, options?: ShareClientOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: ShareClientOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential, options?: ShareClientOptions);
+    constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
     create(options?: ShareCreateOptions): Promise<ShareCreateResponse>;
     createDirectory(directoryName: string, options?: DirectoryCreateOptions): Promise<{
         directoryClient: ShareDirectoryClient;
@@ -1429,6 +1477,16 @@ export class ShareClient extends StorageClient {
     setQuota(quotaInGB: number, options?: ShareSetQuotaOptions): Promise<ShareSetQuotaResponse>;
     withSnapshot(snapshot: string): ShareClient;
 }
+
+// @public (undocumented)
+export interface ShareClientConfig {
+    allowSourceTrailingDot?: boolean;
+    allowTrailingDot?: boolean;
+    fileRequestIntent?: ShareTokenIntent;
+}
+
+// @public (undocumented)
+export type ShareClientOptions = StoragePipelineOptions & ShareClientConfig;
 
 // @public
 export interface ShareCreateHeaders {
@@ -1524,8 +1582,8 @@ export type ShareDeleteResponse = WithResponse<ShareDeleteHeaders, ShareDeleteHe
 
 // @public
 export class ShareDirectoryClient extends StorageClient {
-    constructor(url: string, credential?: AnonymousCredential | StorageSharedKeyCredential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, credential?: AnonymousCredential | StorageSharedKeyCredential | TokenCredential, options?: ShareClientOptions);
+    constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
     create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
     createFile(fileName: string, size: number, options?: FileCreateOptions): Promise<{
         fileClient: ShareFileClient;
@@ -1571,8 +1629,8 @@ export interface ShareExistsOptions extends CommonOptions {
 
 // @public
 export class ShareFileClient extends StorageClient {
-    constructor(url: string, credential?: AnonymousCredential | StorageSharedKeyCredential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, credential?: AnonymousCredential | StorageSharedKeyCredential | TokenCredential, options?: ShareClientOptions);
+    constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
     abortCopyFromURL(copyId: string, options?: FileAbortCopyFromURLOptions): Promise<FileAbortCopyResponse>;
     clearRange(offset: number, contentLength: number, options?: FileClearRangeOptions): Promise<FileUploadRangeResponse>;
     create(size: number, options?: FileCreateOptions): Promise<FileCreateResponse>;
@@ -1612,6 +1670,9 @@ export class ShareFileClient extends StorageClient {
     uploadStream(stream: Readable, size: number, bufferSize: number, maxBuffers: number, options?: FileUploadStreamOptions): Promise<void>;
     withShareSnapshot(shareSnapshot: string): ShareFileClient;
 }
+
+// @public
+export type ShareFileHandleAccessRights = "Read" | "Write" | "Delete";
 
 // @public
 export interface ShareFileRangeList {
@@ -1848,14 +1909,14 @@ export class ShareSASPermissions {
 
 // @public
 export class ShareServiceClient extends StorageClient {
-    constructor(url: string, credential?: AnonymousCredential | StorageSharedKeyCredential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, credential?: AnonymousCredential | StorageSharedKeyCredential | TokenCredential, options?: ShareClientOptions);
+    constructor(url: string, pipeline: Pipeline, options?: ShareClientOptions);
     createShare(shareName: string, options?: ShareCreateOptions): Promise<{
         shareCreateResponse: ShareCreateResponse;
         shareClient: ShareClient;
     }>;
     deleteShare(shareName: string, options?: ShareDeleteMethodOptions): Promise<ShareDeleteResponse>;
-    static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): ShareServiceClient;
+    static fromConnectionString(connectionString: string, options?: ShareClientOptions): ShareServiceClient;
     generateAccountSasUrl(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
     getShareClient(shareName: string): ShareClient;
@@ -1947,6 +2008,9 @@ export interface ShareStats {
 }
 
 // @public
+export type ShareTokenIntent = string;
+
+// @public
 export interface SignedIdentifier {
     accessPolicy: {
         startsOn: Date;
@@ -1983,6 +2047,9 @@ export class StorageBrowserPolicy extends BaseRequestPolicy {
 export class StorageBrowserPolicyFactory implements RequestPolicyFactory {
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): StorageBrowserPolicy;
 }
+
+// @public
+export const StorageOAuthScopes: string | string[];
 
 // @public
 export interface StoragePipelineOptions {
@@ -2043,6 +2110,9 @@ export type TimeNowType = "now";
 
 // @public
 export type TimePreserveType = "preserve";
+
+// @public
+export type WithResponse<T, Headers = undefined, Body = undefined> = T & (Body extends object ? ResponseWithBody<Headers, Body> : Headers extends object ? ResponseWithHeaders<Headers> : ResponseLike);
 
 // @public
 export type WithResponse<T, Headers = undefined, Body = undefined> = T & (Body extends object ? ResponseWithBody<Headers, Body> : Headers extends object ? ResponseWithHeaders<Headers> : ResponseLike);

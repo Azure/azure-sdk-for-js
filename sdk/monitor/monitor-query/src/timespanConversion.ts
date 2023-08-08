@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { QueryTimeInterval } from "./models/timeInterval";
+import { isObjectWithProperties } from "@azure/core-util";
 
 export function convertTimespanToInterval(timespan: QueryTimeInterval): string {
   if (isObjectWithProperties(timespan, ["startTime", "endTime", "duration"])) {
@@ -9,11 +10,13 @@ export function convertTimespanToInterval(timespan: QueryTimeInterval): string {
   }
 
   if (isObjectWithProperties(timespan, ["startTime", "endTime"])) {
-    return `${timespan.startTime.toISOString()}/${timespan.endTime.toISOString()}`;
+    return `${(timespan as any).startTime.toISOString()}/${(
+      timespan as any
+    ).endTime.toISOString()}`;
   } else if (isObjectWithProperties(timespan, ["startTime", "duration"])) {
-    return `${timespan.startTime.toISOString()}/${timespan.duration}`;
+    return `${(timespan as any).startTime.toISOString()}/${(timespan as any).duration}`;
   } else if (isObjectWithProperties(timespan, ["duration", "endTime"])) {
-    return `${timespan.duration}/${timespan.endTime.toISOString()}`;
+    return `${timespan.duration}/${(timespan as any).endTime.toISOString()}`;
   } else if (isObjectWithProperties(timespan, ["duration"])) {
     return timespan.duration;
   }
@@ -58,28 +61,4 @@ export function objectHasProperty<Thing, PropertyName extends string>(
  */
 export function isDefined<T>(thing: T | undefined | null): thing is T {
   return typeof thing !== "undefined" && thing !== null;
-}
-
-/**
- * Helper TypeGuard that checks if the input is an object with the specified properties.
- * Note: The properties may be inherited.
- * @param thing - Anything.
- * @param properties - The name of the properties that should appear in the object.
- * @internal
- */
-export function isObjectWithProperties<Thing, PropertyName extends string>(
-  thing: Thing,
-  properties: PropertyName[]
-): thing is Extract<Thing, Record<PropertyName, unknown>> {
-  if (!isDefined(thing) || typeof thing !== "object") {
-    return false;
-  }
-
-  for (const property of properties) {
-    if (!objectHasProperty(thing, property)) {
-      return false;
-    }
-  }
-
-  return true;
 }

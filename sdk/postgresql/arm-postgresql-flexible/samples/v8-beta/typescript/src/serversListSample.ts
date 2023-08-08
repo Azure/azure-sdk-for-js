@@ -8,36 +8,33 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
+import { CosmosDBForPostgreSQL } from "@azure/arm-cosmosdbforpostgresql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
 dotenv.config();
 
 /**
- * This sample demonstrates how to List all the servers in a given subscription.
+ * This sample demonstrates how to Lists all clusters in a subscription.
  *
- * @summary List all the servers in a given subscription.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/ServerList.json
+ * @summary Lists all clusters in a subscription.
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ClusterList.json
  */
-async function serverList() {
+async function listAllTheClusters() {
   const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
+    process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId
-  );
+  const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.servers.list()) {
+  for await (let item of client.clusters.list()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  serverList();
+  listAllTheClusters();
 }
 
 main().catch(console.error);

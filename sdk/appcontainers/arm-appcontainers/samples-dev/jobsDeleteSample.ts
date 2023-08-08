@@ -17,15 +17,17 @@ dotenv.config();
 /**
  * This sample demonstrates how to Delete a Container Apps Job.
  *
- * @summary Delete a Container Apps Job.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/Job_Delete.json
+ * @summary Get storage for a connectedEnvironment.
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/ConnectedEnvironmentsStorages_Get.json
  */
-async function deleteContainerAppsJob() {
+async function getAEnvironmentsStoragePropertiesBySubscription() {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "rg";
-  const jobName = "testWorkerContainerAppsJob0";
+    "8efdecc5-919e-44eb-b179-915dca89ebf9";
+  const resourceGroupName =
+    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
+  const connectedEnvironmentName = "env";
+  const storageName = "jlaw-demo1";
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.jobs.beginDeleteAndWait(
@@ -36,7 +38,7 @@ async function deleteContainerAppsJob() {
 }
 
 async function main() {
-  deleteContainerAppsJob();
+  getAEnvironmentsStoragePropertiesBySubscription();
 }
 
 main().catch(console.error);

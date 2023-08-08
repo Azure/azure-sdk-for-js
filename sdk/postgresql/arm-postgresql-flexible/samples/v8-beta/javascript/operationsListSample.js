@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const { PostgreSQLManagementFlexibleServerClient } = require("@azure/arm-postgresql-flexible");
+const { CosmosDBForPostgreSQL } = require("@azure/arm-cosmosdbforpostgresql");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
@@ -16,19 +16,22 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all of the available REST API operations.
  *
  * @summary Lists all of the available REST API operations.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/OperationList.json
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/OperationList.json
  */
-async function operationList() {
+async function listAllAvailableOperations() {
   const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+    process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
-  const result = await client.operations.list();
-  console.log(result);
+  const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
+  const resArray = new Array();
+  for await (let item of client.operations.list()) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
 async function main() {
-  operationList();
+  listAllAvailableOperations();
 }
 
 main().catch(console.error);

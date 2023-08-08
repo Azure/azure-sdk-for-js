@@ -15,32 +15,35 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Deletes a server.
+ * This sample demonstrates how to Deletes a migration.
  *
- * @summary Deletes a server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/ServerDelete.json
+ * @summary Deletes a migration.
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/Migrations_Delete.json
  */
-async function serverDelete() {
+async function migrationsDelete() {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
+    "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
     process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
-  const serverName = "testserver";
+  const targetDbServerName = "testtarget";
+  const migrationName = "testmigration";
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(
     credential,
     subscriptionId
   );
-  const result = await client.servers.beginDeleteAndWait(
+  const result = await client.migrations.delete(
+    subscriptionId,
     resourceGroupName,
-    serverName
+    targetDbServerName,
+    migrationName
   );
   console.log(result);
 }
 
 async function main() {
-  serverDelete();
+  migrationsDelete();
 }
 
 main().catch(console.error);

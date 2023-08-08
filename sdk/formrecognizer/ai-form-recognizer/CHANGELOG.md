@@ -1,5 +1,40 @@
 # Release History
 
+## 5.0.0 (2023-08-08)
+
+### Features Added
+
+- Updated the SDK to use the latest Generally Available (GA) version of the Form Recognizer REST API: `2023-07-31`.
+- `AnalyzeDocumentOptions.features` accepts three new features compared to the last beta version:
+  - `barcodes`: enables the detection of barcodes in the document.
+  - `keyValuePairs`: enable the detection of general key value pairs (form fields) in the document.
+  - `languages`: enables the detection of the text content language.
+- `beginBuildDocumentModel` has a new overload that accepts a `DocumentModelSource` in place of a raw `containerUrl`. This allows training document models using the new Blob File List source (that is already supported by document classifiers). Like with classifiers, the source inputs are specified as an object containing an `azureFileListSource` property or an `azureBlobSource` property containing the respective details of each source type.
+
+### Breaking Changes
+
+From the last stable release (4.0.0):
+
+- Support for passing alternative API versions has been removed from the client. In practice, the client only supported
+  using a single API version, but types and options for specifying an API version were provided. In version 5.0.0, these options and their associated types were removed:
+  - The `apiVersion` option that was previously accepted by the `DocumentAnalysisClient` and `DocumentModelAdministrationClient` constructors was removed. This option previously only had one valid value in version 4.0.0, and supporting multiple API versions in a single package weakens the type constraints, so we have chosen to only support the latest Generally Available version of the service in this SDK package. Support for multiple API versions may be reintroduced in a future version.
+  - The `FormRecognizerApiVersion` type and enum were removed as they no longer serve any purpose.
+  - The type of `apiVersion` properties of result objects was changed from `FormRecognizerApiVersion` to `string`. This type is more accurate, as these fields reflect the API version used to create the model or start the analysis operation, and not necessarily an API version that the client instance is aware of.
+  - The `FormRecognizerCommonClientOptions` interface, which both `DocumentAnalysisClientOptions` and `DocumentModelAdministrationClientOptions` inherited from was removed, as it only carried the `apiVersion` option that no longer exists.
+- The `languages` and `keyValuePairs` properties of `AnalyzeResult` that were previously returned when using the `prebuilt-document` model are no longer returned unless the corresponding `features` are specified when making the analysis request.
+
+From the last beta release (4.1.0-beta.1):
+
+- `AnalyzeDocumentOptions.features` changed the following feature names:
+  - `ocr.highResolution` renamed to `ocrHighResolution`.
+  - `ocr.formula` renamed to `formulas`.
+  - `ocr.font` renamed to `styleFont`.
+- The following fields have been removed:
+  - `AnalyzeDocumentOptions.queryFields`
+  - `DocumentPage.kind` and `DocumentPage.images` (`DocumentPageKind` and `DocumentImage` types have been removed too.)
+  - `DocumentKeyValuePair.commonName`
+- The type of the `docTypes` parameter of `beginBuildDocumentClassifier` was refined slightly. The type will no longer accept _both_ `azureBlobSource` and `azureFileListSource`
+
 ## 4.1.0-beta.1 (2023-04-11)
 
 ### Features Added

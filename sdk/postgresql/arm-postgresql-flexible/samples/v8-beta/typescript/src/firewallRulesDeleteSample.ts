@@ -8,41 +8,38 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
+import { CosmosDBForPostgreSQL } from "@azure/arm-cosmosdbforpostgresql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
 dotenv.config();
 
 /**
- * This sample demonstrates how to Deletes a PostgreSQL server firewall rule.
+ * This sample demonstrates how to Deletes a cluster firewall rule.
  *
- * @summary Deletes a PostgreSQL server firewall rule.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/FirewallRuleDelete.json
+ * @summary Deletes a cluster firewall rule.
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/FirewallRuleDelete.json
  */
-async function firewallRuleDelete() {
+async function deleteTheFirewallRuleOfTheCluster() {
   const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
+    process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName =
-    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
-  const serverName = "testserver";
+    process.env["COSMOSFORPOSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
+  const clusterName = "pgtestsvc4";
   const firewallRuleName = "rule1";
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId
-  );
+  const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
   const result = await client.firewallRules.beginDeleteAndWait(
     resourceGroupName,
-    serverName,
+    clusterName,
     firewallRuleName
   );
   console.log(result);
 }
 
 async function main() {
-  firewallRuleDelete();
+  deleteTheFirewallRuleOfTheCluster();
 }
 
 main().catch(console.error);

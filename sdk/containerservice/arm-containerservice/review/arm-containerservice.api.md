@@ -360,12 +360,6 @@ export interface ContainerServiceSshPublicKey {
 }
 
 // @public
-export type ControlledValues = string;
-
-// @public
-export type ControlPlaneUpgradeOverride = string;
-
-// @public
 export type CreatedByType = string;
 
 // @public
@@ -505,17 +499,6 @@ export enum KnownConnectionStatus {
 }
 
 // @public
-export enum KnownControlledValues {
-    RequestsAndLimits = "RequestsAndLimits",
-    RequestsOnly = "RequestsOnly"
-}
-
-// @public
-export enum KnownControlPlaneUpgradeOverride {
-    IgnoreKubernetesDeprecations = "IgnoreKubernetesDeprecations"
-}
-
-// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -588,13 +571,6 @@ export enum KnownKubernetesSupportPlan {
 }
 
 // @public
-export enum KnownLevel {
-    Enforcement = "Enforcement",
-    Off = "Off",
-    Warning = "Warning"
-}
-
-// @public
 export enum KnownLicenseType {
     None = "None",
     WindowsServer = "Windows_Server"
@@ -629,12 +605,6 @@ export enum KnownManagedClusterSKUTier {
 }
 
 // @public
-export enum KnownMode {
-    Iptables = "IPTABLES",
-    Ipvs = "IPVS"
-}
-
-// @public
 export enum KnownNetworkDataplane {
     Azure = "azure",
     Cilium = "cilium"
@@ -663,14 +633,6 @@ export enum KnownNetworkPolicy {
     Azure = "azure",
     Calico = "calico",
     Cilium = "cilium"
-}
-
-// @public
-export enum KnownNodeOSUpgradeChannel {
-    NodeImage = "NodeImage",
-    None = "None",
-    SecurityPatch = "SecurityPatch",
-    Unmanaged = "Unmanaged"
 }
 
 // @public
@@ -762,29 +724,12 @@ export enum KnownSnapshotType {
 }
 
 // @public
-export enum KnownTrustedAccessRoleBindingProvisioningState {
-    Canceled = "Canceled",
-    Deleting = "Deleting",
-    Failed = "Failed",
-    Succeeded = "Succeeded",
-    Updating = "Updating"
-}
-
-// @public
 export enum KnownType {
     First = "First",
     Fourth = "Fourth",
     Last = "Last",
     Second = "Second",
     Third = "Third"
-}
-
-// @public
-export enum KnownUpdateMode {
-    Auto = "Auto",
-    Initial = "Initial",
-    Off = "Off",
-    Recreate = "Recreate"
 }
 
 // @public
@@ -860,9 +805,6 @@ export interface KubernetesVersionCapabilities {
 export interface KubernetesVersionListResult {
     values?: KubernetesVersion[];
 }
-
-// @public
-export type Level = string;
 
 // @public
 export type LicenseType = string;
@@ -991,7 +933,6 @@ export interface ManagedCluster extends TrackedResource {
     sku?: ManagedClusterSKU;
     storageProfile?: ManagedClusterStorageProfile;
     supportPlan?: KubernetesSupportPlan;
-    upgradeSettings?: ClusterUpgradeSettings;
     windowsProfile?: ManagedClusterWindowsProfile;
     workloadAutoScalerProfile?: ManagedClusterWorkloadAutoScalerProfile;
 }
@@ -1380,7 +1321,6 @@ export interface ManagedClusterSecurityProfile {
     customCATrustCertificates?: Uint8Array[];
     defender?: ManagedClusterSecurityProfileDefender;
     imageCleaner?: ManagedClusterSecurityProfileImageCleaner;
-    nodeRestriction?: ManagedClusterSecurityProfileNodeRestriction;
     workloadIdentity?: ManagedClusterSecurityProfileWorkloadIdentity;
 }
 
@@ -1399,11 +1339,6 @@ export interface ManagedClusterSecurityProfileDefenderSecurityMonitoring {
 export interface ManagedClusterSecurityProfileImageCleaner {
     enabled?: boolean;
     intervalHours?: number;
-}
-
-// @public
-export interface ManagedClusterSecurityProfileNodeRestriction {
-    enabled?: boolean;
 }
 
 // @public
@@ -1794,9 +1729,6 @@ export interface ManagedServiceIdentityUserAssignedIdentitiesValue {
 }
 
 // @public
-export type Mode = string;
-
-// @public
 export type NetworkDataplane = string;
 
 // @public
@@ -2077,15 +2009,6 @@ export interface Schedule {
 }
 
 // @public
-export type ServiceMeshMode = string;
-
-// @public
-export interface ServiceMeshProfile {
-    istio?: IstioServiceMesh;
-    mode: ServiceMeshMode;
-}
-
-// @public
 export interface Snapshot extends TrackedResource {
     creationData?: CreationData;
     readonly enableFips?: boolean;
@@ -2246,107 +2169,7 @@ export interface TrackedResource extends Resource {
 }
 
 // @public
-export interface TrustedAccessRole {
-    readonly name?: string;
-    readonly rules?: TrustedAccessRoleRule[];
-    readonly sourceResourceType?: string;
-}
-
-// @public
-export interface TrustedAccessRoleBinding extends Resource {
-    readonly provisioningState?: TrustedAccessRoleBindingProvisioningState;
-    roles: string[];
-    sourceResourceId: string;
-}
-
-// @public
-export interface TrustedAccessRoleBindingListResult {
-    readonly nextLink?: string;
-    value?: TrustedAccessRoleBinding[];
-}
-
-// @public
-export type TrustedAccessRoleBindingProvisioningState = string;
-
-// @public
-export interface TrustedAccessRoleBindings {
-    createOrUpdate(resourceGroupName: string, resourceName: string, trustedAccessRoleBindingName: string, trustedAccessRoleBinding: TrustedAccessRoleBinding, options?: TrustedAccessRoleBindingsCreateOrUpdateOptionalParams): Promise<TrustedAccessRoleBindingsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, resourceName: string, trustedAccessRoleBindingName: string, options?: TrustedAccessRoleBindingsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, resourceName: string, trustedAccessRoleBindingName: string, options?: TrustedAccessRoleBindingsGetOptionalParams): Promise<TrustedAccessRoleBindingsGetResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: TrustedAccessRoleBindingsListOptionalParams): PagedAsyncIterableIterator<TrustedAccessRoleBinding>;
-}
-
-// @public
-export interface TrustedAccessRoleBindingsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TrustedAccessRoleBindingsCreateOrUpdateResponse = TrustedAccessRoleBinding;
-
-// @public
-export interface TrustedAccessRoleBindingsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface TrustedAccessRoleBindingsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TrustedAccessRoleBindingsGetResponse = TrustedAccessRoleBinding;
-
-// @public
-export interface TrustedAccessRoleBindingsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TrustedAccessRoleBindingsListNextResponse = TrustedAccessRoleBindingListResult;
-
-// @public
-export interface TrustedAccessRoleBindingsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TrustedAccessRoleBindingsListResponse = TrustedAccessRoleBindingListResult;
-
-// @public
-export interface TrustedAccessRoleListResult {
-    readonly nextLink?: string;
-    readonly value?: TrustedAccessRole[];
-}
-
-// @public
-export interface TrustedAccessRoleRule {
-    readonly apiGroups?: string[];
-    readonly nonResourceURLs?: string[];
-    readonly resourceNames?: string[];
-    readonly resources?: string[];
-    readonly verbs?: string[];
-}
-
-// @public
-export interface TrustedAccessRoles {
-    list(location: string, options?: TrustedAccessRolesListOptionalParams): PagedAsyncIterableIterator<TrustedAccessRole>;
-}
-
-// @public
-export interface TrustedAccessRolesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TrustedAccessRolesListNextResponse = TrustedAccessRoleListResult;
-
-// @public
-export interface TrustedAccessRolesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TrustedAccessRolesListResponse = TrustedAccessRoleListResult;
-
-// @public
 export type Type = string;
-
-// @public
-export type UpdateMode = string;
 
 // @public
 export type UpgradeChannel = string;

@@ -21,12 +21,9 @@ dotenv.config();
  * This sample demonstrates how to Creates a role assignment schedule request.
  *
  * @summary Creates a role assignment schedule request.
- * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2020-10-01/examples/PutRoleAssignmentScheduleRequest.json
+ * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2022-04-01-preview/examples/PutRoleAssignmentScheduleRequest.json
  */
 async function putRoleAssignmentScheduleRequest() {
-  const subscriptionId =
-    process.env["AUTHORIZATION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const scope =
     "providers/Microsoft.Subscription/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f";
   const roleAssignmentScheduleRequestName =
@@ -50,7 +47,7 @@ async function putRoleAssignmentScheduleRequest() {
     }
   };
   const credential = new DefaultAzureCredential();
-  const client = new AuthorizationManagementClient(credential, subscriptionId);
+  const client = new AuthorizationManagementClient(credential);
   const result = await client.roleAssignmentScheduleRequests.create(
     scope,
     roleAssignmentScheduleRequestName,

@@ -13,29 +13,25 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Deletes a database.
+ * This sample demonstrates how to Gets the result of the give long term retention backup operation for the flexible server.
  *
- * @summary Deletes a database.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/DatabaseDelete.json
+ * @summary Gets the result of the give long term retention backup operation for the flexible server.
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/LongTermRetentionOperationGet.json
  */
-async function deleteADatabase() {
+async function sample() {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
-  const serverName = "testserver";
-  const databaseName = "db1";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "rgLongTermRetention";
+  const serverName = "pgsqlltrtestserver";
+  const backupName = "backup1";
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
-  const result = await client.databases.beginDeleteAndWait(
-    resourceGroupName,
-    serverName,
-    databaseName
-  );
+  const result = await client.ltrBackupOperations.get(resourceGroupName, serverName, backupName);
   console.log(result);
 }
 
 async function main() {
-  deleteADatabase();
+  sample();
 }
 
 main().catch(console.error);

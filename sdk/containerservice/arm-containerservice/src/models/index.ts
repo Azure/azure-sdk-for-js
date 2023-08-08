@@ -602,7 +602,7 @@ export interface ManagedClusterNodeResourceGroupProfile {
 export interface ContainerServiceNetworkProfile {
   /** Network plugin used for building the Kubernetes network. */
   networkPlugin?: NetworkPlugin;
-  /** Network plugin mode used for building the Kubernetes network. */
+  /** The mode the network plugin should use. */
   networkPluginMode?: NetworkPluginMode;
   /** Network policy used for building the Kubernetes network. */
   networkPolicy?: NetworkPolicy;
@@ -868,10 +868,6 @@ export interface ManagedClusterSecurityProfile {
   workloadIdentity?: ManagedClusterSecurityProfileWorkloadIdentity;
   /** Image Cleaner settings for the security profile. */
   imageCleaner?: ManagedClusterSecurityProfileImageCleaner;
-  /** [Node Restriction](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#noderestriction) settings for the security profile. */
-  nodeRestriction?: ManagedClusterSecurityProfileNodeRestriction;
-  /** A list of up to 10 base64 encoded CAs that will be added to the trust store on nodes with the Custom CA Trust feature enabled. For more information see [Custom CA Trust Certificates](https://learn.microsoft.com/en-us/azure/aks/custom-certificate-authority) */
-  customCATrustCertificates?: Uint8Array[];
 }
 
 /** Microsoft Defender settings for the security profile. */
@@ -912,12 +908,6 @@ export interface ManagedClusterSecurityProfileImageCleaner {
   enabled?: boolean;
   /** Image Cleaner scanning interval in hours. */
   intervalHours?: number;
-}
-
-/** Node Restriction settings for the security profile. */
-export interface ManagedClusterSecurityProfileNodeRestriction {
-  /** Whether to enable Node Restriction */
-  enabled?: boolean;
 }
 
 /** Storage profile for the container service cluster. */
@@ -1256,7 +1246,7 @@ export interface AbsoluteMonthlySchedule {
 export interface RelativeMonthlySchedule {
   /** Specifies the number of months between each set of occurrences. */
   intervalMonths: number;
-  /** Specifies on which instance of the allowed days specified in daysOfWeek the maintenance occurs. */
+  /** Specifies on which week of the month the dayOfWeek applies. */
   weekIndex: Type;
   /** Specifies on which day of the week the maintenance occurs. */
   dayOfWeek: WeekDay;
@@ -1512,119 +1502,6 @@ export interface SnapshotListResult {
   value?: Snapshot[];
   /**
    * The URL to get the next set of snapshot results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** The response from the List Managed Cluster Snapshots operation. */
-export interface ManagedClusterSnapshotListResult {
-  /** The list of managed cluster snapshots. */
-  value?: ManagedClusterSnapshot[];
-  /**
-   * The URL to get the next set of managed cluster snapshot results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** managed cluster properties for snapshot, these properties are read only. */
-export interface ManagedClusterPropertiesForSnapshot {
-  /** The current kubernetes version. */
-  kubernetesVersion?: string;
-  /** The current managed cluster sku. */
-  sku?: ManagedClusterSKU;
-  /** Whether the cluster has enabled Kubernetes Role-Based Access Control or not. */
-  enableRbac?: boolean;
-  /**
-   * The current network profile.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly networkProfile?: NetworkProfileForSnapshot;
-}
-
-/** network profile for managed cluster snapshot, these properties are read only. */
-export interface NetworkProfileForSnapshot {
-  /** networkPlugin for managed cluster snapshot. */
-  networkPlugin?: NetworkPlugin;
-  /** NetworkPluginMode for managed cluster snapshot. */
-  networkPluginMode?: NetworkPluginMode;
-  /** networkPolicy for managed cluster snapshot. */
-  networkPolicy?: NetworkPolicy;
-  /** networkMode for managed cluster snapshot. */
-  networkMode?: NetworkMode;
-  /** loadBalancerSku for managed cluster snapshot. */
-  loadBalancerSku?: LoadBalancerSku;
-}
-
-/** List of trusted access roles */
-export interface TrustedAccessRoleListResult {
-  /**
-   * Role list
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: TrustedAccessRole[];
-  /**
-   * Link to next page of resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Trusted access role definition. */
-export interface TrustedAccessRole {
-  /**
-   * Resource type of Azure resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sourceResourceType?: string;
-  /**
-   * Name of role, name is unique under a source resource type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * List of rules for the role. This maps to 'rules' property of [Kubernetes Cluster Role](https://kubernetes.io/docs/reference/kubernetes-api/authorization-resources/cluster-role-v1/#ClusterRole).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly rules?: TrustedAccessRoleRule[];
-}
-
-/** Rule for trusted access role */
-export interface TrustedAccessRoleRule {
-  /**
-   * List of allowed verbs
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly verbs?: string[];
-  /**
-   * List of allowed apiGroups
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly apiGroups?: string[];
-  /**
-   * List of allowed resources
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resources?: string[];
-  /**
-   * List of allowed names
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceNames?: string[];
-  /**
-   * List of allowed nonResourceURLs
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nonResourceURLs?: string[];
-}
-
-/** List of trusted access role bindings */
-export interface TrustedAccessRoleBindingListResult {
-  /** Role binding list */
-  value?: TrustedAccessRoleBinding[];
-  /**
-   * Link to next page of resources.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
@@ -2204,8 +2081,6 @@ export type OSType = string;
 export enum KnownOssku {
   /** Use Ubuntu as the OS for node images. */
   Ubuntu = "Ubuntu",
-  /** Deprecated OSSKU. Microsoft recommends that new deployments choose 'AzureLinux' instead. */
-  Mariner = "Mariner",
   /** Use AzureLinux as the OS for node images. Azure Linux is a container-optimized Linux distro built by Microsoft, visit https:\//aka.ms\/azurelinux for more information. */
   AzureLinux = "AzureLinux",
   /** Deprecated OSSKU. Microsoft recommends that new deployments choose 'AzureLinux' instead. */
@@ -2222,7 +2097,6 @@ export enum KnownOssku {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Ubuntu**: Use Ubuntu as the OS for node images. \
- * **Mariner**: Deprecated OSSKU. Microsoft recommends that new deployments choose 'AzureLinux' instead. \
  * **AzureLinux**: Use AzureLinux as the OS for node images. Azure Linux is a container-optimized Linux distro built by Microsoft, visit https:\/\/aka.ms\/azurelinux for more information. \
  * **CBLMariner**: Deprecated OSSKU. Microsoft recommends that new deployments choose 'AzureLinux' instead. \
  * **Windows2019**: Use Windows2019 as the OS for node images. Unsupported for system node pools. Windows2019 only supports Windows2019 containers; it cannot run Windows2022 containers and vice versa. \
@@ -2454,7 +2328,7 @@ export type NetworkPlugin = string;
 
 /** Known values of {@link NetworkPluginMode} that the service accepts. */
 export enum KnownNetworkPluginMode {
-  /** Pods are given IPs from the PodCIDR address space but use Azure Routing Domains rather than Kubenet reference plugins host-local and bridge. */
+  /** Used with networkPlugin=azure, pods are given IPs from the PodCIDR address space but use Azure Routing Domains rather than Kubenet's method of route tables. For more information visit https:\//aka.ms\/aks\/azure-cni-overlay. */
   Overlay = "overlay"
 }
 
@@ -2463,7 +2337,7 @@ export enum KnownNetworkPluginMode {
  * {@link KnownNetworkPluginMode} can be used interchangeably with NetworkPluginMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **overlay**: Pods are given IPs from the PodCIDR address space but use Azure Routing Domains rather than Kubenet reference plugins host-local and bridge.
+ * **overlay**: Used with networkPlugin=azure, pods are given IPs from the PodCIDR address space but use Azure Routing Domains rather than Kubenet's method of route tables. For more information visit https:\/\/aka.ms\/aks\/azure-cni-overlay.
  */
 export type NetworkPluginMode = string;
 
@@ -2943,15 +2817,15 @@ export type WeekDay = string;
 
 /** Known values of {@link Type} that the service accepts. */
 export enum KnownType {
-  /** First. */
+  /** First week of the month. */
   First = "First",
-  /** Second. */
+  /** Second week of the month. */
   Second = "Second",
-  /** Third. */
+  /** Third week of the month. */
   Third = "Third",
-  /** Fourth. */
+  /** Fourth week of the month. */
   Fourth = "Fourth",
-  /** Last. */
+  /** Last week of the month. */
   Last = "Last"
 }
 
@@ -2960,11 +2834,11 @@ export enum KnownType {
  * {@link KnownType} can be used interchangeably with Type,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **First**: First. \
- * **Second**: Second. \
- * **Third**: Third. \
- * **Fourth**: Fourth. \
- * **Last**: Last.
+ * **First**: First week of the month. \
+ * **Second**: Second week of the month. \
+ * **Third**: Third week of the month. \
+ * **Fourth**: Fourth week of the month. \
+ * **Last**: Last week of the month.
  */
 export type Type = string;
 
@@ -3036,33 +2910,6 @@ export enum KnownSnapshotType {
  * **ManagedCluster**: The snapshot is a snapshot of a managed cluster.
  */
 export type SnapshotType = string;
-
-/** Known values of {@link TrustedAccessRoleBindingProvisioningState} that the service accepts. */
-export enum KnownTrustedAccessRoleBindingProvisioningState {
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** Failed */
-  Failed = "Failed",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Updating */
-  Updating = "Updating"
-}
-
-/**
- * Defines values for TrustedAccessRoleBindingProvisioningState. \
- * {@link KnownTrustedAccessRoleBindingProvisioningState} can be used interchangeably with TrustedAccessRoleBindingProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Canceled** \
- * **Deleting** \
- * **Failed** \
- * **Succeeded** \
- * **Updating**
- */
-export type TrustedAccessRoleBindingProvisioningState = string;
 /** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "None";
 

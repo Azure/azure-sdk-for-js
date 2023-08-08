@@ -14,7 +14,7 @@ import {
   NotificationHubsResponse,
 } from "../../models/notificationDetails.js";
 import { NotificationHubsClientContext } from "../index.js";
-import { OperationOptions } from "@azure/core-client";
+import { OperationOptions } from "@azure-rest/core-client";
 import { isDefined } from "../../utils/utils.js";
 import { parseNotificationOutcome } from "../../serializers/notificationOutcomeSerializer.js";
 import { parseXMLError } from "../../utils/xmlUtils.js";

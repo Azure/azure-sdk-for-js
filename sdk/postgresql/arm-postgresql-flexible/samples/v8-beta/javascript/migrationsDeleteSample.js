@@ -15,8 +15,8 @@ require("dotenv").config();
 /**
  * This sample demonstrates how to Deletes a migration.
  *
- * @summary Deletes a migration.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/Migrations_Delete.json
+ * @summary Deletes a PostgreSQL server firewall rule.
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/FirewallRuleDelete.json
  */
 async function migrationsDelete() {
   const subscriptionId =

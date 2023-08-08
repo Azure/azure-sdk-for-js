@@ -450,6 +450,8 @@ function GetExistingPackageVersions ($PackageName, $GroupId = $null) {
   }
 }
 
+# Defined in common.ps1 as:
+# $ValidateDocsMsPackagesFn = "Validate-${Language}-DocMsPackages" 
 function Validate-javascript-DocMsPackages ($PackageInfo, $PackageInfos, $DocRepoLocation, $DocValidationImageId) { 
   if (!$PackageInfos) {
     $PackageInfos = @($PackageInfo)
@@ -484,5 +486,15 @@ function Validate-javascript-DocMsPackages ($PackageInfo, $PackageInfos, $DocRep
     $outputPackages += $outputPackage
   }
 
-  ValidatePackagesForDocs -packages $outputPackages -DocValidationImageId $DocValidationImageId
+  $validationResults = ValidatePackagesForDocs `
+    -packages $outputPackages `
+    -DocValidationImageId $DocValidationImageId
+
+  foreach ($result in $validationResults) { 
+    if (!$result.Success) { 
+      return $false
+    }
+  }
+
+  return $true
 }

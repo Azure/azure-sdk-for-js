@@ -16,15 +16,16 @@ require("dotenv").config();
  * This sample demonstrates how to Create a new volume or update the properties of the existing one.
  *
  * @summary Create a new volume or update the properties of the existing one.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2022-12-12-preview/examples/Volumes_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2023-05-01-preview/examples/Volumes_Create.json
  */
 async function createOrUpdateVolume() {
-  const subscriptionId = process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] || "subscriptionId";
+  const subscriptionId =
+    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] || "123e4567-e89b-12d3-a456-426655440000";
   const resourceGroupName = process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
   const volumeName = "volumeName";
   const volumeParameters = {
     extendedLocation: {
-      name: "/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterExtendedLocationName",
+      name: "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterExtendedLocationName",
       type: "CustomLocation",
     },
     location: "location",

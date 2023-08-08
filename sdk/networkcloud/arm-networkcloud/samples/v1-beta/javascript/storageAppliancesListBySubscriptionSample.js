@@ -16,10 +16,11 @@ require("dotenv").config();
  * This sample demonstrates how to Get a list of storage appliances in the provided subscription.
  *
  * @summary Get a list of storage appliances in the provided subscription.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2022-12-12-preview/examples/StorageAppliances_ListBySubscription.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2023-05-01-preview/examples/StorageAppliances_ListBySubscription.json
  */
 async function listStorageAppliancesForSubscription() {
-  const subscriptionId = process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] || "subscriptionId";
+  const subscriptionId =
+    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] || "123e4567-e89b-12d3-a456-426655440000";
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const resArray = new Array();

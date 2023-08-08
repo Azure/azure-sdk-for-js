@@ -17,15 +17,16 @@ dotenv.config();
 /**
  * This sample demonstrates how to Get a Container Apps Job's executions
  *
- * @summary Get a Container Apps Job's executions
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/Job_Executions_Get.json
+ * @summary Get the Dapr Components for a connected environment.
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/ConnectedEnvironmentsDaprComponents_List.json
  */
-async function getAContainerAppsJobExecutions() {
+async function listDaprComponents() {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "rg";
-  const jobName = "testcontainerAppsJob0";
+    "8efdecc5-919e-44eb-b179-915dca89ebf9";
+  const resourceGroupName =
+    process.env["APPCONTAINERS_RESOURCE_GROUP"] || "examplerg";
+  const connectedEnvironmentName = "myenvironment";
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const resArray = new Array();
@@ -39,7 +40,7 @@ async function getAContainerAppsJobExecutions() {
 }
 
 async function main() {
-  getAContainerAppsJobExecutions();
+  listDaprComponents();
 }
 
 main().catch(console.error);

@@ -17,10 +17,13 @@ dotenv.config();
 /**
  * This sample demonstrates how to Returns list of operations.
  *
- * @summary Returns list of operations.
- * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/stable/2023-06-01/examples/ListOperations.json
+ * @summary Lists all of the available RP operations.
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/Operations_List.json
  */
 async function listAllOperations() {
+  const subscriptionId =
+    process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new HelpRP(credential);
   const resArray = new Array();

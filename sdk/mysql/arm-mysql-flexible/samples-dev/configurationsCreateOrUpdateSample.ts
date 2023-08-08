@@ -9,44 +9,46 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  Configuration,
-  MySQLManagementFlexibleServerClient
-} from "@azure/arm-mysql-flexible";
+  LtrBackupRequest,
+  PostgreSQLManagementFlexibleServerClient
+} from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
 dotenv.config();
 
 /**
- * This sample demonstrates how to Updates a configuration of a server.
+ * This sample demonstrates how to Start the Long Term Retention Backup operation
  *
- * @summary Updates a configuration of a server.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Configurations/preview/2021-12-01-preview/examples/ConfigurationCreateOrUpdate.json
+ * @summary Start the Long Term Retention Backup operation
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/LongTermRetentionBackup.json
  */
-async function configurationCreateOrUpdate() {
+async function sampleExecuteBackup() {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = process.env["MYSQL_RESOURCE_GROUP"] || "TestGroup";
-  const serverName = "testserver";
-  const configurationName = "event_scheduler";
-  const parameters: Configuration = { source: "user-override", value: "off" };
+  const resourceGroupName =
+    process.env["POSTGRESQL_RESOURCE_GROUP"] || "rgLongTermRetention";
+  const serverName = "pgsqlltrtestserver";
+  const parameters: LtrBackupRequest = {
+    backupSettings: { backupName: "backup1" },
+    targetDetails: { sasUriList: ["sasuri"] }
+  };
   const credential = new DefaultAzureCredential();
   const client = new MySQLManagementFlexibleServerClient(
     credential,
     subscriptionId
   );
-  const result = await client.configurations.beginCreateOrUpdateAndWait(
+  const result = await client.flexibleServer.beginStartLtrBackupAndWait(
     resourceGroupName,
     serverName,
-    configurationName,
     parameters
   );
   console.log(result);
 }
 
 async function main() {
-  configurationCreateOrUpdate();
+  sampleExecuteBackup();
 }
 
 main().catch(console.error);

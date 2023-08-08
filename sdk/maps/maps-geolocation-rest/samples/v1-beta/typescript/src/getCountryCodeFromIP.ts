@@ -17,7 +17,7 @@ async function successfullyRetrieveCountryCodeFromIPAddress() {
 
   /** Or use Azure AD authentication */
   // const credential = new DefaultAzureCredential();
-  // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
+  // const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
   // const client = new MapsGeolocation(credential, mapsClientId);
 
   const result = await client.path("/geolocation/ip/{format}", "json").get({

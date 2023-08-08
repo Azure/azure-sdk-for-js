@@ -1,5 +1,5 @@
 {
-  "name": "@azure-samples/arm-voiceservices-ts",
+  "name": "@azure-samples/arm-paloaltonetworksngfw-ts-beta",
   "private": true,
   "version": "1.0.0",
   "description": " client library samples for TypeScript",
@@ -13,7 +13,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
-    "directory": "sdk/voiceservices/arm-voiceservices"
+    "directory": "sdk/paloaltonetworksngfw/arm-paloaltonetworksngfw"
   },
   "keywords": [
     "node",
@@ -27,9 +27,9 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/voiceservices/arm-voiceservices",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/paloaltonetworksngfw/arm-paloaltonetworksngfw",
   "dependencies": {
-    "@azure/arm-voiceservices": "latest",
+    "@azure/arm-paloaltonetworksngfw": "next",
     "dotenv": "latest",
     "@azure/identity": "^2.0.1"
   },

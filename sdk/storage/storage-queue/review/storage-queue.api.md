@@ -6,22 +6,23 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AzureLogger } from '@azure/logger';
-import { CompatResponse } from '@azure/core-http-compat';
 import * as coreClient from '@azure/core-client';
 import * as coreHttpCompat from '@azure/core-http-compat';
-import { HttpHeadersLike } from '@azure/core-http-compat';
+import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
+import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
 import { HttpPipelineLogLevel } from '@azure/core-http-compat';
+import { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
 import { KeepAliveOptions } from '@azure/core-http-compat';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { ProxySettings } from '@azure/core-rest-pipeline';
 import { RequestPolicy } from '@azure/core-http-compat';
 import { RequestPolicyFactory } from '@azure/core-http-compat';
-import { RequestPolicyOptionsLike } from '@azure/core-http-compat';
+import { RequestPolicyOptionsLike as RequestPolicyOptions } from '@azure/core-http-compat';
 import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 import { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
-import { WebResourceLike } from '@azure/core-http-compat';
+import { WebResourceLike as WebResource } from '@azure/core-http-compat';
 
 // @public
 export interface AccessPolicy {
@@ -89,11 +90,11 @@ export class AnonymousCredentialPolicy extends CredentialPolicy {
 export abstract class BaseRequestPolicy implements RequestPolicy {
     protected constructor(
     _nextPolicy: RequestPolicy,
-    _options: RequestPolicyOptionsLike);
+    _options: RequestPolicyOptions);
     log(logLevel: HttpPipelineLogLevel, message: string): void;
     readonly _nextPolicy: RequestPolicy;
-    readonly _options: RequestPolicyOptionsLike;
-    abstract sendRequest(webResource: WebResourceLike): Promise<CompatResponse>;
+    readonly _options: RequestPolicyOptions;
+    abstract sendRequest(webResource: WebResource): Promise<HttpOperationResponse>;
     shouldLog(logLevel: HttpPipelineLogLevel): boolean;
 }
 
@@ -165,6 +166,17 @@ export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
 export interface HttpResponse {
     headers: HttpHeadersLike;
     request: WebResourceLike;
+    status: number;
+}
+
+export { HttpOperationResponse }
+
+export { HttpRequestBody }
+
+// @public
+export interface HttpResponse {
+    headers: HttpHeaders;
+    request: WebResource;
     status: number;
 }
 
@@ -613,6 +625,25 @@ export type QueueUpdateMessageResponse = MessageIdUpdateResponse;
 // @public
 export type ReceivedMessageItem = DequeuedMessageItem;
 
+export { RequestPolicy as IHttpClient }
+export { RequestPolicy }
+
+// @public
+export interface ResponseWithBody<Headers, Body> {
+    _response: HttpResponse & {
+        parsedHeaders: Headers;
+        bodyAsText: string;
+        parsedBody: Body;
+    };
+}
+
+// @public
+export interface ResponseWithHeaders<Headers> {
+    _response: HttpResponse & {
+        parsedHeaders: Headers;
+    };
+}
+
 // @public
 export interface ResponseLike {
     _response: HttpResponse;
@@ -833,6 +864,9 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
     constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike, factory: StorageSharedKeyCredential);
     protected signRequest(request: WebResourceLike): WebResourceLike;
 }
+
+// @public
+export type WithResponse<T, Headers = undefined, Body = undefined> = T & (Body extends object ? ResponseWithBody<Headers, Body> : Headers extends object ? ResponseWithHeaders<Headers> : ResponseLike);
 
 // @public
 export type WithResponse<T, Headers = undefined, Body = undefined> = T & (Body extends object ? ResponseWithBody<Headers, Body> : Headers extends object ? ResponseWithHeaders<Headers> : ResponseLike);
