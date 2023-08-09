@@ -12,7 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "applicationinsights": "^1.8.8",
-    "@azure/event-hubs": "5.10.0",
+    "@azure/event-hubs": "5.11.0",
     "@azure/storage-blob": "latest",
     "@azure/eventhubs-checkpointstore-blob": "1.0.1",
     "@azure/core-amqp": "3.2.0",

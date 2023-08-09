@@ -8,6 +8,8 @@ import {
   EventHubConsumerClient,
   EventHubClientOptions,
   EventHubProducerClient,
+  EventHubBufferedProducerClientOptions,
+  EventHubBufferedProducerClient,
 } from "@azure/event-hubs";
 
 export interface SnapshotOptions {
@@ -66,4 +68,20 @@ export function createEventHubsProducerClient(
   }
 
   return new EventHubProducerClient(connectionString, eventHubName, options);
+}
+
+
+export function createEventHubsBufferedProducerClient(
+  options: EventHubBufferedProducerClientOptions
+): EventHubBufferedProducerClient {
+  const eventHubName = process.env.EVENTHUB_NAME;
+  const connectionString = process.env.EVENTHUBS_CONNECTION_STRING;
+
+  if (!connectionString || !eventHubName) {
+    throw new Error(
+      "EVENTHUBS_CONNECTION_STRING and EVENTHUB_NAME have to be populated in the environment and are not!"
+    );
+  }
+
+  return new EventHubBufferedProducerClient(connectionString, eventHubName, options);
 }
