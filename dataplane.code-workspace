@@ -9,16 +9,12 @@
       "path": "sdk/purview/purview-catalog-rest"
     },
     {
-      "name": "anomaly-detector",
-      "path": "sdk/anomalydetector/ai-anomaly-detector"
+      "name": "anomaly-detector-rest",
+      "path": "sdk/anomalydetector/ai-anomaly-detector-rest"
     },
     {
       "name": "app-configuration",
       "path": "sdk/appconfiguration/app-configuration"
-    },
-    {
-      "name": "communication-admin",
-      "path": "sdk/communication/communication-administration"
     },
     {
       "name": "communication-chat",
