@@ -12,9 +12,11 @@ import {
 import { listChatCompletions, listCompletions } from "./api/operations.js";
 import { ChatCompletions, Completions, Embeddings } from "../generated/api/models.js";
 import {
+  GetAzureBatchImageGenerationOperationStatusOptions,
   _getChatCompletionsSend,
   _getCompletionsSend,
   beginAzureBatchImageGeneration,
+  getAzureBatchImageGenerationOperationStatus,
   getChatCompletions,
   getCompletions,
   getEmbeddings,
@@ -233,6 +235,24 @@ export class OpenAIClient {
     this.setModel(deploymentName, options);
     return listChatCompletions(this._client, messages, deploymentName, options);
   }
+
+    /** Returns the status of the images operation */
+    getAzureBatchImageGenerationOperationStatus(
+      operationId: string,
+      options: GetAzureBatchImageGenerationOperationStatusOptions = {
+        requestOptions: {},
+      }
+    ): Promise<ImageGenerationResponse> {
+      return getAzureBatchImageGenerationOperationStatus(this._client, operationId, options);
+    }
+  
+    /** Starts the generation of a batch of images from a text caption */
+    beginAzureBatchImageGeneration(
+      prompt: string,
+      options: ImageGenerationOptions = { requestOptions: {} }
+    ): Promise<ImageGenerationResponse> {
+      return beginAzureBatchImageGeneration(this._client, prompt, options);
+    }
 
   /**
    * Starts the generation of a batch of images from a text caption
