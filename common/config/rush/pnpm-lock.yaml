@@ -19165,8 +19165,6 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript@5.1.6
-      '@_ts/min': /typescript@4.2.4
       '@microsoft/api-extractor': 7.36.3(@types/node@14.18.54)
       '@rollup/plugin-commonjs': 24.1.0(rollup@2.79.1)
       '@rollup/plugin-json': 6.0.0(rollup@2.79.1)
