@@ -4,7 +4,7 @@
 /**
  * This sample shows how to programmatically build a model with a single document type using a training data set.
  *
- * The Form Recognizer service expects the training data to be organized and labeled according to a particular
+ * The Document Intelligence service expects the training data to be organized and labeled according to a particular
  * convention and stored in an Azure Storage container. For more information about creating a training data set, please
  * see the information at the following link to the service's documentation:
  *

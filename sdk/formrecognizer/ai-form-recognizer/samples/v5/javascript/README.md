@@ -9,9 +9,9 @@ products:
 urlFragment: ai-form-recognizer-javascript
 ---
 
-# Azure Form Recognizer client library samples for JavaScript
+# Azure AI Document Intelligence client library samples for JavaScript
 
-These sample programs show how to use the JavaScript client libraries for Azure Form Recognizer in some common scenarios.
+These sample programs show how to use the JavaScript client libraries for Azure AI Document Intelligence in some common scenarios.
 
 | **File Name**                                           | **Description**                                                                            |
 | ------------------------------------------------------- | ------------------------------------------------------------------------------------------ |

@@ -9,9 +9,9 @@ products:
 urlFragment: ai-form-recognizer-typescript
 ---
 
-# Azure Form Recognizer client library samples for TypeScript
+# Azure AI Document Intelligence client library samples for TypeScript
 
-These sample programs show how to use the TypeScript client libraries for Azure Form Recognizer in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for Azure AI Document Intelligence in some common scenarios.
 
 | **File Name**                                           | **Description**                                                                            |
 | ------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
