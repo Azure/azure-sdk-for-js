@@ -9,19 +9,17 @@
  * it will first classify the input as belonging to one of the document types.zzs
  *
  * @summary create a composed model from several individual labeled models
- * @azsdk-weight 60
  */
 
-import {
+const {
   DocumentModelAdministrationClient,
   AzureKeyCredential,
   DocumentModelBuildMode,
-} from "@azure/ai-form-recognizer";
+} = require("@azure/ai-form-recognizer");
 
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
-export async function main() {
+async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
@@ -111,3 +109,5 @@ export async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

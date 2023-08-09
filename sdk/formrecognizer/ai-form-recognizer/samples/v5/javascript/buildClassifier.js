@@ -13,10 +13,12 @@
  * @summary build a classifier from a training data set
  */
 
-import { AzureKeyCredential, DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
+const {
+  AzureKeyCredential,
+  DocumentModelAdministrationClient,
+} = require("@azure/ai-form-recognizer");
 
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
