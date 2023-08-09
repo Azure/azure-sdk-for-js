@@ -1,16 +1,20 @@
 # Release History
 
-## 1.0.0-beta.4 (Unreleased)
+## 1.0.0-beta.4 (2023-08-09)
 
 ### Features Added
 
-### Breaking Changes
+- Exporting individual capabilities as separate functions to be used in code-size-concious applications. For example, streaming completions can be imported individually as follows:
+
+```js
+import { listCompletions, createOpenAI } from "@azure/openai/api";
+const client = createOpenAI(endpoint, new AzureKeyCredential(azureApiKey));
+const events = listCompletions(client, prompt, deploymentId, { maxTokens: 128 });
+```
 
 ### Bugs Fixed
 
 - Fix a bug where server-sent events were not being parsed correctly.
-
-### Other Changes
 
 ## 1.0.0-beta.3 (2023-07-13)
 
