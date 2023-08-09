@@ -17860,7 +17860,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-76eZIXGsWzW8wSfkQh+OMkhTgXYHKU4eDhk1H7ecna5F4bxhp+TBnGFeA5Ns9Ya1aFPFPXgCOhrnHvL+CyZzDw==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-nZDIh6imOna55g/z6x2+HOZmZu8tQvuKKQaWNDdv9LZxJ1Q7WaCbY38+/hfWBscNhj/MO59DFc0difKg2LddUQ==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
@@ -17876,6 +17876,7 @@ packages:
       '@types/sinonjs__fake-timers': 8.1.2
       '@types/underscore': 1.11.8
       '@types/uuid': 8.3.4
+      chai: 4.3.7
       cross-env: 7.0.3
       debug: 4.3.4
       dotenv: 16.3.1

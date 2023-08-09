@@ -91,12 +91,15 @@ export { ClientContext } from "./ClientContext";
 
 export {
   CosmosDiagnostics,
-  MetadataLookUpDiagnostics,
-  RetryDiagnostics,
   MetadataLookUpDiagnostic,
-  FailedRequestAttemptDiagnostic,
+  MetadataLookUpDiagnostics,
   MetadataLookUpType,
+  RetryDiagnostics,
+  FailedRequestAttemptDiagnostic,
+  GatewayStatistics,
   ClientSideRequestStatistics,
+  ClientConfigDiagnostic,
+  DiagnosticNode,
 } from "./CosmosDiagnostics";
 
 export {
@@ -106,6 +109,7 @@ export {
   ChangeFeedStartFrom,
   FeedRange,
 } from "./client/ChangeFeed";
+export { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
 
 export { GlobalEndpointManager } from "./globalEndpointManager";
 export { SasTokenPermissionKind } from "./common/constants";

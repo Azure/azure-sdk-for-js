@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
-import { CosmosDiagnosticContext } from "../../CosmosDiagnosticsContext";
 import { PartitionKey } from "../../documents";
 import { QueryRange, PartitionKeyRangeCache } from "../../routing";
 import { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions";
@@ -24,8 +23,7 @@ export function changeFeedIteratorBuilder(
   cfOptions: ChangeFeedIteratorOptions,
   clientContext: ClientContext,
   container: Container,
-  partitionKeyRangeCache: PartitionKeyRangeCache,
-  diagnosticContext: CosmosDiagnosticContext
+  partitionKeyRangeCache: PartitionKeyRangeCache
 ): any {
   const url = container.url;
   const path = getPathFromLink(url, ResourceType.item);
@@ -66,8 +64,7 @@ export function changeFeedIteratorBuilder(
         path,
         url,
         internalCfOptions,
-        undefined,
-        diagnosticContext
+        undefined
       );
     } else {
       throw new ErrorResponse("Invalid continuation token.");
@@ -116,8 +113,7 @@ export function changeFeedIteratorBuilder(
         path,
         url,
         internalCfOptions,
-        internalCfResource,
-        diagnosticContext
+        internalCfResource
       );
     }
   } else {
