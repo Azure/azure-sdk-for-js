@@ -3,9 +3,9 @@
 
 import { InstrumenterSpanOptions, TracingSpanKind, TracingSpanLink } from "@azure/core-tracing";
 import {
+  Attributes,
+  AttributeValue,
   Link,
-  SpanAttributeValue,
-  SpanAttributes,
   SpanKind,
   SpanOptions,
   trace,
@@ -63,12 +63,12 @@ function toOpenTelemetryLinks(spanLinks: TracingSpanLink[] = []): Link[] {
  */
 function toOpenTelemetrySpanAttributes(
   spanAttributes: { [key: string]: unknown } | undefined
-): SpanAttributes {
+): Attributes {
   const attributes: ReturnType<typeof toOpenTelemetrySpanAttributes> = {};
   for (const key in spanAttributes) {
     // Any non-nullish value is allowed.
     if (spanAttributes[key] !== null && spanAttributes[key] !== undefined) {
-      attributes[key] = spanAttributes[key] as SpanAttributeValue;
+      attributes[key] = spanAttributes[key] as AttributeValue;
     }
   }
   return attributes;
@@ -83,7 +83,7 @@ function toOpenTelemetrySpanAttributes(
 export function toSpanOptions(spanOptions?: InstrumenterSpanOptions): SpanOptions {
   const { spanAttributes, spanLinks, spanKind } = spanOptions || {};
 
-  const attributes: SpanAttributes = toOpenTelemetrySpanAttributes(spanAttributes);
+  const attributes: Attributes = toOpenTelemetrySpanAttributes(spanAttributes);
   const kind = toOpenTelemetrySpanKind(spanKind);
   const links = toOpenTelemetryLinks(spanLinks);
 
