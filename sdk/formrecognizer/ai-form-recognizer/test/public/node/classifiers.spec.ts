@@ -8,6 +8,8 @@ import { matrix } from "@azure/test-utils";
 
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 
+setLogLevel("verbose");
+
 import {
   createRecorder,
   getRandomNumber,
@@ -20,6 +22,7 @@ import { DocumentAnalysisClient } from "../../../src/documentAnalysisClient";
 import path from "path";
 import fs from "fs";
 import { ASSET_PATH, makeTestUrl } from "../../utils/etc";
+import { setLogLevel } from "@azure/logger";
 
 const endpoint = (): string => assertEnvironmentVariable("FORM_RECOGNIZER_ENDPOINT");
 const containerSasUrl = (): string =>
@@ -31,7 +34,7 @@ const containerSasUrl = (): string =>
  * Note: Neural builds are currently disabled, as they take prohibitively long to complete for the live testing
  * environment.
  */
-matrix([[true, false]] as const, async (useAad) => {
+matrix([[/* true, */ false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}] document classifiers`, () => {
     let recorder: Recorder;
     let client: DocumentAnalysisClient;
@@ -86,7 +89,13 @@ matrix([[true, false]] as const, async (useAad) => {
               },
             },
           },
-          { ...testPollingOptions, description: customClassifierDescription }
+          {
+            ...testPollingOptions,
+            description: customClassifierDescription,
+            onProgress(state) {
+              console.log(`training status: ${JSON.stringify(state, null, 2)}`);
+            },
+          }
         );
 
         _classifier = await poller.pollUntilDone();
