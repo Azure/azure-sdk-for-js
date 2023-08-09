@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to get completions for the provided prompt.
+ * Demonstrates how to list completions for the provided prompt.
  *
- * @summary get completions.
+ * @summary list completions.
  * @azsdk-weight 100
  */
 
-import { AzureKeyCredential } from "@azure/core-auth";
-import OpenAIClient, { isUnexpected } from "@azure/openai/rest";
+import { AzureKeyCredential } from "@azure/openai";
+import { listCompletions, createOpenAI } from "@azure/openai/api";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -22,20 +22,16 @@ const azureApiKey = process.env["AZURE_API_KEY"] || "<api key>";
 const prompt = ["What is Azure OpenAI?"];
 
 export async function main() {
-  console.log("== Get completions Sample ==");
+  console.log("== Stream Completions Sample ==");
 
-  const client = OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
+  const client = createOpenAI(endpoint, new AzureKeyCredential(azureApiKey));
   const deploymentId = "text-davinci-003";
-  const result = await client.path("/deployments/{deploymentId}/completions", deploymentId).post({
-    body: { prompt, max_tokens: 128 },
-  });
+  const events = listCompletions(client, prompt, deploymentId, { maxTokens: 128 });
 
-  if (isUnexpected(result)) {
-    throw result;
-  }
-
-  for (const choice of result.body.choices) {
-    console.log(choice.text);
+  for await (const event of events) {
+    for (const choice of event.choices) {
+      console.log(choice.text);
+    }
   }
 }
 

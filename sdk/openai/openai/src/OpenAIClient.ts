@@ -12,15 +12,13 @@
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { createOpenAI } from "./api/OpenAIContext.js";
 import {
-  _getChatCompletionsSend,
-  _getCompletionsSend,
   beginAzureBatchImageGeneration,
   getAzureBatchImageGenerationOperationStatus,
   getChatCompletions,
-  getChatCompletionsResult,
   getCompletions,
-  getCompletionsResult,
   getEmbeddings,
+  listChatCompletions,
+  listCompletions,
 } from "./api/operations.js";
 import {
   ChatCompletions,
@@ -36,7 +34,6 @@ import {
   OpenAIClientOptions,
 } from "./index.js";
 import { OpenAIContext } from "./rest/clientDefinitions.js";
-import { getOaiSSEs } from "./api/oaiSse.js";
 
 export { OpenAIClientOptions } from "./api/OpenAIContext.js";
 
@@ -184,11 +181,7 @@ export class OpenAIClient {
     options: GetCompletionsOptions = {}
   ): AsyncIterable<Omit<Completions, "usage">> {
     this.setModel(deploymentName, options);
-    const response = _getCompletionsSend(this._client, prompt, deploymentName, {
-      ...options,
-      stream: true,
-    });
-    return getOaiSSEs(response, getCompletionsResult);
+    return listCompletions(this._client, prompt, deploymentName, options);
   }
 
   /**
@@ -236,11 +229,7 @@ export class OpenAIClient {
     options: GetChatCompletionsOptions = { requestOptions: {} }
   ): AsyncIterable<Omit<ChatCompletions, "usage">> {
     this.setModel(deploymentName, options);
-    const response = _getChatCompletionsSend(this._client, messages, deploymentName, {
-      ...options,
-      stream: true,
-    });
-    return getOaiSSEs(response, getChatCompletionsResult);
+    return listChatCompletions(this._client, messages, deploymentName, options);
   }
 
   private setModel(model: string, options: { model?: string }): void {
