@@ -8,11 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Creator, AzureMapsManagementClient } from "@azure/arm-maps";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { AzureMapsManagementClient } = require("@azure/arm-maps");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create or update a Maps Creator resource. Creator resource will manage Azure resources required to populate a custom set of mapping data. It requires an account to exist before it can be created.
@@ -22,16 +20,14 @@ dotenv.config();
  */
 async function createCreatorResource() {
   const subscriptionId =
-    process.env["MAPS_SUBSCRIPTION_ID"] ||
-    "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
-  const resourceGroupName =
-    process.env["MAPS_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["MAPS_SUBSCRIPTION_ID"] || "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
+  const resourceGroupName = process.env["MAPS_RESOURCE_GROUP"] || "myResourceGroup";
   const accountName = "myMapsAccount";
   const creatorName = "myCreator";
-  const creatorResource: Creator = {
+  const creatorResource = {
     location: "eastus2",
     properties: { storageUnits: 5 },
-    tags: { test: "true" }
+    tags: { test: "true" },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMapsManagementClient(credential, subscriptionId);

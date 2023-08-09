@@ -85,26 +85,21 @@ export const ManagedServiceIdentity: coreClient.CompositeMapper = {
         serializedName: "principalId",
         readOnly: true,
         type: {
-          name: "String"
+          name: "Uuid"
         }
       },
       tenantId: {
         serializedName: "tenantId",
         readOnly: true,
         type: {
-          name: "String"
+          name: "Uuid"
         }
       },
       type: {
         serializedName: "type",
+        required: true,
         type: {
-          name: "Enum",
-          allowedValues: [
-            "SystemAssigned",
-            "UserAssigned",
-            "SystemAssigned, UserAssigned",
-            "None"
-          ]
+          name: "String"
         }
       },
       userAssignedIdentities: {
@@ -112,11 +107,7 @@ export const ManagedServiceIdentity: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: {
-            type: {
-              name: "Composite",
-              className:
-                "Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties"
-            }
+            type: { name: "Composite", className: "UserAssignedIdentity" }
           }
         }
       }
@@ -124,24 +115,23 @@ export const ManagedServiceIdentity: coreClient.CompositeMapper = {
   }
 };
 
-export const Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties: coreClient.CompositeMapper = {
+export const UserAssignedIdentity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className:
-      "Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties",
+    className: "UserAssignedIdentity",
     modelProperties: {
       principalId: {
         serializedName: "principalId",
         readOnly: true,
         type: {
-          name: "String"
+          name: "Uuid"
         }
       },
       clientId: {
         serializedName: "clientId",
         readOnly: true,
         type: {
-          name: "String"
+          name: "Uuid"
         }
       }
     }
@@ -194,6 +184,13 @@ export const MapsAccountProperties: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CorsRules"
+        }
+      },
+      encryption: {
+        serializedName: "encryption",
+        type: {
+          name: "Composite",
+          className: "Encryption"
         }
       }
     }
@@ -262,6 +259,77 @@ export const CorsRule: coreClient.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const Encryption: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Encryption",
+    modelProperties: {
+      infrastructureEncryption: {
+        serializedName: "infrastructureEncryption",
+        type: {
+          name: "String"
+        }
+      },
+      customerManagedKeyEncryption: {
+        serializedName: "customerManagedKeyEncryption",
+        type: {
+          name: "Composite",
+          className: "CustomerManagedKeyEncryption"
+        }
+      }
+    }
+  }
+};
+
+export const CustomerManagedKeyEncryption: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CustomerManagedKeyEncryption",
+    modelProperties: {
+      keyEncryptionKeyIdentity: {
+        serializedName: "keyEncryptionKeyIdentity",
+        type: {
+          name: "Composite",
+          className: "CustomerManagedKeyEncryptionKeyIdentity"
+        }
+      },
+      keyEncryptionKeyUrl: {
+        serializedName: "keyEncryptionKeyUrl",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CustomerManagedKeyEncryptionKeyIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CustomerManagedKeyEncryptionKeyIdentity",
+    modelProperties: {
+      identityType: {
+        serializedName: "identityType",
+        type: {
+          name: "String"
+        }
+      },
+      userAssignedIdentityResourceId: {
+        serializedName: "userAssignedIdentityResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      delegatedIdentityClientId: {
+        serializedName: "delegatedIdentityClientId",
+        type: {
+          name: "Uuid"
         }
       }
     }
@@ -468,6 +536,13 @@ export const MapsAccountUpdateParameters: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CorsRules"
+        }
+      },
+      encryption: {
+        serializedName: "properties.encryption",
+        type: {
+          name: "Composite",
+          className: "Encryption"
         }
       }
     }
@@ -827,6 +902,24 @@ export const MetricSpecification: coreClient.CompositeMapper = {
       },
       internalMetricName: {
         serializedName: "internalMetricName",
+        type: {
+          name: "String"
+        }
+      },
+      lockAggregationType: {
+        serializedName: "lockAggregationType",
+        type: {
+          name: "String"
+        }
+      },
+      sourceMdmNamespace: {
+        serializedName: "sourceMdmNamespace",
+        type: {
+          name: "String"
+        }
+      },
+      supportedAggregationTypes: {
+        serializedName: "supportedAggregationTypes",
         type: {
           name: "String"
         }

@@ -8,14 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  CreatorUpdateParameters,
-  AzureMapsManagementClient
-} from "@azure/arm-maps";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { AzureMapsManagementClient } = require("@azure/arm-maps");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Updates the Maps Creator resource. Only a subset of the parameters may be updated after creation, such as Tags.
@@ -25,15 +20,13 @@ dotenv.config();
  */
 async function updateCreatorResource() {
   const subscriptionId =
-    process.env["MAPS_SUBSCRIPTION_ID"] ||
-    "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
-  const resourceGroupName =
-    process.env["MAPS_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["MAPS_SUBSCRIPTION_ID"] || "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
+  const resourceGroupName = process.env["MAPS_RESOURCE_GROUP"] || "myResourceGroup";
   const accountName = "myMapsAccount";
   const creatorName = "myCreator";
-  const creatorUpdateParameters: CreatorUpdateParameters = {
+  const creatorUpdateParameters = {
     storageUnits: 10,
-    tags: { specialTag: "true" }
+    tags: { specialTag: "true" },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMapsManagementClient(credential, subscriptionId);
