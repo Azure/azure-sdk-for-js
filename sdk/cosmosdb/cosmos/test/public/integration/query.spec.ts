@@ -185,13 +185,13 @@ describe("aggregate query over null value", function (this: Suite) {
 
 describe("Test Index metrics", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
-  const collectionId = "testCollection3";
 
   beforeEach(async function () {
     await removeAllDatabases();
   });
 
   it("validate that index metrics are correct", async function () {
+    const collectionId = "testCollection3";
     const createdContainerSinglePartition = await setupContainer(
       "index metrics test db",
       collectionId,
@@ -214,9 +214,9 @@ describe("Test Index metrics", function (this: Suite) {
     await container.items.create(doc1);
     await container.items.create(doc2);
     await container.items.create(doc3);
-    //stremeable query
+    //  stremeable query
     const query1 = "SELECT * from " + collectionId + " where " + collectionId + ".name = 'test2'";
-    //aggregate query
+    //  aggregate query
     const query2 = "SELECT * from " + collectionId + " order by " + collectionId + ".name";
     const queryList = [query1, query2];
     const queryOptions: FeedOptions = { populateIndexMetrics: true, maxItemCount: 1 };
