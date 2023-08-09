@@ -2049,6 +2049,11 @@
       "packageName": "@azure/arm-sphere",
       "projectFolder": "sdk/sphere/arm-sphere",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/defender-easm",
+      "projectFolder": "sdk/easm/defender-easm",
+      "versionPolicyName": "client"
     }
   ]
 }

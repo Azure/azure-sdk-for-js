@@ -1,0 +1,42 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/subscriptions/azure_subscription_id/resourceGroups/azure_resource_group_name/workspaces/azure_workspace_name/discoGroups/University%20of%20Kansas:run?api-version=2023-03-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "User-Agent": "azsdk-js-defender-easm-rest/1.0.0-beta.1 core-rest-pipeline/1.12.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "07487554-ce7a-4835-9324-8baa24414aeb"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
+        "Connection": "keep-alive",
+        "Date": "Wed, 09 Aug 2023 03:43:21 GMT",
+        "Expires": "0",
+        "Pragma": "no-cache",
+        "Server": "digitalfootprint-web",
+        "Strict-Transport-Security": "max-age=31536000 ; includeSubDomains",
+        "Vary": [
+          "Origin",
+          "Access-Control-Request-Method",
+          "Access-Control-Request-Headers"
+        ],
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "DENY",
+        "x-ms-correlation-request-id": "ebf19911-31ca-4ffc-aec0-ef38723cdd7f",
+        "x-ms-request-id": "3241f461-8211-4e4e-9f10-06f890bc5e9e",
+        "x-ms-ui-version": "sdk",
+        "X-RiskIQ-RequestID": "3241f461-8211-4e4e-9f10-06f890bc5e9e",
+        "X-XSS-Protection": "1; mode=block"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {}
+}

@@ -1,0 +1,58 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/subscriptions/azure_subscription_id/resourceGroups/azure_resource_group_name/workspaces/azure_workspace_name/dataConnections:validate?api-version=2023-03-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "177",
+        "Content-Type": "application/json; charset=UTF-8",
+        "User-Agent": "azsdk-js-defender-easm-rest/1.0.0-beta.1 core-rest-pipeline/1.12.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "a1496e42-18f9-4c55-8b40-61821b27acb8"
+      },
+      "RequestBody": {
+        "kind": "azureDataExplorer",
+        "properties": {
+          "clusterName": "sample-cluster",
+          "databaseName": "sample-db",
+          "region": "eastus"
+        },
+        "content": "assets",
+        "frequency": "daily",
+        "name": "shad-data"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
+        "Connection": "keep-alive",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json",
+        "Date": "Wed, 09 Aug 2023 03:43:16 GMT",
+        "Expires": "0",
+        "Pragma": "no-cache",
+        "Server": "digitalfootprint-web",
+        "Strict-Transport-Security": "max-age=31536000 ; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": [
+          "origin",
+          "access-control-request-method",
+          "access-control-request-headers",
+          "accept-encoding"
+        ],
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "DENY",
+        "x-ms-correlation-request-id": "31db4193-512a-4d37-9567-32a432b013bb",
+        "x-ms-request-id": "15903f4b-1283-48b2-91b5-c0abc6b1d9f8",
+        "x-ms-ui-version": "sdk",
+        "X-XSS-Protection": "1; mode=block"
+      },
+      "ResponseBody": {
+        "error": null
+      }
+    }
+  ],
+  "Variables": {}
+}
