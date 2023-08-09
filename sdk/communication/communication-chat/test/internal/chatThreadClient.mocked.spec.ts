@@ -22,6 +22,7 @@ import {
   generateHttpClient,
   mockChatMessageReadReceipt,
   mockMessage,
+  mockMessageWithAttachment,
   mockParticipant,
   mockSdkModelParticipant,
   mockThread,
@@ -152,6 +153,40 @@ describe("[Mocked] ChatThreadClient", async function () {
       request.url,
       `${baseUri}/chat/threads/${threadId}/messages/${mockMessage.id}?api-version=${API_VERSION}`
     );
+    assert.equal(request.method, "GET");
+  });
+
+  it("makes successful get message with attachments request", async function () {
+    const mockHttpClient = generateHttpClient(200, mockMessageWithAttachment);
+    chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+
+    const {
+      sender: responseUser,
+      content: responseContent,
+      ...responseMessage
+    } = await chatThreadClient.getMessage(mockMessageWithAttachment.id!);
+    const {
+      senderCommunicationIdentifier: expectedIdentifier,
+      content: expectedContent,
+      ...expectedMessage
+    } = mockMessageWithAttachment;
+    const {
+      participants: expectedParticipants,
+      attachments: expectedAttachments,
+      ...expectedContents
+    } = expectedContent!;
+    const {
+      participants: responseParticipants,
+      attachments: responseAttachments,
+      ...repsonseContents
+    } = responseContent!;
+    sinon.assert.calledOnce(spy);
+    assert.deepEqual(responseMessage, expectedMessage);
+    assert.deepEqual(responseAttachments, expectedAttachments);
+    assert.deepEqual(repsonseContents, expectedContents);
+    const request = spy.getCall(0).args[0];
+
     assert.equal(request.method, "GET");
   });
 
