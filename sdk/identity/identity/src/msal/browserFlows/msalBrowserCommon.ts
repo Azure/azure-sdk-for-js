@@ -38,7 +38,7 @@ export interface MsalBrowserFlowOptions extends MsalFlowOptions {
     /**
      * Allows logging personally identifiable information for customer support.
      */
-    enableSupportLogging?: boolean;
+    enableUnsafeSupportLogging?: boolean;
   };
 }
 

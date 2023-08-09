@@ -55,7 +55,7 @@ export interface MsalNodeOptions extends MsalFlowOptions {
     /**
      * Allows logging personally identifiable information for customer support.
      */
-    enableSupportLogging?: boolean;
+    enableUnsafeSupportLogging?: boolean;
   };
 }
 
@@ -194,7 +194,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
         loggerOptions: {
           loggerCallback: defaultLoggerCallback(options.logger),
           logLevel: getMSALLogLevel(getLogLevel()),
-          piiLoggingEnabled: options.loggingOptions?.enableSupportLogging,
+          piiLoggingEnabled: options.loggingOptions?.enableUnsafeSupportLogging,
         },
       },
     };
