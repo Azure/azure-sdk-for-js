@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { HttpRequestBody, isNode, TokenCredential } from "@azure/core-http";
+import { HttpRequestBody, isNode, isTokenCredential, TokenCredential } from "@azure/core-http";
 import { BlobClient, BlockBlobClient } from "@azure/storage-blob";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { Readable } from "stream";
@@ -115,6 +115,8 @@ export class DataLakePathClient extends StorageClient {
    * blobClient provided by `@azure/storage-blob` package.
    */
   private blobClient: BlobClient;
+
+  private isTokenCredential?: boolean;
 
   /**
    * SetAccessControlRecursiveInternal operation sets the Access Control on a path and sub paths.
@@ -458,6 +460,15 @@ export class DataLakePathClient extends StorageClient {
     options.conditions = options.conditions || {};
     const { span, updatedOptions } = createSpan("DataLakePathClient-delete", options);
     try {
+      if (this.isTokenCredential === undefined) {
+        this.isTokenCredential = false;
+        this.pipeline.factories.forEach((factory) => {
+          if (isTokenCredential((factory as any).credential)) {
+            this.isTokenCredential = true;
+          }
+        });
+      }
+      const paginated = recursive === true && this.isTokenCredential === true;
       let continuation;
       let response;
 
@@ -470,6 +481,7 @@ export class DataLakePathClient extends StorageClient {
           modifiedAccessConditions: options.conditions,
           ...convertTracingToRequestOptionsBase(updatedOptions),
           abortSignal: options.abortSignal,
+          paginated: paginated,
         });
         continuation = response.continuation;
       } while (continuation !== undefined && continuation !== "");
