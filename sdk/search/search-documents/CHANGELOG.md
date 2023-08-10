@@ -8,6 +8,9 @@
 
 ### Breaking Changes
 
+- Change vector option `SearchOptions.vector` to array of vectors option 
+`SearchOptions.vectors`. [#26765](https://github.com/Azure/azure-sdk-for-js/pull/26765)
+
 ### Bugs Fixed
 
 ### Other Changes
