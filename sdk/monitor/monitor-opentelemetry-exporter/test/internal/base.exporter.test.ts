@@ -3,7 +3,6 @@
 
 import * as assert from "assert";
 import { ExportResult, ExportResultCode } from "@opentelemetry/core";
-import { AzureMonitorBaseExporter } from "../../src/index";
 import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants";
 import {
   failedBreezeResponse,
@@ -13,6 +12,7 @@ import {
 import { FileSystemPersist, HttpSender } from "../../src/platform";
 import { TelemetryItem as Envelope } from "../../src/generated";
 import nock from "nock";
+import { AzureMonitorBaseExporter } from "../../src/export/base";
 
 function toObject<T>(obj: T): T {
   return JSON.parse(JSON.stringify(obj)) as T;
@@ -36,19 +36,6 @@ describe("#AzureMonitorBaseExporter", () => {
       return this.thisAsAny._exportEnvelopes(payload);
     }
   }
-
-  it("should pass options to persister", () => {
-    const exporter = new TestExporter();
-    assert.ok(exporter["_instrumentationKey"]);
-    assert.strictEqual(
-      (exporter["_persister"] as FileSystemPersist)["_instrumentationKey"],
-      exporter["_instrumentationKey"]
-    );
-    assert.deepStrictEqual(
-      (exporter["_persister"] as FileSystemPersist)["_options"],
-      exporter["_options"]
-    );
-  });
 
   describe("Sender/Persister Controller", () => {
     describe("#exportEnvelopes()", () => {
@@ -74,7 +61,7 @@ describe("#AzureMonitorBaseExporter", () => {
         const result = await exporter.exportEnvelopesPrivate([envelope]);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
 
-        const persistedEnvelopes = (await exporter["_persister"].shift()) as Envelope[];
+        const persistedEnvelopes = (await exporter["_sender"]["_persister"].shift()) as Envelope[];
         assert.strictEqual(persistedEnvelopes?.length, 1);
         assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
       });
@@ -87,7 +74,7 @@ describe("#AzureMonitorBaseExporter", () => {
         const result = await exporter.exportEnvelopesPrivate([envelope]);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
 
-        const persistedEnvelopes = (await exporter["_persister"].shift()) as Envelope[];
+        const persistedEnvelopes = (await exporter["_sender"]["_persister"].shift()) as Envelope[];
         assert.strictEqual(persistedEnvelopes?.length, 1);
         assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
       });
@@ -100,7 +87,7 @@ describe("#AzureMonitorBaseExporter", () => {
         const result = await exporter.exportEnvelopesPrivate([envelope]);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
 
-        const persistedEnvelopes = (await exporter["_persister"].shift()) as Envelope[];
+        const persistedEnvelopes = (await exporter["_sender"]["_persister"].shift()) as Envelope[];
         assert.strictEqual(persistedEnvelopes?.length, 1);
         assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
       });
@@ -113,7 +100,7 @@ describe("#AzureMonitorBaseExporter", () => {
         const result = await exporter.exportEnvelopesPrivate([envelope]);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
 
-        const persistedEnvelopes = (await exporter["_persister"].shift()) as Envelope[];
+        const persistedEnvelopes = (await exporter["_sender"]["_persister"].shift()) as Envelope[];
         assert.strictEqual(persistedEnvelopes?.length, 1);
         assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
       });
@@ -126,7 +113,7 @@ describe("#AzureMonitorBaseExporter", () => {
         const result = await exporter.exportEnvelopesPrivate([envelope]);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
 
-        const persistedEnvelopes = (await exporter["_persister"].shift()) as Envelope[];
+        const persistedEnvelopes = (await exporter["_sender"]["_persister"].shift()) as Envelope[];
         assert.strictEqual(persistedEnvelopes?.length, 1);
         assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
       });
@@ -139,7 +126,7 @@ describe("#AzureMonitorBaseExporter", () => {
         const result = await exporter.exportEnvelopesPrivate([envelope, envelope, envelope]);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
 
-        const persistedEnvelopes = (await exporter["_persister"].shift()) as Envelope[];
+        const persistedEnvelopes = (await exporter["_sender"]["_persister"].shift()) as Envelope[];
         assert.strictEqual(persistedEnvelopes?.length, 2);
       });
 
@@ -151,7 +138,7 @@ describe("#AzureMonitorBaseExporter", () => {
         const result = await exporter.exportEnvelopesPrivate([envelope, envelope, envelope]);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
 
-        const persistedEnvelopes = (await exporter["_persister"].shift()) as Envelope[];
+        const persistedEnvelopes = (await exporter["_sender"]["_persister"].shift()) as Envelope[];
         assert.strictEqual(persistedEnvelopes?.length, 1);
       });
 
@@ -163,7 +150,7 @@ describe("#AzureMonitorBaseExporter", () => {
         const result = await exporter.exportEnvelopesPrivate([envelope]);
         assert.strictEqual(result.code, ExportResultCode.FAILED);
 
-        const persistedEnvelopes = await exporter["_persister"].shift();
+        const persistedEnvelopes = await exporter["_sender"]["_persister"].shift();
         assert.strictEqual(persistedEnvelopes, null);
       });
 
@@ -175,7 +162,7 @@ describe("#AzureMonitorBaseExporter", () => {
         const result = await exporter.exportEnvelopesPrivate([envelope]);
         assert.strictEqual(result.code, ExportResultCode.FAILED);
 
-        const persistedEnvelopes = await exporter["_persister"].shift();
+        const persistedEnvelopes = await exporter["_sender"]["_persister"].shift();
         assert.strictEqual(persistedEnvelopes, null);
       });
 
@@ -186,7 +173,7 @@ describe("#AzureMonitorBaseExporter", () => {
         const result = await exporter.exportEnvelopesPrivate([envelope]);
         assert.strictEqual(result.code, ExportResultCode.FAILED);
 
-        const persistedEnvelopes = await exporter["_persister"].shift();
+        const persistedEnvelopes = await exporter["_sender"]["_persister"].shift();
         assert.strictEqual(persistedEnvelopes, null);
       });
 
@@ -197,21 +184,21 @@ describe("#AzureMonitorBaseExporter", () => {
 
         const result = await exporter.exportEnvelopesPrivate([envelope]);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-        assert.notStrictEqual(exporter["_retryTimer"], null);
+        assert.notStrictEqual(exporter["_sender"]["_retryTimer"], null);
 
-        clearTimeout(exporter["_retryTimer"]!);
-        exporter["_retryTimer"] = null;
+        clearTimeout(exporter["_sender"]["_retryTimer"]!);
+        exporter["_sender"]["_retryTimer"] = null;
       });
 
       it("should not start a retry timer when one already exists", async () => {
         const exporter = new TestExporter();
-        exporter["_retryTimer"] = "foo" as unknown as NodeJS.Timer;
+        exporter["_sender"]["_retryTimer"] = "foo" as unknown as NodeJS.Timer;
         const response = successfulBreezeResponse(1);
         scope.reply(200, JSON.stringify(response));
 
         const result = await exporter.exportEnvelopesPrivate([envelope]);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-        assert.strictEqual(exporter["_retryTimer"], "foo");
+        assert.strictEqual(exporter["_sender"]["_retryTimer"], "foo");
       });
 
       it("should handle permanent redirects in Azure Monitor", async () => {
@@ -226,7 +213,7 @@ describe("#AzureMonitorBaseExporter", () => {
         scope.reply(308, {}, { location: redirectLocation });
 
         const result = await exporter.exportEnvelopesPrivate([envelope]);
-        const persistedEnvelopes = (await exporter["_persister"].shift()) as Envelope[];
+        const persistedEnvelopes = (await exporter["_sender"]["_persister"].shift()) as Envelope[];
         assert.strictEqual(persistedEnvelopes, null);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
         assert.strictEqual(
@@ -247,7 +234,7 @@ describe("#AzureMonitorBaseExporter", () => {
         scope.reply(307, {}, { location: redirectLocation });
 
         const result = await exporter.exportEnvelopesPrivate([envelope]);
-        const persistedEnvelopes = (await exporter["_persister"].shift()) as Envelope[];
+        const persistedEnvelopes = (await exporter["_sender"]["_persister"].shift()) as Envelope[];
         assert.strictEqual(persistedEnvelopes, null);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
         assert.strictEqual(
