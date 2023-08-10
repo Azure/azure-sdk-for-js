@@ -22,7 +22,6 @@ const groupName = process.env["SCHEMA_REGISTRY_GROUP"] || "AzureSdkSampleGroup";
 
 // Sample Json Schema for user with first and last names
 const schemaObject = {
-  $schema: "https://json-schema.org/draft/2020-12/schema",
   $id: "user",
   title: "User",
   description: "A user for the product",
@@ -30,13 +29,12 @@ const schemaObject = {
   properties: {
     firstName: {
       type: "string",
-      required: true,
     },
     lastName: {
       type: "string",
-      required: true,
     },
   },
+  required: ["firstName", "lastName"],
 };
 
 const schema = JSON.stringify(schemaObject);
@@ -71,9 +69,8 @@ async function main() {
   // Validation using a third party library
   const ajv = new Ajv();
   const validator = ajv.compile(JSON.parse(schema));
-  let validators = new Map();
+  const validators = new Map();
   validators.set(schema, validator);
-
   const validateOptions = {
     validateCallback(value, schema) {
       const validator = validators.get(schema);
@@ -82,8 +79,9 @@ async function main() {
         if (!valid) {
           throw new Error(JSON.stringify(validator.errors));
         }
+      } else {
+        throw new Error("Unable to find validator");
       }
-      throw new Error("Unable to find validator");
     },
   };
 
