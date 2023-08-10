@@ -13,7 +13,7 @@ import {
   PeriodicExportingMetricReader,
   PeriodicExportingMetricReaderOptions,
 } from "@opentelemetry/sdk-metrics";
-import { AzureMonitorExporterOptions, AzureMonitorStatsbeatExporter } from "../../index";
+import { AzureMonitorExporterOptions } from "../../index";
 import * as ai from "../../utils/constants/applicationinsights";
 import { StatsbeatMetrics } from "./statsbeatMetrics";
 import {
@@ -24,6 +24,7 @@ import {
   NetworkStatsbeatProperties,
   StatsbeatOptions,
 } from "./types";
+import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter";
 
 export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
   private _commonProperties: CommonStatsbeatProperties;
@@ -235,7 +236,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
       currentCounter.averageRequestExecutionTime =
         (currentCounter.intervalRequestExecutionTime -
           currentCounter.lastIntervalRequestExecutionTime) /
-          intervalRequests || 0;
+        intervalRequests || 0;
       currentCounter.lastIntervalRequestExecutionTime = currentCounter.intervalRequestExecutionTime; // reset
 
       currentCounter.lastRequestCount = currentCounter.totalRequestCount;

@@ -4,7 +4,7 @@ import url from "url";
 import { diag } from "@opentelemetry/api";
 import { FullOperationResponse } from "@azure/core-client";
 import { bearerTokenAuthenticationPolicy, redirectPolicyName } from "@azure/core-rest-pipeline";
-import { Sender, SenderResult } from "../../types";
+import { SenderResult } from "../../types";
 import {
   TelemetryItem as Envelope,
   ApplicationInsightsClient,
@@ -12,6 +12,7 @@ import {
   TrackOptionalParams,
 } from "../../generated";
 import { AzureMonitorExporterOptions } from "../../config";
+import { BaseSender } from "./baseSender";
 
 const applicationInsightsResource = "https://monitor.azure.com//.default";
 
@@ -19,11 +20,12 @@ const applicationInsightsResource = "https://monitor.azure.com//.default";
  * Exporter HTTP sender class
  * @internal
  */
-export class HttpSender implements Sender {
+export class HttpSender extends BaseSender {
   private readonly _appInsightsClient: ApplicationInsightsClient;
   private _appInsightsClientOptions: ApplicationInsightsClientOptionalParams;
 
-  constructor(endpointUrl: string, options?: AzureMonitorExporterOptions) {
+  constructor(endpointUrl: string, instrumentationKey: string, trackStatsbeat: boolean, options?: AzureMonitorExporterOptions) {
+    super(endpointUrl, instrumentationKey, trackStatsbeat, options);
     // Build endpoint using provided configuration or default values
     this._appInsightsClientOptions = {
       host: endpointUrl,
@@ -34,11 +36,11 @@ export class HttpSender implements Sender {
     // Handle redirects in HTTP Sender
     this._appInsightsClient.pipeline.removePolicy({ name: redirectPolicyName });
 
-    if (options?.aadTokenCredential) {
+    if (options?.credential) {
       let scopes: string[] = [applicationInsightsResource];
       this._appInsightsClient.pipeline.addPolicy(
         bearerTokenAuthenticationPolicy({
-          credential: options?.aadTokenCredential,
+          credential: options?.credential,
           scopes: scopes,
         })
       );

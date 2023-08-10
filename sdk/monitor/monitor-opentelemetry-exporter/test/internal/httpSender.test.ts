@@ -42,7 +42,7 @@ describe("HttpSender", () => {
 
   describe("#constructor", () => {
     it("should create a valid instance", () => {
-      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT);
+      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, "someIkey", false);
       assert.ok(sender);
     });
   });
@@ -53,7 +53,7 @@ describe("HttpSender", () => {
       time: new Date(),
     };
     it("should send a valid envelope", async () => {
-      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT);
+      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, "someIkey", false);
       scope.reply(200, JSON.stringify(successfulBreezeResponse(1)));
       const { result, statusCode } = await sender.send([envelope]);
       assert.strictEqual(statusCode, 200);
@@ -61,7 +61,7 @@ describe("HttpSender", () => {
     });
 
     it("should send an invalid non-retriable envelope", async () => {
-      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT);
+      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, "someIkey", false);
       scope.reply(403, JSON.stringify(failedBreezeResponse(2, 403)));
 
       try {
@@ -73,7 +73,7 @@ describe("HttpSender", () => {
     });
 
     it("should send a partially retriable envelope", async () => {
-      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT);
+      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, "someIkey", false);
       scope.reply(206, JSON.stringify(partialBreezeResponse([200, 408, 408])));
       const { result, statusCode } = await sender.send([envelope, envelope]);
       assert.strictEqual(statusCode, 206);
@@ -83,8 +83,8 @@ describe("HttpSender", () => {
 
   describe("#authentication", () => {
     it("should add bearerTokenAuthenticationPolicy", () => {
-      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, {
-        aadTokenCredential: new TestTokenCredential(),
+      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, "someIkey", false, {
+        credential: new TestTokenCredential(),
       });
       assert.ok(
         sender["_appInsightsClient"].pipeline
@@ -98,7 +98,7 @@ describe("HttpSender", () => {
 
   describe("#advanced configuration", () => {
     it("proxy configuration", () => {
-      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, {
+      const sender = new HttpSender(DEFAULT_BREEZE_ENDPOINT, "someIkey", false, {
         proxyOptions: {
           host: "testproxy",
           port: 123,
