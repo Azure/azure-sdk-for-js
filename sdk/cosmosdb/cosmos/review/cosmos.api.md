@@ -68,10 +68,7 @@ export class ChangeFeedIterator<T> {
 
 // @public
 export interface ChangeFeedIteratorOptions {
-    // Warning: (ae-forgotten-export) The symbol "ChangeFeedResource" needs to be exported by the entry point index.d.ts
-    changeFeedResource?: ChangeFeedResource;
-    // Warning: (ae-forgotten-export) The symbol "ChangeFeedStartType" needs to be exported by the entry point index.d.ts
-    changeFeedStartType?: ChangeFeedStartType;
+    changeFeedStartFrom?: ChangeFeedStartFrom;
     maxItemCount?: number;
     sessionToken?: string;
 }
@@ -86,21 +83,7 @@ export class ChangeFeedIteratorResponse<T> {
     readonly result: T;
     get sessionToken(): string;
     readonly statusCode: number;
-    readonly SubStatusCode?: number;
-}
-
-// @public
-export abstract class ChangeFeedIteratorV2<T> {
-    // (undocumented)
-    abstract fetchAllFeedRanges(): Promise<void>;
-    // (undocumented)
-    abstract fetchContinuationTokenFeedRanges(continuationToken: string): Promise<boolean>;
-    // (undocumented)
-    abstract fetchOverLappingFeedRanges(epkRange: PartitionKeyRange): Promise<void>;
-    // (undocumented)
-    abstract get hasMoreResults(): boolean;
-    // (undocumented)
-    abstract ReadNextAsync(): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>>;
+    readonly subStatusCode?: number;
 }
 
 // @public
@@ -113,13 +96,9 @@ export interface ChangeFeedOptions {
 }
 
 // @public
-export enum ChangeFeedResourceType {
-    // (undocumented)
-    Container = 2,
-    // (undocumented)
-    EpkRange = 0,
-    // (undocumented)
-    PartitionKey = 1
+export abstract class ChangeFeedPullModelIterator<T> {
+    abstract get hasMoreResults(): boolean;
+    abstract ReadNextAsync(): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>>;
 }
 
 // @public
@@ -136,15 +115,15 @@ export class ChangeFeedResponse<T> {
 }
 
 // @public
-export enum ChangeFeedStartFrom {
-    // (undocumented)
-    Beginning = 0,
-    // (undocumented)
-    ContinuationToken = 3,
-    // (undocumented)
-    Now = 1,
-    // (undocumented)
-    StartTime = 2
+export abstract class ChangeFeedStartFrom {
+    // Warning: (ae-forgotten-export) The symbol "ChangeFeedStartFromBeginning" needs to be exported by the entry point index.d.ts
+    static Beginning(cfResource?: PartitionKey | PartitionKeyRange | EpkRange): ChangeFeedStartFromBeginning;
+    // Warning: (ae-forgotten-export) The symbol "ChangeFeedStartFromContinuation" needs to be exported by the entry point index.d.ts
+    static Continuation(continuationToken: string): ChangeFeedStartFromContinuation;
+    // Warning: (ae-forgotten-export) The symbol "ChangeFeedStartFromNow" needs to be exported by the entry point index.d.ts
+    static Now(cfResource?: PartitionKey | PartitionKeyRange | EpkRange): ChangeFeedStartFromNow;
+    // Warning: (ae-forgotten-export) The symbol "ChangeFeedStartFromTime" needs to be exported by the entry point index.d.ts
+    static Time(startTime: Date, cfResource?: PartitionKey | PartitionKeyRange | EpkRange): ChangeFeedStartFromTime;
 }
 
 // @public (undocumented)
@@ -805,6 +784,12 @@ export interface DeleteOperationInput {
     partitionKey?: PartitionKey;
 }
 
+// @public
+export interface EpkRange {
+    maxExclusive: string;
+    minInclusive: string;
+}
+
 // @public (undocumented)
 export interface ErrorBody {
     // (undocumented)
@@ -958,14 +943,6 @@ export enum HTTPMethod {
 }
 
 // @public (undocumented)
-export interface IEpkRange {
-    // (undocumented)
-    maxExclusive: string;
-    // (undocumented)
-    minInclusive: string;
-}
-
-// @public (undocumented)
 export interface Index {
     // (undocumented)
     dataType: keyof typeof DataType;
@@ -1048,7 +1025,7 @@ export class Items {
     // (undocumented)
     readonly container: Container;
     create<T extends ItemDefinition = any>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
-    getChangeFeedIterator<T>(changeFeedOptions: ChangeFeedIteratorOptions): Promise<ChangeFeedIteratorV2<T>>;
+    getChangeFeedIterator<T>(changeFeedIteratorOptions?: ChangeFeedIteratorOptions): ChangeFeedPullModelIterator<T>;
     query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
     query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
     readAll(options?: FeedOptions): QueryIterator<ItemDefinition>;

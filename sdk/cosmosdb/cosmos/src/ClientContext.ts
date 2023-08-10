@@ -178,7 +178,6 @@ export class ClientContext {
     request.headers = await this.buildHeaders(request);
 
     if (startEpk !== undefined && endEpk !== undefined) {
-      console.log("epkHeaders", startEpk, endEpk);
       request.headers[HttpHeaders.StartEpk] = startEpk;
       request.headers[HttpHeaders.EndEpk] = endEpk;
       request.headers[HttpHeaders.ReadFeedKeyType] = "EffectivePartitionKeyRange";
