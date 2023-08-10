@@ -365,7 +365,7 @@ export interface TokenCredentialOptions extends CommonClientOptions {
     authorityHost?: string;
     loggingOptions?: LogPolicyOptions & {
         allowLoggingAccountIdentifiers?: boolean;
-        enableSupportLogging?: boolean;
+        enableUnsafeSupportLogging?: boolean;
     };
 }
 
