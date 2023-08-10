@@ -331,18 +331,11 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       select: this.convertSelect<TFields>(select) || "*",
       orderBy: this.convertOrderBy(orderBy),
       includeTotalResultCount: includeTotalCount,
-      vector: undefined,
-      vectors: undefined,
+      vectors: vectors?.map(this.convertVector.bind(this)),
       answers: this.convertAnswers(answers),
       semanticErrorHandling: semanticErrorHandlingMode,
       debug: debugMode,
     };
-
-    if (vectors?.length === 1) {
-      fullOptions.vector = this.convertVector(vectors[0]);
-    } else {
-      fullOptions.vectors = vectors?.map(this.convertVector.bind(this));
-    }
 
     const { span, updatedOptions } = createSpan("SearchClient-searchDocuments", options);
 

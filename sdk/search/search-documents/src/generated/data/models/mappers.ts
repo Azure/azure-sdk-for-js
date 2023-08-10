@@ -386,13 +386,6 @@ export const SearchRequest: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      vector: {
-        serializedName: "vector",
-        type: {
-          name: "Composite",
-          className: "Vector"
-        }
-      },
       vectors: {
         serializedName: "vectors",
         type: {
