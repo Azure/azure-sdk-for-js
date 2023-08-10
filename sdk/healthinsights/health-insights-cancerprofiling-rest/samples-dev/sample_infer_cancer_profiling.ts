@@ -29,18 +29,14 @@ const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
 function printResults(cancerProfilingResult: OncoPhenotypeResultOutput): void {
     if (cancerProfilingResult.status === "succeeded") {
         const results = cancerProfilingResult.results;
-        if (results != undefined) {
-            const patients = results.patients;
-            for (const patientResult of patients) {
+        if (results) {
+            for (const patientResult of results.patients) {
                 console.log(`Inferences of Patient ${patientResult.id}`);
-                for (const inferences of patientResult.inferences) {
-                    console.log(`Clinical Type: ${String(inferences.type)} Value: ${inferences.value}, ConfidenceScore: ${inferences.confidenceScore}`);
-                    if (inferences.evidence != undefined) {
-                        for (const evidence of inferences.evidence) {
-                            if (evidence.patientDataEvidence != undefined) {
-                                let dataEvidence = evidence.patientDataEvidence;
-                                console.log(`Evidence: ${dataEvidence.id} ${dataEvidence.offset} ${dataEvidence.length} ${dataEvidence.text}`);
-                            }
+                for (const { type, value, confidenceScore, evidence } of patientResult.inferences) {
+                    console.log(`Clinical Type: ${String(type)} Value: ${value}, ConfidenceScore: ${confidenceScore}`);
+                    for (const { patientDataEvidence } of evidence || []) {
+                        if (patientDataEvidence) {
+                            console.log(`Evidence: ${patientDataEvidence.id} ${patientDataEvidence.offset} ${patientDataEvidence.length} ${patientDataEvidence.text}`);
                         }
                     }
                 }
@@ -48,10 +44,8 @@ function printResults(cancerProfilingResult: OncoPhenotypeResultOutput): void {
         }
     } else {
         const errors = cancerProfilingResult.errors;
-        if (errors) {
-            for (const error of errors) {
-              console.log(error.code, ":", error.message);
-            }
+        for (const { code, message } of errors) {
+            console.log(`${code}: ${message}`);
         }
     }
 }
