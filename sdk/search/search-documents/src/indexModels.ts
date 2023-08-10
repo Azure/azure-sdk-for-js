@@ -508,7 +508,7 @@ export interface SearchRequestOptions<
   /**
    * The query parameters for vector, hybrid, and multi-vector search queries.
    */
-    vectors?: Vector<TModel>[];
+  vectors?: Vector<TModel>[];
 }
 
 /**

@@ -338,11 +338,10 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       debug: debugMode,
     };
 
-    if (vectors?.length === 1){
-      fullOptions.vector = this.convertVector(vectors[0])
-    }
-    else{
-      fullOptions.vectors = vectors?.map(this.convertVector);
+    if (vectors?.length === 1) {
+      fullOptions.vector = this.convertVector(vectors[0]);
+    } else {
+      fullOptions.vectors = vectors?.map((v) => this.convertVector(v));
     }
 
     const { span, updatedOptions } = createSpan("SearchClient-searchDocuments", options);

@@ -640,7 +640,7 @@ export function generatedSearchRequestToPublicSearchRequest<Model extends object
   if (vector || vectors) {
     const concatenatedVectors = [vector, ...(vectors ?? [])]
       .map(convertVectorToPublic<Model>)
-      .filter((vector): vector is Vector<Model> => vector !== undefined);
+      .filter((v): v is Vector<Model> => v !== undefined);
     publicRequest.vectors = concatenatedVectors;
   }
 
