@@ -24,7 +24,7 @@ export interface TokenCredentialOptions extends CommonClientOptions {
      */
     allowLoggingAccountIdentifiers?: boolean;
     /**
-     * Allows logging personally identifiable information for customer support. 
+     * Allows logging personally identifiable information for customer support.
      */
     enableUnsafeSupportLogging?: boolean;
   };
