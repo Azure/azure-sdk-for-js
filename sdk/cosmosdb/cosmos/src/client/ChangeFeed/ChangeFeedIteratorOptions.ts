@@ -1,34 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
+import { ChangeFeedStartFrom } from "./ChangeFeedStartFrom";
+
 /**
  * Specifies options for the change feed
  *
- * If none of those options are set, it will start reading changes from the beginning for the entire container.
- */
-import { PartitionKeyRange } from "../../client";
-import { PartitionKey } from "../../documents";
-import { ChangeFeedStartFrom, ChangeFeedResourceType } from "./ChangeFeedEnums";
-import { IEpkRange } from "./IEpkRange";
-
-/**
- * Specifies startType and corresponding value for the change feed
- */
-type ChangeFeedStartType =
-  | { startFrom: ChangeFeedStartFrom.Beginning }
-  | { startFrom: ChangeFeedStartFrom.Now }
-  | { startFrom: ChangeFeedStartFrom.StartTime; startTime: Date }
-  | { startFrom: ChangeFeedStartFrom.ContinuationToken; continuationToken: string };
-
-/**
- * Specifies resource for which change feed is being fetched
- */
-type ChangeFeedResource =
-  | { resource: ChangeFeedResourceType.Container }
-  | { resource: ChangeFeedResourceType.PartitionKey; value: PartitionKey }
-  | { resource: ChangeFeedResourceType.EpkRange; value: PartitionKeyRange | IEpkRange };
-
-/**
- * Specifies options for the change feed
+ * If none of those options are set, it will start reading changes from now for the entire container.
  */
 export interface ChangeFeedIteratorOptions {
   /**
@@ -42,9 +20,5 @@ export interface ChangeFeedIteratorOptions {
   /**
    * Signals where to start from in the change feed.
    */
-  changeFeedStartType?: ChangeFeedStartType;
-  /**
-   * Signals the resource for which change feed is to be fetched.
-   */
-  changeFeedResource?: ChangeFeedResource;
+  changeFeedStartFrom?: ChangeFeedStartFrom;
 }

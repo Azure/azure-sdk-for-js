@@ -100,12 +100,11 @@ export {
 } from "./CosmosDiagnostics";
 
 export {
-  ChangeFeedIteratorV2,
+  ChangeFeedPullModelIterator,
   ChangeFeedIteratorOptions,
   ChangeFeedIteratorResponse,
   ChangeFeedStartFrom,
-  ChangeFeedResourceType,
-  IEpkRange,
+  EpkRange,
 } from "./client/ChangeFeed";
 
 export { GlobalEndpointManager } from "./globalEndpointManager";

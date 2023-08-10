@@ -2,58 +2,74 @@
 // Licensed under the MIT license.
 import { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
 import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
-import { Resource } from "../../client";
+import { Container, Resource } from "../../client";
 import { ClientContext } from "../../ClientContext";
 import { Constants, ResourceType } from "../../common";
 import { FeedOptions, Response, ErrorResponse } from "../../request";
 import { ContinuationTokenForPartitionKey } from "./ContinuationTokenForPartitionKey";
-import { ChangeFeedIteratorV2 } from "./ChangeFeedIteratorV2";
+import { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
 import { PartitionKey } from "../../documents";
-import { PartitionKeyRange } from "../../client";
-import { IEpkRange } from "./IEpkRange";
 /**
  * @hidden
- * Provides iterator for change feed.
+ * Provides iterator for change feed for one partition key.
  *
  * Use `Items.getChangeFeedIterator()` to get an instance of the iterator.
  */
-export class ChangeFeedForPartitionKey<T> extends ChangeFeedIteratorV2<T> {
+export class ChangeFeedForPartitionKey<T> extends ChangeFeedPullModelIterator<T> {
   private continuationToken: ContinuationTokenForPartitionKey;
   private startTime: string;
-
+  private rId: string;
+  private isInstantiated: boolean;
   /**
    * @internal
    */
   constructor(
     private clientContext: ClientContext,
+    private container: Container,
     private resourceId: string,
     private resourceLink: string,
-    private rId: string,
     private partitionKey: PartitionKey,
     private changeFeedOptions: InternalChangeFeedIteratorOptions
   ) {
     super();
-    if (changeFeedOptions.continuationToken) {
-      this.continuationToken = JSON.parse(changeFeedOptions.continuationToken);
-    } else {
-      this.continuationToken = new ContinuationTokenForPartitionKey(rId, partitionKey, "");
-    }
+
+    this.continuationToken = changeFeedOptions.continuationToken
+      ? JSON.parse(changeFeedOptions.continuationToken)
+      : undefined;
+    this.isInstantiated = false;
 
     if (changeFeedOptions.startTime) {
       this.startTime = changeFeedOptions.startTime.toUTCString();
     }
+  }
 
+  private async instantiateIterator(): Promise<void> {
+    await this.setIteratorRid();
     if (this.continuationToken) {
       if (!this.continuationTokenRidMatchContainerRid()) {
         throw new ErrorResponse("The continuation is not for the current container definition.");
       }
+    } else {
+      this.continuationToken = new ContinuationTokenForPartitionKey(
+        this.rId,
+        this.partitionKey,
+        ""
+      );
     }
+
+    this.isInstantiated = true;
   }
+
   private continuationTokenRidMatchContainerRid(): boolean {
     if (this.continuationToken.rid !== this.rId) {
       return false;
     }
     return true;
+  }
+
+  private async setIteratorRid(): Promise<void> {
+    const { resource } = await this.container.read();
+    this.rId = resource._rid;
   }
 
   /**
@@ -67,6 +83,9 @@ export class ChangeFeedForPartitionKey<T> extends ChangeFeedIteratorV2<T> {
    * Returns the result of change feed from Azure Cosmos DB.
    */
   public async ReadNextAsync(): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>> {
+    if (!this.isInstantiated) {
+      await this.instantiateIterator();
+    }
     const result = await this.fetchNext();
     return result;
   }
@@ -122,15 +141,5 @@ export class ChangeFeedForPartitionKey<T> extends ChangeFeedIteratorV2<T> {
       response.code,
       response.headers
     );
-  }
-  async fetchAllFeedRanges(): Promise<void> {
-    throw new ErrorResponse(`Method not implemented`);
-  }
-  async fetchOverLappingFeedRanges(_epkRange: PartitionKeyRange | IEpkRange): Promise<void> {
-    throw new ErrorResponse(`Method not implemented`);
-  }
-
-  async fetchContinuationTokenFeedRanges(_continuationToken: string): Promise<boolean> {
-    throw new ErrorResponse(`Method not implemented`);
   }
 }

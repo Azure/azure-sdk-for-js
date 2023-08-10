@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @internal
+ * @hidden
  * Internal Change Feed Iterator Options used only by ChangeFeedForEpkRange and ChangeFeedForPartitionKey.
  */
 export interface InternalChangeFeedIteratorOptions {

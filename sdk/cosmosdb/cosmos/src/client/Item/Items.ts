@@ -32,15 +32,11 @@ import { hashPartitionKey } from "../../utils/hashing/hash";
 import { PartitionKey, PartitionKeyDefinition } from "../../documents";
 import { PartitionKeyRangeCache } from "../../routing";
 import {
-  ChangeFeedIteratorV2,
+  ChangeFeedPullModelIterator,
   ChangeFeedIteratorOptions,
-  ChangeFeedForEpkRange,
-  ChangeFeedForPartitionKey,
-  ChangeFeedResourceType,
-  buildInternalChangeFeedOptions,
+  changeFeedIteratorBuilder,
 } from "../../client/ChangeFeed";
-import { isEpkRange, validateChangeFeedOptions } from "../../client/ChangeFeed/changeFeedUtils";
-import { ErrorResponse } from "../../request";
+import { validateChangeFeedIteratorOptions } from "../../client/ChangeFeed/changeFeedUtils";
 
 /**
  * @hidden
@@ -49,9 +45,9 @@ function isChangeFeedOptions(options: unknown): options is ChangeFeedOptions {
   return options && !(isPrimitivePartitionKeyValue(options) || Array.isArray(options));
 }
 
-function isPartitionKey(partitionKey: unknown) {
-  return isPrimitivePartitionKeyValue(partitionKey) || Array.isArray(partitionKey);
-}
+// function isPartitionKey(partitionKey: unknown) {
+//   return isPrimitivePartitionKeyValue(partitionKey) || Array.isArray(partitionKey);
+// }
 
 /**
  * Operations for creating new items, and reading/querying all items
@@ -238,77 +234,23 @@ export class Items {
   /**
    * Returns an to iterate over pages of changes. The iterator returned can be used to fetch changes for a single partition key, epk range or entire container.
    */
-  public async getChangeFeedIterator<T>(
-    changeFeedOptions: ChangeFeedIteratorOptions
-  ): Promise<ChangeFeedIteratorV2<T>> {
+  public getChangeFeedIterator<T>(
+    changeFeedIteratorOptions?: ChangeFeedIteratorOptions
+  ): ChangeFeedPullModelIterator<T> {
     const diagnosticContext: CosmosDiagnosticContext = new CosmosDiagnosticContext();
-    const path = getPathFromLink(this.container.url, ResourceType.item);
-    const id = getIdFromLink(this.container.url);
-    const { resource } = await this.container.read();
 
-    const cfOptions = isChangeFeedOptions(changeFeedOptions) ? changeFeedOptions : {};
-    validateChangeFeedOptions(cfOptions);
-    let iterator: ChangeFeedIteratorV2<T>;
-    let cfResource = cfOptions?.changeFeedResource;
-    if (cfResource === undefined) {
-      cfResource = { resource: ChangeFeedResourceType.Container };
-    }
-    const internalCfOptions = buildInternalChangeFeedOptions(cfOptions);
-
-    switch (cfResource.resource) {
-      case ChangeFeedResourceType.PartitionKey:
-        if (isPartitionKey(cfResource.value)) {
-          iterator = new ChangeFeedForPartitionKey(
-            this.clientContext,
-            id,
-            path,
-            resource?._rid,
-            cfResource.value,
-            internalCfOptions
-          );
-        } else {
-          throw new ErrorResponse("Invalid Partition key");
-        }
-        break;
-      case ChangeFeedResourceType.EpkRange:
-        if (isEpkRange(cfResource.value)) {
-          iterator = new ChangeFeedForEpkRange(
-            this.clientContext,
-            this.partitionKeyRangeCache,
-            id,
-            path,
-            this.container.url,
-            resource._rid,
-            internalCfOptions,
-            diagnosticContext
-          );
-          if (internalCfOptions?.continuationToken) {
-            await iterator.fetchContinuationTokenFeedRanges(internalCfOptions.continuationToken);
-          } else {
-            await iterator.fetchOverLappingFeedRanges(cfResource.value);
-          }
-        } else {
-          throw new ErrorResponse("Invalid EpkRange");
-        }
-        break;
-      default:
-        iterator = new ChangeFeedForEpkRange(
-          this.clientContext,
-          this.partitionKeyRangeCache,
-          id,
-          path,
-          this.container.url,
-          resource._rid,
-          internalCfOptions,
-          diagnosticContext
-        );
-        if (internalCfOptions?.continuationToken) {
-          await iterator.fetchContinuationTokenFeedRanges(internalCfOptions.continuationToken);
-        } else {
-          await iterator.fetchAllFeedRanges();
-        }
-        break;
-    }
+    const cfOptions =
+      changeFeedIteratorOptions !== undefined
+        ? changeFeedIteratorOptions
+        : ({} as ChangeFeedIteratorOptions);
+    validateChangeFeedIteratorOptions(cfOptions);
+    const iterator = changeFeedIteratorBuilder(
+      cfOptions,
+      this.clientContext,
+      this.container,
+      this.partitionKeyRangeCache,
+      diagnosticContext
+    );
     return iterator;
   }
 
