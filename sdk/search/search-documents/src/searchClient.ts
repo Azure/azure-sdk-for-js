@@ -317,7 +317,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       select,
       orderBy,
       includeTotalCount,
-      vector,
+      vectors,
       answers,
       semanticErrorHandlingMode,
       debugMode,
@@ -331,11 +331,19 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       select: this.convertSelect<TFields>(select) || "*",
       orderBy: this.convertOrderBy(orderBy),
       includeTotalResultCount: includeTotalCount,
-      vector: this.convertVector(vector),
+      vector: undefined,
+      vectors: undefined,
       answers: this.convertAnswers(answers),
       semanticErrorHandling: semanticErrorHandlingMode,
       debug: debugMode,
     };
+
+    if (vectors?.length === 1){
+      fullOptions.vector = this.convertVector(vectors[0])
+    }
+    else{
+      fullOptions.vectors = vectors?.map(this.convertVector);
+    }
 
     const { span, updatedOptions } = createSpan("SearchClient-searchDocuments", options);
 
@@ -490,7 +498,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     const { span, updatedOptions } = createSpan("SearchClient-search", options);
 
     try {
-      const pageResult = await this.searchDocuments(searchText, updatedOptions);
+      const pageResult = await this.searchDocuments<TFields>(searchText, updatedOptions);
 
       return {
         ...pageResult,
@@ -897,6 +905,8 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     return output;
   }
 
+  private convertVector(): undefined;
+  private convertVector(vector: Vector<TModel>): GeneratedVector;
   private convertVector(vector?: Vector<TModel>): GeneratedVector | undefined {
     if (!vector) {
       return vector;
