@@ -2,14 +2,7 @@
 // Licensed under the MIT license.
 
 import { InstrumenterSpanOptions, TracingSpanKind, TracingSpanLink } from "@azure/core-tracing";
-import {
-  Attributes,
-  AttributeValue,
-  Link,
-  SpanKind,
-  SpanOptions,
-  trace,
-} from "@opentelemetry/api";
+import { Attributes, AttributeValue, Link, SpanKind, SpanOptions, trace } from "@opentelemetry/api";
 
 /**
  * Converts our TracingSpanKind to the corresponding OpenTelemetry SpanKind.
