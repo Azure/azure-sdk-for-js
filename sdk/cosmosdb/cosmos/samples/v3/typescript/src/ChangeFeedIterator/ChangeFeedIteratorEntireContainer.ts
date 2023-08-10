@@ -58,9 +58,9 @@ async function iterateChangeFeedTillNow(container: Container): Promise<string> {
     // infinite loop to check for new results. hasMoreResults is always true.
     try {
       const result = await feedIterator.ReadNextAsync();
-      continuationToken = result.continuationToken;
       if (result.statusCode === StatusCodes.NotModified) {
-        // If no new results are found, break the loop and return the continuation token
+        // If no new results are found, break the loop and return the continuation token  
+        continuationToken = result.continuationToken;
         console.log("No new results");
         break;
       } else {
