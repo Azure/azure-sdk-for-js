@@ -2,10 +2,15 @@
 // Licensed under the MIT license.
 
 import assert from "assert";
-import { checkEpkHeaders } from "../../../../src/client/ChangeFeed/changeFeedUtils";
-import { PartitionKeyRange } from "../../../../src";
-import { IEpkRange } from "../../../../src/client/ChangeFeed/IEpkRange";
+import {
+  checkEpkHeaders,
+  checkTokenEmptyOrWhiteSpace,
+  fetchStartTime,
+} from "../../../../src/client/ChangeFeed/changeFeedUtils";
+import { ChangeFeedStartFrom, PartitionKeyRange } from "../../../../src/";
+import { EpkRange } from "../../../../src/client/ChangeFeed/EpkRange";
 import { isEpkRange } from "../../../../src/client/ChangeFeed/changeFeedUtils";
+import { QueryRange } from "../../../../src/routing";
 
 describe("test checkEpkHeaders", function () {
   it("exact overlap", async function () {
@@ -19,11 +24,7 @@ describe("test checkEpkHeaders", function () {
       parents: [],
     };
 
-    const pkRange = {
-      minInclusive: "05C1D5AB55AB50",
-      maxExclusive: "05C1DFFFFFFFF8",
-    };
-
+    const pkRange = new QueryRange("05C1D5AB55AB50", "05C1DFFFFFFFF8", true, false);
     const [epkMinHeader, epkMaxHeader] = await checkEpkHeaders(pkRange, overLappingRange);
 
     assert.equal(epkMinHeader, undefined);
@@ -41,10 +42,7 @@ describe("test checkEpkHeaders", function () {
       parents: [],
     };
 
-    const pkRange = {
-      minInclusive: "05C1C5AB55AB50",
-      maxExclusive: "05C1E5AB55AB50",
-    };
+    const pkRange = new QueryRange("05C1C5AB55AB50", "05C1E5AB55AB50", true, false);
 
     const [epkMinHeader, epkMaxHeader] = await checkEpkHeaders(pkRange, overLappingRange);
 
@@ -63,10 +61,7 @@ describe("test checkEpkHeaders", function () {
       parents: [],
     };
 
-    const pkRange = {
-      minInclusive: "05C1C5AB55AB50",
-      maxExclusive: "05C1DFFFFFFFF7",
-    };
+    const pkRange = new QueryRange("05C1C5AB55AB50", "05C1DFFFFFFFF7", true, false);
 
     const [epkMinHeader, epkMaxHeader] = await checkEpkHeaders(pkRange, overLappingRange);
 
@@ -85,11 +80,7 @@ describe("test checkEpkHeaders", function () {
       parents: [],
     };
 
-    const pkRange = {
-      minInclusive: "05C1D5AB55AB51",
-      maxExclusive: "05C1DFFFFFFFF9",
-    };
-
+    const pkRange = new QueryRange("05C1D5AB55AB51", "05C1DFFFFFFFF9", true, false);
     const [epkMinHeader, epkMaxHeader] = await checkEpkHeaders(pkRange, overLappingRange);
 
     assert.equal(epkMinHeader, "05C1D5AB55AB51");
@@ -107,11 +98,7 @@ describe("test checkEpkHeaders", function () {
       parents: [],
     };
 
-    const pkRange = {
-      minInclusive: "05C1D5AB55AB51",
-      maxExclusive: "05C1DFFFFFFFF7",
-    };
-
+    const pkRange = new QueryRange("05C1D5AB55AB51", "05C1DFFFFFFFF7", true, false);
     const [epkMinHeader, epkMaxHeader] = await checkEpkHeaders(pkRange, overLappingRange);
 
     assert.equal(epkMinHeader, "05C1D5AB55AB51");
@@ -121,7 +108,7 @@ describe("test checkEpkHeaders", function () {
 
 describe("test isEpkRange", function () {
   it("maxExclusive > 'FF'", async function () {
-    const epkRange: IEpkRange = {
+    const epkRange: EpkRange = {
       minInclusive: "",
       maxExclusive: "GG",
     };
@@ -129,7 +116,7 @@ describe("test isEpkRange", function () {
     assert.equal(result, false);
   });
   it("minInclusive > maxExclusive", async function () {
-    const epkRange: IEpkRange = {
+    const epkRange: EpkRange = {
       minInclusive: "05C1DFFFFFFFF8",
       maxExclusive: "05C1D5AB55AB50",
     };
@@ -138,7 +125,7 @@ describe("test isEpkRange", function () {
   });
 
   it("minInclusive = maxExclusive", async function () {
-    const epkRange: IEpkRange = {
+    const epkRange: EpkRange = {
       minInclusive: "05C1D5AB55AB51",
       maxExclusive: "05C1D5AB55AB51",
     };
@@ -147,19 +134,51 @@ describe("test isEpkRange", function () {
   });
 
   it("minInclusive = '' and maxExclusive = 'FF'", async function () {
-    const epkRange: IEpkRange = {
+    const epkRange: EpkRange = {
       minInclusive: "",
       maxExclusive: "FF",
     };
     const result = isEpkRange(epkRange);
     assert.equal(result, true);
   });
+
   it("minInclusive > '' and maxExclusive < 'FF'", async function () {
-    const epkRange: IEpkRange = {
+    const epkRange: EpkRange = {
       minInclusive: "05C1D5AB55AB50",
       maxExclusive: "05C1DFFFFFFFF8",
     };
     const result = isEpkRange(epkRange);
     assert.equal(result, true);
+  });
+});
+
+describe("test checkTokenEmptyOrWhiteSpace", function () {
+  it("empty continuation token", function () {
+    const result = checkTokenEmptyOrWhiteSpace("");
+    assert.equal(result, true);
+  });
+  it("white space", function () {
+    const result = checkTokenEmptyOrWhiteSpace("    ");
+    assert.equal(result, true);
+  });
+  it("non empty", function () {
+    const result = checkTokenEmptyOrWhiteSpace("{}");
+    assert.equal(result, false);
+  });
+});
+
+describe("test fetchStartTime", function () {
+  it("startTime is beginning", function () {
+    const startTime = fetchStartTime(ChangeFeedStartFrom.Beginning());
+    assert.equal(startTime, undefined);
+  });
+  it("startTime is now", function () {
+    const startTime = fetchStartTime(ChangeFeedStartFrom.Now());
+    assert.equal(startTime instanceof Date, true);
+  });
+  it("startTime is time", function () {
+    const time = new Date();
+    const startTime = fetchStartTime(ChangeFeedStartFrom.Time(time));
+    assert.equal(startTime, time);
   });
 });
