@@ -341,7 +341,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     if (vectors?.length === 1) {
       fullOptions.vector = this.convertVector(vectors[0]);
     } else {
-      fullOptions.vectors = vectors?.map((v) => this.convertVector(v));
+      fullOptions.vectors = vectors?.map(this.convertVector.bind(this));
     }
 
     const { span, updatedOptions } = createSpan("SearchClient-searchDocuments", options);
