@@ -176,7 +176,6 @@ export class ChangeFeedForEpkRange<T> extends ChangeFeedPullModelIterator<T> {
           this.queue.moveFirstElementToTheEnd();
           // check if there are new results for the given feed range.
           if (result.count > 0) {
-            firstNotModifiedFeedRange = processedFeedRange;
             result.headers[Constants.HttpHeaders.ContinuationToken] =
               this.generateContinuationToken();
             return result;
