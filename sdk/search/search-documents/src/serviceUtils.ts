@@ -630,19 +630,15 @@ export function generatedSearchIndexerToPublicSearchIndexer(
 export function generatedSearchRequestToPublicSearchRequest<Model extends object>(
   request: GeneratedSearchRequest
 ): SearchRequest<Model> {
-  const { semanticErrorHandling, debug, vector, vectors, ...props } = request;
+  const { semanticErrorHandling, debug, vectors, ...props } = request;
   const publicRequest: SearchRequest<Model> = {
     semanticErrorHandlingMode: semanticErrorHandling as `${KnownSemanticErrorHandling}` | undefined,
     debugMode: debug as `${KnownQueryDebugMode}` | undefined,
+    vectors: vectors
+      ?.map(convertVectorToPublic<Model>)
+      .filter((v): v is Vector<Model> => v !== undefined),
     ...props,
   };
-
-  if (vector || vectors) {
-    const concatenatedVectors = [vector, ...(vectors ?? [])]
-      .map(convertVectorToPublic<Model>)
-      .filter((v): v is Vector<Model> => v !== undefined);
-    publicRequest.vectors = concatenatedVectors;
-  }
 
   return publicRequest;
 }
