@@ -17,7 +17,6 @@ import {
   PartitionKeyRange,
   ChangeFeedIteratorOptions,
   ChangeFeedStartFrom,
-  ChangeFeedResourceType,
 } from "@azure/cosmos";
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
@@ -53,8 +52,7 @@ async function iterateChangeFeedTillNow(
 
   const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
     maxItemCount: 1,
-    changeFeedStartType: { startFrom: ChangeFeedStartFrom.Beginning },
-    changeFeedResource: { resource: ChangeFeedResourceType.EpkRange, value: epkRange },
+    changeFeedStartFrom: ChangeFeedStartFrom.Beginning(epkRange)
   };
   const feedIterator = await container.items.getChangeFeedIterator(changeFeedIteratorOptions);
 
@@ -102,11 +100,7 @@ async function run(): Promise<void> {
     const continuationToken = await iterateChangeFeedTillNow(container, resources[0]);
     const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
       maxItemCount: 1,
-      changeFeedStartType: {
-        startFrom: ChangeFeedStartFrom.ContinuationToken,
-        continuationToken: continuationToken,
-      },
-      changeFeedResource: { resource: ChangeFeedResourceType.EpkRange, value: resources[0] },
+      changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken)
     };
     const feedIterator = await container.items.getChangeFeedIterator(changeFeedIteratorOptions);
     // ingest some new data after fetching the continuation token

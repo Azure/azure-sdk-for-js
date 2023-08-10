@@ -8,7 +8,7 @@
 dotenv.config();
 
 const { finish, handleError, logSampleHeader } = require("../Shared/handleError");
-const { CosmosClient, PartitionKeyDefinitionVersion, StatusCodes, ChangeFeedStartFrom, ChangeFeedResourceType } = require("@azure/cosmos");
+const { CosmosClient, PartitionKeyDefinitionVersion, StatusCodes, ChangeFeedStartFrom } = require("@azure/cosmos");
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
@@ -40,10 +40,9 @@ async function iterateChangeFeedTillNow(container, epkRange) {
   console.log("fetching changefeed until now");
   const changeFeedIteratorOptions = {
       maxItemCount: 1,
-      changeFeedStartType: {startFrom: ChangeFeedStartFrom.Beginning},
-      changeFeedResource: {resource: ChangeFeedResourceType.EpkRange, value: epkRange},
+      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(epkRange)
     }
-  const feedIterator = await container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+  const feedIterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
     let continuationToken = "";
 
     while (feedIterator.hasMoreResults) {
@@ -90,10 +89,9 @@ async function run() {
     const continuationToken = await iterateChangeFeedTillNow(container, resources[0]);
       const changeFeedIteratorOptions = {
       maxItemCount: 1,
-      changeFeedStartType: {startFrom: ChangeFeedStartFrom.ContinuationToken, continuationToken: continuationToken},
-      changeFeedResource: {resource: ChangeFeedResourceType.EpkRange, value: resources[0]},
+      changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken)
     }
-  const feedIterator = await container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+  const feedIterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
     // ingest some new data after fetching the continuation token
     await ingestData(container, 11, 21);
     let timeout = 0;

@@ -15,7 +15,6 @@ import {
   Container,
   StatusCodes,
   ChangeFeedIteratorOptions,
-  ChangeFeedResourceType,
   ChangeFeedStartFrom,
 } from "@azure/cosmos";
 
@@ -49,10 +48,9 @@ async function iterateChangeFeedTillNow(container: Container): Promise<string> {
 
   const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
     maxItemCount: 1,
-    changeFeedStartType: { startFrom: ChangeFeedStartFrom.Beginning },
-    changeFeedResource: { resource: ChangeFeedResourceType.Container },
+    changeFeedStartFrom: ChangeFeedStartFrom.Beginning(),
   };
-  const feedIterator = await container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+  const feedIterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
 
   let continuationToken: string = "";
 
@@ -93,15 +91,12 @@ async function run(): Promise<void> {
 
     // fetch the continuation token, so that we can start from the same point in time
     const continuationToken = await iterateChangeFeedTillNow(container);
+
     const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
       maxItemCount: 1,
-      changeFeedStartType: {
-        startFrom: ChangeFeedStartFrom.ContinuationToken,
-        continuationToken: continuationToken,
-      },
-      changeFeedResource: { resource: ChangeFeedResourceType.Container },
+      changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
     };
-    const feedIterator = await container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+    const feedIterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
 
     // ingest some new data after fetching the continuation token
     await ingestData(container, 11, 21);
