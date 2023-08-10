@@ -1,6 +1,6 @@
 # Release History
 
-## 12.0.0-beta.3 (Unreleased)
+## 12.0.0-beta.3 (2023-08-10)
 
 ### Features Added
 
@@ -10,10 +10,6 @@
 
 - Change vector option `SearchOptions.vector` to array of vectors option 
 `SearchOptions.vectors`. [#26765](https://github.com/Azure/azure-sdk-for-js/pull/26765)
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 12.0.0-beta.2 (2023-07-11)
 
