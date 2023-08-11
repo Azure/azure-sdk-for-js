@@ -34,7 +34,6 @@ export {
   TimeSeriesElement,
   MetricNamespace,
   MetricAvailability,
-  MetricsBatchOptions,
 } from "./models/publicMetricsModels";
 
 export { Durations } from "./models/constants";

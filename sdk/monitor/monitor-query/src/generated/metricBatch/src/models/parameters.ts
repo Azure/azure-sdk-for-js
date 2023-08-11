@@ -42,10 +42,10 @@ export const accept: OperationParameter = {
   }
 };
 
-export const endpoint: OperationURLParameter = {
-  parameterPath: "endpoint",
+export const baseUrl: OperationURLParameter = {
+  parameterPath: "baseUrl",
   mapper: {
-    serializedName: "endpoint",
+    serializedName: "baseUrl",
     required: true,
     type: {
       name: "String"

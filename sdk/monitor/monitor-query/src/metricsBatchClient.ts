@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 import { TokenCredential } from "@azure/core-auth";
 import { CommonClientOptions } from "@azure/core-client";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { tracingClient } from "./tracing";
 import {
   AzureMonitorMetricBatch as GeneratedMonitorMetricBatchClient,
@@ -12,7 +11,6 @@ import {
 } from "./generated/metricBatch/src";
 import { convertResponseForMetricBatch } from "./internal/modelConverters";
 import { SDK_VERSION } from "./constants";
-import { MetricsBatchOptions } from "./models/publicMetricsModels";
 const defaultMetricsScope = "https://management.azure.com/.default";
 
 /**
@@ -28,6 +26,7 @@ export interface MetricsBatchClientOptions extends CommonClientOptions {
  */
 export class MetricsBatchClient {
   private _metricBatchClient: GeneratedMonitorMetricBatchClient;
+  private _baseUrl: string;
 
   constructor(tokenCredential: TokenCredential, options?: MetricsBatchClientOptions) {
     let scope;
@@ -53,78 +52,48 @@ export class MetricsBatchClient {
       },
     };
 
+    this._baseUrl = serviceClientOptions.batchendpoint ?? "";
+
     this._metricBatchClient = new GeneratedMonitorMetricBatchClient(
-      serviceClientOptions.batchendpoint ?? "",
       MonitorMetricBatchApiVersion.TwoThousandTwentyThree0501Preview,
       serviceClientOptions
     );
   }
 
-  private async *listSegmentOfMetricBatch(
-    subscriptionId: string,
+  /**
+   * Returns all the Azure Monitor metrics requested for the batch of resources.
+   */
+  async batch(
+    resourceids: string[],
     metricnamespace: string,
     metricnames: string[],
-    options: MetricsBatchOptions = {}
-  ): AsyncIterableIterator<Array<MetricResultsResponseValuesItem>> {
-    const segmentResponse = await tracingClient.withSpan(
-      "MetricsQueryClient.listSegmentOfMetricBatch",
-      options,
-      async (updatedOptions: MetricsBatchOptionalParams | undefined) =>
-        this._metricBatchClient.metrics.batch(
-          subscriptionId,
-          metricnamespace,
-          metricnames,
-          {
-            resourceids: options.resourceids,
-          },
-          updatedOptions
-        )
-    );
-    yield convertResponseForMetricBatch(segmentResponse.values);
-  }
-  private async *listItemsOfMetricBatch(
-    subscriptionId: string,
-    metricnamespace: string,
-    metricnames: string[],
-    options?: MetricsBatchOptions
-  ): AsyncIterableIterator<MetricResultsResponseValuesItem> {
-    for await (const segment of this.listSegmentOfMetricBatch(
-      subscriptionId,
-      metricnamespace,
-      metricnames,
-      options
-    )) {
-      if (segment) {
-        yield* segment;
-      }
+    options: MetricsBatchOptionalParams = {}
+  ): Promise<MetricResultsResponseValuesItem[]> {
+    if (resourceids.length == 0) {
+      throw new Error("Resource IDs can not be empty");
     }
-  }
-  batch(
-    subscriptionId: string,
-    metricnamespace: string,
-    metricnames: string[],
-    options?: MetricsBatchOptions
-  ): PagedAsyncIterableIterator<MetricResultsResponseValuesItem> {
-    const iter = this.listItemsOfMetricBatch(subscriptionId, metricnamespace, metricnames, options);
-    return {
-      /**
-       * The next method, part of the iteration protocol
-       */
-      next() {
-        return iter.next();
-      },
-      /**
-       * The connection to the async iterator, part of the iteration protocol
-       */
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      /**
-       * @returns an AsyncIterableIterator that works a page at a time
-       */
-      byPage: () => {
-        return this.listSegmentOfMetricBatch(subscriptionId, metricnamespace, metricnames, options);
-      },
-    };
+
+    return tracingClient.withSpan("MetricsBatchClient.batch", options, async (updatedOptions) => {
+      const subscriptionId = getSubscriptionFromResourceId(resourceids[0]);
+
+      const response = await this._metricBatchClient.metrics.batch(
+        this._baseUrl,
+        subscriptionId,
+        metricnamespace,
+        metricnames,
+        {
+          resourceids: resourceids,
+        },
+        updatedOptions
+      );
+
+      return convertResponseForMetricBatch(response);
+    });
   }
 }
+
+export const getSubscriptionFromResourceId = function (resourceId: string): string {
+  const startPos: number = resourceId.indexOf("subscriptions/") + 14;
+  const subscriptionId: string = resourceId.substring(startPos, resourceId.indexOf("/", startPos));
+  return subscriptionId;
+};

@@ -31,6 +31,9 @@ export class MetricsImpl implements Metrics {
 
   /**
    * Lists the metric values for multiple resources.
+   * @param baseUrl The regional endpoint to use, for example https://eastus.metrics.monitor.azure.com.
+   *                The region should match the region of the requested resources. For global resources, the region
+   *                should be 'global'.
    * @param subscriptionId The subscription identifier for the resources in this batch.
    * @param metricnamespace Metric namespace that contains the requested metric names.
    * @param metricnames The names of the metrics (comma separated) to retrieve.
@@ -38,6 +41,7 @@ export class MetricsImpl implements Metrics {
    * @param options The options parameters.
    */
   batch(
+    baseUrl: string,
     subscriptionId: string,
     metricnamespace: string,
     metricnames: string[],
@@ -45,7 +49,14 @@ export class MetricsImpl implements Metrics {
     options?: MetricsBatchOptionalParams
   ): Promise<MetricsBatchResponse> {
     return this.client.sendOperationRequest(
-      { subscriptionId, metricnamespace, metricnames, resourceIds, options },
+      {
+        baseUrl,
+        subscriptionId,
+        metricnamespace,
+        metricnames,
+        resourceIds,
+        options
+      },
       batchOperationSpec
     );
   }
@@ -78,7 +89,7 @@ const batchOperationSpec: coreClient.OperationSpec = {
     Parameters.filter,
     Parameters.apiVersion
   ],
-  urlParameters: [Parameters.endpoint, Parameters.subscriptionId],
+  urlParameters: [Parameters.baseUrl, Parameters.subscriptionId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer

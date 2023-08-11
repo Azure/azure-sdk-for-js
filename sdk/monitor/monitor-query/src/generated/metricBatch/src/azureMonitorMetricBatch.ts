@@ -18,18 +18,14 @@ import {
 export class AzureMonitorMetricBatch extends AzureMonitorMetricBatchContext {
   /**
    * Initializes a new instance of the AzureMonitorMetricBatch class.
-   * @param endpoint The regional endpoint to use, for example https://eastus.metrics.monitor.azure.com.
-   *                 The region should match the region of the requested resources. For global resources, the region
-   *                 should be 'global'.
    * @param apiVersion Api Version
    * @param options The parameter options
    */
   constructor(
-    endpoint: string,
     apiVersion: ApiVersion20230501Preview,
     options?: AzureMonitorMetricBatchOptionalParams
   ) {
-    super(endpoint, apiVersion, options);
+    super(apiVersion, options);
     this.metrics = new MetricsImpl(this);
   }
 

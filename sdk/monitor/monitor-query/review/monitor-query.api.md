@@ -230,8 +230,7 @@ export interface MetricResultsResponseValuesItem {
 // @public
 export class MetricsBatchClient {
     constructor(tokenCredential: TokenCredential, options?: MetricsBatchClientOptions);
-    // (undocumented)
-    batch(subscriptionId: string, metricnamespace: string, metricnames: string[], options?: MetricsBatchOptions): PagedAsyncIterableIterator<MetricResultsResponseValuesItem>;
+    batch(resourceids: string[], metricnamespace: string, metricnames: string[], options?: MetricsBatchOptionalParams): Promise<MetricResultsResponseValuesItem[]>;
 }
 
 // @public
@@ -248,12 +247,6 @@ export interface MetricsBatchOptionalParams extends coreClient.OperationOptions 
     orderby?: string;
     starttime?: string;
     top?: number;
-}
-
-// @public (undocumented)
-export interface MetricsBatchOptions extends MetricsBatchOptionalParams {
-    // (undocumented)
-    resourceids?: string[];
 }
 
 // @public

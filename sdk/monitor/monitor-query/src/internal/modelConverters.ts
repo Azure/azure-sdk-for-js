@@ -56,7 +56,10 @@ import {
   LogsQuerySuccessfulResult,
 } from "../models/publicLogsModels";
 
-import { MetricResultsResponseValuesItem } from "../generated/metricBatch/src";
+import {
+  MetricResultsResponseValuesItem,
+  MetricsBatchResponse as GeneratedMetricsBatchResponse,
+} from "../generated/metricBatch/src";
 
 /**
  * @internal
@@ -291,6 +294,26 @@ export function convertRequestOptionsForMetricsDefinitions(
   return obj;
 }
 
+export function convertResponseForMetricBatch(
+  generatedResponse?: GeneratedMetricsBatchResponse
+): Array<MetricResultsResponseValuesItem> {
+  if (!generatedResponse) return [];
+
+  const batch: Array<MetricResultsResponseValuesItem> | undefined = generatedResponse?.values?.map(
+    (genDef) => {
+      const response: MetricResultsResponseValuesItem = {
+        ...genDef,
+      };
+
+      return response;
+    }
+  );
+
+  if (!batch) return [];
+
+  return batch;
+}
+
 /**
  * @internal
  */
@@ -352,21 +375,6 @@ export function convertResponseForMetricNamespaces(
     return response;
   });
   return namespaces;
-}
-
-export function convertResponseForMetricBatch(
-  generatedResponse?: Array<MetricResultsResponseValuesItem>
-): Array<MetricResultsResponseValuesItem> {
-  if (!generatedResponse) return [];
-
-  const batch: Array<MetricResultsResponseValuesItem> = generatedResponse?.map((genDef) => {
-    const response: MetricResultsResponseValuesItem = {
-      ...genDef,
-    };
-
-    return response;
-  });
-  return batch;
 }
 
 /**
