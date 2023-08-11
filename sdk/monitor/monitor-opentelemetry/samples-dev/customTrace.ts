@@ -5,7 +5,7 @@
  * @summary Demonstrates how to run generate custom traces that will be sent to Azure Monitor
  */
 
-import * as opentelemetry from "@opentelemetry/api";
+import { context, trace, Span } from "@opentelemetry/api";
 import {
   AzureMonitorOpenTelemetryClient,
   AzureMonitorOpenTelemetryOptions,
@@ -25,7 +25,7 @@ const client = new AzureMonitorOpenTelemetryClient(config);
 
 export async function main() {
   // Ge Tracer and create Span
-  const tracer = client.getTracer();
+  const tracer = trace.getTracer("testTracer");
   // Create a span. A span must be closed.
   const parentSpan = tracer.startSpan("main");
   for (let i = 0; i < 10; i += 1) {
@@ -38,11 +38,11 @@ export async function main() {
   client.flush();
 }
 
-function doWork(parent: opentelemetry.Span) {
+function doWork(parent: Span) {
   // Start another span. In this example, the main method already started a
   // span, so that'll be the parent span, and this will be a child span.
-  const ctx = opentelemetry.trace.setSpan(opentelemetry.context.active(), parent);
-  const span = client.getTracer().startSpan("doWork", undefined, ctx);
+  const ctx = trace.setSpan(context.active(), parent);
+  const span = trace.getTracer("testTracer").startSpan("doWork", undefined, ctx);
 
   // simulate some random work.
   for (let i = 0; i <= Math.floor(Math.random() * 40000000); i += 1) {

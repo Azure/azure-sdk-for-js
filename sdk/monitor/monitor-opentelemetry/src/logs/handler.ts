@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { AzureMonitorLogExporter } from "@azure/monitor-opentelemetry-exporter";
-import { OTLPLogExporter } from "@opentelemetry/exporter-logs-otlp-http";
 import { logs } from "@opentelemetry/api-logs";
 import {
   LoggerProvider,
@@ -21,7 +20,6 @@ export class LogHandler {
   private _loggerProvider: LoggerProvider;
   private _logger: OtelLogger;
   private _azureExporter: AzureMonitorLogExporter;
-  private _otlpExporter?: OTLPLogExporter;
   private _logRecordProcessor: BatchLogRecordProcessor;
   private _config: AzureMonitorOpenTelemetryConfig;
   private _metricHandler?: MetricHandler;
@@ -46,12 +44,6 @@ export class LogHandler {
     this._loggerProvider.addLogRecordProcessor(this._logRecordProcessor);
     this._azureLogProccessor = new AzureLogRecordProcessor(this._metricHandler);
     this._loggerProvider.addLogRecordProcessor(this._azureLogProccessor);
-
-    if (config.otlpLogExporterConfig?.enabled) {
-      this._otlpExporter = new OTLPLogExporter(config.otlpLogExporterConfig);
-      const otlpLogProcessor = new BatchLogRecordProcessor(this._otlpExporter);
-      this._loggerProvider.addLogRecordProcessor(otlpLogProcessor);
-    }
     logs.setGlobalLoggerProvider(this._loggerProvider);
     this._logger = this._loggerProvider.getLogger("AzureMonitorLogger", undefined) as OtelLogger;
   }

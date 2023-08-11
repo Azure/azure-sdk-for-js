@@ -9,6 +9,9 @@ import {
   AzureMonitorOpenTelemetryClient,
   AzureMonitorOpenTelemetryOptions,
 } from "@azure/monitor-opentelemetry";
+import {
+  metrics
+} from "@opentelemetry/api";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -24,7 +27,7 @@ const client = new AzureMonitorOpenTelemetryClient(config);
 
 export async function main() {
   // Ge Meter and create custom metric
-  const meter = client.getMeter();
+  const meter = metrics.getMeter("testMeter");
   const customCounter = meter.createCounter("TestCounter");
   customCounter.add(1);
   customCounter.add(2);
@@ -33,5 +36,6 @@ export async function main() {
 
 main().catch((error) => {
   console.error("An error occurred:", error);
+  client.shutdown();
   process.exit(1);
 });

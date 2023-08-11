@@ -5,5 +5,4 @@ export { AzureMonitorOpenTelemetryClient } from "./client";
 export {
   AzureMonitorOpenTelemetryOptions,
   InstrumentationOptions,
-  OTLPExporterConfig,
 } from "./shared/types";

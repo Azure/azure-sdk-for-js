@@ -6,25 +6,13 @@
 
 import { AzureMonitorExporterOptions } from '@azure/monitor-opentelemetry-exporter';
 import { InstrumentationConfig } from '@opentelemetry/instrumentation';
-import { Logger } from '@opentelemetry/sdk-logs';
-import { LoggerProvider } from '@opentelemetry/sdk-logs';
-import { Meter } from '@opentelemetry/api';
-import { MeterProvider } from '@opentelemetry/sdk-metrics';
 import { OTLPExporterNodeConfigBase } from '@opentelemetry/otlp-exporter-base';
 import { Resource } from '@opentelemetry/resources';
-import { Tracer } from '@opentelemetry/sdk-trace-base';
-import { TracerProvider } from '@opentelemetry/api';
 
 // @public
 export class AzureMonitorOpenTelemetryClient {
     constructor(options?: AzureMonitorOpenTelemetryOptions);
     flush(): Promise<void>;
-    getLogger(): Logger;
-    getLoggerProvider(): LoggerProvider;
-    getMeter(): Meter;
-    getMeterProvider(): MeterProvider;
-    getTracer(): Tracer;
-    getTracerProvider(): TracerProvider;
     shutdown(): Promise<void>;
 }
 
