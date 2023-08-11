@@ -21,6 +21,12 @@ export interface MetricsBatchClientOptions extends CommonClientOptions {
   batchendpoint?: string;
 }
 
+export const getSubscriptionFromResourceId = function (resourceId: string): string {
+  const startPos: number = resourceId.indexOf("subscriptions/") + 14;
+  const subscriptionId: string = resourceId.substring(startPos, resourceId.indexOf("/", startPos));
+  return subscriptionId;
+};
+
 /**
  * A client that can query batch metrics.
  */
@@ -69,7 +75,7 @@ export class MetricsBatchClient {
     metricnames: string[],
     options: MetricsBatchOptionalParams = {}
   ): Promise<MetricResultsResponseValuesItem[]> {
-    if (resourceids.length == 0) {
+    if (resourceids.length === 0) {
       throw new Error("Resource IDs can not be empty");
     }
 
@@ -91,9 +97,3 @@ export class MetricsBatchClient {
     });
   }
 }
-
-export const getSubscriptionFromResourceId = function (resourceId: string): string {
-  const startPos: number = resourceId.indexOf("subscriptions/") + 14;
-  const subscriptionId: string = resourceId.substring(startPos, resourceId.indexOf("/", startPos));
-  return subscriptionId;
-};
