@@ -1,17 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ChatCompletions, ChatMessage, Completions } from "../../generated/api/models.js";
+import { ChatCompletions, ChatMessage, Completions } from "../../generated/src/models/models.js";
 import {
   BeginAzureBatchImageGenerationOptions,
-  _getCompletionsSend,
-  _getChatCompletionsSend,
   GetChatCompletionsOptions,
   GetCompletionsOptions,
-} from "../../generated/api/operations.js";
-import { ChatChoiceOutput, ChoiceOutput } from "../../generated/rest/outputModels.js";
+} from "../../generated/src/models/options.js";
+import {
+  _getCompletionsSend,
+  _getChatCompletionsSend,
+} from "../../generated/src/api/operations.js";
+import { ChatChoiceOutput, ChoiceOutput } from "../../generated/src/rest/outputModels.js";
 import { getOaiSSEs } from "./oaiSse.js";
-import { OpenAIContext as Client } from "../../generated/rest/index.js";
+import { OpenAIContext as Client } from "../../generated/src/rest/index.js";
 
 function getCompletionsResult(body: Record<string, any>): Omit<Completions, "usage"> {
   return {
