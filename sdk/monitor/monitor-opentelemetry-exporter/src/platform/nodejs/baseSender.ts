@@ -19,7 +19,6 @@ const DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS = 60_000;
  * @internal
  */
 export abstract class BaseSender {
-
   private readonly _persister: PersistentStorage;
   private _numConsecutiveRedirects: number;
   private _retryTimer: NodeJS.Timer | null;
@@ -28,7 +27,12 @@ export abstract class BaseSender {
   private _statsbeatFailureCount: number = 0;
   private _batchSendRetryIntervalMs: number = DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS;
 
-  constructor(endpointUrl: string, instrumentationKey: string, trackStatsbeat: boolean, options: AzureMonitorExporterOptions = {}) {
+  constructor(
+    endpointUrl: string,
+    instrumentationKey: string,
+    trackStatsbeat: boolean,
+    options: AzureMonitorExporterOptions = {}
+  ) {
     this._numConsecutiveRedirects = 0;
     this._persister = new FileSystemPersist(instrumentationKey, options);
     if (trackStatsbeat) {
@@ -50,8 +54,8 @@ export abstract class BaseSender {
   abstract handlePermanentRedirect(location: string | undefined): void;
 
   /**
-  * Export envelopes
-  */
+   * Export envelopes
+   */
   public async exportEnvelopes(envelopes: Envelope[]): Promise<ExportResult> {
     diag.info(`Exporting ${envelopes.length} envelope(s)`);
 
@@ -171,17 +175,17 @@ export abstract class BaseSender {
   }
 
   /**
-    * Persist envelopes to disk
-    */
+   * Persist envelopes to disk
+   */
   private async _persist(envelopes: unknown[]): Promise<ExportResult> {
     try {
       const success = await this._persister.push(envelopes);
       return success
         ? { code: ExportResultCode.SUCCESS }
         : {
-          code: ExportResultCode.FAILED,
-          error: new Error("Failed to persist envelope in disk."),
-        };
+            code: ExportResultCode.FAILED,
+            error: new Error("Failed to persist envelope in disk."),
+          };
     } catch (ex: any) {
       return { code: ExportResultCode.FAILED, error: ex };
     }

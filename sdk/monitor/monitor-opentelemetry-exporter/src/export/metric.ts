@@ -19,7 +19,8 @@ import { HttpSender } from "../platform";
  */
 export class AzureMonitorMetricExporter
   extends AzureMonitorBaseExporter
-  implements PushMetricExporter {
+  implements PushMetricExporter
+{
   /**
    * Flag to determine if Exporter is shutdown.
    */
@@ -33,7 +34,12 @@ export class AzureMonitorMetricExporter
 
   constructor(options: AzureMonitorExporterOptions = {}) {
     super(options);
-    this._sender = new HttpSender(this.endpointUrl, this.instrumentationKey, this.trackStatsbeat, options);
+    this._sender = new HttpSender(
+      this.endpointUrl,
+      this.instrumentationKey,
+      this.trackStatsbeat,
+      options
+    );
     diag.debug("AzureMonitorMetricExporter was successfully setup");
   }
 

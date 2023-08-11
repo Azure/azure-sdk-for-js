@@ -58,7 +58,7 @@ export abstract class AzureMonitorBaseExporter {
       diag.error(message);
       throw new Error(message);
     }
-    this.trackStatsbeat = (!this._isStatsbeatExporter && !process.env[ENV_DISABLE_STATSBEAT]);
+    this.trackStatsbeat = !this._isStatsbeatExporter && !process.env[ENV_DISABLE_STATSBEAT];
 
     diag.debug("AzureMonitorExporter was successfully setup");
   }

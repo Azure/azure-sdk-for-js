@@ -8,6 +8,4 @@ export { AzureMonitorMetricExporter } from "./export/metric";
 export { AzureMonitorLogExporter } from "./export/log";
 export { AzureMonitorExporterOptions } from "./config";
 export { ServiceApiVersion } from "./Declarations/Constants";
-export {
-  ApplicationInsightsClientOptionalParams,
-} from "./generated/models";
+export { ApplicationInsightsClientOptionalParams } from "./generated/models";

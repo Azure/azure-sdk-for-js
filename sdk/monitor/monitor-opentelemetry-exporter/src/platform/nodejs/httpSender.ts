@@ -24,7 +24,12 @@ export class HttpSender extends BaseSender {
   private readonly _appInsightsClient: ApplicationInsightsClient;
   private _appInsightsClientOptions: ApplicationInsightsClientOptionalParams;
 
-  constructor(endpointUrl: string, instrumentationKey: string, trackStatsbeat: boolean, options?: AzureMonitorExporterOptions) {
+  constructor(
+    endpointUrl: string,
+    instrumentationKey: string,
+    trackStatsbeat: boolean,
+    options?: AzureMonitorExporterOptions
+  ) {
     super(endpointUrl, instrumentationKey, trackStatsbeat, options);
     // Build endpoint using provided configuration or default values
     this._appInsightsClientOptions = {

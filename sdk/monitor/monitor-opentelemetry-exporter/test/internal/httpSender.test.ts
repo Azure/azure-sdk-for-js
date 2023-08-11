@@ -248,10 +248,7 @@ describe("HttpSender", () => {
       const persistedEnvelopes = (await sender["_persister"].shift()) as Envelope[];
       assert.strictEqual(persistedEnvelopes, null);
       assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-      assert.strictEqual(
-        sender["_appInsightsClient"]["host"],
-        redirectHost
-      );
+      assert.strictEqual(sender["_appInsightsClient"]["host"], redirectHost);
     });
 
     it("should handle temporary redirects in Azure Monitor", async () => {
@@ -269,10 +266,7 @@ describe("HttpSender", () => {
       const persistedEnvelopes = (await sender["_persister"].shift()) as Envelope[];
       assert.strictEqual(persistedEnvelopes, null);
       assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-      assert.strictEqual(
-        sender["_appInsightsClient"]["host"],
-        redirectHost
-      );
+      assert.strictEqual(sender["_appInsightsClient"]["host"], redirectHost);
     });
 
     it("should use redirect URL for following requests", async () => {
@@ -287,16 +281,10 @@ describe("HttpSender", () => {
       scope.reply(307, {}, { location: redirectLocation });
       let result = await sender.exportEnvelopes([envelope]);
       assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-      assert.strictEqual(
-        sender["_appInsightsClient"]["host"],
-        redirectHost
-      );
+      assert.strictEqual(sender["_appInsightsClient"]["host"], redirectHost);
       result = await sender.exportEnvelopes([envelope]);
       assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-      assert.strictEqual(
-        sender["_appInsightsClient"]["host"],
-        redirectHost
-      );
+      assert.strictEqual(sender["_appInsightsClient"]["host"], redirectHost);
     });
 
     it("should stop redirecting when circular redirect is triggered", async () => {
