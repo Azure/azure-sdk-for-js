@@ -80,16 +80,15 @@ export default createMigration(
 
       updateReactNativeMapping(packageJson, originalMain);
 
-      // add export
-      const apiExtractorConf = JSON.parse(
-        (await readFile(path.join(ctx.project.path, "api-extractor.json"))).toString("utf-8")
-      ) as {
+      // update bundled dts file to have d.cts extension. It is used for cjs export
+      const aeConfPath = path.join(ctx.project.path, "api-extractor.json");
+      const aeConf = JSON.parse((await readFile(aeConfPath)).toString("utf-8")) as {
         dtsRollup: {
           publicTrimmedFilePath?: string;
         };
       };
-      const rollupDts =
-        apiExtractorConf["dtsRollup"]["publicTrimmedFilePath"] ?? "./types/src/index.d.ts";
+      const rollupDts = aeConf["dtsRollup"]["publicTrimmedFilePath"] ?? "./types/src/index.d.ts";
+      // add export
       packageJson.export = {
         ".": {
           require: {
@@ -104,8 +103,12 @@ export default createMigration(
       };
 
       // add individual type files
-      packageJson.files.push("types/latest/src/");
-      packageJson.files.push("types/3.1/src/");
+      if (!packageJson.files.includes("types/latest/src")) {
+        packageJson.files.push("types/latest/src/");
+      }
+      if (!packageJson.files.includes("types/3.1/src")) {
+        packageJson.files.push("types/3.1/src/");
+      }
 
       // add mocha option
       updateMocha(packageJson);
@@ -114,9 +117,9 @@ export default createMigration(
       bumpMinorVersion(packageJson, ctx.project.path);
 
       // rename karma.conf.js to karma.conf.cjs
-      const karmaConf = path.join(ctx.project.path, "karma.conf.");
-      if (await pathExists(`${karmaConf}js`)) {
-        await rename(`${karmaConf}js`, `${karmaConf}cjs`);
+      const karmaConfPath = path.join(ctx.project.path, "karma.conf.");
+      if (await pathExists(`${karmaConfPath}js`)) {
+        await rename(`${karmaConfPath}js`, `${karmaConfPath}cjs`);
         await git.add("karma.conf.cjs");
       }
 
@@ -128,7 +131,7 @@ export default createMigration(
         packageJson["scripts"]["integration-test:browser"]
       );
 
-      await writeFile(packageJsonPath, JSON.stringify(packageJson, null, 2));
+      await writeFile(packageJsonPath, ensureEol(JSON.stringify(packageJson, null, 2)));
 
       // go through all code files and update relative imports/exports to have ".js" extension
       await addJsExtensionToRelativeModules(ctx.project.path);
@@ -258,4 +261,8 @@ async function bumpMinorVersion(packageJson: PackageJsonType, projectPath: strin
       }
     }
   }
+}
+
+function ensureEol(content: string): string {
+  return content.endsWith("\n") ? content : content + "\n";
 }
