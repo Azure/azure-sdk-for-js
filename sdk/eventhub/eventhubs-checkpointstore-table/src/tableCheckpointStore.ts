@@ -131,7 +131,12 @@ export class TableCheckpointStore implements CheckpointStore {
 
     for (const ownership of partitionOwnership) {
       const updatedOwnership = { ...ownership };
-      const partitionKey = `${ownership.fullyQualifiedNamespace} ${ownership.eventHubName} ${ownership.consumerGroup} Ownership`;
+      const partitionKey = normalizedJoin([
+        ownership.fullyQualifiedNamespace,
+        ownership.eventHubName,
+        ownership.consumerGroup,
+        "Ownership",
+      ]);
       const ownershipEntity: PartitionOwnershipEntity = {
         partitionKey: partitionKey,
         rowKey: ownership.partitionId,
@@ -265,4 +270,12 @@ export class TableCheckpointStore implements CheckpointStore {
       throw err;
     }
   }
+}
+
+function normalizeName(name: string): string {
+  return name.toLowerCase();
+}
+
+function normalizedJoin(names: string[]): string {
+  return names.map(normalizeName).join(" ");
 }
