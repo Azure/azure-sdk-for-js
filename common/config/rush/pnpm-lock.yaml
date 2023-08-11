@@ -1133,6 +1133,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/monitor-query/1.1.1:
+    resolution: {integrity: sha512-cGZkX9Gn8jqSZIYtBXxBW+J6zg59k/0PBN89YgEwHzYcyEgT88SSsKSGdMXj6pMstxicurDJKojhdQsqy7q2Bg==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/core-auth': 1.5.0
+      '@azure/core-client': 1.7.3
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.12.0
+      '@azure/core-tracing': 1.0.1
+      '@azure/logger': 1.0.4
+      tslib: 2.6.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/msal-browser/2.38.1:
     resolution: {integrity: sha512-NROo7mLpw7aWtj8tWy9ZPz3WWiudwVAOIDZ1K3PPrjDAA4kFYayWlbZiJl1T1sD5Oqwa6FOtwzFSvuUj1CWp6Q==}
     engines: {node: '>=0.8.0'}
@@ -4117,7 +4132,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230810
+      typescript: 5.3.0-dev.20230811
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8702,8 +8717,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.3.0-dev.20230810:
-    resolution: {integrity: sha512-cD+0wvHU1AJDHnbOizHt2iJ9nEpJAa7t5WXbu6NaNeX3ZWO0lIt0A5TFgWsD4ZbXPHdxq6Uw6IKvTn8W0arAmA==}
+  /typescript/5.3.0-dev.20230811:
+    resolution: {integrity: sha512-C4bwx7ZpBwX7bKxrrNl+M1j8yNGmwQ5M58X0mT4VYI1+FHqRvb/uJ4F1uJsVJ+X7iy22iXSICR/Vxnpc1gNk7w==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -18394,11 +18409,12 @@ packages:
     dev: false
 
   file:projects/monitor-ingestion.tgz:
-    resolution: {integrity: sha512-4EVSNICQSRoro1C9T5rwuq27C4kQsZSN9q+nr0l+qspdUghRcaXq+cd51HcYoRidDbArm2HJLg5vUXAWBSKhdQ==, tarball: file:projects/monitor-ingestion.tgz}
+    resolution: {integrity: sha512-48i3OMPxCMNkfCKXkee3EHZzYAofhOAiFwcoItC9RLlKorIpcp17IGU10g7cIP93hWJlbkITjuLH+Tb/x707Ew==, tarball: file:projects/monitor-ingestion.tgz}
     name: '@rush-temp/monitor-ingestion'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
+      '@azure/monitor-query': 1.1.1
       '@microsoft/api-extractor': 7.36.4_@types+node@14.18.54
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
@@ -19027,11 +19043,12 @@ packages:
     dev: false
 
   file:projects/perf-monitor-query.tgz:
-    resolution: {integrity: sha512-oGpEpmnic6Slrw4xMepkPffibSXj8IhQvMQgFvtAopm7H22vPE9vcJb3jfHeo8qvP1Alke02GREamt4LEGAw1w==, tarball: file:projects/perf-monitor-query.tgz}
+    resolution: {integrity: sha512-+9L4HZ3JxF4XWOkZSRo1Htqc0JRvsFsRWfnWuvrUzrnKGsDIhKIu2pFVbUPiCTA/q6xCE+1mpjXOqvhoHvJpOA==, tarball: file:projects/perf-monitor-query.tgz}
     name: '@rush-temp/perf-monitor-query'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
+      '@azure/monitor-query': 1.1.1
       '@types/node': 14.18.54
       dotenv: 16.3.1
       eslint: 8.46.0
