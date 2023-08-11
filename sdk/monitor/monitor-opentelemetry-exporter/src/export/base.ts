@@ -18,7 +18,13 @@ export abstract class AzureMonitorBaseExporter {
    * Instrumentation key to be used for exported envelopes
    */
   protected instrumentationKey: string = "";
+  /**
+   * Ingestion Endpoint URL
+   */
   protected endpointUrl: string = "";
+  /**
+   *Flag to determine if exporter will generate Statsbeat data
+   */
   protected trackStatsbeat: boolean = false;
   private _isStatsbeatExporter: boolean;
 

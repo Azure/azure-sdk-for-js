@@ -38,10 +38,8 @@ export class ApplicationInsightsSampler implements Sampler {
 // @public
 export abstract class AzureMonitorBaseExporter {
     constructor(options?: AzureMonitorExporterOptions, isStatsbeatExporter?: boolean);
-    // (undocumented)
     protected endpointUrl: string;
     protected instrumentationKey: string;
-    // (undocumented)
     protected trackStatsbeat: boolean;
 }
 

@@ -3,7 +3,7 @@
 import url from "url";
 import { diag } from "@opentelemetry/api";
 import { FullOperationResponse } from "@azure/core-client";
-import { bearerTokenAuthenticationPolicy, redirectPolicyName } from "@azure/core-rest-pipeline";
+import { redirectPolicyName } from "@azure/core-rest-pipeline";
 import { SenderResult } from "../../types";
 import {
   TelemetryItem as Envelope,
@@ -31,20 +31,15 @@ export class HttpSender extends BaseSender {
       host: endpointUrl,
       ...options,
     };
+
+    if (options?.credential) {
+      // Add credentialScopes
+      options.credentialScopes = [applicationInsightsResource];
+    }
     this._appInsightsClient = new ApplicationInsightsClient(this._appInsightsClientOptions);
 
     // Handle redirects in HTTP Sender
     this._appInsightsClient.pipeline.removePolicy({ name: redirectPolicyName });
-
-    if (options?.credential) {
-      let scopes: string[] = [applicationInsightsResource];
-      this._appInsightsClient.pipeline.addPolicy(
-        bearerTokenAuthenticationPolicy({
-          credential: options?.credential,
-          scopes: scopes,
-        })
-      );
-    }
   }
 
   /**
