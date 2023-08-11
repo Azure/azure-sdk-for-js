@@ -57,7 +57,8 @@ registerInstrumentations({
 
 // Continue to import any Azure SDK client libraries after registering the instrumentation.
 
-const { keyClient } = require("@azure/keyvault-keys");
+const { KeyClient } = require("@azure/keyvault-keys");
+const keyClient = new KeyClient(url, new DefaultAzureCredential()); 
 
 async function main() {
   // Tracing is now enabled using automatic span propagation with an active context.

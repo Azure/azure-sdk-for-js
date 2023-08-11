@@ -1,6 +1,6 @@
-# Azure Form Recognizer client library for JavaScript
+# Azure AI Document Intelligence client library for JavaScript
 
-Azure Cognitive Services [Form Recognizer](https://azure.microsoft.com/services/cognitive-services/form-recognizer/) is a cloud service that uses machine learning to analyze text and structured data from your documents. It includes the following main features:
+Azure AI [Document Intelligence](https://azure.microsoft.com/products/ai-services/ai-document-intelligence) is a cloud service that uses machine learning to analyze text and structured data from your documents. It includes the following main features:
 
 - Layout - Extract text, table structures, and selection marks, along with their bounding region coordinates, from documents.
 - Document - Analyze entities, key-value pairs, tables, and selection marks from documents using the general prebuilt document model.
@@ -15,13 +15,13 @@ Azure Cognitive Services [Form Recognizer](https://azure.microsoft.com/services/
 [Product documentation](https://docs.microsoft.com/azure/cognitive-services/form-recognizer/) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/formrecognizer/ai-form-recognizer/samples)
 
-#### **_Breaking change advisory_ ⚠️**
+#### Note
 
-In version 4.0.0, this package introduces a full redesign of the Azure Form Recognizer client library. To leverage features of the newest Form Recognizer service API (version "2022-08-31" and newer), the new SDK is required, and application code must be changed to use the new clients. Please see the [Migration Guide](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/MIGRATION-v3_v4.md) for detailed instructions on how to update application code from version 3.x of the Form Recognizer SDK to the new version (4.x). Additionally, the [CHANGELOG](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/CHANGELOG.md) contains an outline of the changes since version 3.x. This package targets Azure Form Recognizer service API version `2022-08-31` and newer. To continue to use Form Recognizer API version 2.1, please use major version 3 of the client package (`@azure/ai-form-recognizer@^3.2.0`).
+The Document Intelligence service was formerly known as "Azure Form Recognizer." These services are one and the same, and the `@azure/ai-form-recognizer` package for JavaScript is the Azure SDK package for the Azure AI Document Intelligence service. At the time of writing, the renaming of Azure Form Recognizer to Azure AI Document Intelligence is underway, so "Form Recognizer" and "Document Intelligence" may be used interchangeably in some cases.
 
 ### Install the `@azure/ai-form-recognizer` package
 
-Install the Azure Form Recognizer client library for JavaScript with `npm`:
+Install the Azure Document Intelligence client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/ai-form-recognizer
@@ -41,7 +41,7 @@ const client = new DocumentAnalysisClient(
   credential
 );
 
-// Form Recognizer supports many different types of files.
+// Document Intelligence supports many different types of files.
 const file = fs.createReadStream("path/to/file.jpg");
 const poller = await client.beginAnalyzeDocument("<model ID>", file);
 
@@ -62,7 +62,9 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 #### Create a Form Recognizer resource
 
-Form Recognizer supports both [multi-service and single-service access][multi_and_single_service]. Create a Cognitive Services resource if you plan to access multiple cognitive services under a single endpoint/key. For Form Recognizer access only, create a Form Recognizer resource.
+**Note**: At the time of writing, the Azure portal still refers to the resource as a "Form Recognizer" resource. In the future, this may be updated to a "Document Intelligence" resource. For now, the following documentation uses the "Form Recognizer" name.
+
+Document Intelligence supports both [multi-service and single-service access][multi_and_single_service]. Create a Cognitive Services resource if you plan to access multiple cognitive services under a single endpoint/key. For Form Recognizer access only, create a Form Recognizer resource.
 
 You can create the resource using
 
@@ -86,7 +88,7 @@ az cognitiveservices account create --kind FormRecognizer --resource-group <your
 
 ### Create and authenticate a client
 
-In order to interact with the Form Recognizer service, you'll need to select either a `DocumentAnalysisClient` or a `DocumentModelAdministrationClient`, and create an instance of this type. In the following examples, we will use `DocumentAnalysisClient`. To create a client instance to access the Form Recognizer API, you will need the `endpoint` of your Form Recognizer resource and a `credential`. The Form Recognizer clients can use either an `AzureKeyCredential` with an API key of your resource or a `TokenCredential` that uses Azure Active Directory RBAC to authorize the client.
+In order to interact with the Document Intelligence service, you'll need to select either a `DocumentAnalysisClient` or a `DocumentModelAdministrationClient`, and create an instance of this type. In the following examples, we will use `DocumentAnalysisClient`. To create a client instance to access the Document Intelligence API, you will need the `endpoint` of your Form Recognizer resource and a `credential`. The clients can use either an `AzureKeyCredential` with an API key of your resource or a `TokenCredential` that uses Azure Active Directory RBAC to authorize the client.
 
 You can find the endpoint for your Form Recognizer resource either in the [Azure Portal][azure_portal] or by using the [Azure CLI][azure_cli] snippet below:
 
@@ -120,7 +122,7 @@ API key authorization is used in most of the examples, but you can also authenti
 npm install @azure/identity
 ```
 
-To authenticate using a service principal, you will also need to [register an AAD application][register_aad_app] and grant access to Form Recognizer by assigning the `"Cognitive Services User"` role to your service principal (note: other roles such as `"Owner"` will not grant the necessary permissions, only `"Cognitive Services User"` will suffice to run the examples and the sample code).
+To authenticate using a service principal, you will also need to [register an AAD application][register_aad_app] and grant access to the service by assigning the `"Cognitive Services User"` role to your service principal (note: other roles such as `"Owner"` will not grant the necessary permissions, only `"Cognitive Services User"` will suffice to run the examples and the sample code).
 
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
@@ -142,16 +144,16 @@ const client = new DocumentAnalysisClient("<endpoint>", new DefaultAzureCredenti
 
 ### `DocumentModelAdministrationClient`
 
-`DocumentModelAdministrationClient` provides operations for managing (creating, reading, listing, and deleting) models in the Form Recognizer resource:
+`DocumentModelAdministrationClient` provides operations for managing (creating, reading, listing, and deleting) models in the resource:
 
 - `beginBuildDocumentModel` starts an operation to create a new document model from your own training data set. The created model can extract fields according to a custom schema. The training data are expected to be located in an Azure Storage container and organized according to a particular convention. See the [service's documentation on creating a training data set][fr-build-training-set] for a more detailed explanation of applying labels to a training data set.
 - `beginComposeDocumentModel` starts an operation to compose multiple models into a single model. When used for custom form recognition, the new composed model will first perform a classification of the input documents to determine which of its submodels is most appropriate.
-- `beginCopyModelTo` starts an operation to copy a custom model from one Form Recognizer resource to another (or even to the same Form Recognizer resource). It requires a `CopyAuthorization` from the target Form Recognizer resource, which can be generated using the `getCopyAuthorization` method.
-- `getResourceDetails` retrieves information about the Form Recognizer resource's limits, such as the number of custom models and the maximum number of models the resource can support.
+- `beginCopyModelTo` starts an operation to copy a custom model from one resource to another (or even to the same resource). It requires a `CopyAuthorization` from the target resource, which can be generated using the `getCopyAuthorization` method.
+- `getResourceDetails` retrieves information about the resource's limits, such as the number of custom models and the maximum number of models the resource can support.
 - `getDocumentModel`, `listDocumentModels`, and `deleteDocumentModel` enable managing models in the resource.
 - `getOperation` and `listOperations` enable viewing the status of model creation operations, even those operations that are ongoing or that have failed. Operations are retained for 24 hours.
 
-Please note that models can also be created using the Form Recognizer service's graphical user interface: [Form Recognizer Studio (Preview)][fr-studio].
+Please note that models can also be created using the Document Intelligence service's graphical user interface: [Document Intelligence Studio][fr-studio].
 
 Sample code snippets that illustrate the use of `DocumentModelAdministrationClient` to build a model can be found [below, in the "Build a Model" example section.](#build-a-model).
 
@@ -159,11 +161,11 @@ Sample code snippets that illustrate the use of `DocumentModelAdministrationClie
 
 Long-running operations (LROs) are operations which consist of an initial request sent to the service to start an operation, followed by polling for a result at a certain interval to determine if the operation has completed and whether it failed or succeeded. Ultimately, the LRO will either fail with an error or produce a result.
 
-In Azure Form Recognizer, operations that create models (including copying and composing models) as well as the analysis/data-extraction operations are LROs. The SDK clients provide asynchronous `begin<operation-name>` methods that return `Promise<PollerLike>` objects. The `PollerLike` object represents the operation, which runs asynchronously on the service's infrastructure, and a program can wait for the operation to complete by calling and awaiting the `pollUntilDone` method on the poller returned from the `begin<operation-name>` method. Sample code snippets are provided to illustrate using long-running operations in the next section.
+In Azure AI Document Intelligence, operations that create models (including copying and composing models) as well as the analysis/data-extraction operations are LROs. The SDK clients provide asynchronous `begin<operation-name>` methods that return `Promise<PollerLike>` objects. The `PollerLike` object represents the operation, which runs asynchronously on the service's infrastructure, and a program can wait for the operation to complete by calling and awaiting the `pollUntilDone` method on the poller returned from the `begin<operation-name>` method. Sample code snippets are provided to illustrate using long-running operations in the next section.
 
 ## Examples
 
-The following section provides several JavaScript code snippets illustrating common patterns used in the Form Recognizer client libraries.
+The following section provides several JavaScript code snippets illustrating common patterns used in the Document Intelligence client libraries.
 
 - [Analyze a document with a model ID](#analyze-a-document-with-a-model-id)
 - [Use prebuilt document models](#use-prebuilt-document-models)
@@ -231,14 +233,11 @@ main().catch((err) => {
 
 #### Analyze a document from a URL
 
-As an alternative to providing a readable stream, a publicly-accessible URL can be provided instead using the `beginAnalyzeDocumentFromUrl` method. "Publicly-accessible" means that URL sources must be accessible from the service's infrastructure (in other words, a private intranet URL, or URLs that use header- or certificate-based secrets, will not work, as the Form Recognizer service must be able to access the URL). However, the URL itself could encode a secret, such as an Azure Storage blob URL that contains a SAS token in the query parameters.
+As an alternative to providing a readable stream, a publicly-accessible URL can be provided instead using the `beginAnalyzeDocumentFromUrl` method. "Publicly-accessible" means that URL sources must be accessible from the service's infrastructure (in other words, a private intranet URL, or URLs that use header- or certificate-based secrets, will not work, as the Document Intelligence service must be able to access the URL). However, the URL itself could encode a secret, such as an Azure Storage blob URL that contains a SAS token in the query parameters.
 
 ### Use prebuilt document models
 
-The `beginAnalyzeDocument` method also supports extracting fields from certain types of common documents such as receipts, invoices, business cards, identity documents, and more using prebuilt models provided by the Form Recognizer service. The prebuilt models may be provided either as model ID strings (the same as custom document models&mdash;see the _[other prebuilt models](#other-prebuilt-models)_ section below) or using a `DocumentModel` object. When using a `DocumentModel`, the Form Recognizer SDK for JavaScript provides a much stronger TypeScript type for the resulting extracted documents based on the model's schema, and it will be converted to use JavaScript naming conventions.
-
-<a id="prebuiltmodels-removed"></a>
-**Breaking Change Warning** ⚠️: In previous `4.0.0-beta` versions of the Azure Form Recognizer SDK for JavaScript, prebuilt `DocumentModel` objects were exported from the package through an object named `PrebuiltModels`. This object has been removed and replaced with the [`DocumentModel` samples][samples-prebuilt], which you may use as part of your own project. This change will enable us to continue to provide timely updates and ensure stability as the number of supported prebuilt models increases and as their capabilities are enhanced.
+The `beginAnalyzeDocument` method also supports extracting fields from certain types of common documents such as receipts, invoices, business cards, identity documents, and more using prebuilt models provided by the Document Intelligence service. The prebuilt models may be provided either as model ID strings (the same as custom document models&mdash;see the _[other prebuilt models](#other-prebuilt-models)_ section below) or using a `DocumentModel` object. When using a `DocumentModel`, the Document Intelligence SDK for JavaScript provides a much stronger TypeScript type for the resulting extracted documents based on the model's schema, and it will be converted to use JavaScript naming conventions.
 
 Example `DocumentModel` objects for the current service API version (`2022-08-31`) can be found in [the `prebuilt` samples directory][samples-prebuilt]. In the following example, we'll use the `PrebuiltReceiptModel` from the [`prebuilt-receipt.ts`] file in that directory.
 
@@ -324,9 +323,6 @@ The fields of all prebuilt models may also be accessed programmatically using th
 
 ### Use the "layout" prebuilt
 
-<a id="beginextractlayout-removed"></a>
-**Breaking Change Warning** ⚠️: In previous `4.0.0-beta` versions of the Azure Form Recognizer SDK for JavaScript, the prebuilt Layout model was provided by a custom method named `beginExtractLayout`. This method was removed and replaced with an example `DocumentModel` instance named [`PrebuiltLayoutModel`][samples-prebuilt-layout] for use with the same `beginAnalyzeDocument` method that is used to perform analysis with other prebuilt models. As previously, the model ID `"prebuilt-layout"` may still be used directly. This change will align the `prebuilt-layout` model with the other prebuilt models and enable us to continue to provide timely updates and ensure stability as the number of supported prebuilt models increases and as their capabilities are enhanced.
-
 The `"prebuilt-layout"` model extracts only the basic elements of the document, such as pages, (which consist of text words/lines and selection marks), tables, and visual text styles along with their bounding regions and spans within the text content of the input documents. We provide a strongly-typed `DocumentModel` instance named [`PrebuiltLayoutModel`][samples-prebuilt-layout] that invokes this model, or as always its model ID `"prebuilt-layout"` may be used directly.
 
 Since the main benefit of `DocumentModel`-based analysis is stronger TypeScript type constraints, the following sample is written in TypeScript using ECMAScript module syntax:
@@ -369,10 +365,7 @@ main().catch((err) => {
 
 ### Use the "document" prebuilt
 
-<a id="beginextractdocument-removed"></a>
-**Breaking Change Warning** ⚠️: In previous `4.0.0-beta` versions of the Azure Form Recognizer SDK for JavaScript, the prebuilt document model was provided by a custom method named `beginExtractGeneralDocument`. This method was removed and replaced with an example `DocumentModel` instance named [`PrebuiltDocumentModel`][samples-prebuilt-document] for use with the same `beginAnalyzeDocument` method that is used to perform analysis with other prebuilt models. As previously, the model ID `"prebuilt-document"` may still be used directly. This change will align the `prebuilt-document` model with the other prebuilt models and enable us to continue to provide timely updates and ensure stability as the number of supported prebuilt models increases and as their capabilities are enhanced.
-
-The `"prebuilt-document"` model extracts information about key-value pairs (directed associations between page elements, such as labeled fields) in addition to the properties produced by the layout extraction method. This prebuilt (general) document model provides similar functionality to the custom models trained without label information in previous iterations of the Form Recognizer service, but it is now provided as a prebuilt model that works with a wide variety of documents. We provide a strongly-typed `DocumentModel` instance named [`PrebuiltDocumentModel`][samples-prebuilt-document] that invokes this model, or as always its model ID `"prebuilt-document"` may be used directly.
+The `"prebuilt-document"` model extracts information about key-value pairs (directed associations between page elements, such as labeled fields) in addition to the properties produced by the layout extraction method. This prebuilt (general) document model provides similar functionality to the custom models trained without label information in previous iterations of the Document Intelligence service, but it is now provided as a prebuilt model that works with a wide variety of documents. We provide a strongly-typed `DocumentModel` instance named [`PrebuiltDocumentModel`][samples-prebuilt-document] that invokes this model, or as always its model ID `"prebuilt-document"` may be used directly.
 
 Since the main benefit of `DocumentModel`-based analysis is stronger TypeScript type constraints, the following sample is written in TypeScript using ECMAScript module syntax:
 
@@ -415,9 +408,6 @@ main().catch((err) => {
 ```
 
 ### Use the "read" prebuilt
-
-<a id="beginextractdocument-removed"></a>
-**Breaking Change Warning** ⚠️: In previous `4.0.0-beta` versions of the Azure Form Recognizer SDK for JavaScript, the prebuilt "read" model was provided by a custom method named `beginReadDocument`. This method was removed and replaced with an example `DocumentModel` instance named [`PrebuiltReadModel`][samples-prebuilt-read] for use with the same `beginAnalyzeDocument` method that is used to perform analysis with other prebuilt models. As previously, the model ID `"prebuilt-read"` may still be used directly. This change will align the `prebuilt-read` model with the other prebuilt models and enable us to continue to provide timely updates and ensure stability as the number of supported prebuilt models increases and as their capabilities are enhanced.
 
 The `"prebuilt-read"` model extracts textual information in a document such as words and paragraphs and analyzes the language and writing style (e.g. handwritten vs. typeset) of that text. We provide a strongly-typed `DocumentModel` instance named [`PrebuiltReadModel`][samples-prebuilt-document] that invokes this model, or as always its model ID `"prebuilt-read"` may be used directly.
 
@@ -494,7 +484,7 @@ main().catch((error) => {
 
 ### Classify a document
 
-The Form Recognizer service supports custom document classifiers that can classify documents into a set of predefined categories based on a training data set. Documents can be classified with a custom classifier using the `beginClassifyDocument` method of `DocumentAnalysisClient`. Like `beginAnalyzeDocument` above, this method accepts a file or stream containing the document to be classified, and it has a `beginClassifyDocumentFromUrl` counterpart that accepts a publicly-accessible URL to a document instead.
+The Document Intelligence service supports custom document classifiers that can classify documents into a set of predefined categories based on a training data set. Documents can be classified with a custom classifier using the `beginClassifyDocument` method of `DocumentAnalysisClient`. Like `beginAnalyzeDocument` above, this method accepts a file or stream containing the document to be classified, and it has a `beginClassifyDocumentFromUrl` counterpart that accepts a publicly-accessible URL to a document instead.
 
 The following sample shows how to classify a document using a custom classifier:
 
@@ -535,9 +525,9 @@ For information on training a custom classifier, see the [section on classifier 
 
 ### Build a model
 
-The SDK also supports creating models using the `DocumentModelAdministrationClient` class. Building a model from labeled training data creates a new model that is trained on your own documents, and the resulting model will be able to recognize values from the structures of those documents. The model building operation accepts a SAS-encoded URL to an Azure Storage Blob container that holds the training documents. The Form Recognizer service's infrastructure will read the files in the container and create a model based on their contents. For more details on how to create and structure a training data container, see the [Form Recognizer service's documentation for building a model][fr-build-model].
+The SDK also supports creating models using the `DocumentModelAdministrationClient` class. Building a model from labeled training data creates a new model that is trained on your own documents, and the resulting model will be able to recognize values from the structures of those documents. The model building operation accepts a SAS-encoded URL to an Azure Storage Blob container that holds the training documents. The Document Intelligence service's infrastructure will read the files in the container and create a model based on their contents. For more details on how to create and structure a training data container, see the [Document Intelligence service's documentation for building a model][fr-build-model].
 
-While we provide these methods for programmatic model creation, the Form Recognizer service team has created an interactive web application, [Form Recognizer Studio (Preview)][fr-studio], that enables creating and managing models on the web.
+While we provide these methods for programmatic model creation, the Document Intelligence service team has created an interactive web application, [Document Intelligence Studio][fr-studio], that enables creating and managing models on the web.
 
 For example, the following program builds a custom document model using a SAS-encoded URL to a pre-existing Azure Storage container:
 
@@ -598,11 +588,11 @@ main().catch((err) => {
 ```
 
 <a id="build-classifier"></a>
-Custom classifiers are built in a similar way using the `beginBuildDocumentClassifier` method rather than `beginBuildDocumentModel`. Please see the [build classifier sample][sample-build-classifier] for more information about building a custom classifier, as the input training data are provided in a slightly different format. For information about building a training data set for a custom classifier, see [the Form Recognizer service documentation](https://aka.ms/azsdk/formrecognizer/buildclassifiermodel).
+Custom classifiers are built in a similar way using the `beginBuildDocumentClassifier` method rather than `beginBuildDocumentModel`. Please see the [build classifier sample][sample-build-classifier] for more information about building a custom classifier, as the input training data are provided in a slightly different format. For information about building a training data set for a custom classifier, see [the Document Intelligence service documentation](https://aka.ms/azsdk/formrecognizer/buildclassifiermodel).
 
 ### Manage models
 
-`DocumentModelAdministrationClient` also provides several methods for accessing and listing models. The following example shows how to iterate through the models in a Form Recognizer resource (this will include both custom models in the resource as well as prebuilt models that are common to all resources), get a model by ID, and delete a model.
+`DocumentModelAdministrationClient` also provides several methods for accessing and listing models. The following example shows how to iterate through the models in a resource (this will include both custom models in the resource as well as prebuilt models that are common to all resources), get a model by ID, and delete a model.
 
 ```javascript
 const {

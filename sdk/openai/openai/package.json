@@ -1,6 +1,6 @@
 {
   "name": "@azure/openai",
-  "version": "1.0.0-beta.4",
+  "version": "1.0.0-beta.5",
   "description": "An isomorphic client library for Azure OpenAI.",
   "sdk-type": "client",
   "main": "dist/index.cjs",
@@ -18,6 +18,10 @@
     "./api": {
       "types": "./types/src/api/index.d.ts",
       "import": "./dist-esm/src/api/index.js"
+    },
+    "./models": {
+      "types": "./types/src/api/models.d.ts",
+      "import": "./dist-esm/src/api/models.js"
     },
     "./rest": {
       "types": "./types/src/rest/index.d.ts",

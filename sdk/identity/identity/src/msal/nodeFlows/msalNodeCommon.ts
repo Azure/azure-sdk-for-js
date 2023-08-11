@@ -45,10 +45,17 @@ export interface MsalNodeOptions extends MsalFlowOptions {
    */
   regionalAuthority?: string;
   /**
-   * Allows logging account information once the authentication flow succeeds.
+   * Allows users to configure settings for logging policy options, allow logging account information and personally identifiable information for customer support.
    */
   loggingOptions?: LogPolicyOptions & {
+    /**
+     * Allows logging account information once the authentication flow succeeds.
+     */
     allowLoggingAccountIdentifiers?: boolean;
+    /**
+     * Allows logging personally identifiable information for customer support.
+     */
+    enableUnsafeSupportLogging?: boolean;
   };
 }
 
@@ -187,6 +194,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
         loggerOptions: {
           loggerCallback: defaultLoggerCallback(options.logger),
           logLevel: getMSALLogLevel(getLogLevel()),
+          piiLoggingEnabled: options.loggingOptions?.enableUnsafeSupportLogging,
         },
       },
     };

@@ -71,7 +71,7 @@ describe("PerformanceCounterMetricsHandler", () => {
       assert.ok(metrics[3].dataPoints[0].value > 0, "Wrong available bytes value");
       assert.deepStrictEqual(metrics[4].descriptor.name, "\\Processor(_Total)\\% Processor Time");
       assert.ok(
-        metrics[4].dataPoints[0].value > 0 && metrics[4].dataPoints[0].value < 100,
+        metrics[4].dataPoints[0].value > 0 && metrics[4].dataPoints[0].value <= 100,
         "Wrong Processor Time value"
       );
       assert.deepStrictEqual(
@@ -79,7 +79,7 @@ describe("PerformanceCounterMetricsHandler", () => {
         "\\Process(??APP_WIN32_PROC??)\\% Processor Time"
       );
       assert.ok(
-        metrics[5].dataPoints[0].value > 0 && metrics[5].dataPoints[0].value < 100,
+        metrics[5].dataPoints[0].value > 0 && metrics[5].dataPoints[0].value <= 100,
         "Wrong Process Time value"
       );
     });
