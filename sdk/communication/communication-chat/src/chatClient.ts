@@ -129,7 +129,7 @@ export class ChatClient {
             participants: options.participants?.map((participant) =>
               mapToChatParticipantRestModel(participant)
             ),
-            metadata: options.metadata
+            metadata: options.metadata,
           },
           updatedRestModelOptions
         );
