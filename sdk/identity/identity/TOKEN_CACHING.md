@@ -21,6 +21,8 @@ The in-memory token cache provided by the Azure Identity library:
 
 **Note:** When Azure Identity library credentials are used with Azure service libraries (for example, Azure Blob Storage), the in-memory token caching is active in the `HttpPipeline` layer as well. All `TokenCredential` implementations are supported there, including custom implementations external to the Azure Identity library.
 
+As there are many levels of cache it is not possible to clear the cache.
+
 ### Persistent token caching
 
 *Persistent disk token caching* is an opt-in feature in the Azure Identity library. The feature allows apps to cache access tokens in an encrypted, persistent storage mechanism. As indicated in the following table, the storage mechanism differs across operating systems.
@@ -36,6 +38,12 @@ With persistent disk token caching enabled, the library first determines if a va
 - Makes the app more resilient to failures.
 - Ensures the app can continue to function during an Azure AD outage or disruption.
 - Avoids having to prompt users to authenticate each time the process is restarted.
+
+#### Implementation Note
+
+The cache is stored in two files to allow for separate caching of Continuous Access Evaluation (CAE) vs non-CAE credentials. The default filename is `msal` but can be specified through `TokenCachePersistenceOptions.setName()`. The filenames end in `.cae` or `.nocae` respectively.
+
+This note is provided only for troubleshooting purposes. This is an implementation detail and can change in the future.
 
 #### Code sample
 
