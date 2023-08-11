@@ -18,11 +18,12 @@ dotenv.config();
  * This sample demonstrates how to Create a new cluster or update the properties of the cluster if it exists.
  *
  * @summary Create a new cluster or update the properties of the cluster if it exists.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2022-12-12-preview/examples/Clusters_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2023-05-01-preview/examples/Clusters_Create.json
  */
 async function createOrUpdateCluster() {
   const subscriptionId =
-    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] || "subscriptionId";
+    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
+    "123e4567-e89b-12d3-a456-426655440000";
   const resourceGroupName =
     process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
   const clusterName = "clusterName";
@@ -49,11 +50,11 @@ async function createOrUpdateCluster() {
         }
       ],
       networkRackId:
-        "/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.ManagedNetworkFabric/networkRacks/networkRackName",
+        "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ManagedNetworkFabric/networkRacks/networkRackName",
       rackLocation: "Foo Datacenter, Floor 3, Aisle 9, Rack 2",
       rackSerialNumber: "AA1234",
       rackSkuId:
-        "/subscriptions/subscriptionId/providers/Microsoft.NetworkCloud/rackSkus/rackSkuName",
+        "/subscriptions/123e4567-e89b-12d3-a456-426655440000/providers/Microsoft.NetworkCloud/rackSkus/rackSkuName",
       storageApplianceConfigurationData: [
         {
           adminCredentials: { password: "{password}", username: "username" },
@@ -64,7 +65,7 @@ async function createOrUpdateCluster() {
       ]
     },
     analyticsWorkspaceId:
-      "/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/microsoft.operationalInsights/workspaces/logAnalyticsWorkspaceName",
+      "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/microsoft.operationalInsights/workspaces/logAnalyticsWorkspaceName",
     clusterLocation: "Foo Street, 3rd Floor, row 9",
     clusterServicePrincipal: {
       applicationId: "12345678-1234-1234-1234-123456789012",
@@ -102,11 +103,11 @@ async function createOrUpdateCluster() {
           }
         ],
         networkRackId:
-          "/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.ManagedNetworkFabric/networkRacks/networkRackName",
+          "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ManagedNetworkFabric/networkRacks/networkRackName",
         rackLocation: "Foo Datacenter, Floor 3, Aisle 9, Rack 2",
         rackSerialNumber: "AA1234",
         rackSkuId:
-          "/subscriptions/subscriptionId/providers/Microsoft.NetworkCloud/rackSkus/rackSkuName",
+          "/subscriptions/123e4567-e89b-12d3-a456-426655440000/providers/Microsoft.NetworkCloud/rackSkus/rackSkuName",
         storageApplianceConfigurationData: [
           {
             adminCredentials: { password: "{password}", username: "username" },
@@ -119,7 +120,7 @@ async function createOrUpdateCluster() {
     ],
     extendedLocation: {
       name:
-        "/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterManagerExtendedLocationName",
+        "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterManagerExtendedLocationName",
       type: "CustomLocation"
     },
     location: "location",
@@ -128,7 +129,7 @@ async function createOrUpdateCluster() {
       location: "East US"
     },
     networkFabricId:
-      "/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.ManagedNetworkFabric/networkFabrics/fabricName",
+      "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ManagedNetworkFabric/networkFabrics/fabricName",
     tags: { key1: "myvalue1", key2: "myvalue2" }
   };
   const credential = new DefaultAzureCredential();

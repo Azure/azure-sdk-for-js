@@ -22,8 +22,8 @@ import fs from "fs";
 import { ASSET_PATH, makeTestUrl } from "../../utils/etc";
 
 const endpoint = (): string => assertEnvironmentVariable("FORM_RECOGNIZER_ENDPOINT");
-// const containerSasUrl = (): string =>
-//   assertEnvironmentVariable("FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL");
+const containerSasUrl = (): string =>
+  assertEnvironmentVariable("FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL");
 
 /*
  * Run the entire battery of tests using both AAD and API Key.
@@ -77,16 +77,12 @@ matrix([[true, false]] as const, async (useAad) => {
             // TODO: use a different container for each test
             foo: {
               azureBlobSource: {
-                containerUrl: assertEnvironmentVariable(
-                  "FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL"
-                ),
+                containerUrl: containerSasUrl(),
               },
             },
             bar: {
               azureBlobSource: {
-                containerUrl: assertEnvironmentVariable(
-                  "FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL"
-                ),
+                containerUrl: containerSasUrl(),
               },
             },
           },
@@ -124,7 +120,6 @@ matrix([[true, false]] as const, async (useAad) => {
 
       // Additionally check that the pages aren't empty and that there are some common fields set
       assert.isNotEmpty(result.pages);
-      assert.ok(result.pages![0].kind);
       assert.ok(result.pages![0].pageNumber);
       assert.isDefined(result.pages![0].angle);
       assert.ok(result.pages![0].height);

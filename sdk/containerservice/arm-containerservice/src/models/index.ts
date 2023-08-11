@@ -168,10 +168,24 @@ export interface ManagedClusterIdentity {
   readonly tenantId?: string;
   /** For more information see [use managed identities in AKS](https://docs.microsoft.com/azure/aks/use-managed-identity). */
   type?: ResourceIdentityType;
+  /** The delegated identity resources assigned to this managed cluster. This can only be set by another Azure Resource Provider, and managed cluster only accept one delegated identity resource. Internal use only. */
+  delegatedResources?: { [propertyName: string]: DelegatedResource };
   /** The keys must be ARM resource IDs in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
   userAssignedIdentities?: {
     [propertyName: string]: ManagedServiceIdentityUserAssignedIdentitiesValue;
   };
+}
+
+/** Delegated resource properties - internal use only. */
+export interface DelegatedResource {
+  /** The ARM resource id of the delegated resource - internal use only. */
+  resourceId?: string;
+  /** The tenant id of the delegated resource - internal use only. */
+  tenantId?: string;
+  /** The delegation id of the referral delegation (optional) - internal use only. */
+  referralResource?: string;
+  /** The source resource location - internal use only. */
+  location?: string;
 }
 
 export interface ManagedServiceIdentityUserAssignedIdentitiesValue {
@@ -302,12 +316,16 @@ export interface ManagedClusterAgentPoolProfileProperties {
   windowsProfile?: AgentPoolWindowsProfile;
   /** Network-related settings of an agent pool. */
   networkProfile?: AgentPoolNetworkProfile;
+  /** The security settings of an agent pool. */
+  securityProfile?: AgentPoolSecurityProfile;
 }
 
 /** Settings for upgrading an agentpool */
 export interface AgentPoolUpgradeSettings {
   /** This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 1. For more information, including best practices, see: https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade */
   maxSurge?: string;
+  /** The amount of time (in minutes) to wait on eviction of pods and graceful termination per node. This eviction wait time honors waiting on pod disruption budgets. If this time is exceeded, the upgrade fails. If not specified, the default is 30 minutes. */
+  drainTimeoutInMinutes?: number;
 }
 
 /** See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details. */
@@ -440,6 +458,12 @@ export interface PortRange {
   portEnd?: number;
   /** The network protocol of the port. */
   protocol?: Protocol;
+}
+
+/** The security settings of an agent pool. */
+export interface AgentPoolSecurityProfile {
+  /** SSH access method of an agent pool. */
+  sshAccess?: AgentPoolSSHAccess;
 }
 
 /** Profile for Linux VMs in the container service cluster. */
@@ -868,6 +892,8 @@ export interface ManagedClusterSecurityProfile {
   workloadIdentity?: ManagedClusterSecurityProfileWorkloadIdentity;
   /** Image Cleaner settings for the security profile. */
   imageCleaner?: ManagedClusterSecurityProfileImageCleaner;
+  /** Image integrity is a feature that works with Azure Policy to verify image integrity by signature. This will not have any effect unless Azure Policy is applied to enforce image signatures. See https://aka.ms/aks/image-integrity for how to use this feature via policy. */
+  imageIntegrity?: ManagedClusterSecurityProfileImageIntegrity;
   /** [Node Restriction](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#noderestriction) settings for the security profile. */
   nodeRestriction?: ManagedClusterSecurityProfileNodeRestriction;
   /** A list of up to 10 base64 encoded CAs that will be added to the trust store on nodes with the Custom CA Trust feature enabled. For more information see [Custom CA Trust Certificates](https://learn.microsoft.com/en-us/azure/aks/custom-certificate-authority) */
@@ -912,6 +938,12 @@ export interface ManagedClusterSecurityProfileImageCleaner {
   enabled?: boolean;
   /** Image Cleaner scanning interval in hours. */
   intervalHours?: number;
+}
+
+/** Image integrity related settings for the security profile. */
+export interface ManagedClusterSecurityProfileImageIntegrity {
+  /** Whether to enable image integrity. The default value is false. */
+  enabled?: boolean;
 }
 
 /** Node Restriction settings for the security profile. */
@@ -1048,6 +1080,10 @@ export interface ServiceMeshProfile {
 export interface IstioServiceMesh {
   /** Istio components configuration. */
   components?: IstioComponents;
+  /** Istio Service Mesh Certificate Authority (CA) configuration. For now, we only support plugin certificates as described here https://aka.ms/asm-plugin-ca */
+  certificateAuthority?: IstioCertificateAuthority;
+  /** The list of revisions of the Istio control plane. When an upgrade is not in progress, this holds one value. When canary upgrade is in progress, this can only hold two consecutive values. For more information, see: https://learn.microsoft.com/en-us/azure/aks/istio-upgrade */
+  revisions?: string[];
 }
 
 /** Istio components configuration. */
@@ -1062,6 +1098,26 @@ export interface IstioIngressGateway {
   mode: IstioIngressGatewayMode;
   /** Whether to enable the ingress gateway. */
   enabled: boolean;
+}
+
+/** Istio Service Mesh Certificate Authority (CA) configuration. For now, we only support plugin certificates as described here https://aka.ms/asm-plugin-ca */
+export interface IstioCertificateAuthority {
+  /** Plugin certificates information for Service Mesh. */
+  plugin?: IstioPluginCertificateAuthority;
+}
+
+/** Plugin certificates information for Service Mesh. */
+export interface IstioPluginCertificateAuthority {
+  /** The resource ID of the Key Vault. */
+  keyVaultId?: string;
+  /** Intermediate certificate object name in Azure Key Vault. */
+  certObjectName?: string;
+  /** Intermediate certificate private key object name in Azure Key Vault. */
+  keyObjectName?: string;
+  /** Root certificate object name in Azure Key Vault. */
+  rootCertObjectName?: string;
+  /** Certificate chain object name in Azure Key Vault. */
+  certChainObjectName?: string;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -1630,6 +1686,59 @@ export interface TrustedAccessRoleBindingListResult {
   readonly nextLink?: string;
 }
 
+/** Holds an array of MeshRevisionsProfiles */
+export interface MeshRevisionProfileList {
+  /** Array of service mesh add-on revision profiles for all supported mesh modes. */
+  value?: MeshRevisionProfile[];
+  /**
+   * The URL to get the next set of mesh revision profile.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Mesh revision profile properties for a mesh */
+export interface MeshRevisionProfileProperties {
+  meshRevisions?: MeshRevision[];
+}
+
+/** Holds information on upgrades and compatibility for given major.minor mesh release. */
+export interface MeshRevision {
+  /** The revision of the mesh release. */
+  revision?: string;
+  /** List of revisions available for upgrade of a specific mesh revision */
+  upgrades?: string[];
+  /** List of items this revision of service mesh is compatible with, and their associated versions. */
+  compatibleWith?: CompatibleVersions[];
+}
+
+/** Version information about a product/service that is compatible with a service mesh revision. */
+export interface CompatibleVersions {
+  /** The product/service name. */
+  name?: string;
+  /** Product/service versions compatible with a service mesh add-on revision. */
+  versions?: string[];
+}
+
+/** Holds an array of MeshUpgradeProfiles */
+export interface MeshUpgradeProfileList {
+  /** Array of supported service mesh add-on upgrade profiles. */
+  value?: MeshUpgradeProfile[];
+  /**
+   * The URL to get the next set of mesh upgrade profile.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Istio egress gateway configuration. */
+export interface IstioEgressGateway {
+  /** Whether to enable the egress gateway. */
+  enabled: boolean;
+  /** NodeSelector for scheduling the egress gateway. */
+  nodeSelector?: { [propertyName: string]: string };
+}
+
 /** Profile for the container service agent pool. */
 export interface ManagedClusterAgentPoolProfile
   extends ManagedClusterAgentPoolProfileProperties {
@@ -1661,6 +1770,9 @@ export interface TrustedAccessRoleBinding extends Resource {
   /** A list of roles to bind, each item is a resource type qualified role name. For example: 'Microsoft.MachineLearningServices/workspaces/reader'. */
   roles: string[];
 }
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
 
 /** See [planned maintenance](https://docs.microsoft.com/azure/aks/planned-maintenance) for more information about planned maintenance. */
 export interface MaintenanceConfiguration extends SubResource {
@@ -1780,7 +1892,12 @@ export interface AgentPool extends SubResource {
   windowsProfile?: AgentPoolWindowsProfile;
   /** Network-related settings of an agent pool. */
   networkProfile?: AgentPoolNetworkProfile;
+  /** The security settings of an agent pool. */
+  securityProfile?: AgentPoolSecurityProfile;
 }
+
+/** Mesh upgrade profile properties for a major.minor release. */
+export interface MeshUpgradeProfileProperties extends MeshRevision {}
 
 /** Managed cluster. */
 export interface ManagedCluster extends TrackedResource {
@@ -1954,6 +2071,18 @@ export interface ManagedClusterSnapshot extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly managedClusterPropertiesReadOnly?: ManagedClusterPropertiesForSnapshot;
+}
+
+/** Mesh revision profile for a mesh. */
+export interface MeshRevisionProfile extends ProxyResource {
+  /** Mesh revision profile properties for a mesh */
+  properties?: MeshRevisionProfileProperties;
+}
+
+/** Upgrade profile for given mesh. */
+export interface MeshUpgradeProfile extends ProxyResource {
+  /** Mesh upgrade profile properties for a major.minor release. */
+  properties?: MeshUpgradeProfileProperties;
 }
 
 /** Defines headers for ManagedClusters_delete operation. */
@@ -2364,6 +2493,24 @@ export enum KnownProtocol {
  * **UDP**: UDP protocol.
  */
 export type Protocol = string;
+
+/** Known values of {@link AgentPoolSSHAccess} that the service accepts. */
+export enum KnownAgentPoolSSHAccess {
+  /** Can SSH onto the node as a local user using private key. */
+  LocalUser = "LocalUser",
+  /** SSH service will be turned off on the node. */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for AgentPoolSSHAccess. \
+ * {@link KnownAgentPoolSSHAccess} can be used interchangeably with AgentPoolSSHAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **LocalUser**: Can SSH onto the node as a local user using private key. \
+ * **Disabled**: SSH service will be turned off on the node.
+ */
+export type AgentPoolSSHAccess = string;
 
 /** Known values of {@link LicenseType} that the service accepts. */
 export enum KnownLicenseType {
@@ -3300,6 +3447,34 @@ export interface ManagedClustersListOutboundNetworkDependenciesEndpointsOptional
 export type ManagedClustersListOutboundNetworkDependenciesEndpointsResponse = OutboundEnvironmentEndpointCollection;
 
 /** Optional parameters. */
+export interface ManagedClustersListMeshRevisionProfilesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listMeshRevisionProfiles operation. */
+export type ManagedClustersListMeshRevisionProfilesResponse = MeshRevisionProfileList;
+
+/** Optional parameters. */
+export interface ManagedClustersGetMeshRevisionProfileOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getMeshRevisionProfile operation. */
+export type ManagedClustersGetMeshRevisionProfileResponse = MeshRevisionProfile;
+
+/** Optional parameters. */
+export interface ManagedClustersListMeshUpgradeProfilesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listMeshUpgradeProfiles operation. */
+export type ManagedClustersListMeshUpgradeProfilesResponse = MeshUpgradeProfileList;
+
+/** Optional parameters. */
+export interface ManagedClustersGetMeshUpgradeProfileOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getMeshUpgradeProfile operation. */
+export type ManagedClustersGetMeshUpgradeProfileResponse = MeshUpgradeProfile;
+
+/** Optional parameters. */
 export interface ManagedClustersListNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -3319,6 +3494,20 @@ export interface ManagedClustersListOutboundNetworkDependenciesEndpointsNextOpti
 
 /** Contains response data for the listOutboundNetworkDependenciesEndpointsNext operation. */
 export type ManagedClustersListOutboundNetworkDependenciesEndpointsNextResponse = OutboundEnvironmentEndpointCollection;
+
+/** Optional parameters. */
+export interface ManagedClustersListMeshRevisionProfilesNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listMeshRevisionProfilesNext operation. */
+export type ManagedClustersListMeshRevisionProfilesNextResponse = MeshRevisionProfileList;
+
+/** Optional parameters. */
+export interface ManagedClustersListMeshUpgradeProfilesNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listMeshUpgradeProfilesNext operation. */
+export type ManagedClustersListMeshUpgradeProfilesNextResponse = MeshUpgradeProfileList;
 
 /** Optional parameters. */
 export interface MaintenanceConfigurationsListByManagedClusterOptionalParams

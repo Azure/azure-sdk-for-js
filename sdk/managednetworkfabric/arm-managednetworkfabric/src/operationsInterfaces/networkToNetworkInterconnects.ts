@@ -10,12 +10,20 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   NetworkToNetworkInterconnect,
-  NetworkToNetworkInterconnectsListOptionalParams,
+  NetworkToNetworkInterconnectsListByNetworkFabricOptionalParams,
   NetworkToNetworkInterconnectsCreateOptionalParams,
   NetworkToNetworkInterconnectsCreateResponse,
   NetworkToNetworkInterconnectsGetOptionalParams,
   NetworkToNetworkInterconnectsGetResponse,
-  NetworkToNetworkInterconnectsDeleteOptionalParams
+  NetworkToNetworkInterconnectPatch,
+  NetworkToNetworkInterconnectsUpdateOptionalParams,
+  NetworkToNetworkInterconnectsUpdateResponse,
+  NetworkToNetworkInterconnectsDeleteOptionalParams,
+  UpdateAdministrativeState,
+  NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams,
+  NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateResponse,
+  NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams,
+  NetworkToNetworkInterconnectsUpdateAdministrativeStateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,19 +32,19 @@ export interface NetworkToNetworkInterconnects {
   /**
    * Implements Network To Network Interconnects list by Network Fabric GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the NetworkFabric.
+   * @param networkFabricName Name of the Network Fabric.
    * @param options The options parameters.
    */
-  list(
+  listByNetworkFabric(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkToNetworkInterconnectsListOptionalParams
+    options?: NetworkToNetworkInterconnectsListByNetworkFabricOptionalParams
   ): PagedAsyncIterableIterator<NetworkToNetworkInterconnect>;
   /**
    * Configuration used to setup CE-PE connectivity PUT Method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the NetworkFabric.
-   * @param networkToNetworkInterconnectName Name of the NetworkToNetworkInterconnectName
+   * @param networkFabricName Name of the Network Fabric.
+   * @param networkToNetworkInterconnectName Name of the Network to Network Interconnect.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -55,8 +63,8 @@ export interface NetworkToNetworkInterconnects {
   /**
    * Configuration used to setup CE-PE connectivity PUT Method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the NetworkFabric.
-   * @param networkToNetworkInterconnectName Name of the NetworkToNetworkInterconnectName
+   * @param networkFabricName Name of the Network Fabric.
+   * @param networkToNetworkInterconnectName Name of the Network to Network Interconnect.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -70,8 +78,8 @@ export interface NetworkToNetworkInterconnects {
   /**
    * Implements NetworkToNetworkInterconnects GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the NetworkFabric.
-   * @param networkToNetworkInterconnectName Name of the NetworkToNetworkInterconnect
+   * @param networkFabricName Name of the Network Fabric.
+   * @param networkToNetworkInterconnectName Name of the Network to Network Interconnect.
    * @param options The options parameters.
    */
   get(
@@ -81,10 +89,45 @@ export interface NetworkToNetworkInterconnects {
     options?: NetworkToNetworkInterconnectsGetOptionalParams
   ): Promise<NetworkToNetworkInterconnectsGetResponse>;
   /**
+   * Update certain properties of the Network To NetworkInterconnects resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param networkToNetworkInterconnectName Name of the Network to Network Interconnect.
+   * @param body Network to Network Interconnect properties to update.
+   * @param options The options parameters.
+   */
+  beginUpdate(
+    resourceGroupName: string,
+    networkFabricName: string,
+    networkToNetworkInterconnectName: string,
+    body: NetworkToNetworkInterconnectPatch,
+    options?: NetworkToNetworkInterconnectsUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkToNetworkInterconnectsUpdateResponse>,
+      NetworkToNetworkInterconnectsUpdateResponse
+    >
+  >;
+  /**
+   * Update certain properties of the Network To NetworkInterconnects resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param networkToNetworkInterconnectName Name of the Network to Network Interconnect.
+   * @param body Network to Network Interconnect properties to update.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    resourceGroupName: string,
+    networkFabricName: string,
+    networkToNetworkInterconnectName: string,
+    body: NetworkToNetworkInterconnectPatch,
+    options?: NetworkToNetworkInterconnectsUpdateOptionalParams
+  ): Promise<NetworkToNetworkInterconnectsUpdateResponse>;
+  /**
    * Implements NetworkToNetworkInterconnects DELETE method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the NetworkFabric.
-   * @param networkToNetworkInterconnectName Name of the NetworkToNetworkInterconnectName
+   * @param networkFabricName Name of the Network Fabric.
+   * @param networkToNetworkInterconnectName Name of the Network to Network Interconnect.
    * @param options The options parameters.
    */
   beginDelete(
@@ -96,8 +139,8 @@ export interface NetworkToNetworkInterconnects {
   /**
    * Implements NetworkToNetworkInterconnects DELETE method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the NetworkFabric.
-   * @param networkToNetworkInterconnectName Name of the NetworkToNetworkInterconnectName
+   * @param networkFabricName Name of the Network Fabric.
+   * @param networkToNetworkInterconnectName Name of the Network to Network Interconnect.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
@@ -106,4 +149,80 @@ export interface NetworkToNetworkInterconnects {
     networkToNetworkInterconnectName: string,
     options?: NetworkToNetworkInterconnectsDeleteOptionalParams
   ): Promise<void>;
+  /**
+   * Updates the NPB Static Route BFD Administrative State.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param networkToNetworkInterconnectName Name of the Network to Network Interconnect.
+   * @param body Request payload.
+   * @param options The options parameters.
+   */
+  beginUpdateNpbStaticRouteBfdAdministrativeState(
+    resourceGroupName: string,
+    networkFabricName: string,
+    networkToNetworkInterconnectName: string,
+    body: UpdateAdministrativeState,
+    options?: NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<
+        NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateResponse
+      >,
+      NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateResponse
+    >
+  >;
+  /**
+   * Updates the NPB Static Route BFD Administrative State.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param networkToNetworkInterconnectName Name of the Network to Network Interconnect.
+   * @param body Request payload.
+   * @param options The options parameters.
+   */
+  beginUpdateNpbStaticRouteBfdAdministrativeStateAndWait(
+    resourceGroupName: string,
+    networkFabricName: string,
+    networkToNetworkInterconnectName: string,
+    body: UpdateAdministrativeState,
+    options?: NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams
+  ): Promise<
+    NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateResponse
+  >;
+  /**
+   * Updates the Admin State.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param networkToNetworkInterconnectName Name of the Network to Network Interconnect.
+   * @param body Request payload.
+   * @param options The options parameters.
+   */
+  beginUpdateAdministrativeState(
+    resourceGroupName: string,
+    networkFabricName: string,
+    networkToNetworkInterconnectName: string,
+    body: UpdateAdministrativeState,
+    options?: NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<
+        NetworkToNetworkInterconnectsUpdateAdministrativeStateResponse
+      >,
+      NetworkToNetworkInterconnectsUpdateAdministrativeStateResponse
+    >
+  >;
+  /**
+   * Updates the Admin State.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param networkToNetworkInterconnectName Name of the Network to Network Interconnect.
+   * @param body Request payload.
+   * @param options The options parameters.
+   */
+  beginUpdateAdministrativeStateAndWait(
+    resourceGroupName: string,
+    networkFabricName: string,
+    networkToNetworkInterconnectName: string,
+    body: UpdateAdministrativeState,
+    options?: NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams
+  ): Promise<NetworkToNetworkInterconnectsUpdateAdministrativeStateResponse>;
 }

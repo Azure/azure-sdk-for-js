@@ -318,6 +318,9 @@
     "typescript.tsdk": "core-http/node_modules/typescript/lib",
     "files.exclude": {
       "**/node_modules": true
+    },
+    "eslint.options": {
+      "resolvePluginsRelativeTo": "../../../common/tools/eslint-plugin-azure-sdk-helper"
     }
   },
   "extensions": {

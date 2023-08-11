@@ -122,6 +122,7 @@ import {
   ConvertInternalResponseOfListHandles,
   WithResponse,
   assertResponse,
+  removeEmptyString,
 } from "./utils/utils.common";
 import { Credential } from "../../storage-blob/src/credentials/Credential";
 import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
@@ -2278,10 +2279,13 @@ export class ShareDirectoryClient extends StorageClient {
        * Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
-        return this.iterateFilesAndDirectoriesSegments(settings.continuationToken, {
-          maxResults: settings.maxPageSize,
-          ...updatedOptions,
-        });
+        return this.iterateFilesAndDirectoriesSegments(
+          removeEmptyString(settings.continuationToken),
+          {
+            maxResults: settings.maxPageSize,
+            ...updatedOptions,
+          }
+        );
       },
     };
   }
@@ -2470,7 +2474,7 @@ export class ShareDirectoryClient extends StorageClient {
        * Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
-        return this.iterateHandleSegments(settings.continuationToken, {
+        return this.iterateHandleSegments(removeEmptyString(settings.continuationToken), {
           maxResults: settings.maxPageSize,
           ...options,
         });
@@ -4883,7 +4887,7 @@ export class ShareFileClient extends StorageClient {
        * Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
-        return this.iterateHandleSegments(settings.continuationToken, {
+        return this.iterateHandleSegments(removeEmptyString(settings.continuationToken), {
           maxPageSize: settings.maxPageSize,
           ...options,
         });

@@ -1,6 +1,6 @@
 # Release History
 
-## 8.0.1 (Unreleased)
+## 9.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,34 @@
 
 ### Other Changes
 
+## 9.0.0 (2023-06-30)
+    
+**Features**
+
+  - Added Type Alias ContainerType
+  - Interface NetworkConfiguration has a new optional parameter enableAcceleratedNetworking
+  - Interface VMExtension has a new optional parameter enableAutomaticUpgrade
+  - Added Enum KnownContainerType
+  - Interface ApplicationListNextOptionalParams no longer has parameter maxresults
+  - Interface ApplicationPackageListNextOptionalParams no longer has parameter maxresults
+  - Interface CertificateListByBatchAccountNextOptionalParams no longer has parameter filter
+  - Interface CertificateListByBatchAccountNextOptionalParams no longer has parameter maxresults
+  - Interface CertificateListByBatchAccountNextOptionalParams no longer has parameter select
+  - Interface LocationListSupportedCloudServiceSkusNextOptionalParams no longer has parameter filter
+  - Interface LocationListSupportedCloudServiceSkusNextOptionalParams no longer has parameter maxresults
+  - Interface LocationListSupportedVirtualMachineSkusNextOptionalParams no longer has parameter filter
+  - Interface LocationListSupportedVirtualMachineSkusNextOptionalParams no longer has parameter maxresults
+  - Interface PoolListByBatchAccountNextOptionalParams no longer has parameter filter
+  - Interface PoolListByBatchAccountNextOptionalParams no longer has parameter maxresults
+  - Interface PoolListByBatchAccountNextOptionalParams no longer has parameter select
+  - Interface PrivateEndpointConnectionListByBatchAccountNextOptionalParams no longer has parameter maxresults
+  - Interface PrivateLinkResourceListByBatchAccountNextOptionalParams no longer has parameter maxresults
+
+**Breaking Changes**
+
+  - Type of parameter type of interface ContainerConfiguration is changed from "DockerCompatible" to ContainerType
+
+   
 ## 8.0.0 (2022-11-10)
     
 **Features**

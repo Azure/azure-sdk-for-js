@@ -47,7 +47,7 @@ function postTransform(outText: string): string {
 
   // Format first so that we can write matching regexps
   // that are humanly comprehensible
-  text = format(text);
+  text = format(text, "babel");
 
   for (const [rx, replacement] of REGEX_STACK) {
     const match = typeof rx === "function" ? rx() : rx;
@@ -55,7 +55,7 @@ function postTransform(outText: string): string {
   }
 
   // Format once more for the final output.
-  return format(text);
+  return format(text, "babel");
 }
 
 /**

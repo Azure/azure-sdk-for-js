@@ -13,13 +13,14 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Update the metrics configuration of the provided cluster.
+ * This sample demonstrates how to Create new or update the existing metrics configuration of the provided cluster.
  *
- * @summary Update the metrics configuration of the provided cluster.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2022-12-12-preview/examples/ClusterMetricsConfigurations_Update.json
+ * @summary Create new or update the existing metrics configuration of the provided cluster.
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2023-05-01-preview/examples/ClusterMetricsConfigurations_Create.json
  */
-async function updateMetricsConfigurationOfCluster() {
-  const subscriptionId = process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] || "subscriptionId";
+async function createOrUpdateMetricsConfigurationOfCluster() {
+  const subscriptionId =
+    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] || "123e4567-e89b-12d3-a456-426655440000";
   const resourceGroupName = process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
   const clusterName = "clusterName";
   const metricsConfigurationName = "default";
@@ -27,7 +28,7 @@ async function updateMetricsConfigurationOfCluster() {
     collectionInterval: 15,
     enabledMetrics: ["metric1", "metric2"],
     extendedLocation: {
-      name: "/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterExtendedLocationName",
+      name: "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterExtendedLocationName",
       type: "CustomLocation",
     },
     location: "location",
@@ -45,7 +46,7 @@ async function updateMetricsConfigurationOfCluster() {
 }
 
 async function main() {
-  updateMetricsConfigurationOfCluster();
+  createOrUpdateMetricsConfigurationOfCluster();
 }
 
 main().catch(console.error);

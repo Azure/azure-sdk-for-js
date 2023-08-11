@@ -470,14 +470,7 @@ export type RecommendationsGetResponse = ResourceRecommendationBase;
 
 /** Optional parameters. */
 export interface RecommendationsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply to the recommendations.<br>Filter can be applied to properties ['ResourceId', 'ResourceGroup', 'RecommendationTypeGuid', '[Category](#category)'] with operators ['eq', 'and', 'or'].<br>Example:<br>- $filter=Category eq 'Cost' and ResourceGroup eq 'MyResourceGroup' */
-  filter?: string;
-  /** The number of recommendations per page if a paged version of this API is being used. */
-  top?: number;
-  /** The page-continuation token to use with a paged version of this API. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type RecommendationsListNextResponse = ResourceRecommendationBaseListResult;
@@ -528,12 +521,7 @@ export type SuppressionsListResponse = SuppressionContractListResult;
 
 /** Optional parameters. */
 export interface SuppressionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of suppressions per page if a paged version of this API is being used. */
-  top?: number;
-  /** The page-continuation token to use with a paged version of this API. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SuppressionsListNextResponse = SuppressionContractListResult;

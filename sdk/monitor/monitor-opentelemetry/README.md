@@ -214,26 +214,28 @@ Use a custom processor:
 ```typescript
 const { AzureMonitorOpenTelemetryClient } = require("@azure/monitor-opentelemetry");
 const { ReadableSpan, Span, SpanProcessor } = require("@opentelemetry/sdk-trace-base");
+const { NodeTracerProvider } = require("@opentelemetry/sdk-trace-node");
 const { SemanticAttributes } = require("@opentelemetry/semantic-conventions");
 
 const azureMonitorClient = new AzureMonitorOpenTelemetryClient();
 
 class SpanEnrichingProcessor implements SpanProcessor{
-    forceFlush(): Promise<void>{
-        return Promise.resolve();
-    }
-    shutdown(): Promise<void>{
-        return Promise.resolve();
-    }
-    onStart(_span: Span): void{}
-    onEnd(span: ReadableSpan){
-        span.attributes["CustomDimension1"] = "value1";
-        span.attributes["CustomDimension2"] = "value2";
-        span.attributes[SemanticAttributes.HTTP_CLIENT_IP] = "<IP Address>";
-    }
+  forceFlush(): Promise<void>{
+    return Promise.resolve();
+  }
+  shutdown(): Promise<void>{
+    return Promise.resolve();
+  }
+  onStart(_span: Span): void{}
+  onEnd(span: ReadableSpan){
+    span.attributes["CustomDimension1"] = "value1";
+    span.attributes["CustomDimension2"] = "value2";
+    span.attributes[SemanticAttributes.HTTP_CLIENT_IP] = "<IP Address>";
+  }
 }
 
-azureMonitorClient.getTracerProvider().addSpanProcessor(new SpanEnrichingProcessor());
+const tracerProvider = azureMonitorClient.getTracerProvider() as NodeTracerProvider;
+tracerProvider.addSpanProcessor(new SpanEnrichingProcessor());
 ```
 
 ### Filter telemetry

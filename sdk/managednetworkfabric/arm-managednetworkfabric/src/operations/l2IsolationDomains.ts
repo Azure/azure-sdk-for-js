@@ -38,13 +38,10 @@ import {
   UpdateAdministrativeState,
   L2IsolationDomainsUpdateAdministrativeStateOptionalParams,
   L2IsolationDomainsUpdateAdministrativeStateResponse,
-  EnableDisableOnResources,
-  L2IsolationDomainsClearArpTableOptionalParams,
-  L2IsolationDomainsClearArpTableResponse,
-  L2IsolationDomainsClearNeighborTableOptionalParams,
-  L2IsolationDomainsClearNeighborTableResponse,
-  L2IsolationDomainsGetArpEntriesOptionalParams,
-  L2IsolationDomainsGetArpEntriesResponse,
+  L2IsolationDomainsValidateConfigurationOptionalParams,
+  L2IsolationDomainsValidateConfigurationResponse,
+  L2IsolationDomainsCommitConfigurationOptionalParams,
+  L2IsolationDomainsCommitConfigurationResponse,
   L2IsolationDomainsListByResourceGroupNextResponse,
   L2IsolationDomainsListBySubscriptionNextResponse
 } from "../models";
@@ -189,7 +186,7 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
    * Creates layer 2 network connectivity between compute nodes within a rack and across racks.The
    * configuration is applied on the devices only after the isolation domain is enabled.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l2IsolationDomainName Name of the L2 Isolation Domain
+   * @param l2IsolationDomainName Name of the L2 Isolation Domain.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -264,7 +261,7 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
    * Creates layer 2 network connectivity between compute nodes within a rack and across racks.The
    * configuration is applied on the devices only after the isolation domain is enabled.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l2IsolationDomainName Name of the L2 Isolation Domain
+   * @param l2IsolationDomainName Name of the L2 Isolation Domain.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -286,7 +283,7 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
   /**
    * Implements L2 Isolation Domain GET method.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l2IsolationDomainName Name of the L2 Isolation Domain
+   * @param l2IsolationDomainName Name of the L2 Isolation Domain.
    * @param options The options parameters.
    */
   get(
@@ -303,7 +300,7 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
   /**
    * API to update certain properties of the L2 Isolation Domain resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l2IsolationDomainName Name of the L2 Isolation Domain
+   * @param l2IsolationDomainName Name of the L2 Isolation Domain.
    * @param body API to update certain properties of the L2 Isolation Domain resource..
    * @param options The options parameters.
    */
@@ -377,7 +374,7 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
   /**
    * API to update certain properties of the L2 Isolation Domain resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l2IsolationDomainName Name of the L2 Isolation Domain
+   * @param l2IsolationDomainName Name of the L2 Isolation Domain.
    * @param body API to update certain properties of the L2 Isolation Domain resource..
    * @param options The options parameters.
    */
@@ -399,7 +396,7 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
   /**
    * Deletes layer 2 connectivity between compute nodes by managed by named L2 Isolation name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l2IsolationDomainName Name of the L2 Isolation Domain
+   * @param l2IsolationDomainName Name of the L2 Isolation Domain.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -463,7 +460,7 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
   /**
    * Deletes layer 2 connectivity between compute nodes by managed by named L2 Isolation name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l2IsolationDomainName Name of the L2 Isolation Domain
+   * @param l2IsolationDomainName Name of the L2 Isolation Domain.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -482,7 +479,7 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
   /**
    * Enables isolation domain across the fabric or on specified racks.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l2IsolationDomainName Name of the L2IsolationDomain.
+   * @param l2IsolationDomainName Name of the L2 Isolation Domain.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -556,7 +553,7 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
   /**
    * Enables isolation domain across the fabric or on specified racks.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l2IsolationDomainName Name of the L2IsolationDomain.
+   * @param l2IsolationDomainName Name of the L2 Isolation Domain.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -576,217 +573,25 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
   }
 
   /**
-   * Clears ARP tables for this Isolation Domain.
+   * Validates the configuration of the resources.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l2IsolationDomainName Name of the L2IsolationDomain.
-   * @param body Request payload.
+   * @param l2IsolationDomainName Name of the L2 Isolation Domain.
    * @param options The options parameters.
    */
-  async beginClearArpTable(
+  async beginValidateConfiguration(
     resourceGroupName: string,
     l2IsolationDomainName: string,
-    body: EnableDisableOnResources,
-    options?: L2IsolationDomainsClearArpTableOptionalParams
+    options?: L2IsolationDomainsValidateConfigurationOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<L2IsolationDomainsClearArpTableResponse>,
-      L2IsolationDomainsClearArpTableResponse
+      OperationState<L2IsolationDomainsValidateConfigurationResponse>,
+      L2IsolationDomainsValidateConfigurationResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<L2IsolationDomainsClearArpTableResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, l2IsolationDomainName, body, options },
-      spec: clearArpTableOperationSpec
-    });
-    const poller = await createHttpPoller<
-      L2IsolationDomainsClearArpTableResponse,
-      OperationState<L2IsolationDomainsClearArpTableResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Clears ARP tables for this Isolation Domain.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l2IsolationDomainName Name of the L2IsolationDomain.
-   * @param body Request payload.
-   * @param options The options parameters.
-   */
-  async beginClearArpTableAndWait(
-    resourceGroupName: string,
-    l2IsolationDomainName: string,
-    body: EnableDisableOnResources,
-    options?: L2IsolationDomainsClearArpTableOptionalParams
-  ): Promise<L2IsolationDomainsClearArpTableResponse> {
-    const poller = await this.beginClearArpTable(
-      resourceGroupName,
-      l2IsolationDomainName,
-      body,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Clears IPv6 neighbors for this Isolation Domain.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l2IsolationDomainName Name of the L2IsolationDomain.
-   * @param body Request payload.
-   * @param options The options parameters.
-   */
-  async beginClearNeighborTable(
-    resourceGroupName: string,
-    l2IsolationDomainName: string,
-    body: EnableDisableOnResources,
-    options?: L2IsolationDomainsClearNeighborTableOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<L2IsolationDomainsClearNeighborTableResponse>,
-      L2IsolationDomainsClearNeighborTableResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<L2IsolationDomainsClearNeighborTableResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, l2IsolationDomainName, body, options },
-      spec: clearNeighborTableOperationSpec
-    });
-    const poller = await createHttpPoller<
-      L2IsolationDomainsClearNeighborTableResponse,
-      OperationState<L2IsolationDomainsClearNeighborTableResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Clears IPv6 neighbors for this Isolation Domain.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l2IsolationDomainName Name of the L2IsolationDomain.
-   * @param body Request payload.
-   * @param options The options parameters.
-   */
-  async beginClearNeighborTableAndWait(
-    resourceGroupName: string,
-    l2IsolationDomainName: string,
-    body: EnableDisableOnResources,
-    options?: L2IsolationDomainsClearNeighborTableOptionalParams
-  ): Promise<L2IsolationDomainsClearNeighborTableResponse> {
-    const poller = await this.beginClearNeighborTable(
-      resourceGroupName,
-      l2IsolationDomainName,
-      body,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Clears IPv6 neighbors for this Isolation Domain.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l2IsolationDomainName Name of the L2IsolationDomain.
-   * @param options The options parameters.
-   */
-  async beginGetArpEntries(
-    resourceGroupName: string,
-    l2IsolationDomainName: string,
-    options?: L2IsolationDomainsGetArpEntriesOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<L2IsolationDomainsGetArpEntriesResponse>,
-      L2IsolationDomainsGetArpEntriesResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<L2IsolationDomainsGetArpEntriesResponse> => {
+    ): Promise<L2IsolationDomainsValidateConfigurationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -825,11 +630,11 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, l2IsolationDomainName, options },
-      spec: getArpEntriesOperationSpec
+      spec: validateConfigurationOperationSpec
     });
     const poller = await createHttpPoller<
-      L2IsolationDomainsGetArpEntriesResponse,
-      OperationState<L2IsolationDomainsGetArpEntriesResponse>
+      L2IsolationDomainsValidateConfigurationResponse,
+      OperationState<L2IsolationDomainsValidateConfigurationResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -840,17 +645,108 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
   }
 
   /**
-   * Clears IPv6 neighbors for this Isolation Domain.
+   * Validates the configuration of the resources.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param l2IsolationDomainName Name of the L2IsolationDomain.
+   * @param l2IsolationDomainName Name of the L2 Isolation Domain.
    * @param options The options parameters.
    */
-  async beginGetArpEntriesAndWait(
+  async beginValidateConfigurationAndWait(
     resourceGroupName: string,
     l2IsolationDomainName: string,
-    options?: L2IsolationDomainsGetArpEntriesOptionalParams
-  ): Promise<L2IsolationDomainsGetArpEntriesResponse> {
-    const poller = await this.beginGetArpEntries(
+    options?: L2IsolationDomainsValidateConfigurationOptionalParams
+  ): Promise<L2IsolationDomainsValidateConfigurationResponse> {
+    const poller = await this.beginValidateConfiguration(
+      resourceGroupName,
+      l2IsolationDomainName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Commits the configuration of the given resources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param l2IsolationDomainName Name of the L2 Isolation Domain.
+   * @param options The options parameters.
+   */
+  async beginCommitConfiguration(
+    resourceGroupName: string,
+    l2IsolationDomainName: string,
+    options?: L2IsolationDomainsCommitConfigurationOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<L2IsolationDomainsCommitConfigurationResponse>,
+      L2IsolationDomainsCommitConfigurationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<L2IsolationDomainsCommitConfigurationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, l2IsolationDomainName, options },
+      spec: commitConfigurationOperationSpec
+    });
+    const poller = await createHttpPoller<
+      L2IsolationDomainsCommitConfigurationResponse,
+      OperationState<L2IsolationDomainsCommitConfigurationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Commits the configuration of the given resources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param l2IsolationDomainName Name of the L2 Isolation Domain.
+   * @param options The options parameters.
+   */
+  async beginCommitConfigurationAndWait(
+    resourceGroupName: string,
+    l2IsolationDomainName: string,
+    options?: L2IsolationDomainsCommitConfigurationOptionalParams
+  ): Promise<L2IsolationDomainsCommitConfigurationResponse> {
+    const poller = await this.beginCommitConfiguration(
       resourceGroupName,
       l2IsolationDomainName,
       options
@@ -942,7 +838,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body8,
+  requestBody: Parameters.body13,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -997,7 +893,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body9,
+  requestBody: Parameters.body14,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1038,22 +934,22 @@ const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.L2IsolationDomainsUpdateAdministrativeStateHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
     },
     201: {
-      headersMapper: Mappers.L2IsolationDomainsUpdateAdministrativeStateHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
     },
     202: {
-      headersMapper: Mappers.L2IsolationDomainsUpdateAdministrativeStateHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
     },
     204: {
-      headersMapper: Mappers.L2IsolationDomainsUpdateAdministrativeStateHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body10,
+  requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1065,28 +961,27 @@ const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const clearArpTableOperationSpec: coreClient.OperationSpec = {
+const validateConfigurationOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/{l2IsolationDomainName}/clearArpTable",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/{l2IsolationDomainName}/validateConfiguration",
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.L2IsolationDomainsClearArpTableHeaders
+      bodyMapper: Mappers.ValidateConfigurationResponse
     },
     201: {
-      headersMapper: Mappers.L2IsolationDomainsClearArpTableHeaders
+      bodyMapper: Mappers.ValidateConfigurationResponse
     },
     202: {
-      headersMapper: Mappers.L2IsolationDomainsClearArpTableHeaders
+      bodyMapper: Mappers.ValidateConfigurationResponse
     },
     204: {
-      headersMapper: Mappers.L2IsolationDomainsClearArpTableHeaders
+      bodyMapper: Mappers.ValidateConfigurationResponse
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1094,83 +989,25 @@ const clearArpTableOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.l2IsolationDomainName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
+  headerParameters: [Parameters.accept],
   serializer
 };
-const clearNeighborTableOperationSpec: coreClient.OperationSpec = {
+const commitConfigurationOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/{l2IsolationDomainName}/clearNeighborTable",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/{l2IsolationDomainName}/commitConfiguration",
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.L2IsolationDomainsClearNeighborTableHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
     },
     201: {
-      headersMapper: Mappers.L2IsolationDomainsClearNeighborTableHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
     },
     202: {
-      headersMapper: Mappers.L2IsolationDomainsClearNeighborTableHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
     },
     204: {
-      headersMapper: Mappers.L2IsolationDomainsClearNeighborTableHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.body11,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.l2IsolationDomainName
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const getArpEntriesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/{l2IsolationDomainName}/getArpEntries",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: {
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "Composite", className: "ARPProperties" } }
-        }
-      },
-      headersMapper: Mappers.L2IsolationDomainsGetArpEntriesHeaders
-    },
-    201: {
-      bodyMapper: {
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "Composite", className: "ARPProperties" } }
-        }
-      },
-      headersMapper: Mappers.L2IsolationDomainsGetArpEntriesHeaders
-    },
-    202: {
-      bodyMapper: {
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "Composite", className: "ARPProperties" } }
-        }
-      },
-      headersMapper: Mappers.L2IsolationDomainsGetArpEntriesHeaders
-    },
-    204: {
-      bodyMapper: {
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "Composite", className: "ARPProperties" } }
-        }
-      },
-      headersMapper: Mappers.L2IsolationDomainsGetArpEntriesHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

@@ -35,7 +35,10 @@ export class MsalClientAssertion extends MsalNode {
   ): Promise<AccessToken> {
     try {
       const assertion = await this.getAssertion();
-      const result = await this.confidentialApp!.acquireTokenByClientCredential({
+      const result = await this.getApp(
+        "confidential",
+        options.enableCae
+      ).acquireTokenByClientCredential({
         scopes,
         correlationId: options.correlationId,
         azureRegion: this.azureRegion,

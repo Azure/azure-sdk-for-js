@@ -39,6 +39,7 @@ import {
   ImagePayload,
   ImageSize,
 } from "./models.js";
+import { getOaiSSEs } from "./oaiSse.js";
 
 export interface GetEmbeddingsOptions extends RequestOptions {
   /**
@@ -224,7 +225,7 @@ export interface BeginAzureBatchImageGenerationOptions extends RequestOptions {
 /** Convenience alias for BeginAzureBatchImageGenerationOptions */
 export type ImageGenerationOptions = BeginAzureBatchImageGenerationOptions;
 
-export function _getEmbeddingsSend(
+function _getEmbeddingsSend(
   context: Client,
   input: string[],
   deploymentId: string,
@@ -238,7 +239,7 @@ export function _getEmbeddingsSend(
   });
 }
 
-export async function _getEmbeddingsDeserialize(
+async function _getEmbeddingsDeserialize(
   result: GetEmbeddings200Response | GetEmbeddingsDefaultResponse
 ): Promise<Embeddings> {
   if (isUnexpected(result)) {
@@ -268,7 +269,20 @@ export async function getEmbeddings(
   return _getEmbeddingsDeserialize(result);
 }
 
-export function _getCompletionsSend(
+export function listCompletions(
+  context: Client,
+  prompt: string[],
+  deploymentName: string,
+  options: GetCompletionsOptions = { requestOptions: {} }
+): AsyncIterable<Omit<Completions, "usage">> {
+  const response = _getCompletionsSend(context, prompt, deploymentName, {
+    ...options,
+    stream: true,
+  });
+  return getOaiSSEs(response, getCompletionsResult);
+}
+
+function _getCompletionsSend(
   context: Client,
   prompt: string[],
   deploymentId: string,
@@ -298,7 +312,7 @@ export function _getCompletionsSend(
   });
 }
 
-export async function _getCompletionsDeserialize(
+async function _getCompletionsDeserialize(
   result: GetCompletions200Response | GetCompletionsDefaultResponse
 ): Promise<Completions> {
   if (isUnexpected(result)) {
@@ -345,7 +359,7 @@ export async function getCompletions(
   return _getCompletionsDeserialize(result);
 }
 
-export function _getChatCompletionsSend(
+function _getChatCompletionsSend(
   context: Client,
   messages: ChatMessage[],
   deploymentId: string,
@@ -372,7 +386,7 @@ export function _getChatCompletionsSend(
   });
 }
 
-export async function _getChatCompletionsDeserialize(
+async function _getChatCompletionsDeserialize(
   result: GetChatCompletions200Response | GetChatCompletionsDefaultResponse
 ): Promise<ChatCompletions> {
   if (isUnexpected(result)) {
@@ -413,7 +427,20 @@ export async function getChatCompletions(
   return _getChatCompletionsDeserialize(result);
 }
 
-export function _getAzureBatchImageGenerationOperationStatusSend(
+export function listChatCompletions(
+  context: Client,
+  messages: ChatMessage[],
+  deploymentName: string,
+  options: GetChatCompletionsOptions = { requestOptions: {} }
+): AsyncIterable<Omit<ChatCompletions, "usage">> {
+  const response = _getChatCompletionsSend(context, messages, deploymentName, {
+    ...options,
+    stream: true,
+  });
+  return getOaiSSEs(response, getChatCompletionsResult);
+}
+
+function _getAzureBatchImageGenerationOperationStatusSend(
   context: Client,
   operationId: string,
   options: GetAzureBatchImageGenerationOperationStatusOptions = {
@@ -430,7 +457,7 @@ export function _getAzureBatchImageGenerationOperationStatusSend(
   });
 }
 
-export async function _getAzureBatchImageGenerationOperationStatusDeserialize(
+async function _getAzureBatchImageGenerationOperationStatusDeserialize(
   result:
     | GetAzureBatchImageGenerationOperationStatus200Response
     | GetAzureBatchImageGenerationOperationStatusDefaultResponse
@@ -489,7 +516,7 @@ export async function getAzureBatchImageGenerationOperationStatus(
   return _getAzureBatchImageGenerationOperationStatusDeserialize(result);
 }
 
-export function _beginAzureBatchImageGenerationSend(
+function _beginAzureBatchImageGenerationSend(
   context: Client,
   prompt: string,
   options: BeginAzureBatchImageGenerationOptions = { requestOptions: {} }
@@ -510,7 +537,7 @@ export function _beginAzureBatchImageGenerationSend(
   });
 }
 
-export async function _beginAzureBatchImageGenerationDeserialize(
+async function _beginAzureBatchImageGenerationDeserialize(
   result: BeginAzureBatchImageGeneration202Response | BeginAzureBatchImageGenerationDefaultResponse
 ): Promise<BatchImageGenerationOperationResponse> {
   if (isUnexpected(result)) {
@@ -542,7 +569,7 @@ export async function beginAzureBatchImageGeneration(
   return _beginAzureBatchImageGenerationDeserialize(result);
 }
 
-export function getCompletionsResult(body: Record<string, any>): Omit<Completions, "usage"> {
+function getCompletionsResult(body: Record<string, any>): Omit<Completions, "usage"> {
   return {
     id: body["id"],
     created: body["created"],
@@ -563,9 +590,7 @@ export function getCompletionsResult(body: Record<string, any>): Omit<Completion
   };
 }
 
-export function getChatCompletionsResult(
-  body: Record<string, any>
-): Omit<ChatCompletions, "usage"> {
+function getChatCompletionsResult(body: Record<string, any>): Omit<ChatCompletions, "usage"> {
   return {
     id: body["id"],
     created: body["created"],

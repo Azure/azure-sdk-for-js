@@ -91,7 +91,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SkuInformationList
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],

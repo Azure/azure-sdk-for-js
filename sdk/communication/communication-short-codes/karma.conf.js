@@ -53,6 +53,7 @@ module.exports = function (config) {
       "AZURE_TENANT_ID",
       "COMMUNICATION_SKIP_INT_PHONENUMBERS_TESTS",
       "RECORDINGS_RELATIVE_PATH",
+      "AZURE_USERAGENT_OVERRIDE",
     ],
 
     // test results reporter to use

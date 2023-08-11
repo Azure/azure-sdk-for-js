@@ -7,9 +7,12 @@
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
 import * as coreRestPipeline from '@azure/core-rest-pipeline';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
+
+// @public
+export type ActionOnExistingTargetTable = string;
 
 // @public
 export interface Activity {
@@ -17,6 +20,8 @@ export interface Activity {
     dependsOn?: ActivityDependency[];
     description?: string;
     name: string;
+    onInactiveMarkAs?: ActivityOnInactiveMarkAs;
+    state?: ActivityState;
     type: "Container" | "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "ExecutePipeline" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "IfCondition" | "Switch" | "ForEach" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "Wait" | "Fail" | "Until" | "Validation" | "Filter" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "SetVariable" | "AppendVariable" | "AzureFunctionActivity" | "WebHook" | "ExecuteDataFlow" | "Script" | "SynapseNotebook" | "SparkJob" | "SqlPoolStoredProcedure";
     userProperties?: UserProperty[];
 }
@@ -27,6 +32,9 @@ export interface ActivityDependency {
     activity: string;
     dependencyConditions: DependencyCondition[];
 }
+
+// @public
+export type ActivityOnInactiveMarkAs = string;
 
 // @public
 export interface ActivityPolicy {
@@ -61,6 +69,9 @@ export interface ActivityRunsQueryResponse {
     continuationToken?: string;
     value: ActivityRun[];
 }
+
+// @public
+export type ActivityState = string;
 
 // @public (undocumented)
 export type ActivityUnion = Activity | ControlActivityUnion | ExecutionActivityUnion | SqlPoolStoredProcedureActivity;
@@ -141,6 +152,7 @@ export interface AmazonRdsForOracleTableDataset extends Dataset {
 
 // @public
 export interface AmazonRdsForSqlServerLinkedService extends LinkedService {
+    alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
     connectionString: any;
     encryptedCredential?: any;
     password?: SecretBaseUnion;
@@ -150,6 +162,7 @@ export interface AmazonRdsForSqlServerLinkedService extends LinkedService {
 
 // @public
 export interface AmazonRdsForSqlServerSource extends TabularSource {
+    isolationLevel?: any;
     partitionOption?: any;
     partitionSettings?: SqlPartitionSettings;
     produceAdditionalTypes?: any;
@@ -296,6 +309,8 @@ export class ArtifactsClient extends coreClient.ServiceClient {
     // (undocumented)
     pipelineRunOperations: PipelineRunOperations;
     // (undocumented)
+    runNotebook: RunNotebook;
+    // (undocumented)
     sparkConfigurationOperations: SparkConfigurationOperations;
     // (undocumented)
     sparkJobDefinitionOperations: SparkJobDefinitionOperations;
@@ -383,6 +398,7 @@ export interface AzureBatchLinkedService extends LinkedService {
     accessKey?: SecretBaseUnion;
     accountName: any;
     batchUri: any;
+    credential?: CredentialReference;
     encryptedCredential?: any;
     linkedServiceName: LinkedServiceReference;
     poolName: any;
@@ -414,14 +430,17 @@ export interface AzureBlobFSDataset extends Dataset {
 export interface AzureBlobFSLinkedService extends LinkedService {
     accountKey?: any;
     azureCloudType?: any;
+    credential?: CredentialReference;
     encryptedCredential?: any;
+    sasToken?: SecretBaseUnion;
+    sasUri?: any;
     servicePrincipalCredential?: SecretBaseUnion;
     servicePrincipalCredentialType?: any;
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
     tenant?: any;
     type: "AzureBlobFS";
-    url: any;
+    url?: any;
 }
 
 // @public
@@ -433,7 +452,7 @@ export interface AzureBlobFSLocation extends DatasetLocation {
 // @public
 export interface AzureBlobFSReadSettings extends StoreReadSettings {
     deleteFilesAfterCompletion?: any;
-    enablePartitionDiscovery?: boolean;
+    enablePartitionDiscovery?: any;
     fileListPath?: any;
     modifiedDatetimeEnd?: any;
     modifiedDatetimeStart?: any;
@@ -468,8 +487,11 @@ export interface AzureBlobFSWriteSettings extends StoreWriteSettings {
 export interface AzureBlobStorageLinkedService extends LinkedService {
     accountKey?: AzureKeyVaultSecretReference;
     accountKind?: string;
+    authenticationType?: AzureStorageAuthenticationType;
     azureCloudType?: any;
     connectionString?: any;
+    containerUri?: any;
+    credential?: CredentialReference;
     encryptedCredential?: string;
     sasToken?: AzureKeyVaultSecretReference;
     sasUri?: any;
@@ -532,6 +554,7 @@ export interface AzureDatabricksDeltaLakeImportCommand extends ImportSettings {
 export interface AzureDatabricksDeltaLakeLinkedService extends LinkedService {
     accessToken: SecretBaseUnion;
     clusterId?: any;
+    credential?: CredentialReference;
     domain: any;
     encryptedCredential?: any;
     type: "AzureDatabricksDeltaLake";
@@ -555,6 +578,7 @@ export interface AzureDatabricksDeltaLakeSource extends CopySource {
 export interface AzureDatabricksLinkedService extends LinkedService {
     accessToken?: SecretBaseUnion;
     authentication?: any;
+    credential?: CredentialReference;
     domain: any;
     encryptedCredential?: any;
     existingClusterId?: any;
@@ -589,6 +613,7 @@ export interface AzureDataExplorerCommandActivity extends ExecutionActivity {
 
 // @public
 export interface AzureDataExplorerLinkedService extends LinkedService {
+    credential?: CredentialReference;
     database: any;
     endpoint: any;
     servicePrincipalId?: any;
@@ -646,6 +671,7 @@ export interface AzureDataLakeStoreDataset extends Dataset {
 export interface AzureDataLakeStoreLinkedService extends LinkedService {
     accountName?: any;
     azureCloudType?: any;
+    credential?: CredentialReference;
     dataLakeStoreUri: any;
     encryptedCredential?: any;
     resourceGroupName?: any;
@@ -664,7 +690,7 @@ export interface AzureDataLakeStoreLocation extends DatasetLocation {
 // @public
 export interface AzureDataLakeStoreReadSettings extends StoreReadSettings {
     deleteFilesAfterCompletion?: any;
-    enablePartitionDiscovery?: boolean;
+    enablePartitionDiscovery?: any;
     fileListPath?: any;
     listAfter?: any;
     listBefore?: any;
@@ -755,15 +781,19 @@ export type AzureFunctionActivityMethod = string;
 
 // @public
 export interface AzureFunctionLinkedService extends LinkedService {
+    authentication?: any;
+    credential?: CredentialReference;
     encryptedCredential?: any;
     functionAppUrl: any;
     functionKey?: SecretBaseUnion;
+    resourceId?: any;
     type: "AzureFunction";
 }
 
 // @public
 export interface AzureKeyVaultLinkedService extends LinkedService {
     baseUrl: any;
+    credential?: CredentialReference;
     type: "AzureKeyVault";
 }
 
@@ -822,6 +852,7 @@ export interface AzureMLExecutePipelineActivity extends ExecutionActivity {
 // @public
 export interface AzureMLLinkedService extends LinkedService {
     apiKey: SecretBaseUnion;
+    authentication?: any;
     encryptedCredential?: any;
     mlEndpoint: any;
     servicePrincipalId?: any;
@@ -833,6 +864,7 @@ export interface AzureMLLinkedService extends LinkedService {
 
 // @public
 export interface AzureMLServiceLinkedService extends LinkedService {
+    authentication?: any;
     encryptedCredential?: any;
     mlWorkspaceName: any;
     resourceGroupName: any;
@@ -942,8 +974,10 @@ export interface AzureSearchLinkedService extends LinkedService {
 
 // @public
 export interface AzureSqlDatabaseLinkedService extends LinkedService {
+    alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
     azureCloudType?: any;
     connectionString: any;
+    credential?: CredentialReference;
     encryptedCredential?: any;
     password?: AzureKeyVaultSecretReference;
     servicePrincipalId?: any;
@@ -956,6 +990,7 @@ export interface AzureSqlDatabaseLinkedService extends LinkedService {
 export interface AzureSqlDWLinkedService extends LinkedService {
     azureCloudType?: any;
     connectionString: any;
+    credential?: CredentialReference;
     encryptedCredential?: any;
     password?: AzureKeyVaultSecretReference;
     servicePrincipalId?: any;
@@ -974,8 +1009,10 @@ export interface AzureSqlDWTableDataset extends Dataset {
 
 // @public
 export interface AzureSqlMILinkedService extends LinkedService {
+    alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
     azureCloudType?: any;
     connectionString: any;
+    credential?: CredentialReference;
     encryptedCredential?: any;
     password?: AzureKeyVaultSecretReference;
     servicePrincipalId?: any;
@@ -1007,6 +1044,7 @@ export interface AzureSqlSink extends CopySink {
 
 // @public
 export interface AzureSqlSource extends TabularSource {
+    isolationLevel?: any;
     partitionOption?: any;
     partitionSettings?: SqlPartitionSettings;
     produceAdditionalTypes?: any;
@@ -1025,6 +1063,9 @@ export interface AzureSqlTableDataset extends Dataset {
     tableName?: any;
     type: "AzureSqlTable";
 }
+
+// @public
+export type AzureStorageAuthenticationType = string;
 
 // @public
 export interface AzureStorageLinkedService extends LinkedService {
@@ -1407,6 +1448,7 @@ export interface CosmosDbLinkedService extends LinkedService {
     accountEndpoint?: any;
     accountKey?: SecretBaseUnion;
     connectionString?: any;
+    credential?: CredentialReference;
     database?: any;
     encryptedCredential?: any;
     type: "CosmosDb";
@@ -1503,6 +1545,16 @@ export type CreateMode = string;
 export interface CreateRunResponse {
     runId: string;
 }
+
+// @public
+export interface CredentialReference {
+    [property: string]: any;
+    referenceName: string;
+    type: CredentialReferenceType;
+}
+
+// @public
+export type CredentialReferenceType = string;
 
 // @public
 export interface CustomActivity extends ExecutionActivity {
@@ -1681,9 +1733,9 @@ export interface DataFlowDebugResultResponse {
 // @public
 export interface DataFlowDebugSession {
     addDataFlow(request: DataFlowDebugPackage, options?: DataFlowDebugSessionAddDataFlowOptionalParams): Promise<DataFlowDebugSessionAddDataFlowResponse>;
-    beginCreateDataFlowDebugSession(request: CreateDataFlowDebugSessionRequest, options?: DataFlowDebugSessionCreateDataFlowDebugSessionOptionalParams): Promise<PollerLike<PollOperationState<DataFlowDebugSessionCreateDataFlowDebugSessionResponse>, DataFlowDebugSessionCreateDataFlowDebugSessionResponse>>;
+    beginCreateDataFlowDebugSession(request: CreateDataFlowDebugSessionRequest, options?: DataFlowDebugSessionCreateDataFlowDebugSessionOptionalParams): Promise<SimplePollerLike<OperationState<DataFlowDebugSessionCreateDataFlowDebugSessionResponse>, DataFlowDebugSessionCreateDataFlowDebugSessionResponse>>;
     beginCreateDataFlowDebugSessionAndWait(request: CreateDataFlowDebugSessionRequest, options?: DataFlowDebugSessionCreateDataFlowDebugSessionOptionalParams): Promise<DataFlowDebugSessionCreateDataFlowDebugSessionResponse>;
-    beginExecuteCommand(request: DataFlowDebugCommandRequest, options?: DataFlowDebugSessionExecuteCommandOptionalParams): Promise<PollerLike<PollOperationState<DataFlowDebugSessionExecuteCommandResponse>, DataFlowDebugSessionExecuteCommandResponse>>;
+    beginExecuteCommand(request: DataFlowDebugCommandRequest, options?: DataFlowDebugSessionExecuteCommandOptionalParams): Promise<SimplePollerLike<OperationState<DataFlowDebugSessionExecuteCommandResponse>, DataFlowDebugSessionExecuteCommandResponse>>;
     beginExecuteCommandAndWait(request: DataFlowDebugCommandRequest, options?: DataFlowDebugSessionExecuteCommandOptionalParams): Promise<DataFlowDebugSessionExecuteCommandResponse>;
     deleteDataFlowDebugSession(request: DeleteDataFlowDebugSessionRequest, options?: DataFlowDebugSessionDeleteDataFlowDebugSessionOptionalParams): Promise<void>;
     listQueryDataFlowDebugSessionsByWorkspace(options?: DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceOptionalParams): PagedAsyncIterableIterator<DataFlowDebugSessionInfo>;
@@ -1805,11 +1857,11 @@ export interface DataFlowListResponse {
 
 // @public
 export interface DataFlowOperations {
-    beginCreateOrUpdateDataFlow(dataFlowName: string, dataFlow: DataFlowResource, options?: DataFlowCreateOrUpdateDataFlowOptionalParams): Promise<PollerLike<PollOperationState<DataFlowCreateOrUpdateDataFlowResponse>, DataFlowCreateOrUpdateDataFlowResponse>>;
+    beginCreateOrUpdateDataFlow(dataFlowName: string, dataFlow: DataFlowResource, options?: DataFlowCreateOrUpdateDataFlowOptionalParams): Promise<SimplePollerLike<OperationState<DataFlowCreateOrUpdateDataFlowResponse>, DataFlowCreateOrUpdateDataFlowResponse>>;
     beginCreateOrUpdateDataFlowAndWait(dataFlowName: string, dataFlow: DataFlowResource, options?: DataFlowCreateOrUpdateDataFlowOptionalParams): Promise<DataFlowCreateOrUpdateDataFlowResponse>;
-    beginDeleteDataFlow(dataFlowName: string, options?: DataFlowDeleteDataFlowOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteDataFlow(dataFlowName: string, options?: DataFlowDeleteDataFlowOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteDataFlowAndWait(dataFlowName: string, options?: DataFlowDeleteDataFlowOptionalParams): Promise<void>;
-    beginRenameDataFlow(dataFlowName: string, request: ArtifactRenameRequest, options?: DataFlowRenameDataFlowOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRenameDataFlow(dataFlowName: string, request: ArtifactRenameRequest, options?: DataFlowRenameDataFlowOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRenameDataFlowAndWait(dataFlowName: string, request: ArtifactRenameRequest, options?: DataFlowRenameDataFlowOptionalParams): Promise<void>;
     getDataFlow(dataFlowName: string, options?: DataFlowGetDataFlowOptionalParams): Promise<DataFlowGetDataFlowResponse>;
     listDataFlowsByWorkspace(options?: DataFlowGetDataFlowsByWorkspaceOptionalParams): PagedAsyncIterableIterator<DataFlowResource>;
@@ -1985,11 +2037,11 @@ export type DatasetLocationUnion = DatasetLocation | AzureBlobStorageLocation | 
 
 // @public
 export interface DatasetOperations {
-    beginCreateOrUpdateDataset(datasetName: string, dataset: DatasetResource, options?: DatasetCreateOrUpdateDatasetOptionalParams): Promise<PollerLike<PollOperationState<DatasetCreateOrUpdateDatasetResponse>, DatasetCreateOrUpdateDatasetResponse>>;
+    beginCreateOrUpdateDataset(datasetName: string, dataset: DatasetResource, options?: DatasetCreateOrUpdateDatasetOptionalParams): Promise<SimplePollerLike<OperationState<DatasetCreateOrUpdateDatasetResponse>, DatasetCreateOrUpdateDatasetResponse>>;
     beginCreateOrUpdateDatasetAndWait(datasetName: string, dataset: DatasetResource, options?: DatasetCreateOrUpdateDatasetOptionalParams): Promise<DatasetCreateOrUpdateDatasetResponse>;
-    beginDeleteDataset(datasetName: string, options?: DatasetDeleteDatasetOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteDataset(datasetName: string, options?: DatasetDeleteDatasetOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteDatasetAndWait(datasetName: string, options?: DatasetDeleteDatasetOptionalParams): Promise<void>;
-    beginRenameDataset(datasetName: string, request: ArtifactRenameRequest, options?: DatasetRenameDatasetOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRenameDataset(datasetName: string, request: ArtifactRenameRequest, options?: DatasetRenameDatasetOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRenameDatasetAndWait(datasetName: string, request: ArtifactRenameRequest, options?: DatasetRenameDatasetOptionalParams): Promise<void>;
     getDataset(datasetName: string, options?: DatasetGetDatasetOptionalParams): Promise<DatasetGetDatasetResponse>;
     listDatasetsByWorkspace(options?: DatasetGetDatasetsByWorkspaceOptionalParams): PagedAsyncIterableIterator<DatasetResource>;
@@ -2301,6 +2353,7 @@ export interface DynamicsEntityDataset extends Dataset {
 // @public
 export interface DynamicsLinkedService extends LinkedService {
     authenticationType: any;
+    credential?: CredentialReference;
     deploymentType: any;
     encryptedCredential?: any;
     hostName?: any;
@@ -2964,6 +3017,7 @@ export interface HDInsightOnDemandLinkedService extends LinkedService {
     clusterType?: any;
     clusterUserName?: any;
     coreConfiguration?: any;
+    credential?: CredentialReference;
     dataNodeSize?: any;
     encryptedCredential?: any;
     hBaseConfiguration?: any;
@@ -3450,6 +3504,26 @@ export interface JsonWriteSettings extends FormatWriteSettings {
 }
 
 // @public
+export enum KnownActionOnExistingTargetTable {
+    DropAndRecreateTable = "DropAndRecreateTable",
+    FailOnNonEmptyTable = "FailOnNonEmptyTable",
+    MergeWithExistingData = "MergeWithExistingData"
+}
+
+// @public
+export enum KnownActivityOnInactiveMarkAs {
+    Failed = "Failed",
+    Skipped = "Skipped",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownActivityState {
+    Active = "Active",
+    Inactive = "Inactive"
+}
+
+// @public
 export enum KnownAmazonRdsForOraclePartitionOption {
     DynamicRange = "DynamicRange",
     None = "None",
@@ -3480,6 +3554,15 @@ export enum KnownAzureFunctionActivityMethod {
 export enum KnownAzureSearchIndexWriteBehaviorType {
     Merge = "Merge",
     Upload = "Upload"
+}
+
+// @public
+export enum KnownAzureStorageAuthenticationType {
+    AccountKey = "AccountKey",
+    Anonymous = "Anonymous",
+    Msi = "Msi",
+    SasUri = "SasUri",
+    ServicePrincipal = "ServicePrincipal"
 }
 
 // @public
@@ -3549,6 +3632,11 @@ export enum KnownCreateMode {
     PointInTimeRestore = "PointInTimeRestore",
     Recovery = "Recovery",
     Restore = "Restore"
+}
+
+// @public
+export enum KnownCredentialReferenceType {
+    CredentialReference = "CredentialReference"
 }
 
 // @public
@@ -4140,6 +4228,13 @@ export enum KnownSparkThriftTransportProtocol {
 }
 
 // @public
+export enum KnownSqlAlwaysEncryptedAkvAuthType {
+    ManagedIdentity = "ManagedIdentity",
+    ServicePrincipal = "ServicePrincipal",
+    UserAssignedManagedIdentity = "UserAssignedManagedIdentity"
+}
+
+// @public
 export enum KnownSqlConnectionType {
     SqlOnDemand = "SqlOnDemand",
     SqlPool = "SqlPool"
@@ -4334,11 +4429,11 @@ export type KqlScriptGetByNameResponse = KqlScriptResource;
 
 // @public
 export interface KqlScriptOperations {
-    beginCreateOrUpdate(kqlScriptName: string, kqlScript: KqlScriptResource, options?: KqlScriptCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<KqlScriptCreateOrUpdateResponse>, KqlScriptCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(kqlScriptName: string, kqlScript: KqlScriptResource, options?: KqlScriptCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<KqlScriptCreateOrUpdateResponse>, KqlScriptCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(kqlScriptName: string, kqlScript: KqlScriptResource, options?: KqlScriptCreateOrUpdateOptionalParams): Promise<KqlScriptCreateOrUpdateResponse>;
-    beginDeleteByName(kqlScriptName: string, options?: KqlScriptDeleteByNameOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteByName(kqlScriptName: string, options?: KqlScriptDeleteByNameOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteByNameAndWait(kqlScriptName: string, options?: KqlScriptDeleteByNameOptionalParams): Promise<void>;
-    beginRename(kqlScriptName: string, renameRequest: ArtifactRenameRequest, options?: KqlScriptRenameOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRename(kqlScriptName: string, renameRequest: ArtifactRenameRequest, options?: KqlScriptRenameOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRenameAndWait(kqlScriptName: string, renameRequest: ArtifactRenameRequest, options?: KqlScriptRenameOptionalParams): Promise<void>;
     getByName(kqlScriptName: string, options?: KqlScriptGetByNameOptionalParams): Promise<KqlScriptGetByNameResponse>;
 }
@@ -4390,11 +4485,11 @@ export interface KqlScriptsResourceCollectionResponse {
 // @public
 export interface Library {
     append(libraryName: string, content: coreRestPipeline.RequestBodyType, options?: LibraryAppendOptionalParams): Promise<void>;
-    beginCreate(libraryName: string, options?: LibraryCreateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginCreate(libraryName: string, options?: LibraryCreateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginCreateAndWait(libraryName: string, options?: LibraryCreateOptionalParams): Promise<void>;
-    beginDelete(libraryName: string, options?: LibraryDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(libraryName: string, options?: LibraryDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(libraryName: string, options?: LibraryDeleteOptionalParams): Promise<void>;
-    beginFlush(libraryName: string, options?: LibraryFlushOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginFlush(libraryName: string, options?: LibraryFlushOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginFlushAndWait(libraryName: string, options?: LibraryFlushOptionalParams): Promise<void>;
     get(libraryName: string, options?: LibraryGetOptionalParams): Promise<LibraryGetResponse>;
     getOperationResult(operationId: string, options?: LibraryGetOperationResultOptionalParams): Promise<LibraryGetOperationResultResponse>;
@@ -4680,6 +4775,7 @@ export interface LinkConnectionTargetDatabase {
 
 // @public (undocumented)
 export interface LinkConnectionTargetDatabaseTypeProperties {
+    actionOnExistingTargetTable?: ActionOnExistingTargetTable;
     crossTableTransaction?: boolean;
     dropExistingTargetTableOnStart?: boolean;
 }
@@ -4771,11 +4867,11 @@ export interface LinkedServiceListResponse {
 
 // @public
 export interface LinkedServiceOperations {
-    beginCreateOrUpdateLinkedService(linkedServiceName: string, linkedService: LinkedServiceResource, options?: LinkedServiceCreateOrUpdateLinkedServiceOptionalParams): Promise<PollerLike<PollOperationState<LinkedServiceCreateOrUpdateLinkedServiceResponse>, LinkedServiceCreateOrUpdateLinkedServiceResponse>>;
+    beginCreateOrUpdateLinkedService(linkedServiceName: string, linkedService: LinkedServiceResource, options?: LinkedServiceCreateOrUpdateLinkedServiceOptionalParams): Promise<SimplePollerLike<OperationState<LinkedServiceCreateOrUpdateLinkedServiceResponse>, LinkedServiceCreateOrUpdateLinkedServiceResponse>>;
     beginCreateOrUpdateLinkedServiceAndWait(linkedServiceName: string, linkedService: LinkedServiceResource, options?: LinkedServiceCreateOrUpdateLinkedServiceOptionalParams): Promise<LinkedServiceCreateOrUpdateLinkedServiceResponse>;
-    beginDeleteLinkedService(linkedServiceName: string, options?: LinkedServiceDeleteLinkedServiceOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteLinkedService(linkedServiceName: string, options?: LinkedServiceDeleteLinkedServiceOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteLinkedServiceAndWait(linkedServiceName: string, options?: LinkedServiceDeleteLinkedServiceOptionalParams): Promise<void>;
-    beginRenameLinkedService(linkedServiceName: string, request: ArtifactRenameRequest, options?: LinkedServiceRenameLinkedServiceOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRenameLinkedService(linkedServiceName: string, request: ArtifactRenameRequest, options?: LinkedServiceRenameLinkedServiceOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRenameLinkedServiceAndWait(linkedServiceName: string, request: ArtifactRenameRequest, options?: LinkedServiceRenameLinkedServiceOptionalParams): Promise<void>;
     getLinkedService(linkedServiceName: string, options?: LinkedServiceGetLinkedServiceOptionalParams): Promise<LinkedServiceGetLinkedServiceResponse>;
     listLinkedServicesByWorkspace(options?: LinkedServiceGetLinkedServicesByWorkspaceOptionalParams): PagedAsyncIterableIterator<LinkedServiceResource>;
@@ -5100,6 +5196,7 @@ export interface MongoDbAtlasCollectionDataset extends Dataset {
 export interface MongoDbAtlasLinkedService extends LinkedService {
     connectionString: any;
     database: any;
+    driverVersion?: any;
     type: "MongoDbAtlas";
 }
 
@@ -5374,11 +5471,11 @@ export interface NotebookOperationResultGetOptionalParams extends coreClient.Ope
 
 // @public
 export interface NotebookOperations {
-    beginCreateOrUpdateNotebook(notebookName: string, notebook: NotebookResource, options?: NotebookCreateOrUpdateNotebookOptionalParams): Promise<PollerLike<PollOperationState<NotebookCreateOrUpdateNotebookResponse>, NotebookCreateOrUpdateNotebookResponse>>;
+    beginCreateOrUpdateNotebook(notebookName: string, notebook: NotebookResource, options?: NotebookCreateOrUpdateNotebookOptionalParams): Promise<SimplePollerLike<OperationState<NotebookCreateOrUpdateNotebookResponse>, NotebookCreateOrUpdateNotebookResponse>>;
     beginCreateOrUpdateNotebookAndWait(notebookName: string, notebook: NotebookResource, options?: NotebookCreateOrUpdateNotebookOptionalParams): Promise<NotebookCreateOrUpdateNotebookResponse>;
-    beginDeleteNotebook(notebookName: string, options?: NotebookDeleteNotebookOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteNotebook(notebookName: string, options?: NotebookDeleteNotebookOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteNotebookAndWait(notebookName: string, options?: NotebookDeleteNotebookOptionalParams): Promise<void>;
-    beginRenameNotebook(notebookName: string, request: ArtifactRenameRequest, options?: NotebookRenameNotebookOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRenameNotebook(notebookName: string, request: ArtifactRenameRequest, options?: NotebookRenameNotebookOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRenameNotebookAndWait(notebookName: string, request: ArtifactRenameRequest, options?: NotebookRenameNotebookOptionalParams): Promise<void>;
     getNotebook(notebookName: string, options?: NotebookGetNotebookOptionalParams): Promise<NotebookGetNotebookResponse>;
     listNotebooksByWorkspace(options?: NotebookGetNotebooksByWorkspaceOptionalParams): PagedAsyncIterableIterator<NotebookResource>;
@@ -5629,6 +5726,11 @@ export interface OrcWriteSettings extends FormatWriteSettings {
 }
 
 // @public
+export interface OutputColumn {
+    name?: string;
+}
+
+// @public
 export interface ParameterSpecification {
     defaultValue?: any;
     type: ParameterType;
@@ -5795,11 +5897,11 @@ export interface PipelineListResponse {
 
 // @public
 export interface PipelineOperations {
-    beginCreateOrUpdatePipeline(pipelineName: string, pipeline: PipelineResource, options?: PipelineCreateOrUpdatePipelineOptionalParams): Promise<PollerLike<PollOperationState<PipelineCreateOrUpdatePipelineResponse>, PipelineCreateOrUpdatePipelineResponse>>;
+    beginCreateOrUpdatePipeline(pipelineName: string, pipeline: PipelineResource, options?: PipelineCreateOrUpdatePipelineOptionalParams): Promise<SimplePollerLike<OperationState<PipelineCreateOrUpdatePipelineResponse>, PipelineCreateOrUpdatePipelineResponse>>;
     beginCreateOrUpdatePipelineAndWait(pipelineName: string, pipeline: PipelineResource, options?: PipelineCreateOrUpdatePipelineOptionalParams): Promise<PipelineCreateOrUpdatePipelineResponse>;
-    beginDeletePipeline(pipelineName: string, options?: PipelineDeletePipelineOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeletePipeline(pipelineName: string, options?: PipelineDeletePipelineOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeletePipelineAndWait(pipelineName: string, options?: PipelineDeletePipelineOptionalParams): Promise<void>;
-    beginRenamePipeline(pipelineName: string, request: ArtifactRenameRequest, options?: PipelineRenamePipelineOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRenamePipeline(pipelineName: string, request: ArtifactRenameRequest, options?: PipelineRenamePipelineOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRenamePipelineAndWait(pipelineName: string, request: ArtifactRenameRequest, options?: PipelineRenamePipelineOptionalParams): Promise<void>;
     createPipelineRun(pipelineName: string, options?: PipelineCreatePipelineRunOptionalParams): Promise<PipelineCreatePipelineRunResponse>;
     getPipeline(pipelineName: string, options?: PipelineGetPipelineOptionalParams): Promise<PipelineGetPipelineResponse>;
@@ -6195,6 +6297,7 @@ export interface RestServiceLinkedService extends LinkedService {
     azureCloudType?: any;
     clientId?: any;
     clientSecret?: SecretBaseUnion;
+    credential?: CredentialReference;
     enableServerCertificateValidation?: any;
     encryptedCredential?: any;
     password?: SecretBaseUnion;
@@ -6244,6 +6347,149 @@ export interface RunFilterParameters {
     lastUpdatedAfter: Date;
     lastUpdatedBefore: Date;
     orderBy?: RunQueryOrderBy[];
+}
+
+// @public
+export interface RunNotebook {
+    beginCreateRun(runId: string, runNotebookRequest: RunNotebookRequest, options?: RunNotebookCreateRunOptionalParams): Promise<SimplePollerLike<OperationState<RunNotebookCreateRunResponse>, RunNotebookCreateRunResponse>>;
+    beginCreateRunAndWait(runId: string, runNotebookRequest: RunNotebookRequest, options?: RunNotebookCreateRunOptionalParams): Promise<RunNotebookCreateRunResponse>;
+    cancelRun(runId: string, options?: RunNotebookCancelRunOptionalParams): Promise<RunNotebookCancelRunResponse>;
+    getSnapshot(runId: string, options?: RunNotebookGetSnapshotOptionalParams): Promise<RunNotebookGetSnapshotResponse>;
+    getStatus(runId: string, options?: RunNotebookGetStatusOptionalParams): Promise<RunNotebookGetStatusResponse>;
+}
+
+// @public
+export interface RunNotebookCancelRunOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RunNotebookCancelRunResponse = RunNotebookResponse;
+
+// @public
+export interface RunNotebookCreateRunHeaders {
+    location?: string;
+}
+
+// @public
+export interface RunNotebookCreateRunOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type RunNotebookCreateRunResponse = RunNotebookCreateRunHeaders & RunNotebookResponse;
+
+// @public
+export interface RunNotebookError {
+    readonly ename?: string;
+    readonly evalue?: string;
+    traceback?: string[];
+}
+
+// @public
+export interface RunNotebookGetSnapshotOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RunNotebookGetSnapshotResponse = RunNotebookSnapshotResponse;
+
+// @public
+export interface RunNotebookGetStatusOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RunNotebookGetStatusResponse = RunNotebookResponse;
+
+// @public
+export interface RunNotebookParameter {
+    type?: string;
+    value?: any;
+}
+
+// @public
+export interface RunNotebookRequest {
+    honorSessionTimeToLive?: boolean;
+    notebook?: string;
+    parameters?: {
+        [propertyName: string]: RunNotebookParameter;
+    };
+    sessionOptions?: RunNotebookSparkSessionOptions;
+    sparkPool?: string;
+}
+
+// @public
+export interface RunNotebookResponse {
+    readonly message?: string;
+    result?: RunNotebookResult;
+}
+
+// @public
+export interface RunNotebookResult {
+    error?: RunNotebookError;
+    exitValue?: string;
+    lastCheckedOn?: string;
+    runId?: string;
+    runStatus?: string;
+    sessionDetail?: any;
+    sessionId?: number;
+    sparkPool?: string;
+}
+
+// @public
+export interface RunNotebookSnapshot {
+    exitValue?: string;
+    honorSessionTimeToLive?: boolean;
+    id: string;
+    notebook: string;
+    notebookContent?: NotebookResource;
+    parameters?: {
+        [propertyName: string]: RunNotebookParameter;
+    };
+    sessionId?: number;
+    sessionOptions?: RunNotebookSparkSessionOptions;
+    sparkPool?: string;
+}
+
+// @public
+export interface RunNotebookSnapshotResponse {
+    readonly message?: string;
+    result?: RunNotebookSnapshotResult;
+}
+
+// @public
+export interface RunNotebookSnapshotResult {
+    error?: RunNotebookError;
+    lastCheckedOn?: string;
+    runId: string;
+    runStatus: string;
+    sessionId?: number;
+    snapshot: RunNotebookSnapshot;
+    sparkPool?: string;
+}
+
+// @public (undocumented)
+export interface RunNotebookSparkSessionOptions {
+    archives?: string[];
+    configuration?: {
+        [propertyName: string]: string;
+    };
+    driverCores?: number;
+    driverMemory?: string;
+    executorCores?: number;
+    executorCount?: number;
+    executorMemory?: string;
+    files?: string[];
+    heartbeatTimeoutInSecond?: number;
+    isQueueable?: boolean;
+    jars?: string[];
+    kind?: string;
+    name?: string;
+    proxyUser?: string;
+    pythonFiles?: string[];
+    queue?: any;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -6342,7 +6588,7 @@ export interface SalesforceServiceCloudSink extends CopySink {
 export interface SalesforceServiceCloudSource extends CopySource {
     additionalColumns?: any;
     query?: any;
-    readBehavior?: SalesforceSourceReadBehavior;
+    readBehavior?: any;
     type: "SalesforceServiceCloudSource";
 }
 
@@ -6360,7 +6606,7 @@ export type SalesforceSinkWriteBehavior = string;
 // @public
 export interface SalesforceSource extends TabularSource {
     query?: any;
-    readBehavior?: SalesforceSourceReadBehavior;
+    readBehavior?: any;
     type: "SalesforceSource";
 }
 
@@ -6683,6 +6929,12 @@ export interface SecretBase {
 export type SecretBaseUnion = SecretBase | SecureString | AzureKeyVaultSecretReference;
 
 // @public
+export interface SecureInputOutputPolicy {
+    secureInput?: boolean;
+    secureOutput?: boolean;
+}
+
+// @public
 export interface SecureString extends SecretBase {
     type: "SecureString";
     value: string;
@@ -6733,6 +6985,8 @@ export interface ServiceNowSource extends TabularSource {
 
 // @public
 export interface SetVariableActivity extends ControlActivity {
+    policy?: SecureInputOutputPolicy;
+    setSystemVariable?: boolean;
     type: "SetVariable";
     value?: any;
     variableName?: string;
@@ -7009,11 +7263,11 @@ export interface SparkConfigurationListResponse {
 
 // @public
 export interface SparkConfigurationOperations {
-    beginCreateOrUpdateSparkConfiguration(sparkConfigurationName: string, sparkConfiguration: SparkConfigurationResource, options?: SparkConfigurationCreateOrUpdateSparkConfigurationOptionalParams): Promise<PollerLike<PollOperationState<SparkConfigurationCreateOrUpdateSparkConfigurationResponse>, SparkConfigurationCreateOrUpdateSparkConfigurationResponse>>;
+    beginCreateOrUpdateSparkConfiguration(sparkConfigurationName: string, sparkConfiguration: SparkConfigurationResource, options?: SparkConfigurationCreateOrUpdateSparkConfigurationOptionalParams): Promise<SimplePollerLike<OperationState<SparkConfigurationCreateOrUpdateSparkConfigurationResponse>, SparkConfigurationCreateOrUpdateSparkConfigurationResponse>>;
     beginCreateOrUpdateSparkConfigurationAndWait(sparkConfigurationName: string, sparkConfiguration: SparkConfigurationResource, options?: SparkConfigurationCreateOrUpdateSparkConfigurationOptionalParams): Promise<SparkConfigurationCreateOrUpdateSparkConfigurationResponse>;
-    beginDeleteSparkConfiguration(sparkConfigurationName: string, options?: SparkConfigurationDeleteSparkConfigurationOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteSparkConfiguration(sparkConfigurationName: string, options?: SparkConfigurationDeleteSparkConfigurationOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteSparkConfigurationAndWait(sparkConfigurationName: string, options?: SparkConfigurationDeleteSparkConfigurationOptionalParams): Promise<void>;
-    beginRenameSparkConfiguration(sparkConfigurationName: string, request: ArtifactRenameRequest, options?: SparkConfigurationRenameSparkConfigurationOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRenameSparkConfiguration(sparkConfigurationName: string, request: ArtifactRenameRequest, options?: SparkConfigurationRenameSparkConfigurationOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRenameSparkConfigurationAndWait(sparkConfigurationName: string, request: ArtifactRenameRequest, options?: SparkConfigurationRenameSparkConfigurationOptionalParams): Promise<void>;
     getSparkConfiguration(sparkConfigurationName: string, options?: SparkConfigurationGetSparkConfigurationOptionalParams): Promise<SparkConfigurationGetSparkConfigurationResponse>;
     listSparkConfigurationsByWorkspace(options?: SparkConfigurationGetSparkConfigurationsByWorkspaceOptionalParams): PagedAsyncIterableIterator<SparkConfigurationResource>;
@@ -7123,15 +7377,15 @@ export type SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceResponse = SparkJ
 
 // @public
 export interface SparkJobDefinitionOperations {
-    beginCreateOrUpdateSparkJobDefinition(sparkJobDefinitionName: string, sparkJobDefinition: SparkJobDefinitionResource, options?: SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams): Promise<PollerLike<PollOperationState<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse>, SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse>>;
+    beginCreateOrUpdateSparkJobDefinition(sparkJobDefinitionName: string, sparkJobDefinition: SparkJobDefinitionResource, options?: SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams): Promise<SimplePollerLike<OperationState<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse>, SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse>>;
     beginCreateOrUpdateSparkJobDefinitionAndWait(sparkJobDefinitionName: string, sparkJobDefinition: SparkJobDefinitionResource, options?: SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams): Promise<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse>;
-    beginDebugSparkJobDefinition(sparkJobDefinitionAzureResource: SparkJobDefinitionResource, options?: SparkJobDefinitionDebugSparkJobDefinitionOptionalParams): Promise<PollerLike<PollOperationState<SparkJobDefinitionDebugSparkJobDefinitionResponse>, SparkJobDefinitionDebugSparkJobDefinitionResponse>>;
+    beginDebugSparkJobDefinition(sparkJobDefinitionAzureResource: SparkJobDefinitionResource, options?: SparkJobDefinitionDebugSparkJobDefinitionOptionalParams): Promise<SimplePollerLike<OperationState<SparkJobDefinitionDebugSparkJobDefinitionResponse>, SparkJobDefinitionDebugSparkJobDefinitionResponse>>;
     beginDebugSparkJobDefinitionAndWait(sparkJobDefinitionAzureResource: SparkJobDefinitionResource, options?: SparkJobDefinitionDebugSparkJobDefinitionOptionalParams): Promise<SparkJobDefinitionDebugSparkJobDefinitionResponse>;
-    beginDeleteSparkJobDefinition(sparkJobDefinitionName: string, options?: SparkJobDefinitionDeleteSparkJobDefinitionOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteSparkJobDefinition(sparkJobDefinitionName: string, options?: SparkJobDefinitionDeleteSparkJobDefinitionOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteSparkJobDefinitionAndWait(sparkJobDefinitionName: string, options?: SparkJobDefinitionDeleteSparkJobDefinitionOptionalParams): Promise<void>;
-    beginExecuteSparkJobDefinition(sparkJobDefinitionName: string, options?: SparkJobDefinitionExecuteSparkJobDefinitionOptionalParams): Promise<PollerLike<PollOperationState<SparkJobDefinitionExecuteSparkJobDefinitionResponse>, SparkJobDefinitionExecuteSparkJobDefinitionResponse>>;
+    beginExecuteSparkJobDefinition(sparkJobDefinitionName: string, options?: SparkJobDefinitionExecuteSparkJobDefinitionOptionalParams): Promise<SimplePollerLike<OperationState<SparkJobDefinitionExecuteSparkJobDefinitionResponse>, SparkJobDefinitionExecuteSparkJobDefinitionResponse>>;
     beginExecuteSparkJobDefinitionAndWait(sparkJobDefinitionName: string, options?: SparkJobDefinitionExecuteSparkJobDefinitionOptionalParams): Promise<SparkJobDefinitionExecuteSparkJobDefinitionResponse>;
-    beginRenameSparkJobDefinition(sparkJobDefinitionName: string, request: ArtifactRenameRequest, options?: SparkJobDefinitionRenameSparkJobDefinitionOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRenameSparkJobDefinition(sparkJobDefinitionName: string, request: ArtifactRenameRequest, options?: SparkJobDefinitionRenameSparkJobDefinitionOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRenameSparkJobDefinitionAndWait(sparkJobDefinitionName: string, request: ArtifactRenameRequest, options?: SparkJobDefinitionRenameSparkJobDefinitionOptionalParams): Promise<void>;
     getSparkJobDefinition(sparkJobDefinitionName: string, options?: SparkJobDefinitionGetSparkJobDefinitionOptionalParams): Promise<SparkJobDefinitionGetSparkJobDefinitionResponse>;
     listSparkJobDefinitionsByWorkspace(options?: SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceOptionalParams): PagedAsyncIterableIterator<SparkJobDefinitionResource>;
@@ -7291,6 +7545,17 @@ export interface SparkSource extends TabularSource {
 export type SparkThriftTransportProtocol = string;
 
 // @public
+export type SqlAlwaysEncryptedAkvAuthType = string;
+
+// @public
+export interface SqlAlwaysEncryptedProperties {
+    alwaysEncryptedAkvAuthType: SqlAlwaysEncryptedAkvAuthType;
+    credential?: CredentialReference;
+    servicePrincipalId?: any;
+    servicePrincipalKey?: SecretBaseUnion;
+}
+
+// @public
 export interface SqlConnection {
     [property: string]: any;
     databaseName?: string;
@@ -7315,6 +7580,7 @@ export interface SqlDWSink extends CopySink {
 
 // @public
 export interface SqlDWSource extends TabularSource {
+    isolationLevel?: any;
     partitionOption?: any;
     partitionSettings?: SqlPartitionSettings;
     sqlReaderQuery?: any;
@@ -7338,6 +7604,7 @@ export interface SqlMISink extends CopySink {
 
 // @public
 export interface SqlMISource extends TabularSource {
+    isolationLevel?: any;
     partitionOption?: any;
     partitionSettings?: SqlPartitionSettings;
     produceAdditionalTypes?: any;
@@ -7487,11 +7754,11 @@ export interface SqlScriptMetadata {
 
 // @public
 export interface SqlScriptOperations {
-    beginCreateOrUpdateSqlScript(sqlScriptName: string, sqlScript: SqlScriptResource, options?: SqlScriptCreateOrUpdateSqlScriptOptionalParams): Promise<PollerLike<PollOperationState<SqlScriptCreateOrUpdateSqlScriptResponse>, SqlScriptCreateOrUpdateSqlScriptResponse>>;
+    beginCreateOrUpdateSqlScript(sqlScriptName: string, sqlScript: SqlScriptResource, options?: SqlScriptCreateOrUpdateSqlScriptOptionalParams): Promise<SimplePollerLike<OperationState<SqlScriptCreateOrUpdateSqlScriptResponse>, SqlScriptCreateOrUpdateSqlScriptResponse>>;
     beginCreateOrUpdateSqlScriptAndWait(sqlScriptName: string, sqlScript: SqlScriptResource, options?: SqlScriptCreateOrUpdateSqlScriptOptionalParams): Promise<SqlScriptCreateOrUpdateSqlScriptResponse>;
-    beginDeleteSqlScript(sqlScriptName: string, options?: SqlScriptDeleteSqlScriptOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteSqlScript(sqlScriptName: string, options?: SqlScriptDeleteSqlScriptOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteSqlScriptAndWait(sqlScriptName: string, options?: SqlScriptDeleteSqlScriptOptionalParams): Promise<void>;
-    beginRenameSqlScript(sqlScriptName: string, request: ArtifactRenameRequest, options?: SqlScriptRenameSqlScriptOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRenameSqlScript(sqlScriptName: string, request: ArtifactRenameRequest, options?: SqlScriptRenameSqlScriptOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRenameSqlScriptAndWait(sqlScriptName: string, request: ArtifactRenameRequest, options?: SqlScriptRenameSqlScriptOptionalParams): Promise<void>;
     getSqlScript(sqlScriptName: string, options?: SqlScriptGetSqlScriptOptionalParams): Promise<SqlScriptGetSqlScriptResponse>;
     listSqlScriptsByWorkspace(options?: SqlScriptGetSqlScriptsByWorkspaceOptionalParams): PagedAsyncIterableIterator<SqlScriptResource>;
@@ -7523,6 +7790,7 @@ export type SqlScriptType = string;
 
 // @public
 export interface SqlServerLinkedService extends LinkedService {
+    alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
     connectionString: any;
     encryptedCredential?: any;
     password?: SecretBaseUnion;
@@ -7545,6 +7813,7 @@ export interface SqlServerSink extends CopySink {
 
 // @public
 export interface SqlServerSource extends TabularSource {
+    isolationLevel?: any;
     partitionOption?: any;
     partitionSettings?: SqlPartitionSettings;
     produceAdditionalTypes?: any;
@@ -7800,14 +8069,19 @@ export interface SybaseTableDataset extends Dataset {
 // @public
 export interface SynapseNotebookActivity extends ExecutionActivity {
     conf?: any;
+    configurationType?: ConfigurationType;
     driverSize?: any;
     executorSize?: any;
     notebook: SynapseNotebookReference;
-    numExecutors?: number;
+    numExecutors?: any;
     parameters?: {
         [propertyName: string]: NotebookParameter;
     };
+    sparkConfig?: {
+        [propertyName: string]: any;
+    };
     sparkPool?: BigDataPoolParametrizationReference;
+    targetSparkConfiguration?: SparkConfigurationParametrizationReference;
     type: "SynapseNotebook";
 }
 
@@ -8041,17 +8315,17 @@ export interface TriggerListResponse {
 
 // @public
 export interface TriggerOperations {
-    beginCreateOrUpdateTrigger(triggerName: string, trigger: TriggerResource, options?: TriggerCreateOrUpdateTriggerOptionalParams): Promise<PollerLike<PollOperationState<TriggerCreateOrUpdateTriggerResponse>, TriggerCreateOrUpdateTriggerResponse>>;
+    beginCreateOrUpdateTrigger(triggerName: string, trigger: TriggerResource, options?: TriggerCreateOrUpdateTriggerOptionalParams): Promise<SimplePollerLike<OperationState<TriggerCreateOrUpdateTriggerResponse>, TriggerCreateOrUpdateTriggerResponse>>;
     beginCreateOrUpdateTriggerAndWait(triggerName: string, trigger: TriggerResource, options?: TriggerCreateOrUpdateTriggerOptionalParams): Promise<TriggerCreateOrUpdateTriggerResponse>;
-    beginDeleteTrigger(triggerName: string, options?: TriggerDeleteTriggerOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteTrigger(triggerName: string, options?: TriggerDeleteTriggerOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteTriggerAndWait(triggerName: string, options?: TriggerDeleteTriggerOptionalParams): Promise<void>;
-    beginStartTrigger(triggerName: string, options?: TriggerStartTriggerOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStartTrigger(triggerName: string, options?: TriggerStartTriggerOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStartTriggerAndWait(triggerName: string, options?: TriggerStartTriggerOptionalParams): Promise<void>;
-    beginStopTrigger(triggerName: string, options?: TriggerStopTriggerOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStopTrigger(triggerName: string, options?: TriggerStopTriggerOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStopTriggerAndWait(triggerName: string, options?: TriggerStopTriggerOptionalParams): Promise<void>;
-    beginSubscribeTriggerToEvents(triggerName: string, options?: TriggerSubscribeTriggerToEventsOptionalParams): Promise<PollerLike<PollOperationState<TriggerSubscribeTriggerToEventsResponse>, TriggerSubscribeTriggerToEventsResponse>>;
+    beginSubscribeTriggerToEvents(triggerName: string, options?: TriggerSubscribeTriggerToEventsOptionalParams): Promise<SimplePollerLike<OperationState<TriggerSubscribeTriggerToEventsResponse>, TriggerSubscribeTriggerToEventsResponse>>;
     beginSubscribeTriggerToEventsAndWait(triggerName: string, options?: TriggerSubscribeTriggerToEventsOptionalParams): Promise<TriggerSubscribeTriggerToEventsResponse>;
-    beginUnsubscribeTriggerFromEvents(triggerName: string, options?: TriggerUnsubscribeTriggerFromEventsOptionalParams): Promise<PollerLike<PollOperationState<TriggerUnsubscribeTriggerFromEventsResponse>, TriggerUnsubscribeTriggerFromEventsResponse>>;
+    beginUnsubscribeTriggerFromEvents(triggerName: string, options?: TriggerUnsubscribeTriggerFromEventsOptionalParams): Promise<SimplePollerLike<OperationState<TriggerUnsubscribeTriggerFromEventsResponse>, TriggerUnsubscribeTriggerFromEventsResponse>>;
     beginUnsubscribeTriggerFromEventsAndWait(triggerName: string, options?: TriggerUnsubscribeTriggerFromEventsOptionalParams): Promise<TriggerUnsubscribeTriggerFromEventsResponse>;
     getEventSubscriptionStatus(triggerName: string, options?: TriggerGetEventSubscriptionStatusOptionalParams): Promise<TriggerGetEventSubscriptionStatusResponse>;
     getTrigger(triggerName: string, options?: TriggerGetTriggerOptionalParams): Promise<TriggerGetTriggerResponse>;
@@ -8300,11 +8574,13 @@ export interface WebActivity extends ExecutionActivity {
 
 // @public
 export interface WebActivityAuthentication {
+    credential?: CredentialReference;
     password?: SecretBaseUnion;
     pfx?: SecretBaseUnion;
-    resource?: string;
+    resource?: any;
     type: string;
     username?: string;
+    userTenant?: any;
 }
 
 // @public
