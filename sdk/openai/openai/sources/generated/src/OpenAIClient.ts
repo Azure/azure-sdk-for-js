@@ -83,11 +83,7 @@ export class OpenAIClient {
       requestOptions: {},
     }
   ): Promise<BatchImageGenerationOperationResponse> {
-    return getAzureBatchImageGenerationOperationStatus(
-      this._client,
-      operationId,
-      options
-    );
+    return getAzureBatchImageGenerationOperationStatus(this._client, operationId, options);
   }
 
   /** Starts the generation of a batch of images from a text caption */

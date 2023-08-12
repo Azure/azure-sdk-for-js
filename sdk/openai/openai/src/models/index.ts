@@ -9,5 +9,5 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
-export * from "./OpenAIContext.js";
-export * from "./operations.js";
+export * from "./models.js";
+export * from "./options.js";

@@ -24,10 +24,7 @@ import {
   isUnexpected,
   OpenAIContext as Client,
 } from "../rest/index.js";
-import {
-  StreamableMethod,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import { StreamableMethod, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import {
   GetEmbeddingsOptions,
   GetCompletionsOptions,
@@ -42,12 +39,10 @@ export function _getEmbeddingsSend(
   deploymentId: string,
   options: GetEmbeddingsOptions = { requestOptions: {} }
 ): StreamableMethod<GetEmbeddings200Response | GetEmbeddingsDefaultResponse> {
-  return context
-    .path("/deployments/{deploymentId}/embeddings", deploymentId)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      body: { user: options?.user, model: options?.model, input: input },
-    });
+  return context.path("/deployments/{deploymentId}/embeddings", deploymentId).post({
+    ...operationOptionsToRequestParameters(options),
+    body: { user: options?.user, model: options?.model, input: input },
+  });
 }
 
 export async function _getEmbeddingsDeserialize(
@@ -76,12 +71,7 @@ export async function getEmbeddings(
   deploymentId: string,
   options: GetEmbeddingsOptions = { requestOptions: {} }
 ): Promise<Embeddings> {
-  const result = await _getEmbeddingsSend(
-    context,
-    input,
-    deploymentId,
-    options
-  );
+  const result = await _getEmbeddingsSend(context, input, deploymentId, options);
   return _getEmbeddingsDeserialize(result);
 }
 
@@ -91,28 +81,26 @@ export function _getCompletionsSend(
   deploymentId: string,
   options: GetCompletionsOptions = { requestOptions: {} }
 ): StreamableMethod<GetCompletions200Response | GetCompletionsDefaultResponse> {
-  return context
-    .path("/deployments/{deploymentId}/completions", deploymentId)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      body: {
-        prompt: prompt,
-        max_tokens: options?.maxTokens,
-        temperature: options?.temperature,
-        top_p: options?.topP,
-        logit_bias: options?.logitBias,
-        user: options?.user,
-        n: options?.n,
-        logprobs: options?.logprobs,
-        echo: options?.echo,
-        stop: options?.stop,
-        presence_penalty: options?.presencePenalty,
-        frequency_penalty: options?.frequencyPenalty,
-        best_of: options?.bestOf,
-        stream: options?.stream,
-        model: options?.model,
-      },
-    });
+  return context.path("/deployments/{deploymentId}/completions", deploymentId).post({
+    ...operationOptionsToRequestParameters(options),
+    body: {
+      prompt: prompt,
+      max_tokens: options?.maxTokens,
+      temperature: options?.temperature,
+      top_p: options?.topP,
+      logit_bias: options?.logitBias,
+      user: options?.user,
+      n: options?.n,
+      logprobs: options?.logprobs,
+      echo: options?.echo,
+      stop: options?.stop,
+      presence_penalty: options?.presencePenalty,
+      frequency_penalty: options?.frequencyPenalty,
+      best_of: options?.bestOf,
+      stream: options?.stream,
+      model: options?.model,
+    },
+  });
 }
 
 export async function _getCompletionsDeserialize(
@@ -124,7 +112,7 @@ export async function _getCompletionsDeserialize(
 
   return {
     id: result.body["id"],
-    created: new Date(result.body["created"] ?? ""),
+    created: new Date(result.body["created"]),
     promptFilterResults: (result.body["prompt_annotations"] ?? []).map((p) => ({
       promptIndex: p["prompt_index"],
       content_filter_results: !p.content_filter_results
@@ -217,12 +205,7 @@ export async function getCompletions(
   deploymentId: string,
   options: GetCompletionsOptions = { requestOptions: {} }
 ): Promise<Completions> {
-  const result = await _getCompletionsSend(
-    context,
-    prompt,
-    deploymentId,
-    options
-  );
+  const result = await _getCompletionsSend(context, prompt, deploymentId, options);
   return _getCompletionsDeserialize(result);
 }
 
@@ -231,30 +214,26 @@ export function _getChatCompletionsSend(
   messages: ChatMessage[],
   deploymentId: string,
   options: GetChatCompletionsOptions = { requestOptions: {} }
-): StreamableMethod<
-  GetChatCompletions200Response | GetChatCompletionsDefaultResponse
-> {
-  return context
-    .path("/deployments/{deploymentId}/chat/completions", deploymentId)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      body: {
-        messages: messages,
-        functions: options?.functions,
-        function_call: options?.functionCall,
-        max_tokens: options?.maxTokens,
-        temperature: options?.temperature,
-        top_p: options?.topP,
-        logit_bias: options?.logitBias,
-        user: options?.user,
-        n: options?.n,
-        stop: options?.stop,
-        presence_penalty: options?.presencePenalty,
-        frequency_penalty: options?.frequencyPenalty,
-        stream: options?.stream,
-        model: options?.model,
-      },
-    });
+): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse> {
+  return context.path("/deployments/{deploymentId}/chat/completions", deploymentId).post({
+    ...operationOptionsToRequestParameters(options),
+    body: {
+      messages: messages,
+      functions: options?.functions,
+      function_call: options?.functionCall,
+      max_tokens: options?.maxTokens,
+      temperature: options?.temperature,
+      top_p: options?.topP,
+      logit_bias: options?.logitBias,
+      user: options?.user,
+      n: options?.n,
+      stop: options?.stop,
+      presence_penalty: options?.presencePenalty,
+      frequency_penalty: options?.frequencyPenalty,
+      stream: options?.stream,
+      model: options?.model,
+    },
+  });
 }
 
 export async function _getChatCompletionsDeserialize(
@@ -266,7 +245,7 @@ export async function _getChatCompletionsDeserialize(
 
   return {
     id: result.body["id"],
-    created: new Date(result.body["created"] ?? ""),
+    created: new Date(result.body["created"]),
     choices: (result.body["choices"] ?? []).map((p) => ({
       message: !p.message
         ? undefined
@@ -375,12 +354,7 @@ export async function getChatCompletions(
   deploymentId: string,
   options: GetChatCompletionsOptions = { requestOptions: {} }
 ): Promise<ChatCompletions> {
-  const result = await _getChatCompletionsSend(
-    context,
-    messages,
-    deploymentId,
-    options
-  );
+  const result = await _getChatCompletionsSend(context, messages, deploymentId, options);
   return _getChatCompletionsDeserialize(result);
 }
 
@@ -412,12 +386,12 @@ export async function _getAzureBatchImageGenerationOperationStatusDeserialize(
 
   return {
     id: result.body["id"],
-    created: new Date(result.body["created"] ?? ""),
+    created: new Date(result.body["created"]),
     expires: result.body["expires"],
     result: !result.body.result
       ? undefined
       : {
-          created: new Date(result.body.result?.["created"] ?? ""),
+          created: new Date(result.body.result?.["created"]),
           data: result.body.result?.["data"] as any,
         },
     status: result.body["status"],
@@ -450,18 +424,16 @@ export function _beginAzureBatchImageGenerationSend(
   | BeginAzureBatchImageGenerationDefaultResponse
   | BeginAzureBatchImageGenerationLogicalResponse
 > {
-  return context
-    .path("/images/generations:submit")
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      body: {
-        prompt: prompt,
-        n: options.n ?? 1,
-        size: options?.size,
-        response_format: options?.responseFormat,
-        user: options?.user,
-      },
-    });
+  return context.path("/images/generations:submit").post({
+    ...operationOptionsToRequestParameters(options),
+    body: {
+      prompt: prompt,
+      n: options.n ?? 1,
+      size: options?.size,
+      response_format: options?.responseFormat,
+      user: options?.user,
+    },
+  });
 }
 
 export async function _beginAzureBatchImageGenerationDeserialize(
@@ -476,12 +448,12 @@ export async function _beginAzureBatchImageGenerationDeserialize(
 
   return {
     id: result.body["id"],
-    created: new Date(result.body["created"] ?? ""),
+    created: new Date(result.body["created"]),
     expires: result.body["expires"],
     result: !result.body.result
       ? undefined
       : {
-          created: new Date(result.body.result?.["created"] ?? ""),
+          created: new Date(result.body.result?.["created"]),
           data: result.body.result?.["data"] as any,
         },
     status: result.body["status"],
@@ -495,10 +467,6 @@ export async function beginAzureBatchImageGeneration(
   prompt: string,
   options: BeginAzureBatchImageGenerationOptions = { requestOptions: {} }
 ): Promise<BatchImageGenerationOperationResponse> {
-  const result = await _beginAzureBatchImageGenerationSend(
-    context,
-    prompt,
-    options
-  );
+  const result = await _beginAzureBatchImageGenerationSend(context, prompt, options);
   return _beginAzureBatchImageGenerationDeserialize(result);
 }

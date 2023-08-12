@@ -48,6 +48,14 @@ export class OpenAIKeyCredential implements KeyCredential {
    *
    * @param newKey - The new key value to be used
    */
+  /**
+   * Change the value of the key.
+   *
+   * Updates will take effect upon the next request after
+   * updating the key value.
+   *
+   * @param newKey - The new key value to be used
+   */
   public update(newKey: string): void {
     this._key = createKey(newKey);
   }
