@@ -1,8 +1,8 @@
 # Release History
 
-## 2.0.0-beta.1 (2023-11-08)
+## 1.2.0-beta.1 (2023-11-08)
 
-- Added `MetricsBatchClient` to support batch querying metrics.
+- Added `MetricsBatchQueryClient` to support batch querying metrics.
 
 ## 1.1.1 (2023-06-08)
 

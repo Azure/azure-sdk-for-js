@@ -6,17 +6,17 @@ import { tracingClient } from "./tracing";
 import {
   AzureMonitorMetricBatch as GeneratedMonitorMetricBatchClient,
   KnownApiVersion20230501Preview as MonitorMetricBatchApiVersion,
-  MetricResultsResponseValuesItem,
   MetricsBatchOptionalParams,
 } from "./generated/metricBatch/src";
 import { convertResponseForMetricBatch } from "./internal/modelConverters";
 import { SDK_VERSION } from "./constants";
 const defaultMetricsScope = "https://management.azure.com/.default";
+import { MetricResultsResponseValuesItem } from "./models/publicBatchModels";
 
 /**
  * Options for the MetricsQueryClient.
  */
-export interface MetricsBatchClientOptions extends CommonClientOptions {
+export interface MetricsBatchQueryClientOptions extends CommonClientOptions {
   /** Overrides batch client endpoint. */
   batchendpoint?: string;
 }
@@ -30,11 +30,11 @@ export const getSubscriptionFromResourceId = function (resourceId: string): stri
 /**
  * A client that can query batch metrics.
  */
-export class MetricsBatchClient {
+export class MetricsBatchQueryClient {
   private _metricBatchClient: GeneratedMonitorMetricBatchClient;
   private _baseUrl: string;
 
-  constructor(tokenCredential: TokenCredential, options?: MetricsBatchClientOptions) {
+  constructor(tokenCredential: TokenCredential, options?: MetricsBatchQueryClientOptions) {
     let scope;
     if (options?.batchendpoint) {
       scope = `${options?.batchendpoint}/.default`;
@@ -69,7 +69,7 @@ export class MetricsBatchClient {
   /**
    * Returns all the Azure Monitor metrics requested for the batch of resources.
    */
-  async batch(
+  async queryBatch(
     resourceids: string[],
     metricnamespace: string,
     metricnames: string[],

@@ -62,14 +62,9 @@ export {
 export { AggregationType, MetricClass } from "./generated/metricsdefinitions/src";
 export { NamespaceClassification } from "./generated/metricsnamespaces/src";
 
+export { MetricsBatchOptionalParams, LocalizableString } from "./generated/metricBatch/src";
 export {
-  MetricsBatchOptionalParams,
   MetricResultsResponseValuesItem,
-  Metric as BatchMetric,
-  TimeSeriesElement as BatchTimeSeriesElement,
-  MetricValue as BatchMetricValue,
-  MetadataValue as BatchMetadataValue,
-  MetricUnit as BatchMetricUnit,
-  LocalizableString,
-} from "./generated/metricBatch/src";
-export { MetricsBatchClient, MetricsBatchClientOptions } from "./metricsBatchClient";
+  Metric as BatchQueryMetric,
+} from "./models/publicBatchModels";
+export { MetricsBatchQueryClient, MetricsBatchQueryClientOptions } from "./metricsBatchQueryClient";

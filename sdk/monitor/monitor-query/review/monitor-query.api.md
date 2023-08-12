@@ -14,40 +14,15 @@ import { TokenCredential } from '@azure/core-auth';
 export type AggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximum" | "Total";
 
 // @public
-export interface BatchMetadataValue {
-    name?: LocalizableString;
-    value?: string;
-}
-
-// @public
-export interface BatchMetric {
+export interface BatchQueryMetric {
     displayDescription: string;
     errorCode?: string;
     errorMessage?: string;
     id: string;
     name: LocalizableString;
-    timeseries: BatchTimeSeriesElement[];
+    timeseries: TimeSeriesElement[];
     type: string;
-    unit: BatchMetricUnit;
-}
-
-// @public
-export type BatchMetricUnit = "Count" | "Bytes" | "Seconds" | "CountPerSecond" | "BytesPerSecond" | "Percent" | "MilliSeconds" | "ByteSeconds" | "Unspecified" | "Cores" | "MilliCores" | "NanoCores" | "BitsPerSecond";
-
-// @public
-export interface BatchMetricValue {
-    average?: number;
-    count?: number;
-    maximum?: number;
-    minimum?: number;
-    timeStamp: Date;
-    total?: number;
-}
-
-// @public
-export interface BatchTimeSeriesElement {
-    data?: BatchMetricValue[];
-    metadatavalues?: BatchMetadataValue[];
+    unit: MetricUnit;
 }
 
 // @public
@@ -224,18 +199,7 @@ export interface MetricResultsResponseValuesItem {
     resourceid?: string;
     resourceregion?: string;
     starttime: string;
-    value: BatchMetric[];
-}
-
-// @public
-export class MetricsBatchClient {
-    constructor(tokenCredential: TokenCredential, options?: MetricsBatchClientOptions);
-    batch(resourceids: string[], metricnamespace: string, metricnames: string[], options?: MetricsBatchOptionalParams): Promise<MetricResultsResponseValuesItem[]>;
-}
-
-// @public
-export interface MetricsBatchClientOptions extends CommonClientOptions {
-    batchendpoint?: string;
+    value: BatchQueryMetric[];
 }
 
 // @public
@@ -247,6 +211,17 @@ export interface MetricsBatchOptionalParams extends coreClient.OperationOptions 
     orderby?: string;
     starttime?: string;
     top?: number;
+}
+
+// @public
+export class MetricsBatchQueryClient {
+    constructor(tokenCredential: TokenCredential, options?: MetricsBatchQueryClientOptions);
+    queryBatch(resourceids: string[], metricnamespace: string, metricnames: string[], options?: MetricsBatchOptionalParams): Promise<MetricResultsResponseValuesItem[]>;
+}
+
+// @public
+export interface MetricsBatchQueryClientOptions extends CommonClientOptions {
+    batchendpoint?: string;
 }
 
 // @public
