@@ -18,24 +18,22 @@ export { OpenAIClient } from "./OpenAIClient.js";
 export {
   ChatChoice,
   ChatCompletions,
-  ChatCompletionsOptions,
   ChatMessage,
   ChatRole,
   Choice,
   Completions,
   CompletionsFinishReason,
   CompletionsLogProbabilityModel,
-  CompletionsOptions,
   CompletionsUsage,
   EmbeddingItem,
   Embeddings,
-  EmbeddingsOptions,
   EmbeddingsUsage,
-} from "../generated/api/models.js";
+} from "../generated/src/models/models.js";
 export {
   GetEmbeddingsOptions,
   GetChatCompletionsOptions,
   GetCompletionsOptions,
-} from "../generated/api/operations.js";
-export { ClientOptions, RequestOptions } from "../generated/common/interfaces.js";
+  BeginAzureBatchImageGenerationOptions,
+  GetAzureBatchImageGenerationOperationStatusOptions,
+} from "../generated/src/models/options.js";
 export { OpenAIKeyCredential } from "./OpenAIKeyCredential.js";

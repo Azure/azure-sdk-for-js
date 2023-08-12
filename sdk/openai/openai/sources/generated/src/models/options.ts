@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure-rest/core-client";
-import { FunctionDefinition, FunctionName } from "../rest.js";
+import { FunctionDefinition, FunctionName } from "../rest/index.js";
 import {
   FunctionCallPreset,
   ImageSize,

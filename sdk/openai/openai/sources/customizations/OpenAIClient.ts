@@ -26,7 +26,7 @@ import {
   getEmbeddings,
 } from "../generated/src/api/operations.js";
 import { ImageGenerationOptions } from "./api/operations.js";
-import { ImageGenerationResponse } from "./api/models.js";
+import { ImageGenerationResponse } from "./models/models.js";
 import { OpenAIContext } from "../generated/src/rest/index.js";
 import { createOpenAI } from "../generated/src/api/OpenAIContext.js";
 
