@@ -130,13 +130,6 @@ export class OpenAIClient {
    * @param options - The options for this completions request.
    * @returns The completions for the given prompt.
    */
-  /**
-   * Returns textual completions as configured for a given prompt.
-   * @param deploymentName - Specifies either the model deployment name (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
-   * @param prompt - The prompt to use for this request.
-   * @param options - The options for this completions request.
-   * @returns The completions for the given prompt.
-   */
   getCompletions(
     deploymentName: string,
     prompt: string[],
@@ -146,13 +139,6 @@ export class OpenAIClient {
     return getCompletions(this._client, prompt, deploymentName, options);
   }
 
-  /**
-   * Lists the completions tokens as they become available for a given prompt.
-   * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
-   * @param prompt - The prompt to use for this request.
-   * @param options - The completions options for this completions request.
-   * @returns An asynchronous iterable of completions tokens.
-   */
   /**
    * Lists the completions tokens as they become available for a given prompt.
    * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
@@ -176,13 +162,6 @@ export class OpenAIClient {
    * @param options - The embeddings options for this embeddings request.
    * @returns The embeddings for the given prompt.
    */
-  /**
-   * Return the computed embeddings for a given prompt.
-   * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
-   * @param input - The prompt to use for this request.
-   * @param options - The embeddings options for this embeddings request.
-   * @returns The embeddings for the given prompt.
-   */
   getEmbeddings(
     deploymentName: string,
     input: string[],
@@ -192,13 +171,6 @@ export class OpenAIClient {
     return getEmbeddings(this._client, input, deploymentName, options);
   }
 
-  /**
-   * Get chat completions for provided chat context messages.
-   * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
-   * @param messages - The chat context messages to use for this request.
-   * @param options - The chat completions options for this completions request.
-   * @returns The chat completions for the given chat context messages.
-   */
   /**
    * Get chat completions for provided chat context messages.
    * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
@@ -222,13 +194,6 @@ export class OpenAIClient {
    * @param options - The chat completions options for this chat completions request.
    * @returns An asynchronous iterable of chat completions tokens.
    */
-  /**
-   * Lists the chat completions tokens as they become available for a chat context.
-   * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
-   * @param messages - The chat context messages to use for this request.
-   * @param options - The chat completions options for this chat completions request.
-   * @returns An asynchronous iterable of chat completions tokens.
-   */
   listChatCompletions(
     deploymentName: string,
     messages: ChatMessage[],
@@ -238,7 +203,6 @@ export class OpenAIClient {
     return listChatCompletions(this._client, messages, deploymentName, options);
   }
 
-  /** Returns the status of the images operation */
   /** Returns the status of the images operation */
   getAzureBatchImageGenerationOperationStatus(
     operationId: string,
@@ -250,7 +214,6 @@ export class OpenAIClient {
   }
 
   /** Starts the generation of a batch of images from a text caption */
-  /** Starts the generation of a batch of images from a text caption */
   beginAzureBatchImageGeneration(
     prompt: string,
     options: ImageGenerationOptions = { requestOptions: {} }
@@ -258,12 +221,6 @@ export class OpenAIClient {
     return beginAzureBatchImageGeneration(this._client, prompt, options);
   }
 
-  /**
-   * Starts the generation of a batch of images from a text caption
-   * @param prompt - The prompt to use for this request.
-   * @param options - The options for this image request.
-   * @returns The image generation response (containing url or base64 data).
-   */
   /**
    * Starts the generation of a batch of images from a text caption
    * @param prompt - The prompt to use for this request.
