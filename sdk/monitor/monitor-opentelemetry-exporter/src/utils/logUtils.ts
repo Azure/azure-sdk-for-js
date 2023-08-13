@@ -200,7 +200,7 @@ function getLegacyApplicationInsightsBaseData(log: ReadableLogRecord): MonitorDo
           baseData = JSON.parse(log.body) as TelemetryEventData;
           break;
       }
-      if (typeof(baseData?.message) === "object") {
+      if (typeof baseData?.message === "object") {
         baseData.message = JSON.stringify(baseData.message);
       }
     } catch (err) {

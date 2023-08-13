@@ -402,7 +402,7 @@ describe("logUtils.ts", () => {
       severityNumber: 12,
       attributes: {
         "_MS.baseType": "MessageData",
-      }
+      },
     });
     const expectedTime = new Date(hrTimeToMilliseconds(log.hrTime));
     log.setAttributes({
