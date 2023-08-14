@@ -395,4 +395,43 @@ describe("logUtils.ts", () => {
       );
     });
   });
+
+  it("should parse objects if passed as the message field of a legacy ApplicationInsights log", () => {
+    const log = new LogRecord(logger, {
+      body: '{"message":{"nested":{"nested2":{"test":"test"}}},"severityLevel":"Information","version":2}',
+      severityNumber: 12,
+      attributes: {
+        "_MS.baseType": "MessageData",
+      },
+    });
+    const expectedTime = new Date(hrTimeToMilliseconds(log.hrTime));
+    log.setAttributes({
+      "extra.attribute": "foo",
+      [SemanticAttributes.MESSAGE_TYPE]: "test message type",
+    });
+    const expectedProperties = {
+      "extra.attribute": "foo",
+      [SemanticAttributes.MESSAGE_TYPE]: "test message type",
+    };
+    const expectedBaseData: Partial<MessageData> = {
+      message: '{"nested":{"nested2":{"test":"test"}}}',
+      severityLevel: `Information`,
+      version: 2,
+      properties: expectedProperties,
+      measurements: {},
+    };
+
+    const envelope = logToEnvelope(log, "ikey");
+    console.log("TEST ENVELOPE!!!", envelope);
+    assertEnvelope(
+      envelope,
+      "Microsoft.ApplicationInsights.Message",
+      100,
+      "MessageData",
+      expectedProperties,
+      emptyMeasurements,
+      expectedBaseData,
+      expectedTime
+    );
+  });
 });
