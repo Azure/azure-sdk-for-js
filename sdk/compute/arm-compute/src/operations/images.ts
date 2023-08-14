@@ -53,7 +53,8 @@ export class ImagesImpl implements Images {
   }
 
   /**
-   * Gets the list of images under a resource group.
+   * Gets the list of images under a resource group. Use nextLink property in the response to get the
+   * next page of Images. Do this till nextLink is null to fetch all the Images.
    * @param resourceGroupName The name of the resource group.
    * @param options The options parameters.
    */
@@ -463,7 +464,8 @@ export class ImagesImpl implements Images {
   }
 
   /**
-   * Gets the list of images under a resource group.
+   * Gets the list of images under a resource group. Use nextLink property in the response to get the
+   * next page of Images. Do this till nextLink is null to fetch all the Images.
    * @param resourceGroupName The name of the resource group.
    * @param options The options parameters.
    */

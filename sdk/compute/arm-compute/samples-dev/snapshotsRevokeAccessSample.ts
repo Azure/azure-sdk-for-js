@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Revokes access to a snapshot.
  *
  * @summary Revokes access to a snapshot.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/snapshotExamples/Snapshot_EndGetAccess.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-04-02/examples/snapshotExamples/Snapshot_EndGetAccess.json
  */
 async function revokeAccessToASnapshot() {
   const subscriptionId =
