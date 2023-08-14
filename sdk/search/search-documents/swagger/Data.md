@@ -16,7 +16,7 @@ title: SearchClient
 use-extension:
   "@autorest/typescript": "6.0.0-alpha.17.20220318.1"
 core-http-compat-mode: true
-package-version: 12.0.0-beta.3
+package-version: 12.0.0-beta.4
 disable-async-iterators: true
 api-version-parameter: choice
 v3: true
