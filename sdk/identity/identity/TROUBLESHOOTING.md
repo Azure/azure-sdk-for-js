@@ -124,8 +124,7 @@ import { setLogLevel } from "@azure/logger";
 setLogLevel("info");
 ```
 
-Alternatively, you can set the `AZURE_LOG_LEVEL` environment variable to `info`.
-You can read this environment variable from the _.env_ file by explicitly specifying a file path:
+Alternatively, you can set the `AZURE_LOG_LEVEL` environment variable to `info`. You can read this environment variable from the _.env_ file by explicitly specifying a file path:
 
 ```ts
 import dotenv from "dotenv";
