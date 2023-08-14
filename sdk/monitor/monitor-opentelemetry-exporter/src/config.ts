@@ -18,9 +18,9 @@ export interface AzureMonitorExporterOptions extends ApplicationInsightsClientOp
    */
   apiVersion?: ServiceApiVersion;
   /**
-   * Azure Active Directory Credential
+   * Token Credential
    */
-  aadTokenCredential?: TokenCredential;
+  credential?: TokenCredential;
   /**
    * Directory to store retriable telemetry when it fails to export.
    */
