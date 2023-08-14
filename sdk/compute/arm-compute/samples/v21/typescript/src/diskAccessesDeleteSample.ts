@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a disk access resource.
  *
  * @summary Deletes a disk access resource.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskAccessExamples/DiskAccess_Delete.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-04-02/examples/diskAccessExamples/DiskAccess_Delete.json
  */
 async function deleteADiskAccessResource() {
   const subscriptionId =
