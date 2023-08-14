@@ -191,14 +191,14 @@ export interface MetricNamespace {
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface MetricResultsResponseValuesItem {
-    endtime: string;
+    endTime: string;
     interval?: string;
     namespace?: string;
-    resourceid?: string;
-    resourceregion?: string;
-    starttime: string;
+    resourceId?: string;
+    resourceRegion?: string;
+    startTime: string;
     value: BatchQueryMetric[];
 }
 
@@ -216,12 +216,12 @@ export interface MetricsBatchOptionalParams extends coreClient.OperationOptions 
 // @public
 export class MetricsBatchQueryClient {
     constructor(tokenCredential: TokenCredential, options?: MetricsBatchQueryClientOptions);
-    queryBatch(resourceids: string[], metricnamespace: string, metricnames: string[], options?: MetricsBatchOptionalParams): Promise<MetricResultsResponseValuesItem[]>;
+    queryBatch(resourceIds: string[], metricNamespace: string, metricNames: string[], options?: MetricsBatchOptionalParams): Promise<MetricResultsResponseValuesItem[]>;
 }
 
 // @public
 export interface MetricsBatchQueryClientOptions extends CommonClientOptions {
-    batchendpoint?: string;
+    batchEndPoint?: string;
 }
 
 // @public

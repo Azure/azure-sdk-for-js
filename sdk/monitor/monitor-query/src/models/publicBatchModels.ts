@@ -5,19 +5,22 @@ import { TimeSeriesElement } from "./publicMetricsModels";
 import { MetricUnit } from "../generated/metrics/src";
 import { LocalizableString } from "../generated/metricBatch/src";
 
+/**
+ * Metric Results Response Values Item
+ */
 export interface MetricResultsResponseValuesItem {
   /** The start time, in datetime format, for which the data was retrieved. */
-  starttime: string;
+  startTime: string;
   /** The end time, in datetime format, for which the data was retrieved. */
-  endtime: string;
+  endTime: string;
   /** The interval (window size) for which the metric data was returned in. Follows the IS8601/RFC3339 duration format (e.g. 'P1D' for 1 day). This may be adjusted in the future and returned back from what was originally requested.  This is not present if a metadata request was made. */
   interval?: string;
   /** The namespace of the metrics been queried */
   namespace?: string;
   /** The region of the resource been queried for metrics. */
-  resourceregion?: string;
+  resourceRegion?: string;
   /** The resource that has been queried for metrics. */
-  resourceid?: string;
+  resourceId?: string;
   /** The value of the collection. */
   value: Metric[];
 }

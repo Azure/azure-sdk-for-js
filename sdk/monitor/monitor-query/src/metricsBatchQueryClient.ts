@@ -19,7 +19,7 @@ const defaultMetricsScope = "https://management.azure.com/.default";
  */
 export interface MetricsBatchQueryClientOptions extends CommonClientOptions {
   /** Overrides batch client endpoint. */
-  batchendpoint?: string;
+  batchEndPoint?: string;
 }
 
 export const getSubscriptionFromResourceId = function (resourceId: string): string {
@@ -37,8 +37,8 @@ export class MetricsBatchQueryClient {
 
   constructor(tokenCredential: TokenCredential, options?: MetricsBatchQueryClientOptions) {
     let scope;
-    if (options?.batchendpoint) {
-      scope = `${options?.batchendpoint}/.default`;
+    if (options?.batchEndPoint) {
+      scope = `${options?.batchEndPoint}/.default`;
     }
     const credentialOptions = {
       credentialScopes: scope,
@@ -50,8 +50,8 @@ export class MetricsBatchQueryClient {
         : `${packageDetails}`;
     const serviceClientOptions = {
       ...options,
-      $host: options?.batchendpoint,
-      endpoint: options?.batchendpoint,
+      $host: options?.batchEndPoint,
+      endpoint: options?.batchEndPoint,
       credentialScopes: credentialOptions?.credentialScopes ?? defaultMetricsScope,
       credential: tokenCredential,
       userAgentOptions: {
@@ -59,7 +59,7 @@ export class MetricsBatchQueryClient {
       },
     };
 
-    this._baseUrl = serviceClientOptions.batchendpoint ?? "";
+    this._baseUrl = serviceClientOptions.batchEndPoint ?? "";
 
     this._metricBatchClient = new GeneratedMonitorMetricBatchClient(
       MonitorMetricBatchApiVersion.TwoThousandTwentyThree0501Preview,
@@ -71,25 +71,25 @@ export class MetricsBatchQueryClient {
    * Returns all the Azure Monitor metrics requested for the batch of resources.
    */
   async queryBatch(
-    resourceids: string[],
-    metricnamespace: string,
-    metricnames: string[],
+    resourceIds: string[],
+    metricNamespace: string,
+    metricNames: string[],
     options: MetricsBatchOptionalParams = {}
   ): Promise<MetricResultsResponseValuesItem[]> {
-    if (resourceids.length === 0) {
+    if (resourceIds.length === 0) {
       throw new Error("Resource IDs can not be empty");
     }
 
     return tracingClient.withSpan("MetricsBatchClient.batch", options, async (updatedOptions) => {
-      const subscriptionId = getSubscriptionFromResourceId(resourceids[0]);
+      const subscriptionId = getSubscriptionFromResourceId(resourceIds[0]);
 
       const response = await this._metricBatchClient.metrics.batch(
         this._baseUrl,
         subscriptionId,
-        metricnamespace,
-        metricnames,
+        metricNamespace,
+        metricNames,
         {
-          resourceids: resourceids,
+          resourceids: resourceIds,
         },
         updatedOptions
       );
