@@ -23,7 +23,7 @@ The in-memory token cache provided by the Azure Identity library:
 
 #### Caching cannot be disabled
 
-As there are many levels of cache it is not possible to clear the cache.
+As there are many levels of cache it's not possible to clear the cache.
 
 ### Persistent token caching
 
