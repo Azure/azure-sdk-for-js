@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0-beta.15
+
+### Bugs Fixed
+
+- Fix an issue with serializing nested log messages.
+
 ## 1.0.0-beta.14 (2023-06-15)
 
 ### Features Added
