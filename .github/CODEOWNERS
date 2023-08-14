@@ -882,10 +882,10 @@
 /sdk/dnsresolver/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Monitor
-/sdk/monitor/monitor-ingestion/ @KarishmaGhiya @sarangan12
+/sdk/monitor/monitor-ingestion/ @srnagar @lmolkova @jairmyree @KarishmaGhiya @nisha-bhatia @pvaneck @gracewilcox @sarangan12 @scottaddie
 /sdk/monitor/monitor-opentelemetry @hectorhdzg @JacksonWeber
 /sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @JacksonWeber
-/sdk/monitor/monitor-query/ @KarishmaGhiya @sarangan12
+/sdk/monitor/monitor-query/ @srnagar @lmolkova @jairmyree @KarishmaGhiya @nisha-bhatia @pvaneck @gracewilcox @sarangan12 @scottaddie
 
 # PRLabel: %Mgmt
 /sdk/quantum/arm-quantum/ @qiaozha @MaryGao

@@ -8,23 +8,22 @@
 
 import * as coreClient from "@azure/core-client";
 import {
-  ApiVersion201801,
-  MonitorManagementClientOptionalParams
+  ApiVersion20230501Preview,
+  AzureMonitorMetricBatchOptionalParams
 } from "./models";
 
 /** @internal */
-export class MonitorManagementClientContext extends coreClient.ServiceClient {
-  $host: string;
-  apiVersion: ApiVersion201801;
+export class AzureMonitorMetricBatchContext extends coreClient.ServiceClient {
+  apiVersion: ApiVersion20230501Preview;
 
   /**
-   * Initializes a new instance of the MonitorManagementClientContext class.
+   * Initializes a new instance of the AzureMonitorMetricBatchContext class.
    * @param apiVersion Api Version
    * @param options The parameter options
    */
   constructor(
-    apiVersion: ApiVersion201801,
-    options?: MonitorManagementClientOptionalParams
+    apiVersion: ApiVersion20230501Preview,
+    options?: AzureMonitorMetricBatchOptionalParams
   ) {
     if (apiVersion === undefined) {
       throw new Error("'apiVersion' cannot be null");
@@ -34,11 +33,11 @@ export class MonitorManagementClientContext extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-    const defaults: MonitorManagementClientOptionalParams = {
+    const defaults: AzureMonitorMetricBatchOptionalParams = {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-monitor-metrics-definitions/1.2.0-beta.1`;
+    const packageDetails = `azsdk-js-monitor-metric-batch/1.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -50,13 +49,10 @@ export class MonitorManagementClientContext extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint || "https://management.azure.com"
+      baseUri: options.endpoint || "{baseUrl}"
     };
     super(optionsWithDefaults);
     // Parameter assignments
     this.apiVersion = apiVersion;
-
-    // Assigning values to Constant parameters
-    this.$host = options.$host || "https://management.azure.com";
   }
 }
