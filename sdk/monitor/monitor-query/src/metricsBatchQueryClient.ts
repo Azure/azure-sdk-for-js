@@ -10,8 +10,9 @@ import {
 } from "./generated/metricBatch/src";
 import { convertResponseForMetricBatch } from "./internal/modelConverters";
 import { SDK_VERSION } from "./constants";
-const defaultMetricsScope = "https://management.azure.com/.default";
 import { MetricResultsResponseValuesItem } from "./models/publicBatchModels";
+
+const defaultMetricsScope = "https://management.azure.com/.default";
 
 /**
  * Options for the MetricsQueryClient.
