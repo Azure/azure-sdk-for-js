@@ -148,7 +148,7 @@ These logging statements indicate that the `EnvironmentCredential` is being used
 
 > CAUTION: Requests and responses in the Azure Identity library contain sensitive information. Precaution must be taken to protect logs when customizing the output to avoid compromising account security.
 
-#### Allow Logging Identifiers
+#### Allow logging identifiers
 
 In cases where the authenticate code might be running in an environment with more than one credential available,
 the `@azure/identity` package offers a unique form of logging. On the optional parameters for every credential,
