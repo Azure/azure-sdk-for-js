@@ -172,7 +172,7 @@ azure:identity:info [Authenticated account] Client ID: HIDDEN. Tenant ID: HIDDEN
 ```
 #### PII Logging
 
-In cases where the user's [Personally Identifiable Information](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/wiki/PII) needs to be logged for customer support, developers can set `enableSupportLogging` to `true` in the`loggingOptions`.
+In cases where the user's [Personally Identifiable Information](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/wiki/PII) needs to be logged for customer support, developers can set `enableSupportLogging` to `true` in the `loggingOptions`.
 
 For example, using the `DefaultAzureCredential`:
 
