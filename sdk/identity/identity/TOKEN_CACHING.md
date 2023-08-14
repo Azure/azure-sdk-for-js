@@ -23,7 +23,7 @@ The in-memory token cache provided by the Azure Identity library:
 
 #### Caching cannot be disabled
 
-As there are many levels of cache it's not possible to clear the cache.
+As there are many levels of cache, it's not possible disable in-memory caching. However, the in-memory cache may be cleared by creating a new credential instance.
 
 ### Persistent token caching
 
@@ -40,12 +40,6 @@ With persistent disk token caching enabled, the library first determines if a va
 - Makes the app more resilient to failures.
 - Ensures the app can continue to function during an Azure AD outage or disruption.
 - Avoids having to prompt users to authenticate each time the process is restarted.
-
-#### Implementation note
-
-The cache is stored in two files to allow for separate caching of Continuous Access Evaluation (CAE) vs non-CAE credentials. The default filename is `msal` but can be specified through `TokenCachePersistenceOptions.setName()`. The filenames end in `.cae` or `.nocae` respectively.
-
-This note is provided only for troubleshooting purposes. This is an implementation detail and can change in the future.
 
 #### Code sample
 
