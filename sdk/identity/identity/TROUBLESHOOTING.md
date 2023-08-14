@@ -170,7 +170,8 @@ Once that credential authenticates, the following message will appear in the log
 ```
 azure:identity:info [Authenticated account] Client ID: HIDDEN. Tenant ID: HIDDEN. User Principal Name: HIDDEN. Object ID (user): HIDDEN
 ```
-#### PII Logging
+
+#### PII logging
 
 In cases where the user's [Personally Identifiable Information](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/wiki/PII) needs to be logged for customer support, developers can set `enableSupportLogging` to `true` in the `loggingOptions`.
 
