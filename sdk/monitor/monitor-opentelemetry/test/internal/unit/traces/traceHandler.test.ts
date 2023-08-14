@@ -32,7 +32,6 @@ describe("Library/TraceHandler", () => {
 
   describe("#autoCollection of HTTP/HTTPS requests", () => {
     let exportStub: sinon.SinonStub;
-    let otlpExportStub: sinon.SinonStub;
     let handler: TraceHandler;
     let metricHandler: MetricHandler;
     let mockHttpServer: any;
@@ -55,15 +54,6 @@ describe("Library/TraceHandler", () => {
             resolve(spans);
           })
       );
-      otlpExportStub = sinon.stub(handler["_otlpExporter"] as any, "export").callsFake(
-        (spans: any, resultCallback: any) =>
-          new Promise((resolve) => {
-            resultCallback({
-              code: ExportResultCode.SUCCESS,
-            });
-            resolve(spans);
-          })
-      );
 
       // Load Http modules, HTTP instrumentation hook will be created in OpenTelemetry
       http = require("http") as any;
@@ -76,12 +66,10 @@ describe("Library/TraceHandler", () => {
 
     afterEach(() => {
       exportStub.resetHistory();
-      otlpExportStub.resetHistory();
     });
 
     after(() => {
       exportStub.restore();
-      otlpExportStub.restore();
       mockHttpServer.close();
       metricHandler.shutdown();
       handler.shutdown();
@@ -127,7 +115,7 @@ describe("Library/TraceHandler", () => {
       };
       return new Promise((resolve, reject) => {
         const req = http.request(options, (res: any) => {
-          res.on("data", function () { });
+          res.on("data", function () {});
           res.on("end", () => {
             resolve();
           });

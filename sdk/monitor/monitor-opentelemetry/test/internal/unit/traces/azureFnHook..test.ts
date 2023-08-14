@@ -81,10 +81,7 @@ describe("Library/AzureFunctionsHook", () => {
     it("Pre Invokation Hook added if running in Azure Functions and context is propagated", () => {
       let Module = require("module");
       let preInvocationCalled = false;
-      let config = new AzureMonitorOpenTelemetryConfig({
-        enableAutoCollectPerformance: false,
-        enableAutoCollectStandardMetrics: false,
-      });
+      let config = new AzureMonitorOpenTelemetryConfig({});
       config.azureMonitorExporterConfig.connectionString =
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;";
       metricHandler = new MetricHandler(config);

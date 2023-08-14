@@ -8,22 +8,26 @@ import { AzureMonitorOpenTelemetryConfig } from "../../../../src/shared";
 import { ExportResultCode } from "@opentelemetry/core";
 
 describe("MetricHandler", () => {
+  let originalEnv: NodeJS.ProcessEnv;
   let sandbox: sinon.SinonSandbox;
   let handler: MetricHandler;
   let exportStub: sinon.SinonStub;
-  let otlpExportStub: sinon.SinonStub;
   const _config = new AzureMonitorOpenTelemetryConfig();
   if (_config.azureMonitorExporterConfig) {
     _config.azureMonitorExporterConfig.connectionString =
       "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
   }
-  _config.otlpMetricExporterConfig.enabled = true;
+
+  beforeEach(() => {
+    originalEnv = process.env;
+  });
 
   before(() => {
     sandbox = sinon.createSandbox();
   });
 
   afterEach(() => {
+    process.env = originalEnv;
     handler.shutdown();
     sandbox.restore();
   });
@@ -33,15 +37,6 @@ describe("MetricHandler", () => {
       collectionInterval: 100,
     });
     exportStub = sinon.stub(handler["_azureExporter"], "export").callsFake(
-      (result: any, resultCallback: any) =>
-        new Promise((resolve) => {
-          resultCallback({
-            code: ExportResultCode.SUCCESS,
-          });
-          resolve(result);
-        })
-    );
-    otlpExportStub = sinon.stub(handler["_otlpExporter"] as any, "export").callsFake(
       (result: any, resultCallback: any) =>
         new Promise((resolve) => {
           resultCallback({
@@ -69,13 +64,6 @@ describe("MetricHandler", () => {
     assert.strictEqual(metrics.length, 1, "metrics count");
     assert.strictEqual(metrics[0].descriptor.name, "testCounter");
     assert.strictEqual(metrics[0].descriptor.description, "testDescription");
-    assert.ok(otlpExportStub.called);
-    assert.strictEqual(otlpExportStub.args[0][0].scopeMetrics.length, 1, "scopeMetrics count");
-    assert.strictEqual(
-      otlpExportStub.args[0][0].scopeMetrics[0].metrics.length,
-      1,
-      "metrics count"
-    );
   });
 
   it("should not collect when disabled", async () => {
@@ -87,16 +75,20 @@ describe("MetricHandler", () => {
   });
 
   describe("#autoCollect", () => {
-    it("performance enablement during start", () => {
-      _config.enableAutoCollectPerformance = true;
-      createHandler(_config);
-      assert.ok(handler["_perfCounterMetrics"], "Performance counters not loaded");
-    });
-
     it("standard metrics enablement during start", () => {
-      _config.enableAutoCollectStandardMetrics = true;
+      const env = <{ [id: string]: string }>{};
+      process.env = env;
+      process.env.APPLICATION_INSIGHTS_NO_STANDARD_METRICS = undefined;
       createHandler(_config);
       assert.ok(handler["_standardMetrics"], "Standard metrics not loaded");
+    });
+
+    it("standard metrics disabled if env var present", () => {
+      const env = <{ [id: string]: string }>{};
+      env["APPLICATION_INSIGHTS_NO_STANDARD_METRICS"] = "something";
+      process.env = env;
+      createHandler(_config);
+      assert.ok(!handler["_standardMetrics"], "Standard metrics loaded");
     });
   });
 });

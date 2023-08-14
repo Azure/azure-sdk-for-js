@@ -6,7 +6,6 @@
 
 import { AzureMonitorExporterOptions } from '@azure/monitor-opentelemetry-exporter';
 import { InstrumentationConfig } from '@opentelemetry/instrumentation';
-import { OTLPExporterNodeConfigBase } from '@opentelemetry/otlp-exporter-base';
 import { Resource } from '@opentelemetry/resources';
 
 // @public
@@ -19,12 +18,7 @@ export class AzureMonitorOpenTelemetryClient {
 // @public
 export interface AzureMonitorOpenTelemetryOptions {
     azureMonitorExporterConfig?: AzureMonitorExporterOptions;
-    enableAutoCollectPerformance?: boolean;
-    enableAutoCollectStandardMetrics?: boolean;
     instrumentationOptions?: InstrumentationOptions;
-    otlpLogExporterConfig?: OTLPExporterConfig;
-    otlpMetricExporterConfig?: OTLPExporterConfig;
-    otlpTraceExporterConfig?: OTLPExporterConfig;
     resource?: Resource;
     samplingRatio?: number;
 }
@@ -38,11 +32,6 @@ export interface InstrumentationOptions {
     postgreSql?: InstrumentationConfig;
     redis?: InstrumentationConfig;
     redis4?: InstrumentationConfig;
-}
-
-// @public
-export interface OTLPExporterConfig extends OTLPExporterNodeConfigBase {
-    enabled?: boolean;
 }
 
 // (No @packageDocumentation comment for this package)

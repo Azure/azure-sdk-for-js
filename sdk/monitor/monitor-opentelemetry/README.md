@@ -70,8 +70,6 @@ const options: AzureMonitorOpenTelemetryOptions = {
         url: '<opentelemetry-collector-url>', // url is optional and can be omitted - default is http://localhost:4318/v1/logs
     },
     samplingRatio: 1,
-    enableAutoCollectStandardMetrics: true,
-    enableAutoCollectPerformance: true,
     instrumentationOptions: {
         azureSdk: { enabled: true },
         http: { enabled: true },
@@ -96,8 +94,6 @@ const azureMonitorClient = new AzureMonitorOpenTelemetryClient(options);
 | otlpMetricExporterConfig                     | OTLP Trace Exporter Configuration. [More info here](https://github.com/open-telemetry/opentelemetry-js/tree/main/experimental/packages/opentelemetry-exporter-metrics-otlp-http) 
 | otlpLogExporterConfig                     | OTLP Trace Exporter Configuration. [More info here](https://github.com/open-telemetry/opentelemetry-js/tree/main/experimental/packages/exporter-logs-otlp-http)                                         | |
 | samplingRatio              | Sampling ratio must take a value in the range [0,1], 1 meaning all data will sampled and 0 all Tracing data will be sampled out.                       | 1|
-| enableAutoCollectPerformance    | Sets the state of performance tracking. If true performance counters will be collected every minute. | true|
-| enableAutoCollectStandardMetrics | Sets the state of Standard Metrics tracking. If true Standard Metrics will be collected every minute. | true|
 | instrumentationOptions| Allow configuration of OpenTelemetry Instrumentations. |  {"http": { enabled: true },"azureSdk": { enabled: false },"mongoDb": { enabled: false },"mySql": { enabled: false },"postgreSql": { enabled: false },"redis": { enabled: false }}|
 | resource       | Opentelemetry Resource. [More info here](https://github.com/open-telemetry/opentelemetry-js/tree/main/packages/opentelemetry-resources)         ||
 

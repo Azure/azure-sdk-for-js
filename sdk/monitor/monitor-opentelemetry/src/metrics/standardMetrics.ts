@@ -105,16 +105,14 @@ export class StandardMetrics {
    * @internal
    */
   public markSpanAsProcessed(span: Span): void {
-    if (this._config.enableAutoCollectStandardMetrics) {
-      if (span.kind === SpanKind.CLIENT) {
-        span.setAttributes({
-          "_MS.ProcessedByMetricExtractors": "(Name:'Dependencies', Ver:'1.1')",
-        });
-      } else if (span.kind === SpanKind.SERVER) {
-        span.setAttributes({
-          "_MS.ProcessedByMetricExtractors": "(Name:'Requests', Ver:'1.1')",
-        });
-      }
+    if (span.kind === SpanKind.CLIENT) {
+      span.setAttributes({
+        "_MS.ProcessedByMetricExtractors": "(Name:'Dependencies', Ver:'1.1')",
+      });
+    } else if (span.kind === SpanKind.SERVER) {
+      span.setAttributes({
+        "_MS.ProcessedByMetricExtractors": "(Name:'Requests', Ver:'1.1')",
+      });
     }
   }
 

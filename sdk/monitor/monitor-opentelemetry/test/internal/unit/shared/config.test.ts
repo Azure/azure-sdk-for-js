@@ -54,16 +54,6 @@ describe("Library/Config", () => {
         "Wrong storageDirectory"
       );
       assert.deepStrictEqual(
-        config.enableAutoCollectPerformance,
-        false,
-        "Wrong enableAutoCollectPerformance"
-      );
-      assert.deepStrictEqual(
-        config.enableAutoCollectStandardMetrics,
-        false,
-        "Wrong enableAutoCollectStandardMetrics"
-      );
-      assert.deepStrictEqual(
         config.instrumentationOptions.azureSdk?.enabled,
         true,
         "Wrong azureSdk"
@@ -82,16 +72,6 @@ describe("Library/Config", () => {
     it("Default config", () => {
       const config = new AzureMonitorOpenTelemetryConfig();
       assert.deepStrictEqual(config.samplingRatio, 1, "Wrong samplingRatio");
-      assert.deepStrictEqual(
-        config.enableAutoCollectPerformance,
-        true,
-        "Wrong enableAutoCollectPerformance"
-      );
-      assert.deepStrictEqual(
-        config.enableAutoCollectStandardMetrics,
-        true,
-        "Wrong enableAutoCollectStandardMetrics"
-      );
       assert.deepStrictEqual(
         config.instrumentationOptions.azureSdk?.enabled,
         false,
@@ -120,9 +100,6 @@ describe("Library/Config", () => {
         undefined,
         "Wrong storageDirectory"
       );
-      assert.deepStrictEqual(config.otlpTraceExporterConfig, {}, "Wrong otlpTraceExporterConfig ");
-      assert.deepStrictEqual(config.otlpMetricExporterConfig, {}, "Wrong otlpTraceExporterConfig ");
-      assert.deepStrictEqual(config.otlpLogExporterConfig, {}, "Wrong otlpTraceExporterConfig ");
     });
   });
 

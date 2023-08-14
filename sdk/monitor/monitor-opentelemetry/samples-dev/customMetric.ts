@@ -9,9 +9,7 @@ import {
   AzureMonitorOpenTelemetryClient,
   AzureMonitorOpenTelemetryOptions,
 } from "@azure/monitor-opentelemetry";
-import {
-  metrics
-} from "@opentelemetry/api";
+import { metrics } from "@opentelemetry/api";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";

@@ -16,14 +16,12 @@ describe("LogHandler", () => {
   let handler: LogHandler;
   let traceHandler: TraceHandler;
   let exportStub: sinon.SinonStub;
-  let otlpExportStub: sinon.SinonStub;
   let metricHandler: MetricHandler;
   const _config = new AzureMonitorOpenTelemetryConfig();
   if (_config.azureMonitorExporterConfig) {
     _config.azureMonitorExporterConfig.connectionString =
       "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
   }
-  _config.otlpLogExporterConfig.enabled = true;
 
   before(() => {
     sandbox = sinon.createSandbox();
@@ -51,15 +49,6 @@ describe("LogHandler", () => {
           resolve(logs);
         })
     );
-    otlpExportStub = sinon.stub(handler["_otlpExporter"] as any, "export").callsFake(
-      (result: any, resultCallback: any) =>
-        new Promise((resolve) => {
-          resultCallback({
-            code: ExportResultCode.SUCCESS,
-          });
-          resolve(result);
-        })
-    );
   }
 
   describe("#logger", () => {
@@ -82,9 +71,6 @@ describe("LogHandler", () => {
         .flush()
         .then(() => {
           let result = exportStub.args;
-          assert.strictEqual(result.length, 1);
-          assert.strictEqual(result[0][0][0].body, "testLog");
-          result = otlpExportStub.args;
           assert.strictEqual(result.length, 1);
           assert.strictEqual(result[0][0][0].body, "testLog");
           done();
@@ -124,7 +110,6 @@ describe("LogHandler", () => {
       });
 
       it("Exception standard metrics processed", (done) => {
-        _config.enableAutoCollectStandardMetrics = true;
         metricHandler = new MetricHandler(_config);
         createLogHandler(_config, metricHandler);
         // Generate exception Log record
@@ -152,7 +137,6 @@ describe("LogHandler", () => {
       });
 
       it("Trace standard metrics processed", (done) => {
-        _config.enableAutoCollectStandardMetrics = true;
         metricHandler = new MetricHandler(_config);
         createLogHandler(_config, metricHandler);
         // Generate Log record
