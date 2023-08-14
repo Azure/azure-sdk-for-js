@@ -1,6 +1,6 @@
 # Release History
 
-## 3.3.0 (2023-08-10)
+## 3.3.0 (2023-08-14)
 
 ### Features Added
 -  Enabled support for logging [personally identifiable information](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/wiki/PII), required for customer support through the `enableSupportLogging` option on `loggingOptions` under `TokenCredentialOptions`.
