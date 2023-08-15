@@ -166,9 +166,6 @@ export async function main() {
   }
   const poller = await getLongRunningPoller(client, initialResponse);
   const trialMatcherResult = await poller.pollUntilDone();
-  if (isUnexpected(trialMatcherResult)) {
-    throw trialMatcherResult;
-  }
   const resultBody = trialMatcherResult.body;
   printResults(resultBody);
 }

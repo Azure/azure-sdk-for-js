@@ -197,9 +197,6 @@ if (isUnexpected(initialResponse)) {
 }
 const poller = await getLongRunningPoller(client, initialResponse);
 const cancerProfilingResult = await poller.pollUntilDone();
-if (isUnexpected(cancerProfilingResult)) {
-    throw cancerProfilingResult;
-}
 const resultBody = cancerProfilingResult.body;
 // Print the inference results for a patient's cancer attributes
 if (cancerProfilingResult.status === "succeeded") {

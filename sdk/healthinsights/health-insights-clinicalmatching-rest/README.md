@@ -147,9 +147,6 @@ throw initialResponse;
 }
 const poller = await getLongRunningPoller(client, initialResponse);
 const trialMatcherResult = await poller.pollUntilDone();
-if (isUnexpected(trialMatcherResult)) {
-throw trialMatcherResult;
-}
 const resultBody = trialMatcherResult.body;
 
 // Print the inference results for a patient's cancer attributes
