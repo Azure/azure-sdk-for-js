@@ -23,7 +23,7 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "8.6.12",
+  "pnpmVersion": "7.33.5",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
   /**
@@ -783,6 +783,11 @@
     {
       "packageName": "@azure/eslint-plugin-azure-sdk",
       "projectFolder": "common/tools/eslint-plugin-azure-sdk",
+      "versionPolicyName": "utility"
+    },
+    {
+      "packageName": "@azure-tool/eslint-plugin-azure-sdk-helper",
+      "projectFolder": "common/tools/eslint-plugin-azure-sdk-helper",
       "versionPolicyName": "utility"
     },
     {

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the upgrade profile of a managed cluster.
  *
  * @summary Gets the upgrade profile of a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-05-01/examples/ManagedClustersGetUpgradeProfile.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-06-01/examples/ManagedClustersGetUpgradeProfile.json
  */
 async function getUpgradeProfileForManagedCluster() {
   const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";

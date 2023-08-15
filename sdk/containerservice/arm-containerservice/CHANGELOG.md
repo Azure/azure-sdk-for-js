@@ -1,5 +1,19 @@
 # Release History
     
+## 19.2.0 (2023-08-14)
+    
+**Features**
+
+  - Added Interface DelegatedResource
+  - Added Interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
+  - Added Type Alias NodeOSUpgradeChannel
+  - Interface AgentPoolUpgradeSettings has a new optional parameter drainTimeoutInMinutes
+  - Interface ManagedClusterAutoUpgradeProfile has a new optional parameter nodeOSUpgradeChannel
+  - Interface ManagedClusterIdentity has a new optional parameter delegatedResources
+  - Interface ManagedClusterWorkloadAutoScalerProfile has a new optional parameter verticalPodAutoscaler
+  - Added Enum KnownNodeOSUpgradeChannel
+    
+    
 ## 19.1.0 (2023-07-03)
     
 **Features**
