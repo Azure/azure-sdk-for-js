@@ -4132,7 +4132,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230811
+      typescript: 5.3.0-dev.20230814
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8717,8 +8717,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.3.0-dev.20230811:
-    resolution: {integrity: sha512-C4bwx7ZpBwX7bKxrrNl+M1j8yNGmwQ5M58X0mT4VYI1+FHqRvb/uJ4F1uJsVJ+X7iy22iXSICR/Vxnpc1gNk7w==}
+  /typescript/5.3.0-dev.20230814:
+    resolution: {integrity: sha512-ztAo8S7pDTqodkSIPPdh4mL5T7+//1xfOP17O2yFW3dx3u/87MG4qsiZ5HIOoV0L9Kkr/fFw5bqGXHcDT/Nclg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -11992,7 +11992,7 @@ packages:
     dev: false
 
   file:projects/arm-dynatrace.tgz:
-    resolution: {integrity: sha512-+JUPYTYa1sK3TAoSSi4a8MTHI+ptAboCznISNDzfUxGz6LefeL69pEUj/iLdZ8BREhMeSp8In6UOgMzVoMJFyw==, tarball: file:projects/arm-dynatrace.tgz}
+    resolution: {integrity: sha512-k0JWi5xb7CKh9vmyCipoUAvCTbhZDcfHYV1//DBVz02rC9kjpwWUM2iy8xxroiEjVxYRkYIZ679MGBo0eCCAIQ==, tarball: file:projects/arm-dynatrace.tgz}
     name: '@rush-temp/arm-dynatrace'
     version: 0.0.0
     dependencies:
@@ -12006,8 +12006,8 @@ packages:
       '@types/node': 14.18.54
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
