@@ -46,11 +46,21 @@ describe("ChatClient", function () {
 
       const request = { topic: "test topic" };
       const options = {
-        participants: [{ id: testUser }, { id: testUser2 }],
+        participants: [
+          {
+            id: testUser,
+          },
+          {
+            id: testUser2,
+          },
+        ],
+        metadata: {
+          threadType: "primary",
+          secondaryThread: "test-id",
+        },
       };
 
       const chatThreadResult = await chatClient.createChatThread(request, options);
-
       const chatThread = chatThreadResult.chatThread;
       if (chatThread) {
         threadId = chatThread.id!;
@@ -58,6 +68,8 @@ describe("ChatClient", function () {
 
       assert.isDefined(chatThread);
       assert.isDefined(chatThread?.id);
+      assert.equal(chatThread?.topic, request.topic);
+      assert.deepEqual(chatThread?.metadata, options.metadata);
     }).timeout(8000);
 
     it("successfully retrieves a thread client", async function () {

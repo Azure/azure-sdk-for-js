@@ -48,6 +48,10 @@ describe("ChatThreadClient", function () {
     const request = { topic: "test topic" };
     const options = {
       participants: [{ id: testUser }, { id: testUser2 }],
+      metadata: {
+        threadType: "primary",
+        secondaryThread: "test-id",
+      },
     };
 
     const chatThreadResult = await chatClient.createChatThread(request, options);
@@ -66,6 +70,14 @@ describe("ChatThreadClient", function () {
 
     const thread = await chatThreadClient.getProperties();
     assert.equal(topic, thread.topic);
+  });
+
+  it("successfully updates the thread metadata", async function () {
+    const metadata = { threadType: "secondary" };
+    await chatThreadClient.updateProperties({ metadata: metadata });
+
+    const thread = await chatThreadClient.getProperties();
+    assert.equal(metadata.threadType, thread.metadata?.threadType);
   });
 
   it("successfully sends a message", async function () {
@@ -125,7 +137,17 @@ describe("ChatThreadClient", function () {
   it("successfully adds participants", async function () {
     testUser3 = (await createTestUser(recorder)).user;
 
-    const request = { participants: [{ id: testUser3 }] };
+    const request = {
+      participants: [
+        {
+          id: testUser3,
+          metadata: {
+            userType: "C2",
+          },
+        },
+      ],
+    };
+
     await chatThreadClient.addParticipants(request);
   });
 

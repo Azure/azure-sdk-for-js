@@ -901,8 +901,8 @@ packages:
       - supports-color
     dev: false
 
-  /@azure/communication-signaling/1.0.0-beta.18:
-    resolution: {integrity: sha512-hxW6w8pgVNpRZkAx0LMQYgpbV3Qk6UdCQtXNqJjEkOjxc1OR6F1/6zTJJfyldild6+aiNhpOkXUNJii9Ya75BQ==}
+  /@azure/communication-signaling/1.0.0-beta.19:
+    resolution: {integrity: sha512-ll2Hw1RdDNWDYiXZrQTWHWu9duUO949ter1ejFCzxQZ9uPPexFfDv28td7YbznwaPNE4iopp2XYQetR8AJYc1g==}
     engines: {node: '>=8.0.0'}
     dependencies:
       '@azure/core-http': 2.3.2
@@ -4132,6 +4132,11 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
+      typescript: 5.3.0-dev.20230811
+    dev: false
+
+  /duplexer3/0.1.5:
+    resolution: {integrity: sha512-1A8za6ws41LQgv9HrE/66jyC5yuSjQ3L/KOpFtoBilsAK2iA2wuS5rTt1OCzIvtS2V7nVmedsUU+DGRcjBmOYA==}
       typescript: 5.3.0-dev.20230811
     dev: false
 
@@ -15959,7 +15964,7 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-1MVYLXHFB/WF4JZtEvhirzhfbLF4HFqDd9VvAZ7TOs3muCdf44ctkDBt+KtfMEW01R1taKx36o9SLTOByixr3w==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-CAYPOg4TP85wI9Ggg7ZMSTmksoMRuFO3jguT5R1sHdhWyQLAD2OFkce3rBADTvdlLn1brvPAw1X6h9y6O9IWGA==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:

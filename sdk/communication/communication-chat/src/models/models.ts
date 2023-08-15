@@ -24,6 +24,8 @@ export interface ChatThreadProperties {
   readonly createdBy?: CommunicationIdentifierKind;
   /** The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   deletedOn?: Date;
+  /** metadata */
+  metadata?: Record<string, string>;
 }
 
 /** Chat message. */
@@ -100,6 +102,8 @@ export interface ChatParticipant {
   displayName?: string;
   /** Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   shareHistoryTime?: Date;
+  /** metadata */
+  metadata?: Record<string, string>;
 }
 
 /** Result of the create chat thread operation. */
