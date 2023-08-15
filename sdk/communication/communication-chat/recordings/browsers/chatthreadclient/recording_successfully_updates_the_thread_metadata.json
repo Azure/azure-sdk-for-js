@@ -9,7 +9,7 @@
         "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "21",
+        "Content-Length": "39",
         "Content-Type": "application/merge-patch\u002Bjson",
         "Origin": "http://localhost:9876",
         "Referer": "http://localhost:9876/",
@@ -20,11 +20,13 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "2a396665-d509-480a-8e7d-2574e4999740",
+        "x-ms-client-request-id": "9060155c-94de-458b-a931-b1f2f3ba2204",
         "x-ms-useragent": "azsdk-js-communication-chat/1.3.2-beta.4 core-rest-pipeline/1.12.1 OS"
       },
       "RequestBody": {
-        "topic": "new topic"
+        "metadata": {
+          "threadType": "secondary"
+        }
       },
       "StatusCode": 204,
       "ResponseHeaders": {
@@ -33,11 +35,11 @@
         "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview, 2023-07-01-preview",
         "Connection": "keep-alive",
         "Date": "Tue, 15 Aug 2023 17:59:45 GMT",
-        "MS-CV": "hyuHekNjuEibXNugwQxhxQ.0",
+        "MS-CV": "zoGm\u002BAUCqESjfQAig2qE7g.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "x-azure-ref": "20230815T175945Z-s2ky2mn5615v97n0nf5uk2n4dn00000007hg000000006mtx",
+        "x-azure-ref": "20230815T175945Z-s2ky2mn5615v97n0nf5uk2n4dn00000007hg000000006mx4",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "134ms"
+        "X-Processing-Time": "197ms"
       },
       "ResponseBody": null
     },
@@ -59,7 +61,7 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "92c0907f-9c6f-42b0-976c-45436f844eac",
+        "x-ms-client-request-id": "66a90ead-49da-4aa9-9d94-19a467f951be",
         "x-ms-useragent": "azsdk-js-communication-chat/1.3.2-beta.4 core-rest-pipeline/1.12.1 OS"
       },
       "RequestBody": null,
@@ -70,14 +72,14 @@
         "Access-Control-Expose-Headers": "Location",
         "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview, 2023-07-01-preview",
         "Connection": "keep-alive",
-        "Content-Length": "421",
+        "Content-Length": "423",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 15 Aug 2023 17:59:45 GMT",
-        "MS-CV": "X0gulqCJ6UaPPams0x74FA.0",
+        "Date": "Tue, 15 Aug 2023 17:59:46 GMT",
+        "MS-CV": "o3XQLjjjB0K3/56e0hnXlA.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "x-azure-ref": "20230815T175945Z-s2ky2mn5615v97n0nf5uk2n4dn00000007hg000000006mvv",
+        "x-azure-ref": "20230815T175945Z-s2ky2mn5615v97n0nf5uk2n4dn00000007hg000000006mz9",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "74ms"
+        "X-Processing-Time": "106ms"
       },
       "ResponseBody": {
         "id": "19:5dcBA718UEj1zANIca4oyucZE_nkBRkfn0oCE2uqTtw1@thread.v2",
@@ -90,7 +92,7 @@
           }
         },
         "metadata": {
-          "threadType": "primary",
+          "threadType": "secondary",
           "secondaryThread": "test-id"
         }
       }

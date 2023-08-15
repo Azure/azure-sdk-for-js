@@ -72,6 +72,12 @@ export const CommunicationIdentifierModel: coreClient.CompositeMapper = {
     name: "Composite",
     className: "CommunicationIdentifierModel",
     modelProperties: {
+      kind: {
+        serializedName: "kind",
+        type: {
+          name: "String"
+        }
+      },
       rawId: {
         serializedName: "rawId",
         type: {
@@ -451,6 +457,18 @@ export const ChatMessageContent: coreClient.CompositeMapper = {
           }
         }
       },
+      attachments: {
+        serializedName: "attachments",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ChatAttachment"
+            }
+          }
+        }
+      },
       initiatorCommunicationIdentifier: {
         serializedName: "initiatorCommunicationIdentifier",
         type: {
@@ -484,6 +502,62 @@ export const ChatParticipant: coreClient.CompositeMapper = {
         serializedName: "shareHistoryTime",
         type: {
           name: "DateTime"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const ChatAttachment: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ChatAttachment",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      attachmentType: {
+        serializedName: "attachmentType",
+        required: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["teamsInlineImage", "teamsImage", "file"]
+        }
+      },
+      contentType: {
+        serializedName: "contentType",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      url: {
+        serializedName: "url",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      previewUrl: {
+        serializedName: "previewUrl",
+        type: {
+          name: "String"
         }
       }
     }
@@ -608,6 +682,13 @@ export const CreateChatThreadRequest: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
       }
     }
   }
@@ -679,6 +760,13 @@ export const ChatThreadProperties: coreClient.CompositeMapper = {
         serializedName: "deletedOn",
         type: {
           name: "DateTime"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       }
     }
@@ -759,6 +847,13 @@ export const UpdateChatThreadRequest: coreClient.CompositeMapper = {
         serializedName: "topic",
         type: {
           name: "String"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       }
     }

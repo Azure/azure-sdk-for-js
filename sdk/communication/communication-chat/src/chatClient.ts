@@ -85,6 +85,11 @@ export class ChatClient {
     const authPolicy = createCommunicationTokenCredentialPolicy(this.tokenCredential);
     this.client.pipeline.addPolicy(authPolicy);
 
+    (options as any).signalingClientOptions = {
+      ...(options as any).signalingClientOptions,
+      resourceEndpoint: this.endpoint,
+    };
+
     this.signalingClient = getSignalingClient(
       credential,
       logger,
@@ -124,6 +129,7 @@ export class ChatClient {
             participants: options.participants?.map((participant) =>
               mapToChatParticipantRestModel(participant)
             ),
+            metadata: options.metadata,
           },
           updatedRestModelOptions
         );

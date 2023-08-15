@@ -1,14 +1,30 @@
 # Release History
-
-## 1.3.2 (Unreleased)
+## 1.3.2-beta.4 (Unreleased)
 
 ### Features Added
 
-### Breaking Changes
+- Support `metadata` for chat thread and chat participant.
+- Updated @azure/communication-signaling to 1.0.0-beta.19 with thread and participant metadata support.
 
-### Bugs Fixed
+## 1.3.2-beta.3 (2023-07-18)
 
-### Other Changes
+### Features Added
+
+- Updated to `@azure/communication-common` 3.0.0-beta.1
+
+## 1.3.2-beta.2 (2023-05-25)
+
+### Features Added
+
+- Added file attachment support
+- Updated @azure/communication-signaling to 1.0.0-beta.18 with file attachment support.
+
+## 1.3.2-beta.1 (2023-04-10)
+
+### Features Added
+
+- Added inline image support
+- Updated @azure/communication-signaling to 1.0.0-beta.17 with inline image support.
 
 ## 1.3.1 (2023-02-28)
 
