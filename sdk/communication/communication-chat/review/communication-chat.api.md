@@ -143,6 +143,7 @@ export type ChatMessageType = "text" | "html" | "topicUpdated" | "participantAdd
 export interface ChatParticipant {
     displayName?: string;
     id: CommunicationIdentifier;
+    metadata?: Record<string, string>;
     shareHistoryTime?: Date;
 }
 
@@ -162,6 +163,7 @@ export class ChatThreadClient {
     sendTypingNotification(options?: SendTypingNotificationOptions): Promise<boolean>;
     readonly threadId: string;
     updateMessage(messageId: string, options?: UpdateMessageOptions): Promise<void>;
+    updateProperties(options?: UpdateChatThreadPropertiesOptions): Promise<void>;
     updateTopic(topic: string, options?: UpdateTopicOptions): Promise<void>;
 }
 
@@ -187,6 +189,7 @@ export interface ChatThreadProperties {
     createdOn: Date;
     deletedOn?: Date;
     id: string;
+    metadata?: Record<string, string>;
     topic: string;
 }
 
@@ -195,6 +198,7 @@ export { ChatThreadPropertiesUpdatedEvent }
 // @public
 export interface CreateChatThreadOptions extends OperationOptions {
     idempotencyToken?: string;
+    metadata?: Record<string, string>;
     participants?: ChatParticipant[];
 }
 
@@ -302,6 +306,12 @@ export interface SendTypingNotificationOptions extends OperationOptions {
 }
 
 export { TypingIndicatorReceivedEvent }
+
+// @public
+export interface UpdateChatThreadPropertiesOptions extends OperationOptions {
+    metadata?: Record<string, string>;
+    topic?: string;
+}
 
 // @public
 export interface UpdateMessageOptions extends OperationOptions {

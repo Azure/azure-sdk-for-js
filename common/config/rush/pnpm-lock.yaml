@@ -899,8 +899,8 @@ packages:
       - supports-color
     dev: false
 
-  /@azure/communication-signaling/1.0.0-beta.18:
-    resolution: {integrity: sha512-hxW6w8pgVNpRZkAx0LMQYgpbV3Qk6UdCQtXNqJjEkOjxc1OR6F1/6zTJJfyldild6+aiNhpOkXUNJii9Ya75BQ==}
+  /@azure/communication-signaling/1.0.0-beta.19:
+    resolution: {integrity: sha512-ll2Hw1RdDNWDYiXZrQTWHWu9duUO949ter1ejFCzxQZ9uPPexFfDv28td7YbznwaPNE4iopp2XYQetR8AJYc1g==}
     engines: {node: '>=8.0.0'}
     dependencies:
       '@azure/core-http': 2.3.2
@@ -4825,7 +4825,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230808
+      typescript: 5.3.0-dev.20230811
     dev: false
 
   /duplexer3/0.1.5:
@@ -10123,37 +10123,6 @@ packages:
       yn: 3.1.1
     dev: false
 
-  /ts-node/10.9.1_rj4luzizacc4lverevdf7zm2ti:
-    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
-    hasBin: true
-    peerDependencies:
-      '@swc/core': '>=1.2.50'
-      '@swc/wasm': '>=1.2.50'
-      '@types/node': '*'
-      typescript: '>=2.7'
-    peerDependenciesMeta:
-      '@swc/core':
-        optional: true
-      '@swc/wasm':
-        optional: true
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      '@tsconfig/node10': 1.0.9
-      '@tsconfig/node12': 1.0.11
-      '@tsconfig/node14': 1.0.3
-      '@tsconfig/node16': 1.0.4
-      '@types/node': 14.18.54
-      acorn: 8.10.0
-      acorn-walk: 8.2.0
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.2
-      make-error: 1.3.6
-      typescript: 5.1.6
-      v8-compile-cache-lib: 3.0.1
-      yn: 3.1.1
-    dev: false
-
   /ts-node/10.9.1_zri3oveblqmxymi2767wqu2n34:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
@@ -10337,8 +10306,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.3.0-dev.20230808:
-    resolution: {integrity: sha512-skwlatDWwjIHttX+Yg1vH1XRyFJWy8m1LxrP+3VEpAso05fW0y61dQbzqDzdtTjPKUDLf5um7IMwWBS6gVx08A==}
+  /typescript/5.3.0-dev.20230811:
+    resolution: {integrity: sha512-C4bwx7ZpBwX7bKxrrNl+M1j8yNGmwQ5M58X0mT4VYI1+FHqRvb/uJ4F1uJsVJ+X7iy22iXSICR/Vxnpc1gNk7w==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -17656,12 +17625,12 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-1MVYLXHFB/WF4JZtEvhirzhfbLF4HFqDd9VvAZ7TOs3muCdf44ctkDBt+KtfMEW01R1taKx36o9SLTOByixr3w==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-CAYPOg4TP85wI9Ggg7ZMSTmksoMRuFO3jguT5R1sHdhWyQLAD2OFkce3rBADTvdlLn1brvPAw1X6h9y6O9IWGA==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
       '@azure/communication-common': 2.2.1
-      '@azure/communication-signaling': 1.0.0-beta.18
+      '@azure/communication-signaling': 1.0.0-beta.19
       '@microsoft/api-extractor': 7.36.3_@types+node@14.18.54
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
@@ -18917,7 +18886,7 @@ packages:
       semver: 7.5.4
       strip-json-comments: 5.0.1
       ts-morph: 19.0.0
-      ts-node: 10.9.1_rj4luzizacc4lverevdf7zm2ti
+      ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.1
       typescript: 5.0.4
       yaml: 2.3.1
@@ -21014,7 +20983,7 @@ packages:
     dev: false
 
   file:projects/purview-sharing.tgz:
-    resolution: {integrity: sha512-5iXdXCyV6bFP2iDewaPurp6CszfkLHdAWQWAj+E6RgCFryCYp8Ibkd7HVb3pH5jx6Y8ts7gyrFAXnCSp52hEkg==, tarball: file:projects/purview-sharing.tgz}
+    resolution: {integrity: sha512-hcsV+bXNkbpOrdxb5xOohgfJlaKutcHcBbLYoJqV3bzZ5OW4bBUgcFUbYcE2194DoaCu5DRhkLEKzTFSLsXxTg==, tarball: file:projects/purview-sharing.tgz}
     name: '@rush-temp/purview-sharing'
     version: 0.0.0
     dependencies:
@@ -21051,7 +21020,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false

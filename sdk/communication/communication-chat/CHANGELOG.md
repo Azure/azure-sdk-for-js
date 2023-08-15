@@ -1,4 +1,10 @@
 # Release History
+## 1.3.2-beta.4 (Unreleased)
+
+### Features Added
+
+- Support `metadata` for chat thread and chat participant.
+- Updated @azure/communication-signaling to 1.0.0-beta.19 with thread and participant metadata support.
 
 ## 1.3.2-beta.3 (2023-07-18)
 
