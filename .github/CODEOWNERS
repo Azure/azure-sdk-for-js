@@ -882,10 +882,11 @@
 /sdk/dnsresolver/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Monitor
-/sdk/monitor/monitor-ingestion/ @srnagar @lmolkova @jairmyree @KarishmaGhiya @nisha-bhatia @pvaneck @gracewilcox @sarangan12 @scottaddie
+/sdk/monitor/monitor-ingestion/ @srnagar @lmolkova @Azure/azure-sdk-write-monitor-data-plane
 /sdk/monitor/monitor-opentelemetry @hectorhdzg @JacksonWeber
 /sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @JacksonWeber
-/sdk/monitor/monitor-query/ @srnagar @lmolkova @jairmyree @KarishmaGhiya @nisha-bhatia @pvaneck @gracewilcox @sarangan12 @scottaddie
+/sdk/monitor/monitor-query/ @srnagar @lmolkova @Azure/azure-sdk-write-monitor-data-plane
+/sdk/monitor/perf-tests/ @srnagar @Azure/azure-sdk-write-monitor-data-plane
 
 # PRLabel: %Mgmt
 /sdk/quantum/arm-quantum/ @qiaozha @MaryGao
