@@ -119,7 +119,7 @@
 /sdk/eventhub/ @jeremymeng @deyaaeldeen @HarshaNalluru
 
 # PRLabel: %Azure.Identity
-/sdk/identity/ @KarishmaGhiya @witemple-msft @schaabs
+/sdk/identity/ @KarishmaGhiya @witemple-msft @schaabs @Azure/azure-sdk-write-identity
 
 # PRLabel: %Iot
 /sdk/iot/ @xirzec
