@@ -40,6 +40,7 @@ import {
   GetCompletionsDefaultResponse,
   GetEmbeddings200Response,
   GetEmbeddingsDefaultResponse,
+  PromptFilterResultOutput,
   isUnexpected,
 } from "../rest/index.js";
 import { getOaiSSEs } from "./oaiSse.js";
@@ -121,7 +122,7 @@ export async function _getCompletionsDeserialize(
   result: GetCompletions200Response | GetCompletionsDefaultResponse
 ): Promise<Completions> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw result.body.error;
   }
 
   return {
@@ -254,7 +255,7 @@ export async function _getChatCompletionsDeserialize(
   result: GetChatCompletions200Response | GetChatCompletionsDefaultResponse
 ): Promise<ChatCompletions> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw result.body.error;
   }
 
   return {
@@ -267,7 +268,7 @@ export async function _getChatCompletionsDeserialize(
             role: p.message?.["role"],
             content: p.message?.["content"],
             name: p.message?.["name"],
-            function_call: !p.message?.function_call
+            functionCall: !p.message?.function_call
               ? undefined
               : {
                   name: p.message?.function_call?.["name"],
@@ -282,7 +283,7 @@ export async function _getChatCompletionsDeserialize(
             role: p.delta?.["role"],
             content: p.delta?.["content"],
             name: p.delta?.["name"],
-            function_call: !p.delta?.function_call
+            functionCall: !p.delta?.function_call
               ? undefined
               : {
                   name: p.delta?.function_call?.["name"],
@@ -514,10 +515,69 @@ export function listCompletions(
 function getCompletionsResult(body: Record<string, any>): Omit<Completions, "usage"> {
   return {
     id: body["id"],
-    created: body["created"],
+    created: new Date(body["created"]),
+    promptFilterResults: (body["prompt_annotations"] ?? []).map((p: PromptFilterResultOutput) => ({
+      promptIndex: p["prompt_index"],
+      contentFilterResults: !p.content_filter_results
+        ? undefined
+        : {
+            sexual: !p.content_filter_results?.sexual
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.sexual?.["severity"],
+                  filtered: p.content_filter_results?.sexual?.["filtered"],
+                },
+            violence: !p.content_filter_results?.violence
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.violence?.["severity"],
+                  filtered: p.content_filter_results?.violence?.["filtered"],
+                },
+            hate: !p.content_filter_results?.hate
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.hate?.["severity"],
+                  filtered: p.content_filter_results?.hate?.["filtered"],
+                },
+            selfHarm: !p.content_filter_results?.self_harm
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.self_harm?.["severity"],
+                  filtered: p.content_filter_results?.self_harm?.["filtered"],
+                },
+          },
+    })),
     choices: (body["choices"] ?? []).map((p: ChoiceOutput) => ({
       text: p["text"],
       index: p["index"],
+      contentFilterResults: !p.content_filter_results
+        ? undefined
+        : {
+            sexual: !p.content_filter_results?.sexual
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.sexual?.["severity"],
+                  filtered: p.content_filter_results?.sexual?.["filtered"],
+                },
+            violence: !p.content_filter_results?.violence
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.violence?.["severity"],
+                  filtered: p.content_filter_results?.violence?.["filtered"],
+                },
+            hate: !p.content_filter_results?.hate
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.hate?.["severity"],
+                  filtered: p.content_filter_results?.hate?.["filtered"],
+                },
+            selfHarm: !p.content_filter_results?.self_harm
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.self_harm?.["severity"],
+                  filtered: p.content_filter_results?.self_harm?.["filtered"],
+                },
+          },
       logprobs:
         p.logprobs === null
           ? null
@@ -535,14 +595,95 @@ function getCompletionsResult(body: Record<string, any>): Omit<Completions, "usa
 function getChatCompletionsResult(body: Record<string, any>): Omit<ChatCompletions, "usage"> {
   return {
     id: body["id"],
-    created: body["created"],
+    created: new Date(body["created"]),
     choices: (body["choices"] ?? []).map((p: ChatChoiceOutput) => ({
       message: !p.message
         ? undefined
-        : { role: p.message?.["role"], content: p.message?.["content"] },
+        : {
+            role: p.message?.["role"],
+            content: p.message?.["content"],
+            name: p.message?.["name"],
+            functionCall: !p.message?.function_call
+              ? undefined
+              : {
+                  name: p.message?.function_call?.["name"],
+                  arguments: p.message?.function_call?.["arguments"],
+                },
+          },
       index: p["index"],
       finishReason: p["finish_reason"],
-      delta: !p.delta ? undefined : { role: p.delta?.["role"], content: p.delta?.["content"] },
+      delta: !p.delta
+        ? undefined
+        : {
+            role: p.delta?.["role"],
+            content: p.delta?.["content"],
+            name: p.delta?.["name"],
+            functionCall: !p.delta?.function_call
+              ? undefined
+              : {
+                  name: p.delta?.function_call?.["name"],
+                  arguments: p.delta?.function_call?.["arguments"],
+                },
+          },
+      contentFilterResults: !p.content_filter_results
+        ? undefined
+        : {
+            sexual: !p.content_filter_results?.sexual
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.sexual?.["severity"],
+                  filtered: p.content_filter_results?.sexual?.["filtered"],
+                },
+            violence: !p.content_filter_results?.violence
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.violence?.["severity"],
+                  filtered: p.content_filter_results?.violence?.["filtered"],
+                },
+            hate: !p.content_filter_results?.hate
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.hate?.["severity"],
+                  filtered: p.content_filter_results?.hate?.["filtered"],
+                },
+            selfHarm: !p.content_filter_results?.self_harm
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.self_harm?.["severity"],
+                  filtered: p.content_filter_results?.self_harm?.["filtered"],
+                },
+          },
+    })),
+    promptFilterResults: (body["prompt_annotations"] ?? []).map((p: PromptFilterResultOutput) => ({
+      promptIndex: p["prompt_index"],
+      contentFilterResults: !p.content_filter_results
+        ? undefined
+        : {
+            sexual: !p.content_filter_results?.sexual
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.sexual?.["severity"],
+                  filtered: p.content_filter_results?.sexual?.["filtered"],
+                },
+            violence: !p.content_filter_results?.violence
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.violence?.["severity"],
+                  filtered: p.content_filter_results?.violence?.["filtered"],
+                },
+            hate: !p.content_filter_results?.hate
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.hate?.["severity"],
+                  filtered: p.content_filter_results?.hate?.["filtered"],
+                },
+            selfHarm: !p.content_filter_results?.self_harm
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.self_harm?.["severity"],
+                  filtered: p.content_filter_results?.self_harm?.["filtered"],
+                },
+          },
     })),
   };
 }

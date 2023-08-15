@@ -15,7 +15,7 @@ import { AzureKeyCredential } from "@azure/core-auth";
 const envSetupForPlayback: { [k: string]: string } = {
   OPENAI_API_KEY: "openai_api_key",
   AZURE_API_KEY: "azure_api_key",
-  ENDPOINT: "https://endpoint",
+  ENDPOINT: "https://endpoint/",
 };
 
 const recorderStartOptions: RecorderStartOptions = {
