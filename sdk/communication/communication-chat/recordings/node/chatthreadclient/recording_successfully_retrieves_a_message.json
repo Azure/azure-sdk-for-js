@@ -1,15 +1,15 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3Ae9ARCRYju2ETKP7JbltjEtL0Ng2mwzhplRmmbVii3D81%40thread.v2/messages/1691783412729?api-version=2023-07-01-preview",
+      "RequestUri": "https://endpoint/chat/threads/19%3AJSkjP3aPpPaSNVo4v7ZxL0IOcVDpJATab3FPCTV7QXM1%40thread.v2/messages/1692122376975?api-version=2023-07-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-chat/1.3.2-beta.3 core-rest-pipeline/1.11.1 Node/v16.14.2 OS/(arm64-Darwin-22.6.0)",
-        "x-ms-client-request-id": "27be6d26-855c-42c2-9dcc-413978932b1d"
+        "User-Agent": "azsdk-js-communication-chat/1.3.2-beta.4 core-rest-pipeline/1.12.1 Node/v16.14.2 OS/(arm64-Darwin-22.6.0)",
+        "x-ms-client-request-id": "1f33b177-8c86-47c7-afc5-61710f196f71"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -18,28 +18,28 @@
         "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview, 2023-07-01-preview",
         "Content-Length": "449",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 11 Aug 2023 19:50:13 GMT",
-        "MS-CV": "TV2Bu2iAIU6cw8kpxf/FyA.0",
+        "Date": "Tue, 15 Aug 2023 17:59:37 GMT",
+        "MS-CV": "P1kDZ4Pt0kiCWi9iz8Ew/A.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "09pDWZAAAAACXnJtgVo0zQbxHbh4P6eLfV1NURURHRTAxMTIAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0Cb3bZAAAAABBXAsiI/IJQLTRG0aGXyqXV1NURURHRTAxMTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "160ms"
+        "X-Processing-Time": "127ms"
       },
       "ResponseBody": {
-        "id": "1691783412729",
+        "id": "1692122376975",
         "type": "text",
         "sequenceId": "4",
-        "version": "1691783412729",
+        "version": "1692122376975",
         "content": {
           "message": "content",
           "attachments": []
         },
         "senderDisplayName": "",
-        "createdOn": "2023-08-11T19:50:12Z",
+        "createdOn": "2023-08-15T17:59:36Z",
         "senderCommunicationIdentifier": {
-          "rawId": "8:acs:357e39d2-a29a-4bf6-88cc-fda0afc2c0ed_0000001a-8607-d79a-78fe-343a0d00d0e2",
+          "rawId": "8:acs:357e39d2-a29a-4bf6-88cc-fda0afc2c0ed_0000001a-9a3c-0928-35f3-343a0d003e11",
           "communicationUser": {
-            "id": "8:acs:357e39d2-a29a-4bf6-88cc-fda0afc2c0ed_0000001a-8607-d79a-78fe-343a0d00d0e2"
+            "id": "8:acs:357e39d2-a29a-4bf6-88cc-fda0afc2c0ed_0000001a-9a3c-0928-35f3-343a0d003e11"
           }
         },
         "metadata": {
