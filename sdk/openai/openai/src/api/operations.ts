@@ -130,7 +130,7 @@ export async function _getCompletionsDeserialize(
     created: new Date(result.body["created"]),
     promptFilterResults: (result.body["prompt_annotations"] ?? []).map((p) => ({
       promptIndex: p["prompt_index"],
-      content_filter_results: !p.content_filter_results
+      contentFilterResults: !p.content_filter_results
         ? undefined
         : {
             sexual: !p.content_filter_results?.sexual
@@ -151,7 +151,7 @@ export async function _getCompletionsDeserialize(
                   severity: p.content_filter_results?.hate?.["severity"],
                   filtered: p.content_filter_results?.hate?.["filtered"],
                 },
-            self_harm: !p.content_filter_results?.self_harm
+            selfHarm: !p.content_filter_results?.self_harm
               ? undefined
               : {
                   severity: p.content_filter_results?.self_harm?.["severity"],
@@ -162,7 +162,7 @@ export async function _getCompletionsDeserialize(
     choices: (result.body["choices"] ?? []).map((p) => ({
       text: p["text"],
       index: p["index"],
-      content_filter_results: !p.content_filter_results
+      contentFilterResults: !p.content_filter_results
         ? undefined
         : {
             sexual: !p.content_filter_results?.sexual
@@ -183,7 +183,7 @@ export async function _getCompletionsDeserialize(
                   severity: p.content_filter_results?.hate?.["severity"],
                   filtered: p.content_filter_results?.hate?.["filtered"],
                 },
-            self_harm: !p.content_filter_results?.self_harm
+            selfHarm: !p.content_filter_results?.self_harm
               ? undefined
               : {
                   severity: p.content_filter_results?.self_harm?.["severity"],
@@ -290,7 +290,7 @@ export async function _getChatCompletionsDeserialize(
                   arguments: p.delta?.function_call?.["arguments"],
                 },
           },
-      content_filter_results: !p.content_filter_results
+      contentFilterResults: !p.content_filter_results
         ? undefined
         : {
             sexual: !p.content_filter_results?.sexual
@@ -311,7 +311,7 @@ export async function _getChatCompletionsDeserialize(
                   severity: p.content_filter_results?.hate?.["severity"],
                   filtered: p.content_filter_results?.hate?.["filtered"],
                 },
-            self_harm: !p.content_filter_results?.self_harm
+            selfHarm: !p.content_filter_results?.self_harm
               ? undefined
               : {
                   severity: p.content_filter_results?.self_harm?.["severity"],
@@ -321,7 +321,7 @@ export async function _getChatCompletionsDeserialize(
     })),
     promptFilterResults: (result.body["prompt_annotations"] ?? []).map((p) => ({
       promptIndex: p["prompt_index"],
-      content_filter_results: !p.content_filter_results
+      contentFilterResults: !p.content_filter_results
         ? undefined
         : {
             sexual: !p.content_filter_results?.sexual
@@ -342,7 +342,7 @@ export async function _getChatCompletionsDeserialize(
                   severity: p.content_filter_results?.hate?.["severity"],
                   filtered: p.content_filter_results?.hate?.["filtered"],
                 },
-            self_harm: !p.content_filter_results?.self_harm
+            selfHarm: !p.content_filter_results?.self_harm
               ? undefined
               : {
                   severity: p.content_filter_results?.self_harm?.["severity"],
