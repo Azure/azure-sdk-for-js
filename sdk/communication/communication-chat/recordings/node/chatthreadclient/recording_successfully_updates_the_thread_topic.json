@@ -10,7 +10,7 @@
         "Connection": "keep-alive",
         "Content-Length": "21",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-chat/1.3.2-beta.4 core-rest-pipeline/1.12.1 Node/v16.14.2 OS/(arm64-Darwin-22.6.0)",
+        "User-Agent": "azsdk-js-communication-chat/1.4.0-beta.1 core-rest-pipeline/1.12.1 Node/v16.14.2 OS/(arm64-Darwin-22.6.0)",
         "x-ms-client-request-id": "cbabeb54-d1cd-4bae-9f6a-cc516bbff316"
       },
       "RequestBody": {
@@ -37,7 +37,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-chat/1.3.2-beta.4 core-rest-pipeline/1.12.1 Node/v16.14.2 OS/(arm64-Darwin-22.6.0)",
+        "User-Agent": "azsdk-js-communication-chat/1.4.0-beta.1 core-rest-pipeline/1.12.1 Node/v16.14.2 OS/(arm64-Darwin-22.6.0)",
         "x-ms-client-request-id": "3e6bde5c-844d-4b26-9e72-b5a1dfae7ad5"
       },
       "RequestBody": null,
