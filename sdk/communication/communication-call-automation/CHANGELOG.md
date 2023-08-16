@@ -1,8 +1,9 @@
 # Release History
 
-## 1.1.0-beta.1 (Unreleased)
+## 1.1.0-beta.1 (2023-08-17)
 
 ### Features Added
+
 - Play and recognize supports TTS and SSML source prompts.
 - Recognize supports choices and freeform speech.
 - Start/Stop continuous DTMF recognition by subscribing/unsubscribing to tones.
@@ -10,13 +11,15 @@
 - Mute participant in the call.
 
 ### Breaking Changes
+
 - Maximum number of DTMF tones to be collected for startRecognizing is now need to set in DTMF sepecific recognizeOptions.
 
-
 ## 1.0.0 (2023-06-14)
+
 Call Automation enables developers to build call workflows. Personalise customer interactions by listening to call events and take actions based on your business logic.
 
 ### Features Added
+
 - Create outbound calls to an Azure Communication Service user or a phone number.
 - Answer/Redirect/Reject incoming call from an Azure Communication Service user or a phone number.
 - Transfer the call to another participant.
