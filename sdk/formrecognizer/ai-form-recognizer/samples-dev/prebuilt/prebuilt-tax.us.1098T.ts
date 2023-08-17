@@ -7,14 +7,14 @@
  */
 
 // Model:       prebuilt-tax.us.1098T
-// Description: Extract key information from United States Internal Revenue Service Form 1098-T (2021-2022).
-// API Version: 2023-02-28-preview
-// Created:     Thu Apr 06 2023
+// Description: Extract key information from United States Internal Revenue Service Form 1098-T (2021-current).
+// API Version: 2023-07-31
+// Created:     Wed Aug 02 2023
 
 import * as fr from "@azure/ai-form-recognizer";
 
 /**
- * Extract key information from United States Internal Revenue Service Form 1098-T (2021-2022).
+ * Extract key information from United States Internal Revenue Service Form 1098-T (2021-current).
  */
 export const PrebuiltTaxUs1098TModel = fr.createModelFromSchema(
   modelInfo()
@@ -177,9 +177,9 @@ function modelInfo() {
   return {
     modelId: "prebuilt-tax.us.1098T",
     description:
-      "Extract key information from United States Internal Revenue Service Form 1098-T (2021-2022).",
-    createdOn: "2023-02-28T00:00:00.000Z",
-    apiVersion: "2023-02-28-preview",
+      "Extract key information from United States Internal Revenue Service Form 1098-T (2021-current).",
+    createdOn: "2023-07-31T00:00:00.000Z",
+    apiVersion: "2023-07-31",
     docTypes: {
       "tax.us.1098T": {
         buildMode: "template",

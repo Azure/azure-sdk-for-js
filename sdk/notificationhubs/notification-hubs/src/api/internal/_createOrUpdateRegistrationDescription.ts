@@ -8,7 +8,7 @@ import {
 } from "../../serializers/registrationSerializer.js";
 import { HttpMethods } from "@azure/core-rest-pipeline";
 import { NotificationHubsClientContext } from "../index.js";
-import { OperationOptions } from "@azure/core-client";
+import { OperationOptions } from "@azure-rest/core-client";
 import { RegistrationDescription } from "../../models/registration.js";
 import { isDefined } from "../../utils/utils.js";
 

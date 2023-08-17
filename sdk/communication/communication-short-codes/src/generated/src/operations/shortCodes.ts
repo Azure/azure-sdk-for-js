@@ -130,12 +130,12 @@ export class ShortCodesImpl implements ShortCodes {
     options?: ShortCodesGetCostsOptionalParams
   ): AsyncIterableIterator<ShortCodeCost[]> {
     let result = await this._getCosts(options);
-    yield result.shortCodeCosts || [];
+    yield result.costs || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._getCostsNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.shortCodeCosts || [];
+      yield result.costs || [];
     }
   }
 

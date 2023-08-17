@@ -348,7 +348,7 @@ directive:
       ];
 ```
 
-### Update service version from "2021-06-08" to "2021-12-02"
+### Update service version from "2021-06-08" to "2023-01-03"
 
 ```yaml
 directive:
