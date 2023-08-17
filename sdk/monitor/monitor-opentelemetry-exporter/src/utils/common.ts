@@ -193,7 +193,7 @@ export function createResourceMetricEnvelope(
     if (Object.keys(resourceAttributes).length > 0) {
       let baseData: MetricsData = {
         version: 2,
-        metrics: [{ name: "_APPRESOURCEPREVIEW_", value: 1 }],
+        metrics: [{ name: "_OTELRESOURCE_", value: 1 }],
         properties: resourceAttributes,
       };
       let envelope: Envelope = {

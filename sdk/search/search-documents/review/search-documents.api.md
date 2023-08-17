@@ -2510,7 +2510,7 @@ export interface SearchRequest<TModel extends object = never> {
     skip?: number;
     speller?: QuerySpellerType;
     top?: number;
-    vector?: Vector<TModel>;
+    vectors?: Vector<TModel>[];
 }
 
 // @public
@@ -2542,7 +2542,7 @@ export interface SearchRequestOptions<TModel extends object, TFields extends Sel
     skip?: number;
     speller?: Speller;
     top?: number;
-    vector?: Vector<TModel>;
+    vectors?: Vector<TModel>[];
 }
 
 // @public

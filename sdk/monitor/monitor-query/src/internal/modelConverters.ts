@@ -55,6 +55,8 @@ import {
   LogsQueryResultStatus,
   LogsQuerySuccessfulResult,
 } from "../models/publicLogsModels";
+import { MetricsBatchResponse as GeneratedMetricsBatchResponse } from "../generated/metricBatch/src";
+import { MetricResultsResponseValuesItem } from "../models/publicBatchModels";
 
 /**
  * @internal
@@ -287,6 +289,30 @@ export function convertRequestOptionsForMetricsDefinitions(
   }
 
   return obj;
+}
+
+export function convertResponseForMetricBatch(
+  generatedResponse?: GeneratedMetricsBatchResponse
+): Array<MetricResultsResponseValuesItem> {
+  if (!generatedResponse) return [];
+
+  const batch: Array<MetricResultsResponseValuesItem> | undefined = generatedResponse?.values?.map(
+    (genDef) => {
+      const response: MetricResultsResponseValuesItem = {
+        startTime: genDef.starttime,
+        endTime: genDef.endtime,
+        resourceRegion: genDef.resourceregion,
+        resourceId: genDef.resourceid,
+        ...genDef,
+      };
+
+      return response;
+    }
+  );
+
+  if (!batch) return [];
+
+  return batch;
 }
 
 /**

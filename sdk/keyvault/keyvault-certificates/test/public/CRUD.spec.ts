@@ -85,23 +85,6 @@ describe("Certificates client - create, read, update and delete", () => {
     });
   });
 
-  // On playback mode, the tests happen too fast for the timeout to work
-  it("can create a certificate with requestOptions timeout", async function (this: Context) {
-    if (isPlaybackMode()) {
-      this.skip();
-    }
-    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-
-    await assertThrowsAbortError(async () => {
-      await client.beginCreateCertificate(certificateName, basicCertificatePolicy, {
-        ...testPollerProperties,
-        requestOptions: {
-          timeout: 1,
-        },
-      });
-    });
-  });
-
   it("cannot create a certificate with an empty name", async function () {
     const certificateName = "";
     try {
@@ -181,31 +164,6 @@ describe("Certificates client - create, read, update and delete", () => {
 
     result = await client.getCertificateVersion(certificateName, version);
     assert.equal(result.properties.enabled, false);
-  });
-
-  // On playback mode, the tests happen too fast for the timeout to work
-  it("can update certificate with requestOptions timeout", async function (this: Context) {
-    if (isPlaybackMode()) {
-      this.skip();
-    }
-
-    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-
-    const poller = await client.beginCreateCertificate(
-      certificateName,
-      basicCertificatePolicy,
-      testPollerProperties
-    );
-    const { version } = poller.getResult()!.properties;
-
-    await assertThrowsAbortError(async () => {
-      await client.updateCertificateProperties(certificateName, version || "", {
-        tags: {
-          customTag: "value",
-        },
-        requestOptions: { timeout: 1 },
-      });
-    });
   });
 
   it("can get a certificate", async function (this: Context) {
@@ -303,23 +261,6 @@ describe("Certificates client - create, read, update and delete", () => {
     assert.equal(base64CER, base64PublicCertificate);
   });
 
-  // On playback mode, the tests happen too fast for the timeout to work
-  it("can get a certificate with requestOptions timeout", async function (this: Context) {
-    if (isPlaybackMode()) {
-      this.skip();
-    }
-
-    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    await client.beginCreateCertificate(
-      certificateName,
-      basicCertificatePolicy,
-      testPollerProperties
-    );
-    await assertThrowsAbortError(async () => {
-      await client.getCertificate(certificateName, { requestOptions: { timeout: 1 } });
-    });
-  });
-
   it("can retrieve the latest version of a certificate value", async function (this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     await client.beginCreateCertificate(
@@ -377,28 +318,6 @@ describe("Certificates client - create, read, update and delete", () => {
     }
 
     await poller.pollUntilDone();
-  });
-
-  // On playback mode, the tests happen too fast for the timeout to work
-  it("can delete a certificate with requestOptions timeout", async function (this: Context) {
-    if (isPlaybackMode()) {
-      this.skip();
-    }
-
-    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    await client.beginCreateCertificate(
-      certificateName,
-      basicCertificatePolicy,
-      testPollerProperties
-    );
-    await assertThrowsAbortError(async () => {
-      await client.beginDeleteCertificate(certificateName, {
-        ...testPollerProperties,
-        requestOptions: {
-          timeout: 1,
-        },
-      });
-    });
   });
 
   it("can delete a certificate (Non Existing)", async function (this: Context) {

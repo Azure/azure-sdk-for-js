@@ -1,16 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ChatCompletions, Completions } from "../../generated/api/models.js";
-import { BeginAzureBatchImageGenerationOptions } from "../../generated/api/operations.js";
+import { ChatCompletions, ChatMessage, Completions } from "../../generated/api/models.js";
+import {
+  BeginAzureBatchImageGenerationOptions,
+  _getCompletionsSend,
+  _getChatCompletionsSend,
+  GetChatCompletionsOptions,
+  GetCompletionsOptions,
+} from "../../generated/api/operations.js";
 import { ChatChoiceOutput, ChoiceOutput } from "../../generated/rest/outputModels.js";
+import { getOaiSSEs } from "./oaiSse.js";
+import { OpenAIContext as Client } from "../../generated/rest/index.js";
 
-// export interface GetCompletionsOptions extends _GetCompletionsOptions {
-//   // @azsdk-remove
-//   prompt?: string;
-// }
-
-export function getCompletionsResult(body: Record<string, any>): Omit<Completions, "usage"> {
+function getCompletionsResult(body: Record<string, any>): Omit<Completions, "usage"> {
   return {
     id: body["id"],
     created: body["created"],
@@ -31,9 +34,7 @@ export function getCompletionsResult(body: Record<string, any>): Omit<Completion
   };
 }
 
-export function getChatCompletionsResult(
-  body: Record<string, any>
-): Omit<ChatCompletions, "usage"> {
+function getChatCompletionsResult(body: Record<string, any>): Omit<ChatCompletions, "usage"> {
   return {
     id: body["id"],
     created: body["created"],
@@ -50,3 +51,29 @@ export function getChatCompletionsResult(
 
 /** Convenience alias for BeginAzureBatchImageGenerationOptions */
 export type ImageGenerationOptions = BeginAzureBatchImageGenerationOptions;
+
+export function listChatCompletions(
+  context: Client,
+  messages: ChatMessage[],
+  deploymentName: string,
+  options: GetChatCompletionsOptions = { requestOptions: {} }
+): AsyncIterable<Omit<ChatCompletions, "usage">> {
+  const response = _getChatCompletionsSend(context, messages, deploymentName, {
+    ...options,
+    stream: true,
+  });
+  return getOaiSSEs(response, getChatCompletionsResult);
+}
+
+export function listCompletions(
+  context: Client,
+  prompt: string[],
+  deploymentName: string,
+  options: GetCompletionsOptions = { requestOptions: {} }
+): AsyncIterable<Omit<Completions, "usage">> {
+  const response = _getCompletionsSend(context, prompt, deploymentName, {
+    ...options,
+    stream: true,
+  });
+  return getOaiSSEs(response, getCompletionsResult);
+}

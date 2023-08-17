@@ -2,112 +2,68 @@
 // Licensed under the MIT license.
 
 import {
-  BuildDocumentClassifierRequest,
-  BuildDocumentModelRequest,
-  ClassifierDocumentTypeDetails,
-  AzureBlobContentSource,
-  AzureBlobFileListContentSource,
+  AzureBlobContentSource as AzureBlobSourceDetails,
+  AzureBlobFileListContentSource as AzureBlobFileListSourceDetails,
 } from "../generated";
 
-export { AzureBlobContentSource, AzureBlobFileListContentSource };
+export { AzureBlobSourceDetails, AzureBlobFileListSourceDetails };
+
+/**
+ * A training data source defined by an Azure Blob Container.
+ */
+export interface AzureBlobSource {
+  /**
+   * The underlying details of the Azure Blob Source.
+   */
+  azureBlobSource: AzureBlobSourceDetails;
+
+  /**
+   * Must be undefined for a Blob Source.
+   */
+  azureBlobFileListSource?: undefined;
+}
+
+/**
+ * A training data source defined by an Azure Blob Container and a JSONL file list within the container.
+ */
+export interface AzureBlobFileListSource {
+  /**
+   * The underlying details of the Azure Blob File List Source.
+   */
+  azureBlobFileListSource: AzureBlobFileListSourceDetails;
+
+  /**
+   * Must be undefined for a Blob File List Source.
+   */
+  azureBlobSource?: undefined;
+}
 
 /**
  * A content source that may be used to build a document model.
  *
  * One of:
- * - AzureBlobContentSource
- * - AzureBlobFileListContentSource
+ * - BlobSource
+ * - BlobFileListSource
  */
-export type DocumentModelContentSource = AzureBlobContentSource | AzureBlobFileListContentSource;
+export type DocumentModelSource = AzureBlobSource | AzureBlobFileListSource;
 
 /**
  * A content source that may be used to build a document classifier.
  *
  * One of:
- * - AzureBlobContentSource
- * - AzureBlobFileListContentSource
+ * - BlobSource
+ * - BlobFileListSource
  */
-export type DocumentClassifierContentSource =
-  | AzureBlobContentSource
-  | AzureBlobFileListContentSource;
+export type DocumentClassifierSource = AzureBlobSource | AzureBlobFileListSource;
 
 /**
- * @param source - the content source to check
- * @returns - true if the source is a valid AzureBlobContentSource
- * @internal
+ * A set of sources used to create a document classifier. This is a map of
+ * document type names to sources that will be used to train the model to
+ * classify documents of the corresponding source type.
  */
-export function isAzureBlobContentSource(
-  source: DocumentModelContentSource | DocumentClassifierContentSource
-): source is AzureBlobContentSource {
-  return (
-    (source as AzureBlobContentSource).containerUrl !== undefined &&
-    (source as any).fileList === undefined &&
-    // also check that if 'prefix' is provided it is a string
-    ((source as AzureBlobContentSource).prefix === undefined ||
-      typeof (source as AzureBlobContentSource).prefix === "string")
-  );
-}
-
-/**
- * @param source - the content source to check
- * @returns - true if the source is a valid AzureBlobFileListContentSource
- * @internal
- */
-export function isAzureBlobFileListContentSource(
-  source: DocumentModelContentSource | DocumentClassifierContentSource
-): source is AzureBlobFileListContentSource {
-  return (
-    (source as AzureBlobFileListContentSource).containerUrl !== undefined &&
-    (source as AzureBlobFileListContentSource).fileList !== undefined &&
-    (source as AzureBlobContentSource).prefix === undefined
-  );
-}
-
-/**
- * @param source - a valid document model source
- * @returns an object that can be used to provide the source when calling the document model build method
- * @internal
- */
-export function toBuildOptions(
-  source: DocumentModelContentSource
-): Pick<
-  BuildDocumentModelRequest & BuildDocumentClassifierRequest,
-  "azureBlobFileListSource" | "azureBlobSource"
-> {
-  if (isAzureBlobFileListContentSource(source)) {
-    return {
-      azureBlobFileListSource: source,
-    };
-  } else if (isAzureBlobContentSource(source)) {
-    return {
-      azureBlobSource: source,
-    };
-  } else {
-    throw new Error(
-      "Invalid document model content source: expected one of AzureBlobContentSource or AzureBlobFileListContentSource"
-    );
-  }
-}
-
-/**
- * @param source - a valid classifier source
- * @returns a valid ClassifierDocumentTypeDetails object for use when calling the build classifier method
- * @internal
- */
-export function toClassifierDetails(
-  source: DocumentClassifierContentSource
-): ClassifierDocumentTypeDetails {
-  if (isAzureBlobFileListContentSource(source)) {
-    return {
-      azureBlobFileListSource: source,
-    };
-  } else if (isAzureBlobContentSource(source)) {
-    return {
-      azureBlobSource: source,
-    };
-  } else {
-    throw new Error(
-      "Invalid classifier content source: expected one of AzureBlobContentSource or AzureBlobFileListContentSource"
-    );
-  }
+export interface DocumentClassifierDocumentTypeSources {
+  /**
+   * The training data source of a given document type name.
+   */
+  [docType: string]: DocumentClassifierSource;
 }

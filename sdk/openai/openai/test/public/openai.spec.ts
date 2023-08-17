@@ -92,17 +92,20 @@ namespace Function1
 `,
       ];
       const modelName = "text-davinci-003";
-      const events = await client.listCompletions(modelName, prompt, {
+      const events = client.listCompletions(modelName, prompt, {
         maxTokens: 2048,
       });
+      let received = false;
       for await (const event of events) {
         if (!event?.choices) {
           throw new Error("Expected choices in the response");
         }
         for (const choice of event.choices) {
           assert.isDefined(choice.text);
+          received = true;
         }
       }
+      assert.isTrue(received);
     });
 
     it("embeddings test", async function () {
