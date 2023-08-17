@@ -218,7 +218,7 @@ if (cancerProfilingResult.status === "succeeded") {
         }
     }
 } else {
-    const errors = cancerProfilingResult.errors;
+    const errors = cancerProfilingResult!.errors;
     for (const { code, message } of errors) {
         console.log(`${code}: ${message}`);
     }
