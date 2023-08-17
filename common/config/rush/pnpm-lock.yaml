@@ -4132,7 +4132,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230817
+      typescript: 5.3.0-dev.20230811
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -5365,14 +5365,6 @@ packages:
   /ignore/5.2.4:
     resolution: {integrity: sha512-MAb38BcSbH0eHNBxn7ql2NH/kX33OkB3lZ1BNdh7ENeRChHTYsTvWrMubiIAMNS2llXEEgZ1MUOBtXChP3kaFQ==}
     engines: {node: '>= 4'}
-    dev: false
-
-  /image-size/1.0.2:
-    resolution: {integrity: sha512-xfOoWjceHntRb3qFCrh5ZFORYH8XCdYpASltMhZ/Q0KZiOwjdE/Yl2QCiWdwD+lygV5bMCvauzgu5PxBX/Yerg==}
-    engines: {node: '>=14.0.0'}
-    hasBin: true
-    dependencies:
-      queue: 6.0.2
     dev: false
 
   /import-fresh/3.3.0:
@@ -7564,12 +7556,6 @@ packages:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
     dev: false
 
-  /queue/6.0.2:
-    resolution: {integrity: sha512-iHZWu+q3IdFZFX36ro/lKBkSvfkztY5Y7HMiPlOUjhupPcG2JMfst2KKEpu5XndviX/3UhFbRngUPNKtgvtZiA==}
-    dependencies:
-      inherits: 2.0.4
-    dev: false
-
   /range-parser/1.2.1:
     resolution: {integrity: sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==}
     engines: {node: '>= 0.6'}
@@ -8731,8 +8717,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.3.0-dev.20230817:
-    resolution: {integrity: sha512-WbPb4NIGIcx8fQG4JPh54lALvzPUJTcDLCP9xVsrfOMrMAWswPqqekMZ7jVpasCOmYtC9e+oUCpW+jgVVcW7UQ==}
+  /typescript/5.3.0-dev.20230811:
+    resolution: {integrity: sha512-C4bwx7ZpBwX7bKxrrNl+M1j8yNGmwQ5M58X0mT4VYI1+FHqRvb/uJ4F1uJsVJ+X7iy22iXSICR/Vxnpc1gNk7w==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -18655,7 +18641,7 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-eiZ4t5n/l+XsWZ5Rpjvx+D/oWUYbX8lh2XPdmIgUPZp0n+CFwQHMw1ucf6wyaYzXSLYk7M7XTP5pdPmgBxThxw==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-N8E0x1oZNJ/0S88emgJ97tMxe0iZmc59ZDKR/eNoY5XEqZumAlO1u4R5KLKOHphDdDt30md1DVa/VY68Ql8x2A==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
@@ -18666,7 +18652,6 @@ packages:
       dotenv: 16.3.1
       eslint: 8.46.0
       esm: 3.2.25
-      image-size: 1.0.2
       karma: 6.4.2
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
