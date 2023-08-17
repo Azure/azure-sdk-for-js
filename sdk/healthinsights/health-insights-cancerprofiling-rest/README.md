@@ -218,11 +218,11 @@ if (cancerProfilingResult.status === "succeeded") {
         }
     }
 } else {
-    const errors = cancerProfilingResult!.errors;
+    const errors = cancerProfilingResult.errors;
     if (errors) {
-        for (const { code, message } of errors) {
-            console.log(`${code}: ${message}`);
-        }
+      for (const error of errors) {
+          console.log(error.code, ":", error.message);
+      }
     }
 }
 ```
