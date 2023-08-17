@@ -7,7 +7,12 @@ import { Context } from "mocha";
 import { OpenAIClient } from "../../src/OpenAIClient.js";
 import { createClient, startRecorder } from "./utils/recordedClient.js";
 import { ImageLocation } from "../../src/api/models.js";
-
+import { getImageDimensions } from "./utils/getImageDimensions.js";
+import {
+  createDefaultHttpClient,
+  createHttpHeaders,
+  createPipelineRequest,
+} from "@azure/core-rest-pipeline";
 describe("README samples", () => {
   let recorder: Recorder;
   let client: OpenAIClient;
@@ -91,13 +96,32 @@ describe("README samples", () => {
   });
 
   it("Generate Batch Image", async function () {
+    const width = 256;
+    const height = 256;
+    const PROMPT = "a monkey eating a banana";
+    const SIZE = `${width}x${height}`;
+    const numberOfImages = 3;
+
     function delay(ms: number) {
       return new Promise((resolve) => setTimeout(resolve, ms));
     }
 
-    const PROMPT = "a monkey eating a banana";
-    const SIZE = "256x256";
-    const numberOfImages = 3;
+    async function checkSize(imageUrl: string) {
+      const coreClient = createDefaultHttpClient();
+      const set = new Set<number>();
+      const request = createPipelineRequest({
+        url: imageUrl,
+        method: "GET",
+        headers: createHttpHeaders(),
+        streamResponseStatusCodes: set.add(200),
+      });
+      const response = await coreClient.sendRequest(request);
+
+      const dimensions = await getImageDimensions(response);
+      assert.isDefined(dimensions, "Unable to get dimensions");
+      assert.equal(dimensions?.height, height, "Height does not match");
+      assert.equal(dimensions?.width, width, "Width does not match");
+    }
 
     let operationState = await client.beginAzureBatchImageGeneration(PROMPT, {
       n: numberOfImages,
@@ -111,8 +135,12 @@ describe("README samples", () => {
 
     assert.equal(operationState.status, "succeeded", "Image generation failed");
 
+    const url = "https://dalleproduse.blob.core.windows.net/private/images";
+
     for (const image of operationState.result?.data as ImageLocation[]) {
       assert.isDefined(image.url, "Image generation result URL is not defined");
+      assert.include(image.url, url, "Invalid URL");
+      checkSize(image.url);
     }
   });
 });

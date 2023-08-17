@@ -120,32 +120,27 @@ namespace Function1
       assert.isNotNull(embeddings.usage);
     });
 
-    it.only("images test", async function () {
+    it("get images test", async function () {
+      if (authMethod === "OpenAIKey") {
+        this.skip();
+      }
       function delay(ms: number) {
         return new Promise((resolve) => setTimeout(resolve, ms));
       }
       const prompt = "monkey eating banana";
       const numberOfImages = 2;
       const size = "256x256";
-      let imageLinks = await client.getImages(prompt, { n: numberOfImages, size: size });
+      let imageLinks = await client.beginAzureBatchImageGeneration(prompt, {
+        n: numberOfImages,
+        size: size,
+      });
       while (imageLinks.status === "notRunning" || imageLinks.status === "running") {
         await delay(5000);
         imageLinks = await client.getAzureBatchImageGenerationOperationStatus(imageLinks.id);
       }
       assert.equal(imageLinks.status, "succeeded");
       assert.isNotNull(imageLinks.result);
-      // console.log(JSON.stringify(imageLinks.result))
-      const data = imageLinks.result?.data as ImageLocation[];
-      // console.log(JSON.stringify(imageLinks.result))
-      assert.equal(data.length, numberOfImages);
-      const firstResult = data[0];
-      assert.isNotNull(firstResult.url);
-      // console.log(JSON.stringify(imageLinks.result))
-      const url = "https://dalleproduse.blob.core.windows.net/private/images";
-      assert.include(firstResult.url, url, "Invalid URL");
-      const secondResult = data[1];
-      assert.isNotNull(secondResult.url);
-      assert.include(secondResult.url, url, "Invalid URL");
+      assert.equal((imageLinks.result?.data as ImageLocation[]).length, numberOfImages);
     });
   });
 });

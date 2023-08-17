@@ -236,23 +236,23 @@ export class OpenAIClient {
     return listChatCompletions(this._client, messages, deploymentName, options);
   }
 
-    /** Returns the status of the images operation */
-    getAzureBatchImageGenerationOperationStatus(
-      operationId: string,
-      options: GetAzureBatchImageGenerationOperationStatusOptions = {
-        requestOptions: {},
-      }
-    ): Promise<ImageGenerationResponse> {
-      return getAzureBatchImageGenerationOperationStatus(this._client, operationId, options);
+  /** Returns the status of the images operation */
+  getAzureBatchImageGenerationOperationStatus(
+    operationId: string,
+    options: GetAzureBatchImageGenerationOperationStatusOptions = {
+      requestOptions: {},
     }
-  
-    /** Starts the generation of a batch of images from a text caption */
-    beginAzureBatchImageGeneration(
-      prompt: string,
-      options: ImageGenerationOptions = { requestOptions: {} }
-    ): Promise<ImageGenerationResponse> {
-      return beginAzureBatchImageGeneration(this._client, prompt, options);
-    }
+  ): Promise<ImageGenerationResponse> {
+    return getAzureBatchImageGenerationOperationStatus(this._client, operationId, options);
+  }
+
+  /** Starts the generation of a batch of images from a text caption */
+  beginAzureBatchImageGeneration(
+    prompt: string,
+    options: ImageGenerationOptions = { requestOptions: {} }
+  ): Promise<ImageGenerationResponse> {
+    return beginAzureBatchImageGeneration(this._client, prompt, options);
+  }
 
   /**
    * Starts the generation of a batch of images from a text caption
