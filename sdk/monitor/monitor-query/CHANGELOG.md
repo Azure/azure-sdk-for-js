@@ -1,14 +1,13 @@
 # Release History
 
-## 1.2.0-beta.2 (Unreleased)
+## 1.2.0-beta.2 (2023-08-21)
 
-### Features Added
+- Added `batchMetricsScope` property to `MetricsBatchQueryClientOptions` object.
+- Added intergration test cases for `MetricsBatchQueryClient`.
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
+- In the `MetricsBatchOptionalParams`object, the names of the properties `endtime`, `orderby`, `starttime` are changed to `endTime`, `orderBy`, `startTime` respectively.
 
 ## 1.2.0-beta.1 (2023-08-11)
 

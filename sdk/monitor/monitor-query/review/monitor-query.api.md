@@ -205,11 +205,11 @@ export interface MetricResultsResponseValuesItem {
 // @public
 export interface MetricsBatchOptionalParams extends coreClient.OperationOptions {
     aggregation?: string;
-    endtime?: string;
+    endTime?: string;
     filter?: string;
     interval?: string;
-    orderby?: string;
-    starttime?: string;
+    orderBy?: string;
+    startTime?: string;
     top?: number;
 }
 
@@ -222,6 +222,7 @@ export class MetricsBatchQueryClient {
 // @public
 export interface MetricsBatchQueryClientOptions extends CommonClientOptions {
     batchEndPoint?: string;
+    batchMetricsScope?: string;
 }
 
 // @public
