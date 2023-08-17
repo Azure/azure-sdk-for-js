@@ -219,8 +219,10 @@ if (cancerProfilingResult.status === "succeeded") {
     }
 } else {
     const errors = cancerProfilingResult!.errors;
-    for (const { code, message } of errors) {
-        console.log(`${code}: ${message}`);
+    if (errors) {
+        for (const { code, message } of errors) {
+            console.log(`${code}: ${message}`);
+        }
     }
 }
 ```
