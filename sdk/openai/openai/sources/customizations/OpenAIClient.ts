@@ -3,24 +3,28 @@
 
 import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
 import {
-  beginAzureBatchImageGeneration,
   ChatMessage,
-  createOpenAI,
-  OpenAIContext,
-  getEmbeddings,
-  getCompletions,
-  getChatCompletions,
   GetEmbeddingsOptions,
   GetCompletionsOptions,
   GetChatCompletionsOptions,
   OpenAIClientOptions,
-} from "../generated/api/index.js";
-import { getChatCompletionsResult, getCompletionsResult } from "./api/operations.js";
-import { getOaiSSEs } from "./api/oaiSse.js";
+} from "../generated/index.js";
+import { listChatCompletions, listCompletions } from "./api/operations.js";
 import { ChatCompletions, Completions, Embeddings } from "../generated/api/models.js";
-import { _getChatCompletionsSend, _getCompletionsSend } from "../generated/api/operations.js";
+import {
+  GetAzureBatchImageGenerationOperationStatusOptions,
+  _getChatCompletionsSend,
+  _getCompletionsSend,
+  beginAzureBatchImageGeneration,
+  getAzureBatchImageGenerationOperationStatus,
+  getChatCompletions,
+  getCompletions,
+  getEmbeddings,
+} from "../generated/api/operations.js";
 import { ImageGenerationOptions } from "./api/operations.js";
 import { ImageGenerationResponse } from "./api/models.js";
+import { OpenAIContext } from "../generated/rest/index.js";
+import { createOpenAI } from "../generated/api/OpenAIContext.js";
 
 function createOpenAIEndpoint(version: number): string {
   return `https://api.openai.com/v${version}`;
@@ -181,11 +185,7 @@ export class OpenAIClient {
     options: GetCompletionsOptions = {}
   ): AsyncIterable<Omit<Completions, "usage">> {
     this.setModel(deploymentName, options);
-    const response = _getCompletionsSend(this._client, prompt, deploymentName, {
-      ...options,
-      stream: true,
-    });
-    return getOaiSSEs(response, getCompletionsResult);
+    return listCompletions(this._client, prompt, deploymentName, options);
   }
 
   /**
@@ -233,12 +233,26 @@ export class OpenAIClient {
     options: GetChatCompletionsOptions = { requestOptions: {} }
   ): AsyncIterable<Omit<ChatCompletions, "usage">> {
     this.setModel(deploymentName, options);
-    const response = _getChatCompletionsSend(this._client, messages, deploymentName, {
-      ...options,
-      stream: true,
-    });
-    return getOaiSSEs(response, getChatCompletionsResult);
+    return listChatCompletions(this._client, messages, deploymentName, options);
   }
+
+    /** Returns the status of the images operation */
+    getAzureBatchImageGenerationOperationStatus(
+      operationId: string,
+      options: GetAzureBatchImageGenerationOperationStatusOptions = {
+        requestOptions: {},
+      }
+    ): Promise<ImageGenerationResponse> {
+      return getAzureBatchImageGenerationOperationStatus(this._client, operationId, options);
+    }
+  
+    /** Starts the generation of a batch of images from a text caption */
+    beginAzureBatchImageGeneration(
+      prompt: string,
+      options: ImageGenerationOptions = { requestOptions: {} }
+    ): Promise<ImageGenerationResponse> {
+      return beginAzureBatchImageGeneration(this._client, prompt, options);
+    }
 
   /**
    * Starts the generation of a batch of images from a text caption

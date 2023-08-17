@@ -168,10 +168,24 @@ export interface ManagedClusterIdentity {
   readonly tenantId?: string;
   /** For more information see [use managed identities in AKS](https://docs.microsoft.com/azure/aks/use-managed-identity). */
   type?: ResourceIdentityType;
+  /** The delegated identity resources assigned to this managed cluster. This can only be set by another Azure Resource Provider, and managed cluster only accept one delegated identity resource. Internal use only. */
+  delegatedResources?: { [propertyName: string]: DelegatedResource };
   /** The keys must be ARM resource IDs in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
   userAssignedIdentities?: {
     [propertyName: string]: ManagedServiceIdentityUserAssignedIdentitiesValue;
   };
+}
+
+/** Delegated resource properties - internal use only. */
+export interface DelegatedResource {
+  /** The ARM resource id of the delegated resource - internal use only. */
+  resourceId?: string;
+  /** The tenant id of the delegated resource - internal use only. */
+  tenantId?: string;
+  /** The delegation id of the referral delegation (optional) - internal use only. */
+  referralResource?: string;
+  /** The source resource location - internal use only. */
+  location?: string;
 }
 
 export interface ManagedServiceIdentityUserAssignedIdentitiesValue {
@@ -292,6 +306,8 @@ export interface ManagedClusterAgentPoolProfileProperties {
 export interface AgentPoolUpgradeSettings {
   /** This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 1. For more information, including best practices, see: https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade */
   maxSurge?: string;
+  /** The amount of time (in minutes) to wait on eviction of pods and graceful termination per node. This eviction wait time honors waiting on pod disruption budgets. If this time is exceeded, the upgrade fails. If not specified, the default is 30 minutes. */
+  drainTimeoutInMinutes?: number;
 }
 
 /** See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details. */
@@ -664,6 +680,8 @@ export interface ManagedClusterAADProfile {
 export interface ManagedClusterAutoUpgradeProfile {
   /** For more information see [setting the AKS cluster auto-upgrade channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel). */
   upgradeChannel?: UpgradeChannel;
+  /** Manner in which the OS on your nodes is updated. The default is NodeImage. */
+  nodeOSUpgradeChannel?: NodeOSUpgradeChannel;
 }
 
 /** Parameters to be applied to the cluster-autoscaler when enabled */
@@ -841,11 +859,19 @@ export interface ManagedClusterStorageProfileBlobCSIDriver {
 export interface ManagedClusterWorkloadAutoScalerProfile {
   /** KEDA (Kubernetes Event-driven Autoscaling) settings for the workload auto-scaler profile. */
   keda?: ManagedClusterWorkloadAutoScalerProfileKeda;
+  /** VPA (Vertical Pod Autoscaler) settings for the workload auto-scaler profile. */
+  verticalPodAutoscaler?: ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler;
 }
 
 /** KEDA (Kubernetes Event-driven Autoscaling) settings for the workload auto-scaler profile. */
 export interface ManagedClusterWorkloadAutoScalerProfileKeda {
   /** Whether to enable KEDA. */
+  enabled: boolean;
+}
+
+/** VPA (Vertical Pod Autoscaler) settings for the workload auto-scaler profile. */
+export interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler {
+  /** Whether to enable VPA. Default value is false. */
   enabled: boolean;
 }
 
@@ -2193,7 +2219,7 @@ export enum KnownUpgradeChannel {
   Stable = "stable",
   /** Automatically upgrade the cluster to the latest supported patch version when it becomes available while keeping the minor version the same. For example, if a cluster is running version 1.17.7 and versions 1.17.9, 1.18.4, 1.18.6, and 1.19.1 are available, your cluster is upgraded to 1.17.9. */
   Patch = "patch",
-  /** Automatically upgrade the node image to the latest version available. Microsoft provides patches and new images for image nodes frequently (usually weekly), but your running nodes won't get the new images unless you do a node image upgrade. Turning on the node-image channel will automatically update your node images whenever a new version is available. */
+  /** Automatically upgrade the node image to the latest version available. Consider using nodeOSUpgradeChannel instead as that allows you to configure node OS patching separate from Kubernetes version patching */
   NodeImage = "node-image",
   /** Disables auto-upgrades and keeps the cluster at its current version of Kubernetes. */
   None = "none"
@@ -2207,10 +2233,31 @@ export enum KnownUpgradeChannel {
  * **rapid**: Automatically upgrade the cluster to the latest supported patch release on the latest supported minor version. In cases where the cluster is at a version of Kubernetes that is at an N-2 minor version where N is the latest supported minor version, the cluster first upgrades to the latest supported patch version on N-1 minor version. For example, if a cluster is running version 1.17.7 and versions 1.17.9, 1.18.4, 1.18.6, and 1.19.1 are available, your cluster first is upgraded to 1.18.6, then is upgraded to 1.19.1. \
  * **stable**: Automatically upgrade the cluster to the latest supported patch release on minor version N-1, where N is the latest supported minor version. For example, if a cluster is running version 1.17.7 and versions 1.17.9, 1.18.4, 1.18.6, and 1.19.1 are available, your cluster is upgraded to 1.18.6. \
  * **patch**: Automatically upgrade the cluster to the latest supported patch version when it becomes available while keeping the minor version the same. For example, if a cluster is running version 1.17.7 and versions 1.17.9, 1.18.4, 1.18.6, and 1.19.1 are available, your cluster is upgraded to 1.17.9. \
- * **node-image**: Automatically upgrade the node image to the latest version available. Microsoft provides patches and new images for image nodes frequently (usually weekly), but your running nodes won't get the new images unless you do a node image upgrade. Turning on the node-image channel will automatically update your node images whenever a new version is available. \
+ * **node-image**: Automatically upgrade the node image to the latest version available. Consider using nodeOSUpgradeChannel instead as that allows you to configure node OS patching separate from Kubernetes version patching \
  * **none**: Disables auto-upgrades and keeps the cluster at its current version of Kubernetes.
  */
 export type UpgradeChannel = string;
+
+/** Known values of {@link NodeOSUpgradeChannel} that the service accepts. */
+export enum KnownNodeOSUpgradeChannel {
+  /** No attempt to update your machines OS will be made either by OS or by rolling VHDs. This means you are responsible for your security updates */
+  None = "None",
+  /** OS updates will be applied automatically through the OS built-in patching infrastructure. Newly scaled in machines will be unpatched initially and will be patched at some point by the OS's infrastructure. Behavior of this option depends on the OS in question. Ubuntu and Mariner apply security patches through unattended upgrade roughly once a day around 06:00 UTC. Windows does not apply security patches automatically and so for them this option is equivalent to None till further notice */
+  Unmanaged = "Unmanaged",
+  /** AKS will update the nodes with a newly patched VHD containing security fixes and bugfixes on a weekly cadence. With the VHD update machines will be rolling reimaged to that VHD following maintenance windows and surge settings. No extra VHD cost is incurred when choosing this option as AKS hosts the images. */
+  NodeImage = "NodeImage"
+}
+
+/**
+ * Defines values for NodeOSUpgradeChannel. \
+ * {@link KnownNodeOSUpgradeChannel} can be used interchangeably with NodeOSUpgradeChannel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: No attempt to update your machines OS will be made either by OS or by rolling VHDs. This means you are responsible for your security updates \
+ * **Unmanaged**: OS updates will be applied automatically through the OS built-in patching infrastructure. Newly scaled in machines will be unpatched initially and will be patched at some point by the OS's infrastructure. Behavior of this option depends on the OS in question. Ubuntu and Mariner apply security patches through unattended upgrade roughly once a day around 06:00 UTC. Windows does not apply security patches automatically and so for them this option is equivalent to None till further notice \
+ * **NodeImage**: AKS will update the nodes with a newly patched VHD containing security fixes and bugfixes on a weekly cadence. With the VHD update machines will be rolling reimaged to that VHD following maintenance windows and surge settings. No extra VHD cost is incurred when choosing this option as AKS hosts the images.
+ */
+export type NodeOSUpgradeChannel = string;
 
 /** Known values of {@link Expander} that the service accepts. */
 export enum KnownExpander {
