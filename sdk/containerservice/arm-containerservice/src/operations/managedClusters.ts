@@ -31,14 +31,6 @@ import {
   ManagedClustersListOutboundNetworkDependenciesEndpointsNextOptionalParams,
   ManagedClustersListOutboundNetworkDependenciesEndpointsOptionalParams,
   ManagedClustersListOutboundNetworkDependenciesEndpointsResponse,
-  MeshRevisionProfile,
-  ManagedClustersListMeshRevisionProfilesNextOptionalParams,
-  ManagedClustersListMeshRevisionProfilesOptionalParams,
-  ManagedClustersListMeshRevisionProfilesResponse,
-  MeshUpgradeProfile,
-  ManagedClustersListMeshUpgradeProfilesNextOptionalParams,
-  ManagedClustersListMeshUpgradeProfilesOptionalParams,
-  ManagedClustersListMeshUpgradeProfilesResponse,
   ManagedClustersGetOSOptionsOptionalParams,
   ManagedClustersGetOSOptionsResponse,
   ManagedClustersListKubernetesVersionsOptionalParams,
@@ -66,10 +58,10 @@ import {
   ManagedClustersResetServicePrincipalProfileOptionalParams,
   ManagedClusterAADProfile,
   ManagedClustersResetAADProfileOptionalParams,
-  ManagedClustersAbortLatestOperationOptionalParams,
-  ManagedClustersAbortLatestOperationResponse,
   ManagedClustersRotateClusterCertificatesOptionalParams,
   ManagedClustersRotateClusterCertificatesResponse,
+  ManagedClustersAbortLatestOperationOptionalParams,
+  ManagedClustersAbortLatestOperationResponse,
   ManagedClustersRotateServiceAccountSigningKeysOptionalParams,
   ManagedClustersRotateServiceAccountSigningKeysResponse,
   ManagedClustersStopOptionalParams,
@@ -81,15 +73,9 @@ import {
   ManagedClustersRunCommandResponse,
   ManagedClustersGetCommandResultOptionalParams,
   ManagedClustersGetCommandResultResponse,
-  ManagedClustersGetMeshRevisionProfileOptionalParams,
-  ManagedClustersGetMeshRevisionProfileResponse,
-  ManagedClustersGetMeshUpgradeProfileOptionalParams,
-  ManagedClustersGetMeshUpgradeProfileResponse,
   ManagedClustersListNextResponse,
   ManagedClustersListByResourceGroupNextResponse,
-  ManagedClustersListOutboundNetworkDependenciesEndpointsNextResponse,
-  ManagedClustersListMeshRevisionProfilesNextResponse,
-  ManagedClustersListMeshUpgradeProfilesNextResponse
+  ManagedClustersListOutboundNetworkDependenciesEndpointsNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -305,160 +291,6 @@ export class ManagedClustersImpl implements ManagedClusters {
     options?: ManagedClustersListOutboundNetworkDependenciesEndpointsOptionalParams
   ): AsyncIterableIterator<OutboundEnvironmentEndpoint> {
     for await (const page of this.listOutboundNetworkDependenciesEndpointsPagingPage(
-      resourceGroupName,
-      resourceName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Contains extra metadata on each revision, including supported revisions, cluster compatibility and
-   * available upgrades
-   * @param location The name of Azure region.
-   * @param options The options parameters.
-   */
-  public listMeshRevisionProfiles(
-    location: string,
-    options?: ManagedClustersListMeshRevisionProfilesOptionalParams
-  ): PagedAsyncIterableIterator<MeshRevisionProfile> {
-    const iter = this.listMeshRevisionProfilesPagingAll(location, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listMeshRevisionProfilesPagingPage(
-          location,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listMeshRevisionProfilesPagingPage(
-    location: string,
-    options?: ManagedClustersListMeshRevisionProfilesOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<MeshRevisionProfile[]> {
-    let result: ManagedClustersListMeshRevisionProfilesResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listMeshRevisionProfiles(location, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listMeshRevisionProfilesNext(
-        location,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listMeshRevisionProfilesPagingAll(
-    location: string,
-    options?: ManagedClustersListMeshRevisionProfilesOptionalParams
-  ): AsyncIterableIterator<MeshRevisionProfile> {
-    for await (const page of this.listMeshRevisionProfilesPagingPage(
-      location,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Lists available upgrades for all service meshes in a specific cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the managed cluster resource.
-   * @param options The options parameters.
-   */
-  public listMeshUpgradeProfiles(
-    resourceGroupName: string,
-    resourceName: string,
-    options?: ManagedClustersListMeshUpgradeProfilesOptionalParams
-  ): PagedAsyncIterableIterator<MeshUpgradeProfile> {
-    const iter = this.listMeshUpgradeProfilesPagingAll(
-      resourceGroupName,
-      resourceName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listMeshUpgradeProfilesPagingPage(
-          resourceGroupName,
-          resourceName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listMeshUpgradeProfilesPagingPage(
-    resourceGroupName: string,
-    resourceName: string,
-    options?: ManagedClustersListMeshUpgradeProfilesOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<MeshUpgradeProfile[]> {
-    let result: ManagedClustersListMeshUpgradeProfilesResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listMeshUpgradeProfiles(
-        resourceGroupName,
-        resourceName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listMeshUpgradeProfilesNext(
-        resourceGroupName,
-        resourceName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listMeshUpgradeProfilesPagingAll(
-    resourceGroupName: string,
-    resourceName: string,
-    options?: ManagedClustersListMeshUpgradeProfilesOptionalParams
-  ): AsyncIterableIterator<MeshUpgradeProfile> {
-    for await (const page of this.listMeshUpgradeProfilesPagingPage(
       resourceGroupName,
       resourceName,
       options
@@ -1090,101 +922,6 @@ export class ManagedClustersImpl implements ManagedClusters {
   }
 
   /**
-   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
-   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
-   * completes before cancellation can take place, an error is returned.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the managed cluster resource.
-   * @param options The options parameters.
-   */
-  async beginAbortLatestOperation(
-    resourceGroupName: string,
-    resourceName: string,
-    options?: ManagedClustersAbortLatestOperationOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ManagedClustersAbortLatestOperationResponse>,
-      ManagedClustersAbortLatestOperationResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<ManagedClustersAbortLatestOperationResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, resourceName, options },
-      spec: abortLatestOperationOperationSpec
-    });
-    const poller = await createHttpPoller<
-      ManagedClustersAbortLatestOperationResponse,
-      OperationState<ManagedClustersAbortLatestOperationResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
-   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
-   * completes before cancellation can take place, an error is returned.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the managed cluster resource.
-   * @param options The options parameters.
-   */
-  async beginAbortLatestOperationAndWait(
-    resourceGroupName: string,
-    resourceName: string,
-    options?: ManagedClustersAbortLatestOperationOptionalParams
-  ): Promise<ManagedClustersAbortLatestOperationResponse> {
-    const poller = await this.beginAbortLatestOperation(
-      resourceGroupName,
-      resourceName,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
    * See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more
    * details about rotating managed cluster certificates.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -1270,6 +1007,101 @@ export class ManagedClustersImpl implements ManagedClusters {
     options?: ManagedClustersRotateClusterCertificatesOptionalParams
   ): Promise<ManagedClustersRotateClusterCertificatesResponse> {
     const poller = await this.beginRotateClusterCertificates(
+      resourceGroupName,
+      resourceName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
+   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
+   * completes before cancellation can take place, a 409 error code is returned.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  async beginAbortLatestOperation(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersAbortLatestOperationOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedClustersAbortLatestOperationResponse>,
+      ManagedClustersAbortLatestOperationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ManagedClustersAbortLatestOperationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, options },
+      spec: abortLatestOperationOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ManagedClustersAbortLatestOperationResponse,
+      OperationState<ManagedClustersAbortLatestOperationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
+   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
+   * completes before cancellation can take place, a 409 error code is returned.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  async beginAbortLatestOperationAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersAbortLatestOperationOptionalParams
+  ): Promise<ManagedClustersAbortLatestOperationResponse> {
+    const poller = await this.beginAbortLatestOperation(
       resourceGroupName,
       resourceName,
       options
@@ -1698,76 +1530,6 @@ export class ManagedClustersImpl implements ManagedClusters {
   }
 
   /**
-   * Contains extra metadata on each revision, including supported revisions, cluster compatibility and
-   * available upgrades
-   * @param location The name of Azure region.
-   * @param options The options parameters.
-   */
-  private _listMeshRevisionProfiles(
-    location: string,
-    options?: ManagedClustersListMeshRevisionProfilesOptionalParams
-  ): Promise<ManagedClustersListMeshRevisionProfilesResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      listMeshRevisionProfilesOperationSpec
-    );
-  }
-
-  /**
-   * Contains extra metadata on the revision, including supported revisions, cluster compatibility and
-   * available upgrades
-   * @param location The name of Azure region.
-   * @param mode The mode of the mesh.
-   * @param options The options parameters.
-   */
-  getMeshRevisionProfile(
-    location: string,
-    mode: string,
-    options?: ManagedClustersGetMeshRevisionProfileOptionalParams
-  ): Promise<ManagedClustersGetMeshRevisionProfileResponse> {
-    return this.client.sendOperationRequest(
-      { location, mode, options },
-      getMeshRevisionProfileOperationSpec
-    );
-  }
-
-  /**
-   * Lists available upgrades for all service meshes in a specific cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the managed cluster resource.
-   * @param options The options parameters.
-   */
-  private _listMeshUpgradeProfiles(
-    resourceGroupName: string,
-    resourceName: string,
-    options?: ManagedClustersListMeshUpgradeProfilesOptionalParams
-  ): Promise<ManagedClustersListMeshUpgradeProfilesResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, options },
-      listMeshUpgradeProfilesOperationSpec
-    );
-  }
-
-  /**
-   * Gets available upgrades for a service mesh in a cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the managed cluster resource.
-   * @param mode The mode of the mesh.
-   * @param options The options parameters.
-   */
-  getMeshUpgradeProfile(
-    resourceGroupName: string,
-    resourceName: string,
-    mode: string,
-    options?: ManagedClustersGetMeshUpgradeProfileOptionalParams
-  ): Promise<ManagedClustersGetMeshUpgradeProfileResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, mode, options },
-      getMeshUpgradeProfileOperationSpec
-    );
-  }
-
-  /**
    * ListNext
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -1818,44 +1580,6 @@ export class ManagedClustersImpl implements ManagedClusters {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, nextLink, options },
       listOutboundNetworkDependenciesEndpointsNextOperationSpec
-    );
-  }
-
-  /**
-   * ListMeshRevisionProfilesNext
-   * @param location The name of Azure region.
-   * @param nextLink The nextLink from the previous successful call to the ListMeshRevisionProfiles
-   *                 method.
-   * @param options The options parameters.
-   */
-  private _listMeshRevisionProfilesNext(
-    location: string,
-    nextLink: string,
-    options?: ManagedClustersListMeshRevisionProfilesNextOptionalParams
-  ): Promise<ManagedClustersListMeshRevisionProfilesNextResponse> {
-    return this.client.sendOperationRequest(
-      { location, nextLink, options },
-      listMeshRevisionProfilesNextOperationSpec
-    );
-  }
-
-  /**
-   * ListMeshUpgradeProfilesNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the managed cluster resource.
-   * @param nextLink The nextLink from the previous successful call to the ListMeshUpgradeProfiles
-   *                 method.
-   * @param options The options parameters.
-   */
-  private _listMeshUpgradeProfilesNext(
-    resourceGroupName: string,
-    resourceName: string,
-    nextLink: string,
-    options?: ManagedClustersListMeshUpgradeProfilesNextOptionalParams
-  ): Promise<ManagedClustersListMeshUpgradeProfilesNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, nextLink, options },
-      listMeshUpgradeProfilesNextOperationSpec
     );
   }
 }
@@ -2166,10 +1890,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.ignorePodDisruptionBudget
-  ],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -2229,37 +1950,6 @@ const resetAADProfileOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const abortLatestOperationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedclusters/{resourceName}/abort",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      headersMapper: Mappers.ManagedClustersAbortLatestOperationHeaders
-    },
-    201: {
-      headersMapper: Mappers.ManagedClustersAbortLatestOperationHeaders
-    },
-    202: {
-      headersMapper: Mappers.ManagedClustersAbortLatestOperationHeaders
-    },
-    204: {
-      headersMapper: Mappers.ManagedClustersAbortLatestOperationHeaders
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const rotateClusterCertificatesOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateClusterCertificates",
@@ -2276,6 +1966,37 @@ const rotateClusterCertificatesOperationSpec: coreClient.OperationSpec = {
     },
     204: {
       headersMapper: Mappers.ManagedClustersRotateClusterCertificatesHeaders
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const abortLatestOperationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedclusters/{resourceName}/abort",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.ManagedClustersAbortLatestOperationHeaders
+    },
+    201: {
+      headersMapper: Mappers.ManagedClustersAbortLatestOperationHeaders
+    },
+    202: {
+      headersMapper: Mappers.ManagedClustersAbortLatestOperationHeaders
+    },
+    204: {
+      headersMapper: Mappers.ManagedClustersAbortLatestOperationHeaders
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -2469,94 +2190,6 @@ const listOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.Operatio
   headerParameters: [Parameters.accept],
   serializer
 };
-const listMeshRevisionProfilesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/meshRevisionProfiles",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MeshRevisionProfileList
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getMeshRevisionProfileOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/meshRevisionProfiles/{mode}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MeshRevisionProfile
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-    Parameters.mode
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listMeshUpgradeProfilesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/meshUpgradeProfiles",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MeshUpgradeProfileList
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getMeshUpgradeProfileOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/meshUpgradeProfiles/{mode}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MeshUpgradeProfile
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName,
-    Parameters.mode
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -2602,47 +2235,6 @@ const listOutboundNetworkDependenciesEndpointsNextOperationSpec: coreClient.Oper
   responses: {
     200: {
       bodyMapper: Mappers.OutboundEnvironmentEndpointCollection
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listMeshRevisionProfilesNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MeshRevisionProfileList
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listMeshUpgradeProfilesNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MeshUpgradeProfileList
     },
     default: {
       bodyMapper: Mappers.CloudError

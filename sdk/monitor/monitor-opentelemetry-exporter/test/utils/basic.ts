@@ -106,7 +106,7 @@ export class TraceBasicScenario implements Scenario {
         baseType: "MetricData",
         baseData: {
           version: 2,
-          metrics: [{ name: "_APPRESOURCEPREVIEW_", value: 1 }],
+          metrics: [{ name: "_OTELRESOURCE_", value: 1 }],
           properties: {
             "service.name": "testServiceName",
             "k8s.cluster.name": "testClusterName",

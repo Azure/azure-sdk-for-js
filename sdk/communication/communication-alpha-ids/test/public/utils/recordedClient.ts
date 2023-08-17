@@ -101,7 +101,18 @@ export async function createRecordedClientWithToken(
 
     // casting is a workaround to enable min-max testing
     return {
-      client: new AlphaIdsClient(endpoint, credential, recorder.configureClientOptions({})),
+      client: new AlphaIdsClient(
+        endpoint,
+        credential,
+        recorder.configureClientOptions({
+          additionalPolicies: [
+            {
+              policy: createMSUserAgentPolicy(),
+              position: "perCall",
+            },
+          ],
+        })
+      ),
       recorder,
     };
   }
@@ -118,7 +129,18 @@ export async function createRecordedClientWithToken(
 
   // casting is a workaround to enable min-max testing
   return {
-    client: new AlphaIdsClient(endpoint, credential, recorder.configureClientOptions({})),
+    client: new AlphaIdsClient(
+      endpoint,
+      credential,
+      recorder.configureClientOptions({
+        additionalPolicies: [
+          {
+            policy: createMSUserAgentPolicy(),
+            position: "perCall",
+          },
+        ],
+      })
+    ),
     recorder,
   };
 }
