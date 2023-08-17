@@ -8,7 +8,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-chat/1.3.2-beta.4 core-rest-pipeline/1.12.1 Node/v16.14.2 OS/(arm64-Darwin-22.6.0)",
+        "User-Agent": "azsdk-js-communication-chat/1.4.0-beta.1 core-rest-pipeline/1.12.1 Node/v16.14.2 OS/(arm64-Darwin-22.6.0)",
         "x-ms-client-request-id": "0fb32f44-ecfb-4f3d-b7c8-5e2da34c6a6f"
       },
       "RequestBody": null,
