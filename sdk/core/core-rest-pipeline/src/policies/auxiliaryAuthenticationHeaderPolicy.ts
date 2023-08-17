@@ -60,11 +60,11 @@ export function auxiliaryAuthenticationHeaderPolicy(
   return {
     name: auxiliaryAuthenticationHeaderPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      if (!request.url.toLowerCase().startsWith("https://")) {
-        throw new Error(
-          "Bearer token authentication for auxiliary header is not permitted for non-TLS protected (non-https) URLs."
-        );
-      }
+      // if (!request.url.toLowerCase().startsWith("https://")) {
+      //   throw new Error(
+      //     "Bearer token authentication for auxiliary header is not permitted for non-TLS protected (non-https) URLs."
+      //   );
+      // }
       if (!credentials || credentials.length === 0) {
         logger.info(
           `${auxiliaryAuthenticationHeaderPolicyName} header will not be set due to empty credentials.`

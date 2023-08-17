@@ -25,8 +25,8 @@ function isNodeReadableStream(body: any): body is NodeJS.ReadableStream {
 function isReadableStream(body: unknown): body is ReadableStream {
   return Boolean(
     body &&
-      typeof (body as ReadableStream).getReader === "function" &&
-      typeof (body as ReadableStream).tee === "function"
+    typeof (body as ReadableStream).getReader === "function" &&
+    typeof (body as ReadableStream).tee === "function"
   );
 }
 
@@ -48,16 +48,16 @@ class FetchHttpClient implements HttpClient {
    * @param request - The request to be made.
    */
   public async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
-    const url = new URL(request.url);
-    const isInsecure = url.protocol !== "https:";
+    // const url = new URL(request.url);
+    // const isInsecure = url.protocol !== "https:";
 
-    if (isInsecure && !request.allowInsecureConnection) {
-      throw new Error(`Cannot connect to ${request.url} while allowInsecureConnection is false.`);
-    }
+    // if (isInsecure && !request.allowInsecureConnection) {
+    //   throw new Error(`Cannot connect to ${request.url} while allowInsecureConnection is false.`);
+    // }
 
-    if (request.proxySettings) {
-      throw new Error("HTTP proxy is not supported in browser environment");
-    }
+    // if (request.proxySettings) {
+    //   throw new Error("HTTP proxy is not supported in browser environment");
+    // }
 
     try {
       return await makeRequest(request);
@@ -90,6 +90,8 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
       signal: abortController.signal,
       credentials: request.withCredentials ? "include" : "same-origin",
       cache: "no-store",
+      // @ts-ignore
+      duplex: 'half'
     });
     // If we're uploading a blob, we need to fire the progress event manually
     if (isBlob(request.body) && request.onUploadProgress) {

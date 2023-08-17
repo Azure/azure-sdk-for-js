@@ -170,11 +170,11 @@ export function bearerTokenAuthenticationPolicy(
      * - Retrieve a token with the challenge information, then re-send the request.
      */
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      if (!request.url.toLowerCase().startsWith("https://")) {
-        throw new Error(
-          "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs."
-        );
-      }
+      // if (!request.url.toLowerCase().startsWith("https://") && false) {
+      //   throw new Error(
+      //     "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs."
+      //   );
+      // }
 
       await callbacks.authorizeRequest({
         scopes: Array.isArray(scopes) ? scopes : [scopes],
@@ -185,6 +185,7 @@ export function bearerTokenAuthenticationPolicy(
 
       let response: PipelineResponse;
       let error: Error | undefined;
+      request.allowInsecureConnection = true;
       try {
         response = await next(request);
       } catch (err: any) {

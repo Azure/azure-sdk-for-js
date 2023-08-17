@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PipelineResponse, TransferProgressEvent } from "@azure/core-rest-pipeline";
 import {
   ChatThreadListChatReadReceiptsOptionalParams,
   ChatThreadListChatReadReceiptsResponse,
@@ -211,4 +212,14 @@ export interface ChatThread {
     nextLink: string,
     options?: ChatThreadListChatParticipantsNextOptionalParams
   ): Promise<ChatThreadListChatParticipantsNextResponse>;
+  /**
+   * Sends a message to a thread.
+   * @param blob The Blob of the image.
+   * @param size Size of the image.
+   */
+  uploadImage(
+    blob: Blob,
+    size: number,
+    onUploadProgress?: (progress: TransferProgressEvent) => void
+  ): Promise<PipelineResponse>;
 }

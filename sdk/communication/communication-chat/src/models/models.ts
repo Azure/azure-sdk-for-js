@@ -10,6 +10,7 @@ export {
   ChatThreadItem,
   ChatError,
   SendChatMessageResult,
+  UploadImageResult,
 } from "../generated/src/models";
 
 /** Chat thread. */

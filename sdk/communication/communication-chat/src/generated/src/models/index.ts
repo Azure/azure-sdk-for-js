@@ -116,6 +116,23 @@ export interface SendChatMessageResult {
   id: string;
 }
 
+/** Result of the upload image operation. */
+export interface UploadImageResult {
+  /** A server-generated image id. */
+  id: string;
+  /** Attachment type: Inline or attached. */
+  attachmentType?: AttachmentType;
+  /** File extension. */
+  contentType?: string,
+  /** Image name. */
+  name?: string;
+  /** Server generated image url. */
+  url?: string;
+  /** Server generated image preview url. */
+  previewUrl?: string;
+
+}
+
 /** Collection of chat messages for a particular chat thread. */
 export interface ChatMessagesCollection {
   /** Collection of chat messages. */
@@ -342,11 +359,11 @@ export type ChatThreadListChatReadReceiptsResponse = ChatMessageReadReceiptsColl
 
 /** Optional parameters. */
 export interface ChatThreadSendChatReadReceiptOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Optional parameters. */
 export interface ChatThreadSendChatMessageOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the sendChatMessage operation. */
 export type ChatThreadSendChatMessageResponse = SendChatMessageResult;
@@ -365,18 +382,18 @@ export type ChatThreadListChatMessagesResponse = ChatMessagesCollection;
 
 /** Optional parameters. */
 export interface ChatThreadGetChatMessageOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the getChatMessage operation. */
 export type ChatThreadGetChatMessageResponse = ChatMessage;
 
 /** Optional parameters. */
 export interface ChatThreadUpdateChatMessageOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Optional parameters. */
 export interface ChatThreadDeleteChatMessageOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Optional parameters. */
 export interface ChatThreadListChatParticipantsOptionalParams
@@ -392,22 +409,22 @@ export type ChatThreadListChatParticipantsResponse = ChatParticipantsCollection;
 
 /** Optional parameters. */
 export interface ChatThreadRemoveChatParticipantOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Optional parameters. */
 export interface ChatThreadAddChatParticipantsOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the addChatParticipants operation. */
 export type ChatThreadAddChatParticipantsResponse = AddChatParticipantsResult;
 
 /** Optional parameters. */
 export interface ChatThreadUpdateChatThreadPropertiesOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Optional parameters. */
 export interface ChatThreadGetChatThreadPropertiesOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the getChatThreadProperties operation. */
 export type ChatThreadGetChatThreadPropertiesResponse = ChatThreadProperties;
@@ -421,21 +438,21 @@ export interface ChatThreadSendTypingNotificationOptionalParams
 
 /** Optional parameters. */
 export interface ChatThreadListChatReadReceiptsNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the listChatReadReceiptsNext operation. */
 export type ChatThreadListChatReadReceiptsNextResponse = ChatMessageReadReceiptsCollection;
 
 /** Optional parameters. */
 export interface ChatThreadListChatMessagesNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the listChatMessagesNext operation. */
 export type ChatThreadListChatMessagesNextResponse = ChatMessagesCollection;
 
 /** Optional parameters. */
 export interface ChatThreadListChatParticipantsNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the listChatParticipantsNext operation. */
 export type ChatThreadListChatParticipantsNextResponse = ChatParticipantsCollection;
@@ -464,11 +481,11 @@ export type ChatListChatThreadsResponse = ChatThreadsItemCollection;
 
 /** Optional parameters. */
 export interface ChatDeleteChatThreadOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Optional parameters. */
 export interface ChatListChatThreadsNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the listChatThreadsNext operation. */
 export type ChatListChatThreadsNextResponse = ChatThreadsItemCollection;

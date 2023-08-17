@@ -22,6 +22,7 @@ import {
   ChatThreadProperties,
   ListPageSettings,
   SendChatMessageResult,
+  UploadImageResult,
 } from "./models/models";
 import {
   mapToAddChatParticipantsRequestRestModel,
@@ -45,11 +46,13 @@ import {
   SendTypingNotificationOptions,
   UpdateMessageOptions,
   UpdateTopicOptions,
+  UploadImageOptions,
 } from "./models/options";
 import { ChatApiClient } from "./generated/src";
-import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import { InternalPipelineOptions, TransferProgressEvent } from "@azure/core-rest-pipeline";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
 import { tracingClient } from "./generated/src/tracing";
+import { Blob as JSBlob } from 'node:buffer';
 
 const minimumTypingIntervalInMilliSeconds: number = 8000;
 
@@ -106,6 +109,31 @@ export class ChatThreadClient {
         updatedOptions
       );
       return mapToChatThreadPropertiesSdkModel(result);
+    });
+  }
+
+  /**
+   * UploadImage
+   * Returns the chat thread.
+   * @param options -  Operation options.
+   */
+  public uploadImage(blob: JSBlob, options?: UploadImageOptions, onUploadProgress?: (progress: TransferProgressEvent) => void): Promise<UploadImageResult> {
+    return tracingClient.withSpan("ChatClient-GetProperties", {}, async () => {
+      console.log('size uploadImage: ', blob.size)
+      const result = await this.client.chatThread.uploadImage(
+        blob, options?.size ?? 0, onUploadProgress
+      );
+      console.log('result----');
+      console.log(result);
+      const response: UploadImageResult = {
+        id: JSON.parse(result.bodyAsText ?? "{}")?.id ?? 'unknown_id',
+        attachmentType: 'teamsInlineImage',
+        contentType: options?.filename?.split('.')?.pop(),
+        name: options?.filename,
+        url: 'someUrl',
+        previewUrl: 'somePreviewUrl',
+      }
+      return response;
     });
   }
 

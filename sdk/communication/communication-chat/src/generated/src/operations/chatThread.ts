@@ -46,6 +46,7 @@ import {
   ChatThreadListChatParticipantsNextOptionalParams,
   ChatThreadListChatParticipantsNextResponse
 } from "../models";
+import { PipelineRequest, PipelineResponse, TransferProgressEvent, createHttpHeaders } from "@azure/core-rest-pipeline";
 
 /** Class containing ChatThread operations. */
 export class ChatThreadImpl implements ChatThread {
@@ -99,6 +100,50 @@ export class ChatThreadImpl implements ChatThread {
           { chatThreadId, sendReadReceiptRequest, options },
           sendChatReadReceiptOperationSpec
         ) as Promise<void>;
+      }
+    );
+  }
+
+  /**
+   * Sends a message to a thread.
+   * @param blob The Blob of the image
+   * @param size Size of the image
+   */
+  uploadImage(blob: Blob, size: number, onUploadProgress?: (progress: TransferProgressEvent) => void): Promise<PipelineResponse> {
+    // throw new Error("Method not implemented.");
+    console.log('size', size)
+    return tracingClient.withSpan(
+      "ChatApiClient.UploadImage",
+      {},
+      async () => {
+        const req: PipelineRequest = {
+          url: 'http://localhost:27813/api/v1/images/binarysdk',
+          // url: 'https://f18b-4-154-115-109.ngrok.io/api/v1/images/binarysdk',
+          method: "POST",
+          requestId: 'imageUpload',
+          headers: createHttpHeaders({
+            "Content-Length": size.toString(),
+            "X-Content-Length": size.toString(),
+            "Content-Type": "application/octet-stream",
+            "Connection": "keep-alive",
+            "Access-Control-Allow-Headers": true,
+            "ngrok-skip-browser-warning": "69420"
+          }),
+          // @ts-ignore
+          body: blob.stream(),
+          timeout: 0,
+          withCredentials: false,
+          // enableBrowserStreams: true,
+          // streamResponseStatusCodes: new Set([size]),
+          // streamResponseStatusCodes: new Set([Number.POSITIVE_INFINITY]),
+          // @ts-ignore
+          // duplex: 'half',
+          onUploadProgress: onUploadProgress
+        };
+
+        return this.client.sendRequest(
+          req
+        ) as Promise<PipelineResponse>;
       }
     );
   }

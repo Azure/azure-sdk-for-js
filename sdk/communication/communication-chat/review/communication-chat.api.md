@@ -4,8 +4,10 @@
 
 ```ts
 
+/// <reference types="node" />
 /// <reference lib="esnext.asynciterable" />
 
+import { Blob as Blob_2 } from 'node:buffer';
 import { ChatMessageDeletedEvent } from '@azure/communication-signaling';
 import { ChatMessageEditedEvent } from '@azure/communication-signaling';
 import { ChatMessageReceivedEvent } from '@azure/communication-signaling';
@@ -22,6 +24,7 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { ParticipantsAddedEvent } from '@azure/communication-signaling';
 import { ParticipantsRemovedEvent } from '@azure/communication-signaling';
 import { ReadReceiptReceivedEvent } from '@azure/communication-signaling';
+import { TransferProgressEvent } from '@azure/core-rest-pipeline';
 import { TypingIndicatorReceivedEvent } from '@azure/communication-signaling';
 
 // @public
@@ -163,6 +166,7 @@ export class ChatThreadClient {
     readonly threadId: string;
     updateMessage(messageId: string, options?: UpdateMessageOptions): Promise<void>;
     updateTopic(topic: string, options?: UpdateTopicOptions): Promise<void>;
+    uploadImage(blob: Blob_2, options?: UploadImageOptions, onUploadProgress?: (progress: TransferProgressEvent) => void): Promise<UploadImageResult>;
 }
 
 // @public
@@ -311,6 +315,26 @@ export interface UpdateMessageOptions extends OperationOptions {
 
 // @public
 export interface UpdateTopicOptions extends OperationOptions {
+}
+
+// @public
+export interface UploadImageOptions extends OperationOptions {
+    // Warning: (ae-forgotten-export) The symbol "AttachmentType_2" needs to be exported by the entry point index.d.ts
+    attachmentType: AttachmentType_2;
+    filename: string;
+    mimeType: string;
+    size?: number;
+}
+
+// @public
+export interface UploadImageResult {
+    // Warning: (ae-forgotten-export) The symbol "AttachmentType_3" needs to be exported by the entry point index.d.ts
+    attachmentType?: AttachmentType_3;
+    contentType?: string;
+    id: string;
+    name?: string;
+    previewUrl?: string;
+    url?: string;
 }
 
 // (No @packageDocumentation comment for this package)
