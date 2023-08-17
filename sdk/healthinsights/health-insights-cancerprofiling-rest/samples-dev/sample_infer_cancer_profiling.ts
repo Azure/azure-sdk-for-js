@@ -43,9 +43,11 @@ function printResults(cancerProfilingResult: OncoPhenotypeResultOutput): void {
             }
         }
     } else {
-        const errors = cancerProfilingResult!.errors;
-        for (const { code, message } of errors) {
-            console.log(`${code}: ${message}`);
+        const errors = cancerProfilingResult.errors;
+        if (errors) {
+            for (const { code, message } of errors) {
+                console.log(`${code}: ${message}`);
+            }
         }
     }
 }
