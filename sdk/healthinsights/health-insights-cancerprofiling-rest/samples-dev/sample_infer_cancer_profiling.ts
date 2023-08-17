@@ -22,8 +22,8 @@ import CancerProfilingRestClient, {
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
-const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "https://eastus.api.cognitive.microsoft.com";
-const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "f8f24c0e49174c148b832052c5190834";
+const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
+const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
 
 // Print the inference results
 function printResults(cancerProfilingResult: OncoPhenotypeResultOutput): void {
