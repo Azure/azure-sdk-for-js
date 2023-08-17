@@ -15,13 +15,11 @@ export type ActionType = string;
 export class AzureAPICenter extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, serviceName: string, options?: AzureAPICenterOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureAPICenterOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
     operations: Operations;
-    // (undocumented)
-    serviceName: string;
     // (undocumented)
     services: Services;
     // (undocumented)
@@ -179,12 +177,12 @@ export interface ServiceCollection {
 
 // @public
 export interface Services {
-    createOrUpdate(resourceGroupName: string, options?: ServicesCreateOrUpdateOptionalParams): Promise<ServicesCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, options?: ServicesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, options?: ServicesGetOptionalParams): Promise<ServicesGetResponse>;
+    createOrUpdate(resourceGroupName: string, serviceName: string, options?: ServicesCreateOrUpdateOptionalParams): Promise<ServicesCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, serviceName: string, options?: ServicesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, serviceName: string, options?: ServicesGetOptionalParams): Promise<ServicesGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ServicesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Service>;
     listBySubscription(options?: ServicesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Service>;
-    update(resourceGroupName: string, options?: ServicesUpdateOptionalParams): Promise<ServicesUpdateResponse>;
+    update(resourceGroupName: string, serviceName: string, options?: ServicesUpdateOptionalParams): Promise<ServicesUpdateResponse>;
 }
 
 // @public

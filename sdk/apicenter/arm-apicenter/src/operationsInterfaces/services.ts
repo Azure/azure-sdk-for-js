@@ -42,37 +42,45 @@ export interface Services {
   /**
    * Get service
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName Service name
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
+    serviceName: string,
     options?: ServicesGetOptionalParams
   ): Promise<ServicesGetResponse>;
   /**
    * Create or update service
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName Service name
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
+    serviceName: string,
     options?: ServicesCreateOrUpdateOptionalParams
   ): Promise<ServicesCreateOrUpdateResponse>;
   /**
    * Update service
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName Service name
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
+    serviceName: string,
     options?: ServicesUpdateOptionalParams
   ): Promise<ServicesUpdateResponse>;
   /**
    * Delete service
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName Service name
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
+    serviceName: string,
     options?: ServicesDeleteOptionalParams
   ): Promise<void>;
 }

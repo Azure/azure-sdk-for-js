@@ -8,11 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AzureAPICenter } from "@azure/arm-apicenter";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { AzureAPICenter } = require("@azure/arm-apicenter");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get service
@@ -22,10 +20,8 @@ dotenv.config();
  */
 async function servicesGet() {
   const subscriptionId =
-    process.env["APICENTER_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APICENTER_RESOURCE_GROUP"] || "contoso-resources";
+    process.env["APICENTER_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["APICENTER_RESOURCE_GROUP"] || "contoso-resources";
   const serviceName = "contoso";
   const credential = new DefaultAzureCredential();
   const client = new AzureAPICenter(credential, subscriptionId);

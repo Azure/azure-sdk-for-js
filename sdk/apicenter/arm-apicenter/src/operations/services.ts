@@ -199,14 +199,16 @@ export class ServicesImpl implements Services {
   /**
    * Get service
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName Service name
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
+    serviceName: string,
     options?: ServicesGetOptionalParams
   ): Promise<ServicesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, options },
+      { resourceGroupName, serviceName, options },
       getOperationSpec
     );
   }
@@ -214,14 +216,16 @@ export class ServicesImpl implements Services {
   /**
    * Create or update service
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName Service name
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
+    serviceName: string,
     options?: ServicesCreateOrUpdateOptionalParams
   ): Promise<ServicesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, options },
+      { resourceGroupName, serviceName, options },
       createOrUpdateOperationSpec
     );
   }
@@ -229,14 +233,16 @@ export class ServicesImpl implements Services {
   /**
    * Update service
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName Service name
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
+    serviceName: string,
     options?: ServicesUpdateOptionalParams
   ): Promise<ServicesUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, options },
+      { resourceGroupName, serviceName, options },
       updateOperationSpec
     );
   }
@@ -244,14 +250,16 @@ export class ServicesImpl implements Services {
   /**
    * Delete service
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName Service name
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
+    serviceName: string,
     options?: ServicesDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, options },
+      { resourceGroupName, serviceName, options },
       deleteOperationSpec
     );
   }

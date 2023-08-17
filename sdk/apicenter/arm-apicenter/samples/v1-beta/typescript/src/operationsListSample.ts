@@ -15,26 +15,26 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Get service
+ * This sample demonstrates how to List the operations for the provider
  *
- * @summary Get service
- * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/preview/2023-07-01-preview/examples/Services_Get.json
+ * @summary List the operations for the provider
+ * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/preview/2023-07-01-preview/examples/Operations_List.json
  */
-async function servicesGet() {
+async function operationsList() {
   const subscriptionId =
     process.env["APICENTER_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["APICENTER_RESOURCE_GROUP"] || "contoso-resources";
-  const serviceName = "contoso";
   const credential = new DefaultAzureCredential();
   const client = new AzureAPICenter(credential, subscriptionId);
-  const result = await client.services.get(resourceGroupName, serviceName);
-  console.log(result);
+  const resArray = new Array();
+  for await (let item of client.operations.list()) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
 async function main() {
-  servicesGet();
+  operationsList();
 }
 
 main().catch(console.error);

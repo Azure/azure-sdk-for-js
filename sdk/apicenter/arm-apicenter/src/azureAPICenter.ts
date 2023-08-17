@@ -22,19 +22,16 @@ export class AzureAPICenter extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
   subscriptionId: string;
-  serviceName: string;
 
   /**
    * Initializes a new instance of the AzureAPICenter class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The ID of the target subscription.
-   * @param serviceName Service name
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    serviceName: string,
     options?: AzureAPICenterOptionalParams
   ) {
     if (credentials === undefined) {
@@ -42,9 +39,6 @@ export class AzureAPICenter extends coreClient.ServiceClient {
     }
     if (subscriptionId === undefined) {
       throw new Error("'subscriptionId' cannot be null");
-    }
-    if (serviceName === undefined) {
-      throw new Error("'serviceName' cannot be null");
     }
 
     // Initializing default values for options
@@ -106,7 +100,6 @@ export class AzureAPICenter extends coreClient.ServiceClient {
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
-    this.serviceName = serviceName;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
