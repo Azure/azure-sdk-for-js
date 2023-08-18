@@ -270,6 +270,8 @@ specifiers:
   '@rush-temp/eventhubs-checkpointstore-blob': file:./projects/eventhubs-checkpointstore-blob.tgz
   '@rush-temp/eventhubs-checkpointstore-table': file:./projects/eventhubs-checkpointstore-table.tgz
   '@rush-temp/functions-authentication-events': file:./projects/functions-authentication-events.tgz
+  '@rush-temp/health-insights-cancerprofiling': file:./projects/health-insights-cancerprofiling.tgz
+  '@rush-temp/health-insights-clinicalmatching': file:./projects/health-insights-clinicalmatching.tgz
   '@rush-temp/identity': file:./projects/identity.tgz
   '@rush-temp/identity-cache-persistence': file:./projects/identity-cache-persistence.tgz
   '@rush-temp/identity-vscode': file:./projects/identity-vscode.tgz
@@ -625,6 +627,8 @@ dependencies:
   '@rush-temp/eventhubs-checkpointstore-blob': file:projects/eventhubs-checkpointstore-blob.tgz
   '@rush-temp/eventhubs-checkpointstore-table': file:projects/eventhubs-checkpointstore-table.tgz
   '@rush-temp/functions-authentication-events': file:projects/functions-authentication-events.tgz
+  '@rush-temp/health-insights-cancerprofiling': file:projects/health-insights-cancerprofiling.tgz
+  '@rush-temp/health-insights-clinicalmatching': file:projects/health-insights-clinicalmatching.tgz
   '@rush-temp/identity': file:projects/identity.tgz
   '@rush-temp/identity-cache-persistence': file:projects/identity-cache-persistence.tgz
   '@rush-temp/identity-vscode': file:projects/identity-vscode.tgz
@@ -17625,6 +17629,88 @@ packages:
       tslib: 2.6.1
       typescript: 5.0.4
       util: 0.12.5
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/health-insights-cancerprofiling.tgz:
+    resolution: {integrity: sha512-+dAtcl8wTixPFiUSiVjbCZAHz/vvry2eMvImcDKHT+ZWToJXj0wd5YYMyQvg/8Prg9lOECCXMor2Kybn+rpOcA==, tarball: file:projects/health-insights-cancerprofiling.tgz}
+    name: '@rush-temp/health-insights-cancerprofiling'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.36.3_@types+node@14.18.54
+      '@types/chai': 4.3.5
+      '@types/mocha': 7.0.2
+      '@types/node': 14.18.54
+      autorest: 3.6.3
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      eslint: 8.45.0
+      karma: 6.4.2
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-junit-reporter: 2.0.1_karma@6.4.2
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.2
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 15.1.0
+      prettier: 2.8.8
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.6.0
+      typescript: 5.0.4
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/health-insights-clinicalmatching.tgz:
+    resolution: {integrity: sha512-RnryIt4e8cHLDDQ44s7iSb+zViV8enp1Gm6SU0hj9Mojx1/NUV0zSitDSSGrlx7HjTbForrYgHjsphFCOcVaWg==, tarball: file:projects/health-insights-clinicalmatching.tgz}
+    name: '@rush-temp/health-insights-clinicalmatching'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.36.3_@types+node@14.18.54
+      '@types/chai': 4.3.5
+      '@types/mocha': 7.0.2
+      '@types/node': 14.18.54
+      autorest: 3.6.3
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      eslint: 8.45.0
+      karma: 6.4.2
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-junit-reporter: 2.0.1_karma@6.4.2
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.2
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 15.1.0
+      prettier: 2.8.8
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.6.0
+      typescript: 5.0.4
     transitivePeerDependencies:
       - bufferutil
       - debug
