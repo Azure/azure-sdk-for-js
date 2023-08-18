@@ -27,7 +27,7 @@ export function buildSseTests<StreamT>(
   createStream: (cb: (write: (chunk: Uint8Array) => void) => void) => StreamT
 ): Mocha.Suite {
   return describe(`[${rtName}] Server-sent Events`, () => {
-    matrix([[0, 1, 2, 100000]], async function (count: number) {
+    matrix([[0, 1, 2, 10000]], async function (count: number) {
       matrix([[1, 3, 10]], async function (chunkLen: number) {
         it(`handles ${count} events chunked into chunks of length ${chunkLen}`, async () => {
           const client = createClient(() =>

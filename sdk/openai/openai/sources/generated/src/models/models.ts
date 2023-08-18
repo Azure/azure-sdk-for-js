@@ -1,14 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
- *
- * Any changes you make here may be lost.
- *
- * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
- */
-
 import { ErrorModel } from "@azure-rest/core-client";
 
 /**
@@ -54,7 +46,12 @@ export interface Completions {
    * The first timestamp associated with generation activity for this completions response,
    * represented as seconds since the beginning of the Unix epoch of 00:00 on 1 Jan 1970.
    */
-  created: number;
+  created: Date;
+  /**
+   * Content filtering results for zero or more prompts in the request. In a streaming request,
+   * results for different prompts may arrive at different times or in different orders.
+   */
+  promptFilterResults?: PromptFilterResult[];
   /**
    * The collection of completions choices associated with this completions response.
    * Generally, `n` choices are generated per provided prompt with a default value of 1.
@@ -64,6 +61,55 @@ export interface Completions {
   /** Usage information for tokens processed and generated as part of this completions operation. */
   usage: CompletionsUsage;
 }
+
+/** Content filtering results for a single prompt in the request. */
+export interface PromptFilterResult {
+  /** The index of this prompt in the set of prompt results */
+  promptIndex: number;
+  /** Content filtering results for this prompt */
+  contentFilterResults?: ContentFilterResults;
+}
+
+/** Information about the content filtering category, if it has been detected. */
+export interface ContentFilterResults {
+  /**
+   * Describes language related to anatomical organs and genitals, romantic relationships,
+   *  acts portrayed in erotic or affectionate terms, physical sexual acts, including
+   *  those portrayed as an assault or a forced sexual violent act against one’s will,
+   *  prostitution, pornography, and abuse.
+   */
+  sexual?: ContentFilterResult;
+  /**
+   * Describes language related to physical actions intended to hurt, injure, damage, or
+   * kill someone or something; describes weapons, etc.
+   */
+  violence?: ContentFilterResult;
+  /**
+   * Describes language attacks or uses that include pejorative or discriminatory language
+   * with reference to a person or identity group on the basis of certain differentiating
+   * attributes of these groups including but not limited to race, ethnicity, nationality,
+   * gender identity and expression, sexual orientation, religion, immigration status, ability
+   * status, personal appearance, and body size.
+   */
+  hate?: ContentFilterResult;
+  /**
+   * Describes language related to physical actions intended to purposely hurt, injure,
+   * or damage one’s body, or kill oneself.
+   */
+  selfHarm?: ContentFilterResult;
+}
+
+/** Information about filtered content severity level and if it has been filtered or not. */
+export interface ContentFilterResult {
+  /** Ratings for the intensity and risk level of filtered content. */
+  severity: ContentFilterSeverity;
+  /** A value indicating whether or not the content has been filtered. */
+  filtered: boolean;
+}
+
+/** Ratings for the intensity and risk level of harmful content. */
+/** "safe", "low", "medium", "high" */
+export type ContentFilterSeverity = string;
 
 /**
  * The representation of a single prompt completion as part of an overall completions request.
@@ -75,6 +121,12 @@ export interface Choice {
   text: string;
   /** The ordered index associated with this completions choice. */
   index: number;
+  /**
+   * Information about the content filtering category (hate, sexual, violence, self_harm), if it
+   * has been detected, as well as the severity level (very_low, low, medium, high-scale that
+   * determines the intensity and risk level of harmful content) and if it has been filtered or not.
+   */
+  contentFilterResults?: ContentFilterResults;
   /** The log probabilities model for tokens associated with this completions choice. */
   logprobs: CompletionsLogProbabilityModel | null;
   /** Reason for finishing */
@@ -106,7 +158,7 @@ export interface CompletionsLogProbabilityModel {
 }
 
 /** Representation of the manner in which a completions response concluded. */
-/** "stop", "length", "content_filter" */
+/** "stop", "length", "content_filter", "function_call" */
 export type CompletionsFinishReason = string;
 
 /**
@@ -128,12 +180,62 @@ export interface ChatMessage {
   /** The role associated with this message payload. */
   role: ChatRole;
   /** The text associated with this message payload. */
-  content?: string;
+  content: string | null;
+  /**
+   * The name of the author of this message. `name` is required if role is `function`, and it should be the name of the
+   * function whose response is in the `content`. May contain a-z, A-Z, 0-9, and underscores, with a maximum length of
+   * 64 characters.
+   */
+  name?: string;
+  /** The name and arguments of a function that should be called, as generated by the model. */
+  functionCall?: FunctionCall;
 }
 
 /** A description of the intended purpose of a message within a chat completions interaction. */
-/** "system", "assistant", "user" */
+/** "system", "assistant", "user", "function" */
 export type ChatRole = string;
+
+/** The name and arguments of a function that should be called, as generated by the model. */
+export interface FunctionCall {
+  /** The name of the function to call. */
+  name: string;
+  /**
+   * The arguments to call the function with, as generated by the model in JSON format.
+   * Note that the model does not always generate valid JSON, and may hallucinate parameters
+   * not defined by your function schema. Validate the arguments in your code before calling
+   * your function.
+   */
+  arguments: string;
+}
+
+/** The definition of a caller-specified function that chat completions may invoke in response to matching user input. */
+export interface FunctionDefinition {
+  /** The name of the function to be called. */
+  name: string;
+  /**
+   * A description of what the function does. The model will use this description when selecting the function and
+   * interpreting its parameters.
+   */
+  description?: string;
+  /** The parameters the functions accepts, described as a JSON Schema object. */
+  parameters?: any;
+}
+
+/**
+ * The collection of predefined behaviors for handling request-provided function information in a chat completions
+ * operation.
+ */
+/** "auto", "none" */
+export type FunctionCallPreset = string;
+
+/**
+ * A structure that specifies the exact name of a specific, request-provided function to use when processing a chat
+ * completions operation.
+ */
+export interface FunctionName {
+  /** The name of the function to call. */
+  name: string;
+}
 
 /**
  * Representation of the response data from a chat completions request.
@@ -147,13 +249,18 @@ export interface ChatCompletions {
    * The first timestamp associated with generation activity for this completions response,
    * represented as seconds since the beginning of the Unix epoch of 00:00 on 1 Jan 1970.
    */
-  created: number;
+  created: Date;
   /**
    * The collection of completions choices associated with this completions response.
    * Generally, `n` choices are generated per provided prompt with a default value of 1.
    * Token limits and other settings may limit the number of choices generated.
    */
   choices: ChatChoice[];
+  /**
+   * Content filtering results for zero or more prompts in the request. In a streaming request,
+   * results for different prompts may arrive at different times or in different orders.
+   */
+  promptFilterResults?: PromptFilterResult[];
   /** Usage information for tokens processed and generated as part of this completions operation. */
   usage: CompletionsUsage;
 }
@@ -172,6 +279,12 @@ export interface ChatChoice {
   finishReason: CompletionsFinishReason | null;
   /** The delta message content for a streaming response. */
   delta?: ChatMessage;
+  /**
+   * Information about the content filtering category (hate, sexual, violence, self_harm), if it
+   * has been detected, as well as the severity level (very_low, low, medium, high-scale that
+   * determines the intensity and risk level of harmful content) and if it has been filtered or not.
+   */
+  contentFilterResults?: ContentFilterResults;
 }
 
 /** A polling status update or final response payload for an image operation. */
@@ -179,7 +292,7 @@ export interface BatchImageGenerationOperationResponse {
   /** The ID of the operation. */
   id: string;
   /** A timestamp when this job or item was created (in unix epochs). */
-  created: number;
+  created: Date;
   /** A timestamp when this operation and its associated images expire and will be deleted (in unix epochs). */
   expires?: number;
   /** The result of the operation if the operation succeeded. */
@@ -190,13 +303,10 @@ export interface BatchImageGenerationOperationResponse {
   error?: ErrorModel;
 }
 
-/** Convenience alias for BatchImageGenerationOperationResponse */
-export type ImageGenerationResponse = BatchImageGenerationOperationResponse;
-
 /** The result of the operation if the operation succeeded. */
 export interface ImageGenerations {
   /** A timestamp when this job or item was created (in unix epochs). */
-  created: number;
+  created: Date;
   /** The images generated by the operator. */
   data: ImageLocation[] | ImagePayload[];
 }
