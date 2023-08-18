@@ -23,10 +23,8 @@ const defaultMetricsScope = "https://management.azure.com/.default";
  * Options for the MetricsQueryClient.
  */
 export interface MetricsBatchQueryClientOptions extends CommonClientOptions {
-  /** Batch client endpoint. */
-  batchEndPoint?: string;
   /** Metrics scope */
-  batchMetricsScope?: string;
+  batchMetricsAuthScope?: string;
 }
 
 export const getSubscriptionFromResourceId = function (resourceId: string): string {
@@ -42,16 +40,19 @@ export class MetricsBatchQueryClient {
   private _metricBatchClient: GeneratedMonitorMetricBatchClient;
   private _baseUrl: string;
 
-  constructor(tokenCredential: TokenCredential, options?: MetricsBatchQueryClientOptions) {
+  constructor(
+    batchEndPoint: string,
+    tokenCredential: TokenCredential,
+    options?: MetricsBatchQueryClientOptions
+  ) {
     let scope;
-    if (options?.batchMetricsScope) {
-      scope = `${options?.batchMetricsScope}/.default`;
+    if (options?.batchMetricsAuthScope) {
+      scope = `${options?.batchMetricsAuthScope}/.default`;
     }
     const credentialOptions = {
       credentialScopes: scope,
     };
     const packageDetails = `azsdk-js-monitor-query/${SDK_VERSION}`;
-    const batchEndPoint = options?.batchEndPoint ?? "https://westus2.metrics.monitor.azure.com/";
     const userAgentPrefix =
       options?.userAgentOptions && options?.userAgentOptions.userAgentPrefix
         ? `${options?.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -67,8 +68,7 @@ export class MetricsBatchQueryClient {
       },
     };
 
-    this._baseUrl =
-      serviceClientOptions.batchEndPoint ?? "https://westus2.metrics.monitor.azure.com/";
+    this._baseUrl = batchEndPoint;
 
     this._metricBatchClient = new GeneratedMonitorMetricBatchClient(
       MonitorMetricBatchApiVersion.TwoThousandTwentyThree0501Preview,

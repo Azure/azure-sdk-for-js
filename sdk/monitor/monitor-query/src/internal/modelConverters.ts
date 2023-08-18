@@ -200,8 +200,8 @@ export function convertRequestForMetricsBatchQuery(
   }
 
   return {
-    starttime: metricsBatchQueryOptions.startTime,
-    endtime: metricsBatchQueryOptions.endTime,
+    starttime: metricsBatchQueryOptions.startTime?.toISOString(),
+    endtime: metricsBatchQueryOptions.endTime?.toISOString(),
     ...metricsBatchQueryOptions,
   };
 }

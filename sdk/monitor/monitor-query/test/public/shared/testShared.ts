@@ -54,9 +54,7 @@ export async function createRecorderAndMetricsBatchQueryClient(): Promise<Record
   const testCredential = createTestCredential();
   const batchEndPoint =
     env["AZURE_MONITOR_BATCH_ENDPOINT"] ?? "https://eastus.metrics.monitor.azure.com/";
-  const client = new MetricsBatchQueryClient(testCredential, {
-    batchEndPoint,
-  });
+  const client = new MetricsBatchQueryClient(batchEndPoint, testCredential);
 
   return {
     client: client,

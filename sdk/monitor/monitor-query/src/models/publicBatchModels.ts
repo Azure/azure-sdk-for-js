@@ -53,9 +53,9 @@ export interface MetricsBatchOptionalParams extends coreClient.OperationOptions 
    * If only starttime is specified, then endtime defaults to the current time.
    * If no time interval is specified, the default is 1 hour.
    */
-  startTime?: string;
+  startTime?: Date;
   /** The end time of the query. It is a string in the format 'yyyy-MM-ddTHH:mm:ss.fffZ'. */
-  endTime?: string;
+  endTime?: Date;
   /**
    * The interval (i.e. timegrain) of the query.
    * *Examples: PT15M, PT1H, P1D*

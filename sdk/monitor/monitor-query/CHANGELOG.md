@@ -2,12 +2,14 @@
 
 ## 1.2.0-beta.2 (2023-08-21)
 
-- Added `batchMetricsScope` property to `MetricsBatchQueryClientOptions` object.
+- Added `batchMetricsAuthScope` property to `MetricsBatchQueryClientOptions` object.
 - Added intergration test cases for `MetricsBatchQueryClient`.
 
 ### Breaking Changes
 
-- In the `MetricsBatchOptionalParams`object, the names of the properties `endtime`, `orderby`, `starttime` are changed to `endTime`, `orderBy`, `startTime` respectively.
+- In the `MetricsBatchOptionalParams` object, the names of the properties `endtime`, `orderby`, `starttime` are changed to `endTime`, `orderBy`, `startTime` respectively.
+- In the `MetricsBatchQueryClientOptions` object, the `batchEndPoint` has been removed as optional property. Instead, this has been changed to mandatory parameter in the `MetricsBatchQueryClient` class.
+- In the `MetricsBatchOptionalParams` object, the data type properties of `startTime` & `endTime` have been changed from `string` to `Date`.
 
 ## 1.2.0-beta.1 (2023-08-11)
 
