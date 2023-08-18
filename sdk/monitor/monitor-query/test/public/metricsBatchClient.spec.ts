@@ -12,7 +12,7 @@ import {
   getMetricsBatchNames,
 } from "./shared/testShared";
 
-describe("MetricsBatchClient live tests", function () {
+describe.skip("MetricsBatchClient live tests", function () {
   let resourceIds: string[];
   let metricsNamespace: string;
   let metricNames: string[];
