@@ -1,15 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
 import { OpenAIClient } from "../../src/OpenAIClient.js";
 import { createClient, startRecorder } from "./utils/recordedClient.js";
-
-export const testPollingOptions = {
-  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
-};
 
 describe("README samples", () => {
   let recorder: Recorder;

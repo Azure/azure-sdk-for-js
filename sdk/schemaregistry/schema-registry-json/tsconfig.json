@@ -1,0 +1,12 @@
+{
+  "extends": "../../../tsconfig.package",
+  "compilerOptions": {
+    "outDir": "./dist-esm",
+    "declarationDir": "./types",
+    "paths": {
+      "@azure/schema-registry-json": ["./src/index"]
+    },
+    "lib": ["dom"]
+  },
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
+}

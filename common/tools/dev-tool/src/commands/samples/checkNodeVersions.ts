@@ -190,12 +190,15 @@ async function runDockerContainer(
     containerWorkspace,
     "-v",
     `${dockerContextDirectory}:${containerWorkspace}`,
+    "--entrypoint",
+    "sh",
     dockerImageName,
     "./run_samples.sh",
   ];
   const dockerContainerRunProcess = pr.spawn("docker", args, {
     cwd: dockerContextDirectory,
   });
+  log.debug(`Running docker container with the following args: ${args.join(" ")}`);
   log.info(`Started running the docker container ${dockerContainerName}`);
   dockerContainerRunProcess.stdout.on("data", stdoutListener);
   dockerContainerRunProcess.stderr.on("data", stderrListener);

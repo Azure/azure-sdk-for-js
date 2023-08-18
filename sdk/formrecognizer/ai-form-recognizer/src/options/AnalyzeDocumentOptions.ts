@@ -21,6 +21,9 @@ export type FormRecognizerFeature =
   // eslint-disable-next-line @typescript-eslint/ban-types
   | (string & {});
 
+/**
+ * Known feature flags supported by the Form Recognizer clients.
+ */
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FormRecognizerFeature = {
   /**
@@ -83,5 +86,5 @@ export interface AnalyzeDocumentOptions<Result = AnalyzeResult<AnalyzedDocument>
    *
    * For more information about the features available in Form Recognizer, see the service documentation: https://aka.ms/azsdk/formrecognizer/features
    */
-  features?: string[];
+  features?: FormRecognizerFeature[];
 }

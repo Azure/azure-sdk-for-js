@@ -12,7 +12,7 @@ import {
   DocumentStyle,
 } from "../generated";
 import { DocumentField, toAnalyzedDocumentFieldsFromGenerated } from "../models/fields";
-import { FormRecognizerApiVersion, PollerOptions } from "../options";
+import { PollerOptions } from "../options";
 import { AnalyzeDocumentOptions } from "../options/AnalyzeDocumentOptions";
 import {
   toBoundingPolygon,
@@ -102,7 +102,7 @@ export interface AnalyzeResultCommon {
   /**
    * The service API version used to produce this result.
    */
-  apiVersion: FormRecognizerApiVersion;
+  apiVersion: string;
 
   /**
    * The unique ID of the model that was used to produce this result.
@@ -372,7 +372,7 @@ export type AnalysisPoller<Result = AnalyzeResult<AnalyzedDocument>> = PollerLik
  */
 export function toAnalyzeResultFromGenerated(result: GeneratedAnalyzeResult): AnalyzeResult {
   return {
-    apiVersion: result.apiVersion as FormRecognizerApiVersion,
+    apiVersion: result.apiVersion,
     modelId: result.modelId,
     content: result.content,
     pages: result.pages.map((page) => toDocumentPageFromGenerated(page)),
