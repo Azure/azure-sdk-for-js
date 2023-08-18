@@ -8,6 +8,7 @@ import { randomUUID } from "@azure/core-util";
 import { KeyCredential } from "@azure/core-auth";
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { AuthMethod } from "./recordedClient.js";
 
 export async function withDeployment<T>(
   deployments: string[],
@@ -27,11 +28,11 @@ export async function withDeployment<T>(
         ["OperationNotSupported", "model_not_found"].includes(error.code) ||
         error.type === "invalid_request_error"
       ) {
-        logger.verbose(JSON.stringify(error));
+        logger.verbose(error.toString());
         continue;
       }
-      logger.warning(`Error in deployment ${deployment}: ${JSON.stringify(error)}`);
-      errors.push(JSON.stringify(error));
+      logger.warning(`Error in deployment ${deployment}: ${error.toString()}`);
+      errors.push(error.toString());
     }
   }
   if (errors.length > 0) {
@@ -75,4 +76,41 @@ export async function listDeployments(
   }
   logger.verbose(`Available deployments (${deployments.length}): ${deployments.join(", ")}`);
   return deployments;
+}
+
+export function updateWithSucceeded(
+  succeeded: string[],
+  deployments: string[],
+  models: string[],
+  authMethod: AuthMethod
+): void {
+  if (authMethod === "OpenAIKey") {
+    if (models.length === 0) {
+      models.push(...succeeded);
+    }
+  } else {
+    if (deployments.length === 0) {
+      deployments.push(...succeeded);
+    }
+  }
+}
+
+export function getSucceeded(
+  authMethod: AuthMethod,
+  deployments: string[],
+  models: string[],
+  succeededDeployments: string[],
+  succeededModels: string[]
+): string[] {
+  if (authMethod === "OpenAIKey") {
+    if (succeededModels.length > 0) {
+      return succeededModels;
+    }
+    return models;
+  } else {
+    if (succeededDeployments.length > 0) {
+      return succeededDeployments;
+    }
+    return deployments;
+  }
 }

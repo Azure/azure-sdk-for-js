@@ -35,16 +35,26 @@ function assertNonEmptyArray<T>(val: T[], validate: (x: T) => void): void {
   }
 }
 
-async function assertNonEmptyAsyncIterable<T>(
+async function assertAsyncIterable<T>(
   val: AsyncIterable<T>,
   validate: (x: T) => void
-): Promise<void> {
-  let ran = false;
-  for await (const x of val) {
-    ran = true;
-    validate(x);
+): Promise<number> {
+  const items: T[] = [];
+  for await (const item of val) {
+    try {
+      validate(item);
+    } catch (e: any) {
+      throw new Error(
+        `Error validating item:\n ${JSON.stringify(item, undefined, 2)}\n\n${
+          e.message
+        }.\n\nPrevious items:\n\n${items
+          .map((x) => JSON.stringify(x, undefined, 2))
+          .join("\n")}\n\n Stack trace: ${e.stack}`
+      );
+    }
+    items.push(item);
   }
-  assert.isTrue(ran);
+  return items.length;
 }
 
 function assertLogProbabilityModel(logProbability: CompletionsLogProbabilityModel): void {
@@ -74,34 +84,43 @@ function assertChoice(choice: Choice): void {
   ifDefined(choice.finishReason, assert.isString);
 }
 
-function assertFunctionCall(functionCall: FunctionCall): void {
-  assert.isString(functionCall.arguments);
-  assert.isString(functionCall.name);
+function assertFunctionCall(
+  functionCall: FunctionCall,
+  { stream }: ChatCompletionTestOptions
+): void {
+  assertIf(!stream, functionCall.arguments, assert.isString);
+  assertIf(!stream, functionCall.name, assert.isString);
+}
+
+function assertIf(condition: boolean, val: any, check: (x: any) => void): void {
+  if (condition) {
+    check(val);
+  } else {
+    ifDefined(val, check);
+  }
 }
 
 function assertMessage(
   message: ChatMessage | undefined,
-  { functions }: ChatCompletionTestOptions = {}
+  { functions, stream }: ChatCompletionTestOptions
 ): void {
   assert.isDefined(message);
   const msg = message as ChatMessage;
   if (!functions) {
-    assert.isString(msg.content);
+    assertIf(!stream, msg.content, assert.isString);
   }
-  assert.isString(msg.role);
-  ifDefined(msg.functionCall, assertFunctionCall, { defined: functions });
+  assertIf(!stream, msg.role, assert.isString);
+  ifDefined(msg.functionCall, (item) => assertFunctionCall(item, { stream }));
   ifDefined(msg.name, assert.isString);
 }
 
-function assertChatChoice(
-  choice: ChatChoice,
-  { stream, ...opts }: ChatCompletionTestOptions = {}
-): void {
+function assertChatChoice(choice: ChatChoice, options: ChatCompletionTestOptions): void {
+  const stream = options.stream;
   if (stream) {
-    assertMessage(choice.delta, opts);
+    assertMessage(choice.delta, options);
     assert.isUndefined(choice.message);
   } else {
-    assertMessage(choice.message, opts);
+    assertMessage(choice.message, options);
     assert.isUndefined(choice.delta);
   }
   assert.isNumber(choice.index);
@@ -117,7 +136,7 @@ function assertUsage(usage: CompletionsUsage): void {
 
 function assertCompletionsNoUsage(
   completions: Omit<Completions, "usage">,
-  { allowEmptyChoices = false }: CompletionTestOptions = {}
+  { allowEmptyChoices }: CompletionTestOptions = {}
 ): void {
   if (!allowEmptyChoices || completions.choices.length > 0) {
     assertNonEmptyArray(completions.choices, assertChoice);
@@ -129,7 +148,7 @@ function assertCompletionsNoUsage(
 
 function assertChatCompletionsNoUsage(
   completions: Omit<ChatCompletions, "usage">,
-  { allowEmptyChoices = false, ...opts }: ChatCompletionTestOptions = {}
+  { allowEmptyChoices, ...opts }: ChatCompletionTestOptions
 ): void {
   if (!allowEmptyChoices || completions.choices.length > 0) {
     assertNonEmptyArray(completions.choices, (choice) => assertChatChoice(choice, opts));
@@ -155,15 +174,15 @@ export function assertChatCompletions(
 export async function assertCompletionsStream(
   stream: AsyncIterable<Omit<Completions, "usage">>,
   options: CompletionTestOptions = {}
-): Promise<void> {
-  return assertNonEmptyAsyncIterable(stream, (item) => assertCompletionsNoUsage(item, options));
+): Promise<number> {
+  return assertAsyncIterable(stream, (item) => assertCompletionsNoUsage(item, options));
 }
 
 export async function assertChatCompletionsStream(
   stream: AsyncIterable<Omit<ChatCompletions, "usage">>,
   options: ChatCompletionTestOptions = {}
-): Promise<void> {
-  return assertNonEmptyAsyncIterable(stream, (item) =>
+): Promise<number> {
+  return assertAsyncIterable(stream, (item) =>
     assertChatCompletionsNoUsage(item, { ...options, stream: true })
   );
 }
@@ -176,4 +195,5 @@ interface ChatCompletionTestOptions {
   stream?: boolean;
   allowEmptyChoices?: boolean;
   functions?: boolean;
+  allowEmptyStream?: boolean;
 }

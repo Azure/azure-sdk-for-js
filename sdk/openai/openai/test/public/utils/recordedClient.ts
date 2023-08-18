@@ -16,6 +16,9 @@ const envSetupForPlayback: { [k: string]: string } = {
   OPENAI_API_KEY: "openai_api_key",
   AZURE_API_KEY: "azure_api_key",
   ENDPOINT: "https://endpoint/",
+  SUBSCRIPTION_ID: "subscription_id",
+  RESOURCE_GROUP: "resource_group",
+  ACCOUNT_NAME: "account_name",
 };
 
 const recorderStartOptions: RecorderStartOptions = {

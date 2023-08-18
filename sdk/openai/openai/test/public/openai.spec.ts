@@ -8,29 +8,38 @@ import { OpenAIClient, OpenAIKeyCredential } from "../../src/index.js";
 import { AuthMethod, createClient, startRecorder } from "./utils/recordedClient.js";
 import {
   assertChatCompletions,
+  assertChatCompletionsStream,
   assertCompletions,
   assertCompletionsStream,
 } from "./utils/asserts.js";
-import { listDeployments, listOpenAIModels, withDeployment } from "./utils/utils.js";
+import {
+  getSucceeded,
+  listDeployments,
+  listOpenAIModels,
+  updateWithSucceeded,
+  withDeployment,
+} from "./utils/utils.js";
+import { logger } from "./utils/logger.js";
 
 describe("OpenAI", function () {
   let deployments: string[] = [];
   let models: string[] = [];
 
   before(async function (this: Context) {
-    if (isPlaybackMode()) {
-      this.skip();
-    }
     const subId = assertEnvironmentVariable("SUBSCRIPTION_ID");
     const rgName = assertEnvironmentVariable("RESOURCE_GROUP");
     const accountName = assertEnvironmentVariable("ACCOUNT_NAME");
-    deployments = await listDeployments(subId, rgName, accountName);
-    models = await listOpenAIModels(
-      new OpenAIKeyCredential(assertEnvironmentVariable("OPENAI_API_KEY"))
-    );
+    deployments = isPlaybackMode()
+      ? ["gpt-4", "text-davinci-003"]
+      : await listDeployments(subId, rgName, accountName);
+    models = isPlaybackMode()
+      ? ["gpt-3.5-turbo-0613", "text-davinci-003"]
+      : await listOpenAIModels(
+          new OpenAIKeyCredential(assertEnvironmentVariable("OPENAI_API_KEY"))
+        );
   });
 
-  matrix([["AzureAPIKey", "AAD", "OpenAIKey"]] as const, async function (authMethod: AuthMethod) {
+  matrix([["AzureAPIKey", "OpenAIKey", "AAD"]] as const, async function (authMethod: AuthMethod) {
     describe(`[${authMethod}] Client`, () => {
       let recorder: Recorder;
       let client: OpenAIClient;
@@ -139,67 +148,143 @@ describe("OpenAI", function () {
         });
       });
 
-      describe("getChatCompletions", function () {
-        it("returns completions across all models", async function () {
-          const messages = [
-            { role: "system", content: "You are a helpful assistant." },
-            { role: "user", content: "Knock knock." },
-            { role: "assistant", content: "Who's there?" },
-            { role: "user", content: "Orange." },
-          ];
-          await withDeployment(
-            authMethod === "OpenAIKey" ? models : deployments,
-            async (deploymentName) =>
-              client.getChatCompletions(deploymentName, messages).then(assertChatCompletions)
-          );
-        });
-
-        it("calls functions", async function () {
-          const getCurrentWeather = {
-            name: "get_current_weather",
-            description: "Get the current weather in a given location",
-            parameters: {
-              type: "object",
-              properties: {
-                location: {
-                  type: "string",
-                  description: "The city and state, e.g. San Francisco, CA",
-                },
-                unit: {
-                  type: "string",
-                  enum: ["celsius", "fahrenheit"],
-                },
+      describe("chat completions", function () {
+        const pirateMessages = [
+          { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
+          { role: "user", content: "Can you help me?" },
+          { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
+          { role: "user", content: "What's the best way to train a parrot?" },
+        ];
+        const weatherMessages = [{ role: "user", content: "What's the weather like in Boston?" }];
+        const getCurrentWeather = {
+          name: "get_current_weather",
+          description: "Get the current weather in a given location",
+          parameters: {
+            type: "object",
+            properties: {
+              location: {
+                type: "string",
+                description: "The city and state, e.g. San Francisco, CA",
               },
-              required: ["location"],
+              unit: {
+                type: "string",
+                enum: ["celsius", "fahrenheit"],
+              },
             },
-          };
-          const messages = [{ role: "user", content: "What's the weather like in Boston?" }];
+            required: ["location"],
+          },
+        };
+        const chatCompletionDeployments: string[] = [];
+        const chatCompletionModels: string[] = [];
+        describe("getChatCompletions", function () {
+          it("returns completions across all models", async function () {
+            updateWithSucceeded(
+              await withDeployment(
+                getSucceeded(
+                  authMethod,
+                  deployments,
+                  models,
+                  chatCompletionDeployments,
+                  chatCompletionModels
+                ),
+                async (deploymentName) =>
+                  client
+                    .getChatCompletions(deploymentName, pirateMessages)
+                    .then(assertChatCompletions)
+              ),
+              chatCompletionDeployments,
+              chatCompletionModels,
+              authMethod
+            );
+          });
 
-          await withDeployment(
-            authMethod === "OpenAIKey" ? models : deployments,
-            async (deploymentName) =>
-              client
-                .getChatCompletions(deploymentName, messages, {
-                  functions: [getCurrentWeather],
-                })
-                .then((c) => assertChatCompletions(c, { functions: true }))
-          );
+          it("calls functions", async function () {
+            updateWithSucceeded(
+              await withDeployment(
+                getSucceeded(
+                  authMethod,
+                  deployments,
+                  models,
+                  chatCompletionDeployments,
+                  chatCompletionModels
+                ),
+                async (deploymentName) =>
+                  client
+                    .getChatCompletions(deploymentName, weatherMessages, {
+                      functions: [getCurrentWeather],
+                    })
+                    .then((c) => assertChatCompletions(c, { functions: true }))
+              ),
+              chatCompletionDeployments,
+              chatCompletionModels,
+              authMethod
+            );
+          });
         });
-      });
 
-      describe("listChatCompletions", function () {
-        it("returns completions across all models", async function () {
-          const messages = [
-            { role: "system", content: "You are a helpful assistant." },
-            { role: "user", content: "Knock knock." },
-            { role: "assistant", content: "Who's there?" },
-            { role: "user", content: "Orange." },
-          ];
-          await withDeployment(
-            authMethod === "OpenAIKey" ? models : deployments,
-            async (deploymentName) =>
-              client.getChatCompletions(deploymentName, messages).then(assertChatCompletions)
-          );
+        describe("listChatCompletions", function () {
+          it("returns completions across all models", async function () {
+            updateWithSucceeded(
+              await withDeployment(
+                getSucceeded(
+                  authMethod,
+                  deployments,
+                  models,
+                  chatCompletionDeployments,
+                  chatCompletionModels
+                ),
+                async (deploymentName) => {
+                  const count = await assertChatCompletionsStream(
+                    client.listChatCompletions(deploymentName, pirateMessages),
+                    {
+                      // The API returns an empty choice in the first event for some
+                      // reason. This should be fixed in the API.
+                      allowEmptyChoices: true,
+                    }
+                  );
+                  if (count === 0) {
+                    logger.warning(`No completions returned for ${deploymentName}`);
+                  }
+                }
+              ),
+              chatCompletionDeployments,
+              chatCompletionModels,
+              authMethod
+            );
+          });
+
+          it("calls functions", async function () {
+            updateWithSucceeded(
+              await withDeployment(
+                getSucceeded(
+                  authMethod,
+                  deployments,
+                  models,
+                  chatCompletionDeployments,
+                  chatCompletionModels
+                ),
+                async (deploymentName) => {
+                  const count = await assertChatCompletionsStream(
+                    client.listChatCompletions(deploymentName, weatherMessages, {
+                      functions: [getCurrentWeather],
+                    }),
+                    {
+                      functions: true,
+                      // The API returns an empty choice in the first event for some
+                      // reason. This should be fixed in the API.
+                      allowEmptyChoices: true,
+                    }
+                  );
+                  if (count === 0) {
+                    logger.warning(`No completions returned for ${deploymentName}`);
+                  }
+                }
+              ),
+              chatCompletionDeployments,
+              chatCompletionModels,
+              authMethod
+            );
+          });
         });
       });
 
