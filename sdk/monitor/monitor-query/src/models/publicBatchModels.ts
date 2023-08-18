@@ -49,7 +49,7 @@ export interface Metric {
 /** Optional parameters. */
 export interface MetricsBatchOptionalParams extends coreClient.OperationOptions {
   /**
-   * The start time of the query. It is a string in the format 'yyyy-MM-ddTHH:mm:ss.fffZ'. If you have specified the endtime parameter, then this parameter is required.
+   * The start time of the query. It is a string in the format 'yyyy-MM-ddTHH:mm:ss.fffZ'. If you have specified the endTime parameter, then this parameter is required.
    * If only starttime is specified, then endtime defaults to the current time.
    * If no time interval is specified, the default is 1 hour.
    */
