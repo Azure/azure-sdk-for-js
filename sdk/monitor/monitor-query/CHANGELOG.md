@@ -7,7 +7,7 @@
 
 ### Breaking Changes
 
-- In the `MetricsBatchOptionalParams` object, the names of the properties `endtime`, `orderby`, `starttime` are changed to `endTime`, `orderBy`, `startTime` respectively.
+- In the `MetricsBatchOptionalParams` object, the casing of property names `endtime`, `orderby`, and `starttime` changed to `endTime`, `orderBy`, and `startTime` respectively.
 - In the `MetricsBatchQueryClientOptions` object, the `batchEndPoint` has been removed as optional property. Instead, this has been changed to mandatory parameter in the `MetricsBatchQueryClient` class.
 - In the `MetricsBatchOptionalParams` object, the data type properties of `startTime` & `endTime` have been changed from `string` to `Date`.
 
