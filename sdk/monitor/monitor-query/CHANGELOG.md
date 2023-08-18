@@ -3,7 +3,7 @@
 ## 1.2.0-beta.2 (2023-08-21)
 
 - Added `batchMetricsAuthScope` property to `MetricsBatchQueryClientOptions` object.
-- Added intergration test cases for `MetricsBatchQueryClient`.
+- Added integration test cases for `MetricsBatchQueryClient`.
 
 ### Breaking Changes
 
