@@ -46,11 +46,11 @@ export interface RecorderAndMetricsClient {
 
 export interface RecorderAndMetricsBatchQueryClient {
   client: MetricsBatchQueryClient;
-  //recorder: Recorder;
+  // recorder: Recorder;
 }
 
 export async function createRecorderAndMetricsBatchQueryClient(): Promise<RecorderAndMetricsBatchQueryClient> {
-  //await recorder.start(recorderOptions);
+  // await recorder.start(recorderOptions);
   const testCredential = createTestCredential();
   const batchEndPoint =
     env["AZURE_MONITOR_BATCH_ENDPOINT"] ?? "https://eastus.metrics.monitor.azure.com/";
@@ -60,7 +60,7 @@ export async function createRecorderAndMetricsBatchQueryClient(): Promise<Record
 
   return {
     client: client,
-    //recorder: recorder,
+    // recorder: recorder,
   };
 }
 

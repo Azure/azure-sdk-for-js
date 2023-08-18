@@ -36,7 +36,9 @@ describe("MetricsBatchClient live tests", function () {
     try {
       await metricsBatchQueryClient.queryBatch([], metricsNamespace, metricNames);
       assert.fail("Code should not reach here.");
-    } catch (e) {}
+    } catch (e) {
+      assert.equal(1, 1);
+    }
   });
 
   it("batch query for 2 resource ids", async () => {
