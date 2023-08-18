@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { assert, matrix } from "@azure/test-utils";
 import { Context } from "mocha";
-import { OpenAIClient, OpenAIKeyCredential } from "../../src/index.js";
+import { OpenAIClient } from "../../src/index.js";
 import { AuthMethod, createClient, startRecorder } from "./utils/recordedClient.js";
 import {
   assertChatCompletions,
@@ -13,9 +13,9 @@ import {
   assertCompletionsStream,
 } from "./utils/asserts.js";
 import {
+  getDeployments,
+  getModels,
   getSucceeded,
-  listDeployments,
-  listOpenAIModels,
   updateWithSucceeded,
   withDeployment,
 } from "./utils/utils.js";
@@ -26,17 +26,8 @@ describe("OpenAI", function () {
   let models: string[] = [];
 
   before(async function (this: Context) {
-    const subId = assertEnvironmentVariable("SUBSCRIPTION_ID");
-    const rgName = assertEnvironmentVariable("RESOURCE_GROUP");
-    const accountName = assertEnvironmentVariable("ACCOUNT_NAME");
-    deployments = isPlaybackMode()
-      ? ["gpt-4", "text-davinci-003"]
-      : await listDeployments(subId, rgName, accountName);
-    models = isPlaybackMode()
-      ? ["gpt-3.5-turbo-0613", "text-davinci-003"]
-      : await listOpenAIModels(
-          new OpenAIKeyCredential(assertEnvironmentVariable("OPENAI_API_KEY"))
-        );
+    deployments = await getDeployments();
+    models = await getModels();
   });
 
   matrix([["AzureAPIKey", "OpenAIKey", "AAD"]] as const, async function (authMethod: AuthMethod) {

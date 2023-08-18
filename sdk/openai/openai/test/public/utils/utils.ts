@@ -9,6 +9,8 @@ import { KeyCredential } from "@azure/core-auth";
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { AuthMethod } from "./recordedClient.js";
+import { assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
+import { OpenAIKeyCredential } from "../../../src/OpenAIKeyCredential.js";
 
 export async function withDeployment<T>(
   deployments: string[],
@@ -43,7 +45,7 @@ export async function withDeployment<T>(
   return succeeded;
 }
 
-export async function listOpenAIModels(cred: KeyCredential): Promise<string[]> {
+async function listOpenAIModels(cred: KeyCredential): Promise<string[]> {
   const openaiClient = createDefaultHttpClient();
   const response = await openaiClient.sendRequest({
     url: "https://api.openai.com/v1/models",
@@ -61,7 +63,7 @@ export async function listOpenAIModels(cred: KeyCredential): Promise<string[]> {
   return models;
 }
 
-export async function listDeployments(
+async function listDeployments(
   subId: string,
   rgName: string,
   accountName: string
@@ -113,4 +115,20 @@ export function getSucceeded(
     }
     return deployments;
   }
+}
+
+export async function getDeployments(): Promise<string[]> {
+  return isPlaybackMode()
+    ? ["gpt-4", "text-davinci-003"]
+    : listDeployments(
+        assertEnvironmentVariable("SUBSCRIPTION_ID"),
+        assertEnvironmentVariable("RESOURCE_GROUP"),
+        assertEnvironmentVariable("ACCOUNT_NAME")
+      );
+}
+
+export async function getModels(): Promise<string[]> {
+  return isPlaybackMode()
+    ? ["gpt-3.5-turbo-0613", "text-davinci-003"]
+    : listOpenAIModels(new OpenAIKeyCredential(assertEnvironmentVariable("OPENAI_API_KEY")));
 }
