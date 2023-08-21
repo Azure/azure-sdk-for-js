@@ -155,7 +155,8 @@
       "handleError.ts",
       "ChangeFeedIteratorEntireContainer.ts",
       "ChangeFeedIteratorEpkRange.ts",
-      "ChangeFeedPartitionKey.ts"
+      "ChangeFeedPartitionKey.ts",
+      "ChangeFeedHierarchicalPartitionKey.ts"
     ],
     "productName": "Azure Cosmos DB",
     "productSlugs": [
