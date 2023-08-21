@@ -22,6 +22,7 @@ import {
   isPartitionKey,
 } from "./changeFeedUtils";
 import { Container } from "../Container";
+import { FeedRange } from "./FeedRange";
 
 export function changeFeedIteratorBuilder(
   cfOptions: ChangeFeedIteratorOptions,
@@ -60,7 +61,7 @@ export function changeFeedIteratorBuilder(
         continuationToken.partitionKey,
         internalCfOptions
       );
-    } else if (resourceType === ChangeFeedResourceType.EpkRange) {
+    } else if (resourceType === ChangeFeedResourceType.FeedRange) {
       return new ChangeFeedForEpkRange(
         clientContext,
         container,
@@ -103,13 +104,13 @@ export function changeFeedIteratorBuilder(
         );
       } else if (isEpkRange(cfResource)) {
         internalCfResource = new QueryRange(
-          cfResource.minInclusive,
-          cfResource.maxExclusive,
+          (cfResource as FeedRange).minInclusive,
+          (cfResource as FeedRange).maxExclusive,
           true,
           false
         );
       } else {
-        throw new ErrorResponse("Invalid epk range.");
+        throw new ErrorResponse("Invalid feed range.");
       }
       return new ChangeFeedForEpkRange(
         clientContext,

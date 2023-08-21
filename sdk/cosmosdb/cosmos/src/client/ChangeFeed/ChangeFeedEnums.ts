@@ -5,6 +5,6 @@
  * Enum to specify the resource for which change feed is being fetched.
  */
 export enum ChangeFeedResourceType {
-  EpkRange,
+  FeedRange,
   PartitionKey,
 }
