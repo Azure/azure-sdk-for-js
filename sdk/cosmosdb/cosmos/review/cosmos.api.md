@@ -511,6 +511,8 @@ export class Container {
 
 // @public (undocumented)
 export interface ContainerDefinition {
+    // Warning: (ae-forgotten-export) The symbol "ComputedProperty" needs to be exported by the entry point index.d.ts
+    computedProperties?: ComputedProperty[];
     conflictResolutionPolicy?: ConflictResolutionPolicy;
     defaultTtl?: number;
     geospatialConfig?: {
