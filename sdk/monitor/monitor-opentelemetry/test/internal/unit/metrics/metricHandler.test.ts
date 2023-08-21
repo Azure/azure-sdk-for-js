@@ -4,15 +4,16 @@
 import * as assert from "assert";
 import * as sinon from "sinon";
 import { MetricHandler } from "../../../../src/metrics";
-import { AzureMonitorOpenTelemetryConfig } from "../../../../src/shared";
+import { InternalConfig } from "../../../../src/shared";
 import { ExportResultCode } from "@opentelemetry/core";
+import { metrics as MetricsApi, metrics } from "@opentelemetry/api";
 
 describe("MetricHandler", () => {
   let originalEnv: NodeJS.ProcessEnv;
   let sandbox: sinon.SinonSandbox;
   let handler: MetricHandler;
   let exportStub: sinon.SinonStub;
-  const _config = new AzureMonitorOpenTelemetryConfig();
+  const _config = new InternalConfig();
   if (_config.azureMonitorExporterConfig) {
     _config.azureMonitorExporterConfig.connectionString =
       "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
@@ -20,6 +21,8 @@ describe("MetricHandler", () => {
 
   beforeEach(() => {
     originalEnv = process.env;
+    metrics.disable();
+    (MetricHandler["_instance"] as any) = null;
   });
 
   before(() => {
@@ -32,8 +35,8 @@ describe("MetricHandler", () => {
     sandbox.restore();
   });
 
-  function createHandler(config: AzureMonitorOpenTelemetryConfig) {
-    handler = new MetricHandler(config, {
+  function createHandler() {
+    handler = MetricHandler.getInstance(_config, {
       collectionInterval: 100,
     });
     exportStub = sinon.stub(handler["_azureExporter"], "export").callsFake(
@@ -47,14 +50,16 @@ describe("MetricHandler", () => {
     );
   }
 
-  it("should create a meter", () => {
-    createHandler(_config);
-    assert.ok(handler.getMeter(), "meter not available");
+  it("should create a meterProvider", () => {
+    createHandler();
+    assert.ok(MetricsApi.getMeterProvider(), "meterProvider not available");
   });
 
   it("should observe instruments during collection", async () => {
-    createHandler(_config);
-    handler.getMeter().createCounter("testCounter", { description: "testDescription" });
+    createHandler();
+    MetricsApi.getMeter("testMeter").createCounter("testCounter", {
+      description: "testDescription",
+    });
     await new Promise((resolve) => setTimeout(resolve, 120));
     assert.ok(exportStub.called);
     const resourceMetrics = exportStub.args[0][0];
@@ -67,8 +72,10 @@ describe("MetricHandler", () => {
   });
 
   it("should not collect when disabled", async () => {
-    createHandler(_config);
-    handler.getMeter().createCounter("testCounter", { description: "testDescription" });
+    createHandler();
+    MetricsApi.getMeter("testMeter").createCounter("testCounter", {
+      description: "testDescription",
+    });
     handler.shutdown();
     await new Promise((resolve) => setTimeout(resolve, 120));
     assert.ok(exportStub.notCalled);
@@ -79,7 +86,7 @@ describe("MetricHandler", () => {
       const env = <{ [id: string]: string }>{};
       process.env = env;
       process.env.APPLICATION_INSIGHTS_NO_STANDARD_METRICS = undefined;
-      createHandler(_config);
+      createHandler();
       assert.ok(handler["_standardMetrics"], "Standard metrics not loaded");
     });
 
@@ -87,7 +94,7 @@ describe("MetricHandler", () => {
       const env = <{ [id: string]: string }>{};
       env["APPLICATION_INSIGHTS_NO_STANDARD_METRICS"] = "something";
       process.env = env;
-      createHandler(_config);
+      createHandler();
       assert.ok(!handler["_standardMetrics"], "Standard metrics loaded");
     });
   });

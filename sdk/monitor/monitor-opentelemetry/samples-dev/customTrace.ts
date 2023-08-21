@@ -7,7 +7,8 @@
 
 import { context, trace, Span } from "@opentelemetry/api";
 import {
-  AzureMonitorOpenTelemetryClient,
+  useAzureMonitor,
+  shutdownAzureMonitor,
   AzureMonitorOpenTelemetryOptions,
 } from "@azure/monitor-opentelemetry";
 
@@ -15,13 +16,13 @@ import {
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const config: AzureMonitorOpenTelemetryOptions = {
+const options: AzureMonitorOpenTelemetryOptions = {
   azureMonitorExporterConfig: {
     connectionString:
       process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
   },
 };
-const client = new AzureMonitorOpenTelemetryClient(config);
+useAzureMonitor(options);
 
 export async function main() {
   // Ge Tracer and create Span
@@ -33,9 +34,6 @@ export async function main() {
   }
   // Be sure to end the span.
   parentSpan.end();
-
-  // flush and close the connection.
-  client.flush();
 }
 
 function doWork(parent: Span) {
@@ -60,5 +58,6 @@ function doWork(parent: Span) {
 
 main().catch((error) => {
   console.error("An error occurred:", error);
+  shutdownAzureMonitor();
   process.exit(1);
 });

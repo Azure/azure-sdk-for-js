@@ -15,7 +15,7 @@ import { Logger } from "./logging";
 /**
  * Azure Monitor OpenTelemetry Client Configuration
  */
-export class AzureMonitorOpenTelemetryConfig implements AzureMonitorOpenTelemetryOptions {
+export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
   /** The rate of telemetry items tracked that should be transmitted (Default 1.0) */
   public samplingRatio: number;
   /** Azure Monitor Exporter Configuration */

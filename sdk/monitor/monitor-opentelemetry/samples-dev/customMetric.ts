@@ -6,8 +6,9 @@
  */
 
 import {
-  AzureMonitorOpenTelemetryClient,
+  useAzureMonitor,
   AzureMonitorOpenTelemetryOptions,
+  shutdownAzureMonitor,
 } from "@azure/monitor-opentelemetry";
 import { metrics } from "@opentelemetry/api";
 
@@ -15,13 +16,14 @@ import { metrics } from "@opentelemetry/api";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const config: AzureMonitorOpenTelemetryOptions = {
+const options: AzureMonitorOpenTelemetryOptions = {
   azureMonitorExporterConfig: {
     connectionString:
       process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
   },
 };
-const client = new AzureMonitorOpenTelemetryClient(config);
+
+useAzureMonitor(options);
 
 export async function main() {
   // Ge Meter and create custom metric
@@ -34,6 +36,6 @@ export async function main() {
 
 main().catch((error) => {
   console.error("An error occurred:", error);
-  client.shutdown();
+  shutdownAzureMonitor();
   process.exit(1);
 });

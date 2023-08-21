@@ -9,13 +9,6 @@ import { InstrumentationConfig } from '@opentelemetry/instrumentation';
 import { Resource } from '@opentelemetry/resources';
 
 // @public
-export class AzureMonitorOpenTelemetryClient {
-    constructor(options?: AzureMonitorOpenTelemetryOptions);
-    flush(): Promise<void>;
-    shutdown(): Promise<void>;
-}
-
-// @public
 export interface AzureMonitorOpenTelemetryOptions {
     azureMonitorExporterConfig?: AzureMonitorExporterOptions;
     instrumentationOptions?: InstrumentationOptions;
@@ -33,6 +26,12 @@ export interface InstrumentationOptions {
     redis?: InstrumentationConfig;
     redis4?: InstrumentationConfig;
 }
+
+// @public
+export function shutdownAzureMonitor(): void;
+
+// @public
+export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): void;
 
 // (No @packageDocumentation comment for this package)
 

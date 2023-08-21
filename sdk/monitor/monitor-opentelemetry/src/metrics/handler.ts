@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import { AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
-import { Meter, metrics } from "@opentelemetry/api";
+import { metrics } from "@opentelemetry/api";
 import {
   MeterProvider,
   MeterProviderOptions,
   PeriodicExportingMetricReader,
   PeriodicExportingMetricReaderOptions,
 } from "@opentelemetry/sdk-metrics";
-import { AzureMonitorOpenTelemetryConfig } from "../shared/config";
+import { InternalConfig } from "../shared/config";
 import { StandardMetrics } from "./standardMetrics";
 import { ReadableSpan, Span } from "@opentelemetry/sdk-trace-base";
 import { LogRecord } from "@opentelemetry/sdk-logs";
@@ -19,20 +19,27 @@ import { APPLICATION_INSIGHTS_NO_STANDARD_METRICS } from "./types";
  * Azure Monitor OpenTelemetry Metric Handler
  */
 export class MetricHandler {
+  private static _instance: MetricHandler;
   private _collectionInterval = 60000; // 60 seconds
   private _meterProvider: MeterProvider;
   private _azureExporter: AzureMonitorMetricExporter;
   private _metricReader: PeriodicExportingMetricReader;
-  private _meter: Meter;
   private _standardMetrics?: StandardMetrics;
-  private _config: AzureMonitorOpenTelemetryConfig;
+  private _config: InternalConfig;
+
+  public static getInstance(config: InternalConfig, options?: { collectionInterval: number }) {
+    if (!MetricHandler._instance) {
+      MetricHandler._instance = new MetricHandler(config, options);
+    }
+    return MetricHandler._instance;
+  }
 
   /**
    * Initializes a new instance of the MetricHandler class.
    * @param config - Distro configuration.
    * @param options - Metric Handler options.
    */
-  constructor(config: AzureMonitorOpenTelemetryConfig, options?: { collectionInterval: number }) {
+  constructor(config: InternalConfig, options?: { collectionInterval: number }) {
     this._config = config;
 
     if (!process.env[APPLICATION_INSIGHTS_NO_STANDARD_METRICS]) {
@@ -50,28 +57,6 @@ export class MetricHandler {
     this._metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
     this._meterProvider.addMetricReader(this._metricReader);
     metrics.setGlobalMeterProvider(this._meterProvider);
-    this._meter = this._meterProvider.getMeter("AzureMonitorMeter");
-  }
-
-  /**
-   *Get OpenTelemetry MeterProvider
-   */
-  public getMeterProvider(): MeterProvider {
-    return this._meterProvider;
-  }
-
-  /**
-   *Get OpenTelemetry Meter
-   */
-  public getMeter(): Meter {
-    return this._meter;
-  }
-
-  /**
-   *Get OpenTelemetry MeterProvider for standard metrics
-   */
-  public getStandardMetricsMeterProvider(): MeterProvider | undefined {
-    return this._standardMetrics?.getMeterProvider();
   }
 
   public markSpanAsProcessed(span: Span): void {
