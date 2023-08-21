@@ -6,7 +6,7 @@ import { ChangeFeedIteratorOptions, ChangeFeedStartFrom, RequestOptions } from "
 import { Container, ContainerDefinition } from "../../../src";
 import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
-import { EpkRange } from "../../../src/client/ChangeFeed/EpkRange";
+import { FeedRange } from "../../../src/client/ChangeFeed/FeedRange";
 
 describe("Change Feed Iterator", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
@@ -52,7 +52,7 @@ describe("Change Feed Iterator", function (this: Suite) {
         const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
 
         while (iterator.hasMoreResults) {
-          await iterator.ReadNextAsync();
+          await iterator.readNextAsync();
         }
       } catch (err: any) {
         assert.strictEqual(err.message, "maxItemCount must be a positive number");
@@ -98,7 +98,7 @@ describe("Change Feed Iterator", function (this: Suite) {
       const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
 
       while (iterator.hasMoreResults) {
-        const response = await iterator.ReadNextAsync();
+        const response = await iterator.readNextAsync();
         const { result: items } = response;
         if (items.length === 0) {
           break;
@@ -115,7 +115,7 @@ describe("Change Feed Iterator", function (this: Suite) {
       const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
 
       while (iterator.hasMoreResults) {
-        const { result: items } = await iterator.ReadNextAsync();
+        const { result: items } = await iterator.readNextAsync();
         if (items.length === 0) break;
         assert.equal(items.length, 10, "initial number of items should be equal 10");
       }
@@ -132,7 +132,7 @@ describe("Change Feed Iterator", function (this: Suite) {
       let continuationToken = undefined;
 
       while (iterator.hasMoreResults && count < 6) {
-        const response = await iterator.ReadNextAsync();
+        const response = await iterator.readNextAsync();
         count += response.result.length;
         continuationToken = response.continuationToken;
       }
@@ -142,7 +142,7 @@ describe("Change Feed Iterator", function (this: Suite) {
       const iterator2 = container.items.getChangeFeedIterator(changeFeedIteratorOptions2);
 
       while (iterator2.hasMoreResults) {
-        const { result: items } = await iterator2.ReadNextAsync();
+        const { result: items } = await iterator2.readNextAsync();
         if (items.length === 0) break;
         assert.equal(items.length, 4, "Remaining number of items should be equal 4");
       }
@@ -156,7 +156,7 @@ describe("Change Feed Iterator", function (this: Suite) {
       const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
 
       while (iterator.hasMoreResults) {
-        const { result: items } = await iterator.ReadNextAsync();
+        const { result: items } = await iterator.readNextAsync();
         assert.equal(items.length, 0, "Initially no new changes");
         // initial result will be 0 as no new changes since creation of iterator
         if (items.length === 0) {
@@ -169,7 +169,7 @@ describe("Change Feed Iterator", function (this: Suite) {
       }
       // again start the iterator
       while (iterator.hasMoreResults) {
-        const { result: items } = await iterator.ReadNextAsync();
+        const { result: items } = await iterator.readNextAsync();
         if (items.length === 0) break;
         assert.notEqual(items.length, 0, "New changes should be fetched");
       }
@@ -209,7 +209,7 @@ describe("Change Feed Iterator", function (this: Suite) {
       const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
       let counter = 0;
       while (iterator.hasMoreResults) {
-        const { result: items } = await iterator.ReadNextAsync();
+        const { result: items } = await iterator.readNextAsync();
         counter += items.length;
         if (items.length === 0) break;
       }
@@ -227,7 +227,7 @@ describe("Change Feed Iterator", function (this: Suite) {
       let continuationToken = undefined;
 
       while (counter < 10) {
-        const response = await iterator.ReadNextAsync();
+        const response = await iterator.readNextAsync();
         counter += response.result.length;
         continuationToken = response.continuationToken;
       }
@@ -238,7 +238,7 @@ describe("Change Feed Iterator", function (this: Suite) {
       const iterator2 = container.items.getChangeFeedIterator(changeFeedIteratorOptions2);
       let counter2 = 0;
       while (iterator2.hasMoreResults) {
-        const { result: items } = await iterator2.ReadNextAsync();
+        const { result: items } = await iterator2.readNextAsync();
         counter2 += items.length;
         if (items.length === 0) break;
       }
@@ -256,7 +256,7 @@ describe("Change Feed Iterator", function (this: Suite) {
       let partitionKey1: string | undefined = undefined;
       let partitionKey2: string | undefined = undefined;
       while (counter < 2) {
-        const result = await iterator.ReadNextAsync();
+        const result = await iterator.readNextAsync();
         if (counter === 0) {
           partitionKey1 = result.headers["x-ms-documentdb-partitionkeyrangeid"];
         }
@@ -275,7 +275,7 @@ describe("Change Feed Iterator", function (this: Suite) {
       };
       const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
       while (iterator.hasMoreResults) {
-        const { result: items } = await iterator.ReadNextAsync();
+        const { result: items } = await iterator.readNextAsync();
         assert.equal(items.length, 0, "Initially no new changes");
         // initial result will be 0 as no new changes since creation of iterator
         if (items.length === 0) {
@@ -291,7 +291,7 @@ describe("Change Feed Iterator", function (this: Suite) {
       }
       // again start the iterator
       while (iterator.hasMoreResults) {
-        const { result: items } = await iterator.ReadNextAsync();
+        const { result: items } = await iterator.readNextAsync();
         if (items.length === 0) break;
         assert.notEqual(items.length, 0, "New changes should be fetched");
       }
@@ -299,7 +299,7 @@ describe("Change Feed Iterator", function (this: Suite) {
   });
 });
 
-describe("test changefeed for epk range", function () {
+describe("test changefeed for feed range", function () {
   let container: Container;
   before(async function () {
     const containerDef: ContainerDefinition = {
@@ -319,32 +319,32 @@ describe("test changefeed for epk range", function () {
     }
   });
   it("startFromBeginning should fetch all results", async function () {
-    const { resources } = await container.readPartitionKeyRanges().fetchAll();
+    const feedRanges = await container.getFeedRanges();
 
     const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
-      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(resources[0]),
+      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(feedRanges[0]),
     };
     const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
 
     while (iterator.hasMoreResults) {
-      const { result: items } = await iterator.ReadNextAsync();
+      const { result: items } = await iterator.readNextAsync();
       if (items.length === 0) break;
       assert.equal(items.length, 10, "initial number of items should be equal 10");
     }
   });
 
   it("Iterator should start from last continuation token and fetch remaining results", async function () {
-    const { resources } = await container.readPartitionKeyRanges().fetchAll();
+    const feedRanges = await container.getFeedRanges();
     const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
       maxItemCount: 1,
-      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(resources[0]),
+      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(feedRanges[0]),
     };
     const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
     let counter = 0;
     let continuationToken = undefined;
 
     while (counter < 6) {
-      const response = await iterator.ReadNextAsync();
+      const response = await iterator.readNextAsync();
       counter += response.result.length;
       continuationToken = response.continuationToken;
     }
@@ -355,23 +355,23 @@ describe("test changefeed for epk range", function () {
     const iterator2 = container.items.getChangeFeedIterator(changeFeedIteratorOptions2);
 
     while (iterator2.hasMoreResults) {
-      const { result: items } = await iterator2.ReadNextAsync();
+      const { result: items } = await iterator2.readNextAsync();
       if (items.length === 0) break;
       assert.equal(items.length, 4, "Remaining number of items should be equal 4");
     }
   });
 
   it("ChangeFeedStartFrom.Now() should fetch all results from now on", async function () {
-    const { resources } = await container.readPartitionKeyRanges().fetchAll();
+    const feedRanges = await container.getFeedRanges();
 
     const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
       maxItemCount: 10,
-      changeFeedStartFrom: ChangeFeedStartFrom.Now(resources[0]),
+      changeFeedStartFrom: ChangeFeedStartFrom.Now(feedRanges[0]),
     };
     const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
 
     while (iterator.hasMoreResults) {
-      const { result: items } = await iterator.ReadNextAsync();
+      const { result: items } = await iterator.readNextAsync();
       assert.equal(items.length, 0, "Initially no new changes");
       // initial result will be 0 as no new changes since creation of iterator
       if (items.length === 0) {
@@ -387,18 +387,14 @@ describe("test changefeed for epk range", function () {
     }
     // again start the iterator
     while (iterator.hasMoreResults) {
-      const { result: items } = await iterator.ReadNextAsync();
+      const { result: items } = await iterator.readNextAsync();
       if (items.length === 0) break;
       assert.notEqual(items.length, 0, "New changes should be fetched");
     }
   });
 
   it("fetch results for more than one physical partitions", async function () {
-    const epkRange: EpkRange = {
-      minInclusive: "",
-      maxExclusive: "05C1DFFFFFFFF8",
-    };
-
+    const epkRange = new FeedRange("", "05C1DFFFFFFFF8");
     const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
       changeFeedStartFrom: ChangeFeedStartFrom.Beginning(epkRange),
     };
@@ -407,7 +403,7 @@ describe("test changefeed for epk range", function () {
 
     let counter = 0;
     while (iterator.hasMoreResults) {
-      const { result: items } = await iterator.ReadNextAsync();
+      const { result: items } = await iterator.readNextAsync();
       counter += items.length;
       if (items.length === 0) {
         break;

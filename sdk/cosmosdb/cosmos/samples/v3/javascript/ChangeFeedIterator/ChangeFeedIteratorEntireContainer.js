@@ -51,7 +51,7 @@ async function iterateChangeFeedTillNow(container) {
     while (feedIterator.hasMoreResults) {
       // infinite loop to check for new results. hasMoreResults is always true.
         try {
-            const result = await feedIterator.ReadNextAsync();
+            const result = await feedIterator.readNextAsync();
             if(result.statusCode === StatusCodes.NotModified) {
               // If no new results are found, break the loop and return the continuation token
                 continuationToken = result.continuationToken;
@@ -100,7 +100,7 @@ async function run() {
     while (feedIterator.hasMoreResults) {
       // infinite loop to check for new results. hasMoreResults is always true.
         try {
-            const result = await feedIterator.ReadNextAsync();
+            const result = await feedIterator.readNextAsync();
             if(result.statusCode === StatusCodes.NotModified) {
               // if no new changes are found, wait for 5 seconds and try again
                 console.log("No new results, waiting for 5 seconds");

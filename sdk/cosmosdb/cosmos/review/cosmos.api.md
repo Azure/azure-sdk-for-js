@@ -98,7 +98,7 @@ export interface ChangeFeedOptions {
 // @public
 export abstract class ChangeFeedPullModelIterator<T> {
     abstract get hasMoreResults(): boolean;
-    abstract ReadNextAsync(): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>>;
+    abstract readNextAsync(): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>>;
 }
 
 // @public
@@ -116,14 +116,15 @@ export class ChangeFeedResponse<T> {
 
 // @public
 export abstract class ChangeFeedStartFrom {
+    // Warning: (ae-forgotten-export) The symbol "FeedRange" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "ChangeFeedStartFromBeginning" needs to be exported by the entry point index.d.ts
-    static Beginning(cfResource?: PartitionKey | PartitionKeyRange | EpkRange): ChangeFeedStartFromBeginning;
+    static Beginning(cfResource?: PartitionKey | FeedRange): ChangeFeedStartFromBeginning;
     // Warning: (ae-forgotten-export) The symbol "ChangeFeedStartFromContinuation" needs to be exported by the entry point index.d.ts
     static Continuation(continuationToken: string): ChangeFeedStartFromContinuation;
     // Warning: (ae-forgotten-export) The symbol "ChangeFeedStartFromNow" needs to be exported by the entry point index.d.ts
-    static Now(cfResource?: PartitionKey | PartitionKeyRange | EpkRange): ChangeFeedStartFromNow;
+    static Now(cfResource?: PartitionKey | FeedRange): ChangeFeedStartFromNow;
     // Warning: (ae-forgotten-export) The symbol "ChangeFeedStartFromTime" needs to be exported by the entry point index.d.ts
-    static Time(startTime: Date, cfResource?: PartitionKey | PartitionKeyRange | EpkRange): ChangeFeedStartFromTime;
+    static Time(startTime: Date, cfResource?: PartitionKey | FeedRange): ChangeFeedStartFromTime;
 }
 
 // @public (undocumented)
@@ -535,6 +536,8 @@ export class Container {
     readonly database: Database;
     delete(options?: RequestOptions): Promise<ContainerResponse>;
     deleteAllItemsForPartitionKey(partitionKey: PartitionKey, options?: RequestOptions): Promise<ContainerResponse>;
+    // (undocumented)
+    getFeedRanges(): Promise<ReadonlyArray<FeedRange>>;
     // @deprecated
     getPartitionKeyDefinition(): Promise<ResourceResponse<PartitionKeyDefinition>>;
     // (undocumented)
@@ -784,12 +787,6 @@ export interface DeleteOperationInput {
     partitionKey?: PartitionKey;
 }
 
-// @public
-export interface EpkRange {
-    maxExclusive: string;
-    minInclusive: string;
-}
-
 // @public (undocumented)
 export interface ErrorBody {
     // (undocumented)
@@ -1018,9 +1015,13 @@ export class Items {
     constructor(container: Container, clientContext: ClientContext);
     batch(operations: OperationInput[], partitionKey?: PartitionKey, options?: RequestOptions): Promise<Response_2<OperationResponse[]>>;
     bulk(operations: OperationInput[], bulkOptions?: BulkOptions, options?: RequestOptions): Promise<BulkOperationResponse>;
+    // @deprecated
     changeFeed(partitionKey: PartitionKey, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
+    // @deprecated
     changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
+    // @deprecated
     changeFeed<T>(partitionKey: PartitionKey, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
+    // @deprecated
     changeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
     // (undocumented)
     readonly container: Container;

@@ -61,7 +61,7 @@ async function iterateChangeFeedTillNow(
   while (feedIterator.hasMoreResults) {
     // infinite loop to check for new results. hasMoreResults is always true.
     try {
-      const result = await feedIterator.ReadNextAsync();
+      const result = await feedIterator.readNextAsync();
       if (result.statusCode === StatusCodes.NotModified) {
         // If no new results are found, break the loop and return the continuation token
         continuationToken = result.continuationToken;
@@ -93,11 +93,11 @@ async function run(): Promise<void> {
 
     await ingestData(container, 1, 11);
 
-    // query all the physical ranges inside the container
-    const { resources } = await container.readPartitionKeyRanges().fetchAll();
+    // query all the feed ranges inside the container
+    const feedRanges = await container.getFeedRanges();
 
     // fetch the continuation token, so that we can start from the same point in time
-    const continuationToken = await iterateChangeFeedTillNow(container, resources[0]);
+    const continuationToken = await iterateChangeFeedTillNow(container, feedRanges[0]);
     const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
       maxItemCount: 1,
       changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken)
@@ -110,7 +110,7 @@ async function run(): Promise<void> {
     while (feedIterator.hasMoreResults) {
       // infinite loop to check for new results. hasMoreResults is always true.
       try {
-        const result = await feedIterator.ReadNextAsync();
+        const result = await feedIterator.readNextAsync();
         if (result.statusCode === StatusCodes.NotModified) {
           // if no new changes are found, wait for 5 seconds and try again
           console.log("No new results, waiting for 5 seconds");

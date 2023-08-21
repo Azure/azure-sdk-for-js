@@ -8,7 +8,7 @@ import {
   fetchStartTime,
 } from "../../../../src/client/ChangeFeed/changeFeedUtils";
 import { ChangeFeedStartFrom, PartitionKeyRange } from "../../../../src/";
-import { EpkRange } from "../../../../src/client/ChangeFeed/EpkRange";
+import { FeedRange } from "../../../../src/client/ChangeFeed/FeedRange";
 import { isEpkRange } from "../../../../src/client/ChangeFeed/changeFeedUtils";
 import { QueryRange } from "../../../../src/routing";
 
@@ -108,45 +108,29 @@ describe("test checkEpkHeaders", function () {
 
 describe("test isEpkRange", function () {
   it("maxExclusive > 'FF'", async function () {
-    const epkRange: EpkRange = {
-      minInclusive: "",
-      maxExclusive: "GG",
-    };
-    const result = await isEpkRange(epkRange);
-    assert.equal(result, false);
-  });
-  it("minInclusive > maxExclusive", async function () {
-    const epkRange: EpkRange = {
-      minInclusive: "05C1DFFFFFFFF8",
-      maxExclusive: "05C1D5AB55AB50",
-    };
+    const epkRange = new FeedRange("", "GG");
     const result = isEpkRange(epkRange);
     assert.equal(result, false);
   });
-
+  it("minInclusive > maxExclusive", async function () {
+    const epkRange = new FeedRange("05C1DFFFFFFFF8", "05C1D5AB55AB50");
+    const result = isEpkRange(epkRange);
+    assert.equal(result, false);
+  });
   it("minInclusive = maxExclusive", async function () {
-    const epkRange: EpkRange = {
-      minInclusive: "05C1D5AB55AB51",
-      maxExclusive: "05C1D5AB55AB51",
-    };
+    const epkRange = new FeedRange("05C1D5AB55AB51", "05C1D5AB55AB51");
     const result = isEpkRange(epkRange);
     assert.equal(result, false);
   });
 
   it("minInclusive = '' and maxExclusive = 'FF'", async function () {
-    const epkRange: EpkRange = {
-      minInclusive: "",
-      maxExclusive: "FF",
-    };
+    const epkRange = new FeedRange("", "FF");
     const result = isEpkRange(epkRange);
     assert.equal(result, true);
   });
 
   it("minInclusive > '' and maxExclusive < 'FF'", async function () {
-    const epkRange: EpkRange = {
-      minInclusive: "05C1D5AB55AB50",
-      maxExclusive: "05C1DFFFFFFFF8",
-    };
+    const epkRange = new FeedRange("05C1D5AB55AB50", "05C1DFFFFFFFF8");
     const result = isEpkRange(epkRange);
     assert.equal(result, true);
   });
