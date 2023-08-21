@@ -18,10 +18,10 @@
   - Interface ResourceIdentity has a new optional parameter userAssignedIdentities
   - Added Enum KnownSelectorType
   - Added Enum KnownTargetReferenceType
+  - Class ChaosManagementClient has a new signature
 
 **Breaking Changes**
 
-  - Class ChaosManagementClient has a new signature
   - Interface Selector no longer has parameter targets
   - Type of parameter selectors of interface Experiment is changed from Selector[] to SelectorUnion[]
   - Type of parameter type of interface Selector is changed from SelectorType to "List" | "Query"
