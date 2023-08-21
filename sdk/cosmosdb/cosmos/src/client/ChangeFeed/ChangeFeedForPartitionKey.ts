@@ -82,7 +82,7 @@ export class ChangeFeedForPartitionKey<T> extends ChangeFeedPullModelIterator<T>
   /**
    * Returns the result of change feed from Azure Cosmos DB.
    */
-  public async ReadNextAsync(): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>> {
+  public async readNextAsync(): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>> {
     if (!this.isInstantiated) {
       await this.instantiateIterator();
     }

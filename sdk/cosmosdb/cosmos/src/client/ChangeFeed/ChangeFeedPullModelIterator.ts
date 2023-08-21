@@ -3,7 +3,7 @@
 import { Resource } from "../Resource";
 import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
 /**
- * Use `Items.getChangeFeedIterator()` to return an iterator that can iterate over all the changes in a partition key, epk range or entire container.
+ * Use `Items.getChangeFeedIterator()` to return an iterator that can iterate over all the changes for a partition key, feed range or an entire container.
  */
 export abstract class ChangeFeedPullModelIterator<T> {
   /**
@@ -13,5 +13,5 @@ export abstract class ChangeFeedPullModelIterator<T> {
   /**
    * Returns next set of results for the change feed.
    */
-  abstract ReadNextAsync(): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>>;
+  abstract readNextAsync(): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>>;
 }
