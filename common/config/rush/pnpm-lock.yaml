@@ -187,6 +187,7 @@ specifiers:
   '@rush-temp/arm-resources': file:./projects/arm-resources.tgz
   '@rush-temp/arm-resources-profile-2020-09-01-hybrid': file:./projects/arm-resources-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-resources-subscriptions': file:./projects/arm-resources-subscriptions.tgz
+  '@rush-temp/arm-resourcesdeploymentstacks': file:./projects/arm-resourcesdeploymentstacks.tgz
   '@rush-temp/arm-scvmm': file:./projects/arm-scvmm.tgz
   '@rush-temp/arm-search': file:./projects/arm-search.tgz
   '@rush-temp/arm-security': file:./projects/arm-security.tgz
@@ -544,6 +545,7 @@ dependencies:
   '@rush-temp/arm-resources': file:projects/arm-resources.tgz
   '@rush-temp/arm-resources-profile-2020-09-01-hybrid': file:projects/arm-resources-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-resources-subscriptions': file:projects/arm-resources-subscriptions.tgz
+  '@rush-temp/arm-resourcesdeploymentstacks': file:projects/arm-resourcesdeploymentstacks.tgz
   '@rush-temp/arm-scvmm': file:projects/arm-scvmm.tgz
   '@rush-temp/arm-search': file:projects/arm-search.tgz
   '@rush-temp/arm-security': file:projects/arm-security.tgz
@@ -4136,7 +4138,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230811
+      typescript: 5.3.0-dev.20230820
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8721,8 +8723,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.3.0-dev.20230811:
-    resolution: {integrity: sha512-C4bwx7ZpBwX7bKxrrNl+M1j8yNGmwQ5M58X0mT4VYI1+FHqRvb/uJ4F1uJsVJ+X7iy22iXSICR/Vxnpc1gNk7w==}
+  /typescript/5.3.0-dev.20230820:
+    resolution: {integrity: sha512-9T+2gAm2cEBpe0K8W7lXEGHHme5Hn44m6CtcxZJlqEpV5nvqkUvj7ANf0XSlJ1anvKzRDireqfKBVUHZGw+vWA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -14674,6 +14676,37 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-resourcesdeploymentstacks.tgz:
+    resolution: {integrity: sha512-p16puIbqDXPmBD2qKJIWamOShrGypt1f474OMvs/dhlPs1gcFVq84e5SQnNH7rwwh78wmt7ZaWbNv2DobDugoQ==, tarball: file:projects/arm-resourcesdeploymentstacks.tgz}
+    name: '@rush-temp/arm-resourcesdeploymentstacks'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.36.4_@types+node@14.18.54
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.5
+      '@types/node': 14.18.54
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_dmbj5memikchm63lpeyt6ukdau
+      ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
+      tslib: 2.6.1
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
   file:projects/arm-scvmm.tgz:
     resolution: {integrity: sha512-1mMM+51GplOxlcOs9DiFMQ5GxKeQ8K1cKi447BkcWzfb6GVYCQFTVvxFAbxeE+7rOEeZsht/VBWpNkTklepWDg==, tarball: file:projects/arm-scvmm.tgz}
     name: '@rush-temp/arm-scvmm'
@@ -17642,7 +17675,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.36.3_@types+node@14.18.54
+      '@microsoft/api-extractor': 7.36.4_@types+node@14.18.54
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
@@ -17650,7 +17683,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.3.1
-      eslint: 8.45.0
+      eslint: 8.46.0
       karma: 6.4.2
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -17668,7 +17701,7 @@ packages:
       prettier: 2.8.8
       rimraf: 3.0.2
       source-map-support: 0.5.21
-      tslib: 2.6.0
+      tslib: 2.6.1
       typescript: 5.0.4
     transitivePeerDependencies:
       - bufferutil
@@ -17683,7 +17716,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.36.3_@types+node@14.18.54
+      '@microsoft/api-extractor': 7.36.4_@types+node@14.18.54
       '@types/chai': 4.3.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.54
@@ -17691,7 +17724,7 @@ packages:
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.3.1
-      eslint: 8.45.0
+      eslint: 8.46.0
       karma: 6.4.2
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -17709,7 +17742,7 @@ packages:
       prettier: 2.8.8
       rimraf: 3.0.2
       source-map-support: 0.5.21
-      tslib: 2.6.0
+      tslib: 2.6.1
       typescript: 5.0.4
     transitivePeerDependencies:
       - bufferutil
@@ -18727,7 +18760,7 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-N8E0x1oZNJ/0S88emgJ97tMxe0iZmc59ZDKR/eNoY5XEqZumAlO1u4R5KLKOHphDdDt30md1DVa/VY68Ql8x2A==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-tNYiwuPfWJi5PgGlvJHvqixibWsjTsaFdN2DtuSybs69jV/Ov24tdnaCjtwjcSWOWOoBGfGKY1pVCPRr1vK9Qw==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:

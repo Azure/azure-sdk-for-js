@@ -1,0 +1,68 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Resources/deploymentStacks/resourcetest?api-version=2022-08-01-preview",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "314",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-resourcesdeploymentstacks/1.0.0-beta.1 core-rest-pipeline/1.12.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "64e4af37-e583-4b45-974f-96c8cbc6b687"
+      },
+      "RequestBody": {
+        "tags": {
+          "tagkey": "tagVal"
+        },
+        "properties": {
+          "parameters": {
+            "parameter1": {
+              "value": "string"
+            }
+          },
+          "actionOnUnmanage": {
+            "resources": "delete",
+            "resourceGroups": "delete",
+            "managementGroups": "detach"
+          },
+          "denySettings": {
+            "mode": "denyDelete",
+            "excludedPrincipals": [
+              "principal"
+            ],
+            "excludedActions": [
+              "action"
+            ],
+            "applyToChildScopes": false
+          }
+        }
+      },
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "182",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 21 Aug 2023 06:00:18 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "2b6ac96d-1c88-4260-82bf-87d6fbbe6933",
+        "x-ms-ratelimit-remaining-subscription-writes": "1199",
+        "x-ms-request-id": "1ca7d126-9473-4cf4-a8fc-96d41dbb3609",
+        "x-ms-routing-request-id": "JAPANEAST:20230821T060019Z:2b6ac96d-1c88-4260-82bf-87d6fbbe6933"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "DeploymentStackInvalidDeploymentStackDefinition",
+          "message": "The deployment stack must have either TemplateLink or Template property set."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
