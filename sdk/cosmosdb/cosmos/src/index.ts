@@ -104,7 +104,7 @@ export {
   ChangeFeedIteratorOptions,
   ChangeFeedIteratorResponse,
   ChangeFeedStartFrom,
-  FeedRange
+  FeedRange,
 } from "./client/ChangeFeed";
 
 export { GlobalEndpointManager } from "./globalEndpointManager";

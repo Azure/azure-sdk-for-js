@@ -22,7 +22,7 @@ export class FeedRangeInternal implements FeedRange {
 }
 
 export interface FeedRange {
-    /**
+  /**
    * Min value for the feed range.
    */
   minInclusive: string;
