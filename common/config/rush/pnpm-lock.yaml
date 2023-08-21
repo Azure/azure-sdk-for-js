@@ -15217,7 +15217,7 @@ packages:
     dev: false
 
   file:projects/arm-storage.tgz:
-    resolution: {integrity: sha512-dS/jZZWnVSNazDj3sm24wYG+3bnwDUL5n7kc2qh3OCCauscraVxiQldmVfZ3y8+iQNkoZCc2wuCsgdD7DZMxVg==, tarball: file:projects/arm-storage.tgz}
+    resolution: {integrity: sha512-4mbmENd3DPVLCNxqV1H2bTeYfWHZnEU+xvY7H+uDfjIL6IJc0rtuJDbZT93fLGzEIF/mCEgRp+7HF1NtJRn8dg==, tarball: file:projects/arm-storage.tgz}
     name: '@rush-temp/arm-storage'
     version: 0.0.0
     dependencies:
@@ -15231,7 +15231,8 @@ packages:
       '@types/node': 14.18.54
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
