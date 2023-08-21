@@ -6,7 +6,7 @@ import { ChangeFeedIteratorOptions, ChangeFeedStartFrom, RequestOptions } from "
 import { Container, ContainerDefinition } from "../../../src";
 import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
-import { FeedRange } from "../../../src/client/ChangeFeed/FeedRange";
+import { FeedRangeInternal } from "../../../src/client/ChangeFeed/FeedRange";
 
 describe("Change Feed Iterator", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
@@ -394,7 +394,7 @@ describe("test changefeed for feed range", function () {
   });
 
   it("fetch results for more than one physical partitions", async function () {
-    const epkRange = new FeedRange("", "05C1DFFFFFFFF8");
+    const epkRange = new FeedRangeInternal("", "05C1DFFFFFFFF8");
     const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
       changeFeedStartFrom: ChangeFeedStartFrom.Beginning(epkRange),
     };

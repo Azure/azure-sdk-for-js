@@ -26,7 +26,7 @@ import { OfferResponse } from "../Offer/OfferResponse";
 import { Resource } from "../Resource";
 import { getEmptyCosmosDiagnostics } from "../../CosmosDiagnostics";
 import { CosmosDiagnosticContext } from "../../CosmosDiagnosticsContext";
-import { FeedRange } from "../ChangeFeed";
+import { FeedRange, FeedRangeInternal } from "../ChangeFeed";
 
 /**
  * Operations for reading, replacing, or deleting a specific, existing container by id.
@@ -284,7 +284,7 @@ export class Container {
 
     const feedRanges: FeedRange[] = [];
     for (const resource of resources) {
-      const feedRange = new FeedRange(resource.minInclusive, resource.maxExclusive);
+      const feedRange = new FeedRangeInternal(resource.minInclusive, resource.maxExclusive);
       Object.freeze(feedRange);
       feedRanges.push(feedRange);
     }

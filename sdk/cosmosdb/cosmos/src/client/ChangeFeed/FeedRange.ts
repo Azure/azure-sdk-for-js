@@ -5,7 +5,7 @@
  * @hidden
  * Specifies a feed range for the changefeed.
  */
-export class FeedRange {
+export class FeedRangeInternal implements FeedRange {
   /**
    * Min value for the feed range.
    */
@@ -19,4 +19,15 @@ export class FeedRange {
     this.minInclusive = minInclusive;
     this.maxExclusive = maxExclusive;
   }
+}
+
+export interface FeedRange {
+    /**
+   * Min value for the feed range.
+   */
+  minInclusive: string;
+  /**
+   * Max value for the feed range.
+   */
+  maxExclusive: string;
 }

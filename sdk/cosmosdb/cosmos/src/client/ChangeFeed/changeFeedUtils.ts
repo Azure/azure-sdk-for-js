@@ -11,7 +11,7 @@ import { ChangeFeedStartFromNow } from "./ChangeFeedStartFromNow";
 import { Constants } from "../../common";
 import { ChangeFeedStartFromTime } from "./ChangeFeedStartFromTime";
 import { QueryRange } from "../../routing";
-import { FeedRange } from "./FeedRange";
+import { FeedRangeInternal } from "./FeedRange";
 
 /**
  * @hidden
@@ -78,7 +78,7 @@ export async function checkEpkHeaders(
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 export function isEpkRange(obj: any): boolean {
   return (
-    obj instanceof FeedRange &&
+    obj instanceof FeedRangeInternal &&
     typeof obj.minInclusive === "string" &&
     typeof obj.maxExclusive === "string" &&
     obj.minInclusive >=

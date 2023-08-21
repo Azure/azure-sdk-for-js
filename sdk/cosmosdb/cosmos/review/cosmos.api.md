@@ -116,7 +116,6 @@ export class ChangeFeedResponse<T> {
 
 // @public
 export abstract class ChangeFeedStartFrom {
-    // Warning: (ae-forgotten-export) The symbol "FeedRange" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "ChangeFeedStartFromBeginning" needs to be exported by the entry point index.d.ts
     static Beginning(cfResource?: PartitionKey | FeedRange): ChangeFeedStartFromBeginning;
     // Warning: (ae-forgotten-export) The symbol "ChangeFeedStartFromContinuation" needs to be exported by the entry point index.d.ts
@@ -864,6 +863,12 @@ export interface FeedOptions extends SharedOptions {
     populateIndexMetrics?: boolean;
     populateQueryMetrics?: boolean;
     useIncrementalFeed?: boolean;
+}
+
+// @public (undocumented)
+export interface FeedRange {
+    maxExclusive: string;
+    minInclusive: string;
 }
 
 // @public (undocumented)

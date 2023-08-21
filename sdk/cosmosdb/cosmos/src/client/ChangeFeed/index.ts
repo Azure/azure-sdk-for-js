@@ -5,7 +5,7 @@ export { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions";
 export { ChangeFeedForPartitionKey } from "./ChangeFeedForPartitionKey";
 export { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
 export { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
-export { FeedRange } from "./FeedRange";
+export { FeedRangeInternal, FeedRange } from "./FeedRange";
 export { ChangeFeedStartFrom } from "./ChangeFeedStartFrom";
 export { buildInternalChangeFeedOptions } from "./changeFeedUtils";
 export { changeFeedIteratorBuilder } from "./changeFeedIteratorBuilder";

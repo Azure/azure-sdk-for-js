@@ -8,7 +8,7 @@ import {
   fetchStartTime,
 } from "../../../../src/client/ChangeFeed/changeFeedUtils";
 import { ChangeFeedStartFrom, PartitionKeyRange } from "../../../../src/";
-import { FeedRange } from "../../../../src/client/ChangeFeed/FeedRange";
+import { FeedRangeInternal } from "../../../../src/client/ChangeFeed/FeedRange";
 import { isEpkRange } from "../../../../src/client/ChangeFeed/changeFeedUtils";
 import { QueryRange } from "../../../../src/routing";
 
@@ -108,29 +108,29 @@ describe("test checkEpkHeaders", function () {
 
 describe("test isEpkRange", function () {
   it("maxExclusive > 'FF'", async function () {
-    const epkRange = new FeedRange("", "GG");
+    const epkRange = new FeedRangeInternal("", "GG");
     const result = isEpkRange(epkRange);
     assert.equal(result, false);
   });
   it("minInclusive > maxExclusive", async function () {
-    const epkRange = new FeedRange("05C1DFFFFFFFF8", "05C1D5AB55AB50");
+    const epkRange = new FeedRangeInternal("05C1DFFFFFFFF8", "05C1D5AB55AB50");
     const result = isEpkRange(epkRange);
     assert.equal(result, false);
   });
   it("minInclusive = maxExclusive", async function () {
-    const epkRange = new FeedRange("05C1D5AB55AB51", "05C1D5AB55AB51");
+    const epkRange = new FeedRangeInternal("05C1D5AB55AB51", "05C1D5AB55AB51");
     const result = isEpkRange(epkRange);
     assert.equal(result, false);
   });
 
   it("minInclusive = '' and maxExclusive = 'FF'", async function () {
-    const epkRange = new FeedRange("", "FF");
+    const epkRange = new FeedRangeInternal("", "FF");
     const result = isEpkRange(epkRange);
     assert.equal(result, true);
   });
 
   it("minInclusive > '' and maxExclusive < 'FF'", async function () {
-    const epkRange = new FeedRange("05C1D5AB55AB50", "05C1DFFFFFFFF8");
+    const epkRange = new FeedRangeInternal("05C1D5AB55AB50", "05C1DFFFFFFFF8");
     const result = isEpkRange(epkRange);
     assert.equal(result, true);
   });

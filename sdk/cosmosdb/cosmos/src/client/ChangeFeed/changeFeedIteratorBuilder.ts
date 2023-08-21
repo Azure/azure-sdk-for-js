@@ -22,7 +22,7 @@ import {
   isPartitionKey,
 } from "./changeFeedUtils";
 import { Container } from "../Container";
-import { FeedRange } from "./FeedRange";
+import { FeedRangeInternal } from "./FeedRange";
 
 export function changeFeedIteratorBuilder(
   cfOptions: ChangeFeedIteratorOptions,
@@ -104,8 +104,8 @@ export function changeFeedIteratorBuilder(
         );
       } else if (isEpkRange(cfResource)) {
         internalCfResource = new QueryRange(
-          (cfResource as FeedRange).minInclusive,
-          (cfResource as FeedRange).maxExclusive,
+          (cfResource as FeedRangeInternal).minInclusive,
+          (cfResource as FeedRangeInternal).maxExclusive,
           true,
           false
         );
