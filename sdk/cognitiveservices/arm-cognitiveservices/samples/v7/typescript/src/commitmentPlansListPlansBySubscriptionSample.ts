@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns all the resources of a particular type belonging to a subscription.
  *
  * @summary Returns all the resources of a particular type belonging to a subscription.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-12-01/examples/ListSharedCommitmentPlansBySubscription.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2023-05-01/examples/ListSharedCommitmentPlansBySubscription.json
  */
 async function listAccountsBySubscription() {
   const subscriptionId =

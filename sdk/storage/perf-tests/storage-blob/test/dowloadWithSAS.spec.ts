@@ -10,7 +10,7 @@ import {
   BlobClient,
 } from "@azure/storage-blob";
 import { getValueInConnString } from "./utils/utils";
-import { generateUuid } from "@azure/core-http";
+import { randomUUID } from "@azure/core-util";
 
 interface StorageBlobDownloadTestOptions {
   size: number;
@@ -27,7 +27,7 @@ export class StorageBlobDownloadWithSASTest extends StorageBlobTest<StorageBlobD
     },
   };
 
-  static blobName = generateUuid();
+  static blobName = randomUUID();
   blockBlobClient: BlockBlobClient;
   blobClientFromSAS: BlobClient;
   sasUrl: string;

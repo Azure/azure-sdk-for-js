@@ -42,7 +42,7 @@ describe("Authentication", function () {
     const credential = createTestCredential();
     const client = MapsRender(
       credential,
-      env["MAPS_CLIENT_ID"] as string,
+      env["MAPS_RESOURCE_CLIENT_ID"] as string,
       recorder.configureClientOptions({})
     );
 

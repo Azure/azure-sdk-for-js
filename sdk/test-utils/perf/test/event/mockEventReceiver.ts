@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { generateUuid } from "@azure/core-http";
+import { randomUUID } from "@azure/core-util";
 
 export interface Event {
   body: string;
@@ -72,7 +72,7 @@ export class MockEventReceiver {
     if (options?.raiseErrorAfterInSeconds) {
       promises.push(
         this.processFuncWithDelay(async () => {
-          await handlers.processError(new Error(`new error ${generateUuid()}`));
+          await handlers.processError(new Error(`new error ${randomUUID()}`));
         }, options?.raiseErrorAfterInSeconds * 1000)
       );
     }
@@ -83,7 +83,7 @@ export class MockEventReceiver {
   private async concurrentCall(processEvent: (event: Event) => Promise<void>) {
     while (this.closeCalled === false) {
       await this.processFuncWithDelay(
-        async () => processEvent({ body: generateUuid() }),
+        async () => processEvent({ body: randomUUID() }),
         this.getRandomInteger(this.minDelay, this.maxDelay)
       );
     }

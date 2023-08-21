@@ -1,6 +1,6 @@
 # Release History
 
-## 21.0.1 (Unreleased)
+## 21.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,15 @@
 
 ### Other Changes
 
+## 21.1.0 (2023-07-07)
+    
+**Features**
+
+  - Added Type Alias FileFormat
+  - Interface GrantAccessData has a new optional parameter fileFormat
+  - Added Enum KnownFileFormat
+    
+    
 ## 21.0.0 (2023-05-17)
     
 **Features**

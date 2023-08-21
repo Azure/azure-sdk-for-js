@@ -44,7 +44,7 @@
     "@_ts/min": "npm:typescript@~4.2.4",
     "@_ts/max": "npm:typescript@latest",
     "axios": "^1.2.1",
-    "concurrently": "^7.6.0",
+    "concurrently": "^8.2.0",
     "chalk": "~4.1.1",
     "decompress": "^4.2.1",
     "dotenv": "^16.0.0",
@@ -53,11 +53,12 @@
     "minimist": "^1.2.8",
     "prettier": "^2.5.1",
     "semver": "^7.3.8",
+    "strip-json-comments": "^5.0.0",
     "ts-node": "^10.0.0",
     "tslib": "^2.2.0",
     "typescript": "~5.0.0",
     "yaml": "^2.3.0",
-    "ts-morph": "^18.0.0"
+    "ts-morph": "^19.0.0"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.31.1",

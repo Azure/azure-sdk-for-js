@@ -79,6 +79,7 @@ export class CallMedia {
         sourceLocale: playSource.sourceLocale,
         voiceGender: playSource.voiceGender,
         voiceName: playSource.voiceName,
+        customVoiceEndpointId: playSource.customVoiceEndpointId,
       };
       return {
         sourceType: KnownPlaySourceType.Text,
@@ -88,6 +89,7 @@ export class CallMedia {
     } else if (playSource.kind === "ssmlSource") {
       const ssmlSource: SsmlSourceInternal = {
         ssmlText: playSource.ssmlText,
+        customVoiceEndpointId: playSource.customVoiceEndpointId,
       };
       return {
         sourceType: KnownPlaySourceType.Ssml,
@@ -116,6 +118,8 @@ export class CallMedia {
       playOptions: {
         loop: false,
       },
+      operationContext: playOptions.operationContext,
+      callbackUri: playOptions.callbackUrl,
     };
 
     if (playOptions.loop !== undefined) {
@@ -141,6 +145,8 @@ export class CallMedia {
       playOptions: {
         loop: false,
       },
+      operationContext: playOptions.operationContext,
+      callbackUri: playOptions.callbackUrl,
     };
 
     if (playOptions.loop !== undefined) {
@@ -183,6 +189,7 @@ export class CallMedia {
         interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
         recognizeOptions: recognizeOptionsInternal,
         operationContext: recognizeOptions.operationContext,
+        callbackUri: recognizeOptions.callbackUrl,
       };
     } else if (recognizeOptions.kind === "callMediaRecognizeChoiceOptions") {
       const recognizeOptionsInternal: RecognizeOptions = {
@@ -201,6 +208,7 @@ export class CallMedia {
         interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
         recognizeOptions: recognizeOptionsInternal,
         operationContext: recognizeOptions.operationContext,
+        callbackUri: recognizeOptions.callbackUrl,
       };
     } else if (recognizeOptions.kind === "callMediaRecognizeSpeechOptions") {
       const speechOptions: SpeechOptions = {
@@ -215,6 +223,7 @@ export class CallMedia {
           : 5,
         targetParticipant: serializeCommunicationIdentifier(targetParticipant),
         speechOptions: speechOptions,
+        speechRecognitionModelEndpointId: recognizeOptions.speechModelEndpointId,
       };
       return {
         recognizeInputType: KnownRecognizeInputType.Speech,
@@ -224,6 +233,7 @@ export class CallMedia {
         interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
         recognizeOptions: recognizeOptionsInternal,
         operationContext: recognizeOptions.operationContext,
+        callbackUri: recognizeOptions.callbackUrl,
       };
     } else if (recognizeOptions.kind === "callMediaRecognizeSpeechOrDtmfOptions") {
       const dtmfOptionsInternal: DtmfOptions = {
@@ -246,15 +256,17 @@ export class CallMedia {
         targetParticipant: serializeCommunicationIdentifier(targetParticipant),
         speechOptions: speechOptions,
         dtmfOptions: dtmfOptionsInternal,
+        speechRecognitionModelEndpointId: recognizeOptions.speechModelEndpointId,
       };
       return {
-        recognizeInputType: KnownRecognizeInputType.Speech,
+        recognizeInputType: KnownRecognizeInputType.SpeechOrDtmf,
         playPrompt: recognizeOptions.playPrompt
           ? this.createPlaySourceInternal(recognizeOptions.playPrompt)
           : undefined,
         interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
         recognizeOptions: recognizeOptionsInternal,
         operationContext: recognizeOptions.operationContext,
+        callbackUri: recognizeOptions.callbackUrl,
       };
     }
     throw new Error("Invalid recognizeOptions");
@@ -319,6 +331,7 @@ export class CallMedia {
     const continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
       operationContext: continuousDtmfRecognitionOptions.operationContext,
+      callbackUri: continuousDtmfRecognitionOptions.callbackUrl,
     };
     return this.callMedia.stopContinuousDtmfRecognition(
       this.callConnectionId,
@@ -342,6 +355,7 @@ export class CallMedia {
       tones: tones,
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
       operationContext: sendDtmfOptions.operationContext,
+      callbackUri: sendDtmfOptions.callbackUrl,
     };
     return this.callMedia.sendDtmf(this.callConnectionId, sendDtmfRequest, {});
   }

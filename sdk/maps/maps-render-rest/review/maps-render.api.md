@@ -375,7 +375,7 @@ export interface RenderGetMapAttributionQueryParam {
 // @public (undocumented)
 export interface RenderGetMapAttributionQueryParamProperties {
     bounds: Array<number>;
-    tilesetId: "microsoft.base" | "microsoft.base.labels" | "microsoft.base.hybrid" | "microsoft.terra.main" | "microsoft.base.road" | "microsoft.base.darkgrey" | "microsoft.base.labels.road" | "microsoft.base.labels.darkgrey" | "microsoft.base.hybrid.road" | "microsoft.base.hybrid.darkgrey" | "microsoft.imagery" | "microsoft.weather.radar.main" | "microsoft.weather.infrared.main" | "microsoft.dem" | "microsoft.dem.contours" | "microsoft.traffic.absolute" | "microsoft.traffic.absolute.main" | "microsoft.traffic.relative" | "microsoft.traffic.relative.main" | "microsoft.traffic.relative.dark" | "microsoft.traffic.delay" | "microsoft.traffic.delay.main" | "microsoft.traffic.reduced.main" | "microsoft.traffic.incident";
+    tilesetId: "microsoft.base" | "microsoft.base.labels" | "microsoft.base.hybrid" | "microsoft.terra.main" | "microsoft.base.road" | "microsoft.base.darkgrey" | "microsoft.base.labels.road" | "microsoft.base.labels.darkgrey" | "microsoft.base.hybrid.road" | "microsoft.base.hybrid.darkgrey" | "microsoft.imagery" | "microsoft.weather.radar.main" | "microsoft.weather.infrared.main" | "microsoft.traffic.absolute" | "microsoft.traffic.absolute.main" | "microsoft.traffic.relative" | "microsoft.traffic.relative.main" | "microsoft.traffic.relative.dark" | "microsoft.traffic.delay" | "microsoft.traffic.delay.main" | "microsoft.traffic.reduced.main" | "microsoft.traffic.incident";
     zoom: number;
 }
 
@@ -498,7 +498,7 @@ export interface RenderGetMapTileQueryParam {
 // @public (undocumented)
 export interface RenderGetMapTileQueryParamProperties {
     language?: string;
-    tilesetId: "microsoft.base" | "microsoft.base.labels" | "microsoft.base.hybrid" | "microsoft.terra.main" | "microsoft.base.road" | "microsoft.base.darkgrey" | "microsoft.base.labels.road" | "microsoft.base.labels.darkgrey" | "microsoft.base.hybrid.road" | "microsoft.base.hybrid.darkgrey" | "microsoft.imagery" | "microsoft.weather.radar.main" | "microsoft.weather.infrared.main" | "microsoft.dem" | "microsoft.dem.contours" | "microsoft.traffic.absolute" | "microsoft.traffic.absolute.main" | "microsoft.traffic.relative" | "microsoft.traffic.relative.main" | "microsoft.traffic.relative.dark" | "microsoft.traffic.delay" | "microsoft.traffic.delay.main" | "microsoft.traffic.reduced.main" | "microsoft.traffic.incident";
+    tilesetId: "microsoft.base" | "microsoft.base.labels" | "microsoft.base.hybrid" | "microsoft.terra.main" | "microsoft.base.road" | "microsoft.base.darkgrey" | "microsoft.base.labels.road" | "microsoft.base.labels.darkgrey" | "microsoft.base.hybrid.road" | "microsoft.base.hybrid.darkgrey" | "microsoft.imagery" | "microsoft.weather.radar.main" | "microsoft.weather.infrared.main" | "microsoft.traffic.absolute" | "microsoft.traffic.absolute.main" | "microsoft.traffic.relative" | "microsoft.traffic.relative.main" | "microsoft.traffic.relative.dark" | "microsoft.traffic.delay" | "microsoft.traffic.delay.main" | "microsoft.traffic.reduced.main" | "microsoft.traffic.incident";
     tileSize?: "256" | "512";
     timeStamp?: Date | string;
     view?: "AE" | "AR" | "BH" | "IN" | "IQ" | "JO" | "KW" | "LB" | "MA" | "OM" | "PK" | "PS" | "QA" | "SA" | "SY" | "YE" | "Auto" | "Unified";
@@ -534,7 +534,7 @@ export interface RenderGetMapTilesetQueryParam {
 
 // @public (undocumented)
 export interface RenderGetMapTilesetQueryParamProperties {
-    tilesetId: "microsoft.base" | "microsoft.base.labels" | "microsoft.base.hybrid" | "microsoft.terra.main" | "microsoft.base.road" | "microsoft.base.darkgrey" | "microsoft.base.labels.road" | "microsoft.base.labels.darkgrey" | "microsoft.base.hybrid.road" | "microsoft.base.hybrid.darkgrey" | "microsoft.imagery" | "microsoft.weather.radar.main" | "microsoft.weather.infrared.main" | "microsoft.dem" | "microsoft.dem.contours" | "microsoft.traffic.absolute" | "microsoft.traffic.absolute.main" | "microsoft.traffic.relative" | "microsoft.traffic.relative.main" | "microsoft.traffic.relative.dark" | "microsoft.traffic.delay" | "microsoft.traffic.delay.main" | "microsoft.traffic.reduced.main" | "microsoft.traffic.incident";
+    tilesetId: "microsoft.base" | "microsoft.base.labels" | "microsoft.base.hybrid" | "microsoft.terra.main" | "microsoft.base.road" | "microsoft.base.darkgrey" | "microsoft.base.labels.road" | "microsoft.base.labels.darkgrey" | "microsoft.base.hybrid.road" | "microsoft.base.hybrid.darkgrey" | "microsoft.imagery" | "microsoft.weather.radar.main" | "microsoft.weather.infrared.main" | "microsoft.traffic.absolute" | "microsoft.traffic.absolute.main" | "microsoft.traffic.relative" | "microsoft.traffic.relative.main" | "microsoft.traffic.relative.dark" | "microsoft.traffic.delay" | "microsoft.traffic.delay.main" | "microsoft.traffic.reduced.main" | "microsoft.traffic.incident";
 }
 
 // @public (undocumented)

@@ -1,66 +1,44 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ClientOptions } from "@azure-rest/core-client";
+/**
+ * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
+ *
+ * Any changes you make here may be lost.
+ *
+ * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
+ */
+
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { OpenAIClientOptions, createOpenAI } from "./api/OpenAIContext.js";
+import "./api/index.js";
+import {
+  ImageGenerationOptions,
+  beginAzureBatchImageGeneration,
+  getAzureBatchImageGenerationOperationStatus,
+  getChatCompletions,
+  getCompletions,
+  getEmbeddings,
+  listChatCompletions,
+  listCompletions,
+} from "./api/operations.js";
 import {
   ChatCompletions,
   ChatMessage,
   Completions,
   Embeddings,
+  ImageGenerationResponse,
+} from "./models/models.js";
+import {
+  GetAzureBatchImageGenerationOperationStatusOptions,
   GetChatCompletionsOptions,
   GetCompletionsOptions,
   GetEmbeddingsOptions,
-  OpenAIClientOptions,
-  OpenAIContext,
-  createOpenAI,
-  getChatCompletions,
-  getCompletions,
-  getEmbeddings,
-} from "./api/index.js";
-import {
-  _getChatCompletionsSend,
-  _getCompletionsSend,
-  getChatCompletionsResult,
-  getCompletionsResult,
-} from "./api/operations.js";
-import { getSSEs } from "./api/sse.js";
+} from "./models/options.js";
+import { OpenAIContext } from "./rest/clientDefinitions.js";
 
 export { OpenAIClientOptions } from "./api/OpenAIContext.js";
 
-/**
- * A client for interacting with Azure OpenAI.
- *
- * The client needs the endpoint of an OpenAI resource and an authentication
- * method such as an API key or token. The API key and endpoint can be found in
- * the OpenAI resource page. They will be located in the resource's Keys and Endpoint page.
- *
- * ### Examples for authentication:
- *
- * #### API Key
- *
- * ```js
- * import { OpenAIClient } from "@azure/openai";
- * import { AzureKeyCredential } from "@azure/core-auth";
- *
- * const endpoint = "<azure endpoint>";
- * const credential = new AzureKeyCredential("<api key>");
- *
- * const client = new OpenAIClient(endpoint, credential);
- * ```
- *
- * #### Azure Active Directory
- *
- * ```js
- * import { OpenAIClient } from "@azure/openai";
- * import { DefaultAzureCredential } from "@azure/identity";
- *
- * const endpoint = "<azure endpoint>";
- * const credential = new DefaultAzureCredential();
- *
- * const client = new OpenAIClient(endpoint, credential);
- * ```
- */
 export class OpenAIClient {
   private _client: OpenAIContext;
   private _isAzure = false;
@@ -95,10 +73,10 @@ export class OpenAIClient {
   constructor(openAiApiKey: KeyCredential, options?: OpenAIClientOptions);
   constructor(
     endpointOrOpenAiKey: string | KeyCredential,
-    credOrOptions: KeyCredential | TokenCredential | ClientOptions = {},
-    options: ClientOptions = {}
+    credOrOptions: KeyCredential | TokenCredential | OpenAIClientOptions = {},
+    options: OpenAIClientOptions = {}
   ) {
-    let opts: ClientOptions;
+    let opts: OpenAIClientOptions;
     let endpoint: string;
     let cred: KeyCredential | TokenCredential;
     if (isCred(credOrOptions)) {
@@ -147,97 +125,113 @@ export class OpenAIClient {
 
   /**
    * Returns textual completions as configured for a given prompt.
-   * @param deploymentOrModelName - Specifies either the model deployment name (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
+   * @param deploymentName - Specifies either the model deployment name (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
    * @param prompt - The prompt to use for this request.
    * @param options - The options for this completions request.
    * @returns The completions for the given prompt.
    */
   getCompletions(
-    deploymentOrModelName: string,
+    deploymentName: string,
     prompt: string[],
     options: GetCompletionsOptions = { requestOptions: {} }
   ): Promise<Completions> {
-    this.setModel(deploymentOrModelName, options);
-    return getCompletions(this._client, prompt, deploymentOrModelName, options);
+    this.setModel(deploymentName, options);
+    return getCompletions(this._client, prompt, deploymentName, options);
   }
 
   /**
    * Lists the completions tokens as they become available for a given prompt.
-   * @param deploymentOrModelName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
-   * @param prompt - The prompt to use for this request.
-   * @param options - The completions options for this completions request.
-   * @returns An asynchronous iterable of completions tokens.
-   */
-  /**
-   * Lists the completions tokens as they become available for a given prompt.
-   * @param deploymentOrModelName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
+   * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
    * @param prompt - The prompt to use for this request.
    * @param options - The completions options for this completions request.
    * @returns An asynchronous iterable of completions tokens.
    */
   listCompletions(
-    deploymentOrModelName: string,
+    deploymentName: string,
     prompt: string[],
     options: GetCompletionsOptions = {}
-  ): Promise<AsyncIterable<Omit<Completions, "usage">>> {
-    this.setModel(deploymentOrModelName, options);
-    const response = _getCompletionsSend(this._client, prompt, deploymentOrModelName, {
-      ...options,
-      stream: true,
-    });
-    return getSSEs(response, getCompletionsResult);
+  ): AsyncIterable<Omit<Completions, "usage">> {
+    this.setModel(deploymentName, options);
+    return listCompletions(this._client, prompt, deploymentName, options);
   }
 
   /**
    * Return the computed embeddings for a given prompt.
-   * @param deploymentOrModelName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
+   * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
    * @param input - The prompt to use for this request.
    * @param options - The embeddings options for this embeddings request.
    * @returns The embeddings for the given prompt.
    */
   getEmbeddings(
-    deploymentOrModelName: string,
+    deploymentName: string,
     input: string[],
     options: GetEmbeddingsOptions = { requestOptions: {} }
   ): Promise<Embeddings> {
-    this.setModel(deploymentOrModelName, options);
-    return getEmbeddings(this._client, input, deploymentOrModelName, options);
+    this.setModel(deploymentName, options);
+    return getEmbeddings(this._client, input, deploymentName, options);
   }
 
   /**
    * Get chat completions for provided chat context messages.
-   * @param deploymentOrModelName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
+   * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
    * @param messages - The chat context messages to use for this request.
    * @param options - The chat completions options for this completions request.
    * @returns The chat completions for the given chat context messages.
    */
   getChatCompletions(
-    deploymentOrModelName: string,
+    deploymentName: string,
     messages: ChatMessage[],
     options: GetChatCompletionsOptions = { requestOptions: {} }
   ): Promise<ChatCompletions> {
-    this.setModel(deploymentOrModelName, options);
-    return getChatCompletions(this._client, messages, deploymentOrModelName, options);
+    this.setModel(deploymentName, options);
+    return getChatCompletions(this._client, messages, deploymentName, options);
   }
 
   /**
    * Lists the chat completions tokens as they become available for a chat context.
-   * @param deploymentOrModelName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
+   * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
    * @param messages - The chat context messages to use for this request.
    * @param options - The chat completions options for this chat completions request.
    * @returns An asynchronous iterable of chat completions tokens.
    */
   listChatCompletions(
-    deploymentOrModelName: string,
+    deploymentName: string,
     messages: ChatMessage[],
     options: GetChatCompletionsOptions = { requestOptions: {} }
-  ): Promise<AsyncIterable<Omit<ChatCompletions, "usage">>> {
-    this.setModel(deploymentOrModelName, options);
-    const response = _getChatCompletionsSend(this._client, messages, deploymentOrModelName, {
-      ...options,
-      stream: true,
-    });
-    return getSSEs(response, getChatCompletionsResult);
+  ): AsyncIterable<Omit<ChatCompletions, "usage">> {
+    this.setModel(deploymentName, options);
+    return listChatCompletions(this._client, messages, deploymentName, options);
+  }
+
+  /** Returns the status of the images operation */
+  getAzureBatchImageGenerationOperationStatus(
+    operationId: string,
+    options: GetAzureBatchImageGenerationOperationStatusOptions = {
+      requestOptions: {},
+    }
+  ): Promise<ImageGenerationResponse> {
+    return getAzureBatchImageGenerationOperationStatus(this._client, operationId, options);
+  }
+
+  /** Starts the generation of a batch of images from a text caption */
+  beginAzureBatchImageGeneration(
+    prompt: string,
+    options: ImageGenerationOptions = { requestOptions: {} }
+  ): Promise<ImageGenerationResponse> {
+    return beginAzureBatchImageGeneration(this._client, prompt, options);
+  }
+
+  /**
+   * Starts the generation of a batch of images from a text caption
+   * @param prompt - The prompt to use for this request.
+   * @param options - The options for this image request.
+   * @returns The image generation response (containing url or base64 data).
+   */
+  getImages(
+    prompt: string,
+    options: ImageGenerationOptions = { requestOptions: {} }
+  ): Promise<ImageGenerationResponse> {
+    return beginAzureBatchImageGeneration(this._client, prompt, options);
   }
 
   private setModel(model: string, options: { model?: string }): void {

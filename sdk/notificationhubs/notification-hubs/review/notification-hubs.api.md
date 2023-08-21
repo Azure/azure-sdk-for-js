@@ -4,8 +4,8 @@
 
 ```ts
 
-import { CommonClientOptions } from '@azure/core-client';
-import { OperationOptions } from '@azure/core-client';
+import { ClientOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
@@ -56,6 +56,12 @@ export interface AdmNotification extends JsonNotification {
 }
 
 // @public
+export interface AdmNotificationParams {
+    body: string | AdmNativeMessage;
+    headers?: Record<string, string | undefined>;
+}
+
+// @public
 export interface AdmRegistrationChannel {
     admRegistrationId: string;
     kind: "adm";
@@ -81,6 +87,9 @@ export interface AdmTemplateRegistrationDescriptionCommon extends AdmRegistratio
 }
 
 // @public
+export type ApnsPushTypes = "alert" | "background" | "voip" | "complication" | "fileprovider" | "mdm" | "location" | "liveactivity" | "pushtotalk";
+
+// @public
 export interface AppleAlert {
     "launch-image"?: string;
     "loc-args"?: string[];
@@ -95,10 +104,40 @@ export interface AppleAlert {
 }
 
 // @public
+export interface AppleApsNativeMessage extends Record<string, any> {
+    "content-available"?: number;
+    "content-state"?: Record<string, any>;
+    "dismissal-date"?: number;
+    "filter-criteria"?: string;
+    "interruption-level"?: "passive" | "active" | "time-sensitive" | "critical";
+    "mutable-content"?: number;
+    "relevance-score"?: number;
+    "stale-date"?: number;
+    "target-content-id"?: string;
+    "thread-id"?: string;
+    alert?: string | AppleAlert;
+    badge?: number;
+    category?: string;
+    events?: string;
+    sound?: string | AppleCriticalSound;
+    timestamp?: number;
+}
+
+// @public
 export interface AppleCriticalSound {
     critical: number;
     name: string;
     volume: number;
+}
+
+// @public
+export interface AppleHeaders extends Record<string, string | undefined> {
+    "apns-collapse-id"?: string;
+    "apns-expiration"?: string;
+    "apns-id"?: string;
+    "apns-priority"?: "5" | "10";
+    "apns-push-type"?: ApnsPushTypes;
+    "apns-topic"?: string;
 }
 
 // @public
@@ -108,22 +147,18 @@ export interface AppleInstallation extends DeviceTokenInstallation {
 
 // @public
 export interface AppleNativeMessage extends Record<string, any> {
-    "content-available"?: number;
-    "filter-criteria"?: string;
-    "interruption-level"?: "passive" | "active" | "time-sensitive" | "critical";
-    "mutable-content"?: number;
-    "relevance-score"?: number;
-    "target-content-id"?: string;
-    "thread-id"?: string;
-    alert?: string | AppleAlert;
-    badge?: number;
-    category?: string;
-    sound?: string | AppleCriticalSound;
+    aps?: AppleApsNativeMessage;
 }
 
 // @public
 export interface AppleNotification extends JsonNotification {
     platform: "apple";
+}
+
+// @public
+export interface AppleNotificationParams {
+    body: string | AppleNativeMessage;
+    headers?: AppleHeaders;
 }
 
 // @public
@@ -269,7 +304,7 @@ export interface BrowserTemplateRegistrationDescriptionCommon extends BrowserReg
 export function createAdmInstallation(installation: DeviceTokenInstallation): AdmInstallation;
 
 // @public
-export function createAdmNotification(notification: NotificationCommon): AdmNotification;
+export function createAdmNotification(notification: AdmNotificationParams): AdmNotification;
 
 // @public
 export function createAdmNotificationBody(nativeMessage: AdmNativeMessage): string;
@@ -284,7 +319,7 @@ export function createAdmTemplateRegistrationDescription(description: AdmTemplat
 export function createAppleInstallation(installation: DeviceTokenInstallation): AppleInstallation;
 
 // @public
-export function createAppleNotification(notification: NotificationCommon): AppleNotification;
+export function createAppleNotification(notification: AppleNotificationParams): AppleNotification;
 
 // @public
 export function createAppleNotificationBody(nativeMessage: AppleNativeMessage): string;
@@ -326,7 +361,7 @@ export function createBrowserTemplateRegistrationDescription(description: Browse
 export function createFcmLegacyInstallation(installation: DeviceTokenInstallation): FcmLegacyInstallation;
 
 // @public
-export function createFcmLegacyNotification(notification: NotificationCommon): FcmLegacyNotification;
+export function createFcmLegacyNotification(notification: FcmLegacyNotificationParams): FcmLegacyNotification;
 
 // @public
 export function createFcmLegacyRegistrationDescription(description: GcmRegistrationDescriptionCommon): GcmRegistrationDescription;
@@ -344,7 +379,7 @@ export function createTagExpression(tags: string[]): string;
 export function createTemplateNotification(notification: NotificationCommon): TemplateNotification;
 
 // @public
-export function createWindowsBadgeNotification(notification: NotificationCommon): WindowsNotification;
+export function createWindowsBadgeNotification(notification: WnsNotificationParams): WindowsNotification;
 
 // @public
 export function createWindowsBadgeNotificationBody(nativeMessage: WindowsBadgeNativeMessage): string;
@@ -353,7 +388,10 @@ export function createWindowsBadgeNotificationBody(nativeMessage: WindowsBadgeNa
 export function createWindowsInstallation(installation: DeviceTokenInstallation): WindowsInstallation;
 
 // @public
-export function createWindowsRawNotification(notification: NotificationCommon): WindowsNotification;
+export function createWindowsNotification(notification: WnsNotificationParams): WindowsNotification;
+
+// @public
+export function createWindowsRawNotification(notification: WnsNotificationParams): WindowsNotification;
 
 // @public
 export function createWindowsRegistrationDescription(description: WindowsRegistrationDescriptionCommon): WindowsRegistrationDescription;
@@ -362,10 +400,10 @@ export function createWindowsRegistrationDescription(description: WindowsRegistr
 export function createWindowsTemplateRegistrationDescription(description: WindowsTemplateRegistrationDescriptionCommon): WindowsTemplateRegistrationDescription;
 
 // @public
-export function createWindowsTileNotification(notification: NotificationCommon): WindowsNotification;
+export function createWindowsTileNotification(notification: WnsNotificationParams): WindowsNotification;
 
 // @public
-export function createWindowsToastNotification(notification: NotificationCommon): WindowsNotification;
+export function createWindowsToastNotification(notification: WnsNotificationParams): WindowsNotification;
 
 // @public
 export function createXiaomiInstallation(installation: DeviceTokenInstallation): XiaomiInstallation;
@@ -402,6 +440,12 @@ export interface FcmLegacyInstallation extends DeviceTokenInstallation {
 // @public
 export interface FcmLegacyNotification extends JsonNotification {
     platform: "gcm";
+}
+
+// @public
+export interface FcmLegacyNotificationParams {
+    body: string | FirebaseLegacyNativeMessage;
+    headers?: Record<string, string | undefined>;
 }
 
 // @public
@@ -550,7 +594,7 @@ export type Notification = AppleNotification | AdmNotification | BaiduNotificati
 // @public
 export interface NotificationCommon {
     body: string;
-    headers?: Record<string, string>;
+    headers?: Record<string, string | undefined>;
 }
 
 // @public
@@ -666,7 +710,7 @@ export class NotificationHubsClient {
 }
 
 // @public
-export interface NotificationHubsClientOptions extends CommonClientOptions {
+export interface NotificationHubsClientOptions extends ClientOptions {
 }
 
 // @public
@@ -778,6 +822,11 @@ export interface WindowsBadgeNativeMessage {
 export type WindowsContentType = "application/xml" | "application/octet-stream";
 
 // @public
+export interface WindowsHeaders extends Record<string, string | undefined> {
+    "X-WNS-Type"?: WnsTypes;
+}
+
+// @public
 export interface WindowsInstallation extends DeviceTokenInstallation {
     platform: "wns";
 }
@@ -813,6 +862,15 @@ export interface WindowsTemplateRegistrationDescription extends WindowsTemplateR
 export interface WindowsTemplateRegistrationDescriptionCommon extends WindowsRegistrationDescriptionCommon, TemplateRegistrationDescription {
     wnsHeaders?: Record<string, string>;
 }
+
+// @public
+export interface WnsNotificationParams {
+    body: string;
+    headers?: WindowsHeaders;
+}
+
+// @public
+export type WnsTypes = "wns/toast" | "wns/badge" | "wns/tile" | "wns/raw";
 
 // @public
 export interface XiaomiInstallation extends DeviceTokenInstallation {

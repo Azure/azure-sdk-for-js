@@ -21,7 +21,7 @@ add-credentials: false
 core-http-compat-mode: true
 use-extension:
   "@autorest/typescript": "latest"
-package-version: 12.13.0
+package-version: 12.20.0
 ```
 
 ## Customizations for Track 2 Generator
@@ -1462,6 +1462,15 @@ directive:
             "$ref": "#/parameters/MaxResults"
           }
         ];
+```
+
+### Update service version from "2021-12-02" to "2023-01-03"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.ApiVersionParameter
+    transform: $.enum = [ "2023-01-03" ];
 ```
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-blob%2Fswagger%2FREADME.png)

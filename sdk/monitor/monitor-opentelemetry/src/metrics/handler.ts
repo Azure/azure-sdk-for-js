@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 
 import { AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
-import { Meter } from "@opentelemetry/api";
+import { Meter, metrics } from "@opentelemetry/api";
+import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-http";
 import {
   MeterProvider,
   MeterProviderOptions,
@@ -12,6 +13,8 @@ import {
 import { AzureMonitorOpenTelemetryConfig } from "../shared/config";
 import { PerformanceCounterMetrics } from "./performanceCounters";
 import { StandardMetrics } from "./standardMetrics";
+import { ReadableSpan, Span } from "@opentelemetry/sdk-trace-base";
+import { LogRecord } from "@opentelemetry/sdk-logs";
 
 /**
  * Azure Monitor OpenTelemetry Metric Handler
@@ -20,6 +23,7 @@ export class MetricHandler {
   private _collectionInterval = 60000; // 60 seconds
   private _meterProvider: MeterProvider;
   private _azureExporter: AzureMonitorMetricExporter;
+  private _otlpExporter?: OTLPMetricExporter;
   private _metricReader: PeriodicExportingMetricReader;
   private _meter: Meter;
   private _perfCounterMetrics?: PerformanceCounterMetrics;
@@ -44,12 +48,22 @@ export class MetricHandler {
     };
     this._meterProvider = new MeterProvider(meterProviderConfig);
     this._azureExporter = new AzureMonitorMetricExporter(this._config.azureMonitorExporterConfig);
-    const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
+    let metricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._azureExporter as any,
       exportIntervalMillis: options?.collectionInterval || this._collectionInterval,
     };
     this._metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
     this._meterProvider.addMetricReader(this._metricReader);
+
+    if (config.otlpMetricExporterConfig?.enabled) {
+      this._otlpExporter = new OTLPMetricExporter(config.otlpMetricExporterConfig);
+      const otlpMetricReader = new PeriodicExportingMetricReader({
+        exporter: this._otlpExporter,
+        exportIntervalMillis: options?.collectionInterval || this._collectionInterval,
+      });
+      this._meterProvider.addMetricReader(otlpMetricReader);
+    }
+    metrics.setGlobalMeterProvider(this._meterProvider);
     this._meter = this._meterProvider.getMeter("AzureMonitorMeter");
   }
 
@@ -68,17 +82,30 @@ export class MetricHandler {
   }
 
   /**
-   *Get StandardMetric handler
+   *Get OpenTelemetry MeterProvider for standard metrics
    */
-  public getStandardMetrics(): StandardMetrics | undefined {
-    return this._standardMetrics;
+  public getStandardMetricsMeterProvider(): MeterProvider | undefined {
+    return this._standardMetrics?.getMeterProvider();
   }
 
   /**
-   *Get PerformanceCounter handler
+   *Get OpenTelemetry MeterProvider for performance counter metrics
    */
-  public getPerformanceCounterMetrics(): PerformanceCounterMetrics | undefined {
-    return this._perfCounterMetrics;
+  public getPerfCountersMeterProvider(): MeterProvider | undefined {
+    return this._perfCounterMetrics?.getMeterProvider();
+  }
+
+  public markSpanAsProcessed(span: Span): void {
+    this._standardMetrics?.markSpanAsProcessed(span);
+  }
+
+  public recordSpan(span: ReadableSpan): void {
+    this._standardMetrics?.recordSpan(span);
+    this._perfCounterMetrics?.recordSpan(span);
+  }
+
+  public recordLog(logRecord: LogRecord): void {
+    this._standardMetrics?.recordLog(logRecord);
   }
 
   /**

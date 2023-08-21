@@ -104,6 +104,9 @@ export type CharFilterUnion =
   | PatternReplaceCharFilter;
 export type LexicalNormalizerUnion = LexicalNormalizer | CustomNormalizer;
 export type SimilarityUnion = Similarity | ClassicSimilarity | BM25Similarity;
+export type VectorSearchAlgorithmConfigurationUnion =
+  | VectorSearchAlgorithmConfiguration
+  | HnswVectorSearchAlgorithmConfiguration;
 
 /** Represents a datasource definition, which can be used to configure an indexer. */
 export interface SearchIndexerDataSource {
@@ -325,7 +328,7 @@ export interface FieldMappingFunction {
   /** The name of the field mapping function. */
   name: string;
   /** A dictionary of parameter name/value pairs to pass to the function. Each value must be of a primitive type. */
-  parameters?: { [propertyName: string]: Record<string, unknown> };
+  parameters?: { [propertyName: string]: any };
 }
 
 export interface SearchIndexerCache {
@@ -333,6 +336,8 @@ export interface SearchIndexerCache {
   storageConnectionString?: string;
   /** Specifies whether incremental reprocessing is enabled. */
   enableReprocessing?: boolean;
+  /** The user-assigned managed identity used for connections to the enrichment cache.  If the connection string indicates an identity (ResourceId) and it's not specified, the system-assigned managed identity is used. On updates to the indexer, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
+  identity?: SearchIndexerDataIdentityUnion;
 }
 
 /** Response from a List Indexers request. If successful, it includes the full definitions of all indexers. */
@@ -641,6 +646,8 @@ export interface SearchIndexerKnowledgeStore {
   storageConnectionString: string;
   /** A list of additional projections to perform during indexing. */
   projections: SearchIndexerKnowledgeStoreProjection[];
+  /** The user-assigned managed identity used for connections to Azure Storage when writing knowledge store projections. If the connection string indicates an identity (ResourceId) and it's not specified, the system-assigned managed identity is used. On updates to the indexer, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
+  identity?: SearchIndexerDataIdentityUnion;
 }
 
 /** Container object for various projection selectors. */
@@ -734,6 +741,8 @@ export interface SearchIndex {
   similarity?: SimilarityUnion;
   /** Defines parameters for a search index that influence semantic capabilities. */
   semanticSettings?: SemanticSettings;
+  /** Contains configuration options related to vector search. */
+  vectorSearch?: VectorSearch;
   /** The ETag of the index. */
   etag?: string;
 }
@@ -764,6 +773,10 @@ export interface SearchField {
   indexAnalyzer?: LexicalAnalyzerName;
   /** The name of the normalizer to use for the field. This option can be used only with fields with filterable, sortable, or facetable enabled. Once the normalizer is chosen, it cannot be changed for the field. Must be null for complex fields. */
   normalizer?: LexicalNormalizerName;
+  /** The dimensionality of the vector field. */
+  vectorSearchDimensions?: number;
+  /** The name of the vector search algorithm configuration that specifies the algorithm and optional parameters for searching the vector field. */
+  vectorSearchConfiguration?: string;
   /** A list of the names of synonym maps to associate with this field. This option can be used only with searchable fields. Currently only one synonym map per field is supported. Assigning a synonym map to a field ensures that query terms targeting that field are expanded at query-time using the rules in the synonym map. This attribute can be changed on existing fields. Must be null or an empty collection for complex fields. */
   synonymMaps?: string[];
   /** A list of sub-fields if this is a field of type Edm.ComplexType or Collection(Edm.ComplexType). Must be null or empty for simple fields. */
@@ -911,6 +924,8 @@ export interface Similarity {
 
 /** Defines parameters for a search index that influence semantic capabilities. */
 export interface SemanticSettings {
+  /** Allows you to set the name of a default semantic configuration in your index, making it optional to pass it on as a query parameter every time. */
+  defaultConfiguration?: string;
   /** The semantic configurations for the index. */
   configurations?: SemanticConfiguration[];
 }
@@ -938,6 +953,20 @@ export interface SemanticField {
   name?: string;
 }
 
+/** Contains configuration options related to vector search. */
+export interface VectorSearch {
+  /** Contains configuration options specific to the algorithm used during indexing time. */
+  algorithmConfigurations?: VectorSearchAlgorithmConfigurationUnion[];
+}
+
+/** Contains configuration options specific to the algorithm used during indexing time. */
+export interface VectorSearchAlgorithmConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "hnsw";
+  /** The name to associate with this particular configuration. */
+  name: string;
+}
+
 /** Response from a List Indexes request. If successful, it includes the full definitions of all indexes. */
 export interface ListIndexesResult {
   /**
@@ -959,6 +988,11 @@ export interface GetIndexStatisticsResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly storageSize: number;
+  /**
+   * The amount of memory in bytes consumed by vectors in the index.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vectorIndexSize?: number;
 }
 
 /** Specifies some text and analysis components used to break that text into tokens. */
@@ -1037,7 +1071,7 @@ export interface ServiceStatistics {
 /** Represents service-level resource counters and quotas. */
 export interface ServiceCounters {
   /** Total number of aliases. */
-  aliasCounter?: ResourceCounter;
+  aliasCounter: ResourceCounter;
   /** Total number of documents across all indexes in the service. */
   documentCounter: ResourceCounter;
   /** Total number of indexes. */
@@ -1051,7 +1085,9 @@ export interface ServiceCounters {
   /** Total number of synonym maps. */
   synonymMapCounter: ResourceCounter;
   /** Total number of skillsets. */
-  skillsetCounter?: ResourceCounter;
+  skillsetCounter: ResourceCounter;
+  /** Total memory consumption of all vector indexes within the service, in bytes. */
+  vectorIndexSizeCounter: ResourceCounter;
 }
 
 /** Represents a resource's usage and quota. */
@@ -1072,6 +1108,18 @@ export interface ServiceLimits {
   maxComplexCollectionFieldsPerIndex?: number;
   /** The maximum number of objects in complex collections allowed per document. */
   maxComplexObjectsInCollectionsPerDocument?: number;
+}
+
+/** Contains the parameters specific to hnsw algorithm. */
+export interface HnswParameters {
+  /** The number of bi-directional links created for every new element during construction. Increasing this parameter value may improve recall and reduce retrieval times for datasets with high intrinsic dimensionality at the expense of increased memory consumption and longer indexing time. */
+  m?: number;
+  /** The size of the dynamic list containing the nearest neighbors, which is used during index time. Increasing this parameter may improve index quality, at the expense of increased indexing time. At a certain point, increasing this parameter leads to diminishing returns. */
+  efConstruction?: number;
+  /** The size of the dynamic list containing the nearest neighbors, which is used during search time. Increasing this parameter may improve search results, at the expense of slower search. Increasing this parameter leads to diminishing returns.. */
+  efSearch?: number;
+  /** The similarity metric to use for vector comparisons. */
+  metric?: VectorSearchAlgorithmMetric;
 }
 
 /** Provides parameter values to a distance scoring function. */
@@ -1251,10 +1299,9 @@ export type MergeSkill = SearchIndexerSkill & {
 };
 
 /**
- * Text analytics entity recognition.
+ * This skill is deprecated. Use the V3.EntityRecognitionSkill instead.
  *
- * @deprecated EntityRecognitionSkill has been deprecated. See
- * https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-deprecated
+ * @deprecated
  */
 export type EntityRecognitionSkill = SearchIndexerSkill & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -1270,10 +1317,9 @@ export type EntityRecognitionSkill = SearchIndexerSkill & {
 };
 
 /**
- * Text analytics positive-negative sentiment analysis, scored as a floating point value in a range of zero to 1.
+ * This skill is deprecated. Use the V3.SentimentSkill instead.
  *
- * @deprecated SentimentSkill has been deprecated. See
- * https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-deprecated
+ * @deprecated
  */
 export type SentimentSkill = SearchIndexerSkill & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -1391,7 +1437,7 @@ export type DocumentExtractionSkill = SearchIndexerSkill & {
   /** The type of data to be extracted for the skill. Will be set to 'contentAndMetadata' if not defined. */
   dataToExtract?: string;
   /** A dictionary of configurations for the skill. */
-  configuration?: { [propertyName: string]: Record<string, unknown> };
+  configuration?: { [propertyName: string]: any };
 };
 
 /** A skill that can call a Web API endpoint, allowing you to extend a skillset by having it call your custom code. */
@@ -1410,6 +1456,10 @@ export type WebApiSkill = SearchIndexerSkill & {
   batchSize?: number;
   /** If set, the number of parallel calls that can be made to the Web API. */
   degreeOfParallelism?: number;
+  /** Applies to custom skills that connect to external code in an Azure function or some other application that provides the transformations. This value should be the application ID created for the function or app when it was registered with Azure Active Directory. When specified, the custom skill connects to the function or app using a managed ID (either system or user-assigned) of the search service and the access token of the function or app, using this value as the resource id for creating the scope of the access token. */
+  authResourceId?: string;
+  /** The user-assigned managed identity used for outbound connections. If an authResourceId is provided and it's not specified, the system-assigned managed identity is used. On updates to the indexer, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
+  authIdentity?: SearchIndexerDataIdentityUnion;
 };
 
 /** The AML skill allows you to extend AI enrichment with a custom Azure Machine Learning (AML) model. Once an AML model is trained and deployed, an AML skill integrates it into AI enrichment. */
@@ -1978,26 +2028,34 @@ export type BM25Similarity = Similarity & {
   b?: number;
 };
 
+/** Contains configuration options specific to the hnsw approximate nearest neighbors algorithm used during indexing time. */
+export type HnswVectorSearchAlgorithmConfiguration = VectorSearchAlgorithmConfiguration & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "hnsw";
+  /** Contains the parameters specific to hnsw algorithm. */
+  parameters?: HnswParameters;
+};
+
 /** Projection definition for what data to store in Azure Blob. */
 export type SearchIndexerKnowledgeStoreObjectProjectionSelector = SearchIndexerKnowledgeStoreBlobProjectionSelector & {};
 
 /** Projection definition for what data to store in Azure Files. */
 export type SearchIndexerKnowledgeStoreFileProjectionSelector = SearchIndexerKnowledgeStoreBlobProjectionSelector & {};
 
-/** Known values of {@link ApiVersion20210430Preview} that the service accepts. */
-export enum KnownApiVersion20210430Preview {
-  /** Api Version '2021-04-30-Preview' */
-  TwoThousandTwentyOne0430Preview = "2021-04-30-Preview"
+/** Known values of {@link ApiVersion20230701Preview} that the service accepts. */
+export enum KnownApiVersion20230701Preview {
+  /** Api Version '2023-07-01-Preview' */
+  TwoThousandTwentyThree0701Preview = "2023-07-01-Preview"
 }
 
 /**
- * Defines values for ApiVersion20210430Preview. \
- * {@link KnownApiVersion20210430Preview} can be used interchangeably with ApiVersion20210430Preview,
+ * Defines values for ApiVersion20230701Preview. \
+ * {@link KnownApiVersion20230701Preview} can be used interchangeably with ApiVersion20230701Preview,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2021-04-30-Preview**: Api Version '2021-04-30-Preview'
+ * **2023-07-01-Preview**: Api Version '2023-07-01-Preview'
  */
-export type ApiVersion20210430Preview = string;
+export type ApiVersion20230701Preview = string;
 
 /** Known values of {@link SearchIndexerDataSourceType} that the service accepts. */
 export enum KnownSearchIndexerDataSourceType {
@@ -2188,14 +2246,8 @@ export enum KnownSearchFieldDataType {
   GeographyPoint = "Edm.GeographyPoint",
   /** Indicates that a field contains one or more complex objects that in turn have sub-fields of other types. */
   Complex = "Edm.ComplexType",
-  CollectionEdmString = "Collection(Edm.String)",
-  CollectionEdmInt32 = "Collection(Edm.Int32)",
-  CollectionEdmInt64 = "Collection(Edm.Int64)",
-  CollectionEdmDouble = "Collection(Edm.Double)",
-  CollectionEdmBoolean = "Collection(Edm.Boolean)",
-  CollectionEdmDateTimeOffset = "Collection(Edm.DateTimeOffset)",
-  CollectionEdmGeographyPoint = "Collection(Edm.GeographyPoint)",
-  CollectionEdmComplexType = "Collection(Edm.ComplexType)"
+  /** Indicates that a field contains a single-precision floating point number. This is only valid when used with Collection(Edm.Single). */
+  Single = "Edm.Single"
 }
 
 /**
@@ -2211,14 +2263,7 @@ export enum KnownSearchFieldDataType {
  * **Edm.DateTimeOffset**: Indicates that a field contains a date\/time value, including timezone information. \
  * **Edm.GeographyPoint**: Indicates that a field contains a geo-location in terms of longitude and latitude. \
  * **Edm.ComplexType**: Indicates that a field contains one or more complex objects that in turn have sub-fields of other types. \
- * **Collection(Edm.String)** \
- * **Collection(Edm.Int32)** \
- * **Collection(Edm.Int64)** \
- * **Collection(Edm.Double)** \
- * **Collection(Edm.Boolean)** \
- * **Collection(Edm.DateTimeOffset)** \
- * **Collection(Edm.GeographyPoint)** \
- * **Collection(Edm.ComplexType)**
+ * **Edm.Single**: Indicates that a field contains a single-precision floating point number. This is only valid when used with Collection(Edm.Single).
  */
 export type SearchFieldDataType = string;
 
@@ -2668,6 +2713,24 @@ export enum KnownCharFilterName {
  * **html_strip**: A character filter that attempts to strip out HTML constructs. See https:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/charfilter\/HTMLStripCharFilter.html
  */
 export type CharFilterName = string;
+
+/** Known values of {@link VectorSearchAlgorithmMetric} that the service accepts. */
+export enum KnownVectorSearchAlgorithmMetric {
+  Cosine = "cosine",
+  Euclidean = "euclidean",
+  DotProduct = "dotProduct"
+}
+
+/**
+ * Defines values for VectorSearchAlgorithmMetric. \
+ * {@link KnownVectorSearchAlgorithmMetric} can be used interchangeably with VectorSearchAlgorithmMetric,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **cosine** \
+ * **euclidean** \
+ * **dotProduct**
+ */
+export type VectorSearchAlgorithmMetric = string;
 
 /** Known values of {@link KeyPhraseExtractionSkillLanguage} that the service accepts. */
 export enum KnownKeyPhraseExtractionSkillLanguage {

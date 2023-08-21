@@ -196,13 +196,13 @@ Use the `beginPurchasePhoneNumbers` method to purchase the phone numbers from yo
 `beginPurchasePhoneNumbers` is a long running operation and returns a poller.
 
 ```typescript
-import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
+import { PhoneNumbersClient, SearchAvailablePhoneNumbersRequest } from "@azure/communication-phone-numbers";
 
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new PhoneNumbersClient(connectionString);
 
 async function main() {
-  const searchRequest = {
+  const searchRequest:SearchAvailablePhoneNumbersRequest  = {
     countryCode: "US",
     phoneNumberType: "tollFree",
     assignmentType: "application",
@@ -216,7 +216,7 @@ async function main() {
   const searchPoller = await client.beginSearchAvailablePhoneNumbers(searchRequest);
 
   // The search is underway. Wait to receive searchId.
-  const { searchId, phoneNumbers } = searchPoller.pollUntilDone();
+  const { searchId, phoneNumbers } = await searchPoller.pollUntilDone();
 
   const purchasePoller = await client.beginPurchasePhoneNumbers(searchId);
 
@@ -300,7 +300,7 @@ import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new PhoneNumbersClient(connectionString);
 
-async main function() {
+async function main() {
   const phoneNumberToGet = "<phone-number-to-get>";
 
   const phoneNumber = await client.getPurchasedPhoneNumber(phoneNumberToGet);

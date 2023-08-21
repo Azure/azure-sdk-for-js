@@ -12,8 +12,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { KustoManagementClient } from "../kustoManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ClusterPrincipalAssignment,
   ClusterPrincipalAssignmentsListOptionalParams,
@@ -44,7 +48,7 @@ export class ClusterPrincipalAssignmentsImpl
 
   /**
    * Lists all Kusto cluster principalAssignments.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
@@ -102,7 +106,7 @@ export class ClusterPrincipalAssignmentsImpl
 
   /**
    * Checks that the principal assignment name is valid and is not already in use.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param principalAssignmentName The name of the principal assignment.
    * @param options The options parameters.
@@ -121,7 +125,7 @@ export class ClusterPrincipalAssignmentsImpl
 
   /**
    * Gets a Kusto cluster principalAssignment.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param principalAssignmentName The name of the Kusto principalAssignment.
    * @param options The options parameters.
@@ -140,7 +144,7 @@ export class ClusterPrincipalAssignmentsImpl
 
   /**
    * Create a Kusto cluster principalAssignment.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param principalAssignmentName The name of the Kusto principalAssignment.
    * @param parameters The Kusto cluster principalAssignment's parameters supplied for the operation.
@@ -153,8 +157,8 @@ export class ClusterPrincipalAssignmentsImpl
     parameters: ClusterPrincipalAssignment,
     options?: ClusterPrincipalAssignmentsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ClusterPrincipalAssignmentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ClusterPrincipalAssignmentsCreateOrUpdateResponse>,
       ClusterPrincipalAssignmentsCreateOrUpdateResponse
     >
   > {
@@ -164,7 +168,7 @@ export class ClusterPrincipalAssignmentsImpl
     ): Promise<ClusterPrincipalAssignmentsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -197,20 +201,24 @@ export class ClusterPrincipalAssignmentsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         clusterName,
         principalAssignmentName,
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ClusterPrincipalAssignmentsCreateOrUpdateResponse,
+      OperationState<ClusterPrincipalAssignmentsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -218,7 +226,7 @@ export class ClusterPrincipalAssignmentsImpl
 
   /**
    * Create a Kusto cluster principalAssignment.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param principalAssignmentName The name of the Kusto principalAssignment.
    * @param parameters The Kusto cluster principalAssignment's parameters supplied for the operation.
@@ -243,7 +251,7 @@ export class ClusterPrincipalAssignmentsImpl
 
   /**
    * Deletes a Kusto cluster principalAssignment.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param principalAssignmentName The name of the Kusto principalAssignment.
    * @param options The options parameters.
@@ -253,14 +261,14 @@ export class ClusterPrincipalAssignmentsImpl
     clusterName: string,
     principalAssignmentName: string,
     options?: ClusterPrincipalAssignmentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -293,14 +301,20 @@ export class ClusterPrincipalAssignmentsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, principalAssignmentName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        clusterName,
+        principalAssignmentName,
+        options
+      },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -308,7 +322,7 @@ export class ClusterPrincipalAssignmentsImpl
 
   /**
    * Deletes a Kusto cluster principalAssignment.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param principalAssignmentName The name of the Kusto principalAssignment.
    * @param options The options parameters.
@@ -330,7 +344,7 @@ export class ClusterPrincipalAssignmentsImpl
 
   /**
    * Lists all Kusto cluster principalAssignments.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
@@ -357,7 +371,7 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CheckNameResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.principalAssignmentName,
@@ -381,7 +395,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ClusterPrincipalAssignment
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -413,7 +427,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ClusterPrincipalAssignment
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.parameters2,
@@ -439,7 +453,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -462,7 +476,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ClusterPrincipalAssignmentListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],

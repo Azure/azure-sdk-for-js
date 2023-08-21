@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List available SKUs for the requested Cognitive Services account
  *
  * @summary List available SKUs for the requested Cognitive Services account
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-12-01/examples/ListSkus.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2023-05-01/examples/ListSkus.json
  */
 async function listSkUs() {
   const subscriptionId =

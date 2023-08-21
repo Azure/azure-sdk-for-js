@@ -137,6 +137,12 @@ If used from Node.js, the `DefaultAzureCredential` will attempt to authenticate 
 1. **Azure CLI** - If the developer has authenticated an account via the Azure CLI `az login` command, the `DefaultAzureCredential` will authenticate with that account.
 1. **Azure PowerShell** - If the developer has authenticated using the Azure PowerShell module `Connect-AzAccount` command, the `DefaultAzureCredential` will authenticate with that account.
 
+#### Continuation policy
+
+As of version 3.3.0, `DefaultAzureCredential` will attempt to authenticate with all developer credentials until one succeeds, regardless of any errors previous developer credentials experienced. For example, a developer credential may attempt to get a token and fail, so `DefaultAzureCredential` will continue to the next credential in the flow. Deployed service credentials will stop the flow with a thrown exception if they're able to attempt token retrieval, but don't receive one.
+
+This allows for trying all of the developer credentials on your machine while having predictable deployed behavior.
+
 #### Note about `VisualStudioCodeCredential`
 
 Due to a [known issue](https://github.com/Azure/azure-sdk-for-js/issues/20500), `VisualStudioCodeCredential` has been removed from the `DefaultAzureCredential` token chain. When the issue is resolved in a future release, this change will be reverted.
@@ -298,6 +304,10 @@ Not all credentials require this configuration. Credentials that authenticate th
 
 Configuration is attempted in the above order. For example, if values for a client secret and certificate are both present, the client secret will be used.
 
+## Continuous Access Evaluation
+
+As of version 3.3.0, accessing resources protected by [Continuous Access Evaluation](https://learn.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) (CAE) is possible on a per-request basis. This can be enabled using the [`GetTokenOptions.enableCae(boolean)` API](https://learn.microsoft.com/javascript/api/@azure/core-auth/gettokenoptions?view=azure-node-latest#@azure-core-auth-gettokenoptions-enablecae). CAE isn't supported for developer credentials.
+
 ## Token caching
 
 Token caching is a feature provided by the Azure Identity library that allows apps to:
@@ -309,54 +319,6 @@ Token caching is a feature provided by the Azure Identity library that allows ap
 The Azure Identity library offers both in-memory and persistent disk caching. For more details, see the [token caching documentation](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/TOKEN_CACHING.md).
 
 ## Troubleshooting
-
-### Error handling
-
-Credentials raise `AuthenticationError` when they fail to authenticate. This class has a `message` field which describes why authentication failed. An `AggregateAuthenticationError` will be raised by `ChainedTokenCredential` with an `errors` field containing an array of errors from each credential in the chain.
-
-### Logging
-
-Enabling logging may help uncover useful information about failures.
-
-To see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`.
-You can read this environment variable from the _.env_ file by explicitly specifying a file path:
-
-```javascript
-require("dotenv").config({ path: ".env" });
-```
-
-Alternatively, logging can be enabled at runtime by calling `setLogLevel` from the `@azure/logger` package:
-
-```typescript
-import { setLogLevel } from "@azure/logger";
-
-setLogLevel("info");
-```
-
-In cases where the authenticate code might be running in an environment with more than one credential available,
-the `@azure/identity` package offers a unique form of logging. On the optional parameters for every credential,
-developers can set `allowLoggingAccountIdentifiers` to true in the
-`loggingOptions` to log information specific to the authenticated account after
-each successful authentication, including the Client ID, the Tenant ID, the
-Object ID of the authenticated user, and if possible the User Principal Name.
-
-For example, using the `DefaultAzureCredential`:
-
-```js
-import { setLogLevel } from "@azure/logger";
-
-setLogLevel("info");
-
-const credential = new DefaultAzureCredential({
-  loggingOptions: { allowLoggingAccountIdentifiers: true },
-});
-```
-
-Once that credential authenticates, the following message will appear in the logs (with the real information instead of `HIDDEN`):
-
-```
-azure:identity:info [Authenticated account] Client ID: HIDDEN. Tenant ID: HIDDEN. User Principal Name: HIDDEN. Object ID (user): HIDDEN
-```
 
 For assistance with troubleshooting, see the [troubleshooting guide](https://aka.ms/azsdk/js/identity/troubleshoot).
 

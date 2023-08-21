@@ -26,7 +26,10 @@ export interface CredentialFlowGetTokenOptions extends GetTokenOptions {
    * Claims received from challenges.
    */
   claims?: string;
-
+  /**
+   * Indicates to allow Continuous Access Evaluation or not
+   */
+  enableCae?: boolean;
   /**
    * Client Assertion
    */

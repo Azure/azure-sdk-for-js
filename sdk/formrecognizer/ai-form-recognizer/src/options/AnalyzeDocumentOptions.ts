@@ -21,27 +21,40 @@ export type FormRecognizerFeature =
   // eslint-disable-next-line @typescript-eslint/ban-types
   | (string & {});
 
+/**
+ * Known feature flags supported by the Form Recognizer clients.
+ */
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FormRecognizerFeature = {
   /**
-   * Enables the use of Query Fields.
-   */
-  QueryFieldsPremium: "queryFields.premium",
-
-  /**
    * Enables extracting extra font information.
    */
-  OcrFont: "ocr.font",
+  Fonts: "styleFont",
 
   /**
    * Enables high-resolution processing for documents with small text.
    */
-  OcrHighResolution: "ocr.highResolution",
+  OcrHighResolution: "ocrHighResolution",
 
   /**
-   * Enables formula extraction.
+   * Enables the detection of mathematical expressions in the document..
    */
-  OcrFormula: "ocr.formula",
+  Formulas: "formulas",
+
+  /**
+   * Enables the detection of the text content language.
+   */
+  Languages: "languages",
+
+  /**
+   *  Enables the detection of barcodes in the document.
+   */
+  Barcodes: "barcodes",
+
+  /**
+   *  Enables the detection of general key value pairs (form fields) in the document.
+   */
+  KeyValuePairs: "keyValuePairs",
 } as const;
 
 /**
@@ -68,22 +81,10 @@ export interface AnalyzeDocumentOptions<Result = AnalyzeResult<AnalyzedDocument>
   pages?: string;
 
   /**
-   * A list of additional fields to add to the extracted documents.
-   *
-   * Additional fields are extracted dynamically and do not require any training. This capability is only available if
-   * the "queryFields.premium" feature is enabled. Pass "queryFields.premium" in the `features` parameter
-   * to enable it.
-   *
-   * NOTE: This feature incurs additional costs, so be sure to consult the service documentation to understand the added
-   * costs associated with using it. See the service documentation for more information: https://aka.ms/azsdk/formrecognizer/queryfields
-   */
-  queryFields?: string[];
-
-  /**
    * A list of features to enable in the model. Enabling features may incur additional costs, so be sure to consult the
    * service documentation to understand the nature of the features and any added costs associated with using them.
    *
    * For more information about the features available in Form Recognizer, see the service documentation: https://aka.ms/azsdk/formrecognizer/features
    */
-  features?: string[];
+  features?: FormRecognizerFeature[];
 }

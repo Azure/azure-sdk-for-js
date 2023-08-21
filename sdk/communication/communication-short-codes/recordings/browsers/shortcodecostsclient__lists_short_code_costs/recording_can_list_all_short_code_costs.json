@@ -6,7 +6,7 @@
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "es-MX",
+        "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Referer": "http://localhost:9876/",
@@ -16,27 +16,103 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 23 May 2023 23:10:47 GMT",
-        "x-ms-useragent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.4 OS"
+        "x-ms-date": "Tue, 01 Aug 2023 17:55:58 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Accept-Ranges": "bytes",
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Content-Length": "328",
+        "Connection": "keep-alive",
+        "Content-Length": "1428",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 23 May 2023 23:10:49 GMT",
-        "MS-CV": "zTg5BDQ\u002BoEuVpRsEz9P9Lg.0",
+        "Date": "Tue, 01 Aug 2023 17:56:00 GMT",
+        "MS-CV": "EWqhgvYuvUORecqUKsndMQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0\u002BEdtZAAAAABNJIJV2f9sRoPom2SVJSY9TUVYMzFFREdFMDMwNgBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "x-azure-ref": "20230801T175559Z-5yv19g937h43ddbvb353t99fcs000000012000000000kzg2",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1422ms"
+        "X-Processing-Time": "750ms"
       },
       "ResponseBody": {
         "shortCodeCosts": [
+          {
+            "amount": 3000.0,
+            "currencyCode": "USD",
+            "countryCode": "CA",
+            "billingFrequency": "once"
+          },
+          {
+            "amount": 1000.0,
+            "currencyCode": "USD",
+            "countryCode": "CA",
+            "isVanityShortCode": false,
+            "billingFrequency": "monthly"
+          },
+          {
+            "amount": 0.0,
+            "currencyCode": "USD",
+            "countryCode": "GB",
+            "billingFrequency": "once"
+          },
+          {
+            "amount": 1600.0,
+            "currencyCode": "USD",
+            "countryCode": "GB",
+            "isVanityShortCode": false,
+            "billingFrequency": "monthly"
+          },
+          {
+            "amount": 650.0,
+            "currencyCode": "USD",
+            "countryCode": "US",
+            "billingFrequency": "once"
+          },
+          {
+            "amount": 1500.0,
+            "currencyCode": "USD",
+            "countryCode": "US",
+            "isVanityShortCode": true,
+            "billingFrequency": "monthly"
+          },
+          {
+            "amount": 1000.0,
+            "currencyCode": "USD",
+            "countryCode": "US",
+            "isVanityShortCode": false,
+            "billingFrequency": "monthly"
+          }
+        ],
+        "costs": [
+          {
+            "amount": 3000.0,
+            "currencyCode": "USD",
+            "countryCode": "CA",
+            "billingFrequency": "once"
+          },
+          {
+            "amount": 1000.0,
+            "currencyCode": "USD",
+            "countryCode": "CA",
+            "isVanityShortCode": false,
+            "billingFrequency": "monthly"
+          },
+          {
+            "amount": 0.0,
+            "currencyCode": "USD",
+            "countryCode": "GB",
+            "billingFrequency": "once"
+          },
+          {
+            "amount": 1600.0,
+            "currencyCode": "USD",
+            "countryCode": "GB",
+            "isVanityShortCode": false,
+            "billingFrequency": "monthly"
+          },
           {
             "amount": 650.0,
             "currencyCode": "USD",

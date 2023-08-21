@@ -3,8 +3,8 @@
 
 import { HttpClient } from "@azure/core-rest-pipeline";
 
-import { Uuid } from "../../src/utils/uuid";
 import { generateSendMessageRequest } from "../../src/utils/smsUtils";
+import { Uuid } from "../../src/utils/uuid";
 
 import { assert } from "chai";
 import sinon from "sinon";
@@ -15,7 +15,7 @@ import { MockHttpClient } from "../public/utils/mockHttpClient";
 const API_VERSION = apiVersion.mapper.defaultValue;
 const TEST_NUMBER = "+14255550123";
 
-describe("[mocked] SmsClient Internal", async () => {
+describe("[mocked] SmsClient Internal", async function () {
   const baseUri = "https://contoso.api.fake";
   const connectionString = `endpoint=${baseUri};accesskey=banana`;
   let sendRequestSpy: sinon.SinonSpy;
@@ -29,9 +29,9 @@ describe("[mocked] SmsClient Internal", async () => {
     message: "message",
   };
 
-  describe("when sending an SMS", () => {
+  describe("when sending an SMS", function () {
     let smsClient: SmsClient;
-    beforeEach(() => {
+    beforeEach(function () {
       uuidStub = sinon.stub(Uuid, "generateUuid");
       uuidStub.returns(mockedGuid);
       sendRequestSpy = sinon.spy(mockHttpClient, "sendRequest");
@@ -39,7 +39,7 @@ describe("[mocked] SmsClient Internal", async () => {
       smsClient = new SmsClient(connectionString, { httpClient: mockHttpClient });
     });
 
-    it("sends with the correct request body", async () => {
+    it("sends with the correct request body", async function () {
       await smsClient.send(testSendRequest);
 
       const request = sendRequestSpy.getCall(0).args[0];
@@ -49,14 +49,14 @@ describe("[mocked] SmsClient Internal", async () => {
       assert.deepEqual(JSON.parse(request.body as string), expectedRequestBody);
     });
 
-    it("generates a new repeatability id each time", async () => {
+    it("generates a new repeatability id each time", async function () {
       await smsClient.send(testSendRequest);
       assert.isTrue(uuidStub.calledOnce);
       await smsClient.send(testSendRequest);
       assert.isTrue(uuidStub.calledTwice);
     });
 
-    afterEach(() => {
+    afterEach(function () {
       sinon.restore();
     });
   });

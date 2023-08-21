@@ -10,7 +10,7 @@ import * as coreHttpCompat from "@azure/core-http-compat";
 import { DocumentsImpl } from "./operations";
 import { Documents } from "./operationsInterfaces";
 import {
-  ApiVersion20210430Preview,
+  ApiVersion20230701Preview,
   SearchClientOptionalParams
 } from "./models";
 
@@ -18,7 +18,7 @@ import {
 export class SearchClient extends coreHttpCompat.ExtendedServiceClient {
   endpoint: string;
   indexName: string;
-  apiVersion: ApiVersion20210430Preview;
+  apiVersion: ApiVersion20230701Preview;
 
   /**
    * Initializes a new instance of the SearchClient class.
@@ -30,7 +30,7 @@ export class SearchClient extends coreHttpCompat.ExtendedServiceClient {
   constructor(
     endpoint: string,
     indexName: string,
-    apiVersion: ApiVersion20210430Preview,
+    apiVersion: ApiVersion20230701Preview,
     options?: SearchClientOptionalParams
   ) {
     if (endpoint === undefined) {
@@ -51,7 +51,7 @@ export class SearchClient extends coreHttpCompat.ExtendedServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-search-documents/12.0.0-beta.2`;
+    const packageDetails = `azsdk-js-search-documents/12.0.0-beta.4`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
