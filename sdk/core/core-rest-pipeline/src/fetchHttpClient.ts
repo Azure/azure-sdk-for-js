@@ -75,7 +75,7 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
 
   try {
     const headers = buildFetchHeaders(request.headers);
-    const { streaming, body: requestBody} = buildRequestBody(request);
+    const { streaming, body: requestBody } = buildRequestBody(request);
     const requestInit: RequestInit = {
       body: requestBody,
       method: request.method,
@@ -83,7 +83,7 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
       signal: abortController.signal,
       credentials: request.withCredentials ? "include" : "same-origin",
       cache: "no-store",
-    }
+    };
 
     // According to https://fetch.spec.whatwg.org/#fetch-method,
     // init.duplex must be set when body is a ReadableStream object.
@@ -228,7 +228,9 @@ function buildRequestBody(request: PipelineRequest) {
     throw new Error("Node streams are not supported in browser environment.");
   }
 
-  return isReadableStream(body) ? { streaming: true, body: buildBodyStream(body, request.onUploadProgress)} : { streaming: false, body};
+  return isReadableStream(body)
+    ? { streaming: true, body: buildBodyStream(body, request.onUploadProgress) }
+    : { streaming: false, body };
 }
 
 /**
