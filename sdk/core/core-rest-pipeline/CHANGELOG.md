@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Set `init.duplex` to `"half"` when streaming body via `fetch()`
+
 ## 1.12.0 (2023-08-08)
 
 ### Features Added
