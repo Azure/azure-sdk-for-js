@@ -104,7 +104,6 @@ export {
   ChangeFeedIteratorOptions,
   ChangeFeedIteratorResponse,
   ChangeFeedStartFrom,
-  EpkRange,
 } from "./client/ChangeFeed";
 
 export { GlobalEndpointManager } from "./globalEndpointManager";

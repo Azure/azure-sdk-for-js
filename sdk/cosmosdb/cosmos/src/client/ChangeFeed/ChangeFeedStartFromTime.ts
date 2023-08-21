@@ -1,23 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { PartitionKey } from "../../documents";
-import { PartitionKeyRange } from "../../client";
-import { EpkRange } from "./EpkRange";
+import { FeedRange } from "./FeedRange";
 /**
  * @hidden
  * Class which specifies the ChangeFeedIterator to start reading changes from a particular point of time.
  */
 export class ChangeFeedStartFromTime {
-  private cfResource?: PartitionKey | PartitionKeyRange | EpkRange;
+  private cfResource?: PartitionKey | FeedRange;
 
   private startTime: Date;
 
-  constructor(startTime: Date, cfResource?: PartitionKey | PartitionKeyRange | EpkRange) {
+  constructor(startTime: Date, cfResource?: PartitionKey | FeedRange) {
     this.startTime = startTime;
     this.cfResource = cfResource;
   }
 
-  public getCfResource(): PartitionKey | PartitionKeyRange | EpkRange | undefined {
+  public getCfResource(): PartitionKey | FeedRange {
     return this.cfResource;
   }
 

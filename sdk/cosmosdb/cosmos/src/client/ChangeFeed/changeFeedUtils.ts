@@ -11,6 +11,7 @@ import { ChangeFeedStartFromNow } from "./ChangeFeedStartFromNow";
 import { Constants } from "../../common";
 import { ChangeFeedStartFromTime } from "./ChangeFeedStartFromTime";
 import { QueryRange } from "../../routing";
+import { FeedRange } from "./FeedRange";
 
 /**
  * @hidden
@@ -75,9 +76,9 @@ export async function checkEpkHeaders(
  * Checks if the object is a valid EpkRange
  */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-export function isEpkRange(obj: any): obj is PartitionKeyRange {
+export function isEpkRange(obj: any): boolean {
   return (
-    obj &&
+    obj instanceof FeedRange &&
     typeof obj.minInclusive === "string" &&
     typeof obj.maxExclusive === "string" &&
     obj.minInclusive >=

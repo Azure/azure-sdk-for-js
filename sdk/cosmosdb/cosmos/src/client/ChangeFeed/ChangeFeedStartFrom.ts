@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { PartitionKey } from "../../documents";
-import { PartitionKeyRange } from "../../client";
-import { EpkRange } from "./EpkRange";
+import { FeedRange } from "./FeedRange";
 import { ChangeFeedStartFromNow } from "./ChangeFeedStartFromNow";
 import { ChangeFeedStartFromBeginning } from "./ChangeFeedStartFromBeginning";
 import { ChangeFeedStartFromTime } from "./ChangeFeedStartFromTime";
@@ -17,30 +16,26 @@ import { checkTokenEmptyOrWhiteSpace } from "./changeFeedUtils";
 export abstract class ChangeFeedStartFrom {
   /**
    * Returns an object that tells the ChangeFeedIterator to start from the beginning of time.
-   * @param cfResource - PartitionKey or PartitionKeyRange for which changes are to be fetched. Leave blank for fetching changes for entire container.
+   * @param cfResource - PartitionKey or FeedRange for which changes are to be fetched. Leave blank for fetching changes for entire container.
    */
-  public static Beginning(
-    cfResource?: PartitionKey | PartitionKeyRange | EpkRange
-  ): ChangeFeedStartFromBeginning {
+  public static Beginning(cfResource?: PartitionKey | FeedRange): ChangeFeedStartFromBeginning {
     return new ChangeFeedStartFromBeginning(cfResource);
   }
   /**
    *  Returns an object that tells the ChangeFeedIterator to start reading changes from this moment onward.
-   * @param cfResource - PartitionKey or PartitionKeyRange for which changes are to be fetched. Leave blank for fetching changes for entire container.
+   * @param cfResource - PartitionKey or FeedRange for which changes are to be fetched. Leave blank for fetching changes for entire container.
    **/
-  public static Now(
-    cfResource?: PartitionKey | PartitionKeyRange | EpkRange
-  ): ChangeFeedStartFromNow {
+  public static Now(cfResource?: PartitionKey | FeedRange): ChangeFeedStartFromNow {
     return new ChangeFeedStartFromNow(cfResource);
   }
   /**
    * Returns an object that tells the ChangeFeedIterator to start reading changes from some point in time onward.
    * @param startTime - Date object specfiying the time to start reading changes from.
-   * @param cfResource - PartitionKey or PartitionKeyRange for which changes are to be fetched. Leave blank for fetching changes for entire container.
+   * @param cfResource - PartitionKey or FeedRange for which changes are to be fetched. Leave blank for fetching changes for entire container.
    */
   public static Time(
     startTime: Date,
-    cfResource?: PartitionKey | PartitionKeyRange | EpkRange
+    cfResource?: PartitionKey | FeedRange
   ): ChangeFeedStartFromTime {
     if (!startTime) {
       throw new ErrorResponse("startTime must be present");

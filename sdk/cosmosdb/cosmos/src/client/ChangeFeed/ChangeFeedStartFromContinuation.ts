@@ -33,7 +33,7 @@ export class ChangeFeedStartFromContinuation {
       Array.isArray(cToken.Continuation) &&
       cToken.Continuation.length > 0
     ) {
-      return ChangeFeedResourceType.EpkRange;
+      return ChangeFeedResourceType.FeedRange;
     } else {
       throw new ErrorResponse("Invalid continuation token.");
     }
