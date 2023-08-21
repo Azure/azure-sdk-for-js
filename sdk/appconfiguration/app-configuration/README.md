@@ -189,22 +189,27 @@ const client = new AppConfigurationClient(
   "<App Configuration connection string goes here>"
 );
 
-const key = "testkey";
-const value = "testvalue";
-const label = "optional-label";
 
-await client.addConfigurationSetting({
-  key,
-  value,
-  label
-});
+async function run() {
+  const key = "testkey";
+  const value = "testvalue";
+  const label = "optional-label";
 
-const poller = await client.beginCreateSnapshot({
-  name:"testsnapshot",
-  retentionPeriod: 2592000,
-  filters: [{key, label}],
-});
-const snapshot = await poller.pollUntilDone();
+  await client.addConfigurationSetting({
+    key,
+    value,
+    label
+  });
+
+  const poller = await client.beginCreateSnapshot({
+    name:"testsnapshot",
+    retentionPeriod: 2592000,
+    filters: [{key, label}],
+  });
+  const snapshot = await poller.pollUntilDone();
+}
+
+run().catch((err) => console.log("ERROR:", err));
 ```
 
 You can also use `beginCreateSnapshotAndWait` to have the result of the creation directly after the polling is done.

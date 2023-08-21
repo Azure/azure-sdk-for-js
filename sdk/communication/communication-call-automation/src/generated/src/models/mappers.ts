@@ -528,8 +528,8 @@ export const TransferToParticipantRequest: coreClient.CompositeMapper = {
           className: "CommunicationIdentifierModel"
         }
       },
-      callbackUriOverride: {
-        serializedName: "callbackUriOverride",
+      callbackUri: {
+        serializedName: "callbackUri",
         type: {
           name: "String"
         }
@@ -586,6 +586,12 @@ export const PlayRequest: coreClient.CompositeMapper = {
       },
       operationContext: {
         serializedName: "operationContext",
+        type: {
+          name: "String"
+        }
+      },
+      callbackUri: {
+        serializedName: "callbackUri",
         type: {
           name: "String"
         }
@@ -768,6 +774,12 @@ export const RecognizeRequest: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      callbackUri: {
+        serializedName: "callbackUri",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -945,6 +957,12 @@ export const ContinuousDtmfRecognitionRequest: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      callbackUri: {
+        serializedName: "callbackUri",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -976,6 +994,12 @@ export const SendDtmfRequest: coreClient.CompositeMapper = {
       },
       operationContext: {
         serializedName: "operationContext",
+        type: {
+          name: "String"
+        }
+      },
+      callbackUri: {
+        serializedName: "callbackUri",
         type: {
           name: "String"
         }
@@ -1170,8 +1194,8 @@ export const AddParticipantRequest: coreClient.CompositeMapper = {
           className: "CustomContext"
         }
       },
-      callbackUriOverride: {
-        serializedName: "callbackUriOverride",
+      callbackUri: {
+        serializedName: "callbackUri",
         type: {
           name: "String"
         }
@@ -1220,8 +1244,8 @@ export const RemoveParticipantRequest: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      callbackUriOverride: {
-        serializedName: "callbackUriOverride",
+      callbackUri: {
+        serializedName: "callbackUri",
         type: {
           name: "String"
         }

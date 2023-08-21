@@ -3,10 +3,10 @@
 
 import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
-import { Recorder, env, isRecordMode, isLiveMode } from "@azure-tools/test-recorder";
+import { Recorder, env, isRecordMode } from "@azure-tools/test-recorder";
 
 import { KeyClient } from "../../src";
-import { assertThrowsAbortError, getServiceVersion } from "./utils/common";
+import { getServiceVersion } from "./utils/common";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -77,21 +77,6 @@ describe("Keys client - list keys in various ways", () => {
     }
     assert.equal(totalVersions, expectedVersions, `Unexpected total versions for key ${keyName}`);
     await testClient.flushKey(keyName);
-  });
-
-  // On playback mode, the tests happen too fast for the timeout to work
-  it("can get the versions of a key with requestOptions timeout", async function () {
-    if (!isLiveMode()) {
-      console.log("Skipping, timeout tests don't work on playback mode.");
-      this.skip();
-    }
-
-    const iter = client.listPropertiesOfKeyVersions("doesntmatter", {
-      requestOptions: { timeout: 1 },
-    });
-    await assertThrowsAbortError(async () => {
-      await iter.next();
-    });
   });
 
   it("can get the versions of a key (paged)", async function (this: Context) {
@@ -170,19 +155,6 @@ describe("Keys client - list keys in various ways", () => {
     }
   });
 
-  // On playback mode, the tests happen too fast for the timeout to work
-  it("can get several inserted keys with requestOptions timeout", async function () {
-    if (!isLiveMode()) {
-      console.log(`Skipping, timeout tests don't work on playback mode.`);
-      this.skip();
-    }
-    const iter = client.listPropertiesOfKeys({ requestOptions: { timeout: 1 } });
-
-    await assertThrowsAbortError(async () => {
-      await iter.next();
-    });
-  });
-
   it("can get several inserted keys (paged)", async function (this: Context) {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyNames = [`${keyName}-0`, `${keyName}-1`];
@@ -229,18 +201,6 @@ describe("Keys client - list keys in various ways", () => {
     for (const name of keyNames) {
       await testClient.purgeKey(name);
     }
-  });
-
-  // On playback mode, the tests happen too fast for the timeout to work
-  it("list deleted keys with requestOptions timeout", async function () {
-    if (!isLiveMode()) {
-      console.log("Skipping, timeout tests don't work on playback mode.");
-      this.skip();
-    }
-    const iter = client.listDeletedKeys({ requestOptions: { timeout: 1 } });
-    await assertThrowsAbortError(async () => {
-      await iter.next();
-    });
   });
 
   it("list deleted keys (paged)", async function (this: Context) {

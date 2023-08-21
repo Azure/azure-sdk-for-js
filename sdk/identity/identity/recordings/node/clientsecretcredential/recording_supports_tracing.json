@@ -7,7 +7,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "User-Agent": "User-Agent",
-        "x-ms-client-request-id": "84f8305c-be5f-4721-b562-4214bd2e0631"
+        "x-ms-client-request-id": "9ab10d95-ddfa-46d6-b912-c9af9821c76b"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,17 +17,14 @@
         "Cache-Control": "max-age=86400, private",
         "Content-Length": "980",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 01 Mar 2022 00:51:32 GMT",
+        "Date": "Thu, 03 Aug 2023 00:44:56 GMT",
         "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
-        "Set-Cookie": [
-          "fpc=fpc; expires=Thu, 31-Mar-2022 00:51:33 GMT; path=/; secure; HttpOnly; SameSite=None",
-          "x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly",
-          "stsservicecookie=estsfd; path=/; secure; samesite=none; httponly"
-        ],
+        "Set-Cookie": "fpc=secret_cookie; expires=Sat, 02-Sep-2023 00:44:57 GMT; path=/; secure; HttpOnly; SameSite=None",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-ests-server": "2.1.12470.13 - EUS ProdSlices",
-        "x-ms-request-id": "aa061d47-282f-4f6a-b8f2-8f80536dbf00"
+        "x-ms-ests-server": "2.1.15984.6 - SCUS ProdSlices",
+        "x-ms-request-id": "ba88bf73-d938-4cec-84fb-254f6c552400",
+        "X-XSS-Protection": "0"
       },
       "ResponseBody": {
         "tenant_discovery_endpoint": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/v2.0/.well-known/openid-configuration",
@@ -83,7 +80,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "User-Agent": "User-Agent",
-        "x-ms-client-request-id": "009646f0-6933-49a1-ba98-e5cb9b4913cd"
+        "x-ms-client-request-id": "670d93df-e17b-4b75-9c2f-a6e3a71d2359"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -93,17 +90,14 @@
         "Cache-Control": "max-age=86400, private",
         "Content-Length": "1753",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 01 Mar 2022 00:51:32 GMT",
+        "Date": "Thu, 03 Aug 2023 00:44:56 GMT",
         "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
-        "Set-Cookie": [
-          "fpc=fpc; expires=Thu, 31-Mar-2022 00:51:33 GMT; path=/; secure; HttpOnly; SameSite=None",
-          "x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly",
-          "stsservicecookie=estsfd; path=/; secure; samesite=none; httponly"
-        ],
+        "Set-Cookie": "fpc=secret_cookie; expires=Sat, 02-Sep-2023 00:44:57 GMT; path=/; secure; HttpOnly; SameSite=None",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-ests-server": "2.1.12529.16 - NCUS ProdSlices",
-        "x-ms-request-id": "e87fcdcd-b106-4b77-99a8-250ba2ca7900"
+        "x-ms-ests-server": "2.1.15984.6 - EUS ProdSlices",
+        "x-ms-request-id": "169f20a6-c3c7-4338-935e-68f76e1e7500",
+        "X-XSS-Protection": "0"
       },
       "ResponseBody": {
         "token_endpoint": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
@@ -179,31 +173,28 @@
       "RequestHeaders": {
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
-        "Content-Length": "492",
+        "Content-Length": "397",
         "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
         "User-Agent": "User-Agent",
-        "x-ms-client-request-id": "d2b66b66-2476-4b2e-a6f1-550f30a3d11d"
+        "x-ms-client-request-id": "2d472f31-9dab-4f59-a03b-21befea467d5"
       },
-      "RequestBody": "client_id=azure_client_id\u0026scope=https%3A%2F%2Fvault.azure.net%2F.default\u0026grant_type=client_credentials\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|771,2,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026client-request-id=client-request-id\u0026client_secret=azure_client_secret\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "RequestBody": "client_id=azure_client_id\u0026scope=https%3A%2F%2Fvault.azure.net%2F.default\u0026grant_type=client_credentials\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|771,2,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026client-request-id=client-request-id\u0026client_secret=azure_client_secret",
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-store, no-cache",
         "Content-Length": "95",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 01 Mar 2022 00:51:33 GMT",
+        "Date": "Thu, 03 Aug 2023 00:44:56 GMT",
         "Expires": "-1",
         "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
         "Pragma": "no-cache",
-        "Set-Cookie": [
-          "fpc=fpc; expires=Thu, 31-Mar-2022 00:51:33 GMT; path=/; secure; HttpOnly; SameSite=None",
-          "x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly",
-          "stsservicecookie=estsfd; path=/; secure; samesite=none; httponly"
-        ],
+        "Set-Cookie": "fpc=secret_cookie; expires=Sat, 02-Sep-2023 00:44:57 GMT; path=/; secure; HttpOnly; SameSite=None",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
         "x-ms-clitelem": "1,0,0,,",
-        "x-ms-ests-server": "2.1.12529.16 - EUS ProdSlices",
-        "x-ms-request-id": "c1929755-5f95-4876-8eb4-6e9b1406a300"
+        "x-ms-ests-server": "2.1.15984.6 - SCUS ProdSlices",
+        "x-ms-request-id": "5e3e0bad-6d7f-4d2e-96ce-d4cd3e837700",
+        "X-XSS-Protection": "0"
       },
       "ResponseBody": {
         "token_type": "Bearer",

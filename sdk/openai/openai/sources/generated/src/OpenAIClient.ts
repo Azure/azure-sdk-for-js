@@ -2,7 +2,30 @@
 // Licensed under the MIT license.
 
 import { TokenCredential, KeyCredential } from "@azure/core-auth";
+import {
+  Embeddings,
+  Completions,
+  ChatMessage,
+  ChatCompletions,
+  BatchImageGenerationOperationResponse,
+} from "./models/models.js";
+import {
+  GetEmbeddingsOptions,
+  GetCompletionsOptions,
+  GetChatCompletionsOptions,
+  GetAzureBatchImageGenerationOperationStatusOptions,
+  BeginAzureBatchImageGenerationOptions,
+} from "./models/options.js";
 import "./api/index.js";
+import { OpenAIClientOptions, createOpenAI } from "./api/OpenAIContext.js";
+import {
+  getEmbeddings,
+  getCompletions,
+  getChatCompletions,
+  getAzureBatchImageGenerationOperationStatus,
+  beginAzureBatchImageGeneration,
+} from "./api/operations.js";
+import { OpenAIContext } from "./rest/clientDefinitions.js";
 
 export { OpenAIClientOptions } from "./api/OpenAIContext.js";
 
@@ -60,11 +83,7 @@ export class OpenAIClient {
       requestOptions: {},
     }
   ): Promise<BatchImageGenerationOperationResponse> {
-    return getAzureBatchImageGenerationOperationStatus(
-      this._client,
-      operationId,
-      options
-    );
+    return getAzureBatchImageGenerationOperationStatus(this._client, operationId, options);
   }
 
   /** Starts the generation of a batch of images from a text caption */
