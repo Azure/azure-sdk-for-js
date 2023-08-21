@@ -52,7 +52,7 @@ describe("Change Feed Iterator", function (this: Suite) {
         const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
 
         while (iterator.hasMoreResults) {
-          await iterator.readNextAsync();
+          await iterator.readNext();
         }
       } catch (err: any) {
         assert.strictEqual(err.message, "maxItemCount must be a positive number");
@@ -98,7 +98,7 @@ describe("Change Feed Iterator", function (this: Suite) {
       const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
 
       while (iterator.hasMoreResults) {
-        const response = await iterator.readNextAsync();
+        const response = await iterator.readNext();
         const { result: items } = response;
         if (items.length === 0) {
           break;
@@ -115,7 +115,7 @@ describe("Change Feed Iterator", function (this: Suite) {
       const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
 
       while (iterator.hasMoreResults) {
-        const { result: items } = await iterator.readNextAsync();
+        const { result: items } = await iterator.readNext();
         if (items.length === 0) break;
         assert.equal(items.length, 10, "initial number of items should be equal 10");
       }
@@ -132,7 +132,7 @@ describe("Change Feed Iterator", function (this: Suite) {
       let continuationToken = undefined;
 
       while (iterator.hasMoreResults && count < 6) {
-        const response = await iterator.readNextAsync();
+        const response = await iterator.readNext();
         count += response.result.length;
         continuationToken = response.continuationToken;
       }
@@ -142,7 +142,7 @@ describe("Change Feed Iterator", function (this: Suite) {
       const iterator2 = container.items.getChangeFeedIterator(changeFeedIteratorOptions2);
 
       while (iterator2.hasMoreResults) {
-        const { result: items } = await iterator2.readNextAsync();
+        const { result: items } = await iterator2.readNext();
         if (items.length === 0) break;
         assert.equal(items.length, 4, "Remaining number of items should be equal 4");
       }
@@ -156,7 +156,7 @@ describe("Change Feed Iterator", function (this: Suite) {
       const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
 
       while (iterator.hasMoreResults) {
-        const { result: items } = await iterator.readNextAsync();
+        const { result: items } = await iterator.readNext();
         assert.equal(items.length, 0, "Initially no new changes");
         // initial result will be 0 as no new changes since creation of iterator
         if (items.length === 0) {
@@ -169,7 +169,7 @@ describe("Change Feed Iterator", function (this: Suite) {
       }
       // again start the iterator
       while (iterator.hasMoreResults) {
-        const { result: items } = await iterator.readNextAsync();
+        const { result: items } = await iterator.readNext();
         if (items.length === 0) break;
         assert.notEqual(items.length, 0, "New changes should be fetched");
       }
@@ -209,7 +209,7 @@ describe("Change Feed Iterator", function (this: Suite) {
       const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
       let counter = 0;
       while (iterator.hasMoreResults) {
-        const { result: items } = await iterator.readNextAsync();
+        const { result: items } = await iterator.readNext();
         counter += items.length;
         if (items.length === 0) break;
       }
@@ -227,7 +227,7 @@ describe("Change Feed Iterator", function (this: Suite) {
       let continuationToken = undefined;
 
       while (counter < 10) {
-        const response = await iterator.readNextAsync();
+        const response = await iterator.readNext();
         counter += response.result.length;
         continuationToken = response.continuationToken;
       }
@@ -238,7 +238,7 @@ describe("Change Feed Iterator", function (this: Suite) {
       const iterator2 = container.items.getChangeFeedIterator(changeFeedIteratorOptions2);
       let counter2 = 0;
       while (iterator2.hasMoreResults) {
-        const { result: items } = await iterator2.readNextAsync();
+        const { result: items } = await iterator2.readNext();
         counter2 += items.length;
         if (items.length === 0) break;
       }
@@ -256,7 +256,7 @@ describe("Change Feed Iterator", function (this: Suite) {
       let partitionKey1: string | undefined = undefined;
       let partitionKey2: string | undefined = undefined;
       while (counter < 2) {
-        const result = await iterator.readNextAsync();
+        const result = await iterator.readNext();
         if (counter === 0) {
           partitionKey1 = result.headers["x-ms-documentdb-partitionkeyrangeid"];
         }
@@ -275,7 +275,7 @@ describe("Change Feed Iterator", function (this: Suite) {
       };
       const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
       while (iterator.hasMoreResults) {
-        const { result: items } = await iterator.readNextAsync();
+        const { result: items } = await iterator.readNext();
         assert.equal(items.length, 0, "Initially no new changes");
         // initial result will be 0 as no new changes since creation of iterator
         if (items.length === 0) {
@@ -291,7 +291,7 @@ describe("Change Feed Iterator", function (this: Suite) {
       }
       // again start the iterator
       while (iterator.hasMoreResults) {
-        const { result: items } = await iterator.readNextAsync();
+        const { result: items } = await iterator.readNext();
         if (items.length === 0) break;
         assert.notEqual(items.length, 0, "New changes should be fetched");
       }
@@ -327,7 +327,7 @@ describe("test changefeed for feed range", function () {
     const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
 
     while (iterator.hasMoreResults) {
-      const { result: items } = await iterator.readNextAsync();
+      const { result: items } = await iterator.readNext();
       if (items.length === 0) break;
       assert.equal(items.length, 10, "initial number of items should be equal 10");
     }
@@ -344,7 +344,7 @@ describe("test changefeed for feed range", function () {
     let continuationToken = undefined;
 
     while (counter < 6) {
-      const response = await iterator.readNextAsync();
+      const response = await iterator.readNext();
       counter += response.result.length;
       continuationToken = response.continuationToken;
     }
@@ -355,7 +355,7 @@ describe("test changefeed for feed range", function () {
     const iterator2 = container.items.getChangeFeedIterator(changeFeedIteratorOptions2);
 
     while (iterator2.hasMoreResults) {
-      const { result: items } = await iterator2.readNextAsync();
+      const { result: items } = await iterator2.readNext();
       if (items.length === 0) break;
       assert.equal(items.length, 4, "Remaining number of items should be equal 4");
     }
@@ -371,7 +371,7 @@ describe("test changefeed for feed range", function () {
     const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
 
     while (iterator.hasMoreResults) {
-      const { result: items } = await iterator.readNextAsync();
+      const { result: items } = await iterator.readNext();
       assert.equal(items.length, 0, "Initially no new changes");
       // initial result will be 0 as no new changes since creation of iterator
       if (items.length === 0) {
@@ -387,7 +387,7 @@ describe("test changefeed for feed range", function () {
     }
     // again start the iterator
     while (iterator.hasMoreResults) {
-      const { result: items } = await iterator.readNextAsync();
+      const { result: items } = await iterator.readNext();
       if (items.length === 0) break;
       assert.notEqual(items.length, 0, "New changes should be fetched");
     }
@@ -403,7 +403,7 @@ describe("test changefeed for feed range", function () {
 
     let counter = 0;
     while (iterator.hasMoreResults) {
-      const { result: items } = await iterator.readNextAsync();
+      const { result: items } = await iterator.readNext();
       counter += items.length;
       if (items.length === 0) {
         break;

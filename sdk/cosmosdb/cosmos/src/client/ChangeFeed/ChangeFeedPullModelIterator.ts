@@ -13,5 +13,5 @@ export abstract class ChangeFeedPullModelIterator<T> {
   /**
    * Returns next set of results for the change feed.
    */
-  abstract readNextAsync(): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>>;
+  abstract readNext(): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>>;
 }

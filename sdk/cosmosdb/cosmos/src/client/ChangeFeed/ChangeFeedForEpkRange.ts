@@ -153,7 +153,7 @@ export class ChangeFeedForEpkRange<T> extends ChangeFeedPullModelIterator<T> {
    *
    * When same feed range is reached and no new changes are found, a 304 (not Modified) is returned to the end user. Then starts process all over again.
    */
-  public async readNextAsync(): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>> {
+  public async readNext(): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>> {
     // validate if the internal queue is filled up with feed ranges.
     if (!this.isInstantiated) {
       await this.setIteratorRid();
