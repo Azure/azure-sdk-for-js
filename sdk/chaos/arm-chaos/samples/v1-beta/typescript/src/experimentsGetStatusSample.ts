@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a status of a Experiment resource.
  *
  * @summary Get a status of a Experiment resource.
- * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2022-10-01-preview/examples/GetAExperimentStatus.json
+ * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2023-04-15-preview/examples/GetAExperimentStatus.json
  */
 async function getTheStatusOfAExperiment() {
   const subscriptionId =

@@ -10694,7 +10694,7 @@ packages:
     dev: false
 
   file:projects/arm-chaos.tgz:
-    resolution: {integrity: sha512-e5+ZTX1EBJa4UY76xUEDUvy59k4mAjpbAnXNo5IpVtGv0a/W5jOR5sH4sXJbK19vzNjMlEVBkQp6gDIf7HhjRg==, tarball: file:projects/arm-chaos.tgz}
+    resolution: {integrity: sha512-PrksJHfzoseMb6ExbPJC58hcaOsq/Etle5zCM5nJ6GSp0qYRYHI8Am2JM1/HGM/74xgF+Ezs8gIyFhgSE5KomQ==, tarball: file:projects/arm-chaos.tgz}
     name: '@rush-temp/arm-chaos'
     version: 0.0.0
     dependencies:
@@ -10709,8 +10709,8 @@ packages:
       '@types/node': 14.18.54
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
