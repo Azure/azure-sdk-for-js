@@ -9,7 +9,12 @@ import {
 } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import { createClientLogger } from "@azure/logger";
-import { LogsQueryClient, LogsTable, MetricsQueryClient } from "../../../src";
+import {
+  LogsQueryClient,
+  LogsTable,
+  MetricsQueryClient,
+  MetricsBatchQueryClient,
+} from "../../../src";
 import { ExponentialRetryPolicyOptions } from "@azure/core-rest-pipeline";
 export const loggerForTest = createClientLogger("test");
 const replacementForLogsResourceId = env["LOGS_RESOURCE_ID"]?.startsWith("/")
@@ -37,6 +42,41 @@ export interface RecorderAndLogsClient {
 export interface RecorderAndMetricsClient {
   client: MetricsQueryClient;
   recorder: Recorder;
+}
+
+export interface RecorderAndMetricsBatchQueryClient {
+  client: MetricsBatchQueryClient;
+  // recorder: Recorder;
+}
+
+export async function createRecorderAndMetricsBatchQueryClient(): Promise<RecorderAndMetricsBatchQueryClient> {
+  // await recorder.start(recorderOptions);
+  const testCredential = createTestCredential();
+  const batchEndPoint =
+    env["AZURE_MONITOR_BATCH_ENDPOINT"] ?? "https://eastus.metrics.monitor.azure.com/";
+  const client = new MetricsBatchQueryClient(batchEndPoint, testCredential);
+
+  return {
+    client: client,
+    // recorder: recorder,
+  };
+}
+
+export function getMetricsBatchResourceIds(): string[] {
+  const resourceId: string = assertEnvironmentVariable("LOGS_RESOURCE_ID");
+  return [resourceId, `${resourceId}2`];
+}
+
+export function getMetricsBatchNamespace(): string {
+  return env["AZURE_MONITOR_BATCH_NAMESPACE"] ?? "requests/count";
+}
+
+export function getMetricsBatchNames(): string[] {
+  const metricNamesString = env["AZURE_MONITOR_BATCH_METRICNAMES"];
+  if (!metricNamesString) {
+    return ["requests", "count"];
+  }
+  return metricNamesString.split(" ");
 }
 
 export const testEnv = new Proxy(envSetupForPlayback, {
