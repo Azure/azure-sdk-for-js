@@ -12,7 +12,6 @@ import { finish, handleError, logSampleHeader } from "../Shared/handleError";
 import {
   CosmosClient,
   PartitionKeyDefinitionVersion,
-  PartitionKeyKind,
   Container,
   StatusCodes,
   ChangeFeedIteratorOptions,
@@ -29,10 +28,10 @@ logSampleHeader("Change Feed");
 async function ingestData(container: Container, initialize: number, end: number) {
   console.log("beginning data ingestion");
   for (let i = initialize; i < end; i++) {
-    await container.items.create({ name: `sample${i}`, key1: 0, key2: "0" });
-    await container.items.create({ name: `sample${i}`, key1: 0, key2: "1" });
-    await container.items.create({ name: `sample${i}`, key1: 1, key2: "0" });
-    await container.items.create({ name: `sample${i}`, key1: 1, key2: "1" });
+    await container.items.create({ name: "sample1", key: i });
+    await container.items.create({ name: "sample2", key: i });
+    await container.items.create({ name: "sample3", key: i });
+    await container.items.create({ name: "sample4", key: i });
   }
   console.log("ingested items");
 }
@@ -49,7 +48,7 @@ async function iterateChangeFeedTillNow(container: Container): Promise<string> {
 
   const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
     maxItemCount: 1,
-    changeFeedStartFrom: ChangeFeedStartFrom.Beginning([0, "0"]),
+    changeFeedStartFrom: ChangeFeedStartFrom.Beginning("sample1"), //sample1 is the partition key value
   };
   const feedIterator = await container.items.getChangeFeedIterator(changeFeedIteratorOptions);
 
@@ -79,9 +78,8 @@ async function run(): Promise<void> {
   const containerDef = {
     id: containerId,
     partitionKey: {
-      paths: ["/key1", "/key2"],
-      version: PartitionKeyDefinitionVersion.V2,
-      kind: PartitionKeyKind.MultiHash,
+      paths: ["/name"],
+      version: PartitionKeyDefinitionVersion.V1,
     },
     throughput: 11000,
   };

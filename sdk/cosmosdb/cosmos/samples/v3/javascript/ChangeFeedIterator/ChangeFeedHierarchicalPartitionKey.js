@@ -8,7 +8,7 @@
 require("dotenv").config();
 
 const { finish, handleError, logSampleHeader } = require("../Shared/handleError");
-const { CosmosClient, PartitionKeyDefinitionVersion, StatusCodes, ChangeFeedStartFrom } = require("@azure/cosmos");
+const { CosmosClient, PartitionKeyDefinitionVersion, PartitionKeyKind, StatusCodes, ChangeFeedStartFrom } = require("@azure/cosmos");
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
@@ -20,10 +20,10 @@ logSampleHeader("Change Feed");
 async function ingestData(container, initialize, end) {
   console.log("beginning data ingestion");
   for(let i = initialize; i < end; i++) {
-    await container.items.create({ name: "sample1", key: i });
-    await container.items.create({ name: "sample2", key: i });
-    await container.items.create({ name: "sample3", key: i });
-    await container.items.create({ name: "sample4", key: i });
+    await container.items.create({ name: `sample${i}`, key1: 0, key2: "0" });
+    await container.items.create({ name: `sample${i}`, key1: 0, key2: "1" });
+    await container.items.create({ name: `sample${i}`, key1: 1, key2: "0" });
+    await container.items.create({ name: `sample${i}`, key1: 1, key2: "1" });
   }
   console.log("ingested items");
 }
@@ -40,7 +40,7 @@ async function iterateChangeFeedTillNow(container) {
   console.log("fetching changefeed until now");
     const changeFeedIteratorOptions = {
       maxItemCount: 1,
-      changeFeedStartFrom: ChangeFeedStartFrom.Beginning("sample1") //sample1 is the partition key value
+      changeFeedStartFrom: ChangeFeedStartFrom.Beginning([0, "0"])
     }
   const feedIterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
 
@@ -71,8 +71,9 @@ async function run() {
   const containerDef = {
       id: containerId,
       partitionKey: {
-        paths: ["/name"],
-        version: PartitionKeyDefinitionVersion.V1,
+        paths: ["/key1", "/key2"],
+        version: PartitionKeyDefinitionVersion.V2,
+        kind: PartitionKeyKind.MultiHash,
       },
       throughput: 11000,
     };
