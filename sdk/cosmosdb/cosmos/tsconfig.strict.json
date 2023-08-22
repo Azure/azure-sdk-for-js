@@ -191,6 +191,6 @@
     "test/public/integration/sslVerification.spec.ts",
     "test/public/integration/timeout.spec.ts",
     "test/public/integration/aggregates/groupBy.spec.ts",
-    "test/public/functional/computedPreoperties.spec.ts"
+    "test/public/functional/computedProperties.spec.ts"
   ]
 }
