@@ -1,5 +1,11 @@
 # Release History
 
+## 3.0.3 (2023-08-31)
+
+### Other Changes
+
+- Defer error object creation
+
 ## 3.0.2 (2023-06-01)
 
 ### Other Changes
