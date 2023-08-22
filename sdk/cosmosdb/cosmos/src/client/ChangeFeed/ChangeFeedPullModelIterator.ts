@@ -16,9 +16,13 @@ export interface ChangeFeedPullModelIterator<T> {
   readNext(): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>>;
   /**
    * Gets an async iterator which will yield change feed results.
-   * Use `for await(const res of container.items.getChangeFeedIterator(options).getAsyncIterator()) {
-      //process res
-    }`
+   * @example Get changefeed for an entire container from now
+   * ```typescript
+   * const options = { changeFeedStartFrom: ChangeFeedStartFrom.Now() };
+   * for await(const res of container.items.getChangeFeedIterator(options).getAsyncIterator()) {
+   *   //process res
+   * }
+   * ```
    */
   getAsyncIterator(): AsyncIterable<ChangeFeedIteratorResponse<Array<T & Resource>>>;
 }
