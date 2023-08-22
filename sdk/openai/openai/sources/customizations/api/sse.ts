@@ -23,14 +23,18 @@ export interface EventMessage {
   retry?: number;
 }
 
+type PartialSome<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+
+export function toSSE(chunkIter: AsyncIterable<Uint8Array>): AsyncIterable<EventMessage> {
+  return toMessage(toLine(chunkIter));
+}
+
 function concatBuffer(a: Uint8Array, b: Uint8Array): Uint8Array {
   const res = new Uint8Array(a.length + b.length);
   res.set(a);
   res.set(b, a.length);
   return res;
 }
-
-type PartialSome<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 function createMessage(): PartialSome<EventMessage, "data"> {
   return {
@@ -102,6 +106,7 @@ async function* toLine(
     }
   }
 }
+
 async function* toMessage(
   lineIter: AsyncIterable<{ line: Uint8Array; fieldLen: number }>
 ): AsyncIterable<EventMessage> {
@@ -140,8 +145,4 @@ async function* toMessage(
       }
     }
   }
-}
-
-export function toSSE(chunkIter: AsyncIterable<Uint8Array>): AsyncIterable<EventMessage> {
-  return toMessage(toLine(chunkIter));
 }

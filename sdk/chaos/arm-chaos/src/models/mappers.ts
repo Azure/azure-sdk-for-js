@@ -304,7 +304,16 @@ export const ResourceIdentity: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "Enum",
-          allowedValues: ["None", "SystemAssigned"]
+          allowedValues: ["None", "SystemAssigned", "UserAssigned"]
+        }
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "UserAssignedIdentity" }
+          }
         }
       },
       principalId: {
@@ -329,6 +338,29 @@ export const ResourceIdentity: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const UserAssignedIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserAssignedIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      clientId: {
+        serializedName: "clientId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
         }
       }
     }
@@ -437,16 +469,22 @@ export const Action: coreClient.CompositeMapper = {
 };
 
 export const Selector: coreClient.CompositeMapper = {
+  serializedName: "Selector",
   type: {
     name: "Composite",
     className: "Selector",
+    uberParent: "Selector",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: {
+      serializedName: "type",
+      clientName: "type"
+    },
     modelProperties: {
       type: {
         serializedName: "type",
         required: true,
         type: {
-          name: "Enum",
-          allowedValues: ["Percent", "Random", "Tag", "List"]
+          name: "String"
         }
       },
       id: {
@@ -459,56 +497,11 @@ export const Selector: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      targets: {
-        constraints: {
-          MinItems: 1
-        },
-        serializedName: "targets",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "TargetReference"
-            }
-          }
-        }
-      },
       filter: {
         serializedName: "filter",
         type: {
           name: "Composite",
           className: "Filter"
-        }
-      }
-    }
-  }
-};
-
-export const TargetReference: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TargetReference",
-    modelProperties: {
-      type: {
-        defaultValue: "ChaosTarget",
-        isConstant: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      id: {
-        constraints: {
-          Pattern: new RegExp(
-            "^\\/[Ss][Uu][Bb][Ss][Cc][Rr][Ii][Pp][Tt][Ii][Oo][Nn][Ss]\\/[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}\\/[Rr][Ee][Ss][Oo][Uu][Rr][Cc][Ee][Gg][Rr][Oo][Uu][Pp][Ss]\\/[a-zA-Z0-9_\\-\\.\\(\\)]*[a-zA-Z0-9_\\-\\(\\)]\\/[Pp][Rr][Oo][Vv][Ii][Dd][Ee][Rr][Ss]\\/[a-zA-Z0-9]+\\.[a-zA-Z0-9]+\\/[a-zA-Z0-9_\\-\\.]+\\/[a-zA-Z0-9_\\-\\.]+\\/[Pp][Rr][Oo][Vv][Ii][Dd][Ee][Rr][Ss]\\/[Mm][Ii][Cc][Rr][Oo][Ss][Oo][Ff][Tt]\\.[Cc][Hh][Aa][Oo][Ss]\\/[Tt][Aa][Rr][Gg][Ee][Tt][Ss]\\/[a-zA-Z0-9_\\-\\.]+$"
-          )
-        },
-        serializedName: "id",
-        required: true,
-        type: {
-          name: "String"
         }
       }
     }
@@ -530,6 +523,22 @@ export const Filter: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ExperimentUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExperimentUpdate",
+    modelProperties: {
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ResourceIdentity"
         }
       }
     }
@@ -1231,6 +1240,34 @@ export const KeyValuePair: coreClient.CompositeMapper = {
   }
 };
 
+export const TargetReference: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TargetReference",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        constraints: {
+          Pattern: new RegExp(
+            "^\\/[Ss][Uu][Bb][Ss][Cc][Rr][Ii][Pp][Tt][Ii][Oo][Nn][Ss]\\/[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}\\/[Rr][Ee][Ss][Oo][Uu][Rr][Cc][Ee][Gg][Rr][Oo][Uu][Pp][Ss]\\/[a-zA-Z0-9_\\-\\.\\(\\)]*[a-zA-Z0-9_\\-\\(\\)]\\/[Pp][Rr][Oo][Vv][Ii][Dd][Ee][Rr][Ss]\\/[a-zA-Z0-9]+\\.[a-zA-Z0-9]+\\/[a-zA-Z0-9_\\-\\.]+\\/[a-zA-Z0-9_\\-\\.]+\\/[Pp][Rr][Oo][Vv][Ii][Dd][Ee][Rr][Ss]\\/[Mm][Ii][Cc][Rr][Oo][Ss][Oo][Ff][Tt]\\.[Cc][Hh][Aa][Oo][Ss]\\/[Tt][Aa][Rr][Gg][Ee][Tt][Ss]\\/[a-zA-Z0-9_\\-\\.]+$"
+          )
+        },
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const SimpleFilterParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1383,6 +1420,28 @@ export const CapabilityType: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      azureRbacActions: {
+        serializedName: "properties.azureRbacActions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      azureRbacDataActions: {
+        serializedName: "properties.azureRbacDataActions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
       runtimeProperties: {
         serializedName: "properties.runtimeProperties",
         type: {
@@ -1518,15 +1577,10 @@ export const DelayAction: coreClient.CompositeMapper = {
     modelProperties: {
       ...Action.type.modelProperties,
       duration: {
-        constraints: {
-          Pattern: new RegExp(
-            "^P(\\d+Y)?(\\d+M)?(\\d+D)?(T(\\d+H)?(\\d+M)?(\\d+(\\.\\d+)?S)?)?$"
-          )
-        },
         serializedName: "duration",
         required: true,
         type: {
-          name: "String"
+          name: "TimeSpan"
         }
       }
     }
@@ -1579,15 +1633,10 @@ export const ContinuousAction: coreClient.CompositeMapper = {
     modelProperties: {
       ...Action.type.modelProperties,
       duration: {
-        constraints: {
-          Pattern: new RegExp(
-            "^P(\\d+Y)?(\\d+M)?(\\d+D)?(T(\\d+H)?(\\d+M)?(\\d+(\\.\\d+)?S)?)?$"
-          )
-        },
         serializedName: "duration",
         required: true,
         type: {
-          name: "String"
+          name: "TimeSpan"
         }
       },
       parameters: {
@@ -1611,6 +1660,72 @@ export const ContinuousAction: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ListSelector: coreClient.CompositeMapper = {
+  serializedName: "List",
+  type: {
+    name: "Composite",
+    className: "ListSelector",
+    uberParent: "Selector",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: Selector.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...Selector.type.modelProperties,
+      targets: {
+        constraints: {
+          MinItems: 1
+        },
+        serializedName: "targets",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TargetReference"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const QuerySelector: coreClient.CompositeMapper = {
+  serializedName: "Query",
+  type: {
+    name: "Composite",
+    className: "QuerySelector",
+    uberParent: "Selector",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: Selector.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...Selector.type.modelProperties,
+      queryString: {
+        serializedName: "queryString",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      subscriptionIds: {
+        constraints: {
+          MinItems: 1
+        },
+        serializedName: "subscriptionIds",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -1702,9 +1817,12 @@ export const Experiment: coreClient.CompositeMapper = {
 
 export let discriminators = {
   Action: Action,
+  Selector: Selector,
   Filter: Filter,
   "Action.delay": DelayAction,
   "Action.discrete": DiscreteAction,
   "Action.continuous": ContinuousAction,
+  "Selector.List": ListSelector,
+  "Selector.Query": QuerySelector,
   "Filter.Simple": SimpleFilter
 };

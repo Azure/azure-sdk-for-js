@@ -3,7 +3,13 @@
 [Health Insights](https://learn.microsoft.com/azure/azure-health-insights/overview?branch=main) is an Azure Applied AI Service built with the Azure Cognitive Services Framework, that leverages multiple Cognitive Services, Healthcare API services and other Azure resources.
 The [Cancer Profiling model](https://learn.microsoft.com/azure/azure-health-insights/oncophenotype/overview?branch=main) receives clinical records of oncology patients and outputs cancer staging, such as clinical stage TNM categories and pathologic stage TNM categories as well as tumor site, histology.
 
-**Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library**
+**Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/tree/main/documentation/rest-clients.md) to use this library**
+
+Key links:
+
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-cancerprofiling-rest)
+- [Package (NPM)](https://www.npmjs.com/package/@azure-rest/health-insights-cancerprofiling)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-cancerprofiling-rest/samples/v1-beta)
 
 ## Getting started
 
@@ -243,8 +249,8 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ## Next steps
 
-This code sample show common scenario operation with the Azure Health Insights Cancer Profiling library. More samples can be found under the [samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-cancerprofiling-rest/samples/v1-beta/typescript/src/) directory.
-- Infer Cancer Profiling: [sample_infer_cancer_profiling.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-cancerprofiling-rest/samples/v1-beta/typescript/src/sample_infer_cancer_profiling.ts)
+This code sample show common scenario operation with the Azure Health Insights Cancer Profiling library. More samples can be found under the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-cancerprofiling-rest/samples/v1-beta/typescript/src/) directory.
+- Infer Cancer Profiling: [sample_infer_cancer_profiling.ts](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-cancerprofiling-rest/samples/v1-beta/typescript/src/sample_infer_cancer_profiling.ts)
 
 
 ### Additional documentation
