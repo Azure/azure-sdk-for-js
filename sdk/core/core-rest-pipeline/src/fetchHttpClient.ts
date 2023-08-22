@@ -75,7 +75,22 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
 
   try {
     const headers = buildFetchHeaders(request.headers);
-    const requestBody = buildRequestBody(request);
+    const { streaming, body: requestBody } = buildRequestBody(request);
+    const requestInit: RequestInit = {
+      body: requestBody,
+      method: request.method,
+      headers: headers,
+      signal: abortController.signal,
+      credentials: request.withCredentials ? "include" : "same-origin",
+      cache: "no-store",
+    };
+
+    // According to https://fetch.spec.whatwg.org/#fetch-method,
+    // init.duplex must be set when body is a ReadableStream object.
+    // currently "half" is the only valid value.
+    if (streaming) {
+      (requestInit as any).duplex = "half";
+    }
 
     /**
      * Developers of the future:
@@ -83,14 +98,7 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
      * of request options.
      * It will not work as you expect.
      */
-    const response = await fetch(request.url, {
-      body: requestBody,
-      method: request.method,
-      headers: headers,
-      signal: abortController.signal,
-      credentials: request.withCredentials ? "include" : "same-origin",
-      cache: "no-store",
-    });
+    const response = await fetch(request.url, requestInit);
     // If we're uploading a blob, we need to fire the progress event manually
     if (isBlob(request.body) && request.onUploadProgress) {
       request.onUploadProgress({ loadedBytes: request.body.size });
@@ -220,7 +228,9 @@ function buildRequestBody(request: PipelineRequest) {
     throw new Error("Node streams are not supported in browser environment.");
   }
 
-  return isReadableStream(body) ? buildBodyStream(body, request.onUploadProgress) : body;
+  return isReadableStream(body)
+    ? { streaming: true, body: buildBodyStream(body, request.onUploadProgress) }
+    : { streaming: false, body };
 }
 
 /**
