@@ -110,6 +110,7 @@ Each set of metric values is a time series with the following characteristics:
 - [Metrics query](#metrics-query)
   - [Handle metrics query response](#handle-metrics-query-response)
   - [Example of handling response](#example-of-handling-response)
+- [Batch query](#batch-query)
 
 ### Logs query
 
@@ -715,6 +716,34 @@ main().catch((err) => {
 ```
 
 A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/metricsQuery.ts).
+
+### Batch query
+
+The following example executes multiple logs queries in a single request using the `MetricsBatchQueryClient.queryBatch` method:
+
+```ts
+let resourceIds: string[] = [
+  "/subscriptions/0000000-0000-000-0000-000000/resourceGroups/test/providers/Microsoft.OperationalInsights/workspaces/test-logs",
+  "/subscriptions/0000000-0000-000-0000-000000/resourceGroups/test/providers/Microsoft.OperationalInsights/workspaces/test-logs2",
+];
+let metricsNamespace: string = "<YOUR_METRICS_NAMESPACE>";
+let metricNames: string[] = ["requests", "count"];
+const batchEndPoint: string = "https://eastus.metrics.monitor.azure.com/";
+
+const clientSecretCredential = new ClientSecretCredential(<YOUR_TENANT_ID>, <YOUR_CLIENT_ID>, <YOUR_CLIENT_SECRET>);
+const metricsBatchQueryClient: MetricsBatchQueryClient = new MetricsBatchQueryClient(
+  clientSecretCredential,
+  {
+    batchEndPoint,
+  }
+);
+
+const result: MetricResultsResponseValuesItem[] = await metricsBatchQueryClient.queryBatch(
+  resourceIds,
+  metricsNamespace,
+  metricNames
+);
+```
 
 ## Troubleshooting
 
