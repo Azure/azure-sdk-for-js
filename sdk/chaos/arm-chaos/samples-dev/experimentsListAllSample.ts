@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Get a list of Experiment resources in a subscription.
  *
  * @summary Get a list of Experiment resources in a subscription.
- * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2022-10-01-preview/examples/ListExperimentsInASubscription.json
+ * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2023-04-15-preview/examples/ListExperimentsInASubscription.json
  */
 async function listAllExperimentsInASubscription() {
   const subscriptionId =

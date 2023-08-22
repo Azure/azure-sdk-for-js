@@ -10,16 +10,20 @@
 // Licensed under the MIT License.
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the blob inventory policy associated with the specified storage account.
  *
  * @summary Gets the blob inventory policy associated with the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/StorageAccountGetBlobInventoryPolicy.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/StorageAccountGetBlobInventoryPolicy.json
  */
 async function storageAccountGetBlobInventoryPolicy() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res7687";
+  const subscriptionId =
+    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res7687";
   const accountName = "sto9699";
   const blobInventoryPolicyName = "default";
   const credential = new DefaultAzureCredential();
@@ -32,4 +36,8 @@ async function storageAccountGetBlobInventoryPolicy() {
   console.log(result);
 }
 
-storageAccountGetBlobInventoryPolicy().catch(console.error);
+async function main() {
+  storageAccountGetBlobInventoryPolicy();
+}
+
+main().catch(console.error);
