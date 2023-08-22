@@ -10,6 +10,7 @@ trigger:
     include:
       - sdk/hdinsight/ci.mgmt.yml
       - sdk/hdinsight/arm-hdinsight
+      - sdk/hdinsight/arm-hdinsightcontainers
 pr:
   branches:
     include:
@@ -23,6 +24,7 @@ pr:
     include:
       - sdk/hdinsight/ci.mgmt.yml
       - sdk/hdinsight/arm-hdinsight
+      - sdk/hdinsight/arm-hdinsightcontainers
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -30,3 +32,5 @@ extends:
     Artifacts:
       - name: azure-arm-hdinsight
         safeName: azurearmhdinsight
+      - name: azure-arm-hdinsightcontainers
+        safeName: azurearmhdinsightcontainers
