@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { StorageManagementClient } = require("@azure/arm-storage");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Sets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary Sets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/BlobServicesPutAllowPermanentDelete.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/BlobServicesPutAllowPermanentDelete.json
  */
 async function blobServicesPutAllowPermanentDelete() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res4410";
+  const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res4410";
   const accountName = "sto8607";
   const parameters = {
     deleteRetentionPolicy: {
@@ -39,17 +40,15 @@ async function blobServicesPutAllowPermanentDelete() {
   console.log(result);
 }
 
-blobServicesPutAllowPermanentDelete().catch(console.error);
-
 /**
  * This sample demonstrates how to Sets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary Sets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/BlobServicesPutLastAccessTimeBasedTracking.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/BlobServicesPutLastAccessTimeBasedTracking.json
  */
 async function blobServicesPutLastAccessTimeBasedTracking() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res4410";
+  const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res4410";
   const accountName = "sto8607";
   const parameters = {
     lastAccessTimeTrackingPolicy: {
@@ -69,17 +68,15 @@ async function blobServicesPutLastAccessTimeBasedTracking() {
   console.log(result);
 }
 
-blobServicesPutLastAccessTimeBasedTracking().catch(console.error);
-
 /**
  * This sample demonstrates how to Sets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary Sets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/BlobServicesPut.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/BlobServicesPut.json
  */
 async function putBlobServices() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res4410";
+  const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res4410";
   const accountName = "sto8607";
   const parameters = {
     changeFeed: { enabled: true, retentionInDays: 7 },
@@ -122,4 +119,10 @@ async function putBlobServices() {
   console.log(result);
 }
 
-putBlobServices().catch(console.error);
+async function main() {
+  blobServicesPutAllowPermanentDelete();
+  blobServicesPutLastAccessTimeBasedTracking();
+  putBlobServices();
+}
+
+main().catch(console.error);

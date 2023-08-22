@@ -1406,6 +1406,16 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure-rest/health-insights-cancerprofiling",
+      "projectFolder": "sdk/healthinsights/health-insights-cancerprofiling-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/health-insights-clinicalmatching",
+      "projectFolder": "sdk/healthinsights/health-insights-clinicalmatching-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-deploymentmanager",
       "projectFolder": "sdk/deploymentmanager/arm-deploymentmanager",
       "versionPolicyName": "management"

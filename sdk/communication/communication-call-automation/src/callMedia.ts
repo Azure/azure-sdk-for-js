@@ -119,6 +119,7 @@ export class CallMedia {
         loop: false,
       },
       operationContext: playOptions.operationContext,
+      callbackUri: playOptions.callbackUrl,
     };
 
     if (playOptions.loop !== undefined) {
@@ -145,6 +146,7 @@ export class CallMedia {
         loop: false,
       },
       operationContext: playOptions.operationContext,
+      callbackUri: playOptions.callbackUrl,
     };
 
     if (playOptions.loop !== undefined) {
@@ -187,6 +189,7 @@ export class CallMedia {
         interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
         recognizeOptions: recognizeOptionsInternal,
         operationContext: recognizeOptions.operationContext,
+        callbackUri: recognizeOptions.callbackUrl,
       };
     } else if (recognizeOptions.kind === "callMediaRecognizeChoiceOptions") {
       const recognizeOptionsInternal: RecognizeOptions = {
@@ -205,6 +208,7 @@ export class CallMedia {
         interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
         recognizeOptions: recognizeOptionsInternal,
         operationContext: recognizeOptions.operationContext,
+        callbackUri: recognizeOptions.callbackUrl,
       };
     } else if (recognizeOptions.kind === "callMediaRecognizeSpeechOptions") {
       const speechOptions: SpeechOptions = {
@@ -229,6 +233,7 @@ export class CallMedia {
         interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
         recognizeOptions: recognizeOptionsInternal,
         operationContext: recognizeOptions.operationContext,
+        callbackUri: recognizeOptions.callbackUrl,
       };
     } else if (recognizeOptions.kind === "callMediaRecognizeSpeechOrDtmfOptions") {
       const dtmfOptionsInternal: DtmfOptions = {
@@ -261,6 +266,7 @@ export class CallMedia {
         interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
         recognizeOptions: recognizeOptionsInternal,
         operationContext: recognizeOptions.operationContext,
+        callbackUri: recognizeOptions.callbackUrl,
       };
     }
     throw new Error("Invalid recognizeOptions");
@@ -325,6 +331,7 @@ export class CallMedia {
     const continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
       operationContext: continuousDtmfRecognitionOptions.operationContext,
+      callbackUri: continuousDtmfRecognitionOptions.callbackUrl,
     };
     return this.callMedia.stopContinuousDtmfRecognition(
       this.callConnectionId,
@@ -348,6 +355,7 @@ export class CallMedia {
       tones: tones,
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
       operationContext: sendDtmfOptions.operationContext,
+      callbackUri: sendDtmfOptions.callbackUrl,
     };
     return this.callMedia.sendDtmf(this.callConnectionId, sendDtmfRequest, {});
   }
