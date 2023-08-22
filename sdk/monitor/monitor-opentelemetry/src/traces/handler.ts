@@ -161,10 +161,6 @@ export class TraceHandler {
         new Redis4Instrumentation(this._config.instrumentationOptions.redis4)
       );
     }
-    // this.disableInstrumentations = registerInstrumentations({
-    //   instrumentations: instrumentations
-    // })
-
     this._instrumentations.forEach((instrumentation) => {
       instrumentation.setTracerProvider(this._tracerProvider);
       instrumentation.setMeterProvider(metrics.getMeterProvider());

@@ -41,7 +41,6 @@ export class MetricHandler {
    */
   constructor(config: InternalConfig, options?: { collectionInterval: number }) {
     this._config = config;
-
     if (!process.env[APPLICATION_INSIGHTS_NO_STANDARD_METRICS]) {
       this._standardMetrics = new StandardMetrics(this._config);
     }

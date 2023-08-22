@@ -34,9 +34,6 @@ export class LogHandler {
    * @param _metricHandler - MetricHandler.
    */
   constructor(config: InternalConfig, metricHandler: MetricHandler) {
-    // if (LogHandler._instance) {
-    //   return LogHandler._instance;
-    // }
     this._config = config;
     this._metricHandler = metricHandler;
     const loggerProviderConfig: LoggerProviderConfig = {
