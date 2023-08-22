@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { StorageManagementClient } = require("@azure/arm-storage");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create or update the properties of a local user associated with the storage account
  *
  * @summary Create or update the properties of a local user associated with the storage account
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/LocalUserCreate.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/LocalUserCreate.json
  */
 async function createLocalUser() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res6977";
+  const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res6977";
   const accountName = "sto2527";
   const username = "user1";
   const properties = {
@@ -42,17 +43,15 @@ async function createLocalUser() {
   console.log(result);
 }
 
-createLocalUser().catch(console.error);
-
 /**
  * This sample demonstrates how to Create or update the properties of a local user associated with the storage account
  *
  * @summary Create or update the properties of a local user associated with the storage account
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/LocalUserUpdate.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/LocalUserUpdate.json
  */
 async function updateLocalUser() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res6977";
+  const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res6977";
   const accountName = "sto2527";
   const username = "user1";
   const properties = {
@@ -72,4 +71,9 @@ async function updateLocalUser() {
   console.log(result);
 }
 
-updateLocalUser().catch(console.error);
+async function main() {
+  createLocalUser();
+  updateLocalUser();
+}
+
+main().catch(console.error);

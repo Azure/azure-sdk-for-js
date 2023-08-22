@@ -192,7 +192,7 @@ const setServicePropertiesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.BlobServiceProperties
     }
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

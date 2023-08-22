@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a Experiment resource.
  *
  * @summary Get a Experiment resource.
- * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2022-10-01-preview/examples/GetAExperiment.json
+ * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2023-04-15-preview/examples/GetAExperiment.json
  */
 async function getAExperimentInAResourceGroup() {
   const subscriptionId =
