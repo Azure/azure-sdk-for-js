@@ -8,43 +8,36 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  AccountSasParameters,
-  AzureMapsManagementClient
-} from "@azure/arm-maps";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { AzureMapsManagementClient } = require("@azure/arm-maps");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
- * This sample demonstrates how to Create and list an account shared access signature token. Use this SAS token for authentication to Azure Maps REST APIs through various Azure Maps SDKs. As prerequisite to create a SAS Token. 
+ * This sample demonstrates how to Create and list an account shared access signature token. Use this SAS token for authentication to Azure Maps REST APIs through various Azure Maps SDKs. As prerequisite to create a SAS Token.
 
 Prerequisites:
-1. Create or have an existing User Assigned Managed Identity in the same Azure region as the account. 
+1. Create or have an existing User Assigned Managed Identity in the same Azure region as the account.
 2. Create or update an Azure Map account with the same Azure region as the User Assigned Managed Identity is placed.
  *
- * @summary Create and list an account shared access signature token. Use this SAS token for authentication to Azure Maps REST APIs through various Azure Maps SDKs. As prerequisite to create a SAS Token. 
+ * @summary Create and list an account shared access signature token. Use this SAS token for authentication to Azure Maps REST APIs through various Azure Maps SDKs. As prerequisite to create a SAS Token.
 
 Prerequisites:
-1. Create or have an existing User Assigned Managed Identity in the same Azure region as the account. 
+1. Create or have an existing User Assigned Managed Identity in the same Azure region as the account.
 2. Create or update an Azure Map account with the same Azure region as the User Assigned Managed Identity is placed.
  * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/AccountListSAS.json
  */
 async function listAccountSas() {
   const subscriptionId =
-    process.env["MAPS_SUBSCRIPTION_ID"] ||
-    "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
-  const resourceGroupName =
-    process.env["MAPS_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["MAPS_SUBSCRIPTION_ID"] || "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
+  const resourceGroupName = process.env["MAPS_RESOURCE_GROUP"] || "myResourceGroup";
   const accountName = "myMapsAccount";
-  const mapsAccountSasParameters: AccountSasParameters = {
+  const mapsAccountSasParameters = {
     expiry: "2017-05-24T11:42:03.1567373Z",
     maxRatePerSecond: 500,
     principalId: "e917f87b-324d-4728-98ed-e31d311a7d65",
     regions: ["eastus"],
     signingKey: "primaryKey",
-    start: "2017-05-24T10:42:03.1567373Z"
+    start: "2017-05-24T10:42:03.1567373Z",
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMapsManagementClient(credential, subscriptionId);

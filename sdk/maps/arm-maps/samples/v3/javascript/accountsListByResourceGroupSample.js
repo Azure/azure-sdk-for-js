@@ -8,11 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AzureMapsManagementClient } from "@azure/arm-maps";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { AzureMapsManagementClient } = require("@azure/arm-maps");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get all Maps Accounts in a Resource Group
@@ -22,16 +20,12 @@ dotenv.config();
  */
 async function listAccountsByResourceGroup() {
   const subscriptionId =
-    process.env["MAPS_SUBSCRIPTION_ID"] ||
-    "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
-  const resourceGroupName =
-    process.env["MAPS_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["MAPS_SUBSCRIPTION_ID"] || "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
+  const resourceGroupName = process.env["MAPS_RESOURCE_GROUP"] || "myResourceGroup";
   const credential = new DefaultAzureCredential();
   const client = new AzureMapsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.accounts.listByResourceGroup(
-    resourceGroupName
-  )) {
+  for await (let item of client.accounts.listByResourceGroup(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);

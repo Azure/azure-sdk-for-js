@@ -8,11 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { MapsAccount, AzureMapsManagementClient } from "@azure/arm-maps";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { AzureMapsManagementClient } = require("@azure/arm-maps");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create or update a Maps Account. A Maps Account holds the keys which allow access to the Maps REST APIs.
@@ -22,17 +20,16 @@ dotenv.config();
  */
 async function createAccountWithEncryption() {
   const subscriptionId =
-    process.env["MAPS_SUBSCRIPTION_ID"] ||
-    "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
-  const resourceGroupName =
-    process.env["MAPS_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["MAPS_SUBSCRIPTION_ID"] || "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
+  const resourceGroupName = process.env["MAPS_RESOURCE_GROUP"] || "myResourceGroup";
   const accountName = "myMapsAccount";
-  const mapsAccount: MapsAccount = {
+  const mapsAccount = {
     identity: {
       type: "UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/21a9967aE8a94656A70b96ff1c4d05a0/resourceGroups/myResourceGroup/providers/MicrosoftManagedIdentity/userAssignedIdentities/identityName": {}
-      }
+        "/subscriptions/21a9967aE8a94656A70b96ff1c4d05a0/resourceGroups/myResourceGroup/providers/MicrosoftManagedIdentity/userAssignedIdentities/identityName":
+          {},
+      },
     },
     kind: "Gen2",
     location: "eastus",
@@ -42,22 +39,17 @@ async function createAccountWithEncryption() {
           keyEncryptionKeyIdentity: {
             identityType: "userAssignedIdentity",
             userAssignedIdentityResourceId:
-              "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identityName"
+              "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identityName",
           },
-          keyEncryptionKeyUrl:
-            "https://contosovault.vault.azure.net/keys/contosokek"
-        }
-      }
+          keyEncryptionKeyUrl: "https://contosovault.vault.azure.net/keys/contosokek",
+        },
+      },
     },
-    sku: { name: "G2" }
+    sku: { name: "G2" },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMapsManagementClient(credential, subscriptionId);
-  const result = await client.accounts.createOrUpdate(
-    resourceGroupName,
-    accountName,
-    mapsAccount
-  );
+  const result = await client.accounts.createOrUpdate(resourceGroupName, accountName, mapsAccount);
   console.log(result);
 }
 
@@ -69,17 +61,16 @@ async function createAccountWithEncryption() {
  */
 async function createAccountWithManagedIdentities() {
   const subscriptionId =
-    process.env["MAPS_SUBSCRIPTION_ID"] ||
-    "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
-  const resourceGroupName =
-    process.env["MAPS_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["MAPS_SUBSCRIPTION_ID"] || "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
+  const resourceGroupName = process.env["MAPS_RESOURCE_GROUP"] || "myResourceGroup";
   const accountName = "myMapsAccount";
-  const mapsAccount: MapsAccount = {
+  const mapsAccount = {
     identity: {
       type: "SystemAssigned, UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/21a9967aE8a94656A70b96ff1c4d05a0/resourceGroups/myResourceGroup/providers/MicrosoftManagedIdentity/userAssignedIdentities/identityName": {}
-      }
+        "/subscriptions/21a9967aE8a94656A70b96ff1c4d05a0/resourceGroups/myResourceGroup/providers/MicrosoftManagedIdentity/userAssignedIdentities/identityName":
+          {},
+      },
     },
     kind: "Gen2",
     location: "eastus",
@@ -87,27 +78,21 @@ async function createAccountWithManagedIdentities() {
       disableLocalAuth: false,
       linkedResources: [
         {
-          id:
-            "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.Storage/accounts/mystorageacc",
-          uniqueName: "myBatchStorageAccount"
+          id: "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.Storage/accounts/mystorageacc",
+          uniqueName: "myBatchStorageAccount",
         },
         {
-          id:
-            "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.Storage/accounts/mystorageacc",
-          uniqueName: "myBlobDataSource"
-        }
-      ]
+          id: "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.Storage/accounts/mystorageacc",
+          uniqueName: "myBlobDataSource",
+        },
+      ],
     },
     sku: { name: "G2" },
-    tags: { test: "true" }
+    tags: { test: "true" },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMapsManagementClient(credential, subscriptionId);
-  const result = await client.accounts.createOrUpdate(
-    resourceGroupName,
-    accountName,
-    mapsAccount
-  );
+  const result = await client.accounts.createOrUpdate(resourceGroupName, accountName, mapsAccount);
   console.log(result);
 }
 
@@ -119,37 +104,28 @@ async function createAccountWithManagedIdentities() {
  */
 async function createGen1Account() {
   const subscriptionId =
-    process.env["MAPS_SUBSCRIPTION_ID"] ||
-    "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
-  const resourceGroupName =
-    process.env["MAPS_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["MAPS_SUBSCRIPTION_ID"] || "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
+  const resourceGroupName = process.env["MAPS_RESOURCE_GROUP"] || "myResourceGroup";
   const accountName = "myMapsAccount";
-  const mapsAccount: MapsAccount = {
+  const mapsAccount = {
     kind: "Gen1",
     location: "eastus",
     properties: {
       cors: {
         corsRules: [
           {
-            allowedOrigins: [
-              "http://www.contoso.com",
-              "http://www.fabrikam.com"
-            ]
-          }
-        ]
+            allowedOrigins: ["http://www.contoso.com", "http://www.fabrikam.com"],
+          },
+        ],
       },
-      disableLocalAuth: false
+      disableLocalAuth: false,
     },
     sku: { name: "S0" },
-    tags: { test: "true" }
+    tags: { test: "true" },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMapsManagementClient(credential, subscriptionId);
-  const result = await client.accounts.createOrUpdate(
-    resourceGroupName,
-    accountName,
-    mapsAccount
-  );
+  const result = await client.accounts.createOrUpdate(resourceGroupName, accountName, mapsAccount);
   console.log(result);
 }
 
@@ -161,37 +137,28 @@ async function createGen1Account() {
  */
 async function createGen2Account() {
   const subscriptionId =
-    process.env["MAPS_SUBSCRIPTION_ID"] ||
-    "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
-  const resourceGroupName =
-    process.env["MAPS_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["MAPS_SUBSCRIPTION_ID"] || "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
+  const resourceGroupName = process.env["MAPS_RESOURCE_GROUP"] || "myResourceGroup";
   const accountName = "myMapsAccount";
-  const mapsAccount: MapsAccount = {
+  const mapsAccount = {
     kind: "Gen2",
     location: "eastus",
     properties: {
       cors: {
         corsRules: [
           {
-            allowedOrigins: [
-              "http://www.contoso.com",
-              "http://www.fabrikam.com"
-            ]
-          }
-        ]
+            allowedOrigins: ["http://www.contoso.com", "http://www.fabrikam.com"],
+          },
+        ],
       },
-      disableLocalAuth: true
+      disableLocalAuth: true,
     },
     sku: { name: "G2" },
-    tags: { test: "true" }
+    tags: { test: "true" },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMapsManagementClient(credential, subscriptionId);
-  const result = await client.accounts.createOrUpdate(
-    resourceGroupName,
-    accountName,
-    mapsAccount
-  );
+  const result = await client.accounts.createOrUpdate(resourceGroupName, accountName, mapsAccount);
   console.log(result);
 }
 
