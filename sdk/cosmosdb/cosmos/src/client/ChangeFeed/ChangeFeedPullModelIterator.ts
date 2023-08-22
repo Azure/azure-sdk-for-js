@@ -9,7 +9,7 @@ export interface ChangeFeedPullModelIterator<T> {
   /**
    * Always returns true, changefeed is an infinite stream.
    */
-  get hasMoreResults(): boolean;
+  readonly hasMoreResults: boolean;
   /**
    * Returns next set of results for the change feed.
    */
