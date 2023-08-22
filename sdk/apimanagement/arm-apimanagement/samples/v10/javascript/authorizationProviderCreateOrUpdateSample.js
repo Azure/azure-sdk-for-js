@@ -29,8 +29,8 @@ async function apiManagementCreateAuthorizationProviderAadAuthCode() {
     oauth2: {
       grantTypes: {
         authorizationCode: {
-          clientId: "59790825-fdd3-4b10-bc7a-4c3aaf25801d",
-          clientSecret: "Q3iPSaKQ~fZFcJk5vKmqzUAfJagcJ8",
+          clientId: "",
+          clientSecret: "",
           resourceUri: "https://graph.microsoft.com",
           scopes: "User.Read.All Group.Read.All",
         },
@@ -104,8 +104,8 @@ async function apiManagementCreateAuthorizationProviderGenericOAuth2() {
       grantTypes: {
         authorizationCode: {
           authorizationUrl: "https://www.eventbrite.com/oauth/authorize",
-          clientId: "ZYIJTBTABHOUQQDLZY",
-          clientSecret: "Q3iPSaKQ~fZFcJk5vKmqzUAfJagcJ8",
+          clientId: "",
+          clientSecret: "",
           refreshUrl: "https://www.eventbrite.com/oauth/token",
           scopes: "",
           tokenUrl: "https://www.eventbrite.com/oauth/token",
