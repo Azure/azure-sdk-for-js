@@ -39,7 +39,6 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
     private epkRange: QueryRange,
     private diagnosticContext: CosmosDiagnosticContext
   ) {
-    // super();
     this.queue = new FeedRangeQueue<ChangeFeedRange>();
     this.continuationToken = changeFeedOptions.continuationToken
       ? JSON.parse(changeFeedOptions.continuationToken)

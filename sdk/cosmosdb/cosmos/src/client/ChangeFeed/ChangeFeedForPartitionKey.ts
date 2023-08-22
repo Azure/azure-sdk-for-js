@@ -31,8 +31,6 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
     private partitionKey: PartitionKey,
     private changeFeedOptions: InternalChangeFeedIteratorOptions
   ) {
-    // super();
-
     this.continuationToken = changeFeedOptions.continuationToken
       ? JSON.parse(changeFeedOptions.continuationToken)
       : undefined;
