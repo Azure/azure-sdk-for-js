@@ -96,9 +96,10 @@ export interface ChangeFeedOptions {
 }
 
 // @public
-export abstract class ChangeFeedPullModelIterator<T> {
-    abstract get hasMoreResults(): boolean;
-    abstract readNext(): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>>;
+export interface ChangeFeedPullModelIterator<T> {
+    getAsyncIterator(): AsyncIterable<ChangeFeedIteratorResponse<Array<T & Resource>>>;
+    get hasMoreResults(): boolean;
+    readNext(): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>>;
 }
 
 // @public

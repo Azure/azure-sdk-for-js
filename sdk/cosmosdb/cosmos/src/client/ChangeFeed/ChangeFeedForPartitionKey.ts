@@ -4,7 +4,7 @@ import { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
 import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
 import { Container, Resource } from "../../client";
 import { ClientContext } from "../../ClientContext";
-import { Constants, ResourceType } from "../../common";
+import { Constants, ResourceType, StatusCodes } from "../../common";
 import { FeedOptions, Response, ErrorResponse } from "../../request";
 import { ContinuationTokenForPartitionKey } from "./ContinuationTokenForPartitionKey";
 import { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
@@ -15,7 +15,7 @@ import { PartitionKey } from "../../documents";
  *
  * Use `Items.getChangeFeedIterator()` to get an instance of the iterator.
  */
-export class ChangeFeedForPartitionKey<T> extends ChangeFeedPullModelIterator<T> {
+export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator<T> {
   private continuationToken: ContinuationTokenForPartitionKey;
   private startTime: string;
   private rId: string;
@@ -31,7 +31,7 @@ export class ChangeFeedForPartitionKey<T> extends ChangeFeedPullModelIterator<T>
     private partitionKey: PartitionKey,
     private changeFeedOptions: InternalChangeFeedIteratorOptions
   ) {
-    super();
+    // super();
 
     this.continuationToken = changeFeedOptions.continuationToken
       ? JSON.parse(changeFeedOptions.continuationToken)
@@ -77,6 +77,22 @@ export class ChangeFeedForPartitionKey<T> extends ChangeFeedPullModelIterator<T>
    */
   get hasMoreResults(): boolean {
     return true;
+  }
+
+  /**
+   * Gets an async iterator which will yield change feed results.
+   */
+  public async *getAsyncIterator(): AsyncIterable<ChangeFeedIteratorResponse<Array<T & Resource>>> {
+    do {
+      const result = await this.readNext();
+      // filter out some empty 200 responses from backend.
+      if (
+        (result.count === 0 && result.statusCode === StatusCodes.NotModified) ||
+        (result.count > 0 && result.statusCode === StatusCodes.Ok)
+      ) {
+        yield result;
+      }
+    } while (this.hasMoreResults);
   }
 
   /**

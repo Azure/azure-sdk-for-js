@@ -19,7 +19,7 @@ import { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
  *
  * Use `Items.getChangeFeedIterator()` to get an instance of the iterator.
  */
-export class ChangeFeedForEpkRange<T> extends ChangeFeedPullModelIterator<T> {
+export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> {
   private continuationToken?: CompositeContinuationToken;
   private queue: FeedRangeQueue<ChangeFeedRange>;
   private startTime: string;
@@ -39,7 +39,7 @@ export class ChangeFeedForEpkRange<T> extends ChangeFeedPullModelIterator<T> {
     private epkRange: QueryRange,
     private diagnosticContext: CosmosDiagnosticContext
   ) {
-    super();
+    // super();
     this.queue = new FeedRangeQueue<ChangeFeedRange>();
     this.continuationToken = changeFeedOptions.continuationToken
       ? JSON.parse(changeFeedOptions.continuationToken)
@@ -144,6 +144,22 @@ export class ChangeFeedForEpkRange<T> extends ChangeFeedPullModelIterator<T> {
    */
   get hasMoreResults(): boolean {
     return true;
+  }
+
+  /**
+   * Gets an async iterator which will yield change feed results.
+   */
+  public async *getAsyncIterator(): AsyncIterable<ChangeFeedIteratorResponse<Array<T & Resource>>> {
+    do {
+      const result = await this.readNext();
+      // filter out some empty 200 responses from backend.
+      if (
+        (result.count === 0 && result.statusCode === StatusCodes.NotModified) ||
+        (result.count > 0 && result.statusCode === StatusCodes.Ok)
+      ) {
+        yield result;
+      }
+    } while (this.hasMoreResults);
   }
 
   /**
