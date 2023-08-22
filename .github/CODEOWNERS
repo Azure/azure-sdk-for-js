@@ -896,6 +896,10 @@
 /sdk/sphere/arm-sphere/ @qiaozha @MaryGao
 /sdk/sphere/ci.mgmt.yml @qiaozha @MaryGao
 
+# PRLabel: %Mgmt
+/sdk/chaos/arm-chaos/ @qiaozha @MaryGao
+/sdk/chaos/ci.mgmt.yml @qiaozha @MaryGao
+
 # ServiceLabel: %AAD %Service Attention
 #/<NotInRepo>/          @adamedx
 

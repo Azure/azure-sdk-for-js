@@ -3,16 +3,20 @@
 
 import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
 import {
-  ChatMessage,
-  GetEmbeddingsOptions,
-  GetCompletionsOptions,
-  GetChatCompletionsOptions,
-  OpenAIClientOptions,
-} from "../generated/index.js";
-import { listChatCompletions, listCompletions } from "./api/operations.js";
-import { ChatCompletions, Completions, Embeddings } from "../generated/api/models.js";
-import {
   GetAzureBatchImageGenerationOperationStatusOptions,
+  GetChatCompletionsOptions,
+  GetCompletionsOptions,
+  GetEmbeddingsOptions,
+} from "../generated/src/models/options.js";
+import { OpenAIClientOptions } from "../generated/src/index.js";
+import { listChatCompletions, listCompletions } from "./api/operations.js";
+import {
+  ChatCompletions,
+  ChatMessage,
+  Completions,
+  Embeddings,
+} from "../generated/src/models/models.js";
+import {
   _getChatCompletionsSend,
   _getCompletionsSend,
   beginAzureBatchImageGeneration,
@@ -20,11 +24,11 @@ import {
   getChatCompletions,
   getCompletions,
   getEmbeddings,
-} from "../generated/api/operations.js";
+} from "../generated/src/api/operations.js";
 import { ImageGenerationOptions } from "./api/operations.js";
-import { ImageGenerationResponse } from "./api/models.js";
-import { OpenAIContext } from "../generated/rest/index.js";
-import { createOpenAI } from "../generated/api/OpenAIContext.js";
+import { ImageGenerationResponse } from "./models/models.js";
+import { OpenAIContext } from "../generated/src/rest/index.js";
+import { createOpenAI } from "../generated/src/api/OpenAIContext.js";
 
 function createOpenAIEndpoint(version: number): string {
   return `https://api.openai.com/v${version}`;
@@ -236,23 +240,23 @@ export class OpenAIClient {
     return listChatCompletions(this._client, messages, deploymentName, options);
   }
 
-    /** Returns the status of the images operation */
-    getAzureBatchImageGenerationOperationStatus(
-      operationId: string,
-      options: GetAzureBatchImageGenerationOperationStatusOptions = {
-        requestOptions: {},
-      }
-    ): Promise<ImageGenerationResponse> {
-      return getAzureBatchImageGenerationOperationStatus(this._client, operationId, options);
+  /** Returns the status of the images operation */
+  getAzureBatchImageGenerationOperationStatus(
+    operationId: string,
+    options: GetAzureBatchImageGenerationOperationStatusOptions = {
+      requestOptions: {},
     }
-  
-    /** Starts the generation of a batch of images from a text caption */
-    beginAzureBatchImageGeneration(
-      prompt: string,
-      options: ImageGenerationOptions = { requestOptions: {} }
-    ): Promise<ImageGenerationResponse> {
-      return beginAzureBatchImageGeneration(this._client, prompt, options);
-    }
+  ): Promise<ImageGenerationResponse> {
+    return getAzureBatchImageGenerationOperationStatus(this._client, operationId, options);
+  }
+
+  /** Starts the generation of a batch of images from a text caption */
+  beginAzureBatchImageGeneration(
+    prompt: string,
+    options: ImageGenerationOptions = { requestOptions: {} }
+  ): Promise<ImageGenerationResponse> {
+    return beginAzureBatchImageGeneration(this._client, prompt, options);
+  }
 
   /**
    * Starts the generation of a batch of images from a text caption

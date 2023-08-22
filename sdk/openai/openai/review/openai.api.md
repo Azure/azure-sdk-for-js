@@ -8,7 +8,7 @@ import { AzureKeyCredential } from '@azure/core-auth';
 import { ClientOptions } from '@azure-rest/core-client';
 import { ErrorModel } from '@azure-rest/core-client';
 import { KeyCredential } from '@azure/core-auth';
-import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 export { AzureKeyCredential }
@@ -18,7 +18,7 @@ export type AzureOpenAIOperationState = string;
 
 // @public
 export interface BatchImageGenerationOperationResponse {
-    created: number;
+    created: Date;
     error?: ErrorModel;
     expires?: number;
     id: string;
@@ -27,7 +27,7 @@ export interface BatchImageGenerationOperationResponse {
 }
 
 // @public (undocumented)
-export interface BeginAzureBatchImageGenerationOptions extends RequestOptions {
+export interface BeginAzureBatchImageGenerationOptions extends OperationOptions {
     n?: number;
     responseFormat?: ImageGenerationResponseFormat;
     size?: ImageSize;
@@ -36,6 +36,7 @@ export interface BeginAzureBatchImageGenerationOptions extends RequestOptions {
 
 // @public
 export interface ChatChoice {
+    contentFilterResults?: ContentFilterResults;
     delta?: ChatMessage;
     finishReason: CompletionsFinishReason | null;
     index: number;
@@ -45,14 +46,17 @@ export interface ChatChoice {
 // @public
 export interface ChatCompletions {
     choices: ChatChoice[];
-    created: number;
+    created: Date;
     id: string;
+    promptFilterResults?: PromptFilterResult[];
     usage: CompletionsUsage;
 }
 
 // @public
 export interface ChatMessage {
-    content?: string;
+    content: string | null;
+    functionCall?: FunctionCall;
+    name?: string;
     role: ChatRole;
 }
 
@@ -61,6 +65,7 @@ export type ChatRole = string;
 
 // @public
 export interface Choice {
+    contentFilterResults?: ContentFilterResults;
     finishReason: CompletionsFinishReason | null;
     index: number;
     logprobs: CompletionsLogProbabilityModel | null;
@@ -70,8 +75,9 @@ export interface Choice {
 // @public
 export interface Completions {
     choices: Choice[];
-    created: number;
+    created: Date;
     id: string;
+    promptFilterResults?: PromptFilterResult[];
     usage: CompletionsUsage;
 }
 
@@ -102,6 +108,23 @@ export interface CompletionsUsage {
 }
 
 // @public
+export interface ContentFilterResult {
+    filtered: boolean;
+    severity: ContentFilterSeverity;
+}
+
+// @public
+export interface ContentFilterResults {
+    hate?: ContentFilterResult;
+    selfHarm?: ContentFilterResult;
+    sexual?: ContentFilterResult;
+    violence?: ContentFilterResult;
+}
+
+// @public
+export type ContentFilterSeverity = string;
+
+// @public
 export interface EmbeddingItem {
     embedding: number[];
     index: number;
@@ -119,13 +142,36 @@ export interface EmbeddingsUsage {
     totalTokens: number;
 }
 
-// @public (undocumented)
-export interface GetAzureBatchImageGenerationOperationStatusOptions extends RequestOptions {
+// @public
+export interface FunctionCall {
+    arguments: string;
+    name: string;
+}
+
+// @public
+export type FunctionCallPreset = string;
+
+// @public
+export interface FunctionDefinition {
+    description?: string;
+    name: string;
+    parameters?: any;
+}
+
+// @public
+export interface FunctionName {
+    name: string;
 }
 
 // @public (undocumented)
-export interface GetChatCompletionsOptions extends RequestOptions {
+export interface GetAzureBatchImageGenerationOperationStatusOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface GetChatCompletionsOptions extends OperationOptions {
     frequencyPenalty?: number;
+    functionCall?: FunctionCallPreset | FunctionName;
+    functions?: FunctionDefinition[];
     logitBias?: Record<string, number>;
     maxTokens?: number;
     model?: string;
@@ -139,7 +185,7 @@ export interface GetChatCompletionsOptions extends RequestOptions {
 }
 
 // @public (undocumented)
-export interface GetCompletionsOptions extends RequestOptions {
+export interface GetCompletionsOptions extends OperationOptions {
     bestOf?: number;
     echo?: boolean;
     frequencyPenalty?: number;
@@ -157,7 +203,7 @@ export interface GetCompletionsOptions extends RequestOptions {
 }
 
 // @public (undocumented)
-export interface GetEmbeddingsOptions extends RequestOptions {
+export interface GetEmbeddingsOptions extends OperationOptions {
     model?: string;
     user?: string;
 }
@@ -173,7 +219,7 @@ export type ImageGenerationResponseFormat = string;
 
 // @public
 export interface ImageGenerations {
-    created: number;
+    created: Date;
     data: ImageLocation[] | ImagePayload[];
 }
 
@@ -217,14 +263,9 @@ export class OpenAIKeyCredential implements KeyCredential {
 }
 
 // @public
-export interface RequestOptions {
-    requestOptions?: {
-        headers?: RawHttpHeadersInput;
-        allowInsecureConnection?: boolean;
-        skipUrlEncoding?: boolean;
-    };
+export interface PromptFilterResult {
+    contentFilterResults?: ContentFilterResults;
+    promptIndex: number;
 }
-
-// (No @packageDocumentation comment for this package)
 
 ```
