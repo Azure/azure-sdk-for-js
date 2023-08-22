@@ -236,6 +236,15 @@ export type ClientSideRequestStatistics = {
     responsePayloadLengthInBytes: number;
 };
 
+// @public (undocumented)
+export interface ComputedProperty {
+    // (undocumented)
+    [key: string]: any;
+    name: string;
+    // (undocumented)
+    query: string;
+}
+
 // @public
 export class Conflict {
     constructor(container: Container, id: string, clientContext: ClientContext, partitionKey?: PartitionKey);
@@ -511,7 +520,6 @@ export class Container {
 
 // @public (undocumented)
 export interface ContainerDefinition {
-    // Warning: (ae-forgotten-export) The symbol "ComputedProperty" needs to be exported by the entry point index.d.ts
     computedProperties?: ComputedProperty[];
     conflictResolutionPolicy?: ConflictResolutionPolicy;
     defaultTtl?: number;
