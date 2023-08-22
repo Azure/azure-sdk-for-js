@@ -1669,16 +1669,16 @@ const cordonOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.BareMetalMachinesCordonHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     201: {
-      headersMapper: Mappers.BareMetalMachinesCordonHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     202: {
-      headersMapper: Mappers.BareMetalMachinesCordonHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     204: {
-      headersMapper: Mappers.BareMetalMachinesCordonHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -1702,16 +1702,16 @@ const powerOffOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.BareMetalMachinesPowerOffHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     201: {
-      headersMapper: Mappers.BareMetalMachinesPowerOffHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     202: {
-      headersMapper: Mappers.BareMetalMachinesPowerOffHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     204: {
-      headersMapper: Mappers.BareMetalMachinesPowerOffHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -1735,16 +1735,16 @@ const reimageOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.BareMetalMachinesReimageHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     201: {
-      headersMapper: Mappers.BareMetalMachinesReimageHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     202: {
-      headersMapper: Mappers.BareMetalMachinesReimageHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     204: {
-      headersMapper: Mappers.BareMetalMachinesReimageHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -1766,16 +1766,16 @@ const replaceOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.BareMetalMachinesReplaceHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     201: {
-      headersMapper: Mappers.BareMetalMachinesReplaceHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     202: {
-      headersMapper: Mappers.BareMetalMachinesReplaceHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     204: {
-      headersMapper: Mappers.BareMetalMachinesReplaceHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -1799,16 +1799,16 @@ const restartOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.BareMetalMachinesRestartHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     201: {
-      headersMapper: Mappers.BareMetalMachinesRestartHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     202: {
-      headersMapper: Mappers.BareMetalMachinesRestartHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     204: {
-      headersMapper: Mappers.BareMetalMachinesRestartHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -1830,16 +1830,16 @@ const runCommandOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.BareMetalMachinesRunCommandHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     201: {
-      headersMapper: Mappers.BareMetalMachinesRunCommandHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     202: {
-      headersMapper: Mappers.BareMetalMachinesRunCommandHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     204: {
-      headersMapper: Mappers.BareMetalMachinesRunCommandHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -1863,16 +1863,16 @@ const runDataExtractsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.BareMetalMachinesRunDataExtractsHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     201: {
-      headersMapper: Mappers.BareMetalMachinesRunDataExtractsHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     202: {
-      headersMapper: Mappers.BareMetalMachinesRunDataExtractsHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     204: {
-      headersMapper: Mappers.BareMetalMachinesRunDataExtractsHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -1896,16 +1896,16 @@ const runReadCommandsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.BareMetalMachinesRunReadCommandsHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     201: {
-      headersMapper: Mappers.BareMetalMachinesRunReadCommandsHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     202: {
-      headersMapper: Mappers.BareMetalMachinesRunReadCommandsHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     204: {
-      headersMapper: Mappers.BareMetalMachinesRunReadCommandsHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -1929,16 +1929,16 @@ const startOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.BareMetalMachinesStartHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     201: {
-      headersMapper: Mappers.BareMetalMachinesStartHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     202: {
-      headersMapper: Mappers.BareMetalMachinesStartHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     204: {
-      headersMapper: Mappers.BareMetalMachinesStartHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -1960,16 +1960,16 @@ const uncordonOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.BareMetalMachinesUncordonHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     201: {
-      headersMapper: Mappers.BareMetalMachinesUncordonHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     202: {
-      headersMapper: Mappers.BareMetalMachinesUncordonHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     204: {
-      headersMapper: Mappers.BareMetalMachinesUncordonHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

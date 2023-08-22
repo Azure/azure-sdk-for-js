@@ -477,7 +477,7 @@ export interface BareMetalMachinesCordonOptionalParams extends coreClient.Operat
 }
 
 // @public
-export type BareMetalMachinesCordonResponse = BareMetalMachinesCordonHeaders;
+export type BareMetalMachinesCordonResponse = OperationStatusResult;
 
 // @public
 export interface BareMetalMachinesCreateOrUpdateHeaders {
@@ -555,7 +555,7 @@ export interface BareMetalMachinesPowerOffOptionalParams extends coreClient.Oper
 }
 
 // @public
-export type BareMetalMachinesPowerOffResponse = BareMetalMachinesPowerOffHeaders;
+export type BareMetalMachinesPowerOffResponse = OperationStatusResult;
 
 // @public
 export interface BareMetalMachinesReimageHeaders {
@@ -569,7 +569,7 @@ export interface BareMetalMachinesReimageOptionalParams extends coreClient.Opera
 }
 
 // @public
-export type BareMetalMachinesReimageResponse = BareMetalMachinesReimageHeaders;
+export type BareMetalMachinesReimageResponse = OperationStatusResult;
 
 // @public
 export interface BareMetalMachinesReplaceHeaders {
@@ -584,7 +584,7 @@ export interface BareMetalMachinesReplaceOptionalParams extends coreClient.Opera
 }
 
 // @public
-export type BareMetalMachinesReplaceResponse = BareMetalMachinesReplaceHeaders;
+export type BareMetalMachinesReplaceResponse = OperationStatusResult;
 
 // @public
 export interface BareMetalMachinesRestartHeaders {
@@ -598,7 +598,7 @@ export interface BareMetalMachinesRestartOptionalParams extends coreClient.Opera
 }
 
 // @public
-export type BareMetalMachinesRestartResponse = BareMetalMachinesRestartHeaders;
+export type BareMetalMachinesRestartResponse = OperationStatusResult;
 
 // @public
 export interface BareMetalMachinesRunCommandHeaders {
@@ -612,7 +612,7 @@ export interface BareMetalMachinesRunCommandOptionalParams extends coreClient.Op
 }
 
 // @public
-export type BareMetalMachinesRunCommandResponse = BareMetalMachinesRunCommandHeaders;
+export type BareMetalMachinesRunCommandResponse = OperationStatusResult;
 
 // @public
 export interface BareMetalMachinesRunDataExtractsHeaders {
@@ -626,7 +626,7 @@ export interface BareMetalMachinesRunDataExtractsOptionalParams extends coreClie
 }
 
 // @public
-export type BareMetalMachinesRunDataExtractsResponse = BareMetalMachinesRunDataExtractsHeaders;
+export type BareMetalMachinesRunDataExtractsResponse = OperationStatusResult;
 
 // @public
 export interface BareMetalMachinesRunReadCommandsHeaders {
@@ -640,7 +640,7 @@ export interface BareMetalMachinesRunReadCommandsOptionalParams extends coreClie
 }
 
 // @public
-export type BareMetalMachinesRunReadCommandsResponse = BareMetalMachinesRunReadCommandsHeaders;
+export type BareMetalMachinesRunReadCommandsResponse = OperationStatusResult;
 
 // @public
 export interface BareMetalMachinesStartHeaders {
@@ -654,7 +654,7 @@ export interface BareMetalMachinesStartOptionalParams extends coreClient.Operati
 }
 
 // @public
-export type BareMetalMachinesStartResponse = BareMetalMachinesStartHeaders;
+export type BareMetalMachinesStartResponse = OperationStatusResult;
 
 // @public
 export interface BareMetalMachinesUncordonHeaders {
@@ -668,7 +668,7 @@ export interface BareMetalMachinesUncordonOptionalParams extends coreClient.Oper
 }
 
 // @public
-export type BareMetalMachinesUncordonResponse = BareMetalMachinesUncordonHeaders;
+export type BareMetalMachinesUncordonResponse = OperationStatusResult;
 
 // @public
 export interface BareMetalMachinesUpdateHeaders {
@@ -1240,7 +1240,7 @@ export interface ClustersDeployOptionalParams extends coreClient.OperationOption
 }
 
 // @public
-export type ClustersDeployResponse = ClustersDeployHeaders;
+export type ClustersDeployResponse = OperationStatusResult;
 
 // @public
 export interface ClustersGetOptionalParams extends coreClient.OperationOptions {
@@ -1304,7 +1304,7 @@ export interface ClustersUpdateVersionOptionalParams extends coreClient.Operatio
 }
 
 // @public
-export type ClustersUpdateVersionResponse = ClustersUpdateVersionHeaders;
+export type ClustersUpdateVersionResponse = OperationStatusResult;
 
 // @public
 export type ClusterType = string;
@@ -2408,7 +2408,7 @@ export interface KubernetesClustersRestartNodeOptionalParams extends coreClient.
 }
 
 // @public
-export type KubernetesClustersRestartNodeResponse = KubernetesClustersRestartNodeHeaders;
+export type KubernetesClustersRestartNodeResponse = OperationStatusResult;
 
 // @public
 export interface KubernetesClustersUpdateHeaders {
@@ -2941,6 +2941,19 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
+export interface OperationStatusResult {
+    endTime?: Date;
+    error?: ErrorDetail;
+    id?: string;
+    name?: string;
+    operations?: OperationStatusResult[];
+    percentComplete?: number;
+    readonly resourceId?: string;
+    startTime?: Date;
+    status: string;
+}
+
+// @public
 export type Origin = string;
 
 // @public
@@ -3290,7 +3303,7 @@ export interface StorageAppliancesDisableRemoteVendorManagementOptionalParams ex
 }
 
 // @public
-export type StorageAppliancesDisableRemoteVendorManagementResponse = StorageAppliancesDisableRemoteVendorManagementHeaders;
+export type StorageAppliancesDisableRemoteVendorManagementResponse = OperationStatusResult;
 
 // @public
 export interface StorageAppliancesEnableRemoteVendorManagementHeaders {
@@ -3305,7 +3318,7 @@ export interface StorageAppliancesEnableRemoteVendorManagementOptionalParams ext
 }
 
 // @public
-export type StorageAppliancesEnableRemoteVendorManagementResponse = StorageAppliancesEnableRemoteVendorManagementHeaders;
+export type StorageAppliancesEnableRemoteVendorManagementResponse = OperationStatusResult;
 
 // @public
 export interface StorageAppliancesGetOptionalParams extends coreClient.OperationOptions {
@@ -3709,7 +3722,7 @@ export interface VirtualMachinesPowerOffOptionalParams extends coreClient.Operat
 }
 
 // @public
-export type VirtualMachinesPowerOffResponse = VirtualMachinesPowerOffHeaders;
+export type VirtualMachinesPowerOffResponse = OperationStatusResult;
 
 // @public
 export interface VirtualMachinesReimageHeaders {
@@ -3723,7 +3736,7 @@ export interface VirtualMachinesReimageOptionalParams extends coreClient.Operati
 }
 
 // @public
-export type VirtualMachinesReimageResponse = VirtualMachinesReimageHeaders;
+export type VirtualMachinesReimageResponse = OperationStatusResult;
 
 // @public
 export interface VirtualMachinesRestartHeaders {
@@ -3737,7 +3750,7 @@ export interface VirtualMachinesRestartOptionalParams extends coreClient.Operati
 }
 
 // @public
-export type VirtualMachinesRestartResponse = VirtualMachinesRestartHeaders;
+export type VirtualMachinesRestartResponse = OperationStatusResult;
 
 // @public
 export interface VirtualMachinesStartHeaders {
@@ -3751,7 +3764,7 @@ export interface VirtualMachinesStartOptionalParams extends coreClient.Operation
 }
 
 // @public
-export type VirtualMachinesStartResponse = VirtualMachinesStartHeaders;
+export type VirtualMachinesStartResponse = OperationStatusResult;
 
 // @public
 export interface VirtualMachinesUpdateHeaders {

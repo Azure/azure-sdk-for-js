@@ -1129,6 +1129,31 @@ export interface BareMetalMachineCordonParameters {
   evacuate?: BareMetalMachineEvacuate;
 }
 
+/** The current status of an async operation. */
+export interface OperationStatusResult {
+  /** Fully qualified ID for the async operation. */
+  id?: string;
+  /**
+   * Fully qualified ID of the resource against which the original async operation was started.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceId?: string;
+  /** Name of the async operation. */
+  name?: string;
+  /** Operation status. */
+  status: string;
+  /** Percent of the operation that is complete. */
+  percentComplete?: number;
+  /** The start time of the operation. */
+  startTime?: Date;
+  /** The end time of the operation. */
+  endTime?: Date;
+  /** The operations list. */
+  operations?: OperationStatusResult[];
+  /** If present, details of the operation error. */
+  error?: ErrorDetail;
+}
+
 /** BareMetalMachinePowerOffParameters represents the body of the request to power off bare metal machine. */
 export interface BareMetalMachinePowerOffParameters {
   /** The indicator of whether to skip the graceful OS shutdown and power off the bare metal machine immediately. */
@@ -4925,7 +4950,7 @@ export interface BareMetalMachinesCordonOptionalParams
 }
 
 /** Contains response data for the cordon operation. */
-export type BareMetalMachinesCordonResponse = BareMetalMachinesCordonHeaders;
+export type BareMetalMachinesCordonResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface BareMetalMachinesPowerOffOptionalParams
@@ -4939,7 +4964,7 @@ export interface BareMetalMachinesPowerOffOptionalParams
 }
 
 /** Contains response data for the powerOff operation. */
-export type BareMetalMachinesPowerOffResponse = BareMetalMachinesPowerOffHeaders;
+export type BareMetalMachinesPowerOffResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface BareMetalMachinesReimageOptionalParams
@@ -4951,7 +4976,7 @@ export interface BareMetalMachinesReimageOptionalParams
 }
 
 /** Contains response data for the reimage operation. */
-export type BareMetalMachinesReimageResponse = BareMetalMachinesReimageHeaders;
+export type BareMetalMachinesReimageResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface BareMetalMachinesReplaceOptionalParams
@@ -4965,7 +4990,7 @@ export interface BareMetalMachinesReplaceOptionalParams
 }
 
 /** Contains response data for the replace operation. */
-export type BareMetalMachinesReplaceResponse = BareMetalMachinesReplaceHeaders;
+export type BareMetalMachinesReplaceResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface BareMetalMachinesRestartOptionalParams
@@ -4977,7 +5002,7 @@ export interface BareMetalMachinesRestartOptionalParams
 }
 
 /** Contains response data for the restart operation. */
-export type BareMetalMachinesRestartResponse = BareMetalMachinesRestartHeaders;
+export type BareMetalMachinesRestartResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface BareMetalMachinesRunCommandOptionalParams
@@ -4989,7 +5014,7 @@ export interface BareMetalMachinesRunCommandOptionalParams
 }
 
 /** Contains response data for the runCommand operation. */
-export type BareMetalMachinesRunCommandResponse = BareMetalMachinesRunCommandHeaders;
+export type BareMetalMachinesRunCommandResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface BareMetalMachinesRunDataExtractsOptionalParams
@@ -5001,7 +5026,7 @@ export interface BareMetalMachinesRunDataExtractsOptionalParams
 }
 
 /** Contains response data for the runDataExtracts operation. */
-export type BareMetalMachinesRunDataExtractsResponse = BareMetalMachinesRunDataExtractsHeaders;
+export type BareMetalMachinesRunDataExtractsResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface BareMetalMachinesRunReadCommandsOptionalParams
@@ -5013,7 +5038,7 @@ export interface BareMetalMachinesRunReadCommandsOptionalParams
 }
 
 /** Contains response data for the runReadCommands operation. */
-export type BareMetalMachinesRunReadCommandsResponse = BareMetalMachinesRunReadCommandsHeaders;
+export type BareMetalMachinesRunReadCommandsResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface BareMetalMachinesStartOptionalParams
@@ -5025,7 +5050,7 @@ export interface BareMetalMachinesStartOptionalParams
 }
 
 /** Contains response data for the start operation. */
-export type BareMetalMachinesStartResponse = BareMetalMachinesStartHeaders;
+export type BareMetalMachinesStartResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface BareMetalMachinesUncordonOptionalParams
@@ -5037,7 +5062,7 @@ export interface BareMetalMachinesUncordonOptionalParams
 }
 
 /** Contains response data for the uncordon operation. */
-export type BareMetalMachinesUncordonResponse = BareMetalMachinesUncordonHeaders;
+export type BareMetalMachinesUncordonResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface BareMetalMachinesListBySubscriptionNextOptionalParams
@@ -5257,7 +5282,7 @@ export interface ClustersDeployOptionalParams
 }
 
 /** Contains response data for the deploy operation. */
-export type ClustersDeployResponse = ClustersDeployHeaders;
+export type ClustersDeployResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface ClustersUpdateVersionOptionalParams
@@ -5269,7 +5294,7 @@ export interface ClustersUpdateVersionOptionalParams
 }
 
 /** Contains response data for the updateVersion operation. */
-export type ClustersUpdateVersionResponse = ClustersUpdateVersionHeaders;
+export type ClustersUpdateVersionResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface ClustersListBySubscriptionNextOptionalParams
@@ -5351,7 +5376,7 @@ export interface KubernetesClustersRestartNodeOptionalParams
 }
 
 /** Contains response data for the restartNode operation. */
-export type KubernetesClustersRestartNodeResponse = KubernetesClustersRestartNodeHeaders;
+export type KubernetesClustersRestartNodeResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface KubernetesClustersListBySubscriptionNextOptionalParams
@@ -5653,7 +5678,7 @@ export interface StorageAppliancesDisableRemoteVendorManagementOptionalParams
 }
 
 /** Contains response data for the disableRemoteVendorManagement operation. */
-export type StorageAppliancesDisableRemoteVendorManagementResponse = StorageAppliancesDisableRemoteVendorManagementHeaders;
+export type StorageAppliancesDisableRemoteVendorManagementResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface StorageAppliancesEnableRemoteVendorManagementOptionalParams
@@ -5667,7 +5692,7 @@ export interface StorageAppliancesEnableRemoteVendorManagementOptionalParams
 }
 
 /** Contains response data for the enableRemoteVendorManagement operation. */
-export type StorageAppliancesEnableRemoteVendorManagementResponse = StorageAppliancesEnableRemoteVendorManagementHeaders;
+export type StorageAppliancesEnableRemoteVendorManagementResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface StorageAppliancesListBySubscriptionNextOptionalParams
@@ -5817,7 +5842,7 @@ export interface VirtualMachinesPowerOffOptionalParams
 }
 
 /** Contains response data for the powerOff operation. */
-export type VirtualMachinesPowerOffResponse = VirtualMachinesPowerOffHeaders;
+export type VirtualMachinesPowerOffResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface VirtualMachinesReimageOptionalParams
@@ -5829,7 +5854,7 @@ export interface VirtualMachinesReimageOptionalParams
 }
 
 /** Contains response data for the reimage operation. */
-export type VirtualMachinesReimageResponse = VirtualMachinesReimageHeaders;
+export type VirtualMachinesReimageResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface VirtualMachinesRestartOptionalParams
@@ -5841,7 +5866,7 @@ export interface VirtualMachinesRestartOptionalParams
 }
 
 /** Contains response data for the restart operation. */
-export type VirtualMachinesRestartResponse = VirtualMachinesRestartHeaders;
+export type VirtualMachinesRestartResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface VirtualMachinesStartOptionalParams
@@ -5853,7 +5878,7 @@ export interface VirtualMachinesStartOptionalParams
 }
 
 /** Contains response data for the start operation. */
-export type VirtualMachinesStartResponse = VirtualMachinesStartHeaders;
+export type VirtualMachinesStartResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface VirtualMachinesListBySubscriptionNextOptionalParams

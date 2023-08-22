@@ -878,16 +878,16 @@ const deployOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.ClustersDeployHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     201: {
-      headersMapper: Mappers.ClustersDeployHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     202: {
-      headersMapper: Mappers.ClustersDeployHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     204: {
-      headersMapper: Mappers.ClustersDeployHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -911,16 +911,16 @@ const updateVersionOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.ClustersUpdateVersionHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     201: {
-      headersMapper: Mappers.ClustersUpdateVersionHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     202: {
-      headersMapper: Mappers.ClustersUpdateVersionHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     204: {
-      headersMapper: Mappers.ClustersUpdateVersionHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

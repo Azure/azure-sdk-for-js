@@ -1058,16 +1058,16 @@ const powerOffOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.VirtualMachinesPowerOffHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     201: {
-      headersMapper: Mappers.VirtualMachinesPowerOffHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     202: {
-      headersMapper: Mappers.VirtualMachinesPowerOffHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     204: {
-      headersMapper: Mappers.VirtualMachinesPowerOffHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -1091,16 +1091,16 @@ const reimageOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.VirtualMachinesReimageHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     201: {
-      headersMapper: Mappers.VirtualMachinesReimageHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     202: {
-      headersMapper: Mappers.VirtualMachinesReimageHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     204: {
-      headersMapper: Mappers.VirtualMachinesReimageHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -1122,16 +1122,16 @@ const restartOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.VirtualMachinesRestartHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     201: {
-      headersMapper: Mappers.VirtualMachinesRestartHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     202: {
-      headersMapper: Mappers.VirtualMachinesRestartHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     204: {
-      headersMapper: Mappers.VirtualMachinesRestartHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -1153,16 +1153,16 @@ const startOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.VirtualMachinesStartHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     201: {
-      headersMapper: Mappers.VirtualMachinesStartHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     202: {
-      headersMapper: Mappers.VirtualMachinesStartHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     204: {
-      headersMapper: Mappers.VirtualMachinesStartHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

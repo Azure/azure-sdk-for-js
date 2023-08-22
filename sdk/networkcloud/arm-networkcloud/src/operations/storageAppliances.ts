@@ -880,20 +880,16 @@ const disableRemoteVendorManagementOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper:
-        Mappers.StorageAppliancesDisableRemoteVendorManagementHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     201: {
-      headersMapper:
-        Mappers.StorageAppliancesDisableRemoteVendorManagementHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     202: {
-      headersMapper:
-        Mappers.StorageAppliancesDisableRemoteVendorManagementHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     204: {
-      headersMapper:
-        Mappers.StorageAppliancesDisableRemoteVendorManagementHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -915,20 +911,16 @@ const enableRemoteVendorManagementOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper:
-        Mappers.StorageAppliancesEnableRemoteVendorManagementHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     201: {
-      headersMapper:
-        Mappers.StorageAppliancesEnableRemoteVendorManagementHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     202: {
-      headersMapper:
-        Mappers.StorageAppliancesEnableRemoteVendorManagementHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     204: {
-      headersMapper:
-        Mappers.StorageAppliancesEnableRemoteVendorManagementHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
