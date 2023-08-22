@@ -13,28 +13,24 @@ export interface GetEmbeddingsBodyParam {
   body?: EmbeddingsOptions;
 }
 
-export type GetEmbeddingsParameters = GetEmbeddingsBodyParam &
-  RequestParameters;
+export type GetEmbeddingsParameters = GetEmbeddingsBodyParam & RequestParameters;
 
 export interface GetCompletionsBodyParam {
   body?: CompletionsOptions;
 }
 
-export type GetCompletionsParameters = GetCompletionsBodyParam &
-  RequestParameters;
+export type GetCompletionsParameters = GetCompletionsBodyParam & RequestParameters;
 
 export interface GetChatCompletionsBodyParam {
   body?: ChatCompletionsOptions;
 }
 
-export type GetChatCompletionsParameters = GetChatCompletionsBodyParam &
-  RequestParameters;
-export type GetAzureBatchImageGenerationOperationStatusParameters =
-  RequestParameters;
+export type GetChatCompletionsParameters = GetChatCompletionsBodyParam & RequestParameters;
+export type GetAzureBatchImageGenerationOperationStatusParameters = RequestParameters;
 
 export interface BeginAzureBatchImageGenerationBodyParam {
   body?: ImageGenerationOptions;
 }
 
-export type BeginAzureBatchImageGenerationParameters =
-  BeginAzureBatchImageGenerationBodyParam & RequestParameters;
+export type BeginAzureBatchImageGenerationParameters = BeginAzureBatchImageGenerationBodyParam &
+  RequestParameters;

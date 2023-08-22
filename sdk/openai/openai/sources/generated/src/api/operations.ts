@@ -2,47 +2,36 @@
 // Licensed under the MIT license.
 
 import {
-  OpenAIContext as Client,
-  isUnexpected,
+  Embeddings,
+  Completions,
+  ChatMessage,
+  ChatCompletions,
+  BatchImageGenerationOperationResponse,
+} from "../models/models.js";
+import {
   BeginAzureBatchImageGeneration202Response,
   BeginAzureBatchImageGenerationDefaultResponse,
+  BeginAzureBatchImageGenerationLogicalResponse,
   GetAzureBatchImageGenerationOperationStatus200Response,
   GetAzureBatchImageGenerationOperationStatusDefaultResponse,
+  GetAzureBatchImageGenerationOperationStatusLogicalResponse,
   GetChatCompletions200Response,
   GetChatCompletionsDefaultResponse,
   GetCompletions200Response,
   GetCompletionsDefaultResponse,
   GetEmbeddings200Response,
   GetEmbeddingsDefaultResponse,
-  ImageGenerationsOutput,
+  isUnexpected,
+  OpenAIContext as Client,
 } from "../rest/index.js";
-import { StreamableMethod } from "@azure-rest/core-client";
+import { StreamableMethod, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import {
-  Embeddings,
-  Completions,
-  ChatMessage,
-  ChatCompletions,
-  BatchImageGenerationOperationResponse,
-  ImageSize,
-  ImageGenerationResponseFormat,
-  ImageLocation,
-  ImagePayload,
-} from "./models.js";
-import { RequestOptions } from "../common/interfaces.js";
-
-export interface GetEmbeddingsOptions extends RequestOptions {
-  /**
-   * An identifier for the caller or end user of the operation. This may be used for tracking
-   * or rate-limiting purposes.
-   */
-  user?: string;
-  /**
-   * The model name to provide as part of this embeddings request.
-   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
-   * resource URI that's connected to.
-   */
-  model?: string;
-}
+  GetEmbeddingsOptions,
+  GetCompletionsOptions,
+  GetChatCompletionsOptions,
+  GetAzureBatchImageGenerationOperationStatusOptions,
+  BeginAzureBatchImageGenerationOptions,
+} from "../models/options.js";
 
 export function _getEmbeddingsSend(
   context: Client,
@@ -51,9 +40,7 @@ export function _getEmbeddingsSend(
   options: GetEmbeddingsOptions = { requestOptions: {} }
 ): StreamableMethod<GetEmbeddings200Response | GetEmbeddingsDefaultResponse> {
   return context.path("/deployments/{deploymentId}/embeddings", deploymentId).post({
-    allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
-    skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
-    headers: { ...options.requestOptions?.headers },
+    ...operationOptionsToRequestParameters(options),
     body: { user: options?.user, model: options?.model, input: input },
   });
 }
@@ -88,91 +75,6 @@ export async function getEmbeddings(
   return _getEmbeddingsDeserialize(result);
 }
 
-export interface GetCompletionsOptions extends RequestOptions {
-  /** The maximum number of tokens to generate. */
-  maxTokens?: number;
-  /**
-   * The sampling temperature to use that controls the apparent creativity of generated completions.
-   * Higher values will make output more random while lower values will make results more focused
-   * and deterministic.
-   * It is not recommended to modify temperature and top_p for the same completions request as the
-   * interaction of these two settings is difficult to predict.
-   */
-  temperature?: number;
-  /**
-   * An alternative to sampling with temperature called nucleus sampling. This value causes the
-   * model to consider the results of tokens with the provided probability mass. As an example, a
-   * value of 0.15 will cause only the tokens comprising the top 15% of probability mass to be
-   * considered.
-   * It is not recommended to modify temperature and top_p for the same completions request as the
-   * interaction of these two settings is difficult to predict.
-   */
-  topP?: number;
-  /**
-   * A map between GPT token IDs and bias scores that influences the probability of specific tokens
-   * appearing in a completions response. Token IDs are computed via external tokenizer tools, while
-   * bias scores reside in the range of -100 to 100 with minimum and maximum values corresponding to
-   * a full ban or exclusive selection of a token, respectively. The exact behavior of a given bias
-   * score varies by model.
-   */
-  logitBias?: Record<string, number>;
-  /**
-   * An identifier for the caller or end user of the operation. This may be used for tracking
-   * or rate-limiting purposes.
-   */
-  user?: string;
-  /**
-   * The number of completions choices that should be generated per provided prompt as part of an
-   * overall completions response.
-   * Because this setting can generate many completions, it may quickly consume your token quota.
-   * Use carefully and ensure reasonable settings for max_tokens and stop.
-   */
-  n?: number;
-  /**
-   * A value that controls the emission of log probabilities for the provided number of most likely
-   * tokens within a completions response.
-   */
-  logprobs?: number;
-  /**
-   * A value specifying whether completions responses should include input prompts as prefixes to
-   * their generated output.
-   */
-  echo?: boolean;
-  /** A collection of textual sequences that will end completions generation. */
-  stop?: string[];
-  /**
-   * A value that influences the probability of generated tokens appearing based on their existing
-   * presence in generated text.
-   * Positive values will make tokens less likely to appear when they already exist and increase the
-   * model's likelihood to output new topics.
-   */
-  presencePenalty?: number;
-  /**
-   * A value that influences the probability of generated tokens appearing based on their cumulative
-   * frequency in generated text.
-   * Positive values will make tokens less likely to appear as their frequency increases and
-   * decrease the likelihood of the model repeating the same statements verbatim.
-   */
-  frequencyPenalty?: number;
-  /**
-   * A value that controls how many completions will be internally generated prior to response
-   * formulation.
-   * When used together with n, best_of controls the number of candidate completions and must be
-   * greater than n.
-   * Because this setting can generate many completions, it may quickly consume your token quota.
-   * Use carefully and ensure reasonable settings for max_tokens and stop.
-   */
-  bestOf?: number;
-  /** A value indicating whether chat completions should be streamed for this request. */
-  stream?: boolean;
-  /**
-   * The model name to provide as part of this completions request.
-   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
-   * resource URI that's connected to.
-   */
-  model?: string;
-}
-
 export function _getCompletionsSend(
   context: Client,
   prompt: string[],
@@ -180,9 +82,7 @@ export function _getCompletionsSend(
   options: GetCompletionsOptions = { requestOptions: {} }
 ): StreamableMethod<GetCompletions200Response | GetCompletionsDefaultResponse> {
   return context.path("/deployments/{deploymentId}/completions", deploymentId).post({
-    allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
-    skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
-    headers: { ...options.requestOptions?.headers },
+    ...operationOptionsToRequestParameters(options),
     body: {
       prompt: prompt,
       max_tokens: options?.maxTokens,
@@ -212,10 +112,69 @@ export async function _getCompletionsDeserialize(
 
   return {
     id: result.body["id"],
-    created: result.body["created"],
+    created: new Date(result.body["created"]),
+    promptFilterResults: (result.body["prompt_annotations"] ?? []).map((p) => ({
+      promptIndex: p["prompt_index"],
+      contentFilterResults: !p.content_filter_results
+        ? undefined
+        : {
+            sexual: !p.content_filter_results?.sexual
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.sexual?.["severity"],
+                  filtered: p.content_filter_results?.sexual?.["filtered"],
+                },
+            violence: !p.content_filter_results?.violence
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.violence?.["severity"],
+                  filtered: p.content_filter_results?.violence?.["filtered"],
+                },
+            hate: !p.content_filter_results?.hate
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.hate?.["severity"],
+                  filtered: p.content_filter_results?.hate?.["filtered"],
+                },
+            selfHarm: !p.content_filter_results?.self_harm
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.self_harm?.["severity"],
+                  filtered: p.content_filter_results?.self_harm?.["filtered"],
+                },
+          },
+    })),
     choices: (result.body["choices"] ?? []).map((p) => ({
       text: p["text"],
       index: p["index"],
+      contentFilterResults: !p.content_filter_results
+        ? undefined
+        : {
+            sexual: !p.content_filter_results?.sexual
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.sexual?.["severity"],
+                  filtered: p.content_filter_results?.sexual?.["filtered"],
+                },
+            violence: !p.content_filter_results?.violence
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.violence?.["severity"],
+                  filtered: p.content_filter_results?.violence?.["filtered"],
+                },
+            hate: !p.content_filter_results?.hate
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.hate?.["severity"],
+                  filtered: p.content_filter_results?.hate?.["filtered"],
+                },
+            selfHarm: !p.content_filter_results?.self_harm
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.self_harm?.["severity"],
+                  filtered: p.content_filter_results?.self_harm?.["filtered"],
+                },
+          },
       logprobs:
         p.logprobs === null
           ? null
@@ -250,72 +209,6 @@ export async function getCompletions(
   return _getCompletionsDeserialize(result);
 }
 
-export interface GetChatCompletionsOptions extends RequestOptions {
-  /** The maximum number of tokens to generate. */
-  maxTokens?: number;
-  /**
-   * The sampling temperature to use that controls the apparent creativity of generated completions.
-   * Higher values will make output more random while lower values will make results more focused
-   * and deterministic.
-   * It is not recommended to modify temperature and top_p for the same completions request as the
-   * interaction of these two settings is difficult to predict.
-   */
-  temperature?: number;
-  /**
-   * An alternative to sampling with temperature called nucleus sampling. This value causes the
-   * model to consider the results of tokens with the provided probability mass. As an example, a
-   * value of 0.15 will cause only the tokens comprising the top 15% of probability mass to be
-   * considered.
-   * It is not recommended to modify temperature and top_p for the same completions request as the
-   * interaction of these two settings is difficult to predict.
-   */
-  topP?: number;
-  /**
-   * A map between GPT token IDs and bias scores that influences the probability of specific tokens
-   * appearing in a completions response. Token IDs are computed via external tokenizer tools, while
-   * bias scores reside in the range of -100 to 100 with minimum and maximum values corresponding to
-   * a full ban or exclusive selection of a token, respectively. The exact behavior of a given bias
-   * score varies by model.
-   */
-  logitBias?: Record<string, number>;
-  /**
-   * An identifier for the caller or end user of the operation. This may be used for tracking
-   * or rate-limiting purposes.
-   */
-  user?: string;
-  /**
-   * The number of chat completions choices that should be generated for a chat completions
-   * response.
-   * Because this setting can generate many completions, it may quickly consume your token quota.
-   * Use carefully and ensure reasonable settings for max_tokens and stop.
-   */
-  n?: number;
-  /** A collection of textual sequences that will end completions generation. */
-  stop?: string[];
-  /**
-   * A value that influences the probability of generated tokens appearing based on their existing
-   * presence in generated text.
-   * Positive values will make tokens less likely to appear when they already exist and increase the
-   * model's likelihood to output new topics.
-   */
-  presencePenalty?: number;
-  /**
-   * A value that influences the probability of generated tokens appearing based on their cumulative
-   * frequency in generated text.
-   * Positive values will make tokens less likely to appear as their frequency increases and
-   * decrease the likelihood of the model repeating the same statements verbatim.
-   */
-  frequencyPenalty?: number;
-  /** A value indicating whether chat completions should be streamed for this request. */
-  stream?: boolean;
-  /**
-   * The model name to provide as part of this completions request.
-   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
-   * resource URI that's connected to.
-   */
-  model?: string;
-}
-
 export function _getChatCompletionsSend(
   context: Client,
   messages: ChatMessage[],
@@ -323,11 +216,11 @@ export function _getChatCompletionsSend(
   options: GetChatCompletionsOptions = { requestOptions: {} }
 ): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse> {
   return context.path("/deployments/{deploymentId}/chat/completions", deploymentId).post({
-    allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
-    skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
-    headers: { ...options.requestOptions?.headers },
+    ...operationOptionsToRequestParameters(options),
     body: {
       messages: messages,
+      functions: options?.functions,
+      function_call: options?.functionCall,
       max_tokens: options?.maxTokens,
       temperature: options?.temperature,
       top_p: options?.topP,
@@ -352,14 +245,95 @@ export async function _getChatCompletionsDeserialize(
 
   return {
     id: result.body["id"],
-    created: result.body["created"],
+    created: new Date(result.body["created"]),
     choices: (result.body["choices"] ?? []).map((p) => ({
       message: !p.message
         ? undefined
-        : { role: p.message?.["role"], content: p.message?.["content"] },
+        : {
+            role: p.message?.["role"],
+            content: p.message?.["content"],
+            name: p.message?.["name"],
+            functionCall: !p.message?.function_call
+              ? undefined
+              : {
+                  name: p.message?.function_call?.["name"],
+                  arguments: p.message?.function_call?.["arguments"],
+                },
+          },
       index: p["index"],
       finishReason: p["finish_reason"],
-      delta: !p.delta ? undefined : { role: p.delta?.["role"], content: p.delta?.["content"] },
+      delta: !p.delta
+        ? undefined
+        : {
+            role: p.delta?.["role"],
+            content: p.delta?.["content"],
+            name: p.delta?.["name"],
+            functionCall: !p.delta?.function_call
+              ? undefined
+              : {
+                  name: p.delta?.function_call?.["name"],
+                  arguments: p.delta?.function_call?.["arguments"],
+                },
+          },
+      contentFilterResults: !p.content_filter_results
+        ? undefined
+        : {
+            sexual: !p.content_filter_results?.sexual
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.sexual?.["severity"],
+                  filtered: p.content_filter_results?.sexual?.["filtered"],
+                },
+            violence: !p.content_filter_results?.violence
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.violence?.["severity"],
+                  filtered: p.content_filter_results?.violence?.["filtered"],
+                },
+            hate: !p.content_filter_results?.hate
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.hate?.["severity"],
+                  filtered: p.content_filter_results?.hate?.["filtered"],
+                },
+            selfHarm: !p.content_filter_results?.self_harm
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.self_harm?.["severity"],
+                  filtered: p.content_filter_results?.self_harm?.["filtered"],
+                },
+          },
+    })),
+    promptFilterResults: (result.body["prompt_annotations"] ?? []).map((p) => ({
+      promptIndex: p["prompt_index"],
+      contentFilterResults: !p.content_filter_results
+        ? undefined
+        : {
+            sexual: !p.content_filter_results?.sexual
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.sexual?.["severity"],
+                  filtered: p.content_filter_results?.sexual?.["filtered"],
+                },
+            violence: !p.content_filter_results?.violence
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.violence?.["severity"],
+                  filtered: p.content_filter_results?.violence?.["filtered"],
+                },
+            hate: !p.content_filter_results?.hate
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.hate?.["severity"],
+                  filtered: p.content_filter_results?.hate?.["filtered"],
+                },
+            selfHarm: !p.content_filter_results?.self_harm
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.self_harm?.["severity"],
+                  filtered: p.content_filter_results?.self_harm?.["filtered"],
+                },
+          },
     })),
     usage: {
       completionTokens: result.body.usage["completion_tokens"],
@@ -384,8 +358,6 @@ export async function getChatCompletions(
   return _getChatCompletionsDeserialize(result);
 }
 
-export interface GetAzureBatchImageGenerationOperationStatusOptions extends RequestOptions {}
-
 export function _getAzureBatchImageGenerationOperationStatusSend(
   context: Client,
   operationId: string,
@@ -395,18 +367,18 @@ export function _getAzureBatchImageGenerationOperationStatusSend(
 ): StreamableMethod<
   | GetAzureBatchImageGenerationOperationStatus200Response
   | GetAzureBatchImageGenerationOperationStatusDefaultResponse
+  | GetAzureBatchImageGenerationOperationStatusLogicalResponse
 > {
-  return context.path("/operations/images/{operationId}", operationId).get({
-    allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
-    skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
-    headers: { ...options.requestOptions?.headers },
-  });
+  return context
+    .path("/operations/images/{operationId}", operationId)
+    .get({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _getAzureBatchImageGenerationOperationStatusDeserialize(
   result:
     | GetAzureBatchImageGenerationOperationStatus200Response
     | GetAzureBatchImageGenerationOperationStatusDefaultResponse
+    | GetAzureBatchImageGenerationOperationStatusLogicalResponse
 ): Promise<BatchImageGenerationOperationResponse> {
   if (isUnexpected(result)) {
     throw result.body;
@@ -414,13 +386,13 @@ export async function _getAzureBatchImageGenerationOperationStatusDeserialize(
 
   return {
     id: result.body["id"],
-    created: result.body["created"],
+    created: new Date(result.body["created"]),
     expires: result.body["expires"],
     result: !result.body.result
       ? undefined
       : {
-          created: result.body.result?.["created"],
-          data: result.body.result?.["data"],
+          created: new Date(result.body.result?.["created"]),
+          data: result.body.result?.["data"] as any,
         },
     status: result.body["status"],
     error: !result.body.error ? undefined : result.body.error,
@@ -443,31 +415,17 @@ export async function getAzureBatchImageGenerationOperationStatus(
   return _getAzureBatchImageGenerationOperationStatusDeserialize(result);
 }
 
-export interface BeginAzureBatchImageGenerationOptions extends RequestOptions {
-  /** The number of images to generate (defaults to 1). */
-  n?: number;
-  /** The desired size of the generated images. Must be one of 256x256, 512x512, or 1024x1024 (defaults to 1024x1024). */
-  size?: ImageSize;
-  /**
-   *   The format in which image generation response items should be presented.
-   *   Azure OpenAI only supports URL response items.
-   */
-  responseFormat?: ImageGenerationResponseFormat;
-  /** A unique identifier representing your end-user, which can help to monitor and detect abuse. */
-  user?: string;
-}
-
 export function _beginAzureBatchImageGenerationSend(
   context: Client,
   prompt: string,
   options: BeginAzureBatchImageGenerationOptions = { requestOptions: {} }
 ): StreamableMethod<
-  BeginAzureBatchImageGeneration202Response | BeginAzureBatchImageGenerationDefaultResponse
+  | BeginAzureBatchImageGeneration202Response
+  | BeginAzureBatchImageGenerationDefaultResponse
+  | BeginAzureBatchImageGenerationLogicalResponse
 > {
   return context.path("/images/generations:submit").post({
-    allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
-    skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
-    headers: { ...options.requestOptions?.headers },
+    ...operationOptionsToRequestParameters(options),
     body: {
       prompt: prompt,
       n: options.n ?? 1,
@@ -479,7 +437,10 @@ export function _beginAzureBatchImageGenerationSend(
 }
 
 export async function _beginAzureBatchImageGenerationDeserialize(
-  result: BeginAzureBatchImageGeneration202Response | BeginAzureBatchImageGenerationDefaultResponse
+  result:
+    | BeginAzureBatchImageGeneration202Response
+    | BeginAzureBatchImageGenerationDefaultResponse
+    | BeginAzureBatchImageGenerationLogicalResponse
 ): Promise<BatchImageGenerationOperationResponse> {
   if (isUnexpected(result)) {
     throw result.body;
@@ -487,13 +448,13 @@ export async function _beginAzureBatchImageGenerationDeserialize(
 
   return {
     id: result.body["id"],
-    created: result.body["created"],
+    created: new Date(result.body["created"]),
     expires: result.body["expires"],
     result: !result.body.result
       ? undefined
       : {
-          created: result.body.result?.["created"],
-          data: result.body.result?.["data"],
+          created: new Date(result.body.result?.["created"]),
+          data: result.body.result?.["data"] as any,
         },
     status: result.body["status"],
     error: !result.body.error ? undefined : result.body.error,

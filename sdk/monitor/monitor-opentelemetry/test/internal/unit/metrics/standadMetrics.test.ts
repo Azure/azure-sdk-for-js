@@ -13,14 +13,14 @@ import { ExportResultCode } from "@opentelemetry/core";
 import { LoggerProvider, LogRecord, Logger } from "@opentelemetry/sdk-logs";
 import { Resource } from "@opentelemetry/resources";
 import { StandardMetrics } from "../../../../src/metrics/standardMetrics";
-import { AzureMonitorOpenTelemetryConfig } from "../../../../src/shared";
+import { InternalConfig } from "../../../../src/shared";
 
 describe("#StandardMetricsHandler", () => {
   let exportStub: sinon.SinonStub;
   let autoCollect: StandardMetrics;
 
   before(() => {
-    const config = new AzureMonitorOpenTelemetryConfig();
+    const config = new InternalConfig();
     config.azureMonitorExporterConfig.connectionString =
       "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;";
     autoCollect = new StandardMetrics(config, { collectionInterval: 100 });

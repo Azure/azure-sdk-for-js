@@ -57,7 +57,7 @@ export async function main() {
         const poller = await client.beginBuildDocumentModel(
           modelId,
           sasUrl,
-          DocumentModelBuildMode.Neural,
+          DocumentModelBuildMode.Template,
           {
             description: "A model that extracts data from " + kind + " purchase orders.",
             onProgress: ({ status }) => {

@@ -10,17 +10,18 @@
 // Licensed under the MIT License.
 const { StorageManagementClient } = require("@azure/arm-storage");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Returns the properties for the specified encryption scope.
  *
  * @summary Returns the properties for the specified encryption scope.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/StorageAccountGetEncryptionScope.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/StorageAccountGetEncryptionScope.json
  */
 async function storageAccountGetEncryptionScope() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "resource-group-name";
-  const accountName = "{storage-account-name}";
+  const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "resource-group-name";
+  const accountName = "accountname";
   const encryptionScopeName = "{encryption-scope-name}";
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
@@ -32,4 +33,8 @@ async function storageAccountGetEncryptionScope() {
   console.log(result);
 }
 
-storageAccountGetEncryptionScope().catch(console.error);
+async function main() {
+  storageAccountGetEncryptionScope();
+}
+
+main().catch(console.error);

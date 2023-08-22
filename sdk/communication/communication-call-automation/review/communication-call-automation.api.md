@@ -182,6 +182,8 @@ export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions
 // @public
 export interface CallMediaRecognizeOptions extends OperationOptions {
     // (undocumented)
+    callbackUrl?: string;
+    // (undocumented)
     initialSilenceTimeoutInSeconds?: number;
     // (undocumented)
     interruptCallMediaOperation?: boolean;
@@ -272,6 +274,7 @@ export interface Choice {
 
 // @public
 export interface ContinuousDtmfRecognitionOptions extends OperationOptions {
+    callbackUrl?: string;
     operationContext?: string;
 }
 
@@ -494,9 +497,8 @@ export interface PlayFailed extends Omit<RestPlayFailed, "callConnectionId" | "s
 
 // @public
 export interface PlayOptions extends OperationOptions {
-    // (undocumented)
+    callbackUrl?: string;
     loop?: boolean;
-    // (undocumented)
     operationContext?: string;
 }
 
@@ -866,6 +868,7 @@ export interface SendDtmfFailed extends Omit<RestSendDtmfFailed, "callConnection
 
 // @public
 export interface SendDtmfOptions extends OperationOptions {
+    callbackUrl?: string;
     operationContext?: string;
 }
 

@@ -14,6 +14,10 @@ export class ApplicationInsightsSampler implements Sampler {
   private readonly _sampleRate: number;
   private readonly _samplingRatio: number;
 
+  /**
+   * Initializes a new instance of the ApplicationInsightsSampler class.
+   * @param samplingRatio Value in the range [0,1], 1 meaning all data will sampled and 0 all Tracing data will be sampled out.
+   */
   constructor(samplingRatio: number = 1) {
     this._samplingRatio = samplingRatio;
     if (this._samplingRatio > 1) {
