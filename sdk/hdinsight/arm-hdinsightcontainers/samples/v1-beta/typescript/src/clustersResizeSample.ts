@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ClusterResizeData,
-  HDInsightOnAksManagementClient
+  HDInsightContainersManagementClient
 } from "@azure/arm-hdinsightcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -36,7 +36,10 @@ async function hdInsightClusterResize() {
     targetWorkerNodeCount: 5
   };
   const credential = new DefaultAzureCredential();
-  const client = new HDInsightOnAksManagementClient(credential, subscriptionId);
+  const client = new HDInsightContainersManagementClient(
+    credential,
+    subscriptionId
+  );
   const result = await client.clusters.beginResizeAndWait(
     resourceGroupName,
     clusterPoolName,

@@ -12,7 +12,7 @@ import { AvailableClusterPoolVersions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { HDInsightOnAksManagementClient } from "../hDInsightOnAksManagementClient";
+import { HDInsightContainersManagementClient } from "../hDInsightContainersManagementClient";
 import {
   ClusterPoolVersion,
   AvailableClusterPoolVersionsListByLocationNextOptionalParams,
@@ -25,13 +25,13 @@ import {
 /** Class containing AvailableClusterPoolVersions operations. */
 export class AvailableClusterPoolVersionsImpl
   implements AvailableClusterPoolVersions {
-  private readonly client: HDInsightOnAksManagementClient;
+  private readonly client: HDInsightContainersManagementClient;
 
   /**
    * Initialize a new instance of the class AvailableClusterPoolVersions class.
    * @param client Reference to the service client
    */
-  constructor(client: HDInsightOnAksManagementClient) {
+  constructor(client: HDInsightContainersManagementClient) {
     this.client = client;
   }
 

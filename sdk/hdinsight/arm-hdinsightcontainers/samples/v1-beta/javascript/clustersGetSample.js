@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const { HDInsightOnAksManagementClient } = require("@azure/arm-hdinsightcontainers");
+const { HDInsightContainersManagementClient } = require("@azure/arm-hdinsightcontainers");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
@@ -25,7 +25,7 @@ async function hdInsightClusterGet() {
   const clusterPoolName = "clusterpool1";
   const clusterName = "cluster1";
   const credential = new DefaultAzureCredential();
-  const client = new HDInsightOnAksManagementClient(credential, subscriptionId);
+  const client = new HDInsightContainersManagementClient(credential, subscriptionId);
   const result = await client.clusters.get(resourceGroupName, clusterPoolName, clusterName);
   console.log(result);
 }

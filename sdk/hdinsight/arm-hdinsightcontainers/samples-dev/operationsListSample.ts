@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { HDInsightOnAksManagementClient } from "@azure/arm-hdinsightcontainers";
+import { HDInsightContainersManagementClient } from "@azure/arm-hdinsightcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -25,7 +25,10 @@ async function listOperations() {
     process.env["HDINSIGHT_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
-  const client = new HDInsightOnAksManagementClient(credential, subscriptionId);
+  const client = new HDInsightContainersManagementClient(
+    credential,
+    subscriptionId
+  );
   const resArray = new Array();
   for await (let item of client.operations.list()) {
     resArray.push(item);

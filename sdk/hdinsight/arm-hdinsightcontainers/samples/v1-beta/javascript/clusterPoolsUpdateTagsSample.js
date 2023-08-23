@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const { HDInsightOnAksManagementClient } = require("@azure/arm-hdinsightcontainers");
+const { HDInsightContainersManagementClient } = require("@azure/arm-hdinsightcontainers");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
@@ -27,7 +27,7 @@ async function clusterPoolsPatchTags() {
     tags: { tag1: "value1", tag2: "value2" },
   };
   const credential = new DefaultAzureCredential();
-  const client = new HDInsightOnAksManagementClient(credential, subscriptionId);
+  const client = new HDInsightContainersManagementClient(credential, subscriptionId);
   const result = await client.clusterPools.beginUpdateTagsAndWait(
     resourceGroupName,
     clusterPoolName,

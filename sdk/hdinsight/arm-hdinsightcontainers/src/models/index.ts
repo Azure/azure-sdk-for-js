@@ -1631,7 +1631,7 @@ export interface AvailableClusterVersionsListByLocationNextOptionalParams
 export type AvailableClusterVersionsListByLocationNextResponse = ClusterVersionsListResult;
 
 /** Optional parameters. */
-export interface HDInsightOnAksManagementClientOptionalParams
+export interface HDInsightContainersManagementClientOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;

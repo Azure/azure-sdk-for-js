@@ -16,7 +16,8 @@ import {
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { HDInsightOnAksManagementClient } from "../src/hDInsightOnAksManagementClient";
+import { HDInsightContainersManagementClient } from "../src/hDInsightContainersManagementClient";
+
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -36,7 +37,7 @@ export const testPollingOptions = {
 describe("HDInsightOnAks test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
-  let client: HDInsightOnAksManagementClient;
+  let client: HDInsightContainersManagementClient;
   let location: string;
   let resourceGroup: string;
   let resourcename: string;
@@ -47,7 +48,7 @@ describe("HDInsightOnAks test", () => {
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new HDInsightOnAksManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new HDInsightContainersManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroup = "myjstest";
     resourcename = "resourcetest";
@@ -63,8 +64,8 @@ describe("HDInsightOnAks test", () => {
       resourceGroup,
     	resourcename,
       {
-        clusterPoolProfile: { clusterPoolVersion: "1.2" },
-        computeProfile: { vmSize: "Standard_D3_v2" },
+        clusterPoolProfile: { clusterPoolVersion: "1.0" },
+        computeProfile: { vmSize: "Standard_F4s_v2" },
         location
       },
      testPollingOptions);

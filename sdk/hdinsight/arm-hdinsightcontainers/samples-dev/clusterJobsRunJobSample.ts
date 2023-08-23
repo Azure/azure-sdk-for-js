@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ClusterJob,
-  HDInsightOnAksManagementClient
+  HDInsightContainersManagementClient
 } from "@azure/arm-hdinsightcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -47,7 +47,10 @@ async function runClusterJob() {
     }
   };
   const credential = new DefaultAzureCredential();
-  const client = new HDInsightOnAksManagementClient(credential, subscriptionId);
+  const client = new HDInsightContainersManagementClient(
+    credential,
+    subscriptionId
+  );
   const result = await client.clusterJobs.beginRunJobAndWait(
     resourceGroupName,
     clusterPoolName,

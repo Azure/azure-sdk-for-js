@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   NameAvailabilityParameters,
-  HDInsightOnAksManagementClient
+  HDInsightContainersManagementClient
 } from "@azure/arm-hdinsightcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -33,7 +33,10 @@ async function locationsNameAvailability() {
     type: "Microsoft.HDInsight/clusterPools/clusters"
   };
   const credential = new DefaultAzureCredential();
-  const client = new HDInsightOnAksManagementClient(credential, subscriptionId);
+  const client = new HDInsightContainersManagementClient(
+    credential,
+    subscriptionId
+  );
   const result = await client.locations.checkNameAvailability(
     location,
     nameAvailabilityParameters

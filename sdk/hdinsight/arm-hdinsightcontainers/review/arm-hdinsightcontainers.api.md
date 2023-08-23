@@ -686,10 +686,10 @@ export interface FlinkStorageProfile {
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public (undocumented)
-export class HDInsightOnAksManagementClient extends coreClient.ServiceClient {
+export class HDInsightContainersManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: HDInsightOnAksManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: HDInsightContainersManagementClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -711,7 +711,7 @@ export class HDInsightOnAksManagementClient extends coreClient.ServiceClient {
 }
 
 // @public
-export interface HDInsightOnAksManagementClientOptionalParams extends coreClient.ServiceClientOptions {
+export interface HDInsightContainersManagementClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
     apiVersion?: string;
     endpoint?: string;

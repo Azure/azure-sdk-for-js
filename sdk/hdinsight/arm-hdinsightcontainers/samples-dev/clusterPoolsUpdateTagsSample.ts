@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   TagsObject,
-  HDInsightOnAksManagementClient
+  HDInsightContainersManagementClient
 } from "@azure/arm-hdinsightcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -34,7 +34,10 @@ async function clusterPoolsPatchTags() {
     tags: { tag1: "value1", tag2: "value2" }
   };
   const credential = new DefaultAzureCredential();
-  const client = new HDInsightOnAksManagementClient(credential, subscriptionId);
+  const client = new HDInsightContainersManagementClient(
+    credential,
+    subscriptionId
+  );
   const result = await client.clusterPools.beginUpdateTagsAndWait(
     resourceGroupName,
     clusterPoolName,

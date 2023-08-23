@@ -2,7 +2,7 @@
   "name": "@azure/arm-hdinsightcontainers",
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
-  "description": "A generated SDK for HDInsightOnAksManagementClient.",
+  "description": "A generated SDK for HDInsightContainersManagementClient.",
   "version": "1.0.0-beta.1",
   "engines": {
     "node": ">=14.0.0"
@@ -106,7 +106,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/hDInsightOnAksManagementClient.ts",
+        "path": "src/hDInsightContainersManagementClient.ts",
         "prefix": "packageDetails"
       }
     ]

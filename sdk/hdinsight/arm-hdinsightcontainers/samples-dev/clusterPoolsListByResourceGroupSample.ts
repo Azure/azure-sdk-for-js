@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { HDInsightOnAksManagementClient } from "@azure/arm-hdinsightcontainers";
+import { HDInsightContainersManagementClient } from "@azure/arm-hdinsightcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -27,7 +27,10 @@ async function clusterPoolsListByResourceGroup() {
   const resourceGroupName =
     process.env["HDINSIGHT_RESOURCE_GROUP"] || "hiloResourcegroup";
   const credential = new DefaultAzureCredential();
-  const client = new HDInsightOnAksManagementClient(credential, subscriptionId);
+  const client = new HDInsightContainersManagementClient(
+    credential,
+    subscriptionId
+  );
   const resArray = new Array();
   for await (let item of client.clusterPools.listByResourceGroup(
     resourceGroupName

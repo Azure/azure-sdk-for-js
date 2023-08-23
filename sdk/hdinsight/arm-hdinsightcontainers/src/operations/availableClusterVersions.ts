@@ -12,7 +12,7 @@ import { AvailableClusterVersions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { HDInsightOnAksManagementClient } from "../hDInsightOnAksManagementClient";
+import { HDInsightContainersManagementClient } from "../hDInsightContainersManagementClient";
 import {
   ClusterVersion,
   AvailableClusterVersionsListByLocationNextOptionalParams,
@@ -24,13 +24,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AvailableClusterVersions operations. */
 export class AvailableClusterVersionsImpl implements AvailableClusterVersions {
-  private readonly client: HDInsightOnAksManagementClient;
+  private readonly client: HDInsightContainersManagementClient;
 
   /**
    * Initialize a new instance of the class AvailableClusterVersions class.
    * @param client Reference to the service client
    */
-  constructor(client: HDInsightOnAksManagementClient) {
+  constructor(client: HDInsightContainersManagementClient) {
     this.client = client;
   }
 

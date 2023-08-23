@@ -12,7 +12,7 @@ import { ClusterJobs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { HDInsightOnAksManagementClient } from "../hDInsightOnAksManagementClient";
+import { HDInsightContainersManagementClient } from "../hDInsightContainersManagementClient";
 import {
   SimplePollerLike,
   OperationState,
@@ -32,13 +32,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ClusterJobs operations. */
 export class ClusterJobsImpl implements ClusterJobs {
-  private readonly client: HDInsightOnAksManagementClient;
+  private readonly client: HDInsightContainersManagementClient;
 
   /**
    * Initialize a new instance of the class ClusterJobs class.
    * @param client Reference to the service client
    */
-  constructor(client: HDInsightOnAksManagementClient) {
+  constructor(client: HDInsightContainersManagementClient) {
     this.client = client;
   }
 

@@ -32,15 +32,15 @@ import {
   AvailableClusterPoolVersions,
   AvailableClusterVersions
 } from "./operationsInterfaces";
-import { HDInsightOnAksManagementClientOptionalParams } from "./models";
+import { HDInsightContainersManagementClientOptionalParams } from "./models";
 
-export class HDInsightOnAksManagementClient extends coreClient.ServiceClient {
+export class HDInsightContainersManagementClient extends coreClient.ServiceClient {
   $host: string;
   subscriptionId: string;
   apiVersion: string;
 
   /**
-   * Initializes a new instance of the HDInsightOnAksManagementClient class.
+   * Initializes a new instance of the HDInsightContainersManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
@@ -48,7 +48,7 @@ export class HDInsightOnAksManagementClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: HDInsightOnAksManagementClientOptionalParams
+    options?: HDInsightContainersManagementClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -61,7 +61,7 @@ export class HDInsightOnAksManagementClient extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-    const defaults: HDInsightOnAksManagementClientOptionalParams = {
+    const defaults: HDInsightContainersManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
       credential: credentials
     };
