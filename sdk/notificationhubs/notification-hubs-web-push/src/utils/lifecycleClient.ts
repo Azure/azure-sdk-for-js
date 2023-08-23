@@ -1,10 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  createOrUpdateAzureInstallation,
-  deleteAzureInstallation,
-} from "./installationHttpClient.js";
 import { getDBRecord, putDBRecord, removeDBRecord } from "./dataStore.js";
 import type { WebPushChannel, WebPushClientContext, WebPushInstallation } from "../publicTypes.js";
 import { WebPushError } from "../errors.js";
@@ -12,13 +8,11 @@ import { WebPushError } from "../errors.js";
 export async function deleteInternalInstallation(
   clientContext: WebPushClientContext
 ): Promise<boolean> {
-  const applicationUrl = new URL(clientContext.baseUrl);
-  applicationUrl.pathname += `/${clientContext.hubName}`;
-  const applicationId = applicationUrl.toString();
+  const applicationId = clientContext.applicationId;
 
   const installation = await getDBRecord(applicationId);
   if (installation) {
-    await deleteAzureInstallation(clientContext, installation.installationId);
+    await clientContext.lifecycle.deleteInstallation(installation.installationId);
     await removeDBRecord(applicationId);
   }
 
@@ -53,9 +47,7 @@ export async function getInternalInstallation(
     vapidPublicKey: clientContext.vapidPublicKey,
   };
 
-  const applicationUrl = new URL(clientContext.baseUrl);
-  applicationUrl.pathname += `/${clientContext.hubName}`;
-  const applicationId = applicationUrl.toString();
+  const applicationId = clientContext.applicationId;
 
   let installation = await getDBRecord(applicationId);
   if (!installation) {
@@ -65,7 +57,7 @@ export async function getInternalInstallation(
     };
 
     installation = await putDBRecord(applicationId, installation);
-    await createOrUpdateAzureInstallation(clientContext, installation);
+    await clientContext.lifecycle.createOrUpdateInstallation(installation);
   } else if (hasPushChannelChanged(subscriptionOptions, installation.pushChannel)) {
     // Details changed from VAPID, so delete and save a new installation
     await deleteInternalInstallation(clientContext);

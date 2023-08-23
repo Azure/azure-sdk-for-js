@@ -26,11 +26,19 @@ export interface GetInstallationOptions {
 }
 
 // @public
+export interface JsonPatch {
+    op: "add" | "remove" | "replace";
+    path: string;
+    value?: string;
+}
+
+// @public
 export type NotificationClickHandler = (value: WebPushNotificationClickEvent) => Promise<void>;
 
 // @public
 export interface NotificationHubResponse {
     readonly correlationId?: string;
+    readonly location?: string;
     readonly trackingId?: string;
 }
 
@@ -56,19 +64,27 @@ export interface WebPushChannel {
 
 // @public
 export interface WebPushClientContext {
-    readonly baseUrl: string;
     // @internal
-    createHeaders(operationName: string): Promise<Headers>;
-    readonly hubName: string;
+    applicationId: string;
+    // @internal
+    lifecycle: WebPushContextLifecycle;
     // @internal
     onNotificationClick?: NotificationClickHandler;
     // @internal
     onPush?: WebPushNotificationHandler;
-    // @internal
-    requestUrl(): URL;
     serviceWorkerRegistration?: ServiceWorkerRegistration;
     serviceWorkerUrl?: string;
     vapidPublicKey?: string;
+}
+
+// @public
+export interface WebPushContextLifecycle {
+    // @internal
+    createOrUpdateInstallation(installation: WebPushInstallation): Promise<NotificationHubResponse>;
+    // @internal
+    deleteInstallation(installationId: string): Promise<NotificationHubResponse>;
+    // @internal
+    updateInstallation(installationId: string, updates: JsonPatch[]): Promise<NotificationHubResponse>;
 }
 
 // @public
