@@ -8,7 +8,7 @@
 - [BREAKING] No longer expose the `MonitorBase`, `MonitorDomain`, or `TelemetryItem` interfaces.
 
 ### Bugs Fixed
-
+- Fixed issue with wrong name for _OTELRESOURCE_ metric.
 - Fix an issue with serializing nested log messages.
 
 ## 1.0.0-beta.14 (2023-06-15)
