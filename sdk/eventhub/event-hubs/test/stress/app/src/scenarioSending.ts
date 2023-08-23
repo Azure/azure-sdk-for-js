@@ -59,6 +59,7 @@ async function main() {
 
   const stressBase = new EventHubsStressTester({
     testName: "checkpointStore-memLeak",
+    writeSnapshotInfoToConsole: false
   });
   const startedAt = new Date();
   for (let i = 0; i < 1000; i++) {
@@ -74,13 +75,16 @@ async function main() {
         }
       });
       stressBase.eventsSentCount += batchMessage.body.length
+      console.log(`Enqueued ${batchMessage.body.length} events. Total events sent: ${stressBase.eventsSentCount}`);
     } catch (error) {
-      defaultClientAppInsights.trackException({ exception: { name: (error as { message: string }).message || "EnqueueFailureAtTest", message: (error as { message: string }).message || `Enqueue Event failed at eventsSentCount: ${stressBase.eventsSentCount}` }, time: new Date() });
+      // defaultClientAppInsights.trackException({ exception: { name: (error as { message: string }).message || "EnqueueFailureAtTest", message: (error as { message: string }).message || `Enqueue Event failed at eventsSentCount: ${stressBase.eventsSentCount}` }, time: new Date() });
+      console.log(`Enqueue Event failed at eventsSentCount: ${stressBase.eventsSentCount} with error: ${error}`);
     }
   }
 
-
+  console.log("Sending done. Waiting for test to complete...");
   while (new Date().valueOf() - startedAt.valueOf() < testDurationInMs) {
+    console.log("Waiting for 100 seconds...");
     await delay(100000);
   }
 }
