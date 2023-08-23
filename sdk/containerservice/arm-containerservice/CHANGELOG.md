@@ -1,15 +1,14 @@
 # Release History
+    
+## 19.3.0 (2023-08-21)
+    
+**Features**
 
-## 19.2.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ClusterUpgradeSettings
+  - Added Interface UpgradeOverrideSettings
+  - Interface ManagedCluster has a new optional parameter upgradeSettings
+    
+    
 ## 19.2.0 (2023-08-14)
     
 **Features**

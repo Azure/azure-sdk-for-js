@@ -78,6 +78,7 @@ specifiers:
   '@rush-temp/arm-datalake-analytics': file:./projects/arm-datalake-analytics.tgz
   '@rush-temp/arm-datamigration': file:./projects/arm-datamigration.tgz
   '@rush-temp/arm-dataprotection': file:./projects/arm-dataprotection.tgz
+  '@rush-temp/arm-defendereasm': file:./projects/arm-defendereasm.tgz
   '@rush-temp/arm-deploymentmanager': file:./projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization': file:./projects/arm-desktopvirtualization.tgz
   '@rush-temp/arm-devcenter': file:./projects/arm-devcenter.tgz
@@ -436,6 +437,7 @@ dependencies:
   '@rush-temp/arm-datalake-analytics': file:projects/arm-datalake-analytics.tgz
   '@rush-temp/arm-datamigration': file:projects/arm-datamigration.tgz
   '@rush-temp/arm-dataprotection': file:projects/arm-dataprotection.tgz
+  '@rush-temp/arm-defendereasm': file:projects/arm-defendereasm.tgz
   '@rush-temp/arm-deploymentmanager': file:projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization': file:projects/arm-desktopvirtualization.tgz
   '@rush-temp/arm-devcenter': file:projects/arm-devcenter.tgz
@@ -4131,7 +4133,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20230821
+      typescript: 5.3.0-dev.20230822
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8715,8 +8717,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.3.0-dev.20230821:
-    resolution: {integrity: sha512-YkxBZgI3iA0uJR9pJLDXQPZ6xdzGUnDyJTtNlJzh00tGFbDh93aI13DioYrZANNCZeWn7Pr3FUT7tRCq3500wA==}
+  /typescript/5.3.0-dev.20230822:
+    resolution: {integrity: sha512-zVlawDu8ult5+AoXXQck+R+qJn1Gzv5aE1lH9UcStRRE461MjXK7P8DDJuee840m66huRJKMzh+ttgrTUEfWmQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -11121,7 +11123,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservice-1.tgz:
-    resolution: {integrity: sha512-r6G3gQeS9Z3dNfXiPvvlwBteDYIePYiZOiFrG/bUXIstTveG5sFEe+KpWO1GDF+zRKKugnA5IZ6YJx0rgDE/QQ==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-6W96vqdFpaoIh6ibPxCyK84dBHUAiw/xe6wma/OR0J3FS+FuBoY55RkdZOBY3CpDqCb2Ke6iBIL/ls+GqNiKSQ==, tarball: file:projects/arm-containerservice-1.tgz}
     name: '@rush-temp/arm-containerservice-1'
     version: 0.0.0
     dependencies:
@@ -11141,10 +11143,13 @@ packages:
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_dmbj5memikchm63lpeyt6ukdau
+      ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.2
       typescript: 5.0.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
       - supports-color
     dev: false
 
@@ -11605,6 +11610,34 @@ packages:
   file:projects/arm-dataprotection.tgz:
     resolution: {integrity: sha512-i3zZQlyVWbpv62xZMwVu3Ll7mZcigQd9EabNpYP2PP/0VsrV9qHEZUxRkpJ5Y4jqAH41B4ia0Izghuc5KtBxEQ==, tarball: file:projects/arm-dataprotection.tgz}
     name: '@rush-temp/arm-dataprotection'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.36.4_@types+node@14.18.54
+      '@rollup/plugin-commonjs': 24.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.5
+      '@types/node': 14.18.54
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_dmbj5memikchm63lpeyt6ukdau
+      tslib: 2.6.2
+      typescript: 5.0.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-defendereasm.tgz:
+    resolution: {integrity: sha512-fGM+nPmnoltNjxMXkzDBLuNARKF3jTFpgLRsILsM6swCAhw/3VtC4vewqlDEiZeVazMEV9/7NBKv2mA1fvFN9g==, tarball: file:projects/arm-defendereasm.tgz}
+    name: '@rush-temp/arm-defendereasm'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
@@ -13186,7 +13219,7 @@ packages:
     dev: false
 
   file:projects/arm-maps.tgz:
-    resolution: {integrity: sha512-sUL5kdBssALuLdADNcqOBGN2pwKeiaPadzfJPhsMIkZchu1ooFsVGLjUzT8A9sO7SN3dlnlA4ZtPOkTzd1LI5g==, tarball: file:projects/arm-maps.tgz}
+    resolution: {integrity: sha512-ZNx4nxrJa0YwVjGjaoK7URmNhIDXMXSAw18ensD/sUivgXOEikG+Zhc6h/SAbDkJuQYBWAcLAZzCHGX8WQ7ByA==, tarball: file:projects/arm-maps.tgz}
     name: '@rush-temp/arm-maps'
     version: 0.0.0
     dependencies:
@@ -13200,7 +13233,8 @@ packages:
       '@types/node': 14.18.54
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      mkdirp: 2.1.6
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -13647,7 +13681,7 @@ packages:
     dev: false
 
   file:projects/arm-networkcloud.tgz:
-    resolution: {integrity: sha512-Rho447UvDnX2mK63B1gR1WUlVjeyDNzq534BZwwvf03aZ+tQHWIvg/eAvzAwB54dxliI3OBfn7eQbc0e171z9g==, tarball: file:projects/arm-networkcloud.tgz}
+    resolution: {integrity: sha512-VFA7of0eZEEmMeh5MikhF6RYJhcZNTVYiZauqQVMgPoquK8+6BPf/VYmH+JSB+mUTzAYlpWFFjtci+9n5IVVKw==, tarball: file:projects/arm-networkcloud.tgz}
     name: '@rush-temp/arm-networkcloud'
     version: 0.0.0
     dependencies:
@@ -13667,10 +13701,13 @@ packages:
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_dmbj5memikchm63lpeyt6ukdau
+      ts-node: 10.9.1_n7tz6hmpirns3flqdptizaxofa
       tslib: 2.6.2
       typescript: 5.0.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
       - supports-color
     dev: false
 
