@@ -1,4 +1,4 @@
-# client library samples for TypeScript (Beta)
+# client library samples for TypeScript
 
 These sample programs show how to use the TypeScript client libraries for in some common scenarios.
 
@@ -66,17 +66,17 @@ npx cross-env RESOURCECONNECTOR_SUBSCRIPTION_ID="<resourceconnector subscription
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[appliancescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourceconnector/arm-resourceconnector/samples/v1-beta/typescript/src/appliancesCreateOrUpdateSample.ts
-[appliancesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourceconnector/arm-resourceconnector/samples/v1-beta/typescript/src/appliancesDeleteSample.ts
-[appliancesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourceconnector/arm-resourceconnector/samples/v1-beta/typescript/src/appliancesGetSample.ts
-[appliancesgettelemetryconfigsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourceconnector/arm-resourceconnector/samples/v1-beta/typescript/src/appliancesGetTelemetryConfigSample.ts
-[appliancesgetupgradegraphsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourceconnector/arm-resourceconnector/samples/v1-beta/typescript/src/appliancesGetUpgradeGraphSample.ts
-[applianceslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourceconnector/arm-resourceconnector/samples/v1-beta/typescript/src/appliancesListByResourceGroupSample.ts
-[applianceslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourceconnector/arm-resourceconnector/samples/v1-beta/typescript/src/appliancesListBySubscriptionSample.ts
-[applianceslistclusterusercredentialsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourceconnector/arm-resourceconnector/samples/v1-beta/typescript/src/appliancesListClusterUserCredentialSample.ts
-[applianceslistkeyssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourceconnector/arm-resourceconnector/samples/v1-beta/typescript/src/appliancesListKeysSample.ts
-[applianceslistoperationssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourceconnector/arm-resourceconnector/samples/v1-beta/typescript/src/appliancesListOperationsSample.ts
-[appliancesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourceconnector/arm-resourceconnector/samples/v1-beta/typescript/src/appliancesUpdateSample.ts
+[appliancescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourceconnector/arm-resourceconnector/samples/v1/typescript/src/appliancesCreateOrUpdateSample.ts
+[appliancesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourceconnector/arm-resourceconnector/samples/v1/typescript/src/appliancesDeleteSample.ts
+[appliancesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourceconnector/arm-resourceconnector/samples/v1/typescript/src/appliancesGetSample.ts
+[appliancesgettelemetryconfigsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourceconnector/arm-resourceconnector/samples/v1/typescript/src/appliancesGetTelemetryConfigSample.ts
+[appliancesgetupgradegraphsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourceconnector/arm-resourceconnector/samples/v1/typescript/src/appliancesGetUpgradeGraphSample.ts
+[applianceslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourceconnector/arm-resourceconnector/samples/v1/typescript/src/appliancesListByResourceGroupSample.ts
+[applianceslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourceconnector/arm-resourceconnector/samples/v1/typescript/src/appliancesListBySubscriptionSample.ts
+[applianceslistclusterusercredentialsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourceconnector/arm-resourceconnector/samples/v1/typescript/src/appliancesListClusterUserCredentialSample.ts
+[applianceslistkeyssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourceconnector/arm-resourceconnector/samples/v1/typescript/src/appliancesListKeysSample.ts
+[applianceslistoperationssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourceconnector/arm-resourceconnector/samples/v1/typescript/src/appliancesListOperationsSample.ts
+[appliancesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourceconnector/arm-resourceconnector/samples/v1/typescript/src/appliancesUpdateSample.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-resourceconnector?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resourceconnector/arm-resourceconnector/README.md

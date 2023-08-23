@@ -711,6 +711,10 @@
 /sdk/resourcegraph/ci.mgmt.yml @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/resourceconnector/arm-resourceconnector/ @qiaozha @MaryGao
+/sdk/resourceconnector/ci.mgmt.yml @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/resourcehealth/arm-resourcehealth/ @qiaozha @MaryGao
 /sdk/resourcehealth/ci.mgmt.yml @qiaozha @MaryGao
 
