@@ -719,7 +719,7 @@ A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob
 
 ### Batch metrics query
 
-The following example executes multiple logs queries in a single request using the `MetricsBatchQueryClient.queryBatch` method:
+The following example executes multiple metrics queries in a single request using the `MetricsBatchQueryClient.queryBatch` method:
 
 ```ts
 let resourceIds: string[] = [
